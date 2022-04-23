@@ -3,18 +3,18 @@ import time
 from mss import mss
 import numpy as np
 from PIL import Image
+from torch import fake_quantize_per_tensor_affine
 from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 
 model_path = "models/culane_18.pth"
-alternative_path = "models/tusimple_18.pth"
 model_type = ModelType.CULANE
-alternative_type = ModelType.TUSIMPLE
 
 # Initialize lane detection model
 try:
     lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=False)
 except:
-    lane_detector = UltrafastLaneDetector(alternative_path, alternative_type, use_gpu=False)
+    print("Default model not installed, please select one in the settings")
+
 
 # Set the default variables for the screenshot
 w, h = 1280, 720
@@ -23,17 +23,18 @@ sct = mss()
 monitor = {'top': y, 'left': x, 'width': w, 'height': h}
 steeringOffset = -150
 showPreview = True
+close = False
 
 def ChangeModel(model, useGPU):
     global lane_detector
     global model_type
 
-    if model == "culane":
+    if "culane" in model:
         model_type = ModelType.CULANE
-    elif model == "tusimple":
+    elif "tusimple" in model:
         model_type = ModelType.TUSIMPLE
     print(useGPU)
-    lane_detector = UltrafastLaneDetector("models/" + model + "_18.pth", model_type, use_gpu=useGPU.get())
+    lane_detector = UltrafastLaneDetector("models/" + model, model_type, use_gpu=useGPU.get())
 
 def ChangeVideoDimension(value, value2):
     global w
@@ -61,7 +62,7 @@ cv2.resizeWindow("Detected lanes", w, h)
 cv2.setWindowProperty("Detected lanes", cv2.WND_PROP_TOPMOST, 1)
 difference = 0
 fps = 0
-def UpdateLanes():
+def UpdateLanes(drawCircles):
     global difference
     global fps
     
@@ -69,7 +70,7 @@ def UpdateLanes():
     frame = np.array(Image.frombytes('RGB', (w,h), sct.grab(monitor).rgb))
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     # Detect the lanes
-    output_img = lane_detector.detect_lanes(frame, False)
+    output_img = lane_detector.detect_lanes(frame, drawCircles)
     try:
         difference = (lane_detector.lanes_points[1][0][0] + lane_detector.lanes_points[2][0][0]) / 2
         difference = difference - (w / 2)
@@ -117,6 +118,6 @@ def UpdateLanes():
         cv2.imshow("Detected lanes", output_img)
     else:
         cv2.destroyAllWindows()
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        cv2.destroyAllWindows()
+    if cv2.waitKey(1) & 0xFF == ord('q') or close:
+        exit()
 

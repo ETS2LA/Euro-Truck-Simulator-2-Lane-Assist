@@ -3,6 +3,8 @@ Main loop and UI for ETS2 AutoDrive
 """
 import tkinter as tk
 from tkinter import Toplevel, ttk
+
+from matplotlib.pyplot import draw
 import ets2LaneDetection as LaneDetection
 import time
 import vgamepad as vg
@@ -12,6 +14,7 @@ import cv2
 from mss import mss
 import numpy as np
 from PIL import Image
+import glob
 
 pygame.display.init()
 pygame.joystick.init()
@@ -21,6 +24,8 @@ try:
     wheel = pygame.joystick.Joystick(0)
 except:
     print("No input devices connected")
+
+
 enabled = False
 close = False
 settings = False
@@ -147,13 +152,13 @@ def ControllerThread():
     global close
     global enabled
     while True:
+        if(close): break
         try:
             pygame.event.pump()
             if(wheel.get_button(enableDisableButton)):
                 enabled = not enabled
                 time.sleep(0.3)
 
-            if(close): break
             if(enabled):
                 if desiredControl > 0.2:
                     desiredControl = 0.2
@@ -200,11 +205,13 @@ def UpdateControllersForMenu(menu, menuText, axisMenu, axisVar, buttonMenu, butt
         
 axisSlider = None
 runs = 0
+drawCircles = False
 def OpenSettings():
     global runs
     global root
     global settingsWindow
     global axisSlider
+    global drawCircles
 
     width = 550
     height = 300
@@ -227,6 +234,8 @@ def OpenSettings():
     sensitivityEntry = AddEntry("Sensitivity of lane assist. Current : ", generalFrame)
     steeringOffsetEntry = AddEntry("Steering offset of lane assist. Current : ", generalFrame)
     AddButton("Change Lane Assist Settings", lambda: ChangeLaneAssist(sensitivityEntry.get(), steeringOffsetEntry.get()), generalFrame)
+    drawCircles = tk.BooleanVar
+    ttk.Checkbutton(generalFrame, text="Show raw lane data", width=100, variable=drawCircles, offvalue=False, onvalue=True)
 
     if(runs == 1):
         dimensionEntry.insert(0, "Width and Height of the video feed (not recommended to change). Current : " + str(LaneDetection.w) + "x" + str(LaneDetection.h))
@@ -283,7 +292,7 @@ def OpenSettings():
     AddButton("Change Model", lambda: ChangeModel(modelEntry.get(), useGPUVar), modelFrame)
 
     if(runs == 1):
-        modelEntry.insert(0, "Model to use (see github). Current : " + LaneDetection.model_path.replace("models/", "").replace("_18.pth", ""))
+        modelEntry.insert(0, "Model to use (see github). Current : " + LaneDetection.model_path.replace("models/", ""))
 
     tabs.pack(fill="both", expand=True)
 
@@ -304,13 +313,17 @@ while True:
 
 
     if(enabled):
-        LaneDetection.UpdateLanes()
+        try:
+            LaneDetection.UpdateLanes(drawCircles.get())
+        except:
+            LaneDetection.UpdateLanes(drawCircles=False)
         fpsVal.set("Video FPS: " + str(round(LaneDetection.fps, 2)))
     else:
         image = cv2.cvtColor(np.array(Image.frombytes('RGB', (LaneDetection.w,LaneDetection.h), sct.grab(LaneDetection.monitor).rgb)), cv2.COLOR_RGB2BGR)
         cv2.imshow("Detected lanes", cv2.putText(image, "Lane Assist is disabled", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2))
         fpsVal.set("Video FPS: Disabled")
     if(close):
+        LaneDetection.close = True
         break
     if(settings):
         try:
