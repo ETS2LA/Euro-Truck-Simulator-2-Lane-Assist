@@ -26,7 +26,7 @@ In addition to the normal requirements this application requires a lane detectio
 To download a pretrained model go to the [Ultra Fast Lane Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection) github page and scroll down until you see Trained models.
 
 There are two different models to choose from. CUlane is a more stable model, but might not work in more difficult situations (like the road being white). On the other hand Tusimple is a more sporadic model that will almost certainly work in any situation. There is a tradeoff to both but I have included a way to switch between them while running the app, so downloading both of them is no issue.
-After you have downloaded a model, move it to the models folder.
+After you have downloaded a model, make a models folder in the root folder of the app (the folder where MainFile.py is) and move the model there.
 
 # Preparations
 Before even starting the app make sure your ETS2 or any other game is in borderless mode. It is not required for the app to work, but for setting it up it is highly recommended. To start the app, open a command prompt or terminal in the app's folder ( on windows this can be done by holding alt and right clicking ). Once the terminal is open type:
