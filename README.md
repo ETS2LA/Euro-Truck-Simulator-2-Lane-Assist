@@ -23,6 +23,9 @@ Other requirements can be installed with pip like this (if you have > python 3.1
 
 # Lane Detection models
 In addition to the normal requirements this application requires a lane detection model to work.
+[This](https://github.com/cfzd/Ultra-Fast-Lane-Detection/issues/270) is a new deeper model from Adorable Jiang. So far from the very little testing culane34 works and culane101 doesn't. These models will likely run slower but work better, I have added support for these so choose if you want these or the defaults.
+
+
 To download a pretrained model go to the [Ultra Fast Lane Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection) github page and scroll down until you see Trained models.
 
 There are two different models to choose from. CUlane is a more stable model, but might not work in more difficult situations (like the road being white). On the other hand Tusimple is a more sporadic model that will almost certainly work in any situation. It is also worth noting that Tusimple in some cases requires some of the top of the dashboard and steering wheel to show, while CUlane doesn't. There is a tradeoff to both but I have included a way to switch between them while running the app, so downloading both of them is no issue.
