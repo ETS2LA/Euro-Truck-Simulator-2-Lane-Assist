@@ -3,6 +3,9 @@ Lane assist for ETS2, built with the ultra-fast-lane-detection model.
 
 This project was made possible by the amazing people behind the original [Ultra Fast Lane Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection) paper.
 In addition to ibaiGorordo for his [example scripts for Pytorch](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-) and rdbender for his  [sun valley theme for ttk](https://github.com/rdbende/Sun-Valley-ttk-theme).
+
+[Example Video](https://youtu.be/oHBFTHrOqCU)
+
 # Installation
 Copy the repository ( Code -> Download zip ) and unpack it to a folder. Now install all the requirements.
 
