@@ -1,0 +1,1 @@
+from ultrafastLaneDetector.ultrafastLaneDetector import UltrafastLaneDetector, ModelType
