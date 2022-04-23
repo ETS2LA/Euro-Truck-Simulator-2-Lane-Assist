@@ -157,12 +157,12 @@ def ControllerThread():
                     desiredControl = 0.2
                 if desiredControl < -0.2:
                     desiredControl = -0.2
-                if desiredControl > oldDesiredControl:
-                    if abs(desiredControl-oldDesiredControl) > 0.1:
-                        desiredControl = desiredControl - (abs(desiredControl-oldDesiredControl) - 0.1)
-                elif desiredControl < oldDesiredControl:
-                    if abs(desiredControl+oldDesiredControl) > 0.1:
-                        desiredControl = desiredControl - (abs(desiredControl-oldDesiredControl) + 0.1)
+                #if desiredControl > oldDesiredControl:
+                #    if abs(desiredControl-oldDesiredControl) > 0.1:
+                #        desiredControl = desiredControl - (abs(desiredControl-oldDesiredControl) - 0.1)
+                #elif desiredControl < oldDesiredControl:
+                #    if abs(desiredControl+oldDesiredControl) > 0.1:
+                #        desiredControl = desiredControl - (abs(desiredControl-oldDesiredControl) + 0.1)
                 gamepad.left_joystick_float(x_value_float = (oldDesiredControl+oldDesiredControl+desiredControl)/3 + wheel.get_axis(steeringAxis), y_value_float = 0)
                 gamepad.update()
                 oldDesiredControl = desiredControl
