@@ -36,7 +36,7 @@ This will start the application and you should see two windows. One is the main 
 
 Before pressing Toggle Enable it is important to head over to the settings to configure a couple of important options.
 
-The first is to change the position of the video capture from the general tab. I recommend starting up ETS 2 and setting the game on pause. Then move the window around by changing the position values (I recommend setting them to 0x0 and then going from there) so that the app sees the road, but preferably not the steering wheel as this can throw off the lane detection. 
+The first is to change the position of the video capture from the general tab. I recommend starting up ETS 2 and setting the game on pause. Then move the window around by changing the position values (I recommend setting them to 0x0 and then going from there) so that the app sees the road, but preferably not the steering wheel as this can throw off the lane detection. Even though it's not recommended you might also need to change the dimensions of the screen capture. This might have to be done on 1080 or 4k monitors for example. Just if you do try to keep the aspect ratio the same (16:9)
 
 The second important option is your input device. Even if you play on a keyboard you must have a controller selected. The default selection is for my G29. If you also have one then be sure to make sure the controller is correct, after that you can head over to the next step. 
 
