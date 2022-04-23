@@ -47,6 +47,6 @@ After that go to the final tab, and if you do have a nvidia gpu then you can ena
 Finally if you want to save your settings, most of them can be easily changed by editing MainFile.py
 
 # Usage
-Once all the preparations are done let's actually use the lane assist. When you start the program it will make a virtual xbox 360 controller. You have to set the ingame steering axis to this controller. This controller follows your own wheel/gamepad so managing to set it in the settings can be hard. Unfortunately this virtual controller means you will lose all force feedback from your main wheel. 
+Once all the preparations are done let's actually use the lane assist. When you start the program it will make a virtual xbox 360 controller. You have to set the ingame steering axis to this controller, it will not recognize the controller unless put it as a secondary device. Under the main device (Should be Keyboard + *controller*) there are a multitude of slots, one of these slots must be the 360. This controller follows your own wheel/gamepad so managing to set it in the settings can be hard. Unfortunately this virtual controller means you will lose all force feedback from your main wheel. 
 
 Once the controller is setup in game it's time to use the app. To start the lane assist you can either press the set button on your controller or manually toggle it with Toggle Enable. You should see the lane show up on the preview and after that, Happy Trucking!
