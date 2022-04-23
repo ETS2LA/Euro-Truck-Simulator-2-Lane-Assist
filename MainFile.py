@@ -17,8 +17,10 @@ pygame.display.init()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 gamepad = vg.VX360Gamepad()
-wheel = pygame.joystick.Joystick(2)
-
+try:
+    wheel = pygame.joystick.Joystick(0)
+except:
+    print("No input devices connected")
 enabled = False
 close = False
 settings = False
