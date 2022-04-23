@@ -18,22 +18,20 @@ pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 gamepad = vg.VX360Gamepad()
 wheel = pygame.joystick.Joystick(2)
-gamepadMaxValue = 32767
 
 enabled = False
 close = False
-laneStability = 100
 settings = False
 settingsOpen = False
 steeringAxis = 0
 enableDisableButton = 23
 
 def ChangeVideoDimensions(dimension, position):
-    value = value.replace("Width and Height of the video feed (not recommended to change). Current : ", "")
-    value = value.split("x")
-    value2 = value2.replace("Position of the video feed. Current : ", "")
-    value2 = value2.split("x")
-    LaneDetection.ChangeVideoDimension(value, value2)
+    dimension = dimension.replace("Width and Height of the video feed (not recommended to change). Current : ", "")
+    dimension = dimension.split("x")
+    position = position.replace("Position of the video feed. Current : ", "")
+    position = position.split("x")
+    LaneDetection.ChangeVideoDimension(dimension, position)
 
 def ChangeLaneAssist(value, value2):
     global sensitivity
@@ -294,10 +292,6 @@ controllerThread.start()
 
 print("One second timer just to be sure the lane detection is ready")
 time.sleep(1)
-oldConfidenceValue = 1
-laneStabilitySmoothness = 3
-confidenceMin = 0
-stabilityMin = 90
 sensitivity = 500
 sct = mss()
 while True:

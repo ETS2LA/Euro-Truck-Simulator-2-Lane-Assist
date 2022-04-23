@@ -6,10 +6,15 @@ from PIL import Image
 from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 
 model_path = "models/culane_18.pth"
+alternative_path = "models/tusimple_18.pth"
 model_type = ModelType.CULANE
+alternative_type = ModelType.TUSIMPLE
 
 # Initialize lane detection model
-lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=True)
+try:
+    lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=False)
+except:
+    lane_detector = UltrafastLaneDetector(alternative_path, alternative_type, use_gpu=False)
 
 # Set the default variables for the screenshot
 w, h = 1280, 720
