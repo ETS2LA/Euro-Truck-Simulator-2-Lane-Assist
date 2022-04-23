@@ -6,6 +6,9 @@ In addition to ibaiGorordo for his [example scripts for Pytorch](https://github.
 
 [Example Video](https://youtu.be/oHBFTHrOqCU)
 
+
+It is important to note that in the video I overlayed the laneAssist window on top of ETS2, unfortunately I do not yet know how to get it on top without messing with the screen capture.
+
 # Installation
 Copy the repository ( Code -> Download zip ) and unpack it to a folder. Now install all the requirements.
 
