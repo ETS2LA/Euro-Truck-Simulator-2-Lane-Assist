@@ -316,7 +316,6 @@ while True:
 
     if(enabled):
         try:
-            print(drawCircles.get())
             LaneDetection.UpdateLanes(drawCircles.get())
         except:
             LaneDetection.UpdateLanes(drawCircles=False)
