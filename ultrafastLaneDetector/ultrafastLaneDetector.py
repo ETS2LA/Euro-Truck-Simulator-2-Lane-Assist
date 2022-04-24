@@ -7,6 +7,7 @@ import torchvision.transforms as transforms
 from PIL import Image
 from enum import Enum
 from scipy.spatial.distance import cdist
+import time
 
 from ultrafastLaneDetector.model import parsingNet
 
@@ -19,6 +20,7 @@ tusimple_row_anchor = [ 64,  68,  72,  76,  80,  84,  88,  92,  96, 100, 104, 10
 			272, 276, 280, 284]
 culane_row_anchor = [121, 131, 141, 150, 160, 170, 180, 189, 199, 209, 219, 228, 238, 248, 258, 267, 277, 287]
 
+modelSize = "18"
 
 class ModelType(Enum):
 	TUSIMPLE = 0
@@ -48,10 +50,13 @@ class ModelConfig():
 		self.cls_num_per_lane = 18
 
 class UltrafastLaneDetector():
-
-	def __init__(self, model_path, model_type=ModelType.TUSIMPLE, use_gpu=False):
+	time.sleep(0.1) # To make sure we pass this variable in time
+	def __init__(self, model_path, model_type=ModelType.TUSIMPLE, use_gpu=False, modelDepth = 18):
 
 		self.use_gpu = use_gpu
+
+		global modelSize 
+		modelSize = modelDepth
 
 		# Load model configuration based on the model type
 		self.cfg = ModelConfig(model_type)
@@ -66,7 +71,8 @@ class UltrafastLaneDetector():
 	def initialize_model(model_path, cfg, use_gpu):
 
 		# Load the model architecture
-		net = parsingNet(pretrained = False, backbone='18', cls_dim = (cfg.griding_num+1,cfg.cls_num_per_lane,4),
+		print(modelSize)
+		net = parsingNet(pretrained = False, backbone=modelSize, cls_dim = (cfg.griding_num+1,cfg.cls_num_per_lane,4),
 						use_aux=False) # we dont need auxiliary segmentation in testing
 
 
