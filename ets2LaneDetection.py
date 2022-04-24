@@ -38,10 +38,8 @@ def ChangeModel(model, useGPU):
     modelDepth = "18"
 
     if "34" in model:
-        print("34")
         modelDepth = "34"
     elif "101" in model:
-        print("101")
         modelDepth = "101"
 
     lane_detector = UltrafastLaneDetector("models/" + model, model_type, use_gpu=useGPU.get(), modelDepth = modelDepth)

@@ -205,7 +205,7 @@ def UpdateControllersForMenu(menu, menuText, axisMenu, axisVar, buttonMenu, butt
         
 axisSlider = None
 runs = 0
-drawCircles = False
+drawCircles = None
 def OpenSettings():
     global runs
     global root
@@ -234,8 +234,10 @@ def OpenSettings():
     sensitivityEntry = AddEntry("Sensitivity of lane assist. Current : ", generalFrame)
     steeringOffsetEntry = AddEntry("Steering offset of lane assist. Current : ", generalFrame)
     AddButton("Change Lane Assist Settings", lambda: ChangeLaneAssist(sensitivityEntry.get(), steeringOffsetEntry.get()), generalFrame)
-    drawCircles = tk.BooleanVar
-    ttk.Checkbutton(generalFrame, text="Show raw lane data", width=100, variable=drawCircles, offvalue=False, onvalue=True)
+    drawCircles = tk.BooleanVar()
+    drawCircles.set(value=False)
+    circles = ttk.Checkbutton(generalFrame, text="Show raw lane data", width=100, variable=drawCircles, offvalue=False, onvalue=True)
+    circles.pack()
 
     if(runs == 1):
         dimensionEntry.insert(0, "Width and Height of the video feed (not recommended to change). Current : " + str(LaneDetection.w) + "x" + str(LaneDetection.h))
@@ -314,6 +316,7 @@ while True:
 
     if(enabled):
         try:
+            print(drawCircles.get())
             LaneDetection.UpdateLanes(drawCircles.get())
         except:
             LaneDetection.UpdateLanes(drawCircles=False)
