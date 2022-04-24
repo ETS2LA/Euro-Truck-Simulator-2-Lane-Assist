@@ -6,19 +6,21 @@ from PIL import Image
 from torch import fake_quantize_per_tensor_affine
 from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 
+
 model_path = "models/culane_18.pth"
 model_type = ModelType.CULANE
 
 # Initialize lane detection model
 try:
     lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=False)
+    lane_detector.modelSize = "18"
 except:
     print("Default model not installed, please select one in the settings")
 
 
 # Set the default variables for the screenshot
-w, h = 1280, 720
-x, y = 2000, 130
+w, h = 833, 480
+x, y = 500, 200
 sct = mss()
 monitor = {'top': y, 'left': x, 'width': w, 'height': h}
 steeringOffset = -150
@@ -33,8 +35,17 @@ def ChangeModel(model, useGPU):
         model_type = ModelType.CULANE
     elif "tusimple" in model:
         model_type = ModelType.TUSIMPLE
-    print(useGPU)
-    lane_detector = UltrafastLaneDetector("models/" + model, model_type, use_gpu=useGPU.get())
+    modelDepth = "18"
+
+    if "34" in model:
+        print("34")
+        modelDepth = "34"
+    elif "101" in model:
+        print("101")
+        modelDepth = "101"
+
+    lane_detector = UltrafastLaneDetector("models/" + model, model_type, use_gpu=useGPU.get(), modelDepth = modelDepth)
+
 
 def ChangeVideoDimension(value, value2):
     global w
