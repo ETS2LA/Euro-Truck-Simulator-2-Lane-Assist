@@ -12,15 +12,14 @@ model_type = ModelType.CULANE
 
 # Initialize lane detection model
 try:
-    lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=False)
-    lane_detector.modelSize = "18"
+    lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=False, modelDepth = "18")
 except:
     print("Default model not installed, please select one in the settings")
 
 
 # Set the default variables for the screenshot
 w, h = 833, 480
-x, y = 500, 200
+x, y = 544, 300
 sct = mss()
 monitor = {'top': y, 'left': x, 'width': w, 'height': h}
 steeringOffset = -150

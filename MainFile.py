@@ -14,8 +14,9 @@ import cv2
 from mss import mss
 import numpy as np
 from PIL import Image
-import glob
+from simple_pid import PID
 
+steeringPid = PID(0.75, 0.3, 0, setpoint=0)
 pygame.display.init()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
@@ -32,6 +33,9 @@ settings = False
 settingsOpen = False
 steeringAxis = 0
 enableDisableButton = 23
+rightIndicator = 4
+leftIndicator = 5
+
 
 def ChangeVideoDimensions(dimension, position):
     dimension = dimension.replace("Width and Height of the video feed (not recommended to change). Current : ", "")
@@ -42,6 +46,7 @@ def ChangeVideoDimensions(dimension, position):
 
 def ChangeLaneAssist(value, value2):
     global sensitivity
+    global steeringPid
     value = value.replace("Sensitivity of lane assist. Current : ", "")
     value2 = value2.replace("Steering offset of lane assist. Current : ", "")
     value = int(value)
@@ -109,6 +114,16 @@ def ChangeModel(model, useGPU):
     model = model.replace("Model to use (see github). Current : ", "")
     LaneDetection.ChangeModel(model, useGPU)
 
+def ChangeRightIndicator(x, menuText):
+    global rightIndicator
+    rightIndicator = x
+    menuText.set("Right indicator : " + str(x))
+
+def ChangeLeftIndicator(x, menuText):
+    global leftIndicator
+    leftIndicator = x
+    menuText.set("Left indicator : " + str(x))
+
 """
 Main UI
 """
@@ -146,12 +161,39 @@ AddButton("Exit", OnClosing, big_frame)
 desiredControl = 0
 oldDesiredControl = 0
 minSpikeSize = 0.1
+IndicatingRight = False
+IndicatingLeft = False
+lastIndicatingRight = False
+lastIndicatingLeft = False
+
 def ControllerThread():
     global desiredControl
     global oldDesiredControl
     global close
     global enabled
+    global IndicatingRight
+    global IndicatingLeft
+    global lastIndicatingLeft
+    global lastIndicatingRight
     while True:
+        
+        if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
+            IndicatingRight = not IndicatingRight
+            lastIndicatingRight = True
+        elif(not wheel.get_button(rightIndicator)):
+            lastIndicatingRight = False
+
+        if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
+            IndicatingLeft = not IndicatingLeft
+            lastIndicatingLeft = True
+        elif(not wheel.get_button(leftIndicator)):
+            lastIndicatingLeft = False
+
+        if(IndicatingRight):
+            indicatingLeft = False
+        if(IndicatingLeft):
+            indicatingRight = False
+
         if(close): break
         try:
             pygame.event.pump()
@@ -164,21 +206,19 @@ def ControllerThread():
                     desiredControl = 0.2
                 if desiredControl < -0.2:
                     desiredControl = -0.2
-                #if desiredControl > oldDesiredControl:
-                #    if abs(desiredControl-oldDesiredControl) > 0.1:
-                #        desiredControl = desiredControl - (abs(desiredControl-oldDesiredControl) - 0.1)
-                #elif desiredControl < oldDesiredControl:
-                #    if abs(desiredControl+oldDesiredControl) > 0.1:
-                #        desiredControl = desiredControl - (abs(desiredControl-oldDesiredControl) + 0.1)
-                gamepad.left_joystick_float(x_value_float = (oldDesiredControl+oldDesiredControl+desiredControl)/3 + wheel.get_axis(steeringAxis), y_value_float = 0)
+                if(IndicatingRight):
+                    gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
+                elif(IndicatingLeft):
+                    gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
+                else:
+                    gamepad.left_joystick_float(x_value_float = steeringPid(-desiredControl) + wheel.get_axis(steeringAxis), y_value_float = 0)
                 gamepad.update()
-                oldDesiredControl = desiredControl
+                oldDesiredControl = (oldDesiredControl+oldDesiredControl+desiredControl)/3
             else:
                 gamepad.left_joystick_float(x_value_float = wheel.get_axis(0), y_value_float = 0)
                 gamepad.update()
-            time.sleep(0.01)
         except:
-            time.sleep(0.01)
+            pass
 
 
 """
@@ -193,7 +233,7 @@ def CloseSettings():
     settingsWindow.destroy()
     settings = False
 
-def UpdateControllersForMenu(menu, menuText, axisMenu, axisVar, buttonMenu, buttonVar):
+def UpdateControllersForMenu(menu, menuText, axisMenu, axisVar, buttonMenu, buttonVar, rightIndicatorVar, rightIndicatorMenu, leftIndicatorVar, leftIndicatorMenu):
     try:
         for x in range(pygame.joystick.get_count()):
             menu.delete(0)
@@ -250,8 +290,12 @@ def OpenSettings():
     axisMenu = tk.Menu()
     buttonVar = tk.StringVar()
     buttonMenu = tk.Menu()
+    rightIndicatorVar = tk.StringVar()
+    rightIndicatorMenu = tk.Menu()
+    leftIndicatorVar = tk.StringVar()
+    leftIndicatorMenu = tk.Menu()
     controllerVar = tk.StringVar()
-    controllerMenu = tk.Menu(postcommand=lambda: UpdateControllersForMenu(controllerMenu, controllerVar, axisMenu, axisVar, buttonMenu, buttonVar))
+    controllerMenu = tk.Menu(postcommand=lambda: UpdateControllersForMenu(controllerMenu, controllerVar, axisMenu, axisVar, buttonMenu, buttonVar, rightIndicatorVar, rightIndicatorMenu, leftIndicatorVar, leftIndicatorMenu))
 
     controllerFrame = ttk.Frame(tabs)
     tabs.add(controllerFrame, text="Controller")
@@ -267,6 +311,13 @@ def OpenSettings():
     buttons = ttk.Menubutton(controllerFrame, textvariable=buttonVar, width=100, menu=buttonMenu)
     buttons.pack()
 
+    leftIndicators = ttk.Menubutton(controllerFrame, textvariable=leftIndicatorVar, width=100, menu=leftIndicatorMenu)
+    leftIndicators.pack()
+
+    rightIndicators = ttk.Menubutton(controllerFrame, textvariable=rightIndicatorVar, width=100, menu=rightIndicatorMenu)
+    rightIndicators.pack()
+
+
     if(runs == 1):
         for x in range(len(joysticks)):
             controllerMenu.add_command(label=joysticks[x].get_name(), command=lambda x=x: ChangeController(x, controllerVar, axisMenu, axisVar, buttonMenu, buttonVar))
@@ -277,6 +328,14 @@ def OpenSettings():
         for x in range(wheel.get_numbuttons()):
             buttonMenu.add_command(label="Button : " + str(x), command=lambda x=x: ChangeButton(x, buttonVar))
         
+        for x in range(wheel.get_numbuttons()):
+            leftIndicatorMenu.add_command(label="Left Indicator Button : " + str(x), command=lambda x=x: ChangeLeftIndicator(x, leftIndicatorVar))
+        
+        for x in range(wheel.get_numbuttons()):
+            rightIndicatorMenu.add_command(label="Right Indicator Button : " + str(x), command=lambda x=x: ChangeRightIndicator(x, rightIndicatorVar))
+
+        rightIndicatorVar.set("Right Indicator Button : " + str(rightIndicator))
+        leftIndicatorVar.set("Left Indicator Button : " + str(leftIndicator))
         buttonVar.set("Button : " + str(enableDisableButton))
         controllerVar.set("Controller : " + wheel.get_name())
         axisVar.set("Axis : " + str(steeringAxis))
