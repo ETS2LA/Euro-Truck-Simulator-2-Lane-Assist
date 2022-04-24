@@ -23,7 +23,7 @@ Other requirements can be installed with pip like this (if you have > python 3.1
 
 # Lane Detection models
 In addition to the normal requirements this application requires a lane detection model to work.
-[This](https://github.com/cfzd/Ultra-Fast-Lane-Detection/issues/270) is a new deeper model from Adorable Jiang. So far from the very little testing culane34 works and culane101 doesn't. These models will likely run slower but work better, I have added support for these so choose if you want these or the defaults.
+[This](https://github.com/cfzd/Ultra-Fast-Lane-Detection/issues/270) is a new deeper model from Adorable Jiang. So far from the very little testing all the models work. These models will likely run slower but work better, I have added support for these so choose if you want these or the defaults.
 
 
 To download a pretrained model go to the [Ultra Fast Lane Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection) github page and scroll down until you see Trained models.
