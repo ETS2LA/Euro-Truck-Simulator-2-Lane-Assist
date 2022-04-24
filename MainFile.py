@@ -14,9 +14,7 @@ import cv2
 from mss import mss
 import numpy as np
 from PIL import Image
-from simple_pid import PID
 
-steeringPid = PID(0.75, 0.3, 0, setpoint=0)
 pygame.display.init()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
@@ -211,7 +209,7 @@ def ControllerThread():
                 elif(IndicatingLeft):
                     gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
                 else:
-                    gamepad.left_joystick_float(x_value_float = steeringPid(-desiredControl) + wheel.get_axis(steeringAxis), y_value_float = 0)
+                    gamepad.left_joystick_float(x_value_float = (oldDesiredControl+oldDesiredControl+desiredControl)/3 + wheel.get_axis(steeringAxis), y_value_float = 0)
                 gamepad.update()
                 oldDesiredControl = (oldDesiredControl+oldDesiredControl+desiredControl)/3
             else:
