@@ -32,7 +32,7 @@ There are two different models to choose from. CUlane is a more stable model, bu
 After you have downloaded a model, make a models folder in the root folder of the app (the folder where MainFile.py is) and move the model there.
 
 # Preparations
-Before even starting the app make sure your ETS2 or any other game is in borderless mode. It is not required for the app to work, but for setting it up it is highly recommended. To start the app, open a command prompt or terminal in the app's folder ( on windows this can be done by holding alt and right clicking ). Once the terminal is open type:
+Before even starting the app make sure your ETS2 or any other game is in borderless mode. It is not required for the app to work, but for setting it up it is highly recommended. Also disable automatic indicators in game. To start the app, open a command prompt or terminal in the app's folder ( on windows this can be done by holding alt and right clicking ). Once the terminal is open type:
 > python3 MainFile.py
 
 This will start the application and you should see two windows. One is the main window where you can start the program and change the settings. The other is the preview to show you what the program sees. Don't worry if it's black, that doesn't mean that it isn't working.
@@ -41,9 +41,9 @@ Before pressing Toggle Enable it is important to head over to the settings to co
 
 The first is to change the position of the video capture from the general tab. I recommend starting up ETS 2 and setting the game on pause. Then move the window around by changing the position values (I recommend setting them to 0x0 and then going from there) so that the app sees the road, but preferably not the steering wheel as this can throw off the lane detection. Even though it's not recommended you might also need to change the dimensions of the screen capture. This might have to be done on 1080 or 4k monitors for example. Just if you do try to keep the aspect ratio the same (16:9)
 
-The second important option is your input device. Even if you play on a keyboard you must have a controller selected. The default selection is for my G29. If you also have one then be sure to make sure the controller is correct, after that you can head over to the next step. 
+The second important option is your input device. Even if you play on a keyboard you must have a controller selected otherwise the app will crash. The default selection is for my G29. If you also have one then be sure to make sure the controller is correct, after that you can head over to the next step. 
 
-If you do not play on a G29 then select your controller and additionally select the steering axis ( the blue slider will move with the axis ) and the button to toggle the Lane Assist ( this can usually be found by searching on google for *controller* button numbers )
+If you do not play on a G29 then select your controller and additionally select the steering axis ( the blue slider will move with the axis ) and the button to toggle the Lane Assist ( this can usually be found by searching on google for *controller* button numbers ). In addition you will have to select your indicator buttons.
 
 After that go to the final tab, and if you do have a nvidia gpu then you can enable Use GPU, after that you can hit Change Model.
 
