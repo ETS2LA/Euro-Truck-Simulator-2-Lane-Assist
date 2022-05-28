@@ -174,7 +174,6 @@ def ControllerThread():
     global lastIndicatingLeft
     global lastIndicatingRight
     while True:
-        
         if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
             IndicatingRight = not IndicatingRight
             lastIndicatingRight = True
@@ -215,7 +214,9 @@ def ControllerThread():
             else:
                 gamepad.left_joystick_float(x_value_float = wheel.get_axis(0), y_value_float = 0)
                 gamepad.update()
+            time.sleep(0.01)
         except:
+            time.sleep(0.01)
             pass
 
 
@@ -356,7 +357,6 @@ def OpenSettings():
     tabs.pack(fill="both", expand=True)
 
 
-
 controllerThread = threading.Thread(target=ControllerThread)
 controllerThread.start()
 
@@ -364,12 +364,14 @@ print("One second timer just to be sure the lane detection is ready")
 time.sleep(1)
 sensitivity = 500
 sct = mss()
+w, h = 833, 480
+x, y = 544, 300
+monitor = {'top': y, 'left': x, 'width': w, 'height': h}
 while True:
-
+    startTime = time.time_ns()
     desiredControl = LaneDetection.difference / (sensitivity * 6)
     currentVal.set("Current Control : " + str(round(LaneDetection.difference, 2)))
     currentSlider.set(LaneDetection.difference)
-
 
     if(enabled):
         try:
@@ -393,4 +395,6 @@ while True:
             settingsOpen = True
     else:
         settingsOpen = False
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        exit()
     root.update()
