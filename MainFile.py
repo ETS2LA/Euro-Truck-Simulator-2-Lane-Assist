@@ -216,6 +216,7 @@ def ControllerThread():
                 gamepad.update()
             time.sleep(0.01)
         except:
+            print("Error with binds, make sure to check that the buttons are correct")
             time.sleep(0.01)
             pass
 
