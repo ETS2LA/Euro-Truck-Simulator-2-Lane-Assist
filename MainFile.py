@@ -212,10 +212,12 @@ def ControllerThread():
                 gamepad.update()
                 oldDesiredControl = (oldDesiredControl+oldDesiredControl+desiredControl)/3
             else:
-                gamepad.left_joystick_float(x_value_float = wheel.get_axis(0), y_value_float = 0)
+                print(wheel.get_axis(steeringAxis))
+                gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
                 gamepad.update()
             time.sleep(0.01)
         except:
+            print("Error with binds, make sure to check that the buttons are correct")
             time.sleep(0.01)
             pass
 
