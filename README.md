@@ -5,6 +5,7 @@ This project was made possible by the amazing people behind the original [Ultra 
 In addition to ibaiGorordo for his [example scripts for Pytorch](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-) and rdbender for his  [sun valley theme for ttk](https://github.com/rdbende/Sun-Valley-ttk-theme).
 
 [Example Video](https://youtu.be/oHBFTHrOqCU)
+
 [Installation and Usage Video](https://www.youtube.com/watch?v=TNXlCT3Zr6Y)
 
 It is important to note that in the video I overlayed the laneAssist window on top of ETS2, unfortunately I do not yet know how to get it on top without messing with the screen capture.
