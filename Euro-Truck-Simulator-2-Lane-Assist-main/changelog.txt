@@ -1,3 +1,23 @@
+V0.1.1 - 8.8.2022
+
+THIS UPDATE IS UNTESTED IN GAME, I do not currently have the means to test it as i'm not at a pc with a wheel.
+If you have any issues please do raise an issue and I will fix it. It has been tested with a video, to make sure it runs.
+
+Added
+--------------------------------------------------------------------------------------------
+- New lane detection option : useGPUByDefault = True
+    - Starts the lane detection with gpu mode enabled by default
+- Added an indicator message, to notify the user of indicator state, useful when it might be stuck. 
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed an issue where the indicator might stick if going from indicating right to 
+  indicating left and vice versa.
+
+
+
+
+
 V0.1 - 8.8.2022
 
 THIS UPDATE IS UNTESTED IN GAME, I do not currently have the means to test it as i'm not at a pc with a wheel.
@@ -15,7 +35,7 @@ Added
         - This changes the max value of the control signal between 0 and 1.
     - controlSmoothness = 2
         - How many smoothness iterations to do with the formula :  
-        - oldValue = ((oldValue * smoothness + newValue) / smoothness + 1)
+        - oldValue = ((oldValue * smoothness + newValue) / (smoothness + 1))
 - Added three new lane detection options.
     - previewOnTop = True
         - This toggle showing the lane detection window on top of other windows.
@@ -25,6 +45,7 @@ Added
         - This might have some performance overhead so I will leave this as an option.
     - drawSteeringLine = True
         - This will toggle drawing of the red steering line.
+
 Fixed
 --------------------------------------------------------------------------------------------
 - Fixed a bug that caused steering to not work when not using lane assist.
