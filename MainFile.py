@@ -8,6 +8,7 @@ enabled = False
 close = False
 settings = False
 settingsOpen = False
+disableLaneAssistWhenIndicating = True
 sensitivity = 500
 # Default controller settings
 defaultControllerIndex = 0 # This can be changed if your desired controller is not always the first input device (ie. if you have multiple controllers, like a HOTAS setup)
@@ -224,32 +225,36 @@ def ControllerThread():
     global lastIndicatingRight
     global maximumControl
     global controlSmoothness
+    global disableLaneAssistWhenIndicating
+
     while True:
 
         # This kind of if, elif statement converts the presses of the indicator to
         # a constant on/off value.
-        if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
-            IndicatingRight = not IndicatingRight
-            lastIndicatingRight = True
-        elif(not wheel.get_button(rightIndicator)):
-            lastIndicatingRight = False
-        if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
-            IndicatingLeft = not IndicatingLeft
-            lastIndicatingLeft = True
-        elif(not wheel.get_button(leftIndicator)):
-            lastIndicatingLeft = False
+        if disableLaneAssistWhenIndicating:
+            if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
+                IndicatingRight = not IndicatingRight
+                lastIndicatingRight = True
+            elif(not wheel.get_button(rightIndicator)):
+                lastIndicatingRight = False
+            if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
+                IndicatingLeft = not IndicatingLeft
+                lastIndicatingLeft = True
+            elif(not wheel.get_button(leftIndicator)):
+                lastIndicatingLeft = False
 
         # Make sure we can't indicate in both directions.
-        if(wheel.get_button(leftIndicator) and IndicatingRight):
-            IndicatingLeft = True
-            lastIndicatingLeft = True
-            lastIndicatingRight = False
-            IndicatingRight = False
-        elif(wheel.get_button(rightIndicator) and IndicatingLeft):
-            IndicatingLeft = False
-            lastIndicatingLeft = False
-            lastIndicatingRight = True
-            IndicatingRight = True
+        if disableLaneAssistWhenIndicating:
+            if(wheel.get_button(leftIndicator) and IndicatingRight):
+                IndicatingLeft = True
+                lastIndicatingLeft = True
+                lastIndicatingRight = False
+                IndicatingRight = False
+            elif(wheel.get_button(rightIndicator) and IndicatingLeft):
+                IndicatingLeft = False
+                lastIndicatingLeft = False
+                lastIndicatingRight = True
+                IndicatingRight = True
 
         # Makes sure the thread will close if the program is closed.
         if(close): break
@@ -270,14 +275,18 @@ def ControllerThread():
                     desiredControl = -maximumControl
                 
                 # If we are indicating, then disable the automatic control.
-                if(IndicatingRight):
-                    gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
-                    LaneDetection.isIndicating = 1
-                    print("Right")
-                elif(IndicatingLeft):
-                    gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
-                    print("Left")
-                    LaneDetection.isIndicating = 2
+                if disableLaneAssistWhenIndicating:
+                    if(IndicatingRight):
+                        gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
+                        LaneDetection.isIndicating = 1
+                        print("Right")
+                    elif(IndicatingLeft):
+                        gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
+                        print("Left")
+                        LaneDetection.isIndicating = 2
+                    else:
+                        LaneDetection.isIndicating = 0
+                        gamepad.left_joystick_float(x_value_float = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis), y_value_float = 0)
                 else:
                     LaneDetection.isIndicating = 0
                     gamepad.left_joystick_float(x_value_float = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis), y_value_float = 0)
