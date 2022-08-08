@@ -1,3 +1,15 @@
+V0.1.2 - 8.8.2022
+
+THIS UPDATE IS UNTESTED IN GAME, I do not currently have the means to test it as i'm not at a pc with a wheel.
+If you have any issues please do raise an issue and I will fix it. It has been tested with a video, to make sure it runs.
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed the installer installing itself
+
+
+
+
 V0.1.1 - 8.8.2022
 
 THIS UPDATE IS UNTESTED IN GAME, I do not currently have the means to test it as i'm not at a pc with a wheel.
