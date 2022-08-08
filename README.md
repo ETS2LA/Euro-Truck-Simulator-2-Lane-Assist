@@ -18,6 +18,12 @@ The program is at a point where I can comfortably use it with no issues. This do
 > I will update the program to meet the needs of other people and fix any bugs that you might encounter. Just make an issue report, comment on the youtube videos or message me on discord at Tumppi066#2874 for suggestions and bug reports.
 
 # Installation
+The releases now include a python file to install the program and most of the requirements.
+It can be used by selecting the newest release and downloading updater.py after which run
+> python updater.py
+
+and by following the instructions.
+
 Copy the repository ( Code -> Download zip ) and unpack it to a folder. Now install all the requirements.
 
 # Requirements
