@@ -1,0 +1,33 @@
+V0.1 - 8.8.2022
+
+THIS UPDATE IS UNTESTED IN GAME, I do not currently have the means to test it as i'm not at a pc with a wheel.
+If you have any issues please do raise an issue and I will fix it. It has been tested with a video, to make sure it runs.
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a file in the models folder so it doesn't have to be made.
+- Added comments to both main python files for easier editing and understanding of the code.
+- The lane detection window is now resizeable.
+- These added variables can only be changed by editing the python files, this can be done without
+  any special program by for example opening the files with notepad.
+- Added two new variables
+    - maximumControl = 0.2
+        - This changes the max value of the control signal between 0 and 1.
+    - controlSmoothness = 2
+        - How many smoothness iterations to do with the formula :  
+        - oldValue = ((oldValue * smoothness + newValue) / smoothness + 1)
+- Added three new lane detection options.
+    - previewOnTop = True
+        - This toggle showing the lane detection window on top of other windows.
+        - This will only change on startup.
+    - computeGreenDots = True
+        - This will toggle computing the green dots.
+        - This might have some performance overhead so I will leave this as an option.
+    - drawSteeringLine = True
+        - This will toggle drawing of the red steering line.
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed a bug that caused steering to not work when not using lane assist.
+- Combined all LICENSE files to one (this should have been done from the start.
+- Moved the variables to the top of the python files for easier editing.
+- Updated readme to reflect recent changes and findings.
