@@ -5,8 +5,10 @@ Modified to be used with ETS2 : Tumppi066 @ https://github.com/Tumppi066/Euro-Tr
 """
 
 # Set the default variables, these can be changed
-w, h = 833, 480
-x, y = 544, 300
+# Default for CULANE = 833,480
+# Default for TuSimple = 1280,720
+w, h = 1280, 720
+x, y = 1950, 400
 steeringOffset = -150
 showPreview = True
 previewOnTop = True
@@ -14,25 +16,27 @@ computeGreenDots = True
 drawSteeringLine = True
 # Default model
 from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
-model_path = "models/tusimple_34.pth"
-model_type = ModelType.TUSIMPLE
-model_depth = "34"
+model_path = "models/tusimple_34.pth" # When changing this (Keep the "")...
+model_type = ModelType.TUSIMPLE # Change the model type (ModelType.CULANE or ModelType.TUSIMPLE) and...
+model_depth = "34" # Change the depth of the model (Keep the "")
+useGPUByDefault = False
 
 # Rest of the imports
 import cv2
 import time
 from mss import mss
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFont, ImageDraw
 
-# These cannot be changed.
+# Do not change these.
 monitor = {'top': y, 'left': x, 'width': w, 'height': h}
 sct = mss()
 close = False
+isIndicating = 0 # 1 = Right, 2 = Left, 0 = None
 
 # Initialize lane detection model with default settings
 try:
-    lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=False, modelDepth = model_depth)
+    lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=useGPUByDefault, modelDepth = model_depth)
 except:
     print("Default model not installed, please select one in the settings")
 
@@ -92,7 +96,7 @@ fps = 0
 def UpdateLanes(drawCircles):
     global difference
     global fps
-    
+    print(isIndicating)
     startTime = time.time_ns() # For FPS calculation
     frame = np.array(Image.frombytes('RGB', (w,h), sct.grab(monitor).rgb)) # Get a new frame
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) # Convert to BGR (OpenCV uses BGR, rather than RGB)
@@ -146,7 +150,12 @@ def UpdateLanes(drawCircles):
             pass
     endTime = time.time_ns()
     fps = 1000000000 / (endTime - startTime)
-    cv2.putText(output_img, "FPS : " + str(round(fps, 1)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2) # Overlay FPS on the image.
+    cv2.putText(output_img, "FPS : " + str(round(fps, 0)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2) # Overlay FPS on the image.
+    # Tell the user if we are indicating left or right.
+    if(isIndicating == 1):
+        cv2.putText(output_img, "Indicating Right", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    if(isIndicating == 2):
+        cv2.putText(output_img, "Indicating Left", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     # Show preview
     if(showPreview):
         cv2.imshow("Detected lanes", output_img)
