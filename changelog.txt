@@ -5,6 +5,9 @@ If you have any issues please do raise an issue and I will fix it. It has been t
 
 Added
 --------------------------------------------------------------------------------------------
+- Added an installation and update script : updater.py
+    - This also required me to restructure the program
+    - Also required to add a version.txt for automatic updates
 - New lane detection option : useGPUByDefault = True
     - Starts the lane detection with gpu mode enabled by default
 - Added an indicator message, to notify the user of indicator state, useful when it might be stuck. 
@@ -17,11 +20,10 @@ Fixed
 
 
 
-
 V0.1 - 8.8.2022
 
-THIS UPDATE IS UNTESTED IN GAME, I do not currently have the means to test it as i'm not at a pc with a wheel.
-If you have any issues please do raise an issue and I will fix it. It has been tested with a video, to make sure it runs.
+I HAVE NOT PERSONALLY TESTED THIS VERSION, but other people have gotten it to work.
+This is due to having no wheel available to me at the time.
 
 Added
 --------------------------------------------------------------------------------------------
