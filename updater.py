@@ -43,7 +43,7 @@ try:
     localVersion = open(os.path.dirname(os.path.abspath(__file__)) +"\\"+ dest + "\\version.txt", "r").read().split(",")[0] + " from " + open(os.path.dirname(os.path.abspath(__file__)) +"\\"+ dest + "\\version.txt", "r").read().split(",")[1]
     print("Current program version is " + localVersion)
     # Check the newest version
-    newestVersionFile, headers = urllib.request.urlretrieve("https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/blob/main/Euro-Truck-Simulator-2-Lane-Assist-main/version.txt")
+    newestVersionFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/Euro-Truck-Simulator-2-Lane-Assist-main/version.txt")
     newestVersion = open(newestVersionFile, "r").read().split(",")[0] + " from " + open(newestVersionFile, "r").read().split(",")[1]
     print("Most up to date version is " + newestVersion)
     # Check if the newest version is newer than the local version
