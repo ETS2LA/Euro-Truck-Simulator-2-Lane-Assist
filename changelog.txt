@@ -1,6 +1,6 @@
 V0.1.35 - 8.8.2022
 
-Minor Update : New version number not required
+Minor Update
 
 Added
 --------------------------------------------------------------------------------------------
