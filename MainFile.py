@@ -32,7 +32,7 @@ from matplotlib.pyplot import draw
 import cv2
 from mss import mss
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageTk
 from torch import true_divide
 
 # Gamepad
@@ -169,13 +169,24 @@ Main UI
 """
 
 width = 500
-height = 220
+height = 510
 
 # This initializes the Main UI tkinter window
 root = tk.Tk() # The main window
 root.geometry(str(width) + "x" + str(height))
 big_frame = ttk.Frame(root) # A frame in that window
 big_frame.pack(fill="both", expand=True, padx=10, pady=10)
+
+# Draw the logo, and check if it has been deleted
+try:
+    logo = Image.open("LaneAssistLogoWide.jpg")
+    logo = logo.resize((500,300), Image.ANTIALIAS)
+    logo = ImageTk.PhotoImage(logo)
+    panel = tk.Label(root, image = logo)
+    panel.pack(side = "bottom", fill = "both", expand = "yes")
+except:
+    print("Logo not found")
+    pass
 
 # Set the desired theme
 root.tk.call("source", "sun-valley.tcl")
