@@ -5,7 +5,7 @@ Minor Update : New version number not required
 Added
 --------------------------------------------------------------------------------------------
 - Rebranded the software with a new logo and updated the readme.
-
+- Removed example video as it is not required.
 
 
 
