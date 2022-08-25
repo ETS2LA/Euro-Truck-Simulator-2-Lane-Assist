@@ -1,3 +1,14 @@
+V0.1.4 - 20.8.2022
+
+Minor Update
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Removed a debug print.
+- Removed reduntant width and height from MainFile.py
+- Set default screencapture position to 0x0 to avoid confusion.
+
+
 V0.1.35 - 8.8.2022
 
 Minor Update

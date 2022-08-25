@@ -18,10 +18,6 @@ rightIndicator = 1
 leftIndicator = 2
 maximumControl = 0.2 # This changes the max control angle (between 0 and 1)
 controlSmoothness = 2 # How many smoothness iterations to do ((oldValue * smoothness + newValue) / smoothness + 1)
-# Default video settings
-w, h = 833, 480
-x, y = 544, 300
-
 
 # UI imports
 import tkinter as tk
@@ -59,7 +55,6 @@ except:
 gamepad = vg.VX360Gamepad()
 
 sct = mss()
-monitor = {'top': y, 'left': x, 'width': w, 'height': h}
 
 """
 Application functions.

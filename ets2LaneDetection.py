@@ -8,7 +8,7 @@ Modified to be used with ETS2 : Tumppi066 @ https://github.com/Tumppi066/Euro-Tr
 # Default for CULANE = 833,480
 # Default for TuSimple = 1280,720
 w, h = 1280, 720
-x, y = 1950, 400
+x, y = 0, 0
 steeringOffset = -150
 showPreview = True
 previewOnTop = True
@@ -96,7 +96,6 @@ fps = 0
 def UpdateLanes(drawCircles):
     global difference
     global fps
-    print(isIndicating)
     startTime = time.time_ns() # For FPS calculation
     frame = np.array(Image.frombytes('RGB', (w,h), sct.grab(monitor).rgb)) # Get a new frame
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) # Convert to BGR (OpenCV uses BGR, rather than RGB)
