@@ -58,7 +58,7 @@ def CheckVersion():
         newestVersion = open(newestVersionFile, "r").read().split(",")[0] + " from " + open(newestVersionFile, "r").read().split(",")[1]
         os.remove(newestVersionFile)
         # Check the change log        
-        changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/experimental/changelog.txt")
+        changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt")
         changeLog = open(changeLogFile, "r").read().split("Update")[1]
         os.remove(changeLogFile)
         currentLabel.set(("Current version: " + localVersion).replace("\n", ""))
