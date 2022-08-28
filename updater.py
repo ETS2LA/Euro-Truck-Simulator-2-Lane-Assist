@@ -1,14 +1,5 @@
 # Import everything
 import os
-
-print("Checking that all requirements are installed...")
-os.system("pip install shutil")
-os.system("pip install zipfile")
-os.system("pip install urllib")
-os.system("pip install tkinter")
-os.system("pip install webbrowser")
-print("It is normal for there to be errors here this is just to make sure...")
-
 import shutil
 from urllib.parse import urljoin, urlparse
 import urllib.request
@@ -81,7 +72,7 @@ def CheckVersion():
         newestVersionFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt")
         newestVersion = open(newestVersionFile, "r").read().split(",")[0] + " from " + open(newestVersionFile, "r").read().split(",")[1]
         os.remove(newestVersionFile)
-        changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/experimental/changelog.txt")
+        changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt")
         changeLog = open(changeLogFile, "r").read().split("Update")[1]
         os.remove(changeLogFile)
         currentLabel.set("Current version: " + "not installed")
@@ -163,15 +154,16 @@ def InstallRequirements():
         os.system("pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116")
     else:
         os.system("pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu")
+    print("Everything is installed")
 
 # Default TKinter window
 width = 250
 height = 300
 root = tk.Tk()
-root.title("Updater")
+root.title("ETS2 Lane Assist Updater V0.2")
 root.geometry("%dx%d" % (width, height))
 root.configure(bg='#1c1c1c', padx=10, pady=10)
-AddLabel("ETS2 Lane Assist Updater", root, size=14)
+AddLabel("ETS2 Lane Assist Updater V0.2", root, size=14)
 currentLabel = AddLabel("Current version: " + "unknown", root, size=10)
 newestLabel = AddLabel("Newest version: " + "unknown", root, size=10)
 AddButton("Check versions", CheckVersion, root)
