@@ -1,9 +1,0 @@
-opencv-python
-sklearn
-pillow
-matplotlib
-numpy
-mss
-tk
-vgamepad
-pygame
