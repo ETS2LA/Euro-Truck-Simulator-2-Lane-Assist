@@ -3,6 +3,9 @@ Main loop and UI for Euro-Truck-Simulator-2-Lane-Assist
 Tumppi066 @ https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist
 """
 
+# CHANGE THESE VALUES IN THE SETTINGS.JSON FILE
+# THEY WILL NOT UPDATE IF CHANGED HERE
+
 # Set default variables
 enabled = False
 close = False
@@ -36,10 +39,40 @@ import vgamepad as vg
 import pygame
 import threading
 
-# Time and LaneDetection bridge
+# Misc.
 import ets2LaneDetection as LaneDetection
 import time
+import json
 
+# Loads all the settings from the settings.json file.
+def LoadSettings():
+    global sensitivity
+    global maximumControl
+    global controlSmoothness
+    global disableLaneAssistWhenIndicating
+    global defaultControllerIndex
+    global steeringAxis
+    global enableDisableButton
+    global rightIndicator
+    global leftIndicator
+
+    # Open the file
+    file = "settings.json"
+    data = json.load(open(file))
+
+    # Set settings
+    sensitivity = data["controlSettings"]["sensitivity"]
+    maximumControl = data["controlSettings"]["maximumControl"]
+    controlSmoothness = data["controlSettings"]["controlSmoothness"]
+    disableLaneAssistWhenIndicating = data["controlSettings"]["disableLaneAssistWhenIndicating"]
+    defaultControllerIndex = data["controlSettings"]["defaultControllerIndex"]
+    steeringAxis = data["controlSettings"]["steeringAxis"]
+    enableDisableButton = data["controlSettings"]["enableDisableButton"]
+    rightIndicator = data["controlSettings"]["rightIndicator"]
+    leftIndicator = data["controlSettings"]["leftIndicator"]
+
+
+LoadSettings()
 
 # Pygame initialization
 # and gamepad detection

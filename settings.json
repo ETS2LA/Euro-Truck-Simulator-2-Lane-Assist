@@ -1,0 +1,37 @@
+{
+    "_comment" : "Change the settings here, and they will be automatically updated on startup",
+    "screenCapture" : 
+    {
+        "width" : 1280,
+        "height" : 720,
+        "x" : 0,
+        "y" : 0
+    },
+    "modelSettings" : 
+    {
+        "modelPath" : "models/tusimple_34.pth",
+        "modelType" : "tusimple",
+        "modelDepth" : 34,
+        "useGPU" : true
+    },
+    "controlSettings" : 
+    {
+        "steeringOffset" : -150,
+        "sensitivity" : 500,
+        "defaultControllerIndex" : 0,
+        "steeringAxis" : 0,
+        "enableDisableButton" : 5,
+        "rightIndicator" : 1,
+        "leftIndicator" : 2,
+        "maximumControl" : 0.2,
+        "controlSmoothness" : 2,
+        "disableLaneAssistWhenIndicating" : true
+    },
+    "generalSettings" : 
+    {
+        "showPreview" : true,
+        "previewOnTop" : true,
+        "computeGreenDots" : true,
+        "drawSteeringLine" : true
+    }
+}

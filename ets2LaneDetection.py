@@ -4,9 +4,19 @@ Original file : ibaiGorordo @ https://github.com/ibaiGorordo/Ultrafast-Lane-Dete
 Modified to be used with ETS2 : Tumppi066 @ https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist
 """
 
-# Set the default variables, these can be changed
-# Default for CULANE = 833,480
-# Default for TuSimple = 1280,720
+
+# Rest of the imports
+from ast import Load
+import cv2
+import time
+from mss import mss
+import numpy as np
+from PIL import Image, ImageFont, ImageDraw
+import json
+from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
+
+# CHANGE THESE VALUES IN THE SETTINGS.JSON FILE
+# THEY WILL NOT UPDATE IF CHANGED HERE
 w, h = 1280, 720
 x, y = 0, 0
 steeringOffset = -150
@@ -15,18 +25,51 @@ previewOnTop = True
 computeGreenDots = True
 drawSteeringLine = True
 # Default model
-from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 model_path = "models/tusimple_34.pth" # When changing this (Keep the "")...
 model_type = ModelType.TUSIMPLE # Change the model type (ModelType.CULANE or ModelType.TUSIMPLE) and...
 model_depth = "34" # Change the depth of the model (Keep the "")
 useGPUByDefault = False
 
-# Rest of the imports
-import cv2
-import time
-from mss import mss
-import numpy as np
-from PIL import Image, ImageFont, ImageDraw
+def LoadSettings():
+    global steeringOffset
+    global showPreview
+    global previewOnTop
+    global computeGreenDots
+    global drawSteeringLine
+    global model_path
+    global model_type
+    global model_depth
+    global useGPUByDefault
+    global w
+    global h
+    global x
+    global y
+    file = "settings.json"
+    data = json.load(open(file))
+    # Screen settings
+    w = data["screenCapture"]["width"]
+    h = data["screenCapture"]["height"]
+    x = data["screenCapture"]["x"]
+    y = data["screenCapture"]["y"]
+    # Model settings
+    model_path = data["modelSettings"]["modelPath"]
+
+    if(data["modelSettings"]["modelType"] == "culane"): model_type = ModelType.CULANE
+    elif(data["modelSettings"]["modelType"] == "tusimple"): model_type = ModelType.TUSIMPLE
+    else: print("Invalid model type")
+
+    model_depth = data["modelSettings"]["modelDepth"]
+    useGPUByDefault = data["modelSettings"]["useGPU"]
+    # Lane assist settings
+    steeringOffset = data["controlSettings"]["steeringOffset"]
+    showPreview = data["generalSettings"]["showPreview"]
+    previewOnTop = data["generalSettings"]["previewOnTop"]
+    computeGreenDots = data["generalSettings"]["computeGreenDots"]
+    drawSteeringLine = data["generalSettings"]["drawSteeringLine"]
+    print("Successfully loaded all settings")
+
+
+LoadSettings()
 
 # Do not change these.
 monitor = {'top': y, 'left': x, 'width': w, 'height': h}
