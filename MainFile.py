@@ -113,10 +113,12 @@ def ChangeLaneAssist(value, value2):
     value = int(value)
     value2 = int(value2)
     sensitivity = value
+    LaneDetection.SaveSettings("controlSettings", "sensitivity", sensitivity)
     LaneDetection.ChangeLaneAssist(value2)
 
 def TogglePreview():
     LaneDetection.showPreview = not LaneDetection.showPreview
+    LaneDetection.SaveSettings("generalSettings", "showPreview", LaneDetection.showPreview)
 
 def ToggleEnable():
     global enabled

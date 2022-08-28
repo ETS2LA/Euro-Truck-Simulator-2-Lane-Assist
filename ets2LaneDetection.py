@@ -30,6 +30,14 @@ model_type = ModelType.TUSIMPLE # Change the model type (ModelType.CULANE or Mod
 model_depth = "34" # Change the depth of the model (Keep the "")
 useGPUByDefault = False
 
+def SaveSettings(category, name, value):
+    # This function is used to save the settings.
+    file = "settings.json"
+    data = json.load(open(file))
+    data[category][name] = value
+    with open(file, 'w') as f:
+        json.dump(data, f, indent=6)
+
 def LoadSettings():
     global steeringOffset
     global showPreview
@@ -91,9 +99,12 @@ def ChangeModel(model, useGPU):
     global model_type
 
     if "culane" in model:
+        SaveSettings("modelSettings", "modelType", "culane")
         model_type = ModelType.CULANE
     elif "tusimple" in model:
+        SaveSettings("modelSettings", "modelType", "tusimple")
         model_type = ModelType.TUSIMPLE
+    
     modelDepth = "18"
 
     if "34" in model:
@@ -101,6 +112,8 @@ def ChangeModel(model, useGPU):
     elif "101" in model:
         modelDepth = "101"
 
+    SaveSettings("modelSettings", "modelPath", model)
+    SaveSettings("modelSettings", "modelDepth", modelDepth)
     lane_detector = UltrafastLaneDetector("models/" + model, model_type, use_gpu=useGPU.get(), modelDepth = modelDepth)
 
 
@@ -119,12 +132,17 @@ def ChangeVideoDimension(value, value2):
     h = value[1]
     x,y = value2
     monitor = {'top': y, 'left': x, 'width': w, 'height': h}
+    SaveSettings("screenCapture", "width", w)
+    SaveSettings("screenCapture", "height", h)
+    SaveSettings("screenCapture", "x", x)
+    SaveSettings("screenCapture", "y", y)
     print(monitor)
 
 def ChangeLaneAssist(value):
     # Update steering offset
     global steeringOffset
     steeringOffset = value
+    SaveSettings("controlSettings", "steeringOffset", steeringOffset)
 
 # Make the lane detection preview window.
 cv2.namedWindow("Detected lanes", cv2.WINDOW_NORMAL)
