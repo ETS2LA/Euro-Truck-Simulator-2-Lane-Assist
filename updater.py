@@ -113,6 +113,7 @@ def DownloadNewVersion():
 
     # Remove the temporary zip
     os.remove(name)
+    print("Download complete")
 
 isMac = 0
 isGPU = 0
@@ -146,7 +147,9 @@ def InstallRequirements():
     if(model.get() == 1):
         webbrowser.open("https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist#lane-detection-models")
     installWindow.destroy()
-    os.system("pip install -r " + os.path.dirname(os.path.abspath(__file__)) +"\\"+ dest + "\\requirements.txt")
+    #path = "'" + os.path.dirname(os.path.abspath(__file__)) +"\\"+ dest + "\\requirements.txt'"
+    path = dest + "\\requirements.txt"
+    os.system("pip install -r " + path)
     if isMac.get() == 1:
         os.system("pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu")
     elif isGPU.get() == 1:
