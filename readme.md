@@ -1,1 +1,1 @@
-# This branch is purely mad for easier updater development
+# This branch is purely made for easier updater development
