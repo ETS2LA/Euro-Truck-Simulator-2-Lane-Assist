@@ -12,9 +12,7 @@ Update Major V0.1.5 - 28.8.2022
 Added
 --------------------------------------------------------------------------------------------
 - Finally added persistent settings in the form of the settings.json file.
-    - IT WILL NOT UPDATE WHEN YOU CHANGE SETTINGS IN APP
-    - It only loads data from that file, it doesn't save anything,
-      and you still have to manually update the data.
+    - It will also automatically save when changing settings in app.
     - This will allow easier backups for settings while updating
 - Uploaded a new updater
     - It has a graphical interface (although basic), that provides more information easier 
