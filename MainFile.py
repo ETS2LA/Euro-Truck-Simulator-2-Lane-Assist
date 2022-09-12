@@ -21,6 +21,8 @@ rightIndicator = 1
 leftIndicator = 2
 maximumControl = 0.2 # This changes the max control angle (between 0 and 1)
 controlSmoothness = 2 # How many smoothness iterations to do ((oldValue * smoothness + newValue) / smoothness + 1)
+# Debug settings
+printControlDebug = False
 
 # UI imports
 import tkinter as tk
@@ -55,6 +57,7 @@ def LoadSettings():
     global enableDisableButton
     global rightIndicator
     global leftIndicator
+    global printControlDebug
 
     # Open the file
     file = "settings.json"
@@ -70,6 +73,7 @@ def LoadSettings():
     enableDisableButton = data["controlSettings"]["enableDisableButton"]
     rightIndicator = data["controlSettings"]["rightIndicator"]
     leftIndicator = data["controlSettings"]["leftIndicator"]
+    printControlDebug = data["debugSettings"]["printControlDebug"]
 
 
 LoadSettings()
@@ -332,6 +336,9 @@ def ControllerThread():
                     LaneDetection.isIndicating = 0
                     gamepad.left_joystick_float(x_value_float = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis), y_value_float = 0)
                 gamepad.update()
+                if printControlDebug:
+                    print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)))
+                
                 oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
             else:
                 # If the lane assist is disabled we just input the default control.

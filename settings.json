@@ -29,5 +29,8 @@
             "previewOnTop": true,
             "computeGreenDots": true,
             "drawSteeringLine": true
+      },
+      "debugSettings": {
+            "printControlDebug": false
       }
 }
