@@ -13,6 +13,7 @@ settings = False
 settingsOpen = False
 disableLaneAssistWhenIndicating = True
 sensitivity = 500
+useDirectX = False
 # Default controller settings
 defaultControllerIndex = 0 # This can be changed if your desired controller is not always the first input device (ie. if you have multiple controllers, like a HOTAS setup)
 steeringAxis = 0
@@ -27,14 +28,15 @@ printControlDebug = False
 # UI imports
 import tkinter as tk
 from tkinter import Toplevel, ttk
+from tracemalloc import start
 
 # Image editing and processing
 from matplotlib.pyplot import draw
 import cv2
-from mss import mss
 import numpy as np
 from PIL import Image, ImageTk
 from torch import true_divide
+import mss
 
 # Gamepad
 import vgamepad as vg
@@ -58,6 +60,7 @@ def LoadSettings():
     global rightIndicator
     global leftIndicator
     global printControlDebug
+    global useDirectX
 
     # Open the file
     file = "settings.json"
@@ -74,6 +77,7 @@ def LoadSettings():
     rightIndicator = data["controlSettings"]["rightIndicator"]
     leftIndicator = data["controlSettings"]["leftIndicator"]
     printControlDebug = data["debugSettings"]["printControlDebug"]
+    useDirectX = data["screenCapture"]["useDirectX"]
 
 
 LoadSettings()
@@ -90,8 +94,6 @@ except:
 
 # Gamepad driver initialization
 gamepad = vg.VX360Gamepad()
-
-sct = mss()
 
 """
 Application functions.
@@ -347,8 +349,8 @@ def ControllerThread():
             
             time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crashing
         except Exception as ex:
-            print(ex.args)
-            print("Most likely fix : change your indicator and or enable/disable buttons.")
+            #print(ex.args)
+            #print("Most likely fix : change your indicator and or enable/disable buttons.")
             time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crashing
             pass
 
@@ -513,7 +515,7 @@ def OpenSettings():
 # Start the controller thread.
 controllerThread = threading.Thread(target=ControllerThread)
 controllerThread.start()
-
+sct = mss.mss()
 print("One second timer just to be sure the lane detection is ready")
 time.sleep(1)
 while True:
@@ -521,7 +523,7 @@ while True:
     """
     Main UI and control Loop
     """
-
+    startTime = time.time_ns()
     desiredControl = LaneDetection.difference / (sensitivity * 6) # The desired control is the difference between the center of the lane and the center of the screen.
     currentVal.set("Current Control : " + str(round(LaneDetection.difference, 2))) # Apply the current control to the current control slider.
     currentSlider.set(LaneDetection.difference)
@@ -530,16 +532,21 @@ while True:
         # This will signal the LaneDetection bridge to update the frame.
         try:
             LaneDetection.UpdateLanes(drawCircles.get())
+            fpsVal.set("LaneDetection FPS: " + str(round(1000000000/(time.time_ns() - startTime), 2)))
         except:
             # Incase for some reason raw data is not available.
             pass
-        
-        fpsVal.set("LaneDetection FPS: " + str(round(LaneDetection.fps, 2)))
-    else:
+    elif LaneDetection.showPreview:
         # If the lane detection is disabled then we will just show the original frame.
-        image = cv2.cvtColor(np.array(Image.frombytes('RGB', (LaneDetection.w,LaneDetection.h), sct.grab(LaneDetection.monitor).rgb)), cv2.COLOR_RGB2BGR)
+        if not useDirectX:
+            image = cv2.cvtColor(np.array(Image.frombytes('RGB', (LaneDetection.w,LaneDetection.h), sct.grab(LaneDetection.monitor).rgb)), cv2.COLOR_RGB2BGR)
+        else:
+            image = LaneDetection.camera.get_latest_frame()
         cv2.imshow("Detected lanes", cv2.putText(image, "Lane Assist is disabled", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2))
         fpsVal.set("LaneDetection FPS: Disabled")
+    else:
+        cv2.destroyAllWindows()
+        
     if(close):
         # Make sure the LaneDetection is closing with the program.
         LaneDetection.close = True
@@ -556,4 +563,5 @@ while True:
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
         exit()
+    
     root.update()

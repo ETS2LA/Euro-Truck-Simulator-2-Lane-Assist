@@ -4,12 +4,14 @@
             "width": 1280,
             "height": 720,
             "x": 0,
-            "y": 0
+            "y": 0,
+            "useDirectX": true,
+            "DXframerate": 30
       },
       "modelSettings": {
-            "modelPath": "models/tusimple_34.pth",
+            "modelPath": "tusimple_34.pth",
             "modelType": "tusimple",
-            "modelDepth": 34,
+            "modelDepth": "34",
             "useGPU": false
       },
       "controlSettings": {
@@ -21,13 +23,13 @@
             "rightIndicator": 5,
             "leftIndicator": 6,
             "maximumControl": 0.2,
-            "controlSmoothness": 2,
+            "controlSmoothness": 0,
             "disableLaneAssistWhenIndicating": true
       },
       "generalSettings": {
             "showPreview": true,
             "previewOnTop": true,
-            "computeGreenDots": true,
+            "computeGreenDots": false,
             "drawSteeringLine": true
       },
       "debugSettings": {

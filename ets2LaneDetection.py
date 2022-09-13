@@ -19,6 +19,8 @@ from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 # THEY WILL NOT UPDATE IF CHANGED HERE
 w, h = 1280, 720
 x, y = 0, 0
+useDirectX = False
+DXframerate = 0
 steeringOffset = -150
 showPreview = True
 previewOnTop = True
@@ -52,6 +54,9 @@ def LoadSettings():
     global h
     global x
     global y
+    global useDirectX
+    global DXframerate
+
     file = "settings.json"
     data = json.load(open(file))
     # Screen settings
@@ -59,6 +64,9 @@ def LoadSettings():
     h = data["screenCapture"]["height"]
     x = data["screenCapture"]["x"]
     y = data["screenCapture"]["y"]
+    useDirectX = data["screenCapture"]["useDirectX"]
+    DXframerate = data["screenCapture"]["DXframerate"]
+
     # Model settings
     model_path = data["modelSettings"]["modelPath"]
 
@@ -80,8 +88,21 @@ def LoadSettings():
 LoadSettings()
 
 # Do not change these.
-monitor = {'top': y, 'left': x, 'width': w, 'height': h}
-sct = mss()
+if not useDirectX:
+    monitor = {'top': y, 'left': x, 'width': w, 'height': h}
+    sct = mss()
+else:
+    import dxcam
+    
+    left, top = x, y
+    right, bottom = left + w, top + h
+    
+    monitor = (left,top,right,bottom)
+
+    camera = dxcam.create(region=monitor, output_color="BGR")
+    camera.start(target_fps=DXframerate)
+
+
 close = False
 isIndicating = 0 # 1 = Right, 2 = Left, 0 = None
 
@@ -158,10 +179,14 @@ def UpdateLanes(drawCircles):
     global difference
     global fps
     startTime = time.time_ns() # For FPS calculation
-    frame = np.array(Image.frombytes('RGB', (w,h), sct.grab(monitor).rgb)) # Get a new frame
-    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) # Convert to BGR (OpenCV uses BGR, rather than RGB)
+    if not useDirectX:
+        frame = np.array(Image.frombytes('RGB', (w,h), sct.grab(monitor).rgb)) # Get a new frame
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) # Convert to BGR (OpenCV uses BGR, rather than RGB)
+    else:
+        frame = camera.get_latest_frame() # Get a new frame
+
     # Detect the lanes
-    output_img = lane_detector.detect_lanes(frame, drawCircles)
+    output_img = lane_detector.detect_lanes(frame, drawCircles, False)
     try:
         # Compute the distance from the center of the screen to the average between lanes
         difference = (lane_detector.lanes_points[1][0][0] + lane_detector.lanes_points[2][0][0]) / 2
@@ -208,9 +233,10 @@ def UpdateLanes(drawCircles):
             cv2.line(output_img, (int(w/2 + steeringOffset), drivingPoints[0][1]), (drivingPoints[0][0], drivingPoints[0][1]), (0, 0, 255), 2)
         except:
             pass
+    
     endTime = time.time_ns()
     fps = 1000000000 / (endTime - startTime)
-    cv2.putText(output_img, "FPS : " + str(round(fps, 0)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2) # Overlay FPS on the image.
+    # cv2.putText(output_img, "FPS : " + str(round(fps, 0)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2) # Overlay FPS on the image.
     # Tell the user if we are indicating left or right.
     if(isIndicating == 1):
         cv2.putText(output_img, "Indicating Right", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
@@ -221,6 +247,7 @@ def UpdateLanes(drawCircles):
         cv2.imshow("Detected lanes", output_img)
     else:
         cv2.destroyAllWindows()
+        
     if cv2.waitKey(1) & 0xFF == ord('q') or close:
         exit()
 
