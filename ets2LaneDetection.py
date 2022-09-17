@@ -108,8 +108,9 @@ isIndicating = 0 # 1 = Right, 2 = Left, 0 = None
 
 # Initialize lane detection model with default settings
 try:
-    lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=useGPUByDefault, modelDepth = model_depth)
-except:
+    lane_detector = UltrafastLaneDetector("models/" + model_path, model_type, use_gpu=useGPUByDefault, modelDepth = model_depth)
+except Exception as e:
+    print(e.args)
     print("Default model not installed, please select one in the settings")
 
 

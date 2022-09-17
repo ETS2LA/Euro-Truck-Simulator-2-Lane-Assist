@@ -3,8 +3,8 @@
       "screenCapture": {
             "width": 1280,
             "height": 720,
-            "x": 0,
-            "y": 0,
+            "x": 1900,
+            "y": 200,
             "useDirectX": true,
             "DXframerate": 30
       },
@@ -12,12 +12,13 @@
             "modelPath": "tusimple_34.pth",
             "modelType": "tusimple",
             "modelDepth": "34",
-            "useGPU": false
+            "useGPU": true
       },
       "controlSettings": {
+            "experimentalLogitechSupport": true,
             "steeringOffset": -150,
             "sensitivity": 500,
-            "defaultControllerIndex": 0,
+            "defaultControllerIndex": 3,
             "steeringAxis": 0,
             "enableDisableButton": 24,
             "rightIndicator": 5,
@@ -33,6 +34,6 @@
             "drawSteeringLine": true
       },
       "debugSettings": {
-            "printControlDebug": false
+            "printControlDebug": true
       }
 }

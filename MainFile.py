@@ -16,6 +16,7 @@ sensitivity = 500
 useDirectX = False
 # Default controller settings
 defaultControllerIndex = 0 # This can be changed if your desired controller is not always the first input device (ie. if you have multiple controllers, like a HOTAS setup)
+useLogitech = 0
 steeringAxis = 0
 enableDisableButton = 5
 rightIndicator = 1
@@ -61,6 +62,7 @@ def LoadSettings():
     global leftIndicator
     global printControlDebug
     global useDirectX
+    global useLogitech
 
     # Open the file
     file = "settings.json"
@@ -68,6 +70,7 @@ def LoadSettings():
 
     # Set settings
     sensitivity = data["controlSettings"]["sensitivity"]
+    useLogitech = data["controlSettings"]["experimentalLogitechSupport"]
     maximumControl = data["controlSettings"]["maximumControl"]
     controlSmoothness = data["controlSettings"]["controlSmoothness"]
     disableLaneAssistWhenIndicating = data["controlSettings"]["disableLaneAssistWhenIndicating"]
@@ -82,18 +85,6 @@ def LoadSettings():
 
 LoadSettings()
 
-# Pygame initialization
-# and gamepad detection
-pygame.display.init()
-pygame.joystick.init()
-joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
-try:
-    wheel = pygame.joystick.Joystick(defaultControllerIndex)
-except:
-    print("No input devices connected")
-
-# Gamepad driver initialization
-gamepad = vg.VX360Gamepad()
 
 """
 Application functions.
@@ -216,7 +207,7 @@ big_frame.pack(fill="both", expand=True, padx=10, pady=10)
 # Draw the logo, and check if it has been deleted
 try:
     logo = Image.open("LaneAssistLogoWide.jpg")
-    logo = logo.resize((500,300), Image.ANTIALIAS)
+    logo = logo.resize((500,300), Image.Resampling.LANCZOS)
     logo = ImageTk.PhotoImage(logo)
     panel = tk.Label(root, image = logo)
     panel.pack(side = "bottom", fill = "both", expand = "yes")
@@ -244,6 +235,47 @@ AddButton("Toggle Enable", ToggleEnable, big_frame)
 AddButton("Settings", OpenSettings, big_frame)
 AddButton("Exit", OnClosing, big_frame)
 
+root.update()
+
+# Pygame initialization
+# and gamepad detection
+pygame.display.init()
+pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+try:
+    wheel = pygame.joystick.Joystick(defaultControllerIndex)
+except:
+    print("No input devices connected")
+# Gamepad driver initialization
+gamepad = vg.VX360Gamepad()
+
+# Get the logitech wheel information
+# This code is mosly from the documentation
+if useLogitech:
+    import logitech_steering_wheel as lsw
+    import pygetwindow as gw
+    # Apparently it needs a window?
+    window_handle = gw.getActiveWindow()._hWnd
+    initialized = lsw.initialize_with_window(ignore_x_input_controllers=True, hwnd=window_handle)
+    
+    print("Logitech SDK version is: " + str(lsw.get_sdk_version()))
+    connected = lsw.is_device_connected(defaultControllerIndex, lsw.DeviceType.WHEEL)
+    lsw.update()
+    if connected:
+        print("Logitech wheel on index {} : connected".format(defaultControllerIndex))
+        print("Logitech wheel on index {} has force feedback : ".format(defaultControllerIndex) + str(lsw.has_force_feedback(defaultControllerIndex)))
+        print("Testing force feedback...")
+        lsw.play_constant_force(defaultControllerIndex, 20)
+        for i in range(0, 30):
+            time.sleep(.1)
+            lsw.update()
+            data = lsw.get_state(defaultControllerIndex)
+            print("Playing force feedback for {} seconds".format(round(2.9-i/10, 1)) + " Current angle : " + str(data.lX / 32768 * 900)+ "\r", end='')
+        lsw.stop_constant_force(defaultControllerIndex)
+        print("\nForce feedback test complete")
+    else:
+        print("Logitech Steering Wheel not found")
+    
 # I like to put all my variables outside the function
 # these should not be changed.
 desiredControl = 0
@@ -252,7 +284,6 @@ IndicatingRight = False
 IndicatingLeft = False
 lastIndicatingRight = False
 lastIndicatingLeft = False
-
 def ControllerThread():
     """
     This is the function we assing to another thread.
@@ -338,15 +369,27 @@ def ControllerThread():
                     LaneDetection.isIndicating = 0
                     gamepad.left_joystick_float(x_value_float = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis), y_value_float = 0)
                 gamepad.update()
-                if printControlDebug:
-                    print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)))
-                
+                if useLogitech:
+                    data = lsw.get_state(defaultControllerIndex)
+                    currentLogitechAngle = data.lX/32768
+                    desiredAngle = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
+                    if currentLogitechAngle > desiredAngle:
+                        lsw.play_constant_force(defaultControllerIndex, 10)
+                    elif currentLogitechAngle < desiredAngle:
+                        lsw.play_constant_force(defaultControllerIndex, -10)
+                    else:
+                        lsw.stop_constant_force(defaultControllerIndex)
+                    
+                    if printControlDebug:
+                        print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + " Wheel : " + str(currentLogitechAngle) + "                          \r", end="")
+                elif printControlDebug:
+                    print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + "\r", end="")
                 oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
             else:
                 # If the lane assist is disabled we just input the default control.
                 gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
                 gamepad.update()
-            
+
             time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crashing
         except Exception as ex:
             #print(ex.args)

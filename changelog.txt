@@ -1,3 +1,21 @@
+Update Major V0.2 - 28.8.2022
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a new type of screencapture, DxCam. This should hopefully fix some issues related to mss.
+    - Please note, that this is only available on windows.
+- Overhauled the entire UI to run in a different thread and to use CustomTkinter.
+- Added options for customizing the lane detection preview.
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed a bug with loading the default model
+- Fixed a multitude of problems resulting in increased cpu usage.
+- The lane detection preview now correctly closes when toggled off.
+
+
+
+
 Update Minor V0.1.6 - 20.8.2022
 
 Fixed
