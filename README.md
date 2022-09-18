@@ -11,7 +11,7 @@ In addition to ibaiGorordo for his [example scripts for Pytorch](https://github.
 
 It is important to note that in the video I overlayed the laneAssist window on top of ETS2, unfortunately I do not yet know how to get it on top without messing with the screen capture.
 
-> For feature requests please go to the [Trello}(https://trello.com/b/zkMRzdjN/euro-truck-simulator-2-lane-assist) or add a github issue.
+> For feature requests please go to the [Trello](https://trello.com/b/zkMRzdjN/euro-truck-simulator-2-lane-assist) or add a github issue.
 
 > It is recommended to use the installation video. If that does not work then you can read the written instructions here.
 
