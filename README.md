@@ -59,7 +59,7 @@ Other requirements can be installed with pip like this (if you have > python 3.1
 > pip3 install -r requirements.txt
 
 # Lane Detection models
-> The recommended model is TuSimple34. It can be downloaded [here](https://entuedu-my.sharepoint.com/personal/n1906798f_e_ntu_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fn1906798f%5Fe%5Fntu%5Fedu%5Fsg%2FDocuments%2FUltra%2DFast%2DLane%2DDetection%5Fweights&ga=1) (credit to [Adorable Jiang](https://github.com/AdorableJiang))
+> The recommended model is TuSimple34. It can be downloaded [here](https://github.com/cfzd/Ultra-Fast-Lane-Detection/issues/270) (credit to [Adorable Jiang](https://github.com/AdorableJiang))
 
 In addition to the normal requirements this application requires a lane detection model to work.
 [This](https://github.com/cfzd/Ultra-Fast-Lane-Detection/issues/270) is a new deeper model from Adorable Jiang. These models will run slower but work better, I have added support for these so it is your choice if you want these or the originals.
