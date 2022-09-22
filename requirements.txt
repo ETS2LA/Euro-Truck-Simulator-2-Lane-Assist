@@ -8,3 +8,4 @@ tk
 vgamepad
 pygame
 dxcam
+streamlit

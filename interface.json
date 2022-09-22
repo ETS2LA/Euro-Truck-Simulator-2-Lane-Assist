@@ -1,0 +1,8 @@
+{
+    "comment": "Do not change these, they are used by the app in runtime, you better go to settings.json.",
+    "enabled": false,
+    "preview": true,
+    "fps": 30,
+    "HQPreview": true,
+    "close": false
+}

@@ -27,7 +27,8 @@
             "disableLaneAssistWhenIndicating": true
       },
       "generalSettings": {
-            "showPreview": true,
+            "capturePreview": true,
+            "showHQPreview": true,
             "previewOnTop": true,
             "computeGreenDots": false,
             "drawSteeringLine": true
