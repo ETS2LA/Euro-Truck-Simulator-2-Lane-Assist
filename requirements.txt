@@ -10,3 +10,4 @@ pygame
 dxcam
 logitech-steering-wheel
 pygetwindow
+streamlit

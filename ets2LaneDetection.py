@@ -78,7 +78,7 @@ def LoadSettings():
     useGPUByDefault = data["modelSettings"]["useGPU"]
     # Lane assist settings
     steeringOffset = data["controlSettings"]["steeringOffset"]
-    showPreview = data["generalSettings"]["showPreview"]
+    showPreview = data["generalSettings"]["showHQPreview"]
     previewOnTop = data["generalSettings"]["previewOnTop"]
     computeGreenDots = data["generalSettings"]["computeGreenDots"]
     drawSteeringLine = data["generalSettings"]["drawSteeringLine"]
@@ -176,9 +176,11 @@ if(previewOnTop):
 # these should not be changed.  
 difference = 0
 fps = 0
+image = None
 def UpdateLanes(drawCircles):
     global difference
     global fps
+    global image
     startTime = time.time_ns() # For FPS calculation
     if not useDirectX:
         frame = np.array(Image.frombytes('RGB', (w,h), sct.grab(monitor).rgb)) # Get a new frame
@@ -244,6 +246,7 @@ def UpdateLanes(drawCircles):
     if(isIndicating == 2):
         cv2.putText(output_img, "Indicating Left", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     # Show preview
+    image = output_img
     if(showPreview):
         cv2.imshow("Detected lanes", output_img)
     else:

@@ -25,6 +25,7 @@ maximumControl = 0.2 # This changes the max control angle (between 0 and 1)
 controlSmoothness = 2 # How many smoothness iterations to do ((oldValue * smoothness + newValue) / smoothness + 1)
 # Debug settings
 printControlDebug = False
+preview = None
 
 # UI imports
 import tkinter as tk
@@ -63,12 +64,14 @@ def LoadSettings():
     global printControlDebug
     global useDirectX
     global useLogitech
+    global preview
 
     # Open the file
     file = "settings.json"
     data = json.load(open(file))
 
     # Set settings
+    preview = data["generalSettings"]["capturePreview"]
     sensitivity = data["controlSettings"]["sensitivity"]
     useLogitech = data["controlSettings"]["experimentalLogitechSupport"]
     maximumControl = data["controlSettings"]["maximumControl"]
@@ -191,51 +194,7 @@ def ChangeModel(model, useGPU):
     LaneDetection.ChangeModel(model, useGPU)
 
 
-"""
-Main UI
-"""
 
-width = 500
-height = 510
-
-# This initializes the Main UI tkinter window
-root = tk.Tk() # The main window
-root.geometry(str(width) + "x" + str(height))
-big_frame = ttk.Frame(root) # A frame in that window
-big_frame.pack(fill="both", expand=True, padx=10, pady=10)
-
-# Draw the logo, and check if it has been deleted
-try:
-    logo = Image.open("LaneAssistLogoWide.jpg")
-    logo = logo.resize((500,300), Image.Resampling.LANCZOS)
-    logo = ImageTk.PhotoImage(logo)
-    panel = tk.Label(root, image = logo)
-    panel.pack(side = "bottom", fill = "both", expand = "yes")
-except:
-    print("Logo not found")
-    pass
-
-# Set the desired theme
-root.tk.call("source", "sun-valley.tcl")
-root.tk.call("set_theme", "dark")
-root.protocol("WM_DELETE_WINDOW", OnClosing)
-root.title("ETS2 Lane Assist")
-
-# Add the fps values up top
-fpsVal = AddLabel("Video FPS: To be determined", big_frame)
-
-# Add a visualizer to tell what the program is doing
-currentVal = AddLabel("Control: To be determined", big_frame)
-currentSlider = ttk.Scale(big_frame, from_=-500, to=500, orient=tk.HORIZONTAL, length=width)
-currentSlider.pack()
-
-# Add all of the main buttons
-AddButton("Toggle Preview", TogglePreview, big_frame)
-AddButton("Toggle Enable", ToggleEnable, big_frame)
-AddButton("Settings", OpenSettings, big_frame)
-AddButton("Exit", OnClosing, big_frame)
-
-root.update()
 
 # Pygame initialization
 # and gamepad detection
@@ -307,6 +266,9 @@ def ControllerThread():
 
     while True:
 
+        # Makes sure the thread will close if the program is closed.
+        if(close): break
+
         # This kind of if, elif statement converts the presses of the indicator to
         # a constant on/off value.
         if disableLaneAssistWhenIndicating:
@@ -334,8 +296,6 @@ def ControllerThread():
                 lastIndicatingRight = True
                 IndicatingRight = True
 
-        # Makes sure the thread will close if the program is closed.
-        if(close): break
         try:
             pygame.event.pump() # Update the controller values
             
@@ -398,19 +358,6 @@ def ControllerThread():
             pass
 
 
-"""
-Settings UI
-"""
-
-# This will be assinged by the program
-# don't change it.
-settingsWindow = None
-
-def CloseSettings():
-    global settings
-    global settingsWindow
-    settingsWindow.destroy()
-    settings = False
 
 def UpdateControllersForMenu(menu, menuText, axisMenu, axisVar, buttonMenu, buttonVar):
     # This function will update the controller selection menu and the axis and button selection menu.
@@ -427,155 +374,39 @@ def UpdateControllersForMenu(menu, menuText, axisMenu, axisVar, buttonMenu, butt
         print("Can't update controller selection menu, no controllers present.")
         pass # Fallback for no controllers
 
-# I like to put all my variables outside the function
-# these should not be changed.  
-axisSlider = None
-runs = 0
-drawCircles = None
-settingsWidth = 550
-settingsHeight = 300
-
-def OpenSettings():
-    global runs
-    global root
-    global settingsWindow
-    global axisSlider
-    global drawCircles
-    global settingsHeight
-    global settingsWidth
-    
-    # Don't log runs too far, eventually it will cause problems.
-    if runs < 10:
-        runs += 1
-
-    # Initialize the main settings window.
-    settingsWindow = Toplevel(root)
-    settingsWindow.title = "Settings"
-    settingsWindow.geometry(str(settingsWidth) + "x" + str(settingsHeight))
-    settingsWindow.protocol("WM_DELETE_WINDOW", CloseSettings) # When closing settings we call this function.
-
-    tabs = ttk.Notebook(settingsWindow) # Handle the settings window tabs.
-
-    """
-    Entry is a text entry box.
-    Button is obviously a button.
-    Label is a normal text label.
-    """
-
-    # General Tab
-    generalFrame = ttk.Frame(tabs) # Make the general tab frame
-    tabs.add(generalFrame, text="General") # and add it to the tabs.
-    dimensionEntry = AddEntry("Width and Height of the video feed (not recommended to change). Current : ", generalFrame)
-    positionEntry = AddEntry("Position of the video feed. Current : ", generalFrame)
-    AddButton("Change Video Settings", lambda: ChangeVideoDimensions(dimensionEntry.get(), positionEntry.get()), generalFrame)
-    sensitivityEntry = AddEntry("Sensitivity of lane assist. Current : ", generalFrame)
-    steeringOffsetEntry = AddEntry("Steering offset of lane assist. Current : ", generalFrame)
-    AddButton("Change Lane Assist Settings", lambda: ChangeLaneAssist(sensitivityEntry.get(), steeringOffsetEntry.get()), generalFrame)
-    # Make the toggle for drawing raw lane data.
-    drawCircles = tk.BooleanVar()
-    drawCircles.set(value=False)
-    circles = ttk.Checkbutton(generalFrame, text="Show raw lane data", width=100, variable=drawCircles, offvalue=False, onvalue=True)
-    circles.pack()
-
-    # Update the options with default information on the first run.
-    if(runs == 1):
-        dimensionEntry.insert(0, "Width and Height of the video feed (not recommended to change). Current : " + str(LaneDetection.w) + "x" + str(LaneDetection.h))
-        positionEntry.insert(0, "Position of the video feed. Current : " + str(LaneDetection.x) + "x" + str(LaneDetection.y))
-        sensitivityEntry.insert(0, "Sensitivity of lane assist. Current : " + str(sensitivity))
-        steeringOffsetEntry.insert(0, "Steering offset of lane assist. Current : " + str(LaneDetection.steeringOffset))
-
-    # Controller Tab
-
-    # Make all default variables
-    axisVar = tk.StringVar()
-    axisMenu = tk.Menu()
-    buttonVar = tk.StringVar()
-    buttonMenu = tk.Menu()
-    rightIndicatorVar = tk.StringVar()
-    rightIndicatorMenu = tk.Menu()
-    leftIndicatorVar = tk.StringVar()
-    leftIndicatorMenu = tk.Menu()
-    controllerVar = tk.StringVar()
-    controllerMenu = tk.Menu(postcommand=lambda: UpdateControllersForMenu(controllerMenu, controllerVar, axisMenu, axisVar, buttonMenu, buttonVar)) # When opening the menu it will update all controllers.
-
-    controllerFrame = ttk.Frame(tabs) # Make the controller tab frame
-    tabs.add(controllerFrame, text="Controller") # and add it to the tabs.
-    
-    # Make all the menubuttons, I did not write a function for some reason.
-    controllers = ttk.Menubutton(controllerFrame, textvariable=controllerVar, width=100, menu=controllerMenu)
-    controllers.pack()
-    axis = ttk.Menubutton(controllerFrame, textvariable=axisVar, width=100, menu=axisMenu)
-    axis.pack()
-    axisSlider = ttk.Scale(controllerFrame, from_=-1, to=1, orient=tk.HORIZONTAL, length=width)
-    axisSlider.pack()
-    buttons = ttk.Menubutton(controllerFrame, textvariable=buttonVar, width=100, menu=buttonMenu)
-    buttons.pack()
-    leftIndicators = ttk.Menubutton(controllerFrame, textvariable=leftIndicatorVar, width=100, menu=leftIndicatorMenu)
-    leftIndicators.pack()
-    rightIndicators = ttk.Menubutton(controllerFrame, textvariable=rightIndicatorVar, width=100, menu=rightIndicatorMenu)
-    rightIndicators.pack()
-
-    # Update the options with default information on the first run.
-    if(runs == 1):
-        for x in range(len(joysticks)):
-            controllerMenu.add_command(label=joysticks[x].get_name(), command=lambda x=x: ChangeController(x, controllerVar, axisMenu, axisVar, buttonMenu, buttonVar))
-
-        for x in range(wheel.get_numaxes()):
-            axisMenu.add_command(label="Axis : " + str(x), command=lambda x=x: ChangeAxis(x, axisVar))
-
-        for x in range(wheel.get_numbuttons()):
-            buttonMenu.add_command(label="Button : " + str(x), command=lambda x=x: ChangeButton(x, buttonVar))
-        
-        for x in range(wheel.get_numbuttons()):
-            leftIndicatorMenu.add_command(label="Left Indicator Button : " + str(x), command=lambda x=x: ChangeLeftIndicator(x, leftIndicatorVar))
-        
-        for x in range(wheel.get_numbuttons()):
-            rightIndicatorMenu.add_command(label="Right Indicator Button : " + str(x), command=lambda x=x: ChangeRightIndicator(x, rightIndicatorVar))
-
-        rightIndicatorVar.set("Right Indicator Button : " + str(rightIndicator))
-        leftIndicatorVar.set("Left Indicator Button : " + str(leftIndicator))
-        buttonVar.set("Button : " + str(enableDisableButton))
-        controllerVar.set("Controller : " + wheel.get_name())
-        axisVar.set("Axis : " + str(steeringAxis))
-
-    # Model tab
-    modelFrame = ttk.Frame(tabs) # Make the model tab frame
-    tabs.add(modelFrame, text="Model") # and add it to the tabs.
-    # Make the two model options and an apply button.
-    modelEntry = AddEntry("Model to use (see github). Current : ", modelFrame)
-    useGPUVar = tk.BooleanVar()
-    useGPU = ttk.Checkbutton(modelFrame, text="Use GPU", variable=useGPUVar, offvalue=False, onvalue=True)
-    useGPU.pack()
-    AddButton("Change Model", lambda: ChangeModel(modelEntry.get(), useGPUVar), modelFrame) # When pressed, change the model.
-    
-    # Update the options with default information on the first run.
-    if(runs == 1):
-        modelEntry.insert(0, "Model to use (see github). Current : " + LaneDetection.model_path.replace("models/", ""))
-
-    # Apply the tabs to the settings window.
-    tabs.pack(fill="both", expand=True)
 
 # Start the controller thread.
 controllerThread = threading.Thread(target=ControllerThread)
 controllerThread.start()
+image = None
 sct = mss.mss()
 print("One second timer just to be sure the lane detection is ready")
 time.sleep(1)
+lastImageUpdate = time.time()
 while True:
-
     """
     Main UI and control Loop
     """
+    try:
+        with open("interface.json", "r") as f:
+            data = json.load(f)
+            enabled = data["enabled"]
+            LaneDetection.showPreview = data["HQPreview"]
+            preview = data["preview"]
+            if data["close"]:
+                close = True
+                break
+    except:
+        pass
+
     startTime = time.time_ns()
     desiredControl = LaneDetection.difference / (sensitivity * 6) # The desired control is the difference between the center of the lane and the center of the screen.
-    currentVal.set("Current Control : " + str(round(LaneDetection.difference, 2))) # Apply the current control to the current control slider.
-    currentSlider.set(LaneDetection.difference)
 
     if(enabled):
         # This will signal the LaneDetection bridge to update the frame.
         try:
-            LaneDetection.UpdateLanes(drawCircles.get())
-            fpsVal.set("LaneDetection FPS: " + str(round(1000000000/(time.time_ns() - startTime), 2)))
+            LaneDetection.UpdateLanes()
+            image = LaneDetection.image
         except:
             # Incase for some reason raw data is not available.
             pass
@@ -585,26 +416,32 @@ while True:
             image = cv2.cvtColor(np.array(Image.frombytes('RGB', (LaneDetection.w,LaneDetection.h), sct.grab(LaneDetection.monitor).rgb)), cv2.COLOR_RGB2BGR)
         else:
             image = LaneDetection.camera.get_latest_frame()
+        
+        if time.time() - lastImageUpdate > 0.5:
+            cv2.imwrite("temp.png", image)
+            lastImageUpdate = time.time()
+        
         cv2.imshow("Detected lanes", cv2.putText(image, "Lane Assist is disabled", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2))
-        fpsVal.set("LaneDetection FPS: Disabled")
+    elif preview:
+        if time.time() - lastImageUpdate > 0.5:
+            image = cv2.cvtColor(np.array(Image.frombytes('RGB', (LaneDetection.w,LaneDetection.h), sct.grab(LaneDetection.monitor).rgb)), cv2.COLOR_RGB2BGR)
+            cv2.imwrite("temp.png", image)
+            lastImageUpdate = time.time()
+        cv2.destroyAllWindows()
     else:
         cv2.destroyAllWindows()
         
     if(close):
         # Make sure the LaneDetection is closing with the program.
         LaneDetection.close = True
-        break
+
     if(settings):
-        try:
-            axisSlider.set(wheel.get_axis(steeringAxis))
-        except: pass
         if(not settingsOpen):
             OpenSettings()
             settingsOpen = True
     else:
         settingsOpen = False
     
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord('q') or close:
         exit()
     
-    root.update()
