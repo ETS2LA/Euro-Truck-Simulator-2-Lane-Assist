@@ -1,35 +1,44 @@
+from doctest import debug_script
 import json
 import streamlit as st
 import threading
 import time
 import sys
+from PIL import ImageGrab
+import gc
+import webbrowser
 
+# Open the chrome browser
+
+
+# Get screen dimensions
+img = ImageGrab.grab()
+width, height = img.size
 
 # Setup the page and sidebar
-st.set_page_config(layout="wide")
-mode = st.sidebar.selectbox("Select mode", ["Information", "App Control Panel", "Show JSON", "Show UI Source code"])
+st.set_page_config(layout="centered")
 data = None
-image = None
 secondThread = None
 
 # These two functions start the lane detection
 def SecondThread():
-    global image
+    browser = webbrowser.get("windows-default")
+    browser.args = ["--app"]
+    browser.open("http://localhost:8501")
+    time.sleep(0.1)
     import MainFile
-    
-
+   
 secondThread = threading.Thread(target=SecondThread)
-secondThread.daemon = True
 secondThread.start()
-
 # Function to change settings in the json file
-def UpdateSettings(name, data, category):
+def UpdateSettings(category, name, data):
     with open("settings.json", "r") as f:
         settings = json.load(f)
     settings[category][name] = data
     with open("settings.json", "w") as f:
         f.truncate(0)
         json.dump(settings, f, indent=4)
+
 
 # Function to edit the interface values
 def UpdateInterface(name, value):
@@ -40,93 +49,89 @@ def UpdateInterface(name, value):
         f.truncate(0)
         json.dump(interface, f, indent=4)
 
+
+def GetSettings(category, name):
+    with open("settings.json", "r") as f:
+        settings = json.load(f)
+    return settings[category][name]
+
+# Helper function
 def ChangeBoolInInterface(name):
     if data[name] == True:
         UpdateInterface(name, False)
     else:
         UpdateInterface(name, True)
 
+
 # Update the json data
 def UpdateData():
     global data
-    with open("interface.json", "r") as f:
+    try:
+        f = open("interface.json", "r")
         data = json.load(f)
+        f.close()
+    except:
+        pass
 
 UpdateData()
+
 
 # Close the app gracefully
 def CloseApplication():
     UpdateInterface("close", True)
     time.sleep(0.5)
     UpdateInterface("close", False)
-    exception = st.exception(RuntimeError("You must close the command prompt to close the app."))
-    raise exception
+    chrome.quit()
+    exit()
 
-# Information page
-if mode == "Information":
-    col1, col2 = st.columns(2)
-    col2.image("LaneAssistLogoWide.jpg")
-    col1.title("Information")
-    col1.write("You can find the github source code for the app here https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist")
+def AddLines(number, base):
+    for i in range(number):
+        base.write("")
 
-# Main Page
-elif mode == "App Control Panel":
-    st.title("Control panel")
-    sideBar, preview = st.columns([1, 3])
-    general, video, model, controls = sideBar.tabs(["General", "Video", "Model", "Controls"])
-    
-    try:
-        with open("interface.json", "r") as f:
-            if json.load(f)["preview"] == False:
-                preview.error("Preview is disabled")
-            else:
-                preview.image("temp.png")
-    except Exception as e:
-        pass
 
-    # General options
-    general.button("Toggle Lane Assist", on_click=ChangeBoolInInterface, args=["enabled"])
-    if data["enabled"]:
-        general.success("Lane Assist is enabled")
-    else:
-        general.error("Lane Assist is disabled")
+# Main Control page
+st.title("Control panel")
+general, video, model, controls = st.tabs(["General", "Video", "Model", "Controls"])
 
-    general.button("Toggle Preview", on_click=ChangeBoolInInterface, args=["preview"])
-    if data["preview"]:
-        general.success("Preview is enabled")
-    else:
-        general.error("Preview is disabled")
 
-    general.button("HQ Preview", on_click=ChangeBoolInInterface, args=["HQPreview"])
-    if data["HQPreview"]:
-        general.success("High Quality Preview is enabled")
-    else:
-        general.error("High Quality Preview is disabled")
-
-    general.button("Close Application", on_click=CloseApplication)
-
-    # Video options
-    video.title("Video")
-
-    # Model options
-    model.title("Model")
-
-    # Controls options
-    controls.title("Controls")
-
-# JSON page
-elif mode == "Show JSON":
-    st.title("Settings.json")
-    st.write("You cannot edit the file here, edit the file directly in a text editor.")
-    st.json(json.load(open("settings.json")))
-
-# UI Source code page
-elif mode == "Show UI Source code":
-    st.title("Show UI Source code")
-    st.write("This is a Streamlit app")
-
-# Main Loop
-while True:
-    time.sleep(0.5)
-    UpdateData()
-    st.experimental_rerun()
+# General options
+general.button("Toggle Lane Assist", on_click=ChangeBoolInInterface, args=["enabled"])
+if data["enabled"]:
+    general.success("Lane Assist is enabled")
+else:
+    general.error("Lane Assist is disabled")
+general.button("Toggle Preview", on_click=ChangeBoolInInterface, args=["preview"])
+if data["preview"]:
+    general.success("Preview is enabled")
+else:
+    general.error("Preview is disabled")
+general.button("HQ Preview", on_click=ChangeBoolInInterface, args=["HQPreview"])
+if data["HQPreview"]:
+    general.success("High Quality Preview is enabled")
+else:
+    general.error("High Quality Preview is disabled")
+general.info("You will also have to close the prompt, when closing the program.")
+general.button("Close Application", on_click=CloseApplication)
+# Video options
+video.info("Screen dimensions are {}x{}".format(width, height))
+desiredWidth = video.number_input("Video Width", min_value=0, max_value=width, args=["videoWidth"])
+desiredHeight = video.number_input("Video Height", min_value=0, max_value=height, args=["videoHeight"])
+AddLines(4, video)
+video.info("Max values are {}x{}".format(width-desiredWidth, height-desiredHeight))
+desiredX = video.number_input("Video X", min_value=0, max_value=width-desiredWidth, args=["videoX"])
+desiredY = video.number_input("Video Y", min_value=0, max_value=height-desiredHeight, args=["videoY"])
+AddLines(4, video)
+video.info("DirectX is a brand new api utilizing windows specific features.\nFor compatibility reasons, I have left in MSS even though it is slower.\nFPS selector is not available for MSS.")
+screenCaptureMode = video.selectbox("Screen Capture Mode", ["DirectX (Windows, higher performace)", "MSS (Linux / Mac compatible)"], args=["screenCaptureMode"])
+if screenCaptureMode == "DirectX (Windows, higher performace)":
+    desiredFPS = video.number_input("Desired FPS", min_value=1, max_value=60, args=["desiredFPS"])
+    UpdateSettings("screenCapture", "useDirectX", True)
+    UpdateSettings("screenCapture", "DXframerate", desiredFPS)
+else:
+    desiredFPS = video.number_input("Desired FPS", min_value=1, max_value=60, args=["desiredFPS"], disabled=True)
+    UpdateSettings("screenCapture", "useDirectX", False)
+video.info("You will have to restart the application after changing the screen capture mode.")
+# Model options
+model.title("Model")
+# Controls options
+controls.title("Controls")

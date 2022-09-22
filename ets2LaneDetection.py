@@ -82,7 +82,7 @@ def LoadSettings():
     previewOnTop = data["generalSettings"]["previewOnTop"]
     computeGreenDots = data["generalSettings"]["computeGreenDots"]
     drawSteeringLine = data["generalSettings"]["drawSteeringLine"]
-    print("Successfully loaded all settings")
+    print("\033[92mSuccessfully loaded all settings \033[00m")
 
 
 LoadSettings()
@@ -111,7 +111,7 @@ try:
     lane_detector = UltrafastLaneDetector("models/" + model_path, model_type, use_gpu=useGPUByDefault, modelDepth = model_depth)
 except Exception as e:
     print(e.args)
-    print("Default model not installed, please select one in the settings")
+    print("\033[93mDefault model not installed, please select one in the settings\033[00m")
 
 
 

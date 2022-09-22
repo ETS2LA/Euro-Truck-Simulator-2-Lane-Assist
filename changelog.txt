@@ -4,8 +4,9 @@ Added
 --------------------------------------------------------------------------------------------
 - Added a new type of screencapture, DxCam. This should hopefully fix some issues related to mss.
     - Please note, that this is only available on windows.
-- Overhauled the entire UI to run in a different thread and to use CustomTkinter.
+- Overhauled the entire UI to run in a different thread and to a web based application framework called Streamlit.
 - Added options for customizing the lane detection preview.
+- Added colors to command prompt output.
 
 Fixed
 --------------------------------------------------------------------------------------------

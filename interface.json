@@ -3,6 +3,6 @@
     "enabled": false,
     "preview": true,
     "fps": 30,
-    "HQPreview": true,
+    "HQPreview": false,
     "close": false
 }

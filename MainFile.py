@@ -203,10 +203,17 @@ pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 try:
     wheel = pygame.joystick.Joystick(defaultControllerIndex)
-except:
-    print("No input devices connected")
+except Exception as e:
+    print(e.args)
+    print("\033[91mNo input devices connected \033[00m")
+
 # Gamepad driver initialization
-gamepad = vg.VX360Gamepad()
+try:
+    gamepad = vg.VX360Gamepad()
+except Exception as e:
+    print(e.args)
+    print("\033[91mCouldn't connect to the VIGEM driver. Make sure it's installed\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/Python310/Lib/site-packages/vgamepad/win/install \033[00m")
+    exit()
 
 # Get the logitech wheel information
 # This code is mosly from the documentation
@@ -352,8 +359,8 @@ def ControllerThread():
 
             time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crashing
         except Exception as ex:
-            #print(ex.args)
-            #print("Most likely fix : change your indicator and or enable/disable buttons.")
+            print(ex.args)
+            print("Most likely fix : change your indicator and or enable/disable buttons.")
             time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crashing
             pass
 
@@ -371,7 +378,7 @@ def UpdateControllersForMenu(menu, menuText, axisMenu, axisVar, buttonMenu, butt
         for x in range(pygame.joystick.get_count()):
             menu.add_command(label=pygame.joystick.Joystick(x).get_name(), command=lambda x=x: ChangeController(x, menuText, axisMenu, axisVar, buttonMenu, buttonVar))
     except:
-        print("Can't update controller selection menu, no controllers present.")
+        print("\033[91mCan't update controller selection menu, no controllers present. \033[00m")
         pass # Fallback for no controllers
 
 
@@ -418,14 +425,14 @@ while True:
             image = LaneDetection.camera.get_latest_frame()
         
         if time.time() - lastImageUpdate > 0.5:
-            cv2.imwrite("temp.png", image)
+            #cv2.imwrite("temp.png", image)
             lastImageUpdate = time.time()
         
         cv2.imshow("Detected lanes", cv2.putText(image, "Lane Assist is disabled", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2))
     elif preview:
         if time.time() - lastImageUpdate > 0.5:
             image = cv2.cvtColor(np.array(Image.frombytes('RGB', (LaneDetection.w,LaneDetection.h), sct.grab(LaneDetection.monitor).rgb)), cv2.COLOR_RGB2BGR)
-            cv2.imwrite("temp.png", image)
+            #cv2.imwrite("temp.png", image)
             lastImageUpdate = time.time()
         cv2.destroyAllWindows()
     else:
