@@ -3,16 +3,16 @@
       "screenCapture": {
             "width": 1280,
             "height": 720,
-            "x": 1900,
-            "y": 300,
+            "x": 0,
+            "y": 0,
             "useDirectX": true,
-            "DXframerate": 60
+            "DXframerate": 30
       },
       "modelSettings": {
             "modelPath": "tusimple_34.pth",
             "modelType": "tusimple",
             "modelDepth": "34",
-            "useGPU": true
+            "useGPU": false
       },
       "controlSettings": {
             "experimentalLogitechSupport": false,
