@@ -168,6 +168,48 @@ def ChangeController(x, menuText, axisMenu, axisVar, buttonMenu, buttonVar):
     for x in range(wheel.get_numaxes()):
         axisMenu.add_command(label="Axis : " + str(x), command=lambda x=x: ChangeAxis(x, axisVar))
 
+def ChangeControllerSettingsFromFile():
+    global wheel
+    global rightIndicator
+    global leftIndicator
+    global enableDisableButton
+    global steeringAxis
+    global sensitivity
+    global maximumControl
+    global controlSmoothness
+    global disableLaneAssistWhenIndicating
+    global joysticks
+
+    # Open the file
+    with open("settings.json", "r") as file:
+        data = json.load(file)
+    
+    # Set settings
+    rightIndicator = data["controlSettings"]["rightIndicator"]
+    leftIndicator = data["controlSettings"]["leftIndicator"]
+    enableDisableButton = data["controlSettings"]["enableDisableButton"]
+    steeringAxis = data["controlSettings"]["steeringAxis"]
+    sensitivity = data["controlSettings"]["sensitivity"]
+    LaneDetection.steeringOffset = data["controlSettings"]["steeringOffset"]
+    maximumControl = data["controlSettings"]["maximumControl"]
+    controlSmoothness = data["controlSettings"]["controlSmoothness"]
+    disableLaneAssistWhenIndicating = data["controlSettings"]["disableLaneAssistWhenIndicating"]
+    
+    wheel = pygame.joystick.Joystick(data["controlSettings"]["defaultControllerIndex"])
+
+    with open("interface.json", "r") as f:
+        interface = json.load(f)
+    
+    interface["currentControllerButtons"] = joysticks[defaultControllerIndex].get_numbuttons()
+    interface["currentControllerAxes"] = joysticks[defaultControllerIndex].get_numaxes()
+
+    with open("interface.json", "w") as f:
+        f.truncate(0)
+        json.dump(interface, f, indent=4)
+
+    print("\033[92mController settings updated! \033[00m")
+
+
 # The next four serve the same purpose as the last one.
 def ChangeButton(x, menuText):
     global enableDisableButton
@@ -200,7 +242,26 @@ def ChangeModel(model, useGPU):
 # and gamepad detection
 pygame.display.init()
 pygame.joystick.init()
-joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+try:
+    joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+    joystickNames = []
+    for x in joysticks:
+        joystickNames.append(x.get_name())
+    
+    with open("interface.json", "r") as f:
+        interface = json.load(f)
+    
+    interface["controllers"] = joystickNames
+    interface["currentControllerButtons"] = joysticks[defaultControllerIndex].get_numbuttons()
+    interface["currentControllerAxes"] = joysticks[defaultControllerIndex].get_numaxes()
+
+    with open("interface.json", "w") as f:
+        f.truncate(0)
+        json.dump(interface, f, indent=4)
+
+except Exception as e:
+    print(e.args)
+    print("\033[91mError when loading gamepads \033[00m")
 try:
     wheel = pygame.joystick.Joystick(defaultControllerIndex)
 except Exception as e:
@@ -366,21 +427,6 @@ def ControllerThread():
 
 
 
-def UpdateControllersForMenu(menu, menuText, axisMenu, axisVar, buttonMenu, buttonVar):
-    # This function will update the controller selection menu and the axis and button selection menu.
-    try:
-        for x in range(pygame.joystick.get_count()):
-            menu.delete(0)
-    except:
-        pass # Fallback for no controllers
-    
-    try:
-        for x in range(pygame.joystick.get_count()):
-            menu.add_command(label=pygame.joystick.Joystick(x).get_name(), command=lambda x=x: ChangeController(x, menuText, axisMenu, axisVar, buttonMenu, buttonVar))
-    except:
-        print("\033[91mCan't update controller selection menu, no controllers present. \033[00m")
-        pass # Fallback for no controllers
-
 
 # Start the controller thread.
 controllerThread = threading.Thread(target=ControllerThread)
@@ -395,15 +441,47 @@ while True:
     Main UI and control Loop
     """
     try:
-        with open("interface.json", "r") as f:
+        with open("interface.json", "r+") as f:
             data = json.load(f)
-            enabled = data["enabled"]
-            LaneDetection.showPreview = data["HQPreview"]
-            preview = data["preview"]
-            if data["close"]:
-                close = True
-                break
-    except:
+        
+        enabled = data["enabled"]
+
+        LaneDetection.showPreview = data["preview"]
+        
+        if data["loadModel"]:
+            LaneDetection.LoadModelFromSettings()
+            with open("interface.json", "w") as f:
+                data["loadModel"] = False
+                f.truncate(0)
+                json.dump(data, f)
+
+        if data["updateCameraSettings"]:
+            LaneDetection.UpdateDXcam()
+            with open("interface.json", "w") as f:
+                data["updateCameraSettings"] = False
+                f.truncate(0)
+                json.dump(data, f)
+        
+        if data["updateGeneralSettings"]:
+            LaneDetection.LoadSettings(onlyGeneral=True)
+            with open("interface.json", "w") as f:
+                data["updateGeneralSettings"] = False
+                f.truncate(0)
+                json.dump(data, f)
+
+        if data["updateControls"]:
+            ChangeControllerSettingsFromFile()
+            with open("interface.json", "w") as f:
+                data["updateControls"] = False
+                f.truncate(0)
+                json.dump(data, f)
+        
+        if data["close"]:
+            close = True
+            break
+            
+    except Exception as e:
+        print(e.args)
         pass
 
     startTime = time.time_ns()
@@ -414,8 +492,9 @@ while True:
         try:
             LaneDetection.UpdateLanes()
             image = LaneDetection.image
-        except:
+        except Exception as e:
             # Incase for some reason raw data is not available.
+            print(e.args)
             pass
     elif LaneDetection.showPreview:
         # If the lane detection is disabled then we will just show the original frame.
@@ -424,17 +503,8 @@ while True:
         else:
             image = LaneDetection.camera.get_latest_frame()
         
-        if time.time() - lastImageUpdate > 0.5:
-            #cv2.imwrite("temp.png", image)
-            lastImageUpdate = time.time()
         
         cv2.imshow("Detected lanes", cv2.putText(image, "Lane Assist is disabled", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2))
-    elif preview:
-        if time.time() - lastImageUpdate > 0.5:
-            image = cv2.cvtColor(np.array(Image.frombytes('RGB', (LaneDetection.w,LaneDetection.h), sct.grab(LaneDetection.monitor).rgb)), cv2.COLOR_RGB2BGR)
-            #cv2.imwrite("temp.png", image)
-            lastImageUpdate = time.time()
-        cv2.destroyAllWindows()
     else:
         cv2.destroyAllWindows()
         
@@ -450,5 +520,6 @@ while True:
         settingsOpen = False
     
     if cv2.waitKey(1) & 0xFF == ord('q') or close:
+        del LaneDetection.camera
         exit()
     

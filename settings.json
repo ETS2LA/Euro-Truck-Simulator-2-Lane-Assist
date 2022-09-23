@@ -1,40 +1,44 @@
 {
-    "_comment": "Change the settings here, and they will be automatically updated on startup",
-    "screenCapture": {
-        "width": 1280,
-        "height": 720,
-        "x": 0,
-        "y": 0,
-        "useDirectX": true,
-        "DXframerate": 1
-    },
-    "modelSettings": {
-        "modelPath": "tusimple_34.pth",
-        "modelType": "tusimple",
-        "modelDepth": "34",
-        "useGPU": true
-    },
-    "controlSettings": {
-        "experimentalLogitechSupport": false,
-        "steeringOffset": -150,
-        "sensitivity": 500,
-        "defaultControllerIndex": 3,
-        "steeringAxis": 0,
-        "enableDisableButton": 1,
-        "rightIndicator": 2,
-        "leftIndicator": 3,
-        "maximumControl": 0.2,
-        "controlSmoothness": 0,
-        "disableLaneAssistWhenIndicating": true
-    },
-    "generalSettings": {
-        "capturePreview": true,
-        "showHQPreview": true,
-        "previewOnTop": true,
-        "computeGreenDots": false,
-        "drawSteeringLine": true
-    },
-    "debugSettings": {
-        "printControlDebug": true
-    }
+      "_comment": "Change the settings here, and they will be automatically updated on startup",
+      "screenCapture": {
+            "width": 1280,
+            "height": 720,
+            "x": 1900,
+            "y": 300,
+            "useDirectX": true,
+            "DXframerate": 60
+      },
+      "modelSettings": {
+            "modelPath": "tusimple_34.pth",
+            "modelType": "tusimple",
+            "modelDepth": "34",
+            "useGPU": true
+      },
+      "controlSettings": {
+            "experimentalLogitechSupport": false,
+            "steeringOffset": -150,
+            "sensitivity": 500,
+            "defaultControllerIndex": 1,
+            "steeringAxis": 1,
+            "enableDisableButton": 24,
+            "rightIndicator": 5,
+            "leftIndicator": 6,
+            "maximumControl": 0.2,
+            "controlSmoothness": 0,
+            "disableLaneAssistWhenIndicating": true,
+            "rightIndicatorButton": 5,
+            "leftIndicatorButton": 6
+      },
+      "generalSettings": {
+            "capturePreview": true,
+            "previewOnTop": true,
+            "computeGreenDots": false,
+            "drawSteeringLine": true,
+            "showLanePoints": true,
+            "fillLane": true,
+            "laneColor": "#22dcd2"
+      },
+      "debugSettings": {
+            "printControlDebug": true
+      }
 }

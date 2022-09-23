@@ -107,7 +107,7 @@ class UltrafastLaneDetector():
 
 		return img_transforms
 
-	def detect_lanes(self, image, draw_points=True, draw_poly=True):
+	def detect_lanes(self, image, draw_points=True, draw_poly=True, color=(255,191,0)):
 
 		input_tensor = self.prepare_input(image)
 
@@ -118,7 +118,7 @@ class UltrafastLaneDetector():
 		self.lanes_points, self.lanes_detected = self.process_output(output, self.cfg)
 
 		# Draw depth image
-		visualization_img = self.draw_lanes(image, self.lanes_points, self.lanes_detected, self.cfg, draw_points, draw_poly)
+		visualization_img = self.draw_lanes(image, self.lanes_points, self.lanes_detected, self.cfg, draw_points, draw_poly, color)
 
 		return visualization_img
 
@@ -180,7 +180,7 @@ class UltrafastLaneDetector():
 		return np.array(lanes_points), np.array(lanes_detected)
 	lanes_points = []
 	@staticmethod
-	def draw_lanes(input_img, allLanes, lanes_detected, cfg, draw_points=True, draw_poly=True):
+	def draw_lanes(input_img, allLanes, lanes_detected, cfg, draw_points=True, draw_poly=True, color=(255,191,0)):
 		global lanes_points
 		lanes_points = allLanes
 		# Write the detected line points in the image
@@ -189,7 +189,7 @@ class UltrafastLaneDetector():
 		# Draw a mask for the current lane
 		if(lanes_detected[1] and lanes_detected[2] and draw_poly):
 			lane_segment_img = visualization_img.copy()
-			cv2.fillPoly(lane_segment_img, pts = [np.vstack((lanes_points[1],np.flipud(lanes_points[2])))], color =(255,191,0))
+			cv2.fillPoly(lane_segment_img, pts = [np.vstack((lanes_points[1],np.flipud(lanes_points[2])))], color=color)
 			visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
 		
 		if(draw_points):
