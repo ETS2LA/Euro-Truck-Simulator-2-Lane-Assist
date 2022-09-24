@@ -194,7 +194,8 @@ def ChangeControllerSettingsFromFile():
     maximumControl = data["controlSettings"]["maximumControl"]
     controlSmoothness = data["controlSettings"]["controlSmoothness"]
     disableLaneAssistWhenIndicating = data["controlSettings"]["disableLaneAssistWhenIndicating"]
-    
+    defaultControllerIndex = data["controlSettings"]["defaultControllerIndex"]
+
     wheel = pygame.joystick.Joystick(data["controlSettings"]["defaultControllerIndex"])
 
     with open("interface.json", "r") as f:
@@ -207,6 +208,16 @@ def ChangeControllerSettingsFromFile():
         f.truncate(0)
         json.dump(interface, f, indent=4)
 
+    print("Right Indicator : " + str(rightIndicator))
+    print("Left Indicator : " + str(leftIndicator))
+    print("Enable/Disable Button : " + str(enableDisableButton))
+    print("Steering Axis : " + str(steeringAxis))
+    print("Sensitivity : " + str(sensitivity))
+    print("Steering Offset : " + str(LaneDetection.steeringOffset))
+    print("Maximum Control : " + str(maximumControl))
+    print("Control Smoothness : " + str(controlSmoothness))
+    print("Disable Lane Assist When Indicating : " + str(disableLaneAssistWhenIndicating))
+    print("Wheel : " + str(wheel.get_name()))
     print("\033[92mController settings updated! \033[00m")
 
 
@@ -231,12 +242,15 @@ def ChangeLeftIndicator(x, menuText):
     leftIndicator = x
     menuText.set("Left indicator : " + str(x))
 
-def ChangeModel(model, useGPU):
-    model = model.replace("Model to use (see github). Current : ", "")
-    LaneDetection.ChangeModel(model, useGPU)
 
 
-
+# Gamepad driver initialization
+try:
+    gamepad = vg.VX360Gamepad()
+except Exception as e:
+    print(e.args)
+    print("\033[91mCouldn't connect to the VIGEM driver. Make sure it's installed\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/Python310/Lib/site-packages/vgamepad/win/install \033[00m")
+    exit()
 
 # Pygame initialization
 # and gamepad detection
@@ -268,13 +282,6 @@ except Exception as e:
     print(e.args)
     print("\033[91mNo input devices connected \033[00m")
 
-# Gamepad driver initialization
-try:
-    gamepad = vg.VX360Gamepad()
-except Exception as e:
-    print(e.args)
-    print("\033[91mCouldn't connect to the VIGEM driver. Make sure it's installed\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/Python310/Lib/site-packages/vgamepad/win/install \033[00m")
-    exit()
 
 # Get the logitech wheel information
 # This code is mosly from the documentation
@@ -364,13 +371,21 @@ def ControllerThread():
                 lastIndicatingRight = True
                 IndicatingRight = True
 
+        # Enable and disable from the controller button.
+        if(wheel.get_button(enableDisableButton)):
+            with open("interface.json", "r") as f:
+                interface = json.load(f)
+            
+            with open("interface.json", "w") as f:
+                interface["enabled"] = not interface["enabled"]
+                f.truncate(0)
+                json.dump(interface, f, indent=4)
+            
+            time.sleep(0.3)
+
         try:
             pygame.event.pump() # Update the controller values
             
-            # Enable and disable from the controller button.
-            if(wheel.get_button(enableDisableButton)):
-                enabled = not enabled
-                time.sleep(0.3)
 
             # Main controller update loop.
             if(enabled):
@@ -385,10 +400,8 @@ def ControllerThread():
                     if(IndicatingRight):
                         gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
                         LaneDetection.isIndicating = 1
-                        print("Right")
                     elif(IndicatingLeft):
                         gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
-                        print("Left")
                         LaneDetection.isIndicating = 2
                     else:
                         LaneDetection.isIndicating = 0
@@ -418,11 +431,12 @@ def ControllerThread():
                 gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
                 gamepad.update()
 
-            time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crashing
+            time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
         except Exception as ex:
             print(ex.args)
+            print(ex)
             print("Most likely fix : change your indicator and or enable/disable buttons.")
-            time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crashing
+            time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
             pass
 
 
@@ -433,8 +447,6 @@ controllerThread = threading.Thread(target=ControllerThread)
 controllerThread.start()
 image = None
 sct = mss.mss()
-print("One second timer just to be sure the lane detection is ready")
-time.sleep(1)
 lastImageUpdate = time.time()
 while True:
     """

@@ -9,11 +9,13 @@
     "updateGeneralSettings": false,
     "controllers": [
         "PS4 Controller",
+        "Xbox 360 Controller",
         "Logitech G HUB G29 Driving Force Racing Wheel USB",
         "Saitek Pro Flight X-56 Rhino Stick",
         "vJoy Device"
     ],
     "currentControllerButtons": 25,
     "currentControllerAxes": 4,
-    "updateControls": false
+    "updateControls": false,
+    "uiRefreshes": 1
 }

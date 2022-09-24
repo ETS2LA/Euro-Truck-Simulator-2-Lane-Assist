@@ -21,12 +21,26 @@ availableModels = []
 modelFolderPath = "models"
 
 # These two functions start the lane detection
-def SecondThread():
+def MainFileThread():
     time.sleep(0.1)
     import MainFile
-   
-secondThread = threading.Thread(target=SecondThread)
-secondThread.start()
+
+
+
+with open("interface.json", "r") as f:
+    data = json.load(f)
+
+if data["uiRefreshes"] < 1:
+    mainFileThread = threading.Thread(target=MainFileThread)
+    mainFileThread.start()
+
+with open("interface.json", "w") as f:
+    data["uiRefreshes"] = data["uiRefreshes"] + 1
+    f.truncate(0)
+    json.dump(data, f, indent=4)
+
+
+
 # Function to change settings in the json file
 def UpdateSettings(category, name, data):
     with open("settings.json", "r") as f:
@@ -66,6 +80,7 @@ time.sleep(1)
 def UpdateData():
     global data
     global settings
+    global timesRun
     try:
         f = open("interface.json", "r")
         data = json.load(f)
@@ -96,6 +111,12 @@ def CloseApplication():
     UpdateInterface("close", True)
     time.sleep(0.5)
     UpdateInterface("close", False)
+    
+    with open("interface.json", "w") as f:
+        data["uiRefreshes"] = 0
+        f.truncate(0)
+        json.dump(data, f, indent=4)
+
     exit()
 
 def AddLines(number, base):
@@ -105,6 +126,9 @@ def AddLines(number, base):
 
 # Main Control page
 st.title("Control panel")
+col1, col2 = st.columns([1, 4])
+col1.button("Refresh UI")
+col2.info("The UI needs to be refreshed manually, this is a limitation of streamlit. The UI has had {} refreshes.".format(data["uiRefreshes"]))
 general, video, model, controls = st.tabs(["General", "Video", "Model", "Controls"])
 
 
