@@ -80,10 +80,10 @@ def CheckVersion():
             changeLogButton = AddButton("Change log", ShowChangeLog, root)
         # Check if the newest version is newer than the local version
     except:
-        newestVersionFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt")
+        newestVersionFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/version.txt".format(branch))
         newestVersion = open(newestVersionFile, "r").read().split(",")[0] + " from " + open(newestVersionFile, "r").read().split(",")[1]
         os.remove(newestVersionFile)
-        changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt")
+        changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/changelog.txt".format(branch))
         changeLog = open(changeLogFile, "r").read().split("Update")[1]
         os.remove(changeLogFile)
         currentLabel.set("Current version: " + "not installed")
