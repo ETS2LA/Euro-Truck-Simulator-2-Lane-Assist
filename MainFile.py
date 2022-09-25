@@ -340,106 +340,110 @@ def ControllerThread():
     global disableLaneAssistWhenIndicating
 
     while True:
-
-        # Makes sure the thread will close if the program is closed.
-        if(close): break
-
-        # This kind of if, elif statement converts the presses of the indicator to
-        # a constant on/off value.
-        if disableLaneAssistWhenIndicating:
-            if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
-                IndicatingRight = not IndicatingRight
-                lastIndicatingRight = True
-            elif(not wheel.get_button(rightIndicator)):
-                lastIndicatingRight = False
-            if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
-                IndicatingLeft = not IndicatingLeft
-                lastIndicatingLeft = True
-            elif(not wheel.get_button(leftIndicator)):
-                lastIndicatingLeft = False
-
-        # Make sure we can't indicate in both directions.
-        if disableLaneAssistWhenIndicating:
-            if(wheel.get_button(leftIndicator) and IndicatingRight):
-                IndicatingLeft = True
-                lastIndicatingLeft = True
-                lastIndicatingRight = False
-                IndicatingRight = False
-            elif(wheel.get_button(rightIndicator) and IndicatingLeft):
-                IndicatingLeft = False
-                lastIndicatingLeft = False
-                lastIndicatingRight = True
-                IndicatingRight = True
-
-        # Enable and disable from the controller button.
-        if(wheel.get_button(enableDisableButton)):
-            with open("interface.json", "r") as f:
-                interface = json.load(f)
-            
-            with open("interface.json", "w") as f:
-                interface["enabled"] = not interface["enabled"]
-                f.truncate(0)
-                json.dump(interface, f, indent=4)
-            
-            time.sleep(0.3)
-
         try:
-            pygame.event.pump() # Update the controller values
-            
+            # Makes sure the thread will close if the program is closed.
+            if(close): break
 
-            # Main controller update loop.
-            if(enabled):
-                # Clamp the control
-                if desiredControl > maximumControl:
-                    desiredControl = maximumControl
-                if desiredControl < -maximumControl:
-                    desiredControl = -maximumControl
-                
-                # If we are indicating, then disable the automatic control.
-                if disableLaneAssistWhenIndicating:
-                    if(IndicatingRight):
-                        gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
-                        LaneDetection.isIndicating = 1
-                    elif(IndicatingLeft):
-                        gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
-                        LaneDetection.isIndicating = 2
+            # This kind of if, elif statement converts the presses of the indicator to
+            # a constant on/off value.
+            if disableLaneAssistWhenIndicating:
+                if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
+                    IndicatingRight = not IndicatingRight
+                    lastIndicatingRight = True
+                elif(not wheel.get_button(rightIndicator)):
+                    lastIndicatingRight = False
+                if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
+                    IndicatingLeft = not IndicatingLeft
+                    lastIndicatingLeft = True
+                elif(not wheel.get_button(leftIndicator)):
+                    lastIndicatingLeft = False
+
+            # Make sure we can't indicate in both directions.
+            if disableLaneAssistWhenIndicating:
+                if(wheel.get_button(leftIndicator) and IndicatingRight):
+                    IndicatingLeft = True
+                    lastIndicatingLeft = True
+                    lastIndicatingRight = False
+                    IndicatingRight = False
+                elif(wheel.get_button(rightIndicator) and IndicatingLeft):
+                    IndicatingLeft = False
+                    lastIndicatingLeft = False
+                    lastIndicatingRight = True
+                    IndicatingRight = True
+
+            # Enable and disable from the controller button.
+            if(wheel.get_button(enableDisableButton)):
+                with open("interface.json", "r") as f:
+                    interface = json.load(f)
+
+                with open("interface.json", "w") as f:
+                    interface["enabled"] = not interface["enabled"]
+                    f.truncate(0)
+                    json.dump(interface, f, indent=4)
+
+                time.sleep(0.3)
+
+            try:
+                pygame.event.pump() # Update the controller values
+
+
+                # Main controller update loop.
+                if(enabled):
+                    # Clamp the control
+                    if desiredControl > maximumControl:
+                        desiredControl = maximumControl
+                    if desiredControl < -maximumControl:
+                        desiredControl = -maximumControl
+
+                    # If we are indicating, then disable the automatic control.
+                    if disableLaneAssistWhenIndicating:
+                        if(IndicatingRight):
+                            gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
+                            LaneDetection.isIndicating = 1
+                        elif(IndicatingLeft):
+                            gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
+                            LaneDetection.isIndicating = 2
+                        else:
+                            LaneDetection.isIndicating = 0
+                            gamepad.left_joystick_float(x_value_float = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis), y_value_float = 0)
                     else:
                         LaneDetection.isIndicating = 0
                         gamepad.left_joystick_float(x_value_float = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis), y_value_float = 0)
-                else:
-                    LaneDetection.isIndicating = 0
-                    gamepad.left_joystick_float(x_value_float = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis), y_value_float = 0)
-                gamepad.update()
-                if useLogitech:
-                    data = lsw.get_state(defaultControllerIndex)
-                    currentLogitechAngle = data.lX/32768
-                    desiredAngle = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
-                    if currentLogitechAngle > desiredAngle:
-                        lsw.play_constant_force(defaultControllerIndex, 10)
-                    elif currentLogitechAngle < desiredAngle:
-                        lsw.play_constant_force(defaultControllerIndex, -10)
-                    else:
-                        lsw.stop_constant_force(defaultControllerIndex)
-                    
-                    if printControlDebug:
-                        print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + " Wheel : " + str(currentLogitechAngle) + "                          \r", end="")
-                elif printControlDebug:
-                    print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + "\r", end="")
-                oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
-            else:
-                # If the lane assist is disabled we just input the default control.
-                gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
-                gamepad.update()
+                    gamepad.update()
+                    if useLogitech:
+                        data = lsw.get_state(defaultControllerIndex)
+                        currentLogitechAngle = data.lX/32768
+                        desiredAngle = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
+                        if currentLogitechAngle > desiredAngle:
+                            lsw.play_constant_force(defaultControllerIndex, 10)
+                        elif currentLogitechAngle < desiredAngle:
+                            lsw.play_constant_force(defaultControllerIndex, -10)
+                        else:
+                            lsw.stop_constant_force(defaultControllerIndex)
 
-            time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
+                        if printControlDebug:
+                            print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + " Wheel : " + str(currentLogitechAngle) + "                          \r", end="")
+                    elif printControlDebug:
+                        print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + "\r", end="")
+                    oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
+                else:
+                    # If the lane assist is disabled we just input the default control.
+                    gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
+                    gamepad.update()
+
+                time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
+            except Exception as ex:
+                print(ex.args)
+                print(ex)
+                print("Most likely fix : change your indicator and or enable/disable buttons.")
+                time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
+                pass
         except Exception as ex:
             print(ex.args)
             print(ex)
             print("Most likely fix : change your indicator and or enable/disable buttons.")
             time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
             pass
-
-
 
 
 # Start the controller thread.
