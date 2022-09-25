@@ -7,3 +7,7 @@ mss
 tk
 vgamepad
 pygame
+dxcam
+logitech-steering-wheel
+pygetwindow
+streamlit

@@ -1,3 +1,7 @@
+# THIS IS AN EXPERIMENTAL VERSION
+# Run pip install -r requirements.txt
+# Then run streamlit run AppUI.py
+
 ![Logo](LaneAssistLogoWide.jpg)
 # Lane Assist For ETS2 and ATS
 A lane assist, built with the ultra-fast-lane-detection model.

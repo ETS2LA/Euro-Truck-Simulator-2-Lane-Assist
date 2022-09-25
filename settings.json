@@ -4,33 +4,39 @@
             "width": 1280,
             "height": 720,
             "x": 0,
-            "y": 0
+            "y": 0,
+            "useDirectX": false,
+            "DXframerate": 30
       },
       "modelSettings": {
-            "modelPath": "models/tusimple_34.pth",
+            "modelPath": "tusimple_34.pth",
             "modelType": "tusimple",
-            "modelDepth": 34,
+            "modelDepth": "34",
             "useGPU": false
       },
       "controlSettings": {
+            "experimentalLogitechSupport": false,
             "steeringOffset": -150,
             "sensitivity": 500,
-            "defaultControllerIndex": 0,
+            "defaultControllerIndex": 2,
             "steeringAxis": 0,
-            "enableDisableButton": 24,
-            "rightIndicator": 5,
-            "leftIndicator": 6,
+            "enableDisableButton": 23,
+            "rightIndicator": 4,
+            "leftIndicator": 5,
             "maximumControl": 0.2,
-            "controlSmoothness": 2,
+            "controlSmoothness": 0,
             "disableLaneAssistWhenIndicating": true
       },
       "generalSettings": {
-            "showPreview": true,
+            "capturePreview": true,
             "previewOnTop": true,
-            "computeGreenDots": true,
-            "drawSteeringLine": true
+            "computeGreenDots": false,
+            "drawSteeringLine": true,
+            "showLanePoints": true,
+            "fillLane": true,
+            "laneColor": "#22dcd2"
       },
       "debugSettings": {
-            "printControlDebug": false
+            "printControlDebug": true
       }
 }
