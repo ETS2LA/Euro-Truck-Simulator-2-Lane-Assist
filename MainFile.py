@@ -276,6 +276,19 @@ try:
 except Exception as e:
     print(e.args)
     print("\033[91mError when loading gamepads \033[00m")
+
+    with open("interface.json", "r") as f:
+        interface = json.load(f)
+    
+    interface["controllers"] = []
+    interface["currentControllerButtons"] = 0
+    interface["currentControllerAxes"] = 0
+
+    with open("interface.json", "w") as f:
+        f.truncate(0)
+        json.dump(interface, f, indent=4)
+
+
 try:
     wheel = pygame.joystick.Joystick(defaultControllerIndex)
 except Exception as e:

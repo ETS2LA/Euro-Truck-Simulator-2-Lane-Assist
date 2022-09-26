@@ -1,4 +1,15 @@
-Update Major V0.2 - 28.8.2022
+Update Minor V0.2.1 - 26.9.2022
+
+PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed the controllers not updating
+
+
+
+
+Update Major V0.2 - 25.9.2022
 
 PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
 

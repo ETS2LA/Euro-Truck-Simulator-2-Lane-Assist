@@ -5,7 +5,7 @@
             "height": 720,
             "x": 0,
             "y": 0,
-            "useDirectX": false,
+            "useDirectX": true,
             "DXframerate": 30
       },
       "modelSettings": {
