@@ -18,11 +18,11 @@
             "experimentalLogitechSupport": false,
             "steeringOffset": -150,
             "sensitivity": 500,
-            "defaultControllerIndex": 2,
+            "defaultControllerIndex": 1,
             "steeringAxis": 0,
-            "enableDisableButton": 23,
-            "rightIndicator": 4,
-            "leftIndicator": 5,
+            "enableDisableButton": 17,
+            "rightIndicator": 0,
+            "leftIndicator": 0,
             "maximumControl": 0.2,
             "controlSmoothness": 0,
             "disableLaneAssistWhenIndicating": true
@@ -37,6 +37,6 @@
             "laneColor": "#22dcd2"
       },
       "debugSettings": {
-            "printControlDebug": true
+            "printControlDebug": false
       }
 }

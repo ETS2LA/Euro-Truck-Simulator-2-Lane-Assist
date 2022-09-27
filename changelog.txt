@@ -6,6 +6,7 @@ Added
 --------------------------------------------------------------------------------------------
 - Added a reset button so that manual resetting is not required
     - Thanks @Gustav Gaming on youtube
+- Error messages are now tied to the "printControlDebug" options
 
 
 

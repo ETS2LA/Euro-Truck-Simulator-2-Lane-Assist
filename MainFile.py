@@ -249,7 +249,7 @@ try:
     gamepad = vg.VX360Gamepad()
 except Exception as e:
     print(e.args)
-    print("\033[91mCouldn't connect to the VIGEM driver. Make sure it's installed\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/Python310/Lib/site-packages/vgamepad/win/install \033[00m")
+    print("\033[91mCouldn't connect to the VIGEM driver. Make sure it's installed\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/*Python Version*/Lib/site-packages/vgamepad/win/install \033[00m")
     exit()
 
 # Pygame initialization
@@ -446,15 +446,19 @@ def ControllerThread():
 
                 time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
             except Exception as ex:
-                print(ex.args)
-                print(ex)
-                print("Most likely fix : change your indicator and or enable/disable buttons.")
+                if printControlDebug:
+                    print(ex.args)
+                    print(ex)
+                    print("Most likely fix : change your indicator and or enable/disable buttons.")
+
                 time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
                 pass
         except Exception as ex:
-            print(ex.args)
-            print(ex)
-            print("Most likely fix : change your indicator and or enable/disable buttons.")
+            if printControlDebug:
+                    print(ex.args)
+                    print(ex)
+                    print("Most likely fix : change your indicator and or enable/disable buttons.")
+                    
             time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
             pass
 
