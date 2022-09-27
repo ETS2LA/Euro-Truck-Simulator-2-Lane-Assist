@@ -8,9 +8,12 @@
     "loadModel": false,
     "updateGeneralSettings": false,
     "controllers": [
+        "PS5 Controller",
+        "Xbox 360 Controller",
+        "vJoy Device"
     ],
-    "currentControllerButtons": 0,
-    "currentControllerAxes": 0,
+    "currentControllerButtons": 8,
+    "currentControllerAxes": 8,
     "updateControls": false,
-    "uiRefreshes": 0
+    "uiRefreshes": 1
 }

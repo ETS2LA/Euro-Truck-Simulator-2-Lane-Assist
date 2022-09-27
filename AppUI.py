@@ -1,5 +1,6 @@
 from doctest import debug_script
 import json
+from turtle import onclick
 import streamlit as st
 import threading
 import time
@@ -128,7 +129,8 @@ def AddLines(number, base):
 st.title("Control panel")
 col1, col2 = st.columns([1, 4])
 col1.button("Refresh UI")
-col2.info("The UI needs to be refreshed manually, this is a limitation of streamlit. The UI has had {} refreshes.".format(data["uiRefreshes"]))
+col1.button("Reset App", on_click=UpdateInterface, args=("uiRefreshes", 0))
+col2.info("The UI sometimes needs to be refreshed manually, this is a limitation of streamlit. The UI has had {} refreshes.".format(data["uiRefreshes"]))
 general, video, model, controls = st.tabs(["General", "Video", "Model", "Controls"])
 
 

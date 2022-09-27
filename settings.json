@@ -9,7 +9,7 @@
             "DXframerate": 30
       },
       "modelSettings": {
-            "modelPath": "tusimple_34.pth",
+            "modelPath": null,
             "modelType": "tusimple",
             "modelDepth": "34",
             "useGPU": false

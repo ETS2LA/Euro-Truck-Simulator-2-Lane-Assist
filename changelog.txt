@@ -1,3 +1,15 @@
+Update Minor V0.2.2 - 27.9.2022
+
+PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a reset button so that manual resetting is not required
+    - Thanks @Gustav Gaming on youtube
+
+
+
+
 Update Minor V0.2.1 - 26.9.2022
 
 PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
