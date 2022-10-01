@@ -1,3 +1,50 @@
+Update Minor V0.2.2 - 27.9.2022
+
+PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a reset button so that manual resetting is not required
+    - Thanks @Gustav Gaming on youtube
+- Error messages are now tied to the "printControlDebug" options
+
+
+
+
+Update Minor V0.2.1 - 26.9.2022
+
+PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed the controllers not updating
+
+
+
+
+Update Major V0.2 - 25.9.2022
+
+PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a new type of screencapture, DxCam. This should hopefully fix some issues related to mss like flickering on some systems.
+    - Please note, that this is only available on windows and mss will still be included.
+- Overhauled the entire UI to run in a different thread and to a web based application framework called Streamlit.
+    - This results in a more modern easy to understand UI, but with some caveats to responsiveness (it has to be written to json)
+- Added options for customizing the lane detection preview.
+    - Things like color, raw data, lane fill etc...
+- Added colors to command prompt output.
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed a bug with loading the default model
+- Fixed a multitude of problems resulting in increased cpu usage.
+- The lane detection preview now correctly closes when toggled off.
+
+
+
+
 Update Minor V0.1.6 - 20.8.2022
 
 Fixed
