@@ -5,7 +5,9 @@ from urllib.parse import urljoin, urlparse
 import urllib.request
 import zipfile
 import tkinter as tk
+from tkinter import ttk
 import webbrowser
+import sys
 
 def PrintGreen(text):
     print("\033[92m {}\033[00m" .format(text))
@@ -13,11 +15,14 @@ def PrintGreen(text):
 def PrintRed(text):
     print("\033[91m {}\033[00m" .format(text))
 
+def PrintBlue(text):
+    print("\033[94m {}\033[00m" .format(text))
+
 # Helper functions for tkinter
-def AddLabel(text, frame, font = "Calibri", size = 12, color = "white"):
+def AddLabel(text, frame, font = "Calibri", size = 12, color = "white", bg = "#1c1c1c"):
     labelVal = tk.StringVar()
     labelVal.set(text)
-    label = tk.Label(frame, textvariable=labelVal, fg=color, bg="#1c1c1c", font=(font, size))
+    label = tk.Label(frame, textvariable=labelVal, fg=color, bg=bg, font=(font, size))
     label.pack()
     return labelVal
 
@@ -37,9 +42,11 @@ hostname = "github.com" # For checking internet
 localVersion = 0
 newestVersion = 0
 changeLog = ""
-branch = "main"
-dest = "Euro-Truck-Simulator-2-Lane-Assist-{}".format(branch)
-
+availableBranches = ["main", "experimental", "updater"]
+selectedBranch = "main"
+dest = "Euro-Truck-Simulator-2-Lane-Assist-{}".format(selectedBranch)
+w = 250
+h = 300
 # Just so there are no errors
 newestLabel = 0
 currentLabel = 0
@@ -47,6 +54,8 @@ root = 0
 installButton = 0
 warningLabel = 0
 changeLogButton = 0
+progressBar = 0
+progressText = 0
 
 # Main Install Function
 def Install():
@@ -61,45 +70,73 @@ def CheckVersion():
     global warningLabel
     global changeLog
     global changeLogButton
-    try:
-        # Get local version
-        localVersion = open(os.path.dirname(os.path.abspath(__file__)) +"\\"+ dest + "\\version.txt", "r").read().split(",")[0] + " from " + open(os.path.dirname(os.path.abspath(__file__)) +"\\"+ dest + "\\version.txt", "r").read().split(",")[1]
-        # Check the newest version
-        newestVersionFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/version.txt".format(branch))
-        newestVersion = open(newestVersionFile, "r").read().split(",")[0] + " from " + open(newestVersionFile, "r").read().split(",")[1]
-        os.remove(newestVersionFile)
-        # Check the change log        
-        changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/changelog.txt".format(branch))
-        changeLog = open(changeLogFile, "r").read().split("Update")[1]
-        os.remove(changeLogFile)
-        currentLabel.set(("Current version: " + localVersion).replace("\n", ""))
-        newestLabel.set(("Newest version: " + newestVersion).replace("\n", ""))
+    if selectedBranch != "updater":
+        try:
+            # Get local version
+            localVersion = open(os.path.dirname(os.path.abspath(__file__)) +"\\"+ dest + "\\version.txt", "r").read().split(",")[0] + " from " + open(os.path.dirname(os.path.abspath(__file__)) +"\\"+ dest + "\\version.txt", "r").read().split(",")[1]
+            # Check the newest version
+            newestVersionFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/version.txt".format(selectedBranch))
+            newestVersion = open(newestVersionFile, "r").read().split(",")[0] + " from " + open(newestVersionFile, "r").read().split(",")[1]
+            os.remove(newestVersionFile)
+            # Check the change log        
+            changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/changelog.txt".format(selectedBranch))
+            changeLog = open(changeLogFile, "r").read().split("Update")[1]
+            os.remove(changeLogFile)
+            currentLabel.set(("Current version: " + localVersion).replace("\n", ""))
+            newestLabel.set(("Newest version: " + newestVersion).replace("\n", ""))
+            if(installButton == 0):
+                installButton = AddButton("Install", Install, root)
+                if selectedBranch == "experimental":
+                    warningLabel = AddLabel("Warning: branch may not work\nsince it's used for development", root, color="red")
+                else:
+                    warningLabel = AddLabel("Warning: Backup settings.json", root, color="red")
+                changeLogButton = AddButton("Change log", ShowChangeLog, root)
+            elif selectedBranch == "experimental":
+                warningLabel.set("Warning: branch may not work\nsince it's used for development")
+            else:
+                warningLabel.set("Warning: Backup settings.json")
+            
+        except:
+            newestVersionFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/version.txt".format(selectedBranch))
+            newestVersion = open(newestVersionFile, "r").read().split(",")[0] + " from " + open(newestVersionFile, "r").read().split(",")[1]
+            os.remove(newestVersionFile)
+            changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/changelog.txt".format(selectedBranch))
+            changeLog = open(changeLogFile, "r").read().split("Update")[1]
+            os.remove(changeLogFile)
+            currentLabel.set("Current version: " + "not installed")
+            newestLabel.set("Newest version: " + newestVersion.replace("\n", ""))
+            if(installButton == 0):
+                installButton = AddButton("Install", Install, root)
+                if selectedBranch == "experimental":
+                    warningLabel = AddLabel("Warning: branch may not work\nsince it's used for development", root, color="red")
+                else:
+                    warningLabel = AddLabel("Warning: Backup settings.json", root, color="red")
+                changeLogButton = AddButton("Change log", ShowChangeLog, root)
+            elif selectedBranch == "experimental":
+                warningLabel.set("Warning: branch may not work\nsince it's used for development")
+            else:
+                warningLabel.set("Warning: Backup settings.json")
+            
+    else:
+        currentLabel.set("Current version: " + "can't check")
+        newestLabel.set("Newest version: " + "can't check")
         if(installButton == 0):
-            installButton = AddButton("Install", Install, root)
-            warningLabel = AddLabel("Warning: Backup settings.json", root, color="red")
-            changeLogButton = AddButton("Change log", ShowChangeLog, root)
-        # Check if the newest version is newer than the local version
-    except:
-        newestVersionFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/version.txt".format(branch))
-        newestVersion = open(newestVersionFile, "r").read().split(",")[0] + " from " + open(newestVersionFile, "r").read().split(",")[1]
-        os.remove(newestVersionFile)
-        changeLogFile, headers = urllib.request.urlretrieve("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/{}/changelog.txt".format(branch))
-        changeLog = open(changeLogFile, "r").read().split("Update")[1]
-        os.remove(changeLogFile)
-        currentLabel.set("Current version: " + "not installed")
-        newestLabel.set("Newest version: " + newestVersion)
-        if(installButton == 0):
-            installButton = AddButton("Install", Install, root)
-            warningLabel = AddLabel("Warning: Backup settings.json", root, color="red")
-            changeLogButton = AddButton("Change log", ShowChangeLog, root)
+                installButton = AddButton("Install", Install, root)
+                warningLabel = AddLabel("Warning: updater branch only\n contains the updater", root, color="red")
+                changeLogButton = AddButton("Change log", ShowChangeLog, root)
         pass
 
 
 
 def RemoveOldFiles():
     # Delete the old files
+    try:
+        shutil.move("Euro-Truck-Simulator-2-Lane-Assist-{}\\settings.json".format(selectedBranch), "settings.json")
+        PrintBlue("Successfully backed up settings.json")
+    except:
+        pass
     shutil.rmtree(dest, ignore_errors=True)
-    print("Old version removed")
+    PrintGreen("Old version removed")
 
 
 def ShowChangeLog():
@@ -111,12 +148,52 @@ def ShowChangeLog():
     changeLogLabel = tk.Label(changeLogWindow, text=changeLog, fg="white", bg="#1c1c1c", font=("Calibri", 12), anchor="nw", justify="left")
     changeLogLabel.pack()
 
+lastPercentReported = 1
+def DownloadProgressBar(count, blockSize, totalSize):
+    global progressBar
+    global lastPercentReported
+
+    percent = count * blockSize * 100 / totalSize
+    percent = round(percent, 2)
+    if percent > 100:
+        percent = 100.00
+    kb = int(count * blockSize / 1024)
+
+    if percent < 0:
+        percent = "unknown"
+
+    if lastPercentReported != percent:
+        sys.stdout.write("\r {}% {}kb".format(percent, kb))
+        sys.stdout.flush()
+        
+        try:
+            progressBar["value"] = int(percent)
+            progressText["text"] = ("{}% {}kb".format(percent, kb))
+            root.update()
+        except Exception as e:
+            pass
+        
+        lastPercentReported = percent
+
 def DownloadNewVersion():
+    global lastPercentReported
+    global progressBar
+    global progressText
     # Download the newest version
     try:
-        name, headers = urllib.request.urlretrieve("https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/archive/refs/heads/{}.zip".format(branch), "tempFile.zip")
-        PrintGreen("Downloading new version please wait...")
-
+        lastPercentReported = 1
+        PrintGreen("\n Downloading new version please wait...")
+        print("\r\033[94m")
+        
+        if progressBar == 0:
+            progressBar = ttk.Progressbar(root, orient="horizontal", length=w, mode="determinate")
+            progressBar.config()
+            progressBar.pack()
+            progressText = tk.Label(root, text="Downloading... (0%)", fg="white", bg="#1c1c1c")
+            progressText.pack()
+        
+        name, headers = urllib.request.urlretrieve("https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/archive/refs/heads/{}.zip".format(selectedBranch), "tempFile.zip", reporthook=DownloadProgressBar)
+        print("\033[0m")
         # Unzip the new version
         with zipfile.ZipFile(name, 'r') as zip_ref:
             zip_ref.extractall("")
@@ -124,6 +201,7 @@ def DownloadNewVersion():
         # Remove the temporary zip
         os.remove(name)
         PrintGreen("Download complete")
+        PrintBlue("You can copy your settings.json back into the app folder")
     except Exception as e:
         PrintRed("Error while downloading new version from github")
         print(e)
@@ -143,7 +221,9 @@ def AskForInformation():
     # Make the options window
     installWindow = tk.Tk()
     installWindow.title("Additional Installation Options...")
-    installWindow.geometry("250x120")
+    installWindow.geometry("250x160")
+    text = tk.Label(installWindow, text="You can close this window if\nthis is not your first time installing")
+    text.pack()
     isMac = tk.IntVar(installWindow)
     isGPU = tk.IntVar(installWindow)
     model = tk.IntVar(installWindow)
@@ -186,16 +266,25 @@ def InstallRequirements():
         print(e)
         exit()
 
+def ChangeBranch(branch):
+    global selectedBranch
+    global branchSelectorValue
+    selectedBranch = branch
+    PrintBlue("Selected branch: " + selectedBranch)
+
 # Default TKinter window
-width = 250
-height = 300
 root = tk.Tk()
-root.title("ETS2 Lane Assist Updater V0.3")
-root.geometry("%dx%d" % (width, height))
+root.title("ETS2 Lane Assist Updater V0.4")
+root.geometry("%dx%d" % (w, h))
 root.configure(bg='#1c1c1c', padx=10, pady=10)
-AddLabel("ETS2 Lane Assist Updater V0.3", root, size=14)
+AddLabel("ETS2 Lane Assist Updater V0.4", root, size=14)
 currentLabel = AddLabel("Current version: " + "unknown", root, size=10)
 newestLabel = AddLabel("Newest version: " + "unknown", root, size=10)
+branchSelectorValue = tk.StringVar(root)
+branchSelector = tk.OptionMenu(root, branchSelectorValue, *availableBranches, command=ChangeBranch)
+branchSelectorValue.set("main")
+branchSelector.config(bg="#1c1c1c", fg="white", highlightcolor="#1c1c1c", activebackground="#1c1c1c", activeforeground="white", width=100)
+branchSelector.pack()
 AddButton("Check versions", CheckVersion, root)
 
 root.mainloop()
