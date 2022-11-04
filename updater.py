@@ -212,16 +212,18 @@ isMac = 0
 isGPU = 0
 model = 0
 installWindow = 0
+cudaVersionVar = 0
 def AskForInformation():
     global isMac
     global isGPU
     global installWindow
     global model
+    global cudaVersionVar
 
     # Make the options window
     installWindow = tk.Tk()
     installWindow.title("Additional Installation Options...")
-    installWindow.geometry("250x160")
+    installWindow.geometry("250x220")
     text = tk.Label(installWindow, text="You can close this window if\nthis is not your first time installing")
     text.pack()
     isMac = tk.IntVar(installWindow)
@@ -231,6 +233,12 @@ def AskForInformation():
     mac.pack()
     gpu = tk.Checkbutton(installWindow, variable=isGPU, text="Do you have an NVIDIA GPU?", font=("Calibri", 12), onvalue=1, offvalue=0)
     gpu.pack()
+    cudaVersionVar = tk.IntVar(installWindow)
+    tk.Label(installWindow, text="What is your CUDA version 11.x?\n(https://pytorch.org/get-started/locally/)").pack()
+    cudaVersion = tk.OptionMenu(installWindow, cudaVersionVar , 6, 7, 8, 9, 10)
+    cudaVersionVar.set(7)
+
+    cudaVersion.pack()
     modelCheckButton = tk.Checkbutton(installWindow, variable=model, text="Open models in Web Browser?", font=("Calibri", 12), onvalue=1, offvalue=0)
     modelCheckButton.pack()
     # Make a button that calls InstallRequirements() once clicked
@@ -256,7 +264,7 @@ def InstallRequirements():
         elif isGPU.get() == 1:
             PrintGreen("Installing torch for NVIDIA GPUs...")
             webbrowser.open("https://developer.nvidia.com/cuda-downloads")
-            os.system("pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116")
+            os.system("pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu11{}".format(cudaVersionVar.get()))
         else:
             PrintGreen("Installing torch for CPUs...")
             os.system("pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu")
