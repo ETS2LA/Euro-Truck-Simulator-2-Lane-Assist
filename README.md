@@ -5,7 +5,7 @@ A lane assist, built with the ultra-fast-lane-detection model.
 This project was made possible by the amazing people behind the original [Ultra Fast Lane Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection) paper.
 In addition to ibaiGorordo for his [example scripts for Pytorch](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-) and rdbender for his  [sun valley theme for ttk](https://github.com/rdbende/Sun-Valley-ttk-theme). Logo was made with [Designevo](https://www.designevo.com/).
 
-[Example Video](https://youtu.be/oHBFTHrOqCU)
+[Example Video](https://youtu.be/Ssw2JlbthHw)
 
 [Installation and Usage Video](https://www.youtube.com/watch?v=TNXlCT3Zr6Y)
 
@@ -25,21 +25,20 @@ It is important to note that in the video I overlayed the laneAssist window on t
 - In addition to the UI the main files allow even deeper customization without any special editors (notepad is fine).
 - Somewhat easy control setup ingame.
 - Controls are handled on a separate thread. This means that it doesn't depend on your Lane Detection FPS, and will be smooth all the time.
+- Automatic saving and loading of settings in a portable json file.
+- High performance screen capture using [DXCam](https://github.com/ra1nty/DXcam) (alternatively mss for Linux/Mac)
 
 ### What is not implemented and possible drawbacks
 - THIS APP WILL NOT WORK WITH A KEYBOARD. You have to have a controller, [this](https://www.youtube.com/watch?v=_UHNavRGav4) (youtube.com) is a possible alternative. I have not tested it myself.
-- Saving settings is not yet done, instead they have to be saved manually in script.
 - The lane detection is trained in the real world, thus it might not detect the lanes properly in some conditions.
-- Lane detection might sometimes overflow (I have not encountered this or had any reports, but it is possible)
 - You will loose any sort of rumble or force feedback, due to having to use a virtual controller for steering.
 - You will most likely have to fiddle with the settings to get lane detection to be reliable.
 
 # Why are updates sparse
-The program is at a point where I can comfortably use it with no issues. This however does not mean that development has stopped. I have been looking into using [DXCam](https://github.com/ra1nty/DXcam) to get better performance screen capture. Unfortunately this has not yet been bumped out of test pypi and thus it's not yet ready for public program usage. It would allow the screencapture (not necessarily lane detection) to run at 60fps or higher. 
-
+The program is at a point where I can comfortably use it with no issues. This however does not mean that development has stopped, you can check my [Trello](https://trello.com/b/zkMRzdjN/euro-truck-simulator-2-lane-assist) page for the current progress.
 > I will update the program to meet the needs of other people and fix any bugs that you might encounter. Just make an issue report, comment on the youtube videos or message me on discord at Tumppi066#2874 for suggestions and bug reports.
 
-# Installation
+# Installation (outdated please watch the tutorial video)
 The releases now include a python file to install the program and most of the requirements.
 It can be used by selecting the newest release and downloading updater.py and then running
 > python updater.py
