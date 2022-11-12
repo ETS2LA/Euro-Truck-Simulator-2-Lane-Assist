@@ -3,7 +3,7 @@
 A lane assist, built with the ultra-fast-lane-detection model.
 
 This project was made possible by the amazing people behind the original [Ultra Fast Lane Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection) paper.
-In addition to ibaiGorordo for his [example scripts for Pytorch](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-) and rdbender for his  [sun valley theme for ttk](https://github.com/rdbende/Sun-Valley-ttk-theme). Logo was made with [Designevo](https://www.designevo.com/).
+In addition to [ibaiGorordo](https://github.com/ibaiGorordo/Midasv2_1_small-TFLite-Inference/commits?author=ibaiGorordo) for his [example scripts for Pytorch](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-) and the [MiDaS tflite implementation](https://github.com/ibaiGorordo/Midasv2_1_small-TFLite-Inference). [rdbende](https://github.com/rdbende) for his  [sun valley theme for ttk](https://github.com/rdbende/Sun-Valley-ttk-theme). Logo was made with [Designevo](https://www.designevo.com/).
 
 [Example Video](https://youtu.be/Ssw2JlbthHw)
 

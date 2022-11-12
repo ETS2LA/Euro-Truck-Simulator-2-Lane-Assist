@@ -3,16 +3,16 @@
       "screenCapture": {
             "width": 1280,
             "height": 720,
-            "x": 0,
-            "y": 0,
+            "x": 1900,
+            "y": 200,
             "useDirectX": true,
             "DXframerate": 30
       },
       "modelSettings": {
-            "modelPath": null,
+            "modelPath": "models/tusimple_34.pth",
             "modelType": "tusimple",
             "modelDepth": "34",
-            "useGPU": false
+            "useGPU": true
       },
       "controlSettings": {
             "experimentalLogitechSupport": false,
@@ -34,7 +34,8 @@
             "drawSteeringLine": true,
             "showLanePoints": true,
             "fillLane": true,
-            "laneColor": "#22dcd2"
+            "laneColor": "#22dcd2",
+            "showPreview": true
       },
       "debugSettings": {
             "printControlDebug": false

@@ -15,6 +15,7 @@ import numpy as np
 from PIL import Image, ImageFont, ImageDraw, ImageColor
 import json
 from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
+import depthPrediction
 
 # CHANGE THESE VALUES IN THE SETTINGS.JSON FILE
 # THEY WILL NOT UPDATE IF CHANGED HERE
@@ -29,6 +30,7 @@ computeGreenDots = True
 drawSteeringLine = True
 showLanePoints = True
 showLanes = True
+useDepthPrediction = True
 # Default model
 model_path = "models/tusimple_34.pth" # When changing this (Keep the "")...
 model_type = ModelType.TUSIMPLE # Change the model type (ModelType.CULANE or ModelType.TUSIMPLE) and...
@@ -93,7 +95,14 @@ def LoadSettings(onlyGeneral = False):
         showLanePoints = data["generalSettings"]["showLanePoints"]
         showLanes = data["generalSettings"]["fillLane"]
         color = data["generalSettings"]["laneColor"]
-        print("\033[92mSuccessfully loaded all settings \033[00m")
+        try:
+            if useDirectX:
+                UpdateDXcam()
+            else:
+                ChangeVideoDimension()
+        except: pass
+        print("\033[92mSuccessfully loaded all lane detection settings \033[00m")
+
     else:
         # General settings
         steeringOffset = data["controlSettings"]["steeringOffset"]
@@ -103,8 +112,7 @@ def LoadSettings(onlyGeneral = False):
         showLanePoints = data["generalSettings"]["showLanePoints"]
         showLanes = data["generalSettings"]["fillLane"]
         color = data["generalSettings"]["laneColor"]
-        print("\033[92mSuccessfully loaded general settings \033[00m")
-
+        print("\033[92mSuccessfully loaded lane detection general settings \033[00m")
 
 LoadSettings()
 
@@ -129,7 +137,7 @@ isIndicating = 0 # 1 = Right, 2 = Left, 0 = None
 
 # Initialize lane detection model with default settings
 try:
-    lane_detector = UltrafastLaneDetector("models/" + model_path, model_type, use_gpu=useGPUByDefault, modelDepth = model_depth)
+    lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=useGPUByDefault, modelDepth = model_depth)
 except Exception as e:
     print(e.args)
     print("\033[93mDefault model not installed, please select one in the settings\033[00m")
@@ -169,7 +177,7 @@ def LoadModelFromSettings():
 
 
 
-def ChangeVideoDimension(value, value2):
+def ChangeVideoDimension():
     # This function is used to change the video dimension.
     global w
     global h
@@ -177,13 +185,12 @@ def ChangeVideoDimension(value, value2):
     global y
     global monitor
     global camera
-    value[0] = int(value[0])
-    value[1] = int(value[1])
-    value2[0] = int(value2[0])
-    value2[1] = int(value2[1])
-    w = value[0]
-    h = value[1]
-    x,y = value2
+    file = "settings.json"
+    data = json.load(open(file))
+    w = data["screenCapture"]["width"]
+    h = data["screenCapture"]["height"]
+    x = data["screenCapture"]["x"]
+    y = data["screenCapture"]["y"]
     if useDirectX:
         left, top = x, y
         right, bottom = left + w, top + h
@@ -242,6 +249,7 @@ if(previewOnTop):
 
 # I like to put all my variables outside the function
 # these should not be changed.  
+
 difference = 0
 fps = 0
 image = None
@@ -250,13 +258,29 @@ def UpdateLanes():
     global fps
     global image
     global camera
+    frameCaptureTime = time.time_ns()
     startTime = time.time_ns() # For FPS calculation
     if not useDirectX:
+
         frame = np.array(Image.frombytes('RGB', (w,h), sct.grab(monitor).rgb)) # Get a new frame
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) # Convert to BGR (OpenCV uses BGR, rather than RGB)
     else:
-        frame = camera.get_latest_frame() # Get a new frame
 
+        frame = camera.get_latest_frame() # Get a new frame
+    
+    try:
+        frameCaptureTime = (time.time_ns() - frameCaptureTime)
+    except:
+        frameCaptureTime = 0
+
+    depthTime = time.time_ns()
+
+    if(useDepthPrediction):
+        cv2.imshow("Depth prediction", depthPrediction.GetDepth(frame))
+
+    depthTime = (time.time_ns() - depthTime)
+
+    laneDetectTime = time.time_ns()
     # Detect the lanes (input image, draw dots, draw lane)
     laneColor = ImageColor.getrgb(color)
     laneColor = (laneColor[2], laneColor[1], laneColor[0])
@@ -269,6 +293,7 @@ def UpdateLanes():
     except Exception as ex:
         pass
     
+    laneDetectTime = (time.time_ns() - laneDetectTime)
     # This will show green dots in the center of the lanes.
     # It's just a lot of comparing and math, I don't really want to explain.
     lane1Points = None
@@ -311,6 +336,7 @@ def UpdateLanes():
     endTime = time.time_ns()
     fps = 1000000000 / (endTime - startTime)
     cv2.putText(output_img, "FPS : " + str(round(fps, 0)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2) # Overlay FPS on the image.
+    print("Frame capture: " + str(round(frameCaptureTime, 0)) + " ns, Depth prediction: " + str(round(depthTime, 0)) + " ns, Lane detection: " + str(round(laneDetectTime, 0)) + " ns\r", end="                           ")
     # Tell the user if we are indicating left or right.
     if(isIndicating == 1):
         cv2.putText(output_img, "Indicating Right", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
@@ -322,8 +348,13 @@ def UpdateLanes():
         cv2.imshow("Detected lanes", output_img)
     else:
         cv2.destroyAllWindows()
+
         
     if cv2.waitKey(1) & 0xFF == ord('q') or close:
         del camera
         exit()
 
+
+while True:
+    UpdateLanes()
+    time.sleep(0.1)

@@ -1,1 +1,2 @@
-python -m streamlit run AppUI.py
+python AppUI.py
+pause

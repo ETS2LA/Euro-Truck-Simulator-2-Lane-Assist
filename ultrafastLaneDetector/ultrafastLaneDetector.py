@@ -72,7 +72,7 @@ class UltrafastLaneDetector():
 
 		# Load the model architecture
 		print("Loaded model of size : " + modelSize)
-		net = parsingNet(pretrained = False, backbone=modelSize, cls_dim = (cfg.griding_num+1,cfg.cls_num_per_lane,4),
+		net = parsingNet(pretrained=False, backbone=modelSize, cls_dim = (cfg.griding_num+1,cfg.cls_num_per_lane,4),
 						use_aux=False) # we dont need auxiliary segmentation in testing
 
 

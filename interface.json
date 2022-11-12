@@ -7,13 +7,9 @@
     "updateCameraSettings": false,
     "loadModel": false,
     "updateGeneralSettings": false,
-    "controllers": [
-        "PS5 Controller",
-        "Xbox 360 Controller",
-        "vJoy Device"
-    ],
-    "currentControllerButtons": 8,
-    "currentControllerAxes": 8,
+    "controllers": [],
+    "currentControllerButtons": 11,
+    "currentControllerAxes": 6,
     "updateControls": false,
     "uiRefreshes": 0
 }

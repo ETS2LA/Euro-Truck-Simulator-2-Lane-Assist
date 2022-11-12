@@ -85,6 +85,8 @@ def LoadSettings():
     printControlDebug = data["debugSettings"]["printControlDebug"]
     useDirectX = data["screenCapture"]["useDirectX"]
 
+    LaneDetection.LoadSettings()
+
 
 LoadSettings()
 
@@ -123,6 +125,7 @@ def TogglePreview():
 def ToggleEnable():
     global enabled
     enabled = not enabled
+    LaneDetection.UpdateLanes()
 
 def OnClosing():
     # This will signal the threads to stop, 
@@ -208,16 +211,6 @@ def ChangeControllerSettingsFromFile():
         f.truncate(0)
         json.dump(interface, f, indent=4)
 
-    print("Right Indicator : " + str(rightIndicator))
-    print("Left Indicator : " + str(leftIndicator))
-    print("Enable/Disable Button : " + str(enableDisableButton))
-    print("Steering Axis : " + str(steeringAxis))
-    print("Sensitivity : " + str(sensitivity))
-    print("Steering Offset : " + str(LaneDetection.steeringOffset))
-    print("Maximum Control : " + str(maximumControl))
-    print("Control Smoothness : " + str(controlSmoothness))
-    print("Disable Lane Assist When Indicating : " + str(disableLaneAssistWhenIndicating))
-    print("Wheel : " + str(wheel.get_name()))
     print("\033[92mController settings updated! \033[00m")
 
 
@@ -261,39 +254,17 @@ try:
     joystickNames = []
     for x in joysticks:
         joystickNames.append(x.get_name())
-    
-    with open("interface.json", "r") as f:
-        interface = json.load(f)
-    
-    interface["controllers"] = joystickNames
-    interface["currentControllerButtons"] = joysticks[defaultControllerIndex].get_numbuttons()
-    interface["currentControllerAxes"] = joysticks[defaultControllerIndex].get_numaxes()
-
-    with open("interface.json", "w") as f:
-        f.truncate(0)
-        json.dump(interface, f, indent=4)
 
 except Exception as e:
     print(e.args)
     print("\033[91mError when loading gamepads \033[00m")
-
-    with open("interface.json", "r") as f:
-        interface = json.load(f)
-    
-    interface["controllers"] = []
-    interface["currentControllerButtons"] = 0
-    interface["currentControllerAxes"] = 0
-
-    with open("interface.json", "w") as f:
-        f.truncate(0)
-        json.dump(interface, f, indent=4)
 
 
 try:
     wheel = pygame.joystick.Joystick(defaultControllerIndex)
 except Exception as e:
     print(e.args)
-    print("\033[91mNo input devices connected \033[00m")
+    print("\033[91mCould not load wheel from default index (have you changed your controller around?) \033[00m")
 
 
 # Get the logitech wheel information
@@ -469,53 +440,11 @@ controllerThread.start()
 image = None
 sct = mss.mss()
 lastImageUpdate = time.time()
-while True:
+def mainFileLoop():
     """
     Main UI and control Loop
     """
-    try:
-        with open("interface.json", "r+") as f:
-            data = json.load(f)
-        
-        enabled = data["enabled"]
 
-        LaneDetection.showPreview = data["preview"]
-        
-        if data["loadModel"]:
-            LaneDetection.LoadModelFromSettings()
-            with open("interface.json", "w") as f:
-                data["loadModel"] = False
-                f.truncate(0)
-                json.dump(data, f)
-
-        if data["updateCameraSettings"]:
-            LaneDetection.UpdateDXcam()
-            with open("interface.json", "w") as f:
-                data["updateCameraSettings"] = False
-                f.truncate(0)
-                json.dump(data, f)
-        
-        if data["updateGeneralSettings"]:
-            LaneDetection.LoadSettings(onlyGeneral=True)
-            with open("interface.json", "w") as f:
-                data["updateGeneralSettings"] = False
-                f.truncate(0)
-                json.dump(data, f)
-
-        if data["updateControls"]:
-            ChangeControllerSettingsFromFile()
-            with open("interface.json", "w") as f:
-                data["updateControls"] = False
-                f.truncate(0)
-                json.dump(data, f)
-        
-        if data["close"]:
-            close = True
-            break
-            
-    except Exception as e:
-        print(e.args)
-        pass
 
     startTime = time.time_ns()
     desiredControl = LaneDetection.difference / (sensitivity * 6) # The desired control is the difference between the center of the lane and the center of the screen.
@@ -553,6 +482,7 @@ while True:
         settingsOpen = False
     
     if cv2.waitKey(1) & 0xFF == ord('q') or close:
+        LaneDetection.close = True
         del LaneDetection.camera
         exit()
     
