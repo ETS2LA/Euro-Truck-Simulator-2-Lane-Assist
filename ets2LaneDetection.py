@@ -30,7 +30,7 @@ computeGreenDots = True
 drawSteeringLine = True
 showLanePoints = True
 showLanes = True
-useDepthPrediction = True
+useDepthPrediction = False
 # Default model
 model_path = "models/tusimple_34.pth" # When changing this (Keep the "")...
 model_type = ModelType.TUSIMPLE # Change the model type (ModelType.CULANE or ModelType.TUSIMPLE) and...
@@ -353,8 +353,3 @@ def UpdateLanes():
     if cv2.waitKey(1) & 0xFF == ord('q') or close:
         del camera
         exit()
-
-
-while True:
-    UpdateLanes()
-    time.sleep(0.1)

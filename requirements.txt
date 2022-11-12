@@ -10,7 +10,6 @@ pygame
 dxcam
 logitech-steering-wheel
 pygetwindow
-streamlit
 sv_ttk
 ttkwidgets
 tensorflow

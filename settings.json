@@ -3,8 +3,8 @@
       "screenCapture": {
             "width": 1280,
             "height": 720,
-            "x": 1900,
-            "y": 200,
+            "x": 0,
+            "y": 0,
             "useDirectX": true,
             "DXframerate": 30
       },
