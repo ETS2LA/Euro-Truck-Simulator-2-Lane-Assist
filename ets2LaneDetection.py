@@ -336,7 +336,7 @@ def UpdateLanes():
     endTime = time.time_ns()
     fps = 1000000000 / (endTime - startTime)
     cv2.putText(output_img, "FPS : " + str(round(fps, 0)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2) # Overlay FPS on the image.
-    print("Frame capture: " + str(round(frameCaptureTime, 0)) + " ns, Depth prediction: " + str(round(depthTime, 0)) + " ns, Lane detection: " + str(round(laneDetectTime, 0)) + " ns\r", end="                           ")
+    #print("Frame capture: " + str(round(frameCaptureTime, 0)) + " ns, Depth prediction: " + str(round(depthTime, 0)) + " ns, Lane detection: " + str(round(laneDetectTime, 0)) + " ns\r", end="                           ")
     # Tell the user if we are indicating left or right.
     if(isIndicating == 1):
         cv2.putText(output_img, "Indicating Right", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)

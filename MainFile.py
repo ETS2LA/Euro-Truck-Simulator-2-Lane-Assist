@@ -242,8 +242,7 @@ try:
     gamepad = vg.VX360Gamepad()
 except Exception as e:
     print(e.args)
-    print("\033[91mCouldn't connect to the VIGEM driver. Make sure it's installed\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/*Python Version*/Lib/site-packages/vgamepad/win/install \033[00m")
-    exit()
+    print("\033[91mCouldn't connect to the VIGEM driver. Make sure it's installed and updated\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/*Python Version*/Lib/site-packages/vgamepad/win/install \033[00m")
 
 # Pygame initialization
 # and gamepad detection
@@ -417,18 +416,18 @@ def ControllerThread():
 
                 time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
             except Exception as ex:
-                if printControlDebug:
-                    print(ex.args)
-                    print(ex)
-                    print("Most likely fix : change your indicator and or enable/disable buttons.")
+                
+                print(ex.args)
+                print(ex)
+                print("Most likely fix : change your indicator and or enable/disable buttons.")
 
                 time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
                 pass
         except Exception as ex:
-            if printControlDebug:
-                    print(ex.args)
-                    print(ex)
-                    print("Most likely fix : change your indicator and or enable/disable buttons.")
+            
+            print(ex.args)
+            print(ex)
+            print("Most likely fix : change your indicator and or enable/disable buttons.")
                     
             time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
             pass
@@ -445,6 +444,7 @@ def mainFileLoop():
     Main UI and control Loop
     """
 
+    global desiredControl
 
     startTime = time.time_ns()
     desiredControl = LaneDetection.difference / (sensitivity * 6) # The desired control is the difference between the center of the lane and the center of the screen.

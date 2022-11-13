@@ -12,19 +12,19 @@
             "modelPath": "models/tusimple_34.pth",
             "modelType": "tusimple",
             "modelDepth": "34",
-            "useGPU": true
+            "useGPU": false
       },
       "controlSettings": {
             "experimentalLogitechSupport": false,
-            "steeringOffset": -150,
+            "steeringOffset": 50,
             "sensitivity": 500,
-            "defaultControllerIndex": 1,
+            "defaultControllerIndex": 0,
             "steeringAxis": 0,
-            "enableDisableButton": 17,
+            "enableDisableButton": 0,
             "rightIndicator": 0,
             "leftIndicator": 0,
             "maximumControl": 0.2,
-            "controlSmoothness": 0,
+            "controlSmoothness": 5,
             "disableLaneAssistWhenIndicating": true
       },
       "generalSettings": {
