@@ -278,6 +278,7 @@ def ChangeBranch(branch):
     global selectedBranch
     global branchSelectorValue
     selectedBranch = branch
+    dest = "Euro-Truck-Simulator-2-Lane-Assist-{}".format(selectedBranch)
     PrintBlue("Selected branch: " + selectedBranch)
 
 # Default TKinter window
