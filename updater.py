@@ -277,6 +277,7 @@ def InstallRequirements():
 def ChangeBranch(branch):
     global selectedBranch
     global branchSelectorValue
+    global dest
     selectedBranch = branch
     dest = "Euro-Truck-Simulator-2-Lane-Assist-{}".format(selectedBranch)
     PrintBlue("Selected branch: " + selectedBranch)
