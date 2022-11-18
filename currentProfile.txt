@@ -1,1 +1,1 @@
-C:/Users/Tuomas/Documents/GitHub/Euro-Truck-Simulator-2-Lane-Assist/profiles/default.json
+profiles/default.json
