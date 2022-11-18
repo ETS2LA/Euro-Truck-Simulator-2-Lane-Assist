@@ -14,3 +14,4 @@ sv_ttk
 ttkwidgets
 tensorflow
 tflite
+scipy

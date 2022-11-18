@@ -9,8 +9,6 @@ Tumppi066 @ https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist
 # Set default variables
 enabled = False
 close = False
-settings = False
-settingsOpen = False
 disableLaneAssistWhenIndicating = True
 sensitivity = 500
 useDirectX = False
@@ -49,6 +47,7 @@ import threading
 import ets2LaneDetection as LaneDetection
 import time
 import json
+import settingsInterface as settings
 
 # Loads all the settings from the settings.json file.
 def LoadSettings():
@@ -66,24 +65,20 @@ def LoadSettings():
     global useLogitech
     global preview
 
-    # Open the file
-    file = "settings.json"
-    data = json.load(open(file))
-
     # Set settings
-    preview = data["generalSettings"]["capturePreview"]
-    sensitivity = data["controlSettings"]["sensitivity"]
-    useLogitech = data["controlSettings"]["experimentalLogitechSupport"]
-    maximumControl = data["controlSettings"]["maximumControl"]
-    controlSmoothness = data["controlSettings"]["controlSmoothness"]
-    disableLaneAssistWhenIndicating = data["controlSettings"]["disableLaneAssistWhenIndicating"]
-    defaultControllerIndex = data["controlSettings"]["defaultControllerIndex"]
-    steeringAxis = data["controlSettings"]["steeringAxis"]
-    enableDisableButton = data["controlSettings"]["enableDisableButton"]
-    rightIndicator = data["controlSettings"]["rightIndicator"]
-    leftIndicator = data["controlSettings"]["leftIndicator"]
-    printControlDebug = data["debugSettings"]["printControlDebug"]
-    useDirectX = data["screenCapture"]["useDirectX"]
+    preview = settings.GetSettings("generalSettings","capturePreview")
+    sensitivity = settings.GetSettings("controlSettings","sensitivity")
+    useLogitech = settings.GetSettings("controlSettings","experimentalLogitechSupport")
+    maximumControl = settings.GetSettings("controlSettings","maximumControl")
+    controlSmoothness = settings.GetSettings("controlSettings","controlSmoothness")
+    disableLaneAssistWhenIndicating = settings.GetSettings("controlSettings","disableLaneAssistWhenIndicating")
+    defaultControllerIndex = settings.GetSettings("controlSettings","defaultControllerIndex")
+    steeringAxis = settings.GetSettings("controlSettings","steeringAxis")
+    enableDisableButton = settings.GetSettings("controlSettings","enableDisableButton")
+    rightIndicator = settings.GetSettings("controlSettings","rightIndicator")
+    leftIndicator = settings.GetSettings("controlSettings","leftIndicator")
+    printControlDebug = settings.GetSettings("debugSettings","printControlDebug")
+    useDirectX = settings.GetSettings("screenCapture","useDirectX")
 
     LaneDetection.LoadSettings()
 
@@ -183,33 +178,20 @@ def ChangeControllerSettingsFromFile():
     global disableLaneAssistWhenIndicating
     global joysticks
 
-    # Open the file
-    with open("settings.json", "r") as file:
-        data = json.load(file)
     
-    # Set settings
-    rightIndicator = data["controlSettings"]["rightIndicator"]
-    leftIndicator = data["controlSettings"]["leftIndicator"]
-    enableDisableButton = data["controlSettings"]["enableDisableButton"]
-    steeringAxis = data["controlSettings"]["steeringAxis"]
-    sensitivity = data["controlSettings"]["sensitivity"]
-    LaneDetection.steeringOffset = data["controlSettings"]["steeringOffset"]
-    maximumControl = data["controlSettings"]["maximumControl"]
-    controlSmoothness = data["controlSettings"]["controlSmoothness"]
-    disableLaneAssistWhenIndicating = data["controlSettings"]["disableLaneAssistWhenIndicating"]
-    defaultControllerIndex = data["controlSettings"]["defaultControllerIndex"]
+    # Get settings
+    rightIndicator = settings.GetSettings("controlSettings","rightIndicator")
+    leftIndicator = settings.GetSettings("controlSettings","leftIndicator")
+    enableDisableButton = settings.GetSettings("controlSettings","enableDisableButton")
+    steeringAxis = settings.GetSettings("controlSettings","steeringAxis")
+    sensitivity = settings.GetSettings("controlSettings","sensitivity")
+    LaneDetection.steeringOffset = settings.GetSettings("controlSettings","steeringOffset")
+    maximumControl = settings.GetSettings("controlSettings","maximumControl")
+    controlSmoothness = settings.GetSettings("controlSettings","controlSmoothness")
+    disableLaneAssistWhenIndicating = settings.GetSettings("controlSettings","disableLaneAssistWhenIndicating")
+    defaultControllerIndex = settings.GetSettings("controlSettings","defaultControllerIndex")
 
-    wheel = pygame.joystick.Joystick(data["controlSettings"]["defaultControllerIndex"])
-
-    with open("interface.json", "r") as f:
-        interface = json.load(f)
-    
-    interface["currentControllerButtons"] = joysticks[defaultControllerIndex].get_numbuttons()
-    interface["currentControllerAxes"] = joysticks[defaultControllerIndex].get_numaxes()
-
-    with open("interface.json", "w") as f:
-        f.truncate(0)
-        json.dump(interface, f, indent=4)
+    wheel = pygame.joystick.Joystick(settings.GetSettings("controlSettings","defaultControllerIndex"))
 
     print("\033[92mController settings updated! \033[00m")
 
@@ -354,18 +336,6 @@ def ControllerThread():
                     lastIndicatingRight = True
                     IndicatingRight = True
 
-            # Enable and disable from the controller button.
-            if(wheel.get_button(enableDisableButton)):
-                with open("interface.json", "r") as f:
-                    interface = json.load(f)
-
-                with open("interface.json", "w") as f:
-                    interface["enabled"] = not interface["enabled"]
-                    f.truncate(0)
-                    json.dump(interface, f, indent=4)
-
-                time.sleep(0.3)
-
             try:
                 pygame.event.pump() # Update the controller values
 
@@ -473,15 +443,8 @@ def mainFileLoop():
     if(close):
         # Make sure the LaneDetection is closing with the program.
         LaneDetection.close = True
-
-    if(settings):
-        if(not settingsOpen):
-            OpenSettings()
-            settingsOpen = True
-    else:
-        settingsOpen = False
     
-    if cv2.waitKey(1) & 0xFF == ord('q') or close:
+    if close:
         LaneDetection.close = True
         del LaneDetection.camera
         exit()

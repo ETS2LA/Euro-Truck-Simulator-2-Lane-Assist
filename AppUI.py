@@ -6,6 +6,8 @@ import settingsInterface as settings
 from ttkwidgets import color
 import MainFile
 import time
+from tkinter import filedialog
+import shutil
 
 def OnClosing():
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
@@ -58,6 +60,39 @@ def UpdateModelSettings():
     settings.UpdateSettings("modelSettings", "useGPU", useGPU.get())
     print("New model : " + model.get().lower())
 
+def SaveProfile():
+    global currentProfileDisplay
+    print("Saving profile...")
+    file = filedialog.asksaveasfilename(initialdir = os.environ,title = "Select Location",filetypes = (("json files","*.json"),))
+    if file == "":
+        print("No location selected")
+    else:
+        if not file.endswith(".json"):
+            file += ".json"
+
+        toggleButton.config(text="Saving...")
+        root.update()
+        # Clone the current settings file
+        if os.path.exists(file):
+            os.remove(file)
+        shutil.copyfile(settings.settingsFilePath, file)
+        settings.ChangeProfile(file)
+        currentProfileDisplay.config(text="Profile : " + file.split("/")[-1])
+        toggleButton.config(text="Enable" if not MainFile.enabled else "Disable")
+
+def LoadProfile():
+    print("Loading profile...")
+    file = filedialog.askopenfilename(initialdir = os.environ,title = "Select Profile",filetypes = (("json files","*.json"),))
+    if file == "":
+        print("No file selected")
+    else:
+        toggleButton.config(text="Loading...")
+        root.update()
+        settings.ChangeProfile(file)
+        currentProfileDisplay.config(text="Profile : " + file.split("/")[-1])
+        UpdateAllSettings()
+        toggleButton.config(text="Enable" if not MainFile.enabled else "Disable")
+
 
 def UpdateAllSettings():
     SaveSettings("somethingsomething")
@@ -101,6 +136,17 @@ big_frame.grid_columnconfigure(1, pad=20)
 big_frame.grid_rowconfigure(0, pad=20)
 big_frame.grid_rowconfigure(1, pad=20)
 
+# Menu
+menubar = tk.Menu(root)
+profileMenu = tk.Menu(menubar, tearoff=0)
+profileMenu.add_command(label="New Profile", command=SaveProfile)
+profileMenu.add_command(label="Load Profile", command=LoadProfile)
+
+menubar.add_cascade(label="Profile", menu=profileMenu)
+root.config(menu=menubar)
+
+
+
 # Main control frame
 top_left = ttk.LabelFrame(big_frame, height=400, padding=15, text="Controls")
 top_left.grid(row=0, column=0, sticky="nw")
@@ -111,6 +157,9 @@ MakeButton(top_left, "Toggle Preview", lambda: MainFile.TogglePreview(), 1, 0)
 sizeButton = MakeButton(top_left, "Minimize", lambda: ChangeWindowSize(), 2, 0)
 MakeButton(top_left, "Update Settings", UpdateAllSettings, 3, 0)
 MakeButton(top_left, "Color Picker", lambda: color.ColorPicker(root, color=settings.GetSettings("generalSettings", "laneColor")), 4, 0)
+
+currentProfileDisplay = ttk.Label(top_left, text="Profile : " + open("currentProfile.txt").readline().split("/")[-1])
+currentProfileDisplay.grid(row=5, column=0, sticky="n", pady=9)
 
 # Bottom left model selector
 bottom_left = ttk.LabelFrame(big_frame, height=390, padding=15, text="Model Selector")
@@ -171,7 +220,8 @@ steeringAxis = MakeComboEntry(top_right, "Steering Axis", "controlSettings", "st
 enableDisableButton = MakeComboEntry(top_right, "Toggle Button", "controlSettings", "enableDisableButton", 5, 0)
 rightIndicator = MakeComboEntry(top_right, "Right Indicator", "controlSettings", "rightIndicator", 6, 0)
 leftIndicator = MakeComboEntry(top_right, "Left Indicator", "controlSettings", "leftIndicator", 7, 0)
-wheelAngle = ttk.Scale(top_right, from_=-100, to=100, orient=tk.HORIZONTAL, length=150).grid(row=8, column=0, sticky="w", padx=7, pady=7)
+wheelAngle = ttk.Scale(top_right, from_=-1, to=1, orient=tk.HORIZONTAL, length=150)
+wheelAngle.grid(row=8, column=0, sticky="w", padx=7, pady=7)
 ttk.Label(top_right, text="Wheel angle").grid(row=8, column=1, sticky="w", padx=7 , pady=7)
 
 # Control settings (bottom right)
@@ -213,5 +263,5 @@ root.bind('<Return>', SaveSettings)
 
 while True:
     MainFile.mainFileLoop()
-    wheelAngle = MainFile.desiredControl
+    wheelAngle.set(MainFile.wheel.get_axis(int(steeringAxis.get())))
     root.update()

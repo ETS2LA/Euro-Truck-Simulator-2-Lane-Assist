@@ -5,7 +5,6 @@ Modified to be used with ETS2 : Tumppi066 @ https://github.com/Tumppi066/Euro-Tr
 """
 
 
-# Rest of the imports
 from ast import Load
 from statistics import mode
 import cv2
@@ -16,6 +15,7 @@ from PIL import Image, ImageFont, ImageDraw, ImageColor
 import json
 from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 import depthPrediction
+import settingsInterface as settings
 
 # CHANGE THESE VALUES IN THE SETTINGS.JSON FILE
 # THEY WILL NOT UPDATE IF CHANGED HERE
@@ -38,14 +38,6 @@ model_depth = "34" # Change the depth of the model (Keep the "")
 useGPUByDefault = False
 color = "00bfff"
 
-def SaveSettings(category, name, value):
-    # This function is used to save the settings.
-    file = "settings.json"
-    data = json.load(open(file))
-    data[category][name] = value
-    with open(file, 'w') as f:
-        json.dump(data, f, indent=6)
-
 def LoadSettings(onlyGeneral = False):
     global steeringOffset
     global showPreview
@@ -66,35 +58,33 @@ def LoadSettings(onlyGeneral = False):
     global showLanes
     global color
 
-    file = "settings.json"
-    data = json.load(open(file))
     
     if not onlyGeneral:
         # Screen settings
-        w = data["screenCapture"]["width"]
-        h = data["screenCapture"]["height"]
-        x = data["screenCapture"]["x"]
-        y = data["screenCapture"]["y"]
-        useDirectX = data["screenCapture"]["useDirectX"]
-        DXframerate = data["screenCapture"]["DXframerate"]
+        w = settings.GetSettings("screenCapture","width")
+        h = settings.GetSettings("screenCapture","height")
+        x = settings.GetSettings("screenCapture","x")
+        y = settings.GetSettings("screenCapture","y")
+        useDirectX = settings.GetSettings("screenCapture","useDirectX")
+        DXframerate = settings.GetSettings("screenCapture","DXframerate")
 
         # Model settings
-        model_path = data["modelSettings"]["modelPath"]
+        model_path = settings.GetSettings("modelSettings","modelPath")
 
-        if(data["modelSettings"]["modelType"] == "culane"): model_type = ModelType.CULANE
-        elif(data["modelSettings"]["modelType"] == "tusimple"): model_type = ModelType.TUSIMPLE
+        if(settings.GetSettings("modelSettings","modelType") == "culane"): model_type = ModelType.CULANE
+        elif(settings.GetSettings("modelSettings","modelType") == "tusimple"): model_type = ModelType.TUSIMPLE
         else: print("Invalid model type")
 
-        model_depth = data["modelSettings"]["modelDepth"]
-        useGPUByDefault = data["modelSettings"]["useGPU"]
+        model_depth = settings.GetSettings("modelSettings","modelDepth")
+        useGPUByDefault = settings.GetSettings("modelSettings","useGPU")
         # Lane assist settings
-        steeringOffset = data["controlSettings"]["steeringOffset"]
-        previewOnTop = data["generalSettings"]["previewOnTop"]
-        computeGreenDots = data["generalSettings"]["computeGreenDots"]
-        drawSteeringLine = data["generalSettings"]["drawSteeringLine"]
-        showLanePoints = data["generalSettings"]["showLanePoints"]
-        showLanes = data["generalSettings"]["fillLane"]
-        color = data["generalSettings"]["laneColor"]
+        steeringOffset = settings.GetSettings("controlSettings","steeringOffset")
+        previewOnTop = settings.GetSettings("generalSettings","previewOnTop")
+        computeGreenDots = settings.GetSettings("generalSettings","computeGreenDots")
+        drawSteeringLine = settings.GetSettings("generalSettings","drawSteeringLine")
+        showLanePoints = settings.GetSettings("generalSettings","showLanePoints")
+        showLanes = settings.GetSettings("generalSettings","fillLane")
+        color = settings.GetSettings("generalSettings","laneColor")
         try:
             if useDirectX:
                 UpdateDXcam()
@@ -105,13 +95,13 @@ def LoadSettings(onlyGeneral = False):
 
     else:
         # General settings
-        steeringOffset = data["controlSettings"]["steeringOffset"]
-        previewOnTop = data["generalSettings"]["previewOnTop"]
-        computeGreenDots = data["generalSettings"]["computeGreenDots"]
-        drawSteeringLine = data["generalSettings"]["drawSteeringLine"]
-        showLanePoints = data["generalSettings"]["showLanePoints"]
-        showLanes = data["generalSettings"]["fillLane"]
-        color = data["generalSettings"]["laneColor"]
+        steeringOffset = settings.GetSettings("controlSettings","steeringOffset")
+        previewOnTop = settings.GetSettings("generalSettings","previewOnTop")
+        computeGreenDots = settings.GetSettings("generalSettings","computeGreenDots")
+        drawSteeringLine = settings.GetSettings("generalSettings","drawSteeringLine")
+        showLanePoints = settings.GetSettings("generalSettings","showLanePoints")
+        showLanes = settings.GetSettings("generalSettings","fillLane")
+        color = settings.GetSettings("generalSettings","laneColor")
         print("\033[92mSuccessfully loaded lane detection general settings \033[00m")
 
 LoadSettings()
@@ -149,12 +139,9 @@ def LoadModelFromSettings():
     global useGPUByDefault
     global lane_detector
 
-    file = "settings.json"
-    data = json.load(open(file))
-
     # Model settings
-    model_path = data["modelSettings"]["modelPath"]
-    useGPUByDefault = data["modelSettings"]["useGPU"]
+    model_path = settings.GetSettings("modelSettings","modelPath")
+    useGPUByDefault = settings.GetSettings("modelSettings","useGPU")
 
     if "tusimple" in model_path:
         model_type = ModelType.TUSIMPLE
@@ -163,15 +150,13 @@ def LoadModelFromSettings():
     
     model_depth = (model_path.split("_")[1].split(".")[0])
 
-    with open("settings.json", "w") as f:
-        if model_type == ModelType.TUSIMPLE:
-            data["modelSettings"]["modelType"] = "tusimple"
-        elif model_type == ModelType.CULANE:
-            data["modelSettings"]["modelType"] = "culane"
-        
-        data["modelSettings"]["modelDepth"] = model_depth
+    if model_type == ModelType.TUSIMPLE:
+        settings.UpdateSettings("modelSettings","modelType","tusimple")
+    elif model_type == ModelType.CULANE:
+        settings.UpdateSettings("modelSettings","modelType","culane")
+    
+    settings.UpdateSettings("modelSettings","modelDepth", model_depth)
 
-        json.dump(data, f, indent=6)
 
     lane_detector = UltrafastLaneDetector("models/" + model_path, model_type, use_gpu=useGPUByDefault, modelDepth = str(model_depth))
 
@@ -185,12 +170,10 @@ def ChangeVideoDimension():
     global y
     global monitor
     global camera
-    file = "settings.json"
-    data = json.load(open(file))
-    w = data["screenCapture"]["width"]
-    h = data["screenCapture"]["height"]
-    x = data["screenCapture"]["x"]
-    y = data["screenCapture"]["y"]
+    w = settings.GetSettings("screenCapture","width")
+    h = settings.GetSettings("screenCapture","height")
+    x = settings.GetSettings("screenCapture","x")
+    y = settings.GetSettings("screenCapture","y")
     if useDirectX:
         left, top = x, y
         right, bottom = left + w, top + h
@@ -203,10 +186,10 @@ def ChangeVideoDimension():
     else:
         monitor = {'top': y, 'left': x, 'width': w, 'height': h}
 
-    SaveSettings("screenCapture", "width", w)
-    SaveSettings("screenCapture", "height", h)
-    SaveSettings("screenCapture", "x", x)
-    SaveSettings("screenCapture", "y", y)
+    settings.UpdateSettings("screenCapture", "width", w)
+    settings.UpdateSettings("screenCapture", "height", h)
+    settings.UpdateSettings("screenCapture", "x", x)
+    settings.UpdateSettings("screenCapture", "y", y)
 
 def UpdateDXcam():
     global w
@@ -217,13 +200,11 @@ def UpdateDXcam():
     global camera
 
     # Load new settings
-    file = "settings.json"
-    data = json.load(open(file))
-    w = data["screenCapture"]["width"]
-    h = data["screenCapture"]["height"]
-    x = data["screenCapture"]["x"]
-    y = data["screenCapture"]["y"]
-    DXframerate = data["screenCapture"]["DXframerate"]
+    w = settings.GetSettings("screenCapture","width")
+    h = settings.GetSettings("screenCapture","height")
+    x = settings.GetSettings("screenCapture","x")
+    y = settings.GetSettings("screenCapture","y")
+    DXframerate = settings.GetSettings("screenCapture","DXframerate")
 
     # Update camera
     left, top = x, y
@@ -238,7 +219,7 @@ def ChangeLaneAssist(value):
     # Update steering offset
     global steeringOffset
     steeringOffset = value
-    SaveSettings("controlSettings", "steeringOffset", steeringOffset)
+    settings.UpdateSettings("controlSettings", "steeringOffset", steeringOffset)
     
 
 # Make the lane detection preview window.

@@ -1,3 +1,25 @@
+Update Major V0.3 - 18.11.2022
+
+DOWNLOAD THE NEW UPDATER BEFORE UPDATING THE APP.
+OTHERWISE IT WILL NOT BACKUP YOUR SETTINGS.
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a new UI that does not use streamlit, there have been too many issues with it.
+- Added the ability to save and load profiles
+- Added an depth prediction capability, this will be expanded in the future.
+    - Planned features included
+        - Detection of cars 
+        - 3D view of the world
+        - Emergency breaking etc...
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Multiple issues that were causing crashes etc...
+
+
+
+
 Update Minor V0.2.2 - 27.9.2022
 
 PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!

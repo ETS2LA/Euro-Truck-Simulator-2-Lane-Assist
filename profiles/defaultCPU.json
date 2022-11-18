@@ -6,7 +6,7 @@
             "x": 0,
             "y": 0,
             "useDirectX": true,
-            "DXframerate": 30
+            "DXframerate": 20
       },
       "modelSettings": {
             "modelPath": "models/tusimple_34.pth",
