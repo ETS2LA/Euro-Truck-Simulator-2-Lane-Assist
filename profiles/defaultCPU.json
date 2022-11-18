@@ -37,6 +37,12 @@
             "laneColor": "#22dcd2",
             "showPreview": true
       },
+      "soundSettings": {
+            "playSounds": true,
+            "enableSound": "soundfx/start.wav",
+            "disableSound": "soundfx/end.wav",
+            "warningSound": "soundfx/warning.wav"
+      },
       "debugSettings": {
             "printControlDebug": false
       }

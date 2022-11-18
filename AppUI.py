@@ -8,6 +8,7 @@ import MainFile
 import time
 from tkinter import filedialog
 import shutil
+import soundInterface as sound
 
 def OnClosing():
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
@@ -38,11 +39,17 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17):
     button.grid(row=row, column=column, padx=0, pady=7, sticky="w")
     return variable
 
-def MakeComboEntry(parent, text, category, setting, row, column, width=10, isFloat=False):
-    if not isFloat:
+def MakeComboEntry(parent, text, category, setting, row, column, width=10, isFloat=False, isString=False):
+    if not isFloat and not isString:
         ttk.Label(parent, text=text, width=15).grid(row=row, column=column, sticky="w")
         var = tk.IntVar()
         var.set(int(settings.GetSettings(category, setting)))
+        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.UpdateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
+        return var
+    elif isString:
+        ttk.Label(parent, text=text, width=15).grid(row=row, column=column, sticky="w")
+        var = tk.StringVar()
+        var.set(settings.GetSettings(category, setting))
         ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.UpdateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
         return var
     else:
@@ -114,16 +121,19 @@ def ToggleEnabled():
         root.update()
         MainFile.ToggleEnable()
         toggleButton.config(text="Disable")
+        sound.PlaySoundEnable()
+
     else:
         MainFile.ToggleEnable()
         toggleButton.config(text="Enable")
+        sound.PlaySoundDisable()
 
 # Main window size
-fullWidth = 785
+fullWidth = 1150
 fullHeight = 750
 
 miniWidth = 217
-miniHeight = 350
+miniHeight = 390
 
 # This initializes the Main UI tkinter window
 root = tk.Tk() # The main window
@@ -133,8 +143,10 @@ big_frame.pack(fill="both", expand=True, padx=20, pady=10)
 # Set grid paddings
 big_frame.grid_columnconfigure(0, pad=20)
 big_frame.grid_columnconfigure(1, pad=20)
+big_frame.grid_columnconfigure(2, pad=20)
 big_frame.grid_rowconfigure(0, pad=20)
 big_frame.grid_rowconfigure(1, pad=20)
+
 
 # Menu
 menubar = tk.Menu(root)
@@ -213,7 +225,17 @@ experimentalLogitechSupport = MakeCheckButton(top_right, "Exp. Logitech Support"
 ttk.Label(top_right, text="Controller: ").grid(row=1, column=0, sticky="w", pady=7)
 
 controller = ttk.Combobox(top_right, width=6, values=MainFile.joystickNames)
-controller.set(MainFile.joystickNames[settings.GetSettings("controlSettings", "defaultControllerIndex")])
+try:
+    controller.set(MainFile.joystickNames[settings.GetSettings("controlSettings", "defaultControllerIndex")])
+except:
+    try:
+        controller.set(MainFile.joystickNames[settings.GetSettings("controlSettings", "defaultControllerIndex")-1])
+    except:
+        try:
+            controller.set(MainFile.joystickNames[0])
+        except:
+            exit()
+
 controller.grid(row=1, column=1, sticky="w", padx=7, pady=7)
 
 steeringAxis = MakeComboEntry(top_right, "Steering Axis", "controlSettings", "steeringAxis", 4, 0)
@@ -234,6 +256,14 @@ sensitivity = MakeComboEntry(bottom_right, "Sensitivity", "controlSettings", "se
 maximumControl = MakeComboEntry(bottom_right, "Maximum Control", "controlSettings", "maximumControl", 3, 0, isFloat=True)
 controlSmoothness = MakeComboEntry(bottom_right, "Control Smooth...", "controlSettings", "controlSmoothness", 4, 0)
 
+# Sound settings (top far right xD)
+top_far_right = ttk.LabelFrame(big_frame, height=100, padding=15, text="Sound Settings")
+top_far_right.grid(row=0, column=3, sticky="nw")
+
+soundIsEnabled = MakeCheckButton(top_far_right, "Enable", "soundSettings", "playSounds", 0, 0)
+enabledSound = MakeComboEntry(top_far_right, "Enabled Sound", "soundSettings", "enableSound", 1, 0, isString=True, width=20)
+disabledSound = MakeComboEntry(top_far_right, "Disabled Sound", "soundSettings", "disableSound", 2, 0, isString=True, width=20)
+warningSound = MakeComboEntry(top_far_right, "Warning Sound", "soundSettings", "warningSound", 3, 0, isString=True, width=20)
 
 # Set themes and closing callback
 sv_ttk.set_theme("dark")
@@ -264,4 +294,9 @@ root.bind('<Return>', SaveSettings)
 while True:
     MainFile.mainFileLoop()
     wheelAngle.set(MainFile.wheel.get_axis(int(steeringAxis.get())))
+
+    if(MainFile.wheel.get_button(enableDisableButton.get())):
+        ToggleEnabled()
+        time.sleep(0.1)
+
     root.update()

@@ -48,6 +48,7 @@ import ets2LaneDetection as LaneDetection
 import time
 import json
 import settingsInterface as settings
+import soundInterface as sound
 
 # Loads all the settings from the settings.json file.
 def LoadSettings():
@@ -150,21 +151,6 @@ def OpenSettings():
     global settings
     settings = True
 
-def ChangeController(x, menuText, axisMenu, axisVar, buttonMenu, buttonVar):
-    # This functions makes sure that all the UI is updated for the new controller.
-    # x = controller index
-    global wheel
-    wheel = pygame.joystick.Joystick(x)
-    menuText.set("Controller : " + wheel.get_name())
-
-    axisMenu.delete(0, axisMenu.index(tk.END))
-    buttonMenu.delete(0, buttonMenu.index(tk.END))
-
-    for x in range(wheel.get_numbuttons()):
-        buttonMenu.add_command(label="Button : " + str(x), command=lambda x=x: ChangeButton(x, buttonVar))
-
-    for x in range(wheel.get_numaxes()):
-        axisMenu.add_command(label="Axis : " + str(x), command=lambda x=x: ChangeAxis(x, axisVar))
 
 def ChangeControllerSettingsFromFile():
     global wheel
@@ -196,35 +182,18 @@ def ChangeControllerSettingsFromFile():
     print("\033[92mController settings updated! \033[00m")
 
 
-# The next four serve the same purpose as the last one.
-def ChangeButton(x, menuText):
-    global enableDisableButton
-    enableDisableButton = x
-    menuText.set("Button : " + str(x))
-
-def ChangeAxis(x, menuText):
-    global steeringAxis
-    steeringAxis = x
-    menuText.set("Steering axis : " + str(x))
-
-def ChangeRightIndicator(x, menuText):
-    global rightIndicator
-    rightIndicator = x
-    menuText.set("Right indicator : " + str(x))
-
-def ChangeLeftIndicator(x, menuText):
-    global leftIndicator
-    leftIndicator = x
-    menuText.set("Left indicator : " + str(x))
-
-
 
 # Gamepad driver initialization
 try:
     gamepad = vg.VX360Gamepad()
 except Exception as e:
     print(e.args)
-    print("\033[91mCouldn't connect to the VIGEM driver. Make sure it's installed and updated\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/*Python Version*/Lib/site-packages/vgamepad/win/install \033[00m")
+    print(e)
+    print("\033[91mCouldn't connect to the VIGEM driver.\n1. Make sure it's installed and updated\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/*Python Version*/Lib/site-packages/vgamepad/win/install \033[00m")
+    print("\033[91m2. Install the VC Redist 2017 here (https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170). \033[00m")
+    print("\033[91m3. Try restarting your pc. \033[00m")
+    input("Press enter to safely close the application. ")
+    exit()
 
 # Pygame initialization
 # and gamepad detection
@@ -243,9 +212,17 @@ except Exception as e:
 
 try:
     wheel = pygame.joystick.Joystick(defaultControllerIndex)
-except Exception as e:
-    print(e.args)
-    print("\033[91mCould not load wheel from default index (have you changed your controller around?) \033[00m")
+except:
+    print("\033[91mControllers changed, using index (default - 1)!\033[00m")
+    try:
+        wheel = pygame.joystick.Joystick(defaultControllerIndex-1)
+    except:
+        print("\033[91mControllers changed, using index 0!\033[00m")
+        try:
+            wheel = pygame.joystick.Joystick(0)
+        except:
+            print("\033[91mYou do not have any controllers connected, please connect one.\033[00m")
+            exit()
 
 
 # Get the logitech wheel information
@@ -313,14 +290,25 @@ def ControllerThread():
             # a constant on/off value.
             if disableLaneAssistWhenIndicating:
                 if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
+                    if(IndicatingRight):
+                        sound.PlaySoundEnable()
+                    else:
+                        sound.PlaySoundDisable()
+
                     IndicatingRight = not IndicatingRight
                     lastIndicatingRight = True
-                elif(not wheel.get_button(rightIndicator)):
+                elif(not wheel.get_button(rightIndicator) and lastIndicatingRight):
                     lastIndicatingRight = False
                 if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
+                    if(IndicatingLeft):
+                        sound.PlaySoundEnable()
+                    else:
+                        sound.PlaySoundDisable()
+
                     IndicatingLeft = not IndicatingLeft
                     lastIndicatingLeft = True
-                elif(not wheel.get_button(leftIndicator)):
+
+                elif(not wheel.get_button(leftIndicator) and lastIndicatingLeft):
                     lastIndicatingLeft = False
 
             # Make sure we can't indicate in both directions.
@@ -338,7 +326,6 @@ def ControllerThread():
 
             try:
                 pygame.event.pump() # Update the controller values
-
 
                 # Main controller update loop.
                 if(enabled):
@@ -391,7 +378,7 @@ def ControllerThread():
                 print(ex)
                 print("Most likely fix : change your indicator and or enable/disable buttons.")
 
-                time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
+                time.sleep(1) # These time.sleep commands make sure that the control thread does not crash
                 pass
         except Exception as ex:
             
@@ -399,7 +386,7 @@ def ControllerThread():
             print(ex)
             print("Most likely fix : change your indicator and or enable/disable buttons.")
                     
-            time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
+            time.sleep(1) # These time.sleep commands make sure that the control thread does not crash
             pass
 
 

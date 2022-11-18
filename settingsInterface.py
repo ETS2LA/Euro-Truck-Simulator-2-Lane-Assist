@@ -7,7 +7,7 @@ def ChangeProfile(profileName):
 
 # Change settings in the json file
 def UpdateSettings(category, name, data):
-    profile = open("currentProfile.txt", "r").readline()
+    profile = open("currentProfile.txt", "r").readline().replace("\n", "")
     with open(profile, "r") as f:
         settings = json.load(f)
 
@@ -18,7 +18,7 @@ def UpdateSettings(category, name, data):
 
 # Get a specific setting
 def GetSettings(category, name):
-    profile = open("currentProfile.txt", "r").readline()
+    profile = open("currentProfile.txt", "r").readline().replace("\n", "")
     with open(profile, "r") as f:
         settings = json.load(f)
     return settings[category][name]
