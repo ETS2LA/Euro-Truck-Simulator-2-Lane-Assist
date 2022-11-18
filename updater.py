@@ -131,10 +131,18 @@ def CheckVersion():
 def RemoveOldFiles():
     # Delete the old files
     try:
-        shutil.move("Euro-Truck-Simulator-2-Lane-Assist-{}\\settings.json".format(selectedBranch), "settings.json")
+        version = float(localVersion[0:4])
+
+        if version >= 0.3:
+            shutil.rmtree("profiles")
+            shutil.move("Euro-Truck-Simulator-2-Lane-Assist-{}\\profiles".format(selectedBranch), "profiles")
+        else: 
+            shutil.rmtree("settings.json")
+            shutil.move("Euro-Truck-Simulator-2-Lane-Assist-{}\\settings.json".format(selectedBranch), "settings.json")
         PrintBlue("Successfully backed up settings.json")
-    except:
-        pass
+    
+    except: pass
+    
     shutil.rmtree(dest, ignore_errors=True)
     PrintGreen("Old version removed")
 
@@ -153,14 +161,13 @@ def DownloadProgressBar(count, blockSize, totalSize):
     global progressBar
     global lastPercentReported
 
+    if totalSize == -1:
+        totalSize = 8952
     percent = count * blockSize * 100 / totalSize
     percent = round(percent, 2)
     if percent > 100:
         percent = 100.00
     kb = int(count * blockSize / 1024)
-
-    if percent < 0:
-        percent = "unknown"
 
     if lastPercentReported != percent:
         sys.stdout.write("\r {}% {}kb".format(percent, kb))
@@ -201,7 +208,7 @@ def DownloadNewVersion():
         # Remove the temporary zip
         os.remove(name)
         PrintGreen("Download complete")
-        PrintBlue("You can copy your settings.json back into the app folder")
+        PrintBlue("You can copy your profiles back into the app folder")
     except Exception as e:
         PrintRed("Error while downloading new version from github")
         print(e)
@@ -284,10 +291,10 @@ def ChangeBranch(branch):
 
 # Default TKinter window
 root = tk.Tk()
-root.title("ETS2 Lane Assist Updater V0.4")
+root.title("ETS2 Lane Assist Updater V0.5")
 root.geometry("%dx%d" % (w, h))
 root.configure(bg='#1c1c1c', padx=10, pady=10)
-AddLabel("ETS2 Lane Assist Updater V0.4", root, size=14)
+AddLabel("ETS2 Lane Assist Updater V0.5", root, size=14)
 currentLabel = AddLabel("Current version: " + "unknown", root, size=10)
 newestLabel = AddLabel("Newest version: " + "unknown", root, size=10)
 branchSelectorValue = tk.StringVar(root)
