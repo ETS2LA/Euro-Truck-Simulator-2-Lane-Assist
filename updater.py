@@ -134,14 +134,27 @@ def RemoveOldFiles():
         version = float(localVersion[0:4])
 
         if version >= 0.3:
-            shutil.rmtree("profiles")
+            try: shutil.rmtree("profiles")
+            except: pass
             shutil.move("Euro-Truck-Simulator-2-Lane-Assist-{}\\profiles".format(selectedBranch), "profiles")
         else: 
-            shutil.rmtree("settings.json")
+            try: shutil.rmtree("settings.json")
+            except: pass
             shutil.move("Euro-Truck-Simulator-2-Lane-Assist-{}\\settings.json".format(selectedBranch), "settings.json")
         PrintBlue("Successfully backed up settings.json")
     
-    except: pass
+    except Exception as ex:
+        print(ex)
+        PrintRed("Couldn't backup profiles")
+
+    try:
+        try: shutil.rmtree("models")
+        except: pass
+        shutil.move("Euro-Truck-Simulator-2-Lane-Assist-{}\\models".format(selectedBranch), "models")
+        PrintBlue("Successfully backed up models.")
+    except Exception as ex:
+        print(ex)
+        PrintRed("Couldn't backup models")
     
     shutil.rmtree(dest, ignore_errors=True)
     PrintGreen("Old version removed")
@@ -162,7 +175,7 @@ def DownloadProgressBar(count, blockSize, totalSize):
     global lastPercentReported
 
     if totalSize == -1:
-        totalSize = 8952
+        totalSize = 33656
     percent = count * blockSize * 100 / totalSize
     percent = round(percent, 2)
     if percent > 100:
@@ -175,7 +188,7 @@ def DownloadProgressBar(count, blockSize, totalSize):
         
         try:
             progressBar["value"] = int(percent)
-            progressText["text"] = ("{}% {}kb".format(percent, kb))
+            progressText["text"] = ("{}% {}mb".format(round(percent,1), round(kb/1000, 1)))
             root.update()
         except Exception as e:
             pass
@@ -190,6 +203,7 @@ def DownloadNewVersion():
     try:
         lastPercentReported = 1
         PrintGreen("\n Downloading new version please wait...")
+        PrintGreen("Don't panic if it doesn't move, just wait.")
         print("\r\033[94m")
         
         if progressBar == 0:
