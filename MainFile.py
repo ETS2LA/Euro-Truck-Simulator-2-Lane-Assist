@@ -290,9 +290,9 @@ def ControllerThread():
             # a constant on/off value.
             if disableLaneAssistWhenIndicating:
                 if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
-                    if(IndicatingRight):
+                    if(IndicatingRight and enabled):
                         sound.PlaySoundEnable()
-                    else:
+                    elif(enabled):
                         sound.PlaySoundDisable()
 
                     IndicatingRight = not IndicatingRight
@@ -300,9 +300,9 @@ def ControllerThread():
                 elif(not wheel.get_button(rightIndicator) and lastIndicatingRight):
                     lastIndicatingRight = False
                 if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
-                    if(IndicatingLeft):
+                    if(IndicatingLeft and enabled):
                         sound.PlaySoundEnable()
-                    else:
+                    elif(enabled):
                         sound.PlaySoundDisable()
 
                     IndicatingLeft = not IndicatingLeft
@@ -364,7 +364,7 @@ def ControllerThread():
                         if printControlDebug:
                             print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + " Wheel : " + str(currentLogitechAngle) + "                          \r", end="")
                     elif printControlDebug:
-                        print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + "\r", end="")
+                        print("Overall: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + "  App: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)) + "  Wheel: " + str(wheel.get_axis(steeringAxis)) + "\r", end="")
                     oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
                 else:
                     # If the lane assist is disabled we just input the default control.
@@ -396,7 +396,7 @@ controllerThread.start()
 image = None
 sct = mss.mss()
 lastImageUpdate = time.time()
-def mainFileLoop():
+def MainFileLoop():
     """
     Main UI and control Loop
     """

@@ -6,7 +6,7 @@
             "x": 1950,
             "y": 320,
             "useDirectX": true,
-            "DXframerate": 30
+            "DXframerate": 60
       },
       "modelSettings": {
             "modelPath": "models/tusimple_34.pth",
@@ -17,14 +17,14 @@
       "controlSettings": {
             "experimentalLogitechSupport": false,
             "steeringOffset": -55,
-            "sensitivity": 500,
+            "sensitivity": 400,
             "defaultControllerIndex": 3,
             "steeringAxis": 0,
             "enableDisableButton": 8,
             "rightIndicator": 4,
             "leftIndicator": 5,
-            "maximumControl": 0.3,
-            "controlSmoothness": 5,
+            "maximumControl": 0.2,
+            "controlSmoothness": 1,
             "disableLaneAssistWhenIndicating": true
       },
       "generalSettings": {
@@ -38,12 +38,12 @@
             "showPreview": true
       },
       "soundSettings": {
-            "playSounds": false,
-            "enableSound": "soundfx/start.wav",
-            "disableSound": "soundfx/end.wav",
-            "warningSound": "soundfx/warning.wav"
+            "playSounds": true,
+            "enableSound": "soundfx/start.mp3",
+            "disableSound": "soundfx/end.mp3",
+            "warningSound": "soundfx/warning.mp3"
       },
       "debugSettings": {
-            "printControlDebug": false
+            "printControlDebug": true
       }
 }

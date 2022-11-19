@@ -16,6 +16,7 @@ import json
 from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 import depthPrediction
 import settingsInterface as settings
+import soundInterface as sound
 
 # CHANGE THESE VALUES IN THE SETTINGS.JSON FILE
 # THEY WILL NOT UPDATE IF CHANGED HERE
@@ -266,6 +267,13 @@ def UpdateLanes():
     laneColor = ImageColor.getrgb(color)
     laneColor = (laneColor[2], laneColor[1], laneColor[0])
     output_img = lane_detector.detect_lanes(frame, showLanePoints, showLanes, color=laneColor)
+
+    try:
+        test = lane_detector.lanes_points[1][0]
+        test = lane_detector.lanes_points[2][0]
+    except:
+        sound.PlaySoundWarning()
+
     try:
         # Compute the distance from the center of the screen to the average between lanes
         difference = (lane_detector.lanes_points[1][0][0] + lane_detector.lanes_points[2][0][0]) / 2

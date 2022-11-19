@@ -286,13 +286,16 @@ def SaveSettings(something):
     settings.UpdateSettings("controlSettings", "sensitivity", sensitivity.get())
     settings.UpdateSettings("controlSettings", "maximumControl", maximumControl.get())
     settings.UpdateSettings("controlSettings", "controlSmoothness", controlSmoothness.get())
+    settings.UpdateSettings("soundSettings", "enableSound", enabledSound.get())
+    settings.UpdateSettings("soundSettings", "disableSound", disabledSound.get())
+    settings.UpdateSettings("soundSettings", "warningSound", warningSound.get())
     print("\033[92mSuccessfully saved settings \033[00m")
 
 # Bind the enter key to save settings
 root.bind('<Return>', SaveSettings)
 
 while True:
-    MainFile.mainFileLoop()
+    MainFile.MainFileLoop()
     wheelAngle.set(MainFile.wheel.get_axis(int(steeringAxis.get())))
 
     if(MainFile.wheel.get_button(enableDisableButton.get())):
