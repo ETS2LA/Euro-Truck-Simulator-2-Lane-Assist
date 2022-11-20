@@ -3,10 +3,10 @@
       "screenCapture": {
             "width": 1280,
             "height": 720,
-            "x": 1950,
-            "y": 320,
+            "x": 0,
+            "y": 0,
             "useDirectX": true,
-            "DXframerate": 60
+            "DXframerate": 30
       },
       "modelSettings": {
             "modelPath": "models/tusimple_34.pth",
