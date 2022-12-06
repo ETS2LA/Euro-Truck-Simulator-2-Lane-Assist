@@ -16,3 +16,10 @@ tensorflow
 tflite
 scipy
 playsound==1.2.2
+opencv-python
+googledrivedownloader
+onnx
+onnxruntime
+onnxruntime-gpu
+requests
+imread-from-url
