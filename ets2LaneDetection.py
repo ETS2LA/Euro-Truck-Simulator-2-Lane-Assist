@@ -13,10 +13,11 @@ from mss import mss
 import numpy as np
 from PIL import Image, ImageFont, ImageDraw, ImageColor
 import json
-from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
+from UltraFastLaneDetection import UltrafastLaneDetector, ModelType
 import depthPrediction
 import settingsInterface as settings
 import soundInterface as sound
+import laneDetectionInterface as laneDetection
 
 # CHANGE THESE VALUES IN THE SETTINGS.JSON FILE
 # THEY WILL NOT UPDATE IF CHANGED HERE
@@ -126,19 +127,13 @@ else:
 close = False
 isIndicating = 0 # 1 = Right, 2 = Left, 0 = None
 
-# Initialize lane detection model with default settings
-try:
-    lane_detector = UltrafastLaneDetector(model_path, model_type, use_gpu=useGPUByDefault, modelDepth = model_depth)
-except Exception as e:
-    print(e.args)
-    print("\033[93mDefault model not installed, please select one in the settings\033[00m")
 
 def LoadModelFromSettings():
     global model_path
     global model_type
     global model_depth
     global useGPUByDefault
-    global lane_detector
+
 
     # Model settings
     model_path = settings.GetSettings("modelSettings","modelPath")
@@ -158,9 +153,20 @@ def LoadModelFromSettings():
     
     settings.UpdateSettings("modelSettings","modelDepth", model_depth)
 
+    lstr_model_path = settings.GetSettings("modelSettings","modelPathLSTR")
+    lstr_model_type = settings.GetSettings("modelSettings","modelTypeLSTR")
 
-    lane_detector = UltrafastLaneDetector("models/" + model_path, model_type, use_gpu=useGPUByDefault, modelDepth = str(model_depth))
+    if settings.GetSettings("modelSettings", "useLSTR"):
+        laneDetection.initialize_model(lstr_model_path, lstr_model_type, str(model_depth), use_gpu=useGPUByDefault)
+    else:
+        laneDetection.initialize_model("models/" + model_path, model_type, str(model_depth), use_gpu=useGPUByDefault)
 
+# Initialize lane detection model with default settings
+try:
+    LoadModelFromSettings()
+except Exception as e:
+    print(e)
+    print("\033[93mDefault model not installed, please select one in the settings\033[00m")
 
 
 def ChangeVideoDimension():
@@ -266,17 +272,17 @@ def UpdateLanes():
     # Detect the lanes (input image, draw dots, draw lane)
     laneColor = ImageColor.getrgb(color)
     laneColor = (laneColor[2], laneColor[1], laneColor[0])
-    output_img = lane_detector.detect_lanes(frame, showLanePoints, showLanes, color=laneColor)
+    output_img = laneDetection.detect_lanes(frame, showLanePoints, showLanes, color=laneColor)
 
     try:
-        test = lane_detector.lanes_points[1][0]
-        test = lane_detector.lanes_points[2][0]
+        test = laneDetection.lanes_points[1][0]
+        test = laneDetection.lanes_points[2][0]
     except:
         sound.PlaySoundWarning()
 
     try:
         # Compute the distance from the center of the screen to the average between lanes
-        difference = (lane_detector.lanes_points[1][0][0] + lane_detector.lanes_points[2][0][0]) / 2
+        difference = (laneDetection.lanes_points[1][0][0] + laneDetection.lanes_points[2][0][0]) / 2
         difference = difference - (w / 2)
         difference = difference + steeringOffset
     except Exception as ex:
@@ -293,7 +299,7 @@ def UpdateLanes():
             lane1Points = []
             lane2Points = []
             drivingPoints = []
-            for lane_num,lane_points in enumerate(lane_detector.lanes_points):
+            for lane_num,lane_points in enumerate(laneDetection.lanes_points):
                 for lane_point in lane_points:
                     if(lane_num == 1):
                         lane1Points.append(lane_point)

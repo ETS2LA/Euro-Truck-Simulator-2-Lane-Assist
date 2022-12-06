@@ -9,7 +9,7 @@ from enum import Enum
 from scipy.spatial.distance import cdist
 import time
 
-from ultrafastLaneDetector.model import parsingNet
+from UltraFastLaneDetection.model import parsingNet
 
 lane_colors = [(0,0,255),(0,255,0),(255,0,0),(0,255,255)]
 

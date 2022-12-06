@@ -12,7 +12,9 @@
             "modelPath": "models/tusimple_34.pth",
             "modelType": "tusimple",
             "modelDepth": "34",
-            "useGPU": false
+            "useGPU": false,
+            "useLSTR": true,
+            "modelPathLSTR": "models/lstr.pth"
       },
       "controlSettings": {
             "experimentalLogitechSupport": false,
@@ -25,7 +27,8 @@
             "leftIndicator": 0,
             "maximumControl": 0.2,
             "controlSmoothness": 5,
-            "disableLaneAssistWhenIndicating": true
+            "disableLaneAssistWhenIndicating": true,
+            "enableAutomaticCruiseControl": true
       },
       "generalSettings": {
             "capturePreview": true,
