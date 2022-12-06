@@ -6,12 +6,16 @@ OTHERWISE IT WILL NOT BACKUP YOUR SETTINGS.
 Added
 --------------------------------------------------------------------------------------------
 - Added a new UI that does not use streamlit, there have been too many issues with it.
+- Added a new lane detection type. LSTR, it offers faster but less accurate detection.
+    - Side note : I really have to thank ibaiGorordo, basically all the models I use
+      have been adapted from his work :heart:
 - Added the ability to save and load profiles
 - Added an depth prediction capability, this will be expanded in the future.
     - Planned features included
         - Detection of cars 
         - 3D view of the world
         - Emergency breaking etc...
+
 
 Fixed
 --------------------------------------------------------------------------------------------
