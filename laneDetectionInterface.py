@@ -22,9 +22,10 @@ def initialize_model(model_path, model_type, model_depth,use_gpu=True):
     print("Initializing model...")
     if useLSTR: 
         for type in ModelType:
-            if type.value == model_type:
+            if type.value in model_path:
                 model_type = type
                 break
+        print("Model is of type " + model_type.value)
         model = LSTR(model_type, model_path)
     else: 
         model = ultrafastLaneDetector.UltrafastLaneDetector(model_path, model_type, use_gpu, model_depth)

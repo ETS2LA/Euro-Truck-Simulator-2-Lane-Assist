@@ -82,6 +82,7 @@ def LoadSettings():
     useDirectX = settings.GetSettings("screenCapture","useDirectX")
 
     LaneDetection.LoadSettings()
+    LaneDetection.LoadModelFromSettings()
 
 
 LoadSettings()

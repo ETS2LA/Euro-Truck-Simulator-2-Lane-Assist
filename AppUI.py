@@ -65,6 +65,7 @@ def UpdateModelSettings():
     settings.UpdateSettings("modelSettings", "modelPath", modelPath + "/" + model.get().lower().replace(" ", "_") + ".pth")
     settings.UpdateSettings("modelSettings", "modelDepth", ''.join(filter(str.isdigit, model.get().lower())))
     settings.UpdateSettings("modelSettings", "useGPU", useGPU.get())
+    MainFile.LoadSettings()
     print("New model : " + model.get().lower())
 
 def SaveProfile():
@@ -265,6 +266,16 @@ enabledSound = MakeComboEntry(top_far_right, "Enabled Sound", "soundSettings", "
 disabledSound = MakeComboEntry(top_far_right, "Disabled Sound", "soundSettings", "disableSound", 2, 0, isString=True, width=20)
 warningSound = MakeComboEntry(top_far_right, "Warning Sound", "soundSettings", "warningSound", 3, 0, isString=True, width=20)
 
+# LSTR settings (bottom far right)
+bottom_far_right = ttk.LabelFrame(big_frame, height=390, padding=15, text="LSTR Settings")
+bottom_far_right.grid(row=1, column=3, sticky="nw")
+
+ttk.Label(bottom_far_right, text="LSTR allows for MUCH faster lane detection.\nThe drawback being less accuracity.").grid(row=0, column=0, columnspan=2, sticky="w", padx=7, pady=7)
+lstrIsEnabled = MakeCheckButton(bottom_far_right, "Enable", "modelSettings", "useLSTR", 1, 0)
+lstrModel = MakeComboEntry(bottom_far_right, "LSTR Model", "modelSettings", "modelPathLSTR", 3, 0, isString=True, width=20)
+lstrUseGPU = MakeCheckButton(bottom_far_right, "Use GPU", "modelSettings", "useGPU", 4, 0)
+ttk.Label(bottom_far_right, text="LSTR support is still in development.\nPlease report any bugs.").grid(row=5, column=0, columnspan=2, sticky="w", padx=7, pady=7)
+
 # Set themes and closing callback
 sv_ttk.set_theme("dark")
 root.protocol("WM_DELETE_WINDOW", OnClosing)
@@ -289,6 +300,7 @@ def SaveSettings(something):
     settings.UpdateSettings("soundSettings", "enableSound", enabledSound.get())
     settings.UpdateSettings("soundSettings", "disableSound", disabledSound.get())
     settings.UpdateSettings("soundSettings", "warningSound", warningSound.get())
+    settings.UpdateSettings("modelSettings", "modelPathLSTR", lstrModel.get())
     print("\033[92mSuccessfully saved settings \033[00m")
 
 # Bind the enter key to save settings
