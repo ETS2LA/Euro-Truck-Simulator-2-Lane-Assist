@@ -159,7 +159,7 @@ def LoadModelFromSettings():
     if settings.GetSettings("modelSettings", "useLSTR"):
         laneDetection.initialize_model(lstr_model_path, lstr_model_type, str(model_depth), use_gpu=useGPUByDefault)
     else:
-        laneDetection.initialize_model("models/" + model_path, model_type, str(model_depth), use_gpu=useGPUByDefault)
+        laneDetection.initialize_model(model_path, model_type, str(model_depth), use_gpu=useGPUByDefault)
 
 # Initialize lane detection model with default settings
 try:

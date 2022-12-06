@@ -14,20 +14,23 @@ log_space = np.logspace(0,2, 50, base=1/10, endpoint=True)
 
 class LSTR():
 
-    def __init__(self, model_type, model_path):
+    def __init__(self, model_type, model_path, use_gpu=True):
 
         # Initialize model (download if necessary)
         models_gdrive_id = "1uSyVLlZn0NDoa7RR3U6vG_OCkn0uoE8z"
         download_gdrive_tar_model(models_gdrive_id, model_type, model_path)
-        self.model = self.initialize_model(model_path)
+        self.model = self.initialize_model(model_path, use_gpu=use_gpu)
 
     def __call__(self, image):
 
         return self.detect_lanes(image)
 
-    def initialize_model(self, model_path):
+    def initialize_model(self, model_path, use_gpu=True):
 
-        self.session = onnxruntime.InferenceSession(model_path, providers=['CUDAExecutionProvider'])
+        if use_gpu:
+            self.session = onnxruntime.InferenceSession(model_path, providers=['CUDAExecutionProvider'])
+        else:
+            self.session = onnxruntime.InferenceSession(model_path, providers=['CPUExecutionProvider'])
 
         # Get model info
         self.getModel_input_details()

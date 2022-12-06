@@ -85,7 +85,6 @@ def LoadSettings():
     LaneDetection.LoadModelFromSettings()
 
 
-LoadSettings()
 
 
 """

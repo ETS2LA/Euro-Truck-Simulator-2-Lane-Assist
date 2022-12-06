@@ -1,14 +1,52 @@
+import time
+startTime = time.time() 
+print("""
+ _____                             _  ___   __    __   
+/__   \_   _ _ __ ___  _ __  _ __ (_)/ _ \ / /_  / /_  
+  / /\/ | | | '_ ` _ \| '_ \| '_ \| | | | | '_ \| '_ \ 
+ / /  | |_| | | | | | | |_) | |_) | | |_| | (_) | (_) |
+ \/    \__,_|_| |_| |_| .__/| .__/|_|\___/ \___/ \___/ 
+                      |_|   |_|                        
+      __                   ___           _     __ 
+     / /  ___ ____  ___   / _ | ___ ___ (_)__ / /_
+    / /__/ _ `/ _ \/ -_) / __ |(_-<(_-</ (_-</ __/
+   /____/\_,_/_//_/\__/ /_/ |_/___/___/_/___/\__/ 
+                                               
+""")
+
+#exit()
+print("Importing modules...")
 import tkinter as tk
 from tkinter import Toplevel, ttk, messagebox
 import sv_ttk
 import os
 import settingsInterface as settings
 from ttkwidgets import color
-import MainFile
-import time
 from tkinter import filedialog
 import shutil
 import soundInterface as sound
+import sys
+import threading
+
+# https://stackoverflow.com/a/45669280
+class HiddenPrints:
+    def __enter__(self):
+        self._original_stdout = sys.stdout
+        sys.stdout = open(os.devnull, 'w')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout.close()
+        sys.stdout = self._original_stdout
+
+print("\nLoading the lane detection files\nthe app will hang, be patient...\n")
+mainLoadTime = time.time()
+
+with HiddenPrints():
+    import MainFile
+
+loadingDone = True
+print(f"> Done! ({round(time.time() - mainLoadTime, 2)}s)\n")
+
 
 def OnClosing():
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
@@ -16,8 +54,9 @@ def OnClosing():
         root.destroy()
 
 
+print("Discovering models...")
 modelPath = "models"
-models = []
+models = [] # For Ultrafast-lane-detection
 def LoadModels():
     global models
 
@@ -26,6 +65,18 @@ def LoadModels():
             models.append(file.replace(".pth", "").replace("_", " ").capitalize())
 
 LoadModels()
+
+onnxModels = [] # For LSTR
+def LoadONNXModels():
+    global onnxModels
+
+    for file in os.listdir(modelPath):
+        if file.endswith(".onnx"):
+            onnxModels.append(file.replace(".onnx", "").replace("_", " ").capitalize())
+
+LoadONNXModels()
+
+print(f"> {len(models) + len(onnxModels)} models found.")
 
 def MakeButton(parent, text, command, row, column, style="TButton", width=15):
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width)
@@ -105,7 +156,6 @@ def LoadProfile():
 def UpdateAllSettings():
     SaveSettings("somethingsomething")
     UpdateModelSettings()
-    MainFile.LoadSettings()
     MainFile.ChangeControllerSettingsFromFile()
 
 def ChangeWindowSize(): # Between full, and minimized state
@@ -135,6 +185,9 @@ fullHeight = 750
 
 miniWidth = 217
 miniHeight = 390
+
+uiStartTime = time.time()
+print("\nLoading UI...")
 
 # This initializes the Main UI tkinter window
 root = tk.Tk() # The main window
@@ -185,9 +238,7 @@ model = ttk.Combobox(bottom_left, width=14, values=models)
 model.set(settings.GetSettings("modelSettings", "modelPath").replace(".pth", "").replace("_", " ").replace("models/", "").capitalize())
 model.grid(row=2, column=0, sticky="w", padx=7, pady=7)
 
-useGPU = tk.BooleanVar()
-useGPU.set(bool(settings.GetSettings("modelSettings", "useGPU")))
-ttk.Checkbutton(bottom_left, text="Use GPU", variable=useGPU, onvalue=True, offvalue=False).grid(row=3, column=0, sticky="w", padx=7, pady=7)
+useGPU = MakeCheckButton(bottom_left, "Use GPU", "modelSettings", "useGPU", 3, 0)
 
 # Preview customizations (top center)
 top_center = ttk.LabelFrame(big_frame, height=400, padding=15, text="Preview Customizations")
@@ -273,8 +324,7 @@ bottom_far_right.grid(row=1, column=3, sticky="nw")
 ttk.Label(bottom_far_right, text="LSTR allows for MUCH faster lane detection.\nThe drawback being less accuracity.").grid(row=0, column=0, columnspan=2, sticky="w", padx=7, pady=7)
 lstrIsEnabled = MakeCheckButton(bottom_far_right, "Enable", "modelSettings", "useLSTR", 1, 0)
 lstrModel = MakeComboEntry(bottom_far_right, "LSTR Model", "modelSettings", "modelPathLSTR", 3, 0, isString=True, width=20)
-lstrUseGPU = MakeCheckButton(bottom_far_right, "Use GPU", "modelSettings", "useGPU", 4, 0)
-ttk.Label(bottom_far_right, text="LSTR support is still in development.\nPlease report any bugs.").grid(row=5, column=0, columnspan=2, sticky="w", padx=7, pady=7)
+ttk.Label(bottom_far_right, text="LSTR SUPPORT IS IN DEVELOPMENT!\nPlease report any bugs!").grid(row=5, column=0, columnspan=2, sticky="w", padx=7, pady=7)
 
 # Set themes and closing callback
 sv_ttk.set_theme("dark")
@@ -305,6 +355,10 @@ def SaveSettings(something):
 
 # Bind the enter key to save settings
 root.bind('<Return>', SaveSettings)
+
+root.update()
+print("> Done! ({}s)".format(round(time.time() - uiStartTime, 2)))
+print("\n\033[92mApp initialization complete in {}s! \033[00m\n".format(round(time.time() - startTime, 2)))
 
 while True:
     MainFile.MainFileLoop()
