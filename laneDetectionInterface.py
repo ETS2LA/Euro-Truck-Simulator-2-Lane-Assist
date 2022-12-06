@@ -3,9 +3,9 @@ from LSTRLaneDetection.lstr import LSTR
 import settingsInterface as settings
 from enum import Enum
 
-useLSTR = settings.GetSettings("modelSettings","useLSTR")
 model = None
 lanes_points = []
+useLSTR = settings.GetSettings("modelSettings","useLSTR")
 
 # Model types for LSTR
 # Copied straight from ibaiGorordo's LSTR repo (ONNX-LSTR-Lane-Detection) -> LSTRLaneDetection
@@ -19,6 +19,9 @@ class ModelType(Enum):
 
 def initialize_model(model_path, model_type, model_depth,use_gpu=True):
     global model
+    global useLSTR
+    
+    useLSTR = settings.GetSettings("modelSettings","useLSTR")
     print("Initializing model...")
     if useLSTR: 
         for type in ModelType:
@@ -26,7 +29,7 @@ def initialize_model(model_path, model_type, model_depth,use_gpu=True):
                 model_type = type
                 break
         print("Model is of type " + model_type.value)
-        model = LSTR(model_type, model_path)
+        model = LSTR(model_type, model_path, use_gpu=use_gpu)
     else: 
         model = ultrafastLaneDetector.UltrafastLaneDetector(model_path, model_type, use_gpu, model_depth)
     
