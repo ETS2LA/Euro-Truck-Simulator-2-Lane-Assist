@@ -5,6 +5,7 @@ from enum import Enum
 
 model = None
 lanes_points = []
+lane_ids = []
 useLSTR = settings.GetSettings("modelSettings","useLSTR")
 
 # Model types for LSTR
@@ -28,19 +29,21 @@ def initialize_model(model_path, model_type, model_depth,use_gpu=True):
             if type.value in model_path:
                 model_type = type
                 break
-        print("Model is of type " + model_type.value)
+        print("> Model is of type " + model_type.value)
         model = LSTR(model_type, model_path, use_gpu=use_gpu)
     else: 
         model = ultrafastLaneDetector.UltrafastLaneDetector(model_path, model_type, use_gpu, model_depth)
     
-    print("Model initialized!")
+    print("> Done!\n")
 
 def detect_lanes(image, draw_points=True, draw_poly=True, color=(255,191,0)):
     global lanes_points
+    global lane_ids
     if useLSTR:
         detected_lanes, lane_ids = model.detect_lanes(image)
         output_img = model.draw_lanes(image, color=color, fillPoly=draw_poly)
         lanes_points = detected_lanes
+        lane_ids = lane_ids
         return output_img
     else:
         outputImg = model.detect_lanes(image, draw_points, draw_poly, color)

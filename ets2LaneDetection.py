@@ -60,7 +60,7 @@ def LoadSettings(onlyGeneral = False):
     global showLanes
     global color
 
-    
+    print("Loading settings...")
     if not onlyGeneral:
         # Screen settings
         w = settings.GetSettings("screenCapture","width")
@@ -93,7 +93,7 @@ def LoadSettings(onlyGeneral = False):
             else:
                 ChangeVideoDimension()
         except: pass
-        print("\033[92mSuccessfully loaded all lane detection settings \033[00m")
+        print("> Done!\n")
 
     else:
         # General settings
@@ -104,7 +104,7 @@ def LoadSettings(onlyGeneral = False):
         showLanePoints = settings.GetSettings("generalSettings","showLanePoints")
         showLanes = settings.GetSettings("generalSettings","fillLane")
         color = settings.GetSettings("generalSettings","laneColor")
-        print("\033[92mSuccessfully loaded lane detection general settings \033[00m")
+        print("> Done!\n")
 
 LoadSettings()
 
@@ -166,7 +166,8 @@ try:
     LoadModelFromSettings()
 except Exception as e:
     print(e)
-    print("\033[93mDefault model not installed, please select one in the settings\033[00m")
+    print("Error loading model")
+    print("\033[93m> Default model not installed, please select one in the settings\033[00m")
 
 
 def ChangeVideoDimension():
@@ -275,17 +276,34 @@ def UpdateLanes():
     output_img = laneDetection.detect_lanes(frame, showLanePoints, showLanes, color=laneColor)
 
     try:
-        test = laneDetection.lanes_points[1][0]
-        test = laneDetection.lanes_points[2][0]
-    except:
+        if(laneDetection.useLSTR):
+            rightLane = np.where(laneDetection.lane_ids==0)[0]
+            leftLane = np.where(laneDetection.lane_ids==5)[0]
+            #print(laneDetection.lane_ids)
+            #print(leftLane)
+            #print(rightLane)
+            test = laneDetection.lanes_points[leftLane[0]]
+            test = laneDetection.lanes_points[rightLane[0]]
+        else:
+            test = laneDetection.lanes_points[1][0]
+            test = laneDetection.lanes_points[2][0]
+    except Exception as ex:
+        print(ex)
         sound.PlaySoundWarning()
 
     try:
         # Compute the distance from the center of the screen to the average between lanes
-        difference = (laneDetection.lanes_points[1][0][0] + laneDetection.lanes_points[2][0][0]) / 2
+        if(laneDetection.useLSTR):
+            leftx = laneDetection.lanes_points[leftLane[0]][0][0]
+            rightx = laneDetection.lanes_points[rightLane[0]][0][0]
+        else:
+            leftx = laneDetection.lanes_points[1][0][0]
+            rightx = laneDetection.lanes_points[2][0][0]
+        difference = (leftx + rightx) / 2
         difference = difference - (w / 2)
         difference = difference + steeringOffset
     except Exception as ex:
+        print(ex)
         pass
     
     laneDetectTime = (time.time_ns() - laneDetectTime)

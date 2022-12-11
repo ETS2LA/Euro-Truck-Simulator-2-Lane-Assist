@@ -3,8 +3,8 @@
       "screenCapture": {
             "width": 1280,
             "height": 720,
-            "x": 0,
-            "y": 0,
+            "x": 2100,
+            "y": 350,
             "useDirectX": true,
             "DXframerate": 60
       },
@@ -19,9 +19,9 @@
       },
       "controlSettings": {
             "experimentalLogitechSupport": false,
-            "steeringOffset": -55,
+            "steeringOffset": 100,
             "sensitivity": 400,
-            "defaultControllerIndex": 0,
+            "defaultControllerIndex": 2,
             "steeringAxis": 0,
             "enableDisableButton": 8,
             "rightIndicator": 4,
@@ -48,6 +48,6 @@
             "warningSound": "soundfx/warning.mp3"
       },
       "debugSettings": {
-            "printControlDebug": true
+            "printControlDebug": false
       }
 }

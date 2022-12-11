@@ -166,6 +166,7 @@ def ChangeControllerSettingsFromFile():
 
     
     # Get settings
+    print("Loading controller settings...")
     rightIndicator = settings.GetSettings("controlSettings","rightIndicator")
     leftIndicator = settings.GetSettings("controlSettings","leftIndicator")
     enableDisableButton = settings.GetSettings("controlSettings","enableDisableButton")
@@ -179,7 +180,7 @@ def ChangeControllerSettingsFromFile():
 
     wheel = pygame.joystick.Joystick(settings.GetSettings("controlSettings","defaultControllerIndex"))
 
-    print("\033[92mController settings updated! \033[00m")
+    print("> Done!\n")
 
 
 

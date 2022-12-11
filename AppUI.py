@@ -117,7 +117,7 @@ def UpdateModelSettings():
     settings.UpdateSettings("modelSettings", "modelDepth", ''.join(filter(str.isdigit, model.get().lower())))
     settings.UpdateSettings("modelSettings", "useGPU", useGPU.get())
     MainFile.LoadSettings()
-    print("New model : " + model.get().lower())
+    
 
 def SaveProfile():
     global currentProfileDisplay
@@ -332,6 +332,7 @@ root.protocol("WM_DELETE_WINDOW", OnClosing)
 root.title("ETS2 Lane Assist")
 
 def SaveSettings(something):
+    print("Saving settings...")
     settings.UpdateSettings("generalSettings", "laneColor", laneColor.get())
     settings.UpdateSettings("screenCapture", "width", width.get())
     settings.UpdateSettings("screenCapture", "height", height.get())
@@ -351,7 +352,7 @@ def SaveSettings(something):
     settings.UpdateSettings("soundSettings", "disableSound", disabledSound.get())
     settings.UpdateSettings("soundSettings", "warningSound", warningSound.get())
     settings.UpdateSettings("modelSettings", "modelPathLSTR", lstrModel.get())
-    print("\033[92mSuccessfully saved settings \033[00m")
+    print("> Done!\n")
 
 # Bind the enter key to save settings
 root.bind('<Return>', SaveSettings)
