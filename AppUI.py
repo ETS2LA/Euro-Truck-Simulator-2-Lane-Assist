@@ -1,3 +1,4 @@
+from cc import accon, keyu, keyd, debug
 import tkinter as tk
 from tkinter import Toplevel, ttk, messagebox
 import sv_ttk
@@ -256,6 +257,14 @@ sensitivity = MakeComboEntry(bottom_right, "Sensitivity", "controlSettings", "se
 maximumControl = MakeComboEntry(bottom_right, "Maximum Control", "controlSettings", "maximumControl", 3, 0, isFloat=True)
 controlSmoothness = MakeComboEntry(bottom_right, "Control Smooth...", "controlSettings", "controlSmoothness", 4, 0)
 
+#Acc (middle far right)
+top_far_right = ttk.LabelFrame(big_frame, height=100, padding=15, text="Cruise Control Settings")
+top_far_right.grid(row=1, column=3, sticky="nw")
+
+acc = MakeCheckButton(top_far_right, "Acc On", "Cruise", "accon", 0, 0)
+Up = MakeComboEntry(top_far_right, "Cruise Up", "Cruise", "keyu", 1, 0, isString=True, width=5)
+Down = MakeComboEntry(top_far_right, "Cruise Down", "Cruise", "keyd", 2, 0, isString=True, width=5)
+
 # Sound settings (top far right xD)
 top_far_right = ttk.LabelFrame(big_frame, height=100, padding=15, text="Sound Settings")
 top_far_right.grid(row=0, column=3, sticky="nw")
@@ -289,12 +298,14 @@ def SaveSettings(something):
     settings.UpdateSettings("soundSettings", "enableSound", enabledSound.get())
     settings.UpdateSettings("soundSettings", "disableSound", disabledSound.get())
     settings.UpdateSettings("soundSettings", "warningSound", warningSound.get())
+    #settings.UpdateSettings("Experimentalsettings", "acc", acc.get())
     print("\033[92mSuccessfully saved settings \033[00m")
 
 # Bind the enter key to save settings
 root.bind('<Return>', SaveSettings)
 
 while True:
+    exec(open("./cc.py").read())
     MainFile.MainFileLoop()
     wheelAngle.set(MainFile.wheel.get_axis(int(steeringAxis.get())))
 

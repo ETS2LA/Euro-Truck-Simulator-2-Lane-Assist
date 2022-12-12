@@ -16,3 +16,4 @@ tensorflow
 tflite
 scipy
 playsound==1.2.2
+pynput.keyboard

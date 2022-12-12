@@ -1,9 +1,10 @@
+# Right now it's recommended to install the experimental version, since it has some sorely needed features over the main branch. BUT I CANNOT QUARANTEE IT WORKING. If you have any issues then contact me and we will get them fixed :)
 ![Logo](LaneAssistLogoWide.jpg)
 # Lane Assist For ETS2 and ATS
 A lane assist, built with the ultra-fast-lane-detection model.
-
+## For the new Ets2 api you need to Place scs-telemetry DLL inside bin/win_x64/plugins/ of your ETS2 installation. It is possible the plugins directory doesn't exists yet (as with every default installation). In that case you need to create the plugins folder. Place the DLL inside the plugins folder.
 This project was made possible by the amazing people behind the original [Ultra Fast Lane Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection) paper.
-In addition to [ibaiGorordo](https://github.com/ibaiGorordo/Midasv2_1_small-TFLite-Inference/commits?author=ibaiGorordo) for his [example scripts for Pytorch](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-) and the [MiDaS tflite implementation](https://github.com/ibaiGorordo/Midasv2_1_small-TFLite-Inference). [rdbende](https://github.com/rdbende) for his  [sun valley theme for ttk](https://github.com/rdbende/Sun-Valley-ttk-theme). Logo was made with [Designevo](https://www.designevo.com/).
+In addition to [ibaiGorordo](https://github.com/ibaiGorordo/Midasv2_1_small-TFLite-Inference/commits?author=ibaiGorordo) for his [example scripts for Pytorch](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-) and the [MiDaS tflite implementation](https://github.com/ibaiGorordo/Midasv2_1_small-TFLite-Inference). [rdbende](https://github.com/rdbende) for his  [sun valley theme for ttk](https://github.com/rdbende/Sun-Valley-ttk-theme). Logo was made with [Designevo](https://www.designevo.com/). The Ets2 Api and Acc were built by [Glitched](https://git.gproconnect.com/Cloud/ETS2-Lane-Assist-Beta)
 
 [Example Video](https://youtu.be/Ssw2JlbthHw)
 

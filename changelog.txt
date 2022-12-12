@@ -1,3 +1,14 @@
+Update Minor V0.3.1 - 12.12.2022
+
+Added
+--------------------------------------------------------------------------------------------
+- Added Api For Euro Truck Simulator 2
+- Added Acc (Auto Cruise Control)
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Made more bugs in my code
+
 Update Major V0.3 - 18.11.2022
 
 DOWNLOAD THE NEW UPDATER BEFORE UPDATING THE APP.
@@ -7,6 +18,7 @@ Added
 --------------------------------------------------------------------------------------------
 - Added a new UI that does not use streamlit, there have been too many issues with it.
 - Added the ability to save and load profiles
+- Added Auto Cruise Control
 - Added an depth prediction capability, this will be expanded in the future.
     - Planned features included
         - Detection of cars 

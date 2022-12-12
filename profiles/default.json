@@ -30,7 +30,7 @@
       "generalSettings": {
             "capturePreview": true,
             "previewOnTop": true,
-            "computeGreenDots": false,
+            "computeGreenDots": true,
             "drawSteeringLine": true,
             "showLanePoints": true,
             "fillLane": true,
