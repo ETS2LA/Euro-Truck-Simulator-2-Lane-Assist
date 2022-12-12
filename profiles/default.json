@@ -37,6 +37,12 @@
             "laneColor": "#22dcd2",
             "showPreview": true
       },
+      "Cruise": {
+            "accon": false,
+            "keyu": "/",
+            "keyd": ".",
+            "debug": false
+      },
       "soundSettings": {
             "playSounds": true,
             "enableSound": "soundfx/start.mp3",
