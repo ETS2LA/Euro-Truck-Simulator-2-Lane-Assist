@@ -16,15 +16,15 @@
       },
       "controlSettings": {
             "experimentalLogitechSupport": false,
-            "steeringOffset": 50,
-            "sensitivity": 500,
-            "defaultControllerIndex": 0,
+            "steeringOffset": -55,
+            "sensitivity": 400,
+            "defaultControllerIndex": 3,
             "steeringAxis": 0,
-            "enableDisableButton": 0,
-            "rightIndicator": 0,
-            "leftIndicator": 0,
+            "enableDisableButton": 8,
+            "rightIndicator": 4,
+            "leftIndicator": 5,
             "maximumControl": 0.2,
-            "controlSmoothness": 5,
+            "controlSmoothness": 1,
             "disableLaneAssistWhenIndicating": true
       },
       "generalSettings": {
