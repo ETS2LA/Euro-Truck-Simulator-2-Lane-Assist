@@ -43,6 +43,11 @@ import vgamepad as vg
 import pygame
 import threading
 
+#Api Stuff
+from ets2sdkclient import ets2sdkclient
+sdk = ets2sdkclient()
+sdk.update
+
 # Misc.
 import ets2LaneDetection as LaneDetection
 import time
@@ -80,7 +85,6 @@ def LoadSettings():
     leftIndicator = settings.GetSettings("controlSettings","leftIndicator")
     printControlDebug = settings.GetSettings("debugSettings","printControlDebug")
     useDirectX = settings.GetSettings("screenCapture","useDirectX")
-
     LaneDetection.LoadSettings()
 
 
@@ -282,6 +286,7 @@ def ControllerThread():
     global disableLaneAssistWhenIndicating
 
     while True:
+        sdk.update
         try:
             # Makes sure the thread will close if the program is closed.
             if(close): break

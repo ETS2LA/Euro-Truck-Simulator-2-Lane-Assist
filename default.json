@@ -1,0 +1,55 @@
+{
+      "_comment": "Change the settings here, and they will be automatically updated on startup",
+      "screenCapture": {
+            "width": 1280,
+            "height": 720,
+            "x": 0,
+            "y": 0,
+            "useDirectX": true,
+            "DXframerate": 30
+      },
+      "modelSettings": {
+            "modelPath": "models/tusimple_34.pth",
+            "modelType": "tusimple",
+            "modelDepth": "34",
+            "useGPU": true
+      },
+      "controlSettings": {
+            "experimentalLogitechSupport": false,
+            "steeringOffset": -55,
+            "sensitivity": 500,
+            "defaultControllerIndex": 3,
+            "steeringAxis": 0,
+            "enableDisableButton": 9,
+            "rightIndicator": 1,
+            "leftIndicator": 0,
+            "maximumControl": 0.8,
+            "controlSmoothness": 0,
+            "disableLaneAssistWhenIndicating": true
+      },
+      "generalSettings": {
+            "capturePreview": true,
+            "previewOnTop": true,
+            "computeGreenDots": true,
+            "drawSteeringLine": true,
+            "showLanePoints": true,
+            "fillLane": true,
+            "laneColor": "#22dcd2",
+            "showPreview": true
+      },
+      "soundSettings": {
+            "playSounds": true,
+            "enableSound": "soundfx/start.mp3",
+            "disableSound": "soundfx/end.mp3",
+            "warningSound": "soundfx/warning.mp3"
+      },
+      "Cruise": {
+            "accon": false,
+            "keyu": "/",
+            "keyd": ".",
+            "debug": false
+      },
+      "debugSettings": {
+            "printControlDebug": true
+      }
+}
