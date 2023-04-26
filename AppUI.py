@@ -41,8 +41,8 @@ class HiddenPrints:
 print("\nLoading the lane detection files\nthe app will hang, be patient...\n")
 mainLoadTime = time.time()
 
-with HiddenPrints():
-    import MainFile
+#with HiddenPrints():
+import MainFile
 
 loadingDone = True
 print(f"> Done! ({round(time.time() - mainLoadTime, 2)}s)\n")
@@ -365,8 +365,12 @@ while True:
     MainFile.MainFileLoop()
     wheelAngle.set(MainFile.wheel.get_axis(int(steeringAxis.get())))
 
-    if(MainFile.wheel.get_button(enableDisableButton.get())):
-        ToggleEnabled()
-        time.sleep(0.1)
+    try:
+        if(MainFile.wheel.get_button(enableDisableButton.get())):
+            ToggleEnabled()
+            time.sleep(0.1)
+    except:
+        print("Invalid button index for enable/disable button!")
+        time.sleep(0.5)
 
     root.update()

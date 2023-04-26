@@ -3,7 +3,7 @@
       "screenCapture": {
             "width": 1280,
             "height": 720,
-            "x": 2100,
+            "x": 2000,
             "y": 350,
             "useDirectX": true,
             "DXframerate": 60
@@ -12,22 +12,22 @@
             "modelPath": "models/tusimple_34.pth",
             "modelType": "tusimple",
             "modelDepth": "34",
-            "useGPU": true,
+            "useGPU": false,
             "useLSTR": true,
             "modelTypeLSTR": "lstr_360x640",
             "modelPathLSTR": "models/lstr_360x640.onnx"
       },
       "controlSettings": {
             "experimentalLogitechSupport": false,
-            "steeringOffset": 100,
-            "sensitivity": 400,
-            "defaultControllerIndex": 2,
+            "steeringOffset": 0,
+            "sensitivity": 500,
+            "defaultControllerIndex": 0,
             "steeringAxis": 0,
-            "enableDisableButton": 8,
+            "enableDisableButton": 23,
             "rightIndicator": 4,
             "leftIndicator": 5,
             "maximumControl": 0.2,
-            "controlSmoothness": 1,
+            "controlSmoothness": 8,
             "disableLaneAssistWhenIndicating": true,
             "enableAutomaticCruiseControl": true
       },

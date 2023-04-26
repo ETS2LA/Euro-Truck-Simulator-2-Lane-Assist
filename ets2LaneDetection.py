@@ -288,7 +288,7 @@ def UpdateLanes():
             test = laneDetection.lanes_points[1][0]
             test = laneDetection.lanes_points[2][0]
     except Exception as ex:
-        print(ex)
+        # print(ex)
         sound.PlaySoundWarning()
 
     try:
@@ -303,7 +303,7 @@ def UpdateLanes():
         difference = difference - (w / 2)
         difference = difference + steeringOffset
     except Exception as ex:
-        print(ex)
+        # print(ex)
         pass
     
     laneDetectTime = (time.time_ns() - laneDetectTime)

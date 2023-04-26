@@ -183,6 +183,7 @@ def ChangeControllerSettingsFromFile():
     print("> Done!\n")
 
 
+LoadSettings()
 
 # Gamepad driver initialization
 try:
@@ -228,30 +229,53 @@ except:
 
 # Get the logitech wheel information
 # This code is mosly from the documentation
+windowName = "Euro Truck Simulator 2"
 if useLogitech:
     import logitech_steering_wheel as lsw
     import pygetwindow as gw
     # Apparently it needs a window?
+    # window_handle = gw.getWindowsWithTitle("Euro Truck Simulator 2")[0]._hWnd
+    #print(f"Waiting for focus of {windowName} window")
+    #while gw.getActiveWindowTitle() != windowName:
+    #    pass
     window_handle = gw.getActiveWindow()._hWnd
     initialized = lsw.initialize_with_window(ignore_x_input_controllers=True, hwnd=window_handle)
     
     print("Logitech SDK version is: " + str(lsw.get_sdk_version()))
-    connected = lsw.is_device_connected(defaultControllerIndex, lsw.DeviceType.WHEEL)
+
+
+    # Check for wheels
+    for i in range(0, 10):
+        try:
+            connected = lsw.is_device_connected(i, lsw.DeviceType.WHEEL)
+            if connected:
+                connected = True
+                logiIndex = i
+                break
+        except:
+            connected = False
+            break
+
     lsw.update()
-    if connected:
-        print("Logitech wheel on index {} : connected".format(defaultControllerIndex))
-        print("Logitech wheel on index {} has force feedback : ".format(defaultControllerIndex) + str(lsw.has_force_feedback(defaultControllerIndex)))
-        print("Testing force feedback...")
-        lsw.play_constant_force(defaultControllerIndex, 20)
+    if True:
+        print("Logitech wheel on index {} : connected".format(logiIndex))
+        hasFF = lsw.has_force_feedback(logiIndex)
+        print("Logitech wheel on index {} has force feedback : ".format(logiIndex) + str(hasFF))
+        if not hasFF:
+            print("ERROR : You need a ff capable wheel to use lg integration")
+            exit()
+        print("Testing force feedback...", end=" ")
+        print(lsw.play_constant_force(logiIndex, 40))
         for i in range(0, 30):
             time.sleep(.1)
             lsw.update()
-            data = lsw.get_state(defaultControllerIndex)
+            data = lsw.get_state(logiIndex)
             print("Playing force feedback for {} seconds".format(round(2.9-i/10, 1)) + " Current angle : " + str(data.lX / 32768 * 900)+ "\r", end='')
-        lsw.stop_constant_force(defaultControllerIndex)
+        lsw.stop_constant_force(logiIndex)
         print("\nForce feedback test complete")
     else:
         print("Logitech Steering Wheel not found")
+
     
 # I like to put all my variables outside the function
 # these should not be changed.
@@ -352,15 +376,21 @@ def ControllerThread():
                         gamepad.left_joystick_float(x_value_float = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis), y_value_float = 0)
                     gamepad.update()
                     if useLogitech:
-                        data = lsw.get_state(defaultControllerIndex)
+
+                        lsw.stop_spring_force(logiIndex)                        
+                        lsw.update()
+
+                        data = lsw.get_state(logiIndex)
                         currentLogitechAngle = data.lX/32768
+
+                        print("Current Wheel angle : " + 
+                              str(currentLogitechAngle) + " Desired angle : " + 
+                              str(desiredControl) + "                          \r", end="")
+
                         desiredAngle = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
-                        if currentLogitechAngle > desiredAngle:
-                            lsw.play_constant_force(defaultControllerIndex, 10)
-                        elif currentLogitechAngle < desiredAngle:
-                            lsw.play_constant_force(defaultControllerIndex, -10)
-                        else:
-                            lsw.stop_constant_force(defaultControllerIndex)
+                        lsw.play_spring_force(logiIndex, int(desiredAngle * 100), 100, 100)
+                            
+                        lsw.update()
 
                         if printControlDebug:
                             print("Control: " + str(((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)) + " Wheel : " + str(currentLogitechAngle) + "                          \r", end="")
@@ -372,7 +402,10 @@ def ControllerThread():
                     gamepad.left_joystick_float(x_value_float = wheel.get_axis(steeringAxis), y_value_float = 0)
                     gamepad.update()
 
-                time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
+                if useLogitech and enabled:
+                    time.sleep(0.05)
+                else:
+                    time.sleep(0.01) # These time.sleep commands make sure that the control thread does not crash
             except Exception as ex:
                 
                 print(ex.args)
