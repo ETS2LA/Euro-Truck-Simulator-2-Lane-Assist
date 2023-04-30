@@ -138,6 +138,17 @@ def runApp():
 
 # Install function
 def install():
+    # Check disk space (need 7.5gb)
+    import shutil
+    total, used, free = shutil.disk_usage("/")
+    if free < 7500000000:
+        printRed(f"Not enough free disk space to install the app ({round(free/1000000000, 1)}gb).")
+        printRed("You need at least 7.5gb free.")
+        printRed("If you already have the app installed, then this might not be a problem and you can continue.")
+        if input(" Continue? y/n ").lower() != "y":
+            root.destroy()
+            quit()
+
     # Check for install confirmation
     if not tk.messagebox.askokcancel("Install", "Are you sure you want to install?"):
         root.destroy()
