@@ -4,6 +4,10 @@ import os
 import tkinter as tk
 import threading
 
+
+APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
+
+
 def printRed(text):
     print("\033[91m {}\033[00m" .format(text))
 def printGreen(text):
@@ -31,6 +35,22 @@ if not os.path.exists("installer.bat"):
         file.write("python installer.py")
         file.write("\npause")
         printGreen("Created installer.bat to run the application easier.")
+
+# Check for git
+try:
+    subprocess.check_call(["git", "--version"])
+except:
+    printRed("Git is not installed.")
+    printRed("Git can be installed at https://gitforwindows.org/")
+    if input(" Do you want to open the website? y/n ").lower == "y":
+        try:
+            import webbrowser
+        except:
+            os.system("pip install webbrowser")
+            import webbrowser
+
+        webbrowser.open("https://gitforwindows.org/")
+        quit()
 
 
 def Install(package):
@@ -101,14 +121,10 @@ except:
     printGreen("> Done")
     import venv
 
-
-MINICONDA_URL = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"
-APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/archive/refs/heads/LSTR-Development.zip"
-
 # Make the installer window
 root = ctk.CTk()
 root.title("ETS2 Lane Assist Installer")
-root.geometry("300x140")
+root.geometry("300x160")
 root.resizable(True, True)
 
 # Make the installer window widgets
@@ -124,7 +140,7 @@ def createEnv():
 
 def downloadRequirements():
     dir = os.path.dirname(os.path.realpath(__file__))
-    os.system(f"{dir}/venv/Scripts/pip install -r {dir}/app/Euro-Truck-Simulator-2-Lane-Assist-LSTR-Development/requirements.txt")
+    os.system(f"{dir}/venv/Scripts/pip install -r {dir}/app/requirements.txt")
     printGreen("> Done")
     print("Installing pytorch... please wait...")
     ChangeStatus("Installing torch, check the console...")
@@ -133,7 +149,7 @@ def downloadRequirements():
 def runApp():
     # Open a new terminal and run the app
     dir = os.path.dirname(os.path.realpath(__file__))
-    os.system(f'start cmd /C "cd {dir}/app/Euro-Truck-Simulator-2-Lane-Assist-LSTR-Development & {dir}/venv/Scripts/python AppUI.py & pause"')
+    os.system(f'start cmd /C "cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause"')
     quit()
 
 # Install function
@@ -175,15 +191,15 @@ def install():
             print("Please wait, downloading the app...")
             ChangeStatus("Downloading...")
             progress.start()
-            file = urrlib.urlretrieve(APP_URL, "app.zip", DownloadProgressBar)
-            printGreen("> Done")
-
-            # Extract the app
-            print("Please wait, extracting the app...")
-            ChangeStatus("Extracting...")
-            with zipfile.ZipFile("app.zip", 'r') as zip_ref:
-                zip_ref.extractall("app")
-            printGreen("> Done")
+            # Download the repo using git
+            dir = os.path.dirname(os.path.realpath(__file__))
+            # Make the directory
+            if not os.path.exists(dir + "/app"):
+                os.mkdir(dir + "/app")
+            
+            dir += r"\app"
+            print(f"Cloning the repo to {dir}...")
+            os.system(f"git clone -b {branch.get()} {APP_URL} {dir}")
             progress.stop()
 
     else:
@@ -194,15 +210,15 @@ def install():
         print("Please wait, downloading the app...")
         ChangeStatus("Downloading...")
         progress.start()
-        file = urrlib.urlretrieve(APP_URL, "app.zip", DownloadProgressBar)
-        printGreen("> Done")
+        # Download the repo using git
+        dir = os.path.dirname(os.path.realpath(__file__))
+        # Make the directory
+        if not os.path.exists(dir + "/app"):
+            os.mkdir(dir + "/app")
 
-        # Extract the app
-        print("Please wait, extracting the app...")
-        ChangeStatus("Extracting...")
-        with zipfile.ZipFile("app.zip", 'r') as zip_ref:
-            zip_ref.extractall("app")
-        printGreen("> Done")
+        dir += r"\app"
+        print(f"git clone -b {branch.get()} {APP_URL} {dir}")
+        subprocess.run(f"git clone -b {branch.get()} {APP_URL} {dir}")
         progress.stop()
 
     # Install requirements
@@ -224,29 +240,32 @@ def install():
     if not os.path.exists("run.bat"):
         with open("run.bat", "w") as f:
             dir = os.path.dirname(os.path.realpath(__file__))
-            f.write(f"cd {dir}/app/Euro-Truck-Simulator-2-Lane-Assist-LSTR-Development & {dir}/venv/Scripts/python AppUI.py & pause")
-            print("Created run.bat, to run th app easier.")
+            f.write(f"cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause")
+            print("Created run.bat, to run the app easier.")
 
 
 
-    
+branch = tk.StringVar()
+branch.set("LSTR-Development")
+branchObject = ctk.CTkEntry(root, textvariable=branch, width=200)
+branchObject.pack(pady=0)
 
 button = ctk.CTkButton(root, text="Install", command=install, width=200)
-button.pack(pady=0)
+button.pack(pady=5)
 
 if os.path.exists("app"):
     button2 = ctk.CTkButton(root, text="Run", command=runApp, width=200)
-    button2.pack(pady=10)
-    root.geometry("300x170")
+    button2.pack(pady=2)
+    root.geometry("300x200")
     
     progress = ctk.CTkProgressBar(root, width=250)
     progress.configure(mode="indeterminate")
-    progress.pack(pady=2)
+    progress.pack(pady=8)
 
 else:
     progress = ctk.CTkProgressBar(root, width=250)
     progress.configure(mode="indeterminate")
-    progress.pack(pady=10)
+    progress.pack(pady=6)
 
 root.protocol("WM_DELETE_WINDOW", quit)
 
