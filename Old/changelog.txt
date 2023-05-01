@@ -1,0 +1,186 @@
+Update Major V0.3 - 18.11.2022
+
+DOWNLOAD THE NEW UPDATER BEFORE UPDATING THE APP.
+OTHERWISE IT WILL NOT BACKUP YOUR SETTINGS.
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a new UI that does not use streamlit, there have been too many issues with it.
+- Added a new lane detection type. LSTR, it offers faster but less accurate detection.
+    - Side note : I really have to thank ibaiGorordo, basically all the models I use
+      have been adapted from his work :heart:
+- Added the ability to save and load profiles
+- Added an depth prediction capability, this will be expanded in the future.
+    - Planned features included
+        - Detection of cars 
+        - 3D view of the world
+        - Emergency breaking etc...
+
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Multiple issues that were causing crashes etc...
+
+
+
+
+Update Minor V0.2.2 - 27.9.2022
+
+PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a reset button so that manual resetting is not required
+    - Thanks @Gustav Gaming on youtube
+- Error messages are now tied to the "printControlDebug" options
+
+
+
+
+Update Minor V0.2.1 - 26.9.2022
+
+PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed the controllers not updating
+
+
+
+
+Update Major V0.2 - 25.9.2022
+
+PLEASE WATCH THE NEW TUTORIAL, IT WILL SHOW YOU HOW TO INSTALL THE NEW VERSION!
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a new type of screencapture, DxCam. This should hopefully fix some issues related to mss like flickering on some systems.
+    - Please note, that this is only available on windows and mss will still be included.
+- Overhauled the entire UI to run in a different thread and to a web based application framework called Streamlit.
+    - This results in a more modern easy to understand UI, but with some caveats to responsiveness (it has to be written to json)
+- Added options for customizing the lane detection preview.
+    - Things like color, raw data, lane fill etc...
+- Added colors to command prompt output.
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed a bug with loading the default model
+- Fixed a multitude of problems resulting in increased cpu usage.
+- The lane detection preview now correctly closes when toggled off.
+
+
+
+
+Update Minor V0.1.6 - 20.8.2022
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Added a control debug option
+
+
+
+
+Update Major V0.1.5 - 28.8.2022
+
+Added
+--------------------------------------------------------------------------------------------
+- Finally added persistent settings in the form of the settings.json file.
+    - It will also automatically save when changing settings in app.
+    - This will allow easier backups for settings while updating
+- Uploaded a new updater
+    - It has a graphical interface (although basic), that provides more information easier 
+    - Also made a new branch for updater development
+
+
+
+
+Update Minor V0.1.4 - 20.8.2022
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Removed a debug print.
+- Removed reduntant width and height from MainFile.py
+- Set default screencapture position to 0x0 to avoid confusion.
+
+
+
+
+Update Minor V0.1.35 - 8.8.2022
+
+Added
+--------------------------------------------------------------------------------------------
+- Rebranded the software with a new logo and updated the readme.
+- Removed example video as it is not required.
+
+
+
+
+Update Minor V0.1.3 - 8.8.2022
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a variable in MainFile.py
+    - disableLaneAssistWhenIndicating = True
+
+
+
+
+Update Minor V0.1.2 - 8.8.2022
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed the installer installing itself
+
+
+
+
+Update Major V0.1.1 - 8.8.2022
+
+Added
+--------------------------------------------------------------------------------------------
+- Added an installation and update script : updater.py
+    - This also required me to restructure the program
+    - Also required to add a version.txt for automatic updates
+- New lane detection option : useGPUByDefault = True
+    - Starts the lane detection with gpu mode enabled by default
+- Added an indicator message, to notify the user of indicator state, useful when it might be stuck. 
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed an issue where the indicator might stick if going from indicating right to 
+  indicating left and vice versa.
+
+
+
+
+Update Major V0.1 - 8.8.2022
+
+Added
+--------------------------------------------------------------------------------------------
+- Added a file in the models folder so it doesn't have to be made.
+- Added comments to both main python files for easier editing and understanding of the code.
+- The lane detection window is now resizeable.
+- These added variables can only be changed by editing the python files, this can be done without
+  any special program by for example opening the files with notepad.
+- Added two new variables
+    - maximumControl = 0.2
+        - This changes the max value of the control signal between 0 and 1.
+    - controlSmoothness = 2
+        - How many smoothness iterations to do with the formula :  
+        - oldValue = ((oldValue * smoothness + newValue) / (smoothness + 1))
+- Added three new lane detection options.
+    - previewOnTop = True
+        - This toggle showing the lane detection window on top of other windows.
+        - This will only change on startup.
+    - computeGreenDots = True
+        - This will toggle computing the green dots.
+        - This might have some performance overhead so I will leave this as an option.
+    - drawSteeringLine = True
+        - This will toggle drawing of the red steering line.
+
+Fixed
+--------------------------------------------------------------------------------------------
+- Fixed a bug that caused steering to not work when not using lane assist.
+- Combined all LICENSE files to one (this should have been done from the start.
+- Moved the variables to the top of the python files for easier editing.
+- Updated readme to reflect recent changes and findings.

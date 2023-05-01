@@ -1,0 +1,1 @@
+from LSTRLaneDetection.lstr.lstr import LSTR

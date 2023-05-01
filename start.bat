@@ -1,2 +1,0 @@
-python AppUI.py
-pause
