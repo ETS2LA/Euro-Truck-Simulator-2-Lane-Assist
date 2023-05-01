@@ -1,1 +1,3 @@
-I will rewrite the entire application to be less prone for issues, as well as more modular.
+I will rewrite the entire application to be less prone to issues, as well as more modular for plugins etc...
+
+Depending on the amount of schoolwork the ETA is about 1-2 months (1/5/2023)
