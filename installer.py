@@ -51,6 +51,7 @@ except:
 
         webbrowser.open("https://gitforwindows.org/")
         quit()
+    quit() 
 
 
 def Install(package):
