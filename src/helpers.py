@@ -5,14 +5,19 @@ import src.settings as settings
 def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False):
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width)
     if not center:
-        button.grid(row=row, column=column, padx=5, pady=5)
+        button.grid(row=row, column=column, padx=5, pady=10)
     else:
-        button.grid(row=row, column=column, padx=5, pady=5, sticky="n")
+        button.grid(row=row, column=column, padx=5, pady=10, sticky="n")
     return button
     
 def MakeCheckButton(parent, text, category, setting, row, column, width=17):
     variable = tk.BooleanVar()
-    variable.set(settings.GetSettings(category, setting))
+    
+    try:
+        variable.set(settings.GetSettings(category, setting))
+    except:
+        variable.set(False)
+        
     button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.UpdateSettings(category, setting, variable.get()), width=width)
     button.grid(row=row, column=column, padx=0, pady=7, sticky="w")
     return variable
@@ -37,3 +42,5 @@ def MakeComboEntry(parent, text, category, setting, row, column, width=10, isFlo
         ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.UpdateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
         return var
 
+def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, columnspan=1):
+    ttk.Label(parent, text=text, font=font).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady)

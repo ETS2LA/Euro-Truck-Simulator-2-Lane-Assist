@@ -24,14 +24,18 @@ except: pass
 if not os.path.exists(os.path.join(variables.PATH, "settings.json")):
     # Create that file
     with open(os.path.join(variables.PATH, "settings.json"), "w") as f:
-        f.write("")
+        f.write("{\n\n}")
     
-    loadingWindow.destroy()
 
     # Then enable the first time setup
     from src.ui.firstTimeSetup import FirstTimeSetup
+    loadingWindow.destroy()
     firstTimeSetup = FirstTimeSetup(mainUI.root)
 
+    while firstTimeSetup.done == False:
+        firstTimeSetup.update()
+
+    mainUI.init()
 
 else:
     # We've loaded all necessary modules, now we can initialize the UI
@@ -41,3 +45,4 @@ else:
 
 while True:
     mainUI.update()
+    
