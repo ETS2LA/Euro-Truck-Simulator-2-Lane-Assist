@@ -17,13 +17,14 @@ import src.variables as variables # Stores all main variables for the program
 
 # REMOVE THIS BEFORE RELEASE
 try:
-    os.remove(os.path.join(variables.PATH, "settings.json"))
+    os.remove(os.path.join(variables.PATH, r"profiles\settings.json"))
 except: pass
 
+
 # Check if settings.json exists, if not then we can assume that this is the first time the program is running
-if not os.path.exists(os.path.join(variables.PATH, "settings.json")):
+if not os.path.exists(os.path.join(variables.PATH, r"profiles\settings.json")):
     # Create that file
-    with open(os.path.join(variables.PATH, "settings.json"), "w") as f:
+    with open(os.path.join(variables.PATH, r"profiles\settings.json"), "w") as f:
         f.write("{\n\n}")
     
 
@@ -32,7 +33,7 @@ if not os.path.exists(os.path.join(variables.PATH, "settings.json")):
     loadingWindow.destroy()
     firstTimeSetup = FirstTimeSetup(mainUI.root)
 
-    while firstTimeSetup.done == False:
+    while firstTimeSetup.done == False and mainUI.root != None:
         firstTimeSetup.update()
 
     mainUI.init()

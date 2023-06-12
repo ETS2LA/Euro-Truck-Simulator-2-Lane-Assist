@@ -33,6 +33,8 @@ def init():
 def quit():
     global root
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        # Destroy the root window
+        root.destroy()
         del root
 
 prevFrame = 100
