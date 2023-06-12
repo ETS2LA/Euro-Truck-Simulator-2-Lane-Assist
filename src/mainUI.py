@@ -9,7 +9,7 @@ import sv_ttk
 import src.helpers as helpers
 
 width = 800
-height = 500
+height = 600
 
 root = tk.Tk()
 root.title("Lane Assist")

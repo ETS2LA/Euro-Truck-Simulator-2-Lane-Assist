@@ -19,32 +19,47 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
         variable.set(False)
     
     if onlyTrue:
-        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.UpdateSettings(category, setting, values[0]) if variable.get() else None)
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[0]) if variable.get() else None, width=width)
     elif onlyFalse:
-        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.UpdateSettings(category, setting, values[1]) if not variable.get() else None)
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[1]) if not variable.get() else None, width=width)
     else:
-        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.UpdateSettings(category, setting, values[0] if variable.get() else values[1]), width=width)
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[0] if variable.get() else values[1]), width=width)
     button.grid(row=row, column=column, padx=0, pady=7, sticky="w")
     return variable
 
-def MakeComboEntry(parent, text, category, setting, row, column, width=10, isFloat=False, isString=False):
+def MakeComboEntry(parent, text, category, setting, row, column, width=10, isFloat=False, isString=False, value=""):
     if not isFloat and not isString:
         ttk.Label(parent, text=text, width=15).grid(row=row, column=column, sticky="w")
         var = tk.IntVar()
-        var.set(int(settings.GetSettings(category, setting)))
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.UpdateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
+        
+        try:
+            var.set(settings.GetSettings(category, setting))
+        except:
+            var.set(value)
+            
+        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
         return var
     elif isString:
         ttk.Label(parent, text=text, width=15).grid(row=row, column=column, sticky="w")
         var = tk.StringVar()
-        var.set(settings.GetSettings(category, setting))
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.UpdateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
+        
+        try:
+            var.set(settings.GetSettings(category, setting))
+        except:
+            var.set(value)
+            
+        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
         return var
     else:
         ttk.Label(parent, text=text, width=15).grid(row=row, column=column, sticky="w")
         var = tk.DoubleVar()
-        var.set(float(settings.GetSettings(category, setting)))
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.UpdateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
+        
+        try:
+            var.set(settings.GetSettings(category, setting))
+        except:
+            var.set(value)
+            
+        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
         return var
 
 def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, columnspan=1, sticky="n"):

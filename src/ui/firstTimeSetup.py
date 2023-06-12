@@ -44,7 +44,7 @@ class FirstTimeSetup():
 
         # Load the logo
         self.logo = Image.open(os.path.join(variables.PATH, "assets", "logo.jpg"))
-        height = 280
+        height = 320
         width = round(height * 1.665)
         self.logo = self.logo.resize((width, height), Image.ANTIALIAS)
         self.logo = ImageTk.PhotoImage(self.logo)
@@ -76,6 +76,9 @@ class FirstTimeSetup():
         self.root.destroy()
         self.root = tk.Canvas(self.master)
 
+        settings.CreateSettings("Controller", "Type", "Gamepad")
+        settings.CreateSettings("Controller", "Gamepad Smoothness", 0.05)
+
         helpers.MakeLabel(self.root, "Gamepad", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
         helpers.MakeLabel(self.root, "Great! I'll automatically set all the necessary options for gamepad usage.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
         helpers.MakeLabel(self.root, "Just be aware that you will have to set the controller type to 'wheel' in the game.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)        
@@ -101,6 +104,10 @@ class FirstTimeSetup():
         
         
     def wheelPage(self):
+        
+        settings.CreateSettings("Controller", "Type", "Wheel")
+        settings.CreateSettings("Controller", "Gamepad Smoothness", 0.05)
+        
         self.root.destroy()
         self.root = tk.Canvas(self.master)
 
@@ -272,9 +279,9 @@ class FirstTimeSetup():
                 
                 displayArray.append(displayObject)
         
-        display = tk.StringVar()
-        self.displays = ttk.Combobox(self.root, textvariable=display, width=50)
+        self.displays = ttk.Combobox(self.root, width=50)
         self.displays['values'] = displayArray
+        self.displays.set(displayArray[0])
         
         self.displays.grid(row=5, column=0, columnspan=2, padx=30, pady=10)
 
@@ -325,6 +332,160 @@ class FirstTimeSetup():
     def setScreenCaptureSettings(self, display):
         settings.CreateSettings("Screen Capture", "Display", int(display))
         settings.CreateSettings("Screen Capture", "Refresh Rate", self.refreshRate.get())
+        self.laneDetectionFeatures()
+    
+    
+    def laneDetectionFeatures(self):
+        self.root.destroy()
+        self.root = tk.Canvas(self.master)
+
+        helpers.MakeLabel(self.root, "Lane Detection Customization", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
+        helpers.MakeLabel(self.root, "You can skip this part if you are fine with the default look.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)    
+        helpers.MakeLabel(self.root, "Below is a list of all default features, and you can change them as you want.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3) 
+        
+        # Create a notebook for each of the groups (both blinkers, and enable / disable)
+        notebook = ttk.Notebook(self.root)
+        notebook.grid(row=3, column=0, columnspan=3, padx=30, pady=10)
+        
+        defaultFrame = ttk.Frame(notebook)
+        defaultFrame.pack()
+        drawLanesFrame = ttk.Frame(notebook)
+        drawLanesFrame.pack()
+        drawSteeringLineFrame = ttk.Frame(notebook)
+        drawSteeringLineFrame.pack()
+        fillLaneFrame = ttk.Frame(notebook)
+        fillLaneFrame.pack()
+        showLanePointsFrame = ttk.Frame(notebook)
+        showLanePointsFrame.pack()
+        
+        # Default image
+        self.defaultImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "Default.jpg"))
+        height = 220
+        width = round(height * 1.7777) # 16:9
+        self.defaultImage = self.defaultImage.resize((width, height), Image.ANTIALIAS)
+        self.defaultImage = ImageTk.PhotoImage(self.defaultImage)
+        
+        # Draw lanes image
+        self.drawLanesImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "DrawLanes.jpg"))
+        self.drawLanesImage = self.drawLanesImage.resize((width, height), Image.ANTIALIAS)
+        self.drawLanesImage = ImageTk.PhotoImage(self.drawLanesImage)
+        
+        # Draw steering line image
+        self.drawSteeringLineImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "DrawSteeringLine.jpg"))
+        self.drawSteeringLineImage = self.drawSteeringLineImage.resize((width, height), Image.ANTIALIAS)
+        self.drawSteeringLineImage = ImageTk.PhotoImage(self.drawSteeringLineImage)
+        
+        # Fill lane image
+        self.fillLaneImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "FillLane.jpg"))
+        self.fillLaneImage = self.fillLaneImage.resize((width, height), Image.ANTIALIAS)
+        self.fillLaneImage = ImageTk.PhotoImage(self.fillLaneImage)
+        
+        # Show lane points image
+        self.showLanePointsImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "ShowLanePoints.jpg"))
+        self.showLanePointsImage = self.showLanePointsImage.resize((width, height), Image.ANTIALIAS)
+        self.showLanePointsImage = ImageTk.PhotoImage(self.showLanePointsImage)
+        
+        
+        # Default page
+        helpers.MakeLabel(defaultFrame, "If you don't want to customize anything click the button below.", 0,0, font=("Segoe UI", 10), padx=30, pady=10, sticky="e")
+        defaultPageImageLabel = tk.Label(defaultFrame, image=self.defaultImage)
+        defaultPageImageLabel.grid(row=1, column=0, pady=10, padx=30, sticky="e")
+        
+        # Draw lanes page
+        helpers.MakeCheckButton(drawLanesFrame, "Draw Lanes", "Lane Detection", "Draw Lanes", 0, 0)
+        drawLanesImageLabel = tk.Label(drawLanesFrame, image=self.drawLanesImage)
+        drawLanesImageLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
+        
+        # Draw steering line page
+        helpers.MakeCheckButton(drawSteeringLineFrame, "Draw Steering Line", "Lane Detection", "Draw Steering Line", 0, 0)
+        drawSteeringLineImageLabel = tk.Label(drawSteeringLineFrame, image=self.drawSteeringLineImage)
+        drawSteeringLineImageLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
+        
+        # Fill lane page
+        helpers.MakeCheckButton(fillLaneFrame, "Fill Lane", "Lane Detection", "Fill Lane", 0, 0)
+        helpers.MakeComboEntry(fillLaneFrame, "Fill Color", "Lane Detection", "Fill Color", 1, 0, value="#10615D")
+        fillLaneImageLabel = tk.Label(fillLaneFrame, image=self.fillLaneImage)
+        fillLaneImageLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
+        
+        # Show lane points page
+        helpers.MakeCheckButton(showLanePointsFrame, "Show Lane Points", "Lane Detection", "Show Lane Points", 0, 0)
+        showLanePointsImageLabel = tk.Label(showLanePointsFrame, image=self.showLanePointsImage)
+        showLanePointsImageLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
+        
+        
+        notebook.add(defaultFrame, text="Default")
+        notebook.add(drawLanesFrame, text="Draw Lanes")
+        notebook.add(drawSteeringLineFrame, text="Draw Steering Line")
+        notebook.add(fillLaneFrame, text="Fill Lane")
+        notebook.add(showLanePointsFrame, text="Show Lane Points")
+
+        helpers.MakeButton(self.root, "Previous", lambda: self.axisSetup(), 6,0)
+        helpers.MakeButton(self.root, "Use Defaults", lambda: self.setLaneDetectionFeatures(True), 6,1)
+        helpers.MakeButton(self.root, "Next", lambda: self.setLaneDetectionFeatures(False), 6,2)
+
+        self.root.pack()
+        self.root.update()
+        
+    
+    def setLaneDetectionFeatures(self, defaults):
+        if defaults:
+            settings.CreateSettings("Lane Detection", "Draw Lanes", True)
+            settings.CreateSettings("Lane Detection", "Draw Steering Line", True)
+            settings.CreateSettings("Lane Detection", "Fill Lane", True)
+            settings.CreateSettings("Lane Detection", "Fill Color", "#10615D")
+            settings.CreateSettings("Lane Detection", "Show Lane Points", False)
+        else:
+            # Check if the settings exist, if not create them with false values (they weren't toggled once)
+            
+            try: settings.GetSettings("Lane Detection", "Draw Lanes")
+            except: settings.CreateSettings("Lane Detection", "Draw Lanes", False)
+            
+            try: settings.GetSettings("Lane Detection", "Draw Steering Line")
+            except: settings.CreateSettings("Lane Detection", "Draw Steering Line", False)
+            
+            try: settings.GetSettings("Lane Detection", "Fill Lane")
+            except: settings.CreateSettings("Lane Detection", "Fill Lane", False)
+            
+            try: settings.GetSettings("Lane Detection", "Fill Color")
+            except: settings.CreateSettings("Lane Detection", "Fill Color", "#10615D")
+            
+            try: settings.GetSettings("Lane Detection", "Show Lane Points")
+            except: settings.CreateSettings("Lane Detection", "Show Lane Points", False)
+            
+        self.soundSettings()
+                
+                
+                
+    def soundSettings(self):
+        self.root.destroy()
+        settings.CreateSettings("Sound", "enabled", True)
+        settings.CreateSettings("Sound", "enable", "assets/sounds/start.mp3")
+        settings.CreateSettings("Sound", "disable", "assets/sounds/end.mp3")
+        settings.CreateSettings("Sound", "warning", "assets/sounds/warning.mp3")
+        
+        self.root = tk.Canvas(self.master)
+        
+        helpers.MakeLabel(self.root, "Sounds", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+        helpers.MakeLabel(self.root, "Almost there!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)    
+        helpers.MakeLabel(self.root, "If you have custom sounds then place them in the folder and type out the path here.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
+        
+        helpers.MakeCheckButton(self.root, "Sounds Enabled", "Sound", "enabled", 3, 0)
+        self.enable = helpers.MakeComboEntry(self.root, "Enable", "Sound", "enable", 4, 0, value="assets/sounds/start.mp3", width=50, isString=True)
+        self.disable = helpers.MakeComboEntry(self.root, "Disable", "Sound", "disable", 5, 0, value="assets/sounds/end.mp3", width=50, isString=True)
+        self.warning = helpers.MakeComboEntry(self.root, "Warning", "Sound", "warning", 6, 0, value="assets/sounds/warning.mp3", width=50, isString=True)
+        
+        helpers.MakeButton(self.root, "Previous", lambda: self.laneDetectionFeatures(), 7,0)
+        helpers.MakeButton(self.root, "Next", lambda: self.saveSounds(), 7,1)
+        
+        self.root.pack()
+        self.root.update()
+        
+    
+    def saveSounds(self):
+        settings.CreateSettings("Sound", "enable", self.enable.get())
+        settings.CreateSettings("Sound", "disable", self.disable.get())
+        settings.CreateSettings("Sound", "warning", self.warning.get())
+        
         self.destroy()
     
     
