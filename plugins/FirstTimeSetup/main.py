@@ -1,20 +1,49 @@
-import tkinter as tk
-from tkinter import ttk
-import sv_ttk
-import src.helpers as helpers
-from src.mainUI import quit
-from PIL import Image, ImageTk
-import src.variables as variables
-import os
-import pygame
-import src.settings as settings
-import cv2
-import dxcam
+from plugins.plugin import PluginInformation
 
-pygame.display.init()
-pygame.joystick.init()
+PluginInfo = PluginInformation(
+    name="FirstTimeSetup",
+    description="Will help you get the app up and running!",
+    version="0.1",
+    author="@Tumppi066",
+    url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
+    image="image.png"
+)
 
-class FirstTimeSetup():
+def __init__():
+    global tk
+    global ttk
+    global helpers
+    global quit
+    global Image, ImageTk
+    global variables
+    global os
+    global pygame
+    global settings
+    global cv2
+    
+    
+    import tkinter as tk
+    from tkinter import ttk
+    import src.helpers as helpers
+    from src.mainUI import quit
+    from PIL import Image, ImageTk
+    import src.variables as variables
+    import os
+    import pygame
+    import src.settings as settings
+    import cv2
+
+    try:
+        import dxcam
+    except:
+        print("\033[91mCould not import dxcam, please install it using 'pip install dxcam'")
+        print("THIS APP DOES NOT RUN ON LINUX\033[0m")
+
+    pygame.display.init()
+    pygame.joystick.init()
+
+
+class UI():
     
     def __init__(self, master) -> None:
         self.done = False

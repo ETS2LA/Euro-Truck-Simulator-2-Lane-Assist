@@ -21,27 +21,26 @@ try:
 except: pass
 
 
-# Check if settings.json exists, if not then we can assume that this is the first time the program is running
-if not os.path.exists(os.path.join(variables.PATH, r"profiles\settings.json")):
-    # Create that file
-    with open(os.path.join(variables.PATH, r"profiles\settings.json"), "w") as f:
-        f.write("{\n\n}")
-    
+# Find plugins
+path = os.path.join(variables.PATH, "plugins")
+plugins = []
+for file in os.listdir(path):
+    if os.path.isdir(os.path.join(path, file)):
+        # Check for main.py
+        if "main.py" in os.listdir(os.path.join(path, file)):
+            # Check for PluginInformation class
+            try:
+                pluginPath = "plugins." + file + ".main"
+                print("Found plugin: " + pluginPath)
+                plugin = __import__(pluginPath, fromlist=["PluginInformation"])
+                plugins.append(plugin.PluginInfo)
+            except Exception as ex:
+                print(ex.args)
+                pass
 
-    # Then enable the first time setup
-    from src.ui.firstTimeSetup import FirstTimeSetup
-    loadingWindow.destroy()
-    firstTimeSetup = FirstTimeSetup(mainUI.root)
 
-    while firstTimeSetup.done == False and mainUI.root != None:
-        firstTimeSetup.update()
-
-    mainUI.init()
-
-else:
-    # We've loaded all necessary modules, now we can initialize the UI
-    mainUI.init()
-    loadingWindow.destroy()
+# We've loaded all necessary modules
+loadingWindow.destroy()
 
 
 while True:

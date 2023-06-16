@@ -24,11 +24,22 @@ ttk.Label(root, text="ETS2 Lane Assist    ©Tumppi066 - 2023", font=("Roboto", 8
 fps = tk.StringVar()
 ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
+buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
+ttk.Button(buttonFrame, 
+           text="Plugins", 
+           command=lambda: switchSelectedPlugin("plugins.PluginLoader.main")
+).pack(side="top", anchor="w", padx=10, pady=10, expand=False)
+
+
+buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
+pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
+pluginFrame.pack_propagate(0)
+pluginFrame.grid_propagate(0)
+helpers.MakeLabel(pluginFrame, "Click 'Plugins' on the left bar to start!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
+
 root.update()
 
-def init():
-    root.geometry(f"{width}x{height}")
-    ttk.Label(root, text="Work In Progress", font=("Roboto", 30, "bold")).pack(side="top", anchor="n", padx=10, pady=20)
 
 def quit():
     global root
@@ -48,5 +59,29 @@ def update():
         fps.set(f"UI Overhead: {round((frame-prevFrame)*1000)}ms")
     except: pass
     prevFrame = frame
+        
+    try:
+        ui.update()
+    except:
+        pass
+
+    try:
+        root.update()
+    except:
+        raise Exception("The main window has been closed.", "If you closed the app this is normal.")
     
-    root.update()
+def switchSelectedPlugin(plugin):
+    global pluginFrame
+    global ui
+
+    try:
+        pluginFrame.destroy()
+    except:
+        pass
+
+    pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
+    pluginFrame.pack_propagate(0)
+    pluginFrame.grid_propagate(0)
+    plugin = __import__(plugin, fromlist=["UI"])
+    ui = plugin.UI(pluginFrame)
+    pluginFrame.pack(side="left", anchor="n", padx=10, pady=10, expand=True)

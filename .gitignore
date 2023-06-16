@@ -1,1 +1,4 @@
 profiles/*.json
+.vscode
+*/__pycache__
+lib
