@@ -33,6 +33,14 @@ CreateSettings(category, name, data)
 
 import json
 
+def EnsureFile(file):
+    try:
+        with open(file, "r") as f:
+            pass
+    except:
+        with open(file, "w") as f:
+            f.write("{}")
+
 def ChangeProfile(profileName):
     with open(r"profiles\currentProfile.txt", "w") as f:
         f.truncate(0)
@@ -41,6 +49,7 @@ def ChangeProfile(profileName):
 # Change settings in the json file
 def UpdateSettings(category, name, data):
     profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+    EnsureFile(profile)
     with open(profile, "r") as f:
         settings = json.load(f)
 
@@ -52,6 +61,7 @@ def UpdateSettings(category, name, data):
 # Get a specific setting
 def GetSettings(category, name):
     profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+    EnsureFile(profile)
     with open(profile, "r") as f:
         settings = json.load(f)
     return settings[category][name]
@@ -60,6 +70,7 @@ def GetSettings(category, name):
 # Create a new setting
 def CreateSettings(category, name, data):
     profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+    EnsureFile(profile)
     with open(profile, "r") as f:
         settings = json.load(f)
 

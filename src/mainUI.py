@@ -25,10 +25,9 @@ fps = tk.StringVar()
 ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
 buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
-ttk.Button(buttonFrame, 
-           text="Plugins", 
-           command=lambda: switchSelectedPlugin("plugins.PluginLoader.main")
-).pack(side="top", anchor="w", padx=10, pady=10, expand=False)
+buttonFrame.pack_propagate(0)
+buttonFrame.grid_propagate(0)
+helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 0, 0, width=10, padx=8)
 
 
 buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
@@ -36,6 +35,7 @@ pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=h
 pluginFrame.pack_propagate(0)
 pluginFrame.grid_propagate(0)
 helpers.MakeLabel(pluginFrame, "Click 'Plugins' on the left bar to start!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+helpers.MakeLabel(pluginFrame, "If this is your first time running the app, it is recommended to open the 'FirstTimeSetup' plugin!", 1,0, font=("Roboto", 10), padx=30, pady=10, columnspan=2)
 pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
 
 root.update()
@@ -79,7 +79,7 @@ def switchSelectedPlugin(plugin):
     except:
         pass
 
-    pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
+    pluginFrame = ttk.LabelFrame(root, text=plugin.split(".")[1], width=width, height=height-20)
     pluginFrame.pack_propagate(0)
     pluginFrame.grid_propagate(0)
     plugin = __import__(plugin, fromlist=["UI"])

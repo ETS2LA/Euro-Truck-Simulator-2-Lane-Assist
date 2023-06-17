@@ -9,38 +9,26 @@ PluginInfo = PluginInformation(
     image="image.png"
 )
 
-def __init__():
-    global tk
-    global ttk
-    global helpers
-    global quit
-    global Image, ImageTk
-    global variables
-    global os
-    global pygame
-    global settings
-    global cv2
-    
-    
-    import tkinter as tk
-    from tkinter import ttk
-    import src.helpers as helpers
-    from src.mainUI import quit
-    from PIL import Image, ImageTk
-    import src.variables as variables
-    import os
-    import pygame
-    import src.settings as settings
-    import cv2
 
-    try:
-        import dxcam
-    except:
-        print("\033[91mCould not import dxcam, please install it using 'pip install dxcam'")
-        print("THIS APP DOES NOT RUN ON LINUX\033[0m")
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+from src.mainUI import quit
+from PIL import Image, ImageTk
+import src.variables as variables
+import os
+import pygame
+import src.settings as settings
+import cv2
 
-    pygame.display.init()
-    pygame.joystick.init()
+try:
+    import dxcam
+except:
+    print("\033[91mCould not import dxcam, please install it using 'pip install dxcam'")
+    print("THIS APP DOES NOT RUN ON LINUX\033[0m")
+
+pygame.display.init()
+pygame.joystick.init()
 
 
 class UI():
@@ -90,9 +78,9 @@ class UI():
         del self.root
         self.root = tk.Canvas(self.master)
 
-        helpers.MakeLabel(self.root, "Select your controller type", 0,1, font=("Roboto", 20, "bold"), padx=30, pady=10)
-        helpers.MakeLabel(self.root, "First I'm going to ask you about your controller.", 1,1, font=("Segoe UI", 10), padx=30, pady=0)
-        helpers.MakeLabel(self.root, "So please select the correct control type that you want to use.", 2,1, font=("Segoe UI", 10), padx=30, pady=0)        
+        helpers.MakeLabel(self.root, "Select your controller type", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
+        helpers.MakeLabel(self.root, "First I'm going to ask you about your controller.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
+        helpers.MakeLabel(self.root, "So please select the correct control type that you want to use.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)        
 
         helpers.MakeButton(self.root, "Gamepad", lambda: self.gamepadPage(), 3,0)
         helpers.MakeButton(self.root, "Wheel", lambda: self.wheelPage(), 3,1)
