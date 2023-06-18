@@ -1,7 +1,7 @@
 # I AM REWRITING THE ENTIRE APPLICATION. ETA IS END OF SUMMER.
 ## For now download the app through the anaconda-updater branch -> https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/archive/refs/heads/anaconda-updater.zip
-![Logo](LaneAssistLogoWide.jpg)
 ## Progress can be followed at the v2.0-rewrite branch!
+![Logo](LaneAssistLogoWide.jpg)
 # Lane Assist For ETS2 and ATS
 A lane assist, built with the ultra-fast-lane-detection model.
 
