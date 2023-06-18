@@ -1,4 +1,6 @@
-# Right now it's recommended to install the experimental version, since it has some sorely needed features over the main branch. BUT I CANNOT QUARANTEE IT WORKING. If you have any issues then contact me and we will get them fixed :)
+# I AM REWRITING THE ENTIRE APPLICATION. ETA IS END OF SUMMER.
+## For now download the app through the LSTR-Development branch -> that is the most up to date version 
+## (click where it says main above the file list) -> LSTR-Development -> Code -> Download ZIP
 ![Logo](LaneAssistLogoWide.jpg)
 # Lane Assist For ETS2 and ATS
 A lane assist, built with the ultra-fast-lane-detection model.
