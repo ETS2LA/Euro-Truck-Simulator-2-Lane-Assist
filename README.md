@@ -8,6 +8,7 @@ ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
   - [x] Implement UI helpers for plugins for consistent style (sv_ttk coming in clutch)
   - [x] Load the plugin canvas
   - [x] Update open plugin on each loop
+  - [x] Create "plugins.FirstTimeSetup" as a test
 - [ ] Implement constantly running plugins (currently working on this)
   - [x] Add dynamic tags to PluginInformation (before lanes/steering/game/app update)
   - [ ] Implement UI for toggling different plugins
