@@ -2,7 +2,7 @@ I will rewrite the entire application to be less prone to issues, as well as mor
 
 ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
 
-> Right now you can try out the new plugin based UI, and go through the first time setup. Next up is constantly running plugins!
+> Right now you can try out the new plugin based UI and go through the first time setup. Next up is constantly running plugins!
 
 ### Progress
 
