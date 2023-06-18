@@ -8,17 +8,32 @@ class PluginInformation():
     
     Attributes:
         name (str): Name of the plugin (AddsSpacesBetweenUpperCases)
+        
         description (str): Description of the plugin
+        
         version (str): Version of the plugin
+        
         author (str): Author of the plugin
+        
         url (str): URL of the plugin
-        image (str): Image path (in the plugin folder) (image file will be scaled to around 120x120)
+        
+        type (str): Type of the plugin ("static" (updated when showing window), "dynamic" (updated every frame))
+        
+        dynamicOrder (str) (if dynamic): Select at which state the plugin is run
+                >>> "before lane detection"
+                >>> "before steering"
+                >>> "before game"
+                >>> "before UI"
+        
+        image (str) (optional): Image path (in the plugin folder) (image file will be scaled to around 120x120)
     
     """
-    def __init__(self, name, description, version, author, url, image=None):
+    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None):
         self.name = name
         self.description = description
         self.version = version
         self.author = author
         self.url = url
         self.image = image
+        self.type = type
+        self.dynamicOrder = dynamicOrder

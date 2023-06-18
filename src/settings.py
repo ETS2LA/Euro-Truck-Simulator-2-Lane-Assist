@@ -32,6 +32,7 @@ CreateSettings(category, name, data)
 '''
 
 import json
+from src.logger import print
 
 def EnsureFile(file):
     try:
@@ -42,48 +43,59 @@ def EnsureFile(file):
             f.write("{}")
 
 def ChangeProfile(profileName):
-    with open(r"profiles\currentProfile.txt", "w") as f:
-        f.truncate(0)
-        f.write(profileName)
+    try:
+        with open(r"profiles\currentProfile.txt", "w") as f:
+            f.truncate(0)
+            f.write(profileName)
+    except Exception as ex:
+        print(ex.args)
 
 # Change settings in the json file
 def UpdateSettings(category, name, data):
-    profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
-    EnsureFile(profile)
-    with open(profile, "r") as f:
-        settings = json.load(f)
+    try:
+        profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
 
-    settings[category][name] = data
-    with open(profile, "w") as f:
-        f.truncate(0)
-        json.dump(settings, f, indent=6)
+        settings[category][name] = data
+        with open(profile, "w") as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        print(ex.args)
 
 # Get a specific setting
 def GetSettings(category, name):
-    profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
-    EnsureFile(profile)
-    with open(profile, "r") as f:
-        settings = json.load(f)
-    return settings[category][name]
+    try:
+        profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
+        return settings[category][name]
+    except Exception as ex:
+        print(ex.args)
 
 
 # Create a new setting
 def CreateSettings(category, name, data):
-    profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
-    EnsureFile(profile)
-    with open(profile, "r") as f:
-        settings = json.load(f)
+    try:
+        profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
 
-    # If the setting doesn't exist then create it 
-    if not category in settings:
-        settings[category] = {}
-        settings[category][name] = data
-    
-    # If the setting exists then overwrite it
-    if category in settings:
-        settings[category][name] = data
+        # If the setting doesn't exist then create it 
+        if not category in settings:
+            settings[category] = {}
+            settings[category][name] = data
         
-    with open(profile, "w") as f:
-        f.truncate(0)
-        json.dump(settings, f, indent=6)
-        
+        # If the setting exists then overwrite it
+        if category in settings:
+            settings[category][name] = data
+            
+        with open(profile, "w") as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        print(ex.args)

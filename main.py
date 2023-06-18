@@ -7,6 +7,7 @@ import src.mainUI as mainUI
 import src.loading as loading # And then create a loading window
 loadingWindow = loading.LoadingWindow("Please wait initializing...", mainUI.root)
 
+
 # Load the rest of the modules
 import os
 import sys
@@ -14,6 +15,7 @@ import time
 import json
 import src.models as models # Finds all possible models
 import src.variables as variables # Stores all main variables for the program
+from src.logger import print
 
 # REMOVE THIS BEFORE RELEASE
 try:
@@ -26,5 +28,9 @@ loadingWindow.destroy()
 
 
 while True:
-    mainUI.update()
-    
+    # Main Application Loop
+    try:
+        mainUI.update()
+    except Exception as ex:
+        print(ex.args)
+        break

@@ -1,14 +1,17 @@
 from plugins.plugin import PluginInformation
+from src.logger import print
 
 PluginInfo = PluginInformation(
     name="PluginManager",
-    description="Allows you to manager your plugins.",
+    description="Allows you to select different plugins.",
     version="0.1",
     author="Tumppi066",
-    url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist"
+    url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
+    type="static"
 )
 
 
+from src.loading import LoadingWindow
 import tkinter as tk
 from tkinter import ttk
 import src.helpers as helpers
@@ -21,6 +24,8 @@ from PIL import Image, ImageTk
 class UI():
     
     def findPlugins(self):
+        print("Importing plugins...")
+        loading = LoadingWindow("Importing plugins...")
         # Find plugins
         path = os.path.join(variables.PATH, "plugins")
         plugins = []
@@ -31,14 +36,18 @@ class UI():
                     # Check for PluginInformation class
                     try:
                         pluginPath = "plugins." + file + ".main"
-                        print("Found plugin: " + pluginPath)
                         plugin = __import__(pluginPath, fromlist=["PluginInformation"])
-                        plugins.append(plugin.PluginInfo)
+                        if plugin.PluginInfo.type == "dynamic":
+                            plugins.append(plugin.PluginInfo)
+                            print("Found plugin: " + pluginPath)
                     except Exception as ex:
                         print(ex.args)
                         pass
-                    
+        
+        loading.destroy()
         return plugins
+    
+
     
     def __init__(self, master) -> None:
         self.done = False
@@ -113,6 +122,8 @@ class UI():
         helpers.MakeLabel(self.pluginInfoFrame, plugin.author, 6,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, "URL", 7,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, plugin.url, 8,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, "Update point", 9,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, plugin.dynamicOrder, 10,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
 
         helpers.MakeButton(self.pluginInfoFrame, "Load plugin", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 9, 0, width=15, padx=8)        
         

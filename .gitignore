@@ -1,4 +1,5 @@
 profiles/*.json
 .vscode
-*/__pycache__
+**/__pycache__
 lib
+log.txt
