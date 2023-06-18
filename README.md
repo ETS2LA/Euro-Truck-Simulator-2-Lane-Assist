@@ -29,7 +29,7 @@ ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
 
 Why did I suddenly start rewriting the app instead of focusing on new features? 
 Well the most important goal is to make a cohesive and easy to use codebase. The current LSTR-Development version is full of spaghetti code that even I can't understand after half a year.
-With the new rewrite I'm aiming to make everything as modular as possible, so that new features can be implemented easily... in essence: 
+With the new rewrite I'm aiming to make everything as modular as possible so that new features can be easily implemented. In essence: 
 ```
 Development goals for v1.0 :
 - Create a cohesive codebase that is very easy to add to
