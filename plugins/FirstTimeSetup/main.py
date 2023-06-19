@@ -511,7 +511,7 @@ class UI():
             self.destroy()
         
         
-        def update(self):
+        def update(self, data):
             self.root.update()
             pygame.event.pump()
             try:

@@ -127,7 +127,7 @@ class UI():
             helpers.MakeButton(self.pluginInfoFrame, "Load plugin", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 9, 0, width=15, padx=8)        
 
         
-        def update(self):
+        def update(self, data):
             
             try:
                 if self.plugins[self.pluginList.curselection()[0]].name != self.plugin.name:

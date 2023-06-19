@@ -73,7 +73,12 @@ data = {}
 while True:
     # Main Application Loop
     try:
-        data = {"last": data.pop("last", data), "executionTimes": {}}
+        allStart = time.time()
+        try:
+            data = data.popitem(("last", data["last"]))
+        except:
+            pass
+        data = {"last": data, "executionTimes": {}}
         
         updatePlugins("before lane detection", data)
         # "before lane detection"
@@ -86,7 +91,12 @@ while True:
         
         updatePlugins("before UI", data)
         # "before UI"
-        mainUI.update()
+        start = time.time()
+        mainUI.update(data)
+        end = time.time()
+        data["executionTimes"]["UI"] = end - start
+        allEnd = time.time()
+        data["executionTimes"]["all"] = allEnd - allStart
     
     except Exception as ex:
         print(ex.args)

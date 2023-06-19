@@ -163,7 +163,7 @@ class UI():
         self.page0()
         helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
     
-    def update(self):
+    def update(self, data):
         try:
             if self.plugins[self.pluginList.curselection()[0]].name != self.plugin.name:
                 self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]])

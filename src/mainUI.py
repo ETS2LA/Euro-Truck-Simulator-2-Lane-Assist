@@ -63,7 +63,7 @@ def quit():
 
 
 prevFrame = 100
-def update():
+def update(data):
     global fps
     global prevFrame
     
@@ -75,7 +75,7 @@ def update():
     prevFrame = frame
         
     try:
-        ui.update()
+        ui.update(data)
     except:
         pass
 
