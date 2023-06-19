@@ -93,6 +93,7 @@ class UI():
         
         enabledPlugins = settings.GetSettings("Plugins", "Enabled")
         if enabledPlugins == None:
+            settings.CreateSettings("Plugins", "Enabled", [])
             enabledPlugins = []
             
         # Set plugin colors
@@ -146,12 +147,19 @@ class UI():
         helpers.MakeLabel(self.pluginInfoFrame, "Update point", 9,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, plugin.dynamicOrder, 10,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
 
+        if plugin.exclusive != None:
+            helpers.MakeLabel(self.pluginInfoFrame, "Exclusive Type", 11,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+            helpers.MakeLabel(self.pluginInfoFrame, plugin.exclusive, 12,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+
         if plugin.name in settings.GetSettings("Plugins", "Enabled"):
-            helpers.MakeButton(self.pluginInfoFrame, "Disable plugin", lambda: self.disablePlugin(plugin), 11, 0, width=15, padx=8)
+            helpers.MakeButton(self.pluginInfoFrame, "Disable plugin", lambda: self.disablePlugin(plugin), 13, 0, width=15, padx=8)
         else:
-            helpers.MakeButton(self.pluginInfoFrame, "Enable plugin", lambda: self.enablePlugin(plugin), 11, 0, width=15, padx=8)
-        helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 11, 1, width=15, padx=8)        
+            helpers.MakeButton(self.pluginInfoFrame, "Enable plugin", lambda: self.enablePlugin(plugin), 13, 0, width=15, padx=8)
         
+        if not plugin.noUI:
+            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 13, 1, width=15, padx=8)        
+        else:
+            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 13, 1, width=15, padx=8, state="disabled")
     
     def disablePlugin(self, plugin):
         settings.RemoveFromList("Plugins", "Enabled", plugin.name)
@@ -159,6 +167,16 @@ class UI():
         helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
         
     def enablePlugin(self, plugin):
+        # Check for exclusivity
+        if plugin.exclusive != None:
+            from tkinter import messagebox
+            if messagebox.askokcancel("Exclusive plugin", "This plugin is exclusive, enabling it will disable all other exclusive plugins of type '" + plugin.exclusive + "'."):
+                for otherPlugin in self.plugins:
+                    if otherPlugin.exclusive != None:
+                        if otherPlugin.exclusive == plugin.exclusive:
+                            settings.RemoveFromList("Plugins", "Enabled", otherPlugin.name)
+            else: return
+            
         settings.AddToList("Plugins", "Enabled", plugin.name)
         self.page0()
         helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")

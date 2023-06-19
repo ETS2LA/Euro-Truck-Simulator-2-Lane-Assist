@@ -50,6 +50,13 @@ def print(text):
     
     
     message = f"[{caller}]\t- {text}\n"
+    
+    # Handle installing new requirements for plugins
+    if "No module named" in message:
+        from tkinter import messagebox
+        if messagebox.askokcancel("Install?", "Detected missing dependency for a plugin ({}). Do you want to install it?\nRemember that a restart is necessary after installing!".format(message.split("'")[1])):
+            os.system("pip install {}".format(message.split("'")[1]))
+
     if message == lastMsg:
         times += 1
         sys.stdout.write(f"[-> {times}]\r")

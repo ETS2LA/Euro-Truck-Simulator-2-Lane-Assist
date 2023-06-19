@@ -26,7 +26,7 @@ from src.logger import print
 import src.settings as settings
 enabledPlugins = settings.GetSettings("Plugins", "Enabled")
 if enabledPlugins == None:
-    enabledPlugins = []
+    enabledPlugins = [""]
     
 # Find plugins
 path = os.path.join(variables.PATH, "plugins")
@@ -40,15 +40,12 @@ for file in os.listdir(path):
                 pluginPath = "plugins." + file + ".main"
                 plugin = __import__(pluginPath, fromlist=["PluginInformation"])
                 if plugin.PluginInfo.type == "dynamic":
-                    plugins.append(plugin.PluginInfo)
-                    print("Found plugin: " + pluginPath)
+                    if plugin.PluginInfo.name in enabledPlugins:
+                        plugins.append(plugin.PluginInfo)
             except Exception as ex:
                 print(ex.args)
                 pass
-
-for plugin in plugins:
-    if plugin.name not in enabledPlugins:
-        plugins.remove(plugin)
+            
 
 pluginObjects = []
 for plugin in plugins:

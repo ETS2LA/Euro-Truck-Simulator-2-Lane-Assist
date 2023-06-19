@@ -8,8 +8,8 @@ from plugins.plugin import PluginInformation
 from src.logger import print
 
 PluginInfo = PluginInformation(
-    name="DXCamScreenCapture", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
-    description="The default way to capture the screen.",
+    name="MSSScreenCapture", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description="Uses more cpu power than DXCam, but works on linux.",
     version="0.1",
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
@@ -25,10 +25,14 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
-import dxcam
+import mss
+import cv2
+import numpy as np
+
+sct = mss.mss()
 
 def CreateCamera():
-    global camera
+    global monitor
     
     width = settings.GetSettings("dxcam", "width")
     if width == None:
@@ -53,12 +57,6 @@ def CreateCamera():
     left, top = x, y
     right, bottom = left + width, top + height
     monitor = (left,top,right,bottom)
-    
-    try:
-        del camera
-    except: pass
-    
-    camera = dxcam.create(region=monitor, output_color="BGR")
         
 
 CreateCamera()
@@ -68,7 +66,10 @@ CreateCamera()
 # The data from the last frame is contained under data["last"]
 def plugin(data):
     try:
-        frame = camera.grab()
+        # Capture part of the screen
+        frame = sct.grab(monitor)
+        # Make it so that cv2 can read it
+        frame = np.array(frame)
         data["frame"] = frame
         return data
     except Exception as ex:

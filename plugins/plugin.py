@@ -28,9 +28,13 @@ class PluginInformation():
         image (str) (optional): Image path (in the plugin folder) (image file will be scaled to around 120x120)
 
         disablePlugins (bool) (optional): If true then the panel will prompt to disable plugins when opened
+        
+        noUI (bool) (optional): If true then the UI button will not be shown
+        
+        exclusive (str) (optional): If set to a str then no other plugins of the same 'exclusive' type can be enabled at the same time 
     
     """
-    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False):
+    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, noUI=False, exclusive=None):
         self.name = name
         self.description = description
         self.version = version
@@ -40,3 +44,5 @@ class PluginInformation():
         self.type = type
         self.dynamicOrder = dynamicOrder
         self.disablePlugins = disablePlugins
+        self.noUI = noUI
+        self.exclusive = exclusive

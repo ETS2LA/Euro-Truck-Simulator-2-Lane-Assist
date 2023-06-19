@@ -2,21 +2,23 @@ from tkinter import ttk
 import tkinter as tk
 import src.settings as settings
 
-def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10):
-    button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width)
+def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled"):
+    button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
     if not center:
         button.grid(row=row, column=column, padx=padx, pady=pady)
     else:
         button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n")
     return button
     
-def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False):
+def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False):
     variable = tk.BooleanVar()
     
-    try:
-        variable.set(settings.GetSettings(category, setting))
-    except:
-        variable.set(False)
+    value = settings.GetSettings(category, setting)
+    
+    if value == None:
+        value = default
+        settings.CreateSettings(category, setting, value)
+        variable.set(value)
     
     if onlyTrue:
         button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[0]) if variable.get() else None, width=width)
