@@ -40,8 +40,6 @@ class LoadingWindow:
         else:
             self.progress = ttk.Progressbar(self.root, orient="horizontal", length=200, mode="determinate", value=progress)
         self.progress.pack(pady=10)
-
-        sv_ttk.set_theme("dark")
         self.root.update()
 
     def destroy(self):

@@ -82,8 +82,6 @@ class UI():
             
             helpers.MakeLabel(self.root, "Select a panel to load:", 0,0, font=("Roboto", 8), padx=30, pady=10, columnspan=1)
             
-            helpers.MakeButton(self.root, "Load panel data", lambda: self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]]), 2, 0, width=15, padx=8)
-            
             self.root.pack(anchor="center", expand=False)
             
             self.root.update()
@@ -94,6 +92,8 @@ class UI():
                 self.pluginInfoFrame.destroy()
             except:
                 pass
+            
+            self.plugin = plugin
             
             self.pluginInfoFrame = ttk.LabelFrame(self.root, text=plugin.name, width=380, height=500)
             self.pluginInfoFrame.pack_propagate(0)
@@ -128,6 +128,16 @@ class UI():
 
         
         def update(self):
+            
+            try:
+                if self.plugins[self.pluginList.curselection()[0]].name != self.plugin.name:
+                    self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]])
+            except:
+                try:
+                    self.plugin
+                except:
+                    self.selectedPlugin(self.plugins[0])
+                    
             self.root.update()
     
     except Exception as ex:

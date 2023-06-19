@@ -66,6 +66,7 @@ class UI():
         
         try:
             self.root.destroy()
+            del self.plugin
         except: pass
         
         self.root = tk.Canvas(self.master, width=600, height=520)
@@ -79,13 +80,31 @@ class UI():
         self.pluginList = tk.Listbox(self.root, width=20, height=20, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
         self.pluginList.grid(row=1, column=0, padx=10, pady=2)
         
-        helpers.MakeLabel(self.root, "Select a plugin to load:", 0,0, font=("Roboto", 8), padx=30, pady=10, columnspan=1)
+        self.colorPlugins()
         
-        helpers.MakeButton(self.root, "Load plugin data", lambda: self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]]), 2, 0, width=15, padx=8)
+        helpers.MakeLabel(self.root, "Select a plugin to load:", 0,0, font=("Roboto", 8), padx=30, pady=10, columnspan=1)
         
         self.root.pack(anchor="center", expand=False)
         
         self.root.update()
+    
+    
+    def colorPlugins(self):
+        try:
+            enabledPlugins = settings.GetSettings("Plugins", "Enabled")
+        except:
+            enabledPlugins = []
+            
+        # Set plugin colors
+        colorTone = settings.GetSettings("User Interface", "Theme")
+        if colorTone == None:
+            colorTone = "dark"
+        
+        for i in range(len(self.plugins)):
+            if self.plugins[i].name in enabledPlugins:
+                self.pluginList.itemconfig(i, bg=f"{colorTone}green")
+            else:
+                self.pluginList.itemconfig(i, bg=f"red")
     
     
     def selectedPlugin(self, plugin):
@@ -93,6 +112,8 @@ class UI():
             self.pluginInfoFrame.destroy()
         except:
             pass
+        
+        self.plugin = plugin
         
         self.pluginInfoFrame = ttk.LabelFrame(self.root, text=plugin.name, width=380, height=500)
         self.pluginInfoFrame.pack_propagate(0)
@@ -125,10 +146,32 @@ class UI():
         helpers.MakeLabel(self.pluginInfoFrame, "Update point", 9,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, plugin.dynamicOrder, 10,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
 
-        helpers.MakeButton(self.pluginInfoFrame, "Load plugin", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 9, 0, width=15, padx=8)        
+        if plugin.name in settings.GetSettings("Plugins", "Enabled"):
+            helpers.MakeButton(self.pluginInfoFrame, "Disable plugin", lambda: self.disablePlugin(plugin), 11, 0, width=15, padx=8)
+        else:
+            helpers.MakeButton(self.pluginInfoFrame, "Enable plugin", lambda: self.enablePlugin(plugin), 11, 0, width=15, padx=8)
+        helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 11, 1, width=15, padx=8)        
         
     
+    def disablePlugin(self, plugin):
+        settings.RemoveFromList("Plugins", "Enabled", plugin.name)
+        self.page0()
+        helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
+        
+    def enablePlugin(self, plugin):
+        settings.AddToList("Plugins", "Enabled", plugin.name)
+        self.page0()
+        helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
     
     def update(self):
+        try:
+            if self.plugins[self.pluginList.curselection()[0]].name != self.plugin.name:
+                self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]])
+        except:
+            try:
+                self.plugin
+            except:
+                self.selectedPlugin(self.plugins[0])
+        
         self.root.update()
     

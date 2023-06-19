@@ -13,6 +13,7 @@ from tkinter import font
 import src.variables as variables
 from src.loading import LoadingWindow
 from src.logger import print
+import src.settings as settings
 
 width = 800
 height = 600
@@ -25,7 +26,10 @@ root.resizable(False, False)
 root.geometry(f"{width}x{height}")
 root.protocol("WM_DELETE_WINDOW", lambda: quit())
 
-sv_ttk.set_theme("dark")
+try:
+    sv_ttk.set_theme(settings.GetSettings("User Interface", "Theme"))
+except:
+    sv_ttk.set_theme("dark")
 
 ttk.Label(root, text="ETS2 Lane Assist    ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 fps = tk.StringVar()
@@ -57,6 +61,7 @@ def quit():
         root.destroy()
         del root
 
+
 prevFrame = 100
 def update():
     global fps
@@ -65,7 +70,7 @@ def update():
     # Calculate the UI caused overhead
     frame = time.time()
     try:
-        fps.set(f"UI Overhead: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)")
+        fps.set(f"Main Loop FPS: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)")
     except: pass
     prevFrame = frame
         
@@ -79,19 +84,31 @@ def update():
     except:
         raise Exception("The main window has been closed.", "If you closed the app this is normal.")
     
+    
 def switchSelectedPlugin(pluginName):
     global pluginFrame
     global ui
-
+    global root
+    
+    plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
+    
+    if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
+        if messagebox.askokcancel("Plugins", "The panel has asked to disable plugins, this will require a restart. Do you want to continue?"):
+            settings.CreateSettings("Plugins", "Enabled", [])
+            root.destroy()
+            del root
+        else: return
+        
     try:
         pluginFrame.destroy()
     except:
         pass
-
+    
     pluginFrame = ttk.LabelFrame(root, text=pluginName.split(".")[1], width=width, height=height-20)
     pluginFrame.pack_propagate(0)
     pluginFrame.grid_propagate(0)
-    plugin = __import__(pluginName, fromlist=["UI"])
+    
+    
     ui = plugin.UI(pluginFrame)
     pluginFrame.pack(side="left", anchor="n", padx=10, pady=10, expand=True)
     
@@ -101,5 +118,6 @@ def changeTheme():
     global themeButton
     #loading = LoadingWindow("Changing theme...", root)
     sv_ttk.toggle_theme()
+    settings.CreateSettings("User Interface", "Theme", sv_ttk.get_theme())
     themeButton.config(text=sv_ttk.get_theme().capitalize())
     #loading.destroy()

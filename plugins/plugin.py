@@ -26,9 +26,11 @@ class PluginInformation():
                 >>> "before UI"
         
         image (str) (optional): Image path (in the plugin folder) (image file will be scaled to around 120x120)
+
+        disablePlugins (bool) (optional): If true then the panel will prompt to disable plugins when opened
     
     """
-    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None):
+    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False):
         self.name = name
         self.description = description
         self.version = version
@@ -37,3 +39,4 @@ class PluginInformation():
         self.image = image
         self.type = type
         self.dynamicOrder = dynamicOrder
+        self.disablePlugins = disablePlugins

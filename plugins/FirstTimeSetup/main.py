@@ -7,7 +7,8 @@ PluginInfo = PluginInformation(
     author="@Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="static",
-    image="image.png"
+    image="image.png",
+    disablePlugins=True
 )
 
 

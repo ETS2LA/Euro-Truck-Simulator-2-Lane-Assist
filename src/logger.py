@@ -1,3 +1,12 @@
+"""
+
+Logger, will replace the default "print" command with a custom one that will also log to a file.
+
+>>> from src.logger import print
+>>> print("Something just happened!")
+
+"""
+
 import time
 import sys, inspect
 import os
@@ -9,6 +18,8 @@ BLUE = "\033[94m"
 RED = "\033[91m"
 
 start = time.time()
+lastMsg = ""
+times = 0
 
 # Clear the log file
 with open("log.txt", "w") as f:
@@ -16,6 +27,8 @@ with open("log.txt", "w") as f:
     f.write("")
 
 def print(text):
+    global lastMsg
+    global times
     
     timestr = str(round(time.process_time(), 3))
     while len(timestr.split(".")[1]) < 3:
@@ -24,7 +37,7 @@ def print(text):
     
     if sys.platform == "win32":
         caller = inspect.stack()[1].filename
-        if "plugins" in caller:
+        if "plugins" in caller or "src" in caller:
             caller = GREEN + caller.split("\\")[-2] + YELLOW + "\\" + caller.split("\\")[-1] + NORMAL
         else:
             caller = YELLOW + caller.split("\\")[-1] + NORMAL  
@@ -35,18 +48,29 @@ def print(text):
         else:
             caller = YELLOW + caller.split("/")[-1] + NORMAL  
     
+    
+    message = f"[{caller}]\t- {text}\n"
+    if message == lastMsg:
+        times += 1
+        sys.stdout.write(f"[-> {times}]\r")
+        return
+    else:
+        times = 0
+        lastMsg = message
+        message = f"[{date}] " + message 
+    
     # Make sure the file is not too big
     size = os.path.getsize("log.txt")
     # 10MB
     if size > 10000000:
-        sys.stdout.write(f"[{date}] [{caller}]\t- {text}\n" + RED + "[ERROR] The log file is too big! (10mb) Saving paused! Please rerun the app!\n")
+        sys.stdout.write(message + RED + "[ERROR] The log file is too big! (10mb) Saving paused! Please rerun the app!\n")
         raise Exception("Usually you have a problem if the log file is this big!")
     
     with open("log.txt", "a") as f:
-        f.write(f"[{date}] [{caller}]\t- {text}\n")
+        f.write(message)
     
     # Can't use print() because it will cause an infinite loop
-    sys.stdout.write(f"[{date}] [{caller}]\t- {text}\n")
+    sys.stdout.write(message)
     
 print("Logger initialized!")
         
