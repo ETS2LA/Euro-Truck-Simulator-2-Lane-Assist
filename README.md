@@ -9,15 +9,15 @@ ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
   - [x] Load the plugin canvas
   - [x] Update open plugin on each loop
   - [x] Create "plugins.FirstTimeSetup" as a test
-- [ ] Implement constantly running plugins (currently working on this)
+- [x] Implement constantly running plugins (currently working on this)
   - [x] Add dynamic tags to PluginInformation (before lanes/steering/game/app update)
-  - [ ] Implement UI for toggling different plugins
+  - [x] Implement UI for toggling different plugins
   - [ ] Depending on needs make it so you can change the execution order
-  - [ ] Run all "enabled" plugins on each loop
+  - [x] Run all "enabled" plugins on each loop
   - [ ] Make sure that all "mandatory plugins" are enabled (e.g. at least one lane detection model)
-- [ ] Implement cross plugin data (to be passed on each plugin update)
+- [x] Implement cross plugin data (to be passed on each plugin update)
 - [ ] Remake basic functionality as plugins
-  - [ ] Image capture
+  - [x] Image capture
   - [ ] Lane detection
   - [ ] Controller support
   - [ ] Game support
