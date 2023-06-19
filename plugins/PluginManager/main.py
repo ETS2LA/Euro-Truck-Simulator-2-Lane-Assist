@@ -75,7 +75,7 @@ class UI():
         self.plugins = self.findPlugins()
         
         self.listVariable = tk.StringVar()
-        self.listVariable.set([p.name for p in self.plugins])
+        self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.name) for p in self.plugins])
         
         self.pluginList = tk.Listbox(self.root, width=20, height=20, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
         self.pluginList.grid(row=1, column=0, padx=10, pady=2)
@@ -90,9 +90,9 @@ class UI():
     
     
     def colorPlugins(self):
-        try:
-            enabledPlugins = settings.GetSettings("Plugins", "Enabled")
-        except:
+        
+        enabledPlugins = settings.GetSettings("Plugins", "Enabled")
+        if enabledPlugins == None:
             enabledPlugins = []
             
         # Set plugin colors

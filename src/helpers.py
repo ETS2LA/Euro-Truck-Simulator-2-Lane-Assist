@@ -70,3 +70,17 @@ def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, 
         return var
     else:
         ttk.Label(parent, font=font, text=text).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        
+def ConvertCapitalizationToSpaces(text):
+    newText = ""
+    for i in range(len(text)):
+        char = text[i]
+        nextChar = text[i+1] if i+1 < len(text) else ""
+        
+        if char.isupper() and nextChar.islower() and i != 0:
+            newText += " " + char
+        else:
+            newText += char
+            
+    return newText

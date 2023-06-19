@@ -25,6 +25,8 @@ from src.logger import print
 # Load all plugins 
 import src.settings as settings
 enabledPlugins = settings.GetSettings("Plugins", "Enabled")
+if enabledPlugins == None:
+    enabledPlugins = []
     
 # Find plugins
 path = os.path.join(variables.PATH, "plugins")
