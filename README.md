@@ -45,7 +45,6 @@ Development goals for v1.0 :
 All this is born with one goal in mind; have the community help with development.
 
 ### Can I help. How about developing plugins?
-
 Well v1.0 is still under **heavy** development, but the main UI framework is there.
 
 If you want to help with development, then the easiest way is to reach out to me on discord (@tumppi066) and we'll talk about the easiest way to get you involved!
