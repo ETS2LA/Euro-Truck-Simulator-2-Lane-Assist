@@ -307,8 +307,8 @@ class UI():
             
             self.displays.grid(row=5, column=0, columnspan=2, padx=30, pady=10)
 
-            helpers.MakeButton(self.root, "Previous", lambda: self.screenCaptureSetup2(), 6,0)
-            helpers.MakeButton(self.root, "Next", lambda: self.screenCaptureSetup2(), 6,1)
+            helpers.MakeButton(self.root, "Previous", lambda: self.buttonSetup(), 6,0)
+            helpers.MakeButton(self.root, "Next", lambda: self.laneDetectionFeatures(), 6,1)
 
             self.root.pack()
             

@@ -20,10 +20,12 @@ class PluginInformation():
         type (str): Type of the plugin ("static" (updated when showing window), "dynamic" (updated every frame))
         
         dynamicOrder (str) (if dynamic): Select at which state the plugin is run
+                >>> "before image capture"
                 >>> "before lane detection"
-                >>> "before steering"
+                >>> "before controller"
                 >>> "before game"
                 >>> "before UI"
+                >>> "last" (reserved for fps limiter, other plugins may make it less accurate)
         
         image (str) (optional): Image path (in the plugin folder) (image file will be scaled to around 120x120)
 

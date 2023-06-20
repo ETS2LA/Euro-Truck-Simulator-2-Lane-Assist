@@ -69,7 +69,7 @@ class UI():
             del self.plugin
         except: pass
         
-        self.root = tk.Canvas(self.master, width=600, height=520)
+        self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
         self.root.grid_propagate(0)
         
         self.plugins = self.findPlugins()
@@ -163,8 +163,9 @@ class UI():
     
     def disablePlugin(self, plugin):
         settings.RemoveFromList("Plugins", "Enabled", plugin.name)
+        variables.UpdatePlugins()
         self.page0()
-        helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
+        #helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
         
     def enablePlugin(self, plugin):
         # Check for exclusivity
@@ -178,8 +179,9 @@ class UI():
             else: return
             
         settings.AddToList("Plugins", "Enabled", plugin.name)
+        variables.UpdatePlugins()
         self.page0()
-        helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
+        #helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
     
     def update(self, data):
         try:

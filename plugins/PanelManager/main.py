@@ -69,7 +69,7 @@ class UI():
                 self.root.destroy()
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520)
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0)
             
             self.plugins = self.findPlugins()

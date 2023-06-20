@@ -39,9 +39,9 @@ class LSTR():
     def detect_lanes(self, image):
 
         input_tensor, mask_tensor = self.prepare_inputs(image)
-
-        outputs = self.inference(input_tensor, mask_tensor)
         
+        outputs = self.inference(input_tensor, mask_tensor)
+
         detected_lanes, good_lanes = self.process_output(outputs)
 
         return detected_lanes, good_lanes
@@ -54,10 +54,12 @@ class LSTR():
         # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img,(self.input_width, self.input_height))
 
+
         # Scale input pixel values to -1 to 1
         mean=[0.485, 0.456, 0.406]
         std=[0.229, 0.224, 0.225]
         
+
         img = ((img/ 255.0 - mean) / std)
         # img = img/ 255.0
 
@@ -65,14 +67,15 @@ class LSTR():
         input_tensor = img[np.newaxis,:,:,:].astype(np.float32)
 
         mask_tensor = np.zeros((1, 1, self.input_height, self.input_width), dtype=np.float32)
+        
 
         return input_tensor, mask_tensor
 
     def inference(self, input_tensor, mask_tensor):
-        start = time.time()
+
         outputs = self.session.run(self.output_names, {self.rgb_input_name: input_tensor, 
                                                        self.mask_input_name: mask_tensor})
-        # print(time.time() - start)
+
         return outputs
 
     @staticmethod

@@ -23,14 +23,14 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
-
+import psutil
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
         
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.once = False
-            self.exampleFunction()
+            self.main()
         
         def destroy(self):
             self.done = True
@@ -38,25 +38,26 @@ class UI():
             del self
 
         
-        def exampleFunction(self):
+        def main(self):
             
             try:
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520)
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
             # Helpers provides easy to use functions for creating consistent widgets!
             self.fps = helpers.MakeLabel(self.root, "", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=1)
-            self.list = ttk.Treeview(self.root, columns=("plugin", "ms"), show="headings", height=12)
-            self.list.grid(row=1, column=0, columnspan=1, padx=10, pady=10)
-            helpers.MakeLabel(self.root, "Running this constantly would take a lot of cpu power so use the button to manually update!", 2,0, font=("Roboto", 10), padx=30, pady=10)
-            helpers.MakeLabel(self.root, "* all information is for the last frame", 3,0, font=("Roboto", 10), padx=30, pady=10)
+            self.cpu = helpers.MakeLabel(self.root, "", 1,0, font=("Roboto", 12), padx=30, pady=2, columnspan=1)
+            self.list = ttk.Treeview(self.root, columns=("plugin", "ms"), show="headings", height=10)
+            self.list.grid(row=2, column=0, columnspan=1, padx=10, pady=10)
+            helpers.MakeLabel(self.root, "Running this constantly would take a lot of cpu power so use the button to manually update!", 3,0, font=("Roboto", 10), padx=30, pady=10)
+            helpers.MakeLabel(self.root, "* all information is for the last frame", 4,0, font=("Roboto", 10), padx=30, pady=10)
             self.toggle = tk.BooleanVar()
             # ttk.Checkbutton(self.root, text="Update list", variable=self.toggle).grid(row=1, column=1, padx=10, pady=10)
-            helpers.MakeButton(self.root, "Update", lambda: self.updateOnce(), 4,0, padx=10, pady=10, width=15)
+            helpers.MakeButton(self.root, "Update", lambda: self.updateOnce(), 5,0, padx=10, pady=10, width=15)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
@@ -78,6 +79,11 @@ class UI():
                     self.list.delete(*self.list.get_children())
                     for plugin in data["executionTimes"]:
                         self.list.insert("", "end", values=(plugin, round(data["executionTimes"][plugin]*1000, 1)))
+
+                try:
+                    self.cpu.set(f"Idle Time: {round((data['executionTimes']['FPSLimiter'] / lastFrameTime) * 100)}%")
+                except:
+                    pass
                     
             except Exception as ex:
                 print(ex.args)

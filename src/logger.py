@@ -59,7 +59,7 @@ def print(text):
 
     if message == lastMsg:
         times += 1
-        sys.stdout.write(f"[-> {times}]\r")
+        sys.stdout.write(f"[{date}] [-> {times}]\r")
         return
     else:
         times = 0

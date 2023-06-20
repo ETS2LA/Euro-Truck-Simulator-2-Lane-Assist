@@ -13,87 +13,120 @@ import os
 import sys
 import time
 import json
-import src.models as models # Finds all possible models
 import src.variables as variables # Stores all main variables for the program
 from src.logger import print
-
-# REMOVE THIS BEFORE RELEASE
-# try:
-#     os.remove(os.path.join(variables.PATH, r"profiles\settings.json"))
-# except: pass
-
-# Load all plugins 
+import traceback
 import src.settings as settings
-enabledPlugins = settings.GetSettings("Plugins", "Enabled")
-if enabledPlugins == None:
-    enabledPlugins = [""]
+import psutil
+
+def GetEnabledPlugins():
+    global enabledPlugins
+    enabledPlugins = settings.GetSettings("Plugins", "Enabled")
+    if enabledPlugins == None:
+        enabledPlugins = [""]
+
+
+
+def FindPlugins():
+    global plugins
+    global pluginObjects
     
-# Find plugins
-path = os.path.join(variables.PATH, "plugins")
-plugins = []
-for file in os.listdir(path):
-    if os.path.isdir(os.path.join(path, file)):
-        # Check for main.py
-        if "main.py" in os.listdir(os.path.join(path, file)):
-            # Check for PluginInformation class
-            try:
-                pluginPath = "plugins." + file + ".main"
-                plugin = __import__(pluginPath, fromlist=["PluginInformation"])
-                if plugin.PluginInfo.type == "dynamic":
-                    if plugin.PluginInfo.name in enabledPlugins:
-                        plugins.append(plugin.PluginInfo)
-            except Exception as ex:
-                print(ex.args)
-                pass
-            
+    # Find plugins
+    path = os.path.join(variables.PATH, "plugins")
+    plugins = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if "main.py" in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginPath = "plugins." + file + ".main"
+                    plugin = __import__(pluginPath, fromlist=["PluginInformation"])
+                    if plugin.PluginInfo.type == "dynamic":
+                        if plugin.PluginInfo.name in enabledPlugins:
+                            plugins.append(plugin.PluginInfo)
+                except Exception as ex:
+                    print(ex.args)
+                    pass
 
-pluginObjects = []
-for plugin in plugins:
-    pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo"]))
+    pluginObjects = []
+    for plugin in plugins:
+        pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo"]))
+        
 
-# We've loaded all necessary modules
-loadingWindow.destroy()
 
-def updatePlugins(dynamicOrder, data):
-    try:
-        for plugin in pluginObjects:
+def UpdatePlugins(dynamicOrder, data):
+    for plugin in pluginObjects:
+        try:
             if plugin.PluginInfo.dynamicOrder == dynamicOrder:
-                name = plugin.PluginInfo.name
                 startTime = time.time()
                 data = plugin.plugin(data)
                 endTime = time.time()
-                data["executionTimes"][name] = endTime - startTime
-        return data
-    except Exception as ex:
-        print("Error in plugins '" + dynamicOrder + "': " + ex.args[0])
-        pass
+                data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
+        except Exception as ex:
+            print(ex.args)
+            pass
+    return data
+
+
+# Load all plugins 
+GetEnabledPlugins()
+FindPlugins()
+
+# We've loaded all necessary modules
+loadingWindow.destroy()
 
 data = {}
 while True:
     # Main Application Loop
     try:
-        allStart = time.time()
-        try:
-            data = data.popitem(("last", data["last"]))
-        except:
-            pass
-        data = {"last": data, "executionTimes": {}}
         
-        updatePlugins("before lane detection", data)
+        allStart = time.time()
+        
+        # Remove "last" from the data and set it as this frame's "last"
+        try: data = data.popitem(("last", data["last"]))
+        except: pass
+        data = {
+            "last": data, 
+            "executionTimes": {}
+        }
+        
+        # Enable / Disable the main loop
+        if variables.ENABLELOOP == False:
+            mainUI.update(data)
+            allEnd = time.time()
+            data["executionTimes"]["all"] = allEnd - allStart
+            continue
+        
+        if variables.UPDATEPLUGINS:
+            GetEnabledPlugins()
+            FindPlugins()
+            variables.UPDATEPLUGINS = False
+        
+        UpdatePlugins("before image capture", data)
+        # "before image capture"
+        
+        UpdatePlugins("before lane detection", data)
         # "before lane detection"
         
-        updatePlugins("before steering", data)
+        UpdatePlugins("before controller", data)
         # "before steering"
         
-        updatePlugins("before game", data)
+        UpdatePlugins("before game", data)
         # "before game"
         
-        updatePlugins("before UI", data)
+        UpdatePlugins("before UI", data)
         # "before UI"
+        
+        # Calculate the execution time of the UI
         start = time.time()
         mainUI.update(data)
         end = time.time()
         data["executionTimes"]["UI"] = end - start
+        
+        UpdatePlugins("last", data)
+        
+        # And then the entire app
         allEnd = time.time()
         data["executionTimes"]["all"] = allEnd - allStart
     
