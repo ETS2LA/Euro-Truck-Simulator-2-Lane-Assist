@@ -14,7 +14,7 @@ ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
   - [x] Implement UI for toggling different plugins
   - [ ] Depending on needs make it so you can change the execution order
   - [x] Run all "enabled" plugins on each loop
-  - [ ] Make sure that all "mandatory plugins" are enabled (e.g. at least one lane detection model)
+  - [-] Make sure that all "mandatory plugins" are enabled (e.g. at least one lane detection model)
   - [x] Make sure that many plugins of the same "category" are not enabled (for example 2 lane detection models)
 - [x] Implement cross plugin data (to be passed on each plugin update)
 - [ ] Remake basic functionality as plugins
