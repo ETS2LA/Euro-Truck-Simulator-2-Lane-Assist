@@ -20,7 +20,8 @@ ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
 - [ ] Remake basic functionality as plugins
   - [x] Image capture
   - [x] Lane detection (WOO IT WORKS)
-  - [ ] Controller support
+  - [ ] Steering
+  - [x] Controller support
   - [ ] Game support (API) -> This is going to be done by [Cloud](https://github.com/Cloud-121) at some point!
 - [ ] Start adding all other features from LSTR-Development
 - [ ] Release v1.0 (yes the branch name is wrong)
