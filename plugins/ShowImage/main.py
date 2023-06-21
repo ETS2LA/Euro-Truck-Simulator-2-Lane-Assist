@@ -36,6 +36,9 @@ import cv2
 def plugin(data):
     try:
         frame = data["frame"]
+        cv2.namedWindow("Lane Assist", cv2.WINDOW_NORMAL)
+        # Make it on top
+        cv2.setWindowProperty("Lane Assist", cv2.WND_PROP_TOPMOST, 1)
         cv2.imshow("Lane Assist", frame)
         return data
     

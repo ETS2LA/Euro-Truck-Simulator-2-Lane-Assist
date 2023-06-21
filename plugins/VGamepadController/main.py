@@ -33,6 +33,7 @@ def createController():
     global gamepad
     try:
         gamepad = vg.VX360Gamepad()
+        print("Created controller")
     except Exception as e:
         print("\033[91mCouldn't connect to the VIGEM driver.\n1. Make sure it's installed and updated\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/*Python Version*/Lib/site-packages/vgamepad/win/install \033[00m")
         print("\033[91m2. Install the VC Redist 2017 here (https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170). \033[00m")
@@ -52,12 +53,14 @@ def plugin(data):
         controller = data["controller"]
         leftStick = controller["leftStick"]
         
+        
         if leftStick > 1 or leftStick < -1:
             # We assume that the values are between 32767 and -32767
             leftStick /= 32767
         
         gamepad.left_joystick_float(x_value_float = leftStick, y_value_float = 0)
         gamepad.update()
+        # print(leftStick)
     
     except Exception as ex:
         print(ex)

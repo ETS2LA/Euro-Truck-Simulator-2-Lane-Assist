@@ -66,7 +66,7 @@ def UpdateSettings(category, name, data):
         print(ex.args)
 
 # Get a specific setting
-def GetSettings(category, name):
+def GetSettings(category, name, value=None):
     try:
         profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -74,7 +74,11 @@ def GetSettings(category, name):
             settings = json.load(f)
         return settings[category][name]
     except Exception as ex:
-        print(ex.args)
+        if value != None:
+            CreateSettings(category, name, value)
+            return value
+        else:
+            print(ex.args)
 
 
 # Create a new setting
