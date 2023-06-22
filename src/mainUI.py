@@ -33,7 +33,7 @@ except:
 
 
 # Bottom text
-ttk.Label(root, text="ETS2 Lane Assist    Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+ttk.Label(root, text="ETS2 Lane Assist   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 fps = tk.StringVar()
 ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
@@ -45,15 +45,18 @@ enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.Togg
 helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=8)
 helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=8)
 helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=10, padx=8)
-themeButton = helpers.MakeButton(buttonFrame, sv_ttk.get_theme().capitalize() + " Mode", lambda: changeTheme(), 4, 0, width=10, padx=8)
+helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=10, padx=8)
+helpers.MakeButton(buttonFrame, "About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=10, padx=8)
+themeButton = helpers.MakeButton(buttonFrame, sv_ttk.get_theme().capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=10, padx=8)
 
 # Plugin frame
 buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
 pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
 pluginFrame.pack_propagate(0)
 pluginFrame.grid_propagate(0)
-helpers.MakeLabel(pluginFrame, "Click 'Panels' on the left bar to start!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-helpers.MakeLabel(pluginFrame, "If this is your first time running the app, it is recommended to open the 'FirstTimeSetup' panel!", 1,0, font=("Roboto", 10), padx=30, pady=10, columnspan=2)
+helpers.MakeButton(pluginFrame, "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20, style="Accent.TButton")
+helpers.MakeButton(pluginFrame, "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20, style="Accent.TButton")
+helpers.MakeButton(pluginFrame, "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
 pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
 
 root.update()
@@ -75,7 +78,7 @@ def update(data):
     # Calculate the UI caused overhead
     frame = time.time()
     try:
-        fps.set(f"Main Loop FPS: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)")
+        fps.set(f"UI FPS: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)")
     except: pass
     prevFrame = frame
         
@@ -98,7 +101,7 @@ def switchSelectedPlugin(pluginName):
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
     
     if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
-        if messagebox.askokcancel("Plugins", "The panel has asked to disable plugins, this will require a restart. Do you want to continue?"):
+        if messagebox.askokcancel("Plugins", "The panel has asked to disable all plugins. Do you want to continue?"):
             settings.CreateSettings("Plugins", "Enabled", [])
             variables.UpdatePlugins()
             

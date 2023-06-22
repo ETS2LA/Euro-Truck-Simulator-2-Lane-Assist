@@ -77,6 +77,7 @@ FindPlugins()
 loadingWindow.destroy()
 
 data = {}
+uiFrameTimer = 0
 while True:
     # Main Application Loop
     try:
@@ -120,7 +121,10 @@ while True:
         
         # Calculate the execution time of the UI
         start = time.time()
-        mainUI.update(data)
+        uiFrameTimer += 1
+        if uiFrameTimer > 4:
+            mainUI.update(data)
+            uiFrameTimer = 0
         end = time.time()
         data["executionTimes"]["UI"] = end - start
         

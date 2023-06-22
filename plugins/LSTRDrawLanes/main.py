@@ -60,7 +60,7 @@ def draw_lanes(input_img, lane_points, lane_ids, color=(255,191,0), fillPoly=Fal
 # The data from the last frame is contained under data["last"]
 def plugin(data):
     try:
-        points, ids = data["LaneDetection"]["points"], data["LaneDetection"]["ids"]
+        points, ids = data["LSTR"]["points"], data["LSTR"]["ids"]
         frame = data["frame"]
         
         newImage = draw_lanes(frame, points, ids, fillPoly=False)

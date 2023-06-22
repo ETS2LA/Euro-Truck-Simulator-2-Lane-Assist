@@ -40,6 +40,9 @@ def updateSettings():
     global controlSmoothness
     global sensitivity
     global offset
+    global gamepadMode
+    global gamepadSmoothness
+    global enableDisable
     
     wheel = pygame.joystick.Joystick(settings.GetSettings("LSTRSteering", "controller"))
     rightIndicator = settings.GetSettings("LSTRSteering", "rightIndicator")
@@ -49,16 +52,22 @@ def updateSettings():
     controlSmoothness = settings.GetSettings("LSTRSteering", "smoothness")
     sensitivity = settings.GetSettings("LSTRSteering", "sensitivity")
     offset = settings.GetSettings("LSTRSteering", "offset")
+    gamepadMode = settings.GetSettings("LSTRSteering", "gamepad")
+    gamepadSmoothness = settings.GetSettings("LSTRSteering", "gamepadSmoothness")
+    enableDisable = settings.GetSettings("LSTRSteering", "enableDisable")
     
 updateSettings()
 
 # MOST OF THIS FILE IS COPIED FROM THE OLD VERSION
 desiredControl = 0
 oldDesiredControl = 0
+lastFrame = 0
 IndicatingRight = False
 IndicatingLeft = False
 lastIndicatingRight = False
 lastIndicatingLeft = False
+enabled = False
+enabledTimer = 0
 def plugin(data):
     global desiredControl
     global oldDesiredControl
@@ -72,18 +81,33 @@ def plugin(data):
     global controlSmoothness
     global sensitivity
     global offset
+    global gamepadMode
+    global gamepadSmoothness
+    global lastFrame
+    global enableDisable
+    global enabledTimer
     # global disableLaneAssistWhenIndicating
 
     try:
-        desiredControl = (data["LaneDetection"]["difference"] + offset) / (sensitivity * 6)
-        enabled = True
+        desiredControl = (data["LSTR"]["difference"] + offset) / (sensitivity * 6)
     except:
-        enabled = False # There is no lane detection data, so we can't enable the lane assist.
+        desiredControl = oldDesiredControl
         
     print(enabled)
     data["controller"] = {}
 
     try:
+        enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
+        if(wheel.get_button(enableDisable) and enabledTimer > 15):
+            if enabled == True:
+                enabled = False
+                enabledTimer = 0
+                #sound.PlaySoundDisable()
+            else:
+                enabled = True
+                enabledTimer = 0
+                #sound.PlaySoundEnable()
+        
         # This kind of if, elif statement converts the presses of the indicator to
         # a constant on/off value.
         if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
@@ -137,14 +161,36 @@ def plugin(data):
 
                 # If we are indicating, then disable the automatic control.
                 if(IndicatingRight or IndicatingLeft):
-                    data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
+                    
+                    if gamepadMode:
+                        value = pow(wheel.get_axis(steeringAxis), 2) 
+                        if(wheel.get_axis(steeringAxis) < 0) : value = -value
+                        newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                        lastFrame = newValue
+                        data["controller"]["leftStick"] = newValue
+                    else:
+                        data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
                 else:
-                    data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)
+                    if gamepadMode:
+                        value = pow(wheel.get_axis(steeringAxis), 2) 
+                        if(wheel.get_axis(steeringAxis) < 0) : value = -value
+                        newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                        lastFrame = newValue
+                        data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
+                    else:
+                        data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)
                 
                 oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
             else:
                 # If the lane assist is disabled we just input the default control.
-                data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
+                if gamepadMode:
+                    value = pow(wheel.get_axis(steeringAxis), 2) 
+                    if(wheel.get_axis(steeringAxis) < 0) : value = -value
+                    newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                    lastFrame = newValue
+                    data["controller"]["leftStick"] = newValue
+                else:
+                    data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
             
         except Exception as ex:
             print(ex)
@@ -173,6 +219,12 @@ def plugin(data):
         # Then draw a light red line to indicate the desired steering
         cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + currentDesired * (w/2 - w/divider)), int(h - h/10)), (0, 100, 255), 2, cv2.LINE_AA)
 
+        try:
+            if IndicatingLeft or IndicatingRight:
+                cv2.putText(output_img, "Indicating", (int(w/2), int(h - h/10 - 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
+        except:
+            pass        
+        
         data["frame"] = output_img
 
     except Exception as ex:

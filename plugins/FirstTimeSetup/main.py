@@ -4,7 +4,7 @@ PluginInfo = PluginInformation(
     name="FirstTimeSetup",
     description="Will help you get the app up and running!",
     version="0.1",
-    author="@Tumppi066",
+    author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="static",
     image="image.png",
@@ -58,7 +58,8 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             helpers.MakeLabel(self.root, "Welcome", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            helpers.MakeLabel(self.root, "This is the first time you've run this program, so we need to set up some things first.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, "This setup will automatically configure the OFFICIAL plugins. ", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, "If you have any other plugins installed, please configure them manually.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
 
             helpers.MakeButton(self.root, "Quit", lambda: quit(), 3,0)
             # REMEMBER TO CHANGE BACK TO PAGE1
@@ -98,8 +99,8 @@ class UI():
             self.root.destroy()
             self.root = tk.Canvas(self.master)
 
-            settings.CreateSettings("Controller", "Type", "Gamepad")
-            settings.CreateSettings("Controller", "Gamepad Smoothness", 0.05)
+            settings.CreateSettings("LSTRSteering", "gamepad", True)
+            settings.CreateSettings("LSTRSteering", "gamepadSmoothness", 0.05)
 
             helpers.MakeLabel(self.root, "Gamepad", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
             helpers.MakeLabel(self.root, "Great! I'll automatically set all the necessary options for gamepad usage.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
@@ -127,8 +128,8 @@ class UI():
             
         def wheelPage(self):
             
-            settings.CreateSettings("Controller", "Type", "Wheel")
-            settings.CreateSettings("Controller", "Gamepad Smoothness", 0.05)
+            settings.CreateSettings("LSTRSteering", "gamepad", False)
+            settings.CreateSettings("LSTRSteering", "gamepadsmoothness", 0.05)
             
             self.root.destroy()
             self.root = tk.Canvas(self.master)
@@ -172,11 +173,9 @@ class UI():
         
         def axisSetup(self):
             
-            try:
-                import src.settings as settings
-                settings.CreateSettings("Controller", "Index", self.list.curselection()[0])
-                settings.CreateSettings("Controller", "Name", self.joysticks[self.list.curselection()[0]].get_name())
-            except: pass
+            import src.settings as settings
+            settings.CreateSettings("LSTRSteering", "controller", self.list.curselection()[0])
+            settings.CreateSettings("LSTRSteering", "controller name", self.joysticks[self.list.curselection()[0]].get_name())
             
             self.root.destroy()
             self.root = tk.Canvas(self.master)
@@ -186,11 +185,11 @@ class UI():
             helpers.MakeLabel(self.root, "So please go ahead and select the axis corresponding to steering from the below list.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
             
             # Create sliders for all axis
-            index = settings.GetSettings("Controller", "Index")
+            index = settings.GetSettings("LSTRSteering", "controller")
             self.sliderVars = []
             for i in range(self.joysticks[index].get_numaxes()):
                 variable = tk.IntVar(self.root)
-                helpers.MakeCheckButton(self.root, f"Axis {i}", "Controller", f"Steering Axis", i+4, 1, values=[i, ""], onlyTrue=True)
+                helpers.MakeCheckButton(self.root, f"Axis {i}", "LSTRSteering", f"steeringAxis", i+4, 1, values=[i, ""], onlyTrue=True)
                 slider = ttk.Scale(self.root, from_=-100, to=100, variable=variable, orient=tk.HORIZONTAL, length=200)
                 self.sliderVars.append(variable)
                 slider.grid(row=i+4, column=0, padx=0, pady=5)
@@ -221,7 +220,7 @@ class UI():
             enableDisableFrame.pack()
             
             # Get a list of all buttons
-            index = settings.GetSettings("Controller", "Index")
+            index = settings.GetSettings("LSTRSteering", "controller")
             pygame.event.pump()
             
             buttons = []
@@ -261,9 +260,9 @@ class UI():
         def saveButtonSettings(self):
             
             # Save the button settings
-            settings.CreateSettings("Controller", "Left Blinker", self.leftBlinkerCombo.get())
-            settings.CreateSettings("Controller", "Right Blinker", self.rightBlinkerCombo.get())
-            settings.CreateSettings("Controller", "Enable / Disable", self.enableDisableCombo.get())
+            settings.CreateSettings("LSTRSteering", "leftIndicator", self.leftBlinkerCombo.get())
+            settings.CreateSettings("LSTRSteering", "rightIndicator", self.rightBlinkerCombo.get())
+            settings.CreateSettings("LSTRSteering", "enableDisable", self.enableDisableCombo.get())
             
             self.screenCaptureSetup()      
         
@@ -308,7 +307,7 @@ class UI():
             self.displays.grid(row=5, column=0, columnspan=2, padx=30, pady=10)
 
             helpers.MakeButton(self.root, "Previous", lambda: self.buttonSetup(), 6,0)
-            helpers.MakeButton(self.root, "Next", lambda: self.laneDetectionFeatures(), 6,1)
+            helpers.MakeButton(self.root, "Next", lambda: self.setScreenCaptureSettings(self.displays.get().split(' ')[1]), 6,1)
 
             self.root.pack()
             
@@ -352,8 +351,8 @@ class UI():
             
         
         def setScreenCaptureSettings(self, display):
-            settings.CreateSettings("Screen Capture", "Display", int(display))
-            settings.CreateSettings("Screen Capture", "Refresh Rate", self.refreshRate.get())
+            settings.CreateSettings("dxcam", "display", int(display))
+            #settings.CreateSettings("Screen Capture", "Refresh Rate", self.refreshRate.get())
             self.laneDetectionFeatures()
         
         
@@ -414,23 +413,23 @@ class UI():
             defaultPageImageLabel.grid(row=1, column=0, pady=10, padx=30, sticky="e")
             
             # Draw lanes page
-            helpers.MakeCheckButton(drawLanesFrame, "Draw Lanes", "Lane Detection", "Draw Lanes", 0, 0)
+            helpers.MakeCheckButton(drawLanesFrame, "Draw Lanes", "LSTRDrawLanes", "Draw Lanes", 0, 0)
             drawLanesImageLabel = tk.Label(drawLanesFrame, image=self.drawLanesImage)
             drawLanesImageLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
             
             # Draw steering line page
-            helpers.MakeCheckButton(drawSteeringLineFrame, "Draw Steering Line", "Lane Detection", "Draw Steering Line", 0, 0)
+            helpers.MakeCheckButton(drawSteeringLineFrame, "Draw Steering Line", "LSTRDrawLanes", "Draw Steering Line", 0, 0)
             drawSteeringLineImageLabel = tk.Label(drawSteeringLineFrame, image=self.drawSteeringLineImage)
             drawSteeringLineImageLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
             
             # Fill lane page
-            helpers.MakeCheckButton(fillLaneFrame, "Fill Lane", "Lane Detection", "Fill Lane", 0, 0)
-            helpers.MakeComboEntry(fillLaneFrame, "Fill Color", "Lane Detection", "Fill Color", 1, 0, value="#10615D")
+            helpers.MakeCheckButton(fillLaneFrame, "Fill Lane", "LSTRDrawLanes", "Fill Lane", 0, 0)
+            helpers.MakeComboEntry(fillLaneFrame, "Fill Color", "LSTRDrawLanes", "Fill Color", 1, 0, value="#10615D")
             fillLaneImageLabel = tk.Label(fillLaneFrame, image=self.fillLaneImage)
             fillLaneImageLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
             
             # Show lane points page
-            helpers.MakeCheckButton(showLanePointsFrame, "Show Lane Points", "Lane Detection", "Show Lane Points", 0, 0)
+            helpers.MakeCheckButton(showLanePointsFrame, "Show Lane Points", "LSTRDrawLanes", "Show Lane Points", 0, 0)
             showLanePointsImageLabel = tk.Label(showLanePointsFrame, image=self.showLanePointsImage)
             showLanePointsImageLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
             
@@ -451,28 +450,28 @@ class UI():
         
         def setLaneDetectionFeatures(self, defaults):
             if defaults:
-                settings.CreateSettings("Lane Detection", "Draw Lanes", True)
-                settings.CreateSettings("Lane Detection", "Draw Steering Line", True)
-                settings.CreateSettings("Lane Detection", "Fill Lane", True)
-                settings.CreateSettings("Lane Detection", "Fill Color", "#10615D")
-                settings.CreateSettings("Lane Detection", "Show Lane Points", False)
+                settings.CreateSettings("LSTRDrawLanes", "Draw Lanes", True)
+                settings.CreateSettings("LSTRDrawLanes", "Draw Steering Line", True)
+                settings.CreateSettings("LSTRDrawLanes", "Fill Lane", True)
+                settings.CreateSettings("LSTRDrawLanes", "Fill Color", "#10615D")
+                settings.CreateSettings("LSTRDrawLanes", "Show Lane Points", False)
             else:
                 # Check if the settings exist, if not create them with false values (they weren't toggled once)
                 
-                try: settings.GetSettings("Lane Detection", "Draw Lanes")
-                except: settings.CreateSettings("Lane Detection", "Draw Lanes", False)
+                try: settings.GetSettings("LSTRDrawLanes", "Draw Lanes")
+                except: settings.CreateSettings("LSTRDrawLanes", "Draw Lanes", False)
                 
-                try: settings.GetSettings("Lane Detection", "Draw Steering Line")
-                except: settings.CreateSettings("Lane Detection", "Draw Steering Line", False)
+                try: settings.GetSettings("LSTRDrawLanes", "Draw Steering Line")
+                except: settings.CreateSettings("LSTRDrawLanes", "Draw Steering Line", False)
                 
-                try: settings.GetSettings("Lane Detection", "Fill Lane")
-                except: settings.CreateSettings("Lane Detection", "Fill Lane", False)
+                try: settings.GetSettings("LSTRDrawLanes", "Fill Lane")
+                except: settings.CreateSettings("LSTRDrawLanes", "Fill Lane", False)
                 
-                try: settings.GetSettings("Lane Detection", "Fill Color")
-                except: settings.CreateSettings("Lane Detection", "Fill Color", "#10615D")
+                try: settings.GetSettings("LSTRDrawLanes", "Fill Color")
+                except: settings.CreateSettings("LSTRDrawLanes", "Fill Color", "#10615D")
                 
-                try: settings.GetSettings("Lane Detection", "Show Lane Points")
-                except: settings.CreateSettings("Lane Detection", "Show Lane Points", False)
+                try: settings.GetSettings("LSTRDrawLanes", "Show Lane Points")
+                except: settings.CreateSettings("LSTRDrawLanes", "Show Lane Points", False)
                 
             self.soundSettings()
                     
@@ -508,21 +507,41 @@ class UI():
             settings.CreateSettings("Sound", "disable", self.disable.get())
             settings.CreateSettings("Sound", "warning", self.warning.get())
             
-            self.destroy()
+            self.lastPage()
         
+        def lastPage(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+            
+            # Set all necessary plugins
+            settings.CreateSettings("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "LSTRSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage"])
+            
+            helpers.MakeLabel(self.root, "One more step!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, " ", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, "We need to make sure that the app can see the game, so set your game to borderless!", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, "And then click the button below, and move the window to where you are looking forward out of your truck.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            
+            
+            helpers.MakeButton(self.root, "Previous", lambda: self.soundSettings(), 7,0)
+            from src.mainUI import switchSelectedPlugin
+            helpers.MakeButton(self.root, "Open Panel", lambda: switchSelectedPlugin("plugins.ScreenCapturePlacement.main"), 7,1)
+            
+            self.root.pack()
+            self.root.update()
         
         def update(self, data):
             self.root.update()
             pygame.event.pump()
             try:
                 for i in range(len(self.sliderVars)):
-                    self.sliderVars[i].set(self.joysticks[settings.GetSettings("Controller", "Index")].get_axis(i)*100)
+                    self.sliderVars[i].set(self.joysticks[settings.GetSettings("LSTRSteering", "controller")].get_axis(i)*100)
             except: pass
             
             try:
                 value = ""
-                for i in range(self.joysticks[settings.GetSettings("Controller", "Index")].get_numbuttons()):
-                    if self.joysticks[settings.GetSettings("Controller", "Index")].get_button(i):
+                for i in range(self.joysticks[settings.GetSettings("LSTRSteering", "controller")].get_numbuttons()):
+                    if self.joysticks[settings.GetSettings("LSTRSteering", "controller")].get_button(i):
                         value += (" Button " + str(i))
                 self.pressedButtons.set(value)
             except: pass

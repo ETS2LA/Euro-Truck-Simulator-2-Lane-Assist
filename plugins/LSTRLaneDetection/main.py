@@ -117,10 +117,10 @@ def plugin(data):
         if model is not None:
             points, ids, difference = detect_lanes(frame)
             
-            data["LaneDetection"] = {}
-            data["LaneDetection"]["difference"] = difference
-            data["LaneDetection"]["points"] = points
-            data["LaneDetection"]["ids"] = ids
+            data["LSTR"] = {}
+            data["LSTR"]["difference"] = difference
+            data["LSTR"]["points"] = points
+            data["LSTR"]["ids"] = ids
             
         return data
             
@@ -159,7 +159,7 @@ class UI():
             
             self.model.set(models[0]) # default value
                 
-            self.modelMenu = ttk.OptionMenu(self.root, self.model, *models, command=lambda: settings.CreateSettings("LSTR", "Model", self.model.get()))
+            self.modelMenu = ttk.OptionMenu(self.root, self.model, *models, command=lambda: settings.CreateSettings("LSTRLaneDetection", "Model", self.model.get()))
             self.modelMenu.config(width=20)
             self.modelMenu.grid(row=0, column=0, padx=10, pady=10)
             
