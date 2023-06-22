@@ -31,6 +31,15 @@ import cv2
 pygame.joystick.init()
 pygame.display.init()
 
+def verifySetting(category, key, default):
+    value = settings.GetSettings(category, key)
+    
+    if value == None:
+        value = default
+        settings.CreateSettings(category, key, default)
+        
+    return value
+
 def updateSettings():
     global wheel
     global rightIndicator
@@ -44,17 +53,18 @@ def updateSettings():
     global gamepadSmoothness
     global enableDisable
     
-    wheel = pygame.joystick.Joystick(settings.GetSettings("LSTRSteering", "controller"))
-    rightIndicator = settings.GetSettings("LSTRSteering", "rightIndicator")
-    leftIndicator = settings.GetSettings("LSTRSteering", "leftIndicator")
-    steeringAxis = settings.GetSettings("LSTRSteering", "steeringAxis")
-    maximumControl = settings.GetSettings("LSTRSteering", "maximumControl")
-    controlSmoothness = settings.GetSettings("LSTRSteering", "smoothness")
-    sensitivity = settings.GetSettings("LSTRSteering", "sensitivity")
-    offset = settings.GetSettings("LSTRSteering", "offset")
-    gamepadMode = settings.GetSettings("LSTRSteering", "gamepad")
-    gamepadSmoothness = settings.GetSettings("LSTRSteering", "gamepadSmoothness")
-    enableDisable = settings.GetSettings("LSTRSteering", "enableDisable")
+    wheel = pygame.joystick.Joystick(verifySetting("LSTRSteering", "wheel", 0))
+    
+    rightIndicator = verifySetting("LSTRSteering", "rightIndicator", 13)
+    leftIndicator = verifySetting("LSTRSteering", "leftIndicator", 14)
+    steeringAxis = verifySetting("LSTRSteering", "steeringAxis", 0)
+    maximumControl = verifySetting("LSTRSteering", "maximumControl", 0.2)
+    controlSmoothness = verifySetting("LSTRSteering", "smoothness", 8)
+    sensitivity = verifySetting("LSTRSteering", "sensitivity", 400)
+    offset = verifySetting("LSTRSteering", "offset", 0)
+    gamepadMode = verifySetting("LSTRSteering", "gamepad", False)
+    gamepadSmoothness = verifySetting("LSTRSteering", "gamepadSmoothness", 0.05)
+    enableDisable = verifySetting("LSTRSteering", "enableDisable", 5)
     
 updateSettings()
 
@@ -66,7 +76,7 @@ IndicatingRight = False
 IndicatingLeft = False
 lastIndicatingRight = False
 lastIndicatingLeft = False
-enabled = False
+enabled = True
 enabledTimer = 0
 def plugin(data):
     global desiredControl
@@ -93,7 +103,6 @@ def plugin(data):
     except:
         desiredControl = oldDesiredControl
         
-    print(enabled)
     data["controller"] = {}
 
     try:
@@ -101,10 +110,12 @@ def plugin(data):
         if(wheel.get_button(enableDisable) and enabledTimer > 15):
             if enabled == True:
                 enabled = False
+                print("Disabled")
                 enabledTimer = 0
                 #sound.PlaySoundDisable()
             else:
                 enabled = True
+                print("Enabled")
                 enabledTimer = 0
                 #sound.PlaySoundEnable()
         
@@ -204,28 +215,50 @@ def plugin(data):
 
     try:
         
-        output_img = data["frame"]
-        w = output_img.shape[1]
-        h = output_img.shape[0]
-        
-        currentDesired = desiredControl * (1/maximumControl)
-        actualSteering = oldDesiredControl * (1/maximumControl)
+        if enabled:
+            output_img = data["frame"]
+            w = output_img.shape[1]
+            h = output_img.shape[0]
+            
+            currentDesired = desiredControl * (1/maximumControl)
+            actualSteering = oldDesiredControl * (1/maximumControl)
 
-        divider = 5
-        # First draw a gray line to indicate the background
-        cv2.line(output_img, (int(w/divider), int(h - h/10)), (int(w/divider*(divider-1)), int(h - h/10)), (100, 100, 100), 6, cv2.LINE_AA)
-        # Then draw a light green line to indicate the actual steering
-        cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + actualSteering * (w/2 - w/divider)), int(h - h/10)), (0, 255, 100), 6, cv2.LINE_AA)
-        # Then draw a light red line to indicate the desired steering
-        cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + currentDesired * (w/2 - w/divider)), int(h - h/10)), (0, 100, 255), 2, cv2.LINE_AA)
+            divider = 5
+            # First draw a gray line to indicate the background
+            cv2.line(output_img, (int(w/divider), int(h - h/10)), (int(w/divider*(divider-1)), int(h - h/10)), (100, 100, 100), 6, cv2.LINE_AA)
+            # Then draw a light green line to indicate the actual steering
+            cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + actualSteering * (w/2 - w/divider)), int(h - h/10)), (0, 255, 100), 6, cv2.LINE_AA)
+            # Then draw a light red line to indicate the desired steering
+            cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + currentDesired * (w/2 - w/divider)), int(h - h/10)), (0, 100, 255), 2, cv2.LINE_AA)
 
-        try:
-            if IndicatingLeft or IndicatingRight:
-                cv2.putText(output_img, "Indicating", (int(w/2), int(h - h/10 - 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
-        except:
-            pass        
-        
-        data["frame"] = output_img
+            try:
+                if IndicatingLeft or IndicatingRight:
+                    cv2.putText(output_img, "Indicating", (int(w/2), int(h - h/10 - 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
+            except:
+                pass    
+            
+            # Also draw a enabled text to the top left
+            cv2.putText(output_img, "Enabled", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
+            
+            data["frame"] = output_img
+        else:
+            output_img = data["frame"]
+            w = output_img.shape[1]
+            h = output_img.shape[0]
+            
+            divider = 5
+            
+            if lastFrame != 0:
+                wheelValue = lastFrame
+            else:
+                wheelValue = wheel.get_axis(steeringAxis)
+            # First draw a gray line to indicate the background
+            cv2.line(output_img, (int(w/divider), int(h - h/10)), (int(w/divider*(divider-1)), int(h - h/10)), (100, 100, 100), 6, cv2.LINE_AA)
+            # Then draw a light green line to indicate the wheel
+            cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + wheelValue * (w/2 - w/divider)), int(h - h/10)), (0, 255, 100), 6, cv2.LINE_AA)
+
+            # Also draw a disabled text to the top left
+            cv2.putText(output_img, "Disabled", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
 
     except Exception as ex:
         print(ex)

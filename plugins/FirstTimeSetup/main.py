@@ -260,9 +260,9 @@ class UI():
         def saveButtonSettings(self):
             
             # Save the button settings
-            settings.CreateSettings("LSTRSteering", "leftIndicator", self.leftBlinkerCombo.get())
-            settings.CreateSettings("LSTRSteering", "rightIndicator", self.rightBlinkerCombo.get())
-            settings.CreateSettings("LSTRSteering", "enableDisable", self.enableDisableCombo.get())
+            settings.CreateSettings("LSTRSteering", "leftIndicator", int(self.leftBlinkerCombo.get().split(" ")[1]))
+            settings.CreateSettings("LSTRSteering", "rightIndicator", int(self.rightBlinkerCombo.get().split(" ")[1]))
+            settings.CreateSettings("LSTRSteering", "enableDisable", int(self.enableDisableCombo.get().split(" ")[1]))
             
             self.screenCaptureSetup()      
         
@@ -514,13 +514,13 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.CreateSettings("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "LSTRSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage"])
+            settings.CreateSettings("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "LSTRSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "LSTRLaneDetection"])
             
             helpers.MakeLabel(self.root, "One more step!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
             helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             helpers.MakeLabel(self.root, " ", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             helpers.MakeLabel(self.root, "We need to make sure that the app can see the game, so set your game to borderless!", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, "And then click the button below, and move the window to where you are looking forward out of your truck.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, "And then click the button below, and move the window to where you are loo0king forward out of your truck.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             
             
             helpers.MakeButton(self.root, "Previous", lambda: self.soundSettings(), 7,0)

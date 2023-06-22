@@ -78,6 +78,11 @@ loadingWindow.destroy()
 
 data = {}
 uiFrameTimer = 0
+uiUpdateRate = settings.GetSettings("User Interface", "updateRate")
+if uiUpdateRate == None: 
+    uiUpdateRate = 4
+    settings.CreateSettings("User Interface", "updateRate", 4)
+    
 while True:
     # Main Application Loop
     try:
@@ -122,7 +127,7 @@ while True:
         # Calculate the execution time of the UI
         start = time.time()
         uiFrameTimer += 1
-        if uiFrameTimer > 4:
+        if uiFrameTimer > uiUpdateRate:
             mainUI.update(data)
             uiFrameTimer = 0
         end = time.time()

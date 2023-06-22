@@ -14,7 +14,7 @@ PluginInfo = PluginInformation(
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="static", # = Panel
-    disablePlugins=True # This panel will disable all other plugins when it's open
+    disableLoop=True # This panel will disable all other plugins when it's open
 )
 
 import tkinter as tk

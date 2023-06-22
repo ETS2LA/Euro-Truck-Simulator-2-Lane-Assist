@@ -31,12 +31,14 @@ class PluginInformation():
 
         disablePlugins (bool) (optional): If true then the panel will prompt to disable plugins when opened
         
+        disableLoop (bool) (optional): If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with dxcam for example)
+        
         noUI (bool) (optional): If true then the UI button will not be shown
         
         exclusive (str) (optional): If set to a str then no other plugins of the same 'exclusive' type can be enabled at the same time 
     
     """
-    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, noUI=False, exclusive=None):
+    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None):
         self.name = name
         self.description = description
         self.version = version
@@ -46,5 +48,6 @@ class PluginInformation():
         self.type = type
         self.dynamicOrder = dynamicOrder
         self.disablePlugins = disablePlugins
+        self.disableLoop = disableLoop
         self.noUI = noUI
         self.exclusive = exclusive

@@ -54,8 +54,8 @@ buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
 pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
 pluginFrame.pack_propagate(0)
 pluginFrame.grid_propagate(0)
-helpers.MakeButton(pluginFrame, "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20, style="Accent.TButton")
-helpers.MakeButton(pluginFrame, "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20, style="Accent.TButton")
+helpers.MakeButton(pluginFrame, "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
+helpers.MakeButton(pluginFrame, "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
 helpers.MakeButton(pluginFrame, "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
 pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
 
@@ -105,6 +105,13 @@ def switchSelectedPlugin(pluginName):
             settings.CreateSettings("Plugins", "Enabled", [])
             variables.UpdatePlugins()
             
+        else: return
+        
+    if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
+        if messagebox.askokcancel("Plugins", "The panel has asked to disable the mainloop. Do you want to continue?"):
+            variables.ToggleEnable()
+            enableButton.config(text=("Stop" if variables.ENABLELOOP else "Start"))
+        
         else: return
         
     try:
