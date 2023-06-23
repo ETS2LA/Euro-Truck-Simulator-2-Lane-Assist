@@ -80,8 +80,8 @@ data = {}
 uiFrameTimer = 0
 uiUpdateRate = settings.GetSettings("User Interface", "updateRate")
 if uiUpdateRate == None: 
-    uiUpdateRate = 4
-    settings.CreateSettings("User Interface", "updateRate", 4)
+    uiUpdateRate = 0
+    settings.CreateSettings("User Interface", "updateRate", 0)
     
 while True:
     # Main Application Loop
