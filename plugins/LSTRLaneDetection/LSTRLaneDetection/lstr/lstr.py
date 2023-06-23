@@ -5,9 +5,8 @@ import time
 import numpy as np
 import onnx
 import onnxruntime
-import tarfile
 import shutil
-from google_drive_downloader import GoogleDriveDownloader as gdd
+# from google_drive_downloader import GoogleDriveDownloader as gdd
 
 lane_colors = [(68,65,249),(44,114,243),(30,150,248),(74,132,249),(79,199,249),(109,190,144),(142, 144, 77),(161, 125, 39)]
 log_space = np.logspace(0,2, 50, base=1/10, endpoint=True)
@@ -17,8 +16,8 @@ class LSTR():
     def __init__(self, model_type, model_path, use_gpu=True):
 
         # Initialize model (download if necessary)
-        models_gdrive_id = "1uSyVLlZn0NDoa7RR3U6vG_OCkn0uoE8z"
-        download_gdrive_tar_model(models_gdrive_id, model_type, model_path)
+        # models_gdrive_id = "1uSyVLlZn0NDoa7RR3U6vG_OCkn0uoE8z"
+        # download_gdrive_tar_model(models_gdrive_id, model_type, model_path)
         self.model = self.initialize_model(model_path, use_gpu=use_gpu)
 
     def __call__(self, image):
@@ -153,19 +152,19 @@ class LSTR():
 
         return visualization_img
 
-def download_gdrive_tar_model(gdrive_id, model_type, model_path):
-
-    model_name = model_type.value
-
-    if not os.path.exists(model_path):
-        gdd.download_file_from_google_drive(file_id=gdrive_id,
-                                    dest_path='./tmp/tmp.tar.gz')
-        tar = tarfile.open("tmp/tmp.tar.gz", "r:gz")
-        tar.extractall(path="tmp/")
-        tar.close()
-
-        shutil.move(f"tmp/{model_name}/{model_name}.onnx", model_path)
-        shutil.rmtree("tmp/")
+# def download_gdrive_tar_model(gdrive_id, model_type, model_path):
+# 
+#     model_name = model_type.value
+# 
+#     if not os.path.exists(model_path):
+#         gdd.download_file_from_google_drive(file_id=gdrive_id,
+#                                     dest_path='./tmp/tmp.tar.gz')
+#         tar = tarfile.open("tmp/tmp.tar.gz", "r:gz")
+#         tar.extractall(path="tmp/")
+#         tar.close()
+# 
+#         shutil.move(f"tmp/{model_name}/{model_name}.onnx", model_path)
+#         shutil.rmtree("tmp/")
 
 # def download_gdrive_file_model(model_path, gdrive_id):
 #     if not os.path.exists(model_path):

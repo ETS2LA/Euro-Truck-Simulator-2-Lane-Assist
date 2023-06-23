@@ -27,6 +27,7 @@ import src.settings as settings
 import os
 import pygame
 import cv2
+import keyboard as kb
 
 pygame.joystick.init()
 pygame.display.init()
@@ -52,8 +53,15 @@ def updateSettings():
     global gamepadMode
     global gamepadSmoothness
     global enableDisable
+    global keyboard
+    global enableDisableKey
+    global rightIndicatorKey
+    global leftIndicatorKey
     
-    wheel = pygame.joystick.Joystick(verifySetting("LSTRSteering", "wheel", 0))
+    try:
+        wheel = pygame.joystick.Joystick(verifySetting("LSTRSteering", "wheel", 0))
+    except:
+        wheel = None
     
     rightIndicator = verifySetting("LSTRSteering", "rightIndicator", 13)
     leftIndicator = verifySetting("LSTRSteering", "leftIndicator", 14)
@@ -65,6 +73,11 @@ def updateSettings():
     gamepadMode = verifySetting("LSTRSteering", "gamepad", False)
     gamepadSmoothness = verifySetting("LSTRSteering", "gamepadSmoothness", 0.05)
     enableDisable = verifySetting("LSTRSteering", "enableDisable", 5)
+    
+    keyboard = verifySetting("LSTRSteering", "keyboard", False)
+    enableDisableKey = verifySetting("LSTRSteering", "enableDisableKey", "n")
+    rightIndicatorKey = verifySetting("LSTRSteering", "rightIndicatorKey", "e")
+    leftIndicatorKey = verifySetting("LSTRSteering", "leftIndicatorKey", "q")
     
 updateSettings()
 
@@ -78,6 +91,7 @@ lastIndicatingRight = False
 lastIndicatingLeft = False
 enabled = True
 enabledTimer = 0
+keyboardControlValue = 0
 def plugin(data):
     global desiredControl
     global oldDesiredControl
@@ -96,6 +110,11 @@ def plugin(data):
     global lastFrame
     global enableDisable
     global enabledTimer
+    global keyboard
+    global enableDisableKey
+    global rightIndicatorKey
+    global leftIndicatorKey
+    global keyboardControlValue
     # global disableLaneAssistWhenIndicating
 
     try:
@@ -105,74 +124,221 @@ def plugin(data):
         
     data["controller"] = {}
 
-    try:
-        enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
-        if(wheel.get_button(enableDisable) and enabledTimer > 15):
-            if enabled == True:
-                enabled = False
-                print("Disabled")
-                enabledTimer = 0
-                #sound.PlaySoundDisable()
-            else:
-                enabled = True
-                print("Enabled")
-                enabledTimer = 0
-                #sound.PlaySoundEnable()
+    if keyboard:
         
-        # This kind of if, elif statement converts the presses of the indicator to
-        # a constant on/off value.
-        if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
-            if(IndicatingRight and enabled):
-                pass
-                #sound.PlaySoundEnable()
-            elif(enabled):
-                pass
-                #sound.PlaySoundDisable()
-
-            IndicatingRight = not IndicatingRight
-            lastIndicatingRight = True
-        elif(not wheel.get_button(rightIndicator) and lastIndicatingRight):
-            lastIndicatingRight = False
-        if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
-            if(IndicatingLeft and enabled):
-                #sound.PlaySoundEnable()
-                pass
-            elif(enabled):
-                #sound.PlaySoundDisable()
-                pass
-
-            IndicatingLeft = not IndicatingLeft
-            lastIndicatingLeft = True
-
-        elif(not wheel.get_button(leftIndicator) and lastIndicatingLeft):
-            lastIndicatingLeft = False
-
-        # Make sure we can't indicate in both directions.
-        if(wheel.get_button(leftIndicator) and IndicatingRight):
-            IndicatingLeft = True
-            lastIndicatingLeft = True
-            lastIndicatingRight = False
-            IndicatingRight = False
-        elif(wheel.get_button(rightIndicator) and IndicatingLeft):
-            IndicatingLeft = False
-            lastIndicatingLeft = False
-            lastIndicatingRight = True
-            IndicatingRight = True
-
+        if kb.is_pressed("a") and keyboardControlValue > -1:
+            keyboardControlValue -= 0.01
+            if keyboardControlValue > 0:
+                keyboardControlValue -= 0.01
+        elif kb.is_pressed("d") and keyboardControlValue < 1:
+            keyboardControlValue += 0.01
+            if keyboardControlValue < 0:
+                keyboardControlValue += 0.01
+        else:
+            # Move closer to the center
+            if keyboardControlValue > 0:
+                keyboardControlValue -= 0.01
+            elif keyboardControlValue < 0:
+                keyboardControlValue += 0.01
+            
+        
         try:
-            pygame.event.pump() # Update the controller values
+            enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
+            if(kb.is_pressed(enableDisableKey) and enabledTimer > 15):
+                if enabled == True:
+                    enabled = False
+                    print("Disabled")
+                    enabledTimer = 0
+                    #sound.PlaySoundDisable()
+                else:
+                    enabled = True
+                    print("Enabled")
+                    enabledTimer = 0
+                    #sound.PlaySoundEnable()
+            
+            # This kind of if, elif statement converts the presses of the indicator to
+            # a constant on/off value.
+            if(kb.is_pressed(rightIndicatorKey) and not lastIndicatingRight):
+                if(IndicatingRight and enabled):
+                    pass
+                    #sound.PlaySoundEnable()
+                elif(enabled):
+                    pass
+                    #sound.PlaySoundDisable()
 
-            # Main controller update loop.
-            if(enabled):
-                # Clamp the control
-                if desiredControl > maximumControl:
-                    desiredControl = maximumControl
-                if desiredControl < -maximumControl:
-                    desiredControl = -maximumControl
+                IndicatingRight = not IndicatingRight
+                lastIndicatingRight = True
+            elif(not kb.is_pressed(rightIndicatorKey) and lastIndicatingRight):
+                lastIndicatingRight = False
+            if(kb.is_pressed(leftIndicatorKey) and not lastIndicatingLeft):
+                if(IndicatingLeft and enabled):
+                    #sound.PlaySoundEnable()
+                    pass
+                elif(enabled):
+                    #sound.PlaySoundDisable()
+                    pass
 
-                # If we are indicating, then disable the automatic control.
-                if(IndicatingRight or IndicatingLeft):
+                IndicatingLeft = not IndicatingLeft
+                lastIndicatingLeft = True
+
+            elif(not kb.is_pressed(leftIndicatorKey) and lastIndicatingLeft):
+                lastIndicatingLeft = False
+
+            # Make sure we can't indicate in both directions.
+            if(kb.is_pressed(leftIndicatorKey) and IndicatingRight):
+                IndicatingLeft = True
+                lastIndicatingLeft = True
+                lastIndicatingRight = False
+                IndicatingRight = False
+            elif(kb.is_pressed(rightIndicatorKey) and IndicatingLeft):
+                IndicatingLeft = False
+                lastIndicatingLeft = False
+                lastIndicatingRight = True
+                IndicatingRight = True
+
+            try:
+                pygame.event.pump() # Update the controller values
+
+                # Main controller update loop.
+                if(enabled):
+                    # Clamp the control
+                    if desiredControl > maximumControl:
+                        desiredControl = maximumControl
+                    if desiredControl < -maximumControl:
+                        desiredControl = -maximumControl
+
+                    # If we are indicating, then disable the automatic control.
+                    if(IndicatingRight or IndicatingLeft):
+                        
+                        if gamepadMode:
+                            value = pow(keyboardControlValue, 2) 
+                            if(keyboardControlValue < 0) : value = -value
+                            newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                            lastFrame = newValue
+                            data["controller"]["leftStick"] = newValue
+                        else:
+                            data["controller"]["leftStick"] = keyboardControlValue
+                    else:
+                        if gamepadMode:
+                            value = pow(keyboardControlValue, 2) 
+                            if(keyboardControlValue < 0) : value = -value
+                            newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                            lastFrame = newValue
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
+                        else:
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + keyboardControlValue
                     
+                    oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
+                else:
+                    # If the lane assist is disabled we just input the default control.
+                    if gamepadMode:
+                        value = pow(keyboardControlValue, 2) 
+                        if(keyboardControlValue < 0) : value = -value
+                        newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                        lastFrame = newValue
+                        data["controller"]["leftStick"] = newValue
+                    else:
+                        data["controller"]["leftStick"] = keyboardControlValue
+                
+            except Exception as ex:
+                print(ex)
+                print("Most likely fix : change your indicator and or enable/disable buttons.")
+                pass
+        except Exception as ex:
+            print(ex)
+            print("Most likely fix : change your indicator and or enable/disable buttons.")
+            pass
+        
+    else:
+        try:
+            enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
+            if(wheel.get_button(enableDisable) and enabledTimer > 15):
+                if enabled == True:
+                    enabled = False
+                    print("Disabled")
+                    enabledTimer = 0
+                    #sound.PlaySoundDisable()
+                else:
+                    enabled = True
+                    print("Enabled")
+                    enabledTimer = 0
+                    #sound.PlaySoundEnable()
+            
+            # This kind of if, elif statement converts the presses of the indicator to
+            # a constant on/off value.
+            if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
+                if(IndicatingRight and enabled):
+                    pass
+                    #sound.PlaySoundEnable()
+                elif(enabled):
+                    pass
+                    #sound.PlaySoundDisable()
+
+                IndicatingRight = not IndicatingRight
+                lastIndicatingRight = True
+            elif(not wheel.get_button(rightIndicator) and lastIndicatingRight):
+                lastIndicatingRight = False
+            if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
+                if(IndicatingLeft and enabled):
+                    #sound.PlaySoundEnable()
+                    pass
+                elif(enabled):
+                    #sound.PlaySoundDisable()
+                    pass
+
+                IndicatingLeft = not IndicatingLeft
+                lastIndicatingLeft = True
+
+            elif(not wheel.get_button(leftIndicator) and lastIndicatingLeft):
+                lastIndicatingLeft = False
+
+            # Make sure we can't indicate in both directions.
+            if(wheel.get_button(leftIndicator) and IndicatingRight):
+                IndicatingLeft = True
+                lastIndicatingLeft = True
+                lastIndicatingRight = False
+                IndicatingRight = False
+            elif(wheel.get_button(rightIndicator) and IndicatingLeft):
+                IndicatingLeft = False
+                lastIndicatingLeft = False
+                lastIndicatingRight = True
+                IndicatingRight = True
+
+            try:
+                pygame.event.pump() # Update the controller values
+
+                # Main controller update loop.
+                if(enabled):
+                    # Clamp the control
+                    if desiredControl > maximumControl:
+                        desiredControl = maximumControl
+                    if desiredControl < -maximumControl:
+                        desiredControl = -maximumControl
+
+                    # If we are indicating, then disable the automatic control.
+                    if(IndicatingRight or IndicatingLeft):
+                        
+                        if gamepadMode:
+                            value = pow(wheel.get_axis(steeringAxis), 2) 
+                            if(wheel.get_axis(steeringAxis) < 0) : value = -value
+                            newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                            lastFrame = newValue
+                            data["controller"]["leftStick"] = newValue
+                        else:
+                            data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
+                    else:
+                        if gamepadMode:
+                            value = pow(wheel.get_axis(steeringAxis), 2) 
+                            if(wheel.get_axis(steeringAxis) < 0) : value = -value
+                            newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                            lastFrame = newValue
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
+                        else:
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)
+                    
+                    oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
+                else:
+                    # If the lane assist is disabled we just input the default control.
                     if gamepadMode:
                         value = pow(wheel.get_axis(steeringAxis), 2) 
                         if(wheel.get_axis(steeringAxis) < 0) : value = -value
@@ -181,36 +347,15 @@ def plugin(data):
                         data["controller"]["leftStick"] = newValue
                     else:
                         data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
-                else:
-                    if gamepadMode:
-                        value = pow(wheel.get_axis(steeringAxis), 2) 
-                        if(wheel.get_axis(steeringAxis) < 0) : value = -value
-                        newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
-                        lastFrame = newValue
-                        data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
-                    else:
-                        data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)
                 
-                oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
-            else:
-                # If the lane assist is disabled we just input the default control.
-                if gamepadMode:
-                    value = pow(wheel.get_axis(steeringAxis), 2) 
-                    if(wheel.get_axis(steeringAxis) < 0) : value = -value
-                    newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
-                    lastFrame = newValue
-                    data["controller"]["leftStick"] = newValue
-                else:
-                    data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
-            
+            except Exception as ex:
+                print(ex)
+                print("Most likely fix : change your indicator and or enable/disable buttons.")
+                pass
         except Exception as ex:
             print(ex)
             print("Most likely fix : change your indicator and or enable/disable buttons.")
             pass
-    except Exception as ex:
-        print(ex)
-        print("Most likely fix : change your indicator and or enable/disable buttons.")
-        pass
 
 
     try:
@@ -248,10 +393,13 @@ def plugin(data):
             
             divider = 5
             
-            if lastFrame != 0:
-                wheelValue = lastFrame
+            if not keyboard:
+                if lastFrame != 0:
+                    wheelValue = lastFrame
+                else:
+                    wheelValue = wheel.get_axis(steeringAxis)
             else:
-                wheelValue = wheel.get_axis(steeringAxis)
+                wheelValue = keyboardControlValue
             # First draw a gray line to indicate the background
             cv2.line(output_img, (int(w/divider), int(h - h/10)), (int(w/divider*(divider-1)), int(h - h/10)), (100, 100, 100), 6, cv2.LINE_AA)
             # Then draw a light green line to indicate the wheel
@@ -309,6 +457,12 @@ class UI():
             self.gamepad = helpers.MakeCheckButton(self.root, "Gamepad Mode", "LSTRSteering", "gamepad", 1, 2, width=15, default=True)
             self.gamepadSmoothness = helpers.MakeComboEntry(self.root, "Gamepad Smoothness", "LSTRSteering", "gamepadSmoothness", 2, 2, isFloat=True, width=12, labelwidth=18, value=0.05)
             
+            helpers.MakeLabel(self.root, "Keyboard", 3, 2, font=("Robot", 12, "bold"))
+            self.keyboard = helpers.MakeCheckButton(self.root, "Keyboard Mode", "LSTRSteering", "keyboard", 4, 2, width=15, default=False)
+            self.enableDisableKey = helpers.MakeComboEntry(self.root, "Enable/Disable Key", "LSTRSteering", "enableDisableKey", 5, 2, width=12, value="n", isString=True)
+            self.rightIndicatorKey = helpers.MakeComboEntry(self.root, "Right Indicator Key", "LSTRSteering", "rightIndicatorKey", 6, 2, width=12, value="e", isString=True)
+            self.leftIndicatorKey = helpers.MakeComboEntry(self.root, "Left Indicator Key", "LSTRSteering", "leftIndicatorKey", 7, 2, width=12, value="q", isString=True)
+            
             helpers.MakeButton(self.root, "Save", self.save, 11, 0, width=12, center=True)
             
             self.root.pack(anchor="center", expand=False)
@@ -326,6 +480,10 @@ class UI():
             settings.CreateSettings("LSTRSteering", "leftIndicator", self.leftIndicator.get())
             settings.CreateSettings("LSTRSteering", "gamepad", self.gamepad.get())
             settings.CreateSettings("LSTRSteering", "gamepadSmoothness", self.gamepadSmoothness.get())
+            settings.CreateSettings("LSTRSteering", "keyboard", self.keyboard.get())
+            settings.CreateSettings("LSTRSteering", "enableDisableKey", self.enableDisableKey.get())
+            settings.CreateSettings("LSTRSteering", "rightIndicatorKey", self.rightIndicatorKey.get())
+            settings.CreateSettings("LSTRSteering", "leftIndicatorKey", self.leftIndicatorKey.get())
             updateSettings()
             
         

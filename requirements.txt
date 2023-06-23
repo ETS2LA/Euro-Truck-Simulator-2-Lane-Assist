@@ -1,0 +1,13 @@
+dxcam
+pygame
+pygments
+vgamepad
+onnxruntime
+onnx
+opencv-python
+numpy
+sv_ttk
+psutil
+mss
+pillow
+keyboard
