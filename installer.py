@@ -20,6 +20,14 @@ if " " in os.getcwd():
     input()
     quit()
 
+if "OneDrive" in os.getcwd().lower():
+    printRed("The path of this app includes 'OneDrive'.")
+    printRed("OneDrive prevents the app from creating a virtual environment.")
+    printRed("Please move the app to a folder path without 'OneDrive'.")
+    printGreen("For example 'C:/LaneAssist/'")
+    input()
+    quit()
+
 # Check python version (must be 3.9.x)
 if sys.version_info[0] != 3 or sys.version_info[1] != 9:
     printRed("This app requires python version 3.9.x to create the correct virtual environment.")
@@ -143,14 +151,19 @@ def downloadRequirements():
     dir = os.path.dirname(os.path.realpath(__file__))
     os.system(f"{dir}/venv/Scripts/pip install -r {dir}/app/requirements.txt")
     printGreen("> Done")
-    print("Installing pytorch... please wait...")
-    ChangeStatus("Installing torch, check the console...")
-    os.system(f"{dir}/venv/Scripts/pip install torch==1.13.1 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117")
+    if "AppUI" in os.listdir(dir + "/app"):
+        print("Installing pytorch... please wait...")
+        ChangeStatus("Installing torch, check the console...")
+        os.system(f"{dir}/venv/Scripts/pip install torch==1.13.1 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117")
+        printGreen("> Done")
 
 def runApp():
     # Open a new terminal and run the app
     dir = os.path.dirname(os.path.realpath(__file__))
-    os.system(f'start cmd /C "cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause"')
+    if "AppUI" in os.listdir(dir + "/app"):
+        os.system(f'start cmd /C "cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause"')
+    else:
+        os.system(f'start cmd /C "cd {dir}/app & {dir}/venv/Scripts/python main.py & pause"')
     quit()
 
 # Install function
@@ -241,7 +254,10 @@ def install():
     if not os.path.exists("run.bat"):
         with open("run.bat", "w") as f:
             dir = os.path.dirname(os.path.realpath(__file__))
-            f.write(f"cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause")
+            if "AppUI" in os.listdir(dir + "/app"):
+                f.write(f"cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause")
+            else:
+                f.write(f"cd {dir}/app & {dir}/venv/Scripts/python main.py & pause")
             print("Created run.bat, to run the app easier.")
 
 
