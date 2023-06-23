@@ -11,3 +11,4 @@ psutil
 mss
 pillow
 keyboard
+chlorophyll
