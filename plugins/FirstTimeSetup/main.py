@@ -131,6 +131,9 @@ class UI():
             settings.CreateSettings("LSTRSteering", "gamepad", False)
             settings.CreateSettings("LSTRSteering", "gamepadsmoothness", 0.05)
             
+            from plugins.LSTRSteering.main import updateSettings
+            updateSettings()
+            
             self.root.destroy()
             self.root = tk.Canvas(self.master)
 
@@ -158,15 +161,22 @@ class UI():
             
             
         def keyboardPage(self):
+            
+            settings.CreateSettings("LSTRSteering", "keyboard", True)
+            settings.CreateSettings("LSTRSteering", "gamepad", False)
+            settings.CreateSettings("LSTRSteering", "gamepadsmoothness", 0.05)
+            
             self.root.destroy()
             self.root = tk.Canvas(self.master)
 
-            helpers.MakeLabel(self.root, "Keyboard", 0,1, font=("Roboto", 20, "bold"), padx=30, pady=10)
-            helpers.MakeLabel(self.root, "Unfortunately my application does not yet support keyboards :(", 1,1, font=("Segoe UI", 10), padx=30, pady=0)
-            helpers.MakeLabel(self.root, "You can send me a message on discord asking for the feature, I might even have a dev build for you.", 2,1, font=("Segoe UI", 10), padx=30, pady=0) 
-            helpers.MakeLabel(self.root, "But for now, you will need a controller to use the app.", 3,1, font=("Segoe UI", 10), padx=30, pady=0)       
+            helpers.MakeLabel(self.root, "Keyboard", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, "Great! Just a warning, keyboard support is VERY EXPERIMENTAL.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, "There might be issues but it will get updates along the way.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
+            helpers.MakeLabel(self.root, "You can use the A and D key to move the wheel, and by default the", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
+            helpers.MakeLabel(self.root, "N key for toggling, and E and Q as the blinker keys.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)      
 
-            helpers.MakeButton(self.root, "Quit", lambda: quit(), 4,1)
+            helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 5,0)
+            helpers.MakeButton(self.root, "Next", lambda: self.screenCaptureSetup(), 5,1)
 
             self.root.pack()
             
@@ -263,6 +273,9 @@ class UI():
             settings.CreateSettings("LSTRSteering", "leftIndicator", int(self.leftBlinkerCombo.get().split(" ")[1]))
             settings.CreateSettings("LSTRSteering", "rightIndicator", int(self.rightBlinkerCombo.get().split(" ")[1]))
             settings.CreateSettings("LSTRSteering", "enableDisable", int(self.enableDisableCombo.get().split(" ")[1]))
+            
+            from plugins.LSTRSteering.main import updateSettings
+            updateSettings()
             
             self.screenCaptureSetup()      
         
@@ -450,28 +463,28 @@ class UI():
         
         def setLaneDetectionFeatures(self, defaults):
             if defaults:
-                settings.CreateSettings("LSTRDrawLanes", "Draw Lanes", True)
-                settings.CreateSettings("LSTRDrawLanes", "Draw Steering Line", True)
-                settings.CreateSettings("LSTRDrawLanes", "Fill Lane", True)
-                settings.CreateSettings("LSTRDrawLanes", "Fill Color", "#10615D")
-                settings.CreateSettings("LSTRDrawLanes", "Show Lane Points", False)
+                settings.CreateSettings("LSTRDrawLanes", "drawLaneLines", True)
+                settings.CreateSettings("LSTRSteering", "drawSteeringLine", True)
+                settings.CreateSettings("LSTRDrawLanes", "fillLane", True)
+                settings.CreateSettings("LSTRDrawLanes", "fillLaneColor", "#10615D")
+                settings.CreateSettings("LSTRDrawLanes", "drawLanePoints", False)
             else:
                 # Check if the settings exist, if not create them with false values (they weren't toggled once)
                 
-                try: settings.GetSettings("LSTRDrawLanes", "Draw Lanes")
-                except: settings.CreateSettings("LSTRDrawLanes", "Draw Lanes", False)
+                try: settings.GetSettings("LSTRDrawLanes", "drawLaneLines")
+                except: settings.CreateSettings("LSTRDrawLanes", "drawLaneLines", False)
                 
-                try: settings.GetSettings("LSTRDrawLanes", "Draw Steering Line")
-                except: settings.CreateSettings("LSTRDrawLanes", "Draw Steering Line", False)
+                try: settings.GetSettings("LSTRSteering", "drawSteeringLine")
+                except: settings.CreateSettings("LSTRSteering", "drawSteeringLine", False)
                 
-                try: settings.GetSettings("LSTRDrawLanes", "Fill Lane")
-                except: settings.CreateSettings("LSTRDrawLanes", "Fill Lane", False)
+                try: settings.GetSettings("LSTRDrawLanes", "fillLane")
+                except: settings.CreateSettings("LSTRDrawLanes", "fillLane", False)
                 
-                try: settings.GetSettings("LSTRDrawLanes", "Fill Color")
-                except: settings.CreateSettings("LSTRDrawLanes", "Fill Color", "#10615D")
+                try: settings.GetSettings("LSTRDrawLanes", "fillLaneColor")
+                except: settings.CreateSettings("LSTRDrawLanes", "fillLaneColor", "#10615D")
                 
-                try: settings.GetSettings("LSTRDrawLanes", "Show Lane Points")
-                except: settings.CreateSettings("LSTRDrawLanes", "Show Lane Points", False)
+                try: settings.GetSettings("LSTRDrawLanes", "drawLanePoints")
+                except: settings.CreateSettings("LSTRDrawLanes", "drawLanePoints", False)
                 
             self.soundSettings()
                     

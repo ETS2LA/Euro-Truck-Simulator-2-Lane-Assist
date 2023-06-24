@@ -19,6 +19,8 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
         value = default
         settings.CreateSettings(category, setting, value)
         variable.set(value)
+    else:
+        variable.set(value)
     
     if onlyTrue:
         button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[0]) if variable.get() else None, width=width)

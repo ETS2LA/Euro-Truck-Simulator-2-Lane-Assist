@@ -14,8 +14,7 @@ PluginInfo = PluginInformation(
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", 
-    dynamicOrder="before game",
-    noUI=True
+    dynamicOrder="before game"
 )
 
 import tkinter as tk
@@ -27,13 +26,16 @@ import src.settings as settings
 import os
 import numpy as np
 import cv2
+from PIL import ImageColor
 
 
 # Copied from LSTRLaneDetection/LSTRLaneDetection/lstr/lstr.py
-def draw_lanes(input_img, lane_points, lane_ids, color=(255,191,0), fillPoly=False):
+def draw_lanes(input_img, lane_points, lane_ids, color=(255,191,0), fillPoly=True, drawDots=False, drawLines=True):
     lane_colors = [(68,65,249),(44,114,243),(30,150,248),(74,132,249),(79,199,249),(109,190,144),(142, 144, 77),(161, 125, 39)]
-
-    # Create a black image of the size of the input image
+    
+    color = (color[2], color[1], color[0])
+    
+    # Write the detected line points in the image
     visualization_img = input_img.copy()
 
     # Draw a mask for the current lane
@@ -46,14 +48,37 @@ def draw_lanes(input_img, lane_points, lane_ids, color=(255,191,0), fillPoly=Fal
 
         points = np.vstack((lane_points[left_lane[0]].T,
                             np.flipud(lane_points[right_lane[0]].T)))
-        if fillPoly: cv2.fillConvexPoly(lane_segment_img, points, color=color)
-        visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
-        
-    for lane_num,lane_points in zip(lane_ids, lane_points):
-        for lane_point in lane_points.T:
-            cv2.circle(visualization_img, (lane_point[0],lane_point[1]), 3, lane_colors[lane_num], -1)
+        if fillPoly: cv2.fillConvexPoly(lane_segment_img, points, color, cv2.LINE_AA)
 
+        visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
+
+    # Draw the lane points
+    if(drawDots):   
+        for lane_num,points in zip(lane_ids, lane_points):
+            for lane_point in points.T:
+                cv2.circle(visualization_img, (lane_point[0],lane_point[1]), 3, lane_colors[lane_num], -1, cv2.LINE_AA)
+
+    # Draw the lane lines
+    if(drawLines):
+        for lane_num,points in zip(lane_ids, lane_points):
+            # Create a line from the lane points
+            cv2.polylines(visualization_img, [points.T], False, lane_colors[lane_num], 2, cv2.LINE_AA)
+            
     return visualization_img
+
+
+def loadSettings():
+    global drawLaneLines, drawLanePoints, fillLane, fillLaneColor
+    
+    drawLaneLines = settings.GetSettings("LSTRDrawLanes", "drawLaneLines")
+    drawLanePoints = settings.GetSettings("LSTRDrawLanes", "drawLanePoints")
+    fillLane = settings.GetSettings("LSTRDrawLanes", "fillLane")
+    fillLaneColor = settings.GetSettings("LSTRDrawLanes", "fillLaneColor")
+    
+
+loadSettings()
+
+import traceback
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -63,10 +88,11 @@ def plugin(data):
         points, ids = data["LSTR"]["points"], data["LSTR"]["ids"]
         frame = data["frame"]
         
-        newImage = draw_lanes(frame, points, ids, fillPoly=False)
+        newImage = draw_lanes(frame, points, ids, fillPoly=fillLane, drawDots=drawLanePoints, drawLines=drawLaneLines, color=ImageColor.getcolor(fillLaneColor, "RGB"))
         data["frame"] = newImage
         
     except Exception as ex:
+        traceback.print_exc()
         pass
     
     return data
@@ -74,42 +100,50 @@ def plugin(data):
     
 
 
-# Plugins can also have UIs, this works the same as the panel example
-# class UI():
-#     try: # The panel is in a try loop so that the logger can log errors if they occur
-#         
-#         def __init__(self, master) -> None:
-#             self.master = master # "master" is the mainUI window
-#             self.exampleFunction()
-#         
-#         def destroy(self):
-#             self.done = True
-#             self.root.destroy()
-#             del self
-# 
-#         
-#         def exampleFunction(self):
-#             
-#             try:
-#                 self.root.destroy() # Load the UI each time this plugin is called
-#             except: pass
-#             
-#             self.root = tk.Canvas(self.master, width=600, height=520)
-#             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
-#             self.root.pack_propagate(0)
-#             
-#             # Helpers provides easy to use functions for creating consistent widgets!
-#             helpers.MakeLabel(self.root, "This is a plugin!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-#             # Use the mainUI.quit() function to quit the app
-#             helpers.MakeButton(self.root, "Quit", lambda: mainUI.quit(), 1,0, padx=30, pady=10)
-#             
-#             self.root.pack(anchor="center", expand=False)
-#             self.root.update()
-#         
-#         
-#         def update(self): # When the panel is open this function is called each frame 
-#             self.root.update()
-#     
-#     
-#     except Exception as ex:
-#         print(ex.args)
+
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -> None:
+            self.master = master # "master" is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520)
+            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            self.drawLanes = helpers.MakeCheckButton(self.root, "Draw Lane Lines", "LSTRDrawLanes", "drawLaneLines", 0, 0, default=True)
+            self.drawPoints = helpers.MakeCheckButton(self.root, "Draw Lane Points", "LSTRDrawLanes", "drawLanePoints", 0, 1, default=False)
+            self.fillLane = helpers.MakeCheckButton(self.root, "Fill Lane", "LSTRDrawLanes", "fillLane", 0, 2, default=True)
+            self.fillLaneColor = helpers.MakeComboEntry(self.root, "Fill Lane Color", "LSTRDrawLanes", "fillLaneColor", 1, 0, isString=True, value="#10615D")
+            
+            helpers.MakeButton(self.root, "Save", self.save, 2, 0)
+            
+            self.root.pack(anchor="center", expand=False)
+            self.root.update()
+        
+        def save(self):
+            settings.CreateSettings("LSTRDrawLanes", "drawLaneLines", self.drawLanes.get())
+            settings.CreateSettings("LSTRDrawLanes", "drawLanePoints", self.drawPoints.get())
+            settings.CreateSettings("LSTRDrawLanes", "fillLane", self.fillLane.get())
+            settings.CreateSettings("LSTRDrawLanes", "fillLaneColor", self.fillLaneColor.get())
+            loadSettings()
+        
+        def update(self): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)
