@@ -151,7 +151,7 @@ def downloadRequirements():
     dir = os.path.dirname(os.path.realpath(__file__))
     os.system(f"{dir}/venv/Scripts/pip install -r {dir}/app/requirements.txt")
     printGreen("> Done")
-    if "AppUI" in os.listdir(dir + "/app"):
+    if "AppUI.py" in os.listdir(dir + "/app"):
         print("Installing pytorch... please wait...")
         ChangeStatus("Installing torch, check the console...")
         os.system(f"{dir}/venv/Scripts/pip install torch==1.13.1 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117")
@@ -160,7 +160,7 @@ def downloadRequirements():
 def runApp():
     # Open a new terminal and run the app
     dir = os.path.dirname(os.path.realpath(__file__))
-    if "AppUI" in os.listdir(dir + "/app"):
+    if "AppUI.py" in os.listdir(dir + "/app"):
         os.system(f'start cmd /C "cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause"')
     else:
         os.system(f'start cmd /C "cd {dir}/app & {dir}/venv/Scripts/python main.py & pause"')
@@ -215,6 +215,7 @@ def install():
             print(f"Cloning the repo to {dir}...")
             os.system(f"git clone -b {branch.get()} {APP_URL} {dir}")
             progress.stop()
+            
 
     else:
         if not tk.messagebox.askokcancel("App", "Download the app?"):
@@ -254,7 +255,7 @@ def install():
     if not os.path.exists("run.bat"):
         with open("run.bat", "w") as f:
             dir = os.path.dirname(os.path.realpath(__file__))
-            if "AppUI" in os.listdir(dir + "/app"):
+            if "AppUI.py" in os.listdir(dir + "/app"):
                 f.write(f"cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause")
             else:
                 f.write(f"cd {dir}/app & {dir}/venv/Scripts/python main.py & pause")
