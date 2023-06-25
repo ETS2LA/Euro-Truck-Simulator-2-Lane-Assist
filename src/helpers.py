@@ -72,14 +72,22 @@ def MakeComboEntry(parent, text, category, setting, row, column, width=10, label
         ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky="w", padx=7, pady=7)
         return var
 
-def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, columnspan=1, sticky="n"):
+def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, columnspan=1, sticky="n", fg="", bg=""):
     if text == "":
         var = tk.StringVar()
         var.set(text)
-        ttk.Label(parent, font=font, textvariable=var).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        if fg != "" and bg != "":
+            ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        else: 
+            ttk.Label(parent, font=font, textvariable=var).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
         return var
     else:
-        ttk.Label(parent, font=font, text=text).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        if fg != "" and bg != "":
+            label = ttk.Label(parent, font=font, text=text, background=bg, foreground=fg)
+        else:
+            label = ttk.Label(parent, font=font, text=text)
+        label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        return label
         
         
 def ConvertCapitalizationToSpaces(text):

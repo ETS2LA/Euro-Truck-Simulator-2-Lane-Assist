@@ -12,3 +12,4 @@ mss
 pillow
 keyboard
 chlorophyll
+playsound

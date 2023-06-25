@@ -8,13 +8,13 @@ from plugins.plugin import PluginInformation
 from src.logger import print
 
 PluginInfo = PluginInformation(
-    name="ShowImageTransparent", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
-    description="Will show a transparent window of the input image.",
+    name="HUD", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
+    description="Heads up display for essential data.",
     version="0.1",
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before controller",
+    dynamicOrder="before game",
     noUI=True, # Will not show the UI button
 )
 
@@ -23,11 +23,11 @@ from tkinter import ttk
 import src.settings as settings
 from PIL import Image, ImageTk
 import numpy as np
-
+import src.helpers as helpers
 
 def plugin(data):
-    global img
     global root
+    global fps
     
     try:
         if root.winfo_exists() == 0:
@@ -42,9 +42,8 @@ def plugin(data):
         print("Window Created")
     
     try:
-        frame = data["frame"]
-
-        img = ImageTk.PhotoImage(Image.fromarray(frame))
+        fps.config(text="FPS: " + str(round(1/data["last"]["executionTimes"]["all"], 1)))
+    
         root.update()
         
     except Exception as ex:
@@ -53,11 +52,22 @@ def plugin(data):
     
     return data
     
+def onDisable():
+    global root
+    try:
+        root.destroy()
+    except: pass
+    return True
+
+
+def onEnable():
+    pass
+
 
 def CreateWindow(x,y,w,h):
     global root
-    global img
-    
+    global fps
+
     try:
         root.destroy()
     except: pass
@@ -66,20 +76,19 @@ def CreateWindow(x,y,w,h):
     root.config(bg="black", border=0)
     root.geometry("{}x{}+{}+{}".format(w, h, x, y))
 
-    canvas = tk.Canvas(root, width=600, height=520, border=0, highlightthickness=0)
+    canvas = tk.Canvas(root, width=w, height=h, border=0, highlightthickness=0)
     canvas.config(bg="black")
     canvas.grid_propagate(0) # Don't fit the canvast to the widgets
     canvas.pack_propagate(0)
     canvas.pack(anchor="center", expand=False)
-
-    img = ImageTk.PhotoImage(Image.fromarray(np.zeros((720,1280,3), np.uint8)))
-    label = ttk.Label(root, image=img, bg="black")
-    label.pack(anchor="center", expand=False, pady=30)
     
-    #root.overrideredirect(True)
-    #root.wm_attributes("-disabled", True)
+    # Create a text object
+    fps = helpers.MakeLabel(canvas, "FPS: 30", 0,0, padx=10, pady=10, fg="white", bg="black")
+    
+    root.overrideredirect(True)
+    root.wm_attributes("-topmost", True)
+    root.wm_attributes("-disabled", True)
     root.wm_attributes("-transparentcolor", "black")
-    print("HI")
     root.update()
 
 

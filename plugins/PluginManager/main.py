@@ -36,9 +36,9 @@ class UI():
                     # Check for PluginInformation class
                     try:
                         pluginPath = "plugins." + file + ".main"
-                        plugin = __import__(pluginPath, fromlist=["PluginInformation"])
+                        plugin = __import__(pluginPath, fromlist=["PluginInformation", "onDisable", "onEnable"])
                         if plugin.PluginInfo.type == "dynamic":
-                            plugins.append(plugin.PluginInfo)
+                            plugins.append(plugin)
                             print("Found plugin: " + pluginPath)
                     except Exception as ex:
                         print(ex.args)
@@ -75,7 +75,7 @@ class UI():
         self.plugins = self.findPlugins()
         
         self.listVariable = tk.StringVar()
-        self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.name) for p in self.plugins])
+        self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins])
         
         self.pluginList = tk.Listbox(self.root, width=20, height=20, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
         self.pluginList.grid(row=1, column=0, padx=10, pady=2)
@@ -105,7 +105,7 @@ class UI():
             colorTone = "dark"
         
         for i in range(len(self.plugins)):
-            if self.plugins[i].name in enabledPlugins:
+            if self.plugins[i].PluginInfo.name in enabledPlugins:
                 self.pluginList.itemconfig(i, bg=f"{colorTone}green")
             else:
                 self.pluginList.itemconfig(i, bg=f"red")
@@ -117,16 +117,16 @@ class UI():
         except:
             pass
         
-        self.plugin = plugin
+        self.plugin = plugin.PluginInfo
         
         self.pluginInfoFrame = ttk.LabelFrame(self.root, text=plugin.name, width=380, height=500)
         self.pluginInfoFrame.pack_propagate(0)
         self.pluginInfoFrame.grid_propagate(0)
         self.pluginInfoFrame.grid(row=0, column=1, padx=10, pady=2, rowspan=3)
         
-        if plugin.image != None:
+        if self.plugin.image != None:
             # Load the logo
-            self.logo = Image.open(os.path.join(variables.PATH, "plugins", plugin.name, plugin.image))
+            self.logo = Image.open(os.path.join(variables.PATH, "plugins", self.plugin.name, self.plugin.image))
             # Resize to height keeping the aspect ratio
             height = 130
             self.logo = self.logo.resize((int(height*self.logo.width/self.logo.height), height), Image.ANTIALIAS)
@@ -134,67 +134,69 @@ class UI():
             self.logoLabel = tk.Label(self.pluginInfoFrame, image=self.logo)
             self.logoLabel.grid(row=0, column=0, columnspan=1, pady=10, padx=30)
             
-            helpers.MakeLabel(self.pluginInfoFrame, plugin.name, 0,1, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=1, sticky="w")
+            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.name, 0,1, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=1, sticky="w")
             
         else:
-            helpers.MakeLabel(self.pluginInfoFrame, plugin.name, 0,0, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
+            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.name, 0,0, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
             
         helpers.MakeLabel(self.pluginInfoFrame, "Description", 1,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, plugin.description, 2,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.description, 2,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, "Version", 3,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, plugin.version, 4,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.version, 4,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, "Author", 5,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, plugin.author, 6,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.author, 6,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, "URL", 7,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, plugin.url, 8,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.url, 8,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, "Update point", 9,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, plugin.dynamicOrder, 10,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.dynamicOrder, 10,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
 
-        if plugin.exclusive != None:
+        if self.plugin.exclusive != None:
             helpers.MakeLabel(self.pluginInfoFrame, "Exclusive Type", 11,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
-            helpers.MakeLabel(self.pluginInfoFrame, plugin.exclusive, 12,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.exclusive, 12,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
 
-        if plugin.name in settings.GetSettings("Plugins", "Enabled"):
+        if self.plugin.name in settings.GetSettings("Plugins", "Enabled"):
             helpers.MakeButton(self.pluginInfoFrame, "Disable plugin", lambda: self.disablePlugin(plugin), 13, 0, width=15, padx=8)
         else:
             helpers.MakeButton(self.pluginInfoFrame, "Enable plugin", lambda: self.enablePlugin(plugin), 13, 0, width=15, padx=8)
         
-        if not plugin.noUI:
-            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 13, 1, width=15, padx=8)        
+        if not self.plugin.noUI:
+            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 13, 1, width=15, padx=8)        
         else:
-            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 13, 1, width=15, padx=8, state="disabled")
+            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 13, 1, width=15, padx=8, state="disabled")
     
     def switchPluginState(self, plugin):
-        if plugin.name in settings.GetSettings("Plugins", "Enabled"):
+        if plugin.PluginInfo.name in settings.GetSettings("Plugins", "Enabled"):
             self.disablePlugin(plugin)
         else:
             self.enablePlugin(plugin)
     
     def disablePlugin(self, plugin):
-        settings.RemoveFromList("Plugins", "Enabled", plugin.name)
+        settings.RemoveFromList("Plugins", "Enabled", plugin.PluginInfo.name)
         variables.UpdatePlugins()
         self.page0()
+        plugin.onDisable()
         #helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
         
     def enablePlugin(self, plugin):
         # Check for exclusivity
-        if plugin.exclusive != None:
+        if plugin.PluginInfo.exclusive != None:
             from tkinter import messagebox
-            if messagebox.askokcancel("Exclusive plugin", "This plugin is exclusive, enabling it will disable all other exclusive plugins of type '" + plugin.exclusive + "'."):
+            if messagebox.askokcancel("Exclusive plugin", "This plugin is exclusive, enabling it will disable all other exclusive plugins of type '" + plugin.PluginInfo.exclusive + "'."):
                 for otherPlugin in self.plugins:
-                    if otherPlugin.exclusive != None:
-                        if otherPlugin.exclusive == plugin.exclusive:
-                            settings.RemoveFromList("Plugins", "Enabled", otherPlugin.name)
+                    if otherPlugin.PluginInfo.exclusive != None:
+                        if otherPlugin.PluginInfo.exclusive == plugin.PluginInfo.exclusive:
+                            settings.RemoveFromList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
             else: return
             
-        settings.AddToList("Plugins", "Enabled", plugin.name)
+        settings.AddToList("Plugins", "Enabled", plugin.PluginInfo.name)
         variables.UpdatePlugins()
+        plugin.onEnable()
         self.page0()
         #helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
     
     def update(self, data):
         try:
-            if self.plugins[self.pluginList.curselection()[0]].name != self.plugin.name:
+            if self.plugins[self.pluginList.curselection()[0]].PluginInfo.name != self.plugin.name:
                 self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]])
         except:
             try:
