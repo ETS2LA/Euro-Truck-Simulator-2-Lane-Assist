@@ -66,7 +66,7 @@ class UI():
             helpers.MakeButton(self.root, "Next", lambda: self.page1(), 3,1)
 
             # Load the logo
-            self.logo = Image.open(os.path.join(variables.PATH, "assets", "logo.jpg"))
+            self.logo = Image.open(os.path.join(variables.PATH, "assets", "firstTimeSetup", "logo.jpg"))
             height = 320
             width = round(height * 1.665)
             self.logo = self.logo.resize((width, height), Image.ANTIALIAS)

@@ -79,6 +79,9 @@ class UI():
         
         self.pluginList = tk.Listbox(self.root, width=20, height=20, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
         self.pluginList.grid(row=1, column=0, padx=10, pady=2)
+        # Bind double click
+        self.pluginList.bind('<Double-Button>', lambda x: self.switchPluginState(self.plugins[self.pluginList.curselection()[0]]))
+        
         
         self.colorPlugins()
         
@@ -160,6 +163,12 @@ class UI():
             helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 13, 1, width=15, padx=8)        
         else:
             helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + plugin.name + ".main"), 13, 1, width=15, padx=8, state="disabled")
+    
+    def switchPluginState(self, plugin):
+        if plugin.name in settings.GetSettings("Plugins", "Enabled"):
+            self.disablePlugin(plugin)
+        else:
+            self.enablePlugin(plugin)
     
     def disablePlugin(self, plugin):
         settings.RemoveFromList("Plugins", "Enabled", plugin.name)

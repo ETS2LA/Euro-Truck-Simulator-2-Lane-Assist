@@ -80,6 +80,9 @@ class UI():
             self.pluginList = tk.Listbox(self.root, width=20, height=20, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
             self.pluginList.grid(row=1, column=0, padx=10, pady=2)
             
+            # Douvle click to open
+            self.pluginList.bind('<Double-Button>', lambda x: switchSelectedPlugin("plugins." + (self.plugins[self.pluginList.curselection()[0]].name) + ".main"))
+            
             helpers.MakeLabel(self.root, "Select a panel to load:", 0,0, font=("Roboto", 8), padx=30, pady=10, columnspan=1)
             
             self.root.pack(anchor="center", expand=False)
