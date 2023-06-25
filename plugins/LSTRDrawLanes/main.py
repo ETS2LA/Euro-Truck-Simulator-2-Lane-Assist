@@ -92,7 +92,7 @@ def plugin(data):
         data["frame"] = newImage
         
     except Exception as ex:
-        traceback.print_exc()
+        #traceback.print_exc()
         pass
     
     return data

@@ -24,10 +24,12 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+import src.sounds as sounds
 import os
 import pygame
 import cv2
 import keyboard as kb
+
 
 pygame.joystick.init()
 pygame.display.init()
@@ -149,22 +151,22 @@ def plugin(data):
                     enabled = False
                     print("Disabled")
                     enabledTimer = 0
-                    #sound.PlaySoundDisable()
+                    sounds.PlaySound("assets/sounds/end.mp3")
                 else:
                     enabled = True
                     print("Enabled")
                     enabledTimer = 0
-                    #sound.PlaySoundEnable()
+                    sounds.PlaySound("assets/sounds/start.mp3")
             
             # This kind of if, elif statement converts the presses of the indicator to
             # a constant on/off value.
             if(kb.is_pressed(rightIndicatorKey) and not lastIndicatingRight):
                 if(IndicatingRight and enabled):
                     pass
-                    #sound.PlaySoundEnable()
+                    sounds.PlaySound("assets/sounds/start.mp3")
                 elif(enabled):
                     pass
-                    #sound.PlaySoundDisable()
+                    sounds.PlaySound("assets/sounds/end.mp3")
 
                 IndicatingRight = not IndicatingRight
                 lastIndicatingRight = True
@@ -172,10 +174,10 @@ def plugin(data):
                 lastIndicatingRight = False
             if(kb.is_pressed(leftIndicatorKey) and not lastIndicatingLeft):
                 if(IndicatingLeft and enabled):
-                    #sound.PlaySoundEnable()
+                    sounds.PlaySound("assets/sounds/start.mp3")
                     pass
                 elif(enabled):
-                    #sound.PlaySoundDisable()
+                    sounds.PlaySound("assets/sounds/end.mp3")
                     pass
 
                 IndicatingLeft = not IndicatingLeft
@@ -257,22 +259,22 @@ def plugin(data):
                     enabled = False
                     print("Disabled")
                     enabledTimer = 0
-                    #sound.PlaySoundDisable()
+                    sounds.PlaySound("assets/sounds/end.mp3")
                 else:
                     enabled = True
                     print("Enabled")
                     enabledTimer = 0
-                    #sound.PlaySoundEnable()
+                    sounds.PlaySound("assets/sounds/start.mp3")
             
             # This kind of if, elif statement converts the presses of the indicator to
             # a constant on/off value.
             if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
                 if(IndicatingRight and enabled):
                     pass
-                    #sound.PlaySoundEnable()
+                    sounds.PlaySound("assets/sounds/start.mp3")
                 elif(enabled):
                     pass
-                    #sound.PlaySoundDisable()
+                    sounds.PlaySound("assets/sounds/end.mp3")
 
                 IndicatingRight = not IndicatingRight
                 lastIndicatingRight = True
@@ -280,10 +282,10 @@ def plugin(data):
                 lastIndicatingRight = False
             if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
                 if(IndicatingLeft and enabled):
-                    #sound.PlaySoundEnable()
+                    sounds.PlaySound("assets/sounds/start.mp3")
                     pass
                 elif(enabled):
-                    #sound.PlaySoundDisable()
+                    sounds.PlaySound("assets/sounds/end.mp3")
                     pass
 
                 IndicatingLeft = not IndicatingLeft
@@ -409,7 +411,6 @@ def plugin(data):
             cv2.putText(output_img, "Disabled", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
 
     except Exception as ex:
-        print(ex)
         pass
 
     return data # Plugins need to ALWAYS return the data
