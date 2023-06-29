@@ -134,20 +134,29 @@ def plugin(data):
 
     if keyboard:
         
+        try:
+            speed = data["api"]["speed"]
+            if speed < 0:
+                speed = -speed
+            if speed == 0:
+                speed = 1
+        except:
+            speed = 50
+        
         if kb.is_pressed("a") and keyboardControlValue > -1:
-            keyboardControlValue -= 0.01
+            keyboardControlValue -= 0.5 / speed
             if keyboardControlValue > 0:
-                keyboardControlValue -= 0.01
+                keyboardControlValue -= 1 / speed
         elif kb.is_pressed("d") and keyboardControlValue < 1:
-            keyboardControlValue += 0.01
+            keyboardControlValue += 0.5 / speed
             if keyboardControlValue < 0:
-                keyboardControlValue += 0.01
+                keyboardControlValue += 1 / speed
         else:
             # Move closer to the center
-            if keyboardControlValue > 0.01:
-                keyboardControlValue -= 0.01
-            elif keyboardControlValue < -0.01:
-                keyboardControlValue += 0.01
+            if keyboardControlValue > 0.2 / speed:
+                keyboardControlValue -= 0.2 / speed
+            elif keyboardControlValue < -0.2 / speed:
+                keyboardControlValue += 0.2 / speed
             else:
                 keyboardControlValue = 0
             

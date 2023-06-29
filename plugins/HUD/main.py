@@ -43,7 +43,9 @@ def plugin(data):
     
     try:
         fps.config(text="FPS: " + str(round(1/data["last"]["executionTimes"]["all"], 1)))
-    
+        speed.config(text="Speed: " + str(round(data["api"]["speed"], 1)) + str(" ({})".format(round(data["api"]["speedLimit"], 1))))
+        cruise.config(text="Cruise: " + str(round(data["api"]["cruiseControlSpeed"], 1)))
+        
         root.update()
         
     except Exception as ex:
@@ -67,6 +69,8 @@ def onEnable():
 def CreateWindow(x,y,w,h):
     global root
     global fps
+    global speed
+    global cruise
 
     try:
         root.destroy()
@@ -84,6 +88,8 @@ def CreateWindow(x,y,w,h):
     
     # Create a text object
     fps = helpers.MakeLabel(canvas, "FPS: 30", 0,0, padx=10, pady=10, fg="white", bg="black")
+    speed = helpers.MakeLabel(canvas, "Speed: 0", 1,0, padx=10, pady=10, fg="white", bg="black")
+    cruise = helpers.MakeLabel(canvas, "Cruise: 0", 2,0, padx=10, pady=10, fg="white", bg="black")
     
     root.overrideredirect(True)
     root.wm_attributes("-topmost", True)

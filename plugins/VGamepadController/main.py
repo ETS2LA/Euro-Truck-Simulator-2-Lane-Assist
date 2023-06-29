@@ -60,9 +60,10 @@ def plugin(data):
         leftStick = controller["leftStick"]
         
         
-        if leftStick > 1 or leftStick < -1:
-            # We assume that the values are between 32767 and -32767
-            leftStick /= 32767
+        if leftStick > 1:
+            leftStick = 1
+        elif leftStick < -1:
+            leftStick = -1
         
         gamepad.left_joystick_float(x_value_float = leftStick, y_value_float = 0)
         gamepad.update()

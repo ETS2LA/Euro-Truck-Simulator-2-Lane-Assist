@@ -1,5 +1,61 @@
+"""
+This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it's open then check the Panel example!
+"""
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+
+PluginInfo = PluginInformation(
+    name="TruckSimAPI", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description="API for the app to communicate with ETS2 and ATS.",
+    version="0.1",
+    author="Cloud-121",
+    url="https://github.com/Cloud-121/ETS2-Python-Api",
+    type="dynamic", # = Panel
+    dynamicOrder="before image capture" # Will run the plugin before anything else in the mainloop (data will be empty)
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+import os
+
+
+# The main file runs the "plugin" function each time the plugin is called
+# The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
+# The data from the last frame is contained under data["last"]
+API = None
+def plugin(data):
+    global API
+    if API == None:
+        API = ets2sdkclient()
+    
+    API.update()    
+    
+    # Save the current speed, limit and cruise into the data variable
+    data["api"] = {}
+    data["api"]["speed"] = API.speed * 3.6
+    data["api"]["speedLimit"] = API.speedLimit * 3.6
+    data["api"]["cruiseControlSpeed"] = API.cruiseControlSpeed * 3.6
+
+    return data # Plugins need to ALWAYS return the data
+
+
+# Plugins need to all also have the onEnable and onDisable functions
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
 import mmap
 import struct
+
 
 class Ets2SdkBoolean():
     CruiseControl = 0
@@ -39,9 +95,7 @@ class ets2sdkclient:
             return int(str(self.aux[i]), 16) > 0
             
     def update(self):
-        self.mm = mmap.mmap(0, 1024, "Local\\SCSTelemetry")
-        
-        print(self.mm)
+        self.mm = mmap.mmap(0, 1024, "Local\SimTelemetryETS2")
         
         #[FieldOffset(0)]
         self.time = struct.unpack("I", self.mm[0:4])[0]
