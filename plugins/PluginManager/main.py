@@ -182,9 +182,11 @@ class UI():
     def disablePlugin(self, plugin):
         settings.RemoveFromList("Plugins", "Enabled", plugin.PluginInfo.name)
         variables.UpdatePlugins()
-        self.page0()
         plugin.onDisable()
-        #helpers.MakeLabel(self.root, "Restart Required", 11, 0, font=("Roboto", 12, "bold"), padx=10, pady=2, columnspan=1, sticky="n")
+        try:
+            self.page0()
+        except:
+            pass
         
     def enablePlugin(self, plugin):
         # Check for exclusivity

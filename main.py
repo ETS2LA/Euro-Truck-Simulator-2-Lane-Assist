@@ -51,9 +51,17 @@ def FindPlugins():
 
     pluginObjects = []
     for plugin in plugins:
-        pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo"]))
+        pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo", "onEnable"]))
         
 
+def RunOnEnable():
+    for plugin in pluginObjects:
+        try:
+            plugin.onEnable()
+        except Exception as ex:
+            print(ex.args)
+            pass
+        
 
 def UpdatePlugins(dynamicOrder, data):
     for plugin in pluginObjects:
@@ -72,6 +80,7 @@ def UpdatePlugins(dynamicOrder, data):
 # Load all plugins 
 GetEnabledPlugins()
 FindPlugins()
+RunOnEnable()
 
 # We've loaded all necessary modules
 loadingWindow.destroy()
