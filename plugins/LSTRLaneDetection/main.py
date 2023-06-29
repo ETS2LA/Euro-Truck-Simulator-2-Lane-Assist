@@ -93,7 +93,7 @@ def detect_lanes(image, draw_points=False, draw_poly=False, color=(255,191,0)):
             difference = (leftx + rightx) / 2
             
         except:
-            difference = int(modelName.split("_")[1].split("x")[1].split(".")[0] / 2) 
+            difference = int(modelName.split("_")[1].split("x")[1].split(".")[0]) / 2 
             pass
 
         return lanes_points, lane_ids, difference

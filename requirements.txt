@@ -1,4 +1,4 @@
-dxcam
+https://github.com/AI-M-BOT/DXcam/archive/refs/heads/main.zip # modified dxcam for more performance (~4x improvement)
 pygame
 pygments
 vgamepad

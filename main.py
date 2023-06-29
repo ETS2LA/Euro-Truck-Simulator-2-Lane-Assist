@@ -90,12 +90,17 @@ while True:
         allStart = time.time()
         
         # Remove "last" from the data and set it as this frame's "last"
-        try: data = data.popitem(("last", data["last"]))
-        except: pass
-        data = {
-            "last": data, 
-            "executionTimes": {}
-        }
+        try: 
+            data.pop("last")
+            data = {
+                "last": data, 
+                "executionTimes": {}
+            }
+        except Exception as ex:
+            data = {
+                "last": {},
+                "executionTimes": {}
+            }  
         
         # Enable / Disable the main loop
         if variables.ENABLELOOP == False:

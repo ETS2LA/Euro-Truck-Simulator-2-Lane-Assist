@@ -7,6 +7,8 @@ If you need to make a panel that is only updated when it's open then check the P
 from plugins.plugin import PluginInformation
 from src.logger import print
 
+# import dxshot
+
 PluginInfo = PluginInformation(
     name="DXCamScreenCapture", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     description="The default way to capture the screen.",
