@@ -62,7 +62,7 @@ def onEnable():
         from tkinter import messagebox
         import webbrowser
         from plugins.PluginManager.main import UI
-        if messagebox.askyesno("Plugin not installed", "SDK Plugin not installed, do you want to open the instructions?\nPlease re-enable the app plugin after installation."):
+        if messagebox.askyesno("Plugin not installed", "SDK Plugin not installed, do you want to open the instructions?\nPlease re-enable the app plugin after installation.\nAlso make sure that the game is open!"):
             webbrowser.open("https://github.com/nlhans/ets2-sdk-plugin#installation")
             UI.disablePlugin(self=None, plugin = __import__("plugins.TruckSimAPI.main", fromlist=["PluginInformation", "onDisable", "onEnable"]))
         else:

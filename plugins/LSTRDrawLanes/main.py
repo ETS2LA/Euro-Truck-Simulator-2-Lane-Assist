@@ -42,27 +42,28 @@ def draw_lanes(input_img, lane_points, lane_ids, color=(255,191,0), fillPoly=Tru
     right_lane = np.where(lane_ids==0)[0]
     left_lane = np.where(lane_ids==5)[0]
 
-    if(len(left_lane) and len(right_lane)):
-        
-        lane_segment_img = visualization_img.copy()
+    if fillPoly:
+        if(len(left_lane) and len(right_lane)):
+            
+            lane_segment_img = visualization_img.copy()
 
-        points = np.vstack((lane_points[left_lane[0]].T,
-                            np.flipud(lane_points[right_lane[0]].T)))
-        if fillPoly: cv2.fillConvexPoly(lane_segment_img, points, color, cv2.LINE_AA)
+            points = np.vstack((lane_points[left_lane[0]].T,
+                                np.flipud(lane_points[right_lane[0]].T)))
+            cv2.fillConvexPoly(lane_segment_img, points, color, cv2.LINE_AA)
 
-        visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
+            visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
 
     # Draw the lane points
-    if(drawDots):   
+    if drawDots or drawLines:   
         for lane_num,points in zip(lane_ids, lane_points):
-            for lane_point in points.T:
-                cv2.circle(visualization_img, (lane_point[0],lane_point[1]), 3, lane_colors[lane_num], -1, cv2.LINE_AA)
+            if drawDots:
+                for lane_point in points.T:
+                    cv2.circle(visualization_img, (lane_point[0],lane_point[1]), 3, lane_colors[lane_num], -1, cv2.LINE_AA)
 
-    # Draw the lane lines
-    if(drawLines):
-        for lane_num,points in zip(lane_ids, lane_points):
             # Create a line from the lane points
-            cv2.polylines(visualization_img, [points.T], False, lane_colors[lane_num], 2, cv2.LINE_AA)
+            if drawLines:
+                cv2.polylines(visualization_img, [points.T], False, lane_colors[lane_num], 2, cv2.LINE_AA)
+
             
     return visualization_img
 
