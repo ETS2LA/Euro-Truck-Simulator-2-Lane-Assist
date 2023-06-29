@@ -42,6 +42,12 @@ def createController():
         exit()
 
 
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]

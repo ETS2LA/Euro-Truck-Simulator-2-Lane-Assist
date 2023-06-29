@@ -27,7 +27,7 @@ class LSTR():
     def initialize_model(self, model_path, use_gpu=True):
 
         if use_gpu:
-            self.session = onnxruntime.InferenceSession(model_path, providers=['CUDAExecutionProvider'])
+            self.session = onnxruntime.InferenceSession(model_path, providers=['CUDAExecutionProvider', 'TensorrtExecutionProvider'])
         else:
             self.session = onnxruntime.InferenceSession(model_path, providers=['CPUExecutionProvider'])
 

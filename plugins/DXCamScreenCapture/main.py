@@ -27,6 +27,12 @@ import src.settings as settings
 import os
 import dxcam
 
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
 def CreateCamera():
     global camera
     

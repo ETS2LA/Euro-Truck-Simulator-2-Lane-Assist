@@ -34,6 +34,12 @@ import keyboard as kb
 pygame.joystick.init()
 pygame.display.init()
 
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
 def verifySetting(category, key, default):
     value = settings.GetSettings(category, key)
     
@@ -120,7 +126,7 @@ def plugin(data):
     # global disableLaneAssistWhenIndicating
 
     try:
-        desiredControl = (data["LSTR"]["difference"] + offset) / (sensitivity * 6)
+        desiredControl = data["LSTR"]["difference"] * sensitivity + offset
     except:
         desiredControl = oldDesiredControl
         
@@ -138,10 +144,12 @@ def plugin(data):
                 keyboardControlValue += 0.01
         else:
             # Move closer to the center
-            if keyboardControlValue > 0:
+            if keyboardControlValue > 0.01:
                 keyboardControlValue -= 0.01
-            elif keyboardControlValue < 0:
+            elif keyboardControlValue < -0.01:
                 keyboardControlValue += 0.01
+            else:
+                keyboardControlValue = 0
             
         
         try:
@@ -441,9 +449,9 @@ class UI():
             self.root.pack_propagate(0)
             
             helpers.MakeLabel(self.root, "General", 0, 0, font=("Robot", 12, "bold"))
-            self.offset = helpers.MakeComboEntry(self.root, "Steering Offset", "LSTRSteering", "offset", 1, 0, width=12, value=0)
+            self.offset = helpers.MakeComboEntry(self.root, "Steering Offset", "LSTRSteering", "offset", 1, 0, width=12, value=-0.2, isFloat=True)
             self.smoothness = helpers.MakeComboEntry(self.root, "Smoothening", "LSTRSteering", "smoothness", 2, 0, width=12, value=8)
-            self.sensitivity = helpers.MakeComboEntry(self.root, "Sensitivity", "LSTRSteering", "sensitivity", 3, 0, width=12, value=400)
+            self.sensitivity = helpers.MakeComboEntry(self.root, "Sensitivity", "LSTRSteering", "sensitivity", 3, 0, width=12, value=0.6, isFloat=True)
             self.maximumControl = helpers.MakeComboEntry(self.root, "Maximum Control", "LSTRSteering", "maximumControl", 4, 0, isFloat=True, width=12, value=0.2)
             
             helpers.MakeLabel(self.root, "Controller (indexes)", 5, 0, font=("Robot", 12, "bold"))

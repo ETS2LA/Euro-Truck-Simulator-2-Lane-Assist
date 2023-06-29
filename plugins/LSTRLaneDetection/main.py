@@ -60,6 +60,8 @@ def load_model(model_name, use_gpu=False):
         
         # Load model
         dir = variables.PATH + "/plugins/LSTRLaneDetection"
+        print("There might be two error messages following this note, ignore them if you are not trying to get GPU acceleration to work.")
+        print("Use the following link to set it up https://onnxruntime.ai/docs/tutorials/csharp/csharp-gpu.html")
         model = LSTR(model_type, dir + "/models/" + model_name, use_gpu=use_gpu)
         return True
     except Exception as e:
@@ -89,16 +91,18 @@ def detect_lanes(image, draw_points=False, draw_poly=False, color=(255,191,0)):
             rightx = lanes_points[rightLane[0]][0][0]
             # Calculate difference
             difference = (leftx + rightx) / 2
-            w = int(modelName.split("_")[1].split("x")[1].split(".")[0])
-            difference = difference - (w / 2)
-            difference = difference
+            
         except:
-            difference = 0
+            difference = int(modelName.split("_")[1].split("x")[1].split(".")[0] / 2) 
             pass
 
         return lanes_points, lane_ids, difference
     
+def onEnable():
+    pass
 
+def onDisable():
+    pass
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -112,15 +116,29 @@ def plugin(data):
             modelName = settings.GetSettings("LSTR", "Model")
             if modelName == None:
                 modelName = discover_models()[0]
-            print("Model successful: " + str(load_model(modelName)))
+            print("Model successful: " + str(load_model(modelName, use_gpu=False)))
             
         if model is not None:
             points, ids, difference = detect_lanes(frame)
             
             data["LSTR"] = {}
-            data["LSTR"]["difference"] = difference
             data["LSTR"]["points"] = points
             data["LSTR"]["ids"] = ids
+            
+            frame = data["frame"]
+            # Add a point for the middle of the lane
+            try:
+                cv2.circle(frame, (int(difference), int(frame.shape[0]- 10)), 5, (0,0,255), -1, cv2.LINE_AA)
+                data["frame"] = frame
+            except Exception as ex:
+                print(ex)
+                pass
+            
+            w = int(modelName.split("_")[1].split("x")[1].split(".")[0])
+            difference = difference - (w / 2)
+            difference = difference / w - 0.5 # Scale it between -1 and 1
+            data["LSTR"]["difference"] = difference
+            #print(difference)
             
         return data
             

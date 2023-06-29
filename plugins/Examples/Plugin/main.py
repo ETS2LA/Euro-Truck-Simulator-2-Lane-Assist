@@ -35,6 +35,13 @@ def plugin(data):
     return data # Plugins need to ALWAYS return the data
 
 
+# Plugins need to all also have the onEnable and onDisable functions
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
 # Plugins can also have UIs, this works the same as the panel example
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur

@@ -28,11 +28,14 @@ import os
 import mss
 import cv2
 import numpy as np
+from PIL import Image
 
 sct = mss.mss()
 
 def CreateCamera():
     global monitor
+    global width
+    global height
     
     width = settings.GetSettings("dxcam", "width")
     if width == None:
@@ -61,6 +64,12 @@ def CreateCamera():
 
 CreateCamera()
 
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
@@ -69,7 +78,7 @@ def plugin(data):
         # Capture part of the screen
         frame = sct.grab(monitor)
         # Make it so that cv2 can read it
-        frame = np.array(frame)
+        frame = np.array(Image.frombytes('RGB', (width,height), sct.grab(monitor).rgb)) 
         data["frame"] = frame
         return data
     except Exception as ex:

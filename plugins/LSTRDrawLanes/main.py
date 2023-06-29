@@ -98,7 +98,11 @@ def plugin(data):
     return data
     
     
+def onEnable():
+    pass
 
+def onDisable():
+    pass
 
 
 class UI():

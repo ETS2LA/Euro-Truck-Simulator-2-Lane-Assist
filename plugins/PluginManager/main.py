@@ -81,7 +81,8 @@ class UI():
         self.pluginList.grid(row=1, column=0, padx=10, pady=2)
         # Bind double click
         self.pluginList.bind('<Double-Button>', lambda x: self.switchPluginState(self.plugins[self.pluginList.curselection()[0]]))
-        
+        # bind single click
+        # self.pluginList.bind('<Button-1>', lambda x: self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]].PluginInfo))
         
         self.colorPlugins()
         
@@ -117,12 +118,16 @@ class UI():
         except:
             pass
         
+        
         self.plugin = plugin.PluginInfo
         
-        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=plugin.name, width=380, height=500)
+        
+        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=380, height=500)
         self.pluginInfoFrame.pack_propagate(0)
         self.pluginInfoFrame.grid_propagate(0)
         self.pluginInfoFrame.grid(row=0, column=1, padx=10, pady=2, rowspan=3)
+        
+        print(self.plugin)
         
         if self.plugin.image != None:
             # Load the logo
@@ -139,6 +144,8 @@ class UI():
         else:
             helpers.MakeLabel(self.pluginInfoFrame, self.plugin.name, 0,0, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
             
+        print("Called")
+        
         helpers.MakeLabel(self.pluginInfoFrame, "Description", 1,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.description, 2,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, "Version", 3,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
@@ -163,6 +170,8 @@ class UI():
             helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 13, 1, width=15, padx=8)        
         else:
             helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 13, 1, width=15, padx=8, state="disabled")
+        
+        
     
     def switchPluginState(self, plugin):
         if plugin.PluginInfo.name in settings.GetSettings("Plugins", "Enabled"):
