@@ -1,6 +1,8 @@
 ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
 
-> Right now you can try out the new plugin based UI and go through the first time setup. Next up is constantly running plugins!
+**THIS BRANCH HAS ACHIEVED CONTENT PARITY WITH LSTR-Development**
+
+> It is now possible to run this app instead of LSTR-Development, with the same results!
 
 ### Progress
 
@@ -22,7 +24,7 @@ ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
   - [x] Steering
   - [x] Controller support
   - [ ] Game support (API) -> This is going to be done by [Cloud](https://github.com/Cloud-121) at some point!
-- [ ] Start adding all other features from LSTR-Development
+- [x] Start adding all other features from LSTR-Development
 - [ ] Release v1.0 (yes the branch name is wrong)
 - [ ] Future development (now as plugins, YAY)
 
