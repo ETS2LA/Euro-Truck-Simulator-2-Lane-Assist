@@ -127,7 +127,6 @@ class UI():
         self.pluginInfoFrame.grid_propagate(0)
         self.pluginInfoFrame.grid(row=0, column=1, padx=10, pady=2, rowspan=3)
         
-        print(self.plugin)
         
         if self.plugin.image != None:
             # Load the logo
@@ -144,7 +143,6 @@ class UI():
         else:
             helpers.MakeLabel(self.pluginInfoFrame, self.plugin.name, 0,0, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
             
-        print("Called")
         
         helpers.MakeLabel(self.pluginInfoFrame, "Description", 1,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.description, 2,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")

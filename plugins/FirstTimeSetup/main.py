@@ -26,8 +26,7 @@ import cv2
 try:
     import dxcam
 except:
-    print("\033[91mCould not import dxcam, please install it using 'pip install dxcam'")
-    print("THIS APP DOES NOT RUN ON LINUX\033[0m")
+    dxcam = None
 
 pygame.display.init()
 pygame.joystick.init()
@@ -176,7 +175,10 @@ class UI():
             helpers.MakeLabel(self.root, "N key for toggling, and E and Q as the blinker keys.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)      
 
             helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 5,0)
-            helpers.MakeButton(self.root, "Next", lambda: self.screenCaptureSetup(), 5,1)
+            if dxcam != None:
+                helpers.MakeButton(self.root, "Next", lambda: self.screenCaptureSetup(), 5,1)
+            else:
+                helpers.MakeButton(self.root, "Next", lambda: self.laneDetectionFeatures(), 5,1)
 
             self.root.pack()
             
@@ -277,7 +279,10 @@ class UI():
             from plugins.LSTRSteering.main import updateSettings
             updateSettings()
             
-            self.screenCaptureSetup()      
+            if dxcam != None:
+                self.screenCaptureSetup()      
+            else:
+                self.laneDetectionFeatures()
         
         def screenCaptureSetup(self):
             self.root.destroy()
@@ -393,29 +398,34 @@ class UI():
             showLanePointsFrame.pack()
             
             # Default image
-            self.defaultImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "Default.jpg"))
+            if os.name == "nt":
+                ftsPath = r"assets\firstTimeSetup"
+            else:
+                ftsPath = "assets/firstTimeSetup"
+                
+            self.defaultImage = Image.open(os.path.join(variables.PATH, ftsPath, "Default.jpg"))
             height = 220
             width = round(height * 1.7777) # 16:9
             self.defaultImage = self.defaultImage.resize((width, height), Image.ANTIALIAS)
             self.defaultImage = ImageTk.PhotoImage(self.defaultImage)
             
             # Draw lanes image
-            self.drawLanesImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "DrawLanes.jpg"))
+            self.drawLanesImage = Image.open(os.path.join(variables.PATH, ftsPath, "DrawLanes.jpg"))
             self.drawLanesImage = self.drawLanesImage.resize((width, height), Image.ANTIALIAS)
             self.drawLanesImage = ImageTk.PhotoImage(self.drawLanesImage)
             
             # Draw steering line image
-            self.drawSteeringLineImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "DrawSteeringLine.jpg"))
+            self.drawSteeringLineImage = Image.open(os.path.join(variables.PATH, ftsPath, "DrawSteeringLine.jpg"))
             self.drawSteeringLineImage = self.drawSteeringLineImage.resize((width, height), Image.ANTIALIAS)
             self.drawSteeringLineImage = ImageTk.PhotoImage(self.drawSteeringLineImage)
             
             # Fill lane image
-            self.fillLaneImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "FillLane.jpg"))
+            self.fillLaneImage = Image.open(os.path.join(variables.PATH, ftsPath, "FillLane.jpg"))
             self.fillLaneImage = self.fillLaneImage.resize((width, height), Image.ANTIALIAS)
             self.fillLaneImage = ImageTk.PhotoImage(self.fillLaneImage)
             
             # Show lane points image
-            self.showLanePointsImage = Image.open(os.path.join(variables.PATH, r"assets\firstTimeSetup", "ShowLanePoints.jpg"))
+            self.showLanePointsImage = Image.open(os.path.join(variables.PATH, ftsPath, "ShowLanePoints.jpg"))
             self.showLanePointsImage = self.showLanePointsImage.resize((width, height), Image.ANTIALIAS)
             self.showLanePointsImage = ImageTk.PhotoImage(self.showLanePointsImage)
             
@@ -533,12 +543,16 @@ class UI():
             helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             helpers.MakeLabel(self.root, " ", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             helpers.MakeLabel(self.root, "We need to make sure that the app can see the game, so set your game to borderless!", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, "And then click the button below, and move the window to where you are loo0king forward out of your truck.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            
+            helpers.MakeLabel(self.root, "And then click the button below, and move the ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, "window to where you are looking forward out of your truck.", 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             
             helpers.MakeButton(self.root, "Previous", lambda: self.soundSettings(), 7,0)
             from src.mainUI import switchSelectedPlugin
-            helpers.MakeButton(self.root, "Open Panel", lambda: switchSelectedPlugin("plugins.ScreenCapturePlacement.main"), 7,1)
+            if os.name == "nt":
+                helpers.MakeButton(self.root, "Open Panel", lambda: switchSelectedPlugin("plugins.ScreenCapturePlacement.main"), 7,1)
+            else:
+                helpers.MakeLabel(self.root, "Detected non windows system. You will have to manually enter the values!", 6,0, columnspan=2)
+                helpers.MakeButton(self.root, "Open Panel", lambda: switchSelectedPlugin("plugins.MSSScreenCapture.main"), 7,1)
             
             self.root.pack()
             self.root.update()

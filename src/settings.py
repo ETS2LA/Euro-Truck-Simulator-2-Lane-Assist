@@ -33,6 +33,13 @@ CreateSettings(category, name, data)
 
 import json
 from src.logger import print
+import os
+
+if os.name == "nt":
+    currentProfile = r"profiles\currentProfile.txt"
+else:
+    currentProfile = "profiles/currentProfile.txt"
+
 
 def EnsureFile(file):
     try:
@@ -44,7 +51,7 @@ def EnsureFile(file):
 
 def ChangeProfile(profileName):
     try:
-        with open(r"profiles\currentProfile.txt", "w") as f:
+        with open(currentProfile, "w") as f:
             f.truncate(0)
             f.write(profileName)
     except Exception as ex:
@@ -53,7 +60,7 @@ def ChangeProfile(profileName):
 # Change settings in the json file
 def UpdateSettings(category, name, data):
     try:
-        profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+        profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
         with open(profile, "r") as f:
             settings = json.load(f)
@@ -68,7 +75,7 @@ def UpdateSettings(category, name, data):
 # Get a specific setting
 def GetSettings(category, name, value=None):
     try:
-        profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+        profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
         with open(profile, "r") as f:
             settings = json.load(f)
@@ -84,7 +91,7 @@ def GetSettings(category, name, value=None):
 # Create a new setting
 def CreateSettings(category, name, data):
     try:
-        profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+        profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
         with open(profile, "r") as f:
             settings = json.load(f)
@@ -106,7 +113,7 @@ def CreateSettings(category, name, data):
         
 def AddToList(category, name, data):
     try:
-        profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+        profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
         with open(profile, "r") as f:
             settings = json.load(f)
@@ -130,7 +137,7 @@ def AddToList(category, name, data):
 
 def RemoveFromList(category, name, data):
     try:
-        profile = open(r"profiles\currentProfile.txt", "r").readline().replace("\n", "")
+        profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
         with open(profile, "r") as f:
             settings = json.load(f)

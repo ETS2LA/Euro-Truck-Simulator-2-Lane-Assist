@@ -1,7 +1,7 @@
-https://github.com/AI-M-BOT/DXcam/archive/refs/heads/main.zip # modified dxcam for more performance (~4x improvement)
+https://github.com/AI-M-BOT/DXcam/archive/refs/heads/main.zip; sys_platform == "darwin" # modified dxcam for more performance (~4x improvement)
 pygame
 pygments
-vgamepad
+vgamepad; sys_platform == "darwin"
 onnxruntime
 onnx
 opencv-python
@@ -13,3 +13,4 @@ pillow
 keyboard
 chlorophyll
 playsound
+evdev; sys_platform == "linux"
