@@ -2,6 +2,7 @@ import sys
 import subprocess
 import os
 import tkinter as tk
+from tkinter import messagebox
 import threading
 
 
@@ -180,13 +181,13 @@ def install():
             quit()
 
     # Check for install confirmation
-    if not tk.messagebox.askokcancel("Install", "Are you sure you want to install?"):
+    if not messagebox.askokcancel("Install", "Are you sure you want to install?"):
         root.destroy()
         quit()
 
     # Check for virtual environment
     if not os.path.exists("venv"):
-        if not tk.messagebox.askokcancel("Virtual Environment", "The installer will create a new virtual environment."):
+        if not messagebox.askokcancel("Virtual Environment", "The installer will create a new virtual environment."):
             root.destroy()
             quit()
 
@@ -201,7 +202,7 @@ def install():
 
     # Download the app
     if os.path.exists("app.zip"):
-        if tk.messagebox.askokcancel("App", "Do you want to redownload the app?"):
+        if messagebox.askokcancel("App", "Do you want to redownload the app?"):
             print("Please wait, downloading the app...")
             ChangeStatus("Downloading...")
             progress.start()
@@ -218,7 +219,7 @@ def install():
             
 
     else:
-        if not tk.messagebox.askokcancel("App", "Download the app?"):
+        if not messagebox.askokcancel("App", "Download the app?"):
             root.destroy()
             quit()
         
