@@ -50,7 +50,9 @@ class UI():
             # Helpers provides easy to use functions for creating consistent widgets!
             helpers.MakeLabel(self.root, "All these settings require a restart!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
             
-            self.updateRate = helpers.MakeComboEntry(self.root, "UI Update Every x Frames", "User Interface", "updateRate", 1,0, value=4, labelwidth=20)
+            self.updateRate = helpers.MakeComboEntry(self.root, "UI Update Every x Frames", "User Interface", "updateRate", 1,0, value=4, labelwidth=25, width=55)
+            
+            self.ignore = helpers.MakeComboEntry(self.root, "Ignore Modules (seperate by ,)", "Plugins", "Ignore", 2,0, value="EvdevController," if os.name != "nt" else "DXCamScreenCapture,", labelwidth=25, isString=True, width=55)
             
             # Use the mainUI.quit() function to quit the app
             helpers.MakeButton(self.root, "Save & Quit", lambda: self.save(), 10,0, padx=30, pady=10)
@@ -60,6 +62,7 @@ class UI():
         
         def save(self): # This function is called when the user presses the "Save & Quit" button
             settings.CreateSettings("User Interface", "updateRate", self.updateRate.get())
+            settings.CreateSettings("Plugins", "Ignore", self.ignore.get())
             
             mainUI.quit()
         
