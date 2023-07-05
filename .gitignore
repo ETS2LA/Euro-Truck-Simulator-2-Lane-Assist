@@ -3,3 +3,4 @@ profiles/*.json
 **/__pycache__
 lib
 log.txt
+plugins/UFLDLaneDetection/UFLD/models/*.onnx

@@ -137,7 +137,8 @@ def plugin(data):
             w = int(modelName.split("_")[1].split("x")[1].split(".")[0])
             difference = difference - (w / 2)
             difference = difference / w - 0.5 # Scale it between -1 and 1
-            data["LSTR"]["difference"] = difference
+            data["LaneDetection"] = {}
+            data["LaneDetection"]["difference"] = difference
             #print(difference)
             
         return data

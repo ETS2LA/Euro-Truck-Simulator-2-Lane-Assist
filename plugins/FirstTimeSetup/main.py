@@ -68,7 +68,7 @@ class UI():
             self.logo = Image.open(os.path.join(variables.PATH, "assets", "firstTimeSetup", "logo.jpg"))
             height = 320
             width = round(height * 1.665)
-            self.logo = self.logo.resize((width, height), Image.ANTIALIAS)
+            self.logo = self.logo.resize((width, height), resample=Image.LANCZOS)
             self.logo = ImageTk.PhotoImage(self.logo)
             self.logoLabel = tk.Label(self.root, image=self.logo)
             self.logoLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
@@ -406,27 +406,27 @@ class UI():
             self.defaultImage = Image.open(os.path.join(variables.PATH, ftsPath, "Default.jpg"))
             height = 220
             width = round(height * 1.7777) # 16:9
-            self.defaultImage = self.defaultImage.resize((width, height), Image.ANTIALIAS)
+            self.defaultImage = self.defaultImage.resize((width, height), resample=Image.LANCZOS)
             self.defaultImage = ImageTk.PhotoImage(self.defaultImage)
             
             # Draw lanes image
             self.drawLanesImage = Image.open(os.path.join(variables.PATH, ftsPath, "DrawLanes.jpg"))
-            self.drawLanesImage = self.drawLanesImage.resize((width, height), Image.ANTIALIAS)
+            self.drawLanesImage = self.drawLanesImage.resize((width, height), resample=Image.LANCZOS)
             self.drawLanesImage = ImageTk.PhotoImage(self.drawLanesImage)
             
             # Draw steering line image
             self.drawSteeringLineImage = Image.open(os.path.join(variables.PATH, ftsPath, "DrawSteeringLine.jpg"))
-            self.drawSteeringLineImage = self.drawSteeringLineImage.resize((width, height), Image.ANTIALIAS)
+            self.drawSteeringLineImage = self.drawSteeringLineImage.resize((width, height), resample=Image.LANCZOS)
             self.drawSteeringLineImage = ImageTk.PhotoImage(self.drawSteeringLineImage)
             
             # Fill lane image
             self.fillLaneImage = Image.open(os.path.join(variables.PATH, ftsPath, "FillLane.jpg"))
-            self.fillLaneImage = self.fillLaneImage.resize((width, height), Image.ANTIALIAS)
+            self.fillLaneImage = self.fillLaneImage.resize((width, height), resample=Image.LANCZOS)
             self.fillLaneImage = ImageTk.PhotoImage(self.fillLaneImage)
             
             # Show lane points image
             self.showLanePointsImage = Image.open(os.path.join(variables.PATH, ftsPath, "ShowLanePoints.jpg"))
-            self.showLanePointsImage = self.showLanePointsImage.resize((width, height), Image.ANTIALIAS)
+            self.showLanePointsImage = self.showLanePointsImage.resize((width, height), resample=Image.LANCZOS)
             self.showLanePointsImage = ImageTk.PhotoImage(self.showLanePointsImage)
             
             

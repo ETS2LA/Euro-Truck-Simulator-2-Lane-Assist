@@ -9,8 +9,8 @@ from plugins.plugin import PluginInformation
 from src.logger import print
 
 PluginInfo = PluginInformation(
-    name="LSTRSteering", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
-    description="Will use the lstr lane data to output steering.",
+    name="DefaultSteering", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description="Will use the LaneDetection data to output steering.",
     version="0.1",
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
@@ -126,8 +126,9 @@ def plugin(data):
     # global disableLaneAssistWhenIndicating
 
     try:
-        desiredControl = data["LSTR"]["difference"] * sensitivity + offset
-    except:
+        desiredControl = data["LaneDetection"]["difference"] * sensitivity + offset
+    except Exception as ex:
+        print(ex)
         desiredControl = oldDesiredControl
         
     data["controller"] = {}
