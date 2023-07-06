@@ -1,16 +1,3 @@
-https://github.com/AI-M-BOT/DXcam/archive/refs/heads/main.zip; sys_platform == "darwin" # modified dxcam for more performance (~4x improvement)
-pygame
-pygments
-vgamepad; sys_platform == "darwin"
-onnxruntime
-onnx
 opencv-python
 numpy
 sv_ttk
-psutil
-mss
-pillow
-keyboard
-chlorophyll
-playsound
-evdev; sys_platform == "linux"

@@ -2,13 +2,7 @@
 This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
 If you need to make a panel that is only updated when it's open then check the Panel example!
 """
-
-
-from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import LaneModelType
-from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2 import UltrafastLaneDetectorV2
-
 from plugins.plugin import PluginInformation
-from src.logger import print
 
 PluginInfo = PluginInformation(
     name="UFLDLaneDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
@@ -20,6 +14,11 @@ PluginInfo = PluginInformation(
     dynamicOrder="before lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
     exclusive="LaneDetection" # Will disable the other lane detection plugins
 )
+
+
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import LaneModelType
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2 import UltrafastLaneDetectorV2
+from src.logger import print
 
 import tkinter as tk
 from tkinter import ttk

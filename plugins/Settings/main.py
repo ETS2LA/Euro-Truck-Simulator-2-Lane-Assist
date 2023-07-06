@@ -36,6 +36,11 @@ class UI():
             self.root.destroy()
             del self
 
+        def reinstall(self):
+            for plugin in settings.GetSettings("Plugins", "Installed"):
+                settings.RemoveFromList("Plugins", "Installed", plugin)
+            
+            self.save()
         
         def exampleFunction(self):
             
@@ -54,8 +59,10 @@ class UI():
             
             self.ignore = helpers.MakeComboEntry(self.root, "Ignore Modules (seperate by ,)", "Plugins", "Ignore", 2,0, value="EvdevController," if os.name != "nt" else "DXCamScreenCapture,", labelwidth=25, isString=True, width=55)
             
+            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 3,0, padx=30, pady=10, width=20)
+            
             # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, "Save & Quit", lambda: self.save(), 10,0, padx=30, pady=10)
+            helpers.MakeButton(self.root, "Save & Quit", lambda: self.save(), 10,0, padx=30, pady=10, width=20)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

@@ -3,7 +3,6 @@ import scipy.special
 import cv2
 import time, os
 import numpy as np
-import pycuda.driver as cuda
 try :
 	from ultrafastLaneDetector.utils import LaneModelType, OffsetType, lane_colors, tusimple_row_anchor, culane_row_anchor
 except :

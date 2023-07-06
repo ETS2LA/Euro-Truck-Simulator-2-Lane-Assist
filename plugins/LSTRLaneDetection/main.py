@@ -23,7 +23,6 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
-import mss
 import cv2
 import numpy as np
 

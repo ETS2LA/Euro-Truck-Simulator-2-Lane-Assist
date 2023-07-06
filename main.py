@@ -77,6 +77,109 @@ def UpdatePlugins(dynamicOrder, data):
     return data
 
 
+def InstallPlugins():
+    global startInstall
+    
+    list = settings.GetSettings("Plugins", "Installed")
+    if list == None:
+        settings.CreateSettings("Plugins", "Installed", [])
+    
+    # Find plugins
+    path = os.path.join(variables.PATH, "plugins")
+    installers = []
+    pluginNames = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if "main.py" in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    # Get installers for plugins that are not installed
+                    if file not in settings.GetSettings("Plugins", "Installed"):
+                        pluginPath = "plugins." + file + ".install"
+                        try:
+                            pluginNames.append(f"{file}")
+                            installers.append(__import__(pluginPath, fromlist=["install"]))
+                        except: # No installer
+                            pass
+                        
+                    
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    if installers == []:
+        return
+    
+    import tkinter as tk
+    from tkinter import ttk
+    loadingWindow.destroy()
+    
+    
+    ttk.Label(mainUI.pluginFrame, text="The app has detected plugins that have not yet been installed.").pack()
+    ttk.Label(mainUI.pluginFrame, text="Please install them before continuing.").pack()
+    ttk.Label(mainUI.pluginFrame, text="").pack()
+    ttk.Label(mainUI.pluginFrame, text="WARNING: Make sure you trust the authors of the plugins.").pack()
+    ttk.Label(mainUI.pluginFrame, text="If you are at all skeptical then you can see the install script at").pack()
+    ttk.Label(mainUI.pluginFrame, text="app/plugins/<plugin name>/installer.py").pack()
+    ttk.Label(mainUI.pluginFrame, text="").pack()
+    
+    startInstall = False
+    def SetInstallToTrue():
+        global startInstall
+        startInstall = True
+    ttk.Button(mainUI.pluginFrame, text="Install plugins", command=lambda: SetInstallToTrue()).pack()
+    
+    ttk.Label(mainUI.pluginFrame, text="").pack()
+    ttk.Label(mainUI.pluginFrame, text="The following plugins require installation: ").pack()
+    # Make tk list object
+    listbox = tk.Listbox(mainUI.pluginFrame, width=75, height=30)
+    listbox.pack()
+    # Add the plugins there
+    for plugin in pluginNames:
+        listbox.insert(tk.END, plugin)
+    # Center the listbox text
+    listbox.config(justify=tk.CENTER)
+    
+    while not startInstall:
+        mainUI.root.update()
+    
+    # Destroy all the widgets
+    for child in mainUI.pluginFrame.winfo_children():
+        child.destroy()
+        
+    # Create the progress indicators
+    currentPlugin = tk.StringVar(mainUI.pluginFrame)
+    currentPlugin.set("Installing plugins...")
+    ttk.Label(mainUI.pluginFrame, textvariable=currentPlugin).pack()
+    bar = ttk.Progressbar(mainUI.pluginFrame, orient=tk.HORIZONTAL, length=200, mode='determinate')
+    bar.pack(pady=15)
+    percentage = tk.StringVar(mainUI.pluginFrame)
+    ttk.Label(mainUI.pluginFrame, textvariable=percentage).pack()
+    ttk.Label(mainUI.pluginFrame, text="").pack()
+    ttk.Label(mainUI.pluginFrame, text="This may take a while...").pack()
+    ttk.Label(mainUI.pluginFrame, text="For more information check the console.").pack()
+    
+    mainUI.root.update()
+    
+    index = 0
+    for installer, name in zip(installers, pluginNames):
+        print(f"Installing '{name}'...")
+        currentPlugin.set(f"Installing '{name}'...")
+        bar.config(value=(index / len(installers)) * 100)
+        percentage.set(f"{round((index / len(installers)) * 100)}%")
+        mainUI.root.update()
+        installer.install()
+        settings.AddToList("Plugins", "Installed", name.split(" - ")[0])
+        index += 1
+    
+    # Destroy all the widgets
+    for child in mainUI.pluginFrame.winfo_children():
+        child.destroy()
+
+# Check for new plugin installs
+InstallPlugins()
+
 # Load all plugins 
 GetEnabledPlugins()
 FindPlugins()
@@ -84,6 +187,7 @@ RunOnEnable()
 
 # We've loaded all necessary modules
 loadingWindow.destroy()
+mainUI.drawButtons()
 
 data = {}
 uiFrameTimer = 0

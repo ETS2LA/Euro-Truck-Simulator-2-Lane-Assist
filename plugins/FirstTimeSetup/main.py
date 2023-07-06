@@ -98,8 +98,8 @@ class UI():
             self.root.destroy()
             self.root = tk.Canvas(self.master)
 
-            settings.CreateSettings("LSTRSteering", "gamepad", True)
-            settings.CreateSettings("LSTRSteering", "gamepadSmoothness", 0.05)
+            settings.CreateSettings("DefaultSteering", "gamepad", True)
+            settings.CreateSettings("DefaultSteering", "gamepadSmoothness", 0.05)
 
             helpers.MakeLabel(self.root, "Gamepad", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
             helpers.MakeLabel(self.root, "Great! I'll automatically set all the necessary options for gamepad usage.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
@@ -127,10 +127,10 @@ class UI():
             
         def wheelPage(self):
             
-            settings.CreateSettings("LSTRSteering", "gamepad", False)
-            settings.CreateSettings("LSTRSteering", "gamepadsmoothness", 0.05)
+            settings.CreateSettings("DefaultSteering", "gamepad", False)
+            settings.CreateSettings("DefaultSteering", "gamepadsmoothness", 0.05)
             
-            from plugins.LSTRSteering.main import updateSettings
+            from plugins.DefaultSteering.main import updateSettings
             updateSettings()
             
             self.root.destroy()
@@ -161,9 +161,9 @@ class UI():
             
         def keyboardPage(self):
             
-            settings.CreateSettings("LSTRSteering", "keyboard", True)
-            settings.CreateSettings("LSTRSteering", "gamepad", False)
-            settings.CreateSettings("LSTRSteering", "gamepadsmoothness", 0.05)
+            settings.CreateSettings("DefaultSteering", "keyboard", True)
+            settings.CreateSettings("DefaultSteering", "gamepad", False)
+            settings.CreateSettings("DefaultSteering", "gamepadsmoothness", 0.05)
             
             self.root.destroy()
             self.root = tk.Canvas(self.master)
@@ -186,8 +186,8 @@ class UI():
         def axisSetup(self):
             
             import src.settings as settings
-            settings.CreateSettings("LSTRSteering", "controller", self.list.curselection()[0])
-            settings.CreateSettings("LSTRSteering", "controller name", self.joysticks[self.list.curselection()[0]].get_name())
+            settings.CreateSettings("DefaultSteering", "controller", self.list.curselection()[0])
+            settings.CreateSettings("DefaultSteering", "controller name", self.joysticks[self.list.curselection()[0]].get_name())
             
             self.root.destroy()
             self.root = tk.Canvas(self.master)
@@ -197,11 +197,11 @@ class UI():
             helpers.MakeLabel(self.root, "So please go ahead and select the axis corresponding to steering from the below list.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
             
             # Create sliders for all axis
-            index = settings.GetSettings("LSTRSteering", "controller")
+            index = settings.GetSettings("DefaultSteering", "controller")
             self.sliderVars = []
             for i in range(self.joysticks[index].get_numaxes()):
                 variable = tk.IntVar(self.root)
-                helpers.MakeCheckButton(self.root, f"Axis {i}", "LSTRSteering", f"steeringAxis", i+4, 1, values=[i, ""], onlyTrue=True)
+                helpers.MakeCheckButton(self.root, f"Axis {i}", "DefaultSteering", f"steeringAxis", i+4, 1, values=[i, ""], onlyTrue=True)
                 slider = ttk.Scale(self.root, from_=-100, to=100, variable=variable, orient=tk.HORIZONTAL, length=200)
                 self.sliderVars.append(variable)
                 slider.grid(row=i+4, column=0, padx=0, pady=5)
@@ -232,7 +232,7 @@ class UI():
             enableDisableFrame.pack()
             
             # Get a list of all buttons
-            index = settings.GetSettings("LSTRSteering", "controller")
+            index = settings.GetSettings("DefaultSteering", "controller")
             pygame.event.pump()
             
             buttons = []
@@ -272,11 +272,11 @@ class UI():
         def saveButtonSettings(self):
             
             # Save the button settings
-            settings.CreateSettings("LSTRSteering", "leftIndicator", int(self.leftBlinkerCombo.get().split(" ")[1]))
-            settings.CreateSettings("LSTRSteering", "rightIndicator", int(self.rightBlinkerCombo.get().split(" ")[1]))
-            settings.CreateSettings("LSTRSteering", "enableDisable", int(self.enableDisableCombo.get().split(" ")[1]))
+            settings.CreateSettings("DefaultSteering", "leftIndicator", int(self.leftBlinkerCombo.get().split(" ")[1]))
+            settings.CreateSettings("DefaultSteering", "rightIndicator", int(self.rightBlinkerCombo.get().split(" ")[1]))
+            settings.CreateSettings("DefaultSteering", "enableDisable", int(self.enableDisableCombo.get().split(" ")[1]))
             
-            from plugins.LSTRSteering.main import updateSettings
+            from plugins.DefaultSteering.main import updateSettings
             updateSettings()
             
             if dxcam != None:
@@ -474,7 +474,7 @@ class UI():
         def setLaneDetectionFeatures(self, defaults):
             if defaults:
                 settings.CreateSettings("LSTRDrawLanes", "drawLaneLines", True)
-                settings.CreateSettings("LSTRSteering", "drawSteeringLine", True)
+                settings.CreateSettings("DefaultSteering", "drawSteeringLine", True)
                 settings.CreateSettings("LSTRDrawLanes", "fillLane", True)
                 settings.CreateSettings("LSTRDrawLanes", "fillLaneColor", "#10615D")
                 settings.CreateSettings("LSTRDrawLanes", "drawLanePoints", False)
@@ -484,8 +484,8 @@ class UI():
                 try: settings.GetSettings("LSTRDrawLanes", "drawLaneLines")
                 except: settings.CreateSettings("LSTRDrawLanes", "drawLaneLines", False)
                 
-                try: settings.GetSettings("LSTRSteering", "drawSteeringLine")
-                except: settings.CreateSettings("LSTRSteering", "drawSteeringLine", False)
+                try: settings.GetSettings("DefaultSteering", "drawSteeringLine")
+                except: settings.CreateSettings("DefaultSteering", "drawSteeringLine", False)
                 
                 try: settings.GetSettings("LSTRDrawLanes", "fillLane")
                 except: settings.CreateSettings("LSTRDrawLanes", "fillLane", False)
@@ -537,7 +537,7 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.CreateSettings("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "LSTRSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "LSTRLaneDetection"])
+            settings.CreateSettings("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "LSTRLaneDetection"])
             
             helpers.MakeLabel(self.root, "One more step!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
             helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
@@ -562,13 +562,13 @@ class UI():
             pygame.event.pump()
             try:
                 for i in range(len(self.sliderVars)):
-                    self.sliderVars[i].set(self.joysticks[settings.GetSettings("LSTRSteering", "controller")].get_axis(i)*100)
+                    self.sliderVars[i].set(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_axis(i)*100)
             except: pass
             
             try:
                 value = ""
-                for i in range(self.joysticks[settings.GetSettings("LSTRSteering", "controller")].get_numbuttons()):
-                    if self.joysticks[settings.GetSettings("LSTRSteering", "controller")].get_button(i):
+                for i in range(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_numbuttons()):
+                    if self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_button(i):
                         value += (" Button " + str(i))
                 self.pressedButtons.set(value)
             except: pass
