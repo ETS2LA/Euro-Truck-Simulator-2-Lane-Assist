@@ -29,11 +29,10 @@ if "OneDrive" in os.getcwd().lower():
     input()
     quit()
 
-# Check python version (must be 3.9.x)
-if sys.version_info[0] != 3 or sys.version_info[1] != 9:
-    printRed("This app requires python version 3.9.x to create the correct virtual environment.")
-    printRed("Please install python 3.9.x and run the installer again.")
-    printRed("You might also have to run the app with 'python3' instead of 'python'.")
+# Check python version (must be > 3.9.x)
+if sys.version_info[0] != 3 or sys.version_info[1] < 9:
+    printRed("This app requires atleast python version 3.9.x to create the correct virtual environment.")
+    printRed("Please install another version and run the installer again.")
     input()
     quit()
 
@@ -147,24 +146,29 @@ status.pack(pady=0)
 def createEnv():
     dir = os.path.dirname(os.path.realpath(__file__))
     venv.create(dir + "/venv", with_pip=True)
+    
+    # Create a .bat file to activate the virtual environment
+    with open("activate.bat", "a") as f:
+        if os.name == "nt":
+            f.write("@echo off\n")
+            string = "cmd /k"
+            string += fr'"cd "{dir}/venv/Scripts" & .\activate.bat"'
+            f.write(string)
+        else:
+            f.write(f"cd {dir}/venv/Scripts & ./activate")
 
 def downloadRequirements():
     dir = os.path.dirname(os.path.realpath(__file__))
     os.system(f"{dir}/venv/Scripts/pip install -r {dir}/app/requirements.txt")
     printGreen("> Done")
-    if "AppUI.py" in os.listdir(dir + "/app"):
-        print("Installing pytorch... please wait...")
-        ChangeStatus("Installing torch, check the console...")
-        os.system(f"{dir}/venv/Scripts/pip install torch==1.13.1 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117")
-        printGreen("> Done")
 
 def runApp():
     # Open a new terminal and run the app
     dir = os.path.dirname(os.path.realpath(__file__))
-    if "AppUI.py" in os.listdir(dir + "/app"):
-        os.system(f'start cmd /C "cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause"')
+    if os.name == "nt":
+        os.system(r".\run.bat")
     else:
-        os.system(f'start cmd /C "cd {dir}/app & {dir}/venv/Scripts/python main.py & pause"')
+        os.system(r"./run.bat")
     quit()
 
 # Install function
@@ -174,7 +178,7 @@ def install():
     total, used, free = shutil.disk_usage("/")
     if free < 7500000000:
         printRed(f"Not enough free disk space to install the app ({round(free/1000000000, 1)}gb).")
-        printRed("You need at least 7.5gb free.")
+        printRed("You need atleast 7.5gb of free space.")
         printRed("If you already have the app installed, then this might not be a problem and you can continue.")
         if input(" Continue? y/n ").lower() != "y":
             root.destroy()
@@ -256,16 +260,13 @@ def install():
     if not os.path.exists("run.bat"):
         with open("run.bat", "w") as f:
             dir = os.path.dirname(os.path.realpath(__file__))
-            if "AppUI.py" in os.listdir(dir + "/app"):
-                f.write(f"cd {dir}/app & {dir}/venv/Scripts/python AppUI.py & pause")
-            else:
-                f.write(f"cd {dir}/app & {dir}/venv/Scripts/python main.py & pause")
+            f.write(f"cd {dir}/app & {dir}/venv/Scripts/python main.py & pause")
             print("Created run.bat, to run the app easier.")
 
 
 
 branch = tk.StringVar()
-branch.set("LSTR-Development")
+branch.set("v2.0-rewrite")
 branchObject = ctk.CTkEntry(root, textvariable=branch, width=200)
 branchObject.pack(pady=0)
 

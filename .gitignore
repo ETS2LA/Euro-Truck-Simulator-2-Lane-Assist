@@ -2,10 +2,10 @@
 app.zip
 miniconda.exe
 /app
-installer.bat
 run.bat
 /plugins
 /profiles
 /src
 /lib
 log.txt
+activate.bat
