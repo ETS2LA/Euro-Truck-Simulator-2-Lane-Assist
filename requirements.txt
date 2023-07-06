@@ -1,3 +1,4 @@
 opencv-python
 numpy
 sv_ttk
+psutil
