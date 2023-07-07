@@ -1,4 +1,4 @@
-requirements = ["opencv-python", "pygame"]
+requirements = ["opencv-python", "pygame", "keyboard"]
 import os
 
 def install():
