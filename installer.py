@@ -253,16 +253,16 @@ def install():
     progress.stop()
     progress.set(1)
     ChangeStatus("Installation complete!")
-    button.configure(text="Run", command=runApp)
     printGreen("> Done\n > Installation complete, you can now run the app.")
 
     # Check for a .bat file
     if not os.path.exists("run.bat"):
         with open("run.bat", "w") as f:
             dir = os.path.dirname(os.path.realpath(__file__))
-            f.write(f"cd {dir}/app & {dir}/venv/Scripts/python main.py & pause")
+            f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & {dir}/venv/Scripts/python main.py & pause"')
             print("Created run.bat, to run the app easier.")
 
+    button.configure(text="Run", command=runApp)
 
 
 branch = tk.StringVar()
