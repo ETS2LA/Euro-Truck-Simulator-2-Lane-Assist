@@ -65,6 +65,8 @@ def plugin(data):
         leftLane = lanePoints[1]
         rightLane = lanePoints[2]
         farRightLane = lanePoints[3]
+            
+            
         
         data["LaneDetection"] = {}
         data["LaneDetection"]["farLeftLane"] = farLeftLane

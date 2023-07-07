@@ -129,6 +129,11 @@ def plugin(data):
         desiredControl = data["LaneDetection"]["difference"] * sensitivity + offset
     except Exception as ex:
         print(ex)
+        
+        if enabled:
+            enabled = False
+            sounds.PlaySound("assets/sounds/warning.mp3")
+            
         desiredControl = oldDesiredControl
         
     data["controller"] = {}
