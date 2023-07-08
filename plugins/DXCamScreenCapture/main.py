@@ -7,7 +7,6 @@ If you need to make a panel that is only updated when it's open then check the P
 from plugins.plugin import PluginInformation
 from src.logger import print
 
-# import dxshot
 
 PluginInfo = PluginInformation(
     name="DXCamScreenCapture", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
@@ -30,6 +29,7 @@ import os
 import dxcam
 
 def onEnable():
+    CreateCamera()
     pass
 
 def onDisable():
@@ -74,12 +74,19 @@ def CreateCamera():
     camera = dxcam.create(region=monitor, output_color="BGR", output_idx=display)
         
 
-CreateCamera()
+
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
+    
+    try:
+        if camera != None:
+            pass
+    except:
+        CreateCamera()
+    
     try:
         frame = camera.grab()
         data["frame"] = frame
