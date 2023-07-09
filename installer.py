@@ -18,6 +18,15 @@ def printGreen(text):
 if " " in os.getcwd():
     printRed("The path of this app includes spaces.")
     printRed("Please move the app to a folder path without spaces.")
+    printGreen("For example 'C:/LaneAssist/'")
+    input()
+    quit()
+
+# Check for special characters
+if not os.getcwd().isascii():
+    printRed("The path of this app includes special characters.")
+    printRed("Please move the app to a folder path without special characters.")
+    printGreen("For example 'C:/LaneAssist/'")
     input()
     quit()
 
