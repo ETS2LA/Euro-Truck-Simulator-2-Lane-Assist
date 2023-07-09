@@ -74,10 +74,6 @@ except:
 def Install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
-try:
-    print("Installing wheel...")
-    Install("wheel")    
-except: pass
 
 def DownloadProgressBar(count, blockSize, totalSize):
     global progress
@@ -173,6 +169,7 @@ def createEnv():
 
 def downloadRequirements():
     dir = os.path.dirname(os.path.realpath(__file__))
+    os.system(f"{dir}/venv/Scripts/pip install wheel")
     os.system(f"{dir}/venv/Scripts/pip install -r {dir}/app/requirements.txt")
     printGreen("> Done")
 
