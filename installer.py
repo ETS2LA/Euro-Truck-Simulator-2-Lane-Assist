@@ -74,6 +74,11 @@ except:
 def Install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
+try:
+    print("Installing wheel...")
+    Install("wheel")    
+except: pass
+
 def DownloadProgressBar(count, blockSize, totalSize):
     global progress
 
