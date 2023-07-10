@@ -1,8 +1,8 @@
-requirements = ["numpy", "opencv-python", "pycuda", "onnxruntime", "onnx"]
+requirements = ["numpy", "opencv-python", "onnxruntime", "onnx", "onnxruntime-gpu", "pycuda"]
 import os
 
 
-# This fucntion will be run when the plugin is first discovered.
+# This function will be run when the plugin is first discovered.
 # It is recommended to download all requirements here!
 def install():
     
