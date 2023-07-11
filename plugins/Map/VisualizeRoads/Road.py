@@ -9,6 +9,7 @@ class Road:
     Nodes = []
     BlockSize = 0
     Valid = True
+    Points = []
     Type = 0
     X = 0
     Y = 0
@@ -16,3 +17,6 @@ class Road:
     StartNode = Node()
     EndNode = Node()
     Width = 9
+    BoundingBox = []
+    LanePoints = []
+    LaneWidth = 0

@@ -4,3 +4,4 @@ profiles/*.json
 lib
 log.txt
 plugins/UFLDLaneDetection/UFLD/models/*.onnx
+plugins/Map/VisualizeRoads/Roads.json

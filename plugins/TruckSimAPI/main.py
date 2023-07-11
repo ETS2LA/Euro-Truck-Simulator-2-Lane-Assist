@@ -24,14 +24,19 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
-
+import math
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 API = None
+lastX = 0
+lastY = 0
 def plugin(data):
     global API
+    global lastX
+    global lastY
+    
     if API == None:
         API = ets2sdkclient()
     
@@ -45,6 +50,31 @@ def plugin(data):
     data["api"]["x"] = API.coordinateX
     data["api"]["y"] = API.coordinateY
     data["api"]["z"] = API.coordinateZ
+    
+    # Calculate the current driving angle based on this and last frames coordinates
+    try:
+        x = API.coordinateX
+        y = API.coordinateZ
+        
+        dx = x - lastX
+        dy = y - lastY
+        
+        # Make them a unit vector
+        velocity = math.sqrt(dx**2 + dy**2)
+        
+        # Calculate the angle
+        angle = math.degrees(math.atan2(dy, dx))
+        
+        # Add some smoothening to the angle
+        try:
+            angle = angle * 0.025 + data["last"]["api"]["angle"] * 0.975
+        except: pass
+        data["api"]["angle"] = angle
+        
+        lastY = y
+        lastX = x
+        
+    except: pass
 
     return data # Plugins need to ALWAYS return the data
 

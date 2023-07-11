@@ -45,11 +45,13 @@ def plugin(data):
         cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
         # Make it on top
         cv2.setWindowProperty("Roads", cv2.WND_PROP_TOPMOST, 1)
-        roads, img = VisualizeRoads.GetRoadsWithinRange(x, z, 1024)
+        roads, img = VisualizeRoads.GetRoadsWithinRange(x, z, 1024, data)
         cv2.imshow("Roads", img)
         
         
     except Exception as ex:
+        import traceback
+        traceback.print_exc()
         print(ex)
 
     return data # Plugins need to ALWAYS return the data

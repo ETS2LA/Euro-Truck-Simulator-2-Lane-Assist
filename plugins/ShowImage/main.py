@@ -47,6 +47,6 @@ def plugin(data):
         return data
     
     except Exception as ex:
-        if "-215" not in ex.args[0]:
+        if "-215" not in ex.args[0] and "frame" not in ex.args[0]:
             print(ex.args)
         return data
