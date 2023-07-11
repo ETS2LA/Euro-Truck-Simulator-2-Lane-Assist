@@ -21,6 +21,7 @@ roadColor = (0, 0, 0)
 shoulderColor = (25, 25, 25)
 laneMarkingColor = (255, 255, 255)
 
+GLOBAL_LANE_OFFSET = -1.5
 PARSE_PREFABS = True
 
 def ParseJsonFile():
@@ -263,14 +264,40 @@ def CalculateParallelCurves(road):
         # Calculate the points for each lane
         newPoints = []
 
+        pointCounter = 0
         for point in points:
             x = point['X']
             y = point['Y']
 
             # Calculate the tangent vector at the point
-            yPoints = np.array([point['Y'] for point in points])
-            xPoints = np.array([point['X'] for point in points])
-            tangentVector = np.gradient(yPoints, xPoints).T
+            tangentVector = np.array([0, 0])
+            if pointCounter < len(points) - 1:
+                xPoints = np.array([points[pointCounter]['X'], points[pointCounter + 1]['X']])
+                yPoints = np.array([points[pointCounter]['Y'], points[pointCounter + 1]['Y']])
+                # Try and not use np.gradient
+                # tangentVector = np.gradient(yPoints, xPoints).T
+                tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
+            else:
+                xPoints = np.array([points[pointCounter - 1]['X'], points[pointCounter]['X']])
+                yPoints = np.array([points[pointCounter - 1]['Y'], points[pointCounter]['Y']])
+                tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
+            
+            
+            
+            # if pointCounter == 0:
+            #     xPoints = np.array([points[pointCounter]['X'], points[pointCounter + 1]['X']])
+            #     yPoints = np.array([points[pointCounter]['Y'], points[pointCounter + 1]['Y']])
+            # elif pointCounter == len(points) - 1:
+            #     xPoints = np.array([points[pointCounter - 1]['X'], points[pointCounter]['X']])
+            #     yPoints = np.array([points[pointCounter - 1]['Y'], points[pointCounter]['Y']])
+            # else:
+            #     xPoints = np.array([points[pointCounter - 1]['X'], points[pointCounter]['X'], points[pointCounter + 1]['X']])
+            #     yPoints = np.array([points[pointCounter - 1]['Y'], points[pointCounter]['Y'], points[pointCounter + 1]['Y']])
+            #     
+            # # xPoints = np.array([points[pointCounter]['X'], points[pointCounter - 1]['X']])
+            # # yPoints = np.array([points[pointCounter]['Y'], points[pointCounter - 1]['Y']])
+            #     
+            # tangentVector = np.gradient(yPoints, xPoints).T
 
             # Calculate the normal vector (perpendicular to the tangent)
             normalVector = np.array([-tangentVector[1], tangentVector[0]])
@@ -279,14 +306,24 @@ def CalculateParallelCurves(road):
             normalVector /= np.linalg.norm(normalVector, axis=0)
 
             # Calculate the offset for each lane
-            laneOffsets = np.arange(-lanesLeft, lanesRight + 1) * laneWidth
+            laneOffsetsLeft = np.arange(-lanesLeft - 1, -1) * laneWidth
+            laneOffsetsRight = np.arange(1, lanesRight + 1) * laneWidth
 
             # Calculate the new points for each lane
             counter = 0
-            for laneOffset in laneOffsets:
+            for laneOffset in laneOffsetsLeft:
                 
                 if laneOffset == 0:
                     continue
+                
+                
+                if lanesRight > 0:
+                    laneOffset += road.RoadLook.Offset / 2
+                    laneOffset += laneWidth / 2
+                else:
+                    laneOffset += laneWidth
+                
+                laneOffset -= GLOBAL_LANE_OFFSET
                 
                 newPoints.append([])
                 offsetVector = laneOffset * normalVector
@@ -294,6 +331,29 @@ def CalculateParallelCurves(road):
                 newPoint = np.array([x, y]) + offsetVector.T
                 newPoints[counter].append(newPoint.tolist())
                 counter += 1
+
+            for laneOffset in laneOffsetsRight:
+                
+                if laneOffset == 0:
+                    continue
+                
+                if lanesLeft > 0:
+                    laneOffset -= road.RoadLook.Offset / 2
+                    laneOffset -= laneWidth / 2
+                else: 
+                    laneOffset -= laneWidth
+                    
+                laneOffset -= GLOBAL_LANE_OFFSET
+                
+                
+                newPoints.append([])
+                offsetVector = laneOffset * normalVector
+
+                newPoint = np.array([x, y]) + offsetVector.T
+                newPoints[counter].append(newPoint.tolist())
+                counter += 1
+
+            pointCounter += 1
 
         return newPoints, laneWidth
         
@@ -474,8 +534,8 @@ def GetRoadsWithinRange(x, y, range, data=None):
                         
                         screenPoints.append([int(pointX), int(pointY)])
                         
-                    # print(screenPoints)
-                    cv2.polylines(img, np.int32([screenPoints]), False, (0,0,0), int(laneWidth / 4), cv2.LINE_AA)
+                    cv2.polylines(img, np.int32([screenPoints]), False, (100,100,100), int(laneWidth / 4), cv2.LINE_AA)
+        
         except:
             continue
             
@@ -513,7 +573,7 @@ def GetRoadsWithinRange(x, y, range, data=None):
                 
                 
                 # print(screenPoints)
-                cv2.polylines(img, np.int32([screenPoints]), False, (0,0,0), int(laneWidth / 4), cv2.LINE_AA)
+                cv2.polylines(img, np.int32([screenPoints]), False, (100,100,100), int(laneWidth / 4), cv2.LINE_AA)
                 
             try:
                 closestLanePoints = []
@@ -580,17 +640,4 @@ def GetRoadsWithinRange(x, y, range, data=None):
     return roadsWithin, img
 
 
-if __name__ == "__main__":
-    ParseJsonFile()
-    while True:
-        x,y = random.randint(-100000, 100000), random.randint(-100000, 100000)
-        startTime = time.time()
-        roadsWithin = GetRoadsWithinRange(x, y, 1024)
-        endTime = time.time()
-        print("Random point: " + str(x) + ", " + str(y))
-        ms = (endTime - startTime) * 1000
-        print("Search took " + str(ms) + "ms")
-        if len(roadsWithin) == 0:
-            cv2.waitKey(1)
-        else:
-            cv2.waitKey(500)
+        
