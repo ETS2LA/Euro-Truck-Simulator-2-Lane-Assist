@@ -42,6 +42,9 @@ def plugin(data):
     data["api"]["speed"] = API.speed * 3.6
     data["api"]["speedLimit"] = API.speedLimit * 3.6
     data["api"]["cruiseControlSpeed"] = API.cruiseControlSpeed * 3.6
+    data["api"]["x"] = API.coordinateX
+    data["api"]["y"] = API.coordinateY
+    data["api"]["z"] = API.coordinateZ
 
     return data # Plugins need to ALWAYS return the data
 

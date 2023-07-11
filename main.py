@@ -46,7 +46,7 @@ def FindPlugins():
                         if plugin.PluginInfo.name in enabledPlugins:
                             plugins.append(plugin.PluginInfo)
                 except Exception as ex:
-                    print(ex.args)
+                    print(str(ex.args) + f" [{file}]")
                     pass
 
     pluginObjects = []
@@ -72,7 +72,7 @@ def UpdatePlugins(dynamicOrder, data):
                 endTime = time.time()
                 data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
         except Exception as ex:
-            print(ex.args)
+            print(ex.args + f"[{plugin.PluginInfo.name}]")
             pass
     return data
 
