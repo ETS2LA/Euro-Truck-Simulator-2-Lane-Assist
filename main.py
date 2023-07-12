@@ -187,6 +187,7 @@ RunOnEnable()
 
 # We've loaded all necessary modules
 loadingWindow.destroy()
+mainUI.root.update()
 mainUI.drawButtons()
 
 data = {}
@@ -228,19 +229,18 @@ while True:
             variables.UPDATEPLUGINS = False
         
         UpdatePlugins("before image capture", data)
-        # "before image capture"
+        UpdatePlugins("image capture", data)
         
         UpdatePlugins("before lane detection", data)
-        # "before lane detection"
+        UpdatePlugins("lane detection", data)
         
         UpdatePlugins("before controller", data)
-        # "before steering"
+        UpdatePlugins("controller", data)
         
         UpdatePlugins("before game", data)
-        # "before game"
+        UpdatePlugins("game", data)
         
         UpdatePlugins("before UI", data)
-        # "before UI"
         
         # Calculate the execution time of the UI
         start = time.time()

@@ -26,7 +26,7 @@ class UI():
         def findPlugins(self):
             # Find plugins
             print("Importing plugins...")
-            loading = LoadingWindow("Importing plugins...")
+            #loading = LoadingWindow("Importing plugins...")
             path = os.path.join(variables.PATH, "plugins")
             plugins = []
             for file in os.listdir(path):
@@ -44,7 +44,7 @@ class UI():
                             print(ex.args)
                             pass
                         
-            loading.destroy()
+            #loading.destroy()
             
             return plugins
         

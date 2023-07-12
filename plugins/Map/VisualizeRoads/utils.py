@@ -110,7 +110,11 @@ def ParseRoadLook(roadLook):
     roadLookObj.LaneOffsetsLeft = roadLook["LaneOffsetsLeft"]
     roadLookObj.LaneOffsetsRight = roadLook["LaneOffsetsRight"]
     roadLookObj.Token = roadLook["Token"]
-    return roadLookObj
+    
+    if roadLookObj.LanesLeft != [] or roadLookObj.LanesRight != []:
+        return roadLookObj
+    
+    return None
 
 def ParseNode(node):
     nodeObj = Node()

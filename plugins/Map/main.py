@@ -14,7 +14,7 @@ PluginInfo = PluginInformation(
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before game", # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
     noUI=True
 )
 
@@ -34,6 +34,9 @@ import cv2
 # The data from the last frame is contained under data["last"]
 def plugin(data):
 
+    if VisualizeRoads.roads == []:
+        VisualizeRoads.ParseJsonFile()
+
     try:
         try: 
             x = data["api"]["x"]
@@ -42,16 +45,18 @@ def plugin(data):
         except: 
             return data
         
-        cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
-        # Make it on top
-        cv2.setWindowProperty("Roads", cv2.WND_PROP_TOPMOST, 1)
         roads = VisualizeRoads.GetRoadsWithinRange(x, z, 1024)
         if roads is None:
             return data
         
+        closestRoad = VisualizeRoads.FindClosestRoad(x, z, roads)[0]
+        closestLane = VisualizeRoads.FindClosestLane(x, z, closestRoad.LanePoints)
+        steering = VisualizeRoads.CalculateSteeringToCenterOfLane(x, z, closestLane)
+        data["LaneDetection"] = {}
+        data["LaneDetection"]["difference"] = steering
         
         img = VisualizeRoads.DrawVisualization(x, z, roads)
-        cv2.imshow("Roads", img)
+        data["frame"] = img
         
         
     except Exception as ex:
@@ -64,7 +69,6 @@ def plugin(data):
 
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
-    VisualizeRoads.ParseJsonFile()
     pass
 
 def onDisable():

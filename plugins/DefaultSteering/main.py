@@ -429,6 +429,8 @@ def plugin(data):
 
             # Also draw a disabled text to the top left
             cv2.putText(output_img, "Disabled", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            
+            data["frame"] = output_img
 
     except Exception as ex:
         pass
