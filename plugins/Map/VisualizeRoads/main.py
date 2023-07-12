@@ -10,7 +10,7 @@ import time
 from plugins.Map.VisualizeRoads.Node import Node
 from plugins.Map.VisualizeRoads.RoadLook import RoadLook
 from plugins.Map.VisualizeRoads.Road import Road
-import plugins.Map.VisualizeRoads.getTileCoordinates as getTileCoordinates
+import plugins.Map.VisualizeRoads.utils as utils
 import threading
 from src.loading import LoadingWindow
 import src.mainUI as mainUI
@@ -21,8 +21,11 @@ roadColor = (0, 0, 0)
 shoulderColor = (25, 25, 25)
 laneMarkingColor = (255, 255, 255)
 
-GLOBAL_LANE_OFFSET = -1.5
+GLOBAL_LANE_OFFSET = 0
 PARSE_PREFABS = True
+# Recommended to keep False
+# if you are doing changes to the roadOffsets.json then set to True for real time updates
+UPDATE_EACH_FRAME = True
 
 def ParseJsonFile():
     def ParseThread():
@@ -41,6 +44,7 @@ def ParseJsonFile():
                     roadObj.Width = road["Width"]
                     roadObj.RoadLook = RoadLook()
                     roadObj.RoadLook.Offset = road["Offset"]
+                    roadObj.RoadLook.Name = "Prefab"
                     if road["LanesCount"] == 1:
                         roadObj.RoadLook.LanesRight = [0]
                     else:
@@ -68,13 +72,13 @@ def ParseJsonFile():
             
             roadObj = Road()
             roadObj.DlcGuard = road["DlcGuard"]
-            roadObj.RoadLook = ParseRoadLook(road["RoadLook"])
+            roadObj.RoadLook = utils.ParseRoadLook(road["RoadLook"])
             roadObj.IsSecret = road["IsSecret"]
             roadObj.Uid = road["Uid"]
             roadObj.Points = road["_points"]
             # By default this object is None
             try:
-                roadObj.Nodes = ParseNodes(road["Nodes"])
+                roadObj.Nodes = utils.ParseNodes(road["Nodes"])
             except: pass
             roadObj.BlockSize = road["BlockSize"]
             roadObj.Valid = road["Valid"]
@@ -97,8 +101,8 @@ def ParseJsonFile():
             
             
             roadObj.Hidden = road["Hidden"]
-            roadObj.StartNode = ParseNode(road["StartNode"])
-            roadObj.EndNode = ParseNode(road["EndNode"])
+            roadObj.StartNode = utils.ParseNode(road["StartNode"])
+            roadObj.EndNode = utils.ParseNode(road["EndNode"])
             
             # Create a bounding box with the Start and End nodes
             roadObj.BoundingBox = [roadObj.Points[0]["X"], roadObj.Points[0]["Y"], roadObj.Points[-1]["X"], roadObj.Points[-1]["Y"]]
@@ -111,7 +115,7 @@ def ParseJsonFile():
         # Loop through the roads and append them to the correct map tile
         print("Calculating road positions...")
         for road in roads:
-            xy = getTileCoordinates.ConvertGameXYToPixelXY(road.X, road.Y)
+            xy = utils.ConvertGameXYToPixelXY(road.X, road.Y)
             x = xy[0]
             y = xy[1]
             # The map tiles are 512x512 so we need to divide the x and y by 512
@@ -119,21 +123,21 @@ def ParseJsonFile():
             y = math.floor(y / 512)
             # Append the road to the correct map tile
             try:
-                getTileCoordinates.data["folders"][x]["files"][y]["roads"]
+                utils.data["folders"][x]["files"][y]["roads"]
             except:
-                getTileCoordinates.data["folders"][x]["files"][y]["roads"] = []
+                utils.data["folders"][x]["files"][y]["roads"] = []
                 
-            getTileCoordinates.data["folders"][x]["files"][y]["roads"].append(road)
+            utils.data["folders"][x]["files"][y]["roads"].append(road)
         
-        #print("")
-        #print("Connecting roads...")
-        #tiles = 255
-        #for x in range(tiles):
-        #    print("Connecting roads in tile " + str(x) + " of " + str(tiles), end="\r")
-        #    for y in range(tiles):
-        #        if "roads" in getTileCoordinates.data["folders"][x]["files"][y]:
-        #            ConnectRoadsInTile(x, y)
-        #
+        print("")
+        print("Connecting roads...")
+        tiles = 255
+        for x in range(tiles):
+            print("Connecting roads in tile " + str(x) + " of " + str(tiles), end="\r")
+            for y in range(tiles):
+                if "roads" in utils.data["folders"][x]["files"][y]:
+                    ConnectRoadsInTile(x, y)
+        
         print("Parsed " + str(length) + " roads         ")
     
     thread = threading.Thread(target=ParseThread)
@@ -153,7 +157,7 @@ def IsInsideBoundingBox(x, y, boundingBox):
     return False
     
 def ConnectRoadsInTile(tileX, tileY):
-    tileRoads = getTileCoordinates.data["folders"][tileX]["files"][tileY]["roads"]
+    tileRoads = utils.data["folders"][tileX]["files"][tileY]["roads"]
     
     
     def DistanceBetweenPoints(pointA, pointB):
@@ -176,59 +180,27 @@ def ConnectRoadsInTile(tileX, tileY):
                 }
                 break
         counter += 1
-     
-     
-def ParseRoadLook(roadLook):
-    roadLookObj = RoadLook()
-    roadLookObj.Offset = roadLook["Offset"]
-    roadLookObj.CenterLineLeftWidth = roadLook["CenterLineLeftWidth"]
-    roadLookObj.CenterLineRightWidth = roadLook["CenterLineRightWidth"]
-    roadLookObj.ShoulderSpaceLeft = roadLook["ShoulderSpaceLeft"]
-    roadLookObj.ShoulderSpaceRight = roadLook["ShoulderSpaceRight"]
-    roadLookObj.RoadSizeLeft = roadLook["RoadSizeLeft"]
-    roadLookObj.RoadSizeRight = roadLook["RoadSizeRight"]
-    roadLookObj.LanesLeft = roadLook["LanesLeft"]
-    roadLookObj.LanesRight = roadLook["LanesRight"]
-    roadLookObj.LaneOffsetsLeft = roadLook["LaneOffsetsLeft"]
-    roadLookObj.LaneOffsetsRight = roadLook["LaneOffsetsRight"]
-    roadLookObj.Token = roadLook["Token"]
-    return roadLookObj
-
-def ParseNode(node):
-    nodeObj = Node()
-    nodeObj.X = node["X"]
-    nodeObj.Y = node["Z"]
-    nodeObj.Uid = node["Uid"]
-    nodeObj.Rotation = node["Rotation"]
-    return nodeObj
-
-def ParseNodes(nodes):
-    nodeObjs = []
-    for node in nodes:
-        nodeObj = ParseNode(node)
-        nodeObjs.append(nodeObj)
-        
-    return nodeObjs
+    
 
 def Get3x3Roads(x, y):
     foundRoads = []
-    try: foundRoads += getTileCoordinates.data["folders"][x]["files"][y]["roads"]
+    try: foundRoads += utils.data["folders"][x]["files"][y]["roads"]
     except: pass
-    try: foundRoads += getTileCoordinates.data["folders"][x+1]["files"][y]["roads"]
+    try: foundRoads += utils.data["folders"][x+1]["files"][y]["roads"]
     except: pass
-    try: foundRoads += getTileCoordinates.data["folders"][x-1]["files"][y]["roads"]
+    try: foundRoads += utils.data["folders"][x-1]["files"][y]["roads"]
     except: pass
-    try: foundRoads += getTileCoordinates.data["folders"][x]["files"][y+1]["roads"]
+    try: foundRoads += utils.data["folders"][x]["files"][y+1]["roads"]
     except: pass
-    try: foundRoads += getTileCoordinates.data["folders"][x]["files"][y-1]["roads"]
+    try: foundRoads += utils.data["folders"][x]["files"][y-1]["roads"]
     except: pass
-    try: foundRoads += getTileCoordinates.data["folders"][x+1]["files"][y+1]["roads"]
+    try: foundRoads += utils.data["folders"][x+1]["files"][y+1]["roads"]
     except: pass
-    try: foundRoads += getTileCoordinates.data["folders"][x+1]["files"][y-1]["roads"]
+    try: foundRoads += utils.data["folders"][x+1]["files"][y-1]["roads"]
     except: pass
-    try: foundRoads += getTileCoordinates.data["folders"][x-1]["files"][y+1]["roads"]
+    try: foundRoads += utils.data["folders"][x-1]["files"][y+1]["roads"]
     except: pass
-    try: foundRoads += getTileCoordinates.data["folders"][x-1]["files"][y-1]["roads"]
+    try: foundRoads += utils.data["folders"][x-1]["files"][y-1]["roads"]
     except: pass
     
     return foundRoads
@@ -261,6 +233,9 @@ def CalculateParallelCurves(road):
         except:
             laneWidth = totalRoadWidth / 1
 
+        # Get the offset for the current road type
+        roadOffset = utils.GetRoadOffset(road.RoadLook.Name)
+
         # Calculate the points for each lane
         newPoints = []
 
@@ -281,23 +256,7 @@ def CalculateParallelCurves(road):
                 xPoints = np.array([points[pointCounter - 1]['X'], points[pointCounter]['X']])
                 yPoints = np.array([points[pointCounter - 1]['Y'], points[pointCounter]['Y']])
                 tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
-            
-            
-            
-            # if pointCounter == 0:
-            #     xPoints = np.array([points[pointCounter]['X'], points[pointCounter + 1]['X']])
-            #     yPoints = np.array([points[pointCounter]['Y'], points[pointCounter + 1]['Y']])
-            # elif pointCounter == len(points) - 1:
-            #     xPoints = np.array([points[pointCounter - 1]['X'], points[pointCounter]['X']])
-            #     yPoints = np.array([points[pointCounter - 1]['Y'], points[pointCounter]['Y']])
-            # else:
-            #     xPoints = np.array([points[pointCounter - 1]['X'], points[pointCounter]['X'], points[pointCounter + 1]['X']])
-            #     yPoints = np.array([points[pointCounter - 1]['Y'], points[pointCounter]['Y'], points[pointCounter + 1]['Y']])
-            #     
-            # # xPoints = np.array([points[pointCounter]['X'], points[pointCounter - 1]['X']])
-            # # yPoints = np.array([points[pointCounter]['Y'], points[pointCounter - 1]['Y']])
-            #     
-            # tangentVector = np.gradient(yPoints, xPoints).T
+                
 
             # Calculate the normal vector (perpendicular to the tangent)
             normalVector = np.array([-tangentVector[1], tangentVector[0]])
@@ -318,12 +277,14 @@ def CalculateParallelCurves(road):
                 
                 
                 if lanesRight > 0:
-                    laneOffset += road.RoadLook.Offset / 2
-                    laneOffset += laneWidth / 2
+                    if road.RoadLook.Name is not "Prefab":
+                        laneOffset += road.RoadLook.Offset / 2
+                        laneOffset += laneWidth / 2
                 else:
                     laneOffset += laneWidth
                 
                 laneOffset -= GLOBAL_LANE_OFFSET
+                laneOffset -= roadOffset
                 
                 newPoints.append([])
                 offsetVector = laneOffset * normalVector
@@ -344,6 +305,7 @@ def CalculateParallelCurves(road):
                     laneOffset -= laneWidth
                     
                 laneOffset -= GLOBAL_LANE_OFFSET
+                laneOffset -= roadOffset
                 
                 
                 newPoints.append([])
@@ -357,9 +319,7 @@ def CalculateParallelCurves(road):
 
         return newPoints, laneWidth
         
-    except:
-        import traceback
-        traceback.print_exc()
+    except Exception as ex:
         return [[], []], 0
 
 
@@ -394,9 +354,9 @@ def FindClosestLane(x,y, lanes):
         
         # Get the two points closest to the player
         firstPoint = None
-        firstPointDistance = 999
+        firstPointDistance = 999999
         secondPoint = None
-        secondPointDistance = 999
+        secondPointDistance = 999999
         for point in lane:
             distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
             if distance < firstPointDistance:
@@ -407,7 +367,10 @@ def FindClosestLane(x,y, lanes):
             elif distance < secondPointDistance:
                 secondPoint = point
                 secondPointDistance = distance
-                
+        
+        if firstPoint == None or secondPoint == None:
+            continue
+        
         # Get the percentage of the first point
         startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
         endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
@@ -439,11 +402,169 @@ def FindClosestLane(x,y, lanes):
     return closestLane
 
 
-def GetRoadsWithinRange(x, y, range, data=None):
+def OffsetPixelToBeInCenterOfTile(xy, mapX, mapY, ImgSize):
+    pointX = xy[0]
+    pointY = xy[1]
+    pointX -= mapX * 512 - 512
+    pointY -= mapY * 512 - 512
+    
+    return pointX, pointY
+
+
+lastClosestRoad = None
+def DrawVisualization(x, y, roadsWithin):
+    global lastClosestRoad
+    
+    # Convert the x and y to pixel coordinates
+    xy = utils.ConvertGameXYToPixelXY(x, y)
+    mapX = xy[0]
+    mapY = xy[1]
+    
+    # Find the map tile it's in
+    mapX = math.floor(mapX / 512)
+    mapY = math.floor(mapY / 512)
+    
     
     startTime = time.time()
+    # Show the road locations on a map
+    # A nice dark blue for the background
+    # CV2 uses BGR instead of RGB
+    backgroundColor = (25, 0, 0)
+    img = Image.new("RGB", (512*3, 512*3), backgroundColor)
+    img = np.array(img)
+    
+    # Get the road closes to the x and y coordinates
+    closestRoad = None
+    closestRoadDistance = 9999
+    for road in roadsWithin:
+        if road.Valid:
+            startNode = road.Points[0]
+            endNode = road.Points[-1]
+            distanceToStart = math.sqrt((startNode["X"] - x)**2 + (startNode["Y"] - y)**2)
+            distanceToEnd = math.sqrt((endNode["X"] - x)**2 + (endNode["Y"] - y)**2)
+            minDistance = min(distanceToStart, distanceToEnd)
+            
+            # Check if either is closer than the current closest road
+            if minDistance < closestRoadDistance:
+                closestRoad = road
+                closestRoadDistance = minDistance
+            
+        
+    
+    #if IsInsideBoundingBox(x, y, closestRoad.BoundingBox):     
+    roadsWithin.remove(closestRoad)
+    #else:
+    #    closestRoad = None
+    
+    for road in roadsWithin:
+        try:
+            if road.Valid:
+                if road.LanePoints == [] or UPDATE_EACH_FRAME:
+                    lanePoints, laneWidth = CalculateParallelCurves(road)
+
+                    if lanePoints == None or laneWidth == None:
+                        continue
+                    
+                    road.LanePoints = lanePoints
+                    road.LaneWidth = laneWidth
+                else:
+                    lanePoints = road.LanePoints
+                    laneWidth = road.LaneWidth
+                
+                # Draw the road under the lanes
+                screenPoints = []
+                for points in road.Points:
+                    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points["X"], points["Y"]), mapX, mapY, 512*3)
+                    
+                    screenPoints.append([int(pointX), int(pointY)])
+                
+                
+                cv2.polylines(img, np.int32([screenPoints]), False, (50,50,50), int(road.Width), cv2.LINE_AA)
+                for lane in lanePoints:
+                    screenPoints = []
+                    for points in lane:
+                        pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                        screenPoints.append([int(pointX), int(pointY)])
+                        
+                    cv2.polylines(img, np.int32([screenPoints]), False, (255,255,255), int(laneWidth / 4), cv2.LINE_AA)
+        
+        except:
+            continue
+            
+                
+    
+    if closestRoad != None:
+        if closestRoad.Valid:
+            try:
+                if lastClosestRoad.RoadLook.Name != closestRoad.RoadLook.Name:
+                    lastClosestRoad = closestRoad
+                    print("Entered road type " + closestRoad.RoadLook.Name)
+            except:
+                print("Entered road type " + closestRoad.RoadLook.Name)
+                lastClosestRoad = closestRoad
+            
+            lanePoints, laneWidth = CalculateParallelCurves(closestRoad)
+
+            # Draw the road under the lanes
+            screenPoints = []
+            for points in closestRoad.Points:
+                pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points["X"], points["Y"]), mapX, mapY, 512*3)
+            
+            cv2.polylines(img, np.int32([screenPoints]), False, (50,50,50), int(closestRoad.Width), cv2.LINE_AA)
+
+            try:
+                for lane in lanePoints:
+                    screenPoints = []
+                    for points in lane:
+                        pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                        
+                        screenPoints.append([int(pointX), int(pointY)])
+                    
+                    # print(screenPoints)
+                    cv2.polylines(img, np.int32([screenPoints]), False, (255,255,255), int(laneWidth / 4), cv2.LINE_AA)
+            except: pass
+                
+            try:
+                closestLanePoints = []
+                closestLane = FindClosestLane(x, y, lanePoints)
+                for points in closestLane:
+                    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                    closestLanePoints.append([int(pointX), int(pointY)])
+            
+                cv2.polylines(img, np.int32([closestLanePoints]), False, (255,0,255), int(laneWidth / 4), cv2.LINE_AA)
+            except Exception as ex: 
+                pass
+        
+    # Render the target point
+    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(x, y), mapX, mapY, 512*3)
+    cv2.circle(img, (int(pointX), int(pointY)), 2, (255, 255, 0), -1, cv2.LINE_AA)
+    
+    # Flip the map upside down
+    img = cv2.flip(img, 0)
+    
+    # Zoom in onto the targe point (make it 1024x1024)
+    fromX = int(pointX - 512/2)
+    toX = int(pointX + 512/2)
+    fromY = int(-pointY - 512/2)
+    toY = int(-pointY + 512/2)
+    img = img[fromY:toY, fromX:toX]
+    
+    
+    cv2.putText(img, str(round(x)) + ", " + str(round(y)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 2, cv2.LINE_AA)    
+    
+    if closestRoad == None:
+        cv2.putText(img, "Not on a road", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 2, cv2.LINE_AA) 
+    
+    endTime = time.time()
+    ms = (endTime - startTime) * 1000
+    cv2.putText(img, "Took " + str(round(ms)) + "ms to draw", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 2, cv2.LINE_AA)
+    
+    return img
+
+def GetRoadsWithinRange(x, y, range):
+    
     # Convert the x and y to pixel coordinates
-    xy = getTileCoordinates.ConvertGameXYToPixelXY(x, y)
+    xy = utils.ConvertGameXYToPixelXY(x, y)
     mapX = xy[0]
     mapY = xy[1]
     
@@ -461,183 +582,10 @@ def GetRoadsWithinRange(x, y, range, data=None):
         if road.X > x - range and road.X < x + range and road.Y > y - range and road.Y < y + range:
             roadsWithin.append(road)
     
-    # Show the road locations on a map
-    # A nice dark blue for the background
-    # CV2 uses BGR instead of RGB
-    backgroundColor = (25, 0, 0)
-    img = Image.new("RGB", (512*3, 512*3), backgroundColor)
-    img = np.array(img)
+    if roadsWithin == []:
+        return None
     
-    # Get the road closes to the x and y coordinates
-    closestRoad = None
-    secondClosestRoad = None
-    closestRoadDistance = 9999
-    secondClosestRoadDistance = 9999
-    for road in roadsWithin:
-        if road.Valid:
-            distance = math.sqrt((road.X - x)**2 + (road.Y - y)**2)
-            if distance < closestRoadDistance:
-                secondClosestRoad = road
-                closestRoad = road
-                secondClosestRoadDistance = closestRoadDistance
-                closestRoadDistance = distance
-                
-    # Check the distance to the end node of the closest road
-    # and the start node of the second closest road
-    try:
-        distanceToClosestRoadEndNode = math.sqrt((closestRoad.EndNode.X - x)**2 + (closestRoad.EndNode.Y - y)**2)
-        distanceToSecondClosestRoadStartNode = math.sqrt((secondClosestRoad.StartNode.X - x)**2 + (secondClosestRoad.StartNode.Y - y)**2)
-        if distanceToClosestRoadEndNode < distanceToSecondClosestRoadStartNode:
-            closestRoad = secondClosestRoad
-    except:
-        pass
-    
-    #if IsInsideBoundingBox(x, y, closestRoad.BoundingBox):     
-    roadsWithin.remove(closestRoad)
-    #else:
-    #    closestRoad = None
-    
-    for road in roadsWithin:
-        try:
-            if road.Valid:
-                if road.LanePoints == []:
-                    lanePoints, laneWidth = CalculateParallelCurves(road)
-                    road.LanePoints = lanePoints
-                    road.LaneWidth = laneWidth
-                    
-                else:
-                    lanePoints = road.LanePoints
-                    laneWidth = road.LaneWidth
-                
-                # Draw the road under the lanes
-                screenPoints = []
-                for points in road.Points:
-                    xy = getTileCoordinates.ConvertGameXYToPixelXY(points["X"], points["Y"])
-                    pointX = xy[0]
-                    pointY = xy[1]
-                    pointX -= mapX * 512 - 512
-                    pointY -= mapY * 512 - 512
-                    
-                    screenPoints.append([int(pointX), int(pointY)])
-                
-                cv2.polylines(img, np.int32([screenPoints]), False, (255,255,255), int(road.Width), cv2.LINE_AA)
-
-                for lane in lanePoints:
-                    screenPoints = []
-                    for points in lane:
-                        
-                        xy = getTileCoordinates.ConvertGameXYToPixelXY(points[0], points[1])
-                        pointX = xy[0]
-                        pointY = xy[1]
-                        pointX -= mapX * 512 - 512
-                        pointY -= mapY * 512 - 512
-                        
-                        screenPoints.append([int(pointX), int(pointY)])
-                        
-                    cv2.polylines(img, np.int32([screenPoints]), False, (100,100,100), int(laneWidth / 4), cv2.LINE_AA)
-        
-        except:
-            continue
-            
-                
-    
-    if closestRoad != None:
-        if closestRoad.Valid:
-            lanePoints, laneWidth = CalculateParallelCurves(closestRoad)
-
-            # Draw the road under the lanes
-            screenPoints = []
-            for points in closestRoad.Points:
-                xy = getTileCoordinates.ConvertGameXYToPixelXY(points["X"], points["Y"])
-                pointX = xy[0]
-                pointY = xy[1]
-                pointX -= mapX * 512 - 512
-                pointY -= mapY * 512 - 512
-                
-                screenPoints.append([int(pointX), int(pointY)])
-            
-            cv2.polylines(img, np.int32([screenPoints]), False, (255,255,255), int(closestRoad.Width), cv2.LINE_AA)
-
-            for lane in lanePoints:
-                screenPoints = []
-                for points in lane:
-                    
-                    xy = getTileCoordinates.ConvertGameXYToPixelXY(points[0], points[1])
-                    pointX = xy[0]
-                    pointY = xy[1]
-                    pointX -= mapX * 512 - 512
-                    pointY -= mapY * 512 - 512
-                    
-                    screenPoints.append([int(pointX), int(pointY)])
-                
-                
-                
-                # print(screenPoints)
-                cv2.polylines(img, np.int32([screenPoints]), False, (100,100,100), int(laneWidth / 4), cv2.LINE_AA)
-                
-            try:
-                closestLanePoints = []
-                closestLane = FindClosestLane(x, y, lanePoints)
-                for points in closestLane:
-                    
-                    xy = getTileCoordinates.ConvertGameXYToPixelXY(points[0], points[1])
-                    pointX = xy[0]
-                    pointY = xy[1]
-                    pointX -= mapX * 512 - 512
-                    pointY -= mapY * 512 - 512
-                    
-                    closestLanePoints.append([int(pointX), int(pointY)])
-            
-                cv2.polylines(img, np.int32([closestLanePoints]), False, (255,0,255), int(laneWidth / 4), cv2.LINE_AA)
-            except Exception as ex: 
-                print(ex)
-                import traceback
-                traceback.print_exc()
-                pass
-        
-    # Render the target point
-    xy = getTileCoordinates.ConvertGameXYToPixelXY(x, y)
-    pointX = xy[0]
-    pointY = xy[1]
-    pointX -= mapX * 512 - 512
-    pointY -= mapY * 512 - 512
-    cv2.circle(img, (int(pointX), int(pointY)), 2, (255, 255, 0), -1, cv2.LINE_AA)
-    
-    # Flip the map upside down
-    img = cv2.flip(img, 0)
-    
-    # Zoom in onto the targe point (make it 1024x1024)
-    fromX = int(pointX - 512/2)
-    toX = int(pointX + 512/2)
-    fromY = int(-pointY - 512/2)
-    toY = int(-pointY + 512/2)
-    img = img[fromY:toY, fromX:toX]
-    
-    # https://stackoverflow.com/a/9042907
-    def rotate_image(image, angle):
-        image_center = tuple(np.array(image.shape[1::-1]) / 2)
-        rot_mat = cv2.getRotationMatrix2D(image_center, angle, 1.0)
-        result = cv2.warpAffine(image, rot_mat, image.shape[1::-1], flags=cv2.INTER_LINEAR)
-        return result
-    
-    # Rotate it according to the rotation of the truck
-    # if data != None:
-    #     rotation = data["api"]["angle"] + 90
-    #     img = rotate_image(img, rotation)
-    
-    cv2.putText(img, "Roads within " 
-                + str(range) + "m of " 
-                + str(x) + ", " + str(y)
-                + " (" + str(len(roadsWithin)) + ")", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 2, cv2.LINE_AA)    
-    
-    if closestRoad == None:
-        cv2.putText(img, "Not on a road", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 2, cv2.LINE_AA) 
-    
-    endTime = time.time()
-    ms = (endTime - startTime) * 1000
-    cv2.putText(img, "Took " + str(ms) + "ms", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 2, cv2.LINE_AA)
-    
-    return roadsWithin, img
+    return roadsWithin
 
 
         

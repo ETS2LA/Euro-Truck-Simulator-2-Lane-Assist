@@ -45,7 +45,12 @@ def plugin(data):
         cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
         # Make it on top
         cv2.setWindowProperty("Roads", cv2.WND_PROP_TOPMOST, 1)
-        roads, img = VisualizeRoads.GetRoadsWithinRange(x, z, 1024, data)
+        roads = VisualizeRoads.GetRoadsWithinRange(x, z, 1024)
+        if roads is None:
+            return data
+        
+        
+        img = VisualizeRoads.DrawVisualization(x, z, roads)
         cv2.imshow("Roads", img)
         
         

@@ -1,4 +1,5 @@
 class RoadLook:
+    Name = ""
     Offset = 0
     CenterLineLeftWidth = 999
     CenterLineRightWidth = 999
