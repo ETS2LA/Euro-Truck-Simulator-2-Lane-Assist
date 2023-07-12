@@ -46,16 +46,20 @@ def plugin(data):
             return data
         
         roads = VisualizeRoads.GetRoadsWithinRange(x, z, 1024)
-        if roads is None:
+        if roads == []:
             return data
         
         closestRoad = VisualizeRoads.FindClosestRoad(x, z, roads)[0]
-        closestLane = VisualizeRoads.FindClosestLane(x, z, closestRoad.LanePoints)
-        steering = VisualizeRoads.CalculateSteeringToCenterOfLane(x, z, closestLane)
+        
+        if closestRoad == None:
+            return data
+        
+        closestLane, index, road = VisualizeRoads.FindClosestLane(x, z, closestRoad.LanePoints, road=closestRoad)
+        steering = VisualizeRoads.CalculateSteeringToCenterOfLane(x, z, closestLane, data, index, road)
         data["LaneDetection"] = {}
         data["LaneDetection"]["difference"] = steering
         
-        img = VisualizeRoads.DrawVisualization(x, z, roads)
+        img = VisualizeRoads.DrawVisualization(x, z, roads, data)
         data["frame"] = img
         
         

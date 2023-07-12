@@ -14,6 +14,7 @@ import plugins.Map.VisualizeRoads.utils as utils
 import threading
 from src.loading import LoadingWindow
 import src.mainUI as mainUI
+from scipy.interpolate import interp1d
 
 roads = []
 
@@ -25,7 +26,7 @@ GLOBAL_LANE_OFFSET = 0
 PARSE_PREFABS = True
 # Recommended to keep False
 # if you are doing changes to the roadOffsets.json then set to True for real time updates
-UPDATE_EACH_FRAME = True
+UPDATE_EACH_FRAME = False
 
 parsingDone = False
 def ParseJsonFile():
@@ -296,14 +297,14 @@ def CalculateParallelCurves(road):
                 if lanesRight > 0:
                     laneOffset += road.RoadLook.Offset / 2
                     if road.Type != "Prefab":
-                        laneOffset += laneWidth / 2
+                        laneOffset += laneWidth
                     else:
                         laneOffset += laneWidth - (laneWidth / 3)
                 else:
                     laneOffset += laneWidth
                 
                 laneOffset -= GLOBAL_LANE_OFFSET
-                laneOffset -= roadOffset
+                laneOffset -= roadOffset[0]
                 
                 newPoints.append([])
                 offsetVector = laneOffset * normalVector
@@ -320,14 +321,14 @@ def CalculateParallelCurves(road):
                 if lanesLeft > 0:
                     laneOffset -= road.RoadLook.Offset / 2
                     if road.Type != "Prefab":
-                        laneOffset -= laneWidth / 2
+                        laneOffset -= laneWidth
                     else:
                         laneOffset -= laneWidth - (laneWidth / 3)
                 else: 
                     laneOffset -= laneWidth
                     
                 laneOffset -= GLOBAL_LANE_OFFSET
-                laneOffset -= roadOffset
+                laneOffset -= roadOffset[1]
                 
                 
                 newPoints.append([])
@@ -373,7 +374,7 @@ def DrawBoundingBox(x,y, img, boundingbox, mapX, mapY, ImgSize):
     
     
     
-def CalculateSteeringToCenterOfLane(x,y, lane):
+def CalculateSteeringToCenterOfLane(x, y, lane, data, laneIndex, road):
     steering = 0
     
     # Get the percentage we are through the lane
@@ -403,47 +404,105 @@ def CalculateSteeringToCenterOfLane(x,y, lane):
     if firstPoint == None or secondPoint == None:
         return 0
     
-    # Get the percentage of the first point
-    startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
-    endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
-    sumDistance = startDistance + endDistance
-    firstPointPercentage = startDistance / sumDistance
     
-    # Get the percentage of the second point
-    startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
-    endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
-    sumDistance = startDistance + endDistance
-    secondPointPercentage = startDistance / sumDistance
+    # Get all the xPoints and yPoints
+    xPoints = np.array(lane)[:,0]
+    yPoints = np.array(lane)[:,1]
     
-    # Interpolate the point
-    newPoint = [0, 0]
-    newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
-    newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
+    # Calculate distance between consecutive points
+    dist = np.sqrt((np.diff(xPoints) ** 2) + (np.diff(yPoints) ** 2))
+    dist = np.concatenate(([0], dist))  # Insert a distance of 0 for the first point
+
+    # Calculate cumulative distance
+    cumulative_dist = np.cumsum(dist)
+
+    # Normalize cumulative distance between 0 and 1
+    t = cumulative_dist / cumulative_dist[-1]
+
+    # Perform cubic spline interpolation
+    f = interp1d(t, np.array(lane), kind='cubic', axis=0)
+    
+    # Get the new point
+    newPoint = f(percentage)
     
     # Find the distance between the player and the new point
     newPointDistance = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
     
-    # Calculate the point's normal
-    pointTangent = [secondPoint[0] - firstPoint[0], secondPoint[1] - firstPoint[1]]
-    pointNormal = [pointTangent[1], -pointTangent[0]]
-    
-    # Check if we are to the right or the left of the point
-    if pointNormal[0] * (x - newPoint[0]) + pointNormal[1] * (y - newPoint[1]) > 0:
-        # We are to the right of the point
-        pass
-    else:
-        # We are to the left of the point
-        newPointDistance *= -1
+    # Get the player's velocity
+    try:
+        velocity = data["api"]["velocity"]
+        newPosition = [x + velocity[0], y + velocity[1]]
+        
+        # Check if this position is closer to the start or the end of the lane
+        newDistanceToStart = math.sqrt((startPoint[0] - newPosition[0])**2 + (startPoint[1] - newPosition[1])**2)
+        
+        if newDistanceToStart < distanceToStart:
+            # We want to be on the right side of the road
+            # Calculate the distance to the new point
+            distanceToNewPoint = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
+            
+            lanesLeft = len(road.RoadLook.LanesLeft)
+            lanesRight = len(road.RoadLook.LanesRight)
+            
+            # Right side
+            # Get a vector from the new point to the player
+            vector = [x - newPoint[0], y - newPoint[1]]
+            # Get the tangent of the road
+            tangent = [endPoint[0] - startPoint[0], endPoint[1] - startPoint[1]]
+            # Normalize both vectors
+            vector = [vector[0] / math.sqrt(vector[0]**2 + vector[1]**2), vector[1] / math.sqrt(vector[0]**2 + vector[1]**2)]
+            tangent = [tangent[0] / math.sqrt(tangent[0]**2 + tangent[1]**2), tangent[1] / math.sqrt(tangent[0]**2 + tangent[1]**2)]
+            
+            # Compare them and see if we are to the right or the left
+            crossProduct = tangent[0] * vector[1] - tangent[1] * vector[0]
+            
+            print(crossProduct)
+            
+            # We are to the right
+            if crossProduct > 0:
+                steering = -distanceToNewPoint / 10
+            
+            # We are to the left
+            else:
+                steering = distanceToNewPoint / 10
 
+                
+                
+        else:
+            # We want to be on the right side of the road
+            # Calculate the distance to the new point
+            distanceToNewPoint = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
+            
+            lanesLeft = len(road.RoadLook.LanesLeft)
+            lanesRight = len(road.RoadLook.LanesRight)
+            
+            # Right side
+            # Get a vector from the new point to the player
+            vector = [x - newPoint[0], y - newPoint[1]]
+            # Get the tangent of the road
+            tangent = [endPoint[0] - startPoint[0], endPoint[1] - startPoint[1]]
+            # Compare them and see if we are to the right or the left
+            crossProduct = vector[0] * tangent[1] - vector[1] * tangent[0]
+            
+            # We are to the right
+            if crossProduct < 0:
+                steering = distanceToNewPoint
+            
+            # We are to the left
+            else:
+                steering = -distanceToNewPoint
+            
     
-    steering = newPointDistance / 10
+    except:
+        import traceback
+        traceback.print_exc()
+        steering = 0
     
-    
-    return steering
+    return -steering
     
     
 
-def FindClosestLane(x,y, lanes):
+def FindClosestLane(x,y, lanes, road = None):
     closestLane = None
     closestLaneDistance = 999
     
@@ -518,8 +577,21 @@ def FindClosestLane(x,y, lanes):
             closestLane = pointsLanes[i]
             closestLaneDistance = distance
         
-                
-    return closestLane
+    
+    # Find which index the lane is in
+    if road != None:
+        index = 0
+        counter = 0
+        for lane in road.LanePoints:
+            if lane == closestLane:
+                index = counter
+                break
+            counter += 1
+            
+        return closestLane, index, road
+    
+    else:
+        return closestLane
 
 
 def OffsetPixelToBeInCenterOfTile(xy, mapX, mapY, ImgSize):
@@ -549,7 +621,7 @@ def FindClosestRoad(x, y, closestRoads):
     return closestRoad, closestRoadDistance
 
 lastClosestRoad = None
-def DrawVisualization(x, y, roadsWithin):
+def DrawVisualization(x, y, roadsWithin, data):
     global lastClosestRoad
     
     # Convert the x and y to pixel coordinates
@@ -691,9 +763,9 @@ def DrawVisualization(x, y, roadsWithin):
     
     if closestRoad == None:
         cv2.putText(img, "Not on a road", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 2, cv2.LINE_AA) 
-    else:
-        steering = CalculateSteeringToCenterOfLane(x, y, closestLane)
-        cv2.putText(img, "Steering: " + str(round(steering, 2)), (10, 60), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 255, 0), 2, cv2.LINE_AA)
+    # else:
+    #     steering = CalculateSteeringToCenterOfLane(x, y, closestLane, data)
+    #     cv2.putText(img, "Steering: " + str(round(steering, 2)), (10, 60), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 255, 0), 2, cv2.LINE_AA)
     
     
     endTime = time.time()

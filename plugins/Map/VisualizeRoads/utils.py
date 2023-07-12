@@ -144,10 +144,10 @@ def GetRoadOffset(name):
         
     # It didn't exist so we create it
     with open(roadOffsetFile, "w") as f:
-        data["roads"][name] = 0
+        data["roads"][name] = [0,0]
         f.truncate(0)
         f.write(json.dumps(data, indent=4))
-        return 0
+        return [0,0]
     
     
 

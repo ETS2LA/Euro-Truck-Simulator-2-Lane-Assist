@@ -70,6 +70,7 @@ def plugin(data):
             angle = angle * 0.025 + data["last"]["api"]["angle"] * 0.975
         except: pass
         data["api"]["angle"] = angle
+        data["api"]["velocity"] = [dx, dy]
         
         lastY = y
         lastX = x
