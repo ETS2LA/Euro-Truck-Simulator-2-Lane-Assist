@@ -28,6 +28,7 @@ import os
 
 import plugins.Map.VisualizeRoads.main as VisualizeRoads
 import cv2
+from PIL import Image
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -52,6 +53,9 @@ def plugin(data):
         closestRoad = VisualizeRoads.FindClosestRoad(x, z, roads)[0]
         
         if closestRoad == None:
+            data["LaneDetection"] = {}
+            data["LaneDetection"]["difference"] = 0
+            data["frame"] = Image.new("RGB", (512*3, 512*3), (0,0,0))
             return data
         
         closestLane, index, road = VisualizeRoads.FindClosestLane(x, z, closestRoad.LanePoints, road=closestRoad)
@@ -59,7 +63,7 @@ def plugin(data):
         data["LaneDetection"] = {}
         data["LaneDetection"]["difference"] = steering
         
-        img = VisualizeRoads.DrawVisualization(x, z, roads, data)
+        img = VisualizeRoads.DrawVisualization(x, z, roads, closestRoad, closestLane)
         data["frame"] = img
         
         

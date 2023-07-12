@@ -22,7 +22,12 @@ class LoadingWindow:
     def __init__(self, text, master=None, progress=False):
         self.text = text
         self.progress = progress
-        self.root = tk.Toplevel(master)
+        
+        if master == None:
+            self.root = tk.Tk()
+        else:
+            self.root = tk.Toplevel(master)
+            
         self.root.title(text)
         self.root.resizable(False, False)
         self.root.geometry("300x80")
@@ -45,11 +50,12 @@ class LoadingWindow:
     def destroy(self):
         self.root.destroy()
 
-    def update(self, progress=False):
-        self.progress = progress
-        
+    def update(self, progress=False, text=False):
         if progress != False:
-            self.progress = ttk.Progressbar(self.root, orient="horizontal", length=200, mode="determinate", value=progress)
+            self.progress["value"] = progress
+        
+        if text != False:
+            self.label.config(text=text)
         
         self.root.update()
 
