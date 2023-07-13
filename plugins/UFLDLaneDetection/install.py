@@ -1,4 +1,5 @@
-requirements = ["numpy", "opencv-python", "onnxruntime", "onnx", "onnxruntime-gpu", "pycuda"]
+requirements = ["numpy", "opencv-python", "onnxruntime", "onnx", "onnxruntime-gpu"]
+secondRequirements = ["pycuda"]
 import os
 
 
@@ -7,6 +8,9 @@ import os
 def install():
     
     for requirement in requirements:
+        os.system("pip install " + requirement)
+        
+    for requirement in secondRequirements:
         os.system("pip install " + requirement)
         
     pass

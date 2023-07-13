@@ -12,7 +12,7 @@ PluginInfo = PluginInformation(
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
     exclusive="LaneDetection" # Will disable the other screen capture plugins
 )
 
