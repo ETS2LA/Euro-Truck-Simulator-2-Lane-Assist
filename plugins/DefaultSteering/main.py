@@ -76,7 +76,7 @@ def updateSettings():
     steeringAxis = verifySetting("DefaultSteering", "steeringAxis", 0)
     maximumControl = verifySetting("DefaultSteering", "maximumControl", 0.2)
     controlSmoothness = verifySetting("DefaultSteering", "smoothness", 8)
-    sensitivity = verifySetting("DefaultSteering", "sensitivity", 1)
+    sensitivity = verifySetting("DefaultSteering", "sensitivity", 0.4)
     offset = verifySetting("DefaultSteering", "offset", 0)
     gamepadMode = verifySetting("DefaultSteering", "gamepad", False)
     gamepadSmoothness = verifySetting("DefaultSteering", "gamepadSmoothness", 0.05)
