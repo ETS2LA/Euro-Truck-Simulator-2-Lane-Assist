@@ -5,3 +5,7 @@ lib
 log.txt
 plugins/UFLDLaneDetection/UFLD/models/*.onnx
 plugins/Map/VisualizeRoads/Roads.json
+venv/
+app/
+run.bat
+activate.bat

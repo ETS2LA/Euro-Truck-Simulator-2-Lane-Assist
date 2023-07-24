@@ -65,6 +65,7 @@ def updateSettings():
     global enableDisableKey
     global rightIndicatorKey
     global leftIndicatorKey
+    global useAPI
     
     try:
         wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "wheel", 0))
@@ -81,11 +82,13 @@ def updateSettings():
     gamepadMode = verifySetting("DefaultSteering", "gamepad", False)
     gamepadSmoothness = verifySetting("DefaultSteering", "gamepadSmoothness", 0.05)
     enableDisable = verifySetting("DefaultSteering", "enableDisable", 5)
+    useAPI = verifySetting("DefaultSteering", "useAPI", False)
     
     keyboard = verifySetting("DefaultSteering", "keyboard", False)
     enableDisableKey = verifySetting("DefaultSteering", "enableDisableKey", "n")
     rightIndicatorKey = verifySetting("DefaultSteering", "rightIndicatorKey", "e")
     leftIndicatorKey = verifySetting("DefaultSteering", "leftIndicatorKey", "q")
+    
     
 updateSettings()
 
@@ -135,8 +138,15 @@ def plugin(data):
         
     data["controller"] = {}
 
+    try:
+        data["api"]
+        apiAvailable = True
+    except:
+        apiAvailable = False
+
+
+    # Keyboard based control
     if keyboard:
-        
         try:
             speed = data["api"]["speed"]
             if speed < 0:
@@ -270,7 +280,8 @@ def plugin(data):
             print(ex)
             print("Most likely fix : change your indicator and or enable/disable buttons.")
             pass
-        
+    
+    # Controller based control
     else:
         try:
             enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
@@ -462,31 +473,62 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            helpers.MakeLabel(self.root, "General", 0, 0, font=("Robot", 12, "bold"))
-            self.offset = helpers.MakeComboEntry(self.root, "Steering Offset", "DefaultSteering", "offset", 1, 0, width=12, value=-0.2, isFloat=True)
-            self.smoothness = helpers.MakeComboEntry(self.root, "Smoothening", "DefaultSteering", "smoothness", 2, 0, width=12, value=8)
-            self.sensitivity = helpers.MakeComboEntry(self.root, "Sensitivity", "DefaultSteering", "sensitivity", 3, 0, width=12, value=0.6, isFloat=True)
-            self.maximumControl = helpers.MakeComboEntry(self.root, "Maximum Control", "DefaultSteering", "maximumControl", 4, 0, isFloat=True, width=12, value=0.2)
+            # Create a notebook 
+            notebook = ttk.Notebook(self.root)
+            notebook.pack(anchor="center", fill="both", expand=True)
             
-            helpers.MakeLabel(self.root, "Controller (indexes)", 5, 0, font=("Robot", 12, "bold"))
-            self.controller = helpers.MakeComboEntry(self.root, "Controller", "DefaultSteering", "controller", 6, 0, width=12, value=0)
-            self.steeringAxis = helpers.MakeComboEntry(self.root, "Steering Axis", "DefaultSteering", "steeringAxis", 7, 0, width=12, value=0)
-            self.enableDisable = helpers.MakeComboEntry(self.root, "Enable/Disable", "DefaultSteering", "enableDisable", 8, 0, width=12, value=5)
-            self.rightIndicator = helpers.MakeComboEntry(self.root, "Right Indicator", "DefaultSteering", "rightIndicator", 9, 0, width=12, value=13)
-            self.leftIndicator = helpers.MakeComboEntry(self.root, "Left Indicator", "DefaultSteering", "leftIndicator", 10, 0, width=12, value=14)
+            generalFrame = ttk.Frame(notebook)
+            generalFrame.pack()
+            controllerFrame = ttk.Frame(notebook)
+            controllerFrame.pack()
+            gamepadFrame = ttk.Frame(notebook)
+            gamepadFrame.pack()
+            keyboardFrame = ttk.Frame(notebook)
+            keyboardFrame.pack()
             
+            # Scuffed way to get the settings to be in the center
+            generalFrame.columnconfigure(0, weight=1)
+            generalFrame.columnconfigure(1, weight=1)
+            generalFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(generalFrame, "General", 0, 1, font=("Robot", 12, "bold"))
+            self.offset = helpers.MakeComboEntry(generalFrame, "Steering Offset", "DefaultSteering", "offset", 1, 1, width=12, value=-0.2, isFloat=True)
+            self.smoothness = helpers.MakeComboEntry(generalFrame, "Smoothening", "DefaultSteering", "smoothness", 2, 1, width=12, value=8)
+            self.sensitivity = helpers.MakeComboEntry(generalFrame, "Sensitivity", "DefaultSteering", "sensitivity", 3, 1, width=12, value=0.6, isFloat=True)
+            self.maximumControl = helpers.MakeComboEntry(generalFrame, "Maximum Control", "DefaultSteering", "maximumControl", 4, 1, isFloat=True, width=12, value=0.2)
+            self.useAPI = helpers.MakeCheckButton(generalFrame, "Use ETS2/ATS API", "DefaultSteering", "useAPI", 5, 1, width=15, default=False)
             
-            helpers.MakeLabel(self.root, "Gamepad", 0, 2, font=("Robot", 12, "bold"))
-            self.gamepad = helpers.MakeCheckButton(self.root, "Gamepad Mode", "DefaultSteering", "gamepad", 1, 2, width=15, default=True)
-            self.gamepadSmoothness = helpers.MakeComboEntry(self.root, "Gamepad Smoothness", "DefaultSteering", "gamepadSmoothness", 2, 2, isFloat=True, width=12, labelwidth=18, value=0.05)
+            controllerFrame.columnconfigure(0, weight=1)
+            controllerFrame.columnconfigure(1, weight=1)
+            controllerFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(controllerFrame, "Controller (indexes)", 5, 1, font=("Robot", 12, "bold"))
+            self.controller = helpers.MakeComboEntry(controllerFrame, "Controller", "DefaultSteering", "controller", 6, 1, width=12, value=0)
+            self.steeringAxis = helpers.MakeComboEntry(controllerFrame, "Steering Axis", "DefaultSteering", "steeringAxis", 7, 1, width=12, value=0)
+            self.enableDisable = helpers.MakeComboEntry(controllerFrame, "Enable/Disable", "DefaultSteering", "enableDisable", 8, 1, width=12, value=5)
+            self.rightIndicator = helpers.MakeComboEntry(controllerFrame, "Right Indicator", "DefaultSteering", "rightIndicator", 9, 1, width=12, value=13)
+            self.leftIndicator = helpers.MakeComboEntry(controllerFrame, "Left Indicator", "DefaultSteering", "leftIndicator", 10, 1, width=12, value=14)
             
-            helpers.MakeLabel(self.root, "Keyboard", 3, 2, font=("Robot", 12, "bold"))
-            self.keyboard = helpers.MakeCheckButton(self.root, "Keyboard Mode", "DefaultSteering", "keyboard", 4, 2, width=15, default=False)
-            self.enableDisableKey = helpers.MakeComboEntry(self.root, "Enable/Disable Key", "DefaultSteering", "enableDisableKey", 5, 2, width=12, value="n", isString=True)
-            self.rightIndicatorKey = helpers.MakeComboEntry(self.root, "Right Indicator Key", "DefaultSteering", "rightIndicatorKey", 6, 2, width=12, value="e", isString=True)
-            self.leftIndicatorKey = helpers.MakeComboEntry(self.root, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 2, width=12, value="q", isString=True)
+            gamepadFrame.columnconfigure(0, weight=1)
+            gamepadFrame.columnconfigure(1, weight=1)
+            gamepadFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(gamepadFrame, "Gamepad", 0, 1, font=("Robot", 12, "bold"))
+            self.gamepad = helpers.MakeCheckButton(gamepadFrame, "Gamepad Mode", "DefaultSteering", "gamepad", 1, 1, width=15, default=True)
+            self.gamepadSmoothness = helpers.MakeComboEntry(gamepadFrame, "Gamepad Smoothness", "DefaultSteering", "gamepadSmoothness", 2, 1, isFloat=True, width=12, labelwidth=18, value=0.05)
             
-            helpers.MakeButton(self.root, "Save", self.save, 11, 0, width=12, center=True)
+            keyboardFrame.columnconfigure(0, weight=1)
+            keyboardFrame.columnconfigure(1, weight=1)
+            keyboardFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(keyboardFrame, "Keyboard", 3, 1, font=("Robot", 12, "bold"))
+            self.keyboard = helpers.MakeCheckButton(keyboardFrame, "Keyboard Mode", "DefaultSteering", "keyboard", 4, 1, width=15, default=False)
+            self.enableDisableKey = helpers.MakeComboEntry(keyboardFrame, "Enable/Disable Key", "DefaultSteering", "enableDisableKey", 5, 1, width=12, value="n", isString=True)
+            self.rightIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Right Indicator Key", "DefaultSteering", "rightIndicatorKey", 6, 1, width=12, value="e", isString=True)
+            self.leftIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 1, width=12, value="q", isString=True)
+            
+            notebook.add(generalFrame, text="General")
+            notebook.add(controllerFrame, text="Controller")
+            notebook.add(gamepadFrame, text="Gamepad")
+            notebook.add(keyboardFrame, text="Keyboard")
+            
+            ttk.Button(self.root, text="Save", command=self.save, width=20).pack(anchor="center", pady=10)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
