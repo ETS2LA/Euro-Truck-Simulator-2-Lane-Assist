@@ -27,7 +27,12 @@ class LSTR():
     def initialize_model(self, model_path, use_gpu=True):
 
         if use_gpu:
-            self.session = onnxruntime.InferenceSession(model_path, providers=['CUDAExecutionProvider', 'TensorrtExecutionProvider'])
+            try:
+                self.session = onnxruntime.InferenceSession(model_path, providers=['CUDAExecutionProvider', 'TensorrtExecutionProvider'])
+                print("ONNX Runtime with CUDA support found, using GPU")
+            except:
+                self.session = onnxruntime.InferenceSession(model_path, providers=['CUDAExecutionProvider'])
+                print("ONNX Runtime with CUDA support not found, using CPU instead")
         else:
             self.session = onnxruntime.InferenceSession(model_path, providers=['CPUExecutionProvider'])
 

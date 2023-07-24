@@ -81,24 +81,6 @@ def print(text):
     # Can't use print() because it will cause an infinite loop
     sys.stdout.write(message)
     
-    # Handle installing new requirements for plugins
-    if "No module named" in message:
-        from tkinter import messagebox
-        import src.settings as settings
-        
-        ignoreList = settings.GetSettings("Plugins", "Ignore")
-        if ignoreList == None:
-            settings.CreateSettings("Plugins", "Ignore", "EvdevController," if os.name != "nt" else "DXCamScreenCapture,")
-            ignoreList = settings.GetSettings("Plugins", "Ignore") 
-        
-        
-        for ignore in ignoreList:
-            if ignore.lower() in message.lower():
-                return
-        
-        if messagebox.askokcancel("Install?", "Detected missing dependency for a plugin ({}). Do you want to install it?\nRemember that a restart is necessary after installing!".format(message.split("'")[1])):
-            os.system("pip install {}".format(message.split("'")[1]))
-    
     
     
 print("Logger initialized!")

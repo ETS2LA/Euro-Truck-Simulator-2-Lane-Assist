@@ -60,7 +60,7 @@ def load_model(model_name, use_gpu=False):
         # Load model
         dir = variables.PATH + "/plugins/LSTRLaneDetection"
         print("There might be two error messages following this note, ignore them if you are not trying to get GPU acceleration to work.")
-        print("Use the following link to set it up https://onnxruntime.ai/docs/tutorials/csharp/csharp-gpu.html")
+        print("Use the following link to set it up https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements")
         model = LSTR(model_type, dir + "/models/" + model_name, use_gpu=use_gpu)
         return True
     except Exception as e:
@@ -115,7 +115,7 @@ def plugin(data):
             modelName = settings.GetSettings("LSTR", "Model")
             if modelName == None:
                 modelName = discover_models()[0]
-            print("Model successful: " + str(load_model(modelName, use_gpu=False)))
+            print("Model successful: " + str(load_model(modelName, use_gpu=True)))
             
         if model is not None:
             points, ids, difference = detect_lanes(frame)
