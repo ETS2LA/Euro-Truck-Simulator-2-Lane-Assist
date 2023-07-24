@@ -100,7 +100,8 @@ def update(data):
         
     try:
         ui.update(data)
-    except:
+    except Exception as ex:
+        print(ex)
         pass
 
     try:

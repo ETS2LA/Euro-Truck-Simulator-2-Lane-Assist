@@ -507,6 +507,12 @@ class UI():
             self.rightIndicator = helpers.MakeComboEntry(controllerFrame, "Right Indicator", "DefaultSteering", "rightIndicator", 9, 1, width=12, value=13)
             self.leftIndicator = helpers.MakeComboEntry(controllerFrame, "Left Indicator", "DefaultSteering", "leftIndicator", 10, 1, width=12, value=14)
             
+            self.joysticks = pygame.joystick.get_count()
+            self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
+            
+            helpers.MakeLabel(controllerFrame, "Pressed Controller Buttons: ", 11, 1)
+            self.pressedControllerButtons = helpers.MakeLabel(controllerFrame, "", 12, 1)
+            
             gamepadFrame.columnconfigure(0, weight=1)
             gamepadFrame.columnconfigure(1, weight=1)
             gamepadFrame.columnconfigure(2, weight=1)
@@ -532,6 +538,7 @@ class UI():
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
+            
         
         def save(self):
             settings.CreateSettings("DefaultSteering", "offset", self.offset.get())
@@ -552,8 +559,20 @@ class UI():
             updateSettings()
             
         
-        def update(self): # When the panel is open this function is called each frame 
+        def update(self, data): # When the panel is open this function is called each frame 
+            pygame.event.pump()
+            try:
+                value = ""
+                for i in range(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_numbuttons()):
+                    if self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_button(i):
+                        value += (" Button " + str(i))
+                self.pressedControllerButtons.set(value)
+            except Exception as ex:
+                print(ex) 
+                pass
+            
             self.root.update()
+            
     
     
     except Exception as ex:
