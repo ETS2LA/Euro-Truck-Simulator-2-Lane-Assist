@@ -270,7 +270,7 @@ def install():
     if not os.path.exists("run.bat"):
         with open("run.bat", "w") as f:
             dir = os.path.dirname(os.path.realpath(__file__))
-            f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & {dir}/venv/Scripts/python main.py & pause"')
+            f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & {dir}/venv/Scripts/python main.py" & pause & exit')
             print("Created run.bat, to run the app easier.")
 
     button.configure(text="Run", command=runApp)
