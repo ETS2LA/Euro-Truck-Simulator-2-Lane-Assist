@@ -58,6 +58,9 @@ def print(text):
         sys.stdout.write(f"[{date}] [-> {times}]\r")
         return
     else:
+        if times > 0:
+            with open("log.txt", "a") as f:
+                f.write("[-> {}]".format(times))
         times = 0
         lastMsg = message
         message = f"[{date}] " + message 
@@ -70,7 +73,10 @@ def print(text):
         raise Exception("Usually you have a problem if the log file is this big!")
     
     with open("log.txt", "a") as f:
-        f.write(message)
+        fileMessage = message
+        # Remove the color tags from the message so that the file is easier to read
+        fileMessage = fileMessage.replace(GREEN, "").replace(YELLOW, "").replace(NORMAL, "").replace(BLUE, "").replace(RED, "")
+        f.write(fileMessage)
     
     # Can't use print() because it will cause an infinite loop
     sys.stdout.write(message)
