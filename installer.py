@@ -277,7 +277,7 @@ def install():
 
 
 branch = tk.StringVar()
-branch.set("v2.0-rewrite")
+branch.set("main")
 branchObject = ctk.CTkEntry(root, textvariable=branch, width=200)
 branchObject.pack(pady=0)
 
