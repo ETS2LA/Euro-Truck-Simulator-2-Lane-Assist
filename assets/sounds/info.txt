@@ -1,0 +1,6 @@
+Mp3 = Tesla Autopilot Sounds
+
+Autopilot sounds were obtained from here : 
+https://drive.google.com/file/d/0BwFeJYgYUfopWmxMa25qS3hLeE0/view?resourcekey=0-2u3zoFfJs508Nt5HYh8TSQ
+
+You can safely just override them with your own sounds if you'd like.

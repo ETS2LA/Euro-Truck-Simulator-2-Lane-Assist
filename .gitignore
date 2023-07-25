@@ -1,2 +1,12 @@
-*.pyc
-*.pth
+profiles/*.json
+.vscode
+**/__pycache__
+lib
+log.txt
+plugins/UFLDLaneDetection/UFLD/models/*.onnx
+plugins/Map/VisualizeRoads/Roads.json
+venv/
+app/
+run.bat
+activate.bat
+src/NVIDIA/*.dll

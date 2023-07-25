@@ -1,13 +1,6 @@
 opencv-python
-sklearn
-pillow
-matplotlib
 numpy
-mss
-tk
-vgamepad
-pygame
-dxcam
-logitech-steering-wheel
-pygetwindow
-streamlit
+sv_ttk
+psutil
+playsound
+scipy

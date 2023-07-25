@@ -1,0 +1,155 @@
+from src.logger import print
+
+'''
+This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements.
+'''
+
+import time
+import tkinter as tk
+from tkinter import ttk, messagebox
+import sv_ttk
+import src.helpers as helpers
+from tkinter import font
+import src.variables as variables
+from src.loading import LoadingWindow
+from src.logger import print
+import src.settings as settings
+
+width = 800
+height = 600
+
+root = tk.Tk()
+root.title("Lane Assist")
+
+
+root.resizable(False, False)
+root.geometry(f"{width}x{height}")
+root.protocol("WM_DELETE_WINDOW", lambda: quit())
+
+try:
+    sv_ttk.set_theme(settings.GetSettings("User Interface", "Theme"))
+except:
+    sv_ttk.set_theme("dark")
+
+
+# Bottom text
+ttk.Label(root, text="ETS2 Lane Assist   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+fps = tk.StringVar()
+ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+
+# Left button bar
+buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
+buttonFrame.pack_propagate(0)
+buttonFrame.grid_propagate(0)
+
+
+# Plugin frame
+buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
+pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
+pluginFrame.pack_propagate(0)
+pluginFrame.grid_propagate(0)
+
+pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
+
+root.update()
+
+
+def quit():
+    global root
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        # Destroy the root window
+        root.destroy()
+        del root
+
+def drawButtons():
+    global enableButton
+    global themeButton
+    
+    for child in pluginFrame.winfo_children():
+        child.destroy()
+        
+    for child in buttonFrame.winfo_children():
+        child.destroy()
+    
+    helpers.MakeButton(pluginFrame, "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
+    helpers.MakeButton(pluginFrame, "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
+    helpers.MakeButton(pluginFrame, "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
+    enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Stop" if variables.ENABLELOOP else "Start"))), 0, 0, width=11, padx=10, style="Accent.TButton")
+    helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=11, padx=10)
+    helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=11, padx=10)
+    helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=11, padx=10)
+    helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=11, padx=10)
+    helpers.MakeButton(buttonFrame, "About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=11, padx=10)
+    themeButton = helpers.MakeButton(buttonFrame, sv_ttk.get_theme().capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=11, padx=10)
+
+# Bind F5 to drawButtons
+root.bind("<F5>", lambda e: drawButtons())
+
+prevFrame = 100
+def update(data):
+    global fps
+    global prevFrame
+    global ui
+    
+    # Calculate the UI caused overhead
+    frame = time.time()
+    try:
+        fps.set(f"UI FPS: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)")
+    except: pass
+    prevFrame = frame
+        
+    try:
+        ui.update(data)
+    except Exception as ex:
+        print(ex)
+        pass
+
+    try:
+        root.update()
+    except:
+        raise Exception("The main window has been closed.", "If you closed the app this is normal.")
+    
+    
+def switchSelectedPlugin(pluginName):
+    global pluginFrame
+    global ui
+    global root
+    
+    plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
+    
+    if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
+        if messagebox.askokcancel("Plugins", "The panel has asked to disable all plugins. Do you want to continue?"):
+            settings.CreateSettings("Plugins", "Enabled", [])
+            variables.UpdatePlugins()
+            
+        else: return
+        
+    if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
+        if messagebox.askokcancel("Plugins", "The panel has asked to disable the mainloop. Do you want to continue?"):
+            variables.ToggleEnable()
+            enableButton.config(text=("Stop" if variables.ENABLELOOP else "Start"))
+        
+        else: return
+        
+    try:
+        pluginFrame.destroy()
+    except:
+        pass
+    
+    pluginFrame = ttk.LabelFrame(root, text=pluginName.split(".")[1], width=width, height=height-20)
+    pluginFrame.pack_propagate(0)
+    pluginFrame.grid_propagate(0)
+    
+    
+    ui = plugin.UI(pluginFrame)
+    pluginFrame.pack(side="left", anchor="n", padx=10, pady=10, expand=True)
+    
+    print("Loaded " + pluginName)
+    
+def changeTheme():
+    global themeButton
+    #loading = LoadingWindow("Changing theme...", root)
+    sv_ttk.toggle_theme()
+    settings.CreateSettings("User Interface", "Theme", sv_ttk.get_theme())
+    themeButton.config(text=sv_ttk.get_theme().capitalize() + " Mode")
+    #loading.destroy()
