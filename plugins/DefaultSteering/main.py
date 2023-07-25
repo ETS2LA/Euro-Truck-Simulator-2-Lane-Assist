@@ -507,9 +507,9 @@ class UI():
             self.rightIndicator = helpers.MakeComboEntry(controllerFrame, "Right Indicator", "DefaultSteering", "rightIndicator", 9, 1, width=12, value=13)
             self.leftIndicator = helpers.MakeComboEntry(controllerFrame, "Left Indicator", "DefaultSteering", "leftIndicator", 10, 1, width=12, value=14)
             # Make a slider to show the current axis value
-            helpers.MakeLabel(controllerFrame, "Steering Axis Value: ", 11, 0, columnspan=3)
-            self.slider = tk.Scale(controllerFrame, from_=-1, to=1, orient="horizontal", length=200, resolution=0.01)
-            self.slider.grid(row=12, column=0, columnspan=3)
+            helpers.MakeLabel(controllerFrame, "Steering Axis Value: ", 11, 0, columnspan=3, pady=0)
+            self.slider = tk.Scale(controllerFrame, from_=-1, to=1, orient="horizontal", length=500, resolution=0.01)
+            self.slider.grid(row=12, column=0, columnspan=3, pady=0)
             
             self.joysticks = pygame.joystick.get_count()
             self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
