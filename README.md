@@ -1,6 +1,8 @@
 **THE REWRITE IS DONE**
 
 Discord: https://discord.gg/DpJpkNpqwD
+Youtube: https://www.youtube.com/@tumppi066
+Wiki: https://wiki.tumppi066.xyz/en/LaneAssist (NOT EVEN CLOSE TO READY)
 
 ### Progress
 
