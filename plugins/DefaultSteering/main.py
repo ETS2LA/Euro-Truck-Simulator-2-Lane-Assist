@@ -506,12 +506,16 @@ class UI():
             self.enableDisable = helpers.MakeComboEntry(controllerFrame, "Enable/Disable", "DefaultSteering", "enableDisable", 8, 1, width=12, value=5)
             self.rightIndicator = helpers.MakeComboEntry(controllerFrame, "Right Indicator", "DefaultSteering", "rightIndicator", 9, 1, width=12, value=13)
             self.leftIndicator = helpers.MakeComboEntry(controllerFrame, "Left Indicator", "DefaultSteering", "leftIndicator", 10, 1, width=12, value=14)
+            # Make a slider to show the current axis value
+            helpers.MakeLabel(controllerFrame, "Steering Axis Value: ", 11, 0, columnspan=3)
+            self.slider = tk.Scale(controllerFrame, from_=-1, to=1, orient="horizontal", length=200, resolution=0.01)
+            self.slider.grid(row=12, column=0, columnspan=3)
             
             self.joysticks = pygame.joystick.get_count()
             self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
             
-            helpers.MakeLabel(controllerFrame, "Pressed Controller Buttons: ", 11, 0, columnspan=3)
-            self.pressedControllerButtons = helpers.MakeLabel(controllerFrame, "", 12, 0, columnspan=3)
+            helpers.MakeLabel(controllerFrame, "Pressed Controller Buttons: ", 13, 0, columnspan=3)
+            self.pressedControllerButtons = helpers.MakeLabel(controllerFrame, "", 14, 0, columnspan=3)
             
             gamepadFrame.columnconfigure(0, weight=1)
             gamepadFrame.columnconfigure(1, weight=1)
@@ -567,6 +571,9 @@ class UI():
                     if self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_button(i):
                         value += (" Button " + str(i))
                 self.pressedControllerButtons.set(value)
+                
+                self.slider.set(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_axis(settings.GetSettings("DefaultSteering", "steeringAxis")))
+                
             except Exception as ex:
                 print(ex) 
                 pass
