@@ -1,4 +1,4 @@
-**THE REWRITE IS DONE**
+### Links
 
 Discord: https://discord.gg/DpJpkNpqwD
 
@@ -8,47 +8,48 @@ Wiki: https://wiki.tumppi066.xyz/en/LaneAssist (NOT EVEN CLOSE TO READY)
 
 ![LaneAssistLogoWide](https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/assets/83072683/8956c6b0-cfa6-44bc-95b4-77fb4d48dbd9)
 
-### Progress
+### About
 
-- [x] Plugin support for UI
-  - [x] Implement UI helpers for plugins for consistent style (sv_ttk coming in clutch)
-  - [x] Load the plugin canvas
-  - [x] Update open plugin on each loop
-  - [x] Create "plugins.FirstTimeSetup" as a test
-- [x] Implement constantly running plugins (currently working on this)
-  - [x] Add dynamic tags to PluginInformation (before lanes/steering/game/app update)
-  - [x] Implement UI for toggling different plugins
-  - [ ] Depending on needs make it so you can change the execution order
-  - [x] Run all "enabled" plugins on each loop
-  - [x] Make sure that many plugins of the same "category" are not enabled (for example 2 lane detection models)
-- [x] Implement cross plugin data (to be passed on each plugin update)
-- [x] Remake basic functionality as plugins
-  - [x] Image capture
-  - [x] Lane detection (WOO IT WORKS)
-  - [x] Steering
-  - [x] Controller support
-  - [ ] Game support (API) -> This is going to be done by [Cloud](https://github.com/Cloud-121) at some point!
-- [x] Start adding all other features from LSTR-Development
-- [x] Release v1.0 (yes the branch name is wrong)
-- [ ] Future development (now as plugins, YAY)
+What is this app?
+1. It was created for automatic driving in ETS2 and ATS. Right now it can stay in between the lanes.
+2. Along the way I developed it to a complete plugin based application for sending information to and from ETS2 and ATS
+    - This means that you can create your own plugins for the app, even if they are not related to driving.
+    - It also means that development of future versions is easier and modular.
 
-### Goals
+### What does it look like in action?
 
-Why did I suddenly start rewriting the app instead of focusing on new features? 
-Well the most important goal is to make a cohesive and easy to use codebase. The current LSTR-Development version is full of spaghetti code that even I can't understand after half a year.
-With the new rewrite I'm aiming to make everything as modular as possible so that new features can be easily implemented. In essence: 
-```
-Development goals for v1.0 :
-- Create a cohesive codebase that is very easy to add to
-- Implement all possible features as plugins
-  - Allow users to create these plugins by creating a documentation site
-  - Allow users to download plugins automatically from github.
-- Implement superior performance by optimizing screen capture and decoupling the UI from the rest of the application
-- Implement some sort of OSD, so that changing settings on the fly is as easy as possible.
-- Create a trailer before release and create a new and improved downloader (already done for LSTR-Development).
-- Have the first time user experience improved.
-```
-All this is born with one goal in mind; have the community help with development.
+You can see the older [video](https://www.youtube.com/watch?v=oHBFTHrOqCU).
+Or a part of the installation [video](https://youtu.be/ILLqHix_D8o?t=518)
 
-### Can I help. How about developing plugins?
-If you want to help with development, then the easiest way is to reach out to me on discord (@tumppi066) and we'll talk about the easiest way to get you involved!
+
+### How to use and install?
+
+You can watch the latest installation video. Installation takes about 20 minutes. And then about 10 to tune in your own values.
+
+### How to update?
+
+You can run the update.bat script or go into `app/` and run `git pull`.
+
+### How to contribute?
+
+You can contribute by creating issues and pull requests. You can also contribute by creating plugins for the app.
+The plugin infrastructure is going to get documentation in the future (see [Wiki](https://wiki.tumppi066.xyz/en/LaneAssist)).
+
+For now you should be able to learn enough from the example plugin and panel (`app/plugins/Examples/`)
+
+### I have issues / suggestions.
+
+Please join the discord. 
+
+### I want to support you.
+
+You can contact me and we can discuss it. I am not keen on accepting support since I feel like that would mandate me to continue development.
+I will focus on school first then the app.
+
+### I want to use your app in my own app.
+
+The license does indeed allow you to do that. As long as you keep all the copyright notices in place. Despite this I would appreciate if you did at least tell me about it. I'm eager to help anyone wanting to use my code and I will share my knowledge.
+
+In addition it would be beneficial if you made a plugin instead of just copying the code. This way you can update the plugin without having to update the whole app.
+To add to this I will implement all "base" features you want (for example more UI shortcuts etc...).
+
