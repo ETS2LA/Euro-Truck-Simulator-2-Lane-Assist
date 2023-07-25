@@ -6,6 +6,16 @@ import numpy as np
 import onnx
 import onnxruntime
 import shutil
+import src.variables as variables
+
+# This will temporarily add the NVIDIA CUDA libraries to the system path
+
+nvidiaPath = "src/NVIDIA"
+nvidiaPath = os.path.join(variables.PATH, nvidiaPath)
+
+os.environ["PATH"] = nvidiaPath
+
+
 # from google_drive_downloader import GoogleDriveDownloader as gdd
 
 lane_colors = [(68,65,249),(44,114,243),(30,150,248),(74,132,249),(79,199,249),(109,190,144),(142, 144, 77),(161, 125, 39)]

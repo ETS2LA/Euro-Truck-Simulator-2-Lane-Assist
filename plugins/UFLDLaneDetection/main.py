@@ -4,6 +4,7 @@ If you need to make a panel that is only updated when it's open then check the P
 """
 from plugins.plugin import PluginInformation
 
+
 PluginInfo = PluginInformation(
     name="UFLDLaneDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     description="Most credit goes to jason-li-831202 for his\nVehicle-CV-ADAS repository.\nHe did most of the work, I just made it work in ETS2.",
@@ -30,6 +31,13 @@ import os
 
 import cv2
 import numpy as np
+
+# This will temporarily add the NVIDIA CUDA libraries to the system path
+
+nvidiaPath = "src/NVIDIA"
+nvidiaPath = os.path.join(variables.PATH, nvidiaPath)
+
+os.environ["PATH"] = nvidiaPath
 
 def ProcessFrame(data):
     image = data["frame"]

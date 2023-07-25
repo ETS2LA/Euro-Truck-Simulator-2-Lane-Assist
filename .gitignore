@@ -9,3 +9,4 @@ venv/
 app/
 run.bat
 activate.bat
+src/NVIDIA/*.dll

@@ -28,6 +28,7 @@ import numpy as np
 
 
 model = None
+useGPU = True
 
 # LSTR model types
 class ModelType(Enum):
@@ -47,7 +48,8 @@ def discover_models():
 
     return models
 
-def load_model(model_name, use_gpu=False):
+def load_model(model_name):
+    global useGPU
     try:
         global model
         # Discover model type
@@ -61,10 +63,11 @@ def load_model(model_name, use_gpu=False):
         dir = variables.PATH + "/plugins/LSTRLaneDetection"
         print("There might be two error messages following this note, ignore them if you are not trying to get GPU acceleration to work.")
         print("Use the following link to set it up https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements")
-        model = LSTR(model_type, dir + "/models/" + model_name, use_gpu=use_gpu)
+        model = LSTR(model_type, dir + "/models/" + model_name, use_gpu=useGPU)
         return True
     except Exception as e:
         print("Error loading model: " + str(e))
+        useGPU = False
         return False
     
 def detect_lanes(image, draw_points=False, draw_poly=False, color=(255,191,0)):
@@ -115,7 +118,7 @@ def plugin(data):
             modelName = settings.GetSettings("LSTR", "Model")
             if modelName == None:
                 modelName = discover_models()[0]
-            print("Model successful: " + str(load_model(modelName, use_gpu=True)))
+            print("Model successful: " + str(load_model(modelName)))
             
         if model is not None:
             points, ids, difference = detect_lanes(frame)
