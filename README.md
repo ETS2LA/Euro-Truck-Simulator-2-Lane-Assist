@@ -6,6 +6,8 @@ Youtube: https://www.youtube.com/@tumppi066
 
 Wiki: https://wiki.tumppi066.xyz/en/LaneAssist (NOT EVEN CLOSE TO READY)
 
+![LaneAssistLogoWide](https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/assets/83072683/8956c6b0-cfa6-44bc-95b4-77fb4d48dbd9)
+
 ### Progress
 
 - [x] Plugin support for UI
