@@ -21,6 +21,7 @@ import src.settings as settings
 import os
 from PIL import Image, ImageTk
 
+
 class UI():
     try:
         def findPlugins(self):

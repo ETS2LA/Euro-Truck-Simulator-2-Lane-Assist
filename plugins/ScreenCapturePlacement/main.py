@@ -24,6 +24,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
+import screeninfo
 
 def CreateWindow(x,y,w,h):
     global root
@@ -98,7 +99,12 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            helpers.MakeButton(self.root, "Enable Picker", lambda: CreateWindow(100,100,1280,720), 0,0, padx=10, pady=10, width=15)
+            # Get the screen size
+            screen = screeninfo.get_monitors()[0]
+            height = int(screen.height / 2)
+            width = int(height * 16 / 9)
+            
+            helpers.MakeButton(self.root, "Enable Picker", lambda: CreateWindow(100,100,width, height), 0,0, padx=10, pady=10, width=15)
             helpers.MakeLabel(self.root, "Set this to your screencapture category (default 'dxcam'):", 1,0, font=("Roboto", 8), padx=30, pady=10)
             
             entryVar = tk.StringVar()

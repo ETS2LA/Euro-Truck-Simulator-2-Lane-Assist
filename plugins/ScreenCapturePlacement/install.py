@@ -1,4 +1,4 @@
-requirements = []
+requirements = ["screeninfo"]
 import os
 
 
