@@ -1,4 +1,4 @@
-requirements = ["numpy", "opencv-python", "onnxruntime", "onnx", "onnxruntime-gpu"]
+requirements = ["numpy", "opencv-python", "onnxruntime", "onnx"]
 import os
 
 
