@@ -1,8 +1,6 @@
-ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
+**THE REWRITE IS DONE**
 
-**THIS BRANCH HAS ACHIEVED CONTENT PARITY WITH LSTR-Development**
-
-> It is now possible to run this app instead of LSTR-Development, with the same results!
+Discord: https://discord.gg/DpJpkNpqwD
 
 ### Progress
 
@@ -25,7 +23,7 @@ ETA is the end of summer. Keep in mind I have other projects too! (16/6/2023)
   - [x] Controller support
   - [ ] Game support (API) -> This is going to be done by [Cloud](https://github.com/Cloud-121) at some point!
 - [x] Start adding all other features from LSTR-Development
-- [ ] Release v1.0 (yes the branch name is wrong)
+- [x] Release v1.0 (yes the branch name is wrong)
 - [ ] Future development (now as plugins, YAY)
 
 ### Goals
@@ -47,6 +45,4 @@ Development goals for v1.0 :
 All this is born with one goal in mind; have the community help with development.
 
 ### Can I help. How about developing plugins?
-Well v1.0 is still under **heavy** development, but the main UI framework is there.
-
 If you want to help with development, then the easiest way is to reach out to me on discord (@tumppi066) and we'll talk about the easiest way to get you involved!
