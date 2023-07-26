@@ -74,7 +74,7 @@ def drawButtons():
     helpers.MakeButton(pluginFrame, "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
     helpers.MakeButton(pluginFrame, "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
     helpers.MakeButton(pluginFrame, "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
-    enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Stop" if variables.ENABLELOOP else "Start"))), 0, 0, width=10, padx=9, style="Accent.TButton")
+    enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
     helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=10, padx=9)
