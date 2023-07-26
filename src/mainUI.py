@@ -127,7 +127,7 @@ def switchSelectedPlugin(pluginName):
     if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
         if messagebox.askokcancel("Plugins", "The panel has asked to disable the mainloop. Do you want to continue?"):
             variables.ToggleEnable()
-            enableButton.config(text=("Stop" if variables.ENABLELOOP else "Start"))
+            enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))
         
         else: return
         
