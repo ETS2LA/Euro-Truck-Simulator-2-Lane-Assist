@@ -21,9 +21,13 @@ class PluginInformation():
         
         dynamicOrder (str) (if dynamic): Select at which state the plugin is run
                 >>> "before image capture"
+                >>> "image capture"
                 >>> "before lane detection"
+                >>> "lane detection"
                 >>> "before controller"
+                >>> "controller"
                 >>> "before game"
+                >>> "game"
                 >>> "before UI"
                 >>> "last" (reserved for fps limiter, other plugins may make it less accurate)
         

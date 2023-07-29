@@ -7,6 +7,14 @@ try :
 except :
 	from .utils import LaneModelType, OffsetType, lane_colors, tusimple_row_anchor, culane_row_anchor
 
+# This will temporarily add the NVIDIA CUDA libraries to the system path
+import os
+
+nvidiaPath = "src/NVIDIA"
+nvidiaPath = os.path.join(variables.PATH, nvidiaPath)
+
+os.environ["PATH"] = nvidiaPath
+
 def _softmax(x) :
 	exp_x = np.exp(x)
 	return exp_x/np.sum(exp_x)
