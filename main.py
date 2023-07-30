@@ -5,7 +5,7 @@ The main file that runs the programs loop.
 # Load the UI framework
 import src.mainUI as mainUI
 import src.loading as loading # And then create a loading window
-loadingWindow = loading.LoadingWindow("Please wait initializing...", mainUI.root)
+loadingWindow = loading.LoadingWindow("Please wait initializing...")
 
 
 # Load the rest of the modules
@@ -181,8 +181,10 @@ def InstallPlugins():
 InstallPlugins()
 
 # Load all plugins 
+loadingWindow.update(text="Loading plugins...")
 GetEnabledPlugins()
 FindPlugins()
+loadingWindow.update(text="Initializing plugins...")
 RunOnEnable()
 
 # We've loaded all necessary modules
