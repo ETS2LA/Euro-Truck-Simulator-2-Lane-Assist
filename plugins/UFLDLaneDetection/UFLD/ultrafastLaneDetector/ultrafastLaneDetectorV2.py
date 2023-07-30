@@ -9,6 +9,7 @@ except :
 
 # This will temporarily add the NVIDIA CUDA libraries to the system path
 import os
+import src.variables as variables
 
 nvidiaPath = "src/NVIDIA"
 nvidiaPath = os.path.join(variables.PATH, nvidiaPath)
