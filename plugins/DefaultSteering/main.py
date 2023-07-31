@@ -237,11 +237,9 @@ def plugin(data):
                 
             except Exception as ex:
                 print(ex)
-                print("Most likely fix : change your indicator and or enable/disable buttons.")
                 pass
         except Exception as ex:
             print(ex)
-            print("Most likely fix : change your indicator and or enable/disable buttons.")
             pass
     
     # Controller based control
@@ -427,18 +425,28 @@ class UI():
             controllerFrame.columnconfigure(1, weight=1)
             controllerFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(controllerFrame, "Controller (indexes)", 5, 0, font=("Robot", 12, "bold"), columnspan=3)
-            self.controller = helpers.MakeComboEntry(controllerFrame, "Controller", "DefaultSteering", "controller", 6, 1, width=12, value=0)
+            
+            # List of controllers
+            pygame.event.pump()
+
+            self.joysticks = pygame.joystick.get_count()
+            self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
+            
+            self.listVariable = tk.StringVar(controllerFrame)
+            self.listVariable.set([j.get_name() for j in self.joysticks])
+            
+            self.list = tk.Listbox(controllerFrame, width=50, height=4, listvariable=self.listVariable, selectmode="single")
+            self.list.grid(row=6, column=0, columnspan=3, padx=30, pady=10)
+            
+            
             self.steeringAxis = helpers.MakeComboEntry(controllerFrame, "Steering Axis", "DefaultSteering", "steeringAxis", 7, 1, width=12, value=0)
             self.enableDisable = helpers.MakeComboEntry(controllerFrame, "Enable/Disable", "DefaultSteering", "enableDisable", 8, 1, width=12, value=5)
-            self.rightIndicator = helpers.MakeComboEntry(controllerFrame, "Right Indicator", "DefaultSteering", "rightIndicator", 9, 1, width=12, value=13)
-            self.leftIndicator = helpers.MakeComboEntry(controllerFrame, "Left Indicator", "DefaultSteering", "leftIndicator", 10, 1, width=12, value=14)
+            # self.rightIndicator = helpers.MakeComboEntry(controllerFrame, "Right Indicator", "DefaultSteering", "rightIndicator", 9, 1, width=12, value=13)
+            # self.leftIndicator = helpers.MakeComboEntry(controllerFrame, "Left Indicator", "DefaultSteering", "leftIndicator", 10, 1, width=12, value=14)
             # Make a slider to show the current axis value
             helpers.MakeLabel(controllerFrame, "Steering Axis Value: ", 11, 0, columnspan=3, pady=0)
             self.slider = tk.Scale(controllerFrame, from_=-1, to=1, orient="horizontal", length=500, resolution=0.01)
             self.slider.grid(row=12, column=0, columnspan=3, pady=0)
-            
-            self.joysticks = pygame.joystick.get_count()
-            self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
             
             helpers.MakeLabel(controllerFrame, "Pressed Controller Buttons: ", 13, 0, columnspan=3)
             self.pressedControllerButtons = helpers.MakeLabel(controllerFrame, "", 14, 0, columnspan=3)
@@ -456,8 +464,8 @@ class UI():
             helpers.MakeLabel(keyboardFrame, "Keyboard", 3, 0, font=("Robot", 12, "bold"), columnspan=3)
             self.keyboard = helpers.MakeCheckButton(keyboardFrame, "Keyboard Mode", "DefaultSteering", "keyboard", 4, 1, width=15, default=False)
             self.enableDisableKey = helpers.MakeComboEntry(keyboardFrame, "Enable/Disable Key", "DefaultSteering", "enableDisableKey", 5, 1, width=12, value="n", isString=True)
-            self.rightIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Right Indicator Key", "DefaultSteering", "rightIndicatorKey", 6, 1, width=12, value="e", isString=True)
-            self.leftIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 1, width=12, value="q", isString=True)
+            # self.rightIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Right Indicator Key", "DefaultSteering", "rightIndicatorKey", 6, 1, width=12, value="e", isString=True)
+            # self.leftIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 1, width=12, value="q", isString=True)
             
             notebook.add(generalFrame, text="General")
             notebook.add(controllerFrame, text="Controller")
@@ -478,20 +486,26 @@ class UI():
             settings.CreateSettings("DefaultSteering", "controller", self.controller.get())
             settings.CreateSettings("DefaultSteering", "steeringAxis", self.steeringAxis.get())
             settings.CreateSettings("DefaultSteering", "enableDisable", self.enableDisable.get())
-            settings.CreateSettings("DefaultSteering", "rightIndicator", self.rightIndicator.get())
-            settings.CreateSettings("DefaultSteering", "leftIndicator", self.leftIndicator.get())
+            # settings.CreateSettings("DefaultSteering", "rightIndicator", self.rightIndicator.get())
+            # settings.CreateSettings("DefaultSteering", "leftIndicator", self.leftIndicator.get())
             settings.CreateSettings("DefaultSteering", "gamepad", self.gamepad.get())
             settings.CreateSettings("DefaultSteering", "gamepadSmoothness", self.gamepadSmoothness.get())
             settings.CreateSettings("DefaultSteering", "keyboard", self.keyboard.get())
             settings.CreateSettings("DefaultSteering", "enableDisableKey", self.enableDisableKey.get())
-            settings.CreateSettings("DefaultSteering", "rightIndicatorKey", self.rightIndicatorKey.get())
-            settings.CreateSettings("DefaultSteering", "leftIndicatorKey", self.leftIndicatorKey.get())
+            # settings.CreateSettings("DefaultSteering", "rightIndicatorKey", self.rightIndicatorKey.get())
+            # settings.CreateSettings("DefaultSteering", "leftIndicatorKey", self.leftIndicatorKey.get())
             updateSettings()
             
         
         def update(self, data): # When the panel is open this function is called each frame 
             pygame.event.pump()
             try:
+                
+                # Get the current index of the selected controller in the list variable
+                controller = self.list.curselection()[0]
+                if controller != None:
+                    settings.CreateSettings("DefaultSteering", "controller", controller)
+                
                 value = ""
                 for i in range(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_numbuttons()):
                     if self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_button(i):

@@ -204,7 +204,7 @@ class UI():
             for i in range(self.joysticks[index].get_numaxes()):
                 variable = tk.IntVar(self.root)
                 helpers.MakeCheckButton(self.root, f"Axis {i}", "DefaultSteering", f"steeringAxis", i+4, 1, values=[i, ""], onlyTrue=True)
-                slider = ttk.Scale(self.root, from_=-100, to=100, variable=variable, orient=tk.HORIZONTAL, length=200)
+                slider = tk.Scale(self.root, from_=-1, to=1, variable=variable, orient=tk.HORIZONTAL, length=200, resolution=0.01)
                 self.sliderVars.append(variable)
                 slider.grid(row=i+4, column=0, padx=0, pady=5)
             
@@ -563,7 +563,7 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.CreateSettings("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "LSTRLaneDetection"])
+            settings.CreateSettings("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "LSTRLaneDetection", "TruckSimAPI"])
             
             helpers.MakeLabel(self.root, "One more step!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
             helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
@@ -588,7 +588,7 @@ class UI():
             pygame.event.pump()
             try:
                 for i in range(len(self.sliderVars)):
-                    self.sliderVars[i].set(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_axis(i)*100)
+                    self.sliderVars[i].set(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_axis(i))
             except: pass
             
             try:
