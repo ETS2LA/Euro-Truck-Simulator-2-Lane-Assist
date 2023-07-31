@@ -35,6 +35,8 @@ import math
 API = None
 lastX = 0
 lastY = 0
+isConnected = False
+
 def plugin(data):
     global API
     global lastX
@@ -93,6 +95,7 @@ def checkAPI():
     if API.ets2_telemetry_plugin_revision < 2:
         loading = LoadingWindow("Waiting for ETS2 connection...")
     while API.ets2_telemetry_plugin_revision < 2 and not stop: 
+        isConnected = False
         API.update()
         loading.update()
         mainUI.root.update()
@@ -101,6 +104,8 @@ def checkAPI():
     try:
         loading.destroy()
     except: pass
+    
+    isConnected = True
         
         
 

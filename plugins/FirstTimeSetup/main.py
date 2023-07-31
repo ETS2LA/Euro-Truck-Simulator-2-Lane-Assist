@@ -22,6 +22,7 @@ import os
 import pygame
 import src.settings as settings
 import cv2
+import plugins.TruckSimAPI.main as api
 
 try:
     import dxcam
@@ -44,6 +45,7 @@ class UI():
         def __init__(self, master) -> None:
             self.done = False
             self.master = master
+            self.waitForAPI = False
             self.page0()
         
 
@@ -530,7 +532,31 @@ class UI():
             settings.CreateSettings("Sound", "disable", self.disable.get())
             settings.CreateSettings("Sound", "warning", self.warning.get())
             
-            self.lastPage()
+            self.ets2APIsetup()
+        
+        def ets2APIsetup(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+            self.waitForAPI = True
+            
+            
+            helpers.MakeLabel(self.root, "ETS2 API", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, "This app will also connect to your ETS2's / ATS' API and get data about your truck.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeLabel(self.root, "Press the button below to open the instructions (scroll down on the page).\nThe loading window will automatically disappear once connection is established.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
+        
+            helpers.MakeButton(self.root, "Previous", lambda: self.soundSettings(), 3,0)
+            import webbrowser
+            helpers.MakeButton(self.root, "Open instructions", lambda: webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/InGame"), 3,1)
+            self.apiNextButton = helpers.MakeButton(self.root, "Waiting for api...", lambda: self.lastPage(), 3,2, state="disabled")
+        
+            self.root.pack()
+            self.root.update()
+            
+            try:
+                if not api.loading:
+                    api.checkAPI()
+            except:
+                api.checkAPI()
         
         def lastPage(self):
             self.root.destroy()
@@ -581,6 +607,11 @@ class UI():
             except: 
                 cv2.destroyAllWindows()
                 pass
+            
+            self.apiNextButton.config(state="normal", text="Next")
+            
+                
+                
             
     except Exception as ex:
         print(ex.args)
