@@ -260,5 +260,7 @@ while True:
         data["executionTimes"]["all"] = allEnd - allStart
     
     except Exception as ex:
+        import traceback
+        traceback.print_exc()
         print(ex.args)
         break

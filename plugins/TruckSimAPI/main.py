@@ -23,6 +23,9 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+from src.loading import LoadingWindow
+import src.mainUI as mainUI
+import time
 import os
 import math
 
@@ -37,8 +40,7 @@ def plugin(data):
     global lastX
     global lastY
     
-    if API == None:
-        API = ets2sdkclient()
+    checkAPI()
     
     API.update()    
     
@@ -77,116 +79,150 @@ def plugin(data):
 
     return data # Plugins need to ALWAYS return the data
 
+def checkAPI():
+    global API
+    global loading
+    global stop
+    stop = False
+    
+    if API == None:
+        API = ets2sdkclient()
+        
+    API.update()
+    
+    if API.ets2_telemetry_plugin_revision < 2:
+        loading = LoadingWindow("Waiting for ETS2 connection...")
+    while API.ets2_telemetry_plugin_revision < 2 and not stop: 
+        API.update()
+        loading.update()
+        mainUI.root.update()
+        time.sleep(0.1)
+
+    try:
+        loading.destroy()
+    except: pass
+        
+        
 
 def updateData(data):
+    # ChatGPT might have helped a bit with typing all this out xD
+    
+    def safe_api_call(func):
+        try:
+            return func()
+        except:
+            return None
+
     data["api"] = {}
-    data["api"]["time"] = API.time
-    data["api"]["paused"] = API.paused
-    data["api"]["ets2_telemetry_plugin_revision"] = API.ets2_telemetry_plugin_revision
-    data["api"]["ets2_version_major"] = API.ets2_version_major
-    data["api"]["ets2_version_minor"] = API.ets2_version_minor
-    data["api"]["flags"] = API.flags
-    data["api"]["speed"] = API.speed
-    data["api"]["accelerationX"] = API.accelerationX
-    data["api"]["accelerationY"] = API.accelerationY
-    data["api"]["accelerationZ"] = API.accelerationZ
-    data["api"]["coordinateX"] = API.coordinateX
-    data["api"]["coordinateY"] = API.coordinateY
-    data["api"]["coordinateZ"] = API.coordinateZ
-    data["api"]["rotationX"] = API.rotationX
-    data["api"]["rotationY"] = API.rotationY
-    data["api"]["rotationZ"] = API.rotationZ
-    data["api"]["gear"] = API.gear
-    data["api"]["gears"] = API.gears
-    data["api"]["gearRanges"] = API.gearRanges
-    data["api"]["gearRangeActive"] = API.gearRangeActive
-    data["api"]["engineRpm"] = API.engineRpm
-    data["api"]["engineRpmMax"] = API.engineRpmMax
-    data["api"]["fuel"] = API.fuel
-    data["api"]["fuelCapacity"] = API.fuelCapacity
-    data["api"]["fuelRate"] = API.fuelRate
-    data["api"]["fuelAvgConsumption"] = API.fuelAvgConsumption
-    data["api"]["userSteer"] = API.userSteer
-    data["api"]["userThrottle"] = API.userThrottle
-    data["api"]["userBrake"] = API.userBrake
-    data["api"]["userClutch"] = API.userClutch
-    data["api"]["gameSteer"] = API.gameSteer
-    data["api"]["gameThrottle"] = API.gameThrottle
-    data["api"]["gameBrake"] = API.gameBrake
-    data["api"]["gameClutch"] = API.gameClutch
-    data["api"]["truckWeight"] = API.truckWeight
-    data["api"]["trailerWeight"] = API.trailerWeight
-    data["api"]["modelOffset"] = API.modelOffset
-    data["api"]["modelLength"] = API.modelLength
-    data["api"]["trailerOffset"] = API.trailerOffset
-    data["api"]["trailerLength"] = API.trailerLength
-    data["api"]["timeAbsolute"] = API.timeAbsolute
-    data["api"]["gearsReverse"] = API.gearsReverse
-    data["api"]["trailerMass"] = API.trailerMass
-    data["api"]["trailerId"] = API.trailerId
-    data["api"]["trailerName"] = API.trailerName
-    data["api"]["jobIncome"] = API.jobIncome
-    data["api"]["jobDeadline"] = API.jobDeadline
-    data["api"]["jobCitySource"] = API.jobCitySource
-    data["api"]["jobCityDestination"] = API.jobCityDestination
-    data["api"]["jobCompanySource"] = API.jobCompanySource
-    data["api"]["jobCompanyDestination"] = API.jobCompanyDestination
-    data["api"]["retarderBrake"] = API.retarderBrake
-    data["api"]["shifterSlot"] = API.shifterSlot
-    data["api"]["shifterToggle"] = API.shifterToggle
-    data["api"]["aux"] = API.aux
-    data["api"]["airPressure"] = API.airPressure
-    data["api"]["brakeTemperature"] = API.brakeTemperature
-    data["api"]["fuelWarning"] = API.fuelWarning
-    data["api"]["adblue"] = API.adblue
-    data["api"]["adblueConsumption"] = API.adblueConsumption
-    data["api"]["oilPressure"] = API.oilPressure
-    data["api"]["oilTemperature"] = API.oilTemperature
-    data["api"]["waterTemperature"] = API.waterTemperature
-    data["api"]["batteryVoltage"] = API.batteryVoltage
-    data["api"]["lightsDashboard"] = API.lightsDashboard
-    data["api"]["wearEngine"] = API.wearEngine
-    data["api"]["wearTransmission"] = API.wearTransmission
-    data["api"]["wearCabin"] = API.wearCabin
-    data["api"]["wearChassis"] = API.wearChassis
-    data["api"]["wearWheels"] = API.wearWheels
-    data["api"]["wearTrailer"] = API.wearTrailer
-    data["api"]["truckOdometer"] = API.truckOdometer
-    data["api"]["cruiseControlSpeed"] = API.cruiseControlSpeed
-    data["api"]["truckMake"] = API.truckMake
-    data["api"]["truckMakeId"] = API.truckMakeId
-    data["api"]["truckModel"] = API.truckModel
-    data["api"]["speedLimit"] = API.speedLimit
-    data["api"]["routeDistance"] = API.routeDistance
-    data["api"]["routeTime"] = API.routeTime
-    data["api"]["fuelRange"] = API.fuelRange
-    data["api"]["gearRatioDifferential"] = API.gearRatioDifferential
-    data["api"]["gearDashboard"] = API.gearDashboard
-    data["api"]["CruiseControl"] = API.CruiseControl
-    data["api"]["Wipers"] = API.Wipers
-    data["api"]["ParkBrake"] = API.ParkBrake
-    data["api"]["MotorBrake"] = API.MotorBrake
-    data["api"]["ElectricEnabled"] = API.ElectricEnabled
-    data["api"]["EngineEnabled"] = API.EngineEnabled
-    data["api"]["BlinkerLeftActive"] = API.BlinkerLeftActive
-    data["api"]["BlinkerRightActive"] = API.BlinkerRightActive
-    data["api"]["BlinkerLeftOn"] = API.BlinkerLeftOn
-    data["api"]["BlinkerRightOn"] = API.BlinkerRightOn
-    data["api"]["LightsParking"] = API.LightsParking
-    data["api"]["LightsBeamLow"] = API.LightsBeamLow
-    data["api"]["LightsBeamHigh"] = API.LightsBeamHigh
-    data["api"]["LightsAuxFront"] = API.LightsAuxFront
-    data["api"]["LightsAuxRoof"] = API.LightsAuxRoof
-    data["api"]["LightsBeacon"] = API.LightsBeacon
-    data["api"]["LightsBrake"] = API.LightsBrake
-    data["api"]["LightsReverse"] = API.LightsReverse
-    data["api"]["BatteryVoltageWarning"] = API.BatteryVoltageWarning
-    data["api"]["AirPressureWarning"] = API.AirPressureWarning
-    data["api"]["AirPressureEmergency"] = API.AirPressureEmergency
-    data["api"]["AdblueWarning"] = API.AdblueWarning
-    data["api"]["OilPressureWarning"] = API.OilPressureWarning
-    data["api"]["WaterTemperatureWarning"] = API.WaterTemperatureWarning
-    data["api"]["TrailerAttached"] = API.TrailerAttached
+    data["api"]["time"] = safe_api_call(API.time)
+    data["api"]["paused"] = safe_api_call(API.paused)
+    data["api"]["ets2_telemetry_plugin_revision"] = safe_api_call(
+        API.ets2_telemetry_plugin_revision
+    )
+    data["api"]["ets2_version_major"] = safe_api_call(API.ets2_version_major)
+    data["api"]["ets2_version_minor"] = safe_api_call(API.ets2_version_minor)
+    data["api"]["flags"] = safe_api_call(API.flags)
+    data["api"]["speed"] = safe_api_call(API.speed)
+    data["api"]["accelerationX"] = safe_api_call(API.accelerationX)
+    data["api"]["accelerationY"] = safe_api_call(API.accelerationY)
+    data["api"]["accelerationZ"] = safe_api_call(API.accelerationZ)
+    data["api"]["coordinateX"] = safe_api_call(API.coordinateX)
+    data["api"]["coordinateY"] = safe_api_call(API.coordinateY)
+    data["api"]["coordinateZ"] = safe_api_call(API.coordinateZ)
+    data["api"]["rotationX"] = safe_api_call(API.rotationX)
+    data["api"]["rotationY"] = safe_api_call(API.rotationY)
+    data["api"]["rotationZ"] = safe_api_call(API.rotationZ)
+    data["api"]["gear"] = safe_api_call(API.gear)
+    data["api"]["gears"] = safe_api_call(API.gears)
+    data["api"]["gearRanges"] = safe_api_call(API.gearRanges)
+    data["api"]["gearRangeActive"] = safe_api_call(API.gearRangeActive)
+    data["api"]["engineRpm"] = safe_api_call(API.engineRpm)
+    data["api"]["engineRpmMax"] = safe_api_call(API.engineRpmMax)
+    data["api"]["fuel"] = safe_api_call(API.fuel)
+    data["api"]["fuelCapacity"] = safe_api_call(API.fuelCapacity)
+    data["api"]["fuelRate"] = safe_api_call(API.fuelRate)
+    data["api"]["fuelAvgConsumption"] = safe_api_call(API.fuelAvgConsumption)
+    data["api"]["userSteer"] = safe_api_call(API.userSteer)
+    data["api"]["userThrottle"] = safe_api_call(API.userThrottle)
+    data["api"]["userBrake"] = safe_api_call(API.userBrake)
+    data["api"]["userClutch"] = safe_api_call(API.userClutch)
+    data["api"]["gameSteer"] = safe_api_call(API.gameSteer)
+    data["api"]["gameThrottle"] = safe_api_call(API.gameThrottle)
+    data["api"]["gameBrake"] = safe_api_call(API.gameBrake)
+    data["api"]["gameClutch"] = safe_api_call(API.gameClutch)
+    data["api"]["truckWeight"] = safe_api_call(API.truckWeight)
+    data["api"]["trailerWeight"] = safe_api_call(API.trailerWeight)
+    data["api"]["modelOffset"] = safe_api_call(API.modelOffset)
+    data["api"]["modelLength"] = safe_api_call(API.modelLength)
+    data["api"]["trailerOffset"] = safe_api_call(API.trailerOffset)
+    data["api"]["trailerLength"] = safe_api_call(API.trailerLength)
+    data["api"]["timeAbsolute"] = safe_api_call(API.timeAbsolute)
+    data["api"]["gearsReverse"] = safe_api_call(API.gearsReverse)
+    data["api"]["trailerMass"] = safe_api_call(API.trailerMass)
+    data["api"]["trailerId"] = safe_api_call(API.trailerId)
+    data["api"]["trailerName"] = safe_api_call(API.trailerName)
+    data["api"]["jobIncome"] = safe_api_call(API.jobIncome)
+    data["api"]["jobDeadline"] = safe_api_call(API.jobDeadline)
+    data["api"]["jobCitySource"] = safe_api_call(API.jobCitySource)
+    data["api"]["jobCityDestination"] = safe_api_call(API.jobCityDestination)
+    data["api"]["jobCompanySource"] = safe_api_call(API.jobCompanySource)
+    data["api"]["jobCompanyDestination"] = safe_api_call(API.jobCompanyDestination)
+    data["api"]["retarderBrake"] = safe_api_call(API.retarderBrake)
+    data["api"]["shifterSlot"] = safe_api_call(API.shifterSlot)
+    data["api"]["shifterToggle"] = safe_api_call(API.shifterToggle)
+    data["api"]["aux"] = safe_api_call(API.aux)
+    data["api"]["airPressure"] = safe_api_call(API.airPressure)
+    data["api"]["brakeTemperature"] = safe_api_call(API.brakeTemperature)
+    data["api"]["fuelWarning"] = safe_api_call(API.fuelWarning)
+    data["api"]["adblue"] = safe_api_call(API.adblue)
+    data["api"]["adblueConsumption"] = safe_api_call(API.adblueConsumption)
+    data["api"]["oilPressure"] = safe_api_call(API.oilPressure)
+    data["api"]["oilTemperature"] = safe_api_call(API.oilTemperature)
+    data["api"]["waterTemperature"] = safe_api_call(API.waterTemperature)
+    data["api"]["batteryVoltage"] = safe_api_call(API.batteryVoltage)
+    data["api"]["lightsDashboard"] = safe_api_call(API.lightsDashboard)
+    data["api"]["wearEngine"] = safe_api_call(API.wearEngine)
+    data["api"]["wearTransmission"] = safe_api_call(API.wearTransmission)
+    data["api"]["wearCabin"] = safe_api_call(API.wearCabin)
+    data["api"]["wearChassis"] = safe_api_call(API.wearChassis)
+    data["api"]["wearWheels"] = safe_api_call(API.wearWheels)
+    data["api"]["wearTrailer"] = safe_api_call(API.wearTrailer)
+    data["api"]["truckOdometer"] = safe_api_call(API.truckOdometer)
+    data["api"]["cruiseControlSpeed"] = safe_api_call(API.cruiseControlSpeed)
+    data["api"]["truckMake"] = safe_api_call(API.truckMake)
+    data["api"]["truckMakeId"] = safe_api_call(API.truckMakeId)
+    data["api"]["truckModel"] = safe_api_call(API.truckModel)
+    data["api"]["speedLimit"] = safe_api_call(API.speedLimit)
+    data["api"]["routeDistance"] = safe_api_call(API.routeDistance)
+    data["api"]["routeTime"] = safe_api_call(API.routeTime)
+    data["api"]["fuelRange"] = safe_api_call(API.fuelRange)
+    data["api"]["gearRatioDifferential"] = safe_api_call(API.gearRatioDifferential)
+    data["api"]["gearDashboard"] = safe_api_call(API.gearDashboard)
+    data["api"]["CruiseControl"] = safe_api_call(API.CruiseControl)
+    data["api"]["Wipers"] = safe_api_call(API.Wipers)
+    data["api"]["ParkBrake"] = safe_api_call(API.ParkBrake)
+    data["api"]["MotorBrake"] = safe_api_call(API.MotorBrake)
+    data["api"]["ElectricEnabled"] = safe_api_call(API.ElectricEnabled)
+    data["api"]["EngineEnabled"] = safe_api_call(API.EngineEnabled)
+    data["api"]["BlinkerLeftActive"] = safe_api_call(API.BlinkerLeftActive)
+    data["api"]["BlinkerRightActive"] = safe_api_call(API.BlinkerRightActive)
+    data["api"]["BlinkerLeftOn"] = safe_api_call(API.BlinkerLeftOn)
+    data["api"]["BlinkerRightOn"] = safe_api_call(API.BlinkerRightOn)
+    data["api"]["LightsParking"] = safe_api_call(API.LightsParking)
+    data["api"]["LightsBeamLow"] = safe_api_call(API.LightsBeamLow)
+    data["api"]["LightsBeamHigh"] = safe_api_call(API.LightsBeamHigh)
+    data["api"]["LightsAuxFront"] = safe_api_call(API.LightsAuxFront)
+    data["api"]["LightsAuxRoof"] = safe_api_call(API.LightsAuxRoof)
+    data["api"]["LightsBeacon"] = safe_api_call(API.LightsBeacon)
+    data["api"]["LightsBrake"] = safe_api_call(API.LightsBrake)
+    data["api"]["LightsReverse"] = safe_api_call(API.LightsReverse)
+    data["api"]["BatteryVoltageWarning"] = safe_api_call(API.BatteryVoltageWarning)
+    data["api"]["AirPressureWarning"] = safe_api_call(API.AirPressureWarning)
+    data["api"]["AirPressureEmergency"] = safe_api_call(API.AirPressureEmergency)
+    data["api"]["AdblueWarning"] = safe_api_call(API.AdblueWarning)
+    data["api"]["OilPressureWarning"] = safe_api_call(API.OilPressureWarning)
+    data["api"]["WaterTemperatureWarning"] = safe_api_call(API.WaterTemperatureWarning)
+    data["api"]["TrailerAttached"] = safe_api_call(API.TrailerAttached)
     
     return data
 
@@ -206,15 +242,19 @@ def onEnable():
         from tkinter import messagebox
         import webbrowser
         from plugins.PluginManager.main import UI
-        if messagebox.askyesno("Plugin not installed", "SDK Plugin not installed, do you want to open the instructions?\nPlease re-enable the app plugin after installation.\nAlso make sure that the game is open!"):
-            webbrowser.open("https://github.com/nlhans/ets2-sdk-plugin#installation")
-            UI.disablePlugin(self=None, plugin = __import__("plugins.TruckSimAPI.main", fromlist=["PluginInformation", "onDisable", "onEnable"]))
-        else:
-            UI.disablePlugin(self=None, plugin = __import__("plugins.TruckSimAPI.main", fromlist=["PluginInformation", "onDisable", "onEnable"]))
+        if messagebox.askyesno("Plugin not installed", "SDK Plugin not installed or the game is not running, do you want to open the instructions?"):
+            webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/InGame")
     
 
 def onDisable():
-    pass
+    global stop
+    global loading
+    
+    stop = True
+    try:
+        loading.destroy()
+    except: pass
+    
 
 import mmap
 import struct
