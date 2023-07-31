@@ -226,10 +226,10 @@ class UI():
             notebook = ttk.Notebook(self.root)
             notebook.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
             
-            leftBlinkerFrame = ttk.Frame(notebook)
-            leftBlinkerFrame.pack()
-            rightBlinkerFrame = ttk.Frame(notebook)
-            rightBlinkerFrame.pack()
+            # leftBlinkerFrame = ttk.Frame(notebook)
+            # leftBlinkerFrame.pack()
+            # rightBlinkerFrame = ttk.Frame(notebook)
+            # rightBlinkerFrame.pack()
             enableDisableFrame = ttk.Frame(notebook)
             enableDisableFrame.pack()
             
@@ -242,23 +242,23 @@ class UI():
                 buttons.append("Button " + str(i))
             
             # Create a combobox for each of the groups
-            leftBlinker = tk.StringVar()
-            rightBlinker = tk.StringVar()
+            # leftBlinker = tk.StringVar()
+            # rightBlinker = tk.StringVar()
             enableDisable = tk.StringVar()
             
-            self.leftBlinkerCombo = ttk.Combobox(leftBlinkerFrame, textvariable=leftBlinker, width=50)
-            self.leftBlinkerCombo['values'] = buttons
-            self.rightBlinkerCombo = ttk.Combobox(rightBlinkerFrame, textvariable=rightBlinker, width=50)
-            self.rightBlinkerCombo['values'] = buttons
+            # self.leftBlinkerCombo = ttk.Combobox(leftBlinkerFrame, textvariable=leftBlinker, width=50)
+            # self.leftBlinkerCombo['values'] = buttons
+            # self.rightBlinkerCombo = ttk.Combobox(rightBlinkerFrame, textvariable=rightBlinker, width=50)
+            # self.rightBlinkerCombo['values'] = buttons
             self.enableDisableCombo = ttk.Combobox(enableDisableFrame, textvariable=enableDisable, width=50)
             self.enableDisableCombo['values'] = buttons
             
-            self.leftBlinkerCombo.pack()
-            self.rightBlinkerCombo.pack()
+            # self.leftBlinkerCombo.pack()
+            # self.rightBlinkerCombo.pack()
             self.enableDisableCombo.pack()
             
-            notebook.add(leftBlinkerFrame, text="Left Blinker")
-            notebook.add(rightBlinkerFrame, text="Right Blinker")
+            # notebook.add(leftBlinkerFrame, text="Left Blinker")
+            # notebook.add(rightBlinkerFrame, text="Right Blinker")
             notebook.add(enableDisableFrame, text="Enable / Disable")
             
             helpers.MakeLabel(self.root, "You are currently pressing: ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
@@ -274,8 +274,8 @@ class UI():
         def saveButtonSettings(self):
             
             # Save the button settings
-            settings.CreateSettings("DefaultSteering", "leftIndicator", int(self.leftBlinkerCombo.get().split(" ")[1]))
-            settings.CreateSettings("DefaultSteering", "rightIndicator", int(self.rightBlinkerCombo.get().split(" ")[1]))
+            # settings.CreateSettings("DefaultSteering", "leftIndicator", int(self.leftBlinkerCombo.get().split(" ")[1]))
+            # settings.CreateSettings("DefaultSteering", "rightIndicator", int(self.rightBlinkerCombo.get().split(" ")[1]))
             settings.CreateSettings("DefaultSteering", "enableDisable", int(self.enableDisableCombo.get().split(" ")[1]))
             
             from plugins.DefaultSteering.main import updateSettings
