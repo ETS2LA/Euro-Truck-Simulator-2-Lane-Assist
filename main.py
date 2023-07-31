@@ -184,6 +184,24 @@ def InstallPlugins():
     for child in mainUI.pluginFrame.winfo_children():
         child.destroy()
 
+def CheckForONNXRuntimeChange():
+    change = settings.GetSettings("SwitchLaneDetectionDevice", "switchTo")
+    if change != None:
+        if change == "GPU":
+            loadingWindow.update(text="Uninstalling ONNX...")
+            os.system("pip uninstall onnxruntime -y")
+            loadingWindow.update(text="Installing ONNX GPU...")
+            os.system("pip install onnxruntime-gpu -y")
+        else:
+            loadingWindow.update(text="Uninstalling ONNX GPU...")
+            os.system("pip uninstall onnxruntime-gpu -y")
+            loadingWindow.update(text="Installing ONNX...")
+            os.system("pip install onnxruntime -y")
+            
+    settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", None)
+
+CheckForONNXRuntimeChange()
+
 # Check for new plugin installs
 InstallPlugins()
 

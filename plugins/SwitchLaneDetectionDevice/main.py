@@ -24,6 +24,7 @@ import src.variables as variables
 import src.settings as settings
 import os
 from src.loading import LoadingWindow
+import subprocess
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -38,18 +39,15 @@ class UI():
             del self
 
         def convertToGPU(self):
-            window = LoadingWindow("Uninstalling ONNX...")
-            os.system("pip uninstall onnxruntime -y")
-            window.update(text="Installing ONNX GPU...")
-            os.system("pip install onnxruntime-gpu -y")
-            window.destroy()
+            settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", "GPU")
+            from tkinter import messagebox
+            messagebox.showinfo("Restart required", "Please restart the program for the changes to take effect.")
+
         
         def convertToCPU(self):
-            window = LoadingWindow("Uninstalling ONNX GPU...")
-            os.system("pip uninstall onnxruntime-gpu -y")
-            window.update(text="Installing ONNX...")
-            os.system("pip install onnxruntime -y")
-            window.destroy()
+            settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", "CPU")
+            from tkinter import messagebox
+            messagebox.showinfo("Restart required", "Please restart the program for the changes to take effect.")
         
         def exampleFunction(self):
             
@@ -61,8 +59,8 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            helpers.MakeButton(self.root, "Convert to GPU runtime.", lambda: self.convertToGPU(), 1,0, padx=30, pady=10, width=30)
-            helpers.MakeButton(self.root, "Convert to CPU runtime.", lambda: self.convertToCPU(), 1,1, padx=30, pady=10, width=30)
+            helpers.MakeButton(self.root, "Convert to GPU runtime.", lambda: self.convertToGPU(), 1,0, padx=30, pady=10, width=25)
+            helpers.MakeButton(self.root, "Convert to CPU runtime.", lambda: self.convertToCPU(), 1,1, padx=30, pady=10, width=25)
             
             import webbrowser
             helpers.MakeButton(self.root, "Open Instructions to downloading NVIDIA files.", lambda: webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/Installation"), 2,0, padx=30, pady=10, width=60, columnspan=2)
