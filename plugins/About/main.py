@@ -82,6 +82,9 @@ class UI():
             helpers.MakeLabel(self.root, "in the development of this app.", 12,0, padx=30, pady=2, columnspan=2)
             helpers.MakeLabel(self.root, " ", 13,0, padx=30, pady=2, columnspan=2)
             
+            import webbrowser
+            helpers.MakeButton(self.root, "Support me on Ko-fi", lambda: webbrowser.open("https://ko-fi.com/tumppi066"), 14,0, padx=30, pady=10, columnspan=3, width=20, style="Accent.TButton")
+            
             self.root.pack(anchor="center", expand=False)
             self.root.update()
         
