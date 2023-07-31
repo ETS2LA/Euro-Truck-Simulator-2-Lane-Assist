@@ -2,12 +2,12 @@ from tkinter import ttk
 import tkinter as tk
 import src.settings as settings
 
-def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled"):
+def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled", columnspan=1):
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
     if not center:
-        button.grid(row=row, column=column, padx=padx, pady=pady)
+        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan)
     else:
-        button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n")
+        button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n", columnspan=columnspan)
     return button
     
 def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False):

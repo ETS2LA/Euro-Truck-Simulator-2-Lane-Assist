@@ -64,6 +64,9 @@ class UI():
             helpers.MakeButton(self.root, "Convert to GPU runtime.", lambda: self.convertToGPU(), 1,0, padx=30, pady=10, width=30)
             helpers.MakeButton(self.root, "Convert to CPU runtime.", lambda: self.convertToCPU(), 1,1, padx=30, pady=10, width=30)
             
+            import webbrowser
+            helpers.MakeButton(self.root, "Open Instructions to downloading NVIDIA files.", lambda: webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/Installation"), 2,0, padx=30, pady=10, width=60, columnspan=2)
+            
             self.root.pack(anchor="center", expand=False)
             self.root.update()
         
