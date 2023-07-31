@@ -79,6 +79,7 @@ def UpdatePlugins(dynamicOrder, data):
 
 def InstallPlugins():
     global startInstall
+    global loadingWindow
     
     list = settings.GetSettings("Plugins", "Installed")
     if list == None:
@@ -113,7 +114,10 @@ def InstallPlugins():
     
     import tkinter as tk
     from tkinter import ttk
+    
+
     loadingWindow.destroy()
+    
     
     
     ttk.Label(mainUI.pluginFrame, text="The app has detected plugins that have not yet been installed.").pack()
@@ -162,6 +166,8 @@ def InstallPlugins():
     
     mainUI.root.update()
     
+    loadingWindow = loading.LoadingWindow("Installing plugins...")
+    
     index = 0
     for installer, name in zip(installers, pluginNames):
         print(f"Installing '{name}'...")
@@ -172,6 +178,7 @@ def InstallPlugins():
         installer.install()
         settings.AddToList("Plugins", "Installed", name.split(" - ")[0])
         index += 1
+        loadingWindow.update(text=f"Installing '{name}'...")
     
     # Destroy all the widgets
     for child in mainUI.pluginFrame.winfo_children():
