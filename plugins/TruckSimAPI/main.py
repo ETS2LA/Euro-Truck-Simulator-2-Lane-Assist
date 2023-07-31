@@ -42,14 +42,12 @@ def plugin(data):
     
     API.update()    
     
-    # Save the current speed, limit and cruise into the data variable
-    data["api"] = {}
+    # Save all data from the api to the data variable
+    updateData(data)
+    # Fix the speed to be km/h
     data["api"]["speed"] = API.speed * 3.6
     data["api"]["speedLimit"] = API.speedLimit * 3.6
     data["api"]["cruiseControlSpeed"] = API.cruiseControlSpeed * 3.6
-    data["api"]["x"] = API.coordinateX
-    data["api"]["y"] = API.coordinateY
-    data["api"]["z"] = API.coordinateZ
     
     # Calculate the current driving angle based on this and last frames coordinates
     try:
@@ -79,6 +77,118 @@ def plugin(data):
 
     return data # Plugins need to ALWAYS return the data
 
+
+def updateData(data):
+    data["api"] = {}
+    data["api"]["time"] = API.time
+    data["api"]["paused"] = API.paused
+    data["api"]["ets2_telemetry_plugin_revision"] = API.ets2_telemetry_plugin_revision
+    data["api"]["ets2_version_major"] = API.ets2_version_major
+    data["api"]["ets2_version_minor"] = API.ets2_version_minor
+    data["api"]["flags"] = API.flags
+    data["api"]["speed"] = API.speed
+    data["api"]["accelerationX"] = API.accelerationX
+    data["api"]["accelerationY"] = API.accelerationY
+    data["api"]["accelerationZ"] = API.accelerationZ
+    data["api"]["coordinateX"] = API.coordinateX
+    data["api"]["coordinateY"] = API.coordinateY
+    data["api"]["coordinateZ"] = API.coordinateZ
+    data["api"]["rotationX"] = API.rotationX
+    data["api"]["rotationY"] = API.rotationY
+    data["api"]["rotationZ"] = API.rotationZ
+    data["api"]["gear"] = API.gear
+    data["api"]["gears"] = API.gears
+    data["api"]["gearRanges"] = API.gearRanges
+    data["api"]["gearRangeActive"] = API.gearRangeActive
+    data["api"]["engineRpm"] = API.engineRpm
+    data["api"]["engineRpmMax"] = API.engineRpmMax
+    data["api"]["fuel"] = API.fuel
+    data["api"]["fuelCapacity"] = API.fuelCapacity
+    data["api"]["fuelRate"] = API.fuelRate
+    data["api"]["fuelAvgConsumption"] = API.fuelAvgConsumption
+    data["api"]["userSteer"] = API.userSteer
+    data["api"]["userThrottle"] = API.userThrottle
+    data["api"]["userBrake"] = API.userBrake
+    data["api"]["userClutch"] = API.userClutch
+    data["api"]["gameSteer"] = API.gameSteer
+    data["api"]["gameThrottle"] = API.gameThrottle
+    data["api"]["gameBrake"] = API.gameBrake
+    data["api"]["gameClutch"] = API.gameClutch
+    data["api"]["truckWeight"] = API.truckWeight
+    data["api"]["trailerWeight"] = API.trailerWeight
+    data["api"]["modelOffset"] = API.modelOffset
+    data["api"]["modelLength"] = API.modelLength
+    data["api"]["trailerOffset"] = API.trailerOffset
+    data["api"]["trailerLength"] = API.trailerLength
+    data["api"]["timeAbsolute"] = API.timeAbsolute
+    data["api"]["gearsReverse"] = API.gearsReverse
+    data["api"]["trailerMass"] = API.trailerMass
+    data["api"]["trailerId"] = API.trailerId
+    data["api"]["trailerName"] = API.trailerName
+    data["api"]["jobIncome"] = API.jobIncome
+    data["api"]["jobDeadline"] = API.jobDeadline
+    data["api"]["jobCitySource"] = API.jobCitySource
+    data["api"]["jobCityDestination"] = API.jobCityDestination
+    data["api"]["jobCompanySource"] = API.jobCompanySource
+    data["api"]["jobCompanyDestination"] = API.jobCompanyDestination
+    data["api"]["retarderBrake"] = API.retarderBrake
+    data["api"]["shifterSlot"] = API.shifterSlot
+    data["api"]["shifterToggle"] = API.shifterToggle
+    data["api"]["aux"] = API.aux
+    data["api"]["airPressure"] = API.airPressure
+    data["api"]["brakeTemperature"] = API.brakeTemperature
+    data["api"]["fuelWarning"] = API.fuelWarning
+    data["api"]["adblue"] = API.adblue
+    data["api"]["adblueConsumption"] = API.adblueConsumption
+    data["api"]["oilPressure"] = API.oilPressure
+    data["api"]["oilTemperature"] = API.oilTemperature
+    data["api"]["waterTemperature"] = API.waterTemperature
+    data["api"]["batteryVoltage"] = API.batteryVoltage
+    data["api"]["lightsDashboard"] = API.lightsDashboard
+    data["api"]["wearEngine"] = API.wearEngine
+    data["api"]["wearTransmission"] = API.wearTransmission
+    data["api"]["wearCabin"] = API.wearCabin
+    data["api"]["wearChassis"] = API.wearChassis
+    data["api"]["wearWheels"] = API.wearWheels
+    data["api"]["wearTrailer"] = API.wearTrailer
+    data["api"]["truckOdometer"] = API.truckOdometer
+    data["api"]["cruiseControlSpeed"] = API.cruiseControlSpeed
+    data["api"]["truckMake"] = API.truckMake
+    data["api"]["truckMakeId"] = API.truckMakeId
+    data["api"]["truckModel"] = API.truckModel
+    data["api"]["speedLimit"] = API.speedLimit
+    data["api"]["routeDistance"] = API.routeDistance
+    data["api"]["routeTime"] = API.routeTime
+    data["api"]["fuelRange"] = API.fuelRange
+    data["api"]["gearRatioDifferential"] = API.gearRatioDifferential
+    data["api"]["gearDashboard"] = API.gearDashboard
+    data["api"]["CruiseControl"] = API.CruiseControl
+    data["api"]["Wipers"] = API.Wipers
+    data["api"]["ParkBrake"] = API.ParkBrake
+    data["api"]["MotorBrake"] = API.MotorBrake
+    data["api"]["ElectricEnabled"] = API.ElectricEnabled
+    data["api"]["EngineEnabled"] = API.EngineEnabled
+    data["api"]["BlinkerLeftActive"] = API.BlinkerLeftActive
+    data["api"]["BlinkerRightActive"] = API.BlinkerRightActive
+    data["api"]["BlinkerLeftOn"] = API.BlinkerLeftOn
+    data["api"]["BlinkerRightOn"] = API.BlinkerRightOn
+    data["api"]["LightsParking"] = API.LightsParking
+    data["api"]["LightsBeamLow"] = API.LightsBeamLow
+    data["api"]["LightsBeamHigh"] = API.LightsBeamHigh
+    data["api"]["LightsAuxFront"] = API.LightsAuxFront
+    data["api"]["LightsAuxRoof"] = API.LightsAuxRoof
+    data["api"]["LightsBeacon"] = API.LightsBeacon
+    data["api"]["LightsBrake"] = API.LightsBrake
+    data["api"]["LightsReverse"] = API.LightsReverse
+    data["api"]["BatteryVoltageWarning"] = API.BatteryVoltageWarning
+    data["api"]["AirPressureWarning"] = API.AirPressureWarning
+    data["api"]["AirPressureEmergency"] = API.AirPressureEmergency
+    data["api"]["AdblueWarning"] = API.AdblueWarning
+    data["api"]["OilPressureWarning"] = API.OilPressureWarning
+    data["api"]["WaterTemperatureWarning"] = API.WaterTemperatureWarning
+    data["api"]["TrailerAttached"] = API.TrailerAttached
+    
+    return data
 
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
