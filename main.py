@@ -191,12 +191,12 @@ def CheckForONNXRuntimeChange():
             loadingWindow.update(text="Uninstalling ONNX...")
             os.system("pip uninstall onnxruntime -y")
             loadingWindow.update(text="Installing ONNX GPU...")
-            os.system("pip install onnxruntime-gpu -y")
+            os.system("pip install onnxruntime-gpu")
         else:
             loadingWindow.update(text="Uninstalling ONNX GPU...")
             os.system("pip uninstall onnxruntime-gpu -y")
             loadingWindow.update(text="Installing ONNX...")
-            os.system("pip install onnxruntime -y")
+            os.system("pip install onnxruntime")
             
     settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", None)
 
