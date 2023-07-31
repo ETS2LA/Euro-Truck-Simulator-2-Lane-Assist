@@ -572,7 +572,7 @@ class UI():
             helpers.MakeLabel(self.root, "And then click the button below, and move the ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             helpers.MakeLabel(self.root, "window to where you are looking forward out of your truck.", 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             
-            helpers.MakeButton(self.root, "Previous", lambda: self.soundSettings(), 7,0)
+            helpers.MakeButton(self.root, "Previous", lambda: self.ets2APIsetup(), 7,0)
             from src.mainUI import switchSelectedPlugin
             if os.name == "nt":
                 helpers.MakeButton(self.root, "Open Panel", lambda: switchSelectedPlugin("plugins.ScreenCapturePlacement.main"), 7,1)

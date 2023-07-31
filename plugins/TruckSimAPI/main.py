@@ -1,6 +1,112 @@
 """
-This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
-If you need to make a panel that is only updated when it's open then check the Panel example!
+Available values are : (in data["api"]["value"])
+1. time
+2. paused
+3. ets2_telemetry_plugin_revision
+4. ets2_version_major
+5. ets2_version_minor
+6. flags
+7. speed
+8. accelerationX
+9. accelerationY
+10. accelerationZ
+11. coordinateX
+12. coordinateY
+13. coordinateZ
+14. rotationX
+15. rotationY
+16. rotationZ
+17. gear
+18. gears
+19. gearRanges
+20. gearRangeActive
+21. engineRpm
+22. engineRpmMax
+23. fuel
+24. fuelCapacity
+25. fuelRate
+26. fuelAvgConsumption
+27. userSteer
+28. userThrottle
+29. userBrake
+30. userClutch
+31. gameSteer
+32. gameThrottle
+33. gameBrake
+34. gameClutch
+35. truckWeight
+36. trailerWeight
+37. modelOffset
+38. modelLength
+39. trailerOffset
+40. trailerLength
+41. timeAbsolute
+42. gearsReverse
+43. trailerMass
+44. trailerId
+45. trailerName
+46. jobIncome
+47. jobDeadline
+48. jobCitySource
+49. jobCityDestination
+50. jobCompanySource
+51. jobCompanyDestination
+52. retarderBrake
+53. shifterSlot
+54. shifterToggle
+55. aux
+56. airPressure
+57. brakeTemperature
+58. fuelWarning
+59. adblue
+60. adblueConsumption
+61. oilPressure
+62. oilTemperature
+63. waterTemperature
+64. batteryVoltage
+65. lightsDashboard
+66. wearEngine
+67. wearTransmission
+68. wearCabin
+69. wearChassis
+70. wearWheels
+71. wearTrailer
+72. truckOdometer
+73. cruiseControlSpeed
+74. truckMake
+75. truckMakeId
+76. truckModel
+77. speedLimit
+78. routeDistance
+79. routeTime
+80. fuelRange
+81. gearRatioDifferential
+82. gearDashboard
+83. CruiseControl
+84. Wipers
+85. ParkBrake
+86. MotorBrake
+87. ElectricEnabled
+88. EngineEnabled
+89. BlinkerLeftActive
+90. BlinkerRightActive
+91. BlinkerLeftOn
+92. BlinkerRightOn
+93. LightsParking
+94. LightsBeamLow
+95. LightsBeamHigh
+96. LightsAuxFront
+97. LightsAuxRoof
+98. LightsBeacon
+99. LightsBrake
+100. LightsReverse
+101. BatteryVoltageWarning
+102. AirPressureWarning
+103. AirPressureEmergency
+104. AdblueWarning
+105. OilPressureWarning
+106. WaterTemperatureWarning
+107. TrailerAttached
 """
 
 
@@ -114,8 +220,8 @@ def updateData(data):
     
     def safe_api_call(func):
         try:
-            return func()
-        except:
+            return func
+        except Exception as e:
             return None
 
     data["api"] = {}

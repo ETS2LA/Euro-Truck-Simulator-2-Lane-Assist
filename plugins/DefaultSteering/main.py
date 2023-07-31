@@ -175,6 +175,9 @@ def plugin(data):
             
         
         try:
+            IndicatingLeft = data["api"]["BlinkerLeftOn"]
+            IndicatingRight = data["api"]["BlinkerRightOn"]
+
             enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
             if(kb.is_pressed(enableDisableKey) and enabledTimer > 15):
                 if enabled == True:
@@ -187,46 +190,6 @@ def plugin(data):
                     print("Enabled")
                     enabledTimer = 0
                     sounds.PlaySound("assets/sounds/start.mp3")
-            
-            # This kind of if, elif statement converts the presses of the indicator to
-            # a constant on/off value.
-            if(kb.is_pressed(rightIndicatorKey) and not lastIndicatingRight):
-                if(IndicatingRight and enabled):
-                    pass
-                    sounds.PlaySound("assets/sounds/start.mp3")
-                elif(enabled):
-                    pass
-                    sounds.PlaySound("assets/sounds/end.mp3")
-
-                IndicatingRight = not IndicatingRight
-                lastIndicatingRight = True
-            elif(not kb.is_pressed(rightIndicatorKey) and lastIndicatingRight):
-                lastIndicatingRight = False
-            if(kb.is_pressed(leftIndicatorKey) and not lastIndicatingLeft):
-                if(IndicatingLeft and enabled):
-                    sounds.PlaySound("assets/sounds/start.mp3")
-                    pass
-                elif(enabled):
-                    sounds.PlaySound("assets/sounds/end.mp3")
-                    pass
-
-                IndicatingLeft = not IndicatingLeft
-                lastIndicatingLeft = True
-
-            elif(not kb.is_pressed(leftIndicatorKey) and lastIndicatingLeft):
-                lastIndicatingLeft = False
-
-            # Make sure we can't indicate in both directions.
-            if(kb.is_pressed(leftIndicatorKey) and IndicatingRight):
-                IndicatingLeft = True
-                lastIndicatingLeft = True
-                lastIndicatingRight = False
-                IndicatingRight = False
-            elif(kb.is_pressed(rightIndicatorKey) and IndicatingLeft):
-                IndicatingLeft = False
-                lastIndicatingLeft = False
-                lastIndicatingRight = True
-                IndicatingRight = True
 
             try:
                 pygame.event.pump() # Update the controller values
@@ -284,7 +247,10 @@ def plugin(data):
     # Controller based control
     else:
         try:
-            enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
+            enabledTimer += 1
+            IndicatingLeft = data["api"]["BlinkerLeftActive"]
+            IndicatingRight = data["api"]["BlinkerRightActive"]
+
             if(wheel.get_button(enableDisable) and enabledTimer > 15):
                 if enabled == True:
                     enabled = False
@@ -296,46 +262,6 @@ def plugin(data):
                     print("Enabled")
                     enabledTimer = 0
                     sounds.PlaySound("assets/sounds/start.mp3")
-            
-            # This kind of if, elif statement converts the presses of the indicator to
-            # a constant on/off value.
-            if(wheel.get_button(rightIndicator) and not lastIndicatingRight):
-                if(IndicatingRight and enabled):
-                    pass
-                    sounds.PlaySound("assets/sounds/start.mp3")
-                elif(enabled):
-                    pass
-                    sounds.PlaySound("assets/sounds/end.mp3")
-
-                IndicatingRight = not IndicatingRight
-                lastIndicatingRight = True
-            elif(not wheel.get_button(rightIndicator) and lastIndicatingRight):
-                lastIndicatingRight = False
-            if(wheel.get_button(leftIndicator) and not lastIndicatingLeft):
-                if(IndicatingLeft and enabled):
-                    sounds.PlaySound("assets/sounds/start.mp3")
-                    pass
-                elif(enabled):
-                    sounds.PlaySound("assets/sounds/end.mp3")
-                    pass
-
-                IndicatingLeft = not IndicatingLeft
-                lastIndicatingLeft = True
-
-            elif(not wheel.get_button(leftIndicator) and lastIndicatingLeft):
-                lastIndicatingLeft = False
-
-            # Make sure we can't indicate in both directions.
-            if(wheel.get_button(leftIndicator) and IndicatingRight):
-                IndicatingLeft = True
-                lastIndicatingLeft = True
-                lastIndicatingRight = False
-                IndicatingRight = False
-            elif(wheel.get_button(rightIndicator) and IndicatingLeft):
-                IndicatingLeft = False
-                lastIndicatingLeft = False
-                lastIndicatingRight = True
-                IndicatingRight = True
 
             try:
                 pygame.event.pump() # Update the controller values
