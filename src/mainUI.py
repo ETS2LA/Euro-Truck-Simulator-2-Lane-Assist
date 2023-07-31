@@ -101,7 +101,8 @@ def update(data):
     try:
         ui.update(data)
     except Exception as ex:
-        print(ex)
+        if "name 'ui' is not defined" not in str(ex):
+            print(str(ex))
         pass
 
     try:
