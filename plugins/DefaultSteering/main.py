@@ -29,6 +29,7 @@ import os
 import pygame
 import cv2
 import keyboard as kb
+from tkinter import messagebox
 
 
 pygame.joystick.init()
@@ -67,7 +68,16 @@ def updateSettings():
     global leftIndicatorKey
     global useAPI
     
-    wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "controller", 0))
+    try:
+        wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "controller", 0))
+    except:
+        messagebox.showinfo("DefaultSteering", "Controller index out of bounds, reset to 0.")
+        try:    
+            wheel = pygame.joystick.Joystick(0)
+            settings.CreateSettings("DefaultSteering", "controller", 0)
+        except:
+            wheel = None
+        
     
     rightIndicator = verifySetting("DefaultSteering", "rightIndicator", 13)
     leftIndicator = verifySetting("DefaultSteering", "leftIndicator", 14)
