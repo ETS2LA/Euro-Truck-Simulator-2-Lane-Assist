@@ -71,9 +71,9 @@ def updateSettings():
     try:
         wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "controller", 0))
     except:
-        messagebox.showinfo("DefaultSteering", "Controller index out of bounds, reset to 0.")
         try:    
             wheel = pygame.joystick.Joystick(0)
+            messagebox.showinfo("DefaultSteering", "Controller setup changed, defaulting to controller 0.")
             settings.CreateSettings("DefaultSteering", "controller", 0)
         except:
             wheel = None
