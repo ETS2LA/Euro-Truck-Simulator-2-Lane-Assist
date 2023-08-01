@@ -15,44 +15,67 @@ from src.loading import LoadingWindow
 from src.logger import print
 import src.settings as settings
 
-width = 800
-height = 600
+def CreateRoot():
+    global root
+    global buttonFrame
+    global pluginFrame
+    global width
+    global height
+    global fps
+    
+    try:
+        root.destroy()
+    except:
+        pass  
+    
+    width = 800
+    height = 600
 
-root = tk.Tk()
-root.title("Lane Assist")
-
-
-root.resizable(False, False)
-root.geometry(f"{width}x{height}")
-root.protocol("WM_DELETE_WINDOW", lambda: quit())
-
-try:
-    sv_ttk.set_theme(settings.GetSettings("User Interface", "Theme"))
-except:
-    sv_ttk.set_theme("dark")
-
-
-# Bottom text
-ttk.Label(root, text="ETS2 Lane Assist (1.1.1)   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
-fps = tk.StringVar()
-ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
-
-# Left button bar
-buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
-buttonFrame.pack_propagate(0)
-buttonFrame.grid_propagate(0)
+    root = tk.Tk()
+    root.title("Lane Assist")
 
 
-# Plugin frame
-buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
-pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
-pluginFrame.pack_propagate(0)
-pluginFrame.grid_propagate(0)
+    root.resizable(False, False)
+    root.geometry(f"{width}x{height}")
+    root.protocol("WM_DELETE_WINDOW", lambda: quit())
 
-pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
+    try:
+        sv_ttk.inited = False
+        sv_ttk.set_theme(settings.GetSettings("User Interface", "Theme"))
+    except:
+        try:
+            sv_ttk.inited = False
+            sv_ttk.set_theme("dark")
+        except:
+            # We remade the root and it already had a theme
+            pass
 
-root.update()
 
+    # Bottom text
+    ttk.Label(root, text="ETS2 Lane Assist (1.1.1)   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+    fps = tk.StringVar()
+    ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+
+    # Left button bar
+    buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
+    buttonFrame.pack_propagate(0)
+    buttonFrame.grid_propagate(0)
+
+
+    # Plugin frame
+    buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
+    pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
+    pluginFrame.pack_propagate(0)
+    pluginFrame.grid_propagate(0)
+
+    pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
+
+    # Bind F5 to drawButtons
+    root.bind("<F5>", lambda e: drawButtons(refresh=True))
+
+    root.update()
+
+CreateRoot()
 
 def quit():
     global root
@@ -61,9 +84,12 @@ def quit():
         root.destroy()
         del root
 
-def drawButtons():
+def drawButtons(refresh=False):
     global enableButton
     global themeButton
+    
+    if refresh:
+        CreateRoot()
     
     for child in pluginFrame.winfo_children():
         child.destroy()
@@ -74,6 +100,7 @@ def drawButtons():
     helpers.MakeButton(pluginFrame, "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
     helpers.MakeButton(pluginFrame, "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
     helpers.MakeButton(pluginFrame, "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
+    helpers.MakeLabel(pluginFrame, "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
     enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
     helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=9)
@@ -81,9 +108,6 @@ def drawButtons():
     helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=10, padx=9)
     themeButton = helpers.MakeButton(buttonFrame, sv_ttk.get_theme().capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=10, padx=9)
-
-# Bind F5 to drawButtons
-root.bind("<F5>", lambda e: drawButtons())
 
 prevFrame = 100
 def update(data):

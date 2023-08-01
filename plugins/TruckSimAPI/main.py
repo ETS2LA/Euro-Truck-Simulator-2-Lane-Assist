@@ -671,3 +671,52 @@ class ets2sdkclient:
         # now dump this in some way or another
         print(', \n'.join("%s: %s" % item for item in list(attrs.items())))
 
+
+
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -> None:
+            self.master = master # "master" is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def updateData(self):
+            self.list.delete(0, tk.END)
+            for key, value in self.data["api"].items():
+                self.list.insert(tk.END, str(key) + ": " + str(value))
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            
+            ttk.Button(self.root, text="Update Data", command=self.updateData).pack()
+            ttk.Label(self.root, text="Will only work when the app is enabled -> scrollable").pack()
+            # Create a list to hold all of the API data
+            self.listVar = tk.StringVar()
+            self.list = tk.Listbox(self.root, width=600, height=520, border=0, highlightthickness=0, listvariable=self.listVar)
+            self.list.pack()
+            
+            
+            
+            self.root.pack(anchor="center", expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+            self.data = data
+    
+    except Exception as ex:
+        print(ex.args)
