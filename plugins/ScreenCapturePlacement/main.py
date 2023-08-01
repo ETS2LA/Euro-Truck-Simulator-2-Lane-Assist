@@ -132,6 +132,7 @@ class UI():
             helpers.MakeButton(self.root, "Save Settings", lambda: SavePickerSettings(entryVar.get()), 4,0, padx=10, pady=10, width=15)
             helpers.MakeButton(self.root, "Disable Picker", lambda: root.destroy(), 5,0, padx=10, pady=10, width=15)
             
+            helpers.MakeButton(self.root, "Fix Focus", lambda: LostFocus(), 6,0, padx=10, pady=10, width=15)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
