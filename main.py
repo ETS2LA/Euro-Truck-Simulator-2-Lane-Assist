@@ -15,6 +15,7 @@ import time
 import json
 import src.variables as variables # Stores all main variables for the program
 from src.logger import print
+import src.logger as logger
 import traceback
 import src.settings as settings
 import psutil
@@ -211,6 +212,11 @@ GetEnabledPlugins()
 FindPlugins()
 loadingWindow.update(text="Initializing plugins...")
 RunOnEnable()
+
+logger.printDebug = settings.GetSettings("logger", "debug")
+if logger.printDebug == None:
+    logger.printDebug = False
+    settings.CreateSettings("logger", "debug", False)
 
 # We've loaded all necessary modules
 loadingWindow.destroy()

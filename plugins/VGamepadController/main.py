@@ -57,7 +57,10 @@ def plugin(data):
         
     try:
         controller = data["controller"]
-        leftStick = controller["leftStick"]
+        try:
+            leftStick = controller["leftStick"]
+        except:
+            leftStick = 0
         
         
         if leftStick > 1:

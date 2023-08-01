@@ -59,7 +59,9 @@ class UI():
             
             self.ignore = helpers.MakeComboEntry(self.root, "Ignore Modules (seperate by ,)", "Plugins", "Ignore", 2,0, value="EvdevController," if os.name != "nt" else "DXCamScreenCapture,", labelwidth=25, isString=True, width=55)
             
-            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 3,0, padx=30, pady=10, width=20)
+            self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20)
+            
+            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 4,0, padx=30, pady=10, width=20)
             
             # Use the mainUI.quit() function to quit the app
             helpers.MakeButton(self.root, "Save & Quit", lambda: self.save(), 10,0, padx=30, pady=10, width=20)

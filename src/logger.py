@@ -10,7 +10,9 @@ Logger, will replace the default "print" command with a custom one that will als
 import time
 import sys, inspect
 import os
+import traceback
 
+printDebug = False
 
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -26,6 +28,9 @@ times = 0
 with open("log.txt", "w") as f:
     f.truncate(0)
     f.write("")
+
+
+
 
 def print(text):
     global lastMsg
@@ -80,6 +85,8 @@ def print(text):
     
     # Can't use print() because it will cause an infinite loop
     sys.stdout.write(message)
+    if printDebug:
+        traceback.print_exc()
     
     
     

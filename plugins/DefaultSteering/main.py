@@ -67,10 +67,7 @@ def updateSettings():
     global leftIndicatorKey
     global useAPI
     
-    try:
-        wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "wheel", 0))
-    except:
-        wheel = None
+    wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "controller", 0))
     
     rightIndicator = verifySetting("DefaultSteering", "rightIndicator", 13)
     leftIndicator = verifySetting("DefaultSteering", "leftIndicator", 14)
@@ -370,6 +367,14 @@ def plugin(data):
     except Exception as ex:
         pass
 
+    try:
+        if data["controller"]["leftstick"] == None:
+            data["controller"]["leftstick"] = 0
+            print("Leftstick was None, setting it to 0")
+    except KeyError:
+        print("Leftstick was None, setting it to 0")
+        data["controller"]["leftstick"] = 0
+
     return data # Plugins need to ALWAYS return the data
 
 
@@ -438,6 +443,11 @@ class UI():
             self.list = tk.Listbox(controllerFrame, width=50, height=4, listvariable=self.listVariable, selectmode="single")
             self.list.grid(row=6, column=0, columnspan=3, padx=30, pady=10)
             
+            # Select the current controller by default
+            try:
+                self.list.selection_set(settings.GetSettings("DefaultSteering", "controller"))
+            except:
+                pass
             
             self.steeringAxis = helpers.MakeComboEntry(controllerFrame, "Steering Axis", "DefaultSteering", "steeringAxis", 7, 1, width=12, value=0)
             self.enableDisable = helpers.MakeComboEntry(controllerFrame, "Enable/Disable", "DefaultSteering", "enableDisable", 8, 1, width=12, value=5)
@@ -483,12 +493,15 @@ class UI():
             settings.CreateSettings("DefaultSteering", "smoothness", self.smoothness.get())
             settings.CreateSettings("DefaultSteering", "sensitivity", self.sensitivity.get())
             settings.CreateSettings("DefaultSteering", "maximumControl", self.maximumControl.get())
-            controller = self.list.curselection()[0]
-            settings.CreateSettings("DefaultSteering", "controller", controller)
             settings.CreateSettings("DefaultSteering", "steeringAxis", self.steeringAxis.get())
             settings.CreateSettings("DefaultSteering", "enableDisable", self.enableDisable.get())
             # settings.CreateSettings("DefaultSteering", "rightIndicator", self.rightIndicator.get())
             # settings.CreateSettings("DefaultSteering", "leftIndicator", self.leftIndicator.get())
+            try:
+                controller = self.list.curselection()[0]
+            except:
+                controller = self.list.curselection()
+            settings.CreateSettings("DefaultSteering", "controller", controller)
             settings.CreateSettings("DefaultSteering", "gamepad", self.gamepad.get())
             settings.CreateSettings("DefaultSteering", "gamepadSmoothness", self.gamepadSmoothness.get())
             settings.CreateSettings("DefaultSteering", "keyboard", self.keyboard.get())
@@ -501,11 +514,6 @@ class UI():
         def update(self, data): # When the panel is open this function is called each frame 
             pygame.event.pump()
             try:
-                
-                # Get the current index of the selected controller in the list variable
-                controller = self.list.curselection()[0]
-                if controller != None:
-                    settings.CreateSettings("DefaultSteering", "controller", controller)
                 
                 value = ""
                 for i in range(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_numbuttons()):
