@@ -483,7 +483,8 @@ class UI():
             settings.CreateSettings("DefaultSteering", "smoothness", self.smoothness.get())
             settings.CreateSettings("DefaultSteering", "sensitivity", self.sensitivity.get())
             settings.CreateSettings("DefaultSteering", "maximumControl", self.maximumControl.get())
-            settings.CreateSettings("DefaultSteering", "controller", self.controller.get())
+            controller = self.list.curselection()[0]
+            settings.CreateSettings("DefaultSteering", "controller", controller)
             settings.CreateSettings("DefaultSteering", "steeringAxis", self.steeringAxis.get())
             settings.CreateSettings("DefaultSteering", "enableDisable", self.enableDisable.get())
             # settings.CreateSettings("DefaultSteering", "rightIndicator", self.rightIndicator.get())
