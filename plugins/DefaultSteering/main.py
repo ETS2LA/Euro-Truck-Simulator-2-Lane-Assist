@@ -155,7 +155,7 @@ def plugin(data):
     # Keyboard based control
     if keyboard:
         try:
-            speed = data["api"]["speed"]
+            speed = data["api"]["truckFloat"]["speed"]
             if speed < 0:
                 speed = -speed
             if speed == 0:
@@ -182,8 +182,8 @@ def plugin(data):
             
         
         try:
-            IndicatingLeft = data["api"]["BlinkerLeftOn"]
-            IndicatingRight = data["api"]["BlinkerRightOn"]
+            IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
+            IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
 
             enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
             if(kb.is_pressed(enableDisableKey) and enabledTimer > 15):
@@ -253,8 +253,8 @@ def plugin(data):
     else:
         try:
             enabledTimer += 1
-            IndicatingLeft = data["api"]["BlinkerLeftActive"]
-            IndicatingRight = data["api"]["BlinkerRightActive"]
+            IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
+            IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
 
             if(wheel.get_button(enableDisable) and enabledTimer > 15):
                 if enabled == True:
