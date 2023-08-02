@@ -497,6 +497,10 @@ class UI():
                 
                 try: settings.GetSettings("LSTRDrawLanes", "drawLanePoints")
                 except: settings.CreateSettings("LSTRDrawLanes", "drawLanePoints", False)
+            
+            
+            from plugins.LSTRDrawLanes.main import loadSettings
+            loadSettings()
                 
             self.soundSettings()
                     
