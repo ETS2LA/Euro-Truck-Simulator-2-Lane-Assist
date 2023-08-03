@@ -65,7 +65,26 @@ def CreateCamera():
 
     left, top = x, y
     right, bottom = left + width, top + height
+
+    from tkinter import messagebox
+
+    # Check if these values would go over the screen edges
+    if right > dxcam.get_monitors()[display].width:
+        right = dxcam.get_monitors()[display].width
+        messagebox.showwarning("Warning", "The width value is too high, it has been lowered to {}".format(right))
+    
+    if bottom > dxcam.get_monitors()[display].height:
+        bottom = dxcam.get_monitors()[display].height
+        messagebox.showwarning("Warning", "The height value is too high, it has been lowered to {}".format(bottom))
+    
+    if left < 0:
+        left = 0
+        
+    if top < 0:
+        top = 0
+        
     monitor = (left,top,right,bottom)
+        
     
     try:
         del camera
