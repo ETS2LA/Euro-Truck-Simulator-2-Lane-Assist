@@ -104,17 +104,57 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
+            import screeninfo
+            
+            try:
+                screen = screeninfo.get_monitors()[settings.GetSettings("dxcam", "display")]
+            except:
+                screen = screeninfo.get_monitors()[0]
+                
+            self.screenHeight = int(screen.height)
+            self.screenWidth = int(screen.width)
+            
+            def updateWidth(value):
+                self.width.set(value)
+                self.xSlider.config(to=self.screenWidth - int(value))
+                
+            def updateHeight(value):
+                self.height.set(value)
+                self.ySlider.config(to=self.screenHeight - int(value))
+            
+            def updateX(value):
+                self.x.set(value)
+                
+            def updateY(value):
+                self.y.set(value)
+            
             self.root = tk.Canvas(self.master, width=600, height=520)
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
             # Helpers provides easy to use functions for creating consistent widgets!
-            self.width = helpers.MakeComboEntry(self.root, "Width", "dxcam", "width", 0,0)
-            self.height = helpers.MakeComboEntry(self.root, "Height", "dxcam", "height", 1,0)
-            self.x = helpers.MakeComboEntry(self.root, "X", "dxcam", "x", 2,0)
-            self.y = helpers.MakeComboEntry(self.root, "Y", "dxcam", "y", 3,0)
+            self.widthSlider = tk.Scale(self.root, from_=0, to=self.screenWidth, orient=tk.HORIZONTAL, length=500, command=lambda x: updateWidth(self.widthSlider.get()))
+            self.widthSlider.set(settings.GetSettings("dxcam", "width"))
+            self.widthSlider.grid(row=0, column=0, padx=10, pady=0, columnspan=2)
+            self.width = helpers.MakeComboEntry(self.root, "Width", "dxcam", "width", 1,0)
             
-            helpers.MakeButton(self.root, "Apply", lambda: self.updateSettings(), 4,0)
+            self.heightSlider = tk.Scale(self.root, from_=0, to=self.screenHeight, orient=tk.HORIZONTAL, length=500, command=lambda x: updateHeight(self.heightSlider.get()))
+            self.heightSlider.set(settings.GetSettings("dxcam", "height"))
+            self.heightSlider.grid(row=2, column=0, padx=10, pady=0, columnspan=2)
+            self.height = helpers.MakeComboEntry(self.root, "Height", "dxcam", "height", 3,0)
+            
+            self.xSlider = tk.Scale(self.root, from_=0, to=self.screenWidth - self.width.get(), orient=tk.HORIZONTAL, length=500, command=lambda x: updateX(self.xSlider.get()))
+            self.xSlider.set(settings.GetSettings("dxcam", "x"))
+            self.xSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
+            self.x = helpers.MakeComboEntry(self.root, "X", "dxcam", "x", 5,0)
+            
+            self.ySlider = tk.Scale(self.root, from_=0, to=self.screenHeight - self.height.get(), orient=tk.HORIZONTAL, length=500, command=lambda x: updateY(self.ySlider.get()))
+            self.ySlider.set(settings.GetSettings("dxcam", "y"))
+            self.ySlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
+            self.y = helpers.MakeComboEntry(self.root, "Y", "dxcam", "y", 7,0)
+            self.display = helpers.MakeComboEntry(self.root, "Display", "dxcam", "display", 8,0, value=0)
+            
+            helpers.MakeButton(self.root, "Apply", lambda: self.updateSettings(), 9,0)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
