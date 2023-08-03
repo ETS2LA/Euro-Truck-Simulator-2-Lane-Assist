@@ -447,8 +447,14 @@ class UI():
 
         def updateData(self):
             self.list.delete(0, tk.END)
+            # recursively get all the data from the API
             for key, value in self.data["api"].items():
-                self.list.insert(tk.END, str(key) + ": " + str(value))
+                if type(value) == dict:
+                    self.list.insert(tk.END, key + ":")
+                    for key2, value2 in value.items():
+                        self.list.insert(tk.END, "    " + key2 + ": " + str(value2))
+                else:
+                    self.list.insert(tk.END, key + ": " + str(value))
         
         def exampleFunction(self):
             
