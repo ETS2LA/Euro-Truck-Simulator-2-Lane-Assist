@@ -68,7 +68,6 @@ def CreateCamera():
 
     from tkinter import messagebox
     import screeninfo
-    # Check if these values would go over the screen edges
     try:
         screen = screeninfo.get_monitors()[settings.GetSettings("dxcam", "display")]
     except:
@@ -77,6 +76,7 @@ def CreateCamera():
     screenWidth = int(screen.width)
     screenHeight = int(screen.height)
     
+    # Check if these values would go over the screen edges
     if right > screenWidth:
         right = screenWidth
         messagebox.showwarning("Warning", "The width value is too high, it has been lowered to {}".format(right))

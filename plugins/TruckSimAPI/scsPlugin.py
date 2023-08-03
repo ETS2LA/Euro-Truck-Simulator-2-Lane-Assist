@@ -1,5 +1,6 @@
 import mmap
 import struct
+from src.logger import print
 
 # https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
 
