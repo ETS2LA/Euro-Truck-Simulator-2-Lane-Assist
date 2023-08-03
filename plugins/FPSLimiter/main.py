@@ -98,7 +98,7 @@ class UI():
             print(fps)
             settings.CreateSettings("FPS Limiter", "fps", fps)
         
-        def update(self): # When the panel is open this function is called each frame 
+        def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()
             
     

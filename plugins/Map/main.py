@@ -115,7 +115,7 @@ def onDisable():
 #             self.root.update()
 #         
 #         
-#         def update(self): # When the panel is open this function is called each frame 
+#         def update(self, data): # When the panel is open this function is called each frame 
 #             self.root.update()
 #     
 #     

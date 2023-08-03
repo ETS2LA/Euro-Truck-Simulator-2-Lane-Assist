@@ -168,7 +168,7 @@ import struct
 #        
 #class ets2sdkclient:
 #            
-#    def update(self):
+#    def update(self, data):
 #        self.mm = mmap.mmap(0, 1024, "Local\SimTelemetryETS2")
 #        
 #        #[FieldOffset(0)]

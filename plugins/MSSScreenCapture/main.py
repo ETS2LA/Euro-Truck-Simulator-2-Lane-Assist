@@ -166,7 +166,7 @@ class UI():
             settings.CreateSettings("dxcam", "y", self.y.get())
             CreateCamera()
         
-        def update(self): # When the panel is open this function is called each frame 
+        def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()
     
     

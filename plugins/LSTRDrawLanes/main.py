@@ -146,7 +146,7 @@ class UI():
             settings.CreateSettings("LSTRDrawLanes", "fillLaneColor", self.fillLaneColor.get())
             loadSettings()
         
-        def update(self): # When the panel is open this function is called each frame 
+        def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()
     
     

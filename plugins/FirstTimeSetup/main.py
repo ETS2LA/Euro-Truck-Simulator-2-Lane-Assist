@@ -607,6 +607,8 @@ class UI():
                         ets2SuccessfullyInstalled = True
                     except:
                         ets2SuccessfullyInstalled = False
+                else:
+                    ets2SuccessfullyInstalled = False
                     
                 if self.foundATS:
                     try:
@@ -620,6 +622,8 @@ class UI():
                         atsSuccessfullyInstalled = True
                     except:
                         atsSuccessfullyInstalled = False
+                else:
+                    atsSuccessfullyInstalled = False
                     
                 if self.foundAdditionalDir:
                     try:
@@ -633,6 +637,8 @@ class UI():
                         additionalSuccessfullyInstalled = True
                     except:
                         additionalSuccessfullyInstalled = False
+                else:
+                    additionalSuccessfullyInstalled = False
                         
                 from tkinter import messagebox
                 if ets2SuccessfullyInstalled or atsSuccessfullyInstalled or additionalSuccessfullyInstalled:
