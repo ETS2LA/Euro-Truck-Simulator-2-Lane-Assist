@@ -14,6 +14,9 @@ And cudnn here https://developer.nvidia.com/rdp/cudnn-download
 
 Now install both (cudnn is a zip file -> unpack that to in C:\ProgramFiles\NVIDIA\CUDNN\vx.x\)
 Then copy the following files into this folder: 
+(cudnn files can be found in the zip or where you unpacked it)
+(CUDA file are in C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\version\bin\)
+
 zlibwapi.dll -> http://www.winimage.com/zLibDll/zlib123dllx64.zip
 cufft64_10.dll
 cudnn_ops_infer64_8.dll
