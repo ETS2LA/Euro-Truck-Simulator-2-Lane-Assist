@@ -48,11 +48,14 @@ def CreateWindow(x,y,w,h):
     label = tk.Label(canvas, text="This is a test", font=("Roboto", 26, "bold"), bg="black", fg="white")
     label.pack(anchor="center", expand=False, pady=30)
 
-    #root.overrideredirect(True)
-    #root.wm_attributes("-disabled", True)
-    root.wm_attributes("-transparentcolor", "black")
+    # root.overrideredirect(True)
+    # root.wm_attributes("-disabled", True)
+    
+    if settings.GetSettings("ScreenCapturePlacement", "compatibilityMode") == False:
+        root.wm_attributes("-transparentcolor", "black")
+        root.bind("<FocusOut>", lambda e: LostFocus())
+        
     root.bind("<Configure>", lambda e: OnWindowLocationChange())
-    root.bind("<FocusOut>", lambda e: LostFocus())
 
     root.update()
 
@@ -132,7 +135,8 @@ class UI():
             helpers.MakeButton(self.root, "Save Settings", lambda: SavePickerSettings(entryVar.get()), 4,0, padx=10, pady=10, width=15)
             helpers.MakeButton(self.root, "Disable Picker", lambda: root.destroy(), 5,0, padx=10, pady=10, width=15)
             
-            helpers.MakeButton(self.root, "Fix Focus", lambda: LostFocus(), 6,0, padx=10, pady=10, width=15)
+            helpers.MakeLabel(self.root, "Compatibility mode is for older versions of Windows\nwhere the transparent background doesn't work.\nCreate the window again after toggling!", 6,0, font=("Roboto", 8), padx=30, pady=10)
+            helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
