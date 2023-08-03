@@ -552,6 +552,101 @@ class UI():
             import webbrowser
             helpers.MakeButton(self.root, "Open instructions", lambda: webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/InGame"), 3,1)
             self.apiNextButton = helpers.MakeButton(self.root, "Waiting for api...", lambda: self.lastPage(), 3,2, state="disabled")
+            
+            helpers.MakeLabel(self.root, "Automatic installation", 4,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
+            
+            # Check for ETS2 / ATS directories 
+            ets2Dir = r"C:\Program Files (x86)\Steam\steamapps\common\Euro Truck Simulator 2"
+            atsDir = r"C:\Program Files (x86)\Steam\steamapps\common\American Truck Simulator"
+        
+            if os.path.isdir(ets2Dir):
+                self.foundETS2 = True
+            else:
+                self.foundETS2 = False
+                
+            if os.path.isdir(atsDir):
+                self.foundATS = True
+            else:
+                self.foundATS = False
+                
+            foundString = "Found the following games automatically:\n"
+            foundString += "ETS2: " + str(self.foundETS2) + "\n"
+            foundString += "ATS: " + str(self.foundATS) + "\n"
+            
+            self.gameText = helpers.MakeLabel(self.root, foundString, 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
+            
+            from tkinter import filedialog
+            
+            self.foundAdditionalDir = False
+            def GetAdditionalDir(self):
+                self.additionalDir = filedialog.askdirectory()
+                # Check the base.scs file exists in that directory
+                if os.path.isfile(os.path.join(self.additionalDir, "base.scs")):
+                    self.gameText.config(text=foundString + self.additionalDir + ": True")
+                    self.foundAdditionalDir = True
+                else:
+                    self.gameText.config(text=foundString + self.additionalDir + ": False")
+                    self.foundAdditionalDir = False
+            
+            helpers.MakeButton(self.root, "Add game (if not found)", lambda: GetAdditionalDir(self), 6,0, columnspan=3, width=30)
+            
+            import shutil
+            
+            def InstallETS2ATSPlugin(self):
+                pluginInstallDir = r"bin\win_x64\plugins"
+                # Make that folder if it doesn't exist
+                if self.foundETS2:
+                    try:
+                        installDir = os.path.join(ets2Dir, pluginInstallDir)
+                        if not os.path.isdir(installDir):
+                            os.mkdir(installDir)
+                            
+                        # Copy the plugin (assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll) to that folder
+                        shutil.copy(os.path.join(variables.PATH, "assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll"), installDir)
+                        
+                        ets2SuccessfullyInstalled = True
+                    except:
+                        ets2SuccessfullyInstalled = False
+                    
+                if self.foundATS:
+                    try:
+                        installDir = os.path.join(atsDir, pluginInstallDir)
+                        if not os.path.isdir(installDir):
+                            os.mkdir(installDir)
+                            
+                        # Copy the plugin (assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll) to that folder
+                        shutil.copy(os.path.join(variables.PATH, "assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll"), installDir)
+                        
+                        atsSuccessfullyInstalled = True
+                    except:
+                        atsSuccessfullyInstalled = False
+                    
+                if self.foundAdditionalDir:
+                    try:
+                        installDir = os.path.join(self.additionalDir, pluginInstallDir)
+                        if not os.path.isdir(installDir):
+                            os.mkdir(installDir)
+                            
+                        # Copy the plugin (assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll) to that folder
+                        shutil.copy(os.path.join(variables.PATH, "assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll"), installDir)
+                        
+                        additionalSuccessfullyInstalled = True
+                    except:
+                        additionalSuccessfullyInstalled = False
+                        
+                from tkinter import messagebox
+                if ets2SuccessfullyInstalled or atsSuccessfullyInstalled or additionalSuccessfullyInstalled:
+                    messagebox.showinfo("Success", "Successfully installed the plugin(s)!\nYou should start the game now to enable the SDK and continue on!")    
+                else:
+                    messagebox.showerror("Error", "Failed to install the plugin(s)!\nAre you sure you set your path properly?")
+                
+                
+            
+            # Display the automatic installation buttons if the directories were found
+            if self.foundETS2 or self.foundATS:
+                helpers.MakeButton(self.root, "Install ETS2 / ATS Plugin", lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
+            
+            
         
             self.root.pack()
             self.root.update()
