@@ -219,9 +219,11 @@ if logger.printDebug == None:
     settings.CreateSettings("logger", "debug", False)
 
 # We've loaded all necessary modules
-loadingWindow.destroy()
 mainUI.root.update()
 mainUI.drawButtons()
+
+loadingWindow.destroy()
+del loadingWindow
 
 data = {}
 uiFrameTimer = 0

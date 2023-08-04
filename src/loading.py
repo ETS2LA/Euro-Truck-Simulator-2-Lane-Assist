@@ -11,7 +11,7 @@ destroy() parameters:
 
 update() parameters:
     progress: If set to False, will create an indeterminate progress bar. If set to an integer, will create a determinate progress bar with the value of the integer.
-
+    text: The text to display on the loading window.
 '''
 
 import tkinter as tk
@@ -44,18 +44,23 @@ class LoadingWindow:
             self.progress.start(10)
         else:
             self.progress = ttk.Progressbar(self.root, orient="horizontal", length=200, mode="determinate", value=progress)
+        
         self.progress.pack(pady=10)
         self.root.update()
 
     def destroy(self):
+        del self.progress
         self.root.destroy()
 
     def update(self, progress=False, text=False):
-        if progress != False:
-            self.progress["value"] = progress
-        
-        if text != False:
-            self.label.config(text=text)
+        try:
+            if progress != False:
+                self.progress["value"] = progress
+            
+            if text != False:
+                self.label.config(text=text)
+        except:
+            pass
         
         self.root.update()
 
