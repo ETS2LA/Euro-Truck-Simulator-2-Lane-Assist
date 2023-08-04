@@ -11,6 +11,7 @@ import time
 import sys, inspect
 import os
 import traceback
+import colorama
 
 printDebug = False
 
@@ -30,6 +31,8 @@ with open("log.txt", "w") as f:
     f.write("")
 
 
+# Initialize colors for the terminal
+colorama.init()
 
 
 def print(text):

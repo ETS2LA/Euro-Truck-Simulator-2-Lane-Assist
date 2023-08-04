@@ -2,6 +2,17 @@
 The main file that runs the programs loop.
 '''
 
+# This section is for modules that I've added later as they might 
+# not have been installed yet
+
+import os
+try:
+    import colorama
+except:
+    os.system("pip install colorama")
+    import colorama
+
+
 # Load the UI framework
 import src.mainUI as mainUI
 import src.loading as loading # And then create a loading window
@@ -9,7 +20,6 @@ loadingWindow = loading.LoadingWindow("Please wait initializing...")
 
 
 # Load the rest of the modules
-import os
 import sys
 import time
 import json

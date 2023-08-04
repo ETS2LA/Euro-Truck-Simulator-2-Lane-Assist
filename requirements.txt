@@ -4,3 +4,4 @@ sv_ttk
 psutil
 playsound
 scipy
+colorama
