@@ -86,7 +86,7 @@ class UI():
             
             # Helpers provides easy to use functions for creating consistent widgets!
             self.fps = helpers.MakeComboEntry(self.root, "Desired FPS", "FPS Limiter", "fps", 0, 0, width=7)
-            helpers.MakeLabel(self.root, "Please note that the accuracity depends on your system. (linux > macOS > windows)", 1,0, font=("Roboto", 8), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, "Please note that the accuracity depends on your system. (linux > windows)", 1,0, font=("Roboto", 8), padx=30, pady=10, columnspan=2)
             helpers.MakeButton(self.root, "Apply", lambda: self.applyFPS(), 2,0)
             
             self.root.pack(anchor="center", expand=False)
