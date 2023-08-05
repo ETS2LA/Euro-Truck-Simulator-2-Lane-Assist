@@ -10,4 +10,4 @@ app/
 run.bat
 activate.bat
 src/NVIDIA/*.dll
-*/*/__pycache__
+*/*/__pycache__/*
