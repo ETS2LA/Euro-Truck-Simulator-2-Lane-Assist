@@ -556,22 +556,14 @@ class UI():
             helpers.MakeLabel(self.root, "Automatic installation", 4,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
             
             # Check for ETS2 / ATS directories 
-            ets2Dir = r"C:\Program Files (x86)\Steam\steamapps\common\Euro Truck Simulator 2"
-            atsDir = r"C:\Program Files (x86)\Steam\steamapps\common\American Truck Simulator"
-        
-            if os.path.isdir(ets2Dir):
-                self.foundETS2 = True
-            else:
-                self.foundETS2 = False
-                
-            if os.path.isdir(atsDir):
-                self.foundATS = True
-            else:
-                self.foundATS = False
+            import plugins.FirstTimeSetup.steamParser as steamParser
+            
+            self.scsGames = steamParser.FindSCSGames()
                 
             foundString = "Found the following games automatically:\n"
-            foundString += "ETS2: " + str(self.foundETS2) + "\n"
-            foundString += "ATS: " + str(self.foundATS) + "\n"
+            
+            for game in self.scsGames:
+                foundString += game + ": True\n"
             
             self.gameText = helpers.MakeLabel(self.root, foundString, 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
             
@@ -595,54 +587,29 @@ class UI():
             def InstallETS2ATSPlugin(self):
                 pluginInstallDir = r"bin\win_x64\plugins"
                 # Make that folder if it doesn't exist
-                if self.foundETS2:
-                    try:
-                        installDir = os.path.join(ets2Dir, pluginInstallDir)
-                        if not os.path.isdir(installDir):
-                            os.mkdir(installDir)
-                            
-                        # Copy the plugin (assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll) to that folder
-                        shutil.copy(os.path.join(variables.PATH, "assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll"), installDir)
-                        
-                        ets2SuccessfullyInstalled = True
-                    except:
-                        ets2SuccessfullyInstalled = False
-                else:
-                    ets2SuccessfullyInstalled = False
+                try:
+                    self.scsGames += [self.additionalDir]
+                except:
+                    pass
+                
+                # Copy the plugin to the correct folder
+                successfullyInstalled = []
+                for game in self.scsGames:
+                    print(game)
+                    # Check if the plugins folder exists
+                    if not os.path.isdir(os.path.join(game, pluginInstallDir)):
+                        os.makedirs(os.path.join(game, pluginInstallDir))
                     
-                if self.foundATS:
+                    # Copy the plugin to the folder
                     try:
-                        installDir = os.path.join(atsDir, pluginInstallDir)
-                        if not os.path.isdir(installDir):
-                            os.mkdir(installDir)
-                            
-                        # Copy the plugin (assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll) to that folder
-                        shutil.copy(os.path.join(variables.PATH, "assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll"), installDir)
-                        
-                        atsSuccessfullyInstalled = True
+                        shutil.copy(os.path.join(variables.PATH, "assets", "firstTimeSetup", "sdkPlugin", "scs-telemetry.dll"), os.path.join(game, pluginInstallDir))
+                        successfullyInstalled.append(game)
                     except:
-                        atsSuccessfullyInstalled = False
-                else:
-                    atsSuccessfullyInstalled = False
-                    
-                if self.foundAdditionalDir:
-                    try:
-                        installDir = os.path.join(self.additionalDir, pluginInstallDir)
-                        if not os.path.isdir(installDir):
-                            os.mkdir(installDir)
-                            
-                        # Copy the plugin (assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll) to that folder
-                        shutil.copy(os.path.join(variables.PATH, "assets/firstTimeSetup/sdkPlugin/scs-telemetry.dll"), installDir)
-                        
-                        additionalSuccessfullyInstalled = True
-                    except:
-                        additionalSuccessfullyInstalled = False
-                else:
-                    additionalSuccessfullyInstalled = False
+                        print("Failed to copy the plugin to " + os.path.join(game, pluginInstallDir))
                         
                 from tkinter import messagebox
-                if ets2SuccessfullyInstalled or atsSuccessfullyInstalled or additionalSuccessfullyInstalled:
-                    messagebox.showinfo("Success", "Successfully installed the plugin(s)!\nYou should start the game now to enable the SDK and continue on!")    
+                if successfullyInstalled != []:
+                    messagebox.showinfo("Success", "Successfully installed at least some plugin(s)!\nYou should start the game now to enable the SDK and continue on!\n\nInstalled to:\n" + "\n".join(successfullyInstalled))    
                 else:
                     messagebox.showerror("Error", "Failed to install the plugin(s)!\nAre you sure you set your path properly?")
                 

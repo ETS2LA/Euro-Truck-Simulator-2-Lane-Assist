@@ -12,6 +12,12 @@ except:
     os.system("pip install colorama")
     import colorama
 
+try:
+    import vdf
+except:
+    os.system("pip install vdf")
+    import vdf
+
 
 # Load the UI framework
 import src.mainUI as mainUI
