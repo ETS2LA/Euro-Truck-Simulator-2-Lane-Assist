@@ -276,7 +276,7 @@ def install():
     if not os.path.exists("update.bat"):
         with open("update.bat", "w") as f:
             dir = os.path.dirname(os.path.realpath(__file__))
-            f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git pull & pause & exit" & exit')
+            f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & pause & exit" & exit')
 
     button.configure(text="Run", command=runApp)
 
