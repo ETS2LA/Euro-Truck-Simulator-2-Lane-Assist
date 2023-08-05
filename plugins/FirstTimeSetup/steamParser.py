@@ -1,11 +1,14 @@
+from src.logger import print
 import json
 import vdf
 import os
 try:
     import winreg
-    STEAM_INSTALL_FOLDER = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\\Wow6432Node\\Valve\\Steam"), "InstallPath")[0]
+    STEAM_INSTALL_FOLDER = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\\Valve\\Steam"), "SteamPath")[0]
+    print("Found registery key for Steam install folder: " + STEAM_INSTALL_FOLDER)
 except:
     STEAM_INSTALL_FOLDER = r"C:\Program Files (x86)\Steam"
+    print("Could not find registery key for Steam install folder, using default: " + STEAM_INSTALL_FOLDER)
 
 LIBRARY_FOLDER_LOCATION = r"steamapps\libraryfolders.vdf"
 SECONDARY_LIBRARY_FOLDER_LOCATION = r"D:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"
@@ -25,6 +28,9 @@ def ReadSteamLibraryFolders():
     for key in file["libraryfolders"]:
         if key.isnumeric():
             libraries.append(file["libraryfolders"][key]["path"])    
+    
+    for library in libraries:
+        print("Found Steam library: " + library)
     
     return libraries
 
