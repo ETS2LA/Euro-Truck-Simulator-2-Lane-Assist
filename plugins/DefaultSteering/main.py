@@ -50,8 +50,10 @@ def verifySetting(category, key, default):
         
     return value
 
+lastWheelIndex = -1
 def updateSettings():
     global wheel
+    global lastWheelIndex
     global rightIndicator
     global leftIndicator
     global steeringAxis
@@ -68,22 +70,23 @@ def updateSettings():
     global leftIndicatorKey
     global useAPI
     
-    try:
-        wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "controller", 0))
-    except:
-        try:    
-            wheel = pygame.joystick.Joystick(0)
-            messagebox.showinfo("DefaultSteering", "Controller setup changed, defaulting to controller 0.")
-            settings.CreateSettings("DefaultSteering", "controller", 0)
+    if lastWheelIndex != verifySetting("DefaultSteering", "controller", 0):
+        try:
+            wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "controller", 0))
         except:
-            wheel = None
+            try:    
+                wheel = pygame.joystick.Joystick(0)
+                messagebox.showinfo("DefaultSteering", "Controller setup changed, defaulting to controller 0.")
+                settings.CreateSettings("DefaultSteering", "controller", 0)
+            except:
+                wheel = None
         
     
     rightIndicator = verifySetting("DefaultSteering", "rightIndicator", 13)
     leftIndicator = verifySetting("DefaultSteering", "leftIndicator", 14)
     steeringAxis = verifySetting("DefaultSteering", "steeringAxis", 0)
     maximumControl = verifySetting("DefaultSteering", "maximumControl", 0.2)
-    controlSmoothness = verifySetting("DefaultSteering", "smoothness", 8)
+    controlSmoothness = verifySetting("DefaultSteering", "smoothness", 4)
     sensitivity = verifySetting("DefaultSteering", "sensitivity", 0.4)
     offset = verifySetting("DefaultSteering", "offset", 0)
     gamepadMode = verifySetting("DefaultSteering", "gamepad", False)
@@ -380,9 +383,7 @@ def plugin(data):
     try:
         if data["controller"]["leftstick"] == None:
             data["controller"]["leftstick"] = 0
-            print("Leftstick was None, setting it to 0")
     except KeyError:
-        print("Leftstick was None, setting it to 0")
         data["controller"]["leftstick"] = 0
 
     return data # Plugins need to ALWAYS return the data
@@ -430,10 +431,31 @@ class UI():
             generalFrame.columnconfigure(1, weight=1)
             generalFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(generalFrame, "General", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
-            self.offset = helpers.MakeComboEntry(generalFrame, "Steering Offset", "DefaultSteering", "offset", 1, 1, width=12, value=-0.2, isFloat=True)
-            self.smoothness = helpers.MakeComboEntry(generalFrame, "Smoothening", "DefaultSteering", "smoothness", 2, 1, width=12, value=8)
-            self.sensitivity = helpers.MakeComboEntry(generalFrame, "Sensitivity", "DefaultSteering", "sensitivity", 3, 1, width=12, value=0.6, isFloat=True)
-            self.maximumControl = helpers.MakeComboEntry(generalFrame, "Maximum Control", "DefaultSteering", "maximumControl", 4, 1, isFloat=True, width=12, value=0.2)
+            # self.offset = helpers.MakeComboEntry(generalFrame, "Steering Offset", "DefaultSteering", "offset", 1, 1, width=12, value=-0.2, isFloat=True)
+            self.offset = tk.Scale(generalFrame, from_=-0.5, to=0.5, orient="horizontal", length=500, resolution=0.01, label="Steering Offset")
+            self.offset.grid(row=1, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "offset")
+            if value == None: value = 0.0
+            self.offset.set(value)
+            
+            self.smoothness = tk.Scale(generalFrame, from_=0, to=10, orient="horizontal", length=500, resolution=1, label="Control Smoothness")
+            self.smoothness.grid(row=2, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "smoothness")
+            if value == None: value = 4
+            self.smoothness.set(value)
+            
+            self.sensitivity = tk.Scale(generalFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label="Sensitivity")
+            self.sensitivity.grid(row=3, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "sensitivity")
+            if value == None: value = 0.4
+            self.sensitivity.set(value)
+            
+            self.maximumControl = tk.Scale(generalFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label="Maximum Control")
+            self.maximumControl.grid(row=4, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "maximumControl")
+            if value == None: value = 0.2
+            self.maximumControl.set(value)
+
             self.useAPI = helpers.MakeCheckButton(generalFrame, "Use ETS2/ATS API", "DefaultSteering", "useAPI", 5, 1, width=15, default=False)
             
             controllerFrame.columnconfigure(0, weight=1)
@@ -476,7 +498,11 @@ class UI():
             gamepadFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(gamepadFrame, "Gamepad", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
             self.gamepad = helpers.MakeCheckButton(gamepadFrame, "Gamepad Mode", "DefaultSteering", "gamepad", 1, 1, width=15, default=True)
-            self.gamepadSmoothness = helpers.MakeComboEntry(gamepadFrame, "Gamepad Smoothness", "DefaultSteering", "gamepadSmoothness", 2, 1, isFloat=True, width=12, labelwidth=18, value=0.05)
+            self.gamepadSmoothness = tk.Scale(gamepadFrame, from_=0, to=0.4, orient="horizontal", length=500, resolution=0.01, label="Gamepad Smoothness")
+            self.gamepadSmoothness.grid(row=2, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "gamepadSmoothness")
+            if value == None: value = 0.05
+            self.gamepadSmoothness.set(value)
             
             keyboardFrame.columnconfigure(0, weight=1)
             keyboardFrame.columnconfigure(1, weight=1)
