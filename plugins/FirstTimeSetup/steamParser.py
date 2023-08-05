@@ -1,8 +1,13 @@
 import json
 import vdf
 import os
+try:
+    import winreg
+    STEAM_INSTALL_FOLDER = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\\Wow6432Node\\Valve\\Steam"), "InstallPath")[0]
+except:
+    STEAM_INSTALL_FOLDER = r"C:\Program Files (x86)\Steam"
 
-LIBRARY_FOLDER_LOCATION = r"C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"
+LIBRARY_FOLDER_LOCATION = r"steamapps\libraryfolders.vdf"
 SECONDARY_LIBRARY_FOLDER_LOCATION = r"D:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"
 ETS2_PATH_IN_LIBRARY = r"steamapps\common\Euro Truck Simulator 2"
 ATS_PATH_IN_LIBRARY = r"steamapps\common\American Truck Simulator"
@@ -11,8 +16,8 @@ VERIFY_FILE = "base.scs"
 def ReadSteamLibraryFolders():
     libraries = []
     
-    if os.path.isfile(LIBRARY_FOLDER_LOCATION):
-        file = open(LIBRARY_FOLDER_LOCATION, "r")
+    if os.path.isfile(os.path.join(STEAM_INSTALL_FOLDER, LIBRARY_FOLDER_LOCATION)):
+        file = open(os.path.join(STEAM_INSTALL_FOLDER, LIBRARY_FOLDER_LOCATION), "r")
     else:
         file = open(SECONDARY_LIBRARY_FOLDER_LOCATION, "r")
         
