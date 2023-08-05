@@ -712,8 +712,10 @@ class UI():
                 cv2.destroyAllWindows()
                 pass
             
-            self.apiNextButton.config(state="normal", text="Next")
-            
+            try:
+                self.apiNextButton.config(state="normal", text="Next")
+            except:
+                pass
                 
                 
             
