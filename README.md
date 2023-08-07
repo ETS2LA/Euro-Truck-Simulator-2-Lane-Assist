@@ -8,7 +8,8 @@ Wiki: https://wiki.tumppi066.xyz/en/LaneAssist (Under construction, installation
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1NOC3P)
 
-![LaneAssistLogoWide](https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/assets/83072683/d6b32c3a-955e-432b-8c6a-95ac0623190a)
+![LaneAssistLogoWide](https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/assets/83072683/b5b048d4-69b0-4c25-b050-f52df79610c1)
+
 
 
 ### About
