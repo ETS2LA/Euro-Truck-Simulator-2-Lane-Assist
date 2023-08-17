@@ -133,7 +133,7 @@ class UI():
             self.logo = Image.open(os.path.join(variables.PATH, "plugins", self.plugin.name, self.plugin.image))
             # Resize to height keeping the aspect ratio
             height = 130
-            self.logo = self.logo.resize((int(height*self.logo.width/self.logo.height), height), Image.ANTIALIAS)
+            self.logo = self.logo.resize((int(height*self.logo.width/self.logo.height), height), Image.Resampling.BILINEAR)
             self.logo = ImageTk.PhotoImage(self.logo)
             self.logoLabel = tk.Label(self.pluginInfoFrame, image=self.logo)
             self.logoLabel.grid(row=0, column=0, columnspan=1, pady=10, padx=30)
