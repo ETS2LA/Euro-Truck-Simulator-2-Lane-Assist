@@ -186,8 +186,13 @@ class scsTelemetry:
     
     def readChar(self, offset, count):
         char = ""
+        newChar = ""
         for i in range(count):
-            newChar = struct.unpack('s', self.mm[offset+i:offset+i+1])[0].decode("utf-8")
+            try:
+                newChar = struct.unpack('s', self.mm[offset+i:offset+i+1])[0].decode("utf-8")
+            except:
+                newChar == "\u0000"
+                
             if newChar == "\u0000":
                 char += ""
             else:
