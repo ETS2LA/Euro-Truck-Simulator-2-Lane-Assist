@@ -260,7 +260,7 @@ def UpdateProgress(state, value, progress, problem=False):
             if j == value and i == state:
                 ttk.Label(progressFrame, text="> " + states[keys[i]][j] + " <", font=("Roboto", 10, "bold"), foreground="#cccc00" if not problem else "#b30000").pack(pady=5, anchor="n", padx=10)
             elif j < value and i == state or i < state:
-                ttk.Label(progressFrame, text=states[keys[i]][j], font=("Roboto", 8, "bold"), foreground="green").pack(pady=5, anchor="n", padx=10)
+                ttk.Label(progressFrame, text="✓ " + states[keys[i]][j], font=("Roboto", 8, "bold"), foreground="green").pack(pady=5, anchor="n", padx=10)
             else:
                 ttk.Label(progressFrame, text=states[keys[i]][j], font=("Roboto", 8)).pack(pady=5, anchor="n", padx=10)
     
@@ -324,6 +324,7 @@ def InstallSequence():
         # Virtual environment does not exist
         UpdateProgress(0, 1, 0)   
         AddLineToConsole("> Virtual environment does not exist")
+        AddLineToConsole("   > Creating a virtual environment...")
         venv.create("venv", with_pip=True)
 
     # endregion
@@ -474,7 +475,7 @@ def InstallSequence():
 
     # region Download Requirements
     
-    requirements = open("{dir}/app/requirements.txt", "r").read().split("\n")
+    requirements = open(f"{dir}/app/requirements.txt", "r").read().split("\n")
     amount = len(requirements)
     
     AddLineToConsole("\nPlease wait, installing requirements...")
