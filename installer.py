@@ -324,6 +324,7 @@ def InstallSequence():
         # Virtual environment does not exist
         UpdateProgress(0, 1, 0)   
         AddLineToConsole("> Virtual environment does not exist")
+        venv.create("venv", with_pip=True)
 
     # endregion
 
@@ -473,7 +474,7 @@ def InstallSequence():
 
     # region Download Requirements
     
-    requirements = open("app/requirements.txt", "r").read().split("\n")
+    requirements = open("{dir}/app/requirements.txt", "r").read().split("\n")
     amount = len(requirements)
     
     AddLineToConsole("\nPlease wait, installing requirements...")
