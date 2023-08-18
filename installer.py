@@ -4,6 +4,8 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 import threading
+
+import time
 from tkinter import ttk
 
 APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
