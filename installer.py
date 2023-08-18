@@ -336,7 +336,6 @@ def InstallSequence():
         AddLineToConsole("   > Please install git and run the installer again.")
         UpdateProgress(1, 0, 1, True)
         
-        import time
         waitTime = 5
         startTime = time.time()
         AddLineToConsole(f"   > Opening download page in {round(5 - (time.time() - startTime), 1)} seconds...")
@@ -378,8 +377,6 @@ def InstallSequence():
         AddLineToConsole("> Connection to github failed")
         AddLineToConsole("   > Please check your internet connection and try again.")
         UpdateProgress(1, 2, 1, True)
-        
-        import time
         
         waitTime = 10
         startTime = time.time()
