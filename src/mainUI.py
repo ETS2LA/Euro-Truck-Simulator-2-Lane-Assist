@@ -70,8 +70,11 @@ def CreateRoot():
 
     pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
 
+    def Reload():
+        variables.RELOAD = True
+
     # Bind F5 to drawButtons
-    root.bind("<F5>", lambda e: drawButtons(refresh=True))
+    root.bind("<F5>", lambda e: Reload())
 
     root.update()
 

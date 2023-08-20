@@ -53,8 +53,11 @@ class UI():
         self.done = False
         self.master = master
         self.lastTheme = settings.GetSettings("User Interface", "Theme")
-        resizeWindow(1200, 600)
+        self.lastPlugin = 0
+        self.lastList = 0
+        resizeWindow(1220, 700)
         self.page0()
+        self.selectedPlugin(self.plugins[0])
     
     def destroy(self):
         self.done = True
@@ -69,7 +72,7 @@ class UI():
             del self.plugin
         except: pass
         
-        self.root = tk.Canvas(self.master, width=1000, height=520, border=0, highlightthickness=0)
+        self.root = tk.Canvas(self.master, width=1000, height=590, border=0, highlightthickness=0)
         self.root.grid_propagate(0)
         
         self.plugins = self.findPlugins()
@@ -83,17 +86,17 @@ class UI():
         self.screenCaptureVariable = tk.StringVar()
         self.screenCaptureVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == "ScreenCapture"])
         
-        self.pluginList = tk.Listbox(self.root, width=20, height=22, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.pluginList = tk.Listbox(self.root, width=20, height=26, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.pluginList.grid(row=2, column=0, padx=10, pady=2)
         # Bind double click
         self.pluginList.bind('<Double-Button>', lambda x: self.switchPluginState(self.pluginList.curselection()[0], self.pluginList))
         
-        self.laneDetectionList = tk.Listbox(self.root, width=20, height=22, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.laneDetectionList = tk.Listbox(self.root, width=20, height=26, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.laneDetectionList.grid(row=2, column=1, padx=10, pady=2)
         # Bind double click
         self.laneDetectionList.bind('<Double-Button>', lambda x: self.switchPluginState(self.laneDetectionList.curselection()[0], self.laneDetectionList))
         
-        self.screenCaptureList = tk.Listbox(self.root, width=20, height=22, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.screenCaptureList = tk.Listbox(self.root, width=20, height=26, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.screenCaptureList.grid(row=2, column=2, padx=10, pady=2)
         # Bind double click
         self.screenCaptureList.bind('<Double-Button>', lambda x: self.switchPluginState(self.screenCaptureList.curselection()[0], self.screenCaptureList))
@@ -104,9 +107,9 @@ class UI():
         helpers.MakeLabel(self.root, "Misc. Plugins", 0,0, font=("Roboto", 10), padx=30, pady=10, columnspan=1)
         helpers.MakeLabel(self.root, "optional", 1,0, font=("Roboto", 10), padx=30, pady=2, columnspan=1)
         helpers.MakeLabel(self.root, "Lane Detection Plugins", 0,1, font=("Roboto", 10), padx=30, pady=10, columnspan=1)
-        helpers.MakeLabel(self.root, "required", 1,1, font=("Roboto", 10), padx=30, pady=2, columnspan=1, fg="#cc0000")
+        helpers.MakeLabel(self.root, "required for lane detection", 1,1, font=("Roboto", 10), padx=30, pady=2, columnspan=1, fg="#cc0000")
         helpers.MakeLabel(self.root, "Screen Capture Plugins", 0,2, font=("Roboto", 10), padx=30, pady=10, columnspan=1)
-        helpers.MakeLabel(self.root, "required", 1,2, font=("Roboto", 10), padx=30, pady=2, columnspan=1, fg="#cc0000")
+        helpers.MakeLabel(self.root, "required for lane detection", 1,2, font=("Roboto", 10), padx=30, pady=2, columnspan=1, fg="#cc0000")
         
         self.root.pack(anchor="center", expand=False, ipady=10)
         
@@ -154,7 +157,7 @@ class UI():
         self.plugin = plugin.PluginInfo
         
         
-        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=380, height=500)
+        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=375, height=580)
         self.pluginInfoFrame.pack_propagate(0)
         self.pluginInfoFrame.grid_propagate(0)
         self.pluginInfoFrame.grid(row=0, column=3, padx=10, pady=2, rowspan=3)
@@ -260,14 +263,22 @@ class UI():
     def update(self, data):
         try:
             
-            # The longest python line I've ever written
-            if self.plugins[self.convertFromListToGlobalIndex(self.pluginList, self.pluginList.curselection()[0])].PluginInfo.name != self.plugin.name and self.plugins[self.convertFromListToGlobalIndex(self.laneDetectionList, self.laneDetectionList.curselection()[0])].PluginInfo.name != self.plugin.name and self.plugins[self.convertFromListToGlobalIndex(self.screenCaptureList, self.screenCaptureList.curselection()[0])].PluginInfo.name != self.plugin.name:
-                if self.plugins[self.convertFromListToGlobalIndex(self.pluginList, self.pluginList.curselection()[0])].PluginInfo.name != self.plugin.name:
-                    self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]])
-                elif self.plugins[self.convertFromListToGlobalIndex(self.laneDetectionList, self.laneDetectionList.curselection()[0])].PluginInfo.name != self.plugin.name:
-                    self.selectedPlugin(self.plugins[self.laneDetectionList.curselection()[0]])
-                elif self.plugins[self.convertFromListToGlobalIndex(self.screenCaptureList, self.screenCaptureList.curselection()[0])].PluginInfo.name != self.plugin.name:
-                    self.selectedPlugin(self.plugins[self.screenCaptureList.curselection()[0]])
+            # Check which list is selected
+            if self.pluginList.curselection() != ():
+                if self.pluginList.curselection()[0] != self.lastPlugin or self.lastList != 0:
+                    self.lastList = 0
+                    self.lastPlugin = self.pluginList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.pluginList, self.pluginList.curselection()[0])])
+            elif self.laneDetectionList.curselection() != ():
+                if self.laneDetectionList.curselection()[0] != self.lastPlugin or self.lastList != 1:
+                    self.lastList = 1
+                    self.lastPlugin = self.laneDetectionList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.laneDetectionList, self.laneDetectionList.curselection()[0])])
+            elif self.screenCaptureList.curselection() != ():
+                if self.screenCaptureList.curselection()[0] != self.lastPlugin or self.lastList != 2:
+                    self.lastList = 2
+                    self.lastPlugin = self.screenCaptureList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.screenCaptureList, self.screenCaptureList.curselection()[0])])
             
         except:
             try:

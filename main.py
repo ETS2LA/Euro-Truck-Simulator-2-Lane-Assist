@@ -22,7 +22,6 @@ except:
 # Load the UI framework
 import src.mainUI as mainUI
 import src.loading as loading # And then create a loading window
-loadingWindow = loading.LoadingWindow("Please wait initializing...")
 
 
 # Load the rest of the modules
@@ -217,29 +216,43 @@ def CheckForONNXRuntimeChange():
             
     settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", None)
 
-CheckForONNXRuntimeChange()
+def LoadApplication():
+    global mainUI
 
-# Check for new plugin installs
-InstallPlugins()
+    loadingWindow = loading.LoadingWindow("Please wait initializing...")
+    
+    try:
+        del mainUI
+        import src.mainUI as mainUI
+    except:
+        pass
 
-# Load all plugins 
-loadingWindow.update(text="Loading plugins...")
-GetEnabledPlugins()
-FindPlugins()
-loadingWindow.update(text="Initializing plugins...")
-RunOnEnable()
+    CheckForONNXRuntimeChange()
 
-logger.printDebug = settings.GetSettings("logger", "debug")
-if logger.printDebug == None:
-    logger.printDebug = False
-    settings.CreateSettings("logger", "debug", False)
+    # Check for new plugin installs
+    InstallPlugins()
 
-# We've loaded all necessary modules
-mainUI.root.update()
-mainUI.drawButtons()
+    # Load all plugins 
+    loadingWindow.update(text="Loading plugins...")
+    GetEnabledPlugins()
+    FindPlugins()
+    loadingWindow.update(text="Initializing plugins...")
+    RunOnEnable()
 
-loadingWindow.destroy()
-del loadingWindow
+    logger.printDebug = settings.GetSettings("logger", "debug")
+    if logger.printDebug == None:
+        logger.printDebug = False
+        settings.CreateSettings("logger", "debug", False)
+
+    # We've loaded all necessary modules
+    mainUI.root.title("Lane Assist - " + open(settings.currentProfile, "r").readline().replace("\n", ""))
+    mainUI.root.update()
+    mainUI.drawButtons()
+
+    loadingWindow.destroy()
+    del loadingWindow
+
+LoadApplication()
 
 data = {}
 uiFrameTimer = 0
@@ -266,6 +279,11 @@ while True:
                 "last": {},
                 "executionTimes": {}
             }  
+        
+        if variables.RELOAD:
+            print("Reloading application...")
+            LoadApplication()
+            variables.RELOAD = False
         
         # Enable / Disable the main loop
         if variables.ENABLELOOP == False:

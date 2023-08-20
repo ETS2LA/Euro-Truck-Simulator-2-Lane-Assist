@@ -33,6 +33,7 @@ CreateSettings(category, name, data)
 
 import json
 from src.logger import print
+from src.variables import PATH
 import os
 
 if os.name == "nt":
@@ -40,6 +41,10 @@ if os.name == "nt":
 else:
     currentProfile = "profiles/currentProfile.txt"
 
+if open(currentProfile, "r").readline().replace("\n", "") == "":
+    with open(currentProfile, "w") as f:
+        f.write("profiles/settings.json")
+    print("Profile variable was empty, set it to settings.json")
 
 def EnsureFile(file):
     try:
@@ -49,13 +54,41 @@ def EnsureFile(file):
         with open(file, "w") as f:
             f.write("{}")
 
-def ChangeProfile(profileName):
-    try:
-        with open(currentProfile, "w") as f:
-            f.truncate(0)
-            f.write(profileName)
+def ChangeProfile():
+    global currentProfile
+    
+    from tkinter import filedialog
+    file = filedialog.askopenfilename(initialdir=PATH+"\\profiles", title="Select a profile", filetypes=(("JSON files", "*.json"), ("All files", "*.*")))
+    with open(currentProfile, "w") as f:
+        f.truncate(0)
+        f.write(file)
+    
+    import src.variables
+    src.variables.RELOAD = True
+
+def CreateProfile():
+    from tkinter import filedialog
+    newFile = filedialog.asksaveasfile(initialdir=PATH+"\\profiles", initialfile="newProfile.json", title="Create a new profile", filetypes=(("JSON files", "*.json"), ("All files", "*.*")))
+    try:       
+        # Copy the current profile
+        profile = open(currentProfile, "r").readline().replace("\n", "")
+            
+        with open(profile, "r") as f:
+            data = json.load(f)
+        
+        newFile.truncate(0)
+        json.dump(data, newFile, indent=6)
+            
+        filePath = newFile.name
+        
+        newFile.close()
+            
+        # Change the current profile
+        ChangeProfile(filePath)
+    
     except Exception as ex:
         print(ex.args)
+        print("Failed to create profile")
 
 # Change settings in the json file
 def UpdateSettings(category, name, data):
