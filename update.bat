@@ -1,1 +1,0 @@
-cmd /k "cd C:\Users\Tuomas\Documents\GitHub\Euro-Truck-Simulator-2-Lane-Assist/venv/Scripts & .\activate & cd C:\Users\Tuomas\Documents\GitHub\Euro-Truck-Simulator-2-Lane-Assist/app & git stash & git pull & pause & exit" & exit
