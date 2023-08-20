@@ -131,10 +131,10 @@ def InstallPlugins():
     import tkinter as tk
     from tkinter import ttk
     
-
-    loadingWindow.destroy()
-    
-    
+    try:
+        loadingWindow.destroy()
+    except:
+        pass
     
     ttk.Label(mainUI.pluginFrame, text="The app has detected plugins that have not yet been installed.").pack()
     ttk.Label(mainUI.pluginFrame, text="Please install them before continuing.").pack()
@@ -199,6 +199,7 @@ def InstallPlugins():
     # Destroy all the widgets
     for child in mainUI.pluginFrame.winfo_children():
         child.destroy()
+        
 
 def CheckForONNXRuntimeChange():
     change = settings.GetSettings("SwitchLaneDetectionDevice", "switchTo")
@@ -216,9 +217,23 @@ def CheckForONNXRuntimeChange():
             
     settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", None)
 
+def CheckLastKnownVersion():
+    lastVersion = settings.GetSettings("User Interface", "version")
+    if lastVersion == None:
+        settings.UpdateSettings("User Interface", "version", variables.VERSION)
+        mainUI.switchSelectedPlugin("plugins.Changelog.main")
+        return
+    
+    if lastVersion != variables.VERSION:
+        settings.UpdateSettings("User Interface", "version", variables.VERSION)
+        mainUI.switchSelectedPlugin("plugins.Changelog.main")
+        return
+    
+
 def LoadApplication():
     global mainUI
     global uiUpdateRate
+    global loadingWindow
 
     loadingWindow = loading.LoadingWindow("Please wait initializing...")
     
@@ -257,6 +272,8 @@ def LoadApplication():
     if uiUpdateRate == None: 
         uiUpdateRate = 0
         settings.CreateSettings("User Interface", "updateRate", 0)
+
+    CheckLastKnownVersion()
 
 LoadApplication()
 
