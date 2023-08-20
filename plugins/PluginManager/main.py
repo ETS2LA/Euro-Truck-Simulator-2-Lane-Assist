@@ -189,20 +189,24 @@ class UI():
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.url, 8,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, "Update point", 9,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.dynamicOrder, 10,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
-
+        
         if self.plugin.exclusive != None:
             helpers.MakeLabel(self.pluginInfoFrame, "Exclusive Type", 11,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
             helpers.MakeLabel(self.pluginInfoFrame, self.plugin.exclusive, 12,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+        
+        if self.plugin.requires != None:
+            helpers.MakeLabel(self.pluginInfoFrame, "Dependencies", 12,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.requires, 13,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
 
         if self.plugin.name in settings.GetSettings("Plugins", "Enabled"):
-            helpers.MakeButton(self.pluginInfoFrame, "Disable plugin", lambda: self.disablePlugin(plugin), 13, 0, width=15, padx=8)
+            helpers.MakeButton(self.pluginInfoFrame, "Disable plugin", lambda: self.disablePlugin(plugin), 14, 0, width=15, padx=8)
         else:
-            helpers.MakeButton(self.pluginInfoFrame, "Enable plugin", lambda: self.enablePlugin(plugin), 13, 0, width=15, padx=8)
+            helpers.MakeButton(self.pluginInfoFrame, "Enable plugin", lambda: self.enablePlugin(plugin), 14, 0, width=15, padx=8)
         
         if not self.plugin.noUI:
-            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 13, 1, width=15, padx=8)        
+            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 14, 1, width=15, padx=8)        
         else:
-            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 13, 1, width=15, padx=8, state="disabled")
+            helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 14, 1, width=15, padx=8, state="disabled")
         
         
     def convertFromListToGlobalIndex(self, list, pluginIndex):
