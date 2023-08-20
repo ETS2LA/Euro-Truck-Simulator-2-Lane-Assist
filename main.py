@@ -218,6 +218,7 @@ def CheckForONNXRuntimeChange():
 
 def LoadApplication():
     global mainUI
+    global uiUpdateRate
 
     loadingWindow = loading.LoadingWindow("Please wait initializing...")
     
@@ -252,15 +253,15 @@ def LoadApplication():
     loadingWindow.destroy()
     del loadingWindow
 
+    uiUpdateRate = settings.GetSettings("User Interface", "updateRate")
+    if uiUpdateRate == None: 
+        uiUpdateRate = 0
+        settings.CreateSettings("User Interface", "updateRate", 0)
+
 LoadApplication()
 
 data = {}
 uiFrameTimer = 0
-uiUpdateRate = settings.GetSettings("User Interface", "updateRate")
-if uiUpdateRate == None: 
-    uiUpdateRate = 0
-    settings.CreateSettings("User Interface", "updateRate", 0)
-    
 while True:
     # Main Application Loop
     try:
