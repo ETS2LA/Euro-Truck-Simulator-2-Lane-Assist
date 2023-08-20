@@ -15,7 +15,7 @@ from src.loading import LoadingWindow
 import tkinter as tk
 from tkinter import ttk
 import src.helpers as helpers
-from src.mainUI import quit, switchSelectedPlugin
+from src.mainUI import quit, switchSelectedPlugin, resizeWindow
 import src.variables as variables
 import src.settings as settings
 import os
@@ -52,6 +52,8 @@ class UI():
     def __init__(self, master) -> None:
         self.done = False
         self.master = master
+        self.lastTheme = settings.GetSettings("User Interface", "Theme")
+        resizeWindow(1200, 600)
         self.page0()
     
     def destroy(self):
@@ -62,33 +64,51 @@ class UI():
     
     def page0(self):
         
-        #helpers.MakeLabel(self.master, "Welcome", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-        
         try:
             self.root.destroy()
             del self.plugin
         except: pass
         
-        self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+        self.root = tk.Canvas(self.master, width=1000, height=520, border=0, highlightthickness=0)
         self.root.grid_propagate(0)
         
         self.plugins = self.findPlugins()
         
         self.listVariable = tk.StringVar()
-        self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins])
+        self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == None])
         
-        self.pluginList = tk.Listbox(self.root, width=20, height=20, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
-        self.pluginList.grid(row=1, column=0, padx=10, pady=2)
+        self.laneDetectionVariable = tk.StringVar()
+        self.laneDetectionVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == "LaneDetection"])
+        
+        self.screenCaptureVariable = tk.StringVar()
+        self.screenCaptureVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == "ScreenCapture"])
+        
+        self.pluginList = tk.Listbox(self.root, width=20, height=22, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.pluginList.grid(row=2, column=0, padx=10, pady=2)
         # Bind double click
-        self.pluginList.bind('<Double-Button>', lambda x: self.switchPluginState(self.plugins[self.pluginList.curselection()[0]]))
-        # bind single click
-        # self.pluginList.bind('<Button-1>', lambda x: self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]].PluginInfo))
+        self.pluginList.bind('<Double-Button>', lambda x: self.switchPluginState(self.pluginList.curselection()[0], self.pluginList))
+        
+        self.laneDetectionList = tk.Listbox(self.root, width=20, height=22, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.laneDetectionList.grid(row=2, column=1, padx=10, pady=2)
+        # Bind double click
+        self.laneDetectionList.bind('<Double-Button>', lambda x: self.switchPluginState(self.laneDetectionList.curselection()[0], self.laneDetectionList))
+        
+        self.screenCaptureList = tk.Listbox(self.root, width=20, height=22, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.screenCaptureList.grid(row=2, column=2, padx=10, pady=2)
+        # Bind double click
+        self.screenCaptureList.bind('<Double-Button>', lambda x: self.switchPluginState(self.screenCaptureList.curselection()[0], self.screenCaptureList))
+        
         
         self.colorPlugins()
         
-        helpers.MakeLabel(self.root, "Select a plugin to load:", 0,0, font=("Roboto", 8), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, "Misc. Plugins", 0,0, font=("Roboto", 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, "optional", 1,0, font=("Roboto", 10), padx=30, pady=2, columnspan=1)
+        helpers.MakeLabel(self.root, "Lane Detection Plugins", 0,1, font=("Roboto", 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, "required", 1,1, font=("Roboto", 10), padx=30, pady=2, columnspan=1, fg="#cc0000")
+        helpers.MakeLabel(self.root, "Screen Capture Plugins", 0,2, font=("Roboto", 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, "required", 1,2, font=("Roboto", 10), padx=30, pady=2, columnspan=1, fg="#cc0000")
         
-        self.root.pack(anchor="center", expand=False)
+        self.root.pack(anchor="center", expand=False, ipady=10)
         
         self.root.update()
     
@@ -104,13 +124,25 @@ class UI():
         colorTone = settings.GetSettings("User Interface", "Theme")
         if colorTone == None:
             colorTone = "dark"
+            
+        colors = {
+            "darkEnabled": "#204d63",
+            "darkDisabled": "#2e2e2e",
+            "lightEnabled": "#1e6fbc",
+            "lightDisabled": "#d9d9d9"
+        }
         
-        for i in range(len(self.plugins)):
-            if self.plugins[i].PluginInfo.name in enabledPlugins:
-                self.pluginList.itemconfig(i, bg=f"{colorTone}green")
-            else:
-                self.pluginList.itemconfig(i, bg=f"red")
-    
+        def colorListbox(listbox, color):
+            for i in range(len(listbox.get(0, "end"))):
+                if listbox.get(i).replace(" ", "") in enabledPlugins:
+                    listbox.itemconfig(i, bg=f"{colors[color + 'Enabled']}", fg="#ffffff")
+                else:
+                    listbox.itemconfig(i, bg=f"{colors[color + 'Disabled']}")
+        
+        colorListbox(self.pluginList, colorTone)
+        colorListbox(self.laneDetectionList, colorTone)
+        colorListbox(self.screenCaptureList, colorTone)
+
     
     def selectedPlugin(self, plugin):
         try:
@@ -125,7 +157,7 @@ class UI():
         self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=380, height=500)
         self.pluginInfoFrame.pack_propagate(0)
         self.pluginInfoFrame.grid_propagate(0)
-        self.pluginInfoFrame.grid(row=0, column=1, padx=10, pady=2, rowspan=3)
+        self.pluginInfoFrame.grid(row=0, column=3, padx=10, pady=2, rowspan=3)
         
         
         if self.plugin.image != None:
@@ -170,8 +202,30 @@ class UI():
             helpers.MakeButton(self.pluginInfoFrame, "Load plugin UI", lambda: switchSelectedPlugin("plugins." + self.plugin.name + ".main"), 13, 1, width=15, padx=8, state="disabled")
         
         
+    def convertFromListToGlobalIndex(self, list, pluginIndex):
+        # Get the name
+        plugin = list.get(pluginIndex).replace(" ", "")
+        
+        # Find the index of the plugin in the plugins array
+        for i in range(len(self.plugins)):
+            if self.plugins[i].PluginInfo.name == plugin:
+                return i
+            
+        # Check if the plugin is a string
+        print("Plugin not found.")
+        return 0
+        
+        
     
-    def switchPluginState(self, plugin):
+    def switchPluginState(self, plugin, list):
+        
+        # Get the name
+        plugin = list.get(plugin).replace(" ", "")
+        
+        print("Switching plugin state: " + plugin)
+        
+        plugin = self.plugins[self.convertFromListToGlobalIndex(list, plugin)]
+        
         if plugin.PluginInfo.name in settings.GetSettings("Plugins", "Enabled"):
             self.disablePlugin(plugin)
         else:
@@ -205,13 +259,25 @@ class UI():
     
     def update(self, data):
         try:
-            if self.plugins[self.pluginList.curselection()[0]].PluginInfo.name != self.plugin.name:
-                self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]])
+            
+            # The longest python line I've ever written
+            if self.plugins[self.convertFromListToGlobalIndex(self.pluginList, self.pluginList.curselection()[0])].PluginInfo.name != self.plugin.name and self.plugins[self.convertFromListToGlobalIndex(self.laneDetectionList, self.laneDetectionList.curselection()[0])].PluginInfo.name != self.plugin.name and self.plugins[self.convertFromListToGlobalIndex(self.screenCaptureList, self.screenCaptureList.curselection()[0])].PluginInfo.name != self.plugin.name:
+                if self.plugins[self.convertFromListToGlobalIndex(self.pluginList, self.pluginList.curselection()[0])].PluginInfo.name != self.plugin.name:
+                    self.selectedPlugin(self.plugins[self.pluginList.curselection()[0]])
+                elif self.plugins[self.convertFromListToGlobalIndex(self.laneDetectionList, self.laneDetectionList.curselection()[0])].PluginInfo.name != self.plugin.name:
+                    self.selectedPlugin(self.plugins[self.laneDetectionList.curselection()[0]])
+                elif self.plugins[self.convertFromListToGlobalIndex(self.screenCaptureList, self.screenCaptureList.curselection()[0])].PluginInfo.name != self.plugin.name:
+                    self.selectedPlugin(self.plugins[self.screenCaptureList.curselection()[0]])
+            
         except:
             try:
                 self.plugin
             except:
                 self.selectedPlugin(self.plugins[0])
+        
+        if settings.GetSettings("User Interface", "Theme") != self.lastTheme:
+            self.lastTheme = settings.GetSettings("User Interface", "Theme")
+            self.colorPlugins()
         
         self.root.update()
     

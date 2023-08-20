@@ -76,14 +76,23 @@ def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, 
     if text == "":
         var = tk.StringVar()
         var.set(text)
+        
         if fg != "" and bg != "":
             ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        elif fg != "":
+            ttk.Label(parent, font=font, textvariable=var, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        elif bg != "":
+            ttk.Label(parent, font=font, textvariable=var, background=bg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
         else: 
             ttk.Label(parent, font=font, textvariable=var).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
         return var
     else:
         if fg != "" and bg != "":
             label = ttk.Label(parent, font=font, text=text, background=bg, foreground=fg)
+        elif fg != "":
+            label = ttk.Label(parent, font=font, text=text, foreground=fg)
+        elif bg != "":
+            label = ttk.Label(parent, font=font, text=text, background=bg)
         else:
             label = ttk.Label(parent, font=font, text=text)
         label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)

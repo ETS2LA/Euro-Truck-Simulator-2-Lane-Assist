@@ -157,6 +157,8 @@ def switchSelectedPlugin(pluginName):
     global ui
     global root
     
+    resizeWindow(width, height)
+    
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
     
     if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
@@ -188,6 +190,14 @@ def switchSelectedPlugin(pluginName):
     
     print("Loaded " + pluginName)
     
+def resizeWindow(newWidth, newHeight):
+    global root
+    root.geometry(f"{newWidth}x{newHeight}")
+    
+    pluginFrame.config(width=newWidth, height=newHeight)
+    
+    root.update()
+        
 def changeTheme():
     global themeButton
     #loading = LoadingWindow("Changing theme...", root)
