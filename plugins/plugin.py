@@ -40,9 +40,12 @@ class PluginInformation():
         noUI (bool) (optional): If true then the UI button will not be shown
         
         exclusive (str) (optional): If set to a str then no other plugins of the same 'exclusive' type can be enabled at the same time 
+        
+        requires (list) (optional): List of plugins that are required for this plugin to work (plugin names)
+                >>> ["plugin1", "plugin2"]
     
     """
-    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None):
+    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None):
         self.name = name
         self.description = description
         self.version = version
@@ -55,3 +58,4 @@ class PluginInformation():
         self.disableLoop = disableLoop
         self.noUI = noUI
         self.exclusive = exclusive
+        self.requires = requires

@@ -223,11 +223,8 @@ class UI():
     def switchPluginState(self, plugin, list):
         
         # Get the name
-        plugin = list.get(plugin).replace(" ", "")
-        
-        print("Switching plugin state: " + plugin)
-        
-        plugin = self.plugins[self.convertFromListToGlobalIndex(list, plugin)]
+        plugin = self.convertFromListToGlobalIndex(list, plugin)
+        plugin = self.plugins[plugin]
         
         if plugin.PluginInfo.name in settings.GetSettings("Plugins", "Enabled"):
             self.disablePlugin(plugin)
@@ -253,6 +250,15 @@ class UI():
                         if otherPlugin.PluginInfo.exclusive == plugin.PluginInfo.exclusive:
                             settings.RemoveFromList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
             else: return
+            
+        if plugin.PluginInfo.requires != None:
+            from tkinter import messagebox
+            if messagebox.askokcancel("Required plugins", "This plugin requires other plugins to work, enabling it will enable all required plugins.\n\n" + "\n".join(plugin.PluginInfo.requires) + "\n\nDo you want to continue?"):
+                for otherPlugin in self.plugins:
+                    if otherPlugin.PluginInfo.name in plugin.PluginInfo.requires:
+                        settings.AddToList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
+            else:
+                return
             
         settings.AddToList("Plugins", "Enabled", plugin.PluginInfo.name)
         variables.UpdatePlugins()

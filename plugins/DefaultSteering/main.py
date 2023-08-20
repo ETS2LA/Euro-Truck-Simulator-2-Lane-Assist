@@ -15,7 +15,8 @@ PluginInfo = PluginInformation(
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before controller" # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="before controller", # Will run the plugin before anything else in the mainloop (data will be empty)
+    requires=["TruckSimAPI"]
 )
 
 import tkinter as tk
