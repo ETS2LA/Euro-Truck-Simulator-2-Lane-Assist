@@ -350,8 +350,10 @@ while True:
             from tkinter import messagebox
             import traceback
             traceback.print_exc()
-            print(ex.args)
-            if not messagebox.askretrycancel("Error", "The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!"):
+            # Pack everything in ex.args into one string
+            errorString = (" ").join(ex.args)
+            print(errorString)
+            if not messagebox.askretrycancel("Error", "The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n" + errorString):
                 break
             else:
                 pass
