@@ -343,9 +343,17 @@ while True:
         # And then the entire app
         allEnd = time.time()
         data["executionTimes"]["all"] = allEnd - allStart
+
     
     except Exception as ex:
-        import traceback
-        traceback.print_exc()
-        print(ex.args)
-        break
+        if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
+            from tkinter import messagebox
+            import traceback
+            traceback.print_exc()
+            print(ex.args)
+            if not messagebox.askretrycancel("Error", "The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!"):
+                break
+            else:
+                pass
+        else:
+            break
