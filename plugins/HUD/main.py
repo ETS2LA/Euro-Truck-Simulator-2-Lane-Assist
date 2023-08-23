@@ -44,7 +44,7 @@ def plugin(data):
     try:
         fps.config(text="FPS: " + str(round(1/data["last"]["executionTimes"]["all"], 1)))
         speed.config(text="Speed: " + str(round(data["last"]["api"]["truckFloat"]["speed"]*3.6, 1)) + str(" ({})".format(round(data["last"]["api"]["truckFloat"]["speedLimit"]*3.6, 1))))
-        cruise.config(text="Cruise: " + str(round(data["last"]["api"]["truckFloat"]["cruiseControlSpeed"], 1)))
+        cruise.config(text="Cruise: " + str(round(data["last"]["api"]["truckFloat"]["cruiseControlSpeed"]*3.6, 1)))
         
         root.update()
         
