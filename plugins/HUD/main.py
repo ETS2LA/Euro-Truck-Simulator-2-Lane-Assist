@@ -10,8 +10,8 @@ from src.logger import print
 PluginInfo = PluginInformation(
     name="HUD", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
     description="Heads up display for essential data.",
-    version="0.1",
-    author="Tumppi066",
+    version="0.2",
+    author="Tumppi066; fix by DTheIcyDragon",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
     dynamicOrder="before game",
@@ -43,8 +43,8 @@ def plugin(data):
     
     try:
         fps.config(text="FPS: " + str(round(1/data["last"]["executionTimes"]["all"], 1)))
-        speed.config(text="Speed: " + str(round(data["api"]["speed"], 1)) + str(" ({})".format(round(data["api"]["speedLimit"], 1))))
-        cruise.config(text="Cruise: " + str(round(data["api"]["cruiseControlSpeed"], 1)))
+        speed.config(text="Speed: " + str(round(data["last"]["api"]["truckFloat"]["speed"]*3.6, 1)) + str(" ({})".format(round(data["last"]["api"]["truckFloat"]["speedLimit"]*3.6, 1))))
+        cruise.config(text="Cruise: " + str(round(data["last"]["api"]["truckFloat"]["cruiseControlSpeed"], 1)))
         
         root.update()
         
