@@ -5,6 +5,16 @@ import src.mainUI as mainUI
 import json
 import os
 
+def GetOSLanguage():
+    if os.name == "nt":
+        import ctypes
+        import locale
+        windll = ctypes.windll.kernel32
+        language = locale.windows_locale[windll.GetUserDefaultUILanguage()].split("_")[0]
+        return language
+    else:
+        return os.environ.get("LANG").split("_")[0]
+
 # Load Language settings
 origin = settings.GetSettings("User Interface", "OriginLanguage")
 dest = settings.GetSettings("User Interface", "DestinationLanguage")
@@ -12,7 +22,7 @@ if origin == None:
     origin = "en"
     settings.CreateSettings("User Interface", "OriginLanguage", origin)
 if dest == None:
-    dest = "en"
+    dest = GetOSLanguage()
     settings.CreateSettings("User Interface", "DestinationLanguage", dest)
 
 # Load Translation Cache settings
