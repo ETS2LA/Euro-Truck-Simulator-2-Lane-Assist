@@ -47,8 +47,10 @@ class UI():
                         try:
                             pluginPath = "plugins." + file + ".main"
                             plugin = __import__(pluginPath, fromlist=["PluginInformation"])
-                            if plugin.PluginInfo.author not in developers:
-                                developers.append(plugin.PluginInfo.author)
+                            authors = plugin.PluginInfo.author.split(",")
+                            for author in authors:
+                                if author.strip() not in developers:
+                                    developers.append(author.strip())
                         except Exception as ex:
                             print(ex.args)
                             pass

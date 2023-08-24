@@ -3,8 +3,9 @@ import tkinter as tk
 import src.settings as settings
 import src.translator as translator
 
-def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled", columnspan=1):
-    text = translator.Translate(text)
+def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled", columnspan=1, translate=True):
+    if translate:
+        text = translator.Translate(text)
     
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
     if not center:
@@ -13,8 +14,9 @@ def MakeButton(parent, text, command, row, column, style="TButton", width=15, ce
         button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n", columnspan=columnspan)
     return button
     
-def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False):
-    text = translator.Translate(text)
+def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False, translate=True):
+    if translate:
+        text = translator.Translate(text)
     
     variable = tk.BooleanVar()
     value = settings.GetSettings(category, setting)
@@ -35,8 +37,9 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
     button.grid(row=row, column=column, padx=0, pady=7, sticky="w")
     return variable
 
-def MakeComboEntry(parent, text, category, setting, row, column, width=10, labelwidth=15, isFloat=False, isString=False, value="", sticky="w"):
-    text = translator.Translate(text)
+def MakeComboEntry(parent, text, category, setting, row, column, width=10, labelwidth=15, isFloat=False, isString=False, value="", sticky="w", translate=True):
+    if translate:
+        text = translator.Translate(text)
     
     if not isFloat and not isString:
         ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky="w")
@@ -78,8 +81,9 @@ def MakeComboEntry(parent, text, category, setting, row, column, width=10, label
         ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
         return var
 
-def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, columnspan=1, sticky="n", fg="", bg=""):
-    text = translator.Translate(text)
+def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, columnspan=1, sticky="n", fg="", bg="", translate=True):
+    if translate:
+        text = translator.Translate(text)
     
     if text == "":
         var = tk.StringVar()

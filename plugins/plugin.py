@@ -13,7 +13,7 @@ class PluginInformation():
         
         version (str): Version of the plugin
         
-        author (str): Author of the plugin
+        author (str): Author(s) of the plugin. In the case of multiple authors please seperate them with a , (comma)
         
         url (str): URL of the plugin
         
