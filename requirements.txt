@@ -5,3 +5,4 @@ psutil
 playsound
 scipy
 colorama
+deep_translator

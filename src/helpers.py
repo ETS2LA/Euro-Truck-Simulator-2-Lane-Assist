@@ -1,8 +1,11 @@
 from tkinter import ttk
 import tkinter as tk
 import src.settings as settings
+import src.translator as translator
 
 def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled", columnspan=1):
+    text = translator.Translate(text)
+    
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
     if not center:
         button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan)
@@ -11,8 +14,9 @@ def MakeButton(parent, text, command, row, column, style="TButton", width=15, ce
     return button
     
 def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False):
-    variable = tk.BooleanVar()
+    text = translator.Translate(text)
     
+    variable = tk.BooleanVar()
     value = settings.GetSettings(category, setting)
     
     if value == None:
@@ -32,6 +36,8 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
     return variable
 
 def MakeComboEntry(parent, text, category, setting, row, column, width=10, labelwidth=15, isFloat=False, isString=False, value="", sticky="w"):
+    text = translator.Translate(text)
+    
     if not isFloat and not isString:
         ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky="w")
         var = tk.IntVar()
@@ -73,6 +79,8 @@ def MakeComboEntry(parent, text, category, setting, row, column, width=10, label
         return var
 
 def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, columnspan=1, sticky="n", fg="", bg=""):
+    text = translator.Translate(text)
+    
     if text == "":
         var = tk.StringVar()
         var.set(text)

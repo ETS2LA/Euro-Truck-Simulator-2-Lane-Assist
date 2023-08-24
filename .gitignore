@@ -12,3 +12,4 @@ activate.bat
 src/NVIDIA/*.dll
 */*/__pycache__/*
 profiles/currentProfile.txt
+assets/translationCache/*
