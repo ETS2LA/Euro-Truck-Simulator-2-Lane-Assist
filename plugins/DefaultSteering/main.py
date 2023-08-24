@@ -26,6 +26,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import src.sounds as sounds
+from src.translator import Translate
 import os
 import pygame
 import cv2
@@ -433,25 +434,25 @@ class UI():
             generalFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(generalFrame, "General", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
             # self.offset = helpers.MakeComboEntry(generalFrame, "Steering Offset", "DefaultSteering", "offset", 1, 1, width=12, value=-0.2, isFloat=True)
-            self.offset = tk.Scale(generalFrame, from_=-0.5, to=0.5, orient="horizontal", length=500, resolution=0.01, label="Steering Offset")
+            self.offset = tk.Scale(generalFrame, from_=-0.5, to=0.5, orient="horizontal", length=500, resolution=0.01, label=Translate("Steering Offset"))
             self.offset.grid(row=1, column=0, columnspan=3, pady=0)
             value = settings.GetSettings("DefaultSteering", "offset")
             if value == None: value = 0.0
             self.offset.set(value)
             
-            self.smoothness = tk.Scale(generalFrame, from_=0, to=10, orient="horizontal", length=500, resolution=1, label="Control Smoothness")
+            self.smoothness = tk.Scale(generalFrame, from_=0, to=10, orient="horizontal", length=500, resolution=1, label=Translate("Control Smoothness"))
             self.smoothness.grid(row=2, column=0, columnspan=3, pady=0)
             value = settings.GetSettings("DefaultSteering", "smoothness")
             if value == None: value = 4
             self.smoothness.set(value)
             
-            self.sensitivity = tk.Scale(generalFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label="Sensitivity")
+            self.sensitivity = tk.Scale(generalFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label=Translate("Sensitivity"))
             self.sensitivity.grid(row=3, column=0, columnspan=3, pady=0)
             value = settings.GetSettings("DefaultSteering", "sensitivity")
             if value == None: value = 0.4
             self.sensitivity.set(value)
             
-            self.maximumControl = tk.Scale(generalFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label="Maximum Control")
+            self.maximumControl = tk.Scale(generalFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label=Translate("Maximum Control"))
             self.maximumControl.grid(row=4, column=0, columnspan=3, pady=0)
             value = settings.GetSettings("DefaultSteering", "maximumControl")
             if value == None: value = 0.2
@@ -471,7 +472,7 @@ class UI():
             self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
             
             self.listVariable = tk.StringVar(controllerFrame)
-            self.listVariable.set([j.get_name() for j in self.joysticks])
+            self.listVariable.set([Translate(j.get_name()) for j in self.joysticks])
             
             self.list = tk.Listbox(controllerFrame, width=50, height=4, listvariable=self.listVariable, selectmode="single")
             self.list.grid(row=6, column=0, columnspan=3, padx=30, pady=10)
@@ -499,7 +500,7 @@ class UI():
             gamepadFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(gamepadFrame, "Gamepad", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
             self.gamepad = helpers.MakeCheckButton(gamepadFrame, "Gamepad Mode", "DefaultSteering", "gamepad", 1, 1, width=15, default=True)
-            self.gamepadSmoothness = tk.Scale(gamepadFrame, from_=0, to=0.4, orient="horizontal", length=500, resolution=0.01, label="Gamepad Smoothness")
+            self.gamepadSmoothness = tk.Scale(gamepadFrame, from_=0, to=0.4, orient="horizontal", length=500, resolution=0.01, label=Translate("Gamepad Smoothness"))
             self.gamepadSmoothness.grid(row=2, column=0, columnspan=3, pady=0)
             value = settings.GetSettings("DefaultSteering", "gamepadSmoothness")
             if value == None: value = 0.05
@@ -514,10 +515,10 @@ class UI():
             # self.rightIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Right Indicator Key", "DefaultSteering", "rightIndicatorKey", 6, 1, width=12, value="e", isString=True)
             # self.leftIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 1, width=12, value="q", isString=True)
             
-            notebook.add(generalFrame, text="General")
-            notebook.add(controllerFrame, text="Controller")
-            notebook.add(gamepadFrame, text="Gamepad")
-            notebook.add(keyboardFrame, text="Keyboard")
+            notebook.add(generalFrame, text=Translate("General"))
+            notebook.add(controllerFrame, text=Translate("Controller"))
+            notebook.add(gamepadFrame, text=Translate("Gamepad"))
+            notebook.add(keyboardFrame, text=Translate("Keyboard"))
             
             ttk.Button(self.root, text="Save", command=self.save, width=20).pack(anchor="center", pady=10)
             
@@ -555,7 +556,7 @@ class UI():
                 value = ""
                 for i in range(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_numbuttons()):
                     if self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_button(i):
-                        value += (" Button " + str(i))
+                        value += (Translate(" Button ") + str(i))
                 self.pressedControllerButtons.set(value)
                 
                 self.slider.set(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_axis(settings.GetSettings("DefaultSteering", "steeringAxis")))

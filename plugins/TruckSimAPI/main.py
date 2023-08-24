@@ -20,6 +20,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 from src.loading import LoadingWindow
+from src.translator import Translate
 import src.mainUI as mainUI
 import time
 import os
@@ -467,13 +468,12 @@ class UI():
             self.root.pack_propagate(0)
             
             
-            ttk.Button(self.root, text="Update Data", command=self.updateData).pack()
-            ttk.Label(self.root, text="Will only work when the app is enabled -> scrollable").pack()
+            ttk.Button(self.root, text=Translate("Update Data"), command=self.updateData).pack()
+            ttk.Label(self.root, text=Translate("Will only work when the app is enabled -> scrollable")).pack()
             # Create a list to hold all of the API data
             self.listVar = tk.StringVar()
             self.list = tk.Listbox(self.root, width=600, height=520, border=0, highlightthickness=0, listvariable=self.listVar)
             self.list.pack()
-            
             
             
             self.root.pack(anchor="center", expand=False)
