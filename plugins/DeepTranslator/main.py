@@ -39,8 +39,8 @@ class UI():
 
         def changeLanguage(self, language):
             settings.CreateSettings("User Interface", "DestinationLanguage", translator.FindCodeFromLanguage(language))
-            translator.MakeTranslator("google")
             translator.dest = translator.FindCodeFromLanguage(language)
+            translator.MakeTranslator("google")
             variables.RELOAD = True
         
         def exampleFunction(self):
@@ -57,14 +57,15 @@ class UI():
             
             languagesToDisplay = [string for string in self.languages if string not in ["auto"]]
             # Make a picker of the languages
-            helpers.MakeLabel(self.root, "Application language : ", 0,0)
+            helpers.MakeLabel(self.root, "Application language : ", 0,0, sticky="w", padx=10)
             self.language = ttk.Combobox(self.root, values=languagesToDisplay, width=20)
             currentLanguage = translator.FindLanguageFromCode(settings.GetSettings("User Interface", "DestinationLanguage"))
             indexOfCurrentLanguage = languagesToDisplay.index(currentLanguage)
             self.language.current(indexOfCurrentLanguage)
             self.language.grid(row=0, column=1, padx=10, pady=10)
             
-            helpers.MakeButton(self.root, "Apply", lambda: self.changeLanguage(self.language.get()), 0,2, padx=10, pady=10, width=20)
+            helpers.MakeButton(self.root, "Apply", lambda: self.changeLanguage(self.language.get()), 0,2, padx=10, pady=10, width=5)
+            helpers.MakeButton(self.root, "Reset to OS", lambda: self.changeLanguage(translator.FindLanguageFromCode(translator.GetOSLanguage())), 0,3, padx=10, pady=10, width=15)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

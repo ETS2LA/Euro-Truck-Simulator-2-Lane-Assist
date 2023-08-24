@@ -13,3 +13,4 @@ src/NVIDIA/*.dll
 */*/__pycache__/*
 profiles/currentProfile.txt
 assets/translationCache/*
+test.py
