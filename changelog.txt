@@ -8,3 +8,18 @@ For earlier changelogs please join the discord or look at the github page!
 
 # Major Changes
 - The application can now be automatically translated into any language supported by Google Translate
+    - Everything major should be translated. If anything is missing then please go ahead and tell me in the discord and I will fix it!
+    - In the future I will add support for the other translations services like ChatGPT and DeepL (keep in mind you will have to have an API key for these)
+    - This will hopefully pick your own operating system's language automatically, if it does not then again, please send a message in the #support channel.
+
+# Bug Fixes
+- Made the evdev error more descriptive to hopefully alleviate issues with people identifying it as a problem.
+
+# Version Labeling Changes
+- I accidentally labeled all updates before this one as patches :skull:. From now on all updates with "Major Changes" are going to increment the minor version : 
+    - 1.2.0
+    - major.minor.patch 
+
+# New Developer
+- Please welcome @dtheicydragon as a new developer! (sorry for the ping xD)
+    - He is still learning the app so when I'm not available please don't bother him too much for support requests :)

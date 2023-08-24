@@ -79,12 +79,15 @@ class UI():
             helpers.MakeButton(self.root, "Apply", lambda: self.changeLanguage(self.language.get()), 0,2, padx=10, pady=10, width=5)
             helpers.MakeButton(self.root, "Reset to OS", lambda: self.changeLanguage(translator.FindLanguageFromCode(translator.GetOSLanguage())), 0,3, padx=10, pady=10, width=15)
             
-            helpers.MakeCheckButton(self.root, "Enable Cache", "User Interface", "EnableTranslationCache", 1,0, columnspan=3)
-            helpers.MakeComboEntry(self.root, "Cache Path", "User Interface", "TranslationCachePath", 2,0, width=20)
+            helpers.MakeEmptyLine(self.root, 1,0, columnspan=4)
+            helpers.MakeEmptyLine(self.root, 2,0, columnspan=4)
             
-            helpers.MakeButton(self.root, "Reload and Save", lambda: self.changeCacheSettings(), 3,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
+            helpers.MakeCheckButton(self.root, "Enable Cache", "User Interface", "EnableTranslationCache", 3,0, columnspan=3)
+            helpers.MakeComboEntry(self.root, "Cache Path", "User Interface", "TranslationCachePath", 4,0, width=20)
             
-            helpers.MakeButton(self.root, "Remove Cache", lambda: self.removeCache(), 4,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
+            helpers.MakeButton(self.root, "Reload and Save", lambda: self.changeCacheSettings(), 5,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
+            
+            helpers.MakeButton(self.root, "Remove Cache", lambda: self.removeCache(), 6,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

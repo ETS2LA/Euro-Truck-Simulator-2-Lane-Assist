@@ -120,6 +120,7 @@ def drawButtons(refresh=False):
     helpers.MakeButton(pluginFrame, "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
     helpers.MakeButton(pluginFrame, "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
     helpers.MakeButton(pluginFrame, "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
+    helpers.MakeButton(pluginFrame, "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
     helpers.MakeLabel(pluginFrame, "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
     enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
     helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=9)

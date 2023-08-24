@@ -110,6 +110,10 @@ def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, 
         label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
         return label
         
+
+def MakeEmptyLine(parent, row, column, columnspan=1, pady=7):
+    ttk.Label(parent, text="").grid(row=row, column=column, columnspan=columnspan, pady=pady)
+        
         
 def ConvertCapitalizationToSpaces(text):
     newText = ""
