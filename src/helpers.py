@@ -3,18 +3,18 @@ import tkinter as tk
 import src.settings as settings
 import src.translator as translator
 
-def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled", columnspan=1, translate=True):
+def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled", columnspan=1, translate=True, sticky="n"):
     if translate:
         text = translator.Translate(text)
     
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
     if not center:
-        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan)
+        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, sticky=sticky)
     else:
         button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n", columnspan=columnspan)
     return button
     
-def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False, translate=True):
+def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False, translate=True, columnspan=1):
     if translate:
         text = translator.Translate(text)
     
@@ -34,7 +34,7 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
         button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[1]) if not variable.get() else None, width=width)
     else:
         button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[0] if variable.get() else values[1]), width=width)
-    button.grid(row=row, column=column, padx=0, pady=7, sticky="w")
+    button.grid(row=row, column=column, padx=0, pady=7, sticky="w", columnspan=columnspan)
     return variable
 
 def MakeComboEntry(parent, text, category, setting, row, column, width=10, labelwidth=15, isFloat=False, isString=False, value="", sticky="w", translate=True):

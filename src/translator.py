@@ -2,6 +2,7 @@ import deep_translator as dt
 import src.settings as settings
 import src.loading as loading
 import src.mainUI as mainUI
+from src.logger import print
 import json
 import os
 
@@ -23,29 +24,44 @@ def GetOSLanguage():
     else:
         return os.environ.get("LANG").split("_")[0]
 
-# Load Language settings
-origin = settings.GetSettings("User Interface", "OriginLanguage")
-dest = settings.GetSettings("User Interface", "DestinationLanguage")
-if origin == None:
-    origin = "en"
-    settings.CreateSettings("User Interface", "OriginLanguage", origin)
-if dest == None:
-    dest = GetOSLanguage()
-    settings.CreateSettings("User Interface", "DestinationLanguage", dest)
+def LoadSettings():
+    global origin
+    global dest
+    global enableCache
+    global cachePath
 
-# Load Translation Cache settings
-enableCache = settings.GetSettings("User Interface", "EnableTranslationCache")
-cachePath = settings.GetSettings("User Interface", "TranslationCachePath")
-if enableCache == None:
-    enableCache = True
-    settings.CreateSettings("User Interface", "EnableTranslationCache", enableCache)
-if cachePath == None:
-    cachePath = "assets/translationCache/cache.json"
-    settings.CreateSettings("User Interface", "TranslationCachePath", cachePath)
+    # Load Language settings
+    origin = settings.GetSettings("User Interface", "OriginLanguage")
+    dest = settings.GetSettings("User Interface", "DestinationLanguage")
+    if origin == None:
+        origin = "en"
+        settings.CreateSettings("User Interface", "OriginLanguage", origin)
+    if dest == None:
+        dest = GetOSLanguage()
+        settings.CreateSettings("User Interface", "DestinationLanguage", dest)
+
+    # Load Translation Cache settings
+    enableCache = settings.GetSettings("User Interface", "EnableTranslationCache")
+    print(enableCache)
+    cachePath = settings.GetSettings("User Interface", "TranslationCachePath")
+    if enableCache == None:
+        enableCache = True
+        settings.CreateSettings("User Interface", "EnableTranslationCache", enableCache)
+    if cachePath == None:
+        cachePath = "assets/translationCache/cache.json"
+        settings.CreateSettings("User Interface", "TranslationCachePath", cachePath)
+
+LoadSettings()
 
 translator = None
 def MakeTranslator(type):
+    global origin
+    global dest
     global translator
+    
+    del translator
+    translator = None
+    
     if type == "google":
         translator = dt.GoogleTranslator(source=origin, target=dest)
 
@@ -132,15 +148,20 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
     def TranslateText(text):
         if enableCache:
             cache = CheckCache(text)
-        
-        if cache != False:
-            return cache
+            if cache != False:
+                return cache
+            else:
+                mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
+                mainUI.root.update()
+
+                translation = translator.translate(text)
+                AddToCache(text, translation)
+                return translation
         else:
             mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
             mainUI.root.update()
-    
+
             translation = translator.translate(text)
-            AddToCache(text, translation)
             return translation
     
     # Check if the text is an array of strings

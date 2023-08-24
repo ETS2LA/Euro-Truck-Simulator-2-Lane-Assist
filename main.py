@@ -247,6 +247,7 @@ def LoadApplication():
         import src.mainUI as mainUI
     except:
         pass
+    
 
     CheckForONNXRuntimeChange()
 

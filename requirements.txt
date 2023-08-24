@@ -1,3 +1,4 @@
+wheel
 opencv-python
 numpy
 sv_ttk
