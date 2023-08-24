@@ -1,5 +1,7 @@
 import deep_translator as dt
 import src.settings as settings
+import src.loading as loading
+import src.mainUI as mainUI
 import json
 import os
 
@@ -80,6 +82,7 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
     global origin
     global dest
     
+    
     if originalLanguage == None:
         originalLanguage = origin
     else:
@@ -95,6 +98,7 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
     if originalLanguage == destinationLanguage:
         return text
     
+    
     def TranslateText(text):
         if enableCache:
             cache = CheckCache(text)
@@ -102,6 +106,9 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
         if cache != False:
             return cache
         else:
+            mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
+            mainUI.root.update()
+    
             translation = translator.translate(text)
             AddToCache(text, translation)
             return translation
@@ -111,6 +118,7 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
         translatedText = []
         for string in text:
             translatedText.append(TranslateText(string))
+            
         return translatedText
     else:
         return TranslateText(text)

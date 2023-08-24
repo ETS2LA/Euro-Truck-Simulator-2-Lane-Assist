@@ -19,7 +19,7 @@ from tkinter import ttk
 import sv_ttk
 
 class LoadingWindow:
-    def __init__(self, text, master=None, progress=False):
+    def __init__(self, text, master=None, progress=False, grab=True):
         self.text = text
         self.progress = progress
         
@@ -33,8 +33,9 @@ class LoadingWindow:
         self.root.geometry("300x80")
         self.root.protocol("WM_DELETE_WINDOW", self.destroy)
         self.root.attributes("-topmost", True)
-        self.root.focus_force()
-        self.root.grab_set()
+        if grab:
+            self.root.focus_force()
+            self.root.grab_set()
 
         self.label = ttk.Label(self.root, text=self.text)
         self.label.pack(pady=10)
@@ -63,5 +64,3 @@ class LoadingWindow:
             pass
         
         self.root.update()
-
-

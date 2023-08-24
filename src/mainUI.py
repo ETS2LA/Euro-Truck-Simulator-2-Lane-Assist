@@ -22,6 +22,7 @@ def CreateRoot():
     global width
     global height
     global fps
+    global fpsLabel
     
     try:
         root.destroy()
@@ -54,7 +55,7 @@ def CreateRoot():
     # Bottom text
     ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
     fps = tk.StringVar()
-    ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+    fpsLabel = ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
     # Left button bar
     buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)

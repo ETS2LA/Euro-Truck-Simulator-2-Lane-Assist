@@ -22,6 +22,7 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+import src.translator as translator
 import os
 
 class UI():
@@ -47,10 +48,8 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            # Helpers provides easy to use functions for creating consistent widgets!
-            helpers.MakeLabel(self.root, "This is a panel!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, "Quit", lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+            self.languages = translator.AVAILABLE_LANGUAGES
+            print(self.languages)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
