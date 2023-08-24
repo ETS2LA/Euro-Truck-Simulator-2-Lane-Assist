@@ -6,3 +6,4 @@ playsound
 scipy
 colorama
 deep_translator
+babel

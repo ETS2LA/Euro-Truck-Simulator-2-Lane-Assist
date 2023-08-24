@@ -9,8 +9,16 @@ def GetOSLanguage():
     if os.name == "nt":
         import ctypes
         import locale
+        from babel import Locale
         windll = ctypes.windll.kernel32
-        language = locale.windows_locale[windll.GetUserDefaultUILanguage()].split("_")[0]
+        language = locale.windows_locale[windll.GetUserDefaultUILanguage()]
+        language = Locale.parse(language)
+        language = language.language
+        
+        # Override for simplified chinese
+        if language == "zh":
+            language = "zh-CN"
+            
         return language
     else:
         return os.environ.get("LANG").split("_")[0]
