@@ -23,8 +23,14 @@ if cachePath == None:
     cachePath = "assets/translationCache/cache.json"
     settings.CreateSettings("User Interface", "TranslationCachePath", cachePath)
 
+translator = None
+def MakeTranslator(type):
+    global translator
+    if type == "google":
+        translator = dt.GoogleTranslator(source=origin, target=dest)
 
-translator = "google"
+MakeTranslator("google")
+AVAILABLE_LANGUAGES = translator.get_supported_languages(as_dict=True)
 
 def CheckCache(text, originalLanguage=None, destinationLanguage=None, language=None):
     try:
@@ -71,10 +77,20 @@ def AddToCache(text, translation, language=None):
     file.close()    
 
 def Translate(text, originalLanguage=None, destinationLanguage=None):
+    global origin
+    global dest
+    
     if originalLanguage == None:
         originalLanguage = origin
+    else:
+        origin = originalLanguage
+        MakeTranslator("google")
+        
     if destinationLanguage == None:
         destinationLanguage = dest
+    else:
+        dest = destinationLanguage
+        MakeTranslator("google")
         
     if originalLanguage == destinationLanguage:
         return text
@@ -84,10 +100,10 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
         if cache != False:
             return cache
         else:
-            translation = dt.GoogleTranslator(source=originalLanguage, target=destinationLanguage).translate(text)
+            translation = translator.translate(text)
             AddToCache(text, translation)
             return translation
     
     if translator == "google":
-        return dt.GoogleTranslator(source=originalLanguage, target=destinationLanguage).translate(text)
+        return translator.translate(text)
     
