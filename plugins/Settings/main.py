@@ -58,7 +58,9 @@ class UI():
             
             self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20)
             
-            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 4,0, padx=30, pady=10, width=20)
+            helpers.MakeButton(self.root, "Translation Settings", lambda: mainUI.switchSelectedPlugin("plugins.DeepTranslator.main"), 4,0, padx=30, pady=10, width=20)
+            
+            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 5,0, padx=30, pady=10, width=20)
             
             # Use the mainUI.quit() function to quit the app
             helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 10,0, padx=30, pady=10, width=20)

@@ -18,6 +18,11 @@ except:
     os.system("pip install vdf")
     import vdf
 
+try:
+    import deep_translator
+except:
+    os.system("pip install deep_translator")
+    import deep_translator
 
 # Load the UI framework
 import src.mainUI as mainUI

@@ -95,8 +95,10 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
     if originalLanguage == destinationLanguage:
         return text
     
-    if enableCache:
-        cache = CheckCache(text)
+    def TranslateText(text):
+        if enableCache:
+            cache = CheckCache(text)
+        
         if cache != False:
             return cache
         else:
@@ -104,6 +106,14 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
             AddToCache(text, translation)
             return translation
     
-    if translator == "google":
-        return translator.translate(text)
+    # Check if the text is an array of strings
+    if type(text) == list:
+        translatedText = []
+        for string in text:
+            translatedText.append(TranslateText(string))
+        return translatedText
+    else:
+        return TranslateText(text)
+    
+    
     
