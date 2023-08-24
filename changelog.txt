@@ -3,17 +3,8 @@
 For earlier changelogs please join the discord or look at the github page!
 
 
-# Version 1.1.6
-(Previous Version 1.1.5)
+# Version 1.2.0
+(Previous Version 1.1.6)
 
 # Major Changes
-- There is now a new installer with an updated visual style to match the main application.
-- The application will now show changelogs when updated.
-- The app now supports profiles for easy changes between games and trucks.
-- The application settings can now be changed without a restart.
-	- In addition if the application is bugging, it can be soft reloaded with F5
-
-# Small Changes
-- The plugin manager has been updated.
-- The about page has been updated to be centered.
-- Some plugins now have dependencies that will automatically be enabled with them.
+- The application can now be automatically translated into any language supported by Google Translate

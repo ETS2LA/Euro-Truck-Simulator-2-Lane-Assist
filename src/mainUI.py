@@ -14,6 +14,7 @@ import src.variables as variables
 from src.loading import LoadingWindow
 from src.logger import print
 import src.settings as settings
+from src.translator import Translate
 
 def CreateRoot():
     global root
@@ -166,16 +167,16 @@ def switchSelectedPlugin(pluginName):
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
     
     if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
-        if messagebox.askokcancel("Plugins", "The panel has asked to disable all plugins. Do you want to continue?"):
+        if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable all plugins. Do you want to continue?")):
             settings.CreateSettings("Plugins", "Enabled", [])
             variables.UpdatePlugins()
             
         else: return
         
     if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
-        if messagebox.askokcancel("Plugins", "The panel has asked to disable the mainloop. Do you want to continue?"):
+        if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable the mainloop. Do you want to continue?")):
             variables.ToggleEnable()
-            enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))
+            enableButton.config(text=(Translate("Disable") if variables.ENABLELOOP else Translate("Enable")))
         
         else: return
         
@@ -207,5 +208,5 @@ def changeTheme():
     #loading = LoadingWindow("Changing theme...", root)
     sv_ttk.toggle_theme()
     settings.CreateSettings("User Interface", "Theme", sv_ttk.get_theme())
-    themeButton.config(text=sv_ttk.get_theme().capitalize() + " Mode")
+    themeButton.config(text=Translate(sv_ttk.get_theme().capitalize()) + " Mode")
     #loading.destroy()
