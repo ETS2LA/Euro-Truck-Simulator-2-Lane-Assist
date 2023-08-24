@@ -34,6 +34,18 @@ def MakeTranslator(type):
 MakeTranslator("google")
 AVAILABLE_LANGUAGES = translator.get_supported_languages(as_dict=True)
 
+def FindLanguageFromCode(code):
+    for language in AVAILABLE_LANGUAGES:
+        if AVAILABLE_LANGUAGES[language] == code:
+            return language
+    return None
+
+def FindCodeFromLanguage(language):
+    for lang in AVAILABLE_LANGUAGES:
+        if lang == language.lower():
+            return AVAILABLE_LANGUAGES[lang]
+    return None
+
 def CheckCache(text, originalLanguage=None, destinationLanguage=None, language=None):
     try:
         file = open(cachePath, "r")
