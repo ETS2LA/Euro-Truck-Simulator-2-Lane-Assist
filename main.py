@@ -24,6 +24,12 @@ except:
     os.system("pip install deep_translator")
     import deep_translator
 
+try: 
+    import babel
+except:
+    os.system("pip install babel")
+    import babel
+
 # Load the UI framework
 import src.mainUI as mainUI
 import src.loading as loading # And then create a loading window
