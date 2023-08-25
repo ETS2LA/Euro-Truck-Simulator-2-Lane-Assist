@@ -120,6 +120,7 @@ def plugin(data):
         return data
     except Exception as ex:
         print(ex)
+        return data
     
 
 
