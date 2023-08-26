@@ -14,3 +14,4 @@ src/NVIDIA/*.dll
 profiles/currentProfile.txt
 assets/translationCache/*
 test.py
+assets/images/wallpaper.png

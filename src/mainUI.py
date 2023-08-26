@@ -16,7 +16,15 @@ from src.logger import print
 import src.settings as settings
 from src.translator import Translate
 
+def CropWallpaper(image, x, y, w, h):
+    from PIL import Image
+    image = Image.open("assets/images/wallpaper.png")
+    image = image.resize((width, height), Image.Resampling.BILINEAR)
+    image = image.crop((x, y, x+w, y+h))
+    return image
+
 def CreateRoot():
+    global root
     global root
     global buttonFrame
     global pluginFrame
@@ -24,6 +32,7 @@ def CreateRoot():
     global height
     global fps
     global fpsLabel
+    global uiImage
     
     try:
         root.destroy()
@@ -35,7 +44,6 @@ def CreateRoot():
 
     root = tk.Tk()
     root.title("Lane Assist")
-
 
     root.resizable(False, False)
     root.geometry(f"{width}x{height}")
@@ -53,23 +61,68 @@ def CreateRoot():
             pass
 
 
+    # Check if an image exists in assets/images/wallpaper.png
+    # If it does then set it as a background image called and then make a canvas
+    try:
+        from PIL import Image, ImageTk
+        image = Image.open("assets/images/wallpaper.png")
+        image = image.resize((width, height), Image.Resampling.BILINEAR)
+        image = ImageTk.PhotoImage(image)
+        imageLabel = tk.Label(root, image=image)
+        imageLabel.image = image
+        imageLabel.place(x=0, y=0, relwidth=1, relheight=1)
+    except:
+        import traceback
+        traceback.print_exc()
+
     # Bottom text
     ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
     fps = tk.StringVar()
     fpsLabel = ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
     # Left button bar
-    buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
+    try:
+        buttonFrame = tk.Canvas(root, width=width-675, height=height-20, border=0, highlightthickness=0)
+        
+        # Cut out the image to only where the canvas is 
+        x = 10
+        y = 10
+        w = width-675
+        h = height-20
+        image = CropWallpaper("assets/images/wallpaper.png", x, y, w, h)
+        newImage = ImageTk.PhotoImage(image)
+        
+        imageLabel = tk.Label(buttonFrame, image=newImage)
+        imageLabel.image = newImage
+        imageLabel.place(x=0, y=0, relwidth=1, relheight=1)    
+    except:
+        buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
+    
     buttonFrame.pack_propagate(0)
     buttonFrame.grid_propagate(0)
+    buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
 
 
     # Plugin frame
-    buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
-    pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
+    try:
+        pluginFrame = tk.Canvas(root, width=width, height=height-20, border=0, highlightthickness=0)
+        
+        x = 10
+        y = 10
+        w = width
+        h = height-20
+        image = CropWallpaper("assets/images/wallpaper.png", x, y, w, h)
+        newImage = ImageTk.PhotoImage(image)
+        
+        imageLabel = tk.Label(buttonFrame, image=newImage)
+        imageLabel.image = newImage
+        imageLabel.place(x=0, y=0, relwidth=1, relheight=1)
+        
+    except:
+        pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
+    
     pluginFrame.pack_propagate(0)
     pluginFrame.grid_propagate(0)
-
     pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
 
     def Reload():
@@ -197,6 +250,7 @@ def switchSelectedPlugin(pluginName):
     print("Loaded " + pluginName)
     
 def resizeWindow(newWidth, newHeight):
+    global root
     global root
     root.geometry(f"{newWidth}x{newHeight}")
     
