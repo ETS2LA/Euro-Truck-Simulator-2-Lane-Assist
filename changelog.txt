@@ -9,4 +9,7 @@ For earlier changelogs please join the discord or look at the github page!
 # Small Changes
 - Added the VirtualSimAPI to support games not developed by SCS (like BeamNG.drive)
     - Will set all values to default, this means that automatic blinkers etc... won't work.
-
+- Added the ExternalAPI plugin for external applications.
+    - It will export the app's data variable to localhost (127.0.0.1) at port 39847
+    - Will be used for the Unity/Godot visualization later on
+    - Also will provide the possibility for making a html based UI
