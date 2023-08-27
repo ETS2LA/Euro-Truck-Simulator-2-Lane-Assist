@@ -47,6 +47,7 @@ def plugin(data):
         prefabItems.LoadPrefabItems()
     
     img = visualize.VisualizeRoads(data)
+    img = visualize.VisualizePrefabs(data, img=img)
     cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
     cv2.imshow("Roads", img)
     cv2.resizeWindow("Roads", 1400, 1400)

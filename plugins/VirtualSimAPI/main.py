@@ -47,13 +47,13 @@ def plugin(data):
     
     # Listen for the arrow keys and move the "truck" accordingly
     if kb.is_pressed("up"):
-        scsPlugin.virtualZ += 10
+        scsPlugin.virtualZ += 10 * data["last"]["executionTimes"]["all"] * 10
     if kb.is_pressed("down"):
-        scsPlugin.virtualZ -= 10
-    if kb.is_pressed("left"):
-        scsPlugin.virtualX -= 10
+        scsPlugin.virtualZ -= 10 * data["last"]["executionTimes"]["all"] * 10
+    if kb.is_pressed("left"): 
+        scsPlugin.virtualX -= 10 * data["last"]["executionTimes"]["all"] * 10
     if kb.is_pressed("right"): 
-        scsPlugin.virtualX += 10
+        scsPlugin.virtualX += 10 * data["last"]["executionTimes"]["all"] * 10
     
     # Calculate the current driving angle based on this and last frames coordinates
     try:

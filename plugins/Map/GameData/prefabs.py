@@ -19,6 +19,8 @@ class Prefab:
     TriggerPoints = []
     PrefabCurves = []
     NavigationRoutes = []
+    CalculatedLanePoints = []
+    
     
 class PrefabCurve:
     id = 0
@@ -111,6 +113,7 @@ def LoadPrefabs():
         for triggerPoint in prefab["TriggerPoints"]:
             prefabObj.TriggerPoints.append(triggerPoint)
         
+        prefabObj.PrefabCurves = []
         for prefabCurve in prefab["PrefabCurves"]:
             prefabCurveObj = PrefabCurve()
             prefabCurveObj.id = prefabCurve["id"]
@@ -124,6 +127,7 @@ def LoadPrefabs():
             prefabCurveObj.nextLines = prefabCurve["nextLines"]
             prefabCurveObj.prevLines = prefabCurve["prevLines"]
             prefabObj.PrefabCurves.append(prefabCurveObj)
+                    
             
         for navigationRoute in prefab["NavigationRoutes"]:
             name = navigationRoute
@@ -143,6 +147,30 @@ def LoadPrefabs():
             
     
     sys.stdout.write(f"\rLoaded {count} prefabs.\nNow optimizing prefabs...")  
+    
+    loading.update(text="Optimizing prefabs...", progress=0)
+    
+    count = 0
+    removedCurves = 0
+    for prefab in prefabs:
+        neededCurves = []
+        for navigationRoute in prefab.NavigationRoutes:
+            for curveId in navigationRoute.CurveIds:
+                if curveId not in neededCurves:
+                    neededCurves.append(curveId)
+        
+        newCurves = []
+        for curve in prefab.PrefabCurves:
+            if curve.id not in neededCurves:
+                prefab.PrefabCurves.remove(curve)
+                removedCurves += 1
+                
+        count += 1
+        if count % 10 == 0:
+            sys.stdout.write(f"\rOptimized {count} prefabs.\r")
+            loading.update(text=f"Optimized {count} prefabs. ({round(count/len(prefabs) * 100)}%)", progress=count/len(prefabs) * 100)
+    
+    sys.stdout.write(f"\rOptimized {count} prefabs.\nRemoved {removedCurves} curves.\nNow optimizing array...\n")
     
     # Use the first 3 numbers of the prefab token to optimize the array
     loading.update(text="Optimizing array...", progress=False)
