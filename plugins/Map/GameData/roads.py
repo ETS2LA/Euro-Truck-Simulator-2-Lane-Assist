@@ -112,15 +112,21 @@ def LoadRoads():
     # Match the nodes to the roads
     loading.update(text="Matching roads to nodes...", progress=0)
     count = 0
+    noLocationData = 0
     for road in roads:
         road.StartNode = nodes.GetNodeByUid(road.StartNodeUid)
         road.EndNode = nodes.GetNodeByUid(road.EndNodeUid)
+        
+        if road.StartNode == None or road.EndNode == None:
+            noLocationData += 1
+        
         count += 1
         if count % 100 == 0:
             sys.stdout.write(f"Matched roads : {count}\r")
             loading.update(text=f"Matched roads : {count} ({round(count/len(roads) * 100)}%)", progress=count/len(roads) * 100)
     
-    sys.stdout.write(f"Matched roads : {count}\nNow optimizing array...\n")
+    sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
+    
     
     # Make an optimized array for the roads. Do this by splitting the map into 1km / 1km areas and then adding the roads to the correct area
     loading.update(text="Optimizing array...", progress=False)
@@ -172,4 +178,32 @@ def LoadRoads():
         
     loading.destroy()
     print("Road parsing done!")
-    pass
+
+
+def GetRoadsInTileByCoordinates(x, z):
+    # Convert the global coordinates to tile coordinates
+    x = math.floor((x - roadsMinX) / 1000)
+    z = math.floor((z - roadsMinZ) / 1000)
+    
+    if x in optimizedRoads:
+        if z in optimizedRoads[x]:
+            areaRoads = optimizedRoads[x][z].copy()
+            return areaRoads
+    
+    return []
+
+def GetTileCoordinates(x, z):
+    x = math.floor((x - roadsMinX) / 1000)
+    z = math.floor((z - roadsMinZ) / 1000)
+    
+    return x, z
+
+def GetLocalCoordinateInTile(x, y, tileX=-1, tileY=-1):
+    if tileX == -1 or tileY == -1:
+        tileX = math.floor((x - roadsMinX) / 1000)
+        tileY = math.floor((y - roadsMinZ) / 1000)
+        
+    x = x - (tileX * 1000) - roadsMinX
+    y = y - (tileY * 1000) - roadsMinZ
+    
+    return x, y

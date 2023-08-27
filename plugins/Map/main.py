@@ -28,6 +28,7 @@ import os
 import random
 
 from plugins.Map.GameData import roads, nodes, prefabs, prefabItems
+from plugins.Map.Visualize import visualize
 
 import cv2
 from PIL import Image
@@ -44,9 +45,10 @@ def plugin(data):
         prefabs.LoadPrefabs()
     if prefabItems.prefabItems == []:
         prefabItems.LoadPrefabItems()
-            
-    # Print a random roads start and end position
     
+    img = visualize.VisualizeRoads(data)
+    cv2.imshow("Roads", img)
+    cv2.waitKey(1)
     
     return data # Plugins need to ALWAYS return the data
 

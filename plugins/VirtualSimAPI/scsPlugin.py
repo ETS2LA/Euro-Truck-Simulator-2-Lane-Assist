@@ -11,6 +11,8 @@ stringSize = 64
 wheelSize = 14
 substanceSize = 25
 
+virtualX = -17581.6484  # Liege
+virtualZ = -1501.37891  # Liege
 
 import time
 
@@ -111,9 +113,11 @@ class scsTelemetry:
             # START OF FIFTH ZONE -> Offset 872
             
             data["comDouble"] = {}
-            data["comDouble"]["worldX"], offset = self.readDouble(offset)
+            data["comDouble"]["worldX"] = virtualX   # Duisburg
+            offset += 8
             data["comDouble"]["worldY"], offset = self.readDouble(offset)
-            data["comDouble"]["worldZ"], offset = self.readDouble(offset)
+            data["comDouble"]["worldZ"] = virtualZ
+            offset += 8
             data["comDouble"]["rotationX"], offset = self.readDouble(offset)
             data["comDouble"]["rotationY"], offset = self.readDouble(offset)
             data["comDouble"]["rotationZ"], offset = self.readDouble(offset)
@@ -479,9 +483,11 @@ class scsTelemetry:
             # START OF ZONE 8 -> Offset 2200
             
             data["truckPlacement"] = {}
-            data["truckPlacement"]["coordinateX"], offset = self.readDouble(offset)
+            data["truckPlacement"]["coordinateX"] = virtualX    # Duisburg
+            offset = offset + 8
             data["truckPlacement"]["coordinateY"], offset = self.readDouble(offset)
-            data["truckPlacement"]["coordinateZ"], offset = self.readDouble(offset)
+            data["truckPlacement"]["coordinateZ"] = virtualZ    # Duisburg
+            offset = offset + 8
             data["truckPlacement"]["rotationX"], offset = self.readDouble(offset)
             data["truckPlacement"]["rotationY"], offset = self.readDouble(offset)
             data["truckPlacement"]["rotationZ"], offset = self.readDouble(offset)

@@ -26,6 +26,8 @@ import time
 import os
 import math
 from plugins.VirtualSimAPI.scsPlugin import scsTelemetry
+import plugins.VirtualSimAPI.scsPlugin as scsPlugin
+import keyboard as kb
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -42,6 +44,16 @@ def plugin(data):
     
     apiData = API.update()    
     data["api"] = apiData
+    
+    # Listen for the arrow keys and move the "truck" accordingly
+    if kb.is_pressed("up"):
+        scsPlugin.virtualZ += 10
+    if kb.is_pressed("down"):
+        scsPlugin.virtualZ -= 10
+    if kb.is_pressed("left"):
+        scsPlugin.virtualX -= 10
+    if kb.is_pressed("right"): 
+        scsPlugin.virtualX += 10
     
     # Calculate the current driving angle based on this and last frames coordinates
     try:
