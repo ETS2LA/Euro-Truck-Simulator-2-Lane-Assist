@@ -51,6 +51,38 @@ totalHeight = 0
 areaCountX = 0
 areaCountZ = 0
 
+def Hermite(s, x, z, tanX, tanZ):
+    h1 = 2 * math.pow(s, 3) - 3 * math.pow(s, 2) + 1;
+    h2 = -2 * math.pow(s, 3) + 3 * math.pow(s, 2);
+    h3 = math.pow(s, 3) - 2 * math.pow(s, 2) + s;
+    h4 = math.pow(s, 3) - math.pow(s, 2);
+    return h1 * x + h2 * z + h3 * tanX + h4 * tanZ;
+
+def CreatePointsForRoad(road):
+    # All this code is copied from the original C# implementation of point calculations
+    # ts-map-lane-assist/TsMap/TsMapRenderer.cs -> 473 (after foreach(var road in _mapper.Roads))
+    newPoints = []
+
+    sx = road.StartNode.X
+    sz = road.StartNode.Z
+    ex = road.EndNode.X
+    ez = road.EndNode.Z
+
+    radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+
+    tanSx = math.cos(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEx = math.cos(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+    tanSz = math.sin(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEz = math.sin(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+
+    for i in range(8):
+        s = i / (8 - 1)
+        x = Hermite(s, sx, ex, tanSx, tanEx)
+        z = Hermite(s, sz, ez, tanSz, tanEz)
+        newPoints.append((x, z))
+
+    road.Points = newPoints
+
 def LoadRoads():
     global roadsMaxX
     global roadsMaxZ
