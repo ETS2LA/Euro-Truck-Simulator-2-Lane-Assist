@@ -10,3 +10,4 @@ run.bat
 log.txt
 activate.bat
 update.bat
+assets/translationCache/cache.json
