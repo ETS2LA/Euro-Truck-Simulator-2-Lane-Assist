@@ -35,7 +35,7 @@ with open("log.txt", "w") as f:
 colorama.init()
 
 
-def print(text):
+def print(text, end=""):
     global lastMsg
     global times
     
@@ -87,7 +87,7 @@ def print(text):
         f.write(fileMessage)
     
     # Can't use print() because it will cause an infinite loop
-    sys.stdout.write(message)
+    sys.stdout.write(message + end)
     if printDebug:
         traceback.print_exc()
     

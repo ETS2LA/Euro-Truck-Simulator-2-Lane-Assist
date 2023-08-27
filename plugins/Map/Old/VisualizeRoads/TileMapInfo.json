@@ -1,0 +1,20 @@
+{
+  "map": {
+    "maxX": 131072,
+    "maxY": 131072,
+    "x1": -94505.8047,
+    "x2": 79254.13,
+    "y1": -80093.17,
+    "y2": 93666.7656,
+    "tileSize": 512,
+    "minZoom": 0,
+    "maxZoom": 8
+  },
+  "game": {
+    "id": "ets2",
+    "game": "ets2",
+    "name": "Euro Truck Simulator 2",
+    "version": "1.40.3.25",
+    "generatedAt": "2021-04-28T21:04:22.8361056+02:00"
+  }
+}

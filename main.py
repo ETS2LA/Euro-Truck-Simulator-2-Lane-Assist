@@ -46,6 +46,13 @@ import traceback
 import src.settings as settings
 import psutil
 
+
+logger.printDebug = settings.GetSettings("logger", "debug")
+if logger.printDebug == None:
+    logger.printDebug = False
+    settings.CreateSettings("logger", "debug", False)
+    
+
 def GetEnabledPlugins():
     global enabledPlugins
     enabledPlugins = settings.GetSettings("Plugins", "Enabled")

@@ -15,3 +15,6 @@ profiles/currentProfile.txt
 assets/translationCache/*
 test.py
 assets/images/wallpaper.png
+plugins/Map/GameData/*.json
+plugins/Map/Old/VisualizeRoads/Roads.json
+plugins/Map/Old/VisualizeRoads/UNPACKTHISFILE.zip

@@ -50,8 +50,11 @@ class LoadingWindow:
         self.root.update()
 
     def destroy(self):
-        del self.progress
-        self.root.destroy()
+        try:
+            del self.progress
+            self.root.destroy()
+        except:
+            del self
 
     def update(self, progress=False, text=False):
         try:

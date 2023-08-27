@@ -25,14 +25,21 @@ import src.variables as variables
 import src.settings as settings
 import requests
 import os
+import json
+import time
 
 url = "http://localhost:39847"
 
 
 def sendData(data):
-    payload = {"data": data}
+    
+    data["timestamp"] = time.time()
+    payload = json.dumps(data)
+    
     try:
-        response = requests.post(url=url, json=payload, timeout=0.01)
+        response = requests.post(url=url, json=payload, timeout=0.0001)
+        if response == 200:
+            pass
     except: pass
     
 # The main file runs the "plugin" function each time the plugin is called
