@@ -63,6 +63,11 @@ def CreateCamera():
         settings.CreateSettings("dxcam", "display", 0)
         display = 0
 
+    device = settings.GetSettings("dxcam", "device")
+    if device == None:
+        settings.CreateSettings("dxcam", "device", 0)
+        device = 0
+
     left, top = x, y
     right, bottom = left + width, top + height
 
@@ -98,7 +103,7 @@ def CreateCamera():
         del camera
     except: pass
     
-    camera = dxcam.create(region=monitor, output_color="BGR", output_idx=display)
+    camera = dxcam.create(region=monitor, output_color="BGR", output_idx=display, device_idx=device)
         
 
 
@@ -194,7 +199,9 @@ class UI():
             self.y = helpers.MakeComboEntry(self.root, "Y", "dxcam", "y", 7,0)
             self.display = helpers.MakeComboEntry(self.root, "Display", "dxcam", "display", 8,0, value=0)
             
-            helpers.MakeButton(self.root, "Apply", lambda: self.updateSettings(), 9,0)
+            self.device = helpers.MakeComboEntry(self.root, "Device", "dxcam", "device", 9,0, value=0)
+            
+            helpers.MakeButton(self.root, "Apply", lambda: self.updateSettings(), 10,0)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
@@ -205,6 +212,7 @@ class UI():
             settings.CreateSettings("dxcam", "x", self.x.get())
             settings.CreateSettings("dxcam", "y", self.y.get())
             settings.CreateSettings("dxcam", "display", self.display.get())
+            settings.CreateSettings("dxcam", "device", self.device.get())
             CreateCamera()
         
         def update(self, data): # When the panel is open this function is called each frame 

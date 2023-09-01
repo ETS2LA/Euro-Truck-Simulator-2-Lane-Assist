@@ -14,3 +14,5 @@ src/NVIDIA/*.dll
 profiles/currentProfile.txt
 assets/translationCache/*
 test.py
+plugins/Map/GameData/*.json
+plugins/Map/Old
