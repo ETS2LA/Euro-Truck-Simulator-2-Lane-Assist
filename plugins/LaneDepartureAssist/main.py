@@ -47,7 +47,6 @@ def loadSettings():
 def plugin(data):
     try:
         currentOffset = data["LaneDetection"]["difference"]
-        print(currentOffset)
 
         if currentOffset > rightLimit or currentOffset < leftLimit:
             sounds.PlaySound("assets/sounds/warning.mp3")
