@@ -80,7 +80,8 @@ def plugin(data):
         data["frame"] = newImage
         
     except Exception as ex: 
-        print(ex)
+        if "LaneDetection" not in ex.args[0]:
+            print(ex)
         pass
 
     return data # Plugins need to ALWAYS return the data

@@ -143,10 +143,10 @@ def plugin(data):
     try:
         desiredControl = data["LaneDetection"]["difference"] * sensitivity + offset
     except Exception as ex:
-        if "LaneDetection" not in ex.args[0]:
+        if "LaneDetection" not in ex.args[0] and "difference" not in ex.args[0]:
             print(ex)
             
-        desiredControl = oldDesiredControl
+        desiredControl = oldDesiredControl * 0.9
         
     data["controller"] = {}
 
