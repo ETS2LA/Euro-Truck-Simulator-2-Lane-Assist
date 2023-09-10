@@ -1,4 +1,4 @@
-requirements = ["pygame", "opencv-python", "pillow", "vdf"]
+requirements = ["pygame", "opencv-python", "pillow", "vdf", "pywebview"]
 import os
 
 # This fucntion will be run when the plugin is first discovered.

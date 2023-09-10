@@ -8,3 +8,4 @@ scipy
 colorama
 deep_translator
 babel
+pywebview

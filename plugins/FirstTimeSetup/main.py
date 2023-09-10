@@ -48,8 +48,6 @@ class UI():
             self.waitForAPI = False
             self.page0()
         
-
-        
         def page0(self):
             
             try:
@@ -58,13 +56,15 @@ class UI():
             
             self.root = tk.Canvas(self.master)
             
-            helpers.MakeLabel(self.root, "Welcome", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            helpers.MakeLabel(self.root, "This setup will automatically configure the OFFICIAL plugins. ", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, "If you have any other plugins installed, please configure them manually.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, "Welcome", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, "This setup will automatically configure the OFFICIAL plugins. ", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeLabel(self.root, "If you have any other plugins installed, please configure them manually.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
 
             helpers.MakeButton(self.root, "Quit", lambda: quit(), 3,0)
             # REMEMBER TO CHANGE BACK TO PAGE1
             helpers.MakeButton(self.root, "Next", lambda: self.page1(), 3,1)
+            
+            helpers.MakeButton(self.root, "Tutorial Video", lambda: helpers.OpenWebView("Tutorial","plugins/FirstTimeSetup/tutorialEmbed.html", width=1290, height=730), 3,2)
 
             # Load the logo
             self.logo = Image.open(os.path.join(variables.PATH, "assets", "firstTimeSetup", "logo.jpg"))
@@ -73,7 +73,7 @@ class UI():
             self.logo = self.logo.resize((width, height), resample=Image.LANCZOS)
             self.logo = ImageTk.PhotoImage(self.logo)
             self.logoLabel = tk.Label(self.root, image=self.logo)
-            self.logoLabel.grid(row=4, column=0, columnspan=2, pady=10, padx=30)
+            self.logoLabel.grid(row=4, column=0, columnspan=3, pady=10, padx=30)
 
             self.root.pack(anchor="center")
             

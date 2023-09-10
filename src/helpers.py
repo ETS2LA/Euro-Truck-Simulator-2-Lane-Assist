@@ -2,6 +2,7 @@ from tkinter import ttk
 import tkinter as tk
 import src.settings as settings
 import src.translator as translator
+import webview
 
 def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled", columnspan=1, translate=True, sticky="n"):
     if translate:
@@ -114,7 +115,12 @@ def MakeLabel(parent, text, row, column, font=("Segoe UI", 10), pady=7, padx=7, 
 def MakeEmptyLine(parent, row, column, columnspan=1, pady=7):
     ttk.Label(parent, text="").grid(row=row, column=column, columnspan=columnspan, pady=pady)
         
-        
+
+def OpenWebView(title, urlOrFile, width=900, height=700):
+    webview.create_window(title, urlOrFile, width=width, height=height)
+    webview.start()
+
+
 def ConvertCapitalizationToSpaces(text):
     newText = ""
     for i in range(len(text)):

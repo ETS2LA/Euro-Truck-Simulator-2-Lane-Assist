@@ -48,8 +48,7 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvas to the widgets
             self.root.pack_propagate(0)
             
-            wv.create_window("Changelog", variables.CHANGELOG[0])
-            wv.start()
+            helpers.OpenWebView("Changelog", variables.CHANGELOG[0])
             
             mainUI.drawButtons()
         
