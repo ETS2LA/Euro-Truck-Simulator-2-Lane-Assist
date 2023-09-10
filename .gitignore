@@ -18,3 +18,5 @@ assets/images/wallpaper.png
 plugins/Map/GameData/*.json
 plugins/Map/Old/VisualizeRoads/Roads.json
 plugins/Map/Old/VisualizeRoads/UNPACKTHISFILE.zip
+plugins/Map/GameData/*.json
+plugins/Map/Old

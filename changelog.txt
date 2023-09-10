@@ -16,3 +16,10 @@ For earlier changelogs please join the discord or look at the github page!
 
 # Background work
 - The map plugin can now injest the new data from the game. It will still not do anything, there is no point in trying.
+
+# Minor Changes
+- Added lane departure warning.
+
+# Bugfixes
+- Fixed DefaultSteering spamming 
+- Fixed UFLDDrawLanes spamming

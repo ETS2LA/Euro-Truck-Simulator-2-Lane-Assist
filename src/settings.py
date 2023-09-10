@@ -112,6 +112,10 @@ def GetSettings(category, name, value=None):
         EnsureFile(profile)
         with open(profile, "r") as f:
             settings = json.load(f)
+        
+        if settings[category][name] == None:
+            return value    
+        
         return settings[category][name]
     except Exception as ex:
         if value != None:
