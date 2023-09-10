@@ -23,7 +23,7 @@ What is this app?
 
 ### What does it look like in action?
 
-You can see the older [video](https://www.youtube.com/watch?v=oHBFTHrOqCU).
+You can see demonstration [video](https://www.youtube.com/watch?v=XmM87rA_3fw).
 Or a part of the installation [video](https://youtu.be/ILLqHix_D8o?t=518)
 
 
@@ -31,6 +31,7 @@ Or a part of the installation [video](https://youtu.be/ILLqHix_D8o?t=518)
 ### How to use and install?
 
 You can watch the latest installation video. Installation takes about 20 minutes. And then about 10 to tune in your own values.
+Alternatively you can follow the written instructions on the [wiki](https://wiki.tumppi066.xyz/en/LaneAssist).
 
 
 ### How to update?
@@ -41,9 +42,7 @@ You can run the update.bat script or go into `app/` and run `git pull`.
 ### How to contribute?
 
 You can contribute by creating issues and pull requests. You can also contribute by creating plugins for the app.
-The plugin infrastructure is going to get documentation in the future (see [Wiki](https://wiki.tumppi066.xyz/en/LaneAssist)).
-
-For now you should be able to learn enough from the example plugin and panel (`app/plugins/Examples/`)
+The plugin infrastructure has documentation on the [wiki](https://wiki.tumppi066.xyz/en/LaneAssist).
 
 
 ### I have issues / suggestions.
@@ -53,8 +52,7 @@ Please join the discord.
 
 ### I want to support you.
 
-You can contact me and we can discuss it. I am not keen on accepting support since I feel like that would mandate me to continue development.
-I will focus on school first then the app.
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1NOC3P)
 
 
 ### I want to use your app in my own app.
