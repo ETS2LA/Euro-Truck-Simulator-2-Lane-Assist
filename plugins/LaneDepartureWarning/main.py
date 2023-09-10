@@ -8,7 +8,7 @@ from plugins.plugin import PluginInformation
 from src.logger import print
 
 PluginInfo = PluginInformation(
-    name="LaneDepartureAssist", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    name="LaneDepartureWarning", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     description="Will beep at you if you leave your lane.",
     version="0.1",
     author="Tumppi066",
@@ -48,7 +48,9 @@ def plugin(data):
     try:
         currentOffset = data["LaneDetection"]["difference"]
 
-        if currentOffset > rightLimit or currentOffset < leftLimit:
+        indicating = data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerLeftActive"]
+        
+        if (currentOffset > rightLimit or currentOffset < leftLimit) and not indicating:
             sounds.PlaySound("assets/sounds/warning.mp3")
     except:
         pass
