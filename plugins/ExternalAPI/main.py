@@ -28,6 +28,7 @@ import json
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
+import numpy as np
 
 url = "localhost"
 port = 39847
@@ -40,6 +41,7 @@ class HttpHandler(BaseHTTPRequestHandler):
     global currentData
     def do_GET(self):
         self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header("Content-type", "application/json")
         self.end_headers()
         self.wfile.write(bytes(json.dumps(currentData), "utf-8"))
@@ -72,12 +74,16 @@ def CreateServer():
 
 def plugin(data):
     global currentData
-    
-    try:
-        data["frame"] = None
-    except: pass
-    
     currentData = data
+    
+    # Go though the data and if there are any ndarrays then convert them to lists
+    for key in currentData:
+        if type(currentData[key]) == np.ndarray:
+            if key != "frame":
+                currentData[key] = currentData[key].tolist()
+            else:
+                currentData[key] = "Frame is not provided through the api..."
+    
 
     return data # Plugins need to ALWAYS return the data
 

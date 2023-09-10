@@ -3,6 +3,7 @@ import tkinter as tk
 import src.settings as settings
 import src.translator as translator
 import webview
+import webbrowser
 
 def MakeButton(parent, text, command, row, column, style="TButton", width=15, center=False, padx=5, pady=10, state="!disabled", columnspan=1, translate=True, sticky="n"):
     if translate:
@@ -120,6 +121,8 @@ def OpenWebView(title, urlOrFile, width=900, height=700):
     webview.create_window(title, urlOrFile, width=width, height=height)
     webview.start()
 
+def OpenInBrowser(url):
+    webbrowser.open(url)
 
 def ConvertCapitalizationToSpaces(text):
     newText = ""
