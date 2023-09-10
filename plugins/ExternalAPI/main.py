@@ -23,37 +23,75 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
-import requests
 import os
 import json
 import time
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
 
-url = "http://localhost:39847"
+url = "localhost"
+port = 39847
 
+currentData = {}
+close = False
 
-def sendData(data):
+# Send the data variable to the external application
+class HttpHandler(BaseHTTPRequestHandler):
+    global currentData
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        self.wfile.write(bytes(json.dumps(currentData), "utf-8"))
+    # Disable logging
+    def log_message(self, format, *args):
+        return
+
+def ServerThread():
+    global close
+    global server
     
-    data["timestamp"] = time.time()
-    payload = json.dumps(data)
+    while not close:
+        try:
+            server.handle_request()
+        except:
+            pass
+        time.sleep(0.1) # 10fps
+
+
+def CreateServer():
+    print("Starting server")
+    global server
+    global serverThread
+    server = HTTPServer((url, port), HttpHandler)
+    server.timeout = 0.001
+    
+    serverThread = threading.Thread(target=ServerThread)
+    serverThread.start()
+    
+
+def plugin(data):
+    global currentData
     
     try:
-        response = requests.post(url=url, json=payload, timeout=0.0001)
-        if response == 200:
-            pass
+        data["frame"] = None
     except: pass
     
-# The main file runs the "plugin" function each time the plugin is called
-# The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
-# The data from the last frame is contained under data["last"]
-def plugin(data):
-    sendData(data)
+    currentData = data
 
     return data # Plugins need to ALWAYS return the data
 
 
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
+    CreateServer()
     pass
 
 def onDisable():
+    global close
+    global serverThread
+    
+    close = True
+    serverThread.join()
+    
     pass

@@ -72,8 +72,7 @@ def CreateRoot():
         imageLabel.image = image
         imageLabel.place(x=0, y=0, relwidth=1, relheight=1)
     except:
-        import traceback
-        traceback.print_exc()
+        pass
 
     # Bottom text
     ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)

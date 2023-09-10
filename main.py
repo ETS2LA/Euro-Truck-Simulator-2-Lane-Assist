@@ -92,6 +92,7 @@ def FindPlugins():
     pluginObjects = []
     for plugin in plugins:
         pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo", "onEnable"]))
+        pluginObjects[-1].onEnable()
         
 
 def RunOnEnable():
@@ -253,6 +254,11 @@ def CheckLastKnownVersion():
         mainUI.switchSelectedPlugin("plugins.Changelog.main")
         return
     
+def CloseAllPlugins():
+    for plugin in pluginObjects:
+        plugin.onDisable()
+        del plugin
+        
 
 def LoadApplication():
     global mainUI
@@ -383,4 +389,5 @@ while True:
             else:
                 pass
         else:
+            CloseAllPlugins()
             break
