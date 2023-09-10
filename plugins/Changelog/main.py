@@ -23,6 +23,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
+import webview as wv
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -47,24 +48,10 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvas to the widgets
             self.root.pack_propagate(0)
             
-            self.text = tk.Text(self.root, width=600, height=520, border=0, highlightthickness=0)
+            wv.create_window("Changelog", variables.CHANGELOG[0])
+            wv.start()
             
-            lineNumber = 0
-            for line in variables.CHANGELOG:
-                count = 0
-                if "#" in line:
-                    line = line.replace("#", ">")
-                    self.text.insert("end", line)
-                else:
-                    self.text.insert("end", line)
-                
-                lineNumber += 1
-            
-            self.text.config(state="disabled")
-            self.text.pack(anchor="center", expand=False)
-            
-            self.root.pack(anchor="center", expand=False)
-            self.root.update()
+            mainUI.drawButtons()
         
         
         def update(self, data): # When the panel is open this function is called each frame 

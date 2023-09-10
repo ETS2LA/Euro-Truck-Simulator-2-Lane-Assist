@@ -1,4 +1,4 @@
-requirements = []
+requirements = ["pywebview"]
 import os
 
 # This fucntion will be run when the plugin is first discovered.

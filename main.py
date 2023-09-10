@@ -13,6 +13,12 @@ except:
     import colorama
 
 try:
+    import webview
+except:
+    os.system("pip install pywebview")
+    import webview
+
+try:
     import vdf
 except:
     os.system("pip install vdf")
