@@ -13,6 +13,12 @@ except:
     import colorama
 
 try:
+    import matplotlib
+except:
+    os.system("pip install matplotlib")
+    import matplotlib
+
+try:
     import webview
 except:
     os.system("pip install pywebview")
