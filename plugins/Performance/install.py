@@ -1,4 +1,4 @@
-requirements = ["psutil"]
+requirements = ["psutil", "matplotlib"]
 import os
 
 

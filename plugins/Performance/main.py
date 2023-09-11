@@ -33,6 +33,7 @@ idleTime = []
 lastUpdateTime = time.time()
 updateRate = 0.25
 lastTheme = settings.GetSettings("User Interface", "Theme")
+if lastTheme == None: lastTheme = "dark"
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
