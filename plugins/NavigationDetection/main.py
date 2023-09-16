@@ -48,10 +48,10 @@ smoothed_pidsteering = 0
 smoothed_rounded_pidsteering = 0
 
 red_lower_limit = (187, 0, 0)
-red_upper_limit = (227, 32, 32)
+red_upper_limit = (237, 42, 42)
 
 green_lower_limit = (0, 231, 0)
-green_upper_limit = (37, 255, 26)
+green_upper_limit = (47, 255, 36)
 def plugin(data):
 
     global pidKp
@@ -89,7 +89,7 @@ def plugin(data):
     trim = 0
     curvemultip = 0.15
     y_coordinate_of_lane_detection = int(height/2)
-    y_coordinate_of_curve_detection = int(height/2+30)
+    y_coordinate_of_curve_detection = int(height/2-20)
     #########################
 
     curve = None
@@ -101,9 +101,10 @@ def plugin(data):
     right_x_curve = None
 
 
-    for x in range(int(width/4), int(width/4*3)):
+    for x in range((0), int(width)):
 
         pixel_farbe_oben = picture_np[y_coordinate_of_lane_detection, x]
+        pixel_farbe_oben = (pixel_farbe_oben[2], pixel_farbe_oben[1], pixel_farbe_oben[0])
         if (red_lower_limit[0] <= pixel_farbe_oben[0] <= red_upper_limit[0] and
             red_lower_limit[1] <= pixel_farbe_oben[1] <= red_upper_limit[1] and
             red_lower_limit[2] <= pixel_farbe_oben[2] <= red_upper_limit[2]) or \
@@ -112,10 +113,11 @@ def plugin(data):
             green_lower_limit[2] <= pixel_farbe_oben[2] <= green_upper_limit[2]):
             if left_x is None:
                 left_x = x
-            right_x = x
-
+            else:
+                right_x = x
 
         pixel_farbe_kurve = picture_np[y_coordinate_of_curve_detection, x]
+        pixel_farbe_kurve = (pixel_farbe_kurve[2], pixel_farbe_kurve[1], pixel_farbe_kurve[0])
         if (red_lower_limit[0] <= pixel_farbe_kurve[0] <= red_upper_limit[0] and
             red_lower_limit[1] <= pixel_farbe_kurve[1] <= red_upper_limit[1] and
             red_lower_limit[2] <= pixel_farbe_kurve[2] <= red_upper_limit[2]) or \
@@ -124,7 +126,8 @@ def plugin(data):
             green_lower_limit[2] <= pixel_farbe_kurve[2] <= green_upper_limit[2]):
             if left_x_curve is None:
                 left_x_curve = x
-            right_x_curve = x
+            else:
+                right_x_curve = x
 
 
     center_x = (left_x + right_x) // 2 if left_x is not None else None
@@ -142,7 +145,11 @@ def plugin(data):
 
 
 
-    cv2.line(picture_np, (int(0), y_coordinate_of_lane_detection), (int(width), y_coordinate_of_lane_detection), (0, 0, 255), 2)
+    cv2.line(picture_np, (int(0), y_coordinate_of_lane_detection), (int(width), y_coordinate_of_lane_detection), (0, 0, 255), 1)
+    cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(right_x), y_coordinate_of_lane_detection), (0, 255, 0), 1)
+    
+    cv2.line(picture_np, (int(0), y_coordinate_of_curve_detection), (int(width), y_coordinate_of_curve_detection), (0, 0, 255), 1)
+    cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (0, 255, 0), 1)
     cv2.putText(picture_np, f"lane coordinate:{center_x}x   curve:{curve}   correction:{distancetocenter}   lane detected:{lanedetected}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
     data["frame"] = picture_np
 
@@ -157,11 +164,10 @@ def plugin(data):
 
         smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothes
 
-        smoothed_rounded_pidsteering = round(smoothed_pidsteering)
+        print(smoothed_pidsteering)
 
-        print(smoothed_rounded_pidsteering)
         data["controller"] = {}
-        data["controller"]["leftStick"] = smoothed_rounded_pidsteering
+        data["controller"]["leftStick"] = smoothed_pidsteering / 16384
         # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
         # gamepad.update()
     else:
