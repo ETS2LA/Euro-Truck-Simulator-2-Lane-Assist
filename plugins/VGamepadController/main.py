@@ -77,7 +77,8 @@ def plugin(data):
         # print(leftStick)
     
     except Exception as ex:
-        print(ex)
+        if "controller" not in ex.args:
+            print(ex)
         pass
 
     return data # Plugins need to ALWAYS return the data
