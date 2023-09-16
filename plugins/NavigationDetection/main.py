@@ -42,7 +42,7 @@ pidlast_error = 0
 pidintegral = 0
 pidderivative = 0
 pidsteering = 0
-steeringsmoothes = 2
+steeringsmoothness = 5
 
 smoothed_pidsteering = 0
 smoothed_rounded_pidsteering = 0
@@ -63,7 +63,7 @@ def plugin(data):
     global pidintegral
     global pidderivative
     global pidsteering
-    global steeringsmoothes
+    global steeringsmoothness
 
     global smoothed_pidsteering
     global smoothed_rounded_pidsteering
@@ -88,8 +88,8 @@ def plugin(data):
     target = width/2
     trim = 0
     curvemultip = 0.15
-    y_coordinate_of_lane_detection = int(height/2)
-    y_coordinate_of_curve_detection = int(height/2-20)
+    y_coordinate_of_lane_detection = int(height/8*6.2)
+    y_coordinate_of_curve_detection = int(height/2)
     #########################
 
     curve = None
@@ -130,8 +130,8 @@ def plugin(data):
                 right_x_curve = x
 
 
-    center_x = (left_x + right_x) // 2 if left_x is not None else None
-    center_x_curve = (left_x_curve + right_x_curve) // 2 if left_x_curve is not None else None
+    center_x = (left_x + right_x) / 2 if left_x is not None else None
+    center_x_curve = (left_x_curve + right_x_curve) / 2 if left_x_curve is not None else None
     if center_x is not None and center_x_curve is not None:
         curve = (center_x - center_x_curve)*curvemultip
         distancetocenter = ((target-center_x)-curve)
@@ -146,12 +146,23 @@ def plugin(data):
 
 
     cv2.line(picture_np, (int(0), y_coordinate_of_lane_detection), (int(width), y_coordinate_of_lane_detection), (0, 0, 255), 1)
-    cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(right_x), y_coordinate_of_lane_detection), (0, 255, 0), 1)
     
     cv2.line(picture_np, (int(0), y_coordinate_of_curve_detection), (int(width), y_coordinate_of_curve_detection), (0, 0, 255), 1)
-    cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (0, 255, 0), 1)
+    
+    try:
+        cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(right_x), y_coordinate_of_lane_detection), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_curve), y_coordinate_of_curve_detection), (255, 0, 0), 1)
+    except:
+        pass
+    
     cv2.putText(picture_np, f"lane coordinate:{center_x}x   curve:{curve}   correction:{distancetocenter}   lane detected:{lanedetected}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
-    data["frame"] = picture_np
 
     if lanedetected == "Yes":
 
@@ -162,12 +173,10 @@ def plugin(data):
 
         pidlast_error = piderror
 
-        smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothes
-
-        print(smoothed_pidsteering)
+        smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothness
 
         data["controller"] = {}
-        data["controller"]["leftStick"] = smoothed_pidsteering / 16384
+        data["controller"]["leftStick"] = (smoothed_pidsteering / (1024*64)) * 1
         # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
         # gamepad.update()
     else:
@@ -175,6 +184,7 @@ def plugin(data):
         data["controller"]["leftStick"] = 0
 
 
+    data["frame"] = picture_np
     # os.system('cls')
     # print("running")
     # print(f"lane coordinate:{center_x}x   curve:{curve}   correction:{distancetocenter}   lane detected:{lanedetected}" + "\r")

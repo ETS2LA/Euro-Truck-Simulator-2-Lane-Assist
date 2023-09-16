@@ -35,11 +35,15 @@ def createController():
         gamepad = vg.VX360Gamepad()
         print("Created controller")
     except Exception as e:
-        print("\033[91mCouldn't connect to the VIGEM driver.\n1. Make sure it's installed and updated\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/*Python Version*/Lib/site-packages/vgamepad/win/install \033[00m")
-        print("\033[91m2. Install the VC Redist 2017 here (https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170). \033[00m")
-        print("\033[91m3. Try restarting your pc. \033[00m")
-        input("Press enter to safely close the application. ")
-        exit()
+        try:
+            gamepad = vg.VX360Gamepad()
+            print("Created controller")
+        except:
+            print("\033[91mCouldn't connect to the VIGEM driver.\n1. Make sure it's installed and updated\nIf not then go to\nC:/Users/*Username*/AppData/Local/Programs/Python/*Python Version*/Lib/site-packages/vgamepad/win/install \033[00m")
+            print("\033[91m2. Install the VC Redist 2017 here (https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170). \033[00m")
+            print("\033[91m3. Try restarting your pc. \033[00m")
+            input("Press enter to safely close the application. ")
+            exit()
 
 
 def onEnable():
