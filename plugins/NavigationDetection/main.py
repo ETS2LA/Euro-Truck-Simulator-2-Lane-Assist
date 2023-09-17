@@ -26,8 +26,6 @@ import src.variables as variables
 import src.settings as settings
 import os
 
-
-import pyautogui
 import numpy as np
 import os
 
@@ -88,8 +86,8 @@ def plugin(data):
     target = width/2
     trim = 0
     curvemultip = 0.15
-    y_coordinate_of_lane_detection = int(height/8*6.2)
-    y_coordinate_of_curve_detection = int(height/2)
+    y_coordinate_of_lane_detection = int(height/2)
+    y_coordinate_of_curve_detection = int(height/2-height/12)
     #########################
 
     curve = None
@@ -176,7 +174,7 @@ def plugin(data):
         smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothness
 
         data["controller"] = {}
-        data["controller"]["leftStick"] = (smoothed_pidsteering / (1024*64)) * 1
+        data["controller"]["leftStick"] = (smoothed_pidsteering / (1024*12)) * 1
         # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
         # gamepad.update()
     else:
