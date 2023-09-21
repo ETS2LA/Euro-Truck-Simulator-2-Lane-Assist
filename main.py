@@ -274,8 +274,10 @@ def LoadApplication():
     loadingWindow = loading.LoadingWindow("Please wait initializing...")
     
     try:
+        mainUI.DeleteRoot()
         del mainUI
         import src.mainUI as mainUI
+        mainUI.CreateRoot()
     except:
         pass
     
@@ -312,7 +314,6 @@ def LoadApplication():
 
     CheckLastKnownVersion()
 
-LoadApplication()
 
 data = {}
 uiFrameTimer = 0

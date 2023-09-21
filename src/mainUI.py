@@ -7,7 +7,6 @@ This file contains the main UI for the program. It is responsible for creating t
 import time
 import tkinter as tk
 from tkinter import ttk, messagebox
-import sv_ttk
 import src.helpers as helpers
 from tkinter import font
 import src.variables as variables
@@ -15,6 +14,7 @@ from src.loading import LoadingWindow
 from src.logger import print
 import src.settings as settings
 from src.translator import Translate
+import plugins.ThemeSelector.main as themeSelector
 
 def CropWallpaper(image, x, y, w, h):
     from PIL import Image
@@ -22,6 +22,14 @@ def CropWallpaper(image, x, y, w, h):
     image = image.resize((width, height), Image.Resampling.BILINEAR)
     image = image.crop((x, y, x+w, y+h))
     return image
+
+def DeleteRoot():
+    global root
+    try:
+        root.destroy()
+        del root
+    except:
+        pass
 
 def CreateRoot():
     global root
@@ -48,18 +56,13 @@ def CreateRoot():
     root.resizable(False, False)
     root.geometry(f"{width}x{height}")
     root.protocol("WM_DELETE_WINDOW", lambda: quit())
-
-    try:
-        sv_ttk.inited = False
-        sv_ttk.set_theme(settings.GetSettings("User Interface", "Theme"))
-    except:
-        try:
-            sv_ttk.inited = False
-            sv_ttk.set_theme("dark")
-        except:
-            # We remade the root and it already had a theme
-            pass
-
+    
+    theme = settings.GetSettings("User Interface", "ColorTheme")
+    if theme == None:
+        theme = "SunValley"
+        settings.CreateSettings("User Interface", "ColorTheme", theme)
+    
+    themeSelector.ChangeTheme(theme, root)
 
     # Check if an image exists in assets/images/wallpaper.png
     # If it does then set it as a background image called and then make a canvas
@@ -180,7 +183,7 @@ def drawButtons(refresh=False):
     helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=10, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, sv_ttk.get_theme().capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=10, padx=9)
+    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=10, padx=9)
     import webbrowser
     helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 7, 0, width=10, padx=9, style="Accent.TButton", translate=False)
 
@@ -258,9 +261,7 @@ def resizeWindow(newWidth, newHeight):
     root.update()
         
 def changeTheme():
+    print("Changing theme")
     global themeButton
-    #loading = LoadingWindow("Changing theme...", root)
-    sv_ttk.toggle_theme()
-    settings.CreateSettings("User Interface", "Theme", sv_ttk.get_theme())
-    themeButton.config(text=Translate(sv_ttk.get_theme().capitalize()) + " Mode")
-    #loading.destroy()
+    themeSelector.SwitchThemeType()
+    themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")
