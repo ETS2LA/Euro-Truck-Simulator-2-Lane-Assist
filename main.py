@@ -314,6 +314,7 @@ def LoadApplication():
 
     CheckLastKnownVersion()
 
+LoadApplication()
 
 data = {}
 uiFrameTimer = 0
@@ -387,11 +388,10 @@ while True:
         if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
             from tkinter import messagebox
             import traceback
+            exc = traceback.format_exc()
             traceback.print_exc()
             # Pack everything in ex.args into one string
-            errorString = (" ").join(ex.args)
-            print(errorString)
-            if not messagebox.askretrycancel("Error", "The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n" + errorString):
+            if not messagebox.askretrycancel("Error", "The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n" + exc):
                 break
             else:
                 pass

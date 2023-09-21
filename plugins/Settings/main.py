@@ -60,10 +60,12 @@ class UI():
             
             helpers.MakeButton(self.root, "Translation Settings", lambda: mainUI.switchSelectedPlugin("plugins.DeepTranslator.main"), 4,0, padx=30, pady=10, width=20)
             
-            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 5,0, padx=30, pady=10, width=20)
+            helpers.MakeButton(self.root, "Themes", lambda: mainUI.switchSelectedPlugin("plugins.ThemeSelector.main"), 5,0, padx=30, pady=10, width=20)
+            
+            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 6,0, padx=30, pady=10, width=20)
             
             # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 10,0, padx=30, pady=10, width=20)
+            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 7,0, padx=30, pady=10, width=20)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
