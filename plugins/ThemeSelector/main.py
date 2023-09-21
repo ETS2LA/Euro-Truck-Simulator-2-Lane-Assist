@@ -35,7 +35,7 @@ if themeType == None:
 
 # Will switch the application theme
 # theme = "SunValley", "Forest", "Azure"
-def ChangeTheme(theme, root):
+def ChangeTheme(theme, root, changedColor=False):
     source = ""
 
     if theme == "SunValley":
@@ -53,7 +53,8 @@ def ChangeTheme(theme, root):
     try:
         if theme == "Forest":
             ttk.Style().theme_use(f"forest-{themeType}")
-            variables.RELOAD = True
+            if changedColor:
+                variables.RELOAD = True
         elif theme == "Azure":
             root.tk.call("set_theme", f"{themeType}")
         else:
@@ -71,7 +72,7 @@ def SwitchThemeType():
     global themeType
     print(themeType)
     themeType = "dark" if themeType == "light" else "light"
-    ChangeTheme(settings.GetSettings("User Interface", "ColorTheme"), mainUI.root)
+    ChangeTheme(settings.GetSettings("User Interface", "ColorTheme"), mainUI.root, changedColor=True)
     settings.CreateSettings("User Interface", "Theme", themeType)
     print("Switched theme type to " + themeType)
 
