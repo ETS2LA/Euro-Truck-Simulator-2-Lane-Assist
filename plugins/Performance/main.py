@@ -136,6 +136,7 @@ class UI():
             global frames
             global lastUpdateTime
             global lastTheme
+            global idleTime
             
             data = data["last"] # Get last frame's data
             try:
@@ -168,10 +169,11 @@ class UI():
                 try:
                     self.cpu.set(f"Idle Time: {round((data['executionTimes']['FPSLimiter'] / lastFrameTime) * 100)}%")
                     idleTime.append((data['executionTimes']['FPSLimiter'] / lastFrameTime) * 100)
+                    
                     if len(idleTime) > 100:
                         idleTime.pop(0)
                 except:
-                    pass
+                    idleTime = []
                     
             except Exception as ex:
                 print(ex.args)
