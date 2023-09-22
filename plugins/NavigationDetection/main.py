@@ -59,6 +59,7 @@ def LoadSettings():
     global trim
     global laneYOffset
     global turnYOffset
+    global steeringsmoothness
     
     trim = settings.GetSettings("NavigationDetection", "trim")
     if trim == None:
@@ -74,6 +75,12 @@ def LoadSettings():
     if turnYOffset == None:
         settings.CreateSettings("NavigationDetection", "turnYOffset", 0)
         turnYOffset = 0
+    
+    steeringsmoothness = settings.GetSettings("NavigationDetection", "smoothness")
+    if steeringsmoothness == None:
+        settings.CreateSettings("NavigationDetection", "smoothness", 5)
+        steeringsmoothness = 5
+    
     
 
 LoadSettings()
@@ -244,10 +251,12 @@ class UI():
             self.trim.set(self.trimSlider.get())
             self.laneY.set(self.laneYSlider.get())
             self.turnY.set(self.turnYSlider.get())
+            self.smoothness.set(self.smoothnessSlider.get())
             
             settings.CreateSettings("NavigationDetection", "trim", self.trimSlider.get())
             settings.CreateSettings("NavigationDetection", "laneYOffset", self.laneYSlider.get())
             settings.CreateSettings("NavigationDetection", "turnYOffset", self.turnYSlider.get())
+            settings.CreateSettings("NavigationDetection", "smoothness", self.smoothnessSlider.get())
             
             LoadSettings()
 
@@ -277,6 +286,10 @@ class UI():
             self.turnYSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
             self.turnY = helpers.MakeComboEntry(self.root, "Turn Y Offset", "NavigationDetection", "turnYOffset", 5,0)
 
+            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=10, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.smoothnessSlider.set(settings.GetSettings("NavigationDetection", "smoothness"))
+            self.smoothnessSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
+            self.smoothness = helpers.MakeComboEntry(self.root, "Smoothness", "NavigationDetection", "smoothness", 7,0)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
