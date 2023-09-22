@@ -41,6 +41,9 @@ pidintegral = 0
 pidderivative = 0
 pidsteering = 0
 steeringsmoothness = 5
+trim = 0
+laneYOffset = 0
+turnYOffset = 0
 
 smoothed_pidsteering = 0
 smoothed_rounded_pidsteering = 0
@@ -50,8 +53,34 @@ red_upper_limit = (237, 42, 42)
 
 green_lower_limit = (0, 231, 0)
 green_upper_limit = (47, 255, 36)
-def plugin(data):
 
+
+def LoadSettings():
+    global trim
+    global laneYOffset
+    global turnYOffset
+    
+    trim = settings.GetSettings("NavigationDetection", "trim")
+    if trim == None:
+        settings.CreateSettings("NavigationDetection", "trim", 0)
+        trim = 0
+    
+    laneYOffset = settings.GetSettings("NavigationDetection", "laneYOffset")
+    if laneYOffset == None:
+        settings.CreateSettings("NavigationDetection", "laneYOffset", 0)
+        laneYOffset = 0
+        
+    turnYOffset = settings.GetSettings("NavigationDetection", "turnYOffset")
+    if turnYOffset == None:
+        settings.CreateSettings("NavigationDetection", "turnYOffset", 0)
+        turnYOffset = 0
+    
+
+LoadSettings()
+
+
+def plugin(data):
+    global trim
     global pidKp
     global pidKi
     global pidKd
@@ -83,11 +112,10 @@ def plugin(data):
 
 
     #########################
-    target = width/2
-    trim = 0
+    target = width/2 + trim
     curvemultip = 0.15
-    y_coordinate_of_lane_detection = int(height/2)
-    y_coordinate_of_curve_detection = int(height/2-height/12)
+    y_coordinate_of_lane_detection = int(height/2) + laneYOffset
+    y_coordinate_of_curve_detection = int(height/2-height/12) + turnYOffset
     #########################
 
     curve = None
@@ -212,6 +240,17 @@ class UI():
             self.root.destroy()
             del self
 
+        def UpdateSettings(self):
+            self.trim.set(self.trimSlider.get())
+            self.laneY.set(self.laneYSlider.get())
+            self.turnY.set(self.turnYSlider.get())
+            
+            settings.CreateSettings("NavigationDetection", "trim", self.trimSlider.get())
+            settings.CreateSettings("NavigationDetection", "laneYOffset", self.laneYSlider.get())
+            settings.CreateSettings("NavigationDetection", "turnYOffset", self.turnYSlider.get())
+            
+            LoadSettings()
+
         
         def exampleFunction(self):
             
@@ -223,10 +262,21 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            # Helpers provides easy to use functions for creating consistent widgets!
-            helpers.MakeLabel(self.root, "This is a plugin!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, "Quit", lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+            self.trimSlider = tk.Scale(self.root, from_=-500, to=500, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.trimSlider.set(settings.GetSettings("NavigationDetection", "trim"))
+            self.trimSlider.grid(row=0, column=0, padx=10, pady=0, columnspan=2)
+            self.trim = helpers.MakeComboEntry(self.root, "Trim", "NavigationDetection", "trim", 1,0)
+            
+            self.laneYSlider = tk.Scale(self.root, from_=-400, to=400, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.laneYSlider.set(settings.GetSettings("NavigationDetection", "laneYOffset"))
+            self.laneYSlider.grid(row=2, column=0, padx=10, pady=0, columnspan=2)
+            self.laneY = helpers.MakeComboEntry(self.root, "Lane Y Offset", "NavigationDetection", "laneYOffset", 3,0)
+            
+            self.turnYSlider = tk.Scale(self.root, from_=-400, to=400, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.turnYSlider.set(settings.GetSettings("NavigationDetection", "laneYOffset"))
+            self.turnYSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
+            self.turnY = helpers.MakeComboEntry(self.root, "Turn Y Offset", "NavigationDetection", "turnYOffset", 5,0)
+
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
