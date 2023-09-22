@@ -31,9 +31,9 @@ import os
 
 import cv2
 
-pidKp = 400
+pidKp = 0.01
 pidKi = 0
-pidKd = 20
+pidKd = 0.002
 pidTarget = 0
 piderror = 0
 pidlast_error = 0
@@ -66,6 +66,8 @@ def LoadSettings():
         settings.CreateSettings("NavigationDetection", "trim", 0)
         trim = 0
     
+    trim = -trim
+    
     laneYOffset = settings.GetSettings("NavigationDetection", "laneYOffset")
     if laneYOffset == None:
         settings.CreateSettings("NavigationDetection", "laneYOffset", 0)
@@ -78,8 +80,8 @@ def LoadSettings():
     
     steeringsmoothness = settings.GetSettings("NavigationDetection", "smoothness")
     if steeringsmoothness == None:
-        settings.CreateSettings("NavigationDetection", "smoothness", 5)
-        steeringsmoothness = 5
+        settings.CreateSettings("NavigationDetection", "smoothness", 10)
+        steeringsmoothness = 10
     
     
 
@@ -163,8 +165,8 @@ def plugin(data):
                 right_x_curve = x
 
 
-    center_x = (left_x + right_x) / 2 if left_x is not None else None
-    center_x_curve = (left_x_curve + right_x_curve) / 2 if left_x_curve is not None else None
+    center_x = (left_x + right_x) / 2 if left_x and right_x is not None else None
+    center_x_curve = (left_x_curve + right_x_curve) / 2 if left_x_curve and right_x_curve is not None else None
     if center_x is not None and center_x_curve is not None:
         curve = (center_x - center_x_curve)*curvemultip
         distancetocenter = ((target-center_x)-curve)
@@ -209,7 +211,7 @@ def plugin(data):
         smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothness
 
         data["controller"] = {}
-        data["controller"]["leftStick"] = (smoothed_pidsteering / (1024*12)) * 1
+        data["controller"]["leftStick"] = (smoothed_pidsteering) * 1
         # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
         # gamepad.update()
     else:
@@ -271,7 +273,7 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            self.trimSlider = tk.Scale(self.root, from_=-500, to=500, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.trimSlider = tk.Scale(self.root, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
             self.trimSlider.set(settings.GetSettings("NavigationDetection", "trim"))
             self.trimSlider.grid(row=0, column=0, padx=10, pady=0, columnspan=2)
             self.trim = helpers.MakeComboEntry(self.root, "Trim", "NavigationDetection", "trim", 1,0)
@@ -286,7 +288,7 @@ class UI():
             self.turnYSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
             self.turnY = helpers.MakeComboEntry(self.root, "Turn Y Offset", "NavigationDetection", "turnYOffset", 5,0)
 
-            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=10, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=20, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
             self.smoothnessSlider.set(settings.GetSettings("NavigationDetection", "smoothness"))
             self.smoothnessSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
             self.smoothness = helpers.MakeComboEntry(self.root, "Smoothness", "NavigationDetection", "smoothness", 7,0)

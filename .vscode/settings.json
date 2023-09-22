@@ -12,5 +12,27 @@
     "circuitpython.board.version": null,
     "files.associations": {
         "data": "c"
-    }
+    },
+    "cSpell.words": [
+        "canvast",
+        "columnspan",
+        "curvemultip",
+        "distancetocenter",
+        "farbe",
+        "gamepad",
+        "Glas",
+        "highlightthickness",
+        "kurve",
+        "lanedetected",
+        "oben",
+        "padx",
+        "pady",
+        "pidderivative",
+        "piderror",
+        "pidintegral",
+        "pidlast",
+        "pidsteering",
+        "steeringsmoothness",
+        "Tumppi"
+    ]
 }
