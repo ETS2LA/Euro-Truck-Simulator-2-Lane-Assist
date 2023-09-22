@@ -54,6 +54,7 @@ red_upper_limit = (237, 42, 42)
 green_lower_limit = (0, 231, 0)
 green_upper_limit = (47, 255, 36)
 
+enableSteering = True
 
 def LoadSettings():
     global trim
@@ -200,7 +201,6 @@ def plugin(data):
     cv2.putText(picture_np, f"lane coordinate:{center_x}x   curve:{curve}   correction:{distancetocenter}   lane detected:{lanedetected}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
     if lanedetected == "Yes":
-
         piderror = pidTarget - distancetocenter
         pidintegral = pidintegral + piderror
         pidderivative = piderror - pidlast_error
@@ -210,8 +210,10 @@ def plugin(data):
 
         smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothness
 
-        data["controller"] = {}
-        data["controller"]["leftStick"] = (smoothed_pidsteering) * 1
+        #data["controller"] = {}
+        #data["controller"]["leftStick"] = (smoothed_pidsteering) * 1
+        data["LaneDetection"] = {}
+        data["LaneDetection"]["difference"] = -distancetocenter
         # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
         # gamepad.update()
     else:
