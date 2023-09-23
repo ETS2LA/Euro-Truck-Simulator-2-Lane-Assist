@@ -62,6 +62,7 @@ def LoadSettings():
     global trim
     global laneYOffset
     global turnYOffset
+    global curvemultip
     global steeringsmoothness
     
     trim = settings.GetSettings("NavigationDetection", "trim")
