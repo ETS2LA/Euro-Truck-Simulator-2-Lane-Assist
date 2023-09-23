@@ -83,6 +83,8 @@ def LoadSettings():
     if steeringsmoothness == None:
         settings.CreateSettings("NavigationDetection", "smoothness", 10)
         steeringsmoothness = 10
+        
+    steeringsmoothness += 1
     
     
 
