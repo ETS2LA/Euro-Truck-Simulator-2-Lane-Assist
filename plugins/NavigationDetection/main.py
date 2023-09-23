@@ -47,6 +47,8 @@ turnYOffset = 0
 
 curvemultip = 0.15
 
+turnstrength = 40
+
 smoothed_pidsteering = 0
 smoothed_rounded_pidsteering = 0
 
@@ -123,6 +125,8 @@ def plugin(data):
 
     global curvemultip
 
+    global turnstrength
+
     picture_np = data["frame"]
     
     try:
@@ -145,6 +149,9 @@ def plugin(data):
     right_x = None
     left_x_curve = None
     right_x_curve = None
+
+    lane_width = None
+    turndetected = 0
 
 
     for x in range((0), int(width)):
@@ -175,6 +182,36 @@ def plugin(data):
             else:
                 right_x_curve = x
 
+    try:
+        lane_width = right_x - left_x
+    except:
+        pass   
+
+    
+
+    if lane_width:
+        if lane_width > 60:
+            if left_x < 110:
+                turndetected = 1
+            if right_x > 180:
+                turndetected = 2
+        else:
+            turndetected = 0
+
+
+    if turndetected == 0:
+        cv2.putText(picture_np, f"no", (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = 0
+
+    if turndetected == 1:
+        cv2.putText(picture_np, f"left", (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = -turnstrength
+
+    if turndetected == 2:
+        cv2.putText(picture_np, f"right", (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = turnstrength
+    
+
 
     center_x = (left_x + right_x) / 2 if left_x and right_x is not None else None
     center_x_curve = (left_x_curve + right_x_curve) / 2 if left_x_curve and right_x_curve is not None else None
@@ -188,7 +225,6 @@ def plugin(data):
         curve = 0
         center_x = 0
         center_x_curve = 0
-
 
 
     cv2.line(picture_np, (int(0), y_coordinate_of_lane_detection), (int(width), y_coordinate_of_lane_detection), (0, 0, 255), 1)
@@ -208,7 +244,7 @@ def plugin(data):
     except:
         pass
     
-    cv2.putText(picture_np, f"lane coordinate:{center_x}x   curve:{curve}   correction:{distancetocenter}   lane detected:{lanedetected}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+    cv2.putText(picture_np, f"lane detected:{lanedetected}   correction:{distancetocenter}   curve:{curve}", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
     if lanedetected == "Yes":
         piderror = pidTarget - distancetocenter
@@ -220,10 +256,12 @@ def plugin(data):
 
         smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothness
 
+    if center_x is not None:
         #data["controller"] = {}
         #data["controller"]["leftStick"] = (smoothed_pidsteering) * 1
         data["LaneDetection"] = {}
-        data["LaneDetection"]["difference"] = -distancetocenter
+        data["LaneDetection"]["difference"] = -distancetocenter + turnvalue
+        print(-distancetocenter)
         # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
         # gamepad.update()
     else:
