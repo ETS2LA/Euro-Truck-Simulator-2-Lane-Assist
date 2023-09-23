@@ -45,6 +45,8 @@ trim = 0
 laneYOffset = 0
 turnYOffset = 0
 
+curvemultip = 0.15
+
 smoothed_pidsteering = 0
 smoothed_rounded_pidsteering = 0
 
@@ -84,6 +86,11 @@ def LoadSettings():
         settings.CreateSettings("NavigationDetection", "smoothness", 10)
         steeringsmoothness = 10
         
+    curvemultip = settings.GetSettings("NavigationDetection", "CurveMultiplier")
+    if curvemultip == None:
+        settings.CreateSettings("NavigationDetection", "CurveMultiplier", 0.15)
+        curvemultip = 0.15
+        
     steeringsmoothness += 1
     
     
@@ -113,6 +120,7 @@ def plugin(data):
     global green_lower_limit
     global green_upper_limit
 
+    global curvemultip
 
     picture_np = data["frame"]
     
@@ -125,7 +133,6 @@ def plugin(data):
 
     #########################
     target = width/2 + trim
-    curvemultip = 0.15
     y_coordinate_of_lane_detection = int(height/2) + laneYOffset
     y_coordinate_of_curve_detection = int(height/2-height/12) + turnYOffset
     #########################
@@ -258,11 +265,13 @@ class UI():
             self.laneY.set(self.laneYSlider.get())
             self.turnY.set(self.turnYSlider.get())
             self.smoothness.set(self.smoothnessSlider.get())
+            self.curveMultip.set(self.curveMultipSlider.get())
             
             settings.CreateSettings("NavigationDetection", "trim", self.trimSlider.get())
             settings.CreateSettings("NavigationDetection", "laneYOffset", self.laneYSlider.get())
             settings.CreateSettings("NavigationDetection", "turnYOffset", self.turnYSlider.get())
             settings.CreateSettings("NavigationDetection", "smoothness", self.smoothnessSlider.get())
+            settings.CreateSettings("NavigationDetection", "CurveMultiplier", self.curveMultipSlider.get())
             
             LoadSettings()
 
@@ -296,6 +305,11 @@ class UI():
             self.smoothnessSlider.set(settings.GetSettings("NavigationDetection", "smoothness"))
             self.smoothnessSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
             self.smoothness = helpers.MakeComboEntry(self.root, "Smoothness", "NavigationDetection", "smoothness", 7,0)
+            
+            self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.curveMultipSlider.set(settings.GetSettings("NavigationDetection", "CurveMultiplier"))
+            self.curveMultipSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
+            self.curveMultip = helpers.MakeComboEntry(self.root, "Curve Multiplier", "NavigationDetection", "CurveMultiplier", 9,0)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
