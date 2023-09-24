@@ -6,6 +6,7 @@ If you need to make a panel that is only updated when it's open then check the P
 
 from plugins.plugin import PluginInformation
 from src.logger import print
+from src.mainUI import resizeWindow
 
 PluginInfo = PluginInformation(
     name="NavigationDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
@@ -66,6 +67,7 @@ def LoadSettings():
     global turnYOffset
     global curvemultip
     global steeringsmoothness
+    global turnstrength
     
     trim = settings.GetSettings("NavigationDetection", "trim")
     if trim == None:
@@ -93,6 +95,11 @@ def LoadSettings():
     if curvemultip == None:
         settings.CreateSettings("NavigationDetection", "CurveMultiplier", 0.15)
         curvemultip = 0.15
+
+    turnstrength = settings.GetSettings("NavigationDetection", "TurnStrength")
+    if turnstrength == None:
+        settings.CreateSettings("NavigationDetection", "TurnStrength", 0.15)
+        turnstrength = 40
         
     steeringsmoothness += 1
     
@@ -293,6 +300,8 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
+            
+            resizeWindow(800,640)
         
         def destroy(self):
             self.done = True
@@ -305,12 +314,14 @@ class UI():
             self.turnY.set(self.turnYSlider.get())
             self.smoothness.set(self.smoothnessSlider.get())
             self.curveMultip.set(self.curveMultipSlider.get())
+            self.turnstrength.set(self.turnstrengthSlider.get())
             
             settings.CreateSettings("NavigationDetection", "trim", self.trimSlider.get())
             settings.CreateSettings("NavigationDetection", "laneYOffset", self.laneYSlider.get())
             settings.CreateSettings("NavigationDetection", "turnYOffset", self.turnYSlider.get())
             settings.CreateSettings("NavigationDetection", "smoothness", self.smoothnessSlider.get())
             settings.CreateSettings("NavigationDetection", "CurveMultiplier", self.curveMultipSlider.get())
+            settings.CreateSettings("NavigationDetection", "TurnStrength", self.turnstrengthSlider.get())
             
             LoadSettings()
 
@@ -321,7 +332,7 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=600, height=560, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
@@ -349,6 +360,11 @@ class UI():
             self.curveMultipSlider.set(settings.GetSettings("NavigationDetection", "CurveMultiplier"))
             self.curveMultipSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
             self.curveMultip = helpers.MakeComboEntry(self.root, "Curve Multiplier", "NavigationDetection", "CurveMultiplier", 9,0)
+
+            self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.turnstrengthSlider.set(settings.GetSettings("NavigationDetection", "TurnStrength"))
+            self.turnstrengthSlider.grid(row=10, column=0, padx=10, pady=0, columnspan=2)
+            self.turnstrength = helpers.MakeComboEntry(self.root, "TurnStrength", "NavigationDetection", "TurnStrength", 11,0)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
