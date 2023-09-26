@@ -6,6 +6,7 @@ If you need to make a panel that is only updated when it's open then check the P
 
 from plugins.plugin import PluginInformation
 from src.logger import print
+from src.mainUI import resizeWindow
 
 PluginInfo = PluginInformation(
     name="NavigationDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
@@ -45,6 +46,10 @@ trim = 0
 laneYOffset = 0
 turnYOffset = 0
 
+curvemultip = 0.15
+
+turnstrength = 40
+
 smoothed_pidsteering = 0
 smoothed_rounded_pidsteering = 0
 
@@ -60,7 +65,9 @@ def LoadSettings():
     global trim
     global laneYOffset
     global turnYOffset
+    global curvemultip
     global steeringsmoothness
+    global turnstrength
     
     trim = settings.GetSettings("NavigationDetection", "trim")
     if trim == None:
@@ -83,6 +90,18 @@ def LoadSettings():
     if steeringsmoothness == None:
         settings.CreateSettings("NavigationDetection", "smoothness", 10)
         steeringsmoothness = 10
+        
+    curvemultip = settings.GetSettings("NavigationDetection", "CurveMultiplier")
+    if curvemultip == None:
+        settings.CreateSettings("NavigationDetection", "CurveMultiplier", 0.15)
+        curvemultip = 0.15
+
+    turnstrength = settings.GetSettings("NavigationDetection", "TurnStrength")
+    if turnstrength == None:
+        settings.CreateSettings("NavigationDetection", "TurnStrength", 0.15)
+        turnstrength = 40
+        
+    steeringsmoothness += 1
     
     
 
@@ -111,6 +130,9 @@ def plugin(data):
     global green_lower_limit
     global green_upper_limit
 
+    global curvemultip
+
+    global turnstrength
 
     picture_np = data["frame"]
     
@@ -123,7 +145,6 @@ def plugin(data):
 
     #########################
     target = width/2 + trim
-    curvemultip = 0.15
     y_coordinate_of_lane_detection = int(height/2) + laneYOffset
     y_coordinate_of_curve_detection = int(height/2-height/12) + turnYOffset
     #########################
@@ -135,6 +156,9 @@ def plugin(data):
     right_x = None
     left_x_curve = None
     right_x_curve = None
+
+    lane_width = None
+    turndetected = 0
 
 
     for x in range((0), int(width)):
@@ -165,6 +189,36 @@ def plugin(data):
             else:
                 right_x_curve = x
 
+    try:
+        lane_width = right_x - left_x
+    except:
+        pass   
+
+    
+
+    if lane_width:
+        if lane_width > 60:
+            if left_x < 110:
+                turndetected = 1
+            if right_x > 180:
+                turndetected = 2
+        else:
+            turndetected = 0
+
+
+    if turndetected == 0:
+        cv2.putText(picture_np, f"no", (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = 0
+
+    if turndetected == 1:
+        cv2.putText(picture_np, f"left", (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = -turnstrength
+
+    if turndetected == 2:
+        cv2.putText(picture_np, f"right", (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = turnstrength
+    
+
 
     center_x = (left_x + right_x) / 2 if left_x and right_x is not None else None
     center_x_curve = (left_x_curve + right_x_curve) / 2 if left_x_curve and right_x_curve is not None else None
@@ -178,7 +232,6 @@ def plugin(data):
         curve = 0
         center_x = 0
         center_x_curve = 0
-
 
 
     cv2.line(picture_np, (int(0), y_coordinate_of_lane_detection), (int(width), y_coordinate_of_lane_detection), (0, 0, 255), 1)
@@ -198,7 +251,7 @@ def plugin(data):
     except:
         pass
     
-    cv2.putText(picture_np, f"lane coordinate:{center_x}x   curve:{curve}   correction:{distancetocenter}   lane detected:{lanedetected}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+    cv2.putText(picture_np, f"lane detected:{lanedetected}   correction:{distancetocenter}   curve:{curve}", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
     if lanedetected == "Yes":
         piderror = pidTarget - distancetocenter
@@ -210,10 +263,12 @@ def plugin(data):
 
         smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothness
 
+    if center_x is not None:
         #data["controller"] = {}
         #data["controller"]["leftStick"] = (smoothed_pidsteering) * 1
         data["LaneDetection"] = {}
-        data["LaneDetection"]["difference"] = -distancetocenter
+        data["LaneDetection"]["difference"] = -distancetocenter + turnvalue
+        print(-distancetocenter)
         # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
         # gamepad.update()
     else:
@@ -245,6 +300,8 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
+            
+            resizeWindow(800,640)
         
         def destroy(self):
             self.done = True
@@ -256,11 +313,15 @@ class UI():
             self.laneY.set(self.laneYSlider.get())
             self.turnY.set(self.turnYSlider.get())
             self.smoothness.set(self.smoothnessSlider.get())
+            self.curveMultip.set(self.curveMultipSlider.get())
+            self.turnstrength.set(self.turnstrengthSlider.get())
             
             settings.CreateSettings("NavigationDetection", "trim", self.trimSlider.get())
             settings.CreateSettings("NavigationDetection", "laneYOffset", self.laneYSlider.get())
             settings.CreateSettings("NavigationDetection", "turnYOffset", self.turnYSlider.get())
             settings.CreateSettings("NavigationDetection", "smoothness", self.smoothnessSlider.get())
+            settings.CreateSettings("NavigationDetection", "CurveMultiplier", self.curveMultipSlider.get())
+            settings.CreateSettings("NavigationDetection", "TurnStrength", self.turnstrengthSlider.get())
             
             LoadSettings()
 
@@ -271,7 +332,7 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=600, height=560, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
@@ -294,6 +355,16 @@ class UI():
             self.smoothnessSlider.set(settings.GetSettings("NavigationDetection", "smoothness"))
             self.smoothnessSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
             self.smoothness = helpers.MakeComboEntry(self.root, "Smoothness", "NavigationDetection", "smoothness", 7,0)
+            
+            self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.curveMultipSlider.set(settings.GetSettings("NavigationDetection", "CurveMultiplier"))
+            self.curveMultipSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
+            self.curveMultip = helpers.MakeComboEntry(self.root, "Curve Multiplier", "NavigationDetection", "CurveMultiplier", 9,0)
+
+            self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.turnstrengthSlider.set(settings.GetSettings("NavigationDetection", "TurnStrength"))
+            self.turnstrengthSlider.grid(row=10, column=0, padx=10, pady=0, columnspan=2)
+            self.turnstrength = helpers.MakeComboEntry(self.root, "TurnStrength", "NavigationDetection", "TurnStrength", 11,0)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
