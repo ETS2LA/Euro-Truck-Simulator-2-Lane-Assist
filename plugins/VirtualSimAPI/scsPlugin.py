@@ -11,8 +11,8 @@ stringSize = 64
 wheelSize = 14
 substanceSize = 25
 
-virtualX = -17581.6484  # Liege
-virtualZ = -1501.37891  # Liege
+virtualX = 3500
+virtualZ = 5600
 
 import time
 

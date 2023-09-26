@@ -65,7 +65,7 @@ def LoadPrefabItems():
     global itemsAreaCountZ
     
     
-    loading = LoadingWindow("Parsing prefab items...", grab=False, progress=0)
+    loading = LoadingWindow("Parsing prefab items...", grab=False, progress=0, totalProgress=100)
     
     jsonData = json.load(open(prefabItemsFileName))
     
@@ -77,7 +77,11 @@ def LoadPrefabItems():
         itemObj.Uid = item["Uid"]
         itemObj.StartNodeUid = item["StartNodeUid"]
         itemObj.EndNodeUid = item["EndNodeUid"]
-        itemObj.Nodes = item["Nodes"]
+        
+        itemObj.Nodes = []
+        for node in item["Nodes"]:
+            itemObj.Nodes.append(nodes.GetNodeByUid(node))
+        
         itemObj.BlockSize = item["BlockSize"]
         itemObj.Valid = item["Valid"]
         itemObj.Type = item["Type"]
@@ -101,6 +105,11 @@ def LoadPrefabItems():
             itemObj.Navigation.append(navObj)
             
         itemObj.Origin = item["Origin"]
+        
+        # Modify the X and Y to the correct coordinates
+        itemObj.X = itemObj.Nodes[itemObj.Origin].X
+        itemObj.Z = itemObj.Nodes[itemObj.Origin].Z
+        
         itemObj.Prefab = item["Prefab"]
         itemObj.IsSecret = item["IsSecret"]
         
@@ -122,9 +131,13 @@ def LoadPrefabItems():
         prefabItem.Prefab = prefabs.GetPrefabByToken(prefabItem.Prefab)
         
         if prefabItem.Prefab == None:
-            print(f"Prefab item {prefabItem.Uid} has no prefab!")
+            # print(f"Prefab item {prefabItem.Uid} has no prefab!")
+            pass 
         
-        if not prefabItem.Prefab.ValidRoad:
+        try:
+            if not prefabItem.Prefab.ValidRoad:
+                prefabItems.remove(prefabItem)
+        except:
             prefabItems.remove(prefabItem)
         
         count += 1

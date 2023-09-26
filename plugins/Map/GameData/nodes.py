@@ -26,7 +26,7 @@ def LoadNodes():
     global nodes
     global optimizedNodes
     
-    loading = LoadingWindow("Parsing nodes...", grab=False, progress=0)
+    loading = LoadingWindow("Parsing Nodes...", grab=False, progress=0, totalProgress=0)
     
     jsonData = json.load(open(nodeFileName))
     

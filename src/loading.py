@@ -19,7 +19,7 @@ from tkinter import ttk
 import sv_ttk
 
 class LoadingWindow:
-    def __init__(self, text, master=None, progress=False, grab=True):
+    def __init__(self, text, master=None, progress=False, grab=True, totalProgress=-1):
         self.text = text
         self.progress = progress
         
@@ -47,6 +47,12 @@ class LoadingWindow:
             self.progress = ttk.Progressbar(self.root, orient="horizontal", length=200, mode="determinate", value=progress)
         
         self.progress.pack(pady=10)
+        
+        if totalProgress != -1:
+            self.totalProgress = ttk.Progressbar(self.root, orient="horizontal", length=200, mode="determinate", value=totalProgress)
+            self.root.geometry("300x140")
+            self.totalProgress.pack(pady=10)
+        
         self.root.update()
 
     def destroy(self):
@@ -56,13 +62,16 @@ class LoadingWindow:
         except:
             del self
 
-    def update(self, progress=False, text=False):
+    def update(self, progress=False, text=False, totalProgress=-1):
         try:
             if progress != False:
                 self.progress["value"] = progress
             
             if text != False:
                 self.label.config(text=text)
+                
+            if totalProgress != -1:
+                self.totalProgress["value"] = totalProgress
         except:
             pass
         
