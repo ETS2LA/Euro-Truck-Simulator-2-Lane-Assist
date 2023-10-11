@@ -159,11 +159,21 @@ def AddToList(category, name, data):
         if not category in settings:
             settings[category] = {}
             settings[category][name] = []
-            settings[category][name].append(data)
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    settings[category][name].append(item)
+            else:
+                settings[category][name].append(data)
         
         # If the setting exists then overwrite it
         if category in settings:
-            settings[category][name].append(data)
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    settings[category][name].append(item)
+            else:
+                settings[category][name].append(data)
             
         with open(profile, "w") as f:
             f.truncate(0)

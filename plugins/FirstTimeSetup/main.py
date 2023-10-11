@@ -56,6 +56,8 @@ class UI():
             
             self.root = tk.Canvas(self.master)
             
+            settings.CreateSettings("Plugins", "Enabled", ["TruckersMPLock"])
+            
             helpers.MakeLabel(self.root, "Welcome", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
             helpers.MakeLabel(self.root, "This setup will automatically configure the OFFICIAL plugins. ", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
             helpers.MakeLabel(self.root, "If you have any other plugins installed, please configure them manually.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
@@ -634,7 +636,7 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.CreateSettings("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "LSTRLaneDetection", "TruckSimAPI"])
+            settings.AddToList("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "LSTRLaneDetection", "TruckSimAPI"])
             
             helpers.MakeLabel(self.root, "One more step!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
             helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
