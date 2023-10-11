@@ -415,6 +415,7 @@ def InstallSequence():
         from tkinter import messagebox
         if messagebox.askokcancel("App", "The app was already found, do you want to re-download it?"):
             import shutil
+            os.system("rmdir /s /q app\.git")
             shutil.rmtree("app")
             DownloadApp()
     
