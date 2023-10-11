@@ -4,7 +4,7 @@ Discord: https://discord.gg/DpJpkNpqwD
 
 Youtube: https://www.youtube.com/@tumppi066
 
-Wiki: https://wiki.tumppi066.xyz/en/LaneAssist (Under construction, installation possible through there)
+Wiki: https://wiki.tumppi066.fi/en/LaneAssist
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1NOC3P)
 
