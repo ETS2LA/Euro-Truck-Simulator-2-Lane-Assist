@@ -33,7 +33,6 @@ def DeleteRoot():
 
 def CreateRoot():
     global root
-    global root
     global buttonFrame
     global pluginFrame
     global width
@@ -214,6 +213,7 @@ def update(data):
     
     
 def switchSelectedPlugin(pluginName):
+    global plugin
     global pluginFrame
     global ui
     global root

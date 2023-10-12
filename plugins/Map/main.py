@@ -26,6 +26,7 @@ import src.variables as variables
 import src.settings as settings
 import os
 import random
+import time
 
 from plugins.Map.GameData import roads, nodes, prefabs, prefabItems
 from plugins.Map.Visualize import visualize
@@ -37,7 +38,14 @@ from PIL import Image
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
+    startPlugin = ""
     if nodes.nodes == []:
+        try:
+            startPlugin = f"plugins.{mainUI.plugin.PluginInfo.name}.main"
+        except:
+            startPlugin = "plugins.Performance.main"
+            
+        mainUI.switchSelectedPlugin("plugins.Map.main")
         nodes.LoadNodes()
     if roads.roads == []:
         roads.limitToCount = 0
@@ -47,6 +55,9 @@ def plugin(data):
         prefabs.LoadPrefabs()
     if prefabItems.prefabItems == []:
         prefabItems.LoadPrefabItems()
+    
+    if startPlugin != "":
+        mainUI.switchSelectedPlugin(startPlugin)
     
     img = visualize.VisualizeRoads(data)
     img = visualize.VisualizePrefabs(data, img=img)
@@ -68,3 +79,64 @@ def onEnable():
 
 def onDisable():
     pass
+
+class UI:
+    def __init__(self, master) -> None:
+        self.master = master # "master" is the mainUI window
+        self.start = time.time()
+        self.loadUI()
+        
+    def destroy(self):
+        self.done = True
+        self.root.destroy()
+        del self
+    
+    def loadUI(self):
+        try:
+            self.root.destroy() # Load the UI each time this plugin is called
+        except: pass
+            
+        self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+        self.root.grid_propagate(1) # Don't fit the canvast to the widgets
+        self.root.pack_propagate(1)
+        
+        self.state = helpers.MakeLabel(self.root, "", 0,0, padx=0, pady=10, columnspan=1, sticky="n")
+        self.state.set("Parsing nodes... 0%")
+        
+        # First progress bar for the current phase
+        self.progress = ttk.Progressbar(self.root, orient="horizontal", length=300, mode="determinate")
+        self.progress.grid(row=1, column=0, padx=5, pady=5)
+        
+        self.total = helpers.MakeLabel(self.root, "", 2,0, padx=0, pady=10, columnspan=1, sticky="n")
+        self.total.set("Total progress: 0%")
+        
+        # Second progress bar for the total progress
+        self.totalProgress = ttk.Progressbar(self.root, orient="horizontal", length=300, mode="determinate")
+        self.totalProgress.grid(row=3, column=0, padx=5, pady=5)
+        
+        helpers.MakeLabel(self.root, " ", 4,0, padx=0, pady=10, columnspan=1, sticky="n")
+        helpers.MakeLabel(self.root, "SCS games are large, and by extension they have a lot of roads.\nThis process is going to take a while depending on your PC.", 5,0, padx=0, pady=10, columnspan=1, sticky="n")
+        
+        self.time = helpers.MakeLabel(self.root, "", 6,0, padx=0, pady=10, columnspan=1, sticky="n")
+        self.remaining = helpers.MakeLabel(self.root, "", 7,0, padx=0, pady=0, columnspan=1, sticky="n")
+        
+        self.root.pack(anchor="center", expand=False)
+        self.root.update()
+    
+    def update(self, data):
+        try:
+            stateText = data["state"]
+            stateProgress = data["stateProgress"]
+            totalProgress = data["totalProgress"]
+            
+            self.state.set(stateText)
+            self.progress["value"] = stateProgress
+            self.totalProgress["value"] = (totalProgress)
+            self.total.set(f"Total progress: {round(totalProgress)}%")
+            
+            self.time.set(f"Time elapsed: {round(time.time() - self.start)} seconds")
+            timeToCurrentPercentage = (time.time() - self.start)
+            timeLeft = (100 - totalProgress) / totalProgress * timeToCurrentPercentage
+            self.remaining.set(f"Approximate time left: {round(timeLeft)} seconds")
+        except:
+            pass

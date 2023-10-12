@@ -7,6 +7,7 @@ from src.mainUI import *
 import sys
 import plugins.Map.GameData.nodes as nodes
 import math
+import src.mainUI as mainUI
 
 class Prefab:
     FilePath = ""
@@ -68,9 +69,8 @@ def LoadPrefabs():
     global prefabs
     global optimizedPrefabs
     
-    loading = LoadingWindow("Parsing prefabs...", grab=False, progress=0, totalProgress=66)
-    
     jsonData = json.load(open(prefabFileName))
+    jsonLength = len(jsonData)
     
     count = 0
     for prefab in jsonData:
@@ -142,16 +142,21 @@ def LoadPrefabs():
         prefabs.append(prefabObj)
         
         count += 1
-        if count % 50 == 0:
+        if count % int(jsonLength/100) == 0:
             sys.stdout.write(f"\rLoaded {count} prefabs.\r")
-            loading.update(text=f"Loaded {count} prefabs.", progress=count/len(jsonData) * 100)
+            data = {
+                "state": f"Parsing prefabs... {round(count/jsonLength * 100)}%",
+                "stateProgress": count/jsonLength * 100,
+                "totalProgress": 50 + count/jsonLength * 5
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
            
         if limitToCount != 0 and count >= limitToCount:
             break 
     
     sys.stdout.write(f"\rLoaded {count} prefabs.\nNow optimizing prefabs...")  
     
-    loading.update(text="Optimizing prefabs...", progress=0)
     
     count = 0
     removedCurves = 0
@@ -169,14 +174,27 @@ def LoadPrefabs():
                 removedCurves += 1
                 
         count += 1
-        if count % 10 == 0:
+        if count % 50 == 0:
             sys.stdout.write(f"\rOptimized {count} prefabs.\r")
-            loading.update(text=f"Optimized {count} prefabs. ({round(count/len(prefabs) * 100)}%)", progress=count/len(prefabs) * 100)
+            data = {
+                "state": f"Optimizing prefabs... {round(count/len(prefabs) * 100)}%",
+                "stateProgress": count/len(prefabs) * 100,
+                "totalProgress": 55 + count/len(prefabs) * 20
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
     
     sys.stdout.write(f"\rOptimized {count} prefabs.\nRemoved {removedCurves} curves.\nNow optimizing array...\n")
     
     # Use the first 3 numbers of the prefab token to optimize the array
-    loading.update(text="Optimizing array...", progress=False)
+    data = {
+        "state": f"Optimizing array...",
+        "stateProgress": 100,
+        "totalProgress": 75
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
+    
     for prefab in prefabs:
         token = str(prefab.Token)[:3]
         if token not in optimizedPrefabs:
@@ -184,7 +202,6 @@ def LoadPrefabs():
         optimizedPrefabs[token].append(prefab)
     
     print("Prefab parsing done!")
-    loading.destroy()
         
         
 def GetPrefabByToken(token):

@@ -9,7 +9,7 @@ import plugins.Map.GameData.nodes as nodes
 import math
 import plugins.Map.GameData.prefabs as prefabs
 import plugins.Map.GameData.roads as roads
-
+import src.mainUI as mainUI
 class PrefabItem:
     Uid = 0
     StartNodeUid = 0
@@ -64,10 +64,8 @@ def LoadPrefabItems():
     global itemsAreaCountX
     global itemsAreaCountZ
     
-    
-    loading = LoadingWindow("Parsing prefab items...", grab=False, progress=0, totalProgress=100)
-    
     jsonData = json.load(open(prefabItemsFileName))
+    jsonLength = len(jsonData)
     
     count = 0
     for item in jsonData:
@@ -118,12 +116,17 @@ def LoadPrefabItems():
         
         count += 1
         
-        if count % 1000 == 0:
+        if count % int(jsonLength/100) == 0:
             sys.stdout.write(f"\rLoaded {count} prefab items.\r")
-            loading.update(text=f"Loaded {count} prefab items.", progress=count/len(jsonData) * 100)
+            data = {
+                "state": f"Loading prefab items... {round(count/jsonLength * 100)}%",
+                "stateProgress": count/jsonLength * 100,
+                "totalProgress": 75 + count/jsonLength * 5
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
     
     sys.stdout.write(f"Loaded {len(prefabItems)} prefab items.\nNow matching prefab items...\n")
-    loading.update(text="Matching prefab items...", progress=0)
     count = 0
     for prefabItem in prefabItems:
         prefabItem.StartNode = nodes.GetNodeByUid(prefabItem.StartNodeUid)
@@ -141,11 +144,25 @@ def LoadPrefabItems():
             prefabItems.remove(prefabItem)
         
         count += 1
-        if count % 100 == 0:
-            loading.update(text=f"Matched prefab items : {count} ({round(count/len(prefabItems) * 100)}%)", progress=count/len(prefabItems) * 100)
+        if count % 500 == 0:
+            data = {
+                "state": f"Matching prefabs and prefab items... {round(count/len(prefabItems) * 100)}%",
+                "stateProgress": count/len(prefabItems) * 100,
+                "totalProgress": 80 + count/len(prefabItems) * 20
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
             sys.stdout.write(f"Matched prefab items : {count}\r")
     
     sys.stdout.write(f"Matched prefab items : {count}\nNow optimizing prefab items...\n")
+    
+    data = {
+        "state": f"Optimizing array... {round(count/len(prefabItems) * 100)}%",
+        "stateProgress": 100,
+        "totalProgress": 100
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
     
     for item in prefabItems:
         if item.X < itemsMinX:
@@ -173,9 +190,6 @@ def LoadPrefabItems():
             optimizedPrefabItems[x][z] = []
             
         optimizedPrefabItems[x][z].append(item)
-    
-    
-    loading.destroy()
     
     print("Prefab Items parsing done!")
     
