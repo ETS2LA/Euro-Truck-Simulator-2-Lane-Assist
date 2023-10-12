@@ -56,8 +56,9 @@ from src.logger import print
 import src.logger as logger
 import traceback
 import src.settings as settings
+import src.translator as translator
 import psutil
-
+import requests
 
 logger.printDebug = settings.GetSettings("logger", "debug")
 if logger.printDebug == None:
@@ -71,7 +72,29 @@ def GetEnabledPlugins():
     if enabledPlugins == None:
         enabledPlugins = [""]
 
+def UpdateChecker():
+    currentVer = variables.VERSION.split(".")
+    url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
+    remoteVer = requests.get(url).text.split(".")
+    if currentVer[0] < remoteVer[0]:
+        update = True
+    elif currentVer[1] < remoteVer[1]:
+        update = True
+    elif currentVer[2] < remoteVer[2]:
+        update = True
+    else:
+        update = False
+        
+    if update:
+        from tkinter import messagebox
+        if messagebox.askokcancel("Updater", translator.Translate(f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
+            os.system("git pull")
+            if messagebox.askyesno("Updater", translator.Translate("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
+                quit()
+        else:
+            pass
 
+UpdateChecker()
 
 def FindPlugins():
     global plugins
@@ -391,7 +414,7 @@ while True:
             exc = traceback.format_exc()
             traceback.print_exc()
             # Pack everything in ex.args into one string
-            if not messagebox.askretrycancel("Error", "The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n" + exc):
+            if not messagebox.askretrycancel("Error", translator.Translate("The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n") + exc):
                 break
             else:
                 pass
