@@ -88,6 +88,7 @@ def UpdateChecker():
     if update:
         from tkinter import messagebox
         if messagebox.askokcancel("Updater", translator.Translate(f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
+            os.system("git stash")
             os.system("git pull")
             if messagebox.askyesno("Updater", translator.Translate("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
                 quit()
