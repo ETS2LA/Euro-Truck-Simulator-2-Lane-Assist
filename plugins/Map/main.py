@@ -20,6 +20,7 @@ PluginInfo = PluginInformation(
 
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
@@ -38,6 +39,21 @@ from PIL import Image
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
+    
+    # Check if the GameData folder has it's json files
+    filesInGameData = os.listdir(variables.PATH + "/plugins/Map/GameData")
+    hasJson = False
+    for file in filesInGameData:
+        if file.endswith(".json"):
+            hasJson = True
+            break
+    
+    if hasJson == False:
+        messagebox.showwarning("Map", "You do not have the json data from the game. The map plugin will disable.")
+        settings.RemoveFromList("Plugins", "Enabled", "Map")
+        variables.UpdatePlugins()
+        return data
+    
     startPlugin = ""
     if nodes.nodes == []:
         try:
