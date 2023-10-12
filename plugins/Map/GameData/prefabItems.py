@@ -26,6 +26,7 @@ class PrefabItem:
     Navigation = []
     Origin = 1
     Prefab = None
+    NavigationLanes = []
     IsSecret = False
     
 class NavigationItem2:
@@ -140,8 +141,46 @@ def LoadPrefabItems():
         try:
             if not prefabItem.Prefab.ValidRoad:
                 prefabItems.remove(prefabItem)
+                continue
         except:
             prefabItems.remove(prefabItem)
+            continue
+        
+        
+        # Rotate the prefab curves to match the road.
+        # They are rotated around the origin node location by an amount of pi.
+        prefabItem.NavigationLanes = []
+        for curve in prefabItem.Prefab.PrefabCurves:
+            curveStartX, curveStartZ = curve.startX, curve.startZ
+            curveEndX, curveEndZ = curve.endX, curve.endZ
+            
+            def RotatePoints(x1, y1, x2, y2, originX, originY, pi):
+                # Translate points to origin
+                x1 -= originX
+                y1 -= originY
+                x2 -= originX
+                y2 -= originY
+                
+                # Rotate points
+                x1new = x1 * math.cos(pi) - y1 * math.sin(pi)
+                y1new = x1 * math.sin(pi) + y1 * math.cos(pi)
+                x2new = x2 * math.cos(pi) - y2 * math.sin(pi)
+                y2new = x2 * math.sin(pi) + y2 * math.cos(pi)
+                
+                # Translate points back
+                x1new += originX
+                y1new += originY
+                x2new += originX
+                y2new += originY
+                
+                return (x1new, y1new, x2new, y2new)
+            
+            # Rotate the point's around 0,0
+            originX = prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].X# prefabItem.Nodes[prefabItem.Origin].X - prefabItem.X
+            originZ = prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].Z# prefabItem.Nodes[prefabItem.Origin].Z - prefabItem.Z
+            curveStartX, curveStartZ, curveEndX, curveEndZ = RotatePoints(curveStartX, curveStartZ, curveEndX, curveEndZ, originX, originZ, prefabItem.Nodes[int(prefabItem.Origin)].Rotation)
+            prefabItem.NavigationLanes.append((curveStartX, curveStartZ, curveEndX, curveEndZ))
+            
         
         count += 1
         if count % 500 == 0:

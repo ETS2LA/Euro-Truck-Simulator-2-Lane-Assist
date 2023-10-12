@@ -32,7 +32,7 @@ def VisualizeRoads(data, img=None, zoom=2):
     
     # Make a blank image of size 1000x1000 (1km x 1km)
     if img is None:
-        size = zoom * 1000
+        size = int(zoom * 1000)
         img = np.zeros((size, size, 3), np.uint8)
     
     # Show the x and y coordinates
@@ -93,7 +93,7 @@ def VisualizePrefabs(data, img=None, zoom=2):
     
     # Make a blank image of size 1000x1000 (1km x 1km)
     if img is None:
-        size = zoom * 1000
+        size = int(zoom * 1000)
         img = np.zeros((size, size, 3), np.uint8)
         
     startTime = time.time()
@@ -108,12 +108,12 @@ def VisualizePrefabs(data, img=None, zoom=2):
                 cv2.circle(img, (int(x), int(y)), 5, (0, 255, 0), -1)
                 
                 filename = item.Prefab.FilePath.split("/")[-1]
-                cv2.putText(img, filename, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+                # cv2.putText(img, filename, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
                 
-                for curve in item.Prefab.PrefabCurves:
+                for curve in item.NavigationLanes:
                     curveCount += 1
-                    startXY = roads.GetLocalCoordinateInTile(curve.startX + item.X, curve.startZ + item.Z, tileCoords[0], tileCoords[1])
-                    endXY = roads.GetLocalCoordinateInTile(curve.endX + item.X, curve.endZ + item.Z, tileCoords[0], tileCoords[1])
+                    startXY = roads.GetLocalCoordinateInTile(curve[0] + item.X, curve[1] + item.Z, tileCoords[0], tileCoords[1])
+                    endXY = roads.GetLocalCoordinateInTile(curve[2] + item.X, curve[3] + item.Z, tileCoords[0], tileCoords[1])
                     startX = startXY[0] + 500 * (zoom - 1)
                     startY = startXY[1] + 500 * (zoom - 1)
                     endX = endXY[0] + 500 * (zoom - 1)

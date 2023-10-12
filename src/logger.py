@@ -34,12 +34,13 @@ with open("log.txt", "w") as f:
 # Initialize colors for the terminal
 colorama.init()
 
+startTime = time.time()
 
 def print(text, end=""):
     global lastMsg
     global times
     
-    timestr = str(round(time.process_time(), 3))
+    timestr = str(round(time.time() - startTime, 3))
     while len(timestr.split(".")[1]) < 3:
         timestr += "0"
     date = BLUE + timestr + NORMAL

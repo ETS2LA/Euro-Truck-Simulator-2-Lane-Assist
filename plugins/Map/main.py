@@ -18,6 +18,9 @@ PluginInfo = PluginInformation(
     noUI=True
 )
 
+# TODO: Rotation is stored in the node. This means for prefab whose origin is node x, 
+#       then it should be rotated by node x's rotation (which is is pi, max of 2pi = 360 degrees)
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -28,6 +31,7 @@ import src.settings as settings
 import os
 import random
 import time
+import keyboard
 
 from plugins.Map.GameData import roads, nodes, prefabs, prefabItems
 from plugins.Map.Visualize import visualize
@@ -35,11 +39,13 @@ from plugins.Map.Visualize import visualize
 import cv2
 from PIL import Image
 
+zoom = 1.5
+
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
-    
+    global zoom
     # Check if the GameData folder has it's json files
     filesInGameData = os.listdir(variables.PATH + "/plugins/Map/GameData")
     hasJson = False
@@ -75,8 +81,16 @@ def plugin(data):
     if startPlugin != "":
         mainUI.switchSelectedPlugin(startPlugin)
     
-    img = visualize.VisualizeRoads(data)
-    img = visualize.VisualizePrefabs(data, img=img)
+    
+    # Increase / Decrease the zoom with e/q
+    if keyboard.is_pressed("e"):
+        zoom += 0.01
+    if keyboard.is_pressed("q"):
+        zoom -= 0.01
+    
+    
+    img = visualize.VisualizeRoads(data, zoom=1)
+    img = visualize.VisualizePrefabs(data, img=img, zoom=1)
     cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
     cv2.imshow("Roads", img)
     cv2.resizeWindow("Roads", 1400, 1400)
