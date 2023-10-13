@@ -386,7 +386,7 @@ def plugin(data):
 
         cv2.line(picture_np, (int(0), y_coordinate_of_turnincdetec), (int(width), y_coordinate_of_turnincdetec), (0, 0, 255), 1)
         
-        cv2.line(picture_np, (int(0), scaletarget), (int(width), scaletarget), (0, 0, 255), 1)
+        cv2.line(picture_np, (int(0), scaletarget), (int(width), scaletarget), (235, 52, 143), 1)
     except:
         pass
 
