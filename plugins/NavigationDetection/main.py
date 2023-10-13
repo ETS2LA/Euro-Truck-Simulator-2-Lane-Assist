@@ -541,37 +541,37 @@ class UI():
             except: pass
             
             self.root = tk.Canvas(self.master, width=600, height=600, border=0, highlightthickness=0)
-            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
+            self.root.grid_propagate(1) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            self.trimSlider = tk.Scale(self.root, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.trimSlider = tk.Scale(self.root, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.trimSlider.set(settings.GetSettings("NavigationDetection", "trim"))
-            self.trimSlider.grid(row=0, column=0, padx=10, pady=0, columnspan=2)
+            self.trimSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
             self.trim = helpers.MakeComboEntry(self.root, "Trim", "NavigationDetection", "trim", 1,0)
             
-            self.laneXSlider = tk.Scale(self.root, from_=1, to=400, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.laneXSlider = tk.Scale(self.root, from_=1, to=400, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.laneXSlider.set(settings.GetSettings("NavigationDetection", "laneXOffset"))
-            self.laneXSlider.grid(row=2, column=0, padx=10, pady=0, columnspan=2)
+            self.laneXSlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
             self.laneX = helpers.MakeComboEntry(self.root, "Navisymbol Offset", "NavigationDetection", "laneXOffset", 3,0)
 
-            self.scale = tk.Scale(self.root, from_=0.01, to=10, resolution=0.01, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.scale = tk.Scale(self.root, from_=0.01, to=10, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.scale.set(settings.GetSettings("NavigationDetection", "scale"))
-            self.scale.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
+            self.scale.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
             self.sca = helpers.MakeComboEntry(self.root, "Scale", "NavigationDetection", "scale", 5,0)
 
-            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=20, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=20, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.smoothnessSlider.set(settings.GetSettings("NavigationDetection", "smoothness"))
-            self.smoothnessSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
+            self.smoothnessSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
             self.smoothness = helpers.MakeComboEntry(self.root, "Smoothness", "NavigationDetection", "smoothness", 7,0)
             
-            self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.curveMultipSlider.set(settings.GetSettings("NavigationDetection", "CurveMultiplier"))
-            self.curveMultipSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
+            self.curveMultipSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
             self.curveMultip = helpers.MakeComboEntry(self.root, "Curve Multiplier", "NavigationDetection", "CurveMultiplier", 9,0)
 
-            self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.turnstrengthSlider.set(settings.GetSettings("NavigationDetection", "TurnStrength"))
-            self.turnstrengthSlider.grid(row=10, column=0, padx=10, pady=0, columnspan=2)
+            self.turnstrengthSlider.grid(row=10, column=1, padx=10, pady=0, columnspan=2)
             self.turnstrength = helpers.MakeComboEntry(self.root, "TurnStrength", "NavigationDetection", "TurnStrength", 11,0)
             
             self.root.pack(anchor="center", expand=False)
