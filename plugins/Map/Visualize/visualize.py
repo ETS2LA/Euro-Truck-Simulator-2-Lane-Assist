@@ -6,7 +6,7 @@ import os
 import json
 import time
 
-def VisualizeRoads(data, img=None, zoom=2):
+def VisualizeRoads(data, img=None, zoom=2, draw_lane=True):
     
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
@@ -57,15 +57,52 @@ def VisualizeRoads(data, img=None, zoom=2):
                 y = xy[1] + 500 * (zoom - 1)
                 newPoints.append((x, y))
             
-            # Draw a line from the start to the end
-            cv2.polylines(img, np.int32([newPoints]), False, (255, 255, 255), len(road.RoadLook.lanesLeft) + len(road.RoadLook.lanesRight) + (zoom - 1), cv2.LINE_AA)
+            if draw_lane == True:
+                img = VisualizeLanes(img, road, newPoints, lane_width=4.8)  # draw lane details
+            else:
+                cv2.polylines(img, np.int32([newPoints]), False, (255, 255, 255), len(road.RoadLook.lanesLeft) + len(road.RoadLook.lanesRight) + (zoom - 1), cv2.LINE_AA)
         except:
             pass
         
     cv2.putText(img, f"Roads: {len(areaRoads)}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
             
     # Return the image
-    
+    return img
+
+
+def VisualizeLanes(img, road, newPoints, lane_width=4.8):
+    newPoints = np.array(newPoints)
+
+    # if the road only has one direction, the lane are located in both sides of road backbone. 
+    # For example, if the road has 3 lanes, two lanes on the left, one lane on the right; if road has 4 lane, each side has 2 lanes. 
+    if len(road.RoadLook.lanesLeft) == 0:
+        for i in range((len(road.RoadLook.lanesRight)+1) // 2):
+            points_lane = parallel_curve(newPoints, lane_width * (i+1) - road.RoadLook.offset, left=True)
+            cv2.polylines(img, np.int32([points_lane]), False, (255, 255, 255), 1, cv2.LINE_AA)
+            i = i + 1
+        for i in range((len(road.RoadLook.lanesRight)+1) - (len(road.RoadLook.lanesRight)+1) // 2):
+            points_lane = parallel_curve(newPoints, lane_width * i + road.RoadLook.offset, left=False)
+            cv2.polylines(img, np.int32([points_lane]), False, (255, 255, 255), 1, cv2.LINE_AA)
+            i = i + 1
+    elif len(road.RoadLook.lanesRight) == 0:
+        for i in range((len(road.RoadLook.lanesLeft) + 1) // 2):
+            points_lane = parallel_curve(newPoints, lane_width * i + road.RoadLook.offset, left=True)
+            cv2.polylines(img, np.int32([points_lane]), False, (255, 255, 255), 1, cv2.LINE_AA)
+            i = i + 1
+        for i in range((len(road.RoadLook.lanesLeft) + 1) - (len(road.RoadLook.lanesLeft) + 1) // 2):
+            points_lane = parallel_curve(newPoints, lane_width * (i+1) - road.RoadLook.offset, left=False)
+            cv2.polylines(img, np.int32([points_lane]), False, (255, 255, 255), 1, cv2.LINE_AA)
+            i = i + 1
+    # if the road only has two directions, just daw theme on each side
+    else:
+        for i in range(len(road.RoadLook.lanesLeft) + 1):
+            points_lane = parallel_curve(newPoints, lane_width * i + road.RoadLook.offset, left=True)
+            cv2.polylines(img, np.int32([points_lane]), False, (255, 255, 255), 1, cv2.LINE_AA)
+            i = i + 1
+        for i in range(len(road.RoadLook.lanesRight) + 1):
+            points_lane = parallel_curve(newPoints, lane_width * i + road.RoadLook.offset, left=False)
+            cv2.polylines(img, np.int32([points_lane]), False, (255, 255, 255), 1, cv2.LINE_AA)
+            i = i + 1
     return img
 
 
@@ -128,3 +165,42 @@ def VisualizePrefabs(data, img=None, zoom=2):
     cv2.putText(img, f"Curves: {curveCount}", (10, 140), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
     
     return img
+
+
+def dx(dis, k):
+    return np.sqrt(dis / (k**2 + 1.))
+
+
+def dy(dis, k):
+    return k * dx(dis, k)
+
+
+def parallel_curve(pts, dis=1., left=True):
+    # function to compute parallel curve
+    # if left==true, compute parallel curve on left 
+    if abs((pts[0, 1] - pts[-1, 1]) / (pts[0, 0] - pts[-1, 0])) >= 1:  # avoid slope to be infinitely large
+        line_type = "vertical"
+        xs, ys = pts[:, 1], pts[:, 0]
+    else:
+        line_type = "horizontal"
+        xs, ys = pts[:, 0], pts[:, 1]
+        
+    x_t = np.gradient(xs)
+    y_t = np.gradient(ys)
+    ks = y_t / x_t  # compute slope of each point on curve
+    
+    g = np.sign(ks)
+    g[g == 0] = 1
+    ms = -1. / (ks + 1e-20)
+    if left == True:
+        pxs = xs + dx(dis ** 2, ms) * g
+        pys = ys + dy(dis ** 2, ms) * g
+    else:
+        pxs = xs - dx(dis ** 2, ms) * g
+        pys = ys - dy(dis ** 2, ms) * g
+    if line_type == "vertical":
+        pts_1 = np.concatenate((pys.reshape((-1, 1)), pxs.reshape((-1, 1))), axis=1)
+    else:
+        pts_1 = np.concatenate((pxs.reshape((-1, 1)), pys.reshape((-1, 1))), axis=1)
+    return pts_1
+
