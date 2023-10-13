@@ -552,7 +552,7 @@ class UI():
         
             helpers.MakeButton(self.root, "Previous", lambda: self.soundSettings(), 3,0)
             import webbrowser
-            helpers.MakeButton(self.root, "Open instructions", lambda: webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/InGame"), 3,1)
+            helpers.MakeButton(self.root, "Open instructions", lambda: webbrowser.open("https://wiki.tumppi066.fi/en/LaneAssist/InGame"), 3,1)
             self.apiNextButton = helpers.MakeButton(self.root, "Waiting for api...", lambda: self.lastPage(), 3,2, state="disabled")
             
             helpers.MakeLabel(self.root, "Automatic installation", 4,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
