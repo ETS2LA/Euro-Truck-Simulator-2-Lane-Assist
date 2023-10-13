@@ -322,7 +322,7 @@ class UI():
                     
                     displayArray.append(displayObject)
             
-            self.displays = ttk.Combobox(self.root, width=50)
+            self.displays = ttk.Combobox(self.root, state="readonly", width=50)
             self.displays['values'] = displayArray
             self.displays.set(displayArray[0])
             
