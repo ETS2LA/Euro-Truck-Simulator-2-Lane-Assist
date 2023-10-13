@@ -10,6 +10,7 @@ import math
 import plugins.Map.GameData.prefabs as prefabs
 import plugins.Map.GameData.roads as roads
 import src.mainUI as mainUI
+import math
 class PrefabItem:
     Uid = 0
     StartNodeUid = 0
@@ -24,7 +25,8 @@ class PrefabItem:
     Hidden = False
     Flags = 0
     Navigation = []
-    Origin = 1
+    Origin = 0
+    Padding = 0
     Prefab = None
     NavigationLanes = []
     IsSecret = False
@@ -104,11 +106,7 @@ def LoadPrefabItems():
             itemObj.Navigation.append(navObj)
             
         itemObj.Origin = item["Origin"]
-        
-        # Modify the X and Y to the correct coordinates
-        itemObj.X = itemObj.Nodes[itemObj.Origin].X
-        itemObj.Z = itemObj.Nodes[itemObj.Origin].Z
-        
+        itemObj.Padding = item["Padding"]
         itemObj.Prefab = item["Prefab"]
         itemObj.IsSecret = item["IsSecret"]
         
@@ -130,8 +128,6 @@ def LoadPrefabItems():
     sys.stdout.write(f"Loaded {len(prefabItems)} prefab items.\nNow matching prefab items...\n")
     count = 0
     for prefabItem in prefabItems:
-        prefabItem.StartNode = nodes.GetNodeByUid(prefabItem.StartNodeUid)
-        prefabItem.EndNode = nodes.GetNodeByUid(prefabItem.EndNodeUid)
         prefabItem.Prefab = prefabs.GetPrefabByToken(prefabItem.Prefab)
         
         if prefabItem.Prefab == None:
@@ -146,6 +142,12 @@ def LoadPrefabItems():
             prefabItems.remove(prefabItem)
             continue
         
+        prefabItem.StartNode = nodes.GetNodeByUid(prefabItem.StartNodeUid)
+        prefabItem.EndNode = nodes.GetNodeByUid(prefabItem.EndNodeUid)
+        
+        # Modify the X and Y to the correct coordinates
+        prefabItem.X = prefabItem.Nodes[int(prefabItem.Origin)].X #- prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].X#
+        prefabItem.Z = prefabItem.Nodes[int(prefabItem.Origin)].Z #- prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].Z#
         
         # Rotate the prefab curves to match the road.
         # They are rotated around the origin node location by an amount of pi.
@@ -154,18 +156,24 @@ def LoadPrefabItems():
             curveStartX, curveStartZ = curve.startX, curve.startZ
             curveEndX, curveEndZ = curve.endX, curve.endZ
             
-            def RotatePoints(x1, y1, x2, y2, originX, originY, pi):
+            def RotatePoints(x1, y1, x2, y2, originX, originY, pi, invert):
                 # Translate points to origin
                 x1 -= originX
                 y1 -= originY
                 x2 -= originX
                 y2 -= originY
+            
                 
-                # Rotate points
-                x1new = x1 * math.cos(pi) - y1 * math.sin(pi)
-                y1new = x1 * math.sin(pi) + y1 * math.cos(pi)
-                x2new = x2 * math.cos(pi) - y2 * math.sin(pi)
-                y2new = x2 * math.sin(pi) + y2 * math.cos(pi)
+                if not invert:
+                    x1new = x1 * math.cos(pi) - y1 * math.sin(pi)
+                    y1new = x1 * math.sin(pi) + y1 * math.cos(pi)
+                    x2new = x2 * math.cos(pi) - y2 * math.sin(pi)
+                    y2new = x2 * math.sin(pi) + y2 * math.cos(pi)
+                else:
+                    x1new = x1 * math.cos(pi - math.pi) - y1 * math.sin(pi - math.pi)
+                    y1new = x1 * math.sin(pi - math.pi) + y1 * math.cos(pi - math.pi)
+                    x2new = x2 * math.cos(pi - math.pi) - y2 * math.sin(pi - math.pi)
+                    y2new = x2 * math.sin(pi - math.pi) + y2 * math.cos(pi - math.pi)
                 
                 # Translate points back
                 x1new += originX
@@ -176,9 +184,31 @@ def LoadPrefabItems():
                 return (x1new, y1new, x2new, y2new)
             
             # Rotate the point's around 0,0
-            originX = prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].X# prefabItem.Nodes[prefabItem.Origin].X - prefabItem.X
-            originZ = prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].Z# prefabItem.Nodes[prefabItem.Origin].Z - prefabItem.Z
-            curveStartX, curveStartZ, curveEndX, curveEndZ = RotatePoints(curveStartX, curveStartZ, curveEndX, curveEndZ, originX, originZ, prefabItem.Nodes[int(prefabItem.Origin)].Rotation)
+            originX = 0 #prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].X# prefabItem.Nodes[prefabItem.Origin].X - prefabItem.X
+            originZ = 0 #prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].Z# prefabItem.Nodes[prefabItem.Origin].Z - prefabItem.Z
+            
+            # def rotate_point(x, z, angle, rotX, rotZ):
+            #     s = math.sin(angle)
+            #     c = math.cos(angle)
+            #     newX = x - rotX
+            #     newZ = z - rotZ
+            #     return ((newX * c) - (newZ * s) + rotX, (newX * s) + (newZ * c) + rotZ)
+            # 
+            # originNodeX, originNodeY = prefabItem.Nodes[int(prefabItem.Origin)].X, prefabItem.Nodes[int(prefabItem.Origin)].Z
+            # mapPointOriginX, mapPointOriginY = prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].X, prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].Z
+            rX = prefabItem.Nodes[int(prefabItem.Origin)].rX
+            rZ = prefabItem.Nodes[int(prefabItem.Origin)].rZ
+            nodeRotation = (math.atan2(rZ, rX))
+            invert = False if nodeRotation > 0 else True
+            # print(nodeRotation)
+            # rot = ((nodeRotation) - math.pi - math.atan2(prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].RotX, prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].RotZ) + math.pi / 2)
+            # prefabStartX = originNodeX - mapPointOriginX
+            # prefabStartY = originNodeY - mapPointOriginY
+            
+            # curveStartX, curveStartZ = rotate_point(prefabStartX + curveStartX, prefabStartY + curveStartZ, rot, originNodeX, originNodeY)
+            # curveEndX, curveEndZ = rotate_point(prefabStartX + curveEndX, prefabStartY + curveEndZ, rot, originNodeX, originNodeY)
+            
+            curveStartX, curveStartZ, curveEndX, curveEndZ = RotatePoints(curveStartX, curveStartZ, curveEndX, curveEndZ, originX, originZ, prefabItem.Nodes[int(prefabItem.Origin)].Rotation, invert)
             prefabItem.NavigationLanes.append((curveStartX, curveStartZ, curveEndX, curveEndZ))
             
         

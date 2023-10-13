@@ -15,6 +15,8 @@ class Node:
     Uid = 0
     X = 0
     Z = 0
+    rX = 0
+    rZ = 0
     Rotation = 0
     ForwardItem = None
     BackwardItem = None
@@ -36,6 +38,8 @@ def LoadNodes():
         nodeObj.Uid = node["Uid"]
         nodeObj.X = node["X"]
         nodeObj.Z = node["Z"]
+        nodeObj.rX = node["rX"]
+        nodeObj.rZ = node["rZ"]
         nodeObj.Rotation = node["Rotation"]
         try:
             nodeObj.ForwardItem = Item()
