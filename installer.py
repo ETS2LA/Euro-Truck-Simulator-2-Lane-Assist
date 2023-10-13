@@ -118,6 +118,13 @@ if sys.version_info[0] != 3 or sys.version_info[1] < 9:
     input()
     quit()
 
+# Check python version (Must be < 3.12.x)
+if sys.version_info[1] > 11:
+    printRed("This app requires atleast python version 3.9.x to create the correct virtual environment.")
+    printRed("Please install another version and run the installer again.")
+    input()
+    quit()
+
 # Check for a .bat file
 if not os.path.exists("installer.bat"):
     # Create it
