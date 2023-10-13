@@ -660,7 +660,7 @@ def InstallSequence():
         if colorthemesave == "": 
             printRed("Please select a color theme")
             return
-        
+        UpdateProgress(5, 0, 0.5)
         pleasewait = ttk.Label(preferenceFrame, text="Please wait, saving preferences", font=("Roboto", 15, "bold"))
         pleasewait.grid(columnspan=3, row=8, padx=0, pady=15)
         root.update()
@@ -691,12 +691,11 @@ def InstallSequence():
         printGreen("Preferences Saved")
         printGreen("Installation complete!")
         printGreen("You can now close this installer and run the run.bat file to open the app.")
-
+        UpdateProgress(6, 0, 0)
     confirm = ttk.Button(preferenceFrame, text="Confirm", width=64, command=confirmselection)
     confirm.grid(row=7, columnspan=3, padx=15, pady=10)
 
     # endregion
-    UpdateProgress(5, 0, 0)
 # endregion
 
 # This button needs to be after the functions
