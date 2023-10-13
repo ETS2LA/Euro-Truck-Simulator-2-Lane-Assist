@@ -244,21 +244,21 @@ progressBar = ttk.Progressbar(root, mode="determinate", length=width)
 progressBar.grid(row=0, sticky="n", padx=0, pady=0)
 
 # Left button bar
-progressFrame = ttk.LabelFrame(root, text="Progress", width=150, height=580)
+progressFrame = ttk.LabelFrame(root, text="Progress", width=170, height=580)
 progressFrame.pack_propagate(False)
 progressFrame.grid_propagate(False)
 
 progressFrame.grid(row=1, sticky="w", padx=10, pady=10)
 
 # Plugin frame
-statusFrame = ttk.LabelFrame(root, text="Status", width=600, height=580)
+statusFrame = ttk.LabelFrame(root, text="Status", width=570, height=580)
 statusFrame.pack_propagate(False)
 statusFrame.grid_propagate(False)
 
 statusFrame.grid(row=1, sticky="e", padx=10, pady=10)
 
 # Info page
-infoPage = tk.Canvas(statusFrame, width=587, height=560, border=0, highlightthickness=0)
+infoPage = tk.Canvas(statusFrame, width=550, height=540, border=0, highlightthickness=0)
 infoPage.pack_propagate(False)
 infoPage.grid_propagate(False)
 
@@ -304,6 +304,9 @@ states = {
         "Empty pip cache",
         "Create .bat files",
     ],
+    "Prefereences": [
+        "Theme",
+    ],
     "Done!": [
         "",
     ]
@@ -323,12 +326,12 @@ def UpdateProgress(state, value, progress, problem=False):
         
         for j in range(len(states[keys[i]])):
             if j == value and i == state:
-                ttk.Label(progressFrame, text="> " + states[keys[i]][j] + " <", font=("Roboto", 10, "bold"), foreground="#cccc00" if not problem else "#b30000").pack(pady=5, anchor="n", padx=10)
+                ttk.Label(progressFrame, text="> " + states[keys[i]][j] + " <", font=("Roboto", 10, "bold"), foreground="#cccc00" if not problem else "#b30000").pack(pady=5, anchor="n", padx=5)
             elif j < value and i == state or i < state:
-                ttk.Label(progressFrame, text="✓ " + states[keys[i]][j], font=("Roboto", 8, "bold"), foreground="green").pack(pady=5, anchor="n", padx=10)
+                ttk.Label(progressFrame, text="✓ " + states[keys[i]][j], font=("Roboto", 8, "bold"), foreground="green").pack(pady=5, anchor="n", padx=5)
             else:
-                ttk.Label(progressFrame, text=states[keys[i]][j], font=("Roboto", 8)).pack(pady=5, anchor="n", padx=10)
-        ttk.Label(progressFrame, text="", font=("Roboto", 10)).pack(pady=5, anchor="n", padx=10)
+                ttk.Label(progressFrame, text=states[keys[i]][j], font=("Roboto", 8)).pack(pady=5, anchor="n", padx=5)
+        ttk.Label(progressFrame, text="", font=("Roboto", 6)).pack(pady=0, anchor="n", padx=5)
     
     progressFrame.update()
     root.update()
@@ -603,7 +606,7 @@ def InstallSequence():
     infoPage.place_forget()
     statusFrame.place_forget()
 
-    preferenceFrame= ttk.LabelFrame(root, text="Preferences", width=600, height=580)
+    preferenceFrame= ttk.LabelFrame(root, text="Preferences", width=570, height=580)
     preferenceFrame.pack_propagate(False)
     preferenceFrame.grid_propagate(False)
     preferenceFrame.grid(row=1, sticky="e", padx=10, pady=10)
@@ -616,9 +619,9 @@ def InstallSequence():
     image1 = Image.open(r"app\assets\installer\SunValley.jpg")
     image2 = Image.open(r"app\assets\installer\Forest.jpg")
     image3 = Image.open(r"app\assets\installer\Azure.jpg")
-    resizeimage1 = image1.resize((140, 140))
-    resizeimage2 = image2.resize((140, 140))
-    resizeimage3 = image3.resize((140, 140))
+    resizeimage1 = image1.resize((135, 135))
+    resizeimage2 = image2.resize((135, 135))
+    resizeimage3 = image3.resize((135, 135))
     sunvalleyimg = ImageTk.PhotoImage(resizeimage1)
     forestimg = ImageTk.PhotoImage(resizeimage2)
     azureimg = ImageTk.PhotoImage(resizeimage3)
@@ -688,21 +691,22 @@ def InstallSequence():
         statusFrame.grid(row=1, sticky="e", padx=10, pady=10)
         installlabel.grid(sticky='n', pady=5)
         console.grid(sticky='n', padx=1, pady=20)
+        AddLineToConsole("\nPreferences Saved")
+        AddLineToConsole("\nInstallation complete!")
+        AddLineToConsole("You can now close this installer and run the run.bat file to open the app.")
+        printGreen("Preferences Saved")
+        printGreen("Installation complete!")
+        printGreen("You can now close this installer and run the run.bat file to open the app.")
 
-    confirm = ttk.Button(preferenceFrame, text="Confirm", width=68, command=confirmselection)
+    confirm = ttk.Button(preferenceFrame, text="Confirm", width=64, command=confirmselection)
     confirm.grid(row=7, columnspan=3, padx=15, pady=10)
-    AddLineToConsole("\nPreferences Saved")
 
     # endregion
-
-    AddLineToConsole("\nInstallation complete!")
-    AddLineToConsole("You can now close this installer and run the run.bat file to open the app.")
-    
     UpdateProgress(5, 0, 0)
 # endregion
 
 # This button needs to be after the functions
-begin = ttk.Button(infoPage, text="Begin", command=InstallSequence, width=68)
+begin = ttk.Button(infoPage, text="Begin", command=InstallSequence, width=64)
 begin.grid(pady=5, sticky="w", padx=9)
 
 root.mainloop()
