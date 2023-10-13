@@ -4,16 +4,63 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 import threading
-
 import time
 from tkinter import ttk
+import json
 
 APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
+FOLDER = os.path.dirname(__file__)
+os.chdir(FOLDER)
 
 def printRed(text):
     print("\033[91m {}\033[00m" .format(text))
 def printGreen(text):
     print("\033[92m {}\033[00m" .format(text))
+
+def EnsureFile(file):
+    try:
+        with open(file, "r") as f:
+            pass
+    except:
+        with open(file, "w") as f:
+            f.write("{}")
+
+# Change settings in the json file
+def UpdateSettings(category, name, data):
+    try:
+        profile = FOLDER + r"\app\profiles\settings.json"
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
+
+        settings[category][name] = data
+        with open(profile, "w") as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        print(ex.args)
+
+def CreateSettings(category, name, data):
+    try:
+        profile = FOLDER + r"\app\profiles\settings.json"
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
+
+        # If the setting doesn't exist then create it 
+        if not category in settings:
+            settings[category] = {}
+            settings[category][name] = data
+        
+        # If the setting exists then overwrite it
+        if category in settings:
+            settings[category][name] = data
+            
+        with open(profile, "w") as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        print(ex.args)
 
 """
 
@@ -32,7 +79,9 @@ Steps to installation :
 3. Install the requirements from requirements.txt
     - Check for requirements.txt
     - Install the requirements
-?. Ask the user for a theme (coming later)
+4. Ask user for settings/preferences
+    - Theme
+    - Color Theme
 
 """
 
@@ -128,6 +177,15 @@ except:
     printGreen("> Done")
     import venv
 
+# Check for Pillow
+try:
+    from PIL import ImageTk, Image
+except:
+    print("Please wait installing pillow...")
+    Install("pillow")
+    printGreen("> Done")
+    from PIL import ImageTk, Image
+
 # endregion
 
 # region Helper Functions
@@ -166,50 +224,52 @@ def ChangeStatus(text):
 # Make the installer window
 root = tk.Tk()
 root.title("ETS2 Lane Assist Installer")
-width = 800
-height = 600
-root.geometry(f"{width}x{height}")
 root.resizable(False, False)
+width = 775
+height = 640
+root.geometry(f"{width}x{height}")
 sv_ttk.set_theme("dark")
 
 # Bottom text
-ttk.Label(root, text="ETS2 Lane Assist   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
-ttk.Label(root, text="Installer version 0.2.0", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+ttk.Label(root, text="ETS2 Lane Assist   ©Tumppi066 - 2023", font=("Roboto", 8)).grid(row=2, sticky="s", padx=10, pady=16)
+ttk.Label(root, text="Installer version 0.2.0", font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
 progressBar = ttk.Progressbar(root, mode="determinate", length=width)
-progressBar.pack(side="top", padx=0, pady=0, anchor="w")
+progressBar.grid(row=0, sticky="n", padx=0, pady=0)
 
 # Left button bar
-progressFrame = ttk.LabelFrame(root, text="Progress", width=width-630, height=height-20)
-progressFrame.pack_propagate(0)
-progressFrame.grid_propagate(0)
+progressFrame = ttk.LabelFrame(root, text="Progress", width=150, height=580)
+progressFrame.pack_propagate(False)
+progressFrame.grid_propagate(False)
 
-progressFrame.pack(side="left", anchor="n", padx=10, pady=10)
+progressFrame.grid(row=1, sticky="w", padx=10, pady=10)
 
 # Plugin frame
-statusFrame = ttk.LabelFrame(root, text="Status", width=width, height=height-20)
-statusFrame.pack_propagate(0)
-statusFrame.grid_propagate(0)
+statusFrame = ttk.LabelFrame(root, text="Status", width=600, height=580)
+statusFrame.pack_propagate(False)
+statusFrame.grid_propagate(False)
 
-statusFrame.pack(side="left", anchor="w", padx=10, pady=10)
+statusFrame.grid(row=1, sticky="e", padx=10, pady=10)
 
 # Info page
-infoPage = tk.Canvas(statusFrame, width=600, height=520, border=0, highlightthickness=0)
-infoPage.grid_propagate(0)
-infoPage.pack_propagate(0)
+infoPage = tk.Canvas(statusFrame, width=587, height=560, border=0, highlightthickness=0)
+infoPage.pack_propagate(False)
+infoPage.grid_propagate(False)
+
+infoPage.grid(padx=10)
 
 # Add a label describing what the installer will do
-ttk.Label(infoPage, text="Welcome!", font=("Roboto", 20, "bold")).pack(pady=10, anchor="w", padx=10)
-ttk.Label(infoPage, text="The installer will create a virtual environment for the app's python version.", font=("Roboto", 10)).pack(pady=2, anchor="w", padx=10)
-ttk.Label(infoPage, text="The app will be installed in the same folder as the installer.", font=("Roboto", 10, "bold")).pack(pady=2, anchor="w", padx=10)
-ttk.Label(infoPage, text="", font=("Roboto", 10)).pack(pady=2)
-ttk.Label(infoPage, text="Following are the steps the app will take to install itself:", font=("Roboto", 10, "bold")).pack(pady=5, anchor="w", padx=10)
-ttk.Label(infoPage, text="1. Create a virtual python environment from your current python version", font=("Roboto", 10)).pack(pady=2, anchor="w", padx=10)
-ttk.Label(infoPage, text="2. Download the app from github", font=("Roboto", 10)).pack(pady=2, anchor="w", padx=10)
-ttk.Label(infoPage, text="3. Install the requirements from requirements.txt (to the virtual env)", font=("Roboto", 10)).pack(pady=2, anchor="w", padx=10)
-ttk.Label(infoPage, text="4. Create .bat files for easy access to the app's functions", font=("Roboto", 10)).pack(pady=2, anchor="w", padx=10)
-ttk.Label(infoPage, text=" ", font=("Roboto", 10)).pack(pady=2, anchor="w", padx=10)
+ttk.Label(infoPage, text="Welcome!", font=("Roboto", 20, "bold")).grid(pady=10, sticky="w", padx=10)
+ttk.Label(infoPage, text="The installer will create a virtual environment for the app's python version.", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
+ttk.Label(infoPage, text="The app will be installed in the same folder as the installer.", font=("Roboto", 10, "bold")).grid(pady=2, sticky="w",  padx=10)
+ttk.Label(infoPage, text="", font=("Roboto", 10)).grid(pady=2)
+ttk.Label(infoPage, text="Following are the steps the app will take to install itself:", font=("Roboto", 10, "bold")).grid(pady=5, sticky="w", padx=10)
+ttk.Label(infoPage, text="1. Create a virtual python environment from your current python version", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
+ttk.Label(infoPage, text="2. Download the app from github", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
+ttk.Label(infoPage, text="3. Install the requirements from requirements.txt (to the virtual env)", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
+ttk.Label(infoPage, text="4. Create .bat files for easy access to the app's functions", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
+ttk.Label(infoPage, text=" ", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
 
-infoPage.pack(anchor="center", expand=False)
+infoPage.grid()
 infoPage.update()
 root.update()
 
@@ -250,8 +310,6 @@ def UpdateProgress(state, value, progress, problem=False):
     for child in progressFrame.winfo_children():
         child.destroy()
     
-    # ttk.Label(progressFrame, text=" ", font=("Roboto", 0, "bold")).pack(pady=1, anchor="n")
-    
     for i in range(len(states)):
         keys = list(states.keys())
         ttk.Label(progressFrame, text=keys[i], font=("Calibri", 14, "bold")).pack(pady=5, anchor="n", padx=10)
@@ -263,7 +321,6 @@ def UpdateProgress(state, value, progress, problem=False):
                 ttk.Label(progressFrame, text="✓ " + states[keys[i]][j], font=("Roboto", 8, "bold"), foreground="green").pack(pady=5, anchor="n", padx=10)
             else:
                 ttk.Label(progressFrame, text=states[keys[i]][j], font=("Roboto", 8)).pack(pady=5, anchor="n", padx=10)
-    
         ttk.Label(progressFrame, text="", font=("Roboto", 10)).pack(pady=5, anchor="n", padx=10)
     
     progressFrame.update()
@@ -284,10 +341,10 @@ def InstallSequence():
     for child in infoPage.winfo_children():
         child.destroy()
         
-    ttk.Label(infoPage, text="Please select the branch you want to install:", font=("Roboto", 16, "bold")).pack(pady=5, anchor="w", padx=10)
+    ttk.Label(infoPage, text="Please select the branch you want to install:", font=("Roboto", 16, "bold")).grid(pady=5, sticky="w", padx=10)
     branch = tk.StringVar()
-    ttk.Radiobutton(infoPage, text="Stable", variable=branch, value="main").pack(pady=5, anchor="w", padx=10)
-    ttk.Radiobutton(infoPage, text="Experimental (development)", variable=branch, value="experimental").pack(pady=5, anchor="w", padx=10)
+    ttk.Radiobutton(infoPage, text="Stable", variable=branch, value="main").grid(pady=5, sticky="w", padx=10)
+    ttk.Radiobutton(infoPage, text="Experimental (development)", variable=branch, value="experimental").grid(pady=5, sticky="w", padx=10)
     
     while branch.get() == "":
         root.update()
@@ -299,9 +356,10 @@ def InstallSequence():
     
     # region Console
     
-    ttk.Label(infoPage, text="The app is now being installed...", font=("Roboto", 16, "bold")).pack(pady=5, anchor="center", padx=10)
-    console = tk.Text(infoPage, width=600, height=520, border=0, highlightthickness=0, background="#0d0d0d", foreground="#ffffff", font=("Roboto", 10))
-    console.pack(pady=5, anchor="center", padx=10)
+    installlabel = ttk.Label(infoPage, text="The app is now being installed...", font=("Roboto", 16, "bold"))
+    installlabel.grid(sticky='n', pady=5)
+    console = tk.Text(infoPage, width=82, height=31, border=0, highlightthickness=0, background="#0d0d0d", foreground="#ffffff", font=("Roboto", 10))
+    console.grid(sticky='n', padx=1, pady=20)
     
     def AddLineToConsole(line):
         console.insert("end", line + "\n")
@@ -310,16 +368,17 @@ def InstallSequence():
         infoPage.update()
     
     # endregion
-    
+
     # region Virtual environment
-    
+
+
     # Check for a virtual environment
     AddLineToConsole("Checking for a virtual environment...")
     if os.path.exists("venv/Scripts/activate"):
         # Virtual environment exists
         UpdateProgress(1, 0, 0)
         AddLineToConsole("> Virtual environment exists")
-        
+
     else:
         # Virtual environment does not exist
         UpdateProgress(0, 1, 0)   
@@ -328,7 +387,6 @@ def InstallSequence():
         venv.create("venv", with_pip=True)
 
     # endregion
-
     # region Git
 
     AddLineToConsole("\nChecking git...")
@@ -418,7 +476,6 @@ def InstallSequence():
             os.system("rmdir /s /q app\.git")
             shutil.rmtree("app")
             DownloadApp()
-    
     else:
         DownloadApp()
     
@@ -501,7 +558,7 @@ def InstallSequence():
         quit()
         
     UpdateProgress(3, 0, 0)
-    
+
     # endregion
 
     # region Cleanup
@@ -527,18 +584,118 @@ def InstallSequence():
         else:
             f.write(f"cd {dir}/venv/Scripts & ./activate")
             
-        AddLineToConsole("Created activate.bat, to activate the virtual environment easier.")
-        
-    UpdateProgress(4, 0, 0)
     
+        AddLineToConsole("Created activate.bat, to activate the virtual environment easier.")
+
+    UpdateProgress(4, 0, 0)
+    # endregion
+
+    # region Preferences
+    installlabel.place_forget()
+    console.place_forget()
+    infoPage.place_forget()
+    statusFrame.place_forget()
+
+    preferenceFrame= ttk.LabelFrame(root, text="Preferences", width=600, height=580)
+    preferenceFrame.pack_propagate(False)
+    preferenceFrame.grid_propagate(False)
+    preferenceFrame.grid(row=1, sticky="e", padx=10, pady=10)
+
+    global sunvalleyimg
+    global forestimg
+    global azureimg
+
+    os.chdir(FOLDER)
+    image1 = Image.open(r"app\assets\installer\SunValley.jpg")
+    image2 = Image.open(r"app\assets\installer\Forest.jpg")
+    image3 = Image.open(r"app\assets\installer\Azure.jpg")
+    resizeimage1 = image1.resize((140, 140))
+    resizeimage2 = image2.resize((140, 140))
+    resizeimage3 = image3.resize((140, 140))
+    sunvalleyimg = ImageTk.PhotoImage(resizeimage1)
+    forestimg = ImageTk.PhotoImage(resizeimage2)
+    azureimg = ImageTk.PhotoImage(resizeimage3)
+    
+    def themeset():
+        if str(theme.get()) == "Dark":
+            sv_ttk.set_theme("dark")
+        if str(theme.get()) == "Light":
+            sv_ttk.set_theme("light")
+
+    preferenceslabel = ttk.Label(preferenceFrame, text="Preferences", font=("Roboto", 16, "bold"))
+    preferenceslabel.grid(columnspan=3, row=0, sticky='n', padx=150, pady=0)
+    canchange = ttk.Label(preferenceFrame, text="You can change these in the settings later", font=("Roboto", 10))
+    canchange.grid(columnspan=3, row=1, sticky='n', padx=150, pady=5)
+
+    selectthemelabel = ttk.Label(preferenceFrame, text="Select Theme", font=("Roboto", 12))
+    selectthemelabel.grid(columnspan=3, row=2, sticky='w', pady=5, padx=10)
+    theme = tk.StringVar()
+    dark = ttk.Radiobutton(preferenceFrame, text="Dark", variable=theme, value="Dark", command=themeset)
+    dark.grid(columnspan=3, row=3, sticky='w', pady=5, padx=10)
+    light = ttk.Radiobutton(preferenceFrame, text="Light", variable=theme, value="Light", command=themeset)
+    light.grid(columnspan=3, row=4, sticky='w', pady=5, padx=10)
+
+    selectcolorthemelabel = ttk.Label(preferenceFrame, text="Select Color Theme", font=("Roboto", 12))
+    selectcolorthemelabel.grid(columnspan=3, row=5, sticky='w', pady=10, padx=10)
+    colortheme = tk.StringVar()
+    sunvalley = ttk.Radiobutton(preferenceFrame, text="Sun Valley", image=sunvalleyimg, compound="bottom", variable=colortheme, value="sunvalley")
+    sunvalley.grid(row=6, column=0, pady=10)
+    forest = ttk.Radiobutton(preferenceFrame, text="Forest", image=forestimg,  compound="bottom", variable=colortheme, value="forest")
+    forest.grid(row=6, column=1, pady=10)
+    azure = ttk.Radiobutton(preferenceFrame, text="Azure", image=azureimg,  compound="bottom", variable=colortheme, value="azure")
+    azure.grid(row=6, column=2, pady=10)
+
+    # Runs when the confirm button is pressed
+    def confirmselection():
+        themesave = (str(theme.get()))
+        colorthemesave = (str(colortheme.get()))
+        FOLDER = os.path.dirname(__file__)
+        if themesave == "": 
+            printRed("Please select a theme")
+            return
+        if colorthemesave == "": 
+            printRed("Please select a color theme")
+            return
+        
+        pleasewait = ttk.Label(preferenceFrame, text="Please wait, saving preferences", font=("Roboto", 15, "bold"))
+        pleasewait.grid(columnspan=3, row=8, padx=0, pady=15)
+        root.update()
+        if colorthemesave == "sunvalley": 
+            CreateSettings("User Interface", "ColorTheme", "SunValley")
+        elif colorthemesave == "azure": 
+            CreateSettings("User Interface", "ColorTheme", "Azure")
+        elif colorthemesave == "forest": 
+            CreateSettings("User Interface", "ColorTheme", "Forest")
+        time.sleep(2)
+        if themesave == "Dark": 
+            CreateSettings("User Interface", "Theme", "dark")
+        elif themesave == "Light": 
+            CreateSettings("User Interface", "Theme", "light")
+        restoreconsole()
+
+    # Restore the console after preferences are saved
+    def restoreconsole():
+        sv_ttk.set_theme("dark")
+        preferenceFrame.destroy()
+        infoPage.grid(padx=10)
+        statusFrame.grid(row=1, sticky="e", padx=10, pady=10)
+        installlabel.grid(sticky='n', pady=5)
+        console.grid(sticky='n', padx=1, pady=20)
+
+    confirm = ttk.Button(preferenceFrame, text="Confirm", width=68, command=confirmselection)
+    confirm.grid(row=7, columnspan=3, padx=15, pady=10)
+    AddLineToConsole("\nPreferences Saved")
+
+    # endregion
+
     AddLineToConsole("\nInstallation complete!")
     AddLineToConsole("You can now close this installer and run the run.bat file to open the app.")
     
-    # endregion
-
+    UpdateProgress(5, 0, 0)
 # endregion
 
 # This button needs to be after the functions
-ttk.Button(infoPage, text="Begin", command=InstallSequence, width=200).pack(pady=5, anchor="w", padx=10)
+begin = ttk.Button(infoPage, text="Begin", command=InstallSequence, width=68)
+begin.grid(pady=5, sticky="w", padx=9)
 
 root.mainloop()
