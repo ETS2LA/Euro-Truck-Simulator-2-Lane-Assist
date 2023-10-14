@@ -50,10 +50,13 @@ drivenroadYOffset = 0
 turnXOffset = 0
 curvemultip = 0.15
 navsymboldetecXOffset = 148
+highest_y = None
+lowest_y = None
 turnstrength = 40
 turnincoming = 0
 last_navsymboldetecXOffset = 0
 navsymboldetecXOffset_lasttimemoved = time.time
+navsymboldetecXOffset_timedifference = 0
 smoothed_pidsteering = 0
 smoothed_rounded_pidsteering = 0
 
@@ -144,6 +147,9 @@ def plugin(data):
 
     global curvemultip
 
+    global highest_y
+    global lowest_y
+
     global navsymboldetecXOffset
     global navsymboldetecXOffset_lasttimemoved
     global navsymboldetecXOffset_timedifference
@@ -172,10 +178,6 @@ def plugin(data):
     
     curve = None
 
-
-    highest_y = None
-    lowest_y = None
-
     left_x = None
     right_x = None
     left_x_curve = None
@@ -189,22 +191,26 @@ def plugin(data):
     lane_width_turnincdetec = None
     turndetected = 0
 
+    if navsymboldetecXOffset_timedifference < 20:
 
-    for y in range(height):
-        pixel_color = picture_np[y, navsymboldetecXOffset]
-        pixel_color = (pixel_color[2], pixel_color[1], pixel_color[0])
+        highest_y = None
+        lowest_y = None
 
-        # Check if the pixel is red
-        if blue_lower_limit[0] <= pixel_color[0] <= blue_upper_limit[0] and \
-                blue_lower_limit[1] <= pixel_color[1] <= blue_upper_limit[1] and \
-                blue_lower_limit[2] <= pixel_color[2] <= blue_upper_limit[2]:
+        for y in range(height):
+            pixel_color = picture_np[y, navsymboldetecXOffset]
+            pixel_color = (pixel_color[2], pixel_color[1], pixel_color[0])
 
-            if highest_y is None:
-                highest_y = y
-                lowest_y = y
-            else:
-                lowest_y = y
+            # Check if the pixel is red
+            if blue_lower_limit[0] <= pixel_color[0] <= blue_upper_limit[0] and \
+                    blue_lower_limit[1] <= pixel_color[1] <= blue_upper_limit[1] and \
+                    blue_lower_limit[2] <= pixel_color[2] <= blue_upper_limit[2]:
 
+                if highest_y is None:
+                    highest_y = y
+                    lowest_y = y
+                else:
+                    lowest_y = y
+    
     try:
         y_coordinate_of_lane_detection = highest_y - round(height/scale/9)
         y_coordinate_of_curve_detection = highest_y - round(height/scale/3.5)
@@ -363,8 +369,6 @@ def plugin(data):
         center_x_curve = 0
 
     if width_y_symbol > height/3.5:
-        highest_y = 1
-        lowest_y = 1
         draworangeline = 0
     else:
         draworangeline = 1
@@ -452,13 +456,15 @@ def plugin(data):
         except:
             pass
     try:
-        if navsymboldetecXOffset_timedifference < 10:
+        if navsymboldetecXOffset_timedifference < 20:
             try:
                 cv2.line(picture_np, (int(navsymboldetecXOffset), 10), (int(navsymboldetecXOffset), height-10), (255, 255, 255), 1)
             except:
                 pass
     except:
         pass
+
+    distancetocenter = round(distancetocenter/10,3)
     
     cv2.putText(picture_np, f"lane detected:{lanedetected}   correction:{distancetocenter}   curve:{curve}", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
