@@ -39,12 +39,12 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
     button.grid(row=row, column=column, padx=0, pady=7, sticky="w", columnspan=columnspan)
     return variable
 
-def MakeComboEntry(parent, text, category, setting, row, column, width=10, labelwidth=15, isFloat=False, isString=False, value="", sticky="w", translate=True):
+def MakeComboEntry(parent, text, category, setting, row, column, width=10, labelwidth=15, isFloat=False, isString=False, value="", sticky="w", labelSticky="w", translate=True, labelPadX=10):
     if translate:
         text = translator.Translate(text)
     
     if not isFloat and not isString:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky="w")
+        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.IntVar()
         
         setting = settings.GetSettings(category, setting)
@@ -57,7 +57,7 @@ def MakeComboEntry(parent, text, category, setting, row, column, width=10, label
         ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
         return var
     elif isString:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=sticky)
+        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.StringVar()
         
         setting = settings.GetSettings(category, setting)
@@ -70,7 +70,7 @@ def MakeComboEntry(parent, text, category, setting, row, column, width=10, label
         ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
         return var
     else:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=sticky)
+        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.DoubleVar()
         
         setting = settings.GetSettings(category, setting)

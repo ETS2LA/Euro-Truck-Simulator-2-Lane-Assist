@@ -10,3 +10,4 @@ deep_translator
 babel
 pywebview
 matplotlib
+pywin32
