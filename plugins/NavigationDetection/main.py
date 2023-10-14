@@ -50,10 +50,13 @@ drivenroadYOffset = 0
 turnXOffset = 0
 curvemultip = 0.15
 navsymboldetecXOffset = 148
+highest_y = None
+lowest_y = None
 turnstrength = 40
 turnincoming = 0
 last_navsymboldetecXOffset = 0
 navsymboldetecXOffset_lasttimemoved = time.time
+navsymboldetecXOffset_timedifference = 0
 smoothed_pidsteering = 0
 smoothed_rounded_pidsteering = 0
 
@@ -144,6 +147,9 @@ def plugin(data):
 
     global curvemultip
 
+    global highest_y
+    global lowest_y
+
     global navsymboldetecXOffset
     global navsymboldetecXOffset_lasttimemoved
     global navsymboldetecXOffset_timedifference
@@ -172,10 +178,6 @@ def plugin(data):
     
     curve = None
 
-
-    highest_y = None
-    lowest_y = None
-
     left_x = None
     right_x = None
     left_x_curve = None
@@ -189,22 +191,28 @@ def plugin(data):
     lane_width_turnincdetec = None
     turndetected = 0
 
+    if lowest_y is None or highest_y is None:
+        navsymboldetecXOffset_timedifference = 15
 
-    for y in range(height):
-        pixel_color = picture_np[y, navsymboldetecXOffset]
-        pixel_color = (pixel_color[2], pixel_color[1], pixel_color[0])
+    if navsymboldetecXOffset_timedifference < 20:
+        highest_y = None
+        lowest_y = None
 
-        # Check if the pixel is red
-        if blue_lower_limit[0] <= pixel_color[0] <= blue_upper_limit[0] and \
-                blue_lower_limit[1] <= pixel_color[1] <= blue_upper_limit[1] and \
-                blue_lower_limit[2] <= pixel_color[2] <= blue_upper_limit[2]:
+        for y in range(height):
+            pixel_color = picture_np[y, navsymboldetecXOffset]
+            pixel_color = (pixel_color[2], pixel_color[1], pixel_color[0])
 
-            if highest_y is None:
-                highest_y = y
-                lowest_y = y
-            else:
-                lowest_y = y
+            # Check if the pixel is red
+            if blue_lower_limit[0] <= pixel_color[0] <= blue_upper_limit[0] and \
+                    blue_lower_limit[1] <= pixel_color[1] <= blue_upper_limit[1] and \
+                    blue_lower_limit[2] <= pixel_color[2] <= blue_upper_limit[2]:
 
+                if highest_y is None:
+                    highest_y = y
+                    lowest_y = y
+                else:
+                    lowest_y = y
+    
     try:
         y_coordinate_of_lane_detection = highest_y - round(height/scale/9)
         y_coordinate_of_curve_detection = highest_y - round(height/scale/3.5)
@@ -296,7 +304,7 @@ def plugin(data):
         pass
     try:
         if turnincoming == 1:
-            cv2.putText(picture_np, f"turn inc", (0, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (2, 137, 240), 1, cv2.LINE_AA)
+            cv2.putText(picture_np, f"turn inc", (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (2, 137, 240), 1, cv2.LINE_AA)
             if timerdifference > 30:
                 turnincoming = 0
     except:
@@ -348,7 +356,7 @@ def plugin(data):
     except:
         width_y_symbol = 0
 
-    if center_x is not None and center_x_curve is not None:
+    if center_x != width and center_x is not None and center_x_curve is not None:
         if turnincoming == 0:
             curve = (center_x - center_x_curve)*curvemultip
             distancetocenter = ((target-center_x)-curve)
@@ -362,9 +370,8 @@ def plugin(data):
         center_x = 0
         center_x_curve = 0
 
+
     if width_y_symbol > height/3.5:
-        highest_y = 1
-        lowest_y = 1
         draworangeline = 0
     else:
         draworangeline = 1
@@ -386,7 +393,7 @@ def plugin(data):
 
         cv2.line(picture_np, (int(0), y_coordinate_of_turnincdetec), (int(width), y_coordinate_of_turnincdetec), (0, 0, 255), 1)
         
-        cv2.line(picture_np, (int(0), scaletarget), (int(width), scaletarget), (0, 0, 255), 1)
+        cv2.line(picture_np, (int(0), scaletarget), (int(width), scaletarget), (235, 52, 143), 1)
     except:
         pass
 
@@ -407,39 +414,48 @@ def plugin(data):
     except:
         pass
     try:
-        cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_curve), y_coordinate_of_curve_detection), (255, 0, 0), 1)
+        if center_x != 0 and center_x != width and center_x_curve != 0 and center_x_curve != width:
+            cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_curve), y_coordinate_of_curve_detection), (255, 0, 0), 1)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(center_x_curve), y_coordinate_of_curve_detection), (int(center_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 0, 0), 1)
+        if center_x_curve != 0 and center_x_curve != width and center_x_turnincdetec != 0 and center_x_turnincdetec != width:
+            cv2.line(picture_np, (int(center_x_curve), y_coordinate_of_curve_detection), (int(center_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 0, 0), 1)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_drivenroad), y_coordinate_of_drivenroad), (255, 0, 0), 1)
+        if center_x != 0 and center_x != width and center_x_drivenroad != 0 and center_x_drivenroad != width:
+            cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_drivenroad), y_coordinate_of_drivenroad), (255, 0, 0), 1)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
+        if left_x != 0 and left_x != width and left_x_curve != 0 and left_x_curve  != width:
+            cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
+        if right_x != 0 and right_x != width and right_x_curve != 0 and right_x_curve  != width:
+            cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(left_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
+        if left_x_curve != 0 and left_x_curve != width and left_x_turnincdetec != 0 and left_x_turnincdetec != width:
+            cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(left_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(right_x_curve), y_coordinate_of_curve_detection), (int(right_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
+        if right_x_curve != 0 and right_x_curve != width and right_x_turnincdetec != 0 and right_x_turnincdetec != width:
+            cv2.line(picture_np, (int(right_x_curve), y_coordinate_of_curve_detection), (int(right_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
+        if left_x != 0 and left_x != width and left_x_drivenroad != 0 and left_x_drivenroad != width:
+            cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
+        if right_x != 0 and right_x != width and right_x_drivenroad != 0 and right_x_drivenroad != width:
+            cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
     except:
         pass
     if draworangeline == 1:
@@ -452,13 +468,15 @@ def plugin(data):
         except:
             pass
     try:
-        if navsymboldetecXOffset_timedifference < 10:
+        if navsymboldetecXOffset_timedifference < 20:
             try:
                 cv2.line(picture_np, (int(navsymboldetecXOffset), 10), (int(navsymboldetecXOffset), height-10), (255, 255, 255), 1)
             except:
                 pass
     except:
         pass
+
+    distancetocenter = round(distancetocenter/10,3)
     
     cv2.putText(picture_np, f"lane detected:{lanedetected}   correction:{distancetocenter}   curve:{curve}", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
@@ -541,37 +559,37 @@ class UI():
             except: pass
             
             self.root = tk.Canvas(self.master, width=600, height=600, border=0, highlightthickness=0)
-            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
+            self.root.grid_propagate(1) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            self.trimSlider = tk.Scale(self.root, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.trimSlider = tk.Scale(self.root, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.trimSlider.set(settings.GetSettings("NavigationDetection", "trim"))
-            self.trimSlider.grid(row=0, column=0, padx=10, pady=0, columnspan=2)
+            self.trimSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
             self.trim = helpers.MakeComboEntry(self.root, "Trim", "NavigationDetection", "trim", 1,0)
             
-            self.laneXSlider = tk.Scale(self.root, from_=1, to=400, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.laneXSlider = tk.Scale(self.root, from_=1, to=400, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.laneXSlider.set(settings.GetSettings("NavigationDetection", "laneXOffset"))
-            self.laneXSlider.grid(row=2, column=0, padx=10, pady=0, columnspan=2)
+            self.laneXSlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
             self.laneX = helpers.MakeComboEntry(self.root, "Navisymbol Offset", "NavigationDetection", "laneXOffset", 3,0)
 
-            self.scale = tk.Scale(self.root, from_=0.01, to=10, resolution=0.01, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.scale = tk.Scale(self.root, from_=0.01, to=10, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.scale.set(settings.GetSettings("NavigationDetection", "scale"))
-            self.scale.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
+            self.scale.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
             self.sca = helpers.MakeComboEntry(self.root, "Scale", "NavigationDetection", "scale", 5,0)
 
-            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=20, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=20, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.smoothnessSlider.set(settings.GetSettings("NavigationDetection", "smoothness"))
-            self.smoothnessSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
+            self.smoothnessSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
             self.smoothness = helpers.MakeComboEntry(self.root, "Smoothness", "NavigationDetection", "smoothness", 7,0)
             
-            self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.curveMultipSlider.set(settings.GetSettings("NavigationDetection", "CurveMultiplier"))
-            self.curveMultipSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
+            self.curveMultipSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
             self.curveMultip = helpers.MakeComboEntry(self.root, "Curve Multiplier", "NavigationDetection", "CurveMultiplier", 9,0)
 
-            self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
+            self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
             self.turnstrengthSlider.set(settings.GetSettings("NavigationDetection", "TurnStrength"))
-            self.turnstrengthSlider.grid(row=10, column=0, padx=10, pady=0, columnspan=2)
+            self.turnstrengthSlider.grid(row=10, column=1, padx=10, pady=0, columnspan=2)
             self.turnstrength = helpers.MakeComboEntry(self.root, "TurnStrength", "NavigationDetection", "TurnStrength", 11,0)
             
             self.root.pack(anchor="center", expand=False)
