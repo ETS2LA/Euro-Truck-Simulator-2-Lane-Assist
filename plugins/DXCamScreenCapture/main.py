@@ -35,8 +35,10 @@ def onEnable():
 def onDisable():
     pass
 
+monitor = None
 def CreateCamera():
     global camera
+    global monitor
     
     width = settings.GetSettings("dxcam", "width")
     if width == None:
@@ -103,7 +105,7 @@ def CreateCamera():
         del camera
     except: pass
     
-    camera = dxcam.create(region=monitor, output_color="BGR", output_idx=display, device_idx=device)
+    camera = dxcam.create(output_color="BGR", output_idx=display, device_idx=device)
         
 
 
@@ -121,6 +123,9 @@ def plugin(data):
     
     try:
         frame = camera.grab()
+        data["frameFull"] = frame
+        # Crop the frame to the selected area
+        frame = frame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
         data["frame"] = frame
         return data
     except Exception as ex:
