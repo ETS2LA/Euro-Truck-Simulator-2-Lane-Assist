@@ -23,6 +23,8 @@ import pygame
 import src.settings as settings
 import cv2
 import plugins.TruckSimAPI.main as api
+import webview
+import time
 
 try:
     import dxcam
@@ -64,7 +66,7 @@ class UI():
 
             helpers.MakeButton(self.root, "Quit", lambda: quit(), 3,0)
             # REMEMBER TO CHANGE BACK TO PAGE1
-            helpers.MakeButton(self.root, "Next", lambda: self.page1(), 3,1)
+            helpers.MakeButton(self.root, "Next", lambda: self.detectionselection(), 3,1)
             
             helpers.MakeButton(self.root, "Tutorial Video", lambda: helpers.OpenWebView("Tutorial","plugins/FirstTimeSetup/tutorialEmbed.html", width=1290, height=730), 3,2)
 
@@ -80,7 +82,45 @@ class UI():
             self.root.pack(anchor="center")
             
             self.root.update()
+        
+
+        def detectionselection(self):
+            def openwiki():
+                    webview.create_window("Lane Assist Wiki", "https://wiki.tumppi066.fi/en/LaneAssist/DetectionTypes")
+                    webview.start()
+            self.root.destroy()
+            del self.root
+            self.root = tk.Canvas(self.master)
+            helpers.MakeLabel(self.root, "Select which type of lane detection you want to use", 0,0, font=("Roboto", 15, "bold"), padx=30, pady=10, columnspan=3,)
+            helpers.MakeLabel(self.root, "TLDR: LSTR is the reccomeneded model for most people.", 1,0, font=("Segoe UI", 12), padx=30, pady=0, columnspan=3)
+            ttk.Label(self.root, text="").grid(columnspan=3, row=2, column=0, ipadx=0, ipady=0, pady=0)
+            helpers.MakeLabel(self.root, "If you want to see all the options, it is reccomended to check the Wiki", 3,0, font=("Segoe UI", 10), padx=30, pady=2, columnspan=3)
+            helpers.MakeLabel(self.root, "to see what the best option for you is.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
+            ttk.Label(self.root, text="").grid(columnspan=3, row=5, column=0, ipadx=0, ipady=0, pady=0)
+            detectionmethod = tk.StringVar()
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text="LSTR Lane Detection (Recomended)", value="lstr").grid(columnspan=3, row=6, column=0, sticky='w', padx=5, pady=5)
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text="UFLD Lane Detection (Only for use with Nvidia GPU > GTX 1060)", value="ufld").grid(columnspan=3, row=7, column=0, sticky='w', padx=5, pady=5)
+            detectionmethod.set("lstr")
+            ttk.Label(self.root, text="").grid(columnspan=3, row=9, column=0, ipadx=0, ipady=0, pady=0)
             
+            def detectionsettings():
+                if detectionmethod.get() == "lstr":
+                    print("LSTR Selected")
+                    settings.AddToList("Plugins", "Enabled", ["LSTRDrawLanes"])
+                    settings.AddToList("Plugins", "Enabled", ["LSTRLaneDetection"])
+                elif detectionmethod.get() == "ufld":
+                    print("UFLD Selected")
+                    settings.AddToList("Plugins", "Enabled", ["UFLDrawLanes"])
+                    settings.AddToList("Plugins", "Enabled", ["UFLDLaneDetection"])
+                else:
+                    print("Please select a detection method")
+                    return
+                self.page1()
+            
+            helpers.MakeButton(self.root, "Back", lambda: self.page0(), 10,0)
+            helpers.MakeButton(self.root, "Wiki", openwiki, 10,1)
+            helpers.MakeButton(self.root, "Confirm", detectionsettings, 10,2)
+            self.root.pack()
 
         def page1(self):
             self.root.destroy()
@@ -94,7 +134,8 @@ class UI():
             helpers.MakeButton(self.root, "Gamepad", lambda: self.gamepadPage(), 3,0)
             helpers.MakeButton(self.root, "Wheel", lambda: self.wheelPage(), 3,1)
             helpers.MakeButton(self.root, "Keyboard", lambda: self.keyboardPage(), 3,2)
-
+            helpers.MakeButton(self.root, "Back", lambda: self.detectionselection(), 4,1)
+            
             self.root.pack()
             
             
