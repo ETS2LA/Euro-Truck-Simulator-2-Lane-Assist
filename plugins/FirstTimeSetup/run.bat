@@ -1,0 +1,1 @@
+cmd /k "cd C:\TruckSimulators\LaneAssist\Lane-Assist-MAIN/venv/Scripts & .\activate & cd C:\TruckSimulators\LaneAssist\Lane-Assist-MAIN/app & C:\TruckSimulators\LaneAssist\Lane-Assist-MAIN/venv/Scripts/python main.py & pause & exit" & exit
