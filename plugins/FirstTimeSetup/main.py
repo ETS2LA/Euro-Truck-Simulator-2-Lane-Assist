@@ -24,7 +24,6 @@ import src.settings as settings
 import cv2
 import plugins.TruckSimAPI.main as api
 import webview
-import time
 
 try:
     import dxcam
