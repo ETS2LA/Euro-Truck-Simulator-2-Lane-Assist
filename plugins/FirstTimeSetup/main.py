@@ -105,11 +105,11 @@ class UI():
             def detectionsettings():
                 if detectionmethod.get() == "lstr":
                     print("LSTR Selected")
-                    settings.AddToList("Plugins", "Enabled", ["LSTRDDrawLanes"])
+                    settings.AddToList("Plugins", "Enabled", ["LSTRDrawLanes"])
                     settings.AddToList("Plugins", "Enabled", ["LSTRLaneDetection"])
                 elif detectionmethod.get() == "ufld":
                     print("UFLD Selected")
-                    settings.AddToList("Plugins", "Enabled", ["UFLDrawLanes"])
+                    settings.AddToList("Plugins", "Enabled", ["UFLDDrawLanes"])
                     settings.AddToList("Plugins", "Enabled", ["UFLDLaneDetection"])
                 else:
                     print("Please select a detection method")
