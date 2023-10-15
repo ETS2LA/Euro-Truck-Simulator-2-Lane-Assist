@@ -191,8 +191,10 @@ def plugin(data):
     lane_width_turnincdetec = None
     turndetected = 0
 
-    if navsymboldetecXOffset_timedifference < 20:
+    if lowest_y is None or highest_y is None:
+        navsymboldetecXOffset_timedifference = 15
 
+    if navsymboldetecXOffset_timedifference < 20:
         highest_y = None
         lowest_y = None
 
@@ -302,7 +304,7 @@ def plugin(data):
         pass
     try:
         if turnincoming == 1:
-            cv2.putText(picture_np, f"turn inc", (0, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (2, 137, 240), 1, cv2.LINE_AA)
+            cv2.putText(picture_np, f"turn inc", (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (2, 137, 240), 1, cv2.LINE_AA)
             if timerdifference > 30:
                 turnincoming = 0
     except:
@@ -354,7 +356,7 @@ def plugin(data):
     except:
         width_y_symbol = 0
 
-    if center_x is not None and center_x_curve is not None:
+    if center_x != width and center_x is not None and center_x_curve is not None:
         if turnincoming == 0:
             curve = (center_x - center_x_curve)*curvemultip
             distancetocenter = ((target-center_x)-curve)
@@ -367,6 +369,7 @@ def plugin(data):
         curve = 0
         center_x = 0
         center_x_curve = 0
+
 
     if width_y_symbol > height/3.5:
         draworangeline = 0
@@ -411,39 +414,48 @@ def plugin(data):
     except:
         pass
     try:
-        cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_curve), y_coordinate_of_curve_detection), (255, 0, 0), 1)
+        if center_x != 0 and center_x != width and center_x_curve != 0 and center_x_curve != width:
+            cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_curve), y_coordinate_of_curve_detection), (255, 0, 0), 1)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(center_x_curve), y_coordinate_of_curve_detection), (int(center_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 0, 0), 1)
+        if center_x_curve != 0 and center_x_curve != width and center_x_turnincdetec != 0 and center_x_turnincdetec != width:
+            cv2.line(picture_np, (int(center_x_curve), y_coordinate_of_curve_detection), (int(center_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 0, 0), 1)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_drivenroad), y_coordinate_of_drivenroad), (255, 0, 0), 1)
+        if center_x != 0 and center_x != width and center_x_drivenroad != 0 and center_x_drivenroad != width:
+            cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_drivenroad), y_coordinate_of_drivenroad), (255, 0, 0), 1)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
+        if left_x != 0 and left_x != width and left_x_curve != 0 and left_x_curve  != width:
+            cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
+        if right_x != 0 and right_x != width and right_x_curve != 0 and right_x_curve  != width:
+            cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(left_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
+        if left_x_curve != 0 and left_x_curve != width and left_x_turnincdetec != 0 and left_x_turnincdetec != width:
+            cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(left_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(right_x_curve), y_coordinate_of_curve_detection), (int(right_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
+        if right_x_curve != 0 and right_x_curve != width and right_x_turnincdetec != 0 and right_x_turnincdetec != width:
+            cv2.line(picture_np, (int(right_x_curve), y_coordinate_of_curve_detection), (int(right_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
+        if left_x != 0 and left_x != width and left_x_drivenroad != 0 and left_x_drivenroad != width:
+            cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
     except:
         pass
     try:
-        cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
+        if right_x != 0 and right_x != width and right_x_drivenroad != 0 and right_x_drivenroad != width:
+            cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
     except:
         pass
     if draworangeline == 1:
