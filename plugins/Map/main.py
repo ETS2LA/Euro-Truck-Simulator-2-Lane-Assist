@@ -40,8 +40,10 @@ def plugin(data):
     if nodes.nodes == []:
         nodes.LoadNodes()
     if roads.roads == []:
+        roads.limitToCount = 0
         roads.LoadRoads()
     if prefabs.prefabs == []:
+        prefabs.limitToCount = 0
         prefabs.LoadPrefabs()
     if prefabItems.prefabItems == []:
         prefabItems.LoadPrefabItems()
@@ -58,10 +60,10 @@ def plugin(data):
 
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
-    nodes.LoadNodes()
-    roads.LoadRoads()
-    prefabs.LoadPrefabs()
-    prefabItems.LoadPrefabItems()
+    # nodes.LoadNodes()
+    # roads.LoadRoads()
+    # prefabs.LoadPrefabs()
+    # prefabItems.LoadPrefabItems()
     pass
 
 def onDisable():

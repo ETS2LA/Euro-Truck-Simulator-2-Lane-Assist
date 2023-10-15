@@ -62,12 +62,13 @@ class PrefabNode:
 prefabs = []
 optimizedPrefabs = {}
 prefabFileName = variables.PATH + "/plugins/Map/GameData/prefabs.json"
+limitToCount = 0
 
 def LoadPrefabs():
     global prefabs
     global optimizedPrefabs
     
-    loading = LoadingWindow("Parsing prefabs...", grab=False, progress=0)
+    loading = LoadingWindow("Parsing prefabs...", grab=False, progress=0, totalProgress=66)
     
     jsonData = json.load(open(prefabFileName))
     
@@ -144,7 +145,9 @@ def LoadPrefabs():
         if count % 50 == 0:
             sys.stdout.write(f"\rLoaded {count} prefabs.\r")
             loading.update(text=f"Loaded {count} prefabs.", progress=count/len(jsonData) * 100)
-            
+           
+        if limitToCount != 0 and count >= limitToCount:
+            break 
     
     sys.stdout.write(f"\rLoaded {count} prefabs.\nNow optimizing prefabs...")  
     

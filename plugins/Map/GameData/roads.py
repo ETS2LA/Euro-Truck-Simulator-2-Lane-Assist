@@ -51,6 +51,8 @@ totalHeight = 0
 areaCountX = 0
 areaCountZ = 0
 
+limitToCount = 0
+
 def Hermite(s, x, z, tanX, tanZ):
     h1 = 2 * math.pow(s, 3) - 3 * math.pow(s, 2) + 1
     h2 = -2 * math.pow(s, 3) + 3 * math.pow(s, 2)
@@ -95,7 +97,7 @@ def LoadRoads():
     global roads
     global optimizedRoads
     
-    loading = LoadingWindow("Parsing roads...", grab=False, progress=0)
+    loading = LoadingWindow("Opening Roads file...", grab=False, progress=0, totalProgress=33)
     
     if nodes.nodes == []:
         nodes.LoadNodes()
@@ -138,6 +140,9 @@ def LoadRoads():
         if count % 100 == 0:
             sys.stdout.write(f"Loaded roads : {count}\r")
             loading.update(text=f"Loaded roads : {count} ({round(count/len(jsonData) * 100)}%)", progress=count/len(jsonData) * 100)
+    
+        if limitToCount != 0 and count >= limitToCount:
+            break
     
     sys.stdout.write(f"Loaded roads : {count}\nNow matching roads to nodes...\n")
     
