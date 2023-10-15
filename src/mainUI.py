@@ -33,7 +33,6 @@ def DeleteRoot():
 
 def CreateRoot():
     global root
-    global root
     global buttonFrame
     global pluginFrame
     global width
@@ -182,7 +181,7 @@ def drawButtons(refresh=False):
     helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=10, padx=9)
+    helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=10, padx=9)
     themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=10, padx=9)
     import webbrowser
     helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 7, 0, width=10, padx=9, style="Accent.TButton", translate=False)
@@ -214,6 +213,7 @@ def update(data):
     
     
 def switchSelectedPlugin(pluginName):
+    global plugin
     global pluginFrame
     global ui
     global root

@@ -3,7 +3,8 @@ from src.logger import print
 from src.variables import *
 from src.settings import *
 from src.helpers import *
-from src.mainUI import *
+import src.mainUI as mainUI
+from src.loading import LoadingWindow
 import sys
 
 class Item:
@@ -14,21 +15,22 @@ class Node:
     Uid = 0
     X = 0
     Z = 0
+    rX = 0
+    rZ = 0
     Rotation = 0
     ForwardItem = None
     BackwardItem = None
     
 nodes = []
 optimizedNodes = {}
-nodeFileName = variables.PATH + "/plugins/Map/GameData/nodes.json"
+nodeFileName = PATH + "/plugins/Map/GameData/nodes.json"
 
 def LoadNodes():
     global nodes
     global optimizedNodes
     
-    loading = LoadingWindow("Parsing Nodes...", grab=False, progress=0, totalProgress=0)
-    
     jsonData = json.load(open(nodeFileName))
+    jsonLength = len(jsonData)
     
     count = 0
     for node in jsonData:
@@ -36,6 +38,8 @@ def LoadNodes():
         nodeObj.Uid = node["Uid"]
         nodeObj.X = node["X"]
         nodeObj.Z = node["Z"]
+        nodeObj.rX = node["rX"]
+        nodeObj.rZ = node["rZ"]
         nodeObj.Rotation = node["Rotation"]
         try:
             nodeObj.ForwardItem = Item()
@@ -54,14 +58,28 @@ def LoadNodes():
         nodes.append(nodeObj)
         count += 1
         
-        if count % 1000 == 0:
+        if count % int(jsonLength/10) == 0:
             sys.stdout.write(f"\rLoaded {count} nodes.\r")
-            LoadingWindow.update(loading, progress=count/len(jsonData) * 100)
+            data = {
+                "state": f"Parsing Nodes... {round(count/jsonLength * 100)}%",
+                "stateProgress": count/jsonLength * 100,
+                "totalProgress": count/jsonLength * 25
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
+            
     
     sys.stdout.write(f"Loaded {count} nodes.\nOptimizing array...\n")      
     
     # Populate the optimized nodes dict by getting the first 3 numbers of the node Uid
-    loading.update(text="Optimizing array...", progress=False)
+    data = {
+        "state": f"Optimizing array...",
+        "stateProgress": 100,
+        "totalProgress": 25
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
+    
     for node in nodes:
         firstTwo = str(node.Uid)[:3]
         if firstTwo not in optimizedNodes:
@@ -69,7 +87,6 @@ def LoadNodes():
         
         optimizedNodes[firstTwo].append(node)
     
-    loading.destroy()
     print(f"Node parsing done!")
     
 def GetNodeByUid(uid):

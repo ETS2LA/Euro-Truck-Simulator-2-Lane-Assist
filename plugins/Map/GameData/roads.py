@@ -4,6 +4,7 @@ from src.variables import *
 from src.settings import *
 from src.helpers import *
 from src.mainUI import *
+import src.mainUI as mainUI
 import sys
 import plugins.Map.GameData.nodes as nodes
 import math
@@ -97,12 +98,18 @@ def LoadRoads():
     global roads
     global optimizedRoads
     
-    loading = LoadingWindow("Opening Roads file...", grab=False, progress=0, totalProgress=33)
-    
     if nodes.nodes == []:
         nodes.LoadNodes()
     
     jsonData = json.load(open(roadFileName))
+    
+    data = {
+        "state": f"Loading roads...",
+        "stateProgress": 100,
+        "totalProgress": 25
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
     
     count = 0
     for road in jsonData:
@@ -137,9 +144,6 @@ def LoadRoads():
     
         roads.append(roadObj)
         count += 1
-        if count % 100 == 0:
-            sys.stdout.write(f"Loaded roads : {count}\r")
-            loading.update(text=f"Loaded roads : {count} ({round(count/len(jsonData) * 100)}%)", progress=count/len(jsonData) * 100)
     
         if limitToCount != 0 and count >= limitToCount:
             break
@@ -147,7 +151,6 @@ def LoadRoads():
     sys.stdout.write(f"Loaded roads : {count}\nNow matching roads to nodes...\n")
     
     # Match the nodes to the roads
-    loading.update(text="Matching roads to nodes...", progress=0)
     count = 0
     noLocationData = 0
     for road in roads:
@@ -158,15 +161,27 @@ def LoadRoads():
             noLocationData += 1
         
         count += 1
-        if count % 100 == 0:
+        if count % 1000 == 0:
             sys.stdout.write(f"Matched roads : {count}\r")
-            loading.update(text=f"Matched roads : {count} ({round(count/len(roads) * 100)}%)", progress=count/len(roads) * 100)
+            data = {
+                "state": f"Matching roads to nodes... {round(count/len(roads) * 100)}%",
+                "stateProgress": count/len(roads) * 100,
+                "totalProgress": 25 + (count/len(roads) * 25)
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
     
     sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
     
     
     # Make an optimized array for the roads. Do this by splitting the map into 1km / 1km areas and then adding the roads to the correct area
-    loading.update(text="Optimizing array...", progress=False)
+    data = {
+        "state": f"Optimizing array...",
+        "stateProgress": 100,
+        "totalProgress": 50
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
     
     for road in roads:
         if road.StartNode.X > roadsMaxX:
@@ -213,7 +228,6 @@ def LoadRoads():
         
     print(f"Roads optimized to {areaCountX}x{areaCountZ} areas")
         
-    loading.destroy()
     print("Road parsing done!")
 
 
