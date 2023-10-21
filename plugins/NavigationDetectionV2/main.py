@@ -191,7 +191,6 @@ def plugin(data):
         circley = settings.GetSettings("NavigationDetectionV2", "navsymboly")
         circlex = settings.GetSettings("NavigationDetectionV2", "navsymbolx")
         y_coordinate_turnincdetec = round(circley / 4)
-        y_coordinate_curve = round(circley / 1.8)
         y_coordinate_lane = round(circley / 1.4)
         automaticxoffset = round(width/2-circlex)
 
@@ -202,11 +201,6 @@ def plugin(data):
             right_x_turnincdetec = lanes[len(lanes)-1]
             cv2.line(filtered_frame_bw, (left_x_turnincdetec,y_coordinate_turnincdetec), (right_x_turnincdetec,y_coordinate_turnincdetec), (255,255,255),1)
 
-            lanes = GetArrayOfLaneEdges(y_coordinate_curve)
-            left_x_curve = lanes[len(lanes)-2]
-            right_x_curve = lanes[len(lanes)-1]
-            cv2.line(filtered_frame_bw, (left_x_curve,y_coordinate_curve), (right_x_curve,y_coordinate_curve), (255,255,255),1)
-
             lanes = GetArrayOfLaneEdges(y_coordinate_lane)
             left_x_lane = lanes[len(lanes)-2]
             right_x_lane = lanes[len(lanes)-1]
@@ -215,14 +209,11 @@ def plugin(data):
             
             center_x = (left_x_lane + right_x_lane) / 2 if left_x_lane and right_x_lane is not None else None
         
-        
-            center_x_curve = (left_x_curve + right_x_curve) / 2 if left_x_curve and right_x_curve is not None else None
-
+            center_x_turnincdetec = (left_x_turnincdetec + right_x_turnincdetec) / 2 if left_x_turnincdetec and right_x_turnincdetec is not None else None
+            
+            lane_width = right_x_lane - left_x_lane
         
             lane_width_turnincdetec = right_x_turnincdetec - left_x_turnincdetec
-
-            lane_width = right_x_lane - left_x_lane
-
 
         
         if lane_width_turnincdetec > width/5:
@@ -244,9 +235,9 @@ def plugin(data):
             turn = "none"
 
 
-        if center_x != width and center_x is not None and center_x_curve is not None:
+        if center_x != width and center_x is not None:
 
-            curve = round((center_x - center_x_curve) * curvemultip, 3)
+            curve = round((center_x - center_x_turnincdetec)/30 * curvemultip, 3)
             if turn != "none" or turnincoming == True:
                 curve = 0
             distancetocenter = round((width/2-center_x)-curve-automaticxoffset, 3) - offset
@@ -256,7 +247,7 @@ def plugin(data):
             distancetocenter = 0
             curve = 0
             center_x = round(width/2)
-            center_x_curve = round(width/2)
+            center_x_turnincdetec = round(width/2)
         
         correction = round(distancetocenter * sensitivity, 3)
 
