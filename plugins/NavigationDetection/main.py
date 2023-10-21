@@ -162,7 +162,10 @@ def plugin(data):
     
     global turnstrength
 
-    picture_np = data["frame"]
+    try:
+        picture_np = data["frame"]
+    except:
+        return data
     
     try:
         width = picture_np.shape[1]
