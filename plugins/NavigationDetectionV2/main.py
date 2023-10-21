@@ -55,12 +55,12 @@ def LoadSettings():
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
-        settings.CreateSettings("NavigationDetectionV2", "curvemultip", 0)
-        curvemultip = 0.1
+        settings.CreateSettings("NavigationDetectionV2", "curvemultip", 0.25)
+        curvemultip = 0.25
     
     sensitivity = settings.GetSettings("NavigationDetectionV2", "sensitivity")
     if sensitivity == None:
-        settings.CreateSettings("NavigationDetectionV2", "sensitivity", 0)
+        settings.CreateSettings("NavigationDetectionV2", "sensitivity", 1)
         sensitivity = 1
 
     offset = settings.GetSettings("NavigationDetectionV2", "offset")
@@ -70,22 +70,22 @@ def LoadSettings():
     
     textsize = settings.GetSettings("NavigationDetectionV2", "textsize")
     if textsize == None:
-        settings.CreateSettings("NavigationDetectionV2", "textsize", 10)
+        settings.CreateSettings("NavigationDetectionV2", "textsize", 0.5)
         textsize = 0.5
         
     textdistancescale = settings.GetSettings("NavigationDetectionV2", "textdistancescale")
     if textdistancescale == None:
-        settings.CreateSettings("NavigationDetectionV2", "textdistancescale", 0.15)
+        settings.CreateSettings("NavigationDetectionV2", "textdistancescale", 1)
         textdistancescale = 1
 
     navsymbolx = settings.GetSettings("NavigationDetectionV2", "navsymbolx")
     if navsymbolx == None:
-        settings.CreateSettings("NavigationDetectionV2", "navsymbolx", 0.15)
+        settings.CreateSettings("NavigationDetectionV2", "navsymbolx", 0)
         navsymbolx = 0
 
     navsymboly = settings.GetSettings("NavigationDetectionV2", "navsymboly")
     if navsymboly == None:
-        settings.CreateSettings("NavigationDetectionV2", "navsymboly", 0.15)
+        settings.CreateSettings("NavigationDetectionV2", "navsymboly", 0)
         navsymboly = 0
 
     if navsymbolx == 0 or navsymboly == 0:
