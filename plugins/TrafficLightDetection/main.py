@@ -68,23 +68,16 @@ def UpdateSettings():
     
     if grayscalewindow == 1:
         cv2.namedWindow('Traffic Lights Detection - B/W', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Lights Detection - B/W', round(screen_width/2), round(screen_height/3))
+        cv2.resizeWindow('Traffic Lights Detection - B/W', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
         cv2.setWindowProperty('Traffic Lights Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
     if redgreenwindow == 1:
         cv2.namedWindow('Traffic Lights Detection - Red/Green', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Lights Detection - Red/Green', round(screen_width/2), round(screen_height/3))
+        cv2.resizeWindow('Traffic Lights Detection - Red/Green', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
         cv2.setWindowProperty('Traffic Lights Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
     if finalwindow == 1:
         cv2.namedWindow('Traffic Lights Detection - Final', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('Traffic Lights Detection - Final', round(screen_width/2), round(screen_height/3))
         cv2.setWindowProperty('Traffic Lights Detection - Final', cv2.WND_PROP_TOPMOST, 1)
-    
-    if grayscalewindow == 1:
-        cv2.resizeWindow('Traffic Lights Detection - B/W', round(screen_width/2), round(screen_height/3))
-    if redgreenwindow == 1:
-        cv2.resizeWindow('Traffic Lights Detection - Red/Green', round(screen_width/2), round(screen_height/3))
-    if finalwindow == 1:
-        cv2.resizeWindow('Traffic Lights Detection - Final', round(screen_width/2), round(screen_height/3))
     
     min_rect_size = screen_height / 240
     max_rect_size = screen_height / 9
@@ -103,9 +96,17 @@ def UpdateSettings():
 def plugin(data):
 
     start_time = time.time()
+
+    if grayscalewindow == 1:
+        cv2.resizeWindow('Traffic Lights Detection - B/W', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
+    if redgreenwindow == 1:
+        cv2.resizeWindow('Traffic Lights Detection - Red/Green', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
+    if finalwindow == 1:
+        cv2.resizeWindow('Traffic Lights Detection - Final', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
     
     try:
         frame = data["frameFull"]
+        frame = frame[0:round(screen_height/1.5), 0:screen_width]
     except:
         return data
     
@@ -274,7 +275,7 @@ class UI():
             helpers.MakeCheckButton(self.root, "Grayscale Window", "TrafficLightDetection", "grayscalewindow", 2, 0)
             helpers.MakeCheckButton(self.root, "Red/Green Window", "TrafficLightDetection", "redgreenwindow", 3, 0)
             
-            self.scaleSlider = tk.Scale(self.root, from_=0, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.scaleSlider = tk.Scale(self.root, from_=0.1, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
             self.scaleSlider.set(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
             self.scaleSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
             self.scale = helpers.MakeComboEntry(self.root, "Scale", "TrafficLightDetection", "scale", 5,0)
