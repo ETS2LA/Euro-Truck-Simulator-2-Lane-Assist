@@ -120,10 +120,10 @@ def plugin(data):
         circley = mousey - min_y
         if circlex > 5 and circlex < width-5 and circley > 5 and circley < height-5:
             cv2.circle(frame, (circlex,circley), round(width/40), (40,130,210), 2)
+
+        if mouse.is_pressed(button="left") == True and circlex > 5 and circlex < width-5 and circley > 5 and circley < height-5:
             settings.CreateSettings("NavigationDetectionV2", "navsymbolx", circlex)    
             settings.CreateSettings("NavigationDetectionV2", "navsymboly", circley)
-
-        if mouse.is_pressed(button="left") == True:
             getnavcoordinates = False
             navcoordsarezero = False
 
