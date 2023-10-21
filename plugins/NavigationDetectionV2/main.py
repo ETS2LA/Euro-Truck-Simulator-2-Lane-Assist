@@ -55,8 +55,8 @@ def LoadSettings():
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
-        settings.CreateSettings("NavigationDetectionV2", "curvemultip", 0.25)
-        curvemultip = 0.25
+        settings.CreateSettings("NavigationDetectionV2", "curvemultip", 1)
+        curvemultip = 1
     
     sensitivity = settings.GetSettings("NavigationDetectionV2", "sensitivity")
     if sensitivity == None:
