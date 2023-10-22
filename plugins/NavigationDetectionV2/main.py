@@ -41,6 +41,7 @@ screen_width, screen_height = pyautogui.size()
 timerforturnincoming = 0
 white_limit = (1, 1, 1)
 getnavcoordinates = False
+trafficlightdetectionisenabled = False
 
 def LoadSettings():
     global curvemultip
@@ -54,6 +55,7 @@ def LoadSettings():
     global navcoordsarezero
     global leftsidetraffic
     global automaticlaneselection
+    global trafficlightdetectionisenabled
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
@@ -104,6 +106,11 @@ def LoadSettings():
         navcoordsarezero = True
     else:
         navcoordsarezero = False
+    
+    if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
+        trafficlightdetectionisenabled = True
+    else:
+        trafficlightdetectionisenabled = False
 
 LoadSettings()
 
@@ -113,6 +120,7 @@ def plugin(data):
     global white_limit
     global getnavcoordinates
     global navcoordsarezero
+    global trafficlightdetectionisenabled
 
     if getnavcoordinates == True or navcoordsarezero == True:
 
@@ -309,6 +317,15 @@ def plugin(data):
         
         correction = round(distancetocenter * sensitivity, 3)
 
+        if trafficlightdetectionisenabled == True:
+            try:
+                trafficlight = data["TrafficLightDetection"]
+            except:
+                trafficlightdetectionisenabled = False
+                trafficlight = "Off"
+        else:
+            trafficlight = "Off"
+
         data["LaneDetection"] = {}
         data["LaneDetection"]["difference"] = -correction/15
 
@@ -320,6 +337,7 @@ def plugin(data):
             cv2.putText(filtered_frame_bw, f"correction: {correction}", (round(10*textdistancescale), round(60*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(filtered_frame_bw, f"turninc: {turnincoming}", (round(10*textdistancescale), round(80*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(filtered_frame_bw, f"turn: {turn}", (round(10*textdistancescale), round(100*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f"trafficlight: {trafficlight}", (round(10*textdistancescale), round(120*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
         
         data["frame"] = filtered_frame_bw
         

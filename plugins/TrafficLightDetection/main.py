@@ -66,19 +66,6 @@ def UpdateSettings():
     redgreenwindow = int(settings.GetSettings("TrafficLightDetection", "redgreenwindow", True))
     windowscale = float(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
     
-    if grayscalewindow == 1:
-        cv2.namedWindow('Traffic Lights Detection - B/W', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Lights Detection - B/W', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
-        cv2.setWindowProperty('Traffic Lights Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
-    if redgreenwindow == 1:
-        cv2.namedWindow('Traffic Lights Detection - Red/Green', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Lights Detection - Red/Green', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
-        cv2.setWindowProperty('Traffic Lights Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
-    if finalwindow == 1:
-        cv2.namedWindow('Traffic Lights Detection - Final', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Lights Detection - Final', round(screen_width/2), round(screen_height/3))
-        cv2.setWindowProperty('Traffic Lights Detection - Final', cv2.WND_PROP_TOPMOST, 1)
-    
     min_rect_size = screen_height / 240
     max_rect_size = screen_height / 9
     width_height_ratio = 0.2
@@ -98,11 +85,17 @@ def plugin(data):
     start_time = time.time()
 
     if grayscalewindow == 1:
+        cv2.namedWindow('Traffic Lights Detection - B/W', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('Traffic Lights Detection - B/W', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
+        cv2.setWindowProperty('Traffic Lights Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
     if redgreenwindow == 1:
+        cv2.namedWindow('Traffic Lights Detection - Red/Green', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('Traffic Lights Detection - Red/Green', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
+        cv2.setWindowProperty('Traffic Lights Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
     if finalwindow == 1:
-        cv2.resizeWindow('Traffic Lights Detection - Final', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
+        cv2.namedWindow('Traffic Lights Detection - Final', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('Traffic Lights Detection - Final', round(screen_width/2), round(screen_height/3))
+        cv2.setWindowProperty('Traffic Lights Detection - Final', cv2.WND_PROP_TOPMOST, 1)
     
     try:
         frame = data["frameFull"]
@@ -216,7 +209,7 @@ def plugin(data):
                             if currentdistance < 0:
                                 currentdistance = 0
 
-                        
+    data["TrafficLightDetection"] = currentneareststate                   
 
     fps = round(1 / data["last"]["executionTimes"]["all"], 1)
     if grayscalewindow == 1:
