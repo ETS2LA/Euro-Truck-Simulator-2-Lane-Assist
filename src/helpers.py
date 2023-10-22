@@ -33,8 +33,8 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
     if onlyTrue:
         if callback != None:
             def ButtonPressed():
-                callback()
                 settings.CreateSettings(category, setting, values[0])
+                callback()
         else:
             def ButtonPressed():
                 settings.CreateSettings(category, setting, values[0])
@@ -43,8 +43,8 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
     elif onlyFalse:
         if callback != None:
             def ButtonPressed():
-                callback()
                 settings.CreateSettings(category, setting, values[1])
+                callback()
         else:
             def ButtonPressed():
                 settings.CreateSettings(category, setting, values[1])
@@ -53,8 +53,8 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
     else:
         if callback != None:
             def ButtonPressed():
-                callback()
                 settings.CreateSettings(category, setting, values[0] if variable.get() else values[1])
+                callback()
                 
         else:
             def ButtonPressed():

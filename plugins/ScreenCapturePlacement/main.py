@@ -166,7 +166,7 @@ class UI():
             helpers.MakeButton(self.root, "Disable Picker", lambda: root.destroy(), 5,0, padx=10, pady=10, width=15)
             
             helpers.MakeLabel(self.root, "Compatibility mode is for older versions of Windows\nwhere the transparent background doesn't work.\nCreate the window again after toggling!", 6,0, font=("Roboto", 8), padx=30, pady=10)
-            helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30)
+            helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30, callback=lambda: LostFocus())
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
