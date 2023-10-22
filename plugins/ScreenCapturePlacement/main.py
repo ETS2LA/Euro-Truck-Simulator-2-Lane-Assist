@@ -96,7 +96,7 @@ def SavePickerSettings(category):
     settings.CreateSettings(category, "x", x)
     settings.CreateSettings(category, "y", y + titlebarHeight)
     settings.CreateSettings(category, "width", w)
-    settings.CreateSettings(category, "height", h - titlebarHeight)
+    settings.CreateSettings(category, "height", h)
     
     try:
         import plugins.DXCamScreenCapture.main as dxcam
