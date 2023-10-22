@@ -118,11 +118,16 @@ def plugin(data):
     try:
         if camera != None:
             pass
+        if monitor == None:
+            CreateCamera()
     except:
         CreateCamera()
     
     try:
         frame = camera.grab()
+        if type(frame) == type(None):
+            return data
+        
         data["frameFull"] = frame
         # Crop the frame to the selected area
         frame = frame[monitor[1]:monitor[3], monitor[0]:monitor[2]]

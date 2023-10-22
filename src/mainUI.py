@@ -202,7 +202,9 @@ def update(data):
     try:
         ui.update(data)
     except Exception as ex:
-        if "name 'ui' is not defined" not in str(ex):
+        if "'UI' object has no attribute 'update'" in str(ex):
+            print("Currently open panel does not have an update method. Please add one.")
+        elif "name 'ui' is not defined" not in str(ex):
             print(str(ex))
         pass
 
