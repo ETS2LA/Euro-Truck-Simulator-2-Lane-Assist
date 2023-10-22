@@ -16,7 +16,7 @@ def MakeButton(parent, text, command, row, column, style="TButton", width=15, ce
         button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n", columnspan=columnspan)
     return button
     
-def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False, translate=True, columnspan=1):
+def MakeCheckButton(parent, text, category, setting, row, column, width=17, values=[True, False], onlyTrue=False, onlyFalse=False, default=False, translate=True, columnspan=1, callback=None):
     if translate:
         text = translator.Translate(text)
     
@@ -31,11 +31,37 @@ def MakeCheckButton(parent, text, category, setting, row, column, width=17, valu
         variable.set(value)
     
     if onlyTrue:
-        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[0]) if variable.get() else None, width=width)
+        if callback != None:
+            def ButtonPressed():
+                callback()
+                settings.CreateSettings(category, setting, values[0])
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0])
+                
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed() if variable.get() else None, width=width)
     elif onlyFalse:
-        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[1]) if not variable.get() else None, width=width)
+        if callback != None:
+            def ButtonPressed():
+                callback()
+                settings.CreateSettings(category, setting, values[1])
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[1])
+        
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed() if not variable.get() else None, width=width)
     else:
-        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: settings.CreateSettings(category, setting, values[0] if variable.get() else values[1]), width=width)
+        if callback != None:
+            def ButtonPressed():
+                callback()
+                settings.CreateSettings(category, setting, values[0] if variable.get() else values[1])
+                
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0] if variable.get() else values[1])
+                
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed(), width=width)
+    
     button.grid(row=row, column=column, padx=0, pady=7, sticky="w", columnspan=columnspan)
     return variable
 
