@@ -26,6 +26,31 @@ import src.settings as settings
 import os
 import screeninfo
 
+def GetTitlebarHeight():
+    global titlebarHeight
+    
+    # Create a tkinter window
+    root = tk.Tk()
+    root.geometry("{}x{}+{}+{}".format(0, 0, 0, 0))
+
+    root.update()
+
+    # Get the y-coordinate of the top-level window
+    toplevel_y = root.winfo_rooty()
+
+    # Get the y-coordinate of the Tk object
+    root_y = root.winfo_y()
+
+    # Calculate the height of the titlebar
+    titlebarHeight = toplevel_y - root_y
+
+    # Print the height of the titlebar
+    print(f"The height of the titlebar is {titlebarHeight} pixels")
+    
+    # Destroy the window
+    root.destroy()
+    
+
 def CreateWindow(x,y,w,h):
     global root
     global label
@@ -33,6 +58,7 @@ def CreateWindow(x,y,w,h):
     try:
         root.destroy()
     except: pass
+    
     
     root = tk.Tk()
     root.config(bg="black", border=0)
@@ -60,13 +86,14 @@ def CreateWindow(x,y,w,h):
     root.update()
 
 def SavePickerSettings(category):
+    GetTitlebarHeight()
     x,y,w,h = root.winfo_x(), root.winfo_y(), root.winfo_width(), root.winfo_height()
     root.destroy()
     
     settings.CreateSettings(category, "x", x)
-    settings.CreateSettings(category, "y", y)
+    settings.CreateSettings(category, "y", y + titlebarHeight)
     settings.CreateSettings(category, "width", w)
-    settings.CreateSettings(category, "height", h)
+    settings.CreateSettings(category, "height", h - titlebarHeight)
     
     try:
         import plugins.DXCamScreenCapture.main as dxcam
