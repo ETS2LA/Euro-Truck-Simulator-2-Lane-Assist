@@ -52,6 +52,7 @@ def LoadSettings():
     global navsymboly
     global getnavcoordinates
     global navcoordsarezero
+    global leftsidetraffic
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
@@ -77,6 +78,11 @@ def LoadSettings():
     if textdistancescale == None:
         settings.CreateSettings("NavigationDetectionV2", "textdistancescale", 1)
         textdistancescale = 1
+
+    leftsidetraffic = settings.GetSettings("NavigationDetectionV2", "leftsidetraffic")
+    if leftsidetraffic == None:
+        settings.CreateSettings("NavigationDetectionV2", "leftsidetraffic", 0)
+        leftsidetraffic = 0
 
     navsymbolx = settings.GetSettings("NavigationDetectionV2", "navsymbolx")
     if navsymbolx == None:
@@ -131,7 +137,6 @@ def plugin(data):
         data["frame"] = frame
 
     else:
-
         start_time = time.time()
         
         try:
@@ -197,13 +202,29 @@ def plugin(data):
         if circley != None:        
         
             lanes = GetArrayOfLaneEdges(y_coordinate_turnincdetec)
-            left_x_turnincdetec = lanes[len(lanes)-2]
-            right_x_turnincdetec = lanes[len(lanes)-1]
+            if leftsidetraffic == False:
+                left_x_turnincdetec = lanes[len(lanes)-2]
+                right_x_turnincdetec = lanes[len(lanes)-1]
+            else:
+                try:
+                    left_x_turnincdetec = lanes[len(lanes)-4]
+                    right_x_turnincdetec = lanes[len(lanes)-3]
+                except:
+                    left_x_turnincdetec = lanes[len(lanes)-2]
+                    right_x_turnincdetec = lanes[len(lanes)-1]
             cv2.line(filtered_frame_bw, (left_x_turnincdetec,y_coordinate_turnincdetec), (right_x_turnincdetec,y_coordinate_turnincdetec), (255,255,255),1)
 
             lanes = GetArrayOfLaneEdges(y_coordinate_lane)
-            left_x_lane = lanes[len(lanes)-2]
-            right_x_lane = lanes[len(lanes)-1]
+            if leftsidetraffic == False:
+                left_x_lane = lanes[len(lanes)-2]
+                right_x_lane = lanes[len(lanes)-1]
+            else:
+                try:
+                    left_x_lane = lanes[len(lanes)-4]
+                    right_x_lane = lanes[len(lanes)-3]
+                except:
+                    left_x_lane = lanes[len(lanes)-2]
+                    right_x_lane = lanes[len(lanes)-1]
             cv2.line(filtered_frame_bw, (left_x_lane,y_coordinate_lane), (right_x_lane,y_coordinate_lane), (255,255,255),1)
 
             
@@ -347,6 +368,8 @@ class UI():
                 getnavcoordinates = True
                 print(getnavcoordinates)
             helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 10, 0, pady=20, padx=5)
+
+            helpers.MakeCheckButton(self.root, "Left-hand traffic", "NavigationDetectionV2", "leftsidetraffic", 10, 2, callback=lambda: LoadSettings())
 
             self.root.pack(anchor="center", expand=False)
             self.root.update()
