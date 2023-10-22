@@ -62,7 +62,10 @@ def CreateWindow(x,y,w,h):
     
     root = tk.Tk()
     root.config(bg="black", border=0)
-    root.geometry("{}x{}+{}+{}".format(w, h, x, y))
+    try:
+        root.geometry("{}x{}+{}+{}".format(w, h, x, y))
+    except:
+        root.geometry("{}x{}+{}+{}".format(1280, 720, 0, 0))
 
     canvas = tk.Canvas(root, width=600, height=520, border=0, highlightthickness=0)
     canvas.config(bg="black")
