@@ -41,6 +41,7 @@ screen_width, screen_height = pyautogui.size()
 timerforturnincoming = 0
 white_limit = (1, 1, 1)
 getnavcoordinates = False
+trafficlightdetectionisenabled = False
 
 def LoadSettings():
     global curvemultip
@@ -53,6 +54,8 @@ def LoadSettings():
     global getnavcoordinates
     global navcoordsarezero
     global leftsidetraffic
+    global automaticlaneselection
+    global trafficlightdetectionisenabled
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
@@ -84,6 +87,11 @@ def LoadSettings():
         settings.CreateSettings("NavigationDetectionV2", "leftsidetraffic", 0)
         leftsidetraffic = 0
 
+    automaticlaneselection = settings.GetSettings("NavigationDetectionV2", "automaticlaneselection")
+    if automaticlaneselection == None:
+        settings.CreateSettings("NavigationDetectionV2", "automaticlaneselection", 0)
+        automaticlaneselection = 0
+
     navsymbolx = settings.GetSettings("NavigationDetectionV2", "navsymbolx")
     if navsymbolx == None:
         settings.CreateSettings("NavigationDetectionV2", "navsymbolx", 0)
@@ -98,6 +106,11 @@ def LoadSettings():
         navcoordsarezero = True
     else:
         navcoordsarezero = False
+    
+    if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
+        trafficlightdetectionisenabled = True
+    else:
+        trafficlightdetectionisenabled = False
 
 LoadSettings()
 
@@ -107,6 +120,7 @@ def plugin(data):
     global white_limit
     global getnavcoordinates
     global navcoordsarezero
+    global trafficlightdetectionisenabled
 
     if getnavcoordinates == True or navcoordsarezero == True:
 
@@ -200,31 +214,62 @@ def plugin(data):
         automaticxoffset = round(width/2-circlex)
 
         if circley != None:        
-        
             lanes = GetArrayOfLaneEdges(y_coordinate_turnincdetec)
-            if leftsidetraffic == False:
-                left_x_turnincdetec = lanes[len(lanes)-2]
-                right_x_turnincdetec = lanes[len(lanes)-1]
-            else:
+            if automaticlaneselection == True:
                 try:
-                    left_x_turnincdetec = lanes[len(lanes)-4]
-                    right_x_turnincdetec = lanes[len(lanes)-3]
+                    closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - circlex))
+                    left_x_turnincdetec, right_x_turnincdetec = closest_x_pair
                 except:
+                    if leftsidetraffic == False:
+                        left_x_turnincdetec = lanes[len(lanes)-2]
+                        right_x_turnincdetec = lanes[len(lanes)-1]
+                    else:
+                        try:
+                            left_x_turnincdetec = lanes[len(lanes)-4]
+                            right_x_turnincdetec = lanes[len(lanes)-3]
+                        except:
+                            left_x_turnincdetec = lanes[len(lanes)-2]
+                            right_x_turnincdetec = lanes[len(lanes)-1]
+            else:
+                if leftsidetraffic == False:
                     left_x_turnincdetec = lanes[len(lanes)-2]
                     right_x_turnincdetec = lanes[len(lanes)-1]
+                else:
+                    try:
+                        left_x_turnincdetec = lanes[len(lanes)-4]
+                        right_x_turnincdetec = lanes[len(lanes)-3]
+                    except:
+                        left_x_turnincdetec = lanes[len(lanes)-2]
+                        right_x_turnincdetec = lanes[len(lanes)-1]
             cv2.line(filtered_frame_bw, (left_x_turnincdetec,y_coordinate_turnincdetec), (right_x_turnincdetec,y_coordinate_turnincdetec), (255,255,255),1)
 
             lanes = GetArrayOfLaneEdges(y_coordinate_lane)
-            if leftsidetraffic == False:
-                left_x_lane = lanes[len(lanes)-2]
-                right_x_lane = lanes[len(lanes)-1]
-            else:
+            if automaticlaneselection == True:
                 try:
-                    left_x_lane = lanes[len(lanes)-4]
-                    right_x_lane = lanes[len(lanes)-3]
+                    closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - circlex))
+                    left_x_lane, right_x_lane = closest_x_pair
                 except:
+                    if leftsidetraffic == False:
+                        left_x_lane = lanes[len(lanes)-2]
+                        right_x_lane = lanes[len(lanes)-1]
+                    else:
+                        try:
+                            left_x_lane = lanes[len(lanes)-4]
+                            right_x_lane = lanes[len(lanes)-3]
+                        except:
+                            left_x_lane = lanes[len(lanes)-2]
+                            right_x_lane = lanes[len(lanes)-1]
+            else:
+                if leftsidetraffic == False:
                     left_x_lane = lanes[len(lanes)-2]
                     right_x_lane = lanes[len(lanes)-1]
+                else:
+                    try:
+                        left_x_lane = lanes[len(lanes)-4]
+                        right_x_lane = lanes[len(lanes)-3]
+                    except:
+                        left_x_lane = lanes[len(lanes)-2]
+                        right_x_lane = lanes[len(lanes)-1]
             cv2.line(filtered_frame_bw, (left_x_lane,y_coordinate_lane), (right_x_lane,y_coordinate_lane), (255,255,255),1)
 
             
@@ -272,6 +317,15 @@ def plugin(data):
         
         correction = round(distancetocenter * sensitivity, 3)
 
+        if trafficlightdetectionisenabled == True:
+            try:
+                trafficlight = data["TrafficLightDetection"]
+            except:
+                trafficlightdetectionisenabled = False
+                trafficlight = "Off"
+        else:
+            trafficlight = "Off"
+
         data["LaneDetection"] = {}
         data["LaneDetection"]["difference"] = -correction/15
 
@@ -283,6 +337,7 @@ def plugin(data):
             cv2.putText(filtered_frame_bw, f"correction: {correction}", (round(10*textdistancescale), round(60*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(filtered_frame_bw, f"turninc: {turnincoming}", (round(10*textdistancescale), round(80*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(filtered_frame_bw, f"turn: {turn}", (round(10*textdistancescale), round(100*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f"trafficlight: {trafficlight}", (round(10*textdistancescale), round(120*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
         
         data["frame"] = filtered_frame_bw
         
@@ -367,9 +422,11 @@ class UI():
                 global getnavcoordinates
                 getnavcoordinates = True
                 print(getnavcoordinates)
-            helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 10, 0, pady=20, padx=5)
+            helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 10, 2, pady=20, padx=5)
 
-            helpers.MakeCheckButton(self.root, "Left-hand traffic", "NavigationDetectionV2", "leftsidetraffic", 10, 2, callback=lambda: LoadSettings())
+            helpers.MakeCheckButton(self.root, "Left-hand traffic", "NavigationDetectionV2", "leftsidetraffic", 10, 1, callback=lambda: LoadSettings())
+
+            helpers.MakeCheckButton(self.root, "Automatic lane", "NavigationDetectionV2", "automaticlaneselection", 10, 0, callback=lambda: LoadSettings())
 
             self.root.pack(anchor="center", expand=False)
             self.root.update()
