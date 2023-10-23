@@ -146,23 +146,26 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
     
     
     def TranslateText(text):
-        if enableCache:
-            cache = CheckCache(text)
-            if cache != False:
-                return cache
+        try:
+            if enableCache:
+                cache = CheckCache(text)
+                if cache != False:
+                    return cache
+                else:
+                    mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
+                    mainUI.root.update()
+
+                    translation = translator.translate(text, max_chars=20000)
+                    AddToCache(text, translation)
+                    return translation
             else:
                 mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
                 mainUI.root.update()
 
                 translation = translator.translate(text)
-                AddToCache(text, translation)
                 return translation
-        else:
-            mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
-            mainUI.root.update()
-
-            translation = translator.translate(text)
-            return translation
+        except:
+            return text # Return the original text if the translation fails
     
     # Check if the text is an array of strings
     if type(text) == list:

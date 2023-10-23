@@ -141,7 +141,10 @@ def UpdatePlugins(dynamicOrder, data):
                 startTime = time.time()
                 data = plugin.plugin(data)
                 endTime = time.time()
-                data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
+                if data == None:
+                    print(f"Plugin '{plugin.PluginInfo.name}' returned NoneType instead of a the data variable. Please make sure that you return the data variable.")
+                else:
+                    data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
         except Exception as ex:
             print(ex.args + f"[{plugin.PluginInfo.name}]")
             pass

@@ -330,7 +330,10 @@ def plugin(data):
     try:
         
         if enabled:
-            output_img = data["frame"]
+            try:
+                output_img = cv2.cvtColor(data["frame"], cv2.COLOR_GRAY2RGB)
+            except:
+                output_img = data["frame"]
             w = output_img.shape[1]
             h = output_img.shape[0]
             
@@ -356,7 +359,10 @@ def plugin(data):
             
             data["frame"] = output_img
         else:
-            output_img = data["frame"]
+            try:
+                output_img = cv2.cvtColor(data["frame"], cv2.COLOR_GRAY2RGB)
+            except:
+                output_img = data["frame"]
             w = output_img.shape[1]
             h = output_img.shape[0]
             

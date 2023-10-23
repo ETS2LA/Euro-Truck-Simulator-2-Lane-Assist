@@ -26,6 +26,31 @@ import src.settings as settings
 import os
 import screeninfo
 
+def GetTitlebarHeight():
+    global titlebarHeight
+    
+    # Create a tkinter window
+    root = tk.Tk()
+    root.geometry("{}x{}+{}+{}".format(0, 0, 0, 0))
+
+    root.update()
+
+    # Get the y-coordinate of the top-level window
+    toplevel_y = root.winfo_rooty()
+
+    # Get the y-coordinate of the Tk object
+    root_y = root.winfo_y()
+
+    # Calculate the height of the titlebar
+    titlebarHeight = toplevel_y - root_y
+
+    # Print the height of the titlebar
+    print(f"The height of the titlebar is {titlebarHeight} pixels")
+    
+    # Destroy the window
+    root.destroy()
+    
+
 def CreateWindow(x,y,w,h):
     global root
     global label
@@ -34,9 +59,13 @@ def CreateWindow(x,y,w,h):
         root.destroy()
     except: pass
     
+    
     root = tk.Tk()
     root.config(bg="black", border=0)
-    root.geometry("{}x{}+{}+{}".format(w, h, x, y))
+    try:
+        root.geometry("{}x{}+{}+{}".format(w, h, x, y))
+    except:
+        root.geometry("{}x{}+{}+{}".format(1280, 720, 0, 0))
 
     canvas = tk.Canvas(root, width=600, height=520, border=0, highlightthickness=0)
     canvas.config(bg="black")
@@ -60,11 +89,12 @@ def CreateWindow(x,y,w,h):
     root.update()
 
 def SavePickerSettings(category):
+    GetTitlebarHeight()
     x,y,w,h = root.winfo_x(), root.winfo_y(), root.winfo_width(), root.winfo_height()
     root.destroy()
     
     settings.CreateSettings(category, "x", x)
-    settings.CreateSettings(category, "y", y)
+    settings.CreateSettings(category, "y", y + titlebarHeight)
     settings.CreateSettings(category, "width", w)
     settings.CreateSettings(category, "height", h)
     
@@ -136,7 +166,7 @@ class UI():
             helpers.MakeButton(self.root, "Disable Picker", lambda: root.destroy(), 5,0, padx=10, pady=10, width=15)
             
             helpers.MakeLabel(self.root, "Compatibility mode is for older versions of Windows\nwhere the transparent background doesn't work.\nCreate the window again after toggling!", 6,0, font=("Roboto", 8), padx=30, pady=10)
-            helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30)
+            helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30, callback=lambda: LostFocus())
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
