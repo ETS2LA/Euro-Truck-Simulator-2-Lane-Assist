@@ -33,6 +33,7 @@
         "pidlast",
         "pidsteering",
         "steeringsmoothness",
+        "Titlebar",
         "Tumppi"
     ]
 }
