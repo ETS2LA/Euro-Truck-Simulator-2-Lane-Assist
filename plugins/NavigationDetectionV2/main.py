@@ -304,7 +304,7 @@ def plugin(data):
         if center_x != width and center_x is not None:
 
             curve = round((center_x - center_x_turnincdetec)/30 * curvemultip, 3)
-            if turn != "none" or turnincoming == True:
+            if turn != "none" or turnincoming == True or center_x_turnincdetec == width:
                 curve = 0
             distancetocenter = round((width/2-center_x)-curve-automaticxoffset, 3) - offset
             lanedetected = "Yes"
