@@ -60,11 +60,26 @@ def UpdateSettings():
     global grayscalewindow
     global redgreenwindow
     global windowscale
+    global textsize
     
     finalwindow = int(settings.GetSettings("TrafficLightDetection", "finalwindow", True))
     grayscalewindow = int(settings.GetSettings("TrafficLightDetection", "grayscalewindow", True))
     redgreenwindow = int(settings.GetSettings("TrafficLightDetection", "redgreenwindow", True))
-    windowscale = float(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
+    windowscale = float(settings.GetSettings("TrafficLightDetection", "scale", 1))
+    textsize = float(settings.GetSettings("TrafficLightDetection", "textsize", 1))
+
+    if grayscalewindow == 1:
+        cv2.namedWindow('Traffic Lights Detection - B/W', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('Traffic Lights Detection - B/W', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
+        cv2.setWindowProperty('Traffic Lights Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
+    if redgreenwindow == 1:
+        cv2.namedWindow('Traffic Lights Detection - Red/Green', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('Traffic Lights Detection - Red/Green', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
+        cv2.setWindowProperty('Traffic Lights Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
+    if finalwindow == 1:
+        cv2.namedWindow('Traffic Lights Detection - Final', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('Traffic Lights Detection - Final', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
+        cv2.setWindowProperty('Traffic Lights Detection - Final', cv2.WND_PROP_TOPMOST, 1)
     
     min_rect_size = screen_height / 240
     max_rect_size = screen_height / 9
@@ -81,21 +96,6 @@ def UpdateSettings():
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
-
-    start_time = time.time()
-
-    if grayscalewindow == 1:
-        cv2.namedWindow('Traffic Lights Detection - B/W', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Lights Detection - B/W', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
-        cv2.setWindowProperty('Traffic Lights Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
-    if redgreenwindow == 1:
-        cv2.namedWindow('Traffic Lights Detection - Red/Green', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Lights Detection - Red/Green', round(screen_width/2*windowscale), round(screen_height/3*windowscale))
-        cv2.setWindowProperty('Traffic Lights Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
-    if finalwindow == 1:
-        cv2.namedWindow('Traffic Lights Detection - Final', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Lights Detection - Final', round(screen_width/2), round(screen_height/3))
-        cv2.setWindowProperty('Traffic Lights Detection - Final', cv2.WND_PROP_TOPMOST, 1)
     
     try:
         frame = data["frameFull"]
@@ -211,16 +211,14 @@ def plugin(data):
 
     data["TrafficLightDetection"] = currentneareststate                   
 
-    fps = round(1 / data["last"]["executionTimes"]["all"], 1)
     if grayscalewindow == 1:
-        cv2.putText(filtered_frame_bw, f"fps: {fps}", (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)          
-        cv2.putText(filtered_frame_bw, f"Nearest: {currentneareststate}, Distance: {currentdistance}", (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA) 
+        if textsize > 0:         
+            cv2.putText(filtered_frame_bw, f"Nearest: {currentneareststate}, Distance: {currentdistance}", (20, round(40*textsize)), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 2, cv2.LINE_AA) 
         cv2.imshow('Traffic Lights Detection - B/W', filtered_frame_bw)
     if redgreenwindow == 1:          
         cv2.imshow('Traffic Lights Detection - Red/Green', filtered_frame_red_green)
     if finalwindow == 1:
         cv2.imshow('Traffic Lights Detection - Final', final_frame)
-
 
     return data # Plugins need to ALWAYS return the data
 
@@ -245,6 +243,7 @@ class UI():
             
         def SaveAndLoadSettings(self):
             settings.CreateSettings("TrafficLightDetection", "scale", self.scaleSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "textsize", self.textsizeSlider.get())
             UpdateSettings()
         
         def destroy(self):
@@ -254,6 +253,7 @@ class UI():
             
         def UpdateScaleValueFromSlider(self):
             self.scale.set(self.scaleSlider.get())
+            self.textsize.set(self.textsizeSlider.get())
         
         def exampleFunction(self):
             try:
@@ -272,8 +272,13 @@ class UI():
             self.scaleSlider.set(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
             self.scaleSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
             self.scale = helpers.MakeComboEntry(self.root, "Scale", "TrafficLightDetection", "scale", 5,0)
+
+            self.textsizeSlider = tk.Scale(self.root, from_=0, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.textsizeSlider.set(settings.GetSettings("TrafficLightDetection", "textsize", 0.5))
+            self.textsizeSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
+            self.textsize = helpers.MakeComboEntry(self.root, "Font size", "TrafficLightDetection", "textsize", 7,0)
             
-            helpers.MakeButton(self.root, "Save Settings", self.SaveAndLoadSettings, 6, 0)
+            helpers.MakeButton(self.root, "Save Settings", self.SaveAndLoadSettings, 9, 0)
 
             self.root.pack(anchor="center", expand=False)
             self.root.update()
