@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgl61gioj7na2"]
+
+[ext_resource type="Script" path="res://API.gd" id="1_10poy"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("1_10poy")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
