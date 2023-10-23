@@ -74,16 +74,27 @@ def CreateServer():
 
 def plugin(data):
     global currentData
-    currentData = data
+    tempData = {}
     
     # Go though the data and if there are any ndarrays then convert them to lists
-    for key in currentData:
-        if type(currentData[key]) == np.ndarray:
-            if key != "frame":
-                currentData[key] = currentData[key].tolist()
+    for key in data:
+        if type(data[key]) == np.ndarray:
+            if key == "frame":
+                tempData[key] = data[key].tolist()
+                continue
             else:
-                currentData[key] = "Frame is not provided through the api..."
-    
+                tempData[key] = data[key].tolist()
+                continue
+            
+        if key == "GPS":
+            from plugins.Map.GameData.roads import RoadToJson
+            tempData[key] = data[key]
+            tempData[key]["roads"] = [RoadToJson(road) for road in data[key]["roads"]]
+            continue
+        
+        tempData[key] = data[key]
+
+    currentData = tempData
 
     return data # Plugins need to ALWAYS return the data
 
