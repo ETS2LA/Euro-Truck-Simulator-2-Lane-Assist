@@ -67,6 +67,7 @@ def UpdateSettings():
     global finalwindow
     global grayscalewindow
     global redgreenwindow
+    global anywindowopen
     global detectyellowlight
     global performancemode
     global windowscale
@@ -104,7 +105,10 @@ def UpdateSettings():
     if min_rect_size < 8:
         min_rect_size = 8
 
-
+    if ((finalwindow + grayscalewindow + redgreenwindow) > 0):
+        anywindowopen = True
+    else:
+        anywindowopen = False
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -120,112 +124,233 @@ def plugin(data):
     if frame is None: return data
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
-    if performancemode == 0:
-        if detectyellowlight == 0:
-            mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
-            mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
+    if anywindowopen == True:
+        if performancemode == 0:
+            if detectyellowlight == 0:
+                mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
+                mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
 
-            filtered_frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
-            filtered_frame_bw = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY)
-            final_frame = frame
+                filtered_frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+                filtered_frame_bw = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY)
+                final_frame = frame
 
-            currentnearest = 0
-            currentneareststate = "---"
-            currentdistance = "---"
-            ratio = 0
+                currentnearest = 0
+                currentneareststate = "---"
+                currentdistance = "---"
+                ratio = 0
 
-            contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            for contour in contours:
-                x, y, w, h = cv2.boundingRect(contour)
-                if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
-                    if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                for contour in contours:
+                    x, y, w, h = cv2.boundingRect(contour)
+                    if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
+                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
 
-                        red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
-                        green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
-                        total_pixels = w * h
-                        red_ratio = red_pixel_count / total_pixels
-                        green_ratio = green_pixel_count / total_pixels
-                        if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
+                            red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
+                            green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
+                            total_pixels = w * h
+                            red_ratio = red_pixel_count / total_pixels
+                            green_ratio = green_pixel_count / total_pixels
+                            if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
 
-                            color = (0, 0, 255) if cv2.countNonZero(mask_red[y:y+h, x:x+w]) > cv2.countNonZero(mask_green[y:y+h, x:x+w]) else (0, 255, 0)
-                            colorstr = "Red" if cv2.countNonZero(mask_red[y:y+h, x:x+w]) > cv2.countNonZero(mask_green[y:y+h, x:x+w]) else "Green"
+                                color = (0, 0, 255) if cv2.countNonZero(mask_red[y:y+h, x:x+w]) > cv2.countNonZero(mask_green[y:y+h, x:x+w]) else (0, 255, 0)
+                                colorstr = "Red" if cv2.countNonZero(mask_red[y:y+h, x:x+w]) > cv2.countNonZero(mask_green[y:y+h, x:x+w]) else "Green"
 
-                            if colorstr == "Red":
-                                centerx = round(x + w / 2)
-                                centery1 = round(y + h / 2)+h
-                                centery2 = round(y + h / 2)+h*2
-                            else:
-                                centerx = round(x + w / 2)
-                                centery1 = round(y + h / 2)-h
-                                centery2 = round(y + h / 2)-h*2
-                            try:
-                                centery1_color = rgb_frame[centery1, centerx]
-                            except:
-                                centery1_color = (0,0,0)
-                            try:
-                                centery2_color = rgb_frame[centery2, centerx]
-                            except:
-                                centery2_color = (0,0,0)
-
-                            r_centery1, g_centery1, b_centery1 = centery1_color
-                            r_centery2, g_centery2, b_centery2 = centery2_color
-                            
-                            if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
-                                
-                                centerx = round(x+w/2)
-                                centery = round(y+h/2)
-                                radius = round((w+h)/4)
-                                cv2.circle(filtered_frame_red_green, (centerx,centery),radius,color,4)
-                                cv2.circle(final_frame, (centerx,centery),radius,color,4)
-                                cv2.circle(filtered_frame_bw, (centerx,centery),radius,(255, 255, 255),4)
-                                if colorstr == "Green":
-                                    yoffset1 = y-h
-                                    yoffset2 = y-h*2
-                                    cv2.rectangle(filtered_frame_red_green, (x-round(w/2), yoffset2-round(h/2)), (x + w+round(w/2), yoffset2 + h*3+round(h/2)), color, round((w+h)/4))
-                                    cv2.rectangle(final_frame, (x-round(w/2), yoffset2-round(h/2)), (x + w+round(w/2), yoffset2 + h*3+round(h/2)), color, round((w+h)/4))
+                                if colorstr == "Red":
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)+h
+                                    centery2 = round(y + h / 2)+h*2
                                 else:
-                                    yoffset1 = y+h*2
-                                    yoffset2 = y+h*3
-                                    cv2.rectangle(filtered_frame_red_green, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
-                                    cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)-h
+                                    centery2 = round(y + h / 2)-h*2
+                                try:
+                                    centery1_color = rgb_frame[centery1, centerx]
+                                except:
+                                    centery1_color = (0,0,0)
+                                try:
+                                    centery2_color = rgb_frame[centery2, centerx]
+                                except:
+                                    centery2_color = (0,0,0)
 
-                                if grayscalewindow == 1:
-                                    cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                if redgreenwindow == 1:
-                                    cv2.rectangle(filtered_frame_red_green, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                    cv2.rectangle(filtered_frame_red_green, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
-                                    cv2.rectangle(filtered_frame_red_green, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-                                if finalwindow == 1:
-                                    cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                    cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
-                                    cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
+                                r_centery1, g_centery1, b_centery1 = centery1_color
+                                r_centery2, g_centery2, b_centery2 = centery2_color
+                                
+                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                    
+                                    centerx = round(x+w/2)
+                                    centery = round(y+h/2)
+                                    radius = round((w+h)/4)
+                                    cv2.circle(filtered_frame_red_green, (centerx,centery),radius,color,4)
+                                    cv2.circle(final_frame, (centerx,centery),radius,color,4)
+                                    cv2.circle(filtered_frame_bw, (centerx,centery),radius,(255, 255, 255),4)
+                                    if colorstr == "Green":
+                                        yoffset1 = y-h
+                                        yoffset2 = y-h*2
+                                        cv2.rectangle(filtered_frame_red_green, (x-round(w/2), yoffset2-round(h/2)), (x + w+round(w/2), yoffset2 + h*3+round(h/2)), color, round((w+h)/4))
+                                        cv2.rectangle(final_frame, (x-round(w/2), yoffset2-round(h/2)), (x + w+round(w/2), yoffset2 + h*3+round(h/2)), color, round((w+h)/4))
+                                    else:
+                                        yoffset1 = y+h*2
+                                        yoffset2 = y+h*3
+                                        cv2.rectangle(filtered_frame_red_green, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
+                                        cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
 
-                                if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1:
-                                    ratio = round(green_ratio - circlepercent, 2)
                                     if grayscalewindow == 1:
-                                        cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
-                                if red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
-                                    ratio = round(red_ratio - circlepercent, 2)
+                                        cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
+                                    if redgreenwindow == 1:
+                                        cv2.rectangle(filtered_frame_red_green, (x, y), (x + w, y + h), (150, 150, 150), 2)
+                                        cv2.rectangle(filtered_frame_red_green, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
+                                        cv2.rectangle(filtered_frame_red_green, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
+                                    if finalwindow == 1:
+                                        cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
+                                        cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
+                                        cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
+
+                                    if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1:
+                                        ratio = round(green_ratio - circlepercent, 2)
+                                        if grayscalewindow == 1:
+                                            cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
+                                    if red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
+                                        ratio = round(red_ratio - circlepercent, 2)
+                                        if grayscalewindow == 1:
+                                            cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
+
+                                    if currentnearest < w:
+                                        currentnearest = w
+                                        currentneareststate = colorstr
+                                        currentdistance = max_rect_size - w - min_rect_size
+                                        if currentdistance < 0:
+                                            currentdistance = 0
+
+            else:
+
+                mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
+                mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
+                mask_yellow = cv2.inRange(rgb_frame, lower_yellow, upper_yellow)
+
+                combined_mask = cv2.bitwise_or(mask_red, cv2.bitwise_or(mask_green, mask_yellow))
+                filtered_frame_red_green_yellow = cv2.bitwise_and(frame, frame, mask=combined_mask)
+                filtered_frame_bw = cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY)
+                final_frame = frame
+
+                currentnearest = 0
+                currentneareststate = "---"
+                currentdistance = "---"
+                ratio = 0
+
+                contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                for contour in contours:
+                    x, y, w, h = cv2.boundingRect(contour)
+                    if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
+                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+
+                            red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
+                            green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
+                            yellow_pixel_count = cv2.countNonZero(mask_yellow[y:y+h, x:x+w])
+                            total_pixels = w * h
+                            red_ratio = red_pixel_count / total_pixels
+                            green_ratio = green_pixel_count / total_pixels
+                            yellow_ratio = yellow_pixel_count / total_pixels
+                            if (green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1 or 
+                                red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1 or 
+                                yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
+                                
+                                if red_ratio > green_ratio and red_ratio > yellow_ratio:
+                                    color = (0, 0, 255)
+                                    colorstr = "Red"
+                                if green_ratio > red_ratio and green_ratio > yellow_ratio:
+                                    color = (0, 255, 0)
+                                    colorstr = "Green"
+                                if yellow_ratio > red_ratio and yellow_ratio > green_ratio:
+                                    color = (0, 255, 255)
+                                    colorstr = "Yellow"
+                                
+
+                                if colorstr == "Red":
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)+h
+                                    centery2 = round(y + h / 2)+h*2
+                                if colorstr == "Green":
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)-h
+                                    centery2 = round(y + h / 2)-h*2
+                                if colorstr == "Yellow":
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)-h
+                                    centery2 = round(y + h / 2)+h
+                    
+                                try:
+                                    centery1_color = rgb_frame[centery1, centerx]
+                                except:
+                                    centery1_color = (0,0,0)
+                                try:
+                                    centery2_color = rgb_frame[centery2, centerx]
+                                except:
+                                    centery2_color = (0,0,0)
+
+                                r_centery1, g_centery1, b_centery1 = centery1_color
+                                r_centery2, g_centery2, b_centery2 = centery2_color
+                                
+                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                    
+                                    centerx = round(x+w/2)
+                                    centery = round(y+h/2)
+                                    radius = round((w+h)/4)
+                                    cv2.circle(filtered_frame_red_green_yellow, (centerx,centery),radius,color,4)
+                                    cv2.circle(final_frame, (centerx,centery),radius,color,4)
+                                    cv2.circle(filtered_frame_bw, (centerx,centery),radius,(255, 255, 255),4)
+                                    if colorstr == "Green":
+                                        yoffset1 = y-h
+                                        yoffset2 = y-h*2
+                                        cv2.rectangle(filtered_frame_red_green_yellow, (x-round(w/2), yoffset2-round(h/2)), (x + w+round(w/2), yoffset2 + h*3+round(h/2)), color, round((w+h)/4))
+                                        cv2.rectangle(final_frame, (x-round(w/2), yoffset2-round(h/2)), (x + w+round(w/2), yoffset2 + h*3+round(h/2)), color, round((w+h)/4))
+                                    if colorstr == "Red":
+                                        yoffset1 = y+h*2
+                                        yoffset2 = y+h*3
+                                        cv2.rectangle(filtered_frame_red_green_yellow, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
+                                        cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
+                                    if colorstr == "Yellow":
+                                        yoffset1 = y-h
+                                        yoffset2 = y+h*2
+                                        cv2.rectangle(filtered_frame_red_green_yellow, (x-round(w/2), yoffset1-round(h/2)), (x + w+round(w/2), yoffset2 + h-round(h/2)), color, round((w+h)/4))
+                                        cv2.rectangle(final_frame, (x-round(w/2), yoffset1-round(h/2)), (x + w+round(w/2), yoffset2 + h-round(h/2)), color, round((w+h)/4))
+
                                     if grayscalewindow == 1:
-                                        cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
+                                        cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
+                                    if redgreenwindow == 1:
+                                        cv2.rectangle(filtered_frame_red_green_yellow, (x, y), (x + w, y + h), (150, 150, 150), 2)
+                                        cv2.rectangle(filtered_frame_red_green_yellow, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
+                                        cv2.rectangle(filtered_frame_red_green_yellow, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
+                                    if finalwindow == 1:
+                                        cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
+                                        cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
+                                        cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
 
-                                if currentnearest < w:
-                                    currentnearest = w
-                                    currentneareststate = colorstr
-                                    currentdistance = max_rect_size - w - min_rect_size
-                                    if currentdistance < 0:
-                                        currentdistance = 0
+                                    if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1:
+                                        ratio = round(green_ratio - circlepercent, 2)
+                                        if grayscalewindow == 1:
+                                            cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
+                                    if red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1:
+                                        ratio = round(red_ratio - circlepercent, 2)
+                                        if grayscalewindow == 1:
+                                            cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
+                                    if yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1:
+                                        ratio = round(yellow_ratio - circlepercent, 2)
+                                        if grayscalewindow == 1:
+                                            cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
+                                    if currentnearest < w:
+                                        currentnearest = w
+                                        currentneareststate = colorstr
+                                        currentdistance = max_rect_size - w - min_rect_size
+                                        if currentdistance < 0:
+                                            currentdistance = 0
+                
         else:
 
-            ###########################################################################################################################################################################
             mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
-            mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
-            mask_yellow = cv2.inRange(rgb_frame, lower_yellow, upper_yellow)
 
-            combined_mask = cv2.bitwise_or(mask_red, cv2.bitwise_or(mask_green, mask_yellow))
-            filtered_frame_red_green_yellow = cv2.bitwise_and(frame, frame, mask=combined_mask)
-            filtered_frame_bw = cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY)
+            filtered_frame_red = mask_red
+            filtered_frame_bw = filtered_frame_red
             final_frame = frame
 
             currentnearest = 0
@@ -233,47 +358,23 @@ def plugin(data):
             currentdistance = "---"
             ratio = 0
 
-            contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             for contour in contours:
                 x, y, w, h = cv2.boundingRect(contour)
                 if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
                     if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
 
                         red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
-                        green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
-                        yellow_pixel_count = cv2.countNonZero(mask_yellow[y:y+h, x:x+w])
                         total_pixels = w * h
                         red_ratio = red_pixel_count / total_pixels
-                        green_ratio = green_pixel_count / total_pixels
-                        yellow_ratio = yellow_pixel_count / total_pixels
-                        if (green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1 or 
-                            red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1 or 
-                            yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
-                            
-                            if red_ratio > green_ratio and red_ratio > yellow_ratio:
-                                color = (0, 0, 255)
-                                colorstr = "Red"
-                            if green_ratio > red_ratio and green_ratio > yellow_ratio:
-                                color = (0, 255, 0)
-                                colorstr = "Green"
-                            if yellow_ratio > red_ratio and yellow_ratio > green_ratio:
-                                color = (0, 255, 255)
-                                colorstr = "Yellow"
-                            
+                        if red_ratio < circleplusoffset and red_ratio > circleminusoffset:
 
-                            if colorstr == "Red":
-                                centerx = round(x + w / 2)
-                                centery1 = round(y + h / 2)+h
-                                centery2 = round(y + h / 2)+h*2
-                            if colorstr == "Green":
-                                centerx = round(x + w / 2)
-                                centery1 = round(y + h / 2)-h
-                                centery2 = round(y + h / 2)-h*2
-                            if colorstr == "Yellow":
-                                centerx = round(x + w / 2)
-                                centery1 = round(y + h / 2)-h
-                                centery2 = round(y + h / 2)+h
-                   
+                            color = (0, 0, 255)
+                            colorstr = "Red"
+                            centerx = round(x + w / 2)
+                            centery1 = round(y + h / 2)+h
+                            centery2 = round(y + h / 2)+h*2
+                            
                             try:
                                 centery1_color = rgb_frame[centery1, centerx]
                             except:
@@ -291,48 +392,30 @@ def plugin(data):
                                 centerx = round(x+w/2)
                                 centery = round(y+h/2)
                                 radius = round((w+h)/4)
-                                cv2.circle(filtered_frame_red_green_yellow, (centerx,centery),radius,color,4)
+                                cv2.circle(filtered_frame_red, (centerx,centery),radius,color,4)
                                 cv2.circle(final_frame, (centerx,centery),radius,color,4)
                                 cv2.circle(filtered_frame_bw, (centerx,centery),radius,(255, 255, 255),4)
-                                if colorstr == "Green":
-                                    yoffset1 = y-h
-                                    yoffset2 = y-h*2
-                                    cv2.rectangle(filtered_frame_red_green_yellow, (x-round(w/2), yoffset2-round(h/2)), (x + w+round(w/2), yoffset2 + h*3+round(h/2)), color, round((w+h)/4))
-                                    cv2.rectangle(final_frame, (x-round(w/2), yoffset2-round(h/2)), (x + w+round(w/2), yoffset2 + h*3+round(h/2)), color, round((w+h)/4))
-                                if colorstr == "Red":
-                                    yoffset1 = y+h*2
-                                    yoffset2 = y+h*3
-                                    cv2.rectangle(filtered_frame_red_green_yellow, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
-                                    cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
-                                if colorstr == "Yellow":
-                                    yoffset1 = y-h
-                                    yoffset2 = y+h*2
-                                    cv2.rectangle(filtered_frame_red_green_yellow, (x-round(w/2), yoffset1-round(h/2)), (x + w+round(w/2), yoffset2 + h-round(h/2)), color, round((w+h)/4))
-                                    cv2.rectangle(final_frame, (x-round(w/2), yoffset1-round(h/2)), (x + w+round(w/2), yoffset2 + h-round(h/2)), color, round((w+h)/4))
+                                
+                                yoffset1 = y+h*2
+                                yoffset2 = y+h*3
+                                cv2.rectangle(filtered_frame_red, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
+                                cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
 
                                 if grayscalewindow == 1:
                                     cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                 if redgreenwindow == 1:
-                                    cv2.rectangle(filtered_frame_red_green_yellow, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                    cv2.rectangle(filtered_frame_red_green_yellow, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
-                                    cv2.rectangle(filtered_frame_red_green_yellow, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
+                                    cv2.rectangle(filtered_frame_red, (x, y), (x + w, y + h), (150, 150, 150), 2)
+                                    cv2.rectangle(filtered_frame_red, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
+                                    cv2.rectangle(filtered_frame_red, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
                                 if finalwindow == 1:
                                     cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                     cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                     cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
 
-                                if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1:
-                                    ratio = round(green_ratio - circlepercent, 2)
-                                    if grayscalewindow == 1:
-                                        cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
-                                if red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1:
-                                    ratio = round(red_ratio - circlepercent, 2)
-                                    if grayscalewindow == 1:
-                                        cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
-                                if yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1:
-                                    ratio = round(yellow_ratio - circlepercent, 2)
-                                    if grayscalewindow == 1:
-                                        cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
+                            
+                                ratio = round(red_ratio - circlepercent, 2)
+                                if grayscalewindow == 1:
+                                    cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
                                 if currentnearest < w:
                                     currentnearest = w
@@ -340,88 +423,194 @@ def plugin(data):
                                     currentdistance = max_rect_size - w - min_rect_size
                                     if currentdistance < 0:
                                         currentdistance = 0
-            ###########################################################################################################################################################################
-
     else:
 
-        mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
+        if performancemode == 0:
+            if detectyellowlight == 0:
+                mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
+                mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
 
-        filtered_frame_red = mask_red
-        filtered_frame_bw = filtered_frame_red
-        final_frame = frame
+                filtered_frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+                filtered_frame_bw = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY)
+                final_frame = frame
 
-        currentnearest = 0
-        currentneareststate = "---"
-        currentdistance = "---"
-        ratio = 0
+                currentnearest = 0
+                currentneareststate = "---"
+                currentdistance = "---"
+                ratio = 0
 
-        contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        for contour in contours:
-            x, y, w, h = cv2.boundingRect(contour)
-            if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
-                if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                for contour in contours:
+                    x, y, w, h = cv2.boundingRect(contour)
+                    if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
+                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
 
-                    red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
-                    total_pixels = w * h
-                    red_ratio = red_pixel_count / total_pixels
-                    if red_ratio < circleplusoffset and red_ratio > circleminusoffset:
+                            red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
+                            green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
+                            total_pixels = w * h
+                            red_ratio = red_pixel_count / total_pixels
+                            green_ratio = green_pixel_count / total_pixels
+                            if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
 
-                        color = (0, 0, 255)
-                        colorstr = "Red"
-                        centerx = round(x + w / 2)
-                        centery1 = round(y + h / 2)+h
-                        centery2 = round(y + h / 2)+h*2
-                        
-                        try:
-                            centery1_color = rgb_frame[centery1, centerx]
-                        except:
-                            centery1_color = (0,0,0)
-                        try:
-                            centery2_color = rgb_frame[centery2, centerx]
-                        except:
-                            centery2_color = (0,0,0)
+                                colorstr = "Red" if cv2.countNonZero(mask_red[y:y+h, x:x+w]) > cv2.countNonZero(mask_green[y:y+h, x:x+w]) else "Green"
 
-                        r_centery1, g_centery1, b_centery1 = centery1_color
-                        r_centery2, g_centery2, b_centery2 = centery2_color
-                        
-                        if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                if colorstr == "Red":
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)+h
+                                    centery2 = round(y + h / 2)+h*2
+                                else:
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)-h
+                                    centery2 = round(y + h / 2)-h*2
+                                try:
+                                    centery1_color = rgb_frame[centery1, centerx]
+                                except:
+                                    centery1_color = (0,0,0)
+                                try:
+                                    centery2_color = rgb_frame[centery2, centerx]
+                                except:
+                                    centery2_color = (0,0,0)
+
+                                r_centery1, g_centery1, b_centery1 = centery1_color
+                                r_centery2, g_centery2, b_centery2 = centery2_color
+                                
+                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+
+                                    if currentnearest < w:
+                                        currentnearest = w
+                                        currentneareststate = colorstr
+                                        currentdistance = max_rect_size - w - min_rect_size
+                                        if currentdistance < 0:
+                                            currentdistance = 0
+
+            else:
+
+                mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
+                mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
+                mask_yellow = cv2.inRange(rgb_frame, lower_yellow, upper_yellow)
+
+                combined_mask = cv2.bitwise_or(mask_red, cv2.bitwise_or(mask_green, mask_yellow))
+                filtered_frame_red_green_yellow = cv2.bitwise_and(frame, frame, mask=combined_mask)
+                filtered_frame_bw = cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY)
+                final_frame = frame
+
+                currentnearest = 0
+                currentneareststate = "---"
+                currentdistance = "---"
+                ratio = 0
+
+                contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                for contour in contours:
+                    x, y, w, h = cv2.boundingRect(contour)
+                    if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
+                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+
+                            red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
+                            green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
+                            yellow_pixel_count = cv2.countNonZero(mask_yellow[y:y+h, x:x+w])
+                            total_pixels = w * h
+                            red_ratio = red_pixel_count / total_pixels
+                            green_ratio = green_pixel_count / total_pixels
+                            yellow_ratio = yellow_pixel_count / total_pixels
+                            if (green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1 or 
+                                red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1 or 
+                                yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
+                                
+                                if red_ratio > green_ratio and red_ratio > yellow_ratio:
+                                    color = (0, 0, 255)
+                                    colorstr = "Red"
+                                if green_ratio > red_ratio and green_ratio > yellow_ratio:
+                                    color = (0, 255, 0)
+                                    colorstr = "Green"
+                                if yellow_ratio > red_ratio and yellow_ratio > green_ratio:
+                                    color = (0, 255, 255)
+                                    colorstr = "Yellow"
+
+                                if colorstr == "Red":
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)+h
+                                    centery2 = round(y + h / 2)+h*2
+                                if colorstr == "Green":
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)-h
+                                    centery2 = round(y + h / 2)-h*2
+                                if colorstr == "Yellow":
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)-h
+                                    centery2 = round(y + h / 2)+h
+                    
+                                try:
+                                    centery1_color = rgb_frame[centery1, centerx]
+                                except:
+                                    centery1_color = (0,0,0)
+                                try:
+                                    centery2_color = rgb_frame[centery2, centerx]
+                                except:
+                                    centery2_color = (0,0,0)
+
+                                r_centery1, g_centery1, b_centery1 = centery1_color
+                                r_centery2, g_centery2, b_centery2 = centery2_color
+                                
+                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+
+                                    if currentnearest < w:
+                                        currentnearest = w
+                                        currentneareststate = colorstr
+                                        currentdistance = max_rect_size - w - min_rect_size
+                                        if currentdistance < 0:
+                                            currentdistance = 0
+                
+        else:
+
+            mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
+
+            filtered_frame_red = mask_red
+            filtered_frame_bw = filtered_frame_red
+            final_frame = frame
+
+            currentnearest = 0
+            currentneareststate = "---"
+            currentdistance = "---"
+            ratio = 0
+
+            contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            for contour in contours:
+                x, y, w, h = cv2.boundingRect(contour)
+                if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
+                    if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+
+                        red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
+                        total_pixels = w * h
+                        red_ratio = red_pixel_count / total_pixels
+                        if red_ratio < circleplusoffset and red_ratio > circleminusoffset:
+
+                            color = (0, 0, 255)
+                            colorstr = "Red"
+                            centerx = round(x + w / 2)
+                            centery1 = round(y + h / 2)+h
+                            centery2 = round(y + h / 2)+h*2
                             
-                            centerx = round(x+w/2)
-                            centery = round(y+h/2)
-                            radius = round((w+h)/4)
-                            cv2.circle(filtered_frame_red, (centerx,centery),radius,color,4)
-                            cv2.circle(final_frame, (centerx,centery),radius,color,4)
-                            cv2.circle(filtered_frame_bw, (centerx,centery),radius,(255, 255, 255),4)
+                            try:
+                                centery1_color = rgb_frame[centery1, centerx]
+                            except:
+                                centery1_color = (0,0,0)
+                            try:
+                                centery2_color = rgb_frame[centery2, centerx]
+                            except:
+                                centery2_color = (0,0,0)
+
+                            r_centery1, g_centery1, b_centery1 = centery1_color
+                            r_centery2, g_centery2, b_centery2 = centery2_color
                             
-                            yoffset1 = y+h*2
-                            yoffset2 = y+h*3
-                            cv2.rectangle(filtered_frame_red, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
-
-                            if grayscalewindow == 1:
-                                cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                            if redgreenwindow == 1:
-                                cv2.rectangle(filtered_frame_red, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                cv2.rectangle(filtered_frame_red, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
-                                cv2.rectangle(filtered_frame_red, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-                            if finalwindow == 1:
-                                cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
-                                cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-
-                        
-                            ratio = round(red_ratio - circlepercent, 2)
-                            if grayscalewindow == 1:
-                                cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
-
-                            if currentnearest < w:
-                                currentnearest = w
-                                currentneareststate = colorstr
-                                currentdistance = max_rect_size - w - min_rect_size
-                                if currentdistance < 0:
-                                    currentdistance = 0
-
-
+                            if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                            
+                                if currentnearest < w:
+                                    currentnearest = w
+                                    currentneareststate = colorstr
+                                    currentdistance = max_rect_size - w - min_rect_size
+                                    if currentdistance < 0:
+                                        currentdistance = 0
+        
     data["TrafficLightDetection"] = currentneareststate                   
 
     if grayscalewindow == 1:
@@ -486,8 +675,8 @@ class UI():
             helpers.MakeCheckButton(self.root, "Final Window", "TrafficLightDetection", "finalwindow", 1, 0)
             helpers.MakeCheckButton(self.root, "Grayscale Window", "TrafficLightDetection", "grayscalewindow", 2, 0)
             helpers.MakeCheckButton(self.root, "Red/Green Window", "TrafficLightDetection", "redgreenwindow", 3, 0)
-            helpers.MakeCheckButton(self.root, "Yellow Light Detection (not recommended)", "TrafficLightDetection", "detectyellowlight", 4, 0, width=40)
-            helpers.MakeCheckButton(self.root, "Performance Mode", "TrafficLightDetection", "performancemode", 5, 0)
+            helpers.MakeCheckButton(self.root, "Yellow Light Detection (not recommended)", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60)
+            helpers.MakeCheckButton(self.root, "Performance Mode (only detects red lights)", "TrafficLightDetection", "performancemode", 5, 0, width=60)
             
             self.scaleSlider = tk.Scale(self.root, from_=0.1, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
             self.scaleSlider.set(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
