@@ -111,7 +111,7 @@ class UI():
                     settings.AddToList("Plugins", "Enabled", ["LSTRLaneDetection"])
                 elif detectionmethod.get() == "ufld":
                     print("UFLD Selected")
-                    settings.AddToList("Plugins", "Enabled", ["UFLDrawLanes"])
+                    settings.AddToList("Plugins", "Enabled", ["UFLDDrawLanes"])
                     settings.AddToList("Plugins", "Enabled", ["UFLDLaneDetection"])
                 elif detectionmethod.get() == "nav":
                     settings.AddToList("Plugins", "Enabled", ["NavigationDetection"])
