@@ -63,7 +63,13 @@ def MakeTranslator(type):
     translator = None
     
     if type == "google":
-        translator = dt.GoogleTranslator(source=origin, target=dest)
+        try:
+            translator = dt.GoogleTranslator(source=origin, target=dest)
+        except:
+            try:
+                translator = dt.GoogleTranslator(source="en", target="en")
+            except:
+                pass
 
 MakeTranslator("google")
 AVAILABLE_LANGUAGES = translator.get_supported_languages(as_dict=True)
@@ -144,6 +150,8 @@ def Translate(text, originalLanguage=None, destinationLanguage=None):
     if originalLanguage == destinationLanguage:
         return text
     
+    if translator == None:
+        return text
     
     def TranslateText(text):
         try:
