@@ -40,7 +40,8 @@ import cv2
 from PIL import Image
 
 zoom = 1
-useInternalVisualization = False
+useInternalVisualization = True
+useExternalVisualization = True
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -102,7 +103,8 @@ def plugin(data):
         cv2.imshow("Roads", img)
         cv2.resizeWindow("Roads", 1400, 1400)
         cv2.waitKey(1)
-    else:
+    
+    if useExternalVisualization:
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = -data["api"]["truckPlacement"]["coordinateZ"]
         
