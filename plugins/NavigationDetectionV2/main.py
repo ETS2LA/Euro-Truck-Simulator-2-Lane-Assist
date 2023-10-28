@@ -421,7 +421,7 @@ class UI():
             def setnavcordstrue():
                 global getnavcoordinates
                 getnavcoordinates = True
-                print(getnavcoordinates)
+                
             helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 10, 2, pady=20, padx=5)
 
             helpers.MakeCheckButton(self.root, "Left-hand traffic", "NavigationDetectionV2", "leftsidetraffic", 10, 1, callback=lambda: LoadSettings())
