@@ -96,9 +96,11 @@ class UI():
             helpers.MakeLabel(self.root, "If you want to see all the options, it is reccomended to check the Wiki", 3,0, font=("Segoe UI", 10), padx=30, pady=2, columnspan=3)
             helpers.MakeLabel(self.root, "to see what the best option for you is.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
             ttk.Label(self.root, text="").grid(columnspan=3, row=5, column=0, ipadx=0, ipady=0, pady=0)
+            global detectionmethod
             detectionmethod = tk.StringVar()
             ttk.Radiobutton(master=self.root, variable=detectionmethod, text="LSTR Lane Detection (Recomended)", value="lstr").grid(columnspan=3, row=6, column=0, sticky='w', padx=5, pady=5)
             ttk.Radiobutton(master=self.root, variable=detectionmethod, text="UFLD Lane Detection (Only for use with Nvidia GPU > GTX 1060)", value="ufld").grid(columnspan=3, row=7, column=0, sticky='w', padx=5, pady=5)
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text="Navigation Detection (Uses the minimap for lane detection)", value="nav").grid(columnspan=3, row=8, column=0, sticky='w', padx=5, pady=5)
             detectionmethod.set("lstr")
             ttk.Label(self.root, text="").grid(columnspan=3, row=9, column=0, ipadx=0, ipady=0, pady=0)
             
@@ -109,8 +111,10 @@ class UI():
                     settings.AddToList("Plugins", "Enabled", ["LSTRLaneDetection"])
                 elif detectionmethod.get() == "ufld":
                     print("UFLD Selected")
-                    settings.AddToList("Plugins", "Enabled", ["UFLDDrawLanes"])
+                    settings.AddToList("Plugins", "Enabled", ["UFLDrawLanes"])
                     settings.AddToList("Plugins", "Enabled", ["UFLDLaneDetection"])
+                elif detectionmethod.get() == "nav":
+                    settings.AddToList("Plugins", "Enabled", ["NavigationDetection"])
                 else:
                     print("Please select a detection method")
                     return
@@ -415,7 +419,10 @@ class UI():
         def setScreenCaptureSettings(self, display):
             settings.CreateSettings("dxcam", "display", int(display))
             #settings.CreateSettings("Screen Capture", "Refresh Rate", self.refreshRate.get())
-            self.laneDetectionFeatures()
+            if detectionmethod.get() == "nav":
+                self.soundSettings()
+            else:
+                self.laneDetectionFeatures()
         
         
         def laneDetectionFeatures(self):
@@ -676,15 +683,23 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.AddToList("Plugins", "Enabled", ["LSTRDrawLanes", "FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "LSTRLaneDetection", "TruckSimAPI"])
-            
-            helpers.MakeLabel(self.root, "One more step!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, " ", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, "We need to make sure that the app can see the game, so set your game to borderless!", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, "And then click the button below, and move the ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, "window to where you are looking forward out of your truck.", 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            
+            settings.AddToList("Plugins", "Enabled", ["FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "TruckSimAPI"])
+            if detectionmethod.get() == "nav":
+                helpers.MakeLabel(self.root, "Almost there!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+                helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, " ", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, "We need to make sure that the app can see the game, so set your game to borderless!", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, "And then click the button below, and move the ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, "window to where it is perfectly alignned over the minimap.", 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            else:
+                helpers.MakeLabel(self.root, "One more step!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+                helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, " ", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, "We need to make sure that the app can see the game, so set your game to borderless!", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, "And then click the button below, and move the ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, "window to where you are looking forward out of your truck.", 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+
+
             helpers.MakeButton(self.root, "Previous", lambda: self.ets2APIsetup(), 7,0)
             from src.mainUI import switchSelectedPlugin
             if os.name == "nt":
