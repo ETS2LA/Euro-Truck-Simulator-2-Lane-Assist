@@ -14,6 +14,7 @@ PluginInfo = PluginInformation(
     type="dynamic", # = Panel
     dynamicOrder="before lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
     exclusive="LaneDetection" # Will disable the other lane detection plugins
+    noUI = True
 )
 
 
