@@ -19,7 +19,7 @@ def printGreen(text):
 
 def EnsureFile(file):
     try:
-        with open(file, "r") as f:
+        with open(file, "r") as f
             pass
     except:
         with open(file, "w") as f:
