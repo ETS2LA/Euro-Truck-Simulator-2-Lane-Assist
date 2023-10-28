@@ -26,6 +26,12 @@ import src.settings as settings
 import os
 import screeninfo
 
+global detectionmethod
+if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
+    detectionmethod = "nav"
+else:
+    detectionmethod = "other"
+
 def GetTitlebarHeight():
     global titlebarHeight
     
@@ -167,6 +173,19 @@ class UI():
             
             helpers.MakeLabel(self.root, "Compatibility mode is for older versions of Windows\nwhere the transparent background doesn't work.\nCreate the window again after toggling!", 6,0, font=("Roboto", 8), padx=30, pady=10)
             helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30, callback=lambda: LostFocus())
+            
+            def checknav():
+                if detectionmethod == "nav":
+                    mainUI.switchSelectedPlugin("plugins.NavDetectionSetup.main")
+                else:
+                    variables.RELOAD = True
+            
+            if detectionmethod == "nav":
+                buttontext = "Navigation Detection Setup"
+                helpers.MakeButton(self.root, buttontext, checknav, 8,0, padx=10, pady=10, width=30)
+            else:
+                buttontext = "Finish"
+                helpers.MakeButton(self.root, buttontext, checknav, 8,0, padx=10, pady=10, width=15)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
