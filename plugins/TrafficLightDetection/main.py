@@ -1565,9 +1565,9 @@ class UI():
 
             notebook.add(generalFrame, text=Translate("General"))
             notebook.add(screencaptureFrame, text=Translate("ScreenCapture"))
-            notebook.add(outputwindowFrame, text=Translate("Output Window"))
+            notebook.add(outputwindowFrame, text=Translate("OutputWindow"))
             notebook.add(advancedFrame, text=Translate("Advanced"))
-            advancedNotebook.add(colorsettingsFrame, text=Translate("Color Settings"))
+            advancedNotebook.add(colorsettingsFrame, text=Translate("ColorSettings"))
             advancedNotebook.add(filtersFrame, text=Translate("Filters"))
             
             ttk.Button(self.root, text="Save", command=self.save, width=15).pack(anchor="center", pady=6)
