@@ -547,7 +547,10 @@ def InstallSequence():
     try:
         for i in range(amount):
             UpdateProgress(2, 1, round(i / amount * 100))
-            AddLineToConsole(f"Installing {requirements[i]}...")
+            if "--upgrade --no-cache-dir gdown" in requirements[i]:
+                AddLineToConsole(f"Installing gdown...")
+            else:
+                AddLineToConsole(f"Installing {requirements[i]}...")
             os.system(f"{dir}/venv/Scripts/pip install {requirements[i]}")
     except:
         AddLineToConsole("   > Error while installing!")
