@@ -42,6 +42,7 @@ timerforturnincoming = 0
 white_limit = (1, 1, 1)
 getnavcoordinates = False
 trafficlightdetectionisenabled = False
+trucksimapiisenabled = False
 
 currentlane = 0
 lastblinker = None
@@ -60,6 +61,7 @@ def LoadSettings():
     global leftsidetraffic
     global automaticlaneselection
     global trafficlightdetectionisenabled
+    global trucksimapiisenabled
     global lanechanging
     global lanechangingspeed
     global lanewidth
@@ -119,6 +121,11 @@ def LoadSettings():
     else:
         trafficlightdetectionisenabled = False
 
+    if "TruckSimAPI" in settings.GetSettings("Plugins", "Enabled"):
+        trucksimapiisenabled = True
+    else:
+        trucksimapiisenabled = False
+
     lanechanging = settings.GetSettings("NavigationDetectionV2", "lanechanging", True)
     lanechangingspeed = settings.GetSettings("NavigationDetectionV2", "lanechangingspeed")
     if lanechangingspeed == None:
@@ -139,6 +146,7 @@ def plugin(data):
     global getnavcoordinates
     global navcoordsarezero
     global trafficlightdetectionisenabled
+    global trucksimapiisenabled
 
     global currentlane
     global lastblinker
@@ -327,30 +335,37 @@ def plugin(data):
             turn = "none"
 
         if lanechanging == True:
-            IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
-            IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            if trucksimapiisenabled == True:
+                try:
+                    IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
+                    IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+                except:
+                    trucksimapiisenabled = False
             
-            if IndicatingLeft == True and lastblinker != "left":
-                currentlane += 1
-                lastblinker = "left"
+                if IndicatingLeft == True and lastblinker != "left":
+                    currentlane += 1
+                    lastblinker = "left"
 
-            if IndicatingRight == True and lastblinker != "right":
-                currentlane -= 1
-                lastblinker = "right"
+                if IndicatingRight == True and lastblinker != "right":
+                    currentlane -= 1
+                    lastblinker = "right"
 
-            if IndicatingLeft == False and IndicatingRight == False:
-                lastblinker = None
+                if IndicatingLeft == False and IndicatingRight == False:
+                    lastblinker = None
 
-            targetoffsetsteeringvalue = round(lanewidth * currentlane, 2)
-            
-            lanecorrection = targetoffsetsteeringvalue - currentoffsetsteeringvalue
-            if abs(lanecorrection) > lanechangingspeed/10:
-                if lanecorrection > 0:
-                    lanecorrection = lanechangingspeed/10
-                else:
-                    lanecorrection = -lanechangingspeed/10
+                targetoffsetsteeringvalue = round(lanewidth * currentlane, 2)
+                
+                lanecorrection = targetoffsetsteeringvalue - currentoffsetsteeringvalue
+                if abs(lanecorrection) > lanechangingspeed/10:
+                    if lanecorrection > 0:
+                        lanecorrection = lanechangingspeed/10
+                    else:
+                        lanecorrection = -lanechangingspeed/10
 
-            currentoffsetsteeringvalue += lanecorrection
+                currentoffsetsteeringvalue += lanecorrection
+        
+        
+        print(trucksimapiisenabled)
 
 
         if center_x != width and center_x is not None:
