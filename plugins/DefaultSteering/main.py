@@ -71,6 +71,7 @@ def updateSettings():
     global rightIndicatorKey
     global leftIndicatorKey
     global useAPI
+    global lanechangingnavdetection
     
     if lastWheelIndex != verifySetting("DefaultSteering", "controller", 0):
         try:
@@ -100,6 +101,8 @@ def updateSettings():
     enableDisableKey = verifySetting("DefaultSteering", "enableDisableKey", "n")
     rightIndicatorKey = verifySetting("DefaultSteering", "rightIndicatorKey", "e")
     leftIndicatorKey = verifySetting("DefaultSteering", "leftIndicatorKey", "q")
+
+    lanechangingnavdetection = settings.GetSettings("NavigationDetectionV2", "lanechanging", True)
     
     
 updateSettings()
@@ -214,17 +217,26 @@ def plugin(data):
                     if desiredControl < -maximumControl:
                         desiredControl = -maximumControl
 
-                    # If we are indicating, then disable the automatic control.
-                    if(IndicatingRight or IndicatingLeft):
-                        
-                        if gamepadMode:
-                            value = pow(keyboardControlValue, 2) 
-                            if(keyboardControlValue < 0) : value = -value
-                            newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
-                            lastFrame = newValue
-                            data["controller"]["leftStick"] = newValue
+                    if lanechangingnavdetection == False:
+                        # If we are indicating, then disable the automatic control.
+                        if(IndicatingRight or IndicatingLeft):
+                            if gamepadMode:
+                                value = pow(keyboardControlValue, 2) 
+                                if(keyboardControlValue < 0) : value = -value
+                                newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                                lastFrame = newValue
+                                data["controller"]["leftStick"] = newValue
+                            else:
+                                data["controller"]["leftStick"] = keyboardControlValue
                         else:
-                            data["controller"]["leftStick"] = keyboardControlValue
+                            if gamepadMode:
+                                value = pow(keyboardControlValue, 2) 
+                                if(keyboardControlValue < 0) : value = -value
+                                newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                                lastFrame = newValue
+                                data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
+                            else:
+                                data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + keyboardControlValue
                     else:
                         if gamepadMode:
                             value = pow(keyboardControlValue, 2) 
@@ -234,7 +246,8 @@ def plugin(data):
                             data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
                         else:
                             data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + keyboardControlValue
-                    
+
+
                     oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
                 else:
                     # If the lane assist is disabled we just input the default control.
