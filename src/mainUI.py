@@ -52,8 +52,13 @@ def CreateRoot():
     print("Original DPI awareness value : " + str(awareness.value))
 
     # Set DPI Awareness  (Windows 10 and 8)
-    errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(wantedAwareness)
-    print("Set DPI awareness value to " + str(wantedAwareness))
+    try:
+        errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(wantedAwareness)
+        print("Set DPI awareness value to " + str(wantedAwareness) + " (code " + str(errorCode) + ")")
+    except:
+        print("Failed to set DPI awareness value")
+        #errorCode = ctypes.windll.user32.SetProcessDPIAware()
+
     # the argument is the awareness level, which can be 0, 1 or 2:
     # for 1-to-1 pixel control I seem to need it to be non-zero (I'm using level 2)
     
