@@ -62,16 +62,22 @@ class UI():
             
             helpers.MakeButton(self.root, "Themes", lambda: mainUI.switchSelectedPlugin("plugins.ThemeSelector.main"), 5,0, padx=30, pady=10, width=20)
             
-            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 6,0, padx=30, pady=10, width=20)
+            self.awareness = helpers.MakeComboEntry(self.root, "DPI mode (0/1/2)", "User Interface", "DPIAwareness", 6,0, value=0, labelwidth=25, width=50)
+            
+            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 7,0, padx=30, pady=10, width=20)
             
             # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 7,0, padx=30, pady=10, width=20)
+            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 8,0, padx=30, pady=10, width=20)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
         
         def save(self): # This function is called when the user presses the "Save & Quit" button
             settings.CreateSettings("User Interface", "updateRate", self.updateRate.get())
+            if settings.GetSettings("User Interface", "DPIAwareness") != self.awareness.get():
+                settings.CreateSettings("User Interface", "DPIAwareness", self.awareness.get())
+                from tkinter import messagebox
+                messagebox.showinfo("Restart required", "You need to restart the app for the DPI mode to take effect.")
             # settings.CreateSettings("Plugins", "Ignore", self.ignore.get())
             
             variables.RELOAD = True
