@@ -364,9 +364,6 @@ def plugin(data):
 
                 currentoffsetsteeringvalue += lanecorrection
         
-        
-        print(trucksimapiisenabled)
-
 
         if center_x != width and center_x is not None:
 
