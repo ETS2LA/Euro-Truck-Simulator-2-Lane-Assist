@@ -13,6 +13,7 @@ PluginInfo = PluginInformation(
 
 
 import tkinter as tk
+from tkinter import messagebox
 from tkinter import ttk
 import src.helpers as helpers
 from src.mainUI import quit
@@ -110,6 +111,11 @@ class UI():
                     settings.AddToList("Plugins", "Enabled", ["LSTRDrawLanes"])
                     settings.AddToList("Plugins", "Enabled", ["LSTRLaneDetection"])
                 elif detectionmethod.get() == "ufld":
+                    ufldmessagebox = messagebox.askokcancel("Are you sure you want to use UFLD",
+                                            "UFLD requires a NVIDIA GPU 1060 TI or better, if you use UFLD without one you risk crashing your system. You are responsible for any damage while using UFLD.",
+                                            icon="warning")
+                    if ufldmessagebox == False:
+                        return
                     print("UFLD Selected")
                     settings.AddToList("Plugins", "Enabled", ["UFLDDrawLanes"])
                     settings.AddToList("Plugins", "Enabled", ["UFLDLaneDetection"])
@@ -419,7 +425,7 @@ class UI():
         def setScreenCaptureSettings(self, display):
             settings.CreateSettings("dxcam", "display", int(display))
             #settings.CreateSettings("Screen Capture", "Refresh Rate", self.refreshRate.get())
-            if detectionmethod.get() == "nav":
+            if detectionmethod.get() == "nav" or "ufld":
                 self.soundSettings()
             else:
                 self.laneDetectionFeatures()
