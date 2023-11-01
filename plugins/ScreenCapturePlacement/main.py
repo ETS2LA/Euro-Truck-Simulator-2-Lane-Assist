@@ -27,7 +27,7 @@ import os
 import screeninfo
 
 global detectionmethod
-if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
+if "NavigationDetectionV2" in settings.GetSettings("Plugins", "Enabled"):
     detectionmethod = "nav"
 elif "UFLDLaneDetection" in settings.GetSettings("Plugins", "Enabled"):
     detectionmethod = "ufld"
