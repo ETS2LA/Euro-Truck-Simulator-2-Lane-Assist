@@ -11,3 +11,4 @@ babel
 pywebview
 matplotlib
 pywin32
+--upgrade --no-cache-dir gdown

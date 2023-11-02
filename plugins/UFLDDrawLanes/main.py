@@ -15,6 +15,7 @@ PluginInfo = PluginInformation(
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
     dynamicOrder="before game" # Will run the plugin before anything else in the mainloop (data will be empty)
+    noUI = True
 )
 
 import tkinter as tk
