@@ -13,7 +13,7 @@ PluginInfo = PluginInformation(
     url="https://github.com/jason-li-831202/Vehicle-CV-ADAS/tree/master",
     type="dynamic", # = Panel
     dynamicOrder="before lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
-    exclusive="LaneDetection" # Will disable the other lane detection plugins
+    exclusive="LaneDetection", # Will disable the other lane detection plugins
     noUI = True
 )
 
