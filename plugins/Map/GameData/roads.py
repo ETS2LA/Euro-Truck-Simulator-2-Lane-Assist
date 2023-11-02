@@ -54,6 +54,46 @@ areaCountZ = 0
 
 limitToCount = 0
 
+def RoadToJson(road):
+    roadJson = {}
+    
+    roadJson["Uid"] = road.Uid
+    roadJson["StartNodeUid"] = road.StartNodeUid
+    roadJson["EndNodeUid"] = road.EndNodeUid
+    roadJson["Nodes"] = road.Nodes
+    roadJson["BlockSize"] = road.BlockSize
+    roadJson["Valid"] = road.Valid
+    roadJson["Type"] = road.Type
+    roadJson["X"] = road.X
+    roadJson["Z"] = road.Z
+    roadJson["Hidden"] = road.Hidden
+    roadJson["Flags"] = road.Flags
+    roadJson["Navigation"] = road.Navigation
+    roadJson["Points"] = []
+    try:
+        for point in road.Points:
+            # A point is a tuple of (x, z)
+            point = {
+                "X": point[0],
+                "Z": point[1]
+            }
+            roadJson["Points"].append(point)
+    except:
+        pass
+    roadJson["IsSecret"] = road.IsSecret
+    
+    roadJson["RoadLook"] = {}
+    roadJson["RoadLook"]["Offset"] = road.RoadLook.offset
+    roadJson["RoadLook"]["LanesLeft"] = road.RoadLook.lanesLeft
+    roadJson["RoadLook"]["LanesRight"] = road.RoadLook.lanesRight
+    roadJson["RoadLook"]["Token"] = road.RoadLook.token
+    roadJson["RoadLook"]["IsHighway"] = road.RoadLook.isHighway
+    roadJson["RoadLook"]["IsLocal"] = road.RoadLook.isLocal
+    roadJson["RoadLook"]["IsExpress"] = road.RoadLook.isExpress
+    roadJson["RoadLook"]["IsNoVehicles"] = road.RoadLook.isNoVehicles
+    
+    return roadJson
+
 def Hermite(s, x, z, tanX, tanZ):
     h1 = 2 * math.pow(s, 3) - 3 * math.pow(s, 2) + 1
     h2 = -2 * math.pow(s, 3) + 3 * math.pow(s, 2)

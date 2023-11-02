@@ -18,8 +18,8 @@ PluginInfo = PluginInformation(
     noUI=True
 )
 
-# TODO: Rotation is stored in the node. This means for prefab whose origin is node x, 
-#       then it should be rotated by node x's rotation (which is is pi, max of 2pi = 360 degrees)
+# TODO: We could maybe use the direction the road is moving to rotate the prefabs the correct way?
+#       Right now there are problems...
 
 import tkinter as tk
 from tkinter import ttk
@@ -40,6 +40,8 @@ import cv2
 from PIL import Image
 
 zoom = 1
+useInternalVisualization = True
+useExternalVisualization = True
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -93,12 +95,40 @@ def plugin(data):
         framesSinceChange = 0
     
     
-    img = visualize.VisualizeRoads(data, zoom=zoom)
-    img = visualize.VisualizePrefabs(data, img=img, zoom=zoom)
-    cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
-    cv2.imshow("Roads", img)
-    cv2.resizeWindow("Roads", 1400, 1400)
-    cv2.waitKey(1)
+    
+    if useInternalVisualization:
+        img = visualize.VisualizeRoads(data, zoom=zoom)
+        img = visualize.VisualizePrefabs(data, img=img, zoom=zoom)
+        cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
+        cv2.imshow("Roads", img)
+        cv2.resizeWindow("Roads", 1400, 1400)
+        cv2.waitKey(1)
+    
+    if useExternalVisualization:
+        x = data["api"]["truckPlacement"]["coordinateX"]
+        y = -data["api"]["truckPlacement"]["coordinateZ"]
+        
+        areaRoads = []
+        areaRoads = roads.GetRoadsInTileByCoordinates(x, y)
+        tileCoords = roads.GetTileCoordinates(x, y)
+        
+        # Also get the roads in the surrounding tiles
+        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x, y + 1000)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x, y - 1000)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y + 1000)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y - 1000)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y + 1000)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y - 1000)
+        
+        # Save the data for the API to send to the external visualization
+        data["GPS"] = {}
+        data["GPS"]["roads"] = areaRoads
+        data["GPS"]["x"] = x
+        data["GPS"]["y"] = y
+        data["GPS"]["tileCoordsX"] = tileCoords[0]
+        data["GPS"]["tileCoordsY"] = tileCoords[1]
     
     return data # Plugins need to ALWAYS return the data
 

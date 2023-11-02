@@ -30,7 +30,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 import numpy as np
 
-url = "localhost"
+url = "127.0.0.1"
 port = 39847
 
 currentData = {}
@@ -43,8 +43,10 @@ class HttpHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header("Content-type", "application/json")
+        self.send_header("Content-length", len(json.dumps(currentData)))
         self.end_headers()
         self.wfile.write(bytes(json.dumps(currentData), "utf-8"))
+        
     # Disable logging
     def log_message(self, format, *args):
         return
@@ -66,7 +68,7 @@ def CreateServer():
     global server
     global serverThread
     server = HTTPServer((url, port), HttpHandler)
-    server.timeout = 0.001
+    server.timeout = 0.1
     
     serverThread = threading.Thread(target=ServerThread)
     serverThread.start()
@@ -74,16 +76,27 @@ def CreateServer():
 
 def plugin(data):
     global currentData
-    currentData = data
+    tempData = {}
     
     # Go though the data and if there are any ndarrays then convert them to lists
-    for key in currentData:
-        if type(currentData[key]) == np.ndarray:
-            if key != "frame":
-                currentData[key] = currentData[key].tolist()
+    for key in data:
+        if type(data[key]) == np.ndarray:
+            if key == "frame":
+                tempData[key] = data[key].tolist()
+                continue
             else:
-                currentData[key] = "Frame is not provided through the api..."
-    
+                tempData[key] = data[key].tolist()
+                continue
+            
+        if key == "GPS":
+            from plugins.Map.GameData.roads import RoadToJson
+            tempData[key] = data[key]
+            tempData[key]["roads"] = [RoadToJson(road) for road in data[key]["roads"]]
+            continue
+        
+        tempData[key] = data[key]
+
+    currentData = tempData
 
     return data # Plugins need to ALWAYS return the data
 
