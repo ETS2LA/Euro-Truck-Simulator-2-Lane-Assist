@@ -85,7 +85,7 @@ def GetEnabledPlugins():
 def UpdateChecker():
     currentVer = variables.VERSION.split(".")
     url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
-    remoteVer = requests.get(url).text.split(".")
+    remoteVer = requests.get(url).text.strip().split(".")
     if currentVer[0] < remoteVer[0]:
         update = True
     elif currentVer[1] < remoteVer[1]:
