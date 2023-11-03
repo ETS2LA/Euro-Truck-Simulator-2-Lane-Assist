@@ -35,6 +35,7 @@ port = settings.GetSettings("ExternalAPI", "port")
 
 if port == None:
     settings.CreateSettings("ExternalAPI", "port", 39847)
+    port = 39847
 
 currentData = {}
 close = False
