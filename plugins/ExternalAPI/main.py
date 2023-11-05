@@ -30,8 +30,12 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 import numpy as np
 
-url = "127.0.0.1"
-port = 39847
+url = "localhost"
+port = settings.GetSettings("ExternalAPI", "port")
+
+if port == None:
+    settings.CreateSettings("ExternalAPI", "port", 39847)
+    port = 39847
 
 currentData = {}
 close = False
@@ -114,3 +118,51 @@ def onDisable():
     serverThread.join()
     
     pass
+
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -> None:
+            self.master = master # "master" is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            def savenewport():
+                print(self.newport.get())
+                settings.CreateSettings("ExternalAPI", "port", self.newport.get())
+            def validate_entry(text):
+                # Make sure that only integers can be typed
+                return text.isdecimal()
+
+            ttk.Label(self.root, text="Port").grid(row=1, padx=5, pady=5)
+            self.newport = tk.IntVar()
+            ttk.Entry(self.root, validate="key", textvariable=self.newport,
+    validatecommand=(self.root.register(validate_entry), "%S")).grid(row=2, padx=5, pady=5)
+            ttk.Button(self.root, text="Save", command=savenewport).grid(row=3, padx=5, pady=5)
+
+            ttk.button(self.root, text="button").grid()
+            self.root.pack(anchor="center", expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)

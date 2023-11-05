@@ -42,6 +42,16 @@ except:
     os.system("pip install babel")
     import babel
 
+# Check tkinter tcl version
+import tkinter as tk
+from tkinter import messagebox
+tcl = tk.Tcl()
+acceptedVersions = ["8.6.11", "8.6.12", "8.6.13"]
+version = str(tcl.call('info', 'patchlevel'))
+if version not in acceptedVersions:
+    messagebox.showwarning("Warning", f"Your tkinter version ({version} is not >= 8.6.11) is too old. Windows scaling will be broken with this version.")
+    print(f"Your tkinter version ({version} is not >= 8.6.11) is too old. Windows scaling will be broken with this version.")
+
 # Load the UI framework
 import src.mainUI as mainUI
 import src.loading as loading # And then create a loading window
@@ -75,7 +85,7 @@ def GetEnabledPlugins():
 def UpdateChecker():
     currentVer = variables.VERSION.split(".")
     url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
-    remoteVer = requests.get(url).text.split(".")
+    remoteVer = requests.get(url).text.strip().split(".")
     if currentVer[0] < remoteVer[0]:
         update = True
     elif currentVer[1] < remoteVer[1]:

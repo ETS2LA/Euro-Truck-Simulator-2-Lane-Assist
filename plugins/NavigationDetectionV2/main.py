@@ -42,6 +42,11 @@ timerforturnincoming = 0
 white_limit = (1, 1, 1)
 getnavcoordinates = False
 trafficlightdetectionisenabled = False
+trucksimapiisenabled = False
+
+currentlane = 0
+lastblinker = None
+currentoffsetsteeringvalue = 0
 
 def LoadSettings():
     global curvemultip
@@ -56,6 +61,10 @@ def LoadSettings():
     global leftsidetraffic
     global automaticlaneselection
     global trafficlightdetectionisenabled
+    global trucksimapiisenabled
+    global lanechanging
+    global lanechangingspeed
+    global lanewidth
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
@@ -89,8 +98,8 @@ def LoadSettings():
 
     automaticlaneselection = settings.GetSettings("NavigationDetectionV2", "automaticlaneselection")
     if automaticlaneselection == None:
-        settings.CreateSettings("NavigationDetectionV2", "automaticlaneselection", 0)
-        automaticlaneselection = 0
+        settings.CreateSettings("NavigationDetectionV2", "automaticlaneselection", 1)
+        automaticlaneselection = 1
 
     navsymbolx = settings.GetSettings("NavigationDetectionV2", "navsymbolx")
     if navsymbolx == None:
@@ -106,11 +115,36 @@ def LoadSettings():
         navcoordsarezero = True
     else:
         navcoordsarezero = False
+
+
+    widthofscreencapture = settings.GetSettings("dxcam", "width")
+    heightofscreencapture = settings.GetSettings("dxcam", "height")
+    if navsymbolx > widthofscreencapture - 3 or navsymbolx < 3:
+        getnavcoordinates = True
+
+    if navsymboly > heightofscreencapture - 3 or navsymboly < 3:
+        getnavcoordinates = True
     
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
         trafficlightdetectionisenabled = True
     else:
         trafficlightdetectionisenabled = False
+
+    if "TruckSimAPI" in settings.GetSettings("Plugins", "Enabled"):
+        trucksimapiisenabled = True
+    else:
+        trucksimapiisenabled = False
+
+    lanechanging = settings.GetSettings("NavigationDetectionV2", "lanechanging", True)
+    lanechangingspeed = settings.GetSettings("NavigationDetectionV2", "lanechangingspeed")
+    if lanechangingspeed == None:
+        settings.CreateSettings("NavigationDetectionV2", "lanechangingspeed", 1)
+        lanechangingspeed = 1
+    lanewidth = settings.GetSettings("NavigationDetectionV2", "lanewidth")
+    if lanewidth == None:
+        settings.CreateSettings("NavigationDetectionV2", "lanewidth", 10)
+        lanewidth = 1
+    lanewidth = round(lanewidth, 2)
 
 LoadSettings()
 
@@ -121,6 +155,14 @@ def plugin(data):
     global getnavcoordinates
     global navcoordsarezero
     global trafficlightdetectionisenabled
+    global trucksimapiisenabled
+
+    global currentlane
+    global lastblinker
+    global currentoffsetsteeringvalue
+    global lanechangingspeed
+    global lanechanging
+    global lanewidth
 
     if getnavcoordinates == True or navcoordsarezero == True:
 
@@ -284,6 +326,7 @@ def plugin(data):
         
         if lane_width_turnincdetec > width/5:
             timerforturnincoming = time.time()
+            currentlane = 0
         
         if start_time - timerforturnincoming < 30:
             turnincoming = True
@@ -300,13 +343,43 @@ def plugin(data):
         else:
             turn = "none"
 
+        if lanechanging == True:
+            if trucksimapiisenabled == True:
+                try:
+                    IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
+                    IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+                except:
+                    trucksimapiisenabled = False
+            
+                if IndicatingLeft == True and lastblinker != "left":
+                    currentlane += 1
+                    lastblinker = "left"
+
+                if IndicatingRight == True and lastblinker != "right":
+                    currentlane -= 1
+                    lastblinker = "right"
+
+                if IndicatingLeft == False and IndicatingRight == False:
+                    lastblinker = None
+
+                targetoffsetsteeringvalue = round(lanewidth * currentlane, 2)
+                
+                lanecorrection = targetoffsetsteeringvalue - currentoffsetsteeringvalue
+                if abs(lanecorrection) > lanechangingspeed/10:
+                    if lanecorrection > 0:
+                        lanecorrection = lanechangingspeed/10
+                    else:
+                        lanecorrection = -lanechangingspeed/10
+
+                currentoffsetsteeringvalue += lanecorrection
+        
 
         if center_x != width and center_x is not None:
 
             curve = round((center_x - center_x_turnincdetec)/30 * curvemultip, 3)
-            if turn != "none" or turnincoming == True:
+            if turn != "none" or turnincoming == True or center_x_turnincdetec == width:
                 curve = 0
-            distancetocenter = round((width/2-center_x)-curve-automaticxoffset, 3) - offset
+            distancetocenter = round((width/2-center_x)-curve-automaticxoffset + currentoffsetsteeringvalue, 3) - offset
             lanedetected = "Yes"
         else:
             lanedetected = "No"
@@ -337,8 +410,9 @@ def plugin(data):
             cv2.putText(filtered_frame_bw, f"correction: {correction}", (round(10*textdistancescale), round(60*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(filtered_frame_bw, f"turninc: {turnincoming}", (round(10*textdistancescale), round(80*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(filtered_frame_bw, f"turn: {turn}", (round(10*textdistancescale), round(100*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
-            cv2.putText(filtered_frame_bw, f"trafficlight: {trafficlight}", (round(10*textdistancescale), round(120*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
-        
+            cv2.putText(filtered_frame_bw, f"lane: {currentlane}", (round(10*textdistancescale), round(120*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f"trafficlight: {trafficlight}", (round(10*textdistancescale), round(140*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+
         data["frame"] = filtered_frame_bw
         
     return data
@@ -360,7 +434,7 @@ class UI():
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
             
-            resizeWindow(800,600)
+            resizeWindow(950,750)
         
         def destroy(self):
             self.done = True
@@ -379,7 +453,6 @@ class UI():
             settings.CreateSettings("NavigationDetectionV2", "offset", self.offsetSlider.get())
             settings.CreateSettings("NavigationDetectionV2", "textsize", self.textsizeSlider.get())
             settings.CreateSettings("NavigationDetectionV2", "textdistancescale", self.textdistancescaleSlider.get())
-            
             LoadSettings()
             
         
@@ -389,48 +462,60 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=600, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=750, height=750, border=0, highlightthickness=0)
             self.root.grid_propagate(1) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            self.curvemultipSlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.curvemultipSlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
             self.curvemultipSlider.set(settings.GetSettings("NavigationDetectionV2", "curvemultip"))
             self.curvemultipSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
             self.curvemultip = helpers.MakeComboEntry(self.root, "Curvemultip", "NavigationDetectionV2", "curvemultip", 1,0)
             
-            self.sensitivitySlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.sensitivitySlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
             self.sensitivitySlider.set(settings.GetSettings("NavigationDetectionV2", "sensitivity"))
             self.sensitivitySlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
             self.sensitivity = helpers.MakeComboEntry(self.root, "Sensitivity", "NavigationDetectionV2", "sensitivity", 3,0)
 
-            self.offsetSlider = tk.Scale(self.root, from_=-20, to=20, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.offsetSlider = tk.Scale(self.root, from_=-20, to=20, resolution=0.1, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
             self.offsetSlider.set(settings.GetSettings("NavigationDetectionV2", "offset"))
             self.offsetSlider.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
             self.offset = helpers.MakeComboEntry(self.root, "Offset", "NavigationDetectionV2", "offset", 5,0)
 
-            self.textsizeSlider = tk.Scale(self.root, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.textsizeSlider = tk.Scale(self.root, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
             self.textsizeSlider.set(settings.GetSettings("NavigationDetectionV2", "textsize"))
             self.textsizeSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
             self.textsize = helpers.MakeComboEntry(self.root, "Textsize", "NavigationDetectionV2", "textsize", 7,0)
             
-            self.textdistancescaleSlider = tk.Scale(self.root, from_=0.1, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.textdistancescaleSlider = tk.Scale(self.root, from_=0.1, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
             self.textdistancescaleSlider.set(settings.GetSettings("NavigationDetectionV2", "textdistancescale"))
             self.textdistancescaleSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
             self.textdistancescale = helpers.MakeComboEntry(self.root, "Textspacescale", "NavigationDetectionV2", "textdistancescale", 9,0)
             
+            helpers.MakeEmptyLine(self.root, 10, 0)
+            helpers.MakeCheckButton(self.root, "Lane Changing", "NavigationDetectionV2", "lanechanging", 11, 0, callback=lambda: LoadSettings())
+            helpers.MakeLabel(self.root, "If activated, you can change the lane you are driving on using the indicators", 11, 1)
+            self.lanechangingspeed = helpers.MakeComboEntry(self.root, "Lane Changing Speed", "NavigationDetectionV2", "lanechangingspeed", 12, 0, labelwidth=20, isFloat=True)
+            self.lanewidth = helpers.MakeComboEntry(self.root, "Lane Width", "NavigationDetectionV2", "lanewidth", 13, 0, labelwidth=20, isFloat=True)
+            helpers.MakeButton(self.root, "Save Lane Settings", self.save, 12, 2, pady=0, padx=0, width=16)
+
             def setnavcordstrue():
                 global getnavcoordinates
                 getnavcoordinates = True
-                print(getnavcoordinates)
-            helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 10, 2, pady=20, padx=5)
 
-            helpers.MakeCheckButton(self.root, "Left-hand traffic", "NavigationDetectionV2", "leftsidetraffic", 10, 1, callback=lambda: LoadSettings())
+            helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 14, 2, pady=20, padx=5)
 
-            helpers.MakeCheckButton(self.root, "Automatic lane", "NavigationDetectionV2", "automaticlaneselection", 10, 0, callback=lambda: LoadSettings())
+            helpers.MakeCheckButton(self.root, "Left-hand traffic", "NavigationDetectionV2", "leftsidetraffic", 14, 1, callback=lambda: LoadSettings())
+
+            helpers.MakeCheckButton(self.root, "Automatic lane", "NavigationDetectionV2", "automaticlaneselection", 14, 0, callback=lambda: LoadSettings())
 
             self.root.pack(anchor="center", expand=False)
             self.root.update()
-        
+
+        def save(self):
+            settings.CreateSettings("NavigationDetectionV2", "lanechangingspeed", float(self.lanechangingspeed.get()))
+            settings.CreateSettings("NavigationDetectionV2", "lanewidth", float(self.lanewidth.get()))
+            
+            LoadSettings()
         
         def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()
