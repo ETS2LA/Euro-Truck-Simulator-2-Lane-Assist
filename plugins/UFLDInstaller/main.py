@@ -140,7 +140,7 @@ class UI():
             helpers.MakeLabel(self.root, '''"Additionally, you agree that you will protect the privacy,''', 7,0, font=("Segoe UI", 10), padx=20, pady=2, columnspan=2)
             helpers.MakeLabel(self.root, '''security and legal rights of your application users."''', 8,0, font=("Segoe UI", 10), padx=20, pady=2, columnspan=2)
             helpers.MakeLabel(self.root, "My application does not log any user data.", 9,0, font=("Segoe UI", 10), padx=20, pady=2, columnspan=2)
-            helpers.MakeLabel(self.root, "The files are hosted on Google Drive, that also logs no identifiable user data.", 10,0, font=("Segoe UI", 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, "All files being downloaded are hosted on Google Drive.", 10,0, font=("Segoe UI", 10), padx=20, pady=2, columnspan=2)
             helpers.MakeLabel(self.root, "By downloading you agree to the previously listed terms. Please read them carefully!", 11,0, font=("Segoe UI", 10), padx=20, pady=2, columnspan=2)
 
 
