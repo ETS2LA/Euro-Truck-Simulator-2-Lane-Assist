@@ -115,6 +115,15 @@ def LoadSettings():
         navcoordsarezero = True
     else:
         navcoordsarezero = False
+
+
+    widthofscreencapture = settings.GetSettings("dxcam", "width")
+    heightofscreencapture = settings.GetSettings("dxcam", "height")
+    if navsymbolx > widthofscreencapture - 3 or navsymbolx < 3:
+        getnavcoordinates = True
+
+    if navsymboly > heightofscreencapture - 3 or navsymboly < 3:
+        getnavcoordinates = True
     
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
         trafficlightdetectionisenabled = True
@@ -364,9 +373,6 @@ def plugin(data):
 
                 currentoffsetsteeringvalue += lanecorrection
         
-        
-        print(trucksimapiisenabled)
-
 
         if center_x != width and center_x is not None:
 
