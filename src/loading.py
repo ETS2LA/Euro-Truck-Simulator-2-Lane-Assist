@@ -27,11 +27,14 @@ class LoadingWindow:
             self.root = tk.Tk()
         else:
             self.root = tk.Toplevel(master)
+        
+        def ignore():
+            pass
             
         self.root.title(text)
         self.root.resizable(False, False)
         self.root.geometry("300x80")
-        self.root.protocol("WM_DELETE_WINDOW", self.destroy)
+        self.root.protocol("WM_DELETE_WINDOW", ignore)
         self.root.attributes("-topmost", True)
         if grab:
             self.root.focus_force()
