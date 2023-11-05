@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgl61gioj7na2"]
+[gd_scene load_steps=5 format=3 uid="uid://dgl61gioj7na2"]
 
 [ext_resource type="Script" path="res://API.gd" id="1_10poy"]
-[ext_resource type="Script" path="res://Camera.gd" id="2_vyyol"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iw70g"]
 
@@ -21,4 +20,3 @@ script = ExtResource("1_10poy")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 environment = SubResource("Environment_i50ai")
-script = ExtResource("2_vyyol")

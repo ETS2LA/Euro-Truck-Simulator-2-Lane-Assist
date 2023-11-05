@@ -6,8 +6,8 @@
     },
     "python.analysis.extraPaths": [
         "",
-        "c:\\Users\\tuoma\\.vscode\\extensions\\joedevivo.vscode-circuitpython-0.1.20-win32-x64\\stubs",
-        "c:\\Users\\tuoma\\AppData\\Roaming\\Code\\User\\globalStorage\\joedevivo.vscode-circuitpython\\bundle\\20231029\\adafruit-circuitpython-bundle-py-20231029\\lib"
+        "c:\\Users\\Tuomas\\.vscode\\extensions\\joedevivo.vscode-circuitpython-0.1.20-win32-x64\\stubs",
+        "c:\\Users\\Tuomas\\AppData\\Roaming\\Code\\User\\globalStorage\\joedevivo.vscode-circuitpython\\bundle\\20231104\\adafruit-circuitpython-bundle-py-20231104\\lib"
     ],
     "circuitpython.board.version": null,
     "files.associations": {
@@ -35,5 +35,7 @@
         "steeringsmoothness",
         "Titlebar",
         "Tumppi"
-    ]
+    ],
+    "godot_tools.scene_file_config": "c:\\Users\\Tuomas\\Documents\\GitHub\\Euro-Truck-Simulator-2-Lane-Assist\\plugins\\Map\\GodotVisualization\\project.godot",
+    "godot_tools.editor_path": "c:\\Godot\\Godot_v4.1.1-stable_win64.exe"
 }
