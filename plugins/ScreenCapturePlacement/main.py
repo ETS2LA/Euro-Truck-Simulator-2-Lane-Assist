@@ -178,7 +178,7 @@ class UI():
             helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30, callback=lambda: LostFocus())
             
             global detectionmethod
-            if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
+            if "NavigationDetectionV2" in settings.GetSettings("Plugins", "Enabled"):
                 detectionmethod = "nav"
             elif "UFLDLaneDetection" in settings.GetSettings("Plugins", "Enabled"):
                 detectionmethod = "ufld"
