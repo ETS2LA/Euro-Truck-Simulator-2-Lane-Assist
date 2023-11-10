@@ -1494,8 +1494,17 @@ class UI():
             del self
 
         def UpdateScaleValueFromSlider(self):
-            self.scale.set(self.scaleSlider.get())
             self.textsize.set(self.textsizeSlider.get())
+            self.x1ofsc.set(self.x1ofscSlider.get())
+            self.y1ofsc.set(self.y1ofscSlider.get())
+            self.x2ofsc.set(self.x2ofscSlider.get())
+            self.y2ofsc.set(self.y2ofscSlider.get())
+            self.windowwidth.set(self.windowwidthSlider.get())
+            self.windowheight.set(self.windowheightSlider.get())
+            self.scale.set(self.scaleSlider.get())
+            self.minrectsize.set(self.minrectsizeSlider.get())
+            self.maxrectsize.set(self.maxrectsizeSlider.get())
+
         
         def exampleFunction(self):
             
