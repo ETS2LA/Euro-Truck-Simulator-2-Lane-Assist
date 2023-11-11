@@ -299,7 +299,7 @@ states = {
         "Empty pip cache",
         "Create .bat files",
     ],
-    "Prefereences": [
+    "Preferences": [
         "Theme",
     ],
     "Done!": [
