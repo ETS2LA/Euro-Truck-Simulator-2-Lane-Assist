@@ -268,6 +268,7 @@ ttk.Label(infoPage, text="1. Create a virtual python environment from your curre
 ttk.Label(infoPage, text="2. Download the app from github", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
 ttk.Label(infoPage, text="3. Install the requirements from requirements.txt (to the virtual env)", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
 ttk.Label(infoPage, text="4. Create .bat files for easy access to the app's functions", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
+ttk.Label(infoPage, text="5. Ask the user for a theme and color for the app", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
 ttk.Label(infoPage, text=" ", font=("Roboto", 10)).grid(pady=2, sticky="w", padx=10)
 
 infoPage.grid()
@@ -546,7 +547,10 @@ def InstallSequence():
     try:
         for i in range(amount):
             UpdateProgress(2, 1, round(i / amount * 100))
-            AddLineToConsole(f"Installing {requirements[i]}...")
+            if "--upgrade --no-cache-dir gdown" in requirements[i]:
+                AddLineToConsole(f"Installing gdown...")
+            else:
+                AddLineToConsole(f"Installing {requirements[i]}...")
             os.system(f"{dir}/venv/Scripts/pip install {requirements[i]}")
     except:
         AddLineToConsole("   > Error while installing!")
