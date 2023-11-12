@@ -52,10 +52,17 @@ def onEnable():
 def onDisable():
     pass
 
+button_A_pressed = False
+button_B_pressed = False
+button_X_pressed = False
+
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
+    global button_A_pressed
+    global button_B_pressed
+    global button_X_pressed
     if gamepad == None:
         createController()
         
@@ -66,13 +73,66 @@ def plugin(data):
         except:
             leftStick = 0
         
+        try:
+            lefttrigger = controller["lefttrigger"]
+            righttrigger = controller["righttrigger"]
+        except:
+            lefttrigger = 0
+            righttrigger = 0
+        
+        try:
+            button_A = controller["button_A"]
+            button_B = controller["button_B"]
+            button_X = controller["button_X"]
+        except:
+            button_A = False
+            button_B = False
+            button_X = False
         
         if leftStick > 1:
             leftStick = 1
         elif leftStick < -1:
             leftStick = -1
         
+        if lefttrigger > 1:
+            lefttrigger = 1
+        elif lefttrigger < 0:
+            lefttrigger = 0
+
+        if righttrigger > 1:
+            righttrigger = 1
+        elif righttrigger < 0:
+            righttrigger = 0
+
+        if button_A_pressed == True:
+            gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
+
+        if button_B_pressed == True:
+            gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_B)
+
+        if button_X_pressed == True:
+            gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
+
+        button_A_pressed = False
+        button_B_pressed = False
+        button_X_pressed = False
+
         gamepad.left_joystick_float(x_value_float = leftStick, y_value_float = 0)
+        gamepad.left_trigger_float(value_float = lefttrigger)
+        gamepad.right_trigger_float(value_float = righttrigger)
+
+        if button_A == True:
+            gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
+            button_A_pressed = True
+
+        if button_B == True:
+            gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_B)
+            button_B_pressed = True
+
+        if button_X == True:
+            gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
+            button_X_pressed = True
+
         gamepad.update()
         # print(leftStick)
     
