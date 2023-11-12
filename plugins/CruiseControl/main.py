@@ -59,6 +59,7 @@ def UpdateSettings():
     global trafficlight
     global trafficlightdetectionisenabled
     global deactivate_traffic_light_stop_temporary_key
+    global enabledeactflstempkey
     global red_traffic_light_time
     global last_frame_without_traffic_light
     global left_trigger_value
@@ -81,6 +82,7 @@ def UpdateSettings():
     automatic_acceleration_after_traffic_light = settings.GetSettings("CruiseControl", "autoaccelatrflght", True)
     automatic_acceleration = settings.GetSettings("CruiseControl", "autoaccel", False)
     advancedsettings = settings.GetSettings("CruiseControl", "advancedsettings", False)
+    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", True)
 
 
     buttonup = settings.GetSettings("CruiseControl", "keyup")
@@ -193,6 +195,7 @@ def plugin(data):
     global trafficlight
     global trafficlightdetectionisenabled
     global deactivate_traffic_light_stop_temporary_key
+    global enabledeactflstempkey
     global red_traffic_light_time
     global last_frame_without_traffic_light
     global left_trigger_value
@@ -319,9 +322,10 @@ def plugin(data):
         if trafficlight != "Red":
             last_frame_without_traffic_light = time.time()
 
-        if kb.is_pressed(deactivate_traffic_light_stop_temporary_key):
-            trafficlight = "---"
-            red_traffic_light_time = time.time() - 1.1
+        if enabledeactflstempkey == True:
+            if kb.is_pressed(deactivate_traffic_light_stop_temporary_key):
+                trafficlight = "---"
+                red_traffic_light_time = time.time() - 1.1
 
         if trafficlight == "Red":
             if brakeatredtrafficlight == True:
@@ -546,7 +550,8 @@ class UI():
             self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, "Accelerationspeed after red traffic light\n(1 is full throttle)", "CruiseControl", "accelerationspeed", 10,0, labelwidth=45, width=45)
 
 
-            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, "Key to temporary ignore the detected traffic lights\n(press and hold to use in-game)", "CruiseControl", "deactflstempkey", 7, 0, labelwidth=70, width=10, isString=True)
+            helpers.MakeCheckButton(generalFrame, "Enable the key to temporary ignore the detected traffic lights\n(if disabled, you dont have to set the key below)", "CruiseControl", "enabledeactflstempkey", 7, 0, width=60, callback=UpdateSettings())
+            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, "Key to temporary ignore the detected traffic lights\n(press and hold to use in-game)", "CruiseControl", "deactflstempkey", 8, 0, labelwidth=70, width=10, isString=True)
 
 
             helpers.MakeButton(controllerFrame, "BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)", command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
@@ -569,8 +574,8 @@ class UI():
             settings.CreateSettings("CruiseControl", "cruisespeedattrafficlight", self.cruisespeedattrafficlight.get())
             settings.CreateSettings("CruiseControl", "accelerationspeed", self.accelerationspeedSlider.get())
             settings.CreateSettings("CruiseControl", "deactflstempkey", self.deactflstempkey.get())
-
-            if self.deactflstempkey.get() == "please set":
+            UpdateSettings()
+            if self.deactflstempkey.get() == "please set" and enabledeactflstempkey == True:
                 messagebox.showwarning(title="CruiseControl", message="Please set the key to temporary ignore the detected traffic lights in General")
             if keyboardmode == True:
                 if (self.keyactivate.get() == "please set" or
