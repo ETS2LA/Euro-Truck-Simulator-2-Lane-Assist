@@ -301,6 +301,15 @@ def plugin(data):
         y_coordinate_lane = round(circley / 1.4)
         automaticxoffset = round(width/2-circlex)
 
+        if trafficlightdetectionisenabled == True:
+            try:
+                trafficlight = data["TrafficLightDetection"]
+            except:
+                trafficlightdetectionisenabled = False
+                trafficlight = "Off"
+        else:
+            trafficlight = "Off"
+
         if circley != None:        
             lanes = GetArrayOfLaneEdges(y_coordinate_turnincdetec)
             if automaticlaneselection == True:
@@ -382,6 +391,10 @@ def plugin(data):
             else:
                 turnincoming = False
 
+            if trafficlight == "Red":
+                if turnincoming == True:
+                    timerforturnincoming = time.time() - 10
+
             if turnincoming == False and lane_width != 0:
                 avg_lanewidth_counter += 1
                 avg_lanewidth_value += lane_width
@@ -454,15 +467,6 @@ def plugin(data):
             center_x_turnincdetec = round(width/2)
         
         correction = round(distancetocenter * sensitivity, 3)
-
-        if trafficlightdetectionisenabled == True:
-            try:
-                trafficlight = data["TrafficLightDetection"]
-            except:
-                trafficlightdetectionisenabled = False
-                trafficlight = "Off"
-        else:
-            trafficlight = "Off"
 
         data["LaneDetection"] = {}
         data["LaneDetection"]["difference"] = -correction/15
