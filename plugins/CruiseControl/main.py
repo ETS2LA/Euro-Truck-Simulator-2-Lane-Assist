@@ -521,12 +521,12 @@ class UI():
             self.root.update()
 
 
-            helpers.MakeCheckButton(generalFrame, "Use Keyboard for cruise control", "CruiseControl", "keyboardmode", 1, 0, width=60, callback=lambda: UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Automatically activate cruise control when above 30kph", "CruiseControl", "autoccacti", 2, 0, width=60)
-            helpers.MakeCheckButton(generalFrame, "Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)", "CruiseControl", "brakeredtrafficlight", 3, 0, width=60)
-            helpers.MakeCheckButton(generalFrame, "Automatic acceleration after a red traffic light", "CruiseControl", "autoaccelatrflght", 4, 0, width=60)
-            helpers.MakeCheckButton(generalFrame, "Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)", "CruiseControl", "autoaccel", 5, 0, width=60)
-            helpers.MakeCheckButton(generalFrame, "Use Advanced Settings", "CruiseControl", "advancedsettings", 6, 0, width=60)
+            helpers.MakeCheckButton(generalFrame, "Use Keyboard for cruise control", "CruiseControl", "keyboardmode", 1, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatically activate cruise control when above 30kph", "CruiseControl", "autoccacti", 2, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)", "CruiseControl", "brakeredtrafficlight", 3, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatic acceleration after a red traffic light", "CruiseControl", "autoaccelatrflght", 4, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)", "CruiseControl", "autoaccel", 5, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Use Advanced Settings", "CruiseControl", "advancedsettings", 6, 0, width=60, callback=UpdateSettings())
 
 
             self.keyactivate = helpers.MakeComboEntry(keyboardFrame, "Key to activate in-game cruise control", "CruiseControl", "keyactivate", 1, 0, labelwidth=70, width=10, isString=True)

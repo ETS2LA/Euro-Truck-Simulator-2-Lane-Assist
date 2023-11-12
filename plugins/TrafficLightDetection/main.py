@@ -1585,19 +1585,19 @@ class UI():
             self.root.update()
 
 
-            helpers.MakeCheckButton(outputwindowFrame, "Final Window", "TrafficLightDetection", "finalwindow", 1, 0)
-            helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window", "TrafficLightDetection", "grayscalewindow", 2, 0)
-            helpers.MakeCheckButton(outputwindowFrame, "Red/Green Window", "TrafficLightDetection", "redgreenwindow", 3, 0)
-            helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize \n(if active, the Window Width and Height sliders will no longer have any effect)", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=70)
+            helpers.MakeCheckButton(outputwindowFrame, "Final Window", "TrafficLightDetection", "finalwindow", 1, 0, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window", "TrafficLightDetection", "grayscalewindow", 2, 0, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Red/Green Window", "TrafficLightDetection", "redgreenwindow", 3, 0, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize \n(if active, the Window Width and Height sliders will no longer have any effect)", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=70, callback=UpdateSettings())
 
-            helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60)
-            helpers.MakeCheckButton(generalFrame, "Performance Mode (only detects red lights)", "TrafficLightDetection", "performancemode", 5, 0, width=60)
-            helpers.MakeCheckButton(generalFrame, "Advanced Settings \n(could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60)
+            helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Performance Mode (only detects red lights)", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Advanced Settings \n(could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=UpdateSettings())
 
-            helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60)
-            helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60)
-            helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60)
-            helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60)
+            helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=UpdateSettings())
 
             self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
             self.textsizeSlider.set(settings.GetSettings("TrafficLightDetection", "textsize", 0.5))
@@ -1605,7 +1605,7 @@ class UI():
             self.textsize = helpers.MakeComboEntry(generalFrame, "Font size", "TrafficLightDetection", "textsize", 9,0)
             
 
-            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame \n(if active, the sliders below will no longer have any effect)", "TrafficLightDetection", "usefullframe", 1, 0, width=60)
+            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame \n(if active, the sliders below will no longer have any effect)", "TrafficLightDetection", "usefullframe", 1, 0, width=60, callback=UpdateSettings())
 
             self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
             self.x1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x1ofsc", 0))
