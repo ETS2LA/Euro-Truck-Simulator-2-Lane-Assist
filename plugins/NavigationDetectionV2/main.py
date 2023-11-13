@@ -27,7 +27,7 @@ import src.variables as variables
 import src.settings as settings
 import os
 
-
+import plugins.DefaultSteering.main as DefaultSteering
 
 import cv2
 import numpy as np
@@ -54,6 +54,8 @@ avg_lanewidth = None
 avg_lanewidth_counter = 1
 avg_lanewidth_value = 0
 
+disableshowimagelater = False
+
 def LoadSettings():
     global curvemultip
     global sensitivity
@@ -74,6 +76,7 @@ def LoadSettings():
     global avg_lanewidth
     global avg_lanewidth_counter
     global avg_lanewidth_value
+    global disableshowimagelater
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
@@ -122,6 +125,10 @@ def LoadSettings():
 
     if navsymbolx == 0 or navsymboly == 0:
         navcoordsarezero = True
+        DefaultSteering.enabled = False
+        if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+            disableshowimagelater = True
+            settings.AddToList("Plugins", "Enabled", "ShowImage")
     else:
         navcoordsarezero = False
 
@@ -130,9 +137,17 @@ def LoadSettings():
     heightofscreencapture = settings.GetSettings("dxcam", "height")
     if navsymbolx > widthofscreencapture - 3 or navsymbolx < 3:
         getnavcoordinates = True
+        if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+            disableshowimagelater = True
+            settings.AddToList("Plugins", "Enabled", "ShowImage")
 
     if navsymboly > heightofscreencapture - 3 or navsymboly < 3:
         getnavcoordinates = True
+        DefaultSteering.enabled = False
+        if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+            disableshowimagelater = True
+            settings.AddToList("Plugins", "Enabled", "ShowImage")
+
     
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
         trafficlightdetectionisenabled = True
@@ -177,6 +192,8 @@ def plugin(data):
     global avg_lanewidth
     global avg_lanewidth_counter
     global avg_lanewidth_value
+
+    global disableshowimagelater
 
     if getnavcoordinates == True or navcoordsarezero == True:
 
@@ -231,8 +248,22 @@ def plugin(data):
         if mouse.is_pressed(button="left") == True and circlex > 5 and circlex < width-5 and circley > 5 and circley < height-5:
             settings.CreateSettings("NavigationDetectionV2", "navsymbolx", circlex)    
             settings.CreateSettings("NavigationDetectionV2", "navsymboly", circley)
-            getnavcoordinates = False
-            navcoordsarezero = False
+            
+            if disableshowimagelater == True:
+                settings.RemoveFromList("Plugins", "Enabled", "ShowImage")
+
+                if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+                    DefaultSteering.enabled = True
+                    variables.ENABLELOOP = False
+                    disableshowimagelater = False
+                    getnavcoordinates = False
+                    navcoordsarezero = False
+            else:
+                DefaultSteering.enabled = True
+                variables.ENABLELOOP = False
+                disableshowimagelater = False
+                getnavcoordinates = False
+                navcoordsarezero = False
 
 
         data["frame"] = frame
@@ -580,7 +611,13 @@ class UI():
 
             def setnavcordstrue():
                 global getnavcoordinates
+                global disableshowimagelater
                 getnavcoordinates = True
+                if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+                    disableshowimagelater = True
+                    settings.AddToList("Plugins", "Enabled", "ShowImage")
+                DefaultSteering.enabled = False
+                variables.ENABLELOOP = True
 
             helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 14, 2, pady=20, padx=5)
 
