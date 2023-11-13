@@ -27,7 +27,7 @@ import src.variables as variables
 import src.settings as settings
 import os
 
-
+import plugins.DefaultSteering.main as DefaultSteering
 
 import cv2
 import numpy as np
@@ -76,6 +76,7 @@ def LoadSettings():
     global avg_lanewidth
     global avg_lanewidth_counter
     global avg_lanewidth_value
+    global disableshowimagelater
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
@@ -124,6 +125,7 @@ def LoadSettings():
 
     if navsymbolx == 0 or navsymboly == 0:
         navcoordsarezero = True
+        DefaultSteering.enabled = False
         if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
             disableshowimagelater = True
             settings.AddToList("Plugins", "Enabled", "ShowImage")
@@ -141,6 +143,7 @@ def LoadSettings():
 
     if navsymboly > heightofscreencapture - 3 or navsymboly < 3:
         getnavcoordinates = True
+        DefaultSteering.enabled = False
         if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
             disableshowimagelater = True
             settings.AddToList("Plugins", "Enabled", "ShowImage")
@@ -245,15 +248,22 @@ def plugin(data):
         if mouse.is_pressed(button="left") == True and circlex > 5 and circlex < width-5 and circley > 5 and circley < height-5:
             settings.CreateSettings("NavigationDetectionV2", "navsymbolx", circlex)    
             settings.CreateSettings("NavigationDetectionV2", "navsymboly", circley)
-            print(disableshowimagelater)
+            
             if disableshowimagelater == True:
                 settings.RemoveFromList("Plugins", "Enabled", "ShowImage")
 
                 if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+                    DefaultSteering.enabled = True
                     variables.ENABLELOOP = False
                     disableshowimagelater = False
                     getnavcoordinates = False
                     navcoordsarezero = False
+            else:
+                DefaultSteering.enabled = True
+                variables.ENABLELOOP = False
+                disableshowimagelater = False
+                getnavcoordinates = False
+                navcoordsarezero = False
 
 
         data["frame"] = frame
@@ -606,6 +616,7 @@ class UI():
                 if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
                     disableshowimagelater = True
                     settings.AddToList("Plugins", "Enabled", "ShowImage")
+                DefaultSteering.enabled = False
                 variables.ENABLELOOP = True
 
             helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 14, 2, pady=20, padx=5)
