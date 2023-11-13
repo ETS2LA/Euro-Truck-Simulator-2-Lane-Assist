@@ -93,6 +93,7 @@ import src.settings as settings
 import src.translator as translator
 import psutil
 import requests
+import cv2
 
 logger.printDebug = settings.GetSettings("logger", "debug")
 if logger.printDebug == None:
@@ -408,6 +409,10 @@ while True:
             mainUI.update(data)
             allEnd = time.time()
             data["executionTimes"]["all"] = allEnd - allStart
+            try:
+                cv2.destroyWindow("Lane Assist")
+            except:
+                pass
             continue
         
         if variables.UPDATEPLUGINS:

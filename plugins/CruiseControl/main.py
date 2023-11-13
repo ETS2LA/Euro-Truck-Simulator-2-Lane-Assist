@@ -35,6 +35,18 @@ import time
 import keyboard as kb
 
 
+left_trigger_setup = False
+right_trigger_setup = False
+left_trigger_value = 0
+right_trigger_value = 0
+trigger_setup_value = 0
+trigger_setup_add_or_sub = 1
+trigger_setup_time = time.time()
+button_setup_time = time.time()
+button_A_setup = False
+button_B_setup = False
+button_X_setup = False
+
 def UpdateSettings():
     global keyboardmode
     global brakeatredtrafficlight
@@ -141,19 +153,6 @@ def UpdateSettings():
     last_speed = 0
     last_speedlimit = 0
     last_cruisecontrolspeed = 0
-
-    left_trigger_setup = False
-    right_trigger_setup = False
-    left_trigger_value = 0
-    right_trigger_value = 0
-    trigger_setup_value = 0
-    trigger_setup_add_or_sub = 1
-    trigger_setup_time = time.time()
-
-    button_setup_time = time.time()
-    button_A_setup = False
-    button_B_setup = False
-    button_X_setup = False
 
     cruisespeedinturns = settings.GetSettings("CruiseControl", "cruisespeedinturns")
     if cruisespeedinturns == None:
@@ -561,6 +560,8 @@ class UI():
             helpers.MakeButton(controllerFrame, "INCREASE BUTTON SETUP (BUTTON B)\n(this will press the button B for 15s so you can set\nup your controls in game, later the button B will be\npressed to increase the cruisecontrol speed)", command=self.buttonBsetup, row=12, column=1, width=50, columnspan=1)
             helpers.MakeButton(controllerFrame, "ACTIVATE BUTTON SETUP (BUTTON X)\n(this will press the button X for 15s so you can set\nup your controls in game, later the button X will be\npressed to activate or deactivate the cruise control)", command=self.buttonXsetup, row=12, column=0, width=50, columnspan=1)
 
+            helpers.MakeButton(controllerFrame, "STOP SETUP MODE\n(if you press the button the setup mode will stop and the\nthe triggers and buttons of the virtual controller will\nnot get moved or pressed anymore)", command=self.stopsetup, row=13, column=0, width=50, columnspan=1)
+
             helpers.MakeButton(generalFrame, "Reset Advanced Settings", command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
             helpers.MakeButton(advancedFrame, "Reset Advanced Settings", command=self.resetalladvancedsettingstodefault, row=3, column=1, width=32)
 
@@ -598,9 +599,17 @@ class UI():
             global left_trigger_setup
             global right_trigger_setup
             global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
             left_trigger_setup = True
             right_trigger_setup = False
             trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
             variables.ENABLELOOP = True
             UpdateSettings()
 
@@ -608,17 +617,31 @@ class UI():
             global left_trigger_setup
             global right_trigger_setup
             global trigger_setup_time
-            left_trigger_setup = False
-            right_trigger_setup = True
-            trigger_setup_time = time.time()
-            variables.ENABLELOOP = True
-            UpdateSettings()
-
-        def buttonAsetup(self):
             global button_A_setup
             global button_B_setup
             global button_X_setup
             global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = True
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def buttonAsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
             button_A_setup = True
             button_B_setup = False
             button_X_setup = False
@@ -627,10 +650,16 @@ class UI():
             UpdateSettings()
 
         def buttonBsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
             global button_A_setup
             global button_B_setup
             global button_X_setup
             global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
             button_A_setup = False
             button_B_setup = True
             button_X_setup = False
@@ -639,15 +668,39 @@ class UI():
             UpdateSettings()
 
         def buttonXsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
             global button_A_setup
             global button_B_setup
             global button_X_setup
             global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
             button_A_setup = False
             button_B_setup = False
             button_X_setup = True
             button_setup_time = time.time()
             variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def stopsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = False
             UpdateSettings()
         
 
