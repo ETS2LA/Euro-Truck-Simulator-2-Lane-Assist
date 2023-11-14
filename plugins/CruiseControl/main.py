@@ -15,7 +15,8 @@ PluginInfo = PluginInformation(
     author="Glas42",
     url="https://github.com/Glas42/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before game" # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="before game", # Will run the plugin before anything else in the mainloop (data will be empty)
+    requires=["TruckSimAPI"]
 )
 
 import tkinter as tk
@@ -287,14 +288,16 @@ def plugin(data):
         # get api data
         try:
             speed = round(data["api"]["truckFloat"]["speed"]*3.6, 1)
-            speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, 1)
-            cruisecontrolspeed = round(data["api"]["truckFloat"]["cruiseControlSpeed"]*3.6, 1)
             last_speed = speed
+            speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, 1)
             last_speedlimit = speedlimit
+            cruisecontrolspeed = round(data["api"]["truckFloat"]["cruiseControlSpeed"]*3.6, 1)
+            gamepaused = data["api"]["pause"]
         except:
             speed = last_speed
             speedlimit = last_speedlimit
             cruisecontrolspeed = 0
+            gamepaused = False
 
         data["controller"]["button_A"] = False
         data["controller"]["button_B"] = False
@@ -349,7 +352,7 @@ def plugin(data):
             #activate cruise control
             if targetspeed != 0 and cruisecontrolspeed == 0 and speed > 30:
                 if automatic_cruise_control_activation == True:
-                    if DefaultSteering.enabled:
+                    if DefaultSteering.enabled and gamepaused == False:
                         if keyboardmode == True:
                             kb.press_and_release(buttonactivate)
                         else:
@@ -363,7 +366,7 @@ def plugin(data):
             if targetspeed != 0:
                 if targetspeed > cruisecontrolspeed:
                     if cruisecontrolspeed != 0:
-                        if DefaultSteering.enabled:
+                        if DefaultSteering.enabled and gamepaused == False:
                             if keyboardmode == True:
                                 kb.press_and_release(buttonup)
                             else:
@@ -373,7 +376,7 @@ def plugin(data):
 
                 if targetspeed < cruisecontrolspeed:
                     if cruisecontrolspeed != 0:
-                        if DefaultSteering.enabled:
+                        if DefaultSteering.enabled and gamepaused == False:
                             if keyboardmode == True:
                                 kb.press_and_release(buttondown)
                             else:
@@ -385,7 +388,7 @@ def plugin(data):
             #accelerate after traffic light if enabled in settings
             if targetspeed != 0 and cruisecontrolspeed == 0:
                 if automatic_acceleration_after_traffic_light == True or automatic_acceleration == True:
-                    if DefaultSteering.enabled:
+                    if DefaultSteering.enabled and gamepaused == False:
                         if accelerate_red_traffic_light == True or automatic_acceleration == True:
                             if keyboardmode == True:
                                 kb.release(buttonbrake)
@@ -400,7 +403,7 @@ def plugin(data):
             #brake if target speed is 0
             if targetspeed == 0:
                 if speed > 0.5:
-                    if DefaultSteering.enabled:
+                    if DefaultSteering.enabled and gamepaused == False:
                         if keyboardmode == True:
                             kb.release(buttonaccelerate)
                             kb.press(buttonbrake)
@@ -428,7 +431,7 @@ def plugin(data):
                     right_trigger_value = 0
                 unreleased_buttonaccelerate = False
 
-        if DefaultSteering.enabled == False:
+        if DefaultSteering.enabled == False or gamepaused == True:
             left_trigger_value = 0
             right_trigger_value = 0
 

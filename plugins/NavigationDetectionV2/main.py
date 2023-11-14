@@ -16,7 +16,8 @@ PluginInfo = PluginInformation(
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
     dynamicOrder="lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
-    exclusive="LaneDetection"
+    exclusive="LaneDetection",
+    requires=["TruckSimAPI"]
 )
 
 import tkinter as tk
