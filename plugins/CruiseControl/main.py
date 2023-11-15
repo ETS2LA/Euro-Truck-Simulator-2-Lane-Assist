@@ -331,7 +331,7 @@ def plugin(data):
 
         if trafficlight == "Red":
             if brakeatredtrafficlight == True:
-                if time.time() - 0.5 > last_frame_without_traffic_light:
+                if time.time() - 0.2 > last_frame_without_traffic_light:
                     targetspeed = cruisespeedattrafficlight
                     red_traffic_light_time = time.time()
                     if speed < 30:
