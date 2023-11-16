@@ -16,7 +16,8 @@ PluginInfo = PluginInformation(
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
     dynamicOrder="lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
-    exclusive="LaneDetection"
+    exclusive="LaneDetection",
+    requires=["TruckSimAPI"]
 )
 
 import tkinter as tk
@@ -27,7 +28,7 @@ import src.variables as variables
 import src.settings as settings
 import os
 
-
+import plugins.DefaultSteering.main as DefaultSteering
 
 import cv2
 import numpy as np
@@ -35,10 +36,12 @@ import dxcam
 import time
 import pyautogui
 import mouse
+import math
 
 screen_width, screen_height = pyautogui.size()
 
 timerforturnincoming = 0
+turnincdirec = None
 white_limit = (1, 1, 1)
 getnavcoordinates = False
 trafficlightdetectionisenabled = False
@@ -47,6 +50,12 @@ trucksimapiisenabled = False
 currentlane = 0
 lastblinker = None
 currentoffsetsteeringvalue = 0
+
+avg_lanewidth = None
+avg_lanewidth_counter = 1
+avg_lanewidth_value = 0
+
+disableshowimagelater = False
 
 def LoadSettings():
     global curvemultip
@@ -65,6 +74,10 @@ def LoadSettings():
     global lanechanging
     global lanechangingspeed
     global lanewidth
+    global avg_lanewidth
+    global avg_lanewidth_counter
+    global avg_lanewidth_value
+    global disableshowimagelater
     
     curvemultip = settings.GetSettings("NavigationDetectionV2", "curvemultip")
     if curvemultip == None:
@@ -113,6 +126,10 @@ def LoadSettings():
 
     if navsymbolx == 0 or navsymboly == 0:
         navcoordsarezero = True
+        DefaultSteering.enabled = False
+        if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+            disableshowimagelater = True
+            settings.AddToList("Plugins", "Enabled", "ShowImage")
     else:
         navcoordsarezero = False
 
@@ -121,9 +138,17 @@ def LoadSettings():
     heightofscreencapture = settings.GetSettings("dxcam", "height")
     if navsymbolx > widthofscreencapture - 3 or navsymbolx < 3:
         getnavcoordinates = True
+        if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+            disableshowimagelater = True
+            settings.AddToList("Plugins", "Enabled", "ShowImage")
 
     if navsymboly > heightofscreencapture - 3 or navsymboly < 3:
         getnavcoordinates = True
+        DefaultSteering.enabled = False
+        if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+            disableshowimagelater = True
+            settings.AddToList("Plugins", "Enabled", "ShowImage")
+
     
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
         trafficlightdetectionisenabled = True
@@ -151,6 +176,7 @@ LoadSettings()
 
 def plugin(data):
     global timerforturnincoming
+    global turnincdirec
     global white_limit
     global getnavcoordinates
     global navcoordsarezero
@@ -163,6 +189,12 @@ def plugin(data):
     global lanechangingspeed
     global lanechanging
     global lanewidth
+
+    global avg_lanewidth
+    global avg_lanewidth_counter
+    global avg_lanewidth_value
+
+    global disableshowimagelater
 
     if getnavcoordinates == True or navcoordsarezero == True:
 
@@ -182,17 +214,63 @@ def plugin(data):
         circley = mousey - min_y
         if circlex > 5 and circlex < width-5 and circley > 5 and circley < height-5:
             cv2.circle(frame, (circlex,circley), round(width/40), (40,130,210), 2)
+        else:
+
+            vector_mousetocenter_x = round((min_x + width/2) - mousex)
+            vector_mousetocenter_y = round((min_y + height/2) - mousey)
+
+            original_length = math.sqrt(vector_mousetocenter_x**2 + vector_mousetocenter_y**2)
+
+            vector_mousetocenter_x = round((vector_mousetocenter_x / original_length) * width*1.5)
+            vector_mousetocenter_y = round((vector_mousetocenter_y / original_length) * width*1.5)
+
+            scaled_length = original_length / 2
+
+            angle_degrees = 45
+
+            angle_radians = math.radians(angle_degrees)
+
+            x_scaled = (vector_mousetocenter_x / original_length) * scaled_length
+            y_scaled = (vector_mousetocenter_y / original_length) * scaled_length
+
+            x_counterclockwise = x_scaled * math.cos(angle_radians) - y_scaled * math.sin(angle_radians)
+            y_counterclockwise = x_scaled * math.sin(angle_radians) + y_scaled * math.cos(angle_radians)
+
+            x_clockwise = x_scaled * math.cos(-angle_radians) - y_scaled * math.sin(-angle_radians)
+            y_clockwise = x_scaled * math.sin(-angle_radians) + y_scaled * math.cos(-angle_radians)
+
+            cv2.line(frame, (round(width/2 - x_counterclockwise/10), round(height/1.5 - y_counterclockwise/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.line(frame, (round(width/2 - x_clockwise/10), round(height/1.5 - y_clockwise/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.line(frame, (round(width/2 - vector_mousetocenter_x/10), round(height/1.5 - vector_mousetocenter_y/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.putText(frame, "move your mouse in the", (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (156,0,91), 2)
+            cv2.putText(frame, "direction the arrow shows", (5, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (156,0,91), 2)
+            
 
         if mouse.is_pressed(button="left") == True and circlex > 5 and circlex < width-5 and circley > 5 and circley < height-5:
             settings.CreateSettings("NavigationDetectionV2", "navsymbolx", circlex)    
             settings.CreateSettings("NavigationDetectionV2", "navsymboly", circley)
-            getnavcoordinates = False
-            navcoordsarezero = False
+            
+            if disableshowimagelater == True:
+                settings.RemoveFromList("Plugins", "Enabled", "ShowImage")
+
+                if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+                    DefaultSteering.enabled = True
+                    variables.ENABLELOOP = False
+                    disableshowimagelater = False
+                    getnavcoordinates = False
+                    navcoordsarezero = False
+            else:
+                DefaultSteering.enabled = True
+                variables.ENABLELOOP = False
+                disableshowimagelater = False
+                getnavcoordinates = False
+                navcoordsarezero = False
 
 
         data["frame"] = frame
 
     else:
+
         start_time = time.time()
         
         try:
@@ -255,6 +333,15 @@ def plugin(data):
         y_coordinate_lane = round(circley / 1.4)
         automaticxoffset = round(width/2-circlex)
 
+        if trafficlightdetectionisenabled == True:
+            try:
+                trafficlight = data["TrafficLightDetection"]
+            except:
+                trafficlightdetectionisenabled = False
+                trafficlight = "Off"
+        else:
+            trafficlight = "Off"
+
         if circley != None:        
             lanes = GetArrayOfLaneEdges(y_coordinate_turnincdetec)
             if automaticlaneselection == True:
@@ -314,32 +401,55 @@ def plugin(data):
                         right_x_lane = lanes[len(lanes)-1]
             cv2.line(filtered_frame_bw, (left_x_lane,y_coordinate_lane), (right_x_lane,y_coordinate_lane), (255,255,255),1)
 
-            
-            center_x = (left_x_lane + right_x_lane) / 2 if left_x_lane and right_x_lane is not None else None
-        
-            center_x_turnincdetec = (left_x_turnincdetec + right_x_turnincdetec) / 2 if left_x_turnincdetec and right_x_turnincdetec is not None else None
-            
+            if left_x_lane == 0:
+                left_x_lane = 1
+            if left_x_turnincdetec == 0:
+                left_x_turnincdetec = 1
+
             lane_width = right_x_lane - left_x_lane
         
             lane_width_turnincdetec = right_x_turnincdetec - left_x_turnincdetec
 
-        
-        if lane_width_turnincdetec > width/5:
-            timerforturnincoming = time.time()
-            currentlane = 0
-        
-        if start_time - timerforturnincoming < 30:
-            turnincoming = True
-        else:
-            turnincoming = False
+            if lane_width_turnincdetec > width/5:
+                timerforturnincoming = time.time()
+                currentlane = 0
+                if width/2 - left_x_turnincdetec > right_x_turnincdetec - width/2:
+                    turnincdirec = "Left"
+                else:
+                    turnincdirec = "Right"
 
-        if lane_width > width/5:
+            if start_time - timerforturnincoming < 20:
+                turnincoming = True
+            else:
+                turnincoming = False
+
+            if trafficlight == "Red":
+                if turnincoming == True:
+                    timerforturnincoming = time.time() - 10
+
+            if turnincoming == False and lane_width != 0:
+                avg_lanewidth_counter += 1
+                avg_lanewidth_value += lane_width
+                avg_lanewidth = avg_lanewidth_value/avg_lanewidth_counter
+            
+            if turnincoming == False:
+                center_x = (left_x_lane + right_x_lane) / 2 if left_x_lane and right_x_lane is not None else None
+            else:
+                if turnincdirec == "Right":
+                    center_x = left_x_lane + avg_lanewidth/2
+                else:
+                    center_x = right_x_lane - avg_lanewidth/2
+        
+            center_x_turnincdetec = (left_x_turnincdetec + right_x_turnincdetec) / 2 if left_x_turnincdetec and right_x_turnincdetec is not None else None
+            
+
+        if lane_width > width/5: ######################################################### change the minimum lane width
             if width/2 - left_x_lane > right_x_lane - width/2:
                 turn = "Left"
-                timerforturnincoming = time.time() - 27
+                timerforturnincoming = time.time() - 17
             else:
                 turn = "Right"
-                timerforturnincoming = time.time() - 27
+                timerforturnincoming = time.time() - 17
         else:
             turn = "none"
 
@@ -390,17 +500,11 @@ def plugin(data):
         
         correction = round(distancetocenter * sensitivity, 3)
 
-        if trafficlightdetectionisenabled == True:
-            try:
-                trafficlight = data["TrafficLightDetection"]
-            except:
-                trafficlightdetectionisenabled = False
-                trafficlight = "Off"
-        else:
-            trafficlight = "Off"
-
         data["LaneDetection"] = {}
         data["LaneDetection"]["difference"] = -correction/15
+
+        data["NavigationDetectionV2"] = {}
+        data["NavigationDetectionV2"]["turnincoming"] = turnincoming
 
         filtered_frame_red_green = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2RGB)
  
@@ -429,12 +533,20 @@ def onDisable():
 # Plugins can also have UIs, this works the same as the panel example
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
+        global colortheme
+        if settings.GetSettings("User Interface", "ColorTheme") == "SunValley":
+            colortheme = "sunvalley"
+        else:
+            colortheme = "notsunvalley"
         
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
             
-            resizeWindow(950,750)
+            if colortheme == "sunvalley":
+                resizeWindow(985,740)
+            else:
+                resizeWindow(950,750)        
         
         def destroy(self):
             self.done = True
@@ -500,7 +612,13 @@ class UI():
 
             def setnavcordstrue():
                 global getnavcoordinates
+                global disableshowimagelater
                 getnavcoordinates = True
+                if "ShowImage" not in settings.GetSettings("Plugins", "Enabled"):
+                    disableshowimagelater = True
+                    settings.AddToList("Plugins", "Enabled", "ShowImage")
+                DefaultSteering.enabled = False
+                variables.ENABLELOOP = True
 
             helpers.MakeButton(self.root, "Grab Coordinates", setnavcordstrue, 14, 2, pady=20, padx=5)
 

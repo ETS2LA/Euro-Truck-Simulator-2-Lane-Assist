@@ -42,6 +42,31 @@ except:
     os.system("pip install babel")
     import babel
 
+# Check that all requirments from requirments.txt are installed
+import pkg_resources
+import src.variables as variables # Stores all main variables for the program
+with open(variables.PATH + r"\requirements.txt") as f:
+    requirments = f.read().splitlines()
+
+installed = [pkg.key for pkg in pkg_resources.working_set]
+requirmentsset = set(requirments)
+installedset = set(installed)
+missing = requirmentsset - installedset
+
+if missing:
+    for modules in missing:
+        if "deep_translator" in modules:
+            pass
+        elif "--upgrade --no-cache-dir gdown" in modules:
+            pass
+        elif "sv_ttk" in modules:
+            pass
+        else:
+            print("installing" + " " + modules)
+            os.system("pip install" + " " + modules)
+else:
+    pass
+
 # Check tkinter tcl version
 import tkinter as tk
 from tkinter import messagebox
@@ -61,7 +86,6 @@ import src.loading as loading # And then create a loading window
 import sys
 import time
 import json
-import src.variables as variables # Stores all main variables for the program
 from src.logger import print
 import src.logger as logger
 import traceback
@@ -69,6 +93,7 @@ import src.settings as settings
 import src.translator as translator
 import psutil
 import requests
+import cv2
 
 logger.printDebug = settings.GetSettings("logger", "debug")
 if logger.printDebug == None:
@@ -384,6 +409,10 @@ while True:
             mainUI.update(data)
             allEnd = time.time()
             data["executionTimes"]["all"] = allEnd - allStart
+            try:
+                cv2.destroyWindow("Lane Assist")
+            except:
+                pass
             continue
         
         if variables.UPDATEPLUGINS:
