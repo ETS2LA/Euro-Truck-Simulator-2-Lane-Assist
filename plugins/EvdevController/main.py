@@ -26,14 +26,11 @@ import src.variables as variables
 import src.settings as settings
 from sys import platform
 import os
-if platform == "linux" or platform == "linux2":
-    try:
-        from evdev import UInput, ecodes, AbsInfo
-    except:
-        raise Exception("EvdevController", "The evdev library is not installed.")
-else:
-    pass
 
+if platform != "linux" or platform != "linux2":
+    raise Exception("EvdevController", "This plugin only works on Linux.")
+
+from evdev import UInput, ecodes, AbsInfo
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
