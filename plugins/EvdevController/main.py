@@ -52,14 +52,15 @@ def plugin(data):
 
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
-    global controller
-    # Create a virtual controller with one axis
-    cap = {
-        ecodes.EV_KEY: [ecodes.BTN_A, ecodes.BTN_B, ecodes.BTN_X, ecodes.BTN_Y, ecodes.BTN_TL, ecodes.BTN_TR, ecodes.BTN_SELECT, ecodes.BTN_START, ecodes.BTN_MODE, ecodes.BTN_THUMBL, ecodes.BTN_THUMBR],
-        ecodes.EV_ABS: [(ecodes.ABS_RX, AbsInfo(value=0, min=-32767, max=32767,fuzz=0, flat=0, resolution=0)),(ecodes.ABS_RY, AbsInfo(value=0, min=-32767, max=32767,fuzz=0, flat=0, resolution=0))]
-    }
-
-    controller = UInput(cap, name="Lane Assist Simulated Controller")
+    if platform != "linux" or platform != "linux2":
+        global controller
+        # Create a virtual controller with one axis
+        cap = {
+            ecodes.EV_KEY: [ecodes.BTN_A, ecodes.BTN_B, ecodes.BTN_X, ecodes.BTN_Y, ecodes.BTN_TL, ecodes.BTN_TR, ecodes.BTN_SELECT, ecodes.BTN_START, ecodes.BTN_MODE, ecodes.BTN_THUMBL, ecodes.BTN_THUMBR],
+            ecodes.EV_ABS: [(ecodes.ABS_RX, AbsInfo(value=0, min=-32767, max=32767,fuzz=0, flat=0, resolution=0)),(ecodes.ABS_RY, AbsInfo(value=0, min=-32767, max=32767,fuzz=0, flat=0, resolution=0))]
+        }
+    
+        controller = UInput(cap, name="Lane Assist Simulated Controller")
     
 
 def onDisable():
