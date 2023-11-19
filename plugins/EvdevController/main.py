@@ -52,7 +52,7 @@ def plugin(data):
 
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
-    if platform != "linux" or platform != "linux2":
+    if platform == "linux" or platform == "linux2":
         global controller
         # Create a virtual controller with one axis
         cap = {
