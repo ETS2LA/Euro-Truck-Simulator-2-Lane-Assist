@@ -27,6 +27,7 @@ import os
 SV_TTK_PATH = [variables.PATH + "plugins\\ThemeSelector\\themes\\SunValley\\sv_ttk\\sv.tcl"]
 FOREST_PATH = [variables.PATH + "plugins\\ThemeSelector\\themes\\Forest\\forest-dark.tcl", variables.PATH + "plugins\\ThemeSelector\\themes\\Forest\\forest-light.tcl"]
 AZURE_PATH = [variables.PATH + "plugins\\ThemeSelector\\themes\\Azure\\azure.tcl"]
+AUTUMNORANGE_PATH = [variables.PATH + "plugins\\ThemeSelector\\themes\\AutumnOrange\\autumnorange.tcl"]
 
 themeType = settings.GetSettings("User Interface", "Theme")
 if themeType == None:
@@ -34,7 +35,7 @@ if themeType == None:
     settings.CreateSettings("User Interface", "Theme", themeType)
 
 # Will switch the application theme
-# theme = "SunValley", "Forest", "Azure"
+# theme = "SunValley", "Forest", "Azure", "AutumnOrange"
 def ChangeTheme(theme, root, changedColor=False):
     source = ""
 
@@ -44,6 +45,8 @@ def ChangeTheme(theme, root, changedColor=False):
         source = FOREST_PATH[0] if themeType == "dark" else FOREST_PATH[1]
     elif theme == "Azure":
         source = AZURE_PATH[0]
+    elif theme == "AutumnOrange":
+        source = AUTUMNORANGE_PATH[0]
 
     try:
         root.tk.call("source", source)
@@ -55,9 +58,11 @@ def ChangeTheme(theme, root, changedColor=False):
             ttk.Style().theme_use(f"forest-{themeType}")
             if changedColor:
                 variables.RELOAD = True
-        elif theme == "Azure":
+        if theme == "Azure":
             root.tk.call("set_theme", f"{themeType}")
-        else:
+        if theme == "AutumnOrange":
+            root.tk.call("sb_set_theme", f"{themeType}")
+        if theme == "SunValley":
             root.tk.call("sv_set_theme", f"{themeType}")
     except:
         import traceback
@@ -110,7 +115,7 @@ class UI():
                 settings.CreateSettings("User Interface", "ColorTheme", theme)
                 
             self.theme.set(theme)
-            self.themeSelector = ttk.OptionMenu(self.root, self.theme, theme, "SunValley", "Forest", "Azure", command=self.changeTheme(self.theme.get()))
+            self.themeSelector = ttk.OptionMenu(self.root, self.theme, theme, "SunValley", "Forest", "Azure", "AutumnOrange", command=self.changeTheme(self.theme.get()))
             ttk.Label(self.root, text="Theme: ").grid(row=0, column=0)
             self.themeSelector.grid(row=0, column=1)
             
