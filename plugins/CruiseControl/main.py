@@ -453,19 +453,18 @@ def onDisable():
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
         global colortheme
-        if settings.GetSettings("User Interface", "ColorTheme") == "SunValley":
-            colortheme = "sunvalley"
-        else:
-            colortheme = "notsunvalley"
+        colortheme = settings.GetSettings("User Interface", "ColorTheme")
 
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
 
-            if colortheme == "sunvalley":
+            if colortheme == "SunValley":
                 resizeWindow(900,668)
-            else:
-                resizeWindow(900,620)
+            if colortheme == "Azure" or colortheme == "AutumnOrange":
+                resizeWindow(900,633)
+            if colortheme == "Forest":
+                resizeWindow(900,620)        
         
         def destroy(self):
             self.done = True

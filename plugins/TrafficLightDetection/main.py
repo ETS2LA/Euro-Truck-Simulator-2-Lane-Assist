@@ -1482,11 +1482,19 @@ def onDisable():
 
 class UI():
     try: 
+        global colortheme
+        colortheme = settings.GetSettings("User Interface", "ColorTheme")
         
         def __init__(self, master) -> None:
             self.master = master 
             self.exampleFunction()
-            resizeWindow(850,650)
+
+            if colortheme == "SunValley":
+                resizeWindow(850,660)
+            if colortheme == "Azure" or colortheme == "AutumnOrange":
+                resizeWindow(850,650)
+            if colortheme == "Forest":
+                resizeWindow(850,650)
         
         def destroy(self):
             self.done = True
