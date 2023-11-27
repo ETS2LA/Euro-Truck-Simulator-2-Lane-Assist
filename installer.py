@@ -245,7 +245,7 @@ sv_ttk.set_theme("dark")
 
 # Bottom text
 ttk.Label(root, text="ETS2 Lane Assist   ©Tumppi066 - 2023", font=("Roboto", 8)).grid(row=2, sticky="s", padx=10, pady=16)
-ttk.Label(root, text="Installer version 0.2.0", font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
+ttk.Label(root, text="Installer version 0.3.1", font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
 progressBar = ttk.Progressbar(root, mode="determinate", length=width)
 progressBar.grid(row=0, sticky="n", padx=0, pady=0)
 
@@ -693,7 +693,11 @@ def InstallSequence():
             CreateSettings("User Interface", "Theme", "light")
         restoreconsole()
 
-    CreateShortcut(f"{dir}/run.bat", "ETS2 Lane Assist", f"{dir}/app/assets/favicon.ico")
+    try:
+        CreateShortcut(f"{dir}/run.bat", "ETS2 Lane Assist", f"{dir}/app/assets/favicon.ico")
+    except:
+        printRed("Could not create shortcut")
+        AddLineToConsole("Could not create shortcut")
 
     # Restore the console after preferences are saved
     def restoreconsole():
