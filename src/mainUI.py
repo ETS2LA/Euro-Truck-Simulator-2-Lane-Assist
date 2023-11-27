@@ -31,6 +31,163 @@ def DeleteRoot():
     except:
         pass
 
+def closeTab(event):
+    index = pluginNotebook.tk.call(pluginNotebook._w, "identify", "tab", event.x, event.y)
+    pluginFrames.pop(index)
+    UIs.pop(index)
+    pluginNotebook.forget(index)
+    
+    settings.RemoveFromList("User Interface", "OpenTabs", plugin.PluginInfo.name)
+    
+
+def selectedOtherTab():
+    currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]
+    currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
+    # Run the UI tab focus function
+    if currentUI != None:
+        try:
+            currentUI.tabFocused()
+        except:
+            resizeWindow(width, height)
+
+def switchSelectedPlugin(pluginName):
+    global plugin
+    global pluginFrame
+    global pluginFrames
+    global ui
+    global root
+
+    # Check if the plugin is already loaded
+    notebookNames = []
+    for tab in pluginNotebook.tabs():
+        notebookNames.append(pluginNotebook.tab(tab, "text"))
+    
+    print(notebookNames)
+    if pluginName.replace("plugins.", "").replace(".main", "") in notebookNames:
+        pluginNotebook.select(notebookNames.index(pluginName.replace("plugins.", "").replace(".main", "")))
+        return
+    
+    plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
+    
+    if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
+        if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable all plugins. Do you want to continue?")):
+            settings.CreateSettings("Plugins", "Enabled", [])
+            variables.UpdatePlugins()
+            
+        else: return
+        
+    if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
+        if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable the mainloop. Do you want to continue?")):
+            variables.ToggleEnable()
+            enableButton.config(text=(Translate("Disable") if variables.ENABLELOOP else Translate("Enable")))
+        
+        else: return
+        
+        
+        
+    # Create a new frame for the plugin in the notebook
+    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
+    pluginFrame.pack_propagate(0)
+    pluginFrame.grid_propagate(0)
+    
+    ui = plugin.UI(pluginFrame)
+    UIs.append(ui)
+    
+    pluginFrames.append(pluginFrame)
+    pluginNotebook.add(pluginFrame, text=plugin.PluginInfo.name)
+    
+    pluginNotebook.select(pluginFrames.index(pluginFrame))
+    
+    print("Loaded " + pluginName)
+    
+    settings.AddToList("User Interface", "OpenTabs", plugin.PluginInfo.name, exclusive=True)
+
+def quit():
+    global root
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        # Destroy the root window
+        root.destroy()
+        del root
+
+def drawButtons(refresh=False):
+    global enableButton
+    global themeButton
+    
+    if refresh or pluginFrames == []:
+        CreateRoot()
+    
+    try:
+        for child in pluginFrames[0].winfo_children():
+            child.destroy()
+    except:
+        pass
+        
+    for child in buttonFrame.winfo_children():
+        child.destroy()
+    
+    helpers.MakeButton(pluginFrames[0], "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
+    helpers.MakeButton(pluginFrames[0], "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
+    helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
+    helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
+    helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
+    enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
+    helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=9)
+    helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=9)
+    helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=10, padx=9)
+    helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=10, padx=9)
+    helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=10, padx=9)
+    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=10, padx=9)
+    import webbrowser
+    helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 7, 0, width=10, padx=9, style="Accent.TButton", translate=False)
+
+prevFrame = 100
+def update(data):
+    global fps
+    global prevFrame
+    
+    # Calculate the UI caused overhead
+    frame = time.time()
+    try:
+        fps.set(f"UI FPS: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)")
+    except: pass
+    prevFrame = frame
+        
+    try:
+        # Update the selected plugin
+        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+        if ui != None:
+            ui.update(data)
+    except Exception as ex:
+        if "'UI' object has no attribute 'update'" in str(ex):
+            print("Currently open panel does not have an update method. Please add one.")
+        elif "name 'ui' is not defined" not in str(ex):
+            print(str(ex))
+        pass
+
+    try:
+        root.update()
+    except:
+        raise Exception("The main window has been closed.", "If you closed the app this is normal.")
+    
+def resizeWindow(newWidth, newHeight):
+    global root
+    global root
+    # Offsets for the new tabs
+    newHeight += 20
+    newWidth += 40
+    
+    root.geometry(f"{newWidth}x{newHeight}")
+    pluginNotebook.config(width=newWidth, height=newHeight-20)
+    buttonFrame.config(height=newHeight-20)
+    root.update()
+        
+def changeTheme():
+    print("Changing theme")
+    global themeButton
+    themeSelector.SwitchThemeType()
+    themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")
+    
+
 pluginFrames = []
 UIs = []
 additionals = []
@@ -160,162 +317,16 @@ def CreateRoot():
     root.bind("<F5>", lambda e: Reload())
 
     # Open previously open tabs
-    if settings.GetSettings("User Interface", "Open Tabs") is not None:
-        for tab in settings.GetSettings("User Interface", "Open Tabs"):
+    if settings.GetSettings("User Interface", "OpenTabs") is not None:
+        for tab in settings.GetSettings("User Interface", "OpenTabs"):
+            print("Loading " + tab)
             try:
-                switchSelectedPlugin(tab)
-            except:
+                switchSelectedPlugin(f"plugins.{tab}.main")
+            except Exception as ex:
+                print(ex.args)
                 pass
 
     root.update()
 
 
 CreateRoot()
-
-def quit():
-    global root
-    if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        # Destroy the root window
-        root.destroy()
-        del root
-
-def drawButtons(refresh=False):
-    global enableButton
-    global themeButton
-    
-    if refresh or pluginFrames == []:
-        CreateRoot()
-    
-    try:
-        for child in pluginFrames[0].winfo_children():
-            child.destroy()
-    except:
-        pass
-        
-    for child in buttonFrame.winfo_children():
-        child.destroy()
-    
-    helpers.MakeButton(pluginFrames[0], "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
-    helpers.MakeButton(pluginFrames[0], "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
-    helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
-    helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
-    helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
-    enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
-    helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=10, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=10, padx=9)
-    import webbrowser
-    helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 7, 0, width=10, padx=9, style="Accent.TButton", translate=False)
-
-prevFrame = 100
-def update(data):
-    global fps
-    global prevFrame
-    
-    # Calculate the UI caused overhead
-    frame = time.time()
-    try:
-        fps.set(f"UI FPS: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)")
-    except: pass
-    prevFrame = frame
-        
-    try:
-        # Update the selected plugin
-        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
-        if ui != None:
-            ui.update(data)
-    except Exception as ex:
-        if "'UI' object has no attribute 'update'" in str(ex):
-            print("Currently open panel does not have an update method. Please add one.")
-        elif "name 'ui' is not defined" not in str(ex):
-            print(str(ex))
-        pass
-
-    try:
-        root.update()
-    except:
-        raise Exception("The main window has been closed.", "If you closed the app this is normal.")
-    
-def closeTab(event):
-    index = pluginNotebook.tk.call(pluginNotebook._w, "identify", "tab", event.x, event.y)
-    pluginFrames.pop(index)
-    UIs.pop(index)
-    pluginNotebook.forget(index)
-    
-    settings.RemoveFromList("User Interface", "Open Tabs", plugin.PluginInfo.name)
-    
-
-def selectedOtherTab():
-    currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]
-    currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
-    # Run the UI tab focus function
-    if currentUI != None:
-        try:
-            currentUI.tabFocused()
-        except:
-            resizeWindow(width, height)
-
- 
-def switchSelectedPlugin(pluginName):
-    global plugin
-    global pluginFrame
-    global pluginFrames
-    global ui
-    global root
-
-    
-    plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
-    
-    if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
-        if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable all plugins. Do you want to continue?")):
-            settings.CreateSettings("Plugins", "Enabled", [])
-            variables.UpdatePlugins()
-            
-        else: return
-        
-    if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
-        if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable the mainloop. Do you want to continue?")):
-            variables.ToggleEnable()
-            enableButton.config(text=(Translate("Disable") if variables.ENABLELOOP else Translate("Enable")))
-        
-        else: return
-        
-        
-        
-    # Create a new frame for the plugin in the notebook
-    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
-    pluginFrame.pack_propagate(0)
-    pluginFrame.grid_propagate(0)
-    
-    ui = plugin.UI(pluginFrame)
-    UIs.append(ui)
-    
-    pluginFrames.append(pluginFrame)
-    pluginNotebook.add(pluginFrame, text=plugin.PluginInfo.name)
-    
-    pluginNotebook.select(pluginFrames.index(pluginFrame))
-    
-    print("Loaded " + pluginName)
-    
-    settings.AddToList("User Interface", "Open Tabs", plugin.PluginInfo.name)
-    
-def resizeWindow(newWidth, newHeight):
-    global root
-    global root
-    # Offsets for the new tabs
-    newHeight += 20
-    newWidth += 40
-    
-    root.geometry(f"{newWidth}x{newHeight}")
-    pluginNotebook.config(width=newWidth, height=newHeight-20)
-    buttonFrame.config(height=newHeight-20)
-    root.update()
-        
-def changeTheme():
-    print("Changing theme")
-    global themeButton
-    themeSelector.SwitchThemeType()
-    themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")
