@@ -280,16 +280,16 @@ def CreateRoot():
     # Bottom text
     showCopyright = settings.GetSettings("User Interface", "ShowCopyright")
     if showCopyright == None:
-        settings.CreateSettings("User Interface", "ShowCopyright")
-        showCopyright = True
+        settings.CreateSettings("User Interface", "ShowCopyright", False)
+        showCopyright = False
     if showCopyright:
         ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
     fps = tk.StringVar()
     
     showFps = settings.GetSettings("User Interface", "ShowFPS")
     if showFps == None:
-        settings.CreateSettings("User Interface", "ShowFPS")
-        showFps = True
+        settings.CreateSettings("User Interface", "ShowFPS", False)
+        showFps = False
     if showFps:
         fpsLabel = ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
