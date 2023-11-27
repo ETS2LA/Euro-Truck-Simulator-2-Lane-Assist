@@ -50,11 +50,6 @@ class UI():
             
             helpers.OpenWebView("Changelog", variables.CHANGELOG[0])
             
-            # Remove the tab from mainUI
-            index = 1
-            mainUI.UIs.pop(index)
-            mainUI.pluginNotebook.forget(index)
-            mainUI.pluginFrames.pop(index)
             settings.RemoveFromList("User Interface", "OpenTabs", "Changelog")
         
         

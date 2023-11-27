@@ -300,12 +300,6 @@ def InstallPlugins():
         child.destroy()
         
     # Remove the tab
-    
-    index = 1
-    mainUI.pluginNotebook.forget(index)
-    mainUI.pluginFrames.pop(index)
-    mainUI.UIs.pop(index)
-    installFrame.destroy()
     settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
         
 
