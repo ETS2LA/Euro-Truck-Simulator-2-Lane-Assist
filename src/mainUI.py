@@ -32,15 +32,17 @@ def DeleteRoot():
         pass
 
 def closeTab(event):
-    index = pluginNotebook.tk.call(pluginNotebook._w, "identify", "tab", event.x, event.y)
-    # Get plugin name from the pluginNotebook
-    pluginName = pluginNotebook.tab(index, "text")
-    pluginFrames.pop(index)
-    UIs.pop(index)
-    pluginNotebook.forget(index)
-    
-    settings.RemoveFromList("User Interface", "OpenTabs", pluginName)
-    
+    try:
+        index = pluginNotebook.tk.call(pluginNotebook._w, "identify", "tab", event.x, event.y)
+        # Get plugin name from the pluginNotebook
+        pluginNotebook.forget(index)
+        settings.RemoveFromList("User Interface", "OpenTabs", pluginName)
+        pluginFrames.pop(index)
+        UIs.pop(index)
+        pluginName = pluginNotebook.tab(index, "text")
+        
+    except:
+        pass
 
 def selectedOtherTab():
     currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]

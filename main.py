@@ -230,8 +230,8 @@ def InstallPlugins():
         pass
     
     # Create a new tab for the installer
-    installFrame = ttk.Frame(mainUI.pluginNotebook)
-    installFrame.pack()
+    installFrame = ttk.Frame(mainUI.pluginNotebook, width=600, height=520)
+    installFrame.pack(anchor=tk.CENTER, expand=True, fill=tk.BOTH)
     mainUI.pluginNotebook.add(installFrame, text="Plugin Installer")
     mainUI.pluginNotebook.select(mainUI.pluginNotebook.tabs()[-1])
     
@@ -268,6 +268,7 @@ def InstallPlugins():
         child.destroy()
         
     # Create the progress indicators
+    ttk.Label(installFrame, text="\n\n\n\n\n\n\n").pack()
     currentPlugin = tk.StringVar(installFrame)
     currentPlugin.set("Installing plugins...")
     ttk.Label(installFrame, textvariable=currentPlugin).pack()
@@ -301,6 +302,7 @@ def InstallPlugins():
         
     # Remove the tab
     settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
+    variables.RELOAD = True
         
 
 def CheckForONNXRuntimeChange():

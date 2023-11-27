@@ -50,7 +50,7 @@ class UI():
             
             helpers.OpenWebView("Changelog", variables.CHANGELOG[0])
             
-            settings.RemoveFromList("User Interface", "OpenTabs", "Changelog")
+            variables.RELOAD = True # This will reload the UI when the panel is closed
         
         
         def update(self, data): # When the panel is open this function is called each frame 
