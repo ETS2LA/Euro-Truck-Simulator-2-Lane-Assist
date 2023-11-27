@@ -36,6 +36,12 @@ class UI():
             self.root.destroy()
             del self
 
+        def saveAndReload(self):
+            if not settings.GetSettings("User Interface", "ShowCopyright") and variables.RELOAD:
+                from tkinter import messagebox
+                messagebox.showwarning("Warning", "You have disable the copyright text. Sharing content and/or this program is not allowed!")
+              
+            variables.RELOAD = True
         
         def exampleFunction(self):
             
@@ -47,10 +53,17 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            # Helpers provides easy to use functions for creating consistent widgets!
-            helpers.MakeLabel(self.root, "This is a panel!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, "Quit", lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+            helpers.MakeLabel(self.root, "Tab Settings", 0,0, sticky="w")
+            helpers.MakeCheckButton(self.root, "Reopen tabs on restart", "User Interface", "ReopenTabs", 1,0, width=40, default=True)
+            helpers.MakeCheckButton(self.root, "Close tab on middle mouse button", "User Interface", "CloseTabMMB", 2,0, width=40, default=True)
+            helpers.MakeCheckButton(self.root, "Close tab on right mouse button", "User Interface", "CloseTabRMB", 2,1, width=40, default=False)
+            helpers.MakeLabel(self.root, "General Settings", 3,0, sticky="w")
+            helpers.MakeCheckButton(self.root, "Show FPS", "User Interface", "ShowFPS", 4,0, width=40, default=True)
+            helpers.MakeCheckButton(self.root, "Show Copyright & Version", "User Interface", "ShowCopyright", 4,1, width=40, default=True)
+            helpers.MakeLabel(self.root, "NOTICE: You MUST keep either copyright notice on for any videos, public instances, forks etc...", 5,0, sticky="w", columnspan=2)
+            helpers.MakeCheckButton(self.root, "Show Copyright in titlebar?", "User Interface", "TitleCopyright", 6,0, width=40, default=False)
+            
+            helpers.MakeButton(self.root, "Save & Reload", lambda: self.saveAndReload(), 7,0, columnspan=3, sticky="w", width=80)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

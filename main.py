@@ -381,7 +381,12 @@ def LoadApplication():
         settings.CreateSettings("logger", "debug", False)
 
     # We've loaded all necessary modules
-    mainUI.root.title("Lane Assist - " + open(settings.currentProfile, "r").readline().replace("\n", ""))
+    showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings("User Interface", "TitleCopyright", True)
+        showCopyrightInTitlebar = True
+    
+    mainUI.root.title(("Lane Assist - ©Tumppi066 2023 - " if showCopyrightInTitlebar else "Lane Assist - ") + open(settings.currentProfile, "r").readline().replace("\n", ""))
     mainUI.root.update()
     mainUI.drawButtons()
 
@@ -420,6 +425,8 @@ while True:
         
         if variables.RELOAD:
             print("Reloading application...")
+            # Reset the open tabs
+            settings.UpdateSettings("User Interface", "OpenTabs", [])
             LoadApplication()
             variables.RELOAD = False
         

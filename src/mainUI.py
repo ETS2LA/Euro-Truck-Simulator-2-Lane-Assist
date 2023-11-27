@@ -134,6 +134,7 @@ def drawButtons(refresh=False):
         helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
         helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
         helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
+        helpers.MakeLabel(pluginFrames[0], "The top of the app has all your currently open tabs.              \nThey can be closed with the middle mouse button.", 1, 1)
     except:
         pass
     enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
@@ -239,7 +240,18 @@ def CreateRoot():
     height = 600
 
     root = tk.Tk()
-    root.title("Lane Assist")
+    showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings("User Interface", "TitleCopyright", True)
+        showCopyrightInTitlebar = True
+    
+    root.title("Lane Assist - ©Tumppi066 2023" if showCopyrightInTitlebar else "Lane Assist")
+    
+    # Hack to make windows think we are our own app, and then show our icon
+    import ctypes
+    myappid = u'mycompany.myproduct.subproduct.version' # arbitrary string
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+    root.iconbitmap(default="assets/favicon.ico")
 
     root.resizable(False, False)
     root.geometry(f"{width}x{height}")
@@ -266,9 +278,20 @@ def CreateRoot():
         pass
 
     # Bottom text
-    ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+    showCopyright = settings.GetSettings("User Interface", "ShowCopyright")
+    if showCopyright == None:
+        settings.CreateSettings("User Interface", "ShowCopyright")
+        showCopyright = True
+    if showCopyright:
+        ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
     fps = tk.StringVar()
-    fpsLabel = ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+    
+    showFps = settings.GetSettings("User Interface", "ShowFPS")
+    if showFps == None:
+        settings.CreateSettings("User Interface", "ShowFPS")
+        showFps = True
+    if showFps:
+        fpsLabel = ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
     # Left button bar
     try:
@@ -313,8 +336,19 @@ def CreateRoot():
     pluginNotebook.bind("<<NotebookTabChanged>>", lambda e: selectedOtherTab())
     
     # Bind middleclick on a tab to close it
-    pluginNotebook.bind("<Button-2>", lambda e: closeTab(e))
-    
+    closeMMB = settings.GetSettings("User Interface", "CloseTabMMB")
+    if closeMMB == None:
+        settings.CreateSettings("User Interface", "CloseTabMMB", True)
+        closeMMB = True
+    closeRMB = settings.GetSettings("User Interface", "CloseTabRMB")
+    if closeRMB == None:
+        settings.CreateSettings("User Interface", "CloseTabRMB", False)
+        closeRMB = False
+        
+    if closeMMB:
+        pluginNotebook.bind("<Button-2>", lambda e: closeTab(e))
+    if closeRMB:
+        pluginNotebook.bind("<Button-3>", lambda e: closeTab(e))
     
     # Bind rightclick on a tab to move it to another position
     # TODO: Make this work
@@ -328,7 +362,12 @@ def CreateRoot():
     print("Initialized UI")
 
     # Open previously open tabs
-    if settings.GetSettings("User Interface", "OpenTabs") is not None:
+    ReopenTabs = settings.GetSettings("User Interface", "ReopenTabs")
+    if ReopenTabs == None:
+        settings.CreateSettings("User Interface", "ReopenTabs", True)
+        ReopenTabs = True
+        
+    if settings.GetSettings("User Interface", "OpenTabs") is not None and ReopenTabs:
         for tab in settings.GetSettings("User Interface", "OpenTabs"):
             print("Loading " + tab)
             try:
@@ -339,6 +378,7 @@ def CreateRoot():
 
     print("Loaded previously open tabs")
     root.update()
+    themeSelector.ColorTitleBar(root)
 
 
 CreateRoot()
