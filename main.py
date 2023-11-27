@@ -301,7 +301,7 @@ def InstallPlugins():
         
     # Remove the tab
     
-    index = mainUI.pluginNotebook.index(mainUI.pluginNotebook.select())
+    index = 1
     mainUI.pluginNotebook.forget(index)
     mainUI.pluginFrames.pop(index)
     mainUI.UIs.pop(index)
