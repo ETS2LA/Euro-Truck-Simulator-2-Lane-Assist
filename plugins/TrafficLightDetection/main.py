@@ -1493,6 +1493,9 @@ class UI():
             self.root.destroy()
             del self
 
+        def tabFocused(self):
+            resizeWindow(850,650)
+
         def UpdateScaleValueFromSlider(self):
             self.textsize.set(self.textsizeSlider.get())
             self.x1ofsc.set(self.x1ofscSlider.get())

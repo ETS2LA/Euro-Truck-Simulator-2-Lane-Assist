@@ -64,6 +64,8 @@ class UI():
         self.root.destroy()
         del self
 
+    def tabFocused(self):
+        resizeWindow(1220, 700)
     
     def page0(self):
         

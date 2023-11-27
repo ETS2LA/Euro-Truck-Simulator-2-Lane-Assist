@@ -31,15 +31,19 @@ def DeleteRoot():
     except:
         pass
 
+pluginFrames = []
+UIs = []
+additionals = []
+ui = None
 def CreateRoot():
     global root
     global buttonFrame
-    global pluginFrame
+    global pluginFrames
+    global pluginNotebook
     global width
     global height
     global fps
     global fpsLabel
-    global uiImage
     
     # Stack overflow comes to the rescue once again here
     # https://stackoverflow.com/a/44422362
@@ -124,28 +128,30 @@ def CreateRoot():
     buttonFrame.grid_propagate(0)
     buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
 
+    # Create the plugin notebook
+    pluginNotebook = ttk.Notebook(root, width=width, height=height-20)
+    pluginNotebook.pack_propagate(0)
+    pluginNotebook.grid_propagate(0)
 
-    # Plugin frame
-    try:
-        pluginFrame = tk.Canvas(root, width=width, height=height-20, border=0, highlightthickness=0)
-        
-        x = 10
-        y = 10
-        w = width
-        h = height-20
-        image = CropWallpaper("assets/images/wallpaper.png", x, y, w, h)
-        newImage = ImageTk.PhotoImage(image)
-        
-        imageLabel = tk.Label(buttonFrame, image=newImage)
-        imageLabel.image = newImage
-        imageLabel.place(x=0, y=0, relwidth=1, relheight=1)
-        
-    except:
-        pluginFrame = ttk.LabelFrame(root, text="Selected Plugin", width=width, height=height-20)
-    
+    # Create the page for the main menu
+    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
     pluginFrame.pack_propagate(0)
     pluginFrame.grid_propagate(0)
-    pluginFrame.pack(side="left", anchor="w", padx=10, pady=10)
+    pluginFrames.append(pluginFrame)
+    UIs.append(None)
+    pluginNotebook.add(pluginFrame, text="Main Menu")
+    
+    pluginNotebook.pack(side="left", anchor="n", padx=10, pady=10)
+    
+    # Make a callback for selecting another tab
+    pluginNotebook.bind("<<NotebookTabChanged>>", lambda e: selectedOtherTab())
+    
+    # Bind middleclick on a tab to close it
+    pluginNotebook.bind("<Button-2>", lambda e: closeTab(e))
+    
+    # Bind rightclick on a tab to move it to another position
+    # TODO: Make this work
+    # pluginNotebook.bind("<Button-3>", lambda e: moveTab(e))
 
     def Reload():
         variables.RELOAD = True
@@ -169,20 +175,23 @@ def drawButtons(refresh=False):
     global enableButton
     global themeButton
     
-    if refresh:
+    if refresh or pluginFrames == []:
         CreateRoot()
     
-    for child in pluginFrame.winfo_children():
-        child.destroy()
+    try:
+        for child in pluginFrames[0].winfo_children():
+            child.destroy()
+    except:
+        pass
         
     for child in buttonFrame.winfo_children():
         child.destroy()
     
-    helpers.MakeButton(pluginFrame, "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
-    helpers.MakeButton(pluginFrame, "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
-    helpers.MakeButton(pluginFrame, "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
-    helpers.MakeButton(pluginFrame, "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
-    helpers.MakeLabel(pluginFrame, "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
+    helpers.MakeButton(pluginFrames[0], "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
+    helpers.MakeButton(pluginFrames[0], "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
+    helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
+    helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
+    helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
     enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
     helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=9)
@@ -197,7 +206,6 @@ prevFrame = 100
 def update(data):
     global fps
     global prevFrame
-    global ui
     
     # Calculate the UI caused overhead
     frame = time.time()
@@ -207,7 +215,10 @@ def update(data):
     prevFrame = frame
         
     try:
-        ui.update(data)
+        # Update the selected plugin
+        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+        if ui != None:
+            ui.update(data)
     except Exception as ex:
         if "'UI' object has no attribute 'update'" in str(ex):
             print("Currently open panel does not have an update method. Please add one.")
@@ -220,14 +231,31 @@ def update(data):
     except:
         raise Exception("The main window has been closed.", "If you closed the app this is normal.")
     
+def closeTab(event):
+    index = pluginNotebook.tk.call(pluginNotebook._w, "identify", "tab", event.x, event.y)
+    pluginFrames.pop(index)
+    UIs.pop(index)
+    pluginNotebook.forget(index)
     
+
+def selectedOtherTab():
+    currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]
+    currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
+    # Run the UI tab focus function
+    if currentUI != None:
+        try:
+            currentUI.tabFocused()
+        except:
+            resizeWindow(width, height)
+
+ 
 def switchSelectedPlugin(pluginName):
     global plugin
     global pluginFrame
+    global pluginFrames
     global ui
     global root
-    
-    resizeWindow(width, height)
+
     
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
     
@@ -245,28 +273,33 @@ def switchSelectedPlugin(pluginName):
         
         else: return
         
-    try:
-        pluginFrame.destroy()
-    except:
-        pass
-    
-    pluginFrame = ttk.LabelFrame(root, text=pluginName.split(".")[1], width=width, height=height-20)
+        
+        
+    # Create a new frame for the plugin in the notebook
+    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
     pluginFrame.pack_propagate(0)
     pluginFrame.grid_propagate(0)
     
-    
     ui = plugin.UI(pluginFrame)
-    pluginFrame.pack(side="left", anchor="n", padx=10, pady=10, expand=True)
+    UIs.append(ui)
+    
+    pluginFrames.append(pluginFrame)
+    pluginNotebook.add(pluginFrame, text=plugin.PluginInfo.name)
+    
+    pluginNotebook.select(pluginFrames.index(pluginFrame))
     
     print("Loaded " + pluginName)
     
 def resizeWindow(newWidth, newHeight):
     global root
     global root
+    # Offsets for the new tabs
+    newHeight += 20
+    newWidth += 40
+    
     root.geometry(f"{newWidth}x{newHeight}")
-    
-    pluginFrame.config(width=newWidth, height=newHeight)
-    
+    pluginNotebook.config(width=newWidth, height=newHeight-20)
+    buttonFrame.config(height=newHeight-20)
     root.update()
         
 def changeTheme():

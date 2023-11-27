@@ -554,6 +554,8 @@ class UI():
             
             LoadSettings()
 
+        def tabFocused(self): # Called when the tab is focused
+            resizeWindow(800,600)
         
         def exampleFunction(self):
             
