@@ -300,7 +300,8 @@ def InstallPlugins():
         child.destroy()
         
     # Remove the tab
-    index = mainUI.pluginNotebook.index("Plugin Installer")
+    
+    index = mainUI.pluginNotebook.index(mainUI.pluginNotebook.select())
     mainUI.pluginNotebook.forget(index)
     mainUI.pluginFrames.pop(index)
     mainUI.UIs.pop(index)
