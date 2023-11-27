@@ -299,6 +299,14 @@ def InstallPlugins():
     for child in installFrame.winfo_children():
         child.destroy()
         
+    # Remove the tab
+    index = mainUI.pluginNotebook.index("Plugin Installer")
+    mainUI.pluginNotebook.forget(index)
+    mainUI.pluginFrames.pop(index)
+    mainUI.UIs.pop(index)
+    installFrame.destroy()
+    settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
+        
 
 def CheckForONNXRuntimeChange():
     change = settings.GetSettings("SwitchLaneDetectionDevice", "switchTo")

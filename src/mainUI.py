@@ -128,11 +128,14 @@ def drawButtons(refresh=False):
     for child in buttonFrame.winfo_children():
         child.destroy()
     
-    helpers.MakeButton(pluginFrames[0], "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
-    helpers.MakeButton(pluginFrames[0], "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
-    helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
-    helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
-    helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
+    try:
+        helpers.MakeButton(pluginFrames[0], "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
+        helpers.MakeButton(pluginFrames[0], "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
+        helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
+        helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
+        helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
+    except:
+        pass
     enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
     helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=9)
     helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=9)
@@ -199,6 +202,7 @@ def CreateRoot():
     global root
     global buttonFrame
     global pluginFrames
+    global UIs
     global pluginNotebook
     global width
     global height
@@ -297,6 +301,8 @@ def CreateRoot():
     pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
     pluginFrame.pack_propagate(0)
     pluginFrame.grid_propagate(0)
+    pluginFrames = []
+    UIs = []
     pluginFrames.append(pluginFrame)
     UIs.append(None)
     pluginNotebook.add(pluginFrame, text="Main Menu")

@@ -50,7 +50,12 @@ class UI():
             
             helpers.OpenWebView("Changelog", variables.CHANGELOG[0])
             
-            mainUI.drawButtons()
+            # Remove the tab from mainUI
+            index = mainUI.pluginNotebook.index("Changelog")
+            mainUI.UIs.pop(index)
+            mainUI.pluginNotebook.forget(index)
+            mainUI.pluginFrames.pop(index)
+            settings.RemoveFromList("User Interface", "OpenTabs", "Changelog")
         
         
         def update(self, data): # When the panel is open this function is called each frame 
