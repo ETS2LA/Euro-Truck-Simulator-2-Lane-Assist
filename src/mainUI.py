@@ -33,11 +33,13 @@ def DeleteRoot():
 
 def closeTab(event):
     index = pluginNotebook.tk.call(pluginNotebook._w, "identify", "tab", event.x, event.y)
+    # Get plugin name from the pluginNotebook
+    pluginName = pluginNotebook.tab(index, "text")
     pluginFrames.pop(index)
     UIs.pop(index)
     pluginNotebook.forget(index)
     
-    settings.RemoveFromList("User Interface", "OpenTabs", plugin.PluginInfo.name)
+    settings.RemoveFromList("User Interface", "OpenTabs", pluginName)
     
 
 def selectedOtherTab():
@@ -49,6 +51,8 @@ def selectedOtherTab():
             currentUI.tabFocused()
         except:
             resizeWindow(width, height)
+    else:
+        resizeWindow(width, height)
 
 def switchSelectedPlugin(pluginName):
     global plugin
@@ -62,7 +66,6 @@ def switchSelectedPlugin(pluginName):
     for tab in pluginNotebook.tabs():
         notebookNames.append(pluginNotebook.tab(tab, "text"))
     
-    print(notebookNames)
     if pluginName.replace("plugins.", "").replace(".main", "") in notebookNames:
         pluginNotebook.select(notebookNames.index(pluginName.replace("plugins.", "").replace(".main", "")))
         return
@@ -306,6 +309,7 @@ def CreateRoot():
     # Bind middleclick on a tab to close it
     pluginNotebook.bind("<Button-2>", lambda e: closeTab(e))
     
+    
     # Bind rightclick on a tab to move it to another position
     # TODO: Make this work
     # pluginNotebook.bind("<Button-3>", lambda e: moveTab(e))
@@ -315,6 +319,7 @@ def CreateRoot():
 
     # Bind F5 to drawButtons
     root.bind("<F5>", lambda e: Reload())
+    print("Initialized UI")
 
     # Open previously open tabs
     if settings.GetSettings("User Interface", "OpenTabs") is not None:
@@ -326,6 +331,7 @@ def CreateRoot():
                 print(ex.args)
                 pass
 
+    print("Loaded previously open tabs")
     root.update()
 
 

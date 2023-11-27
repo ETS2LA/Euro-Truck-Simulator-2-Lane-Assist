@@ -1515,7 +1515,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=650, height=650, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=850, height=650, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             

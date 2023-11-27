@@ -465,7 +465,13 @@ class UI():
             if colortheme == "sunvalley":
                 resizeWindow(900,668)
             else:
-                resizeWindow(900,620)
+                resizeWindow(900,650)
+        
+        def tabFocused(self):
+            if colortheme == "sunvalley":
+                resizeWindow(900,668)
+            else:
+                resizeWindow(900,650)
         
         def destroy(self):
             self.done = True
@@ -480,7 +486,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=900, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -521,7 +527,7 @@ class UI():
             notebook.add(controllerFrame, text=Translate("Controller"))
             notebook.add(advancedFrame, text=Translate("Advanced"))
             
-            ttk.Button(self.root, text="Save", command=self.save, width=15).pack(anchor="center", pady=6)
+            ttk.Button(self.root, text="Save", command=self.save, width=25).pack(anchor="center", pady=6)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
