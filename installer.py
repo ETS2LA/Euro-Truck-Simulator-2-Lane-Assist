@@ -62,6 +62,18 @@ def CreateSettings(category, name, data):
     except Exception as ex:
         print(ex.args)
 
+def CreateShortcut(path, name, icon=""):
+    try:
+        import pyshortcuts
+    except:
+        os.system("pip install pyshortcuts")
+        import pyshortcuts
+        
+    if icon == "":
+        pyshortcuts.make_shortcut(path, name=name)
+    else:
+        pyshortcuts.make_shortcut(path, name=name, icon=icon)
+
 """
 
 Steps to installation : 
@@ -681,6 +693,8 @@ def InstallSequence():
             CreateSettings("User Interface", "Theme", "light")
         restoreconsole()
 
+    CreateShortcut(f"{dir}/run.bat", "ETS2 Lane Assist", f"{dir}/app/assets/favicon.ico")
+
     # Restore the console after preferences are saved
     def restoreconsole():
         sv_ttk.set_theme("dark")
@@ -691,10 +705,12 @@ def InstallSequence():
         console.grid(sticky='n', padx=1, pady=20)
         AddLineToConsole("\nPreferences Saved")
         AddLineToConsole("\nInstallation complete!")
-        AddLineToConsole("You can now close this installer and run the run.bat file to open the app.")
+        AddLineToConsole("You can now close this installer and use the run.bat file to open the app.")
+        AddLineToConsole("!! You can also use the shortcut we created in your windows start menu (win + type ETS2) !!")
         printGreen("Preferences Saved")
         printGreen("Installation complete!")
-        printGreen("You can now close this installer and run the run.bat file to open the app.")
+        printGreen("You can now close this installer and use the run.bat file to open the app.")
+        printGreen("You can also use the shortcut we created in your windows start menu.")
         UpdateProgress(6, 0, 0)
     confirm = ttk.Button(preferenceFrame, text="Confirm", width=64, command=confirmselection)
     confirm.grid(row=7, columnspan=3, padx=15, pady=10)
