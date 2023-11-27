@@ -159,6 +159,14 @@ def CreateRoot():
     # Bind F5 to drawButtons
     root.bind("<F5>", lambda e: Reload())
 
+    # Open previously open tabs
+    if settings.GetSettings("User Interface", "Open Tabs") is not None:
+        for tab in settings.GetSettings("User Interface", "Open Tabs"):
+            try:
+                switchSelectedPlugin(tab)
+            except:
+                pass
+
     root.update()
 
 
@@ -237,6 +245,8 @@ def closeTab(event):
     UIs.pop(index)
     pluginNotebook.forget(index)
     
+    settings.RemoveFromList("User Interface", "Open Tabs", plugin.PluginInfo.name)
+    
 
 def selectedOtherTab():
     currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]
@@ -289,6 +299,8 @@ def switchSelectedPlugin(pluginName):
     pluginNotebook.select(pluginFrames.index(pluginFrame))
     
     print("Loaded " + pluginName)
+    
+    settings.AddToList("User Interface", "Open Tabs", plugin.PluginInfo.name)
     
 def resizeWindow(newWidth, newHeight):
     global root
