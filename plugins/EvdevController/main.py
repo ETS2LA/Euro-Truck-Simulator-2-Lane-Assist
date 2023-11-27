@@ -26,14 +26,11 @@ import src.variables as variables
 import src.settings as settings
 from sys import platform
 import os
-if platform == "linux" or platform == "linux2":
-    try:
-        from evdev import UInput, ecodes, AbsInfo
-    except:
-        raise Exception("EvdevController", "The evdev library is not installed.")
-else:
-    pass
 
+if platform != "linux" or platform != "linux2":
+    raise Exception("EvdevController", "This plugin only works on Linux.")
+
+from evdev import UInput, ecodes, AbsInfo
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
@@ -55,14 +52,15 @@ def plugin(data):
 
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
-    global controller
-    # Create a virtual controller with one axis
-    cap = {
-        ecodes.EV_KEY: [ecodes.BTN_A, ecodes.BTN_B, ecodes.BTN_X, ecodes.BTN_Y, ecodes.BTN_TL, ecodes.BTN_TR, ecodes.BTN_SELECT, ecodes.BTN_START, ecodes.BTN_MODE, ecodes.BTN_THUMBL, ecodes.BTN_THUMBR],
-        ecodes.EV_ABS: [(ecodes.ABS_RX, AbsInfo(value=0, min=-32767, max=32767,fuzz=0, flat=0, resolution=0)),(ecodes.ABS_RY, AbsInfo(value=0, min=-32767, max=32767,fuzz=0, flat=0, resolution=0))]
-    }
-
-    controller = UInput(cap, name="Lane Assist Simulated Controller")
+    if platform == "linux" or platform == "linux2":
+        global controller
+        # Create a virtual controller with one axis
+        cap = {
+            ecodes.EV_KEY: [ecodes.BTN_A, ecodes.BTN_B, ecodes.BTN_X, ecodes.BTN_Y, ecodes.BTN_TL, ecodes.BTN_TR, ecodes.BTN_SELECT, ecodes.BTN_START, ecodes.BTN_MODE, ecodes.BTN_THUMBL, ecodes.BTN_THUMBR],
+            ecodes.EV_ABS: [(ecodes.ABS_RX, AbsInfo(value=0, min=-32767, max=32767,fuzz=0, flat=0, resolution=0)),(ecodes.ABS_RY, AbsInfo(value=0, min=-32767, max=32767,fuzz=0, flat=0, resolution=0))]
+        }
+    
+        controller = UInput(cap, name="Lane Assist Simulated Controller")
     
 
 def onDisable():
