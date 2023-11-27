@@ -328,21 +328,26 @@ def CloseAllPlugins():
         del plugin
         
 
+timesLoaded = 0
 def LoadApplication():
     global mainUI
     global uiUpdateRate
     global loadingWindow
+    global timesLoaded
 
     loadingWindow = loading.LoadingWindow("Please wait initializing...")
     
-    try:
-        mainUI.DeleteRoot()
-        del mainUI
-        import src.mainUI as mainUI
-        mainUI.CreateRoot()
-    except:
-        pass
-    
+    if timesLoaded > 0:
+        try:
+            mainUI.DeleteRoot()
+            del mainUI
+            import src.mainUI as mainUI
+            mainUI.CreateRoot()
+        except:
+            pass
+        
+    timesLoaded += 1
+        
 
     CheckForONNXRuntimeChange()
 

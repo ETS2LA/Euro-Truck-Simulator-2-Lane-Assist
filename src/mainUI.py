@@ -156,8 +156,6 @@ def CreateRoot():
     root.update()
 
 
-    
-
 CreateRoot()
 
 def quit():
