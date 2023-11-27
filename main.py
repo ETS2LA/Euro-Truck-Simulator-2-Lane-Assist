@@ -300,6 +300,8 @@ def InstallPlugins():
     for child in installFrame.winfo_children():
         child.destroy()
         
+    ttk.Label(installFrame, text="\n\n\n\n\n\n\nYou should close this tab by middle clicking the name up top.").pack()
+        
     # Remove the tab
     settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
     variables.RELOAD = True

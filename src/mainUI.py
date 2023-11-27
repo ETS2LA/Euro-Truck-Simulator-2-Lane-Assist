@@ -31,15 +31,18 @@ def DeleteRoot():
     except:
         pass
 
+lastClosedTabName = "About"
 def closeTab(event):
+    global lastClosedTabName
     try:
         index = pluginNotebook.tk.call(pluginNotebook._w, "identify", "tab", event.x, event.y)
         # Get plugin name from the pluginNotebook
+        pluginName = pluginNotebook.tab(index, "text")
         pluginNotebook.forget(index)
-        settings.RemoveFromList("User Interface", "OpenTabs", pluginName)
         pluginFrames.pop(index)
         UIs.pop(index)
-        pluginName = pluginNotebook.tab(index, "text")
+        lastClosedTabName = pluginName
+        settings.RemoveFromList("User Interface", "OpenTabs", pluginName)
         
     except:
         pass
@@ -352,9 +355,21 @@ def CreateRoot():
     if closeRMB:
         pluginNotebook.bind("<Button-3>", lambda e: closeTab(e))
     
+    # Bind the custom key to close the tab
+    try:
+        customKey = settings.GetSettings("User Interface", "CustomKey")
+        if customKey != None and customKey != "":
+            root.bind(f"<{customKey}>", lambda e: closeTab(e))
+            print(f"Bound <{customKey}> to close tab")
+    except:
+        print("Failed to bind custom key to close tab")
+    
     # Bind rightclick on a tab to move it to another position
     # TODO: Make this work
     # pluginNotebook.bind("<Button-3>", lambda e: moveTab(e))
+
+    # Bind CTRL Z to undo closing last tab
+    root.bind("<Control-z>", lambda e: switchSelectedPlugin(f"plugins.{lastClosedTabName}.main"))
 
     def Reload():
         variables.RELOAD = True

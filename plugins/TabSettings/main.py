@@ -37,10 +37,11 @@ class UI():
             del self
 
         def saveAndReload(self):
-            if not settings.GetSettings("User Interface", "ShowCopyright") and variables.RELOAD:
-                from tkinter import messagebox
-                messagebox.showwarning("Warning", "You have disable the copyright text. Sharing content and/or this program is not allowed!")
-              
+            settings.UpdateSettings("User Interface", "CustomKey", self.customKey.get())
+            variables.RELOAD = True
+        
+        def clearAndReload(self):
+            settings.UpdateSettings("User Interface", "OpenTabs", [])
             variables.RELOAD = True
         
         def exampleFunction(self):
@@ -57,6 +58,9 @@ class UI():
             helpers.MakeCheckButton(self.root, "Reopen tabs on restart", "User Interface", "ReopenTabs", 1,0, width=40, default=True)
             helpers.MakeCheckButton(self.root, "Close tab on middle mouse button", "User Interface", "CloseTabMMB", 2,0, width=40, default=True)
             helpers.MakeCheckButton(self.root, "Close tab on right mouse button", "User Interface", "CloseTabRMB", 2,1, width=40, default=False)
+            #if settings.GetSettings("User Interface", "CustomKey") == None:
+            #    settings.CreateSettings("User Interface", "CustomKey", "")
+            #self.customKey = helpers.MakeComboEntry(self.root, "Custom key to close hovered tab", "User Interface", "CustomKey", 3,0, width=10, labelwidth=30, isString=True)
             helpers.MakeLabel(self.root, "General Settings", 3,0, sticky="w")
             helpers.MakeCheckButton(self.root, "Show FPS", "User Interface", "ShowFPS", 4,0, width=40, default=True)
             helpers.MakeCheckButton(self.root, "Show Copyright & Version", "User Interface", "ShowCopyright", 4,1, width=40, default=True)
@@ -64,6 +68,7 @@ class UI():
             helpers.MakeCheckButton(self.root, "Show Copyright in titlebar?", "User Interface", "TitleCopyright", 6,0, width=40, default=False)
             
             helpers.MakeButton(self.root, "Save & Reload", lambda: self.saveAndReload(), 7,0, columnspan=3, sticky="w", width=80)
+            helpers.MakeButton(self.root, "Clear open tabs & Reload", lambda: self.clearAndReload(), 8,0, columnspan=3, sticky="w", width=80)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

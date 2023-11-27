@@ -1486,7 +1486,7 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master 
             self.exampleFunction()
-            resizeWindow(850,650)
+            resizeWindow(850,655)
         
         def destroy(self):
             self.done = True
@@ -1494,7 +1494,7 @@ class UI():
             del self
 
         def tabFocused(self):
-            resizeWindow(850,650)
+            resizeWindow(850,655)
 
         def UpdateScaleValueFromSlider(self):
             self.textsize.set(self.textsizeSlider.get())
@@ -1515,7 +1515,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=850, height=650, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=850, height=655, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -1679,7 +1679,11 @@ class UI():
             helpers.MakeLabel(colorsettingsFrame, "", 13, 0, columnspan=7)
             helpers.MakeLabel(colorsettingsFrame, "", 14, 0, columnspan=7)
             helpers.MakeButton(colorsettingsFrame, "Reset", command=self.resetadvancedcolorstodefault, row=15, column=5)
+            helpers.MakeEmptyLine(colorsettingsFrame,12,1)
+            helpers.MakeEmptyLine(colorsettingsFrame,13,1)
+            helpers.MakeEmptyLine(colorsettingsFrame,14,1)
             helpers.MakeButton(filtersFrame, "Reset", command=self.resetadvancedfilterstodefault, row=15, column=1)
+            helpers.MakeEmptyLine(filtersFrame,14,1)
             helpers.MakeButton(generalFrame, "Reset Advanced Settings", command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
             
         
