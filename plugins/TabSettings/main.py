@@ -37,7 +37,7 @@ class UI():
             del self
 
         def saveAndReload(self):
-            settings.UpdateSettings("User Interface", "CustomKey", self.customKey.get())
+            # settings.UpdateSettings("User Interface", "CustomKey", self.customKey.get())
             variables.RELOAD = True
         
         def clearAndReload(self):
