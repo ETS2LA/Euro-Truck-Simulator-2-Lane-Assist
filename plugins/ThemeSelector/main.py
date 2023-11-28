@@ -41,6 +41,10 @@ def ChangeTheme(theme, root, changedColor=False):
     
     source = ""
 
+    if theme != "SunValley" and theme != "Forest" and theme != "Azure":
+        ChangeThemeCustom(fr"themes\{theme}\theme.tcl", root, "forest", name=theme, titlebar="0x313131") # Support custom themes from mainUI
+        return
+
     if theme == "SunValley":
         source = SV_TTK_PATH[0]
     elif theme == "Forest":
@@ -72,30 +76,68 @@ def ChangeTheme(theme, root, changedColor=False):
         variables.RELOAD = True
     reloads += 1
     
+def ChangeThemeCustom(themePath, root, base, name="Custom", titlebar="0x313131"):
+    global reloads
+    
+    source = themePath
+    
+    try:
+        root.tk.call("source", source)
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+    
+    try:
+        if base.lower() == "forest":
+            ttk.Style().theme_use(f"{name}")
+        else:
+            root.tk.call(f"{name}")
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+    
+    ColorTitleBar(root, override=titlebar)
+    
+    settings.CreateSettings("User Interface", "ColorTheme", name)
+    if reloads != 0:
+        variables.RELOAD = True
+    reloads += 1
+            
 
-def ColorTitleBar(root):
+def ColorTitleBar(root, override=False):
     
     theme = settings.GetSettings("User Interface", "ColorTheme")
     
     # Needs to be int values so windows can understand them
     # For dark themes it should be #2d2d2d and for light themes #f0f0f0
     # These have to then be converted to windows compatible int values
-    darkTitlebarColors = {
-        "SunValley": 0x1c1c1c,
-        "Forest": 0x313131,
-        "Azure": 0x333333
-    }
-    lightTitlebarColors = {
-        "SunValley": 0xfafafa,
-        "Forest": 0xffffff,
-        "Azure": 0xffffff
-    }
-    
-    # Change the titlebar color
-    from ctypes import windll, c_int, byref, sizeof
-    HWND = windll.user32.GetParent(root.winfo_id())
-    returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(lightTitlebarColors[theme]) if themeType == "light" else c_int(darkTitlebarColors[theme])), sizeof(c_int))
-    print(f"Titlebar color change return code: {returnCode}")
+    if override == False:
+        darkTitlebarColors = {
+            "SunValley": 0x1c1c1c,
+            "Forest": 0x313131,
+            "Azure": 0x333333
+        }
+        lightTitlebarColors = {
+            "SunValley": 0xfafafa,
+            "Forest": 0xffffff,
+            "Azure": 0xffffff
+        }
+        
+        # Change the titlebar color
+        from ctypes import windll, c_int, byref, sizeof
+        HWND = windll.user32.GetParent(root.winfo_id())
+        returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(lightTitlebarColors[theme]) if themeType == "light" else c_int(darkTitlebarColors[theme])), sizeof(c_int))
+        print(f"Titlebar color change return code: {returnCode}")
+    else:
+        # Convert from str to int
+        override = int(override, 16)
+        
+        from ctypes import windll, c_int, byref, sizeof
+        HWND = windll.user32.GetParent(root.winfo_id())
+        returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(override)), sizeof(c_int))
+        print(f"Titlebar color change return code: {returnCode}")
     
 
 def SwitchThemeType():

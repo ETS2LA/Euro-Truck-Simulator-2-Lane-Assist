@@ -264,7 +264,7 @@ def CreateRoot():
     
     theme = settings.GetSettings("User Interface", "ColorTheme")
     if theme == None:
-        theme = "SunValley"
+        theme = "Forest"
         settings.CreateSettings("User Interface", "ColorTheme", theme)
     
     themeSelector.ChangeTheme(theme, root)
@@ -395,7 +395,9 @@ def CreateRoot():
 
     print("Loaded previously open tabs")
     root.update()
-    themeSelector.ColorTitleBar(root)
+    
+    if theme != "SunValley" and theme != "Forest" and theme != "Azure":
+        themeSelector.ColorTitleBar(root, override="0x313131")
 
 
 CreateRoot()
