@@ -98,14 +98,14 @@ def VisualizePrefabs(data, img=None, zoom=2):
         
     startTime = time.time()
     
-    converted = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
+    converted = prefabItems.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
     converted = (converted[0] + 500 * (zoom - 1), converted[1] + 500 * (zoom - 1))
     
     curveCount = 0
     for item in areaItems:
         try:
             if item.Prefab.ValidRoad:
-                xy = roads.GetLocalCoordinateInTile(item.X, item.Z, tileCoords[0], tileCoords[1])
+                xy = prefabItems.GetLocalCoordinateInTile(item.X, item.Z, tileCoords[0], tileCoords[1])
                 x = xy[0] + 500 * (zoom - 1) - converted[0]
                 y = xy[1] + 500 * (zoom - 1) - converted[1]
                 cv2.circle(img, (int(x), int(y)), 5, (0, 255, 0) if item.Padding == 0 else (255, 0, 0), -1)
@@ -115,8 +115,8 @@ def VisualizePrefabs(data, img=None, zoom=2):
                 
                 for curve in item.NavigationLanes:
                     curveCount += 1
-                    startXY = roads.GetLocalCoordinateInTile(curve[0] + item.X, curve[1] + item.Z , tileCoords[0], tileCoords[1])
-                    endXY = roads.GetLocalCoordinateInTile(curve[2] + item.X, curve[3] + item.Z, tileCoords[0], tileCoords[1])
+                    startXY = prefabItems.GetLocalCoordinateInTile(curve[0] + item.X, curve[1] + item.Z , tileCoords[0], tileCoords[1])
+                    endXY = prefabItems.GetLocalCoordinateInTile(curve[2] + item.X, curve[3] + item.Z, tileCoords[0], tileCoords[1])
                     startX = startXY[0] + 500 * (zoom - 1) - converted[0]
                     startY = startXY[1] + 500 * (zoom - 1) - converted[1]
                     endX = endXY[0] + 500 * (zoom - 1) - converted[0]
