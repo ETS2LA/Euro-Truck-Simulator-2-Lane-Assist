@@ -42,6 +42,7 @@ class RoadLook():
 
 roads = []
 optimizedRoads = {}
+uidOptimizedRoads = {}
 roadFileName = variables.PATH + "/plugins/Map/GameData/roads.json"
 
 roadsMaxX = 0
@@ -269,6 +270,17 @@ def LoadRoads():
         
     print(f"Roads optimized to {areaCountX}x{areaCountZ} areas")
         
+    # Optimize roads by the three first numbers of the UID
+    for road in roads:
+        uid = str(road.Uid)
+        uid = uid[:3]
+        uid = int(uid)
+        
+        if uid not in uidOptimizedRoads:
+            uidOptimizedRoads[uid] = []
+            
+        uidOptimizedRoads[uid].append(road)
+        
     print("Road parsing done!")
 
 
@@ -299,3 +311,10 @@ def GetLocalCoordinateInTile(x, y, tileX=-1, tileY=-1):
     y = y - (tileY * 1000) - roadsMinZ
     
     return x, y
+
+def GetRoadByUid(uid):
+    for road in uidOptimizedRoads[int(str(uid)[:3])]:
+        if road.Uid == uid:
+            return road
+    
+    return None

@@ -98,6 +98,7 @@ def LoadPrefabItems():
             nav = item["Navigation"][nav]
             navObj.NavId = navId
             navObj.Item1 = nav["Item1"]
+            navObj.Item2 = []
             for item2 in nav["Item2"]:
                 item2Obj = NavigationItem2()
                 item2Obj.Uid = item2["Uid"]
@@ -186,11 +187,17 @@ def LoadPrefabItems():
             
         
         # Set the prefab item as a reference to the road
-        
+        for nav in prefabItem.Navigation:
+            for item in nav.Item2:
+                if item.Type == "Road":
+                    road = roads.GetRoadByUid(item.Uid)
+                    if road != None:
+                        road.ConnectedPrefabItems.append(prefabItem.Uid)
+                        print(f"Added prefab item {prefabItem.Uid} to road {road.Uid}")
         
         
         count += 1
-        if count % 500 == 0:
+        if count % 2 == 0:
             data = {
                 "state": f"Matching prefabs and prefab items... {round(count/len(prefabItems) * 100)}%",
                 "stateProgress": count/len(prefabItems) * 100,

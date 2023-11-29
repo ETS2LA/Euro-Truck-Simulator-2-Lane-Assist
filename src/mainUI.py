@@ -25,6 +25,12 @@ def CropWallpaper(image, x, y, w, h):
 
 def DeleteRoot():
     global root
+    
+    # Save the current position
+    x = root.winfo_x()
+    y = root.winfo_y()
+    settings.CreateSettings("User Interface", "Position", [x, y])
+    
     try:
         root.destroy()
         del root
@@ -200,6 +206,12 @@ def changeTheme():
     themeSelector.SwitchThemeType()
     themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")
     
+# Save the position of the window if it's moved
+def savePosition(event):
+    global root
+    x = root.winfo_x()
+    y = root.winfo_y()
+    settings.CreateSettings("User Interface", "Position", [x, y])
 
 pluginFrames = []
 UIs = []
@@ -260,7 +272,12 @@ def CreateRoot():
     root.iconbitmap(default="assets/favicon.ico")
 
     root.resizable(False, False)
-    root.geometry(f"{width}x{height}")
+    # Load the size and position
+    position = settings.GetSettings("User Interface", "Position")
+    if position == None:
+        root.geometry(f"{width}x{height}")
+    else:
+        root.geometry(f"{width}x{height}+{position[0]}+{position[1]}")
     root.protocol("WM_DELETE_WINDOW", lambda: quit())
     
     theme = settings.GetSettings("User Interface", "ColorTheme")
@@ -378,7 +395,17 @@ def CreateRoot():
     # Bind F5 to drawButtons
     root.bind("<F5>", lambda e: Reload())
     print("Initialized UI")
+    
+    # Bind movement of the window to save the position
+    root.bind("<Configure>", lambda e: savePosition(e))
 
+    root.update()
+    
+    if theme != "SunValley" and theme != "Forest" and theme != "Azure":
+        themeSelector.ColorTitleBar(root, override="0x313131")
+    else:
+        themeSelector.ColorTitleBar(root)
+        
     # Open previously open tabs
     ReopenTabs = settings.GetSettings("User Interface", "ReopenTabs")
     if ReopenTabs == None:
@@ -396,11 +423,6 @@ def CreateRoot():
 
     print("Loaded previously open tabs")
     root.update()
-    
-    if theme != "SunValley" and theme != "Forest" and theme != "Azure":
-        themeSelector.ColorTitleBar(root, override="0x313131")
-    else:
-        themeSelector.ColorTitleBar(root)
 
 
 CreateRoot()
