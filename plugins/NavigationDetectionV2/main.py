@@ -286,6 +286,11 @@ def plugin(data):
             min_y = settings.GetSettings("dxcam", "y")
         except:
             return data
+        
+        try:
+            gamepaused = data["api"]["pause"]
+        except:
+            gamepaused = False
 
         lower_red = np.array([160, 0, 0])
         upper_red = np.array([255, 110, 110])
@@ -423,6 +428,10 @@ def plugin(data):
             else:
                 turnincoming = False
 
+            if DefaultSteering.enabled == False:
+                timerforturnincoming = time.time()-21
+                turnincoming = False
+
             if trafficlight == "Red":
                 if turnincoming == True:
                     timerforturnincoming = time.time() - 10
@@ -484,8 +493,7 @@ def plugin(data):
                 currentoffsetsteeringvalue += lanecorrection
         
 
-        if center_x != width and center_x is not None:
-
+        if center_x != width and center_x is not None and gamepaused == False:
             curve = round((center_x - center_x_turnincdetec)/30 * curvemultip, 3)
             if turn != "none" or turnincoming == True or center_x_turnincdetec == width:
                 curve = 0
@@ -505,6 +513,14 @@ def plugin(data):
 
         data["NavigationDetectionV2"] = {}
         data["NavigationDetectionV2"]["turnincoming"] = turnincoming
+
+        if turn != "none" or turnincoming == True or center_x_turnincdetec == width:
+            data["NavigationDetectionV2"]["curve"] = correction / 5
+        else:
+            data["NavigationDetectionV2"]["curve"] = (center_x - center_x_turnincdetec)/30 
+
+        data["NavigationDetectionV2"]["lane"] = currentlane
+        data["NavigationDetectionV2"]["laneoffsetpercent"] = currentoffsetsteeringvalue/lanewidth
 
         filtered_frame_red_green = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2RGB)
  
@@ -533,19 +549,11 @@ def onDisable():
 # Plugins can also have UIs, this works the same as the panel example
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
-        global colortheme
-        colortheme = settings.GetSettings("User Interface", "ColorTheme")
         
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
-            
-            if colortheme == "SunValley":
-                resizeWindow(985,740)
-            if colortheme == "Azure" or colortheme == "AutumnOrange":
-                resizeWindow(950,770)
-            if colortheme == "Forest":
-                resizeWindow(950,748)       
+            resizeWindow(950,750)        
         
         def destroy(self):
             self.done = True
@@ -565,12 +573,9 @@ class UI():
             settings.CreateSettings("NavigationDetectionV2", "textsize", self.textsizeSlider.get())
             settings.CreateSettings("NavigationDetectionV2", "textdistancescale", self.textdistancescaleSlider.get())
             LoadSettings()
-            
+        
         def tabFocused(self): # Called when the tab is focused
-            if colortheme == "sunvalley":
-                resizeWindow(985,740)
-            else:
-                resizeWindow(950,750)
+            resizeWindow(950,750)
         
         def exampleFunction(self):
             
