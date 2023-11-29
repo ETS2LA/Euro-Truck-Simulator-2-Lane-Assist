@@ -69,9 +69,9 @@ def ChangeTheme(theme, root, changedColor=False):
         traceback.print_exc()
         pass
 
-
-    ColorTitleBar(root)
     settings.CreateSettings("User Interface", "ColorTheme", theme)
+    ColorTitleBar(root)
+
     if reloads != 0:
         variables.RELOAD = True
     reloads += 1
@@ -98,9 +98,9 @@ def ChangeThemeCustom(themePath, root, base, name="Custom", titlebar="0x313131")
         traceback.print_exc()
         pass
     
+    settings.CreateSettings("User Interface", "ColorTheme", name)
     ColorTitleBar(root, override=titlebar)
     
-    settings.CreateSettings("User Interface", "ColorTheme", name)
     if reloads != 0:
         variables.RELOAD = True
     reloads += 1
@@ -128,7 +128,10 @@ def ColorTitleBar(root, override=False):
         # Change the titlebar color
         from ctypes import windll, c_int, byref, sizeof
         HWND = windll.user32.GetParent(root.winfo_id())
-        returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(lightTitlebarColors[theme]) if themeType == "light" else c_int(darkTitlebarColors[theme])), sizeof(c_int))
+        try:
+            returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(lightTitlebarColors[theme]) if themeType == "light" else c_int(darkTitlebarColors[theme])), sizeof(c_int))
+        except:
+            returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(0x313131)), sizeof(c_int))
         print(f"Titlebar color change return code: {returnCode}")
     else:
         # Convert from str to int
