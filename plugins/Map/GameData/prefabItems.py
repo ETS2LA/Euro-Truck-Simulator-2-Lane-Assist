@@ -31,6 +31,7 @@ class PrefabItem:
     NavigationLanes = []
     IsSecret = False
     CurvePoints = [[]]
+    EndPoints = []
     
 class NavigationItem2:
     Uid = 0
@@ -92,6 +93,7 @@ def LoadPrefabItems():
         itemObj.Hidden = item["Hidden"]
         itemObj.Flags = item["Flags"]
         
+        itemObj.Navigation = []
         for nav in item["Navigation"]:
             navObj = Navigation()
             navId = nav
@@ -190,7 +192,6 @@ def LoadPrefabItems():
         
         # Set the prefab item as a reference to the road
         for nav in prefabItem.Navigation:
-            print(len(nav.Item2))
             for item in nav.Item2:
                 if item.Type == "Road":
                     road = roads.GetRoadByUid(item.Uid)
@@ -199,8 +200,9 @@ def LoadPrefabItems():
                         # print(f"Added prefab item {prefabItem.Uid} to road {road.Uid}")
         
         
+        
         count += 1
-        if count % 2 == 0:
+        if count % 500 == 0:
             data = {
                 "state": f"Matching prefabs and prefab items... {round(count/len(prefabItems) * 100)}%",
                 "stateProgress": count/len(prefabItems) * 100,

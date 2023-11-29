@@ -50,6 +50,11 @@ def VisualizeRoads(data, img=None, zoom=2):
             if road.Points == None:
                 roads.CreatePointsForRoad(road)
             
+            try:
+                cv2.putText(img, str(len(road.ConnectedPrefabItems)), (int(road.X), int(road.Y)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+            except: 
+                pass
+            
             newPoints = []
             for point in road.Points:
                 xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
