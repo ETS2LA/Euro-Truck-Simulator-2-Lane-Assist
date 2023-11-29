@@ -37,9 +37,9 @@ import pyautogui
 
 screen_width, screen_height = pyautogui.size()
 
-finalwindow = 1
-grayscalewindow = 1
-redgreenwindow = 1
+finalwindow = True
+grayscalewindow = True
+redgreenwindow = True
 
 
 lower_red = np.array([200, 0, 0])
@@ -103,14 +103,14 @@ def UpdateSettings():
     global lower_yellow_advanced
     global upper_yellow_advanced
     
-    finalwindow = int(settings.GetSettings("TrafficLightDetection", "finalwindow", True))
-    grayscalewindow = int(settings.GetSettings("TrafficLightDetection", "grayscalewindow", False))
-    redgreenwindow = int(settings.GetSettings("TrafficLightDetection", "redgreenwindow", False))
-    automaticwindowsize = int(settings.GetSettings("TrafficLightDetection", "automaticwindowsize", True))
-    detectyellowlight = int(settings.GetSettings("TrafficLightDetection", "detectyellowlight", False))
-    performancemode = int(settings.GetSettings("TrafficLightDetection", "performancemode", True))
-    advancedmode = int(settings.GetSettings("TrafficLightDetection", "advancedmode", False))
-    usefullframe = int(settings.GetSettings("TrafficLightDetection", "usefullframe", True))
+    finalwindow = settings.GetSettings("TrafficLightDetection", "finalwindow", True)
+    grayscalewindow = settings.GetSettings("TrafficLightDetection", "grayscalewindow", False)
+    redgreenwindow = settings.GetSettings("TrafficLightDetection", "redgreenwindow", False)
+    automaticwindowsize = settings.GetSettings("TrafficLightDetection", "automaticwindowsize", True)
+    detectyellowlight = settings.GetSettings("TrafficLightDetection", "detectyellowlight", False)
+    performancemode = settings.GetSettings("TrafficLightDetection", "performancemode", True)
+    advancedmode = settings.GetSettings("TrafficLightDetection", "advancedmode", False)
+    usefullframe = settings.GetSettings("TrafficLightDetection", "usefullframe", True)
     windowscale = float(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
     textsize = float(settings.GetSettings("TrafficLightDetection", "textsize", 1))
     x1 = settings.GetSettings("TrafficLightDetection", "x1ofsc", 0)
@@ -118,14 +118,14 @@ def UpdateSettings():
     x2 = settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1)
     y2 = settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1)
 
-    rectsizefilter = int(settings.GetSettings("TrafficLightDetection", "rectsizefilter", True))
-    widthheightratiofilter = int(settings.GetSettings("TrafficLightDetection", "widthheightratiofilter", True))
-    pixelpercentagefilter = int(settings.GetSettings("TrafficLightDetection", "pixelpercentagefilter", True))
-    otherlightsofffilter = int(settings.GetSettings("TrafficLightDetection", "otherlightsofffilter", True))
+    rectsizefilter = settings.GetSettings("TrafficLightDetection", "rectsizefilter", True)
+    widthheightratiofilter = settings.GetSettings("TrafficLightDetection", "widthheightratiofilter", True)
+    pixelpercentagefilter = settings.GetSettings("TrafficLightDetection", "pixelpercentagefilter", True)
+    otherlightsofffilter = settings.GetSettings("TrafficLightDetection", "otherlightsofffilter", True)
 
 
-    if automaticwindowsize == 1:
-        if usefullframe == 0:
+    if automaticwindowsize == True:
+        if usefullframe == False:
             windowwidth = x2-x1
             windowheight = y2-y1
         else:
@@ -135,21 +135,21 @@ def UpdateSettings():
         windowwidth = settings.GetSettings("TrafficLightDetection", "outputwindowwidth", round(screen_width/2))
         windowheight = settings.GetSettings("TrafficLightDetection", "outputwindowheight", round(screen_height/3))
 
-    if grayscalewindow == 1:
+    if grayscalewindow == True:
         cv2.namedWindow('Traffic Light Detection - B/W', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('Traffic Light Detection - B/W', round(windowwidth*windowscale), round(windowheight*windowscale))
         cv2.setWindowProperty('Traffic Light Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
         startframe = np.zeros((round(windowheight * windowscale), round(windowwidth * windowscale), 3))
         cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
         cv2.imshow('Traffic Light Detection - B/W', startframe)
-    if redgreenwindow == 1:
+    if redgreenwindow == True:
         cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
         cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
         startframe = np.zeros((round(windowheight * windowscale), round(windowwidth * windowscale), 3))
         cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
         cv2.imshow('Traffic Light Detection - Red/Green', startframe)
-    if finalwindow == 1:
+    if finalwindow == True:
         cv2.namedWindow('Traffic Light Detection - Final', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('Traffic Light Detection - Final', round(windowwidth*windowscale), round(windowheight*windowscale))
         cv2.setWindowProperty('Traffic Light Detection - Final', cv2.WND_PROP_TOPMOST, 1)
@@ -157,7 +157,7 @@ def UpdateSettings():
         cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
         cv2.imshow('Traffic Light Detection - Final', startframe)
     
-    if advancedmode == 0:
+    if advancedmode == False:
         min_rect_size = screen_width / 240
         max_rect_size = screen_width / 10
     else:
@@ -275,7 +275,7 @@ def plugin(data):
     
     try:
         frame = data["frameFull"]
-        if usefullframe == 0 and x2-x1 > 0 and y2-y1 > 0:
+        if usefullframe == False and x2-x1 > 0 and y2-y1 > 0:
             frame = frame[y1:y1+(y2-y1), x1:x1+(x2-x1)]
         else: 
             frame = frame[0:round(screen_height/1.5), 0:screen_width] 
@@ -285,10 +285,10 @@ def plugin(data):
     if frame is None: return data
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
-    if advancedmode == 0:
+    if advancedmode == False:
         if anywindowopen == True:
-            if performancemode == 0:
-                if detectyellowlight == 0:
+            if performancemode == False:
+                if detectyellowlight == False:
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
                     mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
 
@@ -356,24 +356,24 @@ def plugin(data):
                                             cv2.rectangle(filtered_frame_red_green, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
                                             cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
 
-                                        if grayscalewindow == 1:
+                                        if grayscalewindow == True:
                                             cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                        if redgreenwindow == 1:
+                                        if redgreenwindow == True:
                                             cv2.rectangle(filtered_frame_red_green, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(filtered_frame_red_green, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(filtered_frame_red_green, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-                                        if finalwindow == 1:
+                                        if finalwindow == True:
                                             cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
 
                                         if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1:
                                             ratio = round(green_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
                                         if red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                             ratio = round(red_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
                                         if currentnearest < w:
@@ -476,28 +476,28 @@ def plugin(data):
                                             cv2.rectangle(filtered_frame_red_green_yellow, (x-round(w/2), yoffset1-round(h/2)), (x + w+round(w/2), yoffset2 + h-round(h/2)), color, round((w+h)/4))
                                             cv2.rectangle(final_frame, (x-round(w/2), yoffset1-round(h/2)), (x + w+round(w/2), yoffset2 + h-round(h/2)), color, round((w+h)/4))
 
-                                        if grayscalewindow == 1:
+                                        if grayscalewindow == True:
                                             cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                        if redgreenwindow == 1:
+                                        if redgreenwindow == True:
                                             cv2.rectangle(filtered_frame_red_green_yellow, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(filtered_frame_red_green_yellow, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(filtered_frame_red_green_yellow, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-                                        if finalwindow == 1:
+                                        if finalwindow == True:
                                             cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
 
                                         if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1:
                                             ratio = round(green_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
                                         if red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1:
                                             ratio = round(red_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
                                         if yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1:
                                             ratio = round(yellow_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
                                         if currentnearest < w:
@@ -563,20 +563,20 @@ def plugin(data):
                                     cv2.rectangle(filtered_frame_red, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
                                     cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
 
-                                    if grayscalewindow == 1:
+                                    if grayscalewindow == True:
                                         cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                    if redgreenwindow == 1:
+                                    if redgreenwindow == True:
                                         cv2.rectangle(filtered_frame_red, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                         cv2.rectangle(filtered_frame_red, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                         cv2.rectangle(filtered_frame_red, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-                                    if finalwindow == 1:
+                                    if finalwindow == True:
                                         cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                         cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                         cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
 
                                 
                                     ratio = round(red_ratio - circlepercent, 2)
-                                    if grayscalewindow == 1:
+                                    if grayscalewindow == True:
                                         cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
                                     if currentnearest < w:
@@ -587,8 +587,8 @@ def plugin(data):
                                             currentdistance = 0
         else:
 
-            if performancemode == 0:
-                if detectyellowlight == 0:
+            if performancemode == False:
+                if detectyellowlight == False:
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
                     mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
 
@@ -775,8 +775,8 @@ def plugin(data):
     else:
         
         if anywindowopen == True:
-            if performancemode == 0:
-                if detectyellowlight == 0:
+            if performancemode == False:
+                if detectyellowlight == False:
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
                     mask_green = cv2.inRange(rgb_frame, lower_green_advanced, upper_green_advanced)
 
@@ -794,7 +794,7 @@ def plugin(data):
                         x, y, w, h = cv2.boundingRect(contour)
                         
                         istrue = False
-                        if rectsizefilter == 1:
+                        if rectsizefilter == True:
                             if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
                                 istrue = True
                         else:
@@ -803,7 +803,7 @@ def plugin(data):
                         if istrue == True:
 
                             istrue = False
-                            if widthheightratiofilter == 1:
+                            if widthheightratiofilter == True:
                                 if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
                                     istrue = True
                             else:
@@ -818,7 +818,7 @@ def plugin(data):
                                 green_ratio = green_pixel_count / total_pixels
 
                                 istrue = False
-                                if pixelpercentagefilter == 1:
+                                if pixelpercentagefilter == True:
                                     if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                         istrue = True
                                 else:
@@ -850,7 +850,7 @@ def plugin(data):
                                     r_centery2, g_centery2, b_centery2 = centery2_color
                                     
                                     istrue = False
-                                    if otherlightsofffilter == 1:
+                                    if otherlightsofffilter == True:
                                         if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
                                             istrue = True
                                     else:
@@ -875,24 +875,24 @@ def plugin(data):
                                             cv2.rectangle(filtered_frame_red_green, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
                                             cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
 
-                                        if grayscalewindow == 1:
+                                        if grayscalewindow == True:
                                             cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                        if redgreenwindow == 1:
+                                        if redgreenwindow == True:
                                             cv2.rectangle(filtered_frame_red_green, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(filtered_frame_red_green, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(filtered_frame_red_green, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-                                        if finalwindow == 1:
+                                        if finalwindow == True:
                                             cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
 
                                         if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1:
                                             ratio = round(green_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
                                         if red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                             ratio = round(red_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
                                         if currentnearest < w:
@@ -923,7 +923,7 @@ def plugin(data):
                         x, y, w, h = cv2.boundingRect(contour)
 
                         istrue = False
-                        if rectsizefilter == 1:
+                        if rectsizefilter == True:
                             if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
                                 istrue = True
                         else:
@@ -932,7 +932,7 @@ def plugin(data):
                         if istrue == True:
 
                             istrue = False
-                            if widthheightratiofilter == 1:
+                            if widthheightratiofilter == True:
                                 if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
                                     istrue = True
                             else:
@@ -949,7 +949,7 @@ def plugin(data):
                                 yellow_ratio = yellow_pixel_count / total_pixels
 
                                 istrue = False
-                                if pixelpercentagefilter == 1:
+                                if pixelpercentagefilter == True:
                                     if (green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1 or 
                                         red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1 or 
                                         yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
@@ -996,7 +996,7 @@ def plugin(data):
                                     r_centery2, g_centery2, b_centery2 = centery2_color
                                     
                                     istrue = False
-                                    if otherlightsofffilter == 1:
+                                    if otherlightsofffilter == True:
                                         if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
                                             istrue = True
                                     else:
@@ -1026,28 +1026,28 @@ def plugin(data):
                                             cv2.rectangle(filtered_frame_red_green_yellow, (x-round(w/2), yoffset1-round(h/2)), (x + w+round(w/2), yoffset2 + h-round(h/2)), color, round((w+h)/4))
                                             cv2.rectangle(final_frame, (x-round(w/2), yoffset1-round(h/2)), (x + w+round(w/2), yoffset2 + h-round(h/2)), color, round((w+h)/4))
 
-                                        if grayscalewindow == 1:
+                                        if grayscalewindow == True:
                                             cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                        if redgreenwindow == 1:
+                                        if redgreenwindow == True:
                                             cv2.rectangle(filtered_frame_red_green_yellow, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(filtered_frame_red_green_yellow, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(filtered_frame_red_green_yellow, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-                                        if finalwindow == 1:
+                                        if finalwindow == True:
                                             cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                             cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
 
                                         if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1:
                                             ratio = round(green_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
                                         if red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1:
                                             ratio = round(red_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
                                         if yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1:
                                             ratio = round(yellow_ratio - circlepercent, 2)
-                                            if grayscalewindow == 1:
+                                            if grayscalewindow == True:
                                                 cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
                                         if currentnearest < w:
@@ -1075,7 +1075,7 @@ def plugin(data):
                     x, y, w, h = cv2.boundingRect(contour)
 
                     istrue = False
-                    if rectsizefilter == 1:
+                    if rectsizefilter == True:
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
                             istrue = True
                     else:
@@ -1084,7 +1084,7 @@ def plugin(data):
                     if istrue == True:
 
                         istrue = False
-                        if widthheightratiofilter == 1:
+                        if widthheightratiofilter == True:
                             if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
                                 istrue = True
                         else:
@@ -1097,7 +1097,7 @@ def plugin(data):
                             red_ratio = red_pixel_count / total_pixels
 
                             istrue = False
-                            if pixelpercentagefilter == 1:
+                            if pixelpercentagefilter == True:
                                 if red_ratio < circleplusoffset and red_ratio > circleminusoffset:
                                     istrue = True
                             else:
@@ -1124,7 +1124,7 @@ def plugin(data):
                                 r_centery2, g_centery2, b_centery2 = centery2_color
                                 
                                 istrue = False
-                                if otherlightsofffilter == 1:
+                                if otherlightsofffilter == True:
                                     if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
                                         istrue = True
                                 else:
@@ -1144,20 +1144,20 @@ def plugin(data):
                                     cv2.rectangle(filtered_frame_red, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
                                     cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x + w+round(w/2), yoffset1 + h+round(h/2)), color, round((w+h)/4))
 
-                                    if grayscalewindow == 1:
+                                    if grayscalewindow == True:
                                         cv2.rectangle(filtered_frame_bw, (x, y), (x + w, y + h), (150, 150, 150), 2)
-                                    if redgreenwindow == 1:
+                                    if redgreenwindow == True:
                                         cv2.rectangle(filtered_frame_red, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                         cv2.rectangle(filtered_frame_red, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                         cv2.rectangle(filtered_frame_red, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
-                                    if finalwindow == 1:
+                                    if finalwindow == True:
                                         cv2.rectangle(final_frame, (x, y), (x + w, y + h), (150, 150, 150), 2)
                                         cv2.rectangle(final_frame, (x, yoffset1), (x + w, y + h), (150, 150, 150), 2)
                                         cv2.rectangle(final_frame, (x, yoffset2), (x + w, y + h), (150, 150, 150), 2)
 
                                 
                                     ratio = round(red_ratio - circlepercent, 2)
-                                    if grayscalewindow == 1:
+                                    if grayscalewindow == True:
                                         cv2.putText(filtered_frame_bw, f"{round(ratio,2)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,   0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
                                     if currentnearest < w:
@@ -1168,8 +1168,8 @@ def plugin(data):
                                             currentdistance = 0
         else:
 
-            if performancemode == 0:
-                if detectyellowlight == 0:
+            if performancemode == False:
+                if detectyellowlight == False:
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
                     mask_green = cv2.inRange(rgb_frame, lower_green_advanced, upper_green_advanced)
 
@@ -1187,7 +1187,7 @@ def plugin(data):
                         x, y, w, h = cv2.boundingRect(contour)
 
                         istrue = False
-                        if rectsizefilter == 1:
+                        if rectsizefilter == True:
                             if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
                                 istrue = True
                         else:
@@ -1196,7 +1196,7 @@ def plugin(data):
                         if istrue == True:
 
                             istrue = False
-                            if widthheightratiofilter == 1:
+                            if widthheightratiofilter == True:
                                 if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
                                     istrue = True
                             else:
@@ -1211,7 +1211,7 @@ def plugin(data):
                                 green_ratio = green_pixel_count / total_pixels
 
                                 istrue = False
-                                if pixelpercentagefilter == 1:
+                                if pixelpercentagefilter == True:
                                     if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                         istrue = True
                                 else:
@@ -1242,7 +1242,7 @@ def plugin(data):
                                     r_centery2, g_centery2, b_centery2 = centery2_color
                                     
                                     istrue = False
-                                    if otherlightsofffilter == 1:
+                                    if otherlightsofffilter == True:
                                         if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
                                             istrue = True
                                     else:
@@ -1278,7 +1278,7 @@ def plugin(data):
                         x, y, w, h = cv2.boundingRect(contour)
 
                         istrue = False
-                        if rectsizefilter == 1:
+                        if rectsizefilter == True:
                             if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
                                 istrue = True
                         else:
@@ -1287,7 +1287,7 @@ def plugin(data):
                         if istrue == True:
 
                             istrue = False
-                            if widthheightratiofilter == 1:
+                            if widthheightratiofilter == True:
                                 if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
                                     istrue = True
                             else:
@@ -1304,7 +1304,7 @@ def plugin(data):
                                 yellow_ratio = yellow_pixel_count / total_pixels
 
                                 istrue = False
-                                if pixelpercentagefilter == 1:
+                                if pixelpercentagefilter == True:
                                     if (green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 and yellow_ratio < 0.1 or 
                                         red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1 and yellow_ratio < 0.1 or 
                                         yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
@@ -1350,7 +1350,7 @@ def plugin(data):
                                     r_centery2, g_centery2, b_centery2 = centery2_color
                                     
                                     istrue = False
-                                    if otherlightsofffilter == 1:
+                                    if otherlightsofffilter == True:
                                         if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
                                             istrue = True
                                     else:
@@ -1383,7 +1383,7 @@ def plugin(data):
                     x, y, w, h = cv2.boundingRect(contour)
                     
                     istrue = False
-                    if rectsizefilter == 1:
+                    if rectsizefilter == True:
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
                             istrue = True
                     else:
@@ -1392,7 +1392,7 @@ def plugin(data):
                     if istrue == True:
 
                         istrue = False
-                        if widthheightratiofilter == 1:
+                        if widthheightratiofilter == True:
                             if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
                                 istrue = True
                         else:
@@ -1405,7 +1405,7 @@ def plugin(data):
                             red_ratio = red_pixel_count / total_pixels
 
                             istrue = False
-                            if pixelpercentagefilter == 1:
+                            if pixelpercentagefilter == True:
                                 if red_ratio < circleplusoffset and red_ratio > circleminusoffset:
                                     istrue = True
                             else:
@@ -1432,7 +1432,7 @@ def plugin(data):
                                 r_centery2, g_centery2, b_centery2 = centery2_color
 
                                 istrue = False
-                                if otherlightsofffilter == 1:
+                                if otherlightsofffilter == True:
                                     if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
                                         istrue = True
                                 else:
@@ -1450,19 +1450,19 @@ def plugin(data):
         
     data["TrafficLightDetection"] = currentneareststate                   
 
-    if grayscalewindow == 1:
+    if grayscalewindow == True:
         if textsize > 0:         
             cv2.putText(filtered_frame_bw, f"Nearest: {currentneareststate}, Distance: {currentdistance}", (20, round(40*textsize)), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 2, cv2.LINE_AA) 
         cv2.imshow('Traffic Light Detection - B/W', filtered_frame_bw)
-    if redgreenwindow == 1:      
-        if performancemode == 0:
-            if detectyellowlight == 0:
+    if redgreenwindow == True:      
+        if performancemode == False:
+            if detectyellowlight == False:
                 cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red_green)
             else:
                 cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red_green_yellow)
         else:
             cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red)
-    if finalwindow == 1:
+    if finalwindow == True:
         cv2.imshow('Traffic Light Detection - Final', final_frame)
 
     return data # Plugins need to ALWAYS return the data
@@ -1482,24 +1482,19 @@ def onDisable():
 
 class UI():
     try: 
-        global colortheme
-        colortheme = settings.GetSettings("User Interface", "ColorTheme")
         
         def __init__(self, master) -> None:
             self.master = master 
             self.exampleFunction()
-
-            if colortheme == "SunValley":
-                resizeWindow(850,660)
-            if colortheme == "Azure" or colortheme == "AutumnOrange":
-                resizeWindow(850,650)
-            if colortheme == "Forest":
-                resizeWindow(850,650)
+            resizeWindow(850,650)
         
         def destroy(self):
             self.done = True
             self.root.destroy()
             del self
+
+        def tabFocused(self):
+            resizeWindow(850,655)
 
         def UpdateScaleValueFromSlider(self):
             self.textsize.set(self.textsizeSlider.get())
@@ -1520,7 +1515,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=650, height=650, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=750, height=650, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -1593,74 +1588,74 @@ class UI():
             self.root.update()
 
 
-            helpers.MakeCheckButton(outputwindowFrame, "Final Window", "TrafficLightDetection", "finalwindow", 1, 0, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window", "TrafficLightDetection", "grayscalewindow", 2, 0, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Red/Green Window", "TrafficLightDetection", "redgreenwindow", 3, 0, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize \n(if active, the Window Width and Height sliders will no longer have any effect)", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=70, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Final Window\n--------------------\nIf enabled, the app creates a window with the result of the traffic light detection.", "TrafficLightDetection", "finalwindow", 1, 0, width=80, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window\n---------------------------\nIf enabled, the app creates a window with the color masks combined in a grayscaled frame.", "TrafficLightDetection", "grayscalewindow", 2, 0, width=80, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Red/Green Window\n----------------------------\nIf enabled, the app creates a window with the color masks combined in a frame.", "TrafficLightDetection", "redgreenwindow", 3, 0, width=80, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize\n---------------------------------\nIf enabled, the Window Width and Window Height sliders will no longer have any effect\nand the output window keeps the aspect ratio of the captured frame. Set the size of the\noutput window with the Window Scale slider.", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=80, callback=UpdateSettings())
+            helpers.MakeEmptyLine(outputwindowFrame,5,0)
 
-            helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Performance Mode (only detects red lights)", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Advanced Settings \n(could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Advanced Settings\n---------------------------\nIf enabled, the traffic light detection uses the settings you set in\nthe Advanced tab. (could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=UpdateSettings())
+            helpers.MakeEmptyLine(generalFrame,7,0)
 
             helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=UpdateSettings())
             helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60, callback=UpdateSettings())
             helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=UpdateSettings())
             helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=UpdateSettings())
 
-            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
             self.textsizeSlider.set(settings.GetSettings("TrafficLightDetection", "textsize", 0.5))
             self.textsizeSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
-            self.textsize = helpers.MakeComboEntry(generalFrame, "Font size", "TrafficLightDetection", "textsize", 9,0)
+            self.textsize = helpers.MakeComboEntry(generalFrame, "Font Size (Grayscale Window)", "TrafficLightDetection", "textsize", 9, 0, width=32, labelwidth=30)
             
-
-            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame \n(if active, the sliders below will no longer have any effect)", "TrafficLightDetection", "usefullframe", 1, 0, width=60, callback=UpdateSettings())
-
+            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=UpdateSettings())
+            
             self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
             self.x1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x1ofsc", 0))
             self.x1ofscSlider.grid(row=3, column=0, padx=10, pady=0, columnspan=2)
-            self.x1ofsc = helpers.MakeComboEntry(screencaptureFrame, "X1 (topleft)", "TrafficLightDetection", "x1ofsc", 4,0)
+            self.x1ofsc = helpers.MakeComboEntry(screencaptureFrame, "X1 (topleft)", "TrafficLightDetection", "x1ofsc", 3,0)
 
             self.y1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
             self.y1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y1ofsc", 0))
             self.y1ofscSlider.grid(row=5, column=0, padx=10, pady=0, columnspan=2)
-            self.y1ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y1 (topleft)", "TrafficLightDetection", "y1ofsc", 6,0)
+            self.y1ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y1 (topleft)", "TrafficLightDetection", "y1ofsc", 5,0)
 
             self.x2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
             self.x2ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1))
             self.x2ofscSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
-            self.x2ofsc = helpers.MakeComboEntry(screencaptureFrame, "X2 (buttomright)", "TrafficLightDetection", "x2ofsc", 8,0)
+            self.x2ofsc = helpers.MakeComboEntry(screencaptureFrame, "X2 (buttomright)", "TrafficLightDetection", "x2ofsc", 7,0)
 
             self.y2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
             self.y2ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1))
             self.y2ofscSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-            self.y2ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y2 (buttomright)", "TrafficLightDetection", "y2ofsc", 10,0)
+            self.y2ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y2 (buttomright)", "TrafficLightDetection", "y2ofsc", 9,0)
 
 
-            self.windowwidthSlider = tk.Scale(outputwindowFrame, from_=round(screen_width/20), to=screen_width, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.windowwidthSlider = tk.Scale(outputwindowFrame, from_=round(screen_width/20), to=screen_width, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
             self.windowwidthSlider.set(settings.GetSettings("TrafficLightDetection", "outputwindowwidth", round(screen_width/2)))
-            self.windowwidthSlider.grid(row=5, column=0, padx=10, pady=0, columnspan=2)
-            self.windowwidth = helpers.MakeComboEntry(outputwindowFrame, "Window Width", "TrafficLightDetection", "outputwindowwidth", 6,0)
+            self.windowwidthSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
+            self.windowwidth = helpers.MakeComboEntry(outputwindowFrame, "Window Width", "TrafficLightDetection", "outputwindowwidth", 6,0, labelwidth=13, width=10)
 
-            self.windowheightSlider = tk.Scale(outputwindowFrame, from_=round(screen_height/20), to=screen_height, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.windowheightSlider = tk.Scale(outputwindowFrame, from_=round(screen_height/20), to=screen_height, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
             self.windowheightSlider.set(settings.GetSettings("TrafficLightDetection", "outputwindowheight", round(screen_height/3)))
             self.windowheightSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
-            self.windowheight = helpers.MakeComboEntry(outputwindowFrame, "Window Height", "TrafficLightDetection", "outputwindowheight", 8,0)
+            self.windowheight = helpers.MakeComboEntry(outputwindowFrame, "Window Height", "TrafficLightDetection", "outputwindowheight", 7,0, labelwidth=13, width=10)
 
-            self.scaleSlider = tk.Scale(outputwindowFrame, from_=0.1, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.scaleSlider = tk.Scale(outputwindowFrame, from_=0.1, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
             self.scaleSlider.set(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
-            self.scaleSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-            self.scale = helpers.MakeComboEntry(outputwindowFrame, "Window Scale", "TrafficLightDetection", "scale", 10,0)
+            self.scaleSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
+            self.scale = helpers.MakeComboEntry(outputwindowFrame, "Window Scale", "TrafficLightDetection", "scale", 8,0, labelwidth=13, width=10)
 
-            self.minrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.minrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
             self.minrectsizeSlider.set(settings.GetSettings("TrafficLightDetection", "minrectsize", round(screen_width / 240)))
             self.minrectsizeSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
-            self.minrectsize = helpers.MakeComboEntry(filtersFrame, "Min. Traffic Light Size Filter", "TrafficLightDetection", "minrectsize", 8,0, labelwidth=50)
+            self.minrectsize = helpers.MakeComboEntry(filtersFrame, "Min. Traffic Light Size Filter", "TrafficLightDetection", "minrectsize", 8,0, labelwidth=80, width=20)
 
-            self.maxrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.maxrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
             self.maxrectsizeSlider.set(settings.GetSettings("TrafficLightDetection", "maxrectsize", round(screen_width / 10)))
             self.maxrectsizeSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-            self.maxrectsize = helpers.MakeComboEntry(filtersFrame, "Max. Traffic Light Size Filter", "TrafficLightDetection", "maxrectsize", 10,0, labelwidth=50)
-
+            self.maxrectsize = helpers.MakeComboEntry(filtersFrame, "Max. Traffic Light Size Filter", "TrafficLightDetection", "maxrectsize", 10,0, labelwidth=80, width=20)
 
             self.upperredr = helpers.MakeComboEntry(colorsettingsFrame, "RED:         Upper R:", "TrafficLightDetection", "upperred_r", 2, 0, labelwidth=20, width=7)
             self.upperredg = helpers.MakeComboEntry(colorsettingsFrame, "Upper G:", "TrafficLightDetection", "upperred_g", 2, 2, labelwidth=13, width=7)
@@ -1684,8 +1679,12 @@ class UI():
             helpers.MakeLabel(colorsettingsFrame, "", 13, 0, columnspan=7)
             helpers.MakeLabel(colorsettingsFrame, "", 14, 0, columnspan=7)
             helpers.MakeButton(colorsettingsFrame, "Reset", command=self.resetadvancedcolorstodefault, row=15, column=5)
-            helpers.MakeButton(filtersFrame, "Reset", command=self.resetadvancedfilterstodefault, row=15, column=1)
-            helpers.MakeButton(generalFrame, "Reset Advanced Settings", command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
+            helpers.MakeEmptyLine(colorsettingsFrame,12,1)
+            helpers.MakeEmptyLine(colorsettingsFrame,13,1)
+            helpers.MakeEmptyLine(colorsettingsFrame,14,1)
+            helpers.MakeButton(filtersFrame, "Reset", command=self.resetadvancedfilterstodefault, row=15, column=1, width=20)
+            helpers.MakeEmptyLine(filtersFrame,14,1)
+            helpers.MakeButton(generalFrame, "Reset Advanced Settings\nto Default\n------------------------------------", command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32,)
             
         
         def save(self):
