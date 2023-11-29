@@ -30,6 +30,7 @@ class PrefabItem:
     Prefab = None
     NavigationLanes = []
     IsSecret = False
+    CurvePoints = [[]]
     
 class NavigationItem2:
     Uid = 0
@@ -109,6 +110,7 @@ def LoadPrefabItems():
         itemObj.Padding = item["Padding"]
         itemObj.Prefab = item["Prefab"]
         itemObj.IsSecret = item["IsSecret"]
+        itemObj.CurvePoints = item["curvePoints"]
         
         if itemObj.Valid:
             prefabItems.append(itemObj)
@@ -151,10 +153,6 @@ def LoadPrefabItems():
         prefabItem.StartNode = nodes.GetNodeByUid(prefabItem.StartNodeUid)
         prefabItem.EndNode = nodes.GetNodeByUid(prefabItem.EndNodeUid)
         
-        # Modify the X and Y to the correct coordinates
-        #prefabItem.X = prefabItem.Nodes[int(prefabItem.Origin)].X #- prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].X#
-        #prefabItem.Z = prefabItem.Nodes[int(prefabItem.Origin)].Z #- prefabItem.Prefab.PrefabNodes[int(prefabItem.Origin)].Z#
-        
         originNode = prefabItem.Nodes[0]
         mapPointOrigin = prefabItem.Prefab.PrefabNodes[prefabItem.Origin]
         rot = originNode.Rotation - math.pi - math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2
@@ -162,27 +160,34 @@ def LoadPrefabItems():
         prefabStartX = originNode.X - mapPointOrigin.X
         prefabStartZ = originNode.Z - mapPointOrigin.Z
         
+        prefabItem.X = prefabStartX
+        prefabItem.Z = prefabStartZ
+        
         # Rotate the prefab curves to match the road.
         # They are rotated around the origin node location by an amount of pi.
         prefabItem.NavigationLanes = []
-        for curve in prefabItem.Prefab.PrefabCurves:
-            def rotate_point(x, z, angle, rot_x, rot_z):
-                s = math.sin(angle)
-                c = math.cos(angle)
-                new_x = x - rot_x
-                new_z = z - rot_z
-                return (new_x * c - new_z * s + rot_x, new_x * s + new_z * c + rot_z)
+        for curvePoints in prefabItem.CurvePoints:
+            # def rotate_point(x, z, angle, rot_x, rot_z):
+            #     s = math.sin(angle)
+            #     c = math.cos(angle)
+            #     new_x = x - rot_x
+            #     new_z = z - rot_z
+            #     return (new_x * c - new_z * s + rot_x, new_x * s + new_z * c + rot_z)
+            # 
+            # newPointStart = rotate_point(prefabStartX + curve.startX, prefabStartZ + curve.startZ, rot, originNode.X, originNode.Z)
+            # newPointEnd = rotate_point(prefabStartX + curve.endX, prefabStartZ + curve.endZ, rot, originNode.X, originNode.Z)
             
-            newPointStart = rotate_point(prefabStartX + curve.startX, prefabStartZ + curve.startZ, rot, originNode.X, originNode.Z)
-            newPointEnd = rotate_point(prefabStartX + curve.endX, prefabStartZ + curve.endZ, rot, originNode.X, originNode.Z)
-            
-            curveStartX = newPointStart[0] - prefabStartX
-            curveStartZ = newPointStart[1] - prefabStartZ
-            curveEndX = newPointEnd[0] - prefabStartX
-            curveEndZ = newPointEnd[1] - prefabStartZ
+            curveStartX = curvePoints[0]
+            curveStartZ = curvePoints[1]
+            curveEndX = curvePoints[2]
+            curveEndZ = curvePoints[3]
             
             prefabItem.NavigationLanes.append((curveStartX, curveStartZ, curveEndX, curveEndZ))
             
+        
+        # Set the prefab item as a reference to the road
+        
+        
         
         count += 1
         if count % 500 == 0:

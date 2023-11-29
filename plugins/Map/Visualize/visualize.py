@@ -95,8 +95,6 @@ def VisualizePrefabs(data, img=None, zoom=2):
     if img is None:
         size = int(zoom * 1000)
         img = np.zeros((size, size, 3), np.uint8)
-        
-    startTime = time.time()
     
     converted = prefabItems.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
     converted = (converted[0] + 500 * (zoom - 1), converted[1] + 500 * (zoom - 1))
@@ -110,13 +108,13 @@ def VisualizePrefabs(data, img=None, zoom=2):
                 y = xy[1] + 500 * (zoom - 1) - converted[1]
                 cv2.circle(img, (int(x), int(y)), 5, (0, 255, 0) if item.Padding == 0 else (255, 0, 0), -1)
                 
-                filename = item.Prefab.FilePath.split("/")[-1] #str(item.Uid)  
+                # filename = item.Prefab.FilePath.split("/")[-1] #str(item.Uid)  
                 # cv2.putText(img, filename, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
                 
                 for curve in item.NavigationLanes:
                     curveCount += 1
-                    startXY = prefabItems.GetLocalCoordinateInTile(curve[0] + item.X, curve[1] + item.Z , tileCoords[0], tileCoords[1])
-                    endXY = prefabItems.GetLocalCoordinateInTile(curve[2] + item.X, curve[3] + item.Z, tileCoords[0], tileCoords[1])
+                    startXY = prefabItems.GetLocalCoordinateInTile(curve[0], curve[1] , tileCoords[0], tileCoords[1])
+                    endXY = prefabItems.GetLocalCoordinateInTile(curve[2], curve[3], tileCoords[0], tileCoords[1])
                     startX = startXY[0] + 500 * (zoom - 1) - converted[0]
                     startY = startXY[1] + 500 * (zoom - 1) - converted[1]
                     endX = endXY[0] + 500 * (zoom - 1) - converted[0]
@@ -124,8 +122,7 @@ def VisualizePrefabs(data, img=None, zoom=2):
                 
                     cv2.line(img, (int(startX), int(startY)), (int(endX), int(endY)), (255, 255, 255), 1 + (zoom - 1))
         except: pass
-    
-    # print(f"Prefabs visualized in {round(time.time() - startTime, 2)} seconds")
+
     
     cv2.putText(img, f"Prefabs: {len(areaItems)}", (10, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
     cv2.putText(img, f"Curves: {curveCount}", (10, 140), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)

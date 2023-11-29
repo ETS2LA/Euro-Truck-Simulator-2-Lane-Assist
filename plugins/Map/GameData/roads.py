@@ -27,6 +27,7 @@ class Road():
     RoadLook = None
     Points = None
     IsSecret = False
+    ConnectedPrefabItems = []
 
 class RoadLook():
     offset = 0.0

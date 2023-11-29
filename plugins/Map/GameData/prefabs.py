@@ -38,6 +38,18 @@ class NavigationRoute:
     Name = ""
     CurveIds = []
     Distance = 0
+    StartNode = None
+    EndNode = None
+    
+class NavigationRouteNode:
+    id = 0
+    X = 0
+    Z = 0
+    RotX = 0
+    RotZ = 0
+    LaneCount = 0
+    InputPoints = []
+    OutputPoints = []
     
 class MapPoint:
     X = 0
@@ -137,6 +149,25 @@ def LoadPrefabs():
             navigationRouteObj.Name = name
             navigationRouteObj.CurveIds = navigationRoute["CurveIds"]
             navigationRouteObj.Distance = navigationRoute["Distance"]
+            navigationRouteObj.StartNode = NavigationRouteNode()
+            navigationRouteObj.StartNode.id = navigationRoute["StartNode"]["id"]
+            navigationRouteObj.StartNode.X = navigationRoute["StartNode"]["X"]
+            navigationRouteObj.StartNode.Z = navigationRoute["StartNode"]["Z"]
+            navigationRouteObj.StartNode.RotX = navigationRoute["StartNode"]["RotX"]
+            navigationRouteObj.StartNode.RotZ = navigationRoute["StartNode"]["RotZ"]
+            navigationRouteObj.StartNode.LaneCount = navigationRoute["StartNode"]["LaneCount"]
+            navigationRouteObj.StartNode.InputPoints = navigationRoute["StartNode"]["InputPoints"]
+            navigationRouteObj.StartNode.OutputPoints = navigationRoute["StartNode"]["OutputPoints"]
+            navigationRouteObj.EndNode = NavigationRouteNode()
+            navigationRouteObj.EndNode.id = navigationRoute["EndNode"]["id"]
+            navigationRouteObj.EndNode.X = navigationRoute["EndNode"]["X"]
+            navigationRouteObj.EndNode.Z = navigationRoute["EndNode"]["Z"]
+            navigationRouteObj.EndNode.RotX = navigationRoute["EndNode"]["RotX"]
+            navigationRouteObj.EndNode.RotZ = navigationRoute["EndNode"]["RotZ"]
+            navigationRouteObj.EndNode.LaneCount = navigationRoute["EndNode"]["LaneCount"]
+            navigationRouteObj.EndNode.InputPoints = navigationRoute["EndNode"]["InputPoints"]
+            navigationRouteObj.EndNode.OutputPoints = navigationRoute["EndNode"]["OutputPoints"]
+            
             prefabObj.NavigationRoutes.append(navigationRouteObj)
             
         prefabs.append(prefabObj)

@@ -73,6 +73,7 @@ def switchSelectedPlugin(pluginName):
     
     if pluginName.replace("plugins.", "").replace(".main", "") in notebookNames:
         pluginNotebook.select(notebookNames.index(pluginName.replace("plugins.", "").replace(".main", "")))
+        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
         return
     
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])

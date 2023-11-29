@@ -72,12 +72,14 @@ def plugin(data):
             startPlugin = "plugins.Performance.main"
             
         mainUI.switchSelectedPlugin("plugins.Map.main")
+        mainUI.root.update()
         nodes.LoadNodes()
+        
     if roads.roads == []:
-        roads.limitToCount = 10000
+        # roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == []:
-        prefabs.limitToCount = 500
+        # prefabs.limitToCount = 500
         prefabs.LoadPrefabs()
     if prefabItems.prefabItems == []:
         prefabItems.LoadPrefabItems()
