@@ -48,6 +48,10 @@ button_A_setup = False
 button_B_setup = False
 button_X_setup = False
 
+last_speed_obj = 0
+last_time_obj = time.time()
+object_in_front_of_truck = False
+
 def UpdateSettings():
     global keyboardmode
     global brakeatredtrafficlight
@@ -211,6 +215,9 @@ def plugin(data):
     global button_setup_time
     global cruisespeedinturns
     global cruisespeedattrafficlight
+    global last_speed_obj
+    global last_time_obj
+    global object_in_front_of_truck
 
     
     try:
@@ -435,9 +442,22 @@ def plugin(data):
             left_trigger_value = 0
             right_trigger_value = 0
 
+        data["CruiseControl"] = {}
+        if targetspeed-3 > speed and last_speed_obj > speed:
+            last_time_obj = time.time()
+
+        if last_time_obj > time.time()-0.5:
+            object_in_front_of_truck = True
+        else:
+            if targetspeed - 1 < speed:
+                object_in_front_of_truck = False
+        
+        data["CruiseControl"]["obj_ifo_truck"] = object_in_front_of_truck
+
         data["controller"]["lefttrigger"] = left_trigger_value
         data["controller"]["righttrigger"] = right_trigger_value
 
+        last_speed_obj = speed
         last_cruisecontrolspeed = cruisecontrolspeed
     return data # Plugins need to ALWAYS return the data
 
@@ -452,7 +472,7 @@ def onDisable():
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
-        
+
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
@@ -460,7 +480,7 @@ class UI():
         
         def tabFocused(self):
             resizeWindow(900,620)
- 
+        
         def destroy(self):
             self.done = True
             self.root.destroy()
@@ -474,7 +494,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=900, height=600, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -515,7 +535,7 @@ class UI():
             notebook.add(controllerFrame, text=Translate("Controller"))
             notebook.add(advancedFrame, text=Translate("Advanced"))
             
-            ttk.Button(self.root, text="Save", command=self.save, width=25).pack(anchor="center", pady=6)
+            ttk.Button(self.root, text="Save", command=self.save, width=15).pack(anchor="center", pady=6)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
