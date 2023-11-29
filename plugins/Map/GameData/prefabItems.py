@@ -157,7 +157,8 @@ def LoadPrefabItems():
         
         originNode = prefabItem.Nodes[0]
         mapPointOrigin = prefabItem.Prefab.PrefabNodes[prefabItem.Origin]
-        rot = originNode.Rotation - math.pi - math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2
+        
+        # rot = originNode.Rotation - math.pi - math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2
         
         prefabStartX = originNode.X - mapPointOrigin.X
         prefabStartZ = originNode.Z - mapPointOrigin.Z
@@ -189,12 +190,13 @@ def LoadPrefabItems():
         
         # Set the prefab item as a reference to the road
         for nav in prefabItem.Navigation:
+            print(len(nav.Item2))
             for item in nav.Item2:
                 if item.Type == "Road":
                     road = roads.GetRoadByUid(item.Uid)
                     if road != None:
                         road.ConnectedPrefabItems.append(prefabItem.Uid)
-                        print(f"Added prefab item {prefabItem.Uid} to road {road.Uid}")
+                        # print(f"Added prefab item {prefabItem.Uid} to road {road.Uid}")
         
         
         count += 1

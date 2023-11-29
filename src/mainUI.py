@@ -210,6 +210,7 @@ def changeTheme():
 saveTimer = time.time()
 saveEveryXSeconds = 1
 def savePosition(event):
+    global saveTimer
     if time.time() - saveTimer > saveEveryXSeconds:
         saveTimer = time.time()
         global root
