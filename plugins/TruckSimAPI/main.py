@@ -112,13 +112,15 @@ def onEnable():
     
     print("Plugin version: " + str(data["scsValues"]["telemetryPluginRevision"]))
     
-    if data["scsValues"]["telemetryPluginRevision"] < 2:
-        print("Plugin not installed")
-        from tkinter import messagebox
-        import webbrowser
-        from plugins.PluginManager.main import UI
-        if messagebox.askyesno("Plugin not installed", "SDK Plugin not installed or the game is not running, do you want to open the instructions?"):
-            webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/InGame")
+    devmode = settings.GetSettings("Dev", "disable_warnings", False)
+    if devmode == False:
+        if data["scsValues"]["telemetryPluginRevision"] < 2:
+            print("Plugin not installed")
+            from tkinter import messagebox
+            import webbrowser
+            from plugins.PluginManager.main import UI
+            if messagebox.askyesno("Plugin not installed", "SDK Plugin not installed or the game is not running, do you want to open the instructions?"):
+                webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/InGame")
     
 
 def onDisable():
