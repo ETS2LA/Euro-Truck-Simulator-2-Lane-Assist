@@ -398,6 +398,8 @@ def CreateRoot():
     
     if theme != "SunValley" and theme != "Forest" and theme != "Azure":
         themeSelector.ColorTitleBar(root, override="0x313131")
+    else:
+        themeSelector.ColorTitleBar(root)
 
 
 CreateRoot()
