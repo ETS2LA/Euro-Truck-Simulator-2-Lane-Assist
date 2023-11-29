@@ -1486,7 +1486,7 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master 
             self.exampleFunction()
-            resizeWindow(850,650)
+            resizeWindow(850,655)
         
         def destroy(self):
             self.done = True

@@ -64,6 +64,8 @@ class UI():
         self.root.destroy()
         del self
 
+    def tabFocused(self):
+        resizeWindow(1220, 700)
     
     def page0(self):
         
@@ -72,7 +74,7 @@ class UI():
             del self.plugin
         except: pass
         
-        self.root = tk.Canvas(self.master, width=1000, height=590, border=0, highlightthickness=0)
+        self.root = tk.Canvas(self.master, width=1200, height=590, border=0, highlightthickness=0)
         self.root.grid_propagate(0)
         
         self.plugins = self.findPlugins()
@@ -157,7 +159,7 @@ class UI():
         self.plugin = plugin.PluginInfo
         
         
-        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=375, height=580)
+        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=425, height=580)
         self.pluginInfoFrame.pack_propagate(0)
         self.pluginInfoFrame.grid_propagate(0)
         self.pluginInfoFrame.grid(row=0, column=3, padx=10, pady=2, rowspan=3)

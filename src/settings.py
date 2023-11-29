@@ -148,7 +148,7 @@ def CreateSettings(category, name, data):
     except Exception as ex:
         print(ex.args)
         
-def AddToList(category, name, data):
+def AddToList(category, name, data, exclusive=False):
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -166,14 +166,31 @@ def AddToList(category, name, data):
             else:
                 settings[category][name].append(data)
         
-        # If the setting exists then overwrite it
-        if category in settings:
+        if not name in settings[category]:
+            settings[category][name] = []
             # Check if the data is a list
             if isinstance(data, list):
                 for item in data:
                     settings[category][name].append(item)
             else:
                 settings[category][name].append(data)
+        
+        # If the setting exists then overwrite it
+        if category in settings:
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    if exclusive:
+                        if not item in settings[category][name]:
+                            settings[category][name].append(item)
+                    else:
+                        settings[category][name].append(item)
+            else:
+                if exclusive:
+                    if not data in settings[category][name]:
+                        settings[category][name].append(data)
+                else:
+                    settings[category][name].append(data)
             
         with open(profile, "w") as f:
             f.truncate(0)

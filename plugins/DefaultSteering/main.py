@@ -95,7 +95,6 @@ def updateSettings():
     gamepadMode = verifySetting("DefaultSteering", "gamepad", False)
     gamepadSmoothness = verifySetting("DefaultSteering", "gamepadSmoothness", 0.05)
     enableDisable = verifySetting("DefaultSteering", "enableDisable", 5)
-    useAPI = verifySetting("DefaultSteering", "useAPI", False)
     
     keyboard = verifySetting("DefaultSteering", "keyboard", False)
     enableDisableKey = verifySetting("DefaultSteering", "enableDisableKey", "n")
@@ -430,7 +429,7 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=700, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
@@ -477,8 +476,6 @@ class UI():
             if value == None: value = 0.2
             self.maximumControl.set(value)
 
-            self.useAPI = helpers.MakeCheckButton(generalFrame, "Use ETS2/ATS API", "DefaultSteering", "useAPI", 5, 1, width=15, default=False)
-            
             controllerFrame.columnconfigure(0, weight=1)
             controllerFrame.columnconfigure(1, weight=1)
             controllerFrame.columnconfigure(2, weight=1)
@@ -530,7 +527,7 @@ class UI():
             keyboardFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(keyboardFrame, "Keyboard", 3, 0, font=("Robot", 12, "bold"), columnspan=3)
             self.keyboard = helpers.MakeCheckButton(keyboardFrame, "Keyboard Mode", "DefaultSteering", "keyboard", 4, 1, width=15, default=False)
-            self.enableDisableKey = helpers.MakeComboEntry(keyboardFrame, "Enable/Disable Key", "DefaultSteering", "enableDisableKey", 5, 1, width=12, value="n", isString=True)
+            self.enableDisableKey = helpers.MakeComboEntry(keyboardFrame, "Enable/Disable Key", "DefaultSteering", "enableDisableKey", 5, 1, width=12, value="n", isString=True, labelwidth=20)
             # self.rightIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Right Indicator Key", "DefaultSteering", "rightIndicatorKey", 6, 1, width=12, value="e", isString=True)
             # self.leftIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 1, width=12, value="q", isString=True)
             

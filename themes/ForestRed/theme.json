@@ -1,0 +1,8 @@
+{
+    "name": "ForestRed",
+    "description": "The default forest theme but... red.",
+    "author": "tumppi066",
+    "version": "0.1",
+    "base": "forest",
+    "titlebar": "0x313131"
+}

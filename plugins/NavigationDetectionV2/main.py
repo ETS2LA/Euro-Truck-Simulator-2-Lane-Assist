@@ -566,6 +566,11 @@ class UI():
             settings.CreateSettings("NavigationDetectionV2", "textdistancescale", self.textdistancescaleSlider.get())
             LoadSettings()
             
+        def tabFocused(self): # Called when the tab is focused
+            if colortheme == "sunvalley":
+                resizeWindow(985,740)
+            else:
+                resizeWindow(950,750)
         
         def exampleFunction(self):
             

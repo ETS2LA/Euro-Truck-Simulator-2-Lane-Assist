@@ -52,7 +52,7 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            self.updateRate = helpers.MakeComboEntry(self.root, "UI Update Every x Frames", "User Interface", "updateRate", 1,0, value=4, labelwidth=25, width=55)
+            self.updateRate = helpers.MakeComboEntry(self.root, "UI Update Every x Frames", "User Interface", "updateRate", 1,0, value=4, labelwidth=25, width=25)
             
             # self.ignore = helpers.MakeComboEntry(self.root, "Ignore Modules (seperate by ,)", "Plugins", "Ignore", 2,0, value="EvdevController," if os.name != "nt" else "DXCamScreenCapture,", labelwidth=25, isString=True, width=55)
             
@@ -60,14 +60,16 @@ class UI():
             
             helpers.MakeButton(self.root, "Translation Settings", lambda: mainUI.switchSelectedPlugin("plugins.DeepTranslator.main"), 4,0, padx=30, pady=10, width=20)
             
-            helpers.MakeButton(self.root, "Themes", lambda: mainUI.switchSelectedPlugin("plugins.ThemeSelector.main"), 5,0, padx=30, pady=10, width=20)
+            helpers.MakeButton(self.root, "Themes", lambda: mainUI.switchSelectedPlugin("plugins.ThemeSelector.main"), 4,1, padx=30, pady=10, width=20)
             
-            self.awareness = helpers.MakeComboEntry(self.root, "DPI mode (0/1/2)", "User Interface", "DPIAwareness", 6,0, value=0, labelwidth=25, width=50)
+            self.awareness = helpers.MakeComboEntry(self.root, "DPI mode (0/1/2)", "User Interface", "DPIAwareness", 2,0, value=0, labelwidth=25, width=25)
             
             helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 7,0, padx=30, pady=10, width=20)
             
             # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 8,0, padx=30, pady=10, width=20)
+            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 7,1, padx=30, pady=10, width=20)
+            
+            helpers.MakeButton(self.root, "UI Settings", lambda: mainUI.switchSelectedPlugin("plugins.TabSettings.main"), 8,0, padx=30, pady=10, width=20)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

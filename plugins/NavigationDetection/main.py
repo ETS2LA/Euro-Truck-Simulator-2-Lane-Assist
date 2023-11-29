@@ -530,7 +530,7 @@ class UI():
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
             
-            resizeWindow(800,600)
+            resizeWindow(800,620)
         
         def destroy(self):
             self.done = True
@@ -554,6 +554,8 @@ class UI():
             
             LoadSettings()
 
+        def tabFocused(self): # Called when the tab is focused
+            resizeWindow(800,620)
         
         def exampleFunction(self):
             
@@ -561,7 +563,7 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=600, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=600, height=620, border=0, highlightthickness=0)
             self.root.grid_propagate(1) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             

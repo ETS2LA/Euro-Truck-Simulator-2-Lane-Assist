@@ -229,24 +229,30 @@ def InstallPlugins():
     except:
         pass
     
-    ttk.Label(mainUI.pluginFrame, text="The app has detected plugins that have not yet been installed.").pack()
-    ttk.Label(mainUI.pluginFrame, text="Please install them before continuing.").pack()
-    ttk.Label(mainUI.pluginFrame, text="").pack()
-    ttk.Label(mainUI.pluginFrame, text="WARNING: Make sure you trust the authors of the plugins.").pack()
-    ttk.Label(mainUI.pluginFrame, text="If you are at all skeptical then you can see the install script at").pack()
-    ttk.Label(mainUI.pluginFrame, text="app/plugins/<plugin name>/installer.py").pack()
-    ttk.Label(mainUI.pluginFrame, text="").pack()
+    # Create a new tab for the installer
+    installFrame = ttk.Frame(mainUI.pluginNotebook, width=600, height=520)
+    installFrame.pack(anchor=tk.CENTER, expand=True, fill=tk.BOTH)
+    mainUI.pluginNotebook.add(installFrame, text="Plugin Installer")
+    mainUI.pluginNotebook.select(mainUI.pluginNotebook.tabs()[-1])
+    
+    ttk.Label(installFrame, text="The app has detected plugins that have not yet been installed.").pack()
+    ttk.Label(installFrame, text="Please install them before continuing.").pack()
+    ttk.Label(installFrame, text="").pack()
+    ttk.Label(installFrame, text="WARNING: Make sure you trust the authors of the plugins.").pack()
+    ttk.Label(installFrame, text="If you are at all skeptical then you can see the install script at").pack()
+    ttk.Label(installFrame, text="app/plugins/<plugin name>/installer.py").pack()
+    ttk.Label(installFrame, text="").pack()
     
     startInstall = False
     def SetInstallToTrue():
         global startInstall
         startInstall = True
-    ttk.Button(mainUI.pluginFrame, text="Install plugins", command=lambda: SetInstallToTrue()).pack()
+    ttk.Button(installFrame, text="Install plugins", command=lambda: SetInstallToTrue()).pack()
     
-    ttk.Label(mainUI.pluginFrame, text="").pack()
-    ttk.Label(mainUI.pluginFrame, text="The following plugins require installation: ").pack()
+    ttk.Label(installFrame, text="").pack()
+    ttk.Label(installFrame, text="The following plugins require installation: ").pack()
     # Make tk list object
-    listbox = tk.Listbox(mainUI.pluginFrame, width=75, height=30)
+    listbox = tk.Listbox(installFrame, width=75, height=30)
     listbox.pack()
     # Add the plugins there
     for plugin in pluginNames:
@@ -258,20 +264,21 @@ def InstallPlugins():
         mainUI.root.update()
     
     # Destroy all the widgets
-    for child in mainUI.pluginFrame.winfo_children():
+    for child in installFrame.winfo_children():
         child.destroy()
         
     # Create the progress indicators
-    currentPlugin = tk.StringVar(mainUI.pluginFrame)
+    ttk.Label(installFrame, text="\n\n\n\n\n\n\n").pack()
+    currentPlugin = tk.StringVar(installFrame)
     currentPlugin.set("Installing plugins...")
-    ttk.Label(mainUI.pluginFrame, textvariable=currentPlugin).pack()
-    bar = ttk.Progressbar(mainUI.pluginFrame, orient=tk.HORIZONTAL, length=200, mode='determinate')
+    ttk.Label(installFrame, textvariable=currentPlugin).pack()
+    bar = ttk.Progressbar(installFrame, orient=tk.HORIZONTAL, length=200, mode='determinate')
     bar.pack(pady=15)
-    percentage = tk.StringVar(mainUI.pluginFrame)
-    ttk.Label(mainUI.pluginFrame, textvariable=percentage).pack()
-    ttk.Label(mainUI.pluginFrame, text="").pack()
-    ttk.Label(mainUI.pluginFrame, text="This may take a while...").pack()
-    ttk.Label(mainUI.pluginFrame, text="For more information check the console.").pack()
+    percentage = tk.StringVar(installFrame)
+    ttk.Label(installFrame, textvariable=percentage).pack()
+    ttk.Label(installFrame, text="").pack()
+    ttk.Label(installFrame, text="This may take a while...").pack()
+    ttk.Label(installFrame, text="For more information check the console.").pack()
     
     mainUI.root.update()
     
@@ -290,8 +297,14 @@ def InstallPlugins():
         loadingWindow.update(text=f"Installing '{name}'...")
     
     # Destroy all the widgets
-    for child in mainUI.pluginFrame.winfo_children():
+    for child in installFrame.winfo_children():
         child.destroy()
+        
+    ttk.Label(installFrame, text="\n\n\n\n\n\n\nYou should close this tab by middle clicking the name up top.").pack()
+        
+    # Remove the tab
+    settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
+    variables.RELOAD = True
         
 
 def CheckForONNXRuntimeChange():
@@ -328,21 +341,26 @@ def CloseAllPlugins():
         del plugin
         
 
+timesLoaded = 0
 def LoadApplication():
     global mainUI
     global uiUpdateRate
     global loadingWindow
+    global timesLoaded
 
     loadingWindow = loading.LoadingWindow("Please wait initializing...")
     
-    try:
-        mainUI.DeleteRoot()
-        del mainUI
-        import src.mainUI as mainUI
-        mainUI.CreateRoot()
-    except:
-        pass
-    
+    if timesLoaded > 0:
+        try:
+            mainUI.DeleteRoot()
+            del mainUI
+            import src.mainUI as mainUI
+            mainUI.CreateRoot()
+        except:
+            pass
+        
+    timesLoaded += 1
+        
 
     CheckForONNXRuntimeChange()
 
@@ -362,7 +380,12 @@ def LoadApplication():
         settings.CreateSettings("logger", "debug", False)
 
     # We've loaded all necessary modules
-    mainUI.root.title("Lane Assist - " + open(settings.currentProfile, "r").readline().replace("\n", ""))
+    showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings("User Interface", "TitleCopyright", True)
+        showCopyrightInTitlebar = True
+    
+    mainUI.root.title(("Lane Assist - ©Tumppi066 2023 - " if showCopyrightInTitlebar else "Lane Assist - ") + open(settings.currentProfile, "r").readline().replace("\n", ""))
     mainUI.root.update()
     mainUI.drawButtons()
 
@@ -401,6 +424,8 @@ while True:
         
         if variables.RELOAD:
             print("Reloading application...")
+            # Reset the open tabs
+            settings.UpdateSettings("User Interface", "OpenTabs", [])
             LoadApplication()
             variables.RELOAD = False
         

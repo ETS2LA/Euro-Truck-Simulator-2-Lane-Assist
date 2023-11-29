@@ -452,20 +452,15 @@ def onDisable():
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
-        global colortheme
-        colortheme = settings.GetSettings("User Interface", "ColorTheme")
-
+        
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
-
-            if colortheme == "SunValley":
-                resizeWindow(900,668)
-            if colortheme == "Azure" or colortheme == "AutumnOrange":
-                resizeWindow(900,633)
-            if colortheme == "Forest":
-                resizeWindow(900,620)        
+            resizeWindow(900,620)
         
+        def tabFocused(self):
+            resizeWindow(900,620)
+ 
         def destroy(self):
             self.done = True
             self.root.destroy()
@@ -479,7 +474,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=900, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -520,7 +515,7 @@ class UI():
             notebook.add(controllerFrame, text=Translate("Controller"))
             notebook.add(advancedFrame, text=Translate("Advanced"))
             
-            ttk.Button(self.root, text="Save", command=self.save, width=15).pack(anchor="center", pady=6)
+            ttk.Button(self.root, text="Save", command=self.save, width=25).pack(anchor="center", pady=6)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

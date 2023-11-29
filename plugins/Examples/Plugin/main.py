@@ -74,6 +74,8 @@ class UI():
             self.root.pack(anchor="center", expand=False)
             self.root.update()
         
+        def tabFocused(self): # Called when the tab is focused
+            pass
         
         def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()

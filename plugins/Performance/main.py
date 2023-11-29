@@ -49,6 +49,9 @@ class UI():
             self.root.destroy()
             del self
 
+        def tabFocused(self):
+            mainUI.resizeWindow(900,600)
+
         def updateAxis(self):
             # Update the axis using blitting to avoid redrawing the whole graph
             # the data is updated in the frames list
