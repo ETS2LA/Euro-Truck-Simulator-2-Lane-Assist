@@ -106,6 +106,7 @@ def LoadPrefabItems():
                 navObj.Item2.append(item2Obj)
                 
             itemObj.Navigation.append(navObj)
+            navObj = None
             
         itemObj.Origin = item["Origin"]
         itemObj.Padding = item["Padding"]

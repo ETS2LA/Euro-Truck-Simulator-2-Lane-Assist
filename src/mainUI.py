@@ -207,11 +207,16 @@ def changeTheme():
     themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")
     
 # Save the position of the window if it's moved
+saveTimer = time.time()
+saveEveryXSeconds = 1
 def savePosition(event):
-    global root
-    x = root.winfo_x()
-    y = root.winfo_y()
-    settings.CreateSettings("User Interface", "Position", [x, y])
+    if time.time() - saveTimer > saveEveryXSeconds:
+        saveTimer = time.time()
+        global root
+        x = root.winfo_x()
+        y = root.winfo_y()
+        settings.CreateSettings("User Interface", "Position", [x, y])
+        
 
 pluginFrames = []
 UIs = []
