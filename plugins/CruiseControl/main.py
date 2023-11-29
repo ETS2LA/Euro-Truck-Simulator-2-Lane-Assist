@@ -331,7 +331,7 @@ def plugin(data):
 
         if trafficlight == "Red":
             if brakeatredtrafficlight == True:
-                if time.time() - 0.5 > last_frame_without_traffic_light:
+                if time.time() - 0.2 > last_frame_without_traffic_light:
                     targetspeed = cruisespeedattrafficlight
                     red_traffic_light_time = time.time()
                     if speed < 30:
@@ -452,27 +452,15 @@ def onDisable():
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
-        global colortheme
-        if settings.GetSettings("User Interface", "ColorTheme") == "SunValley":
-            colortheme = "sunvalley"
-        else:
-            colortheme = "notsunvalley"
-
+        
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
-
-            if colortheme == "sunvalley":
-                resizeWindow(900,668)
-            else:
-                resizeWindow(900,650)
+            resizeWindow(900,620)
         
         def tabFocused(self):
-            if colortheme == "sunvalley":
-                resizeWindow(900,668)
-            else:
-                resizeWindow(900,650)
-        
+            resizeWindow(900,620)
+ 
         def destroy(self):
             self.done = True
             self.root.destroy()
