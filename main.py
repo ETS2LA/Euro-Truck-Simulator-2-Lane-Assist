@@ -67,6 +67,32 @@ if missing:
 else:
     pass
 
+import requests
+def UpdateChecker():
+    currentVer = variables.VERSION.split(".")
+    url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
+    remoteVer = requests.get(url).text.strip().split(".")
+    if currentVer[0] < remoteVer[0]:
+        update = True
+    elif currentVer[1] < remoteVer[1]:
+        update = True
+    elif currentVer[2] < remoteVer[2]:
+        update = True
+    else:
+        update = False
+        
+    if update:
+        from tkinter import messagebox
+        if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
+            os.system("git stash")
+            os.system("git pull")
+            if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
+                quit()
+        else:
+            pass
+
+UpdateChecker()
+
 # Check tkinter tcl version
 import tkinter as tk
 from tkinter import messagebox
@@ -92,7 +118,6 @@ import traceback
 import src.settings as settings
 import src.translator as translator
 import psutil
-import requests
 import cv2
 
 logger.printDebug = settings.GetSettings("logger", "debug")
@@ -106,31 +131,6 @@ def GetEnabledPlugins():
     enabledPlugins = settings.GetSettings("Plugins", "Enabled")
     if enabledPlugins == None:
         enabledPlugins = [""]
-
-def UpdateChecker():
-    currentVer = variables.VERSION.split(".")
-    url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
-    remoteVer = requests.get(url).text.strip().split(".")
-    if currentVer[0] < remoteVer[0]:
-        update = True
-    elif currentVer[1] < remoteVer[1]:
-        update = True
-    elif currentVer[2] < remoteVer[2]:
-        update = True
-    else:
-        update = False
-        
-    if update:
-        from tkinter import messagebox
-        if messagebox.askokcancel("Updater", translator.Translate(f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
-            os.system("git stash")
-            os.system("git pull")
-            if messagebox.askyesno("Updater", translator.Translate("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
-                quit()
-        else:
-            pass
-
-UpdateChecker()
 
 def FindPlugins():
     global plugins
