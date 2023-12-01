@@ -71,7 +71,12 @@ import requests
 def UpdateChecker():
     currentVer = variables.VERSION.split(".")
     url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
-    remoteVer = requests.get(url).text.strip().split(".")
+    try:
+        remoteVer = requests.get(url).text.strip().split(".")
+    except:
+        print("Failed to check for updates")
+        print("Please check your internet connection and try again later")
+        return
     if currentVer[0] < remoteVer[0]:
         update = True
     elif currentVer[1] < remoteVer[1]:
@@ -91,7 +96,10 @@ def UpdateChecker():
         else:
             pass
 
-UpdateChecker()
+try:
+    UpdateChecker()
+except:
+    pass
 
 # Check tkinter tcl version
 import tkinter as tk
