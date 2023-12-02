@@ -92,17 +92,17 @@ class UI():
             del self.root
             self.root = tk.Canvas(self.master)
             helpers.MakeLabel(self.root, "Select which type of lane detection you want to use", 0,0, font=("Roboto", 15, "bold"), padx=30, pady=10, columnspan=3,)
-            helpers.MakeLabel(self.root, "TLDR: LSTR is the reccomeneded model for most people.", 1,0, font=("Segoe UI", 12), padx=30, pady=0, columnspan=3)
+            helpers.MakeLabel(self.root, "TLDR: Navigation Detection is the recommended model for most people.", 1,0, font=("Segoe UI", 12), padx=30, pady=0, columnspan=3)
             ttk.Label(self.root, text="").grid(columnspan=3, row=2, column=0, ipadx=0, ipady=0, pady=0)
             helpers.MakeLabel(self.root, "If you want to see all the options, it is reccomended to check the Wiki", 3,0, font=("Segoe UI", 10), padx=30, pady=2, columnspan=3)
             helpers.MakeLabel(self.root, "to see what the best option for you is.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
             ttk.Label(self.root, text="").grid(columnspan=3, row=5, column=0, ipadx=0, ipady=0, pady=0)
             global detectionmethod
             detectionmethod = tk.StringVar()
-            ttk.Radiobutton(master=self.root, variable=detectionmethod, text="LSTR Lane Detection (Recomended)", value="lstr").grid(columnspan=3, row=6, column=0, sticky='w', padx=5, pady=5)
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text="LSTR Lane Detection (Scans the road for lane lines)", value="lstr").grid(columnspan=3, row=6, column=0, sticky='w', padx=5, pady=5)
             ttk.Radiobutton(master=self.root, variable=detectionmethod, text="UFLD Lane Detection (Only for use with Nvidia GPU > GTX 1060)", value="ufld").grid(columnspan=3, row=7, column=0, sticky='w', padx=5, pady=5)
-            ttk.Radiobutton(master=self.root, variable=detectionmethod, text="Navigation Detection (Uses the minimap for lane detection)", value="nav").grid(columnspan=3, row=8, column=0, sticky='w', padx=5, pady=5)
-            detectionmethod.set("lstr")
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text="Navigation Detection (Uses the minimap for lane detection (Recommended))", value="nav").grid(columnspan=3, row=8, column=0, sticky='w', padx=5, pady=5)
+            detectionmethod.set("nav")
             ttk.Label(self.root, text="").grid(columnspan=3, row=9, column=0, ipadx=0, ipady=0, pady=0)
             
             def detectionsettings():
