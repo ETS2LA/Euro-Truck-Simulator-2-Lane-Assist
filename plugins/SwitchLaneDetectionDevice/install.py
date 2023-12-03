@@ -1,4 +1,4 @@
-requirements = ["webbrowser"]
+requirements = []
 import os
 
 # This fucntion will be run when the plugin is first discovered.
