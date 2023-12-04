@@ -25,3 +25,4 @@ plugins/Map/Old
 themes/*
 !themes/ExampleTheme
 !themes/ForestRed
+!themes/Forest

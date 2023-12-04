@@ -24,14 +24,6 @@ import src.variables as variables
 import src.settings as settings
 import os
 
-SV_TTK_PATH = [variables.PATH + "plugins\\ThemeSelector\\themes\\SunValley\\sv_ttk\\sv.tcl"]
-FOREST_PATH = [variables.PATH + "plugins\\ThemeSelector\\themes\\Forest\\forest-dark.tcl", variables.PATH + "plugins\\ThemeSelector\\themes\\Forest\\forest-light.tcl"]
-AZURE_PATH = [variables.PATH + "plugins\\ThemeSelector\\themes\\Azure\\azure.tcl"]
-
-themeType = settings.GetSettings("User Interface", "Theme")
-if themeType == None:
-    themeType = "dark"
-    settings.CreateSettings("User Interface", "Theme", themeType)
 
 # Will switch the application theme
 # theme = "SunValley", "Forest", "Azure"
@@ -39,42 +31,15 @@ reloads = 0
 def ChangeTheme(theme, root, changedColor=False):
     global reloads
     
-    source = ""
-
-    if theme != "SunValley" and theme != "Forest" and theme != "Azure":
+    if theme != "SunValley" and theme != "Azure":
         ChangeThemeCustom(fr"themes\{theme}\theme.tcl", root, "forest", name=theme, titlebar="0x313131") # Support custom themes from mainUI
         return
-
-    if theme == "SunValley":
-        source = SV_TTK_PATH[0]
-    elif theme == "Forest":
-        source = FOREST_PATH[0] if themeType == "dark" else FOREST_PATH[1]
-    elif theme == "Azure":
-        source = AZURE_PATH[0]
-
-    try:
-        root.tk.call("source", source)
-    except:
-        pass
     
-    try:
-        if theme == "Forest":
-            ttk.Style().theme_use(f"forest-{themeType}")
-        elif theme == "Azure":
-            root.tk.call("set_theme", f"{themeType}")
-        else:
-            root.tk.call("sv_set_theme", f"{themeType}")
-    except:
-        import traceback
-        traceback.print_exc()
-        pass
-
-    settings.CreateSettings("User Interface", "ColorTheme", theme)
-    ColorTitleBar(root)
-
-    if reloads != 0:
-        variables.RELOAD = True
-    reloads += 1
+    else:
+        from tkinter import messagebox
+        messagebox.showinfo("Theme", "The old default themes have been deprecated, please use / create a new theme for yourself to use.\nFor now we have selected the default ForestRed theme.")
+        settings.CreateSettings("User Interface", "ColorTheme", "ForestRed")
+        ChangeThemeCustom(fr"themes\ForestRed\theme.tcl", root, "forest", name="ForestRed", titlebar="0x313131") # Support custom themes from mainUI
     
 def ChangeThemeCustom(themePath, root, base, name="Custom", titlebar="0x313131"):
     global reloads
@@ -151,56 +116,3 @@ def SwitchThemeType():
     ChangeTheme(settings.GetSettings("User Interface", "ColorTheme"), mainUI.root, changedColor=True)
     settings.CreateSettings("User Interface", "Theme", themeType)
     print("Switched theme type to " + themeType)
-
-class UI():
-    try: # The panel is in a try loop so that the logger can log errors if they occur
-        
-        def __init__(self, master) -> None:
-            self.master = master # "master" is the mainUI window
-            self.exampleFunction()
-        
-        def destroy(self):
-            self.done = True
-            self.root.destroy()
-            del self
-        
-        def changeTheme(self, theme):
-            if theme != settings.GetSettings("User Interface", "ColorTheme"):
-                ChangeTheme(theme, self.master)
-        
-        def exampleFunction(self):
-            
-            try:
-                self.root.destroy() # Load the UI each time this plugin is called
-            except: pass
-            
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
-            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
-            self.root.pack_propagate(0)
-            
-            # Make a dropdown for selecting the theme
-            self.theme = tk.StringVar(self.root)
-            theme = settings.GetSettings("User Interface", "ColorTheme")
-            if theme == None:
-                theme = "SunValley"
-                settings.CreateSettings("User Interface", "ColorTheme", theme)
-                
-            self.theme.set(theme)
-            self.themeSelector = ttk.OptionMenu(self.root, self.theme, theme, "SunValley", "Forest", "Azure", command=self.changeTheme(self.theme.get()))
-            ttk.Label(self.root, text="Theme: ").grid(row=0, column=0)
-            self.themeSelector.grid(row=0, column=1)
-            
-            helpers.MakeButton(self.root, "Apply", lambda: self.changeTheme(self.theme.get()), 0, 2)
-            
-            helpers.MakeLabel(self.root, "All themes were created by rdbende, I just changed them to work with my application.", 1, 0, columnspan=3)
-            
-            self.root.pack(anchor="center", expand=False)
-            self.root.update()
-        
-        
-        def update(self, data): # When the panel is open this function is called each frame 
-            self.root.update()
-    
-    
-    except Exception as ex:
-        print(ex.args)

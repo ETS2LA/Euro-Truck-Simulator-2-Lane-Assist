@@ -1,8 +1,0 @@
-{
-    "name": "ExampleTheme",
-    "description": "This is a very nice theme",
-    "author": "Tumppi066",
-    "version": "0.1",
-    "titlebar": "0x313131",
-    "base": "forest"
-}

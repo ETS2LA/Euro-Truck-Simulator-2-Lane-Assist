@@ -1,0 +1,8 @@
+{
+    "name": "Forest",
+    "description": "The default forest theme by rdbende.",
+    "author": "rdbende",
+    "version": "0.1",
+    "titlebar": "0x313131",
+    "base": "forest"
+}
