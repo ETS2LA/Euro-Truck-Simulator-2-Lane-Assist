@@ -27,6 +27,8 @@ import src.settings as settings
 import os
 import vgamepad as vg
 import random
+import time
+import threading
 
 gamepad = None
 def createController():
@@ -45,21 +47,56 @@ def createController():
             input("Press enter to safely close the application. ")
             exit()
 
-
+ControllerThread = None
 def onEnable():
+    global ControllerThread
+    ControllerThread = threading.Thread(target=controllerThread).start()
     pass
 
 def onDisable():
-    pass
+    global stop
+    stop = True
+    global ControllerThread
+    try:
+        ControllerThread.stop()
+    except:
+        pass
 
 button_A_pressed = False
 button_B_pressed = False
 button_X_pressed = False
 
+lastControl = 0
+currentControl = 0
+lastFrameTime = 0
+lastUpdateTime = time.time()
+stop = False
+def controllerThread():
+    global gamepad
+    while True:
+        if stop:
+            break
+        try:
+            # Lerp between the two values depending on how long it's been since the last frame
+            # print(lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime))
+            gamepad.left_joystick_float(x_value_float=lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime), y_value_float=0)
+            gamepad.update()
+        except Exception as e:
+            # print(e.args)
+            pass
+        
+        time.sleep(0.01)
+
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
+    global lastControl
+    global currentControl
+    global lastFrameTime
+    global lastUpdateTime
+    lastUpdateTime = time.time()
+    
     global button_A_pressed
     global button_B_pressed
     global button_X_pressed
@@ -117,7 +154,10 @@ def plugin(data):
         button_B_pressed = False
         button_X_pressed = False
 
-        gamepad.left_joystick_float(x_value_float = leftStick, y_value_float = 0)
+        lastControl = currentControl
+        currentControl = leftStick
+        lastFrameTime = data["last"]["executionTimes"]["all"]
+        # gamepad.left_joystick_float(x_value_float = leftStick, y_value_float = 0)
         gamepad.left_trigger_float(value_float = lefttrigger)
         gamepad.right_trigger_float(value_float = righttrigger)
 
@@ -133,7 +173,7 @@ def plugin(data):
             gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
             button_X_pressed = True
 
-        gamepad.update()
+        # gamepad.update()
         # print(leftStick)
     
     except Exception as ex:
