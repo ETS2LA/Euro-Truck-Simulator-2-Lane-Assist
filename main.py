@@ -62,7 +62,7 @@ if missing:
         elif "sv_ttk" in modules:
             pass
         elif "playsound2" in modules:
-            os.system("pip uninstall playsound")
+            os.system("pip uninstall -y playsound")
             os.system("pip install playsound2")
         else:
             print("installing" + " " + modules)
