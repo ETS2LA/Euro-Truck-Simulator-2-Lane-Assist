@@ -1,1 +1,1 @@
-https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases
+Fixed crashes and added changelog to auto updater.
