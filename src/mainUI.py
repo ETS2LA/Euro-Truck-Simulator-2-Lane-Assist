@@ -403,7 +403,7 @@ def CreateRoot():
     print("Initialized UI")
     
     # Bind movement of the window to save the position
-    root.bind("<Configure>", lambda e: savePosition(e))
+    # root.bind("<Configure>", lambda e: savePosition(e))
 
     root.update()
     
