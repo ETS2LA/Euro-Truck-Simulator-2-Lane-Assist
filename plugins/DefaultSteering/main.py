@@ -70,8 +70,9 @@ def updateSettings():
     global enableDisableKey
     global rightIndicatorKey
     global leftIndicatorKey
-    global useAPI
     global lanechangingnavdetection
+    global keyboardSensitivity
+    global keyboardReturnSensitivity
     
     if lastWheelIndex != verifySetting("DefaultSteering", "controller", 0):
         try:
@@ -100,6 +101,9 @@ def updateSettings():
     enableDisableKey = verifySetting("DefaultSteering", "enableDisableKey", "n")
     rightIndicatorKey = verifySetting("DefaultSteering", "rightIndicatorKey", "e")
     leftIndicatorKey = verifySetting("DefaultSteering", "leftIndicatorKey", "q")
+    
+    keyboardSensitivity = verifySetting("DefaultSteering", "keyboardSensitivity", 0.5)
+    keyboardReturnSensitivity = verifySetting("DefaultSteering", "keyboardReturnSensitivity", 0.2)
 
     lanechangingnavdetection = settings.GetSettings("NavigationDetectionV2", "lanechanging", True)
     
@@ -140,6 +144,8 @@ def plugin(data):
     global rightIndicatorKey
     global leftIndicatorKey
     global keyboardControlValue
+    global keyboardSensitivity
+    global keyboardReturnSensitivity
     # global disableLaneAssistWhenIndicating
 
     try:
@@ -153,8 +159,11 @@ def plugin(data):
     data["controller"] = {}
 
     try:
-        data["api"]
-        apiAvailable = True
+        data = data["api"]
+        if data == None:
+            apiAvailable = False
+        else:
+            apiAvailable = True
     except:
         apiAvailable = False
 
@@ -170,20 +179,26 @@ def plugin(data):
         except:
             speed = 50
         
-        if kb.is_pressed("a") and keyboardControlValue > -1:
-            keyboardControlValue -= 0.5 / speed
-            if keyboardControlValue > 0:
-                keyboardControlValue -= 1 / speed
-        elif kb.is_pressed("d") and keyboardControlValue < 1:
-            keyboardControlValue += 0.5 / speed
-            if keyboardControlValue < 0:
-                keyboardControlValue += 1 / speed
+        if kb.is_pressed("a"):
+            if keyboardControlValue < -1:
+                keyboardControlValue = -1
+            else:
+                keyboardControlValue -= keyboardSensitivity / speed
+                if keyboardControlValue > 0:
+                    keyboardControlValue -= 1 / speed
+        elif kb.is_pressed("d"):
+            if keyboardControlValue > 1:
+                keyboardControlValue = 1
+            else:
+                keyboardControlValue += keyboardSensitivity / speed
+                if keyboardControlValue < 0:
+                    keyboardControlValue += 1 / speed
         else:
             # Move closer to the center
-            if keyboardControlValue > 0.2 / speed:
-                keyboardControlValue -= 0.2 / speed
-            elif keyboardControlValue < -0.2 / speed:
-                keyboardControlValue += 0.2 / speed
+            if keyboardControlValue > keyboardReturnSensitivity / speed:
+                keyboardControlValue -= keyboardReturnSensitivity / speed
+            elif keyboardControlValue < -keyboardReturnSensitivity / speed:
+                keyboardControlValue += keyboardReturnSensitivity / speed
             else:
                 keyboardControlValue = 0
             
@@ -198,12 +213,12 @@ def plugin(data):
                     enabled = False
                     print("Disabled")
                     enabledTimer = 0
-                    sounds.PlaySound("assets/sounds/end.mp3")
+                    sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
                 else:
                     enabled = True
                     print("Enabled")
                     enabledTimer = 0
-                    sounds.PlaySound("assets/sounds/start.mp3")
+                    sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
 
             try:
                 pygame.event.pump() # Update the controller values
@@ -278,12 +293,12 @@ def plugin(data):
                     enabled = False
                     print("Disabled")
                     enabledTimer = 0
-                    sounds.PlaySound("assets/sounds/end.mp3")
+                    sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
                 else:
                     enabled = True
                     print("Enabled")
                     enabledTimer = 0
-                    sounds.PlaySound("assets/sounds/start.mp3")
+                    sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
 
             try:
                 pygame.event.pump() # Update the controller values
@@ -528,6 +543,19 @@ class UI():
             helpers.MakeLabel(keyboardFrame, "Keyboard", 3, 0, font=("Robot", 12, "bold"), columnspan=3)
             self.keyboard = helpers.MakeCheckButton(keyboardFrame, "Keyboard Mode", "DefaultSteering", "keyboard", 4, 1, width=15, default=False)
             self.enableDisableKey = helpers.MakeComboEntry(keyboardFrame, "Enable/Disable Key", "DefaultSteering", "enableDisableKey", 5, 1, width=12, value="n", isString=True, labelwidth=20)
+            
+            self.keyboardSensitivity = tk.Scale(keyboardFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label=Translate("Keyboard Sensitivity"))
+            self.keyboardSensitivity.grid(row=6, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "keyboardSensitivity")
+            if value == None: value = 0.5
+            self.keyboardSensitivity.set(value)
+            
+            self.keyboardReturnSens = tk.Scale(keyboardFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label=Translate("Keyboard Return Sensitivity"))
+            self.keyboardReturnSens.grid(row=7, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "keyboardReturnSensitivity")
+            if value == None: value = 0.2
+            self.keyboardReturnSens.set(value)
+            
             # self.rightIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Right Indicator Key", "DefaultSteering", "rightIndicatorKey", 6, 1, width=12, value="e", isString=True)
             # self.leftIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 1, width=12, value="q", isString=True)
             
@@ -562,6 +590,8 @@ class UI():
             settings.CreateSettings("DefaultSteering", "enableDisableKey", self.enableDisableKey.get())
             # settings.CreateSettings("DefaultSteering", "rightIndicatorKey", self.rightIndicatorKey.get())
             # settings.CreateSettings("DefaultSteering", "leftIndicatorKey", self.leftIndicatorKey.get())
+            settings.CreateSettings("DefaultSteering", "keyboardSensitivity", self.keyboardSensitivity.get())
+            settings.CreateSettings("DefaultSteering", "keyboardReturnSensitivity", self.keyboardReturnSens.get())
             updateSettings()
             
         

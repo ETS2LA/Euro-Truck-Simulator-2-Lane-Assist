@@ -46,12 +46,12 @@ except:
 import pkg_resources
 import src.variables as variables # Stores all main variables for the program
 with open(variables.PATH + r"\requirements.txt") as f:
-    requirments = f.read().splitlines()
+    requirements = f.read().splitlines()
 
 installed = [pkg.key for pkg in pkg_resources.working_set]
-requirmentsset = set(requirments)
+requirementsset = set(requirements)
 installedset = set(installed)
-missing = requirmentsset - installedset
+missing = requirementsset - installedset
 
 if missing:
     for modules in missing:
