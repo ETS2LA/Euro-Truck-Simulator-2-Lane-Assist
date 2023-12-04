@@ -189,6 +189,7 @@ def UpdatePlugins(dynamicOrder, data):
                     print(f"Plugin '{plugin.PluginInfo.name}' returned NoneType instead of a the data variable. Please make sure that you return the data variable.")
                 else:
                     data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
+                        
         except Exception as ex:
             print(ex.args + f"[{plugin.PluginInfo.name}]")
             pass
@@ -454,19 +455,19 @@ while True:
             FindPlugins()
             variables.UPDATEPLUGINS = False
         
-        UpdatePlugins("before image capture", data)
-        UpdatePlugins("image capture", data)
+        data = UpdatePlugins("before image capture", data)
+        data = UpdatePlugins("image capture", data)
         
-        UpdatePlugins("before lane detection", data)
-        UpdatePlugins("lane detection", data)
+        data = UpdatePlugins("before lane detection", data)
+        data = UpdatePlugins("lane detection", data)
         
-        UpdatePlugins("before controller", data)
-        UpdatePlugins("controller", data)
+        data = UpdatePlugins("before controller", data)
+        data = UpdatePlugins("controller", data)
         
-        UpdatePlugins("before game", data)
-        UpdatePlugins("game", data)
+        data = UpdatePlugins("before game", data)
+        data = UpdatePlugins("game", data)
         
-        UpdatePlugins("before UI", data)
+        data = UpdatePlugins("before UI", data)
         
         # Calculate the execution time of the UI
         start = time.time()
@@ -477,7 +478,7 @@ while True:
         end = time.time()
         data["executionTimes"]["UI"] = end - start
         
-        UpdatePlugins("last", data)
+        data = UpdatePlugins("last", data)
         
         # And then the entire app
         allEnd = time.time()

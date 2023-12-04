@@ -156,17 +156,17 @@ def plugin(data):
             
         desiredControl = oldDesiredControl * 0.9
         
-    data["controller"] = {}
 
     try:
-        data = data["api"]
-        if data == None:
+        testData = data["api"]
+        if testData == None:
             apiAvailable = False
         else:
             apiAvailable = True
     except:
         apiAvailable = False
 
+    data["controller"] = {}
 
     # Keyboard based control
     if keyboard:
