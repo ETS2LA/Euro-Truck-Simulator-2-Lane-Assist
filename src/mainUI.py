@@ -89,7 +89,11 @@ def switchSelectedPlugin(pluginName):
             settings.CreateSettings("Plugins", "Enabled", [])
             variables.UpdatePlugins()
             
-        else: return
+        else: 
+            try:
+                settings.RemoveFromList("User Interface", "OpenTabs", plugin.PluginInfo.name)
+            except:
+                pass
         
     if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
         if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable the mainloop. Do you want to continue?")):
@@ -119,6 +123,7 @@ def switchSelectedPlugin(pluginName):
 
 def quit():
     global root
+    savePosition()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         # Destroy the root window
         root.destroy()
@@ -206,17 +211,13 @@ def changeTheme():
     themeSelector.SwitchThemeType()
     themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")
     
-# Save the position of the window if it's moved
-saveTimer = time.time()
-saveEveryXSeconds = 1
-def savePosition(event):
-    global saveTimer
-    # if time.time() - saveTimer > saveEveryXSeconds:
-    #     global root
-    #     x = root.winfo_x()
-    #     y = root.winfo_y()
-    #     settings.CreateSettings("User Interface", "Position", [x, y])
-    #     saveTimer = time.time()
+# Save the position of the window if it's closed
+def savePosition():
+    global root
+    x = root.winfo_x()
+    y = root.winfo_y()
+    settings.CreateSettings("User Interface", "Position", [x, y])
+    saveTimer = time.time()
         
 
 pluginFrames = []
