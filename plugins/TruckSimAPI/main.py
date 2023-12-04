@@ -458,6 +458,7 @@ class UI():
                         self.list.insert(tk.END, "    " + key2 + ": " + str(value2))
                 else:
                     self.list.insert(tk.END, key + ": " + str(value))
+    
         
         def exampleFunction(self):
             

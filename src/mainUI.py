@@ -211,12 +211,12 @@ saveTimer = time.time()
 saveEveryXSeconds = 1
 def savePosition(event):
     global saveTimer
-    if time.time() - saveTimer > saveEveryXSeconds:
-        saveTimer = time.time()
-        global root
-        x = root.winfo_x()
-        y = root.winfo_y()
-        settings.CreateSettings("User Interface", "Position", [x, y])
+    # if time.time() - saveTimer > saveEveryXSeconds:
+    #     global root
+    #     x = root.winfo_x()
+    #     y = root.winfo_y()
+    #     settings.CreateSettings("User Interface", "Position", [x, y])
+    #     saveTimer = time.time()
         
 
 pluginFrames = []
