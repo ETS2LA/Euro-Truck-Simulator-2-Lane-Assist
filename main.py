@@ -486,6 +486,10 @@ while True:
     
     except Exception as ex:
         if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
+            import keyboard
+            # Press the F1 key to pause the game
+            keyboard.press_and_release("F1")
+            
             from tkinter import messagebox
             import traceback
             exc = traceback.format_exc()
