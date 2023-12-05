@@ -227,6 +227,7 @@ UIs = []
 additionals = []
 ui = None
 def CreateRoot():
+    """Please make sure to call mainUI.root.deiconify() after calling this function to show the window."""
     global root
     global buttonFrame
     global pluginFrames
@@ -266,7 +267,11 @@ def CreateRoot():
     width = 800
     height = 600
 
+    from src.loading import LoadingWindow
+
     root = tk.Tk()
+    loading = LoadingWindow("Initializing UI...", root)
+    root.withdraw()
     showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
     if showCopyrightInTitlebar == None:
         settings.CreateSettings("User Interface", "TitleCopyright", True)
@@ -432,6 +437,7 @@ def CreateRoot():
 
     print("Loaded previously open tabs")
     root.update()
+    loading.destroy()
 
 
 CreateRoot()
