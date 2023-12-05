@@ -48,7 +48,7 @@ class UI():
             self.root.grid_propagate(0) # Don't fit the canvas to the widgets
             self.root.pack_propagate(0)
             
-            helpers.OpenWebView("Changelog", variables.CHANGELOG[0])
+            helpers.OpenWebView("Changelog", "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases")
             
             variables.RELOAD = True # This will reload the UI when the panel is closed
         

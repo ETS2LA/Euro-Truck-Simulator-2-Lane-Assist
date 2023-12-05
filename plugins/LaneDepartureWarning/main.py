@@ -51,7 +51,7 @@ def plugin(data):
         indicating = data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerLeftActive"]
         
         if (currentOffset > rightLimit or currentOffset < leftLimit) and not indicating:
-            sounds.PlaySound("assets/sounds/warning.mp3")
+            sounds.PlaysoundFromLocalPath("assets/sounds/warning.mp3")
     except:
         pass
 

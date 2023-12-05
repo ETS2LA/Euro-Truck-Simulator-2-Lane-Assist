@@ -85,7 +85,8 @@ class UI():
             self.themeList = tk.Listbox(self.root, width=20, height=20, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
             self.themeList.grid(row=1, column=0, padx=10, pady=2)
             
-            helpers.MakeLabel(self.root, "Select a theme to load:", 0,0, font=("Roboto", 8), padx=30, pady=10, columnspan=1)
+            # helpers.MakeLabel(self.root, "Select a theme to load:", 0,0, font=("Roboto", 8), padx=30, pady=10, columnspan=1)
+            helpers.MakeButton(self.root, "ThemeMaker", lambda: switchSelectedPlugin("plugins.ThemeMaker.main"), 0,0, padx=30, pady=10, width=15)
             
             self.root.pack(anchor="center", expand=False)
             

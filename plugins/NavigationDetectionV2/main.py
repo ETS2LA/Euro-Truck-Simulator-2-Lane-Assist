@@ -506,10 +506,12 @@ def plugin(data):
             center_x = round(width/2)
             center_x_turnincdetec = round(width/2)
         
-        correction = round(distancetocenter * sensitivity, 3)
+        correction = distancetocenter * sensitivity
 
         data["LaneDetection"] = {}
         data["LaneDetection"]["difference"] = -correction/15
+
+        correction = round(correction, 3)
 
         data["NavigationDetectionV2"] = {}
         data["NavigationDetectionV2"]["turnincoming"] = turnincoming

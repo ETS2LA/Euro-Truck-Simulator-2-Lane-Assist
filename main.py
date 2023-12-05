@@ -46,12 +46,12 @@ except:
 import pkg_resources
 import src.variables as variables # Stores all main variables for the program
 with open(variables.PATH + r"\requirements.txt") as f:
-    requirments = f.read().splitlines()
+    requirements = f.read().splitlines()
 
 installed = [pkg.key for pkg in pkg_resources.working_set]
-requirmentsset = set(requirments)
+requirementsset = set(requirements)
 installedset = set(installed)
-missing = requirmentsset - installedset
+missing = requirementsset - installedset
 
 if missing:
     for modules in missing:
@@ -61,6 +61,9 @@ if missing:
             pass
         elif "sv_ttk" in modules:
             pass
+        elif "playsound2" in modules:
+            os.system("pip uninstall -y playsound")
+            os.system("pip install playsound2")
         else:
             print("installing" + " " + modules)
             os.system("pip install" + " " + modules)
@@ -87,8 +90,9 @@ def UpdateChecker():
         update = False
         
     if update:
+        changelog = variables.CHANGELOG
         from tkinter import messagebox
-        if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
+        if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
             os.system("git stash")
             os.system("git pull")
             if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
@@ -188,6 +192,7 @@ def UpdatePlugins(dynamicOrder, data):
                     print(f"Plugin '{plugin.PluginInfo.name}' returned NoneType instead of a the data variable. Please make sure that you return the data variable.")
                 else:
                     data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
+                        
         except Exception as ex:
             print(ex.args + f"[{plugin.PluginInfo.name}]")
             pass
@@ -453,19 +458,19 @@ while True:
             FindPlugins()
             variables.UPDATEPLUGINS = False
         
-        UpdatePlugins("before image capture", data)
-        UpdatePlugins("image capture", data)
+        data = UpdatePlugins("before image capture", data)
+        data = UpdatePlugins("image capture", data)
         
-        UpdatePlugins("before lane detection", data)
-        UpdatePlugins("lane detection", data)
+        data = UpdatePlugins("before lane detection", data)
+        data = UpdatePlugins("lane detection", data)
         
-        UpdatePlugins("before controller", data)
-        UpdatePlugins("controller", data)
+        data = UpdatePlugins("before controller", data)
+        data = UpdatePlugins("controller", data)
         
-        UpdatePlugins("before game", data)
-        UpdatePlugins("game", data)
+        data = UpdatePlugins("before game", data)
+        data = UpdatePlugins("game", data)
         
-        UpdatePlugins("before UI", data)
+        data = UpdatePlugins("before UI", data)
         
         # Calculate the execution time of the UI
         start = time.time()
@@ -476,7 +481,7 @@ while True:
         end = time.time()
         data["executionTimes"]["UI"] = end - start
         
-        UpdatePlugins("last", data)
+        data = UpdatePlugins("last", data)
         
         # And then the entire app
         allEnd = time.time()
@@ -485,6 +490,10 @@ while True:
     
     except Exception as ex:
         if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
+            import keyboard
+            # Press the F1 key to pause the game
+            keyboard.press_and_release("F1")
+            
             from tkinter import messagebox
             import traceback
             exc = traceback.format_exc()

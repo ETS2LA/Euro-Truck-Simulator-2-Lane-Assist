@@ -89,7 +89,11 @@ def switchSelectedPlugin(pluginName):
             settings.CreateSettings("Plugins", "Enabled", [])
             variables.UpdatePlugins()
             
-        else: return
+        else: 
+            try:
+                settings.RemoveFromList("User Interface", "OpenTabs", plugin.PluginInfo.name)
+            except:
+                pass
         
     if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
         if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable the mainloop. Do you want to continue?")):
@@ -119,6 +123,7 @@ def switchSelectedPlugin(pluginName):
 
 def quit():
     global root
+    savePosition()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         # Destroy the root window
         root.destroy()
@@ -149,15 +154,15 @@ def drawButtons(refresh=False):
         helpers.MakeLabel(pluginFrames[0], "The top of the app has all your currently open tabs.              \nThey can be closed with the middle mouse button.", 1, 1)
     except:
         pass
-    enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=10, padx=9, style="Accent.TButton")
-    helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=10, padx=9)
-    helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=10, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=10, padx=9)
+    enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=11, padx=9, style="Accent.TButton")
+    helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=11, padx=9)
+    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=11, padx=9)
     import webbrowser
-    helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 7, 0, width=10, padx=9, style="Accent.TButton", translate=False)
+    helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 7, 0, width=11, padx=9, style="Accent.TButton", translate=False)
 
 prevFrame = 100
 def update(data):
@@ -202,21 +207,19 @@ def resizeWindow(newWidth, newHeight):
         
 def changeTheme():
     print("Changing theme")
-    global themeButton
-    themeSelector.SwitchThemeType()
-    themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")
+    from tkinter import messagebox
+    messagebox.showinfo("Theme", Translate("Unfortunately with the change to new themes you can no longer change the mode on the fly.\nThis functionality might return in the future."))
+    # global themeButton
+    # themeSelector.SwitchThemeType()
+    # themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")
     
-# Save the position of the window if it's moved
-saveTimer = time.time()
-saveEveryXSeconds = 1
-def savePosition(event):
-    global saveTimer
-    if time.time() - saveTimer > saveEveryXSeconds:
-        saveTimer = time.time()
-        global root
-        x = root.winfo_x()
-        y = root.winfo_y()
-        settings.CreateSettings("User Interface", "Position", [x, y])
+# Save the position of the window if it's closed
+def savePosition():
+    global root
+    x = root.winfo_x()
+    y = root.winfo_y()
+    settings.CreateSettings("User Interface", "Position", [x, y])
+    saveTimer = time.time()
         
 
 pluginFrames = []
@@ -403,7 +406,7 @@ def CreateRoot():
     print("Initialized UI")
     
     # Bind movement of the window to save the position
-    root.bind("<Configure>", lambda e: savePosition(e))
+    # root.bind("<Configure>", lambda e: savePosition(e))
 
     root.update()
     

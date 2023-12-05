@@ -103,7 +103,7 @@ def plugin(data):
         img = visualize.VisualizePrefabs(data, img=img, zoom=zoom)
         cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
         cv2.imshow("Roads", img)
-        cv2.resizeWindow("Roads", 1400, 1400)
+        cv2.resizeWindow("Roads", 1000, 1000)
         cv2.waitKey(1)
     
     if useExternalVisualization:
