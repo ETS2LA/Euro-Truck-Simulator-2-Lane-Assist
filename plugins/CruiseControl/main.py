@@ -318,7 +318,7 @@ def plugin(data):
             if last_speedlimit != 0:
                 targetspeed = last_speedlimit
             else:
-                targetspeed = 50
+                targetspeed = 30
 
         try:
             turnincoming = data["NavigationDetectionV2"]["turnincoming"]
