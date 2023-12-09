@@ -297,7 +297,8 @@ def plugin(data):
             speed = round(data["api"]["truckFloat"]["speed"]*3.6, 1)
             last_speed = speed
             speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, 1)
-            last_speedlimit = speedlimit
+            if speedlimit != 0:
+                last_speedlimit = speedlimit
             cruisecontrolspeed = round(data["api"]["truckFloat"]["cruiseControlSpeed"]*3.6, 1)
             gamepaused = data["api"]["pause"]
         except:
@@ -311,7 +312,13 @@ def plugin(data):
         data["controller"]["button_X"] = False
 
         #set target speeds
-        targetspeed = speedlimit
+        if speedlimit != 0:
+            targetspeed = speedlimit
+        else:
+            if last_speedlimit != 0:
+                targetspeed = last_speedlimit
+            else:
+                targetspeed = 50
 
         try:
             turnincoming = data["NavigationDetectionV2"]["turnincoming"]
