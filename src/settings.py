@@ -84,7 +84,7 @@ def CreateProfile():
         newFile.close()
             
         # Change the current profile
-        ChangeProfile(filePath)
+        # ChangeProfile(filePath)
     
     except Exception as ex:
         print(ex.args)
