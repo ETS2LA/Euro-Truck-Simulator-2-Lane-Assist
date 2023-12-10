@@ -93,7 +93,7 @@ Steps to installation :
     - Install the requirements
 4. Ask user for settings/preferences
     - Theme
-    - Color Theme
+    - Shortucts
 
 """
 
@@ -621,21 +621,6 @@ def InstallSequence():
     preferenceFrame.pack_propagate(False)
     preferenceFrame.grid_propagate(False)
     preferenceFrame.grid(row=1, sticky="e", padx=10, pady=10)
-
-    global sunvalleyimg
-    global forestimg
-    global azureimg
-
-    os.chdir(FOLDER)
-    image1 = Image.open(r"app\assets\installer\SunValley.jpg")
-    image2 = Image.open(r"app\assets\installer\Forest.jpg")
-    image3 = Image.open(r"app\assets\installer\Azure.jpg")
-    resizeimage1 = image1.resize((135, 135))
-    resizeimage2 = image2.resize((135, 135))
-    resizeimage3 = image3.resize((135, 135))
-    sunvalleyimg = ImageTk.PhotoImage(resizeimage1)
-    forestimg = ImageTk.PhotoImage(resizeimage2)
-    azureimg = ImageTk.PhotoImage(resizeimage3)
     
     def themeset():
         if str(theme.get()) == "Dark":
@@ -656,37 +641,39 @@ def InstallSequence():
     light = ttk.Radiobutton(preferenceFrame, text="Light", variable=theme, value="Light", command=themeset)
     light.grid(columnspan=3, row=4, sticky='w', pady=5, padx=10)
 
-    selectcolorthemelabel = ttk.Label(preferenceFrame, text="Select Color Theme", font=("Roboto", 12))
-    selectcolorthemelabel.grid(columnspan=3, row=5, sticky='w', pady=10, padx=10)
-    colortheme = tk.StringVar()
-    sunvalley = ttk.Radiobutton(preferenceFrame, text="Sun Valley", image=sunvalleyimg, compound="bottom", variable=colortheme, value="sunvalley")
-    sunvalley.grid(row=6, column=0, pady=10)
-    forest = ttk.Radiobutton(preferenceFrame, text="Forest", image=forestimg,  compound="bottom", variable=colortheme, value="forest")
-    forest.grid(row=6, column=1, pady=10)
-    azure = ttk.Radiobutton(preferenceFrame, text="Azure", image=azureimg,  compound="bottom", variable=colortheme, value="azure")
-    azure.grid(row=6, column=2, pady=10)
+    selectotherslabel = ttk.Label(preferenceFrame, text="Other Settings", font=("Roboto", 12))
+    selectotherslabel.grid(columnspan=3, row=5, sticky='w', pady=5, padx=10)
+
+    shortcut = tk.IntVar()
+    iconcheckbox = ttk.Checkbutton(preferenceFrame, text="Enable Desktop and Start Menu Shortcuts", variable=shortcut)
+    iconcheckbox.grid(columnspan=3, row=6, sticky='w', pady=5, padx=10)
+    shortcut.set(1)
+    iconcheckbox.var = shortcut
 
     # Runs when the confirm button is pressed
     def confirmselection():
         themesave = (str(theme.get()))
-        colorthemesave = (str(colortheme.get()))
         FOLDER = os.path.dirname(__file__)
         if themesave == "": 
             printRed("Please select a theme")
             return
-        if colorthemesave == "": 
-            printRed("Please select a color theme")
-            return
+        
         UpdateProgress(5, 0, 0.5)
         pleasewait = ttk.Label(preferenceFrame, text="Please wait, saving preferences", font=("Roboto", 15, "bold"))
         pleasewait.grid(columnspan=3, row=8, padx=0, pady=15)
         root.update()
-        if colorthemesave == "sunvalley": 
-            CreateSettings("User Interface", "ColorTheme", "SunValley")
-        elif colorthemesave == "azure": 
-            CreateSettings("User Interface", "ColorTheme", "Azure")
-        elif colorthemesave == "forest": 
-            CreateSettings("User Interface", "ColorTheme", "Forest")
+
+        if shortcut.get() == 1:
+            try:
+                CreateShortcut(f"{dir}/run.bat", "ETS2 Lane Assist", f"{dir}/app/assets/favicon.ico")
+                printGreen("Shortcut created")
+            except:
+                printRed("Could not create shortcut")
+                AddLineToConsole("Could not create shortcut")
+        else:
+            print("Shortcut not created")
+            pass
+
         time.sleep(2)
         if themesave == "Dark": 
             CreateSettings("User Interface", "Theme", "dark")
@@ -694,11 +681,7 @@ def InstallSequence():
             CreateSettings("User Interface", "Theme", "light")
         restoreconsole()
 
-    try:
-        CreateShortcut(f"{dir}/run.bat", "ETS2 Lane Assist", f"{dir}/app/assets/favicon.ico")
-    except:
-        printRed("Could not create shortcut")
-        AddLineToConsole("Could not create shortcut")
+    
 
     # Restore the console after preferences are saved
     def restoreconsole():
@@ -715,7 +698,8 @@ def InstallSequence():
         printGreen("Preferences Saved")
         printGreen("Installation complete!")
         printGreen("You can now close this installer and use the run.bat file to open the app.")
-        printGreen("You can also use the shortcut we created in your windows start menu.")
+        if shortcut.get() == 1:
+            printGreen("You can also use the shortcut we created in your windows start menu.")
         UpdateProgress(6, 0, 0)
     confirm = ttk.Button(preferenceFrame, text="Confirm", width=64, command=confirmselection)
     confirm.grid(row=7, columnspan=3, padx=15, pady=10)
