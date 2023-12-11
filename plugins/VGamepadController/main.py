@@ -73,14 +73,19 @@ lastUpdateTime = time.time()
 stop = False
 def controllerThread():
     global gamepad
+    global gamepaused
     while True:
         if stop:
             break
         try:
-            # Lerp between the two values depending on how long it's been since the last frame
-            # print(lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime))
-            gamepad.left_joystick_float(x_value_float=lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime), y_value_float=0)
-            gamepad.update()
+            if gamepaused == False:   
+                # Lerp between the two values depending on how long it's been since the last frame
+                # print(lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime))
+                gamepad.left_joystick_float(x_value_float=lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime), y_value_float=0)
+                gamepad.update()
+            else:
+                gamepad.left_joystick_float(x_value_float=0, y_value_float=0)
+                gamepad.update()
         except Exception as e:
             # print(e.args)
             pass
@@ -96,7 +101,7 @@ def plugin(data):
     global lastFrameTime
     global lastUpdateTime
     lastUpdateTime = time.time()
-    
+    global gamepaused
     global button_A_pressed
     global button_B_pressed
     global button_X_pressed
@@ -116,6 +121,11 @@ def plugin(data):
         except:
             lefttrigger = 0
             righttrigger = 0
+
+        try:
+            gamepaused = data["api"]["pause"]
+        except:
+            gamepaused = False
         
         try:
             button_A = controller["button_A"]
@@ -153,6 +163,10 @@ def plugin(data):
         button_A_pressed = False
         button_B_pressed = False
         button_X_pressed = False
+
+        if gamepaused == True:
+            lefttrigger = 0
+            righttrigger = 0
 
         lastControl = currentControl
         currentControl = leftStick
