@@ -320,7 +320,7 @@ def plugin(data):
     # True: advancedmode, performancemode --- False: trafficlighttracking, anywindowopen
     # True: trafficlighttracking, anywindowopen --- False: advancedmode, performancemode, detectyellowlight
     # True: trafficlighttracking, anywindowopen, detectyellowlight --- False: advancedmode, performancemode
-    # True: trafficlighttracking, anywindowopen, performancemode --- False: advancedmode                                   <- ##########
+    # True: trafficlighttracking, anywindowopen, performancemode --- False: advancedmode
     # True: trafficlighttracking --- False: advancedmode, anywindowopen, performancemode, detectyellowlight
     # True: trafficlighttracking, detectyellowlight --- False: advancedmode, anywindowopen, performancemode
     # True: trafficlighttracking, performancemode --- False: advancedmode, anywindowopen
@@ -350,8 +350,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -439,8 +438,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -547,8 +545,7 @@ def plugin(data):
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
-                    ratio = 0
-
+                    
                     contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
@@ -624,8 +621,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -684,8 +680,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -758,8 +753,7 @@ def plugin(data):
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
-                    ratio = 0
-
+                    
                     contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
@@ -813,8 +807,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -933,8 +926,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -1072,8 +1064,7 @@ def plugin(data):
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
-                    ratio = 0
-
+                    
                     contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
@@ -1179,8 +1170,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -1270,7 +1260,6 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
 
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
@@ -1375,7 +1364,6 @@ def plugin(data):
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
-                    ratio = 0
 
                     contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
@@ -1461,7 +1449,6 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
 
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
@@ -1552,7 +1539,6 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
 
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
@@ -1662,8 +1648,7 @@ def plugin(data):
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
-                    ratio = 0
-
+                    
                     contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
@@ -1742,8 +1727,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -1788,7 +1772,7 @@ def plugin(data):
                                                 if currentdistance < 0:
                                                     currentdistance = 0
 
-                                            coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h))
+                                            coordinates.append((round(x+w/2),centery1,w,h))
 
                     else:
                         # True: trafficlighttracking, detectyellowlight --- False: advancedmode, anywindowopen, performancemode
@@ -1804,8 +1788,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -1867,7 +1850,7 @@ def plugin(data):
                                                 if currentdistance < 0:
                                                     currentdistance = 0
 
-                                            coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h))
+                                            coordinates.append((round(x+w/2),centery1,w,h))
                         
                 else:
                     # True: trafficlighttracking, performancemode --- False: advancedmode, anywindowopen
@@ -1880,8 +1863,7 @@ def plugin(data):
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
-                    ratio = 0
-
+                    
                     contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
@@ -1920,7 +1902,7 @@ def plugin(data):
                                             if currentdistance < 0:
                                                 currentdistance = 0
 
-                                        coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h))
+                                        coordinates.append((round(x+w/2),centery1,w,h))
         else:
             
             if anywindowopen == True:
@@ -1937,8 +1919,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -2059,8 +2040,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -2200,8 +2180,7 @@ def plugin(data):
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
-                    ratio = 0
-
+                    
                     contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
@@ -2309,8 +2288,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -2386,7 +2364,7 @@ def plugin(data):
                                                 if currentdistance < 0:
                                                     currentdistance = 0
 
-                                            coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h))
+                                            coordinates.append((round(x+w/2),centery1,w,h))
 
                     else:
                         # True: trafficlighttracking, advancedmode, detectyellowlight --- False: anywindowopen, performancemode
@@ -2402,8 +2380,7 @@ def plugin(data):
                         currentnearest = 0
                         currentneareststate = "---"
                         currentdistance = "---"
-                        ratio = 0
-
+                        
                         contours, _ = cv2.findContours(cv2.cvtColor(filtered_frame_red_green_yellow, cv2.COLOR_BGR2GRAY), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
@@ -2496,7 +2473,7 @@ def plugin(data):
                                                 if currentdistance < 0:
                                                     currentdistance = 0
 
-                                            coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h))
+                                            coordinates.append((round(x+w/2),centery1,w,h))
                         
                 else:
                     # True: trafficlighttracking, advancedmode, performancemode --- False: anywindowopen
@@ -2509,8 +2486,7 @@ def plugin(data):
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
-                    ratio = 0
-
+                    
                     contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
@@ -2580,7 +2556,7 @@ def plugin(data):
                                             if currentdistance < 0:
                                                 currentdistance = 0
 
-                                        coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h))
+                                        coordinates.append((round(x+w/2),centery1,w,h))
 
     if trafficlighttracking == True:
         try:
@@ -2826,7 +2802,7 @@ class UI():
             helpers.MakeCheckButton(trackeraiFrame, "Tracking of Traffic Lights\n-----------------------------------\nIf enabled, the app tracks the detected traffic lights and gives them an ID.\n(required for AI)", "TrafficLightDetection", "trafficlighttracking", 1, 0, width=60, callback=UpdateSettings())
             helpers.MakeCheckButton(trackeraiFrame, "AI Mode\n------------\nIf enabled, the app uses AI (Yolov5) to confirm the detected traffic lights,\nwhich increases accuracy.\nThis feature does not work yet. I am working on it.", "TrafficLightDetection", "aiconfirmation", 2, 0, width=60, callback=UpdateSettings())
 
-            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
             self.textsizeSlider.set(settings.GetSettings("TrafficLightDetection", "textsize", 0.5))
             self.textsizeSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
             self.textsize = helpers.MakeComboEntry(generalFrame, "Font Size (Grayscale Window)", "TrafficLightDetection", "textsize", 9, 0, width=32, labelwidth=30)
