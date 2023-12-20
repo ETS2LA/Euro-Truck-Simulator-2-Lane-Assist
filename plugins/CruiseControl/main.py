@@ -99,7 +99,7 @@ def UpdateSettings():
     automatic_acceleration_after_traffic_light = settings.GetSettings("CruiseControl", "autoaccelatrflght", True)
     automatic_acceleration = settings.GetSettings("CruiseControl", "autoaccel", False)
     advancedsettings = settings.GetSettings("CruiseControl", "advancedsettings", False)
-    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", True)
+    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", False)
 
 
     buttonup = settings.GetSettings("CruiseControl", "keyup")
@@ -150,6 +150,11 @@ def UpdateSettings():
     if deactivate_traffic_light_stop_temporary_key == None:
         settings.CreateSettings("CruiseControl", "deactflstempkey", "please set")
         deactivate_traffic_light_stop_temporary_key = "please set"
+
+    if enabledeactflstempkey == True:
+        if deactivate_traffic_light_stop_temporary_key == "please set":
+            messagebox.showwarning(title="CruiseControl", message="Please set the key to temporary ignore the detected traffic lights in General")
+            deactivate_traffic_light_stop_temporary_key = "w"
 
 
     waitforresponse = False
