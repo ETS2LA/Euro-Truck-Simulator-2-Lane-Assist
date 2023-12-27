@@ -1,36 +1,3 @@
-'''
-Settings interface
-
-
-ChangeProfile(profileName)
-- Profilename is a string with the current .json file name
-    
-    >>> ChangeProfile("default.json")
-
-
-UpdateSettings(category, name, data)
-- Category is a string with the category name
-- Name is a string with the setting name
-- Data is the data to be written to the setting
-    
-    >>> UpdateSettings("General", "ShowFPS", True)
-
-
-GetSettings(category, name)
-- Category is a string with the category name
-- Name is a string with the setting name
-    
-    >>> GetSettings("General", "ShowFPS")
-    
-CreateSettings(category, name, data)
-- Category is a string with the category name
-- Name is a string with the setting name
-- Data is the data to be written to the setting
-! In case the setting already exists, it will be overwritten with UpdateSettings()
-
-    >>> CreateSettings("Controller", "IndicateRight", 3)
-'''
-
 import json
 from src.logger import print
 from src.variables import PATH
@@ -47,6 +14,11 @@ if open(currentProfile, "r").readline().replace("\n", "") == "":
     print("Profile variable was empty, set it to settings.json")
 
 def EnsureFile(file):
+    """Will check if a file exists and create it if it doesn't.
+
+    Args:
+        file (str): Filename.
+    """
     try:
         with open(file, "r") as f:
             pass
@@ -55,6 +27,8 @@ def EnsureFile(file):
             f.write("{}")
 
 def ChangeProfile():
+    """Will change the currently selected profile and reload the app.
+    """
     global currentProfile
     
     from tkinter import filedialog
@@ -67,6 +41,8 @@ def ChangeProfile():
     src.variables.RELOAD = True
 
 def CreateProfile():
+    """Will create a new profile based on the current one. Will not change the current profile.
+    """
     from tkinter import filedialog
     newFile = filedialog.asksaveasfile(initialdir=PATH+"\\profiles", initialfile="newProfile.json", title="Create a new profile", filetypes=(("JSON files", "*.json"), ("All files", "*.*")))
     try:       
@@ -92,6 +68,14 @@ def CreateProfile():
 
 # Change settings in the json file
 def UpdateSettings(category, name, data):
+    """Update a setting in the settings file.
+    In case the setting doesn't exist, it will be created.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        data (_type_): Data to write.
+    """
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -107,6 +91,16 @@ def UpdateSettings(category, name, data):
 
 # Get a specific setting
 def GetSettings(category, name, value=None):
+    """Will get a specific setting from the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        value (_type_, optional): Default value in case the data is not found. Defaults to None.
+
+    Returns:
+        _type_: The data from the json file. (or the default value)
+    """
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -127,6 +121,13 @@ def GetSettings(category, name, value=None):
 
 # Create a new setting
 def CreateSettings(category, name, data):
+    """Will create a new setting in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        data (_type_): Data to write.
+    """
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -149,6 +150,14 @@ def CreateSettings(category, name, data):
         print(ex.args)
         
 def AddToList(category, name, data, exclusive=False):
+    """Will add a new item to a list in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json list name.
+        data (str): Data to add to the list.
+        exclusive (bool, optional): Whether to allow adding multiple instances of the same data. Defaults to False.
+    """
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -200,6 +209,13 @@ def AddToList(category, name, data, exclusive=False):
         
 
 def RemoveFromList(category, name, data):
+    """Remove an item from a list in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json list name.
+        data (_type_): Data to remove from the list.
+    """
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)

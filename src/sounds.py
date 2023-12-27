@@ -9,6 +9,11 @@ except:
     print("Could not import playsound, sounds will not be played.")
     
 def PlaysoundFromLocalPath(sound):
+    """Will play a sound given a local path.
+
+    Args:
+        sound (str): Path to the sound file. (usually "assets/...")
+    """
     try:
         dir = PATH + sound
         if sounds:

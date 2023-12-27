@@ -1,25 +1,18 @@
-'''
-Will create a loading window with the desired text.
-
-init() parameters:
-    text (mandatory): The text to display on the loading window.
-    master (mandatory): The master window (usually root) to attach the loading window to.
-    progress: If set to False, will create an indeterminate progress bar. If set to an integer, will create a determinate progress bar with the value of the integer.
-
-destroy() parameters:
-    None
-
-update() parameters:
-    progress: If set to False, will create an indeterminate progress bar. If set to an integer, will create a determinate progress bar with the value of the integer.
-    text: The text to display on the loading window.
-'''
-
 import tkinter as tk
 from tkinter import ttk
 import sv_ttk
 
 class LoadingWindow:
     def __init__(self, text, master=None, progress=False, grab=True, totalProgress=-1):
+        """Will create a loading window with a progress bar and a text label.
+
+        Args:
+            text (str): The text to display on the loading window.
+            master (tkObject, optional): The master object. Otherwise we will create a new tk.Tk() object. Defaults to None.
+            progress (bool / float, optional): If False, the progress bar will indeterminate. Otherwise input is from 0 to 1. Defaults to False.
+            grab (bool, optional): Whether to grab the window focus. Defaults to True.
+            totalProgress (float, optional): Will display another loading bar with the total progress. Defaults to -1.
+        """
         self.text = text
         self.progress = progress
         

@@ -7,6 +7,11 @@ import json
 import os
 
 def GetOSLanguage():
+    """Will get the current OS language.
+
+    Returns:
+        str: 2 letter language code.
+    """
     if os.name == "nt":
         import ctypes
         import locale
@@ -25,6 +30,8 @@ def GetOSLanguage():
         return os.environ.get("LANG").split("_")[0]
 
 def LoadSettings():
+    """Will load the translation settings from the settings file.
+    """
     global origin
     global dest
     global enableCache
@@ -55,6 +62,11 @@ LoadSettings()
 
 translator = None
 def MakeTranslator(type):
+    """Will create the translator object.
+
+    Args:
+        type (str): Translator type. (google)
+    """
     global origin
     global dest
     global translator
@@ -75,18 +87,43 @@ MakeTranslator("google")
 AVAILABLE_LANGUAGES = translator.get_supported_languages(as_dict=True)
 
 def FindLanguageFromCode(code):
+    """Get language from code.
+
+    Args:
+        code (str): 2 letter language code.
+
+    Returns:
+        str: Language name.
+    """
     for language in AVAILABLE_LANGUAGES:
         if AVAILABLE_LANGUAGES[language] == code:
             return language
     return None
 
 def FindCodeFromLanguage(language):
+    """Get 2 letter language code from language.
+
+    Args:
+        language (str): Language name.
+
+    Returns:
+        str: 2 letter language code.
+    """
     for lang in AVAILABLE_LANGUAGES:
         if lang == language.lower():
             return AVAILABLE_LANGUAGES[lang]
     return None
 
-def CheckCache(text, originalLanguage=None, destinationLanguage=None, language=None):
+def CheckCache(text, language=None):
+    """Will check the translation cache for a specific text.
+
+    Args:
+        text (str): Text to check.
+        language (str, optional): Language to check. If None will get from dest. Defaults to None.
+
+    Returns:
+        str / bool: Either the translation or False.
+    """
     try:
         file = open(cachePath, "r")
     except:
@@ -112,6 +149,13 @@ def CheckCache(text, originalLanguage=None, destinationLanguage=None, language=N
         return False
 
 def AddToCache(text, translation, language=None):
+    """Will add a translation to the cache.
+
+    Args:
+        text (str): Original text.
+        translation (str): Translation to add.
+        language (str, optional): Language to associate. Defaults to None.
+    """
     file = open(cachePath, "r")
     cache = json.load(file)
     file.close()
@@ -131,6 +175,16 @@ def AddToCache(text, translation, language=None):
     file.close()    
 
 def Translate(text, originalLanguage=None, destinationLanguage=None):
+    """Will translate a given text.
+
+    Args:
+        text (str): The text to translate.
+        originalLanguage (str, optional): The original language, if None will infer automatically. Defaults to None.
+        destinationLanguage (str, optional): The destination language, if None will get from settings. Defaults to None.
+
+    Returns:
+        str: The translated text.
+    """
     global origin
     global dest
     

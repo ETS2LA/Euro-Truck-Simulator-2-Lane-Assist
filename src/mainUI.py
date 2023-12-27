@@ -16,14 +16,10 @@ import src.settings as settings
 from src.translator import Translate
 import plugins.ThemeSelector.main as themeSelector
 
-def CropWallpaper(image, x, y, w, h):
-    from PIL import Image
-    image = Image.open("assets/images/wallpaper.png")
-    image = image.resize((width, height), Image.Resampling.BILINEAR)
-    image = image.crop((x, y, x+w, y+h))
-    return image
 
 def DeleteRoot():
+    """Will delete the root window and save it's location.
+    """
     global root
     
     # Save the current position
@@ -39,6 +35,11 @@ def DeleteRoot():
 
 lastClosedTabName = "About"
 def closeTab(event):
+    """Will close a tab based on the tkinter input event. Not intended to be called directly.
+
+    Args:
+        event (tkInputEvent): The input event that was triggered.
+    """
     global lastClosedTabName
     try:
         index = pluginNotebook.tk.call(pluginNotebook._w, "identify", "tab", event.x, event.y)
@@ -54,6 +55,8 @@ def closeTab(event):
         pass
 
 def selectedOtherTab():
+    """Will run when the user selects another tab. Not intended to be called directly.
+    """
     currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]
     currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
     # Run the UI tab focus function
@@ -66,6 +69,11 @@ def selectedOtherTab():
         resizeWindow(width, height)
 
 def switchSelectedPlugin(pluginName):
+    """Will open a new tab with the given plugin name.
+
+    Args:
+        pluginName (str): Enter the plugin name in the format of "plugins.<pluginName>.main"
+    """
     global plugin
     global pluginFrame
     global pluginFrames
@@ -122,6 +130,8 @@ def switchSelectedPlugin(pluginName):
     settings.AddToList("User Interface", "OpenTabs", plugin.PluginInfo.name, exclusive=True)
 
 def quit():
+    """Will kill the root. This means that the program will close on the next update from the mainloop.
+    """
     global root
     savePosition()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
@@ -130,6 +140,11 @@ def quit():
         del root
 
 def drawButtons(refresh=False):
+    """Will draw the buttons on the left menu.
+
+    Args:
+        refresh (bool, optional): Will create the root again. Defaults to False.
+    """
     global enableButton
     global themeButton
     
@@ -164,8 +179,17 @@ def drawButtons(refresh=False):
     import webbrowser
     helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 7, 0, width=11, padx=9, style="Accent.TButton", translate=False)
 
+
 prevFrame = 100
 def update(data):
+    """Update the mainUI.
+
+    Args:
+        data (dict): The input data from the mainloop.
+
+    Raises:
+        Exception: The root has been killed, most likely due to closing the app.
+    """
     global fps
     global prevFrame
     
@@ -194,6 +218,12 @@ def update(data):
         raise Exception("The main window has been closed.", "If you closed the app this is normal.")
     
 def resizeWindow(newWidth, newHeight):
+    """Will resize the window to the given size.
+
+    Args:
+        newWidth (int)
+        newHeight (int)
+    """
     global root
     global root
     # Offsets for the new tabs
@@ -206,6 +236,8 @@ def resizeWindow(newWidth, newHeight):
     root.update()
         
 def changeTheme():
+    """Would have changed the theme from dark / light to light / dark. Not currently in use.
+    """
     print("Changing theme")
     from tkinter import messagebox
     messagebox.showinfo("Theme", Translate("Unfortunately with the change to new themes you can no longer change the mode on the fly.\nThis functionality might return in the future."))
@@ -215,11 +247,12 @@ def changeTheme():
     
 # Save the position of the window if it's closed
 def savePosition():
+    """Will save the current position of the window.
+    """
     global root
     x = root.winfo_x()
     y = root.winfo_y()
     settings.CreateSettings("User Interface", "Position", [x, y])
-    saveTimer = time.time()
         
 
 pluginFrames = []
@@ -227,6 +260,8 @@ UIs = []
 additionals = []
 ui = None
 def CreateRoot():
+    """Will create the root window and set it up.
+    """
     global root
     global buttonFrame
     global pluginFrames
