@@ -61,7 +61,7 @@ def LoadSettings():
 LoadSettings()
 
 translator = None
-def MakeTranslator(type):
+def MakeTranslator(type:str):
     """Will create the translator object.
 
     Args:
@@ -86,7 +86,7 @@ def MakeTranslator(type):
 MakeTranslator("google")
 AVAILABLE_LANGUAGES = translator.get_supported_languages(as_dict=True)
 
-def FindLanguageFromCode(code):
+def FindLanguageFromCode(code:str):
     """Get language from code.
 
     Args:
@@ -100,7 +100,7 @@ def FindLanguageFromCode(code):
             return language
     return None
 
-def FindCodeFromLanguage(language):
+def FindCodeFromLanguage(language:str):
     """Get 2 letter language code from language.
 
     Args:
@@ -114,7 +114,7 @@ def FindCodeFromLanguage(language):
             return AVAILABLE_LANGUAGES[lang]
     return None
 
-def CheckCache(text, language=None):
+def CheckCache(text:str, language:str=None):
     """Will check the translation cache for a specific text.
 
     Args:
@@ -148,7 +148,7 @@ def CheckCache(text, language=None):
     except KeyError:
         return False
 
-def AddToCache(text, translation, language=None):
+def AddToCache(text:str, translation:str, language:str=None):
     """Will add a translation to the cache.
 
     Args:
@@ -174,7 +174,7 @@ def AddToCache(text, translation, language=None):
     json.dump(cache, file, indent=4)
     file.close()    
 
-def Translate(text, originalLanguage=None, destinationLanguage=None):
+def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None):
     """Will translate a given text.
 
     Args:

@@ -36,7 +36,7 @@ colorama.init()
 
 startTime = time.time()
 
-def print(text, end=""):
+def print(text:str, end:str=""):
     """Standard print function that will add the time and the caller to the message and log it to a file.
 
     Args:

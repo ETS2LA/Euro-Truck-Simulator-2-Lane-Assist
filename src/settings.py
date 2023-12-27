@@ -13,7 +13,7 @@ if open(currentProfile, "r").readline().replace("\n", "") == "":
         f.write("profiles/settings.json")
     print("Profile variable was empty, set it to settings.json")
 
-def EnsureFile(file):
+def EnsureFile(file:str):
     """Will check if a file exists and create it if it doesn't.
 
     Args:
@@ -67,7 +67,7 @@ def CreateProfile():
         print("Failed to create profile")
 
 # Change settings in the json file
-def UpdateSettings(category, name, data):
+def UpdateSettings(category:str, name:str, data:any):
     """Update a setting in the settings file.
     In case the setting doesn't exist, it will be created.
 
@@ -90,7 +90,7 @@ def UpdateSettings(category, name, data):
         print(ex.args)
 
 # Get a specific setting
-def GetSettings(category, name, value=None):
+def GetSettings(category:str, name:str, value:any=None):
     """Will get a specific setting from the settings file.
 
     Args:
@@ -120,7 +120,7 @@ def GetSettings(category, name, value=None):
 
 
 # Create a new setting
-def CreateSettings(category, name, data):
+def CreateSettings(category:str, name:str, data:any):
     """Will create a new setting in the settings file.
 
     Args:
@@ -149,7 +149,7 @@ def CreateSettings(category, name, data):
     except Exception as ex:
         print(ex.args)
         
-def AddToList(category, name, data, exclusive=False):
+def AddToList(category:str, name:str, data:any, exclusive:bool=False):
     """Will add a new item to a list in the settings file.
 
     Args:
@@ -208,7 +208,7 @@ def AddToList(category, name, data, exclusive=False):
         print(ex.args)
         
 
-def RemoveFromList(category, name, data):
+def RemoveFromList(category:str, name:str, data:any):
     """Remove an item from a list in the settings file.
 
     Args:

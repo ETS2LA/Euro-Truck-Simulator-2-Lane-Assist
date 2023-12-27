@@ -68,7 +68,7 @@ def selectedOtherTab():
     else:
         resizeWindow(width, height)
 
-def switchSelectedPlugin(pluginName):
+def switchSelectedPlugin(pluginName:str):
     """Will open a new tab with the given plugin name.
 
     Args:
@@ -139,7 +139,7 @@ def quit():
         root.destroy()
         del root
 
-def drawButtons(refresh=False):
+def drawButtons(refresh:bool=False):
     """Will draw the buttons on the left menu.
 
     Args:
@@ -181,7 +181,7 @@ def drawButtons(refresh=False):
 
 
 prevFrame = 100
-def update(data):
+def update(data:dict):
     """Update the mainUI.
 
     Args:
@@ -217,7 +217,7 @@ def update(data):
     except:
         raise Exception("The main window has been closed.", "If you closed the app this is normal.")
     
-def resizeWindow(newWidth, newHeight):
+def resizeWindow(newWidth:int, newHeight:int):
     """Will resize the window to the given size.
 
     Args:
@@ -360,23 +360,7 @@ def CreateRoot():
     if showFps:
         fpsLabel = ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
-    # Left button bar
-    try:
-        buttonFrame = tk.Canvas(root, width=width-675, height=height-20, border=0, highlightthickness=0)
-        
-        # Cut out the image to only where the canvas is 
-        x = 10
-        y = 10
-        w = width-675
-        h = height-20
-        image = CropWallpaper("assets/images/wallpaper.png", x, y, w, h)
-        newImage = ImageTk.PhotoImage(image)
-        
-        imageLabel = tk.Label(buttonFrame, image=newImage)
-        imageLabel.image = newImage
-        imageLabel.place(x=0, y=0, relwidth=1, relheight=1)    
-    except:
-        buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
+    buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
     
     buttonFrame.pack_propagate(0)
     buttonFrame.grid_propagate(0)

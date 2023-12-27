@@ -3,7 +3,7 @@ from tkinter import ttk
 import sv_ttk
 
 class LoadingWindow:
-    def __init__(self, text, master=None, progress=False, grab=True, totalProgress=-1):
+    def __init__(self, text:str, master=None, progress:float=False, grab:bool=True, totalProgress:float=-1):
         """Will create a loading window with a progress bar and a text label.
 
         Args:
@@ -58,7 +58,7 @@ class LoadingWindow:
         except:
             del self
 
-    def update(self, progress=False, text=False, totalProgress=-1):
+    def update(self, progress:float=False, text:str=False, totalProgress:float=-1):
         """Will update the loading window.
 
         Args:

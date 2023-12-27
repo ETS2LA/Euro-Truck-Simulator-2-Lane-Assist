@@ -8,7 +8,7 @@ except:
     sounds = False
     print("Could not import playsound, sounds will not be played.")
     
-def PlaysoundFromLocalPath(sound):
+def PlaysoundFromLocalPath(sound:str):
     """Will play a sound given a local path.
 
     Args:
