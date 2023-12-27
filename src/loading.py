@@ -59,6 +59,13 @@ class LoadingWindow:
             del self
 
     def update(self, progress=False, text=False, totalProgress=-1):
+        """Will update the loading window.
+
+        Args:
+            progress (float, optional): If a float is provided, the progress bar will be moved to the correct location. Defaults to False.
+            text (str, optional): If a string is provided, the text will be updated. Defaults to False.
+            totalProgress (float, optional): If a float is provided, will update the second loading bar. Defaults to -1.
+        """
         try:
             if progress != False:
                 self.progress["value"] = progress
