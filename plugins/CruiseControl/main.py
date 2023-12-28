@@ -99,7 +99,7 @@ def UpdateSettings():
     automatic_acceleration_after_traffic_light = settings.GetSettings("CruiseControl", "autoaccelatrflght", True)
     automatic_acceleration = settings.GetSettings("CruiseControl", "autoaccel", False)
     advancedsettings = settings.GetSettings("CruiseControl", "advancedsettings", False)
-    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", True)
+    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", False)
 
 
     buttonup = settings.GetSettings("CruiseControl", "keyup")
@@ -150,6 +150,11 @@ def UpdateSettings():
     if deactivate_traffic_light_stop_temporary_key == None:
         settings.CreateSettings("CruiseControl", "deactflstempkey", "please set")
         deactivate_traffic_light_stop_temporary_key = "please set"
+
+    if enabledeactflstempkey == True:
+        if deactivate_traffic_light_stop_temporary_key == "please set":
+            messagebox.showwarning(title="CruiseControl", message="Please set the key to temporary ignore the detected traffic lights in General")
+            deactivate_traffic_light_stop_temporary_key = "w"
 
 
     waitforresponse = False
@@ -297,7 +302,8 @@ def plugin(data):
             speed = round(data["api"]["truckFloat"]["speed"]*3.6, 1)
             last_speed = speed
             speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, 1)
-            last_speedlimit = speedlimit
+            if speedlimit != 0:
+                last_speedlimit = speedlimit
             cruisecontrolspeed = round(data["api"]["truckFloat"]["cruiseControlSpeed"]*3.6, 1)
             gamepaused = data["api"]["pause"]
         except:
@@ -311,7 +317,13 @@ def plugin(data):
         data["controller"]["button_X"] = False
 
         #set target speeds
-        targetspeed = speedlimit
+        if speedlimit != 0:
+            targetspeed = speedlimit
+        else:
+            if last_speedlimit != 0:
+                targetspeed = last_speedlimit
+            else:
+                targetspeed = 30
 
         try:
             turnincoming = data["NavigationDetectionV2"]["turnincoming"]

@@ -1,0 +1,1298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main API documentation</title>
+<meta name="description" content="This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main</code></h1>
+</header>
+<section id="section-intro">
+<p>This is an example of a panel (type="static"), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then check the Plugin example!</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then check the Plugin example!
+&#34;&#34;&#34;
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+
+PluginInfo = PluginInformation(
+    name=&#34;UFLDInstaller&#34;, # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
+    description=&#34;Installs all files needed for UFLD&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;DylDev&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;static&#34; # = Panel
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+import os
+import gdown
+import time
+
+class UI():
+    global download
+
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.welcome()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def download(url):
+            prefix = &#39;https://drive.google.com/uc?/export=download&amp;id=&#39;
+            file_id = url.split(&#39;/&#39;)[-2]
+            gdown.download(prefix + file_id)
+
+        def welcome(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;UFLD Installer&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=110, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This panel installs all required files for UFLD.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=110, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Keep in mind your GPU must be a NVIDIA GPU 1060 TI or better.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=110, pady=2, columnspan=2)
+            
+            helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 3,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer1(), 3,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def disclaimer1(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;The following NVIDIA Binaries&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Will Be Downloaded&#34;, 1,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=5, columnspan=2)
+            binaries = tk.Listbox(self.root, font=(&#34;Segoe UI&#34;, 10), width=50)
+            def binariesins(row, text):
+                binaries.insert(row, text)
+            binariesins(1, &#34;cufft64_10.dll&#34;)
+            binariesins(2, &#34;cudnn_ops_infer64_8.dll&#34;)
+            binariesins(3, &#34;cudnn_cnn_infer64_8.dll&#34;)
+            binariesins(4, &#34;cudnn_adv_infer64_8.dll&#34;)
+            binariesins(5, &#34;cudnn64_8.dll&#34;)
+            binariesins(6, &#34;cudart64_110.dll&#34;)
+            binariesins(7, &#34;cudart32_110.dll&#34;)
+            binariesins(8, &#34;cublastLt64_11.dll&#34;)
+            binariesins(9, &#34;cublas64_11.dll&#34;)
+            binaries.grid( row=2, column=0, padx=70, pady=2, columnspan=2)
+
+            helpers.MakeLabel(self.root, &#34;These binaries were not made by me and are property of NVIDIA Corporation.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#39;&#39;&#39;&#34;This software contains source code provided by NVIDIA Corporation.&#34;&#39;&#39;&#39;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+            
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.welcome(), 5,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer2(), 5,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        def disclaimer2(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;By downloading you agree to&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;the following terms:&#34;, 1,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=5, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;1. https://docs.nvidia.com/deeplearning/cudnn/sla/index.html&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;2. https://docs.nvidia.com/cuda/eula/index.html&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#39;&#39;&#39;3. You agree to use the files only as a part of the &#34;Euro-Truck-Simulator-2-Lane-Assist&#34; application.&#39;&#39;&#39;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;4. You agree to delete all downloaded files in the case you delete the program.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;5. **You are legally responsible for downloading these NVIDIA binaries.**&#34;, 6,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer1(), 7,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer3(), 7,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def disclaimer3(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Additional Notes&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;These terms follow the NVIDIA guidelines, but I am not a lawyer and thus I have included term 5.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This means that in the case that you do not follow these terms,&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;or the terms are not sufficient from the start **I am not responsible.**&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;In addition in the case that I would find out that you are not following these terms,&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;**I am legally bound to report it to NVIDIA.**&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;It is important to not that as in with the guidelines by NVIDIA&#34;, 6,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#39;&#39;&#39;&#34;Additionally, you agree that you will protect the privacy,&#39;&#39;&#39;, 7,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#39;&#39;&#39;security and legal rights of your application users.&#34;&#39;&#39;&#39;, 8,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;My application does not log any user data.&#34;, 9,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;All files being downloaded are hosted on Google Drive.&#34;, 10,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;By downloading you agree to the previously listed terms. Please read them carefully!&#34;, 11,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+
+
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer2(), 12,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.downloadBinariesPanel(), 12,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def downloadBinariesPanel(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Install NVIDIA Binaries&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;All terms listed previously apply to these files.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Once you have read all the terms you can click the download button.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This will download all files from Google Drive and place them in the correct folder.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer3(), 4,0)
+            helpers.MakeButton(self.root, &#34;Download&#34;, lambda: self.downloadbinaries(), 4,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def downloadbinaries(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Downloading...&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=130, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Binaries are currently being downloaded.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This will take awhile due to the size of the files.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;When all files are downloaded the next page will appear.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Check the console for more information.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+            binaryfolder = variables.PATH + r&#34;\src\NVIDIA&#34;
+            os.chdir(binaryfolder)
+            download(&#34;https://drive.google.com/file/d/1kJsg2-FiWG6TmNIVDgh6nPlxjW3_wQEB/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1-68zJB5L0Ff04ZwbA6m_MLx7cPvQLGGD/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1MBrMnB2Awyiqe25lSo6x17Xxe04iVVwO/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1KbD2otVJVYFN7qlTCDfU62Nf0yAUYTVH/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1ALvTba6BEDJjAl8B4Qagm2SkSbKZVTBX/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/19bGUy32AuR5YKZiVZJOOnVXMHNTjNvVB/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/135sr_EuJr7nLxcXLGPNFXOoca9lk-B4d/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1KMmeHHuqds1XQlU0kM7zpYeIpLvwEExD/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1pdTyUk06BILaTWd9cTLUTVPMKKlYfMY1/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1KwBiqgernBSbYo4FThoGSS7c_1vd8Bdx/view?usp=sharing&#34;)
+
+            self.downloadModelPanel()
+
+        def downloadModelPanel(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Install UFLD Model&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=1)
+            helpers.MakeLabel(self.root, &#34;This is the file that will make UFLD work&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=1)
+            helpers.MakeLabel(self.root, &#34;This will download the file from Google Drive and place them in the correct folder.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=1)
+
+            helpers.MakeButton(self.root, &#34;Download&#34;, lambda: self.downloadmodel(), 4,0)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def downloadmodel(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Downloading...&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=130, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;UFLD Model is currently being downloaded.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This will take awhile due to the size of the file.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;When all files are downloaded the next page will appear.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Check the console for more information.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+            modelfolder = variables.PATH + r&#34;\plugins\UFLDLaneDetection\UFLD\models&#34;
+            os.chdir(modelfolder)
+            download(&#34;https://drive.google.com/file/d/1X8VCVFNmnImmMrqyrIjwfkqipA6jZom2/view?usp=sharing&#34;)
+            self.finish()
+
+        def finish(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;UFLD Is Installed&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=160, pady=10, columnspan=1)
+            helpers.MakeLabel(self.root, &#34;Click the finish button to reload the program.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=160, pady=2, columnspan=1)
+            
+            def reload():
+                os.chdir(variables.PATH)
+                variables.RELOAD = True
+
+            helpers.MakeButton(self.root, &#34;Finish&#34;, lambda: reload(), 3,0)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.download"><code class="name flex">
+<span>def <span class="ident">download</span></span>(<span>url)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def download(url):
+    prefix = &#39;https://drive.google.com/uc?/export=download&amp;id=&#39;
+    file_id = url.split(&#39;/&#39;)[-2]
+    gdown.download(prefix + file_id)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    global download
+
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.welcome()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def download(url):
+            prefix = &#39;https://drive.google.com/uc?/export=download&amp;id=&#39;
+            file_id = url.split(&#39;/&#39;)[-2]
+            gdown.download(prefix + file_id)
+
+        def welcome(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;UFLD Installer&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=110, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This panel installs all required files for UFLD.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=110, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Keep in mind your GPU must be a NVIDIA GPU 1060 TI or better.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=110, pady=2, columnspan=2)
+            
+            helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 3,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer1(), 3,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def disclaimer1(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;The following NVIDIA Binaries&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Will Be Downloaded&#34;, 1,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=5, columnspan=2)
+            binaries = tk.Listbox(self.root, font=(&#34;Segoe UI&#34;, 10), width=50)
+            def binariesins(row, text):
+                binaries.insert(row, text)
+            binariesins(1, &#34;cufft64_10.dll&#34;)
+            binariesins(2, &#34;cudnn_ops_infer64_8.dll&#34;)
+            binariesins(3, &#34;cudnn_cnn_infer64_8.dll&#34;)
+            binariesins(4, &#34;cudnn_adv_infer64_8.dll&#34;)
+            binariesins(5, &#34;cudnn64_8.dll&#34;)
+            binariesins(6, &#34;cudart64_110.dll&#34;)
+            binariesins(7, &#34;cudart32_110.dll&#34;)
+            binariesins(8, &#34;cublastLt64_11.dll&#34;)
+            binariesins(9, &#34;cublas64_11.dll&#34;)
+            binaries.grid( row=2, column=0, padx=70, pady=2, columnspan=2)
+
+            helpers.MakeLabel(self.root, &#34;These binaries were not made by me and are property of NVIDIA Corporation.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#39;&#39;&#39;&#34;This software contains source code provided by NVIDIA Corporation.&#34;&#39;&#39;&#39;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+            
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.welcome(), 5,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer2(), 5,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        def disclaimer2(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;By downloading you agree to&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;the following terms:&#34;, 1,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=5, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;1. https://docs.nvidia.com/deeplearning/cudnn/sla/index.html&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;2. https://docs.nvidia.com/cuda/eula/index.html&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#39;&#39;&#39;3. You agree to use the files only as a part of the &#34;Euro-Truck-Simulator-2-Lane-Assist&#34; application.&#39;&#39;&#39;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;4. You agree to delete all downloaded files in the case you delete the program.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;5. **You are legally responsible for downloading these NVIDIA binaries.**&#34;, 6,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer1(), 7,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer3(), 7,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def disclaimer3(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Additional Notes&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;These terms follow the NVIDIA guidelines, but I am not a lawyer and thus I have included term 5.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This means that in the case that you do not follow these terms,&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;or the terms are not sufficient from the start **I am not responsible.**&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;In addition in the case that I would find out that you are not following these terms,&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;**I am legally bound to report it to NVIDIA.**&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;It is important to not that as in with the guidelines by NVIDIA&#34;, 6,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#39;&#39;&#39;&#34;Additionally, you agree that you will protect the privacy,&#39;&#39;&#39;, 7,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#39;&#39;&#39;security and legal rights of your application users.&#34;&#39;&#39;&#39;, 8,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;My application does not log any user data.&#34;, 9,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;All files being downloaded are hosted on Google Drive.&#34;, 10,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;By downloading you agree to the previously listed terms. Please read them carefully!&#34;, 11,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+
+
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer2(), 12,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.downloadBinariesPanel(), 12,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def downloadBinariesPanel(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Install NVIDIA Binaries&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;All terms listed previously apply to these files.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Once you have read all the terms you can click the download button.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This will download all files from Google Drive and place them in the correct folder.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer3(), 4,0)
+            helpers.MakeButton(self.root, &#34;Download&#34;, lambda: self.downloadbinaries(), 4,1)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def downloadbinaries(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Downloading...&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=130, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Binaries are currently being downloaded.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This will take awhile due to the size of the files.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;When all files are downloaded the next page will appear.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Check the console for more information.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+            binaryfolder = variables.PATH + r&#34;\src\NVIDIA&#34;
+            os.chdir(binaryfolder)
+            download(&#34;https://drive.google.com/file/d/1kJsg2-FiWG6TmNIVDgh6nPlxjW3_wQEB/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1-68zJB5L0Ff04ZwbA6m_MLx7cPvQLGGD/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1MBrMnB2Awyiqe25lSo6x17Xxe04iVVwO/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1KbD2otVJVYFN7qlTCDfU62Nf0yAUYTVH/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1ALvTba6BEDJjAl8B4Qagm2SkSbKZVTBX/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/19bGUy32AuR5YKZiVZJOOnVXMHNTjNvVB/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/135sr_EuJr7nLxcXLGPNFXOoca9lk-B4d/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1KMmeHHuqds1XQlU0kM7zpYeIpLvwEExD/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1pdTyUk06BILaTWd9cTLUTVPMKKlYfMY1/view?usp=sharing&#34;)
+            download(&#34;https://drive.google.com/file/d/1KwBiqgernBSbYo4FThoGSS7c_1vd8Bdx/view?usp=sharing&#34;)
+
+            self.downloadModelPanel()
+
+        def downloadModelPanel(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Install UFLD Model&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=1)
+            helpers.MakeLabel(self.root, &#34;This is the file that will make UFLD work&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=1)
+            helpers.MakeLabel(self.root, &#34;This will download the file from Google Drive and place them in the correct folder.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=1)
+
+            helpers.MakeButton(self.root, &#34;Download&#34;, lambda: self.downloadmodel(), 4,0)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def downloadmodel(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;Downloading...&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=130, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;UFLD Model is currently being downloaded.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This will take awhile due to the size of the file.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;When all files are downloaded the next page will appear.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Check the console for more information.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+            modelfolder = variables.PATH + r&#34;\plugins\UFLDLaneDetection\UFLD\models&#34;
+            os.chdir(modelfolder)
+            download(&#34;https://drive.google.com/file/d/1X8VCVFNmnImmMrqyrIjwfkqipA6jZom2/view?usp=sharing&#34;)
+            self.finish()
+
+        def finish(self):
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            helpers.MakeLabel(self.root, &#34;UFLD Is Installed&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=160, pady=10, columnspan=1)
+            helpers.MakeLabel(self.root, &#34;Click the finish button to reload the program.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=160, pady=2, columnspan=1)
+            
+            def reload():
+                os.chdir(variables.PATH)
+                variables.RELOAD = True
+
+            helpers.MakeButton(self.root, &#34;Finish&#34;, lambda: reload(), 3,0)
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer1"><code class="name flex">
+<span>def <span class="ident">disclaimer1</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def disclaimer1(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;The following NVIDIA Binaries&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;Will Be Downloaded&#34;, 1,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=5, columnspan=2)
+    binaries = tk.Listbox(self.root, font=(&#34;Segoe UI&#34;, 10), width=50)
+    def binariesins(row, text):
+        binaries.insert(row, text)
+    binariesins(1, &#34;cufft64_10.dll&#34;)
+    binariesins(2, &#34;cudnn_ops_infer64_8.dll&#34;)
+    binariesins(3, &#34;cudnn_cnn_infer64_8.dll&#34;)
+    binariesins(4, &#34;cudnn_adv_infer64_8.dll&#34;)
+    binariesins(5, &#34;cudnn64_8.dll&#34;)
+    binariesins(6, &#34;cudart64_110.dll&#34;)
+    binariesins(7, &#34;cudart32_110.dll&#34;)
+    binariesins(8, &#34;cublastLt64_11.dll&#34;)
+    binariesins(9, &#34;cublas64_11.dll&#34;)
+    binaries.grid( row=2, column=0, padx=70, pady=2, columnspan=2)
+
+    helpers.MakeLabel(self.root, &#34;These binaries were not made by me and are property of NVIDIA Corporation.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#39;&#39;&#39;&#34;This software contains source code provided by NVIDIA Corporation.&#34;&#39;&#39;&#39;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+    
+    helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.welcome(), 5,0)
+    helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer2(), 5,1)
+
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer2"><code class="name flex">
+<span>def <span class="ident">disclaimer2</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def disclaimer2(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;By downloading you agree to&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;the following terms:&#34;, 1,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=5, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;1. https://docs.nvidia.com/deeplearning/cudnn/sla/index.html&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;2. https://docs.nvidia.com/cuda/eula/index.html&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#39;&#39;&#39;3. You agree to use the files only as a part of the &#34;Euro-Truck-Simulator-2-Lane-Assist&#34; application.&#39;&#39;&#39;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;4. You agree to delete all downloaded files in the case you delete the program.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;5. **You are legally responsible for downloading these NVIDIA binaries.**&#34;, 6,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+
+    helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer1(), 7,0)
+    helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer3(), 7,1)
+
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer3"><code class="name flex">
+<span>def <span class="ident">disclaimer3</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def disclaimer3(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;Additional Notes&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=20, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;These terms follow the NVIDIA guidelines, but I am not a lawyer and thus I have included term 5.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;This means that in the case that you do not follow these terms,&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;or the terms are not sufficient from the start **I am not responsible.**&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;In addition in the case that I would find out that you are not following these terms,&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;**I am legally bound to report it to NVIDIA.**&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;It is important to not that as in with the guidelines by NVIDIA&#34;, 6,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#39;&#39;&#39;&#34;Additionally, you agree that you will protect the privacy,&#39;&#39;&#39;, 7,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#39;&#39;&#39;security and legal rights of your application users.&#34;&#39;&#39;&#39;, 8,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;My application does not log any user data.&#34;, 9,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;All files being downloaded are hosted on Google Drive.&#34;, 10,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;By downloading you agree to the previously listed terms. Please read them carefully!&#34;, 11,0, font=(&#34;Segoe UI&#34;, 10), padx=20, pady=2, columnspan=2)
+
+
+    helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer2(), 12,0)
+    helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.downloadBinariesPanel(), 12,1)
+
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadBinariesPanel"><code class="name flex">
+<span>def <span class="ident">downloadBinariesPanel</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def downloadBinariesPanel(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;Install NVIDIA Binaries&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;All terms listed previously apply to these files.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;Once you have read all the terms you can click the download button.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;This will download all files from Google Drive and place them in the correct folder.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=2)
+
+    helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.disclaimer3(), 4,0)
+    helpers.MakeButton(self.root, &#34;Download&#34;, lambda: self.downloadbinaries(), 4,1)
+
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadModelPanel"><code class="name flex">
+<span>def <span class="ident">downloadModelPanel</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def downloadModelPanel(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;Install UFLD Model&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=70, pady=10, columnspan=1)
+    helpers.MakeLabel(self.root, &#34;This is the file that will make UFLD work&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=1)
+    helpers.MakeLabel(self.root, &#34;This will download the file from Google Drive and place them in the correct folder.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=70, pady=2, columnspan=1)
+
+    helpers.MakeButton(self.root, &#34;Download&#34;, lambda: self.downloadmodel(), 4,0)
+
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadbinaries"><code class="name flex">
+<span>def <span class="ident">downloadbinaries</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def downloadbinaries(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;Downloading...&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=130, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;Binaries are currently being downloaded.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;This will take awhile due to the size of the files.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;When all files are downloaded the next page will appear.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;Check the console for more information.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()
+
+    binaryfolder = variables.PATH + r&#34;\src\NVIDIA&#34;
+    os.chdir(binaryfolder)
+    download(&#34;https://drive.google.com/file/d/1kJsg2-FiWG6TmNIVDgh6nPlxjW3_wQEB/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/1-68zJB5L0Ff04ZwbA6m_MLx7cPvQLGGD/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/1MBrMnB2Awyiqe25lSo6x17Xxe04iVVwO/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/1KbD2otVJVYFN7qlTCDfU62Nf0yAUYTVH/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/1ALvTba6BEDJjAl8B4Qagm2SkSbKZVTBX/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/19bGUy32AuR5YKZiVZJOOnVXMHNTjNvVB/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/135sr_EuJr7nLxcXLGPNFXOoca9lk-B4d/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/1KMmeHHuqds1XQlU0kM7zpYeIpLvwEExD/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/1pdTyUk06BILaTWd9cTLUTVPMKKlYfMY1/view?usp=sharing&#34;)
+    download(&#34;https://drive.google.com/file/d/1KwBiqgernBSbYo4FThoGSS7c_1vd8Bdx/view?usp=sharing&#34;)
+
+    self.downloadModelPanel()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadmodel"><code class="name flex">
+<span>def <span class="ident">downloadmodel</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def downloadmodel(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;Downloading...&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=130, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;UFLD Model is currently being downloaded.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;This will take awhile due to the size of the file.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;When all files are downloaded the next page will appear.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;Check the console for more information.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=130, pady=2, columnspan=2)
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()
+
+    modelfolder = variables.PATH + r&#34;\plugins\UFLDLaneDetection\UFLD\models&#34;
+    os.chdir(modelfolder)
+    download(&#34;https://drive.google.com/file/d/1X8VCVFNmnImmMrqyrIjwfkqipA6jZom2/view?usp=sharing&#34;)
+    self.finish()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.finish"><code class="name flex">
+<span>def <span class="ident">finish</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def finish(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;UFLD Is Installed&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=160, pady=10, columnspan=1)
+    helpers.MakeLabel(self.root, &#34;Click the finish button to reload the program.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=160, pady=2, columnspan=1)
+    
+    def reload():
+        os.chdir(variables.PATH)
+        variables.RELOAD = True
+
+    helpers.MakeButton(self.root, &#34;Finish&#34;, lambda: reload(), 3,0)
+
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.welcome"><code class="name flex">
+<span>def <span class="ident">welcome</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def welcome(self):
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+
+    helpers.MakeLabel(self.root, &#34;UFLD Installer&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=110, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;This panel installs all required files for UFLD.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=110, pady=2, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;Keep in mind your GPU must be a NVIDIA GPU 1060 TI or better.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=110, pady=2, columnspan=2)
+    
+    helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 3,0)
+    helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.disclaimer1(), 3,1)
+
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.download" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.download">download</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer1" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer1">disclaimer1</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer2" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer2">disclaimer2</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer3" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.disclaimer3">disclaimer3</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadBinariesPanel" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadBinariesPanel">downloadBinariesPanel</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadModelPanel" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadModelPanel">downloadModelPanel</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadbinaries" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadbinaries">downloadbinaries</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadmodel" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.downloadmodel">downloadmodel</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.finish" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.finish">finish</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.update">update</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.welcome" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDInstaller.main.UI.welcome">welcome</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main API documentation</title>
+<meta name="description" content="This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main</code></h1>
+</header>
+<section id="section-intro">
+<p>This is an example of a panel (type="static"), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then check the Plugin example!</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then check the Plugin example!
+&#34;&#34;&#34;
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+
+PluginInfo = PluginInformation(
+    name=&#34;ThemeMaker&#34;, # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
+    description=&#34;Let&#39;s you change the color of a theme to your liking.\nEXPERIMENTAL! - There can be themes that don&#39;t work well!\nBase theme is the forest theme.&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;Tumppi066&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;static&#34; # = Panel
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+import os
+
+
+# Color to replace
+AccentBaseColor = [255,255,255]
+HoverBaseColor = [245,245,245]
+InvalidBaseColor = [235,235,235]
+
+# Colors to replace with
+AccentColor = [33,115,70]
+HoverColor = [36,127,76]
+InvalidColor = [208,68,35]
+
+# Directories
+SourceDir = &#34;plugins/ThemeMaker/base_dark/&#34;
+EditedDir = &#34;plugins/ThemeMaker/edited/&#34;
+
+def ColorExample():
+    import cv2
+    import numpy as np
+
+    
+    # Load the image
+    img = cv2.imread(&#34;plugins/ThemeMaker/example.png&#34;)
+    
+    # Change the colors
+    img[np.where((img == InvalidBaseColor).all(axis=2))] = InvalidColor
+    img[np.where((img == HoverBaseColor).all(axis=2))] = HoverColor
+    img[np.where((img == AccentBaseColor).all(axis=2))] = AccentColor
+    
+    # Show the image
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    cv2.imshow(&#34;Example&#34;, img)
+    
+    
+def ColorTCLTheme():
+    # If the edited folder is not yet created then create it
+    if not os.path.exists(EditedDir):
+        os.makedirs(EditedDir)
+        
+    # Load all the images from the base_dark theme
+    import cv2
+    import numpy as np
+
+    ignoredFiles = [&#34;up.png&#34;, &#34;left.png&#34;, &#34;right.png&#34;, &#34;down.png&#34;]
+    for file in os.listdir(SourceDir):
+        if file in ignoredFiles:
+            # Copy the file as is
+            import shutil
+            shutil.copyfile(SourceDir + file, EditedDir + file)
+            continue    
+        
+        try:
+            img = cv2.imread(SourceDir + file)
+            
+            # Change the colors with a +- 5 range
+            InvalidBaseColor_range = np.array(InvalidBaseColor) + np.array([-5, 5, -5])
+            HoverBaseColor_range = np.array(HoverBaseColor) + np.array([-5, 5, -5])
+            AccentBaseColor_range = np.array(AccentBaseColor) + np.array([-5, 5, -5])
+
+            img[np.where((img &gt;= InvalidBaseColor_range[0]).all(axis=2) &amp; (img &lt;= InvalidBaseColor_range[1]).all(axis=2))] = InvalidColor
+            img[np.where((img &gt;= HoverBaseColor_range[0]).all(axis=2) &amp; (img &lt;= HoverBaseColor_range[1]).all(axis=2))] = HoverColor
+            img[np.where((img &gt;= AccentBaseColor_range[0]).all(axis=2) &amp; (img &lt;= AccentBaseColor_range[1]).all(axis=2))] = AccentColor
+            
+            # Save the image
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            cv2.imwrite(EditedDir + file, img)
+            
+        except Exception as ex:
+            print(ex.args)
+            print(&#34;Failed to edit &#34; + file)
+            pass
+        
+
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def changeColor(self, color, index, value):
+            if color == &#34;accent&#34;:
+                AccentColor[index] = int(float(value))
+            elif color == &#34;hover&#34;:
+                HoverColor[index] = int(float(value))
+            elif color == &#34;invalid&#34;:
+                InvalidColor[index] = int(float(value))
+                
+            ColorExample()
+        
+        def colorThemeAndSave(self):
+            ColorTCLTheme()
+            # Check that none of the values are empty
+            if self.name.get() == &#34;&#34;:
+                from tkinter import messagebox
+                messagebox.showerror(&#34;ThemeMaker&#34;, &#34;Name can&#39;t be empty!&#34;)
+                return
+            if self.author.get() == &#34;&#34;:
+                from tkinter import messagebox
+                messagebox.showerror(&#34;ThemeMaker&#34;, &#34;Author can&#39;t be empty!&#34;)
+                return
+            if self.description.get() == &#34;&#34;:
+                self.description.set(&#34;No description&#34;)
+            if self.version.get() == &#34;&#34;:
+                self.description.set(&#34;0.1.0&#34;)
+                
+            # Create a new folder in themes/ with the name of the theme
+            path = os.path.join(variables.PATH, r&#34;themes&#34;, self.name.get())
+            if not os.path.exists(path):
+                os.makedirs(path)
+            else:
+                from tkinter import messagebox
+                if messagebox.askyesno(&#34;ThemeMaker&#34;, &#34;Theme already exists, overwrite?&#34;):
+                    # Remove the folder
+                    import shutil
+                    shutil.rmtree(path)
+                    # Create a new folder
+                    os.makedirs(path)
+                else:
+                    return
+            
+            # Copy the contents of the edited folder to newFolder/name
+            import shutil
+            shutil.copytree(EditedDir, os.path.join(path, self.name.get()))
+            
+            # Create a theme.json file
+            import json
+            theme = {}
+            theme[&#34;name&#34;] = self.name.get()
+            theme[&#34;description&#34;] = self.description.get()
+            theme[&#34;author&#34;] = self.author.get()
+            theme[&#34;version&#34;] = self.version.get()
+            theme[&#34;base&#34;] = &#34;forest&#34;
+            theme[&#34;titlebar&#34;] = &#34;0x313131&#34; # TODO: Add titlebar color picker
+            with open(os.path.join(path, &#34;theme.json&#34;), &#34;w&#34;) as file:
+                json.dump(theme, file, indent=4)
+            
+            # Edit the .tcl file and save it to the new folder
+            file = open(variables.PATH + r&#34;plugins\ThemeMaker\dark.tcl&#34;, &#34;r&#34;)
+            lines = file.readlines()
+            file.close()
+            
+            # Replace all forest-dark with the name of the theme
+            for i in range(len(lines)):
+                lines[i] = lines[i].replace(&#34;forest-dark&#34;, self.name.get())
+                # Change the selectbg color to the hover color
+                # Convert the rgb to hex
+                selectbg = &#34;#%02x%02x%02x&#34; % (HoverColor[0], HoverColor[1], HoverColor[2])
+                lines[i] = lines[i].replace(&#39;        -selectbg       &#34;#217346&#34;&#39;,
+                                            f&#39;        -selectbg       &#34;{selectbg}&#34;&#39;)
+                
+            # Save the file to the new folder as theme.tcl
+            file = open(os.path.join(path, &#34;theme.tcl&#34;), &#34;w&#34;)
+            file.writelines(lines)
+            file.close()
+            
+            from tkinter import messagebox
+            messagebox.showinfo(&#34;ThemeMaker&#34;, &#34;Theme saved!&#34;)    
+            
+                
+            
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            # Create a notebook to hold tabs for each color category
+            self.notebook = ttk.Notebook(self.root, width=700, height=600)
+            self.notebook.pack(anchor=&#34;center&#34;, expand=False)
+            
+            # Create the tabs
+            self.tabAccent = ttk.Frame(self.notebook)
+            self.tabHover = ttk.Frame(self.notebook)
+            self.tabInvalid = ttk.Frame(self.notebook)
+            self.tabSave = ttk.Frame(self.notebook)
+            
+            # Add the tabs to the notebook
+            self.notebook.add(self.tabAccent, text=&#34;Accent&#34;)
+            self.notebook.add(self.tabHover, text=&#34;Hover&#34;)
+            self.notebook.add(self.tabInvalid, text=&#34;Invalid&#34;)
+            self.notebook.add(self.tabSave, text=&#34;Save&#34;)
+            
+            # Add the rgb sliders to the tabs
+            self.accentR = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 0, value))
+            self.accentR.grid(row=0, column=0)
+            self.accentR.set(AccentColor[0])
+            ttk.Label(self.tabAccent, text=&#34;Red&#34;).grid(row=0, column=1)
+            self.accentG = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 1, value))
+            self.accentG.grid(row=1, column=0)
+            self.accentG.set(AccentColor[1])
+            ttk.Label(self.tabAccent, text=&#34;Green&#34;).grid(row=1, column=1)
+            self.accentB = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 2, value))
+            self.accentB.grid(row=2, column=0)
+            self.accentB.set(AccentColor[2])
+            ttk.Label(self.tabAccent, text=&#34;Blue&#34;).grid(row=2, column=1)
+            
+            
+            self.hoverR = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 0, value))
+            self.hoverR.grid(row=0, column=0)
+            self.hoverR.set(HoverColor[0])
+            ttk.Label(self.tabHover, text=&#34;Red&#34;).grid(row=0, column=1)
+            self.hoverG = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 1, value))
+            self.hoverG.grid(row=1, column=0)
+            self.hoverG.set(HoverColor[1])
+            ttk.Label(self.tabHover, text=&#34;Green&#34;).grid(row=1, column=1)
+            self.hoverB = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 2, value))
+            self.hoverB.grid(row=2, column=0)
+            self.hoverB.set(HoverColor[2])
+            ttk.Label(self.tabHover, text=&#34;Blue&#34;).grid(row=2, column=1)
+            
+            
+            self.invalidR = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 0, value))
+            self.invalidR.grid(row=0, column=0)
+            self.invalidR.set(InvalidColor[0])
+            ttk.Label(self.tabInvalid, text=&#34;Red&#34;).grid(row=0, column=1)
+            self.invalidG = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 1, value))
+            self.invalidG.grid(row=1, column=0)
+            self.invalidG.set(InvalidColor[1])
+            ttk.Label(self.tabInvalid, text=&#34;Green&#34;).grid(row=1, column=1)
+            self.invalidB = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 2, value))
+            self.invalidB.grid(row=2, column=0)
+            self.invalidB.set(InvalidColor[2])
+            ttk.Label(self.tabInvalid, text=&#34;Blue&#34;).grid(row=2, column=1)
+            
+            # Make entries for the theme name, author, description and version
+            self.name = helpers.MakeComboEntry(self.tabSave, &#34;Name&#34;, &#34;ThemeMaker&#34;, &#34;Name&#34;, 0, 0, isString=True, width=30)
+            self.author = helpers.MakeComboEntry(self.tabSave, &#34;Author&#34;, &#34;ThemeMaker&#34;, &#34;Author&#34;, 1, 0, isString=True, width=30)
+            self.description = helpers.MakeComboEntry(self.tabSave, &#34;Description&#34;, &#34;ThemeMaker&#34;, &#34;Description&#34;, 2, 0, isString=True, width=30)
+            self.version = helpers.MakeComboEntry(self.tabSave, &#34;Version&#34;, &#34;ThemeMaker&#34;, &#34;Version&#34;, 3, 0, isString=True, width=30)
+            
+            # Add a button to save the theme
+            helpers.MakeButton(self.tabSave, &#34;Save Theme&#34;, self.colorThemeAndSave, 10, 0, width=26, columnspan=2)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.ColorExample"><code class="name flex">
+<span>def <span class="ident">ColorExample</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ColorExample():
+    import cv2
+    import numpy as np
+
+    
+    # Load the image
+    img = cv2.imread(&#34;plugins/ThemeMaker/example.png&#34;)
+    
+    # Change the colors
+    img[np.where((img == InvalidBaseColor).all(axis=2))] = InvalidColor
+    img[np.where((img == HoverBaseColor).all(axis=2))] = HoverColor
+    img[np.where((img == AccentBaseColor).all(axis=2))] = AccentColor
+    
+    # Show the image
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    cv2.imshow(&#34;Example&#34;, img)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.ColorTCLTheme"><code class="name flex">
+<span>def <span class="ident">ColorTCLTheme</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ColorTCLTheme():
+    # If the edited folder is not yet created then create it
+    if not os.path.exists(EditedDir):
+        os.makedirs(EditedDir)
+        
+    # Load all the images from the base_dark theme
+    import cv2
+    import numpy as np
+
+    ignoredFiles = [&#34;up.png&#34;, &#34;left.png&#34;, &#34;right.png&#34;, &#34;down.png&#34;]
+    for file in os.listdir(SourceDir):
+        if file in ignoredFiles:
+            # Copy the file as is
+            import shutil
+            shutil.copyfile(SourceDir + file, EditedDir + file)
+            continue    
+        
+        try:
+            img = cv2.imread(SourceDir + file)
+            
+            # Change the colors with a +- 5 range
+            InvalidBaseColor_range = np.array(InvalidBaseColor) + np.array([-5, 5, -5])
+            HoverBaseColor_range = np.array(HoverBaseColor) + np.array([-5, 5, -5])
+            AccentBaseColor_range = np.array(AccentBaseColor) + np.array([-5, 5, -5])
+
+            img[np.where((img &gt;= InvalidBaseColor_range[0]).all(axis=2) &amp; (img &lt;= InvalidBaseColor_range[1]).all(axis=2))] = InvalidColor
+            img[np.where((img &gt;= HoverBaseColor_range[0]).all(axis=2) &amp; (img &lt;= HoverBaseColor_range[1]).all(axis=2))] = HoverColor
+            img[np.where((img &gt;= AccentBaseColor_range[0]).all(axis=2) &amp; (img &lt;= AccentBaseColor_range[1]).all(axis=2))] = AccentColor
+            
+            # Save the image
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            cv2.imwrite(EditedDir + file, img)
+            
+        except Exception as ex:
+            print(ex.args)
+            print(&#34;Failed to edit &#34; + file)
+            pass</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def changeColor(self, color, index, value):
+            if color == &#34;accent&#34;:
+                AccentColor[index] = int(float(value))
+            elif color == &#34;hover&#34;:
+                HoverColor[index] = int(float(value))
+            elif color == &#34;invalid&#34;:
+                InvalidColor[index] = int(float(value))
+                
+            ColorExample()
+        
+        def colorThemeAndSave(self):
+            ColorTCLTheme()
+            # Check that none of the values are empty
+            if self.name.get() == &#34;&#34;:
+                from tkinter import messagebox
+                messagebox.showerror(&#34;ThemeMaker&#34;, &#34;Name can&#39;t be empty!&#34;)
+                return
+            if self.author.get() == &#34;&#34;:
+                from tkinter import messagebox
+                messagebox.showerror(&#34;ThemeMaker&#34;, &#34;Author can&#39;t be empty!&#34;)
+                return
+            if self.description.get() == &#34;&#34;:
+                self.description.set(&#34;No description&#34;)
+            if self.version.get() == &#34;&#34;:
+                self.description.set(&#34;0.1.0&#34;)
+                
+            # Create a new folder in themes/ with the name of the theme
+            path = os.path.join(variables.PATH, r&#34;themes&#34;, self.name.get())
+            if not os.path.exists(path):
+                os.makedirs(path)
+            else:
+                from tkinter import messagebox
+                if messagebox.askyesno(&#34;ThemeMaker&#34;, &#34;Theme already exists, overwrite?&#34;):
+                    # Remove the folder
+                    import shutil
+                    shutil.rmtree(path)
+                    # Create a new folder
+                    os.makedirs(path)
+                else:
+                    return
+            
+            # Copy the contents of the edited folder to newFolder/name
+            import shutil
+            shutil.copytree(EditedDir, os.path.join(path, self.name.get()))
+            
+            # Create a theme.json file
+            import json
+            theme = {}
+            theme[&#34;name&#34;] = self.name.get()
+            theme[&#34;description&#34;] = self.description.get()
+            theme[&#34;author&#34;] = self.author.get()
+            theme[&#34;version&#34;] = self.version.get()
+            theme[&#34;base&#34;] = &#34;forest&#34;
+            theme[&#34;titlebar&#34;] = &#34;0x313131&#34; # TODO: Add titlebar color picker
+            with open(os.path.join(path, &#34;theme.json&#34;), &#34;w&#34;) as file:
+                json.dump(theme, file, indent=4)
+            
+            # Edit the .tcl file and save it to the new folder
+            file = open(variables.PATH + r&#34;plugins\ThemeMaker\dark.tcl&#34;, &#34;r&#34;)
+            lines = file.readlines()
+            file.close()
+            
+            # Replace all forest-dark with the name of the theme
+            for i in range(len(lines)):
+                lines[i] = lines[i].replace(&#34;forest-dark&#34;, self.name.get())
+                # Change the selectbg color to the hover color
+                # Convert the rgb to hex
+                selectbg = &#34;#%02x%02x%02x&#34; % (HoverColor[0], HoverColor[1], HoverColor[2])
+                lines[i] = lines[i].replace(&#39;        -selectbg       &#34;#217346&#34;&#39;,
+                                            f&#39;        -selectbg       &#34;{selectbg}&#34;&#39;)
+                
+            # Save the file to the new folder as theme.tcl
+            file = open(os.path.join(path, &#34;theme.tcl&#34;), &#34;w&#34;)
+            file.writelines(lines)
+            file.close()
+            
+            from tkinter import messagebox
+            messagebox.showinfo(&#34;ThemeMaker&#34;, &#34;Theme saved!&#34;)    
+            
+                
+            
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            # Create a notebook to hold tabs for each color category
+            self.notebook = ttk.Notebook(self.root, width=700, height=600)
+            self.notebook.pack(anchor=&#34;center&#34;, expand=False)
+            
+            # Create the tabs
+            self.tabAccent = ttk.Frame(self.notebook)
+            self.tabHover = ttk.Frame(self.notebook)
+            self.tabInvalid = ttk.Frame(self.notebook)
+            self.tabSave = ttk.Frame(self.notebook)
+            
+            # Add the tabs to the notebook
+            self.notebook.add(self.tabAccent, text=&#34;Accent&#34;)
+            self.notebook.add(self.tabHover, text=&#34;Hover&#34;)
+            self.notebook.add(self.tabInvalid, text=&#34;Invalid&#34;)
+            self.notebook.add(self.tabSave, text=&#34;Save&#34;)
+            
+            # Add the rgb sliders to the tabs
+            self.accentR = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 0, value))
+            self.accentR.grid(row=0, column=0)
+            self.accentR.set(AccentColor[0])
+            ttk.Label(self.tabAccent, text=&#34;Red&#34;).grid(row=0, column=1)
+            self.accentG = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 1, value))
+            self.accentG.grid(row=1, column=0)
+            self.accentG.set(AccentColor[1])
+            ttk.Label(self.tabAccent, text=&#34;Green&#34;).grid(row=1, column=1)
+            self.accentB = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 2, value))
+            self.accentB.grid(row=2, column=0)
+            self.accentB.set(AccentColor[2])
+            ttk.Label(self.tabAccent, text=&#34;Blue&#34;).grid(row=2, column=1)
+            
+            
+            self.hoverR = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 0, value))
+            self.hoverR.grid(row=0, column=0)
+            self.hoverR.set(HoverColor[0])
+            ttk.Label(self.tabHover, text=&#34;Red&#34;).grid(row=0, column=1)
+            self.hoverG = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 1, value))
+            self.hoverG.grid(row=1, column=0)
+            self.hoverG.set(HoverColor[1])
+            ttk.Label(self.tabHover, text=&#34;Green&#34;).grid(row=1, column=1)
+            self.hoverB = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 2, value))
+            self.hoverB.grid(row=2, column=0)
+            self.hoverB.set(HoverColor[2])
+            ttk.Label(self.tabHover, text=&#34;Blue&#34;).grid(row=2, column=1)
+            
+            
+            self.invalidR = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 0, value))
+            self.invalidR.grid(row=0, column=0)
+            self.invalidR.set(InvalidColor[0])
+            ttk.Label(self.tabInvalid, text=&#34;Red&#34;).grid(row=0, column=1)
+            self.invalidG = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 1, value))
+            self.invalidG.grid(row=1, column=0)
+            self.invalidG.set(InvalidColor[1])
+            ttk.Label(self.tabInvalid, text=&#34;Green&#34;).grid(row=1, column=1)
+            self.invalidB = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 2, value))
+            self.invalidB.grid(row=2, column=0)
+            self.invalidB.set(InvalidColor[2])
+            ttk.Label(self.tabInvalid, text=&#34;Blue&#34;).grid(row=2, column=1)
+            
+            # Make entries for the theme name, author, description and version
+            self.name = helpers.MakeComboEntry(self.tabSave, &#34;Name&#34;, &#34;ThemeMaker&#34;, &#34;Name&#34;, 0, 0, isString=True, width=30)
+            self.author = helpers.MakeComboEntry(self.tabSave, &#34;Author&#34;, &#34;ThemeMaker&#34;, &#34;Author&#34;, 1, 0, isString=True, width=30)
+            self.description = helpers.MakeComboEntry(self.tabSave, &#34;Description&#34;, &#34;ThemeMaker&#34;, &#34;Description&#34;, 2, 0, isString=True, width=30)
+            self.version = helpers.MakeComboEntry(self.tabSave, &#34;Version&#34;, &#34;ThemeMaker&#34;, &#34;Version&#34;, 3, 0, isString=True, width=30)
+            
+            # Add a button to save the theme
+            helpers.MakeButton(self.tabSave, &#34;Save Theme&#34;, self.colorThemeAndSave, 10, 0, width=26, columnspan=2)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.changeColor"><code class="name flex">
+<span>def <span class="ident">changeColor</span></span>(<span>self, color, index, value)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def changeColor(self, color, index, value):
+    if color == &#34;accent&#34;:
+        AccentColor[index] = int(float(value))
+    elif color == &#34;hover&#34;:
+        HoverColor[index] = int(float(value))
+    elif color == &#34;invalid&#34;:
+        InvalidColor[index] = int(float(value))
+        
+    ColorExample()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.colorThemeAndSave"><code class="name flex">
+<span>def <span class="ident">colorThemeAndSave</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def colorThemeAndSave(self):
+    ColorTCLTheme()
+    # Check that none of the values are empty
+    if self.name.get() == &#34;&#34;:
+        from tkinter import messagebox
+        messagebox.showerror(&#34;ThemeMaker&#34;, &#34;Name can&#39;t be empty!&#34;)
+        return
+    if self.author.get() == &#34;&#34;:
+        from tkinter import messagebox
+        messagebox.showerror(&#34;ThemeMaker&#34;, &#34;Author can&#39;t be empty!&#34;)
+        return
+    if self.description.get() == &#34;&#34;:
+        self.description.set(&#34;No description&#34;)
+    if self.version.get() == &#34;&#34;:
+        self.description.set(&#34;0.1.0&#34;)
+        
+    # Create a new folder in themes/ with the name of the theme
+    path = os.path.join(variables.PATH, r&#34;themes&#34;, self.name.get())
+    if not os.path.exists(path):
+        os.makedirs(path)
+    else:
+        from tkinter import messagebox
+        if messagebox.askyesno(&#34;ThemeMaker&#34;, &#34;Theme already exists, overwrite?&#34;):
+            # Remove the folder
+            import shutil
+            shutil.rmtree(path)
+            # Create a new folder
+            os.makedirs(path)
+        else:
+            return
+    
+    # Copy the contents of the edited folder to newFolder/name
+    import shutil
+    shutil.copytree(EditedDir, os.path.join(path, self.name.get()))
+    
+    # Create a theme.json file
+    import json
+    theme = {}
+    theme[&#34;name&#34;] = self.name.get()
+    theme[&#34;description&#34;] = self.description.get()
+    theme[&#34;author&#34;] = self.author.get()
+    theme[&#34;version&#34;] = self.version.get()
+    theme[&#34;base&#34;] = &#34;forest&#34;
+    theme[&#34;titlebar&#34;] = &#34;0x313131&#34; # TODO: Add titlebar color picker
+    with open(os.path.join(path, &#34;theme.json&#34;), &#34;w&#34;) as file:
+        json.dump(theme, file, indent=4)
+    
+    # Edit the .tcl file and save it to the new folder
+    file = open(variables.PATH + r&#34;plugins\ThemeMaker\dark.tcl&#34;, &#34;r&#34;)
+    lines = file.readlines()
+    file.close()
+    
+    # Replace all forest-dark with the name of the theme
+    for i in range(len(lines)):
+        lines[i] = lines[i].replace(&#34;forest-dark&#34;, self.name.get())
+        # Change the selectbg color to the hover color
+        # Convert the rgb to hex
+        selectbg = &#34;#%02x%02x%02x&#34; % (HoverColor[0], HoverColor[1], HoverColor[2])
+        lines[i] = lines[i].replace(&#39;        -selectbg       &#34;#217346&#34;&#39;,
+                                    f&#39;        -selectbg       &#34;{selectbg}&#34;&#39;)
+        
+    # Save the file to the new folder as theme.tcl
+    file = open(os.path.join(path, &#34;theme.tcl&#34;), &#34;w&#34;)
+    file.writelines(lines)
+    file.close()
+    
+    from tkinter import messagebox
+    messagebox.showinfo(&#34;ThemeMaker&#34;, &#34;Theme saved!&#34;)    </code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.exampleFunction"><code class="name flex">
+<span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exampleFunction(self):
+    
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+    
+    # Create a notebook to hold tabs for each color category
+    self.notebook = ttk.Notebook(self.root, width=700, height=600)
+    self.notebook.pack(anchor=&#34;center&#34;, expand=False)
+    
+    # Create the tabs
+    self.tabAccent = ttk.Frame(self.notebook)
+    self.tabHover = ttk.Frame(self.notebook)
+    self.tabInvalid = ttk.Frame(self.notebook)
+    self.tabSave = ttk.Frame(self.notebook)
+    
+    # Add the tabs to the notebook
+    self.notebook.add(self.tabAccent, text=&#34;Accent&#34;)
+    self.notebook.add(self.tabHover, text=&#34;Hover&#34;)
+    self.notebook.add(self.tabInvalid, text=&#34;Invalid&#34;)
+    self.notebook.add(self.tabSave, text=&#34;Save&#34;)
+    
+    # Add the rgb sliders to the tabs
+    self.accentR = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 0, value))
+    self.accentR.grid(row=0, column=0)
+    self.accentR.set(AccentColor[0])
+    ttk.Label(self.tabAccent, text=&#34;Red&#34;).grid(row=0, column=1)
+    self.accentG = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 1, value))
+    self.accentG.grid(row=1, column=0)
+    self.accentG.set(AccentColor[1])
+    ttk.Label(self.tabAccent, text=&#34;Green&#34;).grid(row=1, column=1)
+    self.accentB = tk.Scale(self.tabAccent, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;accent&#34;, 2, value))
+    self.accentB.grid(row=2, column=0)
+    self.accentB.set(AccentColor[2])
+    ttk.Label(self.tabAccent, text=&#34;Blue&#34;).grid(row=2, column=1)
+    
+    
+    self.hoverR = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 0, value))
+    self.hoverR.grid(row=0, column=0)
+    self.hoverR.set(HoverColor[0])
+    ttk.Label(self.tabHover, text=&#34;Red&#34;).grid(row=0, column=1)
+    self.hoverG = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 1, value))
+    self.hoverG.grid(row=1, column=0)
+    self.hoverG.set(HoverColor[1])
+    ttk.Label(self.tabHover, text=&#34;Green&#34;).grid(row=1, column=1)
+    self.hoverB = tk.Scale(self.tabHover, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;hover&#34;, 2, value))
+    self.hoverB.grid(row=2, column=0)
+    self.hoverB.set(HoverColor[2])
+    ttk.Label(self.tabHover, text=&#34;Blue&#34;).grid(row=2, column=1)
+    
+    
+    self.invalidR = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 0, value))
+    self.invalidR.grid(row=0, column=0)
+    self.invalidR.set(InvalidColor[0])
+    ttk.Label(self.tabInvalid, text=&#34;Red&#34;).grid(row=0, column=1)
+    self.invalidG = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 1, value))
+    self.invalidG.grid(row=1, column=0)
+    self.invalidG.set(InvalidColor[1])
+    ttk.Label(self.tabInvalid, text=&#34;Green&#34;).grid(row=1, column=1)
+    self.invalidB = tk.Scale(self.tabInvalid, from_=0, to=255, length=400, orient=&#34;horizontal&#34;, command=lambda value: self.changeColor(&#34;invalid&#34;, 2, value))
+    self.invalidB.grid(row=2, column=0)
+    self.invalidB.set(InvalidColor[2])
+    ttk.Label(self.tabInvalid, text=&#34;Blue&#34;).grid(row=2, column=1)
+    
+    # Make entries for the theme name, author, description and version
+    self.name = helpers.MakeComboEntry(self.tabSave, &#34;Name&#34;, &#34;ThemeMaker&#34;, &#34;Name&#34;, 0, 0, isString=True, width=30)
+    self.author = helpers.MakeComboEntry(self.tabSave, &#34;Author&#34;, &#34;ThemeMaker&#34;, &#34;Author&#34;, 1, 0, isString=True, width=30)
+    self.description = helpers.MakeComboEntry(self.tabSave, &#34;Description&#34;, &#34;ThemeMaker&#34;, &#34;Description&#34;, 2, 0, isString=True, width=30)
+    self.version = helpers.MakeComboEntry(self.tabSave, &#34;Version&#34;, &#34;ThemeMaker&#34;, &#34;Version&#34;, 3, 0, isString=True, width=30)
+    
+    # Add a button to save the theme
+    helpers.MakeButton(self.tabSave, &#34;Save Theme&#34;, self.colorThemeAndSave, 10, 0, width=26, columnspan=2)
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.ColorExample" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.ColorExample">ColorExample</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.ColorTCLTheme" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.ColorTCLTheme">ColorTCLTheme</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.changeColor" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.changeColor">changeColor</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.colorThemeAndSave" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.colorThemeAndSave">colorThemeAndSave</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeMaker.main.UI.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

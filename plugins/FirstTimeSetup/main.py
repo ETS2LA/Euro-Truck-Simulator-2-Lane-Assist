@@ -71,7 +71,7 @@ class UI():
             helpers.MakeButton(self.root, "Tutorial Video", lambda: helpers.OpenWebView("Tutorial","plugins/FirstTimeSetup/tutorialEmbed.html", width=1290, height=730), 3,2)
 
             # Load the logo
-            self.logo = Image.open(os.path.join(variables.PATH, "assets", "firstTimeSetup", "logo.jpg"))
+            self.logo = Image.open(os.path.join(variables.PATH, "assets", "firstTimeSetup", "logo.png"))
             height = 320
             width = round(height * 1.665)
             self.logo = self.logo.resize((width, height), resample=Image.LANCZOS)

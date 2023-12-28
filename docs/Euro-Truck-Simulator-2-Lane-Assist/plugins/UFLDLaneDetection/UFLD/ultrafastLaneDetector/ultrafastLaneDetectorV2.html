@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2 API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import onnxruntime
+import cv2
+import time, os
+import numpy as np
+try :
+        from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import LaneModelType, OffsetType, lane_colors, tusimple_row_anchor, culane_row_anchor
+except :
+        from .utils import LaneModelType, OffsetType, lane_colors, tusimple_row_anchor, culane_row_anchor
+
+# This will temporarily add the NVIDIA CUDA libraries to the system path
+import os
+import src.variables as variables
+
+nvidiaPath = &#34;src/NVIDIA&#34;
+nvidiaPath = os.path.join(variables.PATH, nvidiaPath)
+
+os.environ[&#34;PATH&#34;] = nvidiaPath
+
+def _softmax(x) :
+        exp_x = np.exp(x)
+        return exp_x/np.sum(exp_x)
+
+class ModelConfig():
+
+        def __init__(self, model_type):
+
+                if model_type == LaneModelType.UFLDV2_TUSIMPLE:
+                        self.init_tusimple_config()
+                else:
+                        self.init_culane_config()
+                self.num_lanes = 4
+
+        def init_tusimple_config(self):
+                self.img_w = 800
+                self.img_h = 320
+                self.row_anchor = tusimple_row_anchor
+                self.griding_num = 100
+                self.crop_ratio = 0.8
+                self.row_anchor = np.linspace(160,710, 56)/720
+                self.col_anchor = np.linspace(0,1, 41)
+
+        def init_culane_config(self):
+                self.img_w = 1600
+                self.img_h = 320
+                self.row_anchor = culane_row_anchor
+                self.griding_num = 200
+                self.crop_ratio = 0.6
+                self.row_anchor = np.linspace(0.42,1, 72)
+                self.col_anchor = np.linspace(0,1, 81)
+
+class OnnxEngine():
+
+        def __init__(self, onnx_file_path, useGPU=True):
+                if (onnxruntime.get_device() == &#39;GPU&#39; and useGPU) :
+                        self.session = onnxruntime.InferenceSession(onnx_file_path, providers=[&#39;CUDAExecutionProvider&#39;])
+                        print(&#34;ONNX Running with GPU support.&#34;)
+                else :
+                        self.session = onnxruntime.InferenceSession(onnx_file_path, providers=[&#39;CPUExecutionProvider&#39;])
+                        print(&#34;ONNX Running with CPU support.&#34;)
+                self.providers = self.session.get_providers()
+
+        def  get_onnx_input_shape(self):
+                return self.session.get_inputs()[0].shape
+
+
+        def  get_onnx_output_shape(self):
+                output_shape = [output.shape for output in self.session.get_outputs()]
+                output_names = [output.name for output in self.session.get_outputs()]
+                if (len(output_names) != 4) :
+                        raise Exception(&#34;Output dims is error, please check model. load %d channels not match 4.&#34; % len(self.output_names))
+                return output_shape, output_names
+        
+        def inference(self, input_tensor):
+                input_name = self.session.get_inputs()[0].name
+                output_names = [output.name for output in self.session.get_outputs()]
+                output = self.session.run(output_names, {input_name: input_tensor})
+
+                return output
+
+class UltrafastLaneDetectorV2():
+        _defaults = {
+                &#34;model_path&#34;: &#34;models/culane_res18.onnx&#34;,
+                &#34;model_type&#34; : LaneModelType.UFLDV2_TUSIMPLE,
+        }
+
+        @classmethod
+        def set_defaults(cls, config) :
+                cls._defaults = config
+
+        @classmethod
+        def check_defaults(cls):
+                return cls._defaults
+                
+        @classmethod
+        def get_defaults(cls, n):
+                if n in cls._defaults:
+                        return cls._defaults[n]
+                else:
+                        return &#34;Unrecognized attribute name &#39;&#34; + n + &#34;&#39;&#34;
+
+        def __init__(self, model_path=None, model_type=None, logger=None):
+                if (None in [model_path, model_type]) :
+                        self.__dict__.update(self._defaults) # set up default values
+                else :
+                        self.model_path = model_path
+                        self.model_type = model_type
+                self.logger = logger
+
+                if ( self.model_type not in [LaneModelType.UFLDV2_TUSIMPLE, LaneModelType.UFLDV2_CULANE]) :
+                        if (self.logger) :
+                                self.logger.error(&#34;UltrafastLaneDetectorV2 can use %s type.&#34; % self.model_type.name)
+                        raise Exception(&#34;UltrafastLaneDetectorV2 can use %s type.&#34; % self.model_type.name)
+
+                self.fps = 0
+                self.timeLastPrediction = time.time()
+                self.frameCounter = 0
+                self.draw_area_points = []
+                self.draw_area = False
+
+                # Load model configuration based on the model type
+                self.cfg = ModelConfig(self.model_type)
+
+                # Initialize model
+                self._initialize_model(self.model_path, self.cfg)
+                
+        def _initialize_model(self, model_path, cfg):
+                if (self.logger) :
+                        self.logger.debug(&#34;model path: %s.&#34; % model_path)
+                if not os.path.isfile(model_path):
+                        raise Exception(&#34;The model path [%s] can&#39;t not found!&#34; % model_path)
+
+                self.framework_type = &#34;onnx&#34;
+                self.infer = OnnxEngine(model_path)
+                self.providers = self.infer.providers
+
+                # Get model info
+                self.getModel_input_details()
+                self.getModel_output_details()
+                if (self.logger) :
+                        self.logger.info(f&#39;UfldDetector Type : [{self.framework_type}] || Version : [{self.providers}]&#39;)
+
+        def getModel_input_details(self):
+                if (self.framework_type == &#34;trt&#34;) :
+                        self.input_shape = self.infer.get_tensorrt_input_shape()
+                else :
+                        self.input_shape = self.infer.get_onnx_input_shape()
+                self.channes = self.input_shape[1]
+                self.input_height = self.input_shape[2]
+                self.input_width = self.input_shape[3]
+
+        def getModel_output_details(self):
+                if (self.framework_type == &#34;trt&#34;) :
+                        self.output_shape = self.infer.get_tensorrt_output_shape()
+                else :
+                        self.output_shape, self.output_names = self.infer.get_onnx_output_shape()
+
+        def prepare_input(self, image):
+                img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                self.img_height, self.img_width, self.img_channels = img.shape
+
+
+                # Input values should be from -1 to 1 with a size of 288 x 800 pixels
+                new_size = ( self.input_width, int(self.input_height/self.cfg.crop_ratio))
+                img_input = cv2.resize(img, new_size).astype(np.float32)
+                img_input = img_input[-self.input_height:, :, :]
+                # Scale input pixel values to -1 to 1
+                mean=[0.485, 0.456, 0.406]
+                std=[0.229, 0.224, 0.225]
+                
+                img_input = ((img_input/ 255.0 - mean) / std)
+                img_input = img_input.transpose(2, 0, 1)
+                img_input = img_input[np.newaxis,:,:,:]        
+
+                return img_input.astype(np.float32)
+
+        def DetectFrame(self, image) :
+                input_tensor = self.prepare_input(image)
+
+                # Perform inference on the image
+                output = self.infer.inference(input_tensor)
+
+                # Process output data
+                self.lanes_points, self.lanes_detected = self.process_output(output, self.cfg, original_image_width =  self.img_width, original_image_height = self.img_height)
+
+        def DrawDetectedOnFrame(self, image, type=OffsetType.UNKNOWN) :
+                for lane_num,lane_points in enumerate(self.lanes_points):
+                        if ( lane_num==1 and type == OffsetType.RIGHT) :
+                                color = (0, 0, 255)
+                        elif (lane_num==2 and type == OffsetType.LEFT) :
+                                color = (0, 0, 255)
+                        else :
+                                color = lane_colors[lane_num]
+                        for lane_point in lane_points:
+                                cv2.circle(image, (lane_point[0],lane_point[1]), 3, color, -1)
+
+        def DrawAreaOnFrame(self, image, color=(255,191,0)) :
+                self.draw_area = False
+                # Draw a mask for the current lane
+                if(self.lanes_detected != []) :
+                        if(self.lanes_detected[1] and self.lanes_detected[2]):
+                                self.draw_area = True
+                                lane_segment_img = image.copy()
+                                left_lanes_points, right_lanes_points = self.adjust_lanes_points(self.lanes_points[1], self.lanes_points[2], self.img_height)
+                                self.draw_area_points = [np.vstack((left_lanes_points,np.flipud(right_lanes_points)))]
+                                cv2.fillPoly(lane_segment_img, pts = self.draw_area_points, color =color)
+                                image = cv2.addWeighted(image, 0.7, lane_segment_img, 0.1, 0)
+
+                if (not self.draw_area) : self.draw_area_points = []
+                return image
+
+        def AutoDrawLanes(self, image, draw_points=True):
+
+                input_tensor = self.prepare_input(image)
+
+                # Perform inference on the image
+                output = self.infer.inference(input_tensor)
+
+                # Process output data
+                try:
+                        self.lanes_points, self.lanes_detected = self.process_output(output, self.cfg, original_image_width =  self.img_width, original_image_height = self.img_height)
+                except:
+                        import traceback
+                        traceback.print_exc()
+
+                # # Draw depth image
+                visualization_img = self.draw_lanes(image, self.lanes_points, self.lanes_detected, draw_points, original_image_width =  self.img_width, original_image_height = self.img_height)
+
+                return visualization_img
+
+        def adjust_lanes_points(self, left_lanes_points, right_lanes_points, image_height) : 
+                # 多项式拟合
+                if (len(left_lanes_points[1]) != 0 ) :
+                        leftx, lefty  = list(zip(*left_lanes_points))
+                else :
+                        return left_lanes_points, right_lanes_points
+                if (len(right_lanes_points) != 0 ) :
+                        rightx, righty  = list(zip(*right_lanes_points))
+                else :
+                        return left_lanes_points, right_lanes_points
+
+                if len(lefty) &gt; 10:
+                        self.left_fit = np.polyfit(lefty, leftx, 2)
+                if len(righty) &gt; 10:
+                        self.right_fit = np.polyfit(righty, rightx, 2)
+
+                # Generate x and y values for plotting
+                maxy = image_height - 1
+                miny = image_height // 3
+                if len(lefty):
+                        maxy = max(maxy, np.max(lefty))
+                        miny = min(miny, np.min(lefty))
+
+                if len(righty):
+                        maxy = max(maxy, np.max(righty))
+                        miny = min(miny, np.min(righty))
+
+                ploty = np.linspace(miny, maxy, image_height)
+
+                left_fitx = self.left_fit[0]*ploty**2 + self.left_fit[1]*ploty + self.left_fit[2]
+                right_fitx = self.right_fit[0]*ploty**2 + self.right_fit[1]*ploty + self.right_fit[2]
+
+                # Visualization
+                fix_left_lanes_points = []
+                fix_right_lanes_points = []
+                for i, y in enumerate(ploty):
+                        l = int(left_fitx[i])
+                        r = int(right_fitx[i])
+                        y = int(y)
+                        if (y &gt;= min(lefty)) :
+                                fix_left_lanes_points.append((l, y))
+                        if (y &gt;= min(righty)) :
+                                fix_right_lanes_points.append((r, y))
+                                # cv2.line(out_img, (l, y), (r, y), (0, 255, 0))
+                return fix_left_lanes_points, fix_right_lanes_points
+
+        @staticmethod
+        def process_output(pred, cfg, local_width = 1, original_image_width = 1640, original_image_height = 590):
+
+                output = {&#34;loc_row&#34; : pred[0], &#39;loc_col&#39; : pred[1], &#34;exist_row&#34; : pred[2], &#34;exist_col&#34; : pred[3]}
+                # print(output[&#34;loc_row&#34;].shape)
+                # print(output[&#34;exist_row&#34;].shape)
+                # print(output[&#34;loc_col&#34;].shape)
+                # print(output[&#34;exist_col&#34;].shape)
+
+                batch_size, num_grid_row, num_cls_row, num_lane_row = output[&#39;loc_row&#39;].shape
+                batch_size, num_grid_col, num_cls_col, num_lane_col = output[&#39;loc_col&#39;].shape
+
+                max_indices_row = output[&#39;loc_row&#39;].argmax(1)
+                # n , num_cls, num_lanes
+                valid_row = output[&#39;exist_row&#39;].argmax(1)
+                # n, num_cls, num_lanes
+
+                max_indices_col = output[&#39;loc_col&#39;].argmax(1)
+                # n , num_cls, num_lanes
+                valid_col = output[&#39;exist_col&#39;].argmax(1)
+                # n, num_cls, num_lanes
+
+                output[&#39;loc_row&#39;] = output[&#39;loc_row&#39;]
+                output[&#39;loc_col&#39;] = output[&#39;loc_col&#39;]
+                row_lane_idx = [1,2]
+                col_lane_idx = [0,3]
+
+                # Parse the output of the model
+                lanes_points = {&#34;left-side&#34; : [], &#34;left-ego&#34; : [] , &#34;right-ego&#34; : [], &#34;right-side&#34; : []}
+                # lanes_detected = []
+                lanes_detected =  {&#34;left-side&#34; : False, &#34;left-ego&#34; : False , &#34;right-ego&#34; : False, &#34;right-side&#34; : False}
+                for i in row_lane_idx:
+                        tmp = []
+                        if valid_row[0,:,i].sum() &gt; num_cls_row / 2:
+                                for k in range(valid_row.shape[1]):
+                                        if valid_row[0,k,i]:
+                                                all_ind = list(range(max(0,max_indices_row[0,k,i] - local_width), min(num_grid_row-1, max_indices_row[0,k,i] + local_width) + 1))
+                                                out_tmp = ( _softmax(output[&#39;loc_row&#39;][0,all_ind,k,i]) * list(map(float, all_ind))).sum() + 0.5
+                                                out_tmp = out_tmp / (num_grid_row-1) * original_image_width
+                                                tmp.append((int(out_tmp), int(cfg.row_anchor[k] * original_image_height)))
+                                if (i == 1) :
+                                        lanes_points[&#34;left-ego&#34;].extend(tmp)
+                                        if (len(tmp) &gt; 2) :
+                                                lanes_detected[&#34;left-ego&#34;] = True
+                                else :
+                                        lanes_points[&#34;right-ego&#34;].extend(tmp)
+                                        if (len(tmp) &gt; 2) :
+                                                lanes_detected[&#34;right-ego&#34;] = True
+
+                for i in col_lane_idx:
+                        tmp = []
+                        if valid_col[0,:,i].sum() &gt; num_cls_col / 4:
+                                for k in range(valid_col.shape[1]):
+                                        if valid_col[0,k,i]:
+                                                all_ind = list(range(max(0,max_indices_col[0,k,i] - local_width), min(num_grid_col-1, max_indices_col[0,k,i] + local_width) + 1))
+                                                out_tmp = ( _softmax(output[&#39;loc_col&#39;][0,all_ind,k,i]) * list(map(float, all_ind))).sum() + 0.5
+                                                out_tmp = out_tmp / (num_grid_col-1) * original_image_height
+                                                tmp.append((int(cfg.col_anchor[k] * original_image_width), int(out_tmp)))
+                                if (i == 0) :
+                                        lanes_points[&#34;left-side&#34; ].extend(tmp)
+                                        if (len(tmp) &gt; 2) :
+                                                lanes_detected[&#34;left-side&#34;] = True
+                                else :
+                                        lanes_points[&#34;right-side&#34;].extend(tmp)
+                                        if (len(tmp) &gt; 2) :
+                                                lanes_detected[&#34;right-side&#34;] = True
+
+                #print(lanes_detected)
+                return list(lanes_points.values()), list(lanes_detected.values())
+
+        @staticmethod
+        def draw_lanes(input_img, lanes_points, lanes_detected, cfg, draw_points=True, original_image_width = 1640, original_image_height = 590):
+                # Write the detected line points in the image
+                visualization_img = cv2.resize(input_img, (original_image_width, original_image_height), interpolation = cv2.INTER_AREA)
+
+                # Draw a mask for the current lane
+                if(lanes_detected != []) :
+                        if(lanes_detected[1] and lanes_detected[2]):
+                                lane_segment_img = visualization_img.copy()
+                                
+                                cv2.fillPoly(lane_segment_img, pts = [np.vstack((lanes_points[1],np.flipud(lanes_points[2])))], color =(255,191,0))
+                                visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
+
+                if(draw_points):
+                        for lane_num,lane_points in enumerate(lanes_points):
+                                for lane_point in lane_points:
+                                        cv2.circle(visualization_img, (lane_point[0],lane_point[1]), 3, lane_colors[lane_num], -1)
+
+                return visualization_img</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig"><code class="flex name class">
+<span>class <span class="ident">ModelConfig</span></span>
+<span>(</span><span>model_type)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ModelConfig():
+
+        def __init__(self, model_type):
+
+                if model_type == LaneModelType.UFLDV2_TUSIMPLE:
+                        self.init_tusimple_config()
+                else:
+                        self.init_culane_config()
+                self.num_lanes = 4
+
+        def init_tusimple_config(self):
+                self.img_w = 800
+                self.img_h = 320
+                self.row_anchor = tusimple_row_anchor
+                self.griding_num = 100
+                self.crop_ratio = 0.8
+                self.row_anchor = np.linspace(160,710, 56)/720
+                self.col_anchor = np.linspace(0,1, 41)
+
+        def init_culane_config(self):
+                self.img_w = 1600
+                self.img_h = 320
+                self.row_anchor = culane_row_anchor
+                self.griding_num = 200
+                self.crop_ratio = 0.6
+                self.row_anchor = np.linspace(0.42,1, 72)
+                self.col_anchor = np.linspace(0,1, 81)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig.init_culane_config"><code class="name flex">
+<span>def <span class="ident">init_culane_config</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def init_culane_config(self):
+        self.img_w = 1600
+        self.img_h = 320
+        self.row_anchor = culane_row_anchor
+        self.griding_num = 200
+        self.crop_ratio = 0.6
+        self.row_anchor = np.linspace(0.42,1, 72)
+        self.col_anchor = np.linspace(0,1, 81)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig.init_tusimple_config"><code class="name flex">
+<span>def <span class="ident">init_tusimple_config</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def init_tusimple_config(self):
+        self.img_w = 800
+        self.img_h = 320
+        self.row_anchor = tusimple_row_anchor
+        self.griding_num = 100
+        self.crop_ratio = 0.8
+        self.row_anchor = np.linspace(160,710, 56)/720
+        self.col_anchor = np.linspace(0,1, 41)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine"><code class="flex name class">
+<span>class <span class="ident">OnnxEngine</span></span>
+<span>(</span><span>onnx_file_path, useGPU=True)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class OnnxEngine():
+
+        def __init__(self, onnx_file_path, useGPU=True):
+                if (onnxruntime.get_device() == &#39;GPU&#39; and useGPU) :
+                        self.session = onnxruntime.InferenceSession(onnx_file_path, providers=[&#39;CUDAExecutionProvider&#39;])
+                        print(&#34;ONNX Running with GPU support.&#34;)
+                else :
+                        self.session = onnxruntime.InferenceSession(onnx_file_path, providers=[&#39;CPUExecutionProvider&#39;])
+                        print(&#34;ONNX Running with CPU support.&#34;)
+                self.providers = self.session.get_providers()
+
+        def  get_onnx_input_shape(self):
+                return self.session.get_inputs()[0].shape
+
+
+        def  get_onnx_output_shape(self):
+                output_shape = [output.shape for output in self.session.get_outputs()]
+                output_names = [output.name for output in self.session.get_outputs()]
+                if (len(output_names) != 4) :
+                        raise Exception(&#34;Output dims is error, please check model. load %d channels not match 4.&#34; % len(self.output_names))
+                return output_shape, output_names
+        
+        def inference(self, input_tensor):
+                input_name = self.session.get_inputs()[0].name
+                output_names = [output.name for output in self.session.get_outputs()]
+                output = self.session.run(output_names, {input_name: input_tensor})
+
+                return output</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.get_onnx_input_shape"><code class="name flex">
+<span>def <span class="ident">get_onnx_input_shape</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def  get_onnx_input_shape(self):
+        return self.session.get_inputs()[0].shape</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.get_onnx_output_shape"><code class="name flex">
+<span>def <span class="ident">get_onnx_output_shape</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def  get_onnx_output_shape(self):
+        output_shape = [output.shape for output in self.session.get_outputs()]
+        output_names = [output.name for output in self.session.get_outputs()]
+        if (len(output_names) != 4) :
+                raise Exception(&#34;Output dims is error, please check model. load %d channels not match 4.&#34; % len(self.output_names))
+        return output_shape, output_names</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.inference"><code class="name flex">
+<span>def <span class="ident">inference</span></span>(<span>self, input_tensor)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def inference(self, input_tensor):
+        input_name = self.session.get_inputs()[0].name
+        output_names = [output.name for output in self.session.get_outputs()]
+        output = self.session.run(output_names, {input_name: input_tensor})
+
+        return output</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2"><code class="flex name class">
+<span>class <span class="ident">UltrafastLaneDetectorV2</span></span>
+<span>(</span><span>model_path=None, model_type=None, logger=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UltrafastLaneDetectorV2():
+        _defaults = {
+                &#34;model_path&#34;: &#34;models/culane_res18.onnx&#34;,
+                &#34;model_type&#34; : LaneModelType.UFLDV2_TUSIMPLE,
+        }
+
+        @classmethod
+        def set_defaults(cls, config) :
+                cls._defaults = config
+
+        @classmethod
+        def check_defaults(cls):
+                return cls._defaults
+                
+        @classmethod
+        def get_defaults(cls, n):
+                if n in cls._defaults:
+                        return cls._defaults[n]
+                else:
+                        return &#34;Unrecognized attribute name &#39;&#34; + n + &#34;&#39;&#34;
+
+        def __init__(self, model_path=None, model_type=None, logger=None):
+                if (None in [model_path, model_type]) :
+                        self.__dict__.update(self._defaults) # set up default values
+                else :
+                        self.model_path = model_path
+                        self.model_type = model_type
+                self.logger = logger
+
+                if ( self.model_type not in [LaneModelType.UFLDV2_TUSIMPLE, LaneModelType.UFLDV2_CULANE]) :
+                        if (self.logger) :
+                                self.logger.error(&#34;UltrafastLaneDetectorV2 can use %s type.&#34; % self.model_type.name)
+                        raise Exception(&#34;UltrafastLaneDetectorV2 can use %s type.&#34; % self.model_type.name)
+
+                self.fps = 0
+                self.timeLastPrediction = time.time()
+                self.frameCounter = 0
+                self.draw_area_points = []
+                self.draw_area = False
+
+                # Load model configuration based on the model type
+                self.cfg = ModelConfig(self.model_type)
+
+                # Initialize model
+                self._initialize_model(self.model_path, self.cfg)
+                
+        def _initialize_model(self, model_path, cfg):
+                if (self.logger) :
+                        self.logger.debug(&#34;model path: %s.&#34; % model_path)
+                if not os.path.isfile(model_path):
+                        raise Exception(&#34;The model path [%s] can&#39;t not found!&#34; % model_path)
+
+                self.framework_type = &#34;onnx&#34;
+                self.infer = OnnxEngine(model_path)
+                self.providers = self.infer.providers
+
+                # Get model info
+                self.getModel_input_details()
+                self.getModel_output_details()
+                if (self.logger) :
+                        self.logger.info(f&#39;UfldDetector Type : [{self.framework_type}] || Version : [{self.providers}]&#39;)
+
+        def getModel_input_details(self):
+                if (self.framework_type == &#34;trt&#34;) :
+                        self.input_shape = self.infer.get_tensorrt_input_shape()
+                else :
+                        self.input_shape = self.infer.get_onnx_input_shape()
+                self.channes = self.input_shape[1]
+                self.input_height = self.input_shape[2]
+                self.input_width = self.input_shape[3]
+
+        def getModel_output_details(self):
+                if (self.framework_type == &#34;trt&#34;) :
+                        self.output_shape = self.infer.get_tensorrt_output_shape()
+                else :
+                        self.output_shape, self.output_names = self.infer.get_onnx_output_shape()
+
+        def prepare_input(self, image):
+                img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                self.img_height, self.img_width, self.img_channels = img.shape
+
+
+                # Input values should be from -1 to 1 with a size of 288 x 800 pixels
+                new_size = ( self.input_width, int(self.input_height/self.cfg.crop_ratio))
+                img_input = cv2.resize(img, new_size).astype(np.float32)
+                img_input = img_input[-self.input_height:, :, :]
+                # Scale input pixel values to -1 to 1
+                mean=[0.485, 0.456, 0.406]
+                std=[0.229, 0.224, 0.225]
+                
+                img_input = ((img_input/ 255.0 - mean) / std)
+                img_input = img_input.transpose(2, 0, 1)
+                img_input = img_input[np.newaxis,:,:,:]        
+
+                return img_input.astype(np.float32)
+
+        def DetectFrame(self, image) :
+                input_tensor = self.prepare_input(image)
+
+                # Perform inference on the image
+                output = self.infer.inference(input_tensor)
+
+                # Process output data
+                self.lanes_points, self.lanes_detected = self.process_output(output, self.cfg, original_image_width =  self.img_width, original_image_height = self.img_height)
+
+        def DrawDetectedOnFrame(self, image, type=OffsetType.UNKNOWN) :
+                for lane_num,lane_points in enumerate(self.lanes_points):
+                        if ( lane_num==1 and type == OffsetType.RIGHT) :
+                                color = (0, 0, 255)
+                        elif (lane_num==2 and type == OffsetType.LEFT) :
+                                color = (0, 0, 255)
+                        else :
+                                color = lane_colors[lane_num]
+                        for lane_point in lane_points:
+                                cv2.circle(image, (lane_point[0],lane_point[1]), 3, color, -1)
+
+        def DrawAreaOnFrame(self, image, color=(255,191,0)) :
+                self.draw_area = False
+                # Draw a mask for the current lane
+                if(self.lanes_detected != []) :
+                        if(self.lanes_detected[1] and self.lanes_detected[2]):
+                                self.draw_area = True
+                                lane_segment_img = image.copy()
+                                left_lanes_points, right_lanes_points = self.adjust_lanes_points(self.lanes_points[1], self.lanes_points[2], self.img_height)
+                                self.draw_area_points = [np.vstack((left_lanes_points,np.flipud(right_lanes_points)))]
+                                cv2.fillPoly(lane_segment_img, pts = self.draw_area_points, color =color)
+                                image = cv2.addWeighted(image, 0.7, lane_segment_img, 0.1, 0)
+
+                if (not self.draw_area) : self.draw_area_points = []
+                return image
+
+        def AutoDrawLanes(self, image, draw_points=True):
+
+                input_tensor = self.prepare_input(image)
+
+                # Perform inference on the image
+                output = self.infer.inference(input_tensor)
+
+                # Process output data
+                try:
+                        self.lanes_points, self.lanes_detected = self.process_output(output, self.cfg, original_image_width =  self.img_width, original_image_height = self.img_height)
+                except:
+                        import traceback
+                        traceback.print_exc()
+
+                # # Draw depth image
+                visualization_img = self.draw_lanes(image, self.lanes_points, self.lanes_detected, draw_points, original_image_width =  self.img_width, original_image_height = self.img_height)
+
+                return visualization_img
+
+        def adjust_lanes_points(self, left_lanes_points, right_lanes_points, image_height) : 
+                # 多项式拟合
+                if (len(left_lanes_points[1]) != 0 ) :
+                        leftx, lefty  = list(zip(*left_lanes_points))
+                else :
+                        return left_lanes_points, right_lanes_points
+                if (len(right_lanes_points) != 0 ) :
+                        rightx, righty  = list(zip(*right_lanes_points))
+                else :
+                        return left_lanes_points, right_lanes_points
+
+                if len(lefty) &gt; 10:
+                        self.left_fit = np.polyfit(lefty, leftx, 2)
+                if len(righty) &gt; 10:
+                        self.right_fit = np.polyfit(righty, rightx, 2)
+
+                # Generate x and y values for plotting
+                maxy = image_height - 1
+                miny = image_height // 3
+                if len(lefty):
+                        maxy = max(maxy, np.max(lefty))
+                        miny = min(miny, np.min(lefty))
+
+                if len(righty):
+                        maxy = max(maxy, np.max(righty))
+                        miny = min(miny, np.min(righty))
+
+                ploty = np.linspace(miny, maxy, image_height)
+
+                left_fitx = self.left_fit[0]*ploty**2 + self.left_fit[1]*ploty + self.left_fit[2]
+                right_fitx = self.right_fit[0]*ploty**2 + self.right_fit[1]*ploty + self.right_fit[2]
+
+                # Visualization
+                fix_left_lanes_points = []
+                fix_right_lanes_points = []
+                for i, y in enumerate(ploty):
+                        l = int(left_fitx[i])
+                        r = int(right_fitx[i])
+                        y = int(y)
+                        if (y &gt;= min(lefty)) :
+                                fix_left_lanes_points.append((l, y))
+                        if (y &gt;= min(righty)) :
+                                fix_right_lanes_points.append((r, y))
+                                # cv2.line(out_img, (l, y), (r, y), (0, 255, 0))
+                return fix_left_lanes_points, fix_right_lanes_points
+
+        @staticmethod
+        def process_output(pred, cfg, local_width = 1, original_image_width = 1640, original_image_height = 590):
+
+                output = {&#34;loc_row&#34; : pred[0], &#39;loc_col&#39; : pred[1], &#34;exist_row&#34; : pred[2], &#34;exist_col&#34; : pred[3]}
+                # print(output[&#34;loc_row&#34;].shape)
+                # print(output[&#34;exist_row&#34;].shape)
+                # print(output[&#34;loc_col&#34;].shape)
+                # print(output[&#34;exist_col&#34;].shape)
+
+                batch_size, num_grid_row, num_cls_row, num_lane_row = output[&#39;loc_row&#39;].shape
+                batch_size, num_grid_col, num_cls_col, num_lane_col = output[&#39;loc_col&#39;].shape
+
+                max_indices_row = output[&#39;loc_row&#39;].argmax(1)
+                # n , num_cls, num_lanes
+                valid_row = output[&#39;exist_row&#39;].argmax(1)
+                # n, num_cls, num_lanes
+
+                max_indices_col = output[&#39;loc_col&#39;].argmax(1)
+                # n , num_cls, num_lanes
+                valid_col = output[&#39;exist_col&#39;].argmax(1)
+                # n, num_cls, num_lanes
+
+                output[&#39;loc_row&#39;] = output[&#39;loc_row&#39;]
+                output[&#39;loc_col&#39;] = output[&#39;loc_col&#39;]
+                row_lane_idx = [1,2]
+                col_lane_idx = [0,3]
+
+                # Parse the output of the model
+                lanes_points = {&#34;left-side&#34; : [], &#34;left-ego&#34; : [] , &#34;right-ego&#34; : [], &#34;right-side&#34; : []}
+                # lanes_detected = []
+                lanes_detected =  {&#34;left-side&#34; : False, &#34;left-ego&#34; : False , &#34;right-ego&#34; : False, &#34;right-side&#34; : False}
+                for i in row_lane_idx:
+                        tmp = []
+                        if valid_row[0,:,i].sum() &gt; num_cls_row / 2:
+                                for k in range(valid_row.shape[1]):
+                                        if valid_row[0,k,i]:
+                                                all_ind = list(range(max(0,max_indices_row[0,k,i] - local_width), min(num_grid_row-1, max_indices_row[0,k,i] + local_width) + 1))
+                                                out_tmp = ( _softmax(output[&#39;loc_row&#39;][0,all_ind,k,i]) * list(map(float, all_ind))).sum() + 0.5
+                                                out_tmp = out_tmp / (num_grid_row-1) * original_image_width
+                                                tmp.append((int(out_tmp), int(cfg.row_anchor[k] * original_image_height)))
+                                if (i == 1) :
+                                        lanes_points[&#34;left-ego&#34;].extend(tmp)
+                                        if (len(tmp) &gt; 2) :
+                                                lanes_detected[&#34;left-ego&#34;] = True
+                                else :
+                                        lanes_points[&#34;right-ego&#34;].extend(tmp)
+                                        if (len(tmp) &gt; 2) :
+                                                lanes_detected[&#34;right-ego&#34;] = True
+
+                for i in col_lane_idx:
+                        tmp = []
+                        if valid_col[0,:,i].sum() &gt; num_cls_col / 4:
+                                for k in range(valid_col.shape[1]):
+                                        if valid_col[0,k,i]:
+                                                all_ind = list(range(max(0,max_indices_col[0,k,i] - local_width), min(num_grid_col-1, max_indices_col[0,k,i] + local_width) + 1))
+                                                out_tmp = ( _softmax(output[&#39;loc_col&#39;][0,all_ind,k,i]) * list(map(float, all_ind))).sum() + 0.5
+                                                out_tmp = out_tmp / (num_grid_col-1) * original_image_height
+                                                tmp.append((int(cfg.col_anchor[k] * original_image_width), int(out_tmp)))
+                                if (i == 0) :
+                                        lanes_points[&#34;left-side&#34; ].extend(tmp)
+                                        if (len(tmp) &gt; 2) :
+                                                lanes_detected[&#34;left-side&#34;] = True
+                                else :
+                                        lanes_points[&#34;right-side&#34;].extend(tmp)
+                                        if (len(tmp) &gt; 2) :
+                                                lanes_detected[&#34;right-side&#34;] = True
+
+                #print(lanes_detected)
+                return list(lanes_points.values()), list(lanes_detected.values())
+
+        @staticmethod
+        def draw_lanes(input_img, lanes_points, lanes_detected, cfg, draw_points=True, original_image_width = 1640, original_image_height = 590):
+                # Write the detected line points in the image
+                visualization_img = cv2.resize(input_img, (original_image_width, original_image_height), interpolation = cv2.INTER_AREA)
+
+                # Draw a mask for the current lane
+                if(lanes_detected != []) :
+                        if(lanes_detected[1] and lanes_detected[2]):
+                                lane_segment_img = visualization_img.copy()
+                                
+                                cv2.fillPoly(lane_segment_img, pts = [np.vstack((lanes_points[1],np.flipud(lanes_points[2])))], color =(255,191,0))
+                                visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
+
+                if(draw_points):
+                        for lane_num,lane_points in enumerate(lanes_points):
+                                for lane_point in lane_points:
+                                        cv2.circle(visualization_img, (lane_point[0],lane_point[1]), 3, lane_colors[lane_num], -1)
+
+                return visualization_img</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.check_defaults"><code class="name flex">
+<span>def <span class="ident">check_defaults</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def check_defaults(cls):
+        return cls._defaults</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.draw_lanes"><code class="name flex">
+<span>def <span class="ident">draw_lanes</span></span>(<span>input_img, lanes_points, lanes_detected, cfg, draw_points=True, original_image_width=1640, original_image_height=590)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def draw_lanes(input_img, lanes_points, lanes_detected, cfg, draw_points=True, original_image_width = 1640, original_image_height = 590):
+        # Write the detected line points in the image
+        visualization_img = cv2.resize(input_img, (original_image_width, original_image_height), interpolation = cv2.INTER_AREA)
+
+        # Draw a mask for the current lane
+        if(lanes_detected != []) :
+                if(lanes_detected[1] and lanes_detected[2]):
+                        lane_segment_img = visualization_img.copy()
+                        
+                        cv2.fillPoly(lane_segment_img, pts = [np.vstack((lanes_points[1],np.flipud(lanes_points[2])))], color =(255,191,0))
+                        visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
+
+        if(draw_points):
+                for lane_num,lane_points in enumerate(lanes_points):
+                        for lane_point in lane_points:
+                                cv2.circle(visualization_img, (lane_point[0],lane_point[1]), 3, lane_colors[lane_num], -1)
+
+        return visualization_img</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.get_defaults"><code class="name flex">
+<span>def <span class="ident">get_defaults</span></span>(<span>n)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def get_defaults(cls, n):
+        if n in cls._defaults:
+                return cls._defaults[n]
+        else:
+                return &#34;Unrecognized attribute name &#39;&#34; + n + &#34;&#39;&#34;</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.process_output"><code class="name flex">
+<span>def <span class="ident">process_output</span></span>(<span>pred, cfg, local_width=1, original_image_width=1640, original_image_height=590)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def process_output(pred, cfg, local_width = 1, original_image_width = 1640, original_image_height = 590):
+
+        output = {&#34;loc_row&#34; : pred[0], &#39;loc_col&#39; : pred[1], &#34;exist_row&#34; : pred[2], &#34;exist_col&#34; : pred[3]}
+        # print(output[&#34;loc_row&#34;].shape)
+        # print(output[&#34;exist_row&#34;].shape)
+        # print(output[&#34;loc_col&#34;].shape)
+        # print(output[&#34;exist_col&#34;].shape)
+
+        batch_size, num_grid_row, num_cls_row, num_lane_row = output[&#39;loc_row&#39;].shape
+        batch_size, num_grid_col, num_cls_col, num_lane_col = output[&#39;loc_col&#39;].shape
+
+        max_indices_row = output[&#39;loc_row&#39;].argmax(1)
+        # n , num_cls, num_lanes
+        valid_row = output[&#39;exist_row&#39;].argmax(1)
+        # n, num_cls, num_lanes
+
+        max_indices_col = output[&#39;loc_col&#39;].argmax(1)
+        # n , num_cls, num_lanes
+        valid_col = output[&#39;exist_col&#39;].argmax(1)
+        # n, num_cls, num_lanes
+
+        output[&#39;loc_row&#39;] = output[&#39;loc_row&#39;]
+        output[&#39;loc_col&#39;] = output[&#39;loc_col&#39;]
+        row_lane_idx = [1,2]
+        col_lane_idx = [0,3]
+
+        # Parse the output of the model
+        lanes_points = {&#34;left-side&#34; : [], &#34;left-ego&#34; : [] , &#34;right-ego&#34; : [], &#34;right-side&#34; : []}
+        # lanes_detected = []
+        lanes_detected =  {&#34;left-side&#34; : False, &#34;left-ego&#34; : False , &#34;right-ego&#34; : False, &#34;right-side&#34; : False}
+        for i in row_lane_idx:
+                tmp = []
+                if valid_row[0,:,i].sum() &gt; num_cls_row / 2:
+                        for k in range(valid_row.shape[1]):
+                                if valid_row[0,k,i]:
+                                        all_ind = list(range(max(0,max_indices_row[0,k,i] - local_width), min(num_grid_row-1, max_indices_row[0,k,i] + local_width) + 1))
+                                        out_tmp = ( _softmax(output[&#39;loc_row&#39;][0,all_ind,k,i]) * list(map(float, all_ind))).sum() + 0.5
+                                        out_tmp = out_tmp / (num_grid_row-1) * original_image_width
+                                        tmp.append((int(out_tmp), int(cfg.row_anchor[k] * original_image_height)))
+                        if (i == 1) :
+                                lanes_points[&#34;left-ego&#34;].extend(tmp)
+                                if (len(tmp) &gt; 2) :
+                                        lanes_detected[&#34;left-ego&#34;] = True
+                        else :
+                                lanes_points[&#34;right-ego&#34;].extend(tmp)
+                                if (len(tmp) &gt; 2) :
+                                        lanes_detected[&#34;right-ego&#34;] = True
+
+        for i in col_lane_idx:
+                tmp = []
+                if valid_col[0,:,i].sum() &gt; num_cls_col / 4:
+                        for k in range(valid_col.shape[1]):
+                                if valid_col[0,k,i]:
+                                        all_ind = list(range(max(0,max_indices_col[0,k,i] - local_width), min(num_grid_col-1, max_indices_col[0,k,i] + local_width) + 1))
+                                        out_tmp = ( _softmax(output[&#39;loc_col&#39;][0,all_ind,k,i]) * list(map(float, all_ind))).sum() + 0.5
+                                        out_tmp = out_tmp / (num_grid_col-1) * original_image_height
+                                        tmp.append((int(cfg.col_anchor[k] * original_image_width), int(out_tmp)))
+                        if (i == 0) :
+                                lanes_points[&#34;left-side&#34; ].extend(tmp)
+                                if (len(tmp) &gt; 2) :
+                                        lanes_detected[&#34;left-side&#34;] = True
+                        else :
+                                lanes_points[&#34;right-side&#34;].extend(tmp)
+                                if (len(tmp) &gt; 2) :
+                                        lanes_detected[&#34;right-side&#34;] = True
+
+        #print(lanes_detected)
+        return list(lanes_points.values()), list(lanes_detected.values())</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.set_defaults"><code class="name flex">
+<span>def <span class="ident">set_defaults</span></span>(<span>config)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def set_defaults(cls, config) :
+        cls._defaults = config</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.AutoDrawLanes"><code class="name flex">
+<span>def <span class="ident">AutoDrawLanes</span></span>(<span>self, image, draw_points=True)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def AutoDrawLanes(self, image, draw_points=True):
+
+        input_tensor = self.prepare_input(image)
+
+        # Perform inference on the image
+        output = self.infer.inference(input_tensor)
+
+        # Process output data
+        try:
+                self.lanes_points, self.lanes_detected = self.process_output(output, self.cfg, original_image_width =  self.img_width, original_image_height = self.img_height)
+        except:
+                import traceback
+                traceback.print_exc()
+
+        # # Draw depth image
+        visualization_img = self.draw_lanes(image, self.lanes_points, self.lanes_detected, draw_points, original_image_width =  self.img_width, original_image_height = self.img_height)
+
+        return visualization_img</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DetectFrame"><code class="name flex">
+<span>def <span class="ident">DetectFrame</span></span>(<span>self, image)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DetectFrame(self, image) :
+        input_tensor = self.prepare_input(image)
+
+        # Perform inference on the image
+        output = self.infer.inference(input_tensor)
+
+        # Process output data
+        self.lanes_points, self.lanes_detected = self.process_output(output, self.cfg, original_image_width =  self.img_width, original_image_height = self.img_height)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DrawAreaOnFrame"><code class="name flex">
+<span>def <span class="ident">DrawAreaOnFrame</span></span>(<span>self, image, color=(255, 191, 0))</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DrawAreaOnFrame(self, image, color=(255,191,0)) :
+        self.draw_area = False
+        # Draw a mask for the current lane
+        if(self.lanes_detected != []) :
+                if(self.lanes_detected[1] and self.lanes_detected[2]):
+                        self.draw_area = True
+                        lane_segment_img = image.copy()
+                        left_lanes_points, right_lanes_points = self.adjust_lanes_points(self.lanes_points[1], self.lanes_points[2], self.img_height)
+                        self.draw_area_points = [np.vstack((left_lanes_points,np.flipud(right_lanes_points)))]
+                        cv2.fillPoly(lane_segment_img, pts = self.draw_area_points, color =color)
+                        image = cv2.addWeighted(image, 0.7, lane_segment_img, 0.1, 0)
+
+        if (not self.draw_area) : self.draw_area_points = []
+        return image</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DrawDetectedOnFrame"><code class="name flex">
+<span>def <span class="ident">DrawDetectedOnFrame</span></span>(<span>self, image, type=OffsetType.UNKNOWN)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DrawDetectedOnFrame(self, image, type=OffsetType.UNKNOWN) :
+        for lane_num,lane_points in enumerate(self.lanes_points):
+                if ( lane_num==1 and type == OffsetType.RIGHT) :
+                        color = (0, 0, 255)
+                elif (lane_num==2 and type == OffsetType.LEFT) :
+                        color = (0, 0, 255)
+                else :
+                        color = lane_colors[lane_num]
+                for lane_point in lane_points:
+                        cv2.circle(image, (lane_point[0],lane_point[1]), 3, color, -1)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.adjust_lanes_points"><code class="name flex">
+<span>def <span class="ident">adjust_lanes_points</span></span>(<span>self, left_lanes_points, right_lanes_points, image_height)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def adjust_lanes_points(self, left_lanes_points, right_lanes_points, image_height) : 
+        # 多项式拟合
+        if (len(left_lanes_points[1]) != 0 ) :
+                leftx, lefty  = list(zip(*left_lanes_points))
+        else :
+                return left_lanes_points, right_lanes_points
+        if (len(right_lanes_points) != 0 ) :
+                rightx, righty  = list(zip(*right_lanes_points))
+        else :
+                return left_lanes_points, right_lanes_points
+
+        if len(lefty) &gt; 10:
+                self.left_fit = np.polyfit(lefty, leftx, 2)
+        if len(righty) &gt; 10:
+                self.right_fit = np.polyfit(righty, rightx, 2)
+
+        # Generate x and y values for plotting
+        maxy = image_height - 1
+        miny = image_height // 3
+        if len(lefty):
+                maxy = max(maxy, np.max(lefty))
+                miny = min(miny, np.min(lefty))
+
+        if len(righty):
+                maxy = max(maxy, np.max(righty))
+                miny = min(miny, np.min(righty))
+
+        ploty = np.linspace(miny, maxy, image_height)
+
+        left_fitx = self.left_fit[0]*ploty**2 + self.left_fit[1]*ploty + self.left_fit[2]
+        right_fitx = self.right_fit[0]*ploty**2 + self.right_fit[1]*ploty + self.right_fit[2]
+
+        # Visualization
+        fix_left_lanes_points = []
+        fix_right_lanes_points = []
+        for i, y in enumerate(ploty):
+                l = int(left_fitx[i])
+                r = int(right_fitx[i])
+                y = int(y)
+                if (y &gt;= min(lefty)) :
+                        fix_left_lanes_points.append((l, y))
+                if (y &gt;= min(righty)) :
+                        fix_right_lanes_points.append((r, y))
+                        # cv2.line(out_img, (l, y), (r, y), (0, 255, 0))
+        return fix_left_lanes_points, fix_right_lanes_points</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.getModel_input_details"><code class="name flex">
+<span>def <span class="ident">getModel_input_details</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getModel_input_details(self):
+        if (self.framework_type == &#34;trt&#34;) :
+                self.input_shape = self.infer.get_tensorrt_input_shape()
+        else :
+                self.input_shape = self.infer.get_onnx_input_shape()
+        self.channes = self.input_shape[1]
+        self.input_height = self.input_shape[2]
+        self.input_width = self.input_shape[3]</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.getModel_output_details"><code class="name flex">
+<span>def <span class="ident">getModel_output_details</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getModel_output_details(self):
+        if (self.framework_type == &#34;trt&#34;) :
+                self.output_shape = self.infer.get_tensorrt_output_shape()
+        else :
+                self.output_shape, self.output_names = self.infer.get_onnx_output_shape()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.prepare_input"><code class="name flex">
+<span>def <span class="ident">prepare_input</span></span>(<span>self, image)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prepare_input(self, image):
+        img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        self.img_height, self.img_width, self.img_channels = img.shape
+
+
+        # Input values should be from -1 to 1 with a size of 288 x 800 pixels
+        new_size = ( self.input_width, int(self.input_height/self.cfg.crop_ratio))
+        img_input = cv2.resize(img, new_size).astype(np.float32)
+        img_input = img_input[-self.input_height:, :, :]
+        # Scale input pixel values to -1 to 1
+        mean=[0.485, 0.456, 0.406]
+        std=[0.229, 0.224, 0.225]
+        
+        img_input = ((img_input/ 255.0 - mean) / std)
+        img_input = img_input.transpose(2, 0, 1)
+        img_input = img_input[np.newaxis,:,:,:]        
+
+        return img_input.astype(np.float32)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig">ModelConfig</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig.init_culane_config" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig.init_culane_config">init_culane_config</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig.init_tusimple_config" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.ModelConfig.init_tusimple_config">init_tusimple_config</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine">OnnxEngine</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.get_onnx_input_shape" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.get_onnx_input_shape">get_onnx_input_shape</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.get_onnx_output_shape" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.get_onnx_output_shape">get_onnx_output_shape</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.inference" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.OnnxEngine.inference">inference</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2">UltrafastLaneDetectorV2</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.AutoDrawLanes" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.AutoDrawLanes">AutoDrawLanes</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DetectFrame" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DetectFrame">DetectFrame</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DrawAreaOnFrame" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DrawAreaOnFrame">DrawAreaOnFrame</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DrawDetectedOnFrame" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.DrawDetectedOnFrame">DrawDetectedOnFrame</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.adjust_lanes_points" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.adjust_lanes_points">adjust_lanes_points</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.check_defaults" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.check_defaults">check_defaults</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.draw_lanes" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.draw_lanes">draw_lanes</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.getModel_input_details" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.getModel_input_details">getModel_input_details</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.getModel_output_details" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.getModel_output_details">getModel_output_details</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.get_defaults" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.get_defaults">get_defaults</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.prepare_input" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.prepare_input">prepare_input</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.process_output" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.process_output">process_output</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.set_defaults" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2.UltrafastLaneDetectorV2.set_defaults">set_defaults</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

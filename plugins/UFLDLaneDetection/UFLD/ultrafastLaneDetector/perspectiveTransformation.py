@@ -2,9 +2,9 @@ import cv2
 import logging
 import numpy as np
 try :
-    from ultrafastLaneDetector.utils import  lane_colors, OffsetType
+    from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import  lane_colors, OffsetType
 except :
-    from ..ultrafastLaneDetector.utils import lane_colors, OffsetType
+    from ..plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import lane_colors, OffsetType
 
 class PerspectiveTransformation(object):
     """ This a class for transforming image between frontal view and bird view

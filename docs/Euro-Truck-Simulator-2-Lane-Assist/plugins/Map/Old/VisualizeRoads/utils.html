@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils API documentation</title>
+<meta name="description" content="Download the map from
+https://github.com/Unicor-p/ts-map#map-available …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils</code></h1>
+</header>
+<section id="section-intro">
+<p>Download the map from
+<a href="https://github.com/Unicor-p/ts-map#map-available">https://github.com/Unicor-p/ts-map#map-available</a></p>
+<p>Place the levels from there to
+/Tiles</p>
+<p>Example
+/Tiles/1
+/Tiles/2
+/Tiles/3
+etc&hellip;</p>
+<p>Then run this script.</p>
+<p>Each pixel at lvl8 = one meter in game
+This means we can easily get the coordinates of the lanes from the map, as long as we can detect them.</p>
+<p>Only problem is it would still be +- 1 meter, so we have to do some pretty heavy interpolation
+to get usable coordinates on the app side.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Download the map from 
+https://github.com/Unicor-p/ts-map#map-available
+
+Place the levels from there to 
+/Tiles
+
+Example
+/Tiles/1
+/Tiles/2
+/Tiles/3
+etc...
+
+Then run this script.
+
+Each pixel at lvl8 = one meter in game
+This means we can easily get the coordinates of the lanes from the map, as long as we can detect them.
+
+Only problem is it would still be +- 1 meter, so we have to do some pretty heavy interpolation
+to get usable coordinates on the app side.
+
+&#34;&#34;&#34;
+
+
+import os
+from os import listdir
+from os.path import isdir, join
+import json
+import time
+
+from plugins.Map.Old.VisualizeRoads.RoadLook import RoadLook
+from plugins.Map.Old.VisualizeRoads.Node import Node
+
+# Tile settings
+maxX = 131072
+maxY = 131072
+tileSize = 512
+maxZoom = 8
+
+# File settings
+tilePath = &#34;Tiles/8/&#34;
+folderAxis = &#34;X&#34;
+fileAxis = &#34;Y&#34;
+
+data = {
+    &#34;folders&#34;: {},
+}
+
+for folder in range(0, int(maxY/tileSize)):
+    data[&#34;folders&#34;][folder] = {}
+    data[&#34;folders&#34;][folder][&#34;files&#34;] = {}
+    for file in range(0, int(maxY/tileSize)):
+        data[&#34;folders&#34;][folder][&#34;files&#34;][file] = {}
+        data[&#34;folders&#34;][folder][&#34;files&#34;][file][&#34;x&#34;] = int(folder) * tileSize
+        data[&#34;folders&#34;][folder][&#34;files&#34;][file][&#34;y&#34;] = int(file) * tileSize
+        
+def ConvertGameXYToPixelXY(x,y):
+    # https://github.com/dariowouters/ts-map/issues/16#issuecomment-716160718
+    
+    xy = [x,y]
+    # Values from TileMapInfo.json
+    x1 = -94505.8047
+    x2 = 79254.13
+    y1 = -80093.17
+    y2 = 93666.7656
+    
+    xtot = x2 - x1; # Total X length
+    ytot = y2 - y1; # Total Y length
+
+    xrel = (xy[0] - x1) / xtot; # The fraction where the X is (between 0 and 1, 0 being fully left, 1 being fully right)
+    yrel = (xy[1] - y1) / ytot; # The fraction where the Y is
+
+    return [
+        xrel * maxX, # Where X actually is, so multiplied the actual width
+        maxY - (yrel * maxY) # Where Y actually is, only Y is inverted
+    ]
+    
+def ConvertPixelXYToGameXY(x,y):
+    # Derived from https://github.com/dariowouters/ts-map/issues/16#issuecomment-716160718
+    xy = [x,y]
+    # Values from TileMapInfo.json
+    x1 = -94505.8047
+    x2 = 79254.13
+    y1 = -80093.17
+    y2 = 93666.7656
+    
+    xtot = x2 - x1; # Total X length
+    ytot = y2 - y1; # Total Y length
+    
+    xrel = xy[0] / maxX
+    yrel = xy[1] / maxY
+    
+    x = x1 + (xrel * xtot)
+    y = y1 + (yrel * ytot)
+    
+    return [x,y]
+
+def ParseRoadLook(roadLook):
+    roadLookObj = RoadLook()
+    roadLookObj.Name = roadLook[&#34;Name&#34;] if roadLook[&#34;Name&#34;] is not None else &#34;Prefab&#34;
+    roadLookObj.Offset = roadLook[&#34;Offset&#34;]
+    roadLookObj.CenterLineLeftWidth = roadLook[&#34;CenterLineLeftWidth&#34;]
+    roadLookObj.CenterLineRightWidth = roadLook[&#34;CenterLineRightWidth&#34;]
+    roadLookObj.ShoulderSpaceLeft = roadLook[&#34;ShoulderSpaceLeft&#34;]
+    roadLookObj.ShoulderSpaceRight = roadLook[&#34;ShoulderSpaceRight&#34;]
+    roadLookObj.RoadSizeLeft = roadLook[&#34;RoadSizeLeft&#34;]
+    roadLookObj.RoadSizeRight = roadLook[&#34;RoadSizeRight&#34;]
+    roadLookObj.LanesLeft = roadLook[&#34;LanesLeft&#34;]
+    roadLookObj.LanesRight = roadLook[&#34;LanesRight&#34;]
+    roadLookObj.LaneOffsetsLeft = roadLook[&#34;LaneOffsetsLeft&#34;]
+    roadLookObj.LaneOffsetsRight = roadLook[&#34;LaneOffsetsRight&#34;]
+    roadLookObj.Token = roadLook[&#34;Token&#34;]
+    
+    if roadLookObj.LanesLeft != [] or roadLookObj.LanesRight != []:
+        return roadLookObj
+    
+    return None
+
+def ParseNode(node):
+    nodeObj = Node()
+    nodeObj.X = node[&#34;X&#34;]
+    nodeObj.Y = node[&#34;Z&#34;]
+    nodeObj.Uid = node[&#34;Uid&#34;]
+    nodeObj.Rotation = node[&#34;Rotation&#34;]
+    return nodeObj
+
+def ParseNodes(nodes):
+    nodeObjs = []
+    for node in nodes:
+        nodeObj = ParseNode(node)
+        nodeObjs.append(nodeObj)
+        
+    return nodeObjs
+
+
+roadOffsetFile = &#34;plugins/Map/VisualizeRoads/roadOffsets.json&#34;
+def GetRoadOffset(name):
+    # Check if the value exits in the file
+    data = &#34;&#34;
+    with open(roadOffsetFile, &#34;r&#34;) as f:
+        data = json.load(f)
+        if name in data[&#34;roads&#34;]:
+            return data[&#34;roads&#34;][name]
+        
+    # It didn&#39;t exist so we create it
+    with open(roadOffsetFile, &#34;w&#34;) as f:
+        data[&#34;roads&#34;][name] = [0,0]
+        f.truncate(0)
+        f.write(json.dumps(data, indent=4))
+        return [0,0]
+    
+    
+
+def SetRoadOffset(name, value):
+    data = &#34;&#34;
+    with open(roadOffsetFile, &#34;r&#34;) as f:
+        data = json.load(f)
+    
+    # Set the value
+    with open(roadOffsetFile, &#34;w&#34;) as f:
+        data[&#34;roads&#34;][name] = value
+        f.truncate(0)
+        f.write(json.dumps(data, indent=4))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ConvertGameXYToPixelXY"><code class="name flex">
+<span>def <span class="ident">ConvertGameXYToPixelXY</span></span>(<span>x, y)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ConvertGameXYToPixelXY(x,y):
+    # https://github.com/dariowouters/ts-map/issues/16#issuecomment-716160718
+    
+    xy = [x,y]
+    # Values from TileMapInfo.json
+    x1 = -94505.8047
+    x2 = 79254.13
+    y1 = -80093.17
+    y2 = 93666.7656
+    
+    xtot = x2 - x1; # Total X length
+    ytot = y2 - y1; # Total Y length
+
+    xrel = (xy[0] - x1) / xtot; # The fraction where the X is (between 0 and 1, 0 being fully left, 1 being fully right)
+    yrel = (xy[1] - y1) / ytot; # The fraction where the Y is
+
+    return [
+        xrel * maxX, # Where X actually is, so multiplied the actual width
+        maxY - (yrel * maxY) # Where Y actually is, only Y is inverted
+    ]</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ConvertPixelXYToGameXY"><code class="name flex">
+<span>def <span class="ident">ConvertPixelXYToGameXY</span></span>(<span>x, y)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ConvertPixelXYToGameXY(x,y):
+    # Derived from https://github.com/dariowouters/ts-map/issues/16#issuecomment-716160718
+    xy = [x,y]
+    # Values from TileMapInfo.json
+    x1 = -94505.8047
+    x2 = 79254.13
+    y1 = -80093.17
+    y2 = 93666.7656
+    
+    xtot = x2 - x1; # Total X length
+    ytot = y2 - y1; # Total Y length
+    
+    xrel = xy[0] / maxX
+    yrel = xy[1] / maxY
+    
+    x = x1 + (xrel * xtot)
+    y = y1 + (yrel * ytot)
+    
+    return [x,y]</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.GetRoadOffset"><code class="name flex">
+<span>def <span class="ident">GetRoadOffset</span></span>(<span>name)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetRoadOffset(name):
+    # Check if the value exits in the file
+    data = &#34;&#34;
+    with open(roadOffsetFile, &#34;r&#34;) as f:
+        data = json.load(f)
+        if name in data[&#34;roads&#34;]:
+            return data[&#34;roads&#34;][name]
+        
+    # It didn&#39;t exist so we create it
+    with open(roadOffsetFile, &#34;w&#34;) as f:
+        data[&#34;roads&#34;][name] = [0,0]
+        f.truncate(0)
+        f.write(json.dumps(data, indent=4))
+        return [0,0]</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseNode"><code class="name flex">
+<span>def <span class="ident">ParseNode</span></span>(<span>node)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ParseNode(node):
+    nodeObj = Node()
+    nodeObj.X = node[&#34;X&#34;]
+    nodeObj.Y = node[&#34;Z&#34;]
+    nodeObj.Uid = node[&#34;Uid&#34;]
+    nodeObj.Rotation = node[&#34;Rotation&#34;]
+    return nodeObj</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseNodes"><code class="name flex">
+<span>def <span class="ident">ParseNodes</span></span>(<span>nodes)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ParseNodes(nodes):
+    nodeObjs = []
+    for node in nodes:
+        nodeObj = ParseNode(node)
+        nodeObjs.append(nodeObj)
+        
+    return nodeObjs</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseRoadLook"><code class="name flex">
+<span>def <span class="ident">ParseRoadLook</span></span>(<span>roadLook)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ParseRoadLook(roadLook):
+    roadLookObj = RoadLook()
+    roadLookObj.Name = roadLook[&#34;Name&#34;] if roadLook[&#34;Name&#34;] is not None else &#34;Prefab&#34;
+    roadLookObj.Offset = roadLook[&#34;Offset&#34;]
+    roadLookObj.CenterLineLeftWidth = roadLook[&#34;CenterLineLeftWidth&#34;]
+    roadLookObj.CenterLineRightWidth = roadLook[&#34;CenterLineRightWidth&#34;]
+    roadLookObj.ShoulderSpaceLeft = roadLook[&#34;ShoulderSpaceLeft&#34;]
+    roadLookObj.ShoulderSpaceRight = roadLook[&#34;ShoulderSpaceRight&#34;]
+    roadLookObj.RoadSizeLeft = roadLook[&#34;RoadSizeLeft&#34;]
+    roadLookObj.RoadSizeRight = roadLook[&#34;RoadSizeRight&#34;]
+    roadLookObj.LanesLeft = roadLook[&#34;LanesLeft&#34;]
+    roadLookObj.LanesRight = roadLook[&#34;LanesRight&#34;]
+    roadLookObj.LaneOffsetsLeft = roadLook[&#34;LaneOffsetsLeft&#34;]
+    roadLookObj.LaneOffsetsRight = roadLook[&#34;LaneOffsetsRight&#34;]
+    roadLookObj.Token = roadLook[&#34;Token&#34;]
+    
+    if roadLookObj.LanesLeft != [] or roadLookObj.LanesRight != []:
+        return roadLookObj
+    
+    return None</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.SetRoadOffset"><code class="name flex">
+<span>def <span class="ident">SetRoadOffset</span></span>(<span>name, value)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def SetRoadOffset(name, value):
+    data = &#34;&#34;
+    with open(roadOffsetFile, &#34;r&#34;) as f:
+        data = json.load(f)
+    
+    # Set the value
+    with open(roadOffsetFile, &#34;w&#34;) as f:
+        data[&#34;roads&#34;][name] = value
+        f.truncate(0)
+        f.write(json.dumps(data, indent=4))</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ConvertGameXYToPixelXY" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ConvertGameXYToPixelXY">ConvertGameXYToPixelXY</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ConvertPixelXYToGameXY" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ConvertPixelXYToGameXY">ConvertPixelXYToGameXY</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.GetRoadOffset" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.GetRoadOffset">GetRoadOffset</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseNode" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseNode">ParseNode</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseNodes" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseNodes">ParseNodes</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseRoadLook" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.ParseRoadLook">ParseRoadLook</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.SetRoadOffset" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.utils.SetRoadOffset">SetRoadOffset</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -14,6 +14,7 @@ import traceback
 import colorama
 
 printDebug = False
+"""Whether to print debug information or not."""
 
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -36,7 +37,16 @@ colorama.init()
 
 startTime = time.time()
 
-def print(text, end=""):
+def print(text:str, end:str=""):
+    """Standard print function that will add the time and the caller to the message and log it to a file.
+
+    Args:
+        text (str): Text to print and log.
+        end (str, optional): Defaults to "".
+
+    Raises:
+        Exception: The log file is too big (>10mb).
+    """
     global lastMsg
     global times
     

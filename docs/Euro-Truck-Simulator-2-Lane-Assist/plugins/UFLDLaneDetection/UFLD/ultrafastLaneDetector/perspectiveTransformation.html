@@ -1,0 +1,1173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import cv2
+import logging
+import numpy as np
+try :
+    from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import  lane_colors, OffsetType
+except :
+    from ..plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import lane_colors, OffsetType
+
+class PerspectiveTransformation(object):
+    &#34;&#34;&#34; This a class for transforming image between frontal view and bird view
+
+    Attributes:
+        src (np.array): Coordinates of 4 source points
+        dst (np.array): Coordinates of 4 destination points
+        M (np.array): Matrix to transform image from frontal view to bird view
+        M_inv (np.array): Matrix to transform image from bird view to frontal view
+    &#34;&#34;&#34;
+    def __init__(self, img_size=(1280, 720), logger=None ):
+        &#34;&#34;&#34;Init PerspectiveTransformation.&#34;&#34;&#34;
+        self.img_size = img_size
+        self.logger = logger
+
+        self.src = np.float32([(self.img_size[0]*0.3, self.img_size[1]*0.7),     # top-left
+                               (self.img_size[0]*0.2, self.img_size[1]),         # bottom-left
+                               (self.img_size[0]*0.95, self.img_size[1]),        # bottom-right
+                               (self.img_size[0]*0.8, self.img_size[1]*0.7)])    # top-right
+        self.offset_x = self.img_size[0]/4
+        self.offset_y = 0
+        self.dst = np.float32([(self.offset_x, self.offset_y), 
+                                (self.offset_x, img_size[1]-self.offset_y),
+                                (img_size[0]-self.offset_x, img_size[1]-self.offset_y),
+                                (img_size[0]-self.offset_x, self.offset_y),])
+        self.M = cv2.getPerspectiveTransform(self.src, self.dst)
+        self.M_inv = cv2.getPerspectiveTransform(self.dst, self.src)
+
+
+    def updateTransformParams(self, left_lanes, right_lanes, type=&#34;Default&#34;) :
+        &#34;&#34;&#34; 
+        Update the transition area of the frontal view
+
+        Args:
+            left_lanes (np.array): Left lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+            right_lanes (np.array): Right lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+            type: Adjust the area of specific points, type-&#34;Top&#34;, &#34;Bottom&#34;, &#34;Default&#34;
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if (len(left_lanes) and len(right_lanes)) :
+            left_lanes = np.squeeze(left_lanes)
+            right_lanes = np.squeeze(right_lanes)
+            if (type==&#34;Top&#34;):
+                top_y = min(min(left_lanes[:, 1]), min(right_lanes[:, 1]))
+                top_left     = ( max(left_lanes[:, 0])-20, top_y )
+                bottom_left  = ( self.src[1][0], self.src[1][1] )
+                bottom_right = ( self.src[2][0], self.src[2][1] )
+                top_right    = ( min(right_lanes[:, 0])+20, top_y )
+            elif (type==&#34;Bottom&#34;) :
+                top_left     = ( self.src[0][0], self.src[0][1] )
+                bottom_left  = ( min(left_lanes[:, 0]), self.src[1][1] )
+                bottom_right = ( max(right_lanes[:, 0]), self.src[2][1] )
+                top_right    =  ( self.src[3][0], self.src[3][1] )
+            elif (type==&#34;Default&#34;) :
+                top_y = min(min(left_lanes[:, 1]), min(right_lanes[:, 1]))
+                top_left     = ( max(left_lanes[:, 0])-20, top_y )
+                bottom_left  = ( min(left_lanes[:, 0]), self.src[1][1] )
+                bottom_right = ( max(right_lanes[:, 0]), self.src[2][1] )
+                top_right    = ( min(right_lanes[:, 0])+20, top_y)
+            else :
+                return 
+            # print(&#34;top-left :&#34;, top_left )
+            # print(&#34;bottom-left :&#34;, bottom_left )
+            # print(&#34;bottom-right :&#34;, bottom_right )
+            # print(&#34;top-right :&#34;, top_right )
+            self.src = np.float32([ top_left, bottom_left, bottom_right, top_right]) 
+            self.M = cv2.getPerspectiveTransform(self.src, self.dst)
+            self.M_inv = cv2.getPerspectiveTransform(self.dst, self.src)
+
+
+    def transformToBirdView(self, img, flags=cv2.INTER_LINEAR):
+        &#34;&#34;&#34; Take a frontal view image and transform to bird view
+
+        Args:
+            img (np.array): A frontal view image
+            img_size (tuple): Size of the image (width, height)
+            flags : flag to use in cv2.warpPerspective()
+
+        Returns:
+            Image (np.array): Bird view image
+        &#34;&#34;&#34;
+        # new_size = ( self.img_size[0], int(self.img_size[1]/0.33))
+        # img_input = cv2.resize(img, new_size).astype(np.float32)
+        # img = img_input[self.img_size[1]:-self.img_size[1], :, :]
+        return cv2.warpPerspective(img, self.M, self.img_size, flags=flags)
+
+
+    def transformToFrontalView(self, img, flags=cv2.INTER_LINEAR):
+        &#34;&#34;&#34; Take a bird view image and transform it to frontal view
+
+        Args:
+            img (np.array): A bird view image
+            img_size (tuple): Size of the image (width, height)
+            flags (int): flag to use in cv2.warpPerspective()
+
+        Returns:
+            Image (np.array): Frontal view image
+        &#34;&#34;&#34;
+        return cv2.warpPerspective(img, self.M_inv, self.img_size, flags=flags)
+    
+
+    def transformToBirdViewPoints(self, points):
+        &#34;&#34;&#34;
+        To get bird view points in the new perspective from frontal view points in the image.
+
+        Args:
+            points: Frontal view lane points.
+
+        Returns:
+            [[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]. array shape=(xn, 2)
+        &#34;&#34;&#34;
+        points_array = []
+        if (len(points)) :
+            for x, y in points :
+                points_array.append([x, y])
+                # dst_y = (y/0.33)
+                # if ( (dst_y &gt; self.img_size[1]) and (dst_y &lt;= int(self.img_size[1]/0.33)*(2/3)) ) :
+                #     points_array.append([x, dst_y-self.img_size[1]])
+            if (len(points_array)) :
+                points_array = np.array(points_array)
+                new_points = np.einsum(&#39;kl, ...l-&gt;...k&#39;, self.M,  np.concatenate([points_array, np.broadcast_to(1, (*points_array.shape[:-1], 1)) ], axis = -1) )
+               
+                return np.asarray(new_points[...,:2] / new_points[...,2][...,None], dtype = &#39;int&#39;)
+        return []
+
+
+    def calcCurveAndOffset(self, img, left_lanes, right_lanes):
+        &#34;&#34;&#34;
+        Calculate the offset and road curve from the center of the vehicle.
+        
+        Args:
+            img: Bird view image.
+            left_lanes (np.array): Left lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+            right_lanes (np.array): Right lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+
+        Returns:
+            direction (string): Type contains &#34;L&#34;, &#34;R&#34; or &#34;F&#34;.
+            curvature (float): Road curve.
+            offset (float): Offset from the center point.
+            
+            Output format tuple(tuple(direction, curvature), offset)
+        &#34;&#34;&#34;
+        if (len(left_lanes) and len(right_lanes)) :
+            left_lanes = np.squeeze(left_lanes)
+            right_lanes = np.squeeze(right_lanes)
+            left_fit = np.polyfit(left_lanes[:, 1], left_lanes[:, 0], 2)
+            right_fit = np.polyfit(right_lanes[:, 1], right_lanes[:, 0], 2)
+
+            # Define direction conditions
+            if abs(left_fit[0]) &gt; abs(right_fit[0]):
+                side_cr = left_fit[0]
+            else:
+                side_cr = right_fit[0]
+
+            if side_cr &lt; -0.00015 and ( left_lanes[0, 0] &lt;= left_lanes[ int(len(left_lanes)/2), 0]):
+                curvature_direction = &#34;L&#34;
+            elif  side_cr &gt; 0.00015  and (right_lanes[0, 0] &gt;= right_lanes[ int(len(right_lanes)/2), 0] ):
+                curvature_direction = &#34;R&#34;
+            else :
+                curvature_direction = &#34;F&#34;
+
+            # Define y-value where we want radius of curvature
+            ploty = np.linspace(0, img.shape[0]-1, img.shape[0] )
+            leftx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+            rightx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+            # print(&#34;left :&#34;, leftx[0], leftx[-1])
+
+            # Define conversions in x and y from pixels space to meters
+            ym_per_pix = 30/720 # meters per pixel in y dimension
+            xm_per_pix = 3.7/700 # meters per pixel in x dimension
+            y_eval = np.max(ploty)
+            # Fit new polynomials to x,y in world space
+            left_fit_cr = np.polyfit(ploty*ym_per_pix, leftx*xm_per_pix, 2)
+            right_fit_cr = np.polyfit(ploty*ym_per_pix, rightx*xm_per_pix, 2)
+            # Calculate the new radii of curvature
+            left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+            right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+
+            curvature = ((left_curverad + right_curverad) / 2)
+            lane_width = np.absolute(leftx[719] - rightx[719])
+
+            lane_xm_per_pix = 3.7 / lane_width
+            veh_pos = ((leftx[719] + rightx[719])  / 2.)
+
+            cen_pos = (img.shape[1]/ 2.)
+            cv2.arrowedLine(img, (int(veh_pos), int(y_eval)), (int(veh_pos), int(img.shape[1]/3)), (255, 255, 255), 5, 0, 0 , 0.2)
+            cv2.arrowedLine(img, (int(cen_pos), int(y_eval)), (int(cen_pos), int(img.shape[0]/1.3)), (150, 150, 150), 10, 0, 0 , 0.5)
+            distance_from_center = (veh_pos - cen_pos)* lane_xm_per_pix
+        else :
+            curvature_direction, curvature = None, None
+            distance_from_center = None
+            return (curvature_direction, curvature), distance_from_center
+
+        cv2.putText(img,  &#39;Offset: %.1f m&#39; % distance_from_center, (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 5)
+        cv2.putText(img,  &#39;R : %.1f m&#39; % curvature, (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 5)
+        return (curvature_direction, curvature), distance_from_center
+
+
+    def DrawDetectedOnBirdView(self, image, lanes_points, type=OffsetType.UNKNOWN) :
+        for lane_num, lane_points in enumerate(lanes_points):
+            if ( lane_num==1 and type == OffsetType.RIGHT) :
+                color = (0, 0, 255)
+            elif (lane_num==2 and type == OffsetType.LEFT) :
+                color = (0, 0, 255)
+            else :
+                color = lane_colors[lane_num]
+            for x, y in lane_points:
+                cv2.circle(image, (int(x), int(y)), 10, color, -1)
+
+
+    def DrawTransformFrontalViewArea(self, image):
+        vector = np.vectorize(np.int_)
+        cv2.line(image, vector(self.src[0]), vector(self.src[1]), (0, 0, 255), 5)
+        cv2.line(image, vector(self.src[1]), vector(self.src[2]), (0, 0, 255), 5)
+        cv2.line(image, vector(self.src[2]), vector(self.src[3]), (0, 0, 255), 5)
+        cv2.line(image, vector(self.src[3]), vector(self.src[0]), (0, 0, 255), 5)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation"><code class="flex name class">
+<span>class <span class="ident">PerspectiveTransformation</span></span>
+<span>(</span><span>img_size=(1280, 720), logger=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This a class for transforming image between frontal view and bird view</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>src</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>Coordinates of 4 source points</dd>
+<dt><strong><code>dst</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>Coordinates of 4 destination points</dd>
+<dt><strong><code>M</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>Matrix to transform image from frontal view to bird view</dd>
+<dt><strong><code>M_inv</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>Matrix to transform image from bird view to frontal view</dd>
+</dl>
+<p>Init PerspectiveTransformation.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PerspectiveTransformation(object):
+    &#34;&#34;&#34; This a class for transforming image between frontal view and bird view
+
+    Attributes:
+        src (np.array): Coordinates of 4 source points
+        dst (np.array): Coordinates of 4 destination points
+        M (np.array): Matrix to transform image from frontal view to bird view
+        M_inv (np.array): Matrix to transform image from bird view to frontal view
+    &#34;&#34;&#34;
+    def __init__(self, img_size=(1280, 720), logger=None ):
+        &#34;&#34;&#34;Init PerspectiveTransformation.&#34;&#34;&#34;
+        self.img_size = img_size
+        self.logger = logger
+
+        self.src = np.float32([(self.img_size[0]*0.3, self.img_size[1]*0.7),     # top-left
+                               (self.img_size[0]*0.2, self.img_size[1]),         # bottom-left
+                               (self.img_size[0]*0.95, self.img_size[1]),        # bottom-right
+                               (self.img_size[0]*0.8, self.img_size[1]*0.7)])    # top-right
+        self.offset_x = self.img_size[0]/4
+        self.offset_y = 0
+        self.dst = np.float32([(self.offset_x, self.offset_y), 
+                                (self.offset_x, img_size[1]-self.offset_y),
+                                (img_size[0]-self.offset_x, img_size[1]-self.offset_y),
+                                (img_size[0]-self.offset_x, self.offset_y),])
+        self.M = cv2.getPerspectiveTransform(self.src, self.dst)
+        self.M_inv = cv2.getPerspectiveTransform(self.dst, self.src)
+
+
+    def updateTransformParams(self, left_lanes, right_lanes, type=&#34;Default&#34;) :
+        &#34;&#34;&#34; 
+        Update the transition area of the frontal view
+
+        Args:
+            left_lanes (np.array): Left lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+            right_lanes (np.array): Right lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+            type: Adjust the area of specific points, type-&#34;Top&#34;, &#34;Bottom&#34;, &#34;Default&#34;
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if (len(left_lanes) and len(right_lanes)) :
+            left_lanes = np.squeeze(left_lanes)
+            right_lanes = np.squeeze(right_lanes)
+            if (type==&#34;Top&#34;):
+                top_y = min(min(left_lanes[:, 1]), min(right_lanes[:, 1]))
+                top_left     = ( max(left_lanes[:, 0])-20, top_y )
+                bottom_left  = ( self.src[1][0], self.src[1][1] )
+                bottom_right = ( self.src[2][0], self.src[2][1] )
+                top_right    = ( min(right_lanes[:, 0])+20, top_y )
+            elif (type==&#34;Bottom&#34;) :
+                top_left     = ( self.src[0][0], self.src[0][1] )
+                bottom_left  = ( min(left_lanes[:, 0]), self.src[1][1] )
+                bottom_right = ( max(right_lanes[:, 0]), self.src[2][1] )
+                top_right    =  ( self.src[3][0], self.src[3][1] )
+            elif (type==&#34;Default&#34;) :
+                top_y = min(min(left_lanes[:, 1]), min(right_lanes[:, 1]))
+                top_left     = ( max(left_lanes[:, 0])-20, top_y )
+                bottom_left  = ( min(left_lanes[:, 0]), self.src[1][1] )
+                bottom_right = ( max(right_lanes[:, 0]), self.src[2][1] )
+                top_right    = ( min(right_lanes[:, 0])+20, top_y)
+            else :
+                return 
+            # print(&#34;top-left :&#34;, top_left )
+            # print(&#34;bottom-left :&#34;, bottom_left )
+            # print(&#34;bottom-right :&#34;, bottom_right )
+            # print(&#34;top-right :&#34;, top_right )
+            self.src = np.float32([ top_left, bottom_left, bottom_right, top_right]) 
+            self.M = cv2.getPerspectiveTransform(self.src, self.dst)
+            self.M_inv = cv2.getPerspectiveTransform(self.dst, self.src)
+
+
+    def transformToBirdView(self, img, flags=cv2.INTER_LINEAR):
+        &#34;&#34;&#34; Take a frontal view image and transform to bird view
+
+        Args:
+            img (np.array): A frontal view image
+            img_size (tuple): Size of the image (width, height)
+            flags : flag to use in cv2.warpPerspective()
+
+        Returns:
+            Image (np.array): Bird view image
+        &#34;&#34;&#34;
+        # new_size = ( self.img_size[0], int(self.img_size[1]/0.33))
+        # img_input = cv2.resize(img, new_size).astype(np.float32)
+        # img = img_input[self.img_size[1]:-self.img_size[1], :, :]
+        return cv2.warpPerspective(img, self.M, self.img_size, flags=flags)
+
+
+    def transformToFrontalView(self, img, flags=cv2.INTER_LINEAR):
+        &#34;&#34;&#34; Take a bird view image and transform it to frontal view
+
+        Args:
+            img (np.array): A bird view image
+            img_size (tuple): Size of the image (width, height)
+            flags (int): flag to use in cv2.warpPerspective()
+
+        Returns:
+            Image (np.array): Frontal view image
+        &#34;&#34;&#34;
+        return cv2.warpPerspective(img, self.M_inv, self.img_size, flags=flags)
+    
+
+    def transformToBirdViewPoints(self, points):
+        &#34;&#34;&#34;
+        To get bird view points in the new perspective from frontal view points in the image.
+
+        Args:
+            points: Frontal view lane points.
+
+        Returns:
+            [[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]. array shape=(xn, 2)
+        &#34;&#34;&#34;
+        points_array = []
+        if (len(points)) :
+            for x, y in points :
+                points_array.append([x, y])
+                # dst_y = (y/0.33)
+                # if ( (dst_y &gt; self.img_size[1]) and (dst_y &lt;= int(self.img_size[1]/0.33)*(2/3)) ) :
+                #     points_array.append([x, dst_y-self.img_size[1]])
+            if (len(points_array)) :
+                points_array = np.array(points_array)
+                new_points = np.einsum(&#39;kl, ...l-&gt;...k&#39;, self.M,  np.concatenate([points_array, np.broadcast_to(1, (*points_array.shape[:-1], 1)) ], axis = -1) )
+               
+                return np.asarray(new_points[...,:2] / new_points[...,2][...,None], dtype = &#39;int&#39;)
+        return []
+
+
+    def calcCurveAndOffset(self, img, left_lanes, right_lanes):
+        &#34;&#34;&#34;
+        Calculate the offset and road curve from the center of the vehicle.
+        
+        Args:
+            img: Bird view image.
+            left_lanes (np.array): Left lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+            right_lanes (np.array): Right lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+
+        Returns:
+            direction (string): Type contains &#34;L&#34;, &#34;R&#34; or &#34;F&#34;.
+            curvature (float): Road curve.
+            offset (float): Offset from the center point.
+            
+            Output format tuple(tuple(direction, curvature), offset)
+        &#34;&#34;&#34;
+        if (len(left_lanes) and len(right_lanes)) :
+            left_lanes = np.squeeze(left_lanes)
+            right_lanes = np.squeeze(right_lanes)
+            left_fit = np.polyfit(left_lanes[:, 1], left_lanes[:, 0], 2)
+            right_fit = np.polyfit(right_lanes[:, 1], right_lanes[:, 0], 2)
+
+            # Define direction conditions
+            if abs(left_fit[0]) &gt; abs(right_fit[0]):
+                side_cr = left_fit[0]
+            else:
+                side_cr = right_fit[0]
+
+            if side_cr &lt; -0.00015 and ( left_lanes[0, 0] &lt;= left_lanes[ int(len(left_lanes)/2), 0]):
+                curvature_direction = &#34;L&#34;
+            elif  side_cr &gt; 0.00015  and (right_lanes[0, 0] &gt;= right_lanes[ int(len(right_lanes)/2), 0] ):
+                curvature_direction = &#34;R&#34;
+            else :
+                curvature_direction = &#34;F&#34;
+
+            # Define y-value where we want radius of curvature
+            ploty = np.linspace(0, img.shape[0]-1, img.shape[0] )
+            leftx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+            rightx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+            # print(&#34;left :&#34;, leftx[0], leftx[-1])
+
+            # Define conversions in x and y from pixels space to meters
+            ym_per_pix = 30/720 # meters per pixel in y dimension
+            xm_per_pix = 3.7/700 # meters per pixel in x dimension
+            y_eval = np.max(ploty)
+            # Fit new polynomials to x,y in world space
+            left_fit_cr = np.polyfit(ploty*ym_per_pix, leftx*xm_per_pix, 2)
+            right_fit_cr = np.polyfit(ploty*ym_per_pix, rightx*xm_per_pix, 2)
+            # Calculate the new radii of curvature
+            left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+            right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+
+            curvature = ((left_curverad + right_curverad) / 2)
+            lane_width = np.absolute(leftx[719] - rightx[719])
+
+            lane_xm_per_pix = 3.7 / lane_width
+            veh_pos = ((leftx[719] + rightx[719])  / 2.)
+
+            cen_pos = (img.shape[1]/ 2.)
+            cv2.arrowedLine(img, (int(veh_pos), int(y_eval)), (int(veh_pos), int(img.shape[1]/3)), (255, 255, 255), 5, 0, 0 , 0.2)
+            cv2.arrowedLine(img, (int(cen_pos), int(y_eval)), (int(cen_pos), int(img.shape[0]/1.3)), (150, 150, 150), 10, 0, 0 , 0.5)
+            distance_from_center = (veh_pos - cen_pos)* lane_xm_per_pix
+        else :
+            curvature_direction, curvature = None, None
+            distance_from_center = None
+            return (curvature_direction, curvature), distance_from_center
+
+        cv2.putText(img,  &#39;Offset: %.1f m&#39; % distance_from_center, (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 5)
+        cv2.putText(img,  &#39;R : %.1f m&#39; % curvature, (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 5)
+        return (curvature_direction, curvature), distance_from_center
+
+
+    def DrawDetectedOnBirdView(self, image, lanes_points, type=OffsetType.UNKNOWN) :
+        for lane_num, lane_points in enumerate(lanes_points):
+            if ( lane_num==1 and type == OffsetType.RIGHT) :
+                color = (0, 0, 255)
+            elif (lane_num==2 and type == OffsetType.LEFT) :
+                color = (0, 0, 255)
+            else :
+                color = lane_colors[lane_num]
+            for x, y in lane_points:
+                cv2.circle(image, (int(x), int(y)), 10, color, -1)
+
+
+    def DrawTransformFrontalViewArea(self, image):
+        vector = np.vectorize(np.int_)
+        cv2.line(image, vector(self.src[0]), vector(self.src[1]), (0, 0, 255), 5)
+        cv2.line(image, vector(self.src[1]), vector(self.src[2]), (0, 0, 255), 5)
+        cv2.line(image, vector(self.src[2]), vector(self.src[3]), (0, 0, 255), 5)
+        cv2.line(image, vector(self.src[3]), vector(self.src[0]), (0, 0, 255), 5)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.DrawDetectedOnBirdView"><code class="name flex">
+<span>def <span class="ident">DrawDetectedOnBirdView</span></span>(<span>self, image, lanes_points, type=OffsetType.UNKNOWN)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DrawDetectedOnBirdView(self, image, lanes_points, type=OffsetType.UNKNOWN) :
+    for lane_num, lane_points in enumerate(lanes_points):
+        if ( lane_num==1 and type == OffsetType.RIGHT) :
+            color = (0, 0, 255)
+        elif (lane_num==2 and type == OffsetType.LEFT) :
+            color = (0, 0, 255)
+        else :
+            color = lane_colors[lane_num]
+        for x, y in lane_points:
+            cv2.circle(image, (int(x), int(y)), 10, color, -1)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.DrawTransformFrontalViewArea"><code class="name flex">
+<span>def <span class="ident">DrawTransformFrontalViewArea</span></span>(<span>self, image)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DrawTransformFrontalViewArea(self, image):
+    vector = np.vectorize(np.int_)
+    cv2.line(image, vector(self.src[0]), vector(self.src[1]), (0, 0, 255), 5)
+    cv2.line(image, vector(self.src[1]), vector(self.src[2]), (0, 0, 255), 5)
+    cv2.line(image, vector(self.src[2]), vector(self.src[3]), (0, 0, 255), 5)
+    cv2.line(image, vector(self.src[3]), vector(self.src[0]), (0, 0, 255), 5)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.calcCurveAndOffset"><code class="name flex">
+<span>def <span class="ident">calcCurveAndOffset</span></span>(<span>self, img, left_lanes, right_lanes)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate the offset and road curve from the center of the vehicle.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>img</code></strong></dt>
+<dd>Bird view image.</dd>
+<dt><strong><code>left_lanes</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>Left lanes points.[[x1, y1], [x2, y2], [x3, y3] &hellip; [xn, yn]]</dd>
+<dt><strong><code>right_lanes</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>Right lanes points.[[x1, y1], [x2, y2], [x3, y3] &hellip; [xn, yn]]</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>direction (string): Type contains "L", "R" or "F".
+curvature (float): Road curve.
+offset (float): Offset from the center point.</p>
+<p>Output format tuple(tuple(direction, curvature), offset)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calcCurveAndOffset(self, img, left_lanes, right_lanes):
+    &#34;&#34;&#34;
+    Calculate the offset and road curve from the center of the vehicle.
+    
+    Args:
+        img: Bird view image.
+        left_lanes (np.array): Left lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+        right_lanes (np.array): Right lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+
+    Returns:
+        direction (string): Type contains &#34;L&#34;, &#34;R&#34; or &#34;F&#34;.
+        curvature (float): Road curve.
+        offset (float): Offset from the center point.
+        
+        Output format tuple(tuple(direction, curvature), offset)
+    &#34;&#34;&#34;
+    if (len(left_lanes) and len(right_lanes)) :
+        left_lanes = np.squeeze(left_lanes)
+        right_lanes = np.squeeze(right_lanes)
+        left_fit = np.polyfit(left_lanes[:, 1], left_lanes[:, 0], 2)
+        right_fit = np.polyfit(right_lanes[:, 1], right_lanes[:, 0], 2)
+
+        # Define direction conditions
+        if abs(left_fit[0]) &gt; abs(right_fit[0]):
+            side_cr = left_fit[0]
+        else:
+            side_cr = right_fit[0]
+
+        if side_cr &lt; -0.00015 and ( left_lanes[0, 0] &lt;= left_lanes[ int(len(left_lanes)/2), 0]):
+            curvature_direction = &#34;L&#34;
+        elif  side_cr &gt; 0.00015  and (right_lanes[0, 0] &gt;= right_lanes[ int(len(right_lanes)/2), 0] ):
+            curvature_direction = &#34;R&#34;
+        else :
+            curvature_direction = &#34;F&#34;
+
+        # Define y-value where we want radius of curvature
+        ploty = np.linspace(0, img.shape[0]-1, img.shape[0] )
+        leftx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+        rightx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+        # print(&#34;left :&#34;, leftx[0], leftx[-1])
+
+        # Define conversions in x and y from pixels space to meters
+        ym_per_pix = 30/720 # meters per pixel in y dimension
+        xm_per_pix = 3.7/700 # meters per pixel in x dimension
+        y_eval = np.max(ploty)
+        # Fit new polynomials to x,y in world space
+        left_fit_cr = np.polyfit(ploty*ym_per_pix, leftx*xm_per_pix, 2)
+        right_fit_cr = np.polyfit(ploty*ym_per_pix, rightx*xm_per_pix, 2)
+        # Calculate the new radii of curvature
+        left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+        right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+
+        curvature = ((left_curverad + right_curverad) / 2)
+        lane_width = np.absolute(leftx[719] - rightx[719])
+
+        lane_xm_per_pix = 3.7 / lane_width
+        veh_pos = ((leftx[719] + rightx[719])  / 2.)
+
+        cen_pos = (img.shape[1]/ 2.)
+        cv2.arrowedLine(img, (int(veh_pos), int(y_eval)), (int(veh_pos), int(img.shape[1]/3)), (255, 255, 255), 5, 0, 0 , 0.2)
+        cv2.arrowedLine(img, (int(cen_pos), int(y_eval)), (int(cen_pos), int(img.shape[0]/1.3)), (150, 150, 150), 10, 0, 0 , 0.5)
+        distance_from_center = (veh_pos - cen_pos)* lane_xm_per_pix
+    else :
+        curvature_direction, curvature = None, None
+        distance_from_center = None
+        return (curvature_direction, curvature), distance_from_center
+
+    cv2.putText(img,  &#39;Offset: %.1f m&#39; % distance_from_center, (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 5)
+    cv2.putText(img,  &#39;R : %.1f m&#39; % curvature, (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 5)
+    return (curvature_direction, curvature), distance_from_center</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToBirdView"><code class="name flex">
+<span>def <span class="ident">transformToBirdView</span></span>(<span>self, img, flags=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Take a frontal view image and transform to bird view</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>img</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>A frontal view image</dd>
+<dt><strong><code>img_size</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Size of the image (width, height)</dd>
+</dl>
+<p>flags : flag to use in cv2.warpPerspective()</p>
+<h2 id="returns">Returns</h2>
+<p>Image (np.array): Bird view image</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transformToBirdView(self, img, flags=cv2.INTER_LINEAR):
+    &#34;&#34;&#34; Take a frontal view image and transform to bird view
+
+    Args:
+        img (np.array): A frontal view image
+        img_size (tuple): Size of the image (width, height)
+        flags : flag to use in cv2.warpPerspective()
+
+    Returns:
+        Image (np.array): Bird view image
+    &#34;&#34;&#34;
+    # new_size = ( self.img_size[0], int(self.img_size[1]/0.33))
+    # img_input = cv2.resize(img, new_size).astype(np.float32)
+    # img = img_input[self.img_size[1]:-self.img_size[1], :, :]
+    return cv2.warpPerspective(img, self.M, self.img_size, flags=flags)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToBirdViewPoints"><code class="name flex">
+<span>def <span class="ident">transformToBirdViewPoints</span></span>(<span>self, points)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>To get bird view points in the new perspective from frontal view points in the image.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>points</code></strong></dt>
+<dd>Frontal view lane points.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>[[x1, y1], [x2, y2], [x3, y3] &hellip; [xn, yn]]. array shape=(xn, 2)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transformToBirdViewPoints(self, points):
+    &#34;&#34;&#34;
+    To get bird view points in the new perspective from frontal view points in the image.
+
+    Args:
+        points: Frontal view lane points.
+
+    Returns:
+        [[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]. array shape=(xn, 2)
+    &#34;&#34;&#34;
+    points_array = []
+    if (len(points)) :
+        for x, y in points :
+            points_array.append([x, y])
+            # dst_y = (y/0.33)
+            # if ( (dst_y &gt; self.img_size[1]) and (dst_y &lt;= int(self.img_size[1]/0.33)*(2/3)) ) :
+            #     points_array.append([x, dst_y-self.img_size[1]])
+        if (len(points_array)) :
+            points_array = np.array(points_array)
+            new_points = np.einsum(&#39;kl, ...l-&gt;...k&#39;, self.M,  np.concatenate([points_array, np.broadcast_to(1, (*points_array.shape[:-1], 1)) ], axis = -1) )
+           
+            return np.asarray(new_points[...,:2] / new_points[...,2][...,None], dtype = &#39;int&#39;)
+    return []</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToFrontalView"><code class="name flex">
+<span>def <span class="ident">transformToFrontalView</span></span>(<span>self, img, flags=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Take a bird view image and transform it to frontal view</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>img</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>A bird view image</dd>
+<dt><strong><code>img_size</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Size of the image (width, height)</dd>
+<dt><strong><code>flags</code></strong> :&ensp;<code>int</code></dt>
+<dd>flag to use in cv2.warpPerspective()</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Image (np.array): Frontal view image</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transformToFrontalView(self, img, flags=cv2.INTER_LINEAR):
+    &#34;&#34;&#34; Take a bird view image and transform it to frontal view
+
+    Args:
+        img (np.array): A bird view image
+        img_size (tuple): Size of the image (width, height)
+        flags (int): flag to use in cv2.warpPerspective()
+
+    Returns:
+        Image (np.array): Frontal view image
+    &#34;&#34;&#34;
+    return cv2.warpPerspective(img, self.M_inv, self.img_size, flags=flags)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.updateTransformParams"><code class="name flex">
+<span>def <span class="ident">updateTransformParams</span></span>(<span>self, left_lanes, right_lanes, type='Default')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the transition area of the frontal view</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>left_lanes</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>Left lanes points.[[x1, y1], [x2, y2], [x3, y3] &hellip; [xn, yn]]</dd>
+<dt><strong><code>right_lanes</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>Right lanes points.[[x1, y1], [x2, y2], [x3, y3] &hellip; [xn, yn]]</dd>
+<dt><strong><code>type</code></strong></dt>
+<dd>Adjust the area of specific points, type-"Top", "Bottom", "Default"</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def updateTransformParams(self, left_lanes, right_lanes, type=&#34;Default&#34;) :
+    &#34;&#34;&#34; 
+    Update the transition area of the frontal view
+
+    Args:
+        left_lanes (np.array): Left lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+        right_lanes (np.array): Right lanes points.[[x1, y1], [x2, y2], [x3, y3] ... [xn, yn]]
+        type: Adjust the area of specific points, type-&#34;Top&#34;, &#34;Bottom&#34;, &#34;Default&#34;
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    if (len(left_lanes) and len(right_lanes)) :
+        left_lanes = np.squeeze(left_lanes)
+        right_lanes = np.squeeze(right_lanes)
+        if (type==&#34;Top&#34;):
+            top_y = min(min(left_lanes[:, 1]), min(right_lanes[:, 1]))
+            top_left     = ( max(left_lanes[:, 0])-20, top_y )
+            bottom_left  = ( self.src[1][0], self.src[1][1] )
+            bottom_right = ( self.src[2][0], self.src[2][1] )
+            top_right    = ( min(right_lanes[:, 0])+20, top_y )
+        elif (type==&#34;Bottom&#34;) :
+            top_left     = ( self.src[0][0], self.src[0][1] )
+            bottom_left  = ( min(left_lanes[:, 0]), self.src[1][1] )
+            bottom_right = ( max(right_lanes[:, 0]), self.src[2][1] )
+            top_right    =  ( self.src[3][0], self.src[3][1] )
+        elif (type==&#34;Default&#34;) :
+            top_y = min(min(left_lanes[:, 1]), min(right_lanes[:, 1]))
+            top_left     = ( max(left_lanes[:, 0])-20, top_y )
+            bottom_left  = ( min(left_lanes[:, 0]), self.src[1][1] )
+            bottom_right = ( max(right_lanes[:, 0]), self.src[2][1] )
+            top_right    = ( min(right_lanes[:, 0])+20, top_y)
+        else :
+            return 
+        # print(&#34;top-left :&#34;, top_left )
+        # print(&#34;bottom-left :&#34;, bottom_left )
+        # print(&#34;bottom-right :&#34;, bottom_right )
+        # print(&#34;top-right :&#34;, top_right )
+        self.src = np.float32([ top_left, bottom_left, bottom_right, top_right]) 
+        self.M = cv2.getPerspectiveTransform(self.src, self.dst)
+        self.M_inv = cv2.getPerspectiveTransform(self.dst, self.src)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation">PerspectiveTransformation</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.DrawDetectedOnBirdView" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.DrawDetectedOnBirdView">DrawDetectedOnBirdView</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.DrawTransformFrontalViewArea" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.DrawTransformFrontalViewArea">DrawTransformFrontalViewArea</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.calcCurveAndOffset" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.calcCurveAndOffset">calcCurveAndOffset</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToBirdView" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToBirdView">transformToBirdView</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToBirdViewPoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToBirdViewPoints">transformToBirdViewPoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToFrontalView" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.transformToFrontalView">transformToFrontalView</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.updateTransformParams" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.perspectiveTransformation.PerspectiveTransformation.updateTransformParams">updateTransformParams</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
