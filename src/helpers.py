@@ -6,7 +6,7 @@ import src.translator as translator
 import webview
 import webbrowser
 
-def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButton", width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str="!disabled", columnspan:int=1, translate:bool=True, sticky:str="n"):
+def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButton", width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str="!disabled", columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str="n"):
     """Will create a new standard button with the given parameters.
 
     Args:
@@ -22,6 +22,7 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButto
         pady (int, optional): Defaults to 10.
         state (str, optional): Defaults to "!disabled".
         columnspan (int, optional): How many columns the button will span over. Defaults to 1.
+        rowspan (int, optional): How many rows the button will span over. Defaults to 1.
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         sticky (str, optional): Defaults to "n".
 
@@ -33,9 +34,9 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButto
     
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
     if not center:
-        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, sticky=sticky)
+        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, rowspan=rowspan, sticky=sticky)
     else:
-        button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n", columnspan=columnspan)
+        button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n", columnspan=columnspan, rowspan=rowspan)
     return button
 
     
