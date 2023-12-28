@@ -377,12 +377,13 @@ def plugin(data):
 
             try:
                 if IndicatingLeft or IndicatingRight:
-                    cv2.putText(output_img, "Indicating", (int(w/2), int(h - h/10 - 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
+                    text_size_indicating, _ = cv2.getTextSize("Indicating", cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)
+                    cv2.putText(output_img, "Indicating", (int(w-text_size_indicating[0]-5), int(27)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
             except:
                 pass    
             
             # Also draw a enabled text to the top left
-            cv2.putText(output_img, "Enabled", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
+            cv2.putText(output_img, "Enabled", (5, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
             
             data["frame"] = output_img
         else:
