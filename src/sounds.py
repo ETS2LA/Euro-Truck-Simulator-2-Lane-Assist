@@ -1,3 +1,10 @@
+"""Provides an easy to use interface to play sounds from local paths.
+
+Usage:
+```python
+import src.sounds as sounds
+sounds.PlaysoundFromLocalPath("assets/sounds/...") # Will play the sound.
+```"""
 from src.logger import print
 from src.variables import PATH
 

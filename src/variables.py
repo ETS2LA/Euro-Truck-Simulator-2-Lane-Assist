@@ -1,5 +1,5 @@
 '''
-Stores all main variables for the program.
+Stores all global variables for the program.
 '''
 import os
 

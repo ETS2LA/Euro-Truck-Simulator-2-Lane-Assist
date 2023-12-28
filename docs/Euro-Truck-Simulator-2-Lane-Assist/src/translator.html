@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>Euro-Truck-Simulator-2-Lane-Assist.src.translator API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Provides a standard translation interface. All helper functions already use this interface by default …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
@@ -342,11 +342,23 @@ color: #fff;
 <h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.translator</code></h1>
 </header>
 <section id="section-intro">
+<p>Provides a standard translation interface. All helper functions already use this interface by default.</p>
+<p>Usage:</p>
+<pre><code class="language-python">from src.translator import Translate
+print(Translate(&quot;Hello world!&quot;))
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import deep_translator as dt
+<pre><code class="python">&#34;&#34;&#34;Provides a standard translation interface. All helper functions already use this interface by default.
+
+Usage:
+```python
+from src.translator import Translate
+print(Translate(&#34;Hello world!&#34;))
+```&#34;&#34;&#34;
+import deep_translator as dt
 import src.settings as settings
 import src.loading as loading
 import src.mainUI as mainUI

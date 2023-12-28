@@ -1,3 +1,4 @@
+"""Provides helper functions for plugins, mainly to create consistent UI."""
 from tkinter import ttk
 import tkinter as tk
 import src.settings as settings

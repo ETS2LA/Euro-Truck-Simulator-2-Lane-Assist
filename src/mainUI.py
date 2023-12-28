@@ -1,9 +1,16 @@
-from src.logger import print
-
 '''
 This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements.
-'''
 
+Main functions to take note of for plugins:
+```python
+# Should be in the following format "plugins.<pluginName>.main"
+switchSelectedPlugin(pluginName:str)
+
+# Will resize the window to the given size.
+resizeWindow(newWidth:int, newHeight:int)
+```'''
+
+from src.logger import print
 import time
 import tkinter as tk
 from tkinter import ttk, messagebox

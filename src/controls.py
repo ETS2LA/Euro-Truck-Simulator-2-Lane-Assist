@@ -1,3 +1,14 @@
+"""
+Input manager for other plugins. This plugin will handle all the inputs and provide a way for other plugins to use them.
+
+```python
+# Will register a keybind to the input manager. This is necessary to use the keybind.
+RegisterKeybind(name, callback=None, description="") 
+
+# Will get the value of a keybind.
+GetKeybindValue(name)
+```
+"""
 import tkinter as tk
 from tkinter import ttk
 import src.helpers as helpers
@@ -17,26 +28,46 @@ PluginInfo = PluginInformation(
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="static" # = Panel
 )
-KEYBOARD_GUID = 1
 
+KEYBOARD_GUID = 1
 KEYBINDS = []
 def RegisterKeybind(name, callback=None, description=""):
-    try:
-        deviceGUID = settings.GetSettings("Input", name)["deviceGUID"] if settings.GetSettings("Input", name) != None else -1
-        buttonIndex = settings.GetSettings("Input", name)["buttonIndex"] if settings.GetSettings("Input", name) != None else -1
-        axisIndex = settings.GetSettings("Input", name)["axisIndex"] if settings.GetSettings("Input", name) != None else -1
-        KEYBINDS.append({"name": name, "callback": callback, "description": description, "deviceGUID": deviceGUID, "buttonIndex": buttonIndex, "axisIndex": axisIndex})
-        SaveKeybind(KEYBINDS[-1]["name"], description=KEYBINDS[-1]["description"], deviceGUID=KEYBINDS[-1]["deviceGUID"], buttonIndex=KEYBINDS[-1]["buttonIndex"], axisIndex=KEYBINDS[-1]["axisIndex"])
-    except:
-        import traceback
-        traceback.print_exc()
+    """Will register a keybind to the input manager. This is necessary to use the keybind.
+
+    Args:
+        name (str): Keybind name. This is used to identify the keybind.
+        callback (_type_, optional): Callback when the keybind is pressed. Defaults to None.
+        description (str, optional): Additional description to the keybind. Defaults to "".
+    """
+    deviceGUID = settings.GetSettings("Input", name)["deviceGUID"] if settings.GetSettings("Input", name) != None else -1
+    buttonIndex = settings.GetSettings("Input", name)["buttonIndex"] if settings.GetSettings("Input", name) != None else -1
+    axisIndex = settings.GetSettings("Input", name)["axisIndex"] if settings.GetSettings("Input", name) != None else -1
+    KEYBINDS.append({"name": name, "callback": callback, "description": description, "deviceGUID": deviceGUID, "buttonIndex": buttonIndex, "axisIndex": axisIndex})
+    SaveKeybind(KEYBINDS[-1]["name"], description=KEYBINDS[-1]["description"], deviceGUID=KEYBINDS[-1]["deviceGUID"], buttonIndex=KEYBINDS[-1]["buttonIndex"], axisIndex=KEYBINDS[-1]["axisIndex"])
 
 def SaveKeybind(name, description="", deviceGUID=-1, buttonIndex=-1, axisIndex=-1):
+    """Save a keybind to the settings file.
+
+    Args:
+        name (str): Keybind name to save.
+        description (str, optional): Description to save. Defaults to "".
+        deviceGUID (str, optional): Device GUID. Defaults to -1.
+        buttonIndex (int, optional): Button index. If -1 buttons will not be considered. Defaults to -1.
+        axisIndex (int, optional): Axis index. If -1 axis will not be considered. Defaults to -1.
+    """
     settings.UpdateSettings("Input", name, {"description": description, "deviceGUID": deviceGUID, "buttonIndex": buttonIndex, "axisIndex": axisIndex})    
 
 pygame.init()
 pygame.joystick.init()
 def plugin(data):
+    """Handles calling back the keybinds. Should not be called directly.
+
+    Args:
+        data (dict): Data dictionary from main.py
+
+    Returns:
+        dict: Data dictionary to main.py
+    """
     pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     for keybind in KEYBINDS:
@@ -56,6 +87,11 @@ def plugin(data):
     return data
 
 def ChangeKeybind(name):
+    """Will run the keybind change window code.
+
+    Args:
+        name (str): Keybind to change (name).
+    """
     global save
     print("Changing keybind " + name)
     # Make a new window to get the keybind on
@@ -132,12 +168,28 @@ def ChangeKeybind(name):
 
     mainUI.switchSelectedPlugin("src.controls")
     
-def UnbindKeybind(name):
+def UnbindKeybind(name, updateUI=True):
+    """Remove the binding of a keybind.
+
+    Args:
+        name (str): Keybind to remove (name).
+        updateUI (bool, optional): Should the UI be updated (should be False if the function is called from other files). Defaults to True.
+    """
     SaveKeybind(name, deviceGUID=-1, buttonIndex=-1, axisIndex=-1)
     KEYBINDS[KEYBINDS.index(next((item for item in KEYBINDS if item["name"] == name), None))] = {"name": name, "callback": next((item for item in KEYBINDS if item["name"] == name), None)["callback"], "description": next((item for item in KEYBINDS if item["name"] == name), None)["description"], "deviceGUID": -1, "buttonIndex": -1, "axisIndex": -1}
-    mainUI.switchSelectedPlugin("src.controls")
+    if updateUI:
+        mainUI.switchSelectedPlugin("src.controls")
+
 
 def GetKeybindValue(name):
+    """Will get the value of a keybind.
+
+    Args:
+        name (str): The name of the keybind to fetch.
+
+    Returns:
+        float | bool | str: Depending on whether the keybind is a button, axis or key, the value will be either a float, bool or str.
+    """
     keybind = None
     for bind in KEYBINDS:
         if bind["name"] == name:
@@ -152,7 +204,7 @@ def GetKeybindValue(name):
     for joystick in joysticks:
         if joystick.get_guid() == keybind["deviceGUID"]:
             if keybind["buttonIndex"] != -1:
-                return joystick.get_button(keybind["buttonIndex"])
+                return True if joystick.get_button(keybind["buttonIndex"]) == 1 else False
             elif keybind["axisIndex"] != -1:
                 return joystick.get_axis(keybind["axisIndex"])
     return None

@@ -1,3 +1,13 @@
+"""Provides a loading window with a progress bar and a text label.
+
+Usage: 
+```python
+loading = LoadingWindow("Loading...")
+loading.update(progress=0.5, text="Loading 50%")
+loading.update(progress=1, text="Loading 100%")
+loading.destroy()
+```
+"""
 import tkinter as tk
 from tkinter import ttk
 import sv_ttk

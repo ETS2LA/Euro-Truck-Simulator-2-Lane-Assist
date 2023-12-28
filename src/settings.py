@@ -1,3 +1,16 @@
+"""
+Provides an interface to read and write settings from the main JSON file.
+Ideally all settings should be stored using this interface.
+
+Main functions:
+```python
+# Will create (or update) a new setting in the settings file.
+CreateSettings(category, name, data) 
+
+# Will get a specific setting from the settings file.
+GetSettings(category, name, value=None) 
+```
+"""
 import json
 from src.logger import print
 from src.variables import PATH

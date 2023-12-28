@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>Euro-Truck-Simulator-2-Lane-Assist.src.sounds API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Provides an easy to use interface to play sounds from local paths …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
@@ -342,11 +342,23 @@ color: #fff;
 <h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.sounds</code></h1>
 </header>
 <section id="section-intro">
+<p>Provides an easy to use interface to play sounds from local paths.</p>
+<p>Usage:</p>
+<pre><code class="language-python">import src.sounds as sounds
+sounds.PlaysoundFromLocalPath(&quot;assets/sounds/...&quot;) # Will play the sound.
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from src.logger import print
+<pre><code class="python">&#34;&#34;&#34;Provides an easy to use interface to play sounds from local paths.
+
+Usage:
+```python
+import src.sounds as sounds
+sounds.PlaysoundFromLocalPath(&#34;assets/sounds/...&#34;) # Will play the sound.
+```&#34;&#34;&#34;
+from src.logger import print
 from src.variables import PATH
 
 try:

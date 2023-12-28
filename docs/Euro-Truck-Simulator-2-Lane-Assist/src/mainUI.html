@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>Euro-Truck-Simulator-2-Lane-Assist.src.mainUI API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
@@ -342,16 +342,31 @@ color: #fff;
 <h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.mainUI</code></h1>
 </header>
 <section id="section-intro">
+<p>This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements.</p>
+<p>Main functions to take note of for plugins:</p>
+<pre><code class="language-python"># Should be in the following format &quot;plugins.&lt;pluginName&gt;.main&quot;
+switchSelectedPlugin(pluginName:str)
+
+# Will resize the window to the given size.
+resizeWindow(newWidth:int, newHeight:int)
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from src.logger import print
-
-&#39;&#39;&#39;
+<pre><code class="python">&#39;&#39;&#39;
 This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements.
-&#39;&#39;&#39;
 
+Main functions to take note of for plugins:
+```python
+# Should be in the following format &#34;plugins.&lt;pluginName&gt;.main&#34;
+switchSelectedPlugin(pluginName:str)
+
+# Will resize the window to the given size.
+resizeWindow(newWidth:int, newHeight:int)
+```&#39;&#39;&#39;
+
+from src.logger import print
 import time
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -524,10 +539,11 @@ def drawButtons(refresh:bool=False):
     helpers.MakeButton(buttonFrame, &#34;Plugins&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 2, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, &#34;Performance&#34;, lambda: switchSelectedPlugin(&#34;plugins.Performance.main&#34;), 3, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, &#34;Settings&#34;, lambda: switchSelectedPlugin(&#34;plugins.Settings.main&#34;), 4, 0, width=11, padx=9)
-    helpers.MakeButton(buttonFrame, &#34;Help/About&#34;, lambda: switchSelectedPlugin(&#34;plugins.About.main&#34;), 5, 0, width=11, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;, &#34;dark&#34;)).capitalize() + &#34; Mode&#34;, lambda: changeTheme(), 6, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Controls&#34;, lambda: switchSelectedPlugin(&#34;src.controls&#34;), 5, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Help/About&#34;, lambda: switchSelectedPlugin(&#34;plugins.About.main&#34;), 6, 0, width=11, padx=9)
+    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;, &#34;dark&#34;)).capitalize() + &#34; Mode&#34;, lambda: changeTheme(), 7, 0, width=11, padx=9)
     import webbrowser
-    helpers.MakeButton(buttonFrame, &#34;Discord&#34;, lambda: webbrowser.open(&#34;https://discord.gg/DpJpkNpqwD&#34;), 7, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;, translate=False)
+    helpers.MakeButton(buttonFrame, &#34;Discord&#34;, lambda: webbrowser.open(&#34;https://discord.gg/DpJpkNpqwD&#34;), 8, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;, translate=False)
 
 
 prevFrame = 100
@@ -1153,10 +1169,11 @@ CreateRoot()</code></pre>
     helpers.MakeButton(buttonFrame, &#34;Plugins&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 2, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, &#34;Performance&#34;, lambda: switchSelectedPlugin(&#34;plugins.Performance.main&#34;), 3, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, &#34;Settings&#34;, lambda: switchSelectedPlugin(&#34;plugins.Settings.main&#34;), 4, 0, width=11, padx=9)
-    helpers.MakeButton(buttonFrame, &#34;Help/About&#34;, lambda: switchSelectedPlugin(&#34;plugins.About.main&#34;), 5, 0, width=11, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;, &#34;dark&#34;)).capitalize() + &#34; Mode&#34;, lambda: changeTheme(), 6, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Controls&#34;, lambda: switchSelectedPlugin(&#34;src.controls&#34;), 5, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Help/About&#34;, lambda: switchSelectedPlugin(&#34;plugins.About.main&#34;), 6, 0, width=11, padx=9)
+    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;, &#34;dark&#34;)).capitalize() + &#34; Mode&#34;, lambda: changeTheme(), 7, 0, width=11, padx=9)
     import webbrowser
-    helpers.MakeButton(buttonFrame, &#34;Discord&#34;, lambda: webbrowser.open(&#34;https://discord.gg/DpJpkNpqwD&#34;), 7, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;, translate=False)</code></pre>
+    helpers.MakeButton(buttonFrame, &#34;Discord&#34;, lambda: webbrowser.open(&#34;https://discord.gg/DpJpkNpqwD&#34;), 8, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;, translate=False)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.quit"><code class="name flex">

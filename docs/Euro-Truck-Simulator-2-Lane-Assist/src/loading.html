@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>Euro-Truck-Simulator-2-Lane-Assist.src.loading API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Provides a loading window with a progress bar and a text label …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
@@ -342,11 +342,28 @@ color: #fff;
 <h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.loading</code></h1>
 </header>
 <section id="section-intro">
+<p>Provides a loading window with a progress bar and a text label.</p>
+<p>Usage: </p>
+<pre><code class="language-python">loading = LoadingWindow(&quot;Loading...&quot;)
+loading.update(progress=0.5, text=&quot;Loading 50%&quot;)
+loading.update(progress=1, text=&quot;Loading 100%&quot;)
+loading.destroy()
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import tkinter as tk
+<pre><code class="python">&#34;&#34;&#34;Provides a loading window with a progress bar and a text label.
+
+Usage: 
+```python
+loading = LoadingWindow(&#34;Loading...&#34;)
+loading.update(progress=0.5, text=&#34;Loading 50%&#34;)
+loading.update(progress=1, text=&#34;Loading 100%&#34;)
+loading.destroy()
+```
+&#34;&#34;&#34;
+import tkinter as tk
 from tkinter import ttk
 import sv_ttk
 
