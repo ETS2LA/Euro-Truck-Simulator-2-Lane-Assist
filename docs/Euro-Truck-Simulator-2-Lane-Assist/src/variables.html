@@ -121,6 +121,9 @@ margin-top: 2em;
 .ident {
 color: #ff00ca;
 }
+strong {
+color: #f90;
+}
 pre code {
 background: transparent;
 font-size: .8em;
@@ -351,11 +354,17 @@ import os
 
 
 PATH = os.path.dirname(__file__).replace(&#34;src&#34;, &#34;&#34;)
+&#34;&#34;&#34;The current absolute path to the root of the program.&#34;&#34;&#34;
 ENABLELOOP = False
+&#34;&#34;&#34;Whether or not the mainloop is enabled.&#34;&#34;&#34;
 UPDATEPLUGINS = False
+&#34;&#34;&#34;Whether to update the list of plugins at the start of the next frame.&#34;&#34;&#34;
 RELOAD = False
+&#34;&#34;&#34;Whether to reload the program at the start of the next frame.&#34;&#34;&#34;
 VERSION = open(PATH + &#34;version.txt&#34;, &#34;r&#34;).read().replace(&#34;\n&#34;, &#34;&#34;)
+&#34;&#34;&#34;Current version of the program.&#34;&#34;&#34;
 CHANGELOG = open(PATH + &#34;changelog.txt&#34;, &#34;r&#34;).readlines()
+&#34;&#34;&#34;The current shortened changelog. Used to show the user what&#39;s new in the small autoupdater dialog.&#34;&#34;&#34;
 
 def ToggleEnable():
     &#34;&#34;&#34;Will toggle the mainloop.
@@ -372,6 +381,33 @@ def UpdatePlugins():
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG"><code class="name">var <span class="ident">CHANGELOG</span></code></dt>
+<dd>
+<div class="desc"><p>The current shortened changelog. Used to show the user what's new in the small autoupdater dialog.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP"><code class="name">var <span class="ident">ENABLELOOP</span></code></dt>
+<dd>
+<div class="desc"><p>Whether or not the mainloop is enabled.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH"><code class="name">var <span class="ident">PATH</span></code></dt>
+<dd>
+<div class="desc"><p>The current absolute path to the root of the program.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD"><code class="name">var <span class="ident">RELOAD</span></code></dt>
+<dd>
+<div class="desc"><p>Whether to reload the program at the start of the next frame.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS"><code class="name">var <span class="ident">UPDATEPLUGINS</span></code></dt>
+<dd>
+<div class="desc"><p>Whether to update the list of plugins at the start of the next frame.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION"><code class="name">var <span class="ident">VERSION</span></code></dt>
+<dd>
+<div class="desc"><p>Current version of the program.</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -421,6 +457,16 @@ def UpdatePlugins():
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG">CHANGELOG</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP">ENABLELOOP</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH">PATH</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD">RELOAD</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS">UPDATEPLUGINS</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION">VERSION</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>

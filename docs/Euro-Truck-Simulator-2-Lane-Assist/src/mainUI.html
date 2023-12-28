@@ -121,6 +121,9 @@ margin-top: 2em;
 .ident {
 color: #ff00ca;
 }
+strong {
+color: #f90;
+}
 pre code {
 background: transparent;
 font-size: .8em;
@@ -361,6 +364,8 @@ import src.settings as settings
 from src.translator import Translate
 import plugins.ThemeSelector.main as themeSelector
 
+root = None
+&#34;&#34;&#34;The root tk.Tk() window of the program.&#34;&#34;&#34;
 
 def DeleteRoot():
     &#34;&#34;&#34;Will delete the root window and save it&#39;s location.
@@ -804,6 +809,13 @@ CreateRoot()</code></pre>
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.root"><code class="name">var <span class="ident">root</span></code></dt>
+<dd>
+<div class="desc"><p>The root tk.Tk() window of the program.</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -1386,6 +1398,11 @@ newHeight (int)</p></div>
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.root" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.root">root</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>

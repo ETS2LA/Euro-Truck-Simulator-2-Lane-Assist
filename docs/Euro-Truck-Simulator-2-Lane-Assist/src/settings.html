@@ -121,6 +121,9 @@ margin-top: 2em;
 .ident {
 color: #ff00ca;
 }
+strong {
+color: #f90;
+}
 pre code {
 background: transparent;
 font-size: .8em;
@@ -347,6 +350,9 @@ color: #fff;
 from src.logger import print
 from src.variables import PATH
 import os
+
+currentProfile = &#34;&#34;
+&#34;&#34;&#34;The currently selected profile (filename).&#34;&#34;&#34;
 
 if os.name == &#34;nt&#34;:
     currentProfile = r&#34;profiles\currentProfile.txt&#34;
@@ -587,6 +593,13 @@ def RemoveFromList(category:str, name:str, data:any):
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.currentProfile"><code class="name">var <span class="ident">currentProfile</span></code></dt>
+<dd>
+<div class="desc"><p>The currently selected profile (filename).</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -962,6 +975,11 @@ In case the setting doesn't exist, it will be created.</p>
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.currentProfile" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.currentProfile">currentProfile</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>

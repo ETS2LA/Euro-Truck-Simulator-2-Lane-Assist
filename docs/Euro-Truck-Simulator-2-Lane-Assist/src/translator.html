@@ -121,6 +121,9 @@ margin-top: 2em;
 .ident {
 color: #ff00ca;
 }
+strong {
+color: #f90;
+}
 pre code {
 background: transparent;
 font-size: .8em;
@@ -406,6 +409,7 @@ def LoadSettings():
 LoadSettings()
 
 translator = None
+&#34;&#34;&#34;The translator object. (from deep_translator)&#34;&#34;&#34;
 def MakeTranslator(type:str):
     &#34;&#34;&#34;Will create the translator object.
 
@@ -430,7 +434,7 @@ def MakeTranslator(type:str):
 
 MakeTranslator(&#34;google&#34;)
 AVAILABLE_LANGUAGES = translator.get_supported_languages(as_dict=True)
-
+&#34;&#34;&#34;A dictionary of all available languages.&#34;&#34;&#34;
 def FindLanguageFromCode(code:str):
     &#34;&#34;&#34;Get language from code.
 
@@ -591,6 +595,17 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.translator.AVAILABLE_LANGUAGES"><code class="name">var <span class="ident">AVAILABLE_LANGUAGES</span></code></dt>
+<dd>
+<div class="desc"><p>A dictionary of all available languages.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.translator.translator"><code class="name">var <span class="ident">translator</span></code></dt>
+<dd>
+<div class="desc"><p>The translator object. (from deep_translator)</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -978,6 +993,12 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.AVAILABLE_LANGUAGES" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.AVAILABLE_LANGUAGES">AVAILABLE_LANGUAGES</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.translator" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.translator">translator</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>

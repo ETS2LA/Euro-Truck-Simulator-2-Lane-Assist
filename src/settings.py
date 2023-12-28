@@ -3,6 +3,9 @@ from src.logger import print
 from src.variables import PATH
 import os
 
+currentProfile = ""
+"""The currently selected profile (filename)."""
+
 if os.name == "nt":
     currentProfile = r"profiles\currentProfile.txt"
 else:

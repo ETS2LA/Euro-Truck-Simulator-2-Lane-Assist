@@ -133,6 +133,10 @@ h2[id^="header-"] {
     color: #ff00ca;
 }
 
+strong {
+    color: #f90;
+}
+
 pre code {
     background: transparent;
     font-size: .8em;

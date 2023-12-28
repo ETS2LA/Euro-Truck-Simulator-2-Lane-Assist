@@ -61,6 +61,7 @@ def LoadSettings():
 LoadSettings()
 
 translator = None
+"""The translator object. (from deep_translator)"""
 def MakeTranslator(type:str):
     """Will create the translator object.
 
@@ -85,7 +86,7 @@ def MakeTranslator(type:str):
 
 MakeTranslator("google")
 AVAILABLE_LANGUAGES = translator.get_supported_languages(as_dict=True)
-
+"""A dictionary of all available languages."""
 def FindLanguageFromCode(code:str):
     """Get language from code.
 

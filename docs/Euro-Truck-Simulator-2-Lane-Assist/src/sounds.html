@@ -121,6 +121,9 @@ margin-top: 2em;
 .ident {
 color: #ff00ca;
 }
+strong {
+color: #f90;
+}
 pre code {
 background: transparent;
 font-size: .8em;
@@ -365,7 +368,7 @@ def PlaysoundFromLocalPath(sound:str):
             print(&#34;Playing sound: &#34; + dir)
             playsound.playsound(dir, block=False)
         else:
-            print(&#34;Could not play sound: &#34; + dir)
+            print(&#34;Playsound not imported, could not play sound: &#34; + dir)
     except Exception as ex:
         print(ex.args)
         pass
@@ -405,7 +408,7 @@ def PlaysoundFromLocalPath(sound:str):
             print(&#34;Playing sound: &#34; + dir)
             playsound.playsound(dir, block=False)
         else:
-            print(&#34;Could not play sound: &#34; + dir)
+            print(&#34;Playsound not imported, could not play sound: &#34; + dir)
     except Exception as ex:
         print(ex.args)
         pass</code></pre>

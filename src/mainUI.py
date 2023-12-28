@@ -16,6 +16,8 @@ import src.settings as settings
 from src.translator import Translate
 import plugins.ThemeSelector.main as themeSelector
 
+root = None
+"""The root tk.Tk() window of the program."""
 
 def DeleteRoot():
     """Will delete the root window and save it's location.

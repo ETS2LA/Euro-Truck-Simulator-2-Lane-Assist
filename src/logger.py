@@ -14,6 +14,7 @@ import traceback
 import colorama
 
 printDebug = False
+"""Whether to print debug information or not."""
 
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
