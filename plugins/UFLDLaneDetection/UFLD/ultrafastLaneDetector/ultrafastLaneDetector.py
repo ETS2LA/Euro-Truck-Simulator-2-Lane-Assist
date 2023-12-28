@@ -4,7 +4,7 @@ import cv2
 import time, os
 import numpy as np
 try :
-	from ultrafastLaneDetector.utils import LaneModelType, OffsetType, lane_colors, tusimple_row_anchor, culane_row_anchor
+	from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import LaneModelType, OffsetType, lane_colors, tusimple_row_anchor, culane_row_anchor
 except :
 	from .utils import LaneModelType, OffsetType, lane_colors, tusimple_row_anchor, culane_row_anchor
 

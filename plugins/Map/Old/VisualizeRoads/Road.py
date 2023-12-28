@@ -1,5 +1,5 @@
-from plugins.Map.VisualizeRoads.Node import Node
-from plugins.Map.VisualizeRoads.RoadLook import RoadLook
+from plugins.Map.Old.VisualizeRoads.Node import Node
+from plugins.Map.Old.VisualizeRoads.RoadLook import RoadLook
 
 class Road:
     DlcGuard = 0

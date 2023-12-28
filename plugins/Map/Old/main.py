@@ -26,7 +26,7 @@ import src.variables as variables
 import src.settings as settings
 import os
 
-import plugins.Map.VisualizeRoads.main as VisualizeRoads
+import plugins.Map.Old.VisualizeRoads.main as VisualizeRoads
 import cv2
 from PIL import Image
 

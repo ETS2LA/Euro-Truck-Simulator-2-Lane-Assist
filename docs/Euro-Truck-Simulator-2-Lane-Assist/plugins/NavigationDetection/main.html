@@ -1,0 +1,1718 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main API documentation</title>
+<meta name="description" content="This is an example of a plugin (type=&#34;dynamic&#34;), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #0f0f0f;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #000;
+padding: 0.2em 0;
+}
+a {
+color: #0a0;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #0c0;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #ff00ca;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main</code></h1>
+</header>
+<section id="section-intro">
+<p>This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it's open then check the Panel example!</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This is an example of a plugin (type=&#34;dynamic&#34;), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it&#39;s open then check the Panel example!
+&#34;&#34;&#34;
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+from src.mainUI import resizeWindow
+
+PluginInfo = PluginInformation(
+    name=&#34;NavigationDetection&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description=&#34;Uses the navigation line in the minimap.&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;Glas42,Tumppi066&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;dynamic&#34;, # = Panel
+    dynamicOrder=&#34;lane detection&#34;, # Will run the plugin before anything else in the mainloop (data will be empty)
+    exclusive=&#34;LaneDetection&#34;
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+import os
+
+import numpy as np
+import os
+import time
+import cv2
+
+pidKp = 0.01
+pidKi = 0
+pidKd = 0.002
+pidTarget = 0
+piderror = 0
+pidlast_error = 0
+pidintegral = 0
+pidderivative = 0
+pidsteering = 0
+steeringsmoothness = 5
+trim = 0
+laneYOffset = 0
+turnYOffset = 0
+turnincdetecYOffset = 0
+drivenroadYOffset = 0
+turnXOffset = 0
+curvemultip = 0.15
+navsymboldetecXOffset = 148
+highest_y = None
+lowest_y = None
+turnstrength = 40
+turnincoming = 0
+last_navsymboldetecXOffset = 0
+navsymboldetecXOffset_lasttimemoved = time.time
+navsymboldetecXOffset_timedifference = 0
+smoothed_pidsteering = 0
+smoothed_rounded_pidsteering = 0
+
+red_lower_limit = (170, 0, 0)
+red_upper_limit = (247, 42, 42)
+
+green_lower_limit = (0, 231, 0)
+green_upper_limit = (47, 255, 36)
+
+blue_lower_limit = (0, 68, 121)
+blue_upper_limit = (109, 184, 250)
+
+enableSteering = True
+
+def LoadSettings():
+    global trim
+    global laneYOffset
+    global turnYOffset
+    global navsymboldetecXOffset
+    global turnincdetecYOffset
+    global drivenroadYOffset
+    global laneXOffset
+    global curvemultip
+    global steeringsmoothness
+    global turnstrength
+    global scale
+    
+    trim = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;)
+    if trim == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;, 0)
+        trim = 0
+    
+    trim = -trim
+    
+    laneXOffset = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;)
+    if laneXOffset == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;, 0)
+        laneXOffset = 0
+
+    scale = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;)
+    if scale == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;, 0)
+        scale = 0
+    
+    steeringsmoothness = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;)
+    if steeringsmoothness == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;, 10)
+        steeringsmoothness = 0
+        
+    curvemultip = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;)
+    if curvemultip == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;, 0.15)
+        curvemultip = 0.15
+
+    turnstrength = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;)
+    if turnstrength == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;, 0.15)
+        turnstrength = 40
+        
+    steeringsmoothness += 1
+    
+    
+
+LoadSettings()
+
+
+def plugin(data):
+    global trim
+    global pidKp
+    global pidKi
+    global pidKd
+    global pidTarget
+    global piderror
+    global pidlast_error
+    global pidintegral
+    global pidderivative
+    global pidsteering
+    global steeringsmoothness
+
+    global smoothed_pidsteering
+    global smoothed_rounded_pidsteering
+
+    global red_lower_limit
+    global red_upper_limit
+
+    global green_lower_limit
+    global green_upper_limit
+
+    global curvemultip
+
+    global highest_y
+    global lowest_y
+
+    global navsymboldetecXOffset
+    global navsymboldetecXOffset_lasttimemoved
+    global navsymboldetecXOffset_timedifference
+    global navsymboldetecXOffset_wasmoved
+    global last_navsymboldetecXOffset
+
+    global turnincoming
+    global timerforturnincoming
+    global width_y_symbol
+    
+    global turnstrength
+
+    try:
+        picture_np = data[&#34;frame&#34;]
+    except:
+        return data
+    
+    try:
+        width = picture_np.shape[1]
+        height = picture_np.shape[0]
+    except:
+        return data
+
+    navsymboldetecXOffset = laneXOffset
+    #########################
+    target = width/2 + trim
+    y_coordinate_of_drivenroad = int(0+(height-1))
+    #########################
+    
+    curve = None
+
+    left_x = None
+    right_x = None
+    left_x_curve = None
+    right_x_curve = None
+    left_x_turnincdetec = None
+    right_x_turnincdetec = None
+    left_x_drivenroad = None
+    right_x_drivenroad = None
+
+    lane_width = None
+    lane_width_turnincdetec = None
+    turndetected = 0
+
+    if lowest_y is None or highest_y is None:
+        navsymboldetecXOffset_timedifference = 15
+
+    if navsymboldetecXOffset_timedifference &lt; 20:
+        highest_y = None
+        lowest_y = None
+
+        for y in range(height):
+            pixel_color = picture_np[y, navsymboldetecXOffset]
+            pixel_color = (pixel_color[2], pixel_color[1], pixel_color[0])
+
+            # Check if the pixel is red
+            if blue_lower_limit[0] &lt;= pixel_color[0] &lt;= blue_upper_limit[0] and \
+                    blue_lower_limit[1] &lt;= pixel_color[1] &lt;= blue_upper_limit[1] and \
+                    blue_lower_limit[2] &lt;= pixel_color[2] &lt;= blue_upper_limit[2]:
+
+                if highest_y is None:
+                    highest_y = y
+                    lowest_y = y
+                else:
+                    lowest_y = y
+    
+    try:
+        y_coordinate_of_lane_detection = highest_y - round(height/scale/9)
+        y_coordinate_of_curve_detection = highest_y - round(height/scale/3.5)
+        y_coordinate_of_turnincdetec = highest_y - round(height/scale/1.5)
+        scaletarget = highest_y - round(height/scale)
+    except:
+        pass
+
+
+    def GetArrayOfLaneEdges(y_coordinate_of_lane_detection):
+        detectingLane = False
+        laneEdges = []
+        
+        for x in range(0, int(width)):
+            pixel = picture_np[y_coordinate_of_lane_detection, x]
+            pixel = (pixel[2], pixel[1], pixel[0])
+            if (red_lower_limit[0] &lt;= pixel[0] &lt;= red_upper_limit[0] and
+                red_lower_limit[1] &lt;= pixel[1] &lt;= red_upper_limit[1] and
+                red_lower_limit[2] &lt;= pixel[2] &lt;= red_upper_limit[2]) or \
+                (green_lower_limit[0] &lt;= pixel[0] &lt;= green_upper_limit[0] and
+                green_lower_limit[1] &lt;= pixel[1] &lt;= green_upper_limit[1] and
+                green_lower_limit[2] &lt;= pixel[2] &lt;= green_upper_limit[2]):
+                if not detectingLane:
+                    detectingLane = True
+                    laneEdges.append(x)
+            else:
+                if detectingLane:
+                    detectingLane = False
+                    laneEdges.append(x)
+
+        if len(laneEdges) &lt; 2:
+            laneEdges.append(width)
+
+        return laneEdges
+
+            
+
+    try:
+        lanes = GetArrayOfLaneEdges(y_coordinate_of_lane_detection)
+        left_x = lanes[len(lanes)-2]
+        right_x = lanes[len(lanes)-1]
+    except:
+        pass
+    
+    try:
+        lanes = GetArrayOfLaneEdges(y_coordinate_of_curve_detection)
+        left_x_curve = lanes[len(lanes)-2]
+        right_x_curve = lanes[len(lanes)-1]
+    except:
+        pass
+    
+    try:
+        lanes = GetArrayOfLaneEdges(y_coordinate_of_turnincdetec)
+        left_x_turnincdetec = lanes[len(lanes)-2]
+        right_x_turnincdetec = lanes[len(lanes)-1]
+    except:
+        pass
+    
+    try:
+        lanes = GetArrayOfLaneEdges(y_coordinate_of_drivenroad)
+        left_x_drivenroad = lanes[len(lanes)-2]
+        right_x_drivenroad = lanes[len(lanes)-1]
+    except:
+        pass
+
+    try:
+        lane_width = right_x - left_x
+        lane_width_curve = right_x_curve - left_x_curve
+    except:
+        pass   
+
+    try:
+        lane_width_turnincdetec = right_x_turnincdetec - left_x_turnincdetec
+    except:
+        pass
+        
+
+    
+    try:
+        if lane_width_turnincdetec &gt; 40:
+            turnincoming = 1
+            timerforturnincoming = time.time()
+    except:
+        pass
+    try:
+        currenttime = time.time()
+        timerdifference = (currenttime - timerforturnincoming)
+    except:
+        pass
+    try:
+        if turnincoming == 1:
+            cv2.putText(picture_np, f&#34;turn inc&#34;, (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (2, 137, 240), 1, cv2.LINE_AA)
+            if timerdifference &gt; 30:
+                turnincoming = 0
+    except:
+        pass
+    
+    
+    if lane_width:
+        if lane_width &gt; 60:
+            if left_x &lt; width/2-40:
+                turndetected = 1
+                timerforturnincoming = time.time()-27
+            if right_x &gt; width/2+40:
+                turndetected = 2
+                timerforturnincoming = time.time()-27
+        else:
+            turndetected = 0
+
+    if turndetected == 0:
+        cv2.putText(picture_np, f&#34;no&#34;, (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = 0
+
+    if turndetected == 1:
+        cv2.putText(picture_np, f&#34;left&#34;, (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = -turnstrength
+
+    if turndetected == 2:
+        cv2.putText(picture_np, f&#34;right&#34;, (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = turnstrength
+    
+
+    try:
+        center_x = (left_x + right_x) / 2 if left_x and right_x is not None else None
+    except:
+        center_x = None
+    try:
+        center_x_curve = (left_x_curve + right_x_curve) / 2 if left_x_curve and right_x_curve is not None else None
+    except:
+        center_x_curve = None
+    try:
+        center_x_turnincdetec = (left_x_turnincdetec + right_x_turnincdetec) / 2 if left_x_turnincdetec and right_x_turnincdetec is not None else None
+    except:
+        center_x_turnincdetec = None
+    try:    
+        center_x_drivenroad = (left_x_drivenroad + right_x_drivenroad) / 2
+    except:
+        center_x_drivenroad = None
+    try:
+        width_y_symbol = lowest_y - highest_y
+    except:
+        width_y_symbol = 0
+
+    if center_x != width and center_x is not None and center_x_curve is not None:
+        if turnincoming == 0:
+            curve = (center_x - center_x_curve)*curvemultip
+            distancetocenter = ((target-center_x)-curve)
+        else:
+            distancetocenter = ((target-center_x))
+        lanedetected = &#34;Yes&#34;
+    else:
+        lanedetected = &#34;No&#34;
+        distancetocenter = 0
+        curve = 0
+        center_x = 0
+        center_x_curve = 0
+
+
+    if width_y_symbol &gt; height/3.5:
+        draworangeline = 0
+    else:
+        draworangeline = 1
+
+    try:
+        if navsymboldetecXOffset != last_navsymboldetecXOffset:
+            navsymboldetecXOffset_wasmoved = 1
+            navsymboldetecXOffset_lasttimemoved = time.time()
+        navsymboldetecXOffset_timedifference = (time.time() - navsymboldetecXOffset_lasttimemoved)
+        last_navsymboldetecXOffset = navsymboldetecXOffset
+    except:
+        pass
+   
+
+    try:
+        cv2.line(picture_np, (int(0), y_coordinate_of_lane_detection), (int(width), y_coordinate_of_lane_detection), (0, 0, 255), 1)
+    
+        cv2.line(picture_np, (int(0), y_coordinate_of_curve_detection), (int(width), y_coordinate_of_curve_detection), (0, 0, 255), 1)
+
+        cv2.line(picture_np, (int(0), y_coordinate_of_turnincdetec), (int(width), y_coordinate_of_turnincdetec), (0, 0, 255), 1)
+        
+        cv2.line(picture_np, (int(0), scaletarget), (int(width), scaletarget), (235, 52, 143), 1)
+    except:
+        pass
+
+    try:
+        cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(right_x), y_coordinate_of_lane_detection), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        cv2.line(picture_np, (int(left_x_turnincdetec), y_coordinate_of_turnincdetec), (int(right_x_turnincdetec), y_coordinate_of_turnincdetec), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        cv2.line(picture_np, (int(left_x_drivenroad), y_coordinate_of_drivenroad), (int(right_x_drivenroad), y_coordinate_of_drivenroad), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        if center_x != 0 and center_x != width and center_x_curve != 0 and center_x_curve != width:
+            cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_curve), y_coordinate_of_curve_detection), (255, 0, 0), 1)
+    except:
+        pass
+    try:
+        if center_x_curve != 0 and center_x_curve != width and center_x_turnincdetec != 0 and center_x_turnincdetec != width:
+            cv2.line(picture_np, (int(center_x_curve), y_coordinate_of_curve_detection), (int(center_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 0, 0), 1)
+    except:
+        pass
+    try:
+        if center_x != 0 and center_x != width and center_x_drivenroad != 0 and center_x_drivenroad != width:
+            cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_drivenroad), y_coordinate_of_drivenroad), (255, 0, 0), 1)
+    except:
+        pass
+    try:
+        if left_x != 0 and left_x != width and left_x_curve != 0 and left_x_curve  != width:
+            cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if right_x != 0 and right_x != width and right_x_curve != 0 and right_x_curve  != width:
+            cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if left_x_curve != 0 and left_x_curve != width and left_x_turnincdetec != 0 and left_x_turnincdetec != width:
+            cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(left_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if right_x_curve != 0 and right_x_curve != width and right_x_turnincdetec != 0 and right_x_turnincdetec != width:
+            cv2.line(picture_np, (int(right_x_curve), y_coordinate_of_curve_detection), (int(right_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if left_x != 0 and left_x != width and left_x_drivenroad != 0 and left_x_drivenroad != width:
+            cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if right_x != 0 and right_x != width and right_x_drivenroad != 0 and right_x_drivenroad != width:
+            cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
+    except:
+        pass
+    if draworangeline == 1:
+        try:
+            cv2.line(picture_np, (int(navsymboldetecXOffset), lowest_y), (int(navsymboldetecXOffset), highest_y), (25, 127, 225), 1)
+        except:
+            pass
+        try:
+            cv2.line(picture_np, (int(navsymboldetecXOffset-round(width_y_symbol/2)), round(highest_y+width_y_symbol/2)), (int(navsymboldetecXOffset+round(width_y_symbol/2)), round(highest_y+width_y_symbol/2)), (25, 127, 225), 1)
+        except:
+            pass
+    try:
+        if navsymboldetecXOffset_timedifference &lt; 20:
+            try:
+                cv2.line(picture_np, (int(navsymboldetecXOffset), 10), (int(navsymboldetecXOffset), height-10), (255, 255, 255), 1)
+            except:
+                pass
+    except:
+        pass
+
+    distancetocenter = round(distancetocenter/10,3)
+    
+    cv2.putText(picture_np, f&#34;lane detected:{lanedetected}   correction:{distancetocenter}   curve:{curve}&#34;, (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+
+    if lanedetected == &#34;Yes&#34;:
+        piderror = pidTarget - distancetocenter
+        pidintegral = pidintegral + piderror
+        pidderivative = piderror - pidlast_error
+        pidsteering = (piderror*pidKp)+(pidintegral*pidKi)+(pidderivative*pidKd)*-1
+
+        pidlast_error = piderror
+
+        smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothness
+
+    if center_x is not None:
+        #data[&#34;controller&#34;] = {}
+        #data[&#34;controller&#34;][&#34;leftStick&#34;] = (smoothed_pidsteering) * 1
+        data[&#34;LaneDetection&#34;] = {}
+        data[&#34;LaneDetection&#34;][&#34;difference&#34;] = -distancetocenter + turnvalue
+        # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
+        # gamepad.update()
+    else:
+        data[&#34;LaneDetection&#34;] = {}
+        data[&#34;LaneDetection&#34;][&#34;difference&#34;] = 0
+
+
+    data[&#34;frame&#34;] = picture_np
+    # os.system(&#39;cls&#39;)
+    # print(&#34;running&#34;)
+    # print(f&#34;lane coordinate:{center_x}x   curve:{curve}   correction:{distancetocenter}   lane detected:{lanedetected}&#34; + &#34;\r&#34;)
+    
+    
+    return data
+        
+
+
+# Plugins need to all also have the onEnable and onDisable functions
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
+# Plugins can also have UIs, this works the same as the panel example
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+            
+            resizeWindow(800,620)
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def UpdateSettings(self):
+            self.trim.set(self.trimSlider.get())
+            self.laneX.set(self.laneXSlider.get())
+            self.sca.set(self.scale.get())
+            self.smoothness.set(self.smoothnessSlider.get())
+            self.curveMultip.set(self.curveMultipSlider.get())
+            self.turnstrength.set(self.turnstrengthSlider.get())
+            
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;, self.trimSlider.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;, self.laneXSlider.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;, self.scale.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;, self.smoothnessSlider.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;, self.curveMultipSlider.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;, self.turnstrengthSlider.get())
+            
+            LoadSettings()
+
+        def tabFocused(self): # Called when the tab is focused
+            resizeWindow(800,620)
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=620, border=0, highlightthickness=0)
+            self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            self.trimSlider = tk.Scale(self.root, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.trimSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;))
+            self.trimSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
+            self.trim = helpers.MakeComboEntry(self.root, &#34;Trim&#34;, &#34;NavigationDetection&#34;, &#34;trim&#34;, 1,0)
+            
+            self.laneXSlider = tk.Scale(self.root, from_=1, to=400, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.laneXSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;))
+            self.laneXSlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
+            self.laneX = helpers.MakeComboEntry(self.root, &#34;Navisymbol Offset&#34;, &#34;NavigationDetection&#34;, &#34;laneXOffset&#34;, 3,0)
+
+            self.scale = tk.Scale(self.root, from_=0.01, to=10, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.scale.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;))
+            self.scale.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
+            self.sca = helpers.MakeComboEntry(self.root, &#34;Scale&#34;, &#34;NavigationDetection&#34;, &#34;scale&#34;, 5,0)
+
+            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=20, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.smoothnessSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;))
+            self.smoothnessSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
+            self.smoothness = helpers.MakeComboEntry(self.root, &#34;Smoothness&#34;, &#34;NavigationDetection&#34;, &#34;smoothness&#34;, 7,0)
+            
+            self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.curveMultipSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;))
+            self.curveMultipSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
+            self.curveMultip = helpers.MakeComboEntry(self.root, &#34;Curve Multiplier&#34;, &#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;, 9,0)
+
+            self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.turnstrengthSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;))
+            self.turnstrengthSlider.grid(row=10, column=1, padx=10, pady=0, columnspan=2)
+            self.turnstrength = helpers.MakeComboEntry(self.root, &#34;TurnStrength&#34;, &#34;NavigationDetection&#34;, &#34;TurnStrength&#34;, 11,0)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.LoadSettings"><code class="name flex">
+<span>def <span class="ident">LoadSettings</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def LoadSettings():
+    global trim
+    global laneYOffset
+    global turnYOffset
+    global navsymboldetecXOffset
+    global turnincdetecYOffset
+    global drivenroadYOffset
+    global laneXOffset
+    global curvemultip
+    global steeringsmoothness
+    global turnstrength
+    global scale
+    
+    trim = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;)
+    if trim == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;, 0)
+        trim = 0
+    
+    trim = -trim
+    
+    laneXOffset = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;)
+    if laneXOffset == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;, 0)
+        laneXOffset = 0
+
+    scale = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;)
+    if scale == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;, 0)
+        scale = 0
+    
+    steeringsmoothness = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;)
+    if steeringsmoothness == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;, 10)
+        steeringsmoothness = 0
+        
+    curvemultip = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;)
+    if curvemultip == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;, 0.15)
+        curvemultip = 0.15
+
+    turnstrength = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;)
+    if turnstrength == None:
+        settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;, 0.15)
+        turnstrength = 40
+        
+    steeringsmoothness += 1</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.onDisable"><code class="name flex">
+<span>def <span class="ident">onDisable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onDisable():
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.onEnable"><code class="name flex">
+<span>def <span class="ident">onEnable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onEnable():
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.plugin"><code class="name flex">
+<span>def <span class="ident">plugin</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plugin(data):
+    global trim
+    global pidKp
+    global pidKi
+    global pidKd
+    global pidTarget
+    global piderror
+    global pidlast_error
+    global pidintegral
+    global pidderivative
+    global pidsteering
+    global steeringsmoothness
+
+    global smoothed_pidsteering
+    global smoothed_rounded_pidsteering
+
+    global red_lower_limit
+    global red_upper_limit
+
+    global green_lower_limit
+    global green_upper_limit
+
+    global curvemultip
+
+    global highest_y
+    global lowest_y
+
+    global navsymboldetecXOffset
+    global navsymboldetecXOffset_lasttimemoved
+    global navsymboldetecXOffset_timedifference
+    global navsymboldetecXOffset_wasmoved
+    global last_navsymboldetecXOffset
+
+    global turnincoming
+    global timerforturnincoming
+    global width_y_symbol
+    
+    global turnstrength
+
+    try:
+        picture_np = data[&#34;frame&#34;]
+    except:
+        return data
+    
+    try:
+        width = picture_np.shape[1]
+        height = picture_np.shape[0]
+    except:
+        return data
+
+    navsymboldetecXOffset = laneXOffset
+    #########################
+    target = width/2 + trim
+    y_coordinate_of_drivenroad = int(0+(height-1))
+    #########################
+    
+    curve = None
+
+    left_x = None
+    right_x = None
+    left_x_curve = None
+    right_x_curve = None
+    left_x_turnincdetec = None
+    right_x_turnincdetec = None
+    left_x_drivenroad = None
+    right_x_drivenroad = None
+
+    lane_width = None
+    lane_width_turnincdetec = None
+    turndetected = 0
+
+    if lowest_y is None or highest_y is None:
+        navsymboldetecXOffset_timedifference = 15
+
+    if navsymboldetecXOffset_timedifference &lt; 20:
+        highest_y = None
+        lowest_y = None
+
+        for y in range(height):
+            pixel_color = picture_np[y, navsymboldetecXOffset]
+            pixel_color = (pixel_color[2], pixel_color[1], pixel_color[0])
+
+            # Check if the pixel is red
+            if blue_lower_limit[0] &lt;= pixel_color[0] &lt;= blue_upper_limit[0] and \
+                    blue_lower_limit[1] &lt;= pixel_color[1] &lt;= blue_upper_limit[1] and \
+                    blue_lower_limit[2] &lt;= pixel_color[2] &lt;= blue_upper_limit[2]:
+
+                if highest_y is None:
+                    highest_y = y
+                    lowest_y = y
+                else:
+                    lowest_y = y
+    
+    try:
+        y_coordinate_of_lane_detection = highest_y - round(height/scale/9)
+        y_coordinate_of_curve_detection = highest_y - round(height/scale/3.5)
+        y_coordinate_of_turnincdetec = highest_y - round(height/scale/1.5)
+        scaletarget = highest_y - round(height/scale)
+    except:
+        pass
+
+
+    def GetArrayOfLaneEdges(y_coordinate_of_lane_detection):
+        detectingLane = False
+        laneEdges = []
+        
+        for x in range(0, int(width)):
+            pixel = picture_np[y_coordinate_of_lane_detection, x]
+            pixel = (pixel[2], pixel[1], pixel[0])
+            if (red_lower_limit[0] &lt;= pixel[0] &lt;= red_upper_limit[0] and
+                red_lower_limit[1] &lt;= pixel[1] &lt;= red_upper_limit[1] and
+                red_lower_limit[2] &lt;= pixel[2] &lt;= red_upper_limit[2]) or \
+                (green_lower_limit[0] &lt;= pixel[0] &lt;= green_upper_limit[0] and
+                green_lower_limit[1] &lt;= pixel[1] &lt;= green_upper_limit[1] and
+                green_lower_limit[2] &lt;= pixel[2] &lt;= green_upper_limit[2]):
+                if not detectingLane:
+                    detectingLane = True
+                    laneEdges.append(x)
+            else:
+                if detectingLane:
+                    detectingLane = False
+                    laneEdges.append(x)
+
+        if len(laneEdges) &lt; 2:
+            laneEdges.append(width)
+
+        return laneEdges
+
+            
+
+    try:
+        lanes = GetArrayOfLaneEdges(y_coordinate_of_lane_detection)
+        left_x = lanes[len(lanes)-2]
+        right_x = lanes[len(lanes)-1]
+    except:
+        pass
+    
+    try:
+        lanes = GetArrayOfLaneEdges(y_coordinate_of_curve_detection)
+        left_x_curve = lanes[len(lanes)-2]
+        right_x_curve = lanes[len(lanes)-1]
+    except:
+        pass
+    
+    try:
+        lanes = GetArrayOfLaneEdges(y_coordinate_of_turnincdetec)
+        left_x_turnincdetec = lanes[len(lanes)-2]
+        right_x_turnincdetec = lanes[len(lanes)-1]
+    except:
+        pass
+    
+    try:
+        lanes = GetArrayOfLaneEdges(y_coordinate_of_drivenroad)
+        left_x_drivenroad = lanes[len(lanes)-2]
+        right_x_drivenroad = lanes[len(lanes)-1]
+    except:
+        pass
+
+    try:
+        lane_width = right_x - left_x
+        lane_width_curve = right_x_curve - left_x_curve
+    except:
+        pass   
+
+    try:
+        lane_width_turnincdetec = right_x_turnincdetec - left_x_turnincdetec
+    except:
+        pass
+        
+
+    
+    try:
+        if lane_width_turnincdetec &gt; 40:
+            turnincoming = 1
+            timerforturnincoming = time.time()
+    except:
+        pass
+    try:
+        currenttime = time.time()
+        timerdifference = (currenttime - timerforturnincoming)
+    except:
+        pass
+    try:
+        if turnincoming == 1:
+            cv2.putText(picture_np, f&#34;turn inc&#34;, (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (2, 137, 240), 1, cv2.LINE_AA)
+            if timerdifference &gt; 30:
+                turnincoming = 0
+    except:
+        pass
+    
+    
+    if lane_width:
+        if lane_width &gt; 60:
+            if left_x &lt; width/2-40:
+                turndetected = 1
+                timerforturnincoming = time.time()-27
+            if right_x &gt; width/2+40:
+                turndetected = 2
+                timerforturnincoming = time.time()-27
+        else:
+            turndetected = 0
+
+    if turndetected == 0:
+        cv2.putText(picture_np, f&#34;no&#34;, (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = 0
+
+    if turndetected == 1:
+        cv2.putText(picture_np, f&#34;left&#34;, (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = -turnstrength
+
+    if turndetected == 2:
+        cv2.putText(picture_np, f&#34;right&#34;, (150, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 1, cv2.LINE_AA)
+        turnvalue = turnstrength
+    
+
+    try:
+        center_x = (left_x + right_x) / 2 if left_x and right_x is not None else None
+    except:
+        center_x = None
+    try:
+        center_x_curve = (left_x_curve + right_x_curve) / 2 if left_x_curve and right_x_curve is not None else None
+    except:
+        center_x_curve = None
+    try:
+        center_x_turnincdetec = (left_x_turnincdetec + right_x_turnincdetec) / 2 if left_x_turnincdetec and right_x_turnincdetec is not None else None
+    except:
+        center_x_turnincdetec = None
+    try:    
+        center_x_drivenroad = (left_x_drivenroad + right_x_drivenroad) / 2
+    except:
+        center_x_drivenroad = None
+    try:
+        width_y_symbol = lowest_y - highest_y
+    except:
+        width_y_symbol = 0
+
+    if center_x != width and center_x is not None and center_x_curve is not None:
+        if turnincoming == 0:
+            curve = (center_x - center_x_curve)*curvemultip
+            distancetocenter = ((target-center_x)-curve)
+        else:
+            distancetocenter = ((target-center_x))
+        lanedetected = &#34;Yes&#34;
+    else:
+        lanedetected = &#34;No&#34;
+        distancetocenter = 0
+        curve = 0
+        center_x = 0
+        center_x_curve = 0
+
+
+    if width_y_symbol &gt; height/3.5:
+        draworangeline = 0
+    else:
+        draworangeline = 1
+
+    try:
+        if navsymboldetecXOffset != last_navsymboldetecXOffset:
+            navsymboldetecXOffset_wasmoved = 1
+            navsymboldetecXOffset_lasttimemoved = time.time()
+        navsymboldetecXOffset_timedifference = (time.time() - navsymboldetecXOffset_lasttimemoved)
+        last_navsymboldetecXOffset = navsymboldetecXOffset
+    except:
+        pass
+   
+
+    try:
+        cv2.line(picture_np, (int(0), y_coordinate_of_lane_detection), (int(width), y_coordinate_of_lane_detection), (0, 0, 255), 1)
+    
+        cv2.line(picture_np, (int(0), y_coordinate_of_curve_detection), (int(width), y_coordinate_of_curve_detection), (0, 0, 255), 1)
+
+        cv2.line(picture_np, (int(0), y_coordinate_of_turnincdetec), (int(width), y_coordinate_of_turnincdetec), (0, 0, 255), 1)
+        
+        cv2.line(picture_np, (int(0), scaletarget), (int(width), scaletarget), (235, 52, 143), 1)
+    except:
+        pass
+
+    try:
+        cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(right_x), y_coordinate_of_lane_detection), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        cv2.line(picture_np, (int(left_x_turnincdetec), y_coordinate_of_turnincdetec), (int(right_x_turnincdetec), y_coordinate_of_turnincdetec), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        cv2.line(picture_np, (int(left_x_drivenroad), y_coordinate_of_drivenroad), (int(right_x_drivenroad), y_coordinate_of_drivenroad), (0, 255, 0), 1)
+    except:
+        pass
+    try:
+        if center_x != 0 and center_x != width and center_x_curve != 0 and center_x_curve != width:
+            cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_curve), y_coordinate_of_curve_detection), (255, 0, 0), 1)
+    except:
+        pass
+    try:
+        if center_x_curve != 0 and center_x_curve != width and center_x_turnincdetec != 0 and center_x_turnincdetec != width:
+            cv2.line(picture_np, (int(center_x_curve), y_coordinate_of_curve_detection), (int(center_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 0, 0), 1)
+    except:
+        pass
+    try:
+        if center_x != 0 and center_x != width and center_x_drivenroad != 0 and center_x_drivenroad != width:
+            cv2.line(picture_np, (int(center_x), y_coordinate_of_lane_detection), (int(center_x_drivenroad), y_coordinate_of_drivenroad), (255, 0, 0), 1)
+    except:
+        pass
+    try:
+        if left_x != 0 and left_x != width and left_x_curve != 0 and left_x_curve  != width:
+            cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if right_x != 0 and right_x != width and right_x_curve != 0 and right_x_curve  != width:
+            cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_curve), y_coordinate_of_curve_detection), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if left_x_curve != 0 and left_x_curve != width and left_x_turnincdetec != 0 and left_x_turnincdetec != width:
+            cv2.line(picture_np, (int(left_x_curve), y_coordinate_of_curve_detection), (int(left_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if right_x_curve != 0 and right_x_curve != width and right_x_turnincdetec != 0 and right_x_turnincdetec != width:
+            cv2.line(picture_np, (int(right_x_curve), y_coordinate_of_curve_detection), (int(right_x_turnincdetec), y_coordinate_of_turnincdetec), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if left_x != 0 and left_x != width and left_x_drivenroad != 0 and left_x_drivenroad != width:
+            cv2.line(picture_np, (int(left_x), y_coordinate_of_lane_detection), (int(left_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
+    except:
+        pass
+    try:
+        if right_x != 0 and right_x != width and right_x_drivenroad != 0 and right_x_drivenroad != width:
+            cv2.line(picture_np, (int(right_x), y_coordinate_of_lane_detection), (int(right_x_drivenroad), y_coordinate_of_drivenroad), (255, 175, 0), 2)
+    except:
+        pass
+    if draworangeline == 1:
+        try:
+            cv2.line(picture_np, (int(navsymboldetecXOffset), lowest_y), (int(navsymboldetecXOffset), highest_y), (25, 127, 225), 1)
+        except:
+            pass
+        try:
+            cv2.line(picture_np, (int(navsymboldetecXOffset-round(width_y_symbol/2)), round(highest_y+width_y_symbol/2)), (int(navsymboldetecXOffset+round(width_y_symbol/2)), round(highest_y+width_y_symbol/2)), (25, 127, 225), 1)
+        except:
+            pass
+    try:
+        if navsymboldetecXOffset_timedifference &lt; 20:
+            try:
+                cv2.line(picture_np, (int(navsymboldetecXOffset), 10), (int(navsymboldetecXOffset), height-10), (255, 255, 255), 1)
+            except:
+                pass
+    except:
+        pass
+
+    distancetocenter = round(distancetocenter/10,3)
+    
+    cv2.putText(picture_np, f&#34;lane detected:{lanedetected}   correction:{distancetocenter}   curve:{curve}&#34;, (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+
+    if lanedetected == &#34;Yes&#34;:
+        piderror = pidTarget - distancetocenter
+        pidintegral = pidintegral + piderror
+        pidderivative = piderror - pidlast_error
+        pidsteering = (piderror*pidKp)+(pidintegral*pidKi)+(pidderivative*pidKd)*-1
+
+        pidlast_error = piderror
+
+        smoothed_pidsteering = smoothed_pidsteering + (pidsteering-smoothed_pidsteering)/steeringsmoothness
+
+    if center_x is not None:
+        #data[&#34;controller&#34;] = {}
+        #data[&#34;controller&#34;][&#34;leftStick&#34;] = (smoothed_pidsteering) * 1
+        data[&#34;LaneDetection&#34;] = {}
+        data[&#34;LaneDetection&#34;][&#34;difference&#34;] = -distancetocenter + turnvalue
+        # gamepad.left_joystick(x_value=smoothed_rounded_pidsteering, y_value=0)
+        # gamepad.update()
+    else:
+        data[&#34;LaneDetection&#34;] = {}
+        data[&#34;LaneDetection&#34;][&#34;difference&#34;] = 0
+
+
+    data[&#34;frame&#34;] = picture_np
+    # os.system(&#39;cls&#39;)
+    # print(&#34;running&#34;)
+    # print(f&#34;lane coordinate:{center_x}x   curve:{curve}   correction:{distancetocenter}   lane detected:{lanedetected}&#34; + &#34;\r&#34;)
+    
+    
+    return data</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+            
+            resizeWindow(800,620)
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def UpdateSettings(self):
+            self.trim.set(self.trimSlider.get())
+            self.laneX.set(self.laneXSlider.get())
+            self.sca.set(self.scale.get())
+            self.smoothness.set(self.smoothnessSlider.get())
+            self.curveMultip.set(self.curveMultipSlider.get())
+            self.turnstrength.set(self.turnstrengthSlider.get())
+            
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;, self.trimSlider.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;, self.laneXSlider.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;, self.scale.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;, self.smoothnessSlider.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;, self.curveMultipSlider.get())
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;, self.turnstrengthSlider.get())
+            
+            LoadSettings()
+
+        def tabFocused(self): # Called when the tab is focused
+            resizeWindow(800,620)
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=620, border=0, highlightthickness=0)
+            self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            self.trimSlider = tk.Scale(self.root, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.trimSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;))
+            self.trimSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
+            self.trim = helpers.MakeComboEntry(self.root, &#34;Trim&#34;, &#34;NavigationDetection&#34;, &#34;trim&#34;, 1,0)
+            
+            self.laneXSlider = tk.Scale(self.root, from_=1, to=400, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.laneXSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;))
+            self.laneXSlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
+            self.laneX = helpers.MakeComboEntry(self.root, &#34;Navisymbol Offset&#34;, &#34;NavigationDetection&#34;, &#34;laneXOffset&#34;, 3,0)
+
+            self.scale = tk.Scale(self.root, from_=0.01, to=10, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.scale.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;))
+            self.scale.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
+            self.sca = helpers.MakeComboEntry(self.root, &#34;Scale&#34;, &#34;NavigationDetection&#34;, &#34;scale&#34;, 5,0)
+
+            self.smoothnessSlider = tk.Scale(self.root, from_=0, to=20, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.smoothnessSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;))
+            self.smoothnessSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
+            self.smoothness = helpers.MakeComboEntry(self.root, &#34;Smoothness&#34;, &#34;NavigationDetection&#34;, &#34;smoothness&#34;, 7,0)
+            
+            self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.curveMultipSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;))
+            self.curveMultipSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
+            self.curveMultip = helpers.MakeComboEntry(self.root, &#34;Curve Multiplier&#34;, &#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;, 9,0)
+
+            self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+            self.turnstrengthSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;))
+            self.turnstrengthSlider.grid(row=10, column=1, padx=10, pady=0, columnspan=2)
+            self.turnstrength = helpers.MakeComboEntry(self.root, &#34;TurnStrength&#34;, &#34;NavigationDetection&#34;, &#34;TurnStrength&#34;, 11,0)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.UpdateSettings"><code class="name flex">
+<span>def <span class="ident">UpdateSettings</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateSettings(self):
+    self.trim.set(self.trimSlider.get())
+    self.laneX.set(self.laneXSlider.get())
+    self.sca.set(self.scale.get())
+    self.smoothness.set(self.smoothnessSlider.get())
+    self.curveMultip.set(self.curveMultipSlider.get())
+    self.turnstrength.set(self.turnstrengthSlider.get())
+    
+    settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;, self.trimSlider.get())
+    settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;, self.laneXSlider.get())
+    settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;, self.scale.get())
+    settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;, self.smoothnessSlider.get())
+    settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;, self.curveMultipSlider.get())
+    settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;, self.turnstrengthSlider.get())
+    
+    LoadSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.exampleFunction"><code class="name flex">
+<span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exampleFunction(self):
+    
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=620, border=0, highlightthickness=0)
+    self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+    
+    self.trimSlider = tk.Scale(self.root, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+    self.trimSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;trim&#34;))
+    self.trimSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
+    self.trim = helpers.MakeComboEntry(self.root, &#34;Trim&#34;, &#34;NavigationDetection&#34;, &#34;trim&#34;, 1,0)
+    
+    self.laneXSlider = tk.Scale(self.root, from_=1, to=400, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+    self.laneXSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;laneXOffset&#34;))
+    self.laneXSlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
+    self.laneX = helpers.MakeComboEntry(self.root, &#34;Navisymbol Offset&#34;, &#34;NavigationDetection&#34;, &#34;laneXOffset&#34;, 3,0)
+
+    self.scale = tk.Scale(self.root, from_=0.01, to=10, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+    self.scale.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;scale&#34;))
+    self.scale.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
+    self.sca = helpers.MakeComboEntry(self.root, &#34;Scale&#34;, &#34;NavigationDetection&#34;, &#34;scale&#34;, 5,0)
+
+    self.smoothnessSlider = tk.Scale(self.root, from_=0, to=20, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+    self.smoothnessSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;smoothness&#34;))
+    self.smoothnessSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
+    self.smoothness = helpers.MakeComboEntry(self.root, &#34;Smoothness&#34;, &#34;NavigationDetection&#34;, &#34;smoothness&#34;, 7,0)
+    
+    self.curveMultipSlider = tk.Scale(self.root, from_=0, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+    self.curveMultipSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;))
+    self.curveMultipSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
+    self.curveMultip = helpers.MakeComboEntry(self.root, &#34;Curve Multiplier&#34;, &#34;NavigationDetection&#34;, &#34;CurveMultiplier&#34;, 9,0)
+
+    self.turnstrengthSlider = tk.Scale(self.root, from_=1, to=100, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
+    self.turnstrengthSlider.set(settings.GetSettings(&#34;NavigationDetection&#34;, &#34;TurnStrength&#34;))
+    self.turnstrengthSlider.grid(row=10, column=1, padx=10, pady=0, columnspan=2)
+    self.turnstrength = helpers.MakeComboEntry(self.root, &#34;TurnStrength&#34;, &#34;NavigationDetection&#34;, &#34;TurnStrength&#34;, 11,0)
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.tabFocused"><code class="name flex">
+<span>def <span class="ident">tabFocused</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tabFocused(self): # Called when the tab is focused
+    resizeWindow(800,620)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.LoadSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.LoadSettings">LoadSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.onDisable">onDisable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.onEnable">onEnable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.plugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.plugin">plugin</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.UpdateSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.UpdateSettings">UpdateSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.tabFocused" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.tabFocused">tabFocused</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

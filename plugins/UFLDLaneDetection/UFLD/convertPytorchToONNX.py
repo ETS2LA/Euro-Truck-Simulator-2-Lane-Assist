@@ -3,10 +3,10 @@ import torch
 import numpy as np
 import onnx
 
-from ultrafastLaneDetector.utils import LaneModelType
-from ultrafastLaneDetector.exportLib.ultrafastLane.model import parsingNet
-from ultrafastLaneDetector.exportLib.ultrafastLaneV2.configs.config import Config
-from ultrafastLaneDetector.exportLib.ultrafastLaneV2 import model_tusimple
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import LaneModelType
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model import parsingNet
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLaneV2.configs.config import Config
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLaneV2 import model_tusimple
 from pathlib import Path
 
 

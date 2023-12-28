@@ -1,0 +1,2267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main API documentation</title>
+<meta name="description" content="This is an example of a plugin (type=&#34;dynamic&#34;), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #0f0f0f;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #000;
+padding: 0.2em 0;
+}
+a {
+color: #0a0;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #0c0;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #ff00ca;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main</code></h1>
+</header>
+<section id="section-intro">
+<p>This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it's open then check the Panel example!</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This is an example of a plugin (type=&#34;dynamic&#34;), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it&#39;s open then check the Panel example!
+&#34;&#34;&#34;
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+from src.mainUI import switchSelectedPlugin, resizeWindow
+
+PluginInfo = PluginInformation(
+    name=&#34;CruiseControl&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description=&#34;this is a plugin which uses a virtual controller\nor virtual keyboard to set the in-game cruise control,\nuses TrafficLightDetection to stop at red traffc lights&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;Glas42&#34;,
+    url=&#34;https://github.com/Glas42/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;dynamic&#34;, # = Panel
+    dynamicOrder=&#34;before game&#34;, # Will run the plugin before anything else in the mainloop (data will be empty)
+    requires=[&#34;TruckSimAPI&#34;]
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+from src.translator import Translate
+from tkinter import messagebox
+import os
+
+import plugins.DefaultSteering.main as DefaultSteering
+
+
+import time
+import keyboard as kb
+
+
+left_trigger_setup = False
+right_trigger_setup = False
+left_trigger_value = 0
+right_trigger_value = 0
+trigger_setup_value = 0
+trigger_setup_add_or_sub = 1
+trigger_setup_time = time.time()
+button_setup_time = time.time()
+button_A_setup = False
+button_B_setup = False
+button_X_setup = False
+
+last_speed_obj = 0
+last_time_obj = time.time()
+object_in_front_of_truck = False
+
+def UpdateSettings():
+    global keyboardmode
+    global brakeatredtrafficlight
+    global automatic_acceleration_after_traffic_light
+    global automatic_acceleration
+    global automatic_cruise_control_activation
+    global advancedsettings
+    global buttonup
+    global buttondown
+    global buttonactivate
+    global buttonbrake
+    global buttonaccelerate
+    global accelerationspeed
+    global unreleased_buttonbrake
+    global unreleased_buttonaccelerate
+    global accelerate_red_traffic_light
+    global waitforresponse
+    global waitforresponsetimer
+    global last_speed
+    global last_speedlimit
+    global last_cruisecontrolspeed
+    global trafficlight
+    global trafficlightdetectionisenabled
+    global deactivate_traffic_light_stop_temporary_key
+    global enabledeactflstempkey
+    global red_traffic_light_time
+    global last_frame_without_traffic_light
+    global left_trigger_value
+    global right_trigger_value
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global trigger_setup_value
+    global trigger_setup_add_or_sub
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    global cruisespeedinturns
+    global cruisespeedattrafficlight
+
+    keyboardmode = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyboardmode&#34;, False)
+    automatic_cruise_control_activation = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoccacti&#34;, True)
+    brakeatredtrafficlight = settings.GetSettings(&#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, True)
+    automatic_acceleration_after_traffic_light = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, True)
+    automatic_acceleration = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoaccel&#34;, False)
+    advancedsettings = settings.GetSettings(&#34;CruiseControl&#34;, &#34;advancedsettings&#34;, False)
+    enabledeactflstempkey = settings.GetSettings(&#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, False)
+
+
+    buttonup = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;)
+    if buttonup == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;, &#34;please set&#34;)
+        buttonup = &#34;please set&#34;
+
+    buttondown = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keydown&#34;)
+    if buttondown == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keydown&#34;, &#34;please set&#34;)
+        buttondown = &#34;please set&#34;
+
+    buttonactivate = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;)
+    if buttonactivate == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;, &#34;please set&#34;)
+        buttonactivate = &#34;please set&#34;
+
+    buttonbrake = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keybrake&#34;)
+    if buttonbrake == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keybrake&#34;, &#34;please set&#34;)
+        buttonbrake = &#34;please set&#34;
+
+    buttonaccelerate = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyaccelerate&#34;)
+    if buttonaccelerate == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, &#34;please set&#34;)
+        buttonaccelerate = &#34;please set&#34;
+
+
+    accelerationspeed = settings.GetSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;)
+    if accelerationspeed == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 1)
+        accelerationspeed = 1
+
+
+    unreleased_buttonbrake = False
+    unreleased_buttonaccelerate = False
+
+    accelerate_red_traffic_light = False
+    red_traffic_light_time = 0
+    last_frame_without_traffic_light = time.time()
+
+    if &#34;TrafficLightDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        trafficlightdetectionisenabled = True
+    else:
+        trafficlightdetectionisenabled = False
+
+    deactivate_traffic_light_stop_temporary_key = settings.GetSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;)
+    if deactivate_traffic_light_stop_temporary_key == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, &#34;please set&#34;)
+        deactivate_traffic_light_stop_temporary_key = &#34;please set&#34;
+
+    if enabledeactflstempkey == True:
+        if deactivate_traffic_light_stop_temporary_key == &#34;please set&#34;:
+            messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the key to temporary ignore the detected traffic lights in General&#34;)
+            deactivate_traffic_light_stop_temporary_key = &#34;w&#34;
+
+
+    waitforresponse = False
+    waitforresponsetimer = time.time()
+
+    last_speed = 0
+    last_speedlimit = 0
+    last_cruisecontrolspeed = 0
+
+    cruisespeedinturns = settings.GetSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;)
+    if cruisespeedinturns == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 30)
+        cruisespeedinturns = 30
+    if cruisespeedinturns &lt; 30:
+        cruisespeedinturns = 30
+
+    cruisespeedattrafficlight = settings.GetSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;)
+    if cruisespeedattrafficlight == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 0)
+        cruisespeedattrafficlight = 0
+    if cruisespeedattrafficlight &lt; 30:
+        if cruisespeedattrafficlight != 0:
+            cruisespeedattrafficlight = 0
+
+
+def plugin(data):
+    global keyboardmode
+    global brakeatredtrafficlight
+    global automatic_acceleration_after_traffic_light
+    global automatic_acceleration
+    global automatic_cruise_control_activation
+    global advancedsettings
+    global buttonup
+    global buttondown
+    global buttonactivate
+    global buttonbrake
+    global buttonaccelerate
+    global accelerationspeed
+    global unreleased_buttonbrake
+    global unreleased_buttonaccelerate
+    global accelerate_red_traffic_light
+    global waitforresponse
+    global waitforresponsetimer
+    global last_speed
+    global last_speedlimit
+    global last_cruisecontrolspeed
+    global trafficlight
+    global trafficlightdetectionisenabled
+    global deactivate_traffic_light_stop_temporary_key
+    global enabledeactflstempkey
+    global red_traffic_light_time
+    global last_frame_without_traffic_light
+    global left_trigger_value
+    global right_trigger_value
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global trigger_setup_value
+    global trigger_setup_add_or_sub
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    global cruisespeedinturns
+    global cruisespeedattrafficlight
+    global last_speed_obj
+    global last_time_obj
+    global object_in_front_of_truck
+
+    
+    try:
+        data[&#34;controller&#34;][&#34;leftStick&#34;]
+    except:
+        data[&#34;controller&#34;] = {}
+
+    if left_trigger_setup == True or right_trigger_setup == True:
+        
+        if trigger_setup_value &gt; 1:
+            trigger_setup_add_or_sub = 0
+
+        if trigger_setup_value &lt; 0:
+            trigger_setup_add_or_sub = 1
+
+        if trigger_setup_add_or_sub == 1:
+            trigger_setup_value += 0.05
+        else:
+            trigger_setup_value -= 0.05
+
+        if left_trigger_setup == True:
+            data[&#34;controller&#34;][&#34;lefttrigger&#34;] = trigger_setup_value
+            data[&#34;controller&#34;][&#34;righttrigger&#34;] = 0
+
+        if right_trigger_setup == True:
+            data[&#34;controller&#34;][&#34;lefttrigger&#34;] = 0
+            data[&#34;controller&#34;][&#34;righttrigger&#34;] = trigger_setup_value
+
+        if trigger_setup_time + 15 &lt; time.time():
+            left_trigger_setup = False
+            right_trigger_setup = False
+            data[&#34;controller&#34;][&#34;lefttrigger&#34;] = 0
+            data[&#34;controller&#34;][&#34;righttrigger&#34;] = 0
+            variables.ENABLELOOP = False
+
+
+    if button_A_setup == True or button_B_setup == True or button_X_setup == True:
+        data[&#34;controller&#34;][&#34;button_A&#34;] = False
+        data[&#34;controller&#34;][&#34;button_B&#34;] = False
+        data[&#34;controller&#34;][&#34;button_X&#34;] = False
+
+        if button_A_setup == True:
+            if button_B_setup == True:
+                button_B_setup = False
+            if button_X_setup == True:
+                button_X_setup = False
+            if round(time.time()) % 2 == 0:
+                data[&#34;controller&#34;][&#34;button_A&#34;] = True
+
+        if button_B_setup == True:
+            if button_A_setup == True:
+                button_A_setup = False
+            if button_X_setup == True:
+                button_X_setup = False
+            if round(time.time()) % 2 == 0:
+                data[&#34;controller&#34;][&#34;button_B&#34;] = True
+
+        if button_X_setup == True:
+            if button_A_setup == True:
+                button_A_setup = False
+            if button_B_setup == True:
+                button_B_setup = False
+            if round(time.time()) % 2 == 0:
+                data[&#34;controller&#34;][&#34;button_X&#34;] = True
+
+        if button_setup_time + 15 &lt; time.time():
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            variables.ENABLELOOP = False
+
+
+    if left_trigger_setup != True and right_trigger_setup != True and button_A_setup != True and button_B_setup != True and button_X_setup != True:
+
+        # get api data
+        try:
+            speed = round(data[&#34;api&#34;][&#34;truckFloat&#34;][&#34;speed&#34;]*3.6, 1)
+            last_speed = speed
+            speedlimit = round(data[&#34;api&#34;][&#34;truckFloat&#34;][&#34;speedLimit&#34;]*3.6, 1)
+            if speedlimit != 0:
+                last_speedlimit = speedlimit
+            cruisecontrolspeed = round(data[&#34;api&#34;][&#34;truckFloat&#34;][&#34;cruiseControlSpeed&#34;]*3.6, 1)
+            gamepaused = data[&#34;api&#34;][&#34;pause&#34;]
+        except:
+            speed = last_speed
+            speedlimit = last_speedlimit
+            cruisecontrolspeed = 0
+            gamepaused = False
+
+        data[&#34;controller&#34;][&#34;button_A&#34;] = False
+        data[&#34;controller&#34;][&#34;button_B&#34;] = False
+        data[&#34;controller&#34;][&#34;button_X&#34;] = False
+
+        #set target speeds
+        if speedlimit != 0:
+            targetspeed = speedlimit
+        else:
+            if last_speedlimit != 0:
+                targetspeed = last_speedlimit
+            else:
+                targetspeed = 30
+
+        try:
+            turnincoming = data[&#34;NavigationDetectionV2&#34;][&#34;turnincoming&#34;]
+        except:
+            turnincoming = False
+        if turnincoming == True:
+            targetspeed = cruisespeedinturns
+        
+        if trafficlightdetectionisenabled == True:
+            try:
+                trafficlight = data[&#34;TrafficLightDetection&#34;]
+            except:
+                trafficlight = &#34;---&#34;
+        else:
+            trafficlight = &#34;Off&#34;
+
+        if trafficlight != &#34;Red&#34;:
+            last_frame_without_traffic_light = time.time()
+
+        if enabledeactflstempkey == True:
+            if kb.is_pressed(deactivate_traffic_light_stop_temporary_key):
+                trafficlight = &#34;---&#34;
+                red_traffic_light_time = time.time() - 1.1
+
+        if trafficlight == &#34;Red&#34;:
+            if brakeatredtrafficlight == True:
+                if time.time() - 0.2 &gt; last_frame_without_traffic_light:
+                    targetspeed = cruisespeedattrafficlight
+                    red_traffic_light_time = time.time()
+                    if speed &lt; 30:
+                        accelerate_red_traffic_light = True
+
+        if red_traffic_light_time &gt; time.time()-1:
+            if brakeatredtrafficlight == True:
+                if time.time() - 0.2 &gt; last_frame_without_traffic_light:
+                    targetspeed = cruisespeedattrafficlight
+
+        #check for response or timeout of button click
+        if last_cruisecontrolspeed != cruisecontrolspeed or time.time() - waitforresponsetimer &gt; 1:
+            waitforresponse = False
+
+        #if there are no open requests
+        if waitforresponse == False:
+
+            #activate cruise control
+            if targetspeed != 0 and cruisecontrolspeed == 0 and speed &gt; 30:
+                if automatic_cruise_control_activation == True:
+                    if DefaultSteering.enabled and gamepaused == False:
+                        if keyboardmode == True:
+                            kb.press_and_release(buttonactivate)
+                        else:
+                            data[&#34;controller&#34;][&#34;button_X&#34;] = True
+                        waitforresponse = True
+                        waitforresponsetimer = time.time()
+                        unreleased_buttonbrake
+                        unreleased_buttonaccelerate
+            
+            #change the cruisecontrol speed if needed
+            if targetspeed != 0:
+                if targetspeed &gt; cruisecontrolspeed:
+                    if cruisecontrolspeed != 0:
+                        if DefaultSteering.enabled and gamepaused == False:
+                            if keyboardmode == True:
+                                kb.press_and_release(buttonup)
+                            else:
+                                data[&#34;controller&#34;][&#34;button_B&#34;] = True
+                            waitforresponse = True
+                            waitforresponsetimer = time.time()
+
+                if targetspeed &lt; cruisecontrolspeed:
+                    if cruisecontrolspeed != 0:
+                        if DefaultSteering.enabled and gamepaused == False:
+                            if keyboardmode == True:
+                                kb.press_and_release(buttondown)
+                            else:
+                                data[&#34;controller&#34;][&#34;button_A&#34;] = True
+                            waitforresponse = True
+                            waitforresponsetimer = time.time()
+
+
+            #accelerate after traffic light if enabled in settings
+            if targetspeed != 0 and cruisecontrolspeed == 0:
+                if automatic_acceleration_after_traffic_light == True or automatic_acceleration == True:
+                    if DefaultSteering.enabled and gamepaused == False:
+                        if accelerate_red_traffic_light == True or automatic_acceleration == True:
+                            if keyboardmode == True:
+                                kb.release(buttonbrake)
+                                kb.press(buttonaccelerate)
+                            else:
+                                left_trigger_value = 0
+                                right_trigger_value = accelerationspeed
+                            unreleased_buttonaccelerate = True
+                            if speed &gt; 30:
+                                accelerate_red_traffic_light = False
+
+            #brake if target speed is 0
+            if targetspeed == 0:
+                if speed &gt; 0.5:
+                    if DefaultSteering.enabled and gamepaused == False:
+                        if keyboardmode == True:
+                            kb.release(buttonaccelerate)
+                            kb.press(buttonbrake)
+                        else:
+                            right_trigger_value = 0
+                            left_trigger_value = 1
+                        waitforresponse = True
+                        waitforresponsetimer = time.time()
+                        unreleased_buttonbrake = True
+
+        #release brake button if needed
+        if unreleased_buttonbrake == True and speed &lt; 0.5:
+            if keyboardmode == True:
+                kb.release(buttonbrake)
+            else:
+                left_trigger_value = 0
+            unreleased_buttonbrake = False
+                
+        #release acceleration button if needed
+        if automatic_acceleration_after_traffic_light == True:
+            if unreleased_buttonaccelerate == True and speed &gt; 30:
+                if keyboardmode == True:
+                    kb.release(buttonaccelerate)
+                else:
+                    right_trigger_value = 0
+                unreleased_buttonaccelerate = False
+
+        if DefaultSteering.enabled == False or gamepaused == True:
+            left_trigger_value = 0
+            right_trigger_value = 0
+
+        data[&#34;CruiseControl&#34;] = {}
+        if targetspeed-3 &gt; speed and last_speed_obj &gt; speed:
+            last_time_obj = time.time()
+
+        if last_time_obj &gt; time.time()-0.5:
+            object_in_front_of_truck = True
+        else:
+            if targetspeed - 1 &lt; speed:
+                object_in_front_of_truck = False
+        
+        data[&#34;CruiseControl&#34;][&#34;obj_ifo_truck&#34;] = object_in_front_of_truck
+
+        data[&#34;controller&#34;][&#34;lefttrigger&#34;] = left_trigger_value
+        data[&#34;controller&#34;][&#34;righttrigger&#34;] = right_trigger_value
+
+        last_speed_obj = speed
+        last_cruisecontrolspeed = cruisecontrolspeed
+    return data # Plugins need to ALWAYS return the data
+
+
+# Plugins need to all also have the onEnable and onDisable functions
+def onEnable():
+    UpdateSettings()
+    pass
+
+def onDisable():
+    pass
+
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+            resizeWindow(900,620)
+        
+        def tabFocused(self):
+            resizeWindow(900,620)
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+        
+        def UpdateScaleValueFromSlider(self):
+            self.accelerationspeed.set(self.accelerationspeedSlider.get())
+        
+        def exampleFunction(self):
+            try:
+                self.root.destroy() 
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) 
+            self.root.pack_propagate(0)
+            
+            notebook = ttk.Notebook(self.root)
+            notebook.pack(anchor=&#34;center&#34;, fill=&#34;both&#34;, expand=True)
+            
+            generalFrame = ttk.Frame(notebook)
+            generalFrame.pack()
+            keyboardFrame = ttk.Frame(notebook)
+            keyboardFrame.pack()
+            controllerFrame = ttk.Frame(notebook)
+            controllerFrame.pack()
+            advancedFrame = ttk.Frame(notebook)
+            advancedFrame.pack()
+            
+            generalFrame.columnconfigure(0, weight=1)
+            generalFrame.columnconfigure(1, weight=1)
+            generalFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(generalFrame, &#34;General&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+            
+            keyboardFrame.columnconfigure(0, weight=1)
+            keyboardFrame.columnconfigure(1, weight=1)
+            keyboardFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(keyboardFrame, &#34;Keyboard&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+            controllerFrame.columnconfigure(0, weight=1)
+            controllerFrame.columnconfigure(1, weight=1)
+            controllerFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(controllerFrame, &#34;Controller&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+            advancedFrame.columnconfigure(0, weight=1)
+            advancedFrame.columnconfigure(1, weight=1)
+            advancedFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(advancedFrame, &#34;Advanced&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=7)
+
+            notebook.add(generalFrame, text=Translate(&#34;General&#34;))
+            notebook.add(keyboardFrame, text=Translate(&#34;Keyboard&#34;))
+            notebook.add(controllerFrame, text=Translate(&#34;Controller&#34;))
+            notebook.add(advancedFrame, text=Translate(&#34;Advanced&#34;))
+            
+            ttk.Button(self.root, text=&#34;Save&#34;, command=self.save, width=15).pack(anchor=&#34;center&#34;, pady=6)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+
+            helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=60, callback=UpdateSettings())
+
+
+            self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=70, width=10, isString=True)
+            self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=70, width=10, isString=True)
+            self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=70, width=10, isString=True)
+            self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=70, width=10, isString=True)
+            self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=70, width=10, isString=True)
+
+
+            self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=70, width=10)
+            self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=70, width=10)
+            
+
+            self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.accelerationspeedSlider.set(settings.GetSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 1))
+            self.accelerationspeedSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
+            self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
+
+
+            helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporary ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=60, callback=UpdateSettings())
+            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporary ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=70, width=10, isString=True)
+
+
+            helpers.MakeButton(controllerFrame, &#34;BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
+            helpers.MakeButton(controllerFrame, &#34;THROTTLE SETUP (RIGHT TRIGGER)\n(this will move the right trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.righttriggersetup, row=11, column=1, width=50, columnspan=1)
+
+            helpers.MakeButton(controllerFrame, &#34;DECREASE BUTTON SETUP (BUTTON A)\n(this will press the button A for 15s so you can set\nup your controls in game, later the button A will be\npressed to decrease the cruisecontrol speed)&#34;, command=self.buttonAsetup, row=13, column=1, width=50, columnspan=1)
+            helpers.MakeButton(controllerFrame, &#34;INCREASE BUTTON SETUP (BUTTON B)\n(this will press the button B for 15s so you can set\nup your controls in game, later the button B will be\npressed to increase the cruisecontrol speed)&#34;, command=self.buttonBsetup, row=12, column=1, width=50, columnspan=1)
+            helpers.MakeButton(controllerFrame, &#34;ACTIVATE BUTTON SETUP (BUTTON X)\n(this will press the button X for 15s so you can set\nup your controls in game, later the button X will be\npressed to activate or deactivate the cruise control)&#34;, command=self.buttonXsetup, row=12, column=0, width=50, columnspan=1)
+
+            helpers.MakeButton(controllerFrame, &#34;STOP SETUP MODE\n(if you press the button the setup mode will stop and the\nthe triggers and buttons of the virtual controller will\nnot get moved or pressed anymore)&#34;, command=self.stopsetup, row=13, column=0, width=50, columnspan=1)
+
+            helpers.MakeButton(generalFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
+            helpers.MakeButton(advancedFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=32)
+
+        def save(self):
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;, self.keyactivate.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;, self.keyup.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keydown&#34;, self.keydown.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keybrake&#34;, self.keybrake.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, self.keyaccelerate.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, self.cruisespeedinturns.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, self.cruisespeedattrafficlight.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, self.accelerationspeedSlider.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, self.deactflstempkey.get())
+            UpdateSettings()
+            if self.deactflstempkey.get() == &#34;please set&#34; and enabledeactflstempkey == True:
+                messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the key to temporary ignore the detected traffic lights in General&#34;)
+            if keyboardmode == True:
+                if (self.keyactivate.get() == &#34;please set&#34; or
+                    self.keyup.get() == &#34;please set&#34; or
+                    self.keydown.get() == &#34;please set&#34; or
+                    self.keybrake.get() == &#34;please set&#34; or
+                    self.keyaccelerate.get() == &#34;please set&#34;):
+                    messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the correct keys in the Keyboard window&#34;)
+            UpdateSettings()
+
+
+        def resetalladvancedsettingstodefault(self):
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 30)
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 0)
+            UpdateSettings()
+            switchSelectedPlugin(&#34;plugins.&#34; + &#34;CruiseControl&#34; + &#34;.main&#34;)
+
+
+        def lefttriggersetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = True
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def righttriggersetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = True
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def buttonAsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = True
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def buttonBsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = True
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def buttonXsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = True
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def stopsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = False
+            UpdateSettings()
+        
+
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UpdateSettings"><code class="name flex">
+<span>def <span class="ident">UpdateSettings</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateSettings():
+    global keyboardmode
+    global brakeatredtrafficlight
+    global automatic_acceleration_after_traffic_light
+    global automatic_acceleration
+    global automatic_cruise_control_activation
+    global advancedsettings
+    global buttonup
+    global buttondown
+    global buttonactivate
+    global buttonbrake
+    global buttonaccelerate
+    global accelerationspeed
+    global unreleased_buttonbrake
+    global unreleased_buttonaccelerate
+    global accelerate_red_traffic_light
+    global waitforresponse
+    global waitforresponsetimer
+    global last_speed
+    global last_speedlimit
+    global last_cruisecontrolspeed
+    global trafficlight
+    global trafficlightdetectionisenabled
+    global deactivate_traffic_light_stop_temporary_key
+    global enabledeactflstempkey
+    global red_traffic_light_time
+    global last_frame_without_traffic_light
+    global left_trigger_value
+    global right_trigger_value
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global trigger_setup_value
+    global trigger_setup_add_or_sub
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    global cruisespeedinturns
+    global cruisespeedattrafficlight
+
+    keyboardmode = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyboardmode&#34;, False)
+    automatic_cruise_control_activation = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoccacti&#34;, True)
+    brakeatredtrafficlight = settings.GetSettings(&#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, True)
+    automatic_acceleration_after_traffic_light = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, True)
+    automatic_acceleration = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoaccel&#34;, False)
+    advancedsettings = settings.GetSettings(&#34;CruiseControl&#34;, &#34;advancedsettings&#34;, False)
+    enabledeactflstempkey = settings.GetSettings(&#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, False)
+
+
+    buttonup = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;)
+    if buttonup == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;, &#34;please set&#34;)
+        buttonup = &#34;please set&#34;
+
+    buttondown = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keydown&#34;)
+    if buttondown == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keydown&#34;, &#34;please set&#34;)
+        buttondown = &#34;please set&#34;
+
+    buttonactivate = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;)
+    if buttonactivate == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;, &#34;please set&#34;)
+        buttonactivate = &#34;please set&#34;
+
+    buttonbrake = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keybrake&#34;)
+    if buttonbrake == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keybrake&#34;, &#34;please set&#34;)
+        buttonbrake = &#34;please set&#34;
+
+    buttonaccelerate = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyaccelerate&#34;)
+    if buttonaccelerate == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, &#34;please set&#34;)
+        buttonaccelerate = &#34;please set&#34;
+
+
+    accelerationspeed = settings.GetSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;)
+    if accelerationspeed == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 1)
+        accelerationspeed = 1
+
+
+    unreleased_buttonbrake = False
+    unreleased_buttonaccelerate = False
+
+    accelerate_red_traffic_light = False
+    red_traffic_light_time = 0
+    last_frame_without_traffic_light = time.time()
+
+    if &#34;TrafficLightDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        trafficlightdetectionisenabled = True
+    else:
+        trafficlightdetectionisenabled = False
+
+    deactivate_traffic_light_stop_temporary_key = settings.GetSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;)
+    if deactivate_traffic_light_stop_temporary_key == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, &#34;please set&#34;)
+        deactivate_traffic_light_stop_temporary_key = &#34;please set&#34;
+
+    if enabledeactflstempkey == True:
+        if deactivate_traffic_light_stop_temporary_key == &#34;please set&#34;:
+            messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the key to temporary ignore the detected traffic lights in General&#34;)
+            deactivate_traffic_light_stop_temporary_key = &#34;w&#34;
+
+
+    waitforresponse = False
+    waitforresponsetimer = time.time()
+
+    last_speed = 0
+    last_speedlimit = 0
+    last_cruisecontrolspeed = 0
+
+    cruisespeedinturns = settings.GetSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;)
+    if cruisespeedinturns == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 30)
+        cruisespeedinturns = 30
+    if cruisespeedinturns &lt; 30:
+        cruisespeedinturns = 30
+
+    cruisespeedattrafficlight = settings.GetSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;)
+    if cruisespeedattrafficlight == None:
+        settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 0)
+        cruisespeedattrafficlight = 0
+    if cruisespeedattrafficlight &lt; 30:
+        if cruisespeedattrafficlight != 0:
+            cruisespeedattrafficlight = 0</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.onDisable"><code class="name flex">
+<span>def <span class="ident">onDisable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onDisable():
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.onEnable"><code class="name flex">
+<span>def <span class="ident">onEnable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onEnable():
+    UpdateSettings()
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.plugin"><code class="name flex">
+<span>def <span class="ident">plugin</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plugin(data):
+    global keyboardmode
+    global brakeatredtrafficlight
+    global automatic_acceleration_after_traffic_light
+    global automatic_acceleration
+    global automatic_cruise_control_activation
+    global advancedsettings
+    global buttonup
+    global buttondown
+    global buttonactivate
+    global buttonbrake
+    global buttonaccelerate
+    global accelerationspeed
+    global unreleased_buttonbrake
+    global unreleased_buttonaccelerate
+    global accelerate_red_traffic_light
+    global waitforresponse
+    global waitforresponsetimer
+    global last_speed
+    global last_speedlimit
+    global last_cruisecontrolspeed
+    global trafficlight
+    global trafficlightdetectionisenabled
+    global deactivate_traffic_light_stop_temporary_key
+    global enabledeactflstempkey
+    global red_traffic_light_time
+    global last_frame_without_traffic_light
+    global left_trigger_value
+    global right_trigger_value
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global trigger_setup_value
+    global trigger_setup_add_or_sub
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    global cruisespeedinturns
+    global cruisespeedattrafficlight
+    global last_speed_obj
+    global last_time_obj
+    global object_in_front_of_truck
+
+    
+    try:
+        data[&#34;controller&#34;][&#34;leftStick&#34;]
+    except:
+        data[&#34;controller&#34;] = {}
+
+    if left_trigger_setup == True or right_trigger_setup == True:
+        
+        if trigger_setup_value &gt; 1:
+            trigger_setup_add_or_sub = 0
+
+        if trigger_setup_value &lt; 0:
+            trigger_setup_add_or_sub = 1
+
+        if trigger_setup_add_or_sub == 1:
+            trigger_setup_value += 0.05
+        else:
+            trigger_setup_value -= 0.05
+
+        if left_trigger_setup == True:
+            data[&#34;controller&#34;][&#34;lefttrigger&#34;] = trigger_setup_value
+            data[&#34;controller&#34;][&#34;righttrigger&#34;] = 0
+
+        if right_trigger_setup == True:
+            data[&#34;controller&#34;][&#34;lefttrigger&#34;] = 0
+            data[&#34;controller&#34;][&#34;righttrigger&#34;] = trigger_setup_value
+
+        if trigger_setup_time + 15 &lt; time.time():
+            left_trigger_setup = False
+            right_trigger_setup = False
+            data[&#34;controller&#34;][&#34;lefttrigger&#34;] = 0
+            data[&#34;controller&#34;][&#34;righttrigger&#34;] = 0
+            variables.ENABLELOOP = False
+
+
+    if button_A_setup == True or button_B_setup == True or button_X_setup == True:
+        data[&#34;controller&#34;][&#34;button_A&#34;] = False
+        data[&#34;controller&#34;][&#34;button_B&#34;] = False
+        data[&#34;controller&#34;][&#34;button_X&#34;] = False
+
+        if button_A_setup == True:
+            if button_B_setup == True:
+                button_B_setup = False
+            if button_X_setup == True:
+                button_X_setup = False
+            if round(time.time()) % 2 == 0:
+                data[&#34;controller&#34;][&#34;button_A&#34;] = True
+
+        if button_B_setup == True:
+            if button_A_setup == True:
+                button_A_setup = False
+            if button_X_setup == True:
+                button_X_setup = False
+            if round(time.time()) % 2 == 0:
+                data[&#34;controller&#34;][&#34;button_B&#34;] = True
+
+        if button_X_setup == True:
+            if button_A_setup == True:
+                button_A_setup = False
+            if button_B_setup == True:
+                button_B_setup = False
+            if round(time.time()) % 2 == 0:
+                data[&#34;controller&#34;][&#34;button_X&#34;] = True
+
+        if button_setup_time + 15 &lt; time.time():
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            variables.ENABLELOOP = False
+
+
+    if left_trigger_setup != True and right_trigger_setup != True and button_A_setup != True and button_B_setup != True and button_X_setup != True:
+
+        # get api data
+        try:
+            speed = round(data[&#34;api&#34;][&#34;truckFloat&#34;][&#34;speed&#34;]*3.6, 1)
+            last_speed = speed
+            speedlimit = round(data[&#34;api&#34;][&#34;truckFloat&#34;][&#34;speedLimit&#34;]*3.6, 1)
+            if speedlimit != 0:
+                last_speedlimit = speedlimit
+            cruisecontrolspeed = round(data[&#34;api&#34;][&#34;truckFloat&#34;][&#34;cruiseControlSpeed&#34;]*3.6, 1)
+            gamepaused = data[&#34;api&#34;][&#34;pause&#34;]
+        except:
+            speed = last_speed
+            speedlimit = last_speedlimit
+            cruisecontrolspeed = 0
+            gamepaused = False
+
+        data[&#34;controller&#34;][&#34;button_A&#34;] = False
+        data[&#34;controller&#34;][&#34;button_B&#34;] = False
+        data[&#34;controller&#34;][&#34;button_X&#34;] = False
+
+        #set target speeds
+        if speedlimit != 0:
+            targetspeed = speedlimit
+        else:
+            if last_speedlimit != 0:
+                targetspeed = last_speedlimit
+            else:
+                targetspeed = 30
+
+        try:
+            turnincoming = data[&#34;NavigationDetectionV2&#34;][&#34;turnincoming&#34;]
+        except:
+            turnincoming = False
+        if turnincoming == True:
+            targetspeed = cruisespeedinturns
+        
+        if trafficlightdetectionisenabled == True:
+            try:
+                trafficlight = data[&#34;TrafficLightDetection&#34;]
+            except:
+                trafficlight = &#34;---&#34;
+        else:
+            trafficlight = &#34;Off&#34;
+
+        if trafficlight != &#34;Red&#34;:
+            last_frame_without_traffic_light = time.time()
+
+        if enabledeactflstempkey == True:
+            if kb.is_pressed(deactivate_traffic_light_stop_temporary_key):
+                trafficlight = &#34;---&#34;
+                red_traffic_light_time = time.time() - 1.1
+
+        if trafficlight == &#34;Red&#34;:
+            if brakeatredtrafficlight == True:
+                if time.time() - 0.2 &gt; last_frame_without_traffic_light:
+                    targetspeed = cruisespeedattrafficlight
+                    red_traffic_light_time = time.time()
+                    if speed &lt; 30:
+                        accelerate_red_traffic_light = True
+
+        if red_traffic_light_time &gt; time.time()-1:
+            if brakeatredtrafficlight == True:
+                if time.time() - 0.2 &gt; last_frame_without_traffic_light:
+                    targetspeed = cruisespeedattrafficlight
+
+        #check for response or timeout of button click
+        if last_cruisecontrolspeed != cruisecontrolspeed or time.time() - waitforresponsetimer &gt; 1:
+            waitforresponse = False
+
+        #if there are no open requests
+        if waitforresponse == False:
+
+            #activate cruise control
+            if targetspeed != 0 and cruisecontrolspeed == 0 and speed &gt; 30:
+                if automatic_cruise_control_activation == True:
+                    if DefaultSteering.enabled and gamepaused == False:
+                        if keyboardmode == True:
+                            kb.press_and_release(buttonactivate)
+                        else:
+                            data[&#34;controller&#34;][&#34;button_X&#34;] = True
+                        waitforresponse = True
+                        waitforresponsetimer = time.time()
+                        unreleased_buttonbrake
+                        unreleased_buttonaccelerate
+            
+            #change the cruisecontrol speed if needed
+            if targetspeed != 0:
+                if targetspeed &gt; cruisecontrolspeed:
+                    if cruisecontrolspeed != 0:
+                        if DefaultSteering.enabled and gamepaused == False:
+                            if keyboardmode == True:
+                                kb.press_and_release(buttonup)
+                            else:
+                                data[&#34;controller&#34;][&#34;button_B&#34;] = True
+                            waitforresponse = True
+                            waitforresponsetimer = time.time()
+
+                if targetspeed &lt; cruisecontrolspeed:
+                    if cruisecontrolspeed != 0:
+                        if DefaultSteering.enabled and gamepaused == False:
+                            if keyboardmode == True:
+                                kb.press_and_release(buttondown)
+                            else:
+                                data[&#34;controller&#34;][&#34;button_A&#34;] = True
+                            waitforresponse = True
+                            waitforresponsetimer = time.time()
+
+
+            #accelerate after traffic light if enabled in settings
+            if targetspeed != 0 and cruisecontrolspeed == 0:
+                if automatic_acceleration_after_traffic_light == True or automatic_acceleration == True:
+                    if DefaultSteering.enabled and gamepaused == False:
+                        if accelerate_red_traffic_light == True or automatic_acceleration == True:
+                            if keyboardmode == True:
+                                kb.release(buttonbrake)
+                                kb.press(buttonaccelerate)
+                            else:
+                                left_trigger_value = 0
+                                right_trigger_value = accelerationspeed
+                            unreleased_buttonaccelerate = True
+                            if speed &gt; 30:
+                                accelerate_red_traffic_light = False
+
+            #brake if target speed is 0
+            if targetspeed == 0:
+                if speed &gt; 0.5:
+                    if DefaultSteering.enabled and gamepaused == False:
+                        if keyboardmode == True:
+                            kb.release(buttonaccelerate)
+                            kb.press(buttonbrake)
+                        else:
+                            right_trigger_value = 0
+                            left_trigger_value = 1
+                        waitforresponse = True
+                        waitforresponsetimer = time.time()
+                        unreleased_buttonbrake = True
+
+        #release brake button if needed
+        if unreleased_buttonbrake == True and speed &lt; 0.5:
+            if keyboardmode == True:
+                kb.release(buttonbrake)
+            else:
+                left_trigger_value = 0
+            unreleased_buttonbrake = False
+                
+        #release acceleration button if needed
+        if automatic_acceleration_after_traffic_light == True:
+            if unreleased_buttonaccelerate == True and speed &gt; 30:
+                if keyboardmode == True:
+                    kb.release(buttonaccelerate)
+                else:
+                    right_trigger_value = 0
+                unreleased_buttonaccelerate = False
+
+        if DefaultSteering.enabled == False or gamepaused == True:
+            left_trigger_value = 0
+            right_trigger_value = 0
+
+        data[&#34;CruiseControl&#34;] = {}
+        if targetspeed-3 &gt; speed and last_speed_obj &gt; speed:
+            last_time_obj = time.time()
+
+        if last_time_obj &gt; time.time()-0.5:
+            object_in_front_of_truck = True
+        else:
+            if targetspeed - 1 &lt; speed:
+                object_in_front_of_truck = False
+        
+        data[&#34;CruiseControl&#34;][&#34;obj_ifo_truck&#34;] = object_in_front_of_truck
+
+        data[&#34;controller&#34;][&#34;lefttrigger&#34;] = left_trigger_value
+        data[&#34;controller&#34;][&#34;righttrigger&#34;] = right_trigger_value
+
+        last_speed_obj = speed
+        last_cruisecontrolspeed = cruisecontrolspeed
+    return data # Plugins need to ALWAYS return the data</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+            resizeWindow(900,620)
+        
+        def tabFocused(self):
+            resizeWindow(900,620)
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+        
+        def UpdateScaleValueFromSlider(self):
+            self.accelerationspeed.set(self.accelerationspeedSlider.get())
+        
+        def exampleFunction(self):
+            try:
+                self.root.destroy() 
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) 
+            self.root.pack_propagate(0)
+            
+            notebook = ttk.Notebook(self.root)
+            notebook.pack(anchor=&#34;center&#34;, fill=&#34;both&#34;, expand=True)
+            
+            generalFrame = ttk.Frame(notebook)
+            generalFrame.pack()
+            keyboardFrame = ttk.Frame(notebook)
+            keyboardFrame.pack()
+            controllerFrame = ttk.Frame(notebook)
+            controllerFrame.pack()
+            advancedFrame = ttk.Frame(notebook)
+            advancedFrame.pack()
+            
+            generalFrame.columnconfigure(0, weight=1)
+            generalFrame.columnconfigure(1, weight=1)
+            generalFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(generalFrame, &#34;General&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+            
+            keyboardFrame.columnconfigure(0, weight=1)
+            keyboardFrame.columnconfigure(1, weight=1)
+            keyboardFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(keyboardFrame, &#34;Keyboard&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+            controllerFrame.columnconfigure(0, weight=1)
+            controllerFrame.columnconfigure(1, weight=1)
+            controllerFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(controllerFrame, &#34;Controller&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+            advancedFrame.columnconfigure(0, weight=1)
+            advancedFrame.columnconfigure(1, weight=1)
+            advancedFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(advancedFrame, &#34;Advanced&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=7)
+
+            notebook.add(generalFrame, text=Translate(&#34;General&#34;))
+            notebook.add(keyboardFrame, text=Translate(&#34;Keyboard&#34;))
+            notebook.add(controllerFrame, text=Translate(&#34;Controller&#34;))
+            notebook.add(advancedFrame, text=Translate(&#34;Advanced&#34;))
+            
+            ttk.Button(self.root, text=&#34;Save&#34;, command=self.save, width=15).pack(anchor=&#34;center&#34;, pady=6)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+
+            helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=60, callback=UpdateSettings())
+
+
+            self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=70, width=10, isString=True)
+            self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=70, width=10, isString=True)
+            self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=70, width=10, isString=True)
+            self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=70, width=10, isString=True)
+            self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=70, width=10, isString=True)
+
+
+            self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=70, width=10)
+            self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=70, width=10)
+            
+
+            self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.accelerationspeedSlider.set(settings.GetSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 1))
+            self.accelerationspeedSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
+            self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
+
+
+            helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporary ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=60, callback=UpdateSettings())
+            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporary ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=70, width=10, isString=True)
+
+
+            helpers.MakeButton(controllerFrame, &#34;BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
+            helpers.MakeButton(controllerFrame, &#34;THROTTLE SETUP (RIGHT TRIGGER)\n(this will move the right trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.righttriggersetup, row=11, column=1, width=50, columnspan=1)
+
+            helpers.MakeButton(controllerFrame, &#34;DECREASE BUTTON SETUP (BUTTON A)\n(this will press the button A for 15s so you can set\nup your controls in game, later the button A will be\npressed to decrease the cruisecontrol speed)&#34;, command=self.buttonAsetup, row=13, column=1, width=50, columnspan=1)
+            helpers.MakeButton(controllerFrame, &#34;INCREASE BUTTON SETUP (BUTTON B)\n(this will press the button B for 15s so you can set\nup your controls in game, later the button B will be\npressed to increase the cruisecontrol speed)&#34;, command=self.buttonBsetup, row=12, column=1, width=50, columnspan=1)
+            helpers.MakeButton(controllerFrame, &#34;ACTIVATE BUTTON SETUP (BUTTON X)\n(this will press the button X for 15s so you can set\nup your controls in game, later the button X will be\npressed to activate or deactivate the cruise control)&#34;, command=self.buttonXsetup, row=12, column=0, width=50, columnspan=1)
+
+            helpers.MakeButton(controllerFrame, &#34;STOP SETUP MODE\n(if you press the button the setup mode will stop and the\nthe triggers and buttons of the virtual controller will\nnot get moved or pressed anymore)&#34;, command=self.stopsetup, row=13, column=0, width=50, columnspan=1)
+
+            helpers.MakeButton(generalFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
+            helpers.MakeButton(advancedFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=32)
+
+        def save(self):
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;, self.keyactivate.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;, self.keyup.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keydown&#34;, self.keydown.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keybrake&#34;, self.keybrake.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, self.keyaccelerate.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, self.cruisespeedinturns.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, self.cruisespeedattrafficlight.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, self.accelerationspeedSlider.get())
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, self.deactflstempkey.get())
+            UpdateSettings()
+            if self.deactflstempkey.get() == &#34;please set&#34; and enabledeactflstempkey == True:
+                messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the key to temporary ignore the detected traffic lights in General&#34;)
+            if keyboardmode == True:
+                if (self.keyactivate.get() == &#34;please set&#34; or
+                    self.keyup.get() == &#34;please set&#34; or
+                    self.keydown.get() == &#34;please set&#34; or
+                    self.keybrake.get() == &#34;please set&#34; or
+                    self.keyaccelerate.get() == &#34;please set&#34;):
+                    messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the correct keys in the Keyboard window&#34;)
+            UpdateSettings()
+
+
+        def resetalladvancedsettingstodefault(self):
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 30)
+            settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 0)
+            UpdateSettings()
+            switchSelectedPlugin(&#34;plugins.&#34; + &#34;CruiseControl&#34; + &#34;.main&#34;)
+
+
+        def lefttriggersetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = True
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def righttriggersetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = True
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def buttonAsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = True
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def buttonBsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = True
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def buttonXsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = True
+            button_setup_time = time.time()
+            variables.ENABLELOOP = True
+            UpdateSettings()
+
+        def stopsetup(self):
+            global left_trigger_setup
+            global right_trigger_setup
+            global trigger_setup_time
+            global button_A_setup
+            global button_B_setup
+            global button_X_setup
+            global button_setup_time
+            left_trigger_setup = False
+            right_trigger_setup = False
+            trigger_setup_time = time.time()
+            button_A_setup = False
+            button_B_setup = False
+            button_X_setup = False
+            button_setup_time = time.time()
+            variables.ENABLELOOP = False
+            UpdateSettings()
+        
+
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.UpdateScaleValueFromSlider"><code class="name flex">
+<span>def <span class="ident">UpdateScaleValueFromSlider</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateScaleValueFromSlider(self):
+    self.accelerationspeed.set(self.accelerationspeedSlider.get())</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonAsetup"><code class="name flex">
+<span>def <span class="ident">buttonAsetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def buttonAsetup(self):
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    left_trigger_setup = False
+    right_trigger_setup = False
+    trigger_setup_time = time.time()
+    button_A_setup = True
+    button_B_setup = False
+    button_X_setup = False
+    button_setup_time = time.time()
+    variables.ENABLELOOP = True
+    UpdateSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonBsetup"><code class="name flex">
+<span>def <span class="ident">buttonBsetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def buttonBsetup(self):
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    left_trigger_setup = False
+    right_trigger_setup = False
+    trigger_setup_time = time.time()
+    button_A_setup = False
+    button_B_setup = True
+    button_X_setup = False
+    button_setup_time = time.time()
+    variables.ENABLELOOP = True
+    UpdateSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonXsetup"><code class="name flex">
+<span>def <span class="ident">buttonXsetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def buttonXsetup(self):
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    left_trigger_setup = False
+    right_trigger_setup = False
+    trigger_setup_time = time.time()
+    button_A_setup = False
+    button_B_setup = False
+    button_X_setup = True
+    button_setup_time = time.time()
+    variables.ENABLELOOP = True
+    UpdateSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.exampleFunction"><code class="name flex">
+<span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exampleFunction(self):
+    try:
+        self.root.destroy() 
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) 
+    self.root.pack_propagate(0)
+    
+    notebook = ttk.Notebook(self.root)
+    notebook.pack(anchor=&#34;center&#34;, fill=&#34;both&#34;, expand=True)
+    
+    generalFrame = ttk.Frame(notebook)
+    generalFrame.pack()
+    keyboardFrame = ttk.Frame(notebook)
+    keyboardFrame.pack()
+    controllerFrame = ttk.Frame(notebook)
+    controllerFrame.pack()
+    advancedFrame = ttk.Frame(notebook)
+    advancedFrame.pack()
+    
+    generalFrame.columnconfigure(0, weight=1)
+    generalFrame.columnconfigure(1, weight=1)
+    generalFrame.columnconfigure(2, weight=1)
+    helpers.MakeLabel(generalFrame, &#34;General&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+    
+    keyboardFrame.columnconfigure(0, weight=1)
+    keyboardFrame.columnconfigure(1, weight=1)
+    keyboardFrame.columnconfigure(2, weight=1)
+    helpers.MakeLabel(keyboardFrame, &#34;Keyboard&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+    controllerFrame.columnconfigure(0, weight=1)
+    controllerFrame.columnconfigure(1, weight=1)
+    controllerFrame.columnconfigure(2, weight=1)
+    helpers.MakeLabel(controllerFrame, &#34;Controller&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+    advancedFrame.columnconfigure(0, weight=1)
+    advancedFrame.columnconfigure(1, weight=1)
+    advancedFrame.columnconfigure(2, weight=1)
+    helpers.MakeLabel(advancedFrame, &#34;Advanced&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=7)
+
+    notebook.add(generalFrame, text=Translate(&#34;General&#34;))
+    notebook.add(keyboardFrame, text=Translate(&#34;Keyboard&#34;))
+    notebook.add(controllerFrame, text=Translate(&#34;Controller&#34;))
+    notebook.add(advancedFrame, text=Translate(&#34;Advanced&#34;))
+    
+    ttk.Button(self.root, text=&#34;Save&#34;, command=self.save, width=15).pack(anchor=&#34;center&#34;, pady=6)
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()
+
+
+    helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=60, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=60, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=60, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=60, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=60, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=60, callback=UpdateSettings())
+
+
+    self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=70, width=10, isString=True)
+    self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=70, width=10, isString=True)
+    self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=70, width=10, isString=True)
+    self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=70, width=10, isString=True)
+    self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=70, width=10, isString=True)
+
+
+    self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=70, width=10)
+    self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=70, width=10)
+    
+
+    self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateScaleValueFromSlider())
+    self.accelerationspeedSlider.set(settings.GetSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 1))
+    self.accelerationspeedSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
+    self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
+
+
+    helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporary ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=60, callback=UpdateSettings())
+    self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporary ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=70, width=10, isString=True)
+
+
+    helpers.MakeButton(controllerFrame, &#34;BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
+    helpers.MakeButton(controllerFrame, &#34;THROTTLE SETUP (RIGHT TRIGGER)\n(this will move the right trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.righttriggersetup, row=11, column=1, width=50, columnspan=1)
+
+    helpers.MakeButton(controllerFrame, &#34;DECREASE BUTTON SETUP (BUTTON A)\n(this will press the button A for 15s so you can set\nup your controls in game, later the button A will be\npressed to decrease the cruisecontrol speed)&#34;, command=self.buttonAsetup, row=13, column=1, width=50, columnspan=1)
+    helpers.MakeButton(controllerFrame, &#34;INCREASE BUTTON SETUP (BUTTON B)\n(this will press the button B for 15s so you can set\nup your controls in game, later the button B will be\npressed to increase the cruisecontrol speed)&#34;, command=self.buttonBsetup, row=12, column=1, width=50, columnspan=1)
+    helpers.MakeButton(controllerFrame, &#34;ACTIVATE BUTTON SETUP (BUTTON X)\n(this will press the button X for 15s so you can set\nup your controls in game, later the button X will be\npressed to activate or deactivate the cruise control)&#34;, command=self.buttonXsetup, row=12, column=0, width=50, columnspan=1)
+
+    helpers.MakeButton(controllerFrame, &#34;STOP SETUP MODE\n(if you press the button the setup mode will stop and the\nthe triggers and buttons of the virtual controller will\nnot get moved or pressed anymore)&#34;, command=self.stopsetup, row=13, column=0, width=50, columnspan=1)
+
+    helpers.MakeButton(generalFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
+    helpers.MakeButton(advancedFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=32)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.lefttriggersetup"><code class="name flex">
+<span>def <span class="ident">lefttriggersetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lefttriggersetup(self):
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    left_trigger_setup = True
+    right_trigger_setup = False
+    trigger_setup_time = time.time()
+    button_A_setup = False
+    button_B_setup = False
+    button_X_setup = False
+    button_setup_time = time.time()
+    variables.ENABLELOOP = True
+    UpdateSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.resetalladvancedsettingstodefault"><code class="name flex">
+<span>def <span class="ident">resetalladvancedsettingstodefault</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def resetalladvancedsettingstodefault(self):
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 30)
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 0)
+    UpdateSettings()
+    switchSelectedPlugin(&#34;plugins.&#34; + &#34;CruiseControl&#34; + &#34;.main&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.righttriggersetup"><code class="name flex">
+<span>def <span class="ident">righttriggersetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def righttriggersetup(self):
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    left_trigger_setup = False
+    right_trigger_setup = True
+    trigger_setup_time = time.time()
+    button_A_setup = False
+    button_B_setup = False
+    button_X_setup = False
+    button_setup_time = time.time()
+    variables.ENABLELOOP = True
+    UpdateSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.save"><code class="name flex">
+<span>def <span class="ident">save</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save(self):
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;, self.keyactivate.get())
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;, self.keyup.get())
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keydown&#34;, self.keydown.get())
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keybrake&#34;, self.keybrake.get())
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, self.keyaccelerate.get())
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, self.cruisespeedinturns.get())
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, self.cruisespeedattrafficlight.get())
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, self.accelerationspeedSlider.get())
+    settings.CreateSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, self.deactflstempkey.get())
+    UpdateSettings()
+    if self.deactflstempkey.get() == &#34;please set&#34; and enabledeactflstempkey == True:
+        messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the key to temporary ignore the detected traffic lights in General&#34;)
+    if keyboardmode == True:
+        if (self.keyactivate.get() == &#34;please set&#34; or
+            self.keyup.get() == &#34;please set&#34; or
+            self.keydown.get() == &#34;please set&#34; or
+            self.keybrake.get() == &#34;please set&#34; or
+            self.keyaccelerate.get() == &#34;please set&#34;):
+            messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the correct keys in the Keyboard window&#34;)
+    UpdateSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.stopsetup"><code class="name flex">
+<span>def <span class="ident">stopsetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stopsetup(self):
+    global left_trigger_setup
+    global right_trigger_setup
+    global trigger_setup_time
+    global button_A_setup
+    global button_B_setup
+    global button_X_setup
+    global button_setup_time
+    left_trigger_setup = False
+    right_trigger_setup = False
+    trigger_setup_time = time.time()
+    button_A_setup = False
+    button_B_setup = False
+    button_X_setup = False
+    button_setup_time = time.time()
+    variables.ENABLELOOP = False
+    UpdateSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.tabFocused"><code class="name flex">
+<span>def <span class="ident">tabFocused</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tabFocused(self):
+    resizeWindow(900,620)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UpdateSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UpdateSettings">UpdateSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.onDisable">onDisable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.onEnable">onEnable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.plugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.plugin">plugin</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.UpdateScaleValueFromSlider" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.UpdateScaleValueFromSlider">UpdateScaleValueFromSlider</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonAsetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonAsetup">buttonAsetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonBsetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonBsetup">buttonBsetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonXsetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.buttonXsetup">buttonXsetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.lefttriggersetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.lefttriggersetup">lefttriggersetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.resetalladvancedsettingstodefault" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.resetalladvancedsettingstodefault">resetalladvancedsettingstodefault</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.righttriggersetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.righttriggersetup">righttriggersetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.save" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.save">save</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.stopsetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.stopsetup">stopsetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.tabFocused" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.tabFocused">tabFocused</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
