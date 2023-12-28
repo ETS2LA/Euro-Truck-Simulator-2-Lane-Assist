@@ -130,6 +130,7 @@ import src.logger as logger
 import traceback
 import src.settings as settings
 import src.translator as translator
+import src.controls as controls
 import psutil
 import cv2
 
@@ -461,6 +462,9 @@ if __name__ == "__main__":
                 GetEnabledPlugins()
                 FindPlugins()
                 variables.UPDATEPLUGINS = False
+            
+            # Update the input manager.
+            data = controls.plugin(data)
             
             data = UpdatePlugins("before image capture", data)
             data = UpdatePlugins("image capture", data)

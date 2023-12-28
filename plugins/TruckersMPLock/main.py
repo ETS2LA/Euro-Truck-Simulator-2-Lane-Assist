@@ -24,6 +24,7 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+import src.controls as controls
 import os
 import win32gui
 from tkinter import messagebox
@@ -60,7 +61,6 @@ def plugin(data):
             variables.UpdatePlugins()
         else:
             mainUI.quit()
-
 
     return data # Plugins need to ALWAYS return the data
 
