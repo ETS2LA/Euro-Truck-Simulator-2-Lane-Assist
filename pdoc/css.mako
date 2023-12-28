@@ -32,7 +32,7 @@ html {
 body {
     line-height: 1.5em;
     color: #fff;
-    background-color: #0f0f0f;
+    background-color: #1e1e1e;
     font: 14px/1.5 Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -112,7 +112,7 @@ h6:target {
 }
 
 a {
-    color: lightblue;
+    color: #8fd6fc;
     text-decoration: none;
     transition: color .3s ease-in-out;
 }
