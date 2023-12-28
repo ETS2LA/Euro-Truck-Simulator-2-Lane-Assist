@@ -107,18 +107,18 @@ h3:target,
 h4:target,
 h5:target,
 h6:target {
-    background: #000;
+    background: #1e1e1e;
     padding: 0.2em 0;
 }
 
 a {
-    color: #0a0;
+    color: lightblue;
     text-decoration: none;
     transition: color .3s ease-in-out;
 }
 
 a:hover {
-    color: #0c0;
+    color: #00a4fc;
 }
 
 .title code {
@@ -130,11 +130,11 @@ h2[id^="header-"] {
 }
 
 .ident {
-    color: #ff00ca;
+    color: #f6fc85;
 }
 
 strong {
-    color: #f90;
+    color: #8fd6fc;
 }
 
 pre code {
