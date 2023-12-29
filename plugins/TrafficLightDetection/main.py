@@ -200,77 +200,77 @@ def UpdateSettings():
         print("Your Screen Capture Coordinates are invalid because the bottom Y is above the top Y (message from TrafficLightDetection)")
         messagebox.showwarning(title="TrafficLightDetection", message="Your Screen Capture Coordinates are invalid because the bottom Y is above the top Y (message from TrafficLightDetection)")
 
-
+    
     urr = settings.GetSettings("TrafficLightDetection", "upperred_r")
-    if urr == None:
+    if urr == None or not isinstance(urr, int) or not (0 <= urr <= 255):
         settings.CreateSettings("TrafficLightDetection", "upperred_r", 255)
         urr = 255
     urg = settings.GetSettings("TrafficLightDetection", "upperred_g")
-    if urg == None:
+    if urg == None or not isinstance(urg, int) or not (0 <= urg <= 255):
         settings.CreateSettings("TrafficLightDetection", "upperred_g", 110)
         urg = 110
     urb = settings.GetSettings("TrafficLightDetection", "upperred_b")
-    if urb == None:
+    if urb == None or not isinstance(urb, int) or not (0 <= urb <= 255):
         settings.CreateSettings("TrafficLightDetection", "upperred_b", 110)
         urb = 110
     lrr = settings.GetSettings("TrafficLightDetection", "lowerred_r")
-    if lrr == None:
+    if lrr == None or not isinstance(lrr, int) or not (0 <= lrr <= 255):
         settings.CreateSettings("TrafficLightDetection", "lowerred_r", 200)
         lrr = 200
     lrg = settings.GetSettings("TrafficLightDetection", "lowerred_g")
-    if lrg == None:
+    if lrg == None or not isinstance(lrg, int) or not (0 <= lrg <= 255):
         settings.CreateSettings("TrafficLightDetection", "lowerred_g", 0)
         lrg = 0
     lrb = settings.GetSettings("TrafficLightDetection", "lowerred_b")
-    if lrb == None:
+    if lrb == None or not isinstance(lrb, int) or not (0 <= lrb <= 255):
         settings.CreateSettings("TrafficLightDetection", "lowerred_b", 0)
         lrb = 0
     uyr = settings.GetSettings("TrafficLightDetection", "upperyellow_r")
-    if uyr == None:
+    if uyr == None or not isinstance(uyr, int) or not (0 <= uyr <= 255):
         settings.CreateSettings("TrafficLightDetection", "upperyellow_r", 255)
         uyr = 255
     uyg = settings.GetSettings("TrafficLightDetection", "upperyellow_g")
-    if uyg == None:
+    if uyg == None or not isinstance(uyg, int) or not (0 <= uyg <= 255):
         settings.CreateSettings("TrafficLightDetection", "upperyellow_g", 240)
         uyg = 240
     uyb = settings.GetSettings("TrafficLightDetection", "upperyellow_b")
-    if uyb == None:
+    if uyb == None or not isinstance(uyb, int) or not (0 <= uyb <= 255):
         settings.CreateSettings("TrafficLightDetection", "upperyellow_b", 170)
         uyb = 170
     lyr = settings.GetSettings("TrafficLightDetection", "loweryellow_r")
-    if lyr == None:
+    if lyr == None or not isinstance(lyr, int) or not (0 <= lyr <= 255):
         settings.CreateSettings("TrafficLightDetection", "loweryellow_r", 200)
         lyr = 200
     lyg = settings.GetSettings("TrafficLightDetection", "loweryellow_g")
-    if lyg == None:
+    if lyg == None or not isinstance(lyg, int) or not (0 <= lyg <= 255):
         settings.CreateSettings("TrafficLightDetection", "loweryellow_g", 170)
         lyg = 170
     lyb = settings.GetSettings("TrafficLightDetection", "loweryellow_b")
-    if lyb == None:
+    if lyb == None or not isinstance(lyb, int) or not (0 <= lyb <= 255):
         settings.CreateSettings("TrafficLightDetection", "loweryellow_b", 50)
         lyb = 50
     ugr = settings.GetSettings("TrafficLightDetection", "uppergreen_r")
-    if ugr == None:
+    if ugr == None or not isinstance(ugr, int) or not (0 <= ugr <= 255):
         settings.CreateSettings("TrafficLightDetection", "uppergreen_r", 150)
         ugr = 150
     ugg = settings.GetSettings("TrafficLightDetection", "uppergreen_g")
-    if ugg == None:
+    if ugg == None or not isinstance(ugg, int) or not (0 <= ugg <= 255):
         settings.CreateSettings("TrafficLightDetection", "uppergreen_g", 255)
         ugg = 255
     ugb = settings.GetSettings("TrafficLightDetection", "uppergreen_b")
-    if ugb == None:
+    if ugb == None or not isinstance(ugb, int) or not (0 <= ugb <= 255):
         settings.CreateSettings("TrafficLightDetection", "uppergreen_b", 230)
         ugb = 230
     lgr = settings.GetSettings("TrafficLightDetection", "lowergreen_r")
-    if lgr == None:
+    if lgr == None or not isinstance(lgr, int) or not (0 <= lgr <= 255):
         settings.CreateSettings("TrafficLightDetection", "lowergreen_r", 0)
         lgr = 0
     lgg = settings.GetSettings("TrafficLightDetection", "lowergreen_g")
-    if lgg == None:
+    if lgg == None or not isinstance(lgg, int) or not (0 <= lgg <= 255):
         settings.CreateSettings("TrafficLightDetection", "lowergreen_g", 200)
         lgg = 200
     lgb = settings.GetSettings("TrafficLightDetection", "lowergreen_b")
-    if lgb == None:
+    if lgb == None or not isinstance(lgb, int) or not (0 <= lgb <= 255):
         settings.CreateSettings("TrafficLightDetection", "lowergreen_b", 0)
         lgb = 0
 
@@ -841,7 +841,7 @@ def plugin(data):
                                         if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                             istrue = True
                                     else:
-                                        istrue = True
+                                        istrue = False
 
                                     if istrue == True:
 
@@ -964,7 +964,7 @@ def plugin(data):
                                             yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
                                             istrue = True
                                     else:
-                                        istrue = True
+                                        istrue = False
 
                                     if istrue == True:
                                         
@@ -1204,7 +1204,7 @@ def plugin(data):
                                         if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                             istrue = True
                                     else:
-                                        istrue = True
+                                        istrue = False
 
                                     if istrue == True:
 
@@ -1298,7 +1298,7 @@ def plugin(data):
                                             yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
                                             istrue = True
                                     else:
-                                        istrue = True
+                                        istrue = False
 
                                     if istrue == True:
                                     
@@ -1953,7 +1953,7 @@ def plugin(data):
                                         if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                             istrue = True
                                     else:
-                                        istrue = True
+                                        istrue = False
 
                                     if istrue == True:
 
@@ -2078,7 +2078,7 @@ def plugin(data):
                                             yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
                                             istrue = True
                                     else:
-                                        istrue = True
+                                        istrue = False
 
                                     if istrue == True:
                                         
@@ -2322,7 +2322,7 @@ def plugin(data):
                                         if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                             istrue = True
                                     else:
-                                        istrue = True
+                                        istrue = False
 
                                     if istrue == True:
 
@@ -2418,7 +2418,7 @@ def plugin(data):
                                             yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
                                             istrue = True
                                     else:
-                                        istrue = True
+                                        istrue = False
 
                                     if istrue == True:
                                     
@@ -2896,7 +2896,115 @@ class UI():
             settings.CreateSettings("TrafficLightDetection", "outputwindowheight", self.windowheightSlider.get())
             settings.CreateSettings("TrafficLightDetection", "minrectsize", self.minrectsizeSlider.get())
             settings.CreateSettings("TrafficLightDetection", "maxrectsize", self.maxrectsizeSlider.get())
-
+            
+            try:
+                self.upperredr.get()
+            except:
+                self.upperredr.set(255)
+            try:
+                self.upperredg.get()
+            except:
+                self.upperredg.set(110)
+            try:
+                self.upperredb.get()
+            except:
+                self.upperredb.set(110)
+            try:
+                self.lowerredr.get()
+            except:
+                self.lowerredr.set(200)
+            try:
+                self.lowerredg.get()
+            except:
+                self.lowerredg.set(0)
+            try:
+                self.lowerredb.get()
+            except:
+                self.lowerredb.set(0)
+            try:
+                self.upperyellowr.get()
+            except:
+                self.upperyellowr.set(255)
+            try:
+                self.upperyellowg.get()
+            except:
+                self.upperyellowg.set(240)
+            try:
+                self.upperyellowb.get()
+            except:
+                self.upperyellowb.set(170)
+            try:
+                self.loweryellowr.get()
+            except:
+                self.loweryellowr.set(200)
+            try:
+                self.loweryellowg.get()
+            except:
+                self.loweryellowg.set(170)
+            try:
+                self.loweryellowb.get()
+            except:
+                self.loweryellowb.set(50)
+            try:
+                self.uppergreenr.get()
+            except:
+                self.uppergreenr.set(150)
+            try:
+                self.uppergreeng.get()
+            except:
+                self.uppergreeng.set(255)
+            try:
+                self.uppergreenb.get()
+            except:
+                self.uppergreenb.set(230)
+            try:
+                self.lowergreenr.get()
+            except:
+                self.lowergreenr.set(0)
+            try:
+                self.lowergreeng.get()
+            except:
+                self.lowergreeng.set(200)
+            try:
+                self.lowergreenb.get()
+            except:
+                self.lowergreenb.set(0)
+            if not (0 <= self.upperredr.get() <= 255):
+                self.upperredr.set(255)
+            if not (0 <= self.upperredg.get() <= 255):
+                self.upperredg.set(110)
+            if not (0 <= self.upperredb.get() <= 255):
+                self.upperredb.set(110)
+            if not (0 <= self.lowerredr.get() <= 255):
+                self.lowerredr.set(200)  
+            if not (0 <= self.lowerredg.get() <= 255):
+                self.lowerredg.set(0)
+            if not (0 <= self.lowerredb.get() <= 255):
+                self.lowerredb.set(0)
+            if not (0 <= self.upperyellowr.get() <= 255):
+                self.upperyellowr.set(255)
+            if not (0 <= self.upperyellowg.get() <= 255):
+                self.upperyellowg.set(240)
+            if not (0 <= self.upperyellowb.get() <= 255):
+                self.upperyellowb.set(170)
+            if not (0 <= self.loweryellowr.get() <= 255):
+                self.loweryellowr.set(200)
+            if not (0 <= self.loweryellowg.get() <= 255):
+                self.loweryellowg.set(170)
+            if not (0 <= self.loweryellowb.get() <= 255):
+                self.loweryellowb.set(50)
+            if not (0 <= self.uppergreenr.get() <= 255):
+                self.uppergreenr.set(150)
+            if not (0 <= self.uppergreeng.get() <= 255):
+                self.uppergreeng.set(255)
+            if not (0 <= self.uppergreenb.get() <= 255):
+                self.uppergreenb.set(230)
+            if not (0 <= self.lowergreenr.get() <= 255):
+                self.lowergreenr.set(0)
+            if not (0 <= self.lowergreeng.get() <= 255):
+                self.lowergreeng.set(200)
+            if not (0 <= self.lowergreenb.get() <= 255):
+                self.lowergreenb.set(0)
             settings.CreateSettings("TrafficLightDetection", "upperred_r", self.upperredr.get())
             settings.CreateSettings("TrafficLightDetection", "upperred_g", self.upperredg.get())
             settings.CreateSettings("TrafficLightDetection", "upperred_b", self.upperredb.get())
@@ -2937,6 +3045,24 @@ class UI():
             settings.CreateSettings("TrafficLightDetection", "lowergreen_r", 0)
             settings.CreateSettings("TrafficLightDetection", "lowergreen_g", 200)
             settings.CreateSettings("TrafficLightDetection", "lowergreen_b", 0)
+            self.upperredr.set(255)
+            self.upperredg.set(110)
+            self.upperredb.set(110)
+            self.lowerredr.set(200)
+            self.lowerredg.set(0)
+            self.lowerredb.set(0)
+            self.upperyellowr.set(255)
+            self.upperyellowg.set(240)
+            self.upperyellowb.set(170)
+            self.loweryellowr.set(200)
+            self.loweryellowg.set(170)
+            self.loweryellowb.set(50)
+            self.uppergreenr.set(150)
+            self.uppergreeng.set(255)
+            self.uppergreenb.set(230)
+            self.lowergreenr.set(0)
+            self.lowergreeng.set(200)
+            self.lowergreenb.set(0)
             UpdateSettings()
             switchSelectedPlugin("plugins." + "TrafficLightDetection" + ".main")
 
@@ -2978,6 +3104,24 @@ class UI():
             settings.CreateSettings("TrafficLightDetection", "lowergreen_r", 0)
             settings.CreateSettings("TrafficLightDetection", "lowergreen_g", 200)
             settings.CreateSettings("TrafficLightDetection", "lowergreen_b", 0)
+            self.upperredr.set(255)
+            self.upperredg.set(110)
+            self.upperredb.set(110)
+            self.lowerredr.set(200)
+            self.lowerredg.set(0)
+            self.lowerredb.set(0)
+            self.upperyellowr.set(255)
+            self.upperyellowg.set(240)
+            self.upperyellowb.set(170)
+            self.loweryellowr.set(200)
+            self.loweryellowg.set(170)
+            self.loweryellowb.set(50)
+            self.uppergreenr.set(150)
+            self.uppergreeng.set(255)
+            self.uppergreenb.set(230)
+            self.lowergreenr.set(0)
+            self.lowergreeng.set(200)
+            self.lowergreenb.set(0)
             UpdateSettings()
             switchSelectedPlugin("plugins." + "TrafficLightDetection" + ".main")
 
