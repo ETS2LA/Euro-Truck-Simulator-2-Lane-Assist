@@ -246,7 +246,8 @@ def UnbindKeybind(name, updateUI=True):
                                                                                                  "deviceGUID": -1, 
                                                                                                  "buttonIndex": -1, 
                                                                                                  "axisIndex": -1,
-                                                                                                 "shouldBeAxis": next((item for item in KEYBINDS if item["name"] == name), None)["shouldBeAxis"]}
+                                                                                                 "shouldBeAxis": next((item for item in KEYBINDS if item["name"] == name), None)["shouldBeAxis"],
+                                                                                                 "notBoundInfo": next((item for item in KEYBINDS if item["name"] == name), None)["notBoundInfo"]}
     if updateUI:
         mainUI.closeTabName("controls")
         mainUI.switchSelectedPlugin("src.controls")
