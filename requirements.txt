@@ -12,4 +12,7 @@ pywebview
 matplotlib
 pywin32
 tkinter-tooltip
+pygame
+keyboard
+mouse
 --upgrade --no-cache-dir gdown
