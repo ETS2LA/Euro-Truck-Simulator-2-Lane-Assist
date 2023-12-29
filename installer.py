@@ -18,6 +18,7 @@ os.chdir(FOLDER)
 
 def UpdateChecker():
     currentVer = VERSION.split(".")
+
     url = "https://raw.githubusercontent.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist/installer/version.txt"
     try:
         remoteVer = requests.get(url).text.strip().split(".")
