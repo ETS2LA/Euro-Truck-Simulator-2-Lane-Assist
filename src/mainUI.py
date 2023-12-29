@@ -1,9 +1,16 @@
-from src.logger import print
-
 '''
 This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements.
-'''
 
+Main functions to take note of for plugins:
+```python
+# Should be in the following format "plugins.<pluginName>.main"
+switchSelectedPlugin(pluginName:str)
+
+# Will resize the window to the given size.
+resizeWindow(newWidth:int, newHeight:int)
+```'''
+
+from src.logger import print
 import time
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -52,8 +59,28 @@ def closeTab(event):
         UIs.pop(index)
         lastClosedTabName = pluginName
         settings.RemoveFromList("User Interface", "OpenTabs", pluginName)
-        
     except:
+        pass
+
+def closeTabName(name:str):
+    """Close a tab with the given name.
+
+    Args:
+        name (str): Name of the tab to close.
+    """
+    global lastClosedTabName
+    try:
+        for i in range(len(pluginFrames)):
+            if pluginNotebook.tab(i, "text") == name:
+                pluginNotebook.forget(i)
+                pluginFrames.pop(i)
+                UIs.pop(i)
+                lastClosedTabName = name
+                settings.RemoveFromList("User Interface", "OpenTabs", name)
+                break
+    except:
+        import traceback
+        traceback.print_exc()
         pass
 
 def selectedOtherTab():
@@ -69,6 +96,7 @@ def selectedOtherTab():
             resizeWindow(width, height)
     else:
         resizeWindow(width, height)
+    
 
 def switchSelectedPlugin(pluginName:str):
     """Will open a new tab with the given plugin name.
@@ -87,8 +115,8 @@ def switchSelectedPlugin(pluginName:str):
     for tab in pluginNotebook.tabs():
         notebookNames.append(pluginNotebook.tab(tab, "text"))
     
-    if pluginName.replace("plugins.", "").replace(".main", "") in notebookNames:
-        pluginNotebook.select(notebookNames.index(pluginName.replace("plugins.", "").replace(".main", "")))
+    if pluginName.replace("plugins.", "").replace(".main", "").replace("src.", "") in notebookNames:
+        pluginNotebook.select(notebookNames.index(pluginName.replace("plugins.", "").replace(".main", "").replace("src.", "")))
         ui = UIs[pluginNotebook.index(pluginNotebook.select())]
         return
     
@@ -176,10 +204,11 @@ def drawButtons(refresh:bool=False):
     helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, "Performance", lambda: switchSelectedPlugin("plugins.Performance.main"), 3, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=11, padx=9)
-    helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 5, 0, width=11, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme", "dark")).capitalize() + " Mode", lambda: changeTheme(), 6, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, "Controls", lambda: switchSelectedPlugin("src.controls"), 5, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 6, 0, width=11, padx=9)
+    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme", "dark")).capitalize() + " Mode", lambda: changeTheme(), 7, 0, width=11, padx=9)
     import webbrowser
-    helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 7, 0, width=11, padx=9, style="Accent.TButton", translate=False)
+    helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 8, 0, width=11, padx=9, style="Accent.TButton", translate=False)
 
 
 prevFrame = 100
@@ -446,7 +475,11 @@ def CreateRoot():
         for tab in settings.GetSettings("User Interface", "OpenTabs"):
             print("Loading " + tab)
             try:
-                switchSelectedPlugin(f"plugins.{tab}.main")
+                if tab == "controls":
+                    settings.RemoveFromList("User Interface", "OpenTabs", tab)
+                    continue
+                else:
+                    switchSelectedPlugin(f"plugins.{tab}.main")
             except Exception as ex:
                 print(ex.args)
                 pass

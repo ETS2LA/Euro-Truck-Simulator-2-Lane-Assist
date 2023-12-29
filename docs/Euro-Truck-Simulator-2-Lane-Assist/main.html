@@ -470,7 +470,6 @@ if version not in acceptedVersions:
 import src.mainUI as mainUI
 import src.loading as loading # And then create a loading window
 
-
 # Load the rest of the modules
 import sys
 import time
@@ -480,6 +479,7 @@ import src.logger as logger
 import traceback
 import src.settings as settings
 import src.translator as translator
+import src.controls as controls
 import psutil
 import cv2
 
@@ -730,7 +730,7 @@ def LoadApplication():
 
     # Check for new plugin installs
     InstallPlugins()
-
+    
     # Load all plugins 
     loadingWindow.update(text=&#34;Loading plugins...&#34;)
     GetEnabledPlugins()
@@ -762,6 +762,8 @@ def LoadApplication():
         settings.CreateSettings(&#34;User Interface&#34;, &#34;updateRate&#34;, 0)
 
     CheckLastKnownVersion()
+    # Show the root window
+    mainUI.root.deiconify()
 
 LoadApplication()
 
@@ -809,6 +811,9 @@ if __name__ == &#34;__main__&#34;:
                 GetEnabledPlugins()
                 FindPlugins()
                 variables.UPDATEPLUGINS = False
+            
+            # Update the input manager.
+            data = controls.plugin(data)
             
             data = UpdatePlugins(&#34;before image capture&#34;, data)
             data = UpdatePlugins(&#34;image capture&#34;, data)
@@ -1146,7 +1151,7 @@ if __name__ == &#34;__main__&#34;:
 
     # Check for new plugin installs
     InstallPlugins()
-
+    
     # Load all plugins 
     loadingWindow.update(text=&#34;Loading plugins...&#34;)
     GetEnabledPlugins()
@@ -1177,7 +1182,9 @@ if __name__ == &#34;__main__&#34;:
         uiUpdateRate = 0
         settings.CreateSettings(&#34;User Interface&#34;, &#34;updateRate&#34;, 0)
 
-    CheckLastKnownVersion()</code></pre>
+    CheckLastKnownVersion()
+    # Show the root window
+    mainUI.root.deiconify()</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.main.RunOnEnable"><code class="name flex">

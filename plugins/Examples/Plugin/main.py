@@ -23,6 +23,7 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+import src.controls as controls # use controls.RegisterKeybind() and controls.GetKeybindValue()
 import os
 
 

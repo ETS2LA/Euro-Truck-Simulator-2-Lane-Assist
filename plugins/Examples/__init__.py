@@ -1,0 +1,1 @@
+"""Provides examples to create plugins quickly. Just copy either the plugin or panel example and use them as a template."""

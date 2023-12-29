@@ -121,7 +121,6 @@ if version not in acceptedVersions:
 import src.mainUI as mainUI
 import src.loading as loading # And then create a loading window
 
-
 # Load the rest of the modules
 import sys
 import time
@@ -131,6 +130,7 @@ import src.logger as logger
 import traceback
 import src.settings as settings
 import src.translator as translator
+import src.controls as controls
 import psutil
 import cv2
 
@@ -381,7 +381,7 @@ def LoadApplication():
 
     # Check for new plugin installs
     InstallPlugins()
-
+    
     # Load all plugins 
     loadingWindow.update(text="Loading plugins...")
     GetEnabledPlugins()
@@ -413,6 +413,8 @@ def LoadApplication():
         settings.CreateSettings("User Interface", "updateRate", 0)
 
     CheckLastKnownVersion()
+    # Show the root window
+    mainUI.root.deiconify()
 
 LoadApplication()
 
@@ -460,6 +462,9 @@ if __name__ == "__main__":
                 GetEnabledPlugins()
                 FindPlugins()
                 variables.UPDATEPLUGINS = False
+            
+            # Update the input manager.
+            data = controls.plugin(data)
             
             data = UpdatePlugins("before image capture", data)
             data = UpdatePlugins("image capture", data)

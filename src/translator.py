@@ -1,3 +1,10 @@
+"""Provides a standard translation interface. All helper functions already use this interface by default.
+
+Usage:
+```python
+from src.translator import Translate
+print(Translate("Hello world!"))
+```"""
 import deep_translator as dt
 import src.settings as settings
 import src.loading as loading

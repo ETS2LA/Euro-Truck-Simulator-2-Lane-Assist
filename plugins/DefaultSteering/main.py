@@ -32,10 +32,27 @@ import pygame
 import cv2
 import keyboard as kb
 from tkinter import messagebox
-
+import src.controls as controls
 
 pygame.joystick.init()
 pygame.display.init()
+
+controls.RegisterKeybind("Enable/Disable Steering", 
+                         defaultButtonIndex="n", 
+                         notBoundInfo="You should bind this. It's useful to have on hand.",
+                         description="Enable or disable the steering.")
+controls.RegisterKeybind("Steering Axis", 
+                         axis=True, 
+                         notBoundInfo="This is optional when using a keyboard.",
+                         description="The steering axis. Not used when in keyboard mode.")
+controls.RegisterKeybind("Steer Left Key", 
+                         defaultButtonIndex="a", 
+                         notBoundInfo="This is optional when using a controller.",
+                         description="Steer left key. Not used when in controller mode.")
+controls.RegisterKeybind("Steer Right Key", 
+                         defaultButtonIndex="d", 
+                         notBoundInfo="This is optional when using a controller.",
+                         description="Steer right key. Not used when in controller mode.")
 
 def onEnable():
     pass
@@ -73,22 +90,7 @@ def updateSettings():
     global lanechangingnavdetection
     global keyboardSensitivity
     global keyboardReturnSensitivity
-    
-    if lastWheelIndex != verifySetting("DefaultSteering", "controller", 0):
-        try:
-            wheel = pygame.joystick.Joystick(verifySetting("DefaultSteering", "controller", 0))
-        except:
-            try:    
-                wheel = pygame.joystick.Joystick(0)
-                messagebox.showinfo("DefaultSteering", "Controller setup changed, defaulting to controller 0.")
-                settings.CreateSettings("DefaultSteering", "controller", 0)
-            except:
-                wheel = None
         
-    
-    rightIndicator = verifySetting("DefaultSteering", "rightIndicator", 13)
-    leftIndicator = verifySetting("DefaultSteering", "leftIndicator", 14)
-    steeringAxis = verifySetting("DefaultSteering", "steeringAxis", 0)
     maximumControl = verifySetting("DefaultSteering", "maximumControl", 0.2)
     controlSmoothness = verifySetting("DefaultSteering", "smoothness", 4)
     sensitivity = verifySetting("DefaultSteering", "sensitivity", 0.4)
@@ -98,9 +100,6 @@ def updateSettings():
     enableDisable = verifySetting("DefaultSteering", "enableDisable", 5)
     
     keyboard = verifySetting("DefaultSteering", "keyboard", False)
-    enableDisableKey = verifySetting("DefaultSteering", "enableDisableKey", "n")
-    rightIndicatorKey = verifySetting("DefaultSteering", "rightIndicatorKey", "e")
-    leftIndicatorKey = verifySetting("DefaultSteering", "leftIndicatorKey", "q")
     
     keyboardSensitivity = verifySetting("DefaultSteering", "keyboardSensitivity", 0.5)
     keyboardReturnSensitivity = verifySetting("DefaultSteering", "keyboardReturnSensitivity", 0.2)
@@ -124,7 +123,6 @@ keyboardControlValue = 0
 def plugin(data):
     global desiredControl
     global oldDesiredControl
-    global wheel
     global enabled
     global IndicatingRight
     global IndicatingLeft
@@ -140,13 +138,12 @@ def plugin(data):
     global enableDisable
     global enabledTimer
     global keyboard
-    global enableDisableKey
-    global rightIndicatorKey
-    global leftIndicatorKey
     global keyboardControlValue
     global keyboardSensitivity
     global keyboardReturnSensitivity
     # global disableLaneAssistWhenIndicating
+
+    print(controls.GetKeybindValue("Enable/Disable Steering"))
 
     try:
         desiredControl = data["LaneDetection"]["difference"] * sensitivity + offset
@@ -179,14 +176,14 @@ def plugin(data):
         except:
             speed = 50
         
-        if kb.is_pressed("a"):
+        if controls.GetKeybindValue("Steer Left Key"):
             if keyboardControlValue < -1:
                 keyboardControlValue = -1
             else:
                 keyboardControlValue -= keyboardSensitivity / speed
                 if keyboardControlValue > 0:
                     keyboardControlValue -= 1 / speed
-        elif kb.is_pressed("d"):
+        elif controls.GetKeybindValue("Steer Right Key"):
             if keyboardControlValue > 1:
                 keyboardControlValue = 1
             else:
@@ -208,7 +205,7 @@ def plugin(data):
             IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
 
             enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
-            if(kb.is_pressed(enableDisableKey) and enabledTimer > 15):
+            if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
                 if enabled == True:
                     enabled = False
                     print("Disabled")
@@ -288,7 +285,7 @@ def plugin(data):
             IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
             IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
 
-            if(wheel.get_button(enableDisable) and enabledTimer > 15):
+            if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
                 if enabled == True:
                     enabled = False
                     print("Disabled")
@@ -302,6 +299,7 @@ def plugin(data):
 
             try:
                 pygame.event.pump() # Update the controller values
+                steeringAxisValue = controls.GetKeybindValue("Steering Axis")
 
                 # Main controller update loop.
                 if(enabled):
@@ -315,34 +313,34 @@ def plugin(data):
                     if(IndicatingRight or IndicatingLeft):
                         
                         if gamepadMode:
-                            value = pow(wheel.get_axis(steeringAxis), 2) 
-                            if(wheel.get_axis(steeringAxis) < 0) : value = -value
+                            value = pow(steeringAxisValue, 2) 
+                            if(steeringAxisValue < 0) : value = -value
                             newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
                             lastFrame = newValue
                             data["controller"]["leftStick"] = newValue
                         else:
-                            data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
+                            data["controller"]["leftStick"] = steeringAxisValue
                     else:
                         if gamepadMode:
-                            value = pow(wheel.get_axis(steeringAxis), 2) 
-                            if(wheel.get_axis(steeringAxis) < 0) : value = -value
+                            value = pow(steeringAxisValue, 2) 
+                            if(steeringAxisValue < 0) : value = -value
                             newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
                             lastFrame = newValue
                             data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
                         else:
-                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + wheel.get_axis(steeringAxis)
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + steeringAxisValue
                     
                     oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
                 else:
                     # If the lane assist is disabled we just input the default control.
                     if gamepadMode:
-                        value = pow(wheel.get_axis(steeringAxis), 2) 
-                        if(wheel.get_axis(steeringAxis) < 0) : value = -value
+                        value = pow(steeringAxisValue, 2) 
+                        if(steeringAxisValue < 0) : value = -value
                         newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
                         lastFrame = newValue
                         data["controller"]["leftStick"] = newValue
                     else:
-                        data["controller"]["leftStick"] = wheel.get_axis(steeringAxis)
+                        data["controller"]["leftStick"] = steeringAxisValue
                 
             except Exception as ex:
                 print(ex)
@@ -455,8 +453,6 @@ class UI():
             
             generalFrame = ttk.Frame(notebook)
             generalFrame.pack()
-            controllerFrame = ttk.Frame(notebook)
-            controllerFrame.pack()
             gamepadFrame = ttk.Frame(notebook)
             gamepadFrame.pack()
             keyboardFrame = ttk.Frame(notebook)
@@ -491,41 +487,7 @@ class UI():
             value = settings.GetSettings("DefaultSteering", "maximumControl")
             if value == None: value = 0.2
             self.maximumControl.set(value)
-
-            controllerFrame.columnconfigure(0, weight=1)
-            controllerFrame.columnconfigure(1, weight=1)
-            controllerFrame.columnconfigure(2, weight=1)
-            helpers.MakeLabel(controllerFrame, "Controller (indexes)", 5, 0, font=("Robot", 12, "bold"), columnspan=3)
             
-            # List of controllers
-            pygame.event.pump()
-
-            self.joysticks = pygame.joystick.get_count()
-            self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
-            
-            self.listVariable = tk.StringVar(controllerFrame)
-            self.listVariable.set([Translate(j.get_name()) for j in self.joysticks])
-            
-            self.list = tk.Listbox(controllerFrame, width=50, height=4, listvariable=self.listVariable, selectmode="single")
-            self.list.grid(row=6, column=0, columnspan=3, padx=30, pady=10)
-            
-            # Select the current controller by default
-            try:
-                self.list.selection_set(settings.GetSettings("DefaultSteering", "controller"))
-            except:
-                pass
-            
-            self.steeringAxis = helpers.MakeComboEntry(controllerFrame, "Steering Axis", "DefaultSteering", "steeringAxis", 7, 1, width=12, value=0)
-            self.enableDisable = helpers.MakeComboEntry(controllerFrame, "Enable/Disable", "DefaultSteering", "enableDisable", 8, 1, width=12, value=5)
-            # self.rightIndicator = helpers.MakeComboEntry(controllerFrame, "Right Indicator", "DefaultSteering", "rightIndicator", 9, 1, width=12, value=13)
-            # self.leftIndicator = helpers.MakeComboEntry(controllerFrame, "Left Indicator", "DefaultSteering", "leftIndicator", 10, 1, width=12, value=14)
-            # Make a slider to show the current axis value
-            helpers.MakeLabel(controllerFrame, "Steering Axis Value: ", 11, 0, columnspan=3, pady=0)
-            self.slider = tk.Scale(controllerFrame, from_=-1, to=1, orient="horizontal", length=500, resolution=0.01)
-            self.slider.grid(row=12, column=0, columnspan=3, pady=0)
-            
-            helpers.MakeLabel(controllerFrame, "Pressed Controller Buttons: ", 13, 0, columnspan=3)
-            self.pressedControllerButtons = helpers.MakeLabel(controllerFrame, "", 14, 0, columnspan=3)
             
             gamepadFrame.columnconfigure(0, weight=1)
             gamepadFrame.columnconfigure(1, weight=1)
@@ -561,7 +523,6 @@ class UI():
             # self.leftIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 1, width=12, value="q", isString=True)
             
             notebook.add(generalFrame, text=Translate("General"))
-            notebook.add(controllerFrame, text=Translate("Controller"))
             notebook.add(gamepadFrame, text=Translate("Gamepad"))
             notebook.add(keyboardFrame, text=Translate("Keyboard"))
             
@@ -598,19 +559,6 @@ class UI():
         
         def update(self, data): # When the panel is open this function is called each frame 
             pygame.event.pump()
-            try:
-                
-                value = ""
-                for i in range(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_numbuttons()):
-                    if self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_button(i):
-                        value += (Translate(" Button ") + str(i))
-                self.pressedControllerButtons.set(value)
-                
-                self.slider.set(self.joysticks[settings.GetSettings("DefaultSteering", "controller")].get_axis(settings.GetSettings("DefaultSteering", "steeringAxis")))
-                
-            except Exception as ex:
-                print(ex) 
-                pass
             
             self.root.update()
             

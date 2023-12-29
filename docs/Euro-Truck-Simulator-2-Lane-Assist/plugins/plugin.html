@@ -368,30 +368,19 @@ class PluginInformation():
         
         type (str): Type of the plugin (&#34;static&#34; (updated when showing window), &#34;dynamic&#34; (updated every frame))
         
-        dynamicOrder (str) (if dynamic): Select at which state the plugin is run
-                &gt;&gt;&gt; &#34;before image capture&#34;
-                &gt;&gt;&gt; &#34;image capture&#34;
-                &gt;&gt;&gt; &#34;before lane detection&#34;
-                &gt;&gt;&gt; &#34;lane detection&#34;
-                &gt;&gt;&gt; &#34;before controller&#34;
-                &gt;&gt;&gt; &#34;controller&#34;
-                &gt;&gt;&gt; &#34;before game&#34;
-                &gt;&gt;&gt; &#34;game&#34;
-                &gt;&gt;&gt; &#34;before UI&#34;
-                &gt;&gt;&gt; &#34;last&#34; (reserved for fps limiter, other plugins may make it less accurate)
+        dynamicOrder (str): Select at which state the plugin is run - &#34;before image capture&#34;, &#34;image capture&#34;, &#34;before lane detection&#34;, &#34;lane detection&#34;, &#34;before controller&#34;, &#34;controller&#34;, &#34;before game&#34;, &#34;game&#34;, &#34;before UI&#34;, &#34;last&#34; (reserved for fps limiter, other plugins may make it less accurate)
         
-        image (str) (optional): Image path (in the plugin folder) (image file will be scaled to around 120x120)
+        image (str): Image path (in the plugin folder) (image file will be scaled to around 120x120)
 
-        disablePlugins (bool) (optional): If true then the panel will prompt to disable plugins when opened
+        disablePlugins (bool): If true then the panel will prompt to disable plugins when opened
         
-        disableLoop (bool) (optional): If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with dxcam for example)
+        disableLoop (bool): If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with dxcam for example)
         
-        noUI (bool) (optional): If true then the UI button will not be shown
+        noUI (bool): If true then the UI button will not be shown
         
-        exclusive (str) (optional): If set to a str then no other plugins of the same &#39;exclusive&#39; type can be enabled at the same time 
+        exclusive (str): If set to a str then no other plugins of the same &#39;exclusive&#39; type can be enabled at the same time 
         
-        requires (list) (optional): List of plugins that are required for this plugin to work (plugin names)
-                &gt;&gt;&gt; [&#34;plugin1&#34;, &#34;plugin2&#34;]
+        requires (list): List of plugins that are required for this plugin to work (plugin names) [&#34;plugin1&#34;, &#34;plugin2&#34;]
     
     &#34;&#34;&#34;
     def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None):
@@ -439,25 +428,21 @@ class PluginInformation():
 <dd>URL of the plugin</dd>
 <dt><strong><code>type</code></strong> :&ensp;<code>str</code></dt>
 <dd>Type of the plugin ("static" (updated when showing window), "dynamic" (updated every frame))</dd>
-</dl>
-<p>dynamicOrder (str) (if dynamic): Select at which state the plugin is run
-&gt;&gt;&gt; "before image capture"
-&gt;&gt;&gt; "image capture"
-&gt;&gt;&gt; "before lane detection"
-&gt;&gt;&gt; "lane detection"
-&gt;&gt;&gt; "before controller"
-&gt;&gt;&gt; "controller"
-&gt;&gt;&gt; "before game"
-&gt;&gt;&gt; "game"
-&gt;&gt;&gt; "before UI"
-&gt;&gt;&gt; "last" (reserved for fps limiter, other plugins may make it less accurate)</p>
-<p>image (str) (optional): Image path (in the plugin folder) (image file will be scaled to around 120x120)</p>
-<p>disablePlugins (bool) (optional): If true then the panel will prompt to disable plugins when opened</p>
-<p>disableLoop (bool) (optional): If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with dxcam for example)</p>
-<p>noUI (bool) (optional): If true then the UI button will not be shown</p>
-<p>exclusive (str) (optional): If set to a str then no other plugins of the same 'exclusive' type can be enabled at the same time </p>
-<p>requires (list) (optional): List of plugins that are required for this plugin to work (plugin names)
-&gt;&gt;&gt; ["plugin1", "plugin2"]</p></div>
+<dt><strong><code>dynamicOrder</code></strong> :&ensp;<code>str</code></dt>
+<dd>Select at which state the plugin is run - "before image capture", "image capture", "before lane detection", "lane detection", "before controller", "controller", "before game", "game", "before UI", "last" (reserved for fps limiter, other plugins may make it less accurate)</dd>
+<dt><strong><code>image</code></strong> :&ensp;<code>str</code></dt>
+<dd>Image path (in the plugin folder) (image file will be scaled to around 120x120)</dd>
+<dt><strong><code>disablePlugins</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true then the panel will prompt to disable plugins when opened</dd>
+<dt><strong><code>disableLoop</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with dxcam for example)</dd>
+<dt><strong><code>noUI</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true then the UI button will not be shown</dd>
+<dt><strong><code>exclusive</code></strong> :&ensp;<code>str</code></dt>
+<dd>If set to a str then no other plugins of the same 'exclusive' type can be enabled at the same time </dd>
+<dt><strong><code>requires</code></strong> :&ensp;<code>list</code></dt>
+<dd>List of plugins that are required for this plugin to work (plugin names) ["plugin1", "plugin2"]</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -479,30 +464,19 @@ class PluginInformation():
         
         type (str): Type of the plugin (&#34;static&#34; (updated when showing window), &#34;dynamic&#34; (updated every frame))
         
-        dynamicOrder (str) (if dynamic): Select at which state the plugin is run
-                &gt;&gt;&gt; &#34;before image capture&#34;
-                &gt;&gt;&gt; &#34;image capture&#34;
-                &gt;&gt;&gt; &#34;before lane detection&#34;
-                &gt;&gt;&gt; &#34;lane detection&#34;
-                &gt;&gt;&gt; &#34;before controller&#34;
-                &gt;&gt;&gt; &#34;controller&#34;
-                &gt;&gt;&gt; &#34;before game&#34;
-                &gt;&gt;&gt; &#34;game&#34;
-                &gt;&gt;&gt; &#34;before UI&#34;
-                &gt;&gt;&gt; &#34;last&#34; (reserved for fps limiter, other plugins may make it less accurate)
+        dynamicOrder (str): Select at which state the plugin is run - &#34;before image capture&#34;, &#34;image capture&#34;, &#34;before lane detection&#34;, &#34;lane detection&#34;, &#34;before controller&#34;, &#34;controller&#34;, &#34;before game&#34;, &#34;game&#34;, &#34;before UI&#34;, &#34;last&#34; (reserved for fps limiter, other plugins may make it less accurate)
         
-        image (str) (optional): Image path (in the plugin folder) (image file will be scaled to around 120x120)
+        image (str): Image path (in the plugin folder) (image file will be scaled to around 120x120)
 
-        disablePlugins (bool) (optional): If true then the panel will prompt to disable plugins when opened
+        disablePlugins (bool): If true then the panel will prompt to disable plugins when opened
         
-        disableLoop (bool) (optional): If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with dxcam for example)
+        disableLoop (bool): If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with dxcam for example)
         
-        noUI (bool) (optional): If true then the UI button will not be shown
+        noUI (bool): If true then the UI button will not be shown
         
-        exclusive (str) (optional): If set to a str then no other plugins of the same &#39;exclusive&#39; type can be enabled at the same time 
+        exclusive (str): If set to a str then no other plugins of the same &#39;exclusive&#39; type can be enabled at the same time 
         
-        requires (list) (optional): List of plugins that are required for this plugin to work (plugin names)
-                &gt;&gt;&gt; [&#34;plugin1&#34;, &#34;plugin2&#34;]
+        requires (list): List of plugins that are required for this plugin to work (plugin names) [&#34;plugin1&#34;, &#34;plugin2&#34;]
     
     &#34;&#34;&#34;
     def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None):

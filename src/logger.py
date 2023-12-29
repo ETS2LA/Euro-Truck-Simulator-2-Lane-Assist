@@ -2,9 +2,11 @@
 
 Logger, will replace the default "print" command with a custom one that will also log to a file.
 
->>> from src.logger import print
->>> print("Something just happened!")
-
+Usage:
+```
+from src.logger import print
+print("Something just happened!")
+```
 """
 
 import time

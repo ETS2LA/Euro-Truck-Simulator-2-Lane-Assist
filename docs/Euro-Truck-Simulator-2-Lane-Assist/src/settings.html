@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>Euro-Truck-Simulator-2-Lane-Assist.src.settings API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Provides an interface to read and write settings from the main JSON file.
+Ideally all settings should be stored using this interface …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
@@ -342,11 +343,33 @@ color: #fff;
 <h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.settings</code></h1>
 </header>
 <section id="section-intro">
+<p>Provides an interface to read and write settings from the main JSON file.
+Ideally all settings should be stored using this interface.</p>
+<p>Main functions:</p>
+<pre><code class="language-python"># Will create (or update) a new setting in the settings file.
+CreateSettings(category, name, data) 
+
+# Will get a specific setting from the settings file.
+GetSettings(category, name, value=None) 
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import json
+<pre><code class="python">&#34;&#34;&#34;
+Provides an interface to read and write settings from the main JSON file.
+Ideally all settings should be stored using this interface.
+
+Main functions:
+```python
+# Will create (or update) a new setting in the settings file.
+CreateSettings(category, name, data) 
+
+# Will get a specific setting from the settings file.
+GetSettings(category, name, value=None) 
+```
+&#34;&#34;&#34;
+import json
 from src.logger import print
 from src.variables import PATH
 import os
