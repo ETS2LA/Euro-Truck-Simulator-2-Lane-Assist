@@ -1,4 +1,2 @@
-Added navigation detection V3.
-Added controls manager.
-Bugfixes.
-YOU WILL NEED TO REBIND YOUR KEYS AFTER THE UPDATE IN THE CONTROLS PANEL.
+Fixed controls having a massive overhead.
+Fixed autoupdater getting wrong changelog.

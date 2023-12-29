@@ -99,6 +99,7 @@ def SaveKeybind(name, description="", deviceGUID=-1, buttonIndex=-1, axisIndex=-
 
 pygame.init()
 pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 def plugin(data):
     """Handles calling back the keybinds. Should not be called directly.
 
@@ -109,7 +110,6 @@ def plugin(data):
         dict: Data dictionary to main.py
     """
     pygame.event.pump()
-    joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     for keybind in KEYBINDS:
         if keybind["callback"] != None:
             for joystick in joysticks:
@@ -287,6 +287,9 @@ def GetKeybindValue(name):
     
     if keybind["deviceGUID"] == KEYBOARD_GUID:
         return True if keyboard.is_pressed(keybind["buttonIndex"]) else False
+    
+    if keybind["buttonIndex"] == -1 and keybind["axisIndex"] == -1:
+        return False
     
     pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]

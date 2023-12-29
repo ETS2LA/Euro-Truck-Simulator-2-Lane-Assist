@@ -92,7 +92,7 @@ def UpdateChecker():
     devmode = settings.GetSettings("Dev", "disable_warnings", False)
     if devmode == False:
         if update:
-            changelog = variables.CHANGELOG
+            changelog = requests.get("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt").text
             from tkinter import messagebox
             if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
                 os.system("git stash")
@@ -464,7 +464,10 @@ if __name__ == "__main__":
                 variables.UPDATEPLUGINS = False
             
             # Update the input manager.
+            controlsStartTime = time.time()
             data = controls.plugin(data)
+            controlsEndTime = time.time()
+            data["executionTimes"]["Control callbacks"] = controlsEndTime - controlsStartTime
             
             data = UpdatePlugins("before image capture", data)
             data = UpdatePlugins("image capture", data)
