@@ -726,12 +726,13 @@ def plugin(data):
 
             try:
                 if IndicatingLeft or IndicatingRight:
-                    cv2.putText(output_img, &#34;Indicating&#34;, (int(w/2), int(h - h/10 - 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
+                    text_size_indicating, _ = cv2.getTextSize(&#34;Indicating&#34;, cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)
+                    cv2.putText(output_img, &#34;Indicating&#34;, (int(w-text_size_indicating[0]-5), int(27)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
             except:
                 pass    
             
             # Also draw a enabled text to the top left
-            cv2.putText(output_img, &#34;Enabled&#34;, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
+            cv2.putText(output_img, &#34;Enabled&#34;, (5, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
             
             data[&#34;frame&#34;] = output_img
         else:
@@ -1215,12 +1216,13 @@ class UI():
 
             try:
                 if IndicatingLeft or IndicatingRight:
-                    cv2.putText(output_img, &#34;Indicating&#34;, (int(w/2), int(h - h/10 - 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
+                    text_size_indicating, _ = cv2.getTextSize(&#34;Indicating&#34;, cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)
+                    cv2.putText(output_img, &#34;Indicating&#34;, (int(w-text_size_indicating[0]-5), int(27)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
             except:
                 pass    
             
             # Also draw a enabled text to the top left
-            cv2.putText(output_img, &#34;Enabled&#34;, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
+            cv2.putText(output_img, &#34;Enabled&#34;, (5, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
             
             data[&#34;frame&#34;] = output_img
         else:

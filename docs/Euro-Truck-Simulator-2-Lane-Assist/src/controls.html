@@ -376,6 +376,7 @@ import math
 import pygame
 import keyboard
 from tktooltip import ToolTip
+from src.logger import print
 
 PluginInfo = PluginInformation(
     name=&#34;controls&#34;, # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
@@ -482,11 +483,12 @@ def plugin(data):
     
     return data
 
-def ChangeKeybind(name):
+def ChangeKeybind(name, updateUI=True):
     &#34;&#34;&#34;Will run the keybind change window code.
 
     Args:
         name (str): Keybind to change (name).
+        updateUI (bool): Whether the UI should be updated (should be False if the function is called from other files).
     &#34;&#34;&#34;
     global save
     global currentbinding
@@ -532,11 +534,15 @@ def ChangeKeybind(name):
     # Get all devices from pygame
     pygame.init()
     pygame.joystick.init()
+    pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+    
+    import time
+    time.sleep(0.2)
+    pygame.event.pump()
     
     # For all devices, save the default state
     defaultStates = []
-    pygame.event.pump()
     for joystick in joysticks:
         defaultStates.append({&#34;name&#34;: joystick.get_name(), &#34;buttons&#34;: [joystick.get_button(i) for i in range(joystick.get_numbuttons())], &#34;axes&#34;: [joystick.get_axis(i) for i in range(joystick.get_numaxes())]})
     
@@ -552,6 +558,9 @@ def ChangeKeybind(name):
     window.bind(&#34;&lt;Key&gt;&#34;, KeyboardEvent)
     window.protocol(&#34;WM_DELETE_WINDOW&#34;, lambda: SaveBind())
     
+    def GetDistanceFromDefault(currentVal, defaultVal):
+        return abs(currentVal - defaultVal)
+    
     while not save:
         # Check if any of the states change
         pygame.event.pump()
@@ -566,7 +575,7 @@ def ChangeKeybind(name):
 
             if keybindToChange[&#34;shouldBeAxis&#34;]:    
                 for j in range(joystick.get_numaxes()):
-                    if abs(defaultState[&#34;axes&#34;][j] - joystick.get_axis(j)) &gt; 0.4:
+                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState[&#34;axes&#34;][j]) &gt; 0.4:
                         label.config(text=f&#34;Axis: {j}&#34;)
                         axisSlider.set(joystick.get_axis(j))
                         currentbinding = {&#34;deviceGUID&#34;: joystick.get_guid(), &#34;axisIndex&#34;: j}
@@ -586,9 +595,12 @@ def ChangeKeybind(name):
                                                                                                      &#34;shouldBeAxis&#34;: next((item for item in KEYBINDS if item[&#34;name&#34;] == name), None)[&#34;shouldBeAxis&#34;],
                                                                                                      &#34;notBoundInfo&#34;: next((item for item in KEYBINDS if item[&#34;name&#34;] == name), None)[&#34;notBoundInfo&#34;]}
 
-    mainUI.closeTabName(&#34;controls&#34;)
-    mainUI.switchSelectedPlugin(&#34;src.controls&#34;)
-    
+        print(f&#34;Saved keybind {name}&#34;)
+
+    if updateUI:
+        mainUI.closeTabName(&#34;controls&#34;)
+        mainUI.switchSelectedPlugin(&#34;src.controls&#34;)
+        
 def UnbindKeybind(name, updateUI=True):
     &#34;&#34;&#34;Remove the binding of a keybind.
 
@@ -747,7 +759,7 @@ class UI():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.controls.ChangeKeybind"><code class="name flex">
-<span>def <span class="ident">ChangeKeybind</span></span>(<span>name)</span>
+<span>def <span class="ident">ChangeKeybind</span></span>(<span>name, updateUI=True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will run the keybind change window code.</p>
@@ -755,16 +767,19 @@ class UI():
 <dl>
 <dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
 <dd>Keybind to change (name).</dd>
+<dt><strong><code>updateUI</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether the UI should be updated (should be False if the function is called from other files).</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def ChangeKeybind(name):
+<pre><code class="python">def ChangeKeybind(name, updateUI=True):
     &#34;&#34;&#34;Will run the keybind change window code.
 
     Args:
         name (str): Keybind to change (name).
+        updateUI (bool): Whether the UI should be updated (should be False if the function is called from other files).
     &#34;&#34;&#34;
     global save
     global currentbinding
@@ -810,11 +825,15 @@ class UI():
     # Get all devices from pygame
     pygame.init()
     pygame.joystick.init()
+    pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+    
+    import time
+    time.sleep(0.2)
+    pygame.event.pump()
     
     # For all devices, save the default state
     defaultStates = []
-    pygame.event.pump()
     for joystick in joysticks:
         defaultStates.append({&#34;name&#34;: joystick.get_name(), &#34;buttons&#34;: [joystick.get_button(i) for i in range(joystick.get_numbuttons())], &#34;axes&#34;: [joystick.get_axis(i) for i in range(joystick.get_numaxes())]})
     
@@ -830,6 +849,9 @@ class UI():
     window.bind(&#34;&lt;Key&gt;&#34;, KeyboardEvent)
     window.protocol(&#34;WM_DELETE_WINDOW&#34;, lambda: SaveBind())
     
+    def GetDistanceFromDefault(currentVal, defaultVal):
+        return abs(currentVal - defaultVal)
+    
     while not save:
         # Check if any of the states change
         pygame.event.pump()
@@ -844,7 +866,7 @@ class UI():
 
             if keybindToChange[&#34;shouldBeAxis&#34;]:    
                 for j in range(joystick.get_numaxes()):
-                    if abs(defaultState[&#34;axes&#34;][j] - joystick.get_axis(j)) &gt; 0.4:
+                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState[&#34;axes&#34;][j]) &gt; 0.4:
                         label.config(text=f&#34;Axis: {j}&#34;)
                         axisSlider.set(joystick.get_axis(j))
                         currentbinding = {&#34;deviceGUID&#34;: joystick.get_guid(), &#34;axisIndex&#34;: j}
@@ -864,8 +886,11 @@ class UI():
                                                                                                      &#34;shouldBeAxis&#34;: next((item for item in KEYBINDS if item[&#34;name&#34;] == name), None)[&#34;shouldBeAxis&#34;],
                                                                                                      &#34;notBoundInfo&#34;: next((item for item in KEYBINDS if item[&#34;name&#34;] == name), None)[&#34;notBoundInfo&#34;]}
 
-    mainUI.closeTabName(&#34;controls&#34;)
-    mainUI.switchSelectedPlugin(&#34;src.controls&#34;)</code></pre>
+        print(f&#34;Saved keybind {name}&#34;)
+
+    if updateUI:
+        mainUI.closeTabName(&#34;controls&#34;)
+        mainUI.switchSelectedPlugin(&#34;src.controls&#34;)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.controls.GetKeybindFromName"><code class="name flex">
