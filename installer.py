@@ -7,7 +7,11 @@ import threading
 import time
 from tkinter import ttk
 import json
-import requests
+try:
+    import requests
+except:
+    os.system("pip install requests")
+    import requests
 
 APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
 FOLDER = os.path.dirname(__file__)
