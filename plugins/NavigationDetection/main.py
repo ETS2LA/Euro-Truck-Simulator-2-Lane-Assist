@@ -1950,7 +1950,7 @@ def plugin(data):
                         tilt = -0.5
                 else:
                     tilt = 0
-                x_offset = lanechanging_final_offset
+                x_offset = lanechanging_final_offset - v3_offset
                 lanes = GetArrayOfLaneEdges(y_coordinate_of_lane, tilt, x_offset)
                 try:
                     closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - navigationsymbol_x))
@@ -1972,7 +1972,7 @@ def plugin(data):
                 
 
                 tilt = 0
-                x_offset = lanechanging_final_offset
+                x_offset = lanechanging_final_offset - v3_offset
                 lanes = GetArrayOfLaneEdges(y_coordinate_of_turn, tilt, x_offset)
                 try:
                     closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - navigationsymbol_x))
@@ -2332,8 +2332,8 @@ def plugin(data):
                         sizeofinfo = round(height/5)
                         infothickness = round(height/50)
                         cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-                        cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness, cv2.LINE_AA)
-                        cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness/1.5), (0,127,255), -1, cv2.LINE_AA)
+                        cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
+                        cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
 
                         sizeoftext = round(height/200)
                         textthickness = round(height/100)
@@ -2362,8 +2362,8 @@ def plugin(data):
                         sizeofinfo = round(height/5)
                         infothickness = round(height/50)
                         cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-                        cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness, cv2.LINE_AA)
-                        cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness/1.5), (0,127,255), -1, cv2.LINE_AA)
+                        cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
+                        cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
 
                         sizeoftext = round(height/200)
                         textthickness = round(height/100)
@@ -2412,9 +2412,9 @@ def plugin(data):
                             showing_traffic_light_symbol = True
                     
                     if width_lane != 0:
-                        cv2.line(frame, (round(left_x_lane + lanechanging_final_offset), left_y_lane), (round(right_x_lane + lanechanging_final_offset), right_y_lane),  (255, 255, 255), 2)
+                        cv2.line(frame, (round(left_x_lane + lanechanging_final_offset - v3_offset), left_y_lane), (round(right_x_lane + lanechanging_final_offset - v3_offset), right_y_lane),  (255, 255, 255), 2)
                     if width_turn != 0 and showing_traffic_light_symbol == False and show_turn_line == True:
-                        cv2.line(frame, (round(left_x_turn + lanechanging_final_offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset), y_coordinate_of_turn), (255, 255, 255), 2)
+                        cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - v3_offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - v3_offset), y_coordinate_of_turn), (255, 255, 255), 2)
                 
                 
                 if turnincoming_detected == False and turnincoming_approved == False and width_turn != 0:
@@ -2524,7 +2524,6 @@ class UI():
 
             # V3:
             self.offset.set(self.offsetSlider.get())
-
 
             settings.CreateSettings("NavigationDetectionV3", "offset", self.offsetSlider.get())
 
