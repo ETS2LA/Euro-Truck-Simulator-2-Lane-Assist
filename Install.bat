@@ -5,7 +5,7 @@ git --version >nul 2>&1 || (
     git_installer.exe /VERYSILENT /NORESTART /NOCANCEL /SP-
     del git_installer.exe
     echo git is now installed
-    msg * "git is now installed, please rerun Run.bat"
+    msg * "git is now installed, please rerun Install.bat"
     exit 0
 )
 
@@ -22,9 +22,7 @@ git clone -b installer https://github.com/Cloud-121/Euro-Truck-Simulator-2-Lane-
 xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y
 rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist
 
-del Run.bat
-
 installer.bat
 
-
+del Install.bat
 
