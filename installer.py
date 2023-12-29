@@ -12,11 +12,12 @@ import requests
 APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
 FOLDER = os.path.dirname(__file__)
 with open("version.txt", 'r') as file:
-    currentVer = file.read()
+    VERSION = file.read()
 
 os.chdir(FOLDER)
 
 def UpdateChecker():
+    currentVer = VERSION.split(".")
     url = "https://raw.githubusercontent.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist/installer/version.txt"
     try:
         remoteVer = requests.get(url).text.strip().split(".")
@@ -286,7 +287,7 @@ sv_ttk.set_theme("dark")
 
 # Bottom text
 ttk.Label(root, text="ETS2 Lane Assist   ©Tumppi066 - 2023", font=("Roboto", 8)).grid(row=2, sticky="s", padx=10, pady=16)
-ttk.Label(root, text="Installer version " + currentVer, font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
+ttk.Label(root, text="Installer version " + VERSION, font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
 progressBar = ttk.Progressbar(root, mode="determinate", length=width)
 progressBar.grid(row=0, sticky="n", padx=0, pady=0)
 
