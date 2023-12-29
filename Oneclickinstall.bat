@@ -5,7 +5,7 @@ git --version >nul 2>&1 || (
     git_installer.exe /VERYSILENT /NORESTART /NOCANCEL /SP-
     del git_installer.exe
     echo git is now installed
-    msg * "git is now installed, please rerun Install.bat"
+    msg * "git is now installed, please rerun Oneclickinstall.bat"
     exit 0
 )
 
@@ -23,6 +23,4 @@ xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y
 rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist
 
 installer.bat
-
-del Install.bat
 
