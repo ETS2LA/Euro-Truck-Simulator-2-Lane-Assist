@@ -71,6 +71,7 @@ else:
     pass
 
 import requests
+import src.settings as settings
 def UpdateChecker():
     currentVer = variables.VERSION.split(".")
     url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
@@ -90,6 +91,11 @@ def UpdateChecker():
         update = False
     
     devmode = settings.GetSettings("Dev", "disable_warnings", False)
+    print(f"Current version: {'.'.join(currentVer)}")
+    print(f"Remote version: {'.'.join(remoteVer)}")
+    print(f"Update available: {update}")
+    if update:
+        print(f"Changelog:\n{requests.get('https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt').text}")
     if devmode == False:
         if update:
             changelog = requests.get("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt").text
@@ -128,7 +134,6 @@ import json
 from src.logger import print
 import src.logger as logger
 import traceback
-import src.settings as settings
 import src.translator as translator
 import src.controls as controls
 import psutil
