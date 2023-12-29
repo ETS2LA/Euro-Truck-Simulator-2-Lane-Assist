@@ -100,7 +100,7 @@ def UpdateSettings():
     automatic_acceleration_after_traffic_light = settings.GetSettings("CruiseControl", "autoaccelatrflght", True)
     automatic_acceleration = settings.GetSettings("CruiseControl", "autoaccel", False)
     advancedsettings = settings.GetSettings("CruiseControl", "advancedsettings", False)
-    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", True)
+    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", False)
 
 
     buttonup = settings.GetSettings("CruiseControl", "keyup")
