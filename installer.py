@@ -602,7 +602,7 @@ def InstallSequence():
         if os.name == "nt":
             f.write("@echo off\n")
             string = "cmd /k"
-            string += fr'"cd "{dir}/venv/Scripts" & .\activate.bat"'
+            string += fr'"cd "{dir}/venv/Scripts" & .\activate.bat & cd {dir}"'
             f.write(string)
         else:
             f.write(f"cd {dir}/venv/Scripts & ./activate")
