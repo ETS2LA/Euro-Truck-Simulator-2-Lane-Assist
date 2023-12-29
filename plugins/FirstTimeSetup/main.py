@@ -25,6 +25,7 @@ import src.settings as settings
 import cv2
 import plugins.TruckSimAPI.main as api
 import webview
+import src.controls as controls
 
 try:
     import dxcam
@@ -155,62 +156,51 @@ class UI():
             settings.CreateSettings("DefaultSteering", "gamepad", True)
             settings.CreateSettings("DefaultSteering", "gamepadSmoothness", 0.05)
 
-            helpers.MakeLabel(self.root, "Gamepad", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            helpers.MakeLabel(self.root, "Great! I'll automatically set all the necessary options for gamepad usage.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, "Just be aware that you will have to set the controller type to 'wheel' in the game.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)        
-            helpers.MakeLabel(self.root, "Don't worry there will be instructions later! For now please select your controller from the list below.", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            # helpers.MakeLabel(self.root, "Gamepad", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+            # helpers.MakeLabel(self.root, "Great! I'll automatically set all the necessary options for gamepad usage.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            # helpers.MakeLabel(self.root, "Just be aware that you will have to set the controller type to 'wheel' in the game.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)        
+            # helpers.MakeLabel(self.root, "Don't worry there will be instructions later! For now please select your controller from the list below.", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            # pygame.event.pump()
+            # 
+            # 
+            # helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 8,0)
+            # helpers.MakeButton(self.root, "Next", lambda: self.axisSetup(), 8,1)
 
-            pygame.event.pump()
-
-            self.joysticks = pygame.joystick.get_count()
-            self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
-            
-            self.listVariable = tk.StringVar(self.root)
-            self.listVariable.set([j.get_name() for j in self.joysticks])
-            
-            self.list = tk.Listbox(self.root, width=70, height=4, listvariable=self.listVariable, selectmode="single")
-            self.list.grid(row=6, column=0, columnspan=2, padx=30, pady=10)
-
-            helpers.MakeLabel(self.root, "The list is scrollable, if you can't find your controller then go back and open the page again.", 7,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-
-            helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 8,0)
-            helpers.MakeButton(self.root, "Next", lambda: self.axisSetup(), 8,1)
-
-            self.root.pack()
+            self.axisSetup()
             
             
         def wheelPage(self):
             
             settings.CreateSettings("DefaultSteering", "gamepad", False)
             settings.CreateSettings("DefaultSteering", "gamepadsmoothness", 0.05)
-            
-            from plugins.DefaultSteering.main import updateSettings
-            updateSettings()
-            
-            self.root.destroy()
-            self.root = tk.Canvas(self.master)
+            # 
+            # from plugins.DefaultSteering.main import updateSettings
+            # updateSettings()
+            # 
+            # self.root.destroy()
+            # self.root = tk.Canvas(self.master)
+# 
+            # helpers.MakeLabel(self.root, "Wheel", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
+            # helpers.MakeLabel(self.root, "Great! Using a wheel has the most straight forward setup process.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)    
+            # helpers.MakeLabel(self.root, "Please select your wheel from the list below.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+# 
+            # pygame.event.pump()
+# 
+            # self.joysticks = pygame.joystick.get_count()
+            # self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
+            # 
+            # self.listVariable = tk.StringVar(self.root)
+            # self.listVariable.set([j.get_name() for j in self.joysticks])
+            # 
+            # self.list = tk.Listbox(self.root, width=70, height=4, listvariable=self.listVariable, selectmode="single")
+            # self.list.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
+# 
+            # helpers.MakeLabel(self.root, "The list is scrollable, if you can't find your controller then go back and open the page again.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+# 
+            # helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 5,0)
+            # helpers.MakeButton(self.root, "Next", lambda: self.axisSetup(), 5,1)
 
-            helpers.MakeLabel(self.root, "Wheel", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            helpers.MakeLabel(self.root, "Great! Using a wheel has the most straight forward setup process.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)    
-            helpers.MakeLabel(self.root, "Please select your wheel from the list below.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-
-            pygame.event.pump()
-
-            self.joysticks = pygame.joystick.get_count()
-            self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
-            
-            self.listVariable = tk.StringVar(self.root)
-            self.listVariable.set([j.get_name() for j in self.joysticks])
-            
-            self.list = tk.Listbox(self.root, width=70, height=4, listvariable=self.listVariable, selectmode="single")
-            self.list.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
-
-            helpers.MakeLabel(self.root, "The list is scrollable, if you can't find your controller then go back and open the page again.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-
-            helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 5,0)
-            helpers.MakeButton(self.root, "Next", lambda: self.axisSetup(), 5,1)
-
-            self.root.pack()
+            self.axisSetup()
             
             
         def keyboardPage(self):
@@ -223,16 +213,17 @@ class UI():
             self.root = tk.Canvas(self.master)
 
             helpers.MakeLabel(self.root, "Keyboard", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            helpers.MakeLabel(self.root, "Great! Just a warning, keyboard support is VERY EXPERIMENTAL.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            helpers.MakeLabel(self.root, "There might be issues but it will get updates along the way.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
-            helpers.MakeLabel(self.root, "You can use the A and D key to move the wheel, and by default the", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
-            helpers.MakeLabel(self.root, "N key for toggling, and E and Q as the blinker keys.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)      
+            helpers.MakeLabel(self.root, "Please bind the following buttons", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
 
-            helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 5,0)
+            helpers.MakeButton(self.root, "Bind enable / disable key", lambda: controls.ChangeKeybind("Enable/Disable Steering", updateUI=False), 2, 0)
+            helpers.MakeButton(self.root, "Bind steer left key", lambda: controls.ChangeKeybind("Steer Left Key", updateUI=False), 3, 0)
+            helpers.MakeButton(self.root, "Bind steer right key", lambda: controls.ChangeKeybind("Steer Right Key", updateUI=False), 4, 0)
+
+            helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 8,0)
             if dxcam != None:
-                helpers.MakeButton(self.root, "Next", lambda: self.screenCaptureSetup(), 5,1)
+                helpers.MakeButton(self.root, "Next", lambda: self.screenCaptureSetup(), 8,1)
             else:
-                helpers.MakeButton(self.root, "Next", lambda: self.laneDetectionFeatures(), 5,1)
+                helpers.MakeButton(self.root, "Next", lambda: self.laneDetectionFeatures(), 8,1)
 
             self.root.pack()
             
@@ -240,29 +231,18 @@ class UI():
         def axisSetup(self):
             
             import src.settings as settings
-            settings.CreateSettings("DefaultSteering", "controller", self.list.curselection()[0])
-            settings.CreateSettings("DefaultSteering", "controller name", self.joysticks[self.list.curselection()[0]].get_name())
             
             self.root.destroy()
             self.root = tk.Canvas(self.master)
 
-            helpers.MakeLabel(self.root, "Axis Setup", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            helpers.MakeLabel(self.root, "Now we are going to detect the different axis' on your controller.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)    
-            helpers.MakeLabel(self.root, "So please go ahead and select the axis corresponding to steering from the below list.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
+            helpers.MakeLabel(self.root, "Axis Setup", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, "Now we are going to detect the different axis' on your controller.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)    
+            helpers.MakeLabel(self.root, "So please go ahead and select the axis corresponding to steering from the below list.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3) 
             
-            # Create sliders for all axis
-            index = settings.GetSettings("DefaultSteering", "controller")
-            self.sliderVars = []
-            for i in range(self.joysticks[index].get_numaxes()):
-                variable = tk.IntVar(self.root)
-                helpers.MakeCheckButton(self.root, f"Axis {i}", "DefaultSteering", f"steeringAxis", i+4, 1, values=[i, ""], onlyTrue=True)
-                slider = tk.Scale(self.root, from_=-1, to=1, variable=variable, orient=tk.HORIZONTAL, length=200, resolution=0.01)
-                self.sliderVars.append(variable)
-                slider.grid(row=i+4, column=0, padx=0, pady=5)
-            
+            helpers.MakeButton(self.root, "Bind Steering Axis", lambda: controls.ChangeKeybind("Steering Axis", updateUI=False), 4,1)            
 
             helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 10,0)
-            helpers.MakeButton(self.root, "Next", lambda: self.buttonSetup(), 10,1)
+            helpers.MakeButton(self.root, "Next", lambda: self.buttonSetup(), 10,2)
 
             self.root.pack()
             
@@ -274,51 +254,52 @@ class UI():
             helpers.MakeLabel(self.root, "Then for the buttons.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)    
             helpers.MakeLabel(self.root, "Please select the correct button corresponding to each category from the list.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
             
-            # Create a notebook for each of the groups (both blinkers, and enable / disable)
-            notebook = ttk.Notebook(self.root)
-            notebook.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
-            
-            # leftBlinkerFrame = ttk.Frame(notebook)
-            # leftBlinkerFrame.pack()
-            # rightBlinkerFrame = ttk.Frame(notebook)
-            # rightBlinkerFrame.pack()
-            enableDisableFrame = ttk.Frame(notebook)
-            enableDisableFrame.pack()
-            
-            # Get a list of all buttons
-            index = settings.GetSettings("DefaultSteering", "controller")
-            pygame.event.pump()
-            
-            buttons = []
-            for i in range(self.joysticks[index].get_numbuttons()):
-                buttons.append("Button " + str(i))
-            
-            # Create a combobox for each of the groups
-            # leftBlinker = tk.StringVar()
-            # rightBlinker = tk.StringVar()
-            enableDisable = tk.StringVar()
-            
-            # self.leftBlinkerCombo = ttk.Combobox(leftBlinkerFrame, textvariable=leftBlinker, width=50)
-            # self.leftBlinkerCombo['values'] = buttons
-            # self.rightBlinkerCombo = ttk.Combobox(rightBlinkerFrame, textvariable=rightBlinker, width=50)
-            # self.rightBlinkerCombo['values'] = buttons
-            self.enableDisableCombo = ttk.Combobox(enableDisableFrame, textvariable=enableDisable, width=50)
-            self.enableDisableCombo['values'] = buttons
-            
-            # self.leftBlinkerCombo.pack()
-            # self.rightBlinkerCombo.pack()
-            self.enableDisableCombo.pack()
-            
-            # notebook.add(leftBlinkerFrame, text="Left Blinker")
-            # notebook.add(rightBlinkerFrame, text="Right Blinker")
-            notebook.add(enableDisableFrame, text="Enable / Disable")
-            
-            helpers.MakeLabel(self.root, "You are currently pressing: ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            self.pressedButtons = tk.StringVar()
-            tk.Label(self.root, textvariable=self.pressedButtons).grid(row=5, column=0, columnspan=2, padx=30, pady=0)
-
+            # # Create a notebook for each of the groups (both blinkers, and enable / disable)
+            # notebook = ttk.Notebook(self.root)
+            # notebook.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
+            # 
+            # # leftBlinkerFrame = ttk.Frame(notebook)
+            # # leftBlinkerFrame.pack()
+            # # rightBlinkerFrame = ttk.Frame(notebook)
+            # # rightBlinkerFrame.pack()
+            # enableDisableFrame = ttk.Frame(notebook)
+            # enableDisableFrame.pack()
+            # 
+            # # Get a list of all buttons
+            # index = settings.GetSettings("DefaultSteering", "controller")
+            # pygame.event.pump()
+            # 
+            # buttons = []
+            # for i in range(self.joysticks[index].get_numbuttons()):
+            #     buttons.append("Button " + str(i))
+            # 
+            # # Create a combobox for each of the groups
+            # # leftBlinker = tk.StringVar()
+            # # rightBlinker = tk.StringVar()
+            # enableDisable = tk.StringVar()
+            # 
+            # # self.leftBlinkerCombo = ttk.Combobox(leftBlinkerFrame, textvariable=leftBlinker, width=50)
+            # # self.leftBlinkerCombo['values'] = buttons
+            # # self.rightBlinkerCombo = ttk.Combobox(rightBlinkerFrame, textvariable=rightBlinker, width=50)
+            # # self.rightBlinkerCombo['values'] = buttons
+            # self.enableDisableCombo = ttk.Combobox(enableDisableFrame, textvariable=enableDisable, width=50)
+            # self.enableDisableCombo['values'] = buttons
+            # 
+            # # self.leftBlinkerCombo.pack()
+            # # self.rightBlinkerCombo.pack()
+            # self.enableDisableCombo.pack()
+            # 
+            # # notebook.add(leftBlinkerFrame, text="Left Blinker")
+            # # notebook.add(rightBlinkerFrame, text="Right Blinker")
+            # notebook.add(enableDisableFrame, text="Enable / Disable")
+            # 
+            # helpers.MakeLabel(self.root, "You are currently pressing: ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+            # self.pressedButtons = tk.StringVar()
+            # tk.Label(self.root, textvariable=self.pressedButtons).grid(row=5, column=0, columnspan=2, padx=30, pady=0)
             helpers.MakeButton(self.root, "Previous", lambda: self.axisSetup(), 6,0)
             helpers.MakeButton(self.root, "Next", lambda: self.saveButtonSettings(), 6,1)
+
+            helpers.MakeButton(self.root, "Bind enable / disable button", lambda: controls.ChangeKeybind("Enable/Disable Steering", updateUI=False), 3, 0)
 
             self.root.pack()
             self.root.update()
@@ -328,7 +309,7 @@ class UI():
             # Save the button settings
             # settings.CreateSettings("DefaultSteering", "leftIndicator", int(self.leftBlinkerCombo.get().split(" ")[1]))
             # settings.CreateSettings("DefaultSteering", "rightIndicator", int(self.rightBlinkerCombo.get().split(" ")[1]))
-            settings.CreateSettings("DefaultSteering", "enableDisable", int(self.enableDisableCombo.get().split(" ")[1]))
+            # settings.CreateSettings("DefaultSteering", "enableDisable", int(self.enableDisableCombo.get().split(" ")[1]))
             
             from plugins.DefaultSteering.main import updateSettings
             updateSettings()

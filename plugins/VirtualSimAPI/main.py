@@ -1,5 +1,3 @@
-
-
 from plugins.plugin import PluginInformation
 from src.logger import print
 
@@ -36,6 +34,8 @@ API = None
 lastX = 0
 lastY = 0
 isConnected = False
+
+
 
 def plugin(data):
     global API

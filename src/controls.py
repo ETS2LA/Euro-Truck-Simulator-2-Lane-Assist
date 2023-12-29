@@ -21,6 +21,7 @@ import math
 import pygame
 import keyboard
 from tktooltip import ToolTip
+from src.logger import print
 
 PluginInfo = PluginInformation(
     name="controls", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
@@ -127,11 +128,12 @@ def plugin(data):
     
     return data
 
-def ChangeKeybind(name):
+def ChangeKeybind(name, updateUI=True):
     """Will run the keybind change window code.
 
     Args:
         name (str): Keybind to change (name).
+        updateUI (bool): Whether the UI should be updated (should be False if the function is called from other files).
     """
     global save
     global currentbinding
@@ -177,11 +179,15 @@ def ChangeKeybind(name):
     # Get all devices from pygame
     pygame.init()
     pygame.joystick.init()
+    pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+    
+    import time
+    time.sleep(0.2)
+    pygame.event.pump()
     
     # For all devices, save the default state
     defaultStates = []
-    pygame.event.pump()
     for joystick in joysticks:
         defaultStates.append({"name": joystick.get_name(), "buttons": [joystick.get_button(i) for i in range(joystick.get_numbuttons())], "axes": [joystick.get_axis(i) for i in range(joystick.get_numaxes())]})
     
@@ -197,6 +203,9 @@ def ChangeKeybind(name):
     window.bind("<Key>", KeyboardEvent)
     window.protocol("WM_DELETE_WINDOW", lambda: SaveBind())
     
+    def GetDistanceFromDefault(currentVal, defaultVal):
+        return abs(currentVal - defaultVal)
+    
     while not save:
         # Check if any of the states change
         pygame.event.pump()
@@ -211,7 +220,7 @@ def ChangeKeybind(name):
 
             if keybindToChange["shouldBeAxis"]:    
                 for j in range(joystick.get_numaxes()):
-                    if abs(defaultState["axes"][j] - joystick.get_axis(j)) > 0.4:
+                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState["axes"][j]) > 0.4:
                         label.config(text=f"Axis: {j}")
                         axisSlider.set(joystick.get_axis(j))
                         currentbinding = {"deviceGUID": joystick.get_guid(), "axisIndex": j}
@@ -231,9 +240,12 @@ def ChangeKeybind(name):
                                                                                                      "shouldBeAxis": next((item for item in KEYBINDS if item["name"] == name), None)["shouldBeAxis"],
                                                                                                      "notBoundInfo": next((item for item in KEYBINDS if item["name"] == name), None)["notBoundInfo"]}
 
-    mainUI.closeTabName("controls")
-    mainUI.switchSelectedPlugin("src.controls")
-    
+        print(f"Saved keybind {name}")
+
+    if updateUI:
+        mainUI.closeTabName("controls")
+        mainUI.switchSelectedPlugin("src.controls")
+        
 def UnbindKeybind(name, updateUI=True):
     """Remove the binding of a keybind.
 
@@ -271,7 +283,10 @@ def GetKeybindValue(name):
             break
         
     if keybind == None:
-        return None
+        return False
+    
+    if keybind["deviceGUID"] == KEYBOARD_GUID:
+        return True if keyboard.is_pressed(keybind["buttonIndex"]) else False
     
     pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
@@ -281,7 +296,8 @@ def GetKeybindValue(name):
                 return True if joystick.get_button(keybind["buttonIndex"]) == 1 else False
             elif keybind["axisIndex"] != -1:
                 return joystick.get_axis(keybind["axisIndex"])
-    return None
+    
+    return False
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur

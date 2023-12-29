@@ -354,8 +354,9 @@ import src.settings as settings
 import src.translator as translator
 import webview
 import webbrowser
+from tktooltip import ToolTip
 
-def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;):
+def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;, tooltip=&#34;&#34;):
     &#34;&#34;&#34;Will create a new standard button with the given parameters.
 
     Args:
@@ -371,8 +372,10 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TB
         pady (int, optional): Defaults to 10.
         state (str, optional): Defaults to &#34;!disabled&#34;.
         columnspan (int, optional): How many columns the button will span over. Defaults to 1.
+        rowspan (int, optional): How many rows the button will span over. Defaults to 1.
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         sticky (str, optional): Defaults to &#34;n&#34;.
+        tooltip (str, optional): Defaults to &#34;&#34;.
 
     Returns:
         ttk.button: The button object we created.
@@ -382,13 +385,17 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TB
     
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
     if not center:
-        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, sticky=sticky)
+        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, rowspan=rowspan, sticky=sticky)
     else:
-        button.grid(row=row, column=column, padx=padx, pady=pady, sticky=&#34;n&#34;, columnspan=columnspan)
+        button.grid(row=row, column=column, padx=padx, pady=pady, sticky=&#34;n&#34;, columnspan=columnspan, rowspan=rowspan)
+        
+    if tooltip != &#34;&#34;:
+        ToolTip(button, msg=tooltip)
+        
     return button
 
     
-def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None):
+def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=&#34;&#34;):
     &#34;&#34;&#34;Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)
 
     Args:
@@ -406,6 +413,7 @@ def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         columnspan (int, optional): How many columns the checkbutton will span over. Defaults to 1.
         callback (lambda, optional): Lambda callback. Defaults to None.
+        tooltip (str, optional): Defaults to &#34;&#34;.
 
     Returns:
         tk.BooleanVar: The boolean variable of the checkbutton. (use .get() to get the value)
@@ -456,10 +464,14 @@ def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column
         button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed(), width=width)
     
     button.grid(row=row, column=column, padx=0, pady=7, sticky=&#34;w&#34;, columnspan=columnspan)
+    
+    if tooltip != &#34;&#34;:
+        ToolTip(button, msg=tooltip)
+    
     return variable
 
 
-def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10):
+def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10, tooltip=&#34;&#34;):
     &#34;&#34;&#34;Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)
 
     Args:
@@ -478,6 +490,7 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         labelSticky (str, optional): Defaults to &#34;w&#34;.
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         labelPadX (int, optional): Defaults to 10.
+        tooltip (str, optional): Defaults to &#34;&#34;.
 
     Returns:
         tk.Var: The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)
@@ -485,8 +498,11 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
     if translate:
         text = translator.Translate(text)
     
+    label = ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
+    if tooltip != &#34;&#34;: 
+        ToolTip(label, msg=tooltip)
+    
     if not isFloat and not isString:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.IntVar()
         
         setting = settings.GetSettings(category, setting)
@@ -496,10 +512,7 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var
     elif isString:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.StringVar()
         
         setting = settings.GetSettings(category, setting)
@@ -509,10 +522,7 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var
     else:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.DoubleVar()
         
         setting = settings.GetSettings(category, setting)
@@ -522,10 +532,14 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var
+    entry = ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
+    
+    if tooltip != &#34;&#34;:
+        ToolTip(entry, msg=tooltip)
+    
+    return var
 
-def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True):
+def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True, tooltip=&#34;&#34;):
     &#34;&#34;&#34;Will make a label with the given parameters.
 
     Args:
@@ -541,6 +555,7 @@ def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 1
         fg (str, optional): Foreground color. Defaults to &#34;&#34;.
         bg (str, optional): Background color. Defaults to &#34;&#34;.
         translate (bool, optional): Whether to translate the label or not. Defaults to True.
+        tooltip (str, optional): Defaults to &#34;&#34;.
 
     Returns:
         tk.StringVar / ttk.Label: Depending on whether the text input is &#34;&#34; or not.
@@ -553,13 +568,19 @@ def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 1
         var.set(text)
         
         if fg != &#34;&#34; and bg != &#34;&#34;:
-            ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg)
         elif fg != &#34;&#34;:
-            ttk.Label(parent, font=font, textvariable=var, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, foreground=fg)
         elif bg != &#34;&#34;:
-            ttk.Label(parent, font=font, textvariable=var, background=bg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg)
         else: 
-            ttk.Label(parent, font=font, textvariable=var).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var)
+            
+        label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != &#34;&#34;:
+            ToolTip(label, msg=tooltip)
+            
         return var
     else:
         if fg != &#34;&#34; and bg != &#34;&#34;:
@@ -571,6 +592,10 @@ def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 1
         else:
             label = ttk.Label(parent, font=font, text=text)
         label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != &#34;&#34;:
+            ToolTip(label, msg=tooltip)
+        
         return label
         
 
@@ -678,7 +703,7 @@ def ConvertCapitalizationToSpaces(text:str):
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeButton"><code class="name flex">
-<span>def <span class="ident">MakeButton</span></span>(<span>parent, text: str, command, row: int, column: int, style: str = 'TButton', width: int = 15, center: bool = False, padx: int = 5, pady: int = 10, state: str = '!disabled', columnspan: int = 1, translate: bool = True, sticky: str = 'n')</span>
+<span>def <span class="ident">MakeButton</span></span>(<span>parent, text: str, command, row: int, column: int, style: str = 'TButton', width: int = 15, center: bool = False, padx: int = 5, pady: int = 10, state: str = '!disabled', columnspan: int = 1, rowspan: int = 1, translate: bool = True, sticky: str = 'n', tooltip='')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will create a new standard button with the given parameters.</p>
@@ -708,10 +733,14 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>Defaults to "!disabled".</dd>
 <dt><strong><code>columnspan</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>How many columns the button will span over. Defaults to 1.</dd>
+<dt><strong><code>rowspan</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>How many rows the button will span over. Defaults to 1.</dd>
 <dt><strong><code>translate</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>Whether to translate the text or not. Defaults to True.</dd>
 <dt><strong><code>sticky</code></strong> :&ensp;<code>str</code>, optional</dt>
 <dd>Defaults to "n".</dd>
+<dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "".</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -722,7 +751,7 @@ def ConvertCapitalizationToSpaces(text:str):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;):
+<pre><code class="python">def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;, tooltip=&#34;&#34;):
     &#34;&#34;&#34;Will create a new standard button with the given parameters.
 
     Args:
@@ -738,8 +767,10 @@ def ConvertCapitalizationToSpaces(text:str):
         pady (int, optional): Defaults to 10.
         state (str, optional): Defaults to &#34;!disabled&#34;.
         columnspan (int, optional): How many columns the button will span over. Defaults to 1.
+        rowspan (int, optional): How many rows the button will span over. Defaults to 1.
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         sticky (str, optional): Defaults to &#34;n&#34;.
+        tooltip (str, optional): Defaults to &#34;&#34;.
 
     Returns:
         ttk.button: The button object we created.
@@ -749,14 +780,18 @@ def ConvertCapitalizationToSpaces(text:str):
     
     button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
     if not center:
-        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, sticky=sticky)
+        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, rowspan=rowspan, sticky=sticky)
     else:
-        button.grid(row=row, column=column, padx=padx, pady=pady, sticky=&#34;n&#34;, columnspan=columnspan)
+        button.grid(row=row, column=column, padx=padx, pady=pady, sticky=&#34;n&#34;, columnspan=columnspan, rowspan=rowspan)
+        
+    if tooltip != &#34;&#34;:
+        ToolTip(button, msg=tooltip)
+        
     return button</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeCheckButton"><code class="name flex">
-<span>def <span class="ident">MakeCheckButton</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 17, values=[True, False], onlyTrue: bool = False, onlyFalse: bool = False, default=False, translate: bool = True, columnspan: int = 1, callback=None)</span>
+<span>def <span class="ident">MakeCheckButton</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 17, values=[True, False], onlyTrue: bool = False, onlyFalse: bool = False, default=False, translate: bool = True, columnspan: int = 1, callback=None, tooltip='')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)</p>
@@ -790,6 +825,8 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>How many columns the checkbutton will span over. Defaults to 1.</dd>
 <dt><strong><code>callback</code></strong> :&ensp;<code>lambda</code>, optional</dt>
 <dd>Lambda callback. Defaults to None.</dd>
+<dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "".</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -800,7 +837,7 @@ def ConvertCapitalizationToSpaces(text:str):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None):
+<pre><code class="python">def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=&#34;&#34;):
     &#34;&#34;&#34;Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)
 
     Args:
@@ -818,6 +855,7 @@ def ConvertCapitalizationToSpaces(text:str):
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         columnspan (int, optional): How many columns the checkbutton will span over. Defaults to 1.
         callback (lambda, optional): Lambda callback. Defaults to None.
+        tooltip (str, optional): Defaults to &#34;&#34;.
 
     Returns:
         tk.BooleanVar: The boolean variable of the checkbutton. (use .get() to get the value)
@@ -868,11 +906,15 @@ def ConvertCapitalizationToSpaces(text:str):
         button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed(), width=width)
     
     button.grid(row=row, column=column, padx=0, pady=7, sticky=&#34;w&#34;, columnspan=columnspan)
+    
+    if tooltip != &#34;&#34;:
+        ToolTip(button, msg=tooltip)
+    
     return variable</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeComboEntry"><code class="name flex">
-<span>def <span class="ident">MakeComboEntry</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 10, labelwidth: int = 15, isFloat: bool = False, isString: bool = False, value='', sticky: str = 'w', labelSticky: str = 'w', translate: bool = True, labelPadX: int = 10)</span>
+<span>def <span class="ident">MakeComboEntry</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 10, labelwidth: int = 15, isFloat: bool = False, isString: bool = False, value='', sticky: str = 'w', labelSticky: str = 'w', translate: bool = True, labelPadX: int = 10, tooltip='')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)</p>
@@ -908,6 +950,8 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>Whether to translate the text or not. Defaults to True.</dd>
 <dt><strong><code>labelPadX</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>Defaults to 10.</dd>
+<dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "".</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -918,7 +962,7 @@ def ConvertCapitalizationToSpaces(text:str):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10):
+<pre><code class="python">def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10, tooltip=&#34;&#34;):
     &#34;&#34;&#34;Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)
 
     Args:
@@ -937,6 +981,7 @@ def ConvertCapitalizationToSpaces(text:str):
         labelSticky (str, optional): Defaults to &#34;w&#34;.
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         labelPadX (int, optional): Defaults to 10.
+        tooltip (str, optional): Defaults to &#34;&#34;.
 
     Returns:
         tk.Var: The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)
@@ -944,8 +989,11 @@ def ConvertCapitalizationToSpaces(text:str):
     if translate:
         text = translator.Translate(text)
     
+    label = ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
+    if tooltip != &#34;&#34;: 
+        ToolTip(label, msg=tooltip)
+    
     if not isFloat and not isString:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.IntVar()
         
         setting = settings.GetSettings(category, setting)
@@ -955,10 +1003,7 @@ def ConvertCapitalizationToSpaces(text:str):
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var
     elif isString:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.StringVar()
         
         setting = settings.GetSettings(category, setting)
@@ -968,10 +1013,7 @@ def ConvertCapitalizationToSpaces(text:str):
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var
     else:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.DoubleVar()
         
         setting = settings.GetSettings(category, setting)
@@ -981,8 +1023,12 @@ def ConvertCapitalizationToSpaces(text:str):
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var</code></pre>
+    entry = ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
+    
+    if tooltip != &#34;&#34;:
+        ToolTip(entry, msg=tooltip)
+    
+    return var</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeEmptyLine"><code class="name flex">
@@ -1021,7 +1067,7 @@ def ConvertCapitalizationToSpaces(text:str):
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeLabel"><code class="name flex">
-<span>def <span class="ident">MakeLabel</span></span>(<span>parent, text: str, row: int, column: int, font=('Segoe UI', 10), pady: int = 7, padx: int = 7, columnspan: int = 1, sticky: str = 'n', fg: str = '', bg: str = '', translate: bool = True)</span>
+<span>def <span class="ident">MakeLabel</span></span>(<span>parent, text: str, row: int, column: int, font=('Segoe UI', 10), pady: int = 7, padx: int = 7, columnspan: int = 1, sticky: str = 'n', fg: str = '', bg: str = '', translate: bool = True, tooltip='')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will make a label with the given parameters.</p>
@@ -1051,6 +1097,8 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>Background color. Defaults to "".</dd>
 <dt><strong><code>translate</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>Whether to translate the label or not. Defaults to True.</dd>
+<dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "".</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>tk.StringVar / ttk.Label: Depending on whether the text input is "" or not.</p></div>
@@ -1058,7 +1106,7 @@ def ConvertCapitalizationToSpaces(text:str):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True):
+<pre><code class="python">def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True, tooltip=&#34;&#34;):
     &#34;&#34;&#34;Will make a label with the given parameters.
 
     Args:
@@ -1074,6 +1122,7 @@ def ConvertCapitalizationToSpaces(text:str):
         fg (str, optional): Foreground color. Defaults to &#34;&#34;.
         bg (str, optional): Background color. Defaults to &#34;&#34;.
         translate (bool, optional): Whether to translate the label or not. Defaults to True.
+        tooltip (str, optional): Defaults to &#34;&#34;.
 
     Returns:
         tk.StringVar / ttk.Label: Depending on whether the text input is &#34;&#34; or not.
@@ -1086,13 +1135,19 @@ def ConvertCapitalizationToSpaces(text:str):
         var.set(text)
         
         if fg != &#34;&#34; and bg != &#34;&#34;:
-            ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg)
         elif fg != &#34;&#34;:
-            ttk.Label(parent, font=font, textvariable=var, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, foreground=fg)
         elif bg != &#34;&#34;:
-            ttk.Label(parent, font=font, textvariable=var, background=bg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg)
         else: 
-            ttk.Label(parent, font=font, textvariable=var).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var)
+            
+        label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != &#34;&#34;:
+            ToolTip(label, msg=tooltip)
+            
         return var
     else:
         if fg != &#34;&#34; and bg != &#34;&#34;:
@@ -1104,6 +1159,10 @@ def ConvertCapitalizationToSpaces(text:str):
         else:
             label = ttk.Label(parent, font=font, text=text)
         label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != &#34;&#34;:
+            ToolTip(label, msg=tooltip)
+        
         return label</code></pre>
 </details>
 </dd>

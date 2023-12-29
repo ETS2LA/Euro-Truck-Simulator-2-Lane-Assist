@@ -34,6 +34,10 @@ import plugins.DefaultSteering.main as DefaultSteering
 
 import time
 import keyboard as kb
+import src.controls as controls
+
+# deactivate_traffic_light_stop_temporary_key
+controls.RegisterKeybind("Temporarily disable stopping at traffic light", notBoundInfo="If you intend on using CC you should bind this.", defaultButtonIndex="w")
 
 
 left_trigger_setup = False
@@ -75,7 +79,6 @@ def UpdateSettings():
     global last_cruisecontrolspeed
     global trafficlight
     global trafficlightdetectionisenabled
-    global deactivate_traffic_light_stop_temporary_key
     global enabledeactflstempkey
     global red_traffic_light_time
     global last_frame_without_traffic_light
@@ -146,16 +149,6 @@ def UpdateSettings():
     else:
         trafficlightdetectionisenabled = False
 
-    deactivate_traffic_light_stop_temporary_key = settings.GetSettings("CruiseControl", "deactflstempkey")
-    if deactivate_traffic_light_stop_temporary_key == None:
-        settings.CreateSettings("CruiseControl", "deactflstempkey", "please set")
-        deactivate_traffic_light_stop_temporary_key = "please set"
-
-    if enabledeactflstempkey == True:
-        if deactivate_traffic_light_stop_temporary_key == "please set":
-            messagebox.showwarning(title="CruiseControl", message="Please set the key to temporary ignore the detected traffic lights in General")
-            deactivate_traffic_light_stop_temporary_key = "w"
-
 
     waitforresponse = False
     waitforresponsetimer = time.time()
@@ -203,7 +196,6 @@ def plugin(data):
     global last_cruisecontrolspeed
     global trafficlight
     global trafficlightdetectionisenabled
-    global deactivate_traffic_light_stop_temporary_key
     global enabledeactflstempkey
     global red_traffic_light_time
     global last_frame_without_traffic_light
@@ -344,7 +336,7 @@ def plugin(data):
             last_frame_without_traffic_light = time.time()
 
         if enabledeactflstempkey == True:
-            if kb.is_pressed(deactivate_traffic_light_stop_temporary_key):
+            if controls.GetKeybindValue("Temporarily disable stopping at traffic light"):
                 trafficlight = "---"
                 red_traffic_light_time = time.time() - 1.1
 

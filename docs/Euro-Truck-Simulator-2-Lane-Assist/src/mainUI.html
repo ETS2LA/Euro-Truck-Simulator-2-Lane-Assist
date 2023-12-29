@@ -415,8 +415,28 @@ def closeTab(event):
         UIs.pop(index)
         lastClosedTabName = pluginName
         settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, pluginName)
-        
     except:
+        pass
+
+def closeTabName(name:str):
+    &#34;&#34;&#34;Close a tab with the given name.
+
+    Args:
+        name (str): Name of the tab to close.
+    &#34;&#34;&#34;
+    global lastClosedTabName
+    try:
+        for i in range(len(pluginFrames)):
+            if pluginNotebook.tab(i, &#34;text&#34;) == name:
+                pluginNotebook.forget(i)
+                pluginFrames.pop(i)
+                UIs.pop(i)
+                lastClosedTabName = name
+                settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, name)
+                break
+    except:
+        import traceback
+        traceback.print_exc()
         pass
 
 def selectedOtherTab():
@@ -432,6 +452,7 @@ def selectedOtherTab():
             resizeWindow(width, height)
     else:
         resizeWindow(width, height)
+    
 
 def switchSelectedPlugin(pluginName:str):
     &#34;&#34;&#34;Will open a new tab with the given plugin name.
@@ -450,8 +471,8 @@ def switchSelectedPlugin(pluginName:str):
     for tab in pluginNotebook.tabs():
         notebookNames.append(pluginNotebook.tab(tab, &#34;text&#34;))
     
-    if pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;) in notebookNames:
-        pluginNotebook.select(notebookNames.index(pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;)))
+    if pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;).replace(&#34;src.&#34;, &#34;&#34;) in notebookNames:
+        pluginNotebook.select(notebookNames.index(pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;).replace(&#34;src.&#34;, &#34;&#34;)))
         ui = UIs[pluginNotebook.index(pluginNotebook.select())]
         return
     
@@ -810,7 +831,11 @@ def CreateRoot():
         for tab in settings.GetSettings(&#34;User Interface&#34;, &#34;OpenTabs&#34;):
             print(&#34;Loading &#34; + tab)
             try:
-                switchSelectedPlugin(f&#34;plugins.{tab}.main&#34;)
+                if tab == &#34;controls&#34;:
+                    settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, tab)
+                    continue
+                else:
+                    switchSelectedPlugin(f&#34;plugins.{tab}.main&#34;)
             except Exception as ex:
                 print(ex.args)
                 pass
@@ -1030,7 +1055,11 @@ CreateRoot()</code></pre>
         for tab in settings.GetSettings(&#34;User Interface&#34;, &#34;OpenTabs&#34;):
             print(&#34;Loading &#34; + tab)
             try:
-                switchSelectedPlugin(f&#34;plugins.{tab}.main&#34;)
+                if tab == &#34;controls&#34;:
+                    settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, tab)
+                    continue
+                else:
+                    switchSelectedPlugin(f&#34;plugins.{tab}.main&#34;)
             except Exception as ex:
                 print(ex.args)
                 pass
@@ -1115,8 +1144,43 @@ CreateRoot()</code></pre>
         UIs.pop(index)
         lastClosedTabName = pluginName
         settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, pluginName)
-        
     except:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTabName"><code class="name flex">
+<span>def <span class="ident">closeTabName</span></span>(<span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Close a tab with the given name.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the tab to close.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def closeTabName(name:str):
+    &#34;&#34;&#34;Close a tab with the given name.
+
+    Args:
+        name (str): Name of the tab to close.
+    &#34;&#34;&#34;
+    global lastClosedTabName
+    try:
+        for i in range(len(pluginFrames)):
+            if pluginNotebook.tab(i, &#34;text&#34;) == name:
+                pluginNotebook.forget(i)
+                pluginFrames.pop(i)
+                UIs.pop(i)
+                lastClosedTabName = name
+                settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, name)
+                break
+    except:
+        import traceback
+        traceback.print_exc()
         pass</code></pre>
 </details>
 </dd>
@@ -1300,8 +1364,8 @@ newHeight (int)</p></div>
     for tab in pluginNotebook.tabs():
         notebookNames.append(pluginNotebook.tab(tab, &#34;text&#34;))
     
-    if pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;) in notebookNames:
-        pluginNotebook.select(notebookNames.index(pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;)))
+    if pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;).replace(&#34;src.&#34;, &#34;&#34;) in notebookNames:
+        pluginNotebook.select(notebookNames.index(pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;).replace(&#34;src.&#34;, &#34;&#34;)))
         ui = UIs[pluginNotebook.index(pluginNotebook.select())]
         return
     
@@ -1428,6 +1492,7 @@ newHeight (int)</p></div>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.DeleteRoot" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.DeleteRoot">DeleteRoot</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.changeTheme" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.changeTheme">changeTheme</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTab" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTab">closeTab</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTabName" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTabName">closeTabName</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.drawButtons" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.drawButtons">drawButtons</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.quit" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.quit">quit</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.resizeWindow" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.resizeWindow">resizeWindow</a></code></li>

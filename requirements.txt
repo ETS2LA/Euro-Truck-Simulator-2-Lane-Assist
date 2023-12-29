@@ -11,4 +11,5 @@ babel
 pywebview
 matplotlib
 pywin32
+tkinter-tooltip
 --upgrade --no-cache-dir gdown
