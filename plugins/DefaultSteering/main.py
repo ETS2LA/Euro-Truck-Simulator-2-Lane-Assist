@@ -279,6 +279,10 @@ def plugin(data):
             enabledTimer += 1
             IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
             IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            if IndicatingLeft == True or IndicatingRight == True:
+                if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
+                    IndicatingLeft = False
+                    IndicatingRight = False
 
             if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
                 if enabled == True:
