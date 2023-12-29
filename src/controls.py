@@ -227,7 +227,8 @@ def ChangeKeybind(name):
                                                                                                      "deviceGUID": currentbinding["deviceGUID"], 
                                                                                                      "buttonIndex": currentbinding["buttonIndex"] if "buttonIndex" in currentbinding else -1, 
                                                                                                      "axisIndex": currentbinding["axisIndex"] if "axisIndex" in currentbinding else -1,
-                                                                                                     "shouldBeAxis": next((item for item in KEYBINDS if item["name"] == name), None)["shouldBeAxis"]}
+                                                                                                     "shouldBeAxis": next((item for item in KEYBINDS if item["name"] == name), None)["shouldBeAxis"],
+                                                                                                     "notBoundInfo": next((item for item in KEYBINDS if item["name"] == name), None)["notBoundInfo"]}
 
     mainUI.closeTabName("controls")
     mainUI.switchSelectedPlugin("src.controls")
