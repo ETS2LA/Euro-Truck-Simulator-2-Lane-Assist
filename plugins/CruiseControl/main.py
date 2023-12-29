@@ -151,7 +151,10 @@ def UpdateSettings():
     if deactivate_traffic_light_stop_temporarily_key == None:
         settings.CreateSettings("CruiseControl", "deactflstempkey", "please set")
         deactivate_traffic_light_stop_temporarily_key = "please set"
-
+    if enabledeactflstempkey == True:
+        if deactivate_traffic_light_stop_temporarily_key == "please set":
+            messagebox.showwarning(title="CruiseControl", message="Please set the key to temporary ignore the detected traffic lights in General")
+            deactivate_traffic_light_stop_temporarily_key = "w"
 
     waitforresponse = False
     waitforresponsetimer = time.time()
