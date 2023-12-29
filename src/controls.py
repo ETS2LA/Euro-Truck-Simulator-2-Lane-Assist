@@ -20,6 +20,7 @@ from plugins.plugin import PluginInformation
 import math
 import pygame
 import keyboard
+from tktooltip import ToolTip
 
 PluginInfo = PluginInformation(
     name="controls", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
@@ -332,7 +333,7 @@ class UI():
                         helpers.MakeLabel(frame, "Device: Keyboard", 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
                     for joystick in joysticks:
                         if joystick.get_guid() == keybind["deviceGUID"]:
-                            helpers.MakeLabel(frame, "Device: " + joystick.get_name(), 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
+                            helpers.MakeLabel(frame, "Device: " + joystick.get_name(), 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"], tooltip=f"GUID: {str(joystick.get_guid())}")
                             break
                         
                 if keybind["buttonIndex"] != -1:
@@ -348,7 +349,11 @@ class UI():
                     if keybind["notBoundInfo"] != "":
                         helpers.MakeLabel(frame, keybind["notBoundInfo"], 1, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
                 
-                helpers.MakeButton(frame, "Change" if not keybind["deviceGUID"] == -1 else "Bind", lambda i=i: ChangeKeybind(KEYBINDS[i]["name"]), 0, 0, sticky="e", rowspan=3)
+                button = helpers.MakeButton(frame, "Change" if not keybind["deviceGUID"] == -1 else "Bind", lambda i=i: ChangeKeybind(KEYBINDS[i]["name"]), 0, 0, sticky="e", rowspan=3)
+                
+                if keybind["description"] != "":
+                    ToolTip(button, msg=keybind["description"])
+                
                 helpers.MakeButton(frame, "Remove", lambda i=i: UnbindKeybind(KEYBINDS[i]["name"]), 0, 1, sticky="e", rowspan=3, state="disabled" if keybind["deviceGUID"] == -1 else "!disabled")
                 
                 frame.pack(anchor="w", fill="x", expand=False)

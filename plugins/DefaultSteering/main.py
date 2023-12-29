@@ -37,10 +37,22 @@ import src.controls as controls
 pygame.joystick.init()
 pygame.display.init()
 
-controls.RegisterKeybind("Enable/Disable Steering", defaultButtonIndex="n", notBoundInfo="You should bind this. It's useful to have on hand.")
-controls.RegisterKeybind("Steering Axis", axis=True, notBoundInfo="This is optional when using a keyboard.")
-controls.RegisterKeybind("Steer Left Key", defaultButtonIndex="a", notBoundInfo="This is optional when using a controller.")
-controls.RegisterKeybind("Steer Right Key", defaultButtonIndex="d", notBoundInfo="This is optional when using a controller.")
+controls.RegisterKeybind("Enable/Disable Steering", 
+                         defaultButtonIndex="n", 
+                         notBoundInfo="You should bind this. It's useful to have on hand.",
+                         description="Enable or disable the steering.")
+controls.RegisterKeybind("Steering Axis", 
+                         axis=True, 
+                         notBoundInfo="This is optional when using a keyboard.",
+                         description="The steering axis. Not used when in keyboard mode.")
+controls.RegisterKeybind("Steer Left Key", 
+                         defaultButtonIndex="a", 
+                         notBoundInfo="This is optional when using a controller.",
+                         description="Steer left key. Not used when in controller mode.")
+controls.RegisterKeybind("Steer Right Key", 
+                         defaultButtonIndex="d", 
+                         notBoundInfo="This is optional when using a controller.",
+                         description="Steer right key. Not used when in controller mode.")
 
 def onEnable():
     pass

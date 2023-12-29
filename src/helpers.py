@@ -5,8 +5,9 @@ import src.settings as settings
 import src.translator as translator
 import webview
 import webbrowser
+from tktooltip import ToolTip
 
-def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButton", width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str="!disabled", columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str="n"):
+def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButton", width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str="!disabled", columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str="n", tooltip=""):
     """Will create a new standard button with the given parameters.
 
     Args:
@@ -25,6 +26,7 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButto
         rowspan (int, optional): How many rows the button will span over. Defaults to 1.
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         sticky (str, optional): Defaults to "n".
+        tooltip (str, optional): Defaults to "".
 
     Returns:
         ttk.button: The button object we created.
@@ -37,10 +39,14 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButto
         button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, rowspan=rowspan, sticky=sticky)
     else:
         button.grid(row=row, column=column, padx=padx, pady=pady, sticky="n", columnspan=columnspan, rowspan=rowspan)
+        
+    if tooltip != "":
+        ToolTip(button, msg=tooltip)
+        
     return button
 
     
-def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None):
+def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=""):
     """Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)
 
     Args:
@@ -58,6 +64,7 @@ def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         columnspan (int, optional): How many columns the checkbutton will span over. Defaults to 1.
         callback (lambda, optional): Lambda callback. Defaults to None.
+        tooltip (str, optional): Defaults to "".
 
     Returns:
         tk.BooleanVar: The boolean variable of the checkbutton. (use .get() to get the value)
@@ -108,10 +115,14 @@ def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column
         button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed(), width=width)
     
     button.grid(row=row, column=column, padx=0, pady=7, sticky="w", columnspan=columnspan)
+    
+    if tooltip != "":
+        ToolTip(button, msg=tooltip)
+    
     return variable
 
 
-def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value="", sticky:str="w", labelSticky:str="w", translate:bool=True, labelPadX:int=10):
+def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value="", sticky:str="w", labelSticky:str="w", translate:bool=True, labelPadX:int=10, tooltip=""):
     """Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)
 
     Args:
@@ -130,6 +141,7 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         labelSticky (str, optional): Defaults to "w".
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         labelPadX (int, optional): Defaults to 10.
+        tooltip (str, optional): Defaults to "".
 
     Returns:
         tk.Var: The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)
@@ -137,8 +149,11 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
     if translate:
         text = translator.Translate(text)
     
+    label = ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
+    if tooltip != "": 
+        ToolTip(label, msg=tooltip)
+    
     if not isFloat and not isString:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.IntVar()
         
         setting = settings.GetSettings(category, setting)
@@ -148,10 +163,7 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var
     elif isString:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.StringVar()
         
         setting = settings.GetSettings(category, setting)
@@ -161,10 +173,7 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var
     else:
-        ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
         var = tk.DoubleVar()
         
         setting = settings.GetSettings(category, setting)
@@ -174,10 +183,14 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         else:
             var.set(setting)
             
-        ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
-        return var
+    entry = ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
+    
+    if tooltip != "":
+        ToolTip(entry, msg=tooltip)
+    
+    return var
 
-def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str="n", fg:str="", bg:str="", translate:bool=True):
+def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str="n", fg:str="", bg:str="", translate:bool=True, tooltip=""):
     """Will make a label with the given parameters.
 
     Args:
@@ -193,6 +206,7 @@ def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady
         fg (str, optional): Foreground color. Defaults to "".
         bg (str, optional): Background color. Defaults to "".
         translate (bool, optional): Whether to translate the label or not. Defaults to True.
+        tooltip (str, optional): Defaults to "".
 
     Returns:
         tk.StringVar / ttk.Label: Depending on whether the text input is "" or not.
@@ -205,13 +219,19 @@ def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady
         var.set(text)
         
         if fg != "" and bg != "":
-            ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg)
         elif fg != "":
-            ttk.Label(parent, font=font, textvariable=var, foreground=fg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, foreground=fg)
         elif bg != "":
-            ttk.Label(parent, font=font, textvariable=var, background=bg).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg)
         else: 
-            ttk.Label(parent, font=font, textvariable=var).grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+            label = ttk.Label(parent, font=font, textvariable=var)
+            
+        label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != "":
+            ToolTip(label, msg=tooltip)
+            
         return var
     else:
         if fg != "" and bg != "":
@@ -223,6 +243,10 @@ def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady
         else:
             label = ttk.Label(parent, font=font, text=text)
         label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != "":
+            ToolTip(label, msg=tooltip)
+        
         return label
         
 
