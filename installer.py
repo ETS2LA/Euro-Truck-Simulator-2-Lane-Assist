@@ -7,10 +7,48 @@ import threading
 import time
 from tkinter import ttk
 import json
+import requests
 
 APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
 FOLDER = os.path.dirname(__file__)
+with open("version.txt", 'r') as file:
+    currentVer = file.read()
+
 os.chdir(FOLDER)
+
+def UpdateChecker():
+    url = "https://raw.githubusercontent.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist/installer/version.txt"
+    try:
+        remoteVer = requests.get(url).text.strip().split(".")
+    except:
+        print("Failed to check for updates")
+        print("Please check your internet connection and try again later")
+        return
+    if currentVer[0] < remoteVer[0]:
+        update = True
+    elif currentVer[1] < remoteVer[1]:
+        update = True
+    elif currentVer[2] < remoteVer[2]:
+        update = True
+    else:
+        update = False
+
+    if update:
+        from tkinter import messagebox
+        if messagebox.askokcancel("Updater", (f"We have detected an installer update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
+            try:
+                os.system("git clone -b installer https://github.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist.git")
+                os.system("xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y")
+                os.system("rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist")
+                
+            except:
+                print("Failed to update")
+            if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the installer?")):
+                quit()
+        else:
+            pass
+
+UpdateChecker()
 
 def printRed(text):
     print("\033[91m {}\033[00m" .format(text))
@@ -248,7 +286,7 @@ sv_ttk.set_theme("dark")
 
 # Bottom text
 ttk.Label(root, text="ETS2 Lane Assist   ©Tumppi066 - 2023", font=("Roboto", 8)).grid(row=2, sticky="s", padx=10, pady=16)
-ttk.Label(root, text="Installer version 0.3.1", font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
+ttk.Label(root, text="Installer version " + currentVer, font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
 progressBar = ttk.Progressbar(root, mode="determinate", length=width)
 progressBar.grid(row=0, sticky="n", padx=0, pady=0)
 
