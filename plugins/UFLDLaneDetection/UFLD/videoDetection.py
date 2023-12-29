@@ -1,8 +1,8 @@
 import cv2, time
 # import pafy
-from ultrafastLaneDetector.utils import LaneModelType
-from ultrafastLaneDetector.ultrafastLaneDetector import UltrafastLaneDetector
-from ultrafastLaneDetector.ultrafastLaneDetectorV2 import UltrafastLaneDetectorV2
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.utils import LaneModelType
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetector import UltrafastLaneDetector
+from plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.ultrafastLaneDetectorV2 import UltrafastLaneDetectorV2
 
 
 video_path = "./temp/test.mp4"

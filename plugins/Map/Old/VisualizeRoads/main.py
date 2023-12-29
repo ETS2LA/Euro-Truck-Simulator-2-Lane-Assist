@@ -7,10 +7,10 @@ import random
 import numpy as np
 import time
 
-from plugins.Map.VisualizeRoads.Node import Node
-from plugins.Map.VisualizeRoads.RoadLook import RoadLook
-from plugins.Map.VisualizeRoads.Road import Road
-import plugins.Map.VisualizeRoads.utils as utils
+from plugins.Map.Old.VisualizeRoads.Node import Node
+from plugins.Map.Old.VisualizeRoads.RoadLook import RoadLook
+from plugins.Map.Old.VisualizeRoads.Road import Road
+import plugins.Map.Old.VisualizeRoads.utils as utils
 import threading
 from src.loading import LoadingWindow
 import src.mainUI as mainUI

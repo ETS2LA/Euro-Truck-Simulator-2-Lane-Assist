@@ -418,93 +418,94 @@ LoadApplication()
 
 data = {}
 uiFrameTimer = 0
-while True:
-    # Main Application Loop
-    try:
-        
-        allStart = time.time()
-        
-        # Remove "last" from the data and set it as this frame's "last"
-        try: 
-            data.pop("last")
-            data = {
-                "last": data, 
-                "executionTimes": {}
-            }
-        except Exception as ex:
-            data = {
-                "last": {},
-                "executionTimes": {}
-            }  
-        
-        if variables.RELOAD:
-            print("Reloading application...")
-            # Reset the open tabs
-            settings.UpdateSettings("User Interface", "OpenTabs", [])
-            LoadApplication()
-            variables.RELOAD = False
-        
-        # Enable / Disable the main loop
-        if variables.ENABLELOOP == False:
-            mainUI.update(data)
+if __name__ == "__main__":
+    while True:
+        # Main Application Loop
+        try:
+            
+            allStart = time.time()
+            
+            # Remove "last" from the data and set it as this frame's "last"
+            try: 
+                data.pop("last")
+                data = {
+                    "last": data, 
+                    "executionTimes": {}
+                }
+            except Exception as ex:
+                data = {
+                    "last": {},
+                    "executionTimes": {}
+                }  
+            
+            if variables.RELOAD:
+                print("Reloading application...")
+                # Reset the open tabs
+                settings.UpdateSettings("User Interface", "OpenTabs", [])
+                LoadApplication()
+                variables.RELOAD = False
+            
+            # Enable / Disable the main loop
+            if variables.ENABLELOOP == False:
+                mainUI.update(data)
+                allEnd = time.time()
+                data["executionTimes"]["all"] = allEnd - allStart
+                try:
+                    cv2.destroyWindow("Lane Assist")
+                except:
+                    pass
+                continue
+            
+            if variables.UPDATEPLUGINS:
+                GetEnabledPlugins()
+                FindPlugins()
+                variables.UPDATEPLUGINS = False
+            
+            data = UpdatePlugins("before image capture", data)
+            data = UpdatePlugins("image capture", data)
+            
+            data = UpdatePlugins("before lane detection", data)
+            data = UpdatePlugins("lane detection", data)
+            
+            data = UpdatePlugins("before controller", data)
+            data = UpdatePlugins("controller", data)
+            
+            data = UpdatePlugins("before game", data)
+            data = UpdatePlugins("game", data)
+            
+            data = UpdatePlugins("before UI", data)
+            
+            # Calculate the execution time of the UI
+            start = time.time()
+            uiFrameTimer += 1
+            if uiFrameTimer > uiUpdateRate:
+                mainUI.update(data)
+                uiFrameTimer = 0
+            end = time.time()
+            data["executionTimes"]["UI"] = end - start
+            
+            data = UpdatePlugins("last", data)
+            
+            # And then the entire app
             allEnd = time.time()
             data["executionTimes"]["all"] = allEnd - allStart
-            try:
-                cv2.destroyWindow("Lane Assist")
-            except:
-                pass
-            continue
-        
-        if variables.UPDATEPLUGINS:
-            GetEnabledPlugins()
-            FindPlugins()
-            variables.UPDATEPLUGINS = False
-        
-        data = UpdatePlugins("before image capture", data)
-        data = UpdatePlugins("image capture", data)
-        
-        data = UpdatePlugins("before lane detection", data)
-        data = UpdatePlugins("lane detection", data)
-        
-        data = UpdatePlugins("before controller", data)
-        data = UpdatePlugins("controller", data)
-        
-        data = UpdatePlugins("before game", data)
-        data = UpdatePlugins("game", data)
-        
-        data = UpdatePlugins("before UI", data)
-        
-        # Calculate the execution time of the UI
-        start = time.time()
-        uiFrameTimer += 1
-        if uiFrameTimer > uiUpdateRate:
-            mainUI.update(data)
-            uiFrameTimer = 0
-        end = time.time()
-        data["executionTimes"]["UI"] = end - start
-        
-        data = UpdatePlugins("last", data)
-        
-        # And then the entire app
-        allEnd = time.time()
-        data["executionTimes"]["all"] = allEnd - allStart
 
-    
-    except Exception as ex:
-        if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
-            import keyboard
-            # Press the F1 key to pause the game
-            keyboard.press_and_release("F1")
-            
-            from tkinter import messagebox
-            import traceback
-            exc = traceback.format_exc()
-            traceback.print_exc()
-            # Pack everything in ex.args into one string
-            if not messagebox.askretrycancel("Error", translator.Translate("The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n") + exc):
-                break
+        
+        except Exception as ex:
+            if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
+                import keyboard
+                # Press the F1 key to pause the game
+                keyboard.press_and_release("F1")
+                
+                from tkinter import messagebox
+                import traceback
+                exc = traceback.format_exc()
+                traceback.print_exc()
+                # Pack everything in ex.args into one string
+                if not messagebox.askretrycancel("Error", translator.Translate("The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n") + exc):
+                    break
+                else:
+                    pass
             else:
-                pass
-        else:
-            CloseAllPlugins()
-            break
+                CloseAllPlugins()
+                break
