@@ -3064,7 +3064,6 @@ class UI():
             self.lowergreeng.set(200)
             self.lowergreenb.set(0)
             UpdateSettings()
-            switchSelectedPlugin("plugins." + "TrafficLightDetection" + ".main")
 
         def resetadvancedfilterstodefault(self):
             settings.CreateSettings("TrafficLightDetection", "rectsizefilter", True)
@@ -3074,8 +3073,12 @@ class UI():
 
             settings.CreateSettings("TrafficLightDetection", "minrectsize", round(screen_width / 240))
             settings.CreateSettings("TrafficLightDetection", "maxrectsize", round(screen_width / 10))
+            self.minrectsizeSlider.set(round(screen_width / 240))
+            self.minrectsize.set(round(screen_width / 240))
+            self.maxrectsizeSlider.set(round(screen_width / 10))
+            self.maxrectsize.set(round(screen_width / 10))
+            self.exampleFunction()
             UpdateSettings()
-            switchSelectedPlugin("plugins." + "TrafficLightDetection" + ".main")
 
         def resetalladvancedsettingstodefault(self):
             settings.CreateSettings("TrafficLightDetection", "rectsizefilter", True)
@@ -3122,8 +3125,8 @@ class UI():
             self.lowergreenr.set(0)
             self.lowergreeng.set(200)
             self.lowergreenb.set(0)
+            self.exampleFunction()
             UpdateSettings()
-            switchSelectedPlugin("plugins." + "TrafficLightDetection" + ".main")
 
         
         def update(self, data): 

@@ -1811,7 +1811,8 @@ def plugin(data):
                         settings.CreateSettings("dxcam", "device", 0)
                         screencap_device = 0
 
-                cv2.destroyAllWindows()
+                cv2.destroyWindow('Setup')
+                cv2.destroyWindow('Example Image')
 
                 if enabled_plugins != settings.GetSettings("Plugins", "Enabled"):
                     
