@@ -50,6 +50,7 @@ button_X_setup = False
 
 last_speed_obj = 0
 last_time_obj = time.time()
+last_obj_ifo_truck = 0, time.time()
 object_in_front_of_truck = False
 
 def UpdateSettings():
@@ -75,7 +76,7 @@ def UpdateSettings():
     global last_cruisecontrolspeed
     global trafficlight
     global trafficlightdetectionisenabled
-    global deactivate_traffic_light_stop_temporary_key
+    global deactivate_traffic_light_stop_temporarily_key
     global enabledeactflstempkey
     global red_traffic_light_time
     global last_frame_without_traffic_light
@@ -99,7 +100,7 @@ def UpdateSettings():
     automatic_acceleration_after_traffic_light = settings.GetSettings("CruiseControl", "autoaccelatrflght", True)
     automatic_acceleration = settings.GetSettings("CruiseControl", "autoaccel", False)
     advancedsettings = settings.GetSettings("CruiseControl", "advancedsettings", False)
-    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", False)
+    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", True)
 
 
     buttonup = settings.GetSettings("CruiseControl", "keyup")
@@ -146,15 +147,10 @@ def UpdateSettings():
     else:
         trafficlightdetectionisenabled = False
 
-    deactivate_traffic_light_stop_temporary_key = settings.GetSettings("CruiseControl", "deactflstempkey")
-    if deactivate_traffic_light_stop_temporary_key == None:
+    deactivate_traffic_light_stop_temporarily_key = settings.GetSettings("CruiseControl", "deactflstempkey")
+    if deactivate_traffic_light_stop_temporarily_key == None:
         settings.CreateSettings("CruiseControl", "deactflstempkey", "please set")
-        deactivate_traffic_light_stop_temporary_key = "please set"
-
-    if enabledeactflstempkey == True:
-        if deactivate_traffic_light_stop_temporary_key == "please set":
-            messagebox.showwarning(title="CruiseControl", message="Please set the key to temporary ignore the detected traffic lights in General")
-            deactivate_traffic_light_stop_temporary_key = "w"
+        deactivate_traffic_light_stop_temporarily_key = "please set"
 
 
     waitforresponse = False
@@ -203,7 +199,7 @@ def plugin(data):
     global last_cruisecontrolspeed
     global trafficlight
     global trafficlightdetectionisenabled
-    global deactivate_traffic_light_stop_temporary_key
+    global deactivate_traffic_light_stop_temporarily_key
     global enabledeactflstempkey
     global red_traffic_light_time
     global last_frame_without_traffic_light
@@ -222,6 +218,7 @@ def plugin(data):
     global cruisespeedattrafficlight
     global last_speed_obj
     global last_time_obj
+    global last_obj_ifo_truck
     global object_in_front_of_truck
 
     
@@ -326,7 +323,7 @@ def plugin(data):
                 targetspeed = 30
 
         try:
-            turnincoming = data["NavigationDetectionV2"]["turnincoming"]
+            turnincoming = data["NavigationDetection"]["turnincoming"]
         except:
             turnincoming = False
         if turnincoming == True:
@@ -344,7 +341,7 @@ def plugin(data):
             last_frame_without_traffic_light = time.time()
 
         if enabledeactflstempkey == True:
-            if kb.is_pressed(deactivate_traffic_light_stop_temporary_key):
+            if kb.is_pressed(deactivate_traffic_light_stop_temporarily_key):
                 trafficlight = "---"
                 red_traffic_light_time = time.time() - 1.1
 
@@ -378,8 +375,8 @@ def plugin(data):
                             data["controller"]["button_X"] = True
                         waitforresponse = True
                         waitforresponsetimer = time.time()
-                        unreleased_buttonbrake
-                        unreleased_buttonaccelerate
+                        unreleased_buttonbrake = True
+                        unreleased_buttonaccelerate = True
             
             #change the cruisecontrol speed if needed
             if targetspeed != 0:
@@ -461,7 +458,9 @@ def plugin(data):
         if last_time_obj > time.time()-0.5:
             object_in_front_of_truck = True
         else:
-            if targetspeed - 1 < speed:
+            time_difference = time.time() - last_obj_ifo_truck[1]
+            speed_difference = speed - last_obj_ifo_truck[0]
+            if speed_difference*time_difference*100 > 0.3 or targetspeed - 1 < speed:
                 object_in_front_of_truck = False
         
         data["CruiseControl"]["obj_ifo_truck"] = object_in_front_of_truck
@@ -470,6 +469,7 @@ def plugin(data):
         data["controller"]["righttrigger"] = right_trigger_value
 
         last_speed_obj = speed
+        last_obj_ifo_truck = speed, time.time()
         last_cruisecontrolspeed = cruisecontrolspeed
     return data # Plugins need to ALWAYS return the data
 
@@ -578,8 +578,8 @@ class UI():
             self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, "Accelerationspeed after red traffic light\n(1 is full throttle)", "CruiseControl", "accelerationspeed", 10,0, labelwidth=45, width=45)
 
 
-            helpers.MakeCheckButton(generalFrame, "Enable the key to temporary ignore the detected traffic lights\n(if disabled, you dont have to set the key below)", "CruiseControl", "enabledeactflstempkey", 7, 0, width=60, callback=UpdateSettings())
-            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, "Key to temporary ignore the detected traffic lights\n(press and hold to use in-game)", "CruiseControl", "deactflstempkey", 8, 0, labelwidth=70, width=10, isString=True)
+            helpers.MakeCheckButton(generalFrame, "Enable the key to temporarily ignore the detected traffic lights\n(if disabled, you dont have to set the key below)", "CruiseControl", "enabledeactflstempkey", 7, 0, width=60, callback=UpdateSettings())
+            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, "Key to temporarily ignore the detected traffic lights\n(press and hold to use in-game)", "CruiseControl", "deactflstempkey", 8, 0, labelwidth=70, width=10, isString=True)
 
 
             helpers.MakeButton(controllerFrame, "BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)", command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
@@ -606,7 +606,7 @@ class UI():
             settings.CreateSettings("CruiseControl", "deactflstempkey", self.deactflstempkey.get())
             UpdateSettings()
             if self.deactflstempkey.get() == "please set" and enabledeactflstempkey == True:
-                messagebox.showwarning(title="CruiseControl", message="Please set the key to temporary ignore the detected traffic lights in General")
+                messagebox.showwarning(title="CruiseControl", message="Please set the key to temporarily ignore the detected traffic lights in General")
             if keyboardmode == True:
                 if (self.keyactivate.get() == "please set" or
                     self.keyup.get() == "please set" or
