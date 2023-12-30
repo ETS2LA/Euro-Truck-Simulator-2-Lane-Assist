@@ -81,14 +81,13 @@ def CreateServer():
 def plugin(data):
     global currentData
     tempData = {}
-    
     # Go though the data and if there are any ndarrays then convert them to lists
     for key in data:
-        if type(data[key]) == np.ndarray:
-            if key == "frame":
-                tempData[key] = data[key].tolist()
-                continue
-            else:
+        if key == "frame" or key == "frameFull":
+            tempData[key] = "too large to send"
+            continue
+        else:
+            if type(data[key]) == np.ndarray:
                 tempData[key] = data[key].tolist()
                 continue
             
@@ -101,7 +100,6 @@ def plugin(data):
         tempData[key] = data[key]
 
     currentData = tempData
-
     return data # Plugins need to ALWAYS return the data
 
 
