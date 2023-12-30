@@ -16,7 +16,7 @@ python --version >nul 2>&1 || (
 )
 
 git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git
-xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y
+xcopy "Euro-Truck-Simulator-2-Lane-Assist\*" . /E /H /C /Y
 rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist
 
 installer.bat
