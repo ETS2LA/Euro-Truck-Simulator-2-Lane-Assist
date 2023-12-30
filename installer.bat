@@ -34,7 +34,8 @@ if exist installer.py (
     git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git
     xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y
     rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist
-    color 2 & echo Successfully installed installer, Please re run installer.bat
+    color 2 & echo Successfully installed installer
+    python installer.py
     pause
     
 )
