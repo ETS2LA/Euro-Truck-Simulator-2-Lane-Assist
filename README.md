@@ -28,7 +28,7 @@ Check the demonstration [video](https://www.youtube.com/watch?v=XmM87rA_3fw).
 ### How do I install it?
 
 You can watch the latest installation [video](https://www.youtube.com/watch?v=ILLqHix_D8o). Downloading and installing takes about 20 minutes. And then another 10 to tune in your own values.
-Alternatively you can also follow the written instructions on the [wiki](https://wiki.tumppi066.xyz/en/LaneAssist). The wiki is more up to date than the video.
+Alternatively you can also follow the written instructions on the [wiki](https://wiki.tumppi066.fi/en/LaneAssist). The wiki is more up to date than the video.
 
 
 ### How to update?
@@ -45,7 +45,7 @@ Those not familiar with github should do as follows:
 2. Make your changes in your fork
 3. Make a pull request to merge the changes to the public version.
 
-The plugin infrastructure has documentation on the [wiki](https://wiki.tumppi066.xyz/en/LaneAssist).
+The plugin infrastructure has documentation on the [wiki](https://wiki.tumppi066.fi/en/LaneAssist).
 
 
 ### I have issues / suggestions.
