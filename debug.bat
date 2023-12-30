@@ -72,5 +72,4 @@ echo Log file: >> "%debug_file%"
 echo --------------------------- >> "%debug_file%"
 type "%log_file%" >> %debug_file%"
 echo END FILE >> "%debug_file%"
-msg * "Debug file created"
 exit /b 0
