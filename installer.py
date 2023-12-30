@@ -7,10 +7,54 @@ import threading
 import time
 from tkinter import ttk
 import json
+try:
+    import requests
+except:
+    os.system("pip install requests")
+    import requests
 
 APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
 FOLDER = os.path.dirname(__file__)
+with open("version.txt", 'r') as file:
+    VERSION = file.read()
+
 os.chdir(FOLDER)
+
+def UpdateChecker():
+    currentVer = VERSION.split(".")
+
+    url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/installer/version.txt"
+    try:
+        remoteVer = requests.get(url).text.strip().split(".")
+    except:
+        print("Failed to check for updates")
+        print("Please check your internet connection and try again later")
+        return
+    if currentVer[0] < remoteVer[0]:
+        update = True
+    elif currentVer[1] < remoteVer[1]:
+        update = True
+    elif currentVer[2] < remoteVer[2]:
+        update = True
+    else:
+        update = False
+
+    if update:
+        from tkinter import messagebox
+        if messagebox.askokcancel("Updater", (f"We have detected an installer update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
+            try:
+                os.system("git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git")
+                os.system("xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y")
+                os.system("rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist")
+                
+            except:
+                print("Failed to update")
+            if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the installer?")):
+                quit()
+        else:
+            pass
+
+UpdateChecker()
 
 def printRed(text):
     print("\033[91m {}\033[00m" .format(text))
@@ -127,8 +171,9 @@ if "OneDrive" in os.getcwd().lower():
 if sys.version_info[0] != 3 or sys.version_info[1] < 9 or sys.version_info[1] > 11:
     printRed(f"Your current Python version is {sys.version_info[0]}.{sys.version_info[1]}.")
     printRed("This app requires a Python version above 3.9.x and below 3.12.x to create the correct virtual environment.")
-    printRed("Please install another version and run the installer again. REMEMBER TO GO INTO APPS & FEATURES AND UNINSTALL THE CURRENT PYTHON VERSION FIRST!")
-    input("Press Enter to open the install page for the correct version (3.11.6)")
+    printRed("Please uninstall python by searching for python in control panel that has been opened for you and rerun the app to have the app to auto install the correct version.")
+    os.system("control appwiz.cpl")
+    input("If you would like to install python yourself, I don't know why you would. Are you telling me your going to waste 5 minutes of my time on making a auto installer for python for you to just install it yourself? Fine, If you really want to install python yourself hit enter.")
     import webbrowser
     webbrowser.open("https://www.python.org/downloads/release/python-3116")
     quit()
@@ -248,7 +293,7 @@ sv_ttk.set_theme("dark")
 
 # Bottom text
 ttk.Label(root, text="ETS2 Lane Assist   ©Tumppi066 - 2023", font=("Roboto", 8)).grid(row=2, sticky="s", padx=10, pady=16)
-ttk.Label(root, text="Installer version 0.3.1", font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
+ttk.Label(root, text=f"Installer version {VERSION}", font=("Roboto", 8)).grid(row=2, sticky="n", padx=10, pady=0)
 progressBar = ttk.Progressbar(root, mode="determinate", length=width)
 progressBar.grid(row=0, sticky="n", padx=0, pady=0)
 
@@ -595,7 +640,7 @@ def InstallSequence():
         AddLineToConsole("Created run.bat, to run the app easier.")
     
     with open("update.bat", "w") as f:
-        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & pause & exit" & exit')
+        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & exit" & git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git & xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y & rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist &exit')
         AddLineToConsole("Created update.bat, to update the app easier.")
         
     with open("activate.bat", "w") as f:
