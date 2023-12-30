@@ -1,1 +1,1 @@
-Add ability to temporarily disable blocking steering while paused (for axis setup ingame). Default key : "m".
+Fix temporary pause disabling not working (hopefully, for the last time this time)

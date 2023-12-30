@@ -92,7 +92,7 @@ def controllerThread():
         if stop:
             break
         try:
-            if gamepaused == False:   
+            if gamepaused == False or temporarilyDisablePausing:   
                 # Lerp between the two values depending on how long it's been since the last frame
                 # print(lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime))
                 gamepad.left_joystick_float(x_value_float=lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime), y_value_float=0)
