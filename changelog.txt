@@ -1,2 +1,1 @@
-Fixed controls having a massive overhead.
-Fixed autoupdater getting wrong changelog.
+First Time Setup will now correctly enable and update the plugins.

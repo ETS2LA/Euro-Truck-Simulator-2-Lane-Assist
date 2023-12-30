@@ -671,6 +671,7 @@ class UI():
             
             # Set all necessary plugins
             settings.AddToList("Plugins", "Enabled", ["FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "TruckSimAPI"])
+            variables.UpdatePlugins()
             if detectionmethod.get() == "nav":
                 helpers.MakeLabel(self.root, "Almost there!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
                 helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
