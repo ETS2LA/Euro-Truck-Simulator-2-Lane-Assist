@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        for requirement in $(Get-Content requirements.txt); do
+        foreach ($requirement in Get-Content requirements.txt) {
           if ($requirement -eq "--upgrade" -or $requirement -eq "--no-cache-dir") {
             continue
           }
@@ -34,7 +34,8 @@ jobs:
           } catch {
             Write-Output "Failed to install $requirement. Skipping..."
           }
-        done
+        }
+
 
     - name: Run main.py
       run: python main.py
