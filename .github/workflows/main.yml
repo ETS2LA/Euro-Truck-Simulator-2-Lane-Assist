@@ -42,6 +42,12 @@ jobs:
 
 
 
-
-    - name: Run main.py
-      run: python main.py
+    - name: Run main.py with timeout
+      run: |
+        Start-Process -FilePath "python" -ArgumentList "main.py" -PassThru -Wait -NoNewWindow | ForEach-Object {
+          $_.WaitForExit((15 * 1000))  # 15 seconds timeout
+          if (-not $_.HasExited) {
+            Write-Output "Terminating the process after 15 seconds."
+            $_.Kill()
+          }
+        }
