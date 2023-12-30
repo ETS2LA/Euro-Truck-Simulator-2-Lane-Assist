@@ -23,7 +23,7 @@ os.chdir(FOLDER)
 def UpdateChecker():
     currentVer = VERSION.split(".")
 
-    url = "https://raw.githubusercontent.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist/installer/version.txt"
+    url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/installer/version.txt"
     try:
         remoteVer = requests.get(url).text.strip().split(".")
     except:
@@ -43,7 +43,7 @@ def UpdateChecker():
         from tkinter import messagebox
         if messagebox.askokcancel("Updater", (f"We have detected an installer update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
             try:
-                os.system("git clone -b installer https://github.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist.git")
+                os.system("git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git")
                 os.system("xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y")
                 os.system("rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist")
                 
@@ -639,7 +639,7 @@ def InstallSequence():
         AddLineToConsole("Created run.bat, to run the app easier.")
     
     with open("update.bat", "w") as f:
-        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & exit" & git clone -b installer https://github.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist.git & xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y & rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist &exit')
+        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & exit" & git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git & xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y & rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist &exit')
         AddLineToConsole("Created update.bat, to update the app easier.")
         
     with open("activate.bat", "w") as f:
