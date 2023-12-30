@@ -639,7 +639,7 @@ def InstallSequence():
         AddLineToConsole("Created run.bat, to run the app easier.")
     
     with open("update.bat", "w") as f:
-        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & pause & exit" & git clone -b installer https://github.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist.git & xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y & rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist &exit')
+        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & exit" & git clone -b installer https://github.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist.git & xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y & rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist &exit')
         AddLineToConsole("Created update.bat, to update the app easier.")
         
     with open("activate.bat", "w") as f:
