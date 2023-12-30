@@ -29,6 +29,18 @@ import vgamepad as vg
 import random
 import time
 import threading
+import src.controls as controls
+
+timer = time.time()
+temporarilyDisablePausing = False
+def ToggleTemporarilyDisablePausing():
+    global temporarilyDisablePausing
+    if time.time() - timer < 0.5:
+        return # Prevents double presses
+    temporarilyDisablePausing = not temporarilyDisablePausing
+    print("Temporarily disable pausing: " + str(temporarilyDisablePausing))
+
+controls.RegisterKeybind("Temporarily allow steering while paused", description="This is needed during setup",defaultButtonIndex="m", callback=lambda: ToggleTemporarilyDisablePausing())
 
 gamepad = None
 def createController():
@@ -164,7 +176,7 @@ def plugin(data):
         button_B_pressed = False
         button_X_pressed = False
 
-        if gamepaused == True:
+        if gamepaused == True and not temporarilyDisablePausing:
             lefttrigger = 0
             righttrigger = 0
 

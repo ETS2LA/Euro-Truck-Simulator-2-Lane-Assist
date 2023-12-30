@@ -1,1 +1,1 @@
-First Time Setup will now correctly enable and update the plugins.
+Add ability to temporarily disable blocking steering while paused (for axis setup ingame). Default key : "m".
