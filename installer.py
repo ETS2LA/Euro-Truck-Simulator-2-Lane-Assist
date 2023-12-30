@@ -638,7 +638,7 @@ def InstallSequence():
         AddLineToConsole("Created run.bat, to run the app easier.")
     
     with open("update.bat", "w") as f:
-        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & exit" & cd {dir} & git slash & git pull & exit')
+        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & exit" & cd {dir} & git stash & git pull & exit')
         AddLineToConsole("Created update.bat, to update the app easier.")
         
     with open("activate.bat", "w") as f:
