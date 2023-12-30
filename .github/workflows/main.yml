@@ -43,7 +43,16 @@ jobs:
 
     - name: Syntax check
       run: |
-        Get-ChildItem -Recurse -Filter *.py | ForEach-Object { pylint $_.FullName }
+        Get-ChildItem -Recurse -Filter *.py | ForEach-Object {
+          $scriptPath = $_.FullName
+          Write-Output "Running pylint on $scriptPath"
+          python -m venv venv
+          .\venv\Scripts\activate
+          pip install pylint
+          pylint $scriptPath
+          deactivate
+        }
+
 
     - name: Run main.py
       run: python main.py
