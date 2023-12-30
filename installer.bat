@@ -1,3 +1,4 @@
+@echo off
 git --version >nul 2>&1 || (
     echo Installing git, Please read and accept the windows smart screen prompt
     msg * "Installing git, Please read and accept the windows smart screen prompt"
