@@ -1,45 +1,37 @@
-name: Lines check
+name: Python Workflow
 
 on:
   push:
     branches:
       - main
-      - installer/*
+      - experimental
+      # Add more branches as needed
 
 jobs:
-  check-files:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Check files for main branch
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          # Specify the file for the main branch
-          FILE_TO_CHECK="requirements.txt"
-          if grep -q '^$' "$FILE_TO_CHECK"; then
-            echo "Main branch file contains empty lines. Removing them..."
-            sed -i '/^$/d' "$FILE_TO_CHECK"
-            echo "Empty lines removed."
-            git add "$FILE_TO_CHECK"
-            git commit -m "Remove empty lines from $FILE_TO_CHECK" || echo "No changes to commit"
-          else
-            echo "Main branch file does not contain empty lines."
-          fi
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
 
-      - name: Check files for feature branch
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/installer/')
-        run: |
-          # Specify the file for the feature branch
-          FILE_TO_CHECK="version.txt"
-          if grep -q '^$' "$FILE_TO_CHECK"; then
-            echo "Feature branch file contains empty lines. Removing them..."
-            sed -i '/^$/d' "$FILE_TO_CHECK"
-            echo "Empty lines removed."
-            git add "$FILE_TO_CHECK"
-            git commit -m "Remove empty lines from $FILE_TO_CHECK" || echo "No changes to commit"
-          else
-            echo "Feature branch file does not contain empty lines."
-          fi
+    - name: Conditionally run steps based on branch
+      run: |
+        if [[ $GITHUB_REF == refs/heads/main ]]; then
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        elif [[ $GITHUB_REF == refs/heads/development ]]; then
+          # Additional steps for the development branch if needed
+        fi
+
+    - name: Syntax check
+      run: |
+        find . -name "*.py" | xargs pylint
+
+    - name: Run main.py
+      run: python main.py
