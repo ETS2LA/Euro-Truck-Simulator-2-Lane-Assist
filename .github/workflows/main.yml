@@ -1,7 +1,7 @@
 name: Python Workflow
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - experimental
@@ -51,3 +51,27 @@ jobs:
             $_.Kill()
           }
         }
+
+    - name: Report syntax check status
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const status = process.env['CHECK_STATUS'];
+          const { data } = await github.checks.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            name: 'Syntax Check',
+            head_sha: context.sha,
+            status: status === 'success' ? 'completed' : 'completed',
+            conclusion: status,
+            output: {
+              title: 'Syntax Check',
+              summary: status === 'success' ? 'Syntax check passed.' : 'Syntax check failed.',
+            },
+          });
+          console.log('Check run created:', data);
+
+    - name: Set check status
+      if: steps.syntax-check.outputs.check_status == 'success'
+      run: |
+        echo "Check passed!"
