@@ -22,10 +22,10 @@ jobs:
 
     - name: Conditionally run steps based on branch
       run: |
-        if [[ $GITHUB_REF == refs/heads/main ]]; then
+        if [ "$GITHUB_REF" == "refs/heads/main" ]; then
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-        elif [[ $GITHUB_REF == refs/heads/development ]]; then
+        elif [ "$GITHUB_REF" == "refs/heads/development" ]; then
           # Additional steps for the development branch if needed
         fi
 
