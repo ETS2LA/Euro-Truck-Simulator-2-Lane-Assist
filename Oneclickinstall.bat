@@ -18,7 +18,7 @@ python --version >nul 2>&1 || (
     echo Python is now installed
 )
 
-git clone -b installer https://github.com/Cloud-121/Euro-Truck-Simulator-2-Lane-Assist.git
+git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git
 xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y
 rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist
 
