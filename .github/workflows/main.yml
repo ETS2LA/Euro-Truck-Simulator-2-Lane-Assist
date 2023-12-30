@@ -20,16 +20,20 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Conditionally run steps based on branch
+    - name: Install dependencies
       run: |
-        case $GITHUB_REF in
-          refs/heads/main)
-            pip install -r requirements.txt
-            ;;
-          refs/heads/development)
-            # Additional steps for the development branch if needed
-            ;;
-        esac
+        python -m pip install --upgrade pip
+        for requirement in $(cat requirements.txt); do
+          if [[ "$requirement" == "--upgrade" || "$requirement" == "--no-cache-dir" ]]; then
+            continue
+          fi
+          if [[ "$requirement" == "--upgrade --no-cache-dir gdown" ]]; then
+            echo "Installing gdown..."
+          else
+            echo "Installing $requirement..."
+          fi
+          python -m pip install $requirement
+        done
 
     - name: Syntax check
       run: |
