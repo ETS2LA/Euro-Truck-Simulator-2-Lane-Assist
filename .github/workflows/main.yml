@@ -28,15 +28,14 @@ jobs:
           if ($requirement -eq "--upgrade" -or $requirement -eq "--no-cache-dir") {
             return
           }
-          if ($requirement -eq "--upgrade --no-cache-dir gdown") {
-            Write-Output "Installing gdown..."
-          } else {
-            Write-Output "Installing $requirement..."
-          }
-          if (-not (python -m pip install $requirement)) {
+          Write-Output "Installing $requirement..."
+          try {
+            python -m pip install $requirement
+          } catch {
             Write-Output "Failed to install $requirement. Skipping..."
           }
         }
+
 
 
     - name: Syntax check
