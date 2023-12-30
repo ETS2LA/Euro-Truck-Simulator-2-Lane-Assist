@@ -1,33 +1,45 @@
-name: Remove Empty Lines
+name: Lines check
 
 on:
   push:
     branches:
       - main
+      - feature/*
 
 jobs:
-  remove-empty-lines:
+  check-files:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Remove empty lines
-      run: |
-        # Specify the file you want to check and modify
-        FILE_TO_CHECK="requirements.txt"
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-        # Check if the file contains empty lines
-        if grep -q '^$' "$FILE_TO_CHECK"; then
-          echo "File contains empty lines. Removing them..."
-          # Remove empty lines and overwrite the file
-          sed -i '/^$/d' "$FILE_TO_CHECK"
-          echo "Empty lines removed."
-          git add "$FILE_TO_CHECK"
-          git commit -m "Remove empty lines from $FILE_TO_CHECK" || echo "No changes to commit"
-        else
-          echo "File does not contain empty lines."
-        fi
-      # Make sure changes are pushed back to the repository
-      - name: Push changes
-        run: git push
+      - name: Check files for main branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          # Specify the file for the main branch
+          FILE_TO_CHECK="requirements.txt"
+          if grep -q '^$' "$FILE_TO_CHECK"; then
+            echo "Main branch file contains empty lines. Removing them..."
+            sed -i '/^$/d' "$FILE_TO_CHECK"
+            echo "Empty lines removed."
+            git add "$FILE_TO_CHECK"
+            git commit -m "Remove empty lines from $FILE_TO_CHECK" || echo "No changes to commit"
+          else
+            echo "Main branch file does not contain empty lines."
+          fi
+
+      - name: Check files for feature branch
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/installer/')
+        run: |
+          # Specify the file for the feature branch
+          FILE_TO_CHECK="version.txt"
+          if grep -q '^$' "$FILE_TO_CHECK"; then
+            echo "Feature branch file contains empty lines. Removing them..."
+            sed -i '/^$/d' "$FILE_TO_CHECK"
+            echo "Empty lines removed."
+            git add "$FILE_TO_CHECK"
+            git commit -m "Remove empty lines from $FILE_TO_CHECK" || echo "No changes to commit"
+          else
+            echo "Feature branch file does not contain empty lines."
+          fi
