@@ -173,7 +173,7 @@ if sys.version_info[0] != 3 or sys.version_info[1] < 9 or sys.version_info[1] > 
     printRed("This app requires a Python version above 3.9.x and below 3.12.x to create the correct virtual environment.")
     printRed("Please uninstall python by searching for python in control panel that has been opened for you and rerun the app to have the app to auto install the correct version.")
     os.system("control appwiz.cpl")
-    input("If you would like to install python yourself, I don't know why you would. Are you telling me your going to waste 5 minutes of my time on making a auto installer for python for you to just install it yourself?")
+    input("If you would like to install python yourself, I don't know why you would. Are you telling me your going to waste 5 minutes of my time on making a auto installer for python for you to just install it yourself? Fine, If you really want to install python yourself hit enter.")
     import webbrowser
     webbrowser.open("https://www.python.org/downloads/release/python-3116")
     quit()
