@@ -21,13 +21,16 @@ jobs:
         python-version: 3.8
 
     - name: Conditionally run steps based on branch
-      run: |
-        if [ "$GITHUB_REF" == "refs/heads/main" ]; then
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-        elif [ "$GITHUB_REF" == "refs/heads/development" ]; then
-          # Additional steps for the development branch if needed
-        fi
+  run: |
+    case $GITHUB_REF in
+      refs/heads/main)
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        ;;
+      refs/heads/development)
+        # Additional steps for the development branch if needed
+        ;;
+    esac
 
     - name: Syntax check
       run: |
