@@ -78,6 +78,16 @@ def CreateServer():
     serverThread.start()
     
 
+def convert_ndarrays(obj):
+    if isinstance(obj, np.ndarray):
+        return "ndarray not supported"
+    elif isinstance(obj, dict):
+        return {key: convert_ndarrays(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_ndarrays(value) for value in obj]
+    else:
+        return obj
+
 def plugin(data):
     global currentData
     tempData = {}
@@ -86,11 +96,7 @@ def plugin(data):
         if key == "frame" or key == "frameFull":
             tempData[key] = "too large to send"
             continue
-        else:
-            if type(data[key]) == np.ndarray:
-                tempData[key] = data[key].tolist()
-                continue
-            
+        
         if key == "GPS":
             from plugins.Map.GameData.roads import RoadToJson
             tempData[key] = data[key]
@@ -99,7 +105,8 @@ def plugin(data):
         
         tempData[key] = data[key]
 
-    currentData = tempData
+
+    currentData = convert_ndarrays(tempData)
     return data # Plugins need to ALWAYS return the data
 
 
