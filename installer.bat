@@ -4,6 +4,7 @@ git --version >nul 2>&1 || (
     git_installer.exe /VERYSILENT /NORESTART /NOCANCEL /SP-
     del git_installer.exe
     echo git is now installed
+    exit 0
 )
 
 python --version >nul 2>&1 || (
@@ -11,9 +12,15 @@ python --version >nul 2>&1 || (
     powershell -Command "(New-Object Net.WebClient).DownloadFile('https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe', 'python_installer.exe')"
     python_installer.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
     del python_installer.exe
-    echo Python is now installed rerun installer.bat
-    exit 0
+    echo Python is now installed
 )
 
-python installer.py
+if exist installer.bat (
+    installer.bat
+) else (
+    git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git
+    xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y
+    rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist
+)
+
 pause
