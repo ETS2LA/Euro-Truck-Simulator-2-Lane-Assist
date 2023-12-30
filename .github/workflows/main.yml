@@ -33,8 +33,10 @@ jobs:
             python -m pip install $requirement
           } catch {
             Write-Output "Failed to install $requirement. Skipping..."
+            continue
           }
         }
+
 
 
     - name: Run main.py
