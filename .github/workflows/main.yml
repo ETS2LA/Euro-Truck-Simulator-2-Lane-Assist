@@ -25,17 +25,21 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         foreach ($requirement in Get-Content requirements.txt) {
-          if ($requirement -eq "--upgrade" -or $requirement -eq "--no-cache-dir") {
-            continue
-          }
-          Write-Output "Installing $requirement..."
-          try {
-            python -m pip install $requirement
-          } catch {
-            Write-Output "Failed to install $requirement. Skipping..."
-            continue
+          $requirements = $requirement -split ' '
+          foreach ($singleRequirement in $requirements) {
+            if ($singleRequirement -eq "--upgrade" -or $singleRequirement -eq "--no-cache-dir") {
+              continue
+            }
+            Write-Output "Installing $singleRequirement..."
+            try {
+              python -m pip install $singleRequirement
+            } catch {
+              Write-Output "Failed to install $singleRequirement. Skipping..."
+              continue
+            }
           }
         }
+
 
 
 
