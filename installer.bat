@@ -35,6 +35,7 @@ if exist installer.py (
     xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y
     rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist
     color 2 & echo Successfully installed installer
+    color 7
     python installer.py
     pause
     
