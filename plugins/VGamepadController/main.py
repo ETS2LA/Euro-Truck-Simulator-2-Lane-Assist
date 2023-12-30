@@ -35,10 +35,12 @@ timer = time.time()
 temporarilyDisablePausing = False
 def ToggleTemporarilyDisablePausing():
     global temporarilyDisablePausing
+    global timer
     if time.time() - timer < 0.5:
         return # Prevents double presses
     temporarilyDisablePausing = not temporarilyDisablePausing
     print("Temporarily disable pausing: " + str(temporarilyDisablePausing))
+    timer = time.time()
 
 controls.RegisterKeybind("Temporarily allow steering while paused", description="This is needed during setup",defaultButtonIndex="m", callback=lambda: ToggleTemporarilyDisablePausing())
 

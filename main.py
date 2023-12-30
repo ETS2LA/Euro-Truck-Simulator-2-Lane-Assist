@@ -452,6 +452,13 @@ if __name__ == "__main__":
                 LoadApplication()
                 variables.RELOAD = False
             
+            # Update the input manager.
+            controlsStartTime = time.time()
+            data = controls.plugin(data)
+            controlsEndTime = time.time()
+            data["executionTimes"]["Control callbacks"] = controlsEndTime - controlsStartTime
+            
+            
             # Enable / Disable the main loop
             if variables.ENABLELOOP == False:
                 mainUI.update(data)
@@ -468,11 +475,6 @@ if __name__ == "__main__":
                 FindPlugins()
                 variables.UPDATEPLUGINS = False
             
-            # Update the input manager.
-            controlsStartTime = time.time()
-            data = controls.plugin(data)
-            controlsEndTime = time.time()
-            data["executionTimes"]["Control callbacks"] = controlsEndTime - controlsStartTime
             
             data = UpdatePlugins("before image capture", data)
             data = UpdatePlugins("image capture", data)

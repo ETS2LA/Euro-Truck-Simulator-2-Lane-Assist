@@ -112,12 +112,12 @@ def plugin(data):
     pygame.event.pump()
     for keybind in KEYBINDS:
         if keybind["callback"] != None:
-            for joystick in joysticks:
-                if joystick.get_guid() == keybind["deviceGUID"]:
-                    if keybind["buttonIndex"] == type(""): # We are expecting a key
-                        if keyboard.is_pressed(keybind["buttonIndex"]):
-                            keybind["callback"]()
-                    else: # We are expecting a controller button or axis
+            if keybind["deviceGUID"] == KEYBOARD_GUID:
+                if keyboard.is_pressed(keybind["buttonIndex"]):
+                    keybind["callback"]()
+            else:
+                for joystick in joysticks:
+                    if joystick.get_guid() == keybind["deviceGUID"]:
                         if keybind["buttonIndex"] != -1:
                             if joystick.get_button(keybind["buttonIndex"]):
                                 keybind["callback"]()
