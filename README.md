@@ -45,7 +45,7 @@ Those not familiar with github should do as follows:
 2. Make your changes in your fork
 3. Make a pull request to merge the changes to the public version.
 
-The plugin infrastructure has documentation on the [wiki](https://wiki.tumppi066.xyz/en/LaneAssist).
+The plugin infrastructure has documentation on the [wiki](https://wiki.tumppi066.fi/en/LaneAssist).
 
 
 ### I have issues / suggestions.
