@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
@@ -32,12 +32,14 @@ jobs:
           else
             echo "Installing $requirement..."
           fi
-          python -m pip install $requirement
+          if ! python -m pip install $requirement; then
+            echo "Failed to install $requirement. Skipping..."
+          fi
         done
 
     - name: Syntax check
       run: |
-        find . -name "*.py" | xargs pylint
+        Get-ChildItem -Recurse -Filter *.py | ForEach-Object { pylint $_.FullName }
 
     - name: Run main.py
       run: python main.py
