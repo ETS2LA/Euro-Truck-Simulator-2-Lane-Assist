@@ -24,7 +24,7 @@ jobs:
       run: |
         case $GITHUB_REF in
           refs/heads/main)
-            python -m pip install -r requirements.txt
+            pip install -r requirements.txt
             ;;
           refs/heads/development)
             # Additional steps for the development branch if needed
