@@ -43,10 +43,8 @@ def UpdateChecker():
         from tkinter import messagebox
         if messagebox.askokcancel("Updater", (f"We have detected an installer update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}")):
             try:
-                os.system("git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git")
-                os.system("xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y")
-                os.system("rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist")
-                
+                os.system("git stash")
+                os.system("git pull")
             except:
                 print("Failed to update")
             if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the installer?")):
@@ -640,7 +638,7 @@ def InstallSequence():
         AddLineToConsole("Created run.bat, to run the app easier.")
     
     with open("update.bat", "w") as f:
-        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & exit" & git clone -b installer https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist.git & xcopy Euro-Truck-Simulator-2-Lane-Assist\* . /E /H /C /Y & rmdir /S /Q Euro-Truck-Simulator-2-Lane-Assist &exit')
+        f.write(fr'cmd /k "cd {dir}/venv/Scripts & .\activate & cd {dir}/app & git stash & git pull & exit" & cd {dir} & git stash & git pull & exit')
         AddLineToConsole("Created update.bat, to update the app easier.")
         
     with open("activate.bat", "w") as f:
