@@ -348,12 +348,23 @@ class UI():
                 
                 # Make labels for the keybind information
                 if keybind["deviceGUID"] != -1:
+                    noDevice = True
+                    
                     if keybind["deviceGUID"] == KEYBOARD_GUID:
-                        helpers.MakeLabel(frame, "Device: Keyboard", 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
+                        label = helpers.MakeLabel(frame, "Device: Keyboard", 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
+                        ToolTip(label, msg="GUID: " + str(KEYBOARD_GUID) + "\nThis is the keyboard connected to the computer.")
+                        noDevice = False
+                        
                     for joystick in joysticks:
                         if joystick.get_guid() == keybind["deviceGUID"]:
-                            helpers.MakeLabel(frame, "Device: " + joystick.get_name(), 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"], tooltip=f"GUID: {str(joystick.get_guid())}")
+                            label = helpers.MakeLabel(frame, "Device: " + joystick.get_name(), 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"], tooltip=f"GUID: {str(joystick.get_guid())}")
+                            ToolTip(label, msg=f"GUID: {str(joystick.get_guid())}")
+                            noDevice = False
                             break
+                        
+                    if noDevice:
+                        label = helpers.MakeLabel(frame, "Device: Missing", 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"], fg="yellow")
+                        ToolTip(label, msg="The device that was used to bind this keybind is not connected to the computer.\nGUID: " + str(keybind["deviceGUID"]))
                         
                 if keybind["buttonIndex"] != -1:
                     if type(keybind["buttonIndex"]) == type(""):

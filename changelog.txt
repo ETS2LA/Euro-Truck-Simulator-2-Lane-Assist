@@ -1,1 +1,1 @@
-Fix temporary pause disabling not working (hopefully, for the last time this time)
+Handle missing controllers.

@@ -461,7 +461,10 @@ if __name__ == "__main__":
             
             # Enable / Disable the main loop
             if variables.ENABLELOOP == False:
+                start = time.time()
                 mainUI.update(data)
+                end = time.time()
+                data["executionTimes"]["UI"] = end - start
                 allEnd = time.time()
                 data["executionTimes"]["all"] = allEnd - allStart
                 try:

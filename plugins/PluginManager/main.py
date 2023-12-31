@@ -43,7 +43,7 @@ class UI():
                     except Exception as ex:
                         print(ex.args)
                         pass
-        
+                    
         # loading.destroy()
         return plugins
     

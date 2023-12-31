@@ -22,6 +22,7 @@ from src.logger import print
 import src.settings as settings
 from src.translator import Translate
 import plugins.ThemeSelector.main as themeSelector
+from tktooltip import ToolTip
 
 root = None
 """The root tk.Tk() window of the program."""

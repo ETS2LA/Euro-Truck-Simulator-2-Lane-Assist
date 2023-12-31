@@ -78,7 +78,7 @@ class UI():
                 
             except: pass
             
-            background = "#1c1c1c" if settings.GetSettings("User Interface", "Theme") == "dark" else "#fafafa"
+            background = "#313131" if settings.GetSettings("User Interface", "Theme") == "dark" else "#fafafa"
             foreground = "#ffffff" if settings.GetSettings("User Interface", "Theme") == "dark" else "#000000"
             graphColor = "#51b7eb" if settings.GetSettings("User Interface", "Theme") == "dark" else "#1e6fbc"
             idleTimeColor = "#ff0000" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ff0000"
