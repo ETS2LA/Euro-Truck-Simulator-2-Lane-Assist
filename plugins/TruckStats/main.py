@@ -91,12 +91,12 @@ def LoadSettings():
 
     fuel_value_history = []
     fuel_value_history_adder = settings.GetSettings("TruckStats", "fuel_value_history_adder", 60)
-    fuel_value_history_time = time.time() - fuel_value_history_adder - fuel_value_history_adder + 1
+    fuel_value_history_time = time.time() - 1
     fuel_value_history_count = 0
 
     engine_value_history = []
     engine_value_history_adder = settings.GetSettings("TruckStats", "engine_value_history_adder", 60)
-    engine_value_history_time = time.time() - engine_value_history_adder - engine_value_history_adder + 1
+    engine_value_history_time = time.time() - 1
     engine_value_history_count = 0
 
     open_tab_color_r = settings.GetSettings("TruckStats", "open_tab_color_r")
@@ -358,9 +358,9 @@ def plugin(data):
             fuel_total = fuel_total/4.54609
             fuel_current = fuel_current/4.54609
 
-    if gamepaused == False:
-        fuel_value_history_time = current_time - fuel_value_history_adder - fuel_value_history_adder + 1
-        engine_value_history_time = current_time - engine_value_history_adder - engine_value_history_adder + 1
+    if gamepaused == True:
+        fuel_value_history_time = current_time - 1
+        engine_value_history_time = current_time - 1
 
     if settings_show_graphs == True and gamepaused == False:
         if fuel_value_history_time <= current_time:
