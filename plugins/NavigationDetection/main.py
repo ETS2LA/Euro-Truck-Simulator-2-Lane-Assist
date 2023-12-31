@@ -1818,7 +1818,8 @@ def plugin(data):
                     
                     for i in range(len(enabled_plugins)):
                         if enabled_plugins[i] != "NavigationDetection" and enabled_plugins[i] != "DXCamScreenCapture":
-                            settings.AddToList("Plugins", "Enabled", enabled_plugins[i])
+                            if enabled_plugins[i] not in settings.GetSettings("Plugins", "Enabled"):
+                                settings.AddToList("Plugins", "Enabled", enabled_plugins[i])
 
                     if enabled_plugins == settings.GetSettings("Plugins", "Enabled"):
                         DefaultSteering.enabled = True
