@@ -41,7 +41,6 @@ if exist %CD%\venv (
     pause
 ) else (
     echo venv folder not found.
-    pause
 )
 
 REM STEP 5
@@ -50,3 +49,4 @@ REM Remove everything in the current folder
 echo WARNING: This will delete everything in the current folder
 paause
 rmdir /S /Q %CD%
+pause
