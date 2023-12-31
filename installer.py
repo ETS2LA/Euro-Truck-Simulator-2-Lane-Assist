@@ -13,12 +13,15 @@ def printRed(text):
 def printGreen(text):
     print("\033[92m {}\033[00m" .format(text))
 
+checkupdate = 1
+
 try:
     import requests
 except:
+    checkupdate = 0
     printRed("Requests module not found. Installing...")
     os.system("pip install requests")
-    printGreen("Successfully installed requests, Please re run installer.bat")
+    printGreen("Successfully installed requests, Auto updating will check for updates the next time the app is run")
 
 APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
 FOLDER = os.path.dirname(__file__)
@@ -59,7 +62,8 @@ def UpdateChecker():
         else:
             pass
 
-UpdateChecker()
+if checkupdate == 1:
+    UpdateChecker()
 
 def EnsureFile(file):
     try:
