@@ -1,3 +1,5 @@
+@echo off
+
 winget --version >nul 2>&1 || (
     color 4 & echo WARNING, You do not have winget avialble on your system, This is most lickly because your on a windows version older then 2004. Please update your windows install and try again.
     pause
