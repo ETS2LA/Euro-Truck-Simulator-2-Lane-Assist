@@ -78,9 +78,9 @@ class UI():
                 
             except: pass
             
-            background = "#313131" if settings.GetSettings("User Interface", "Theme") == "dark" else "#fafafa"
-            foreground = "#ffffff" if settings.GetSettings("User Interface", "Theme") == "dark" else "#000000"
-            graphColor = "#51b7eb" if settings.GetSettings("User Interface", "Theme") == "dark" else "#1e6fbc"
+            background = "#313131" if settings.GetSettings("User Interface", "Theme") == "dark" else "#313131"
+            foreground = "#ffffff" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ffffff"
+            graphColor = "#51b7eb" if settings.GetSettings("User Interface", "Theme") == "dark" else "#51b7eb"
             idleTimeColor = "#ff0000" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ff0000"
             
             # Make a frametime graph (also support blitting)
