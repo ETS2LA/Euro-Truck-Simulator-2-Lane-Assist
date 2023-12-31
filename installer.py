@@ -7,11 +7,18 @@ import threading
 import time
 from tkinter import ttk
 import json
+
+def printRed(text):
+    print("\033[91m {}\033[00m" .format(text))
+def printGreen(text):
+    print("\033[92m {}\033[00m" .format(text))
+
 try:
     import requests
 except:
+    printRed("Requests module not found. Installing...")
     os.system("pip install requests")
-    import requests
+    printGreen("Successfully installed requests, Please re run installer.bat")
 
 APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
 FOLDER = os.path.dirname(__file__)
@@ -53,11 +60,6 @@ def UpdateChecker():
             pass
 
 UpdateChecker()
-
-def printRed(text):
-    print("\033[91m {}\033[00m" .format(text))
-def printGreen(text):
-    print("\033[92m {}\033[00m" .format(text))
 
 def EnsureFile(file):
     try:
