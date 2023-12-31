@@ -1041,9 +1041,9 @@ class UI():
             self.root.update()
 
             helpers.MakeEmptyLine(generalFrame, 1, 0)
-            helpers.MakeCheckButton(generalFrame, "Show the Graphs.", "TruckStats", "show_graphs", 2, 0, width=85)
-            helpers.MakeCheckButton(generalFrame, "Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h and Fahrenheit instead of Celsius)", "TruckStats", "use_imperial_system", 3, 0, width=85)
-            helpers.MakeCheckButton(generalFrame, "Use US Gallons", "TruckStats", "use_us_gallons", 4, 0, width=85)
+            helpers.MakeCheckButton(generalFrame, "Show the Graphs.", "TruckStats", "show_graphs", 2, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, "Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h, Fahrenheit instead of Celsius and Gallons instead of Liters)", "TruckStats", "use_imperial_system", 3, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, "Use US Gallons.", "TruckStats", "use_us_gallons", 4, 0, width=100)
             helpers.MakeLabel(generalFrame, "Tipp: If you close the TruckStats window, it will save the location of the window.", 5, 0, sticky="w")
 
             
