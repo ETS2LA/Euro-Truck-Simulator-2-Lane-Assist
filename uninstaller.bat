@@ -1,0 +1,2 @@
+python uninstaller.py
+pause
