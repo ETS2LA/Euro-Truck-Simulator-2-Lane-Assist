@@ -1019,6 +1019,7 @@ class UI():
             
             # Set all necessary plugins
             settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;DXCamScreenCapture&#34;, &#34;VGamepadController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+            variables.UpdatePlugins()
             if detectionmethod.get() == &#34;nav&#34;:
                 helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
                 helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
@@ -1737,6 +1738,7 @@ class UI():
             
             # Set all necessary plugins
             settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;DXCamScreenCapture&#34;, &#34;VGamepadController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+            variables.UpdatePlugins()
             if detectionmethod.get() == &#34;nav&#34;:
                 helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
                 helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
@@ -2255,6 +2257,7 @@ class UI():
     
     # Set all necessary plugins
     settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;DXCamScreenCapture&#34;, &#34;VGamepadController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+    variables.UpdatePlugins()
     if detectionmethod.get() == &#34;nav&#34;:
         helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
         helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)

@@ -420,6 +420,7 @@ else:
     pass
 
 import requests
+import src.settings as settings
 def UpdateChecker():
     currentVer = variables.VERSION.split(&#34;.&#34;)
     url = &#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt&#34;
@@ -439,9 +440,14 @@ def UpdateChecker():
         update = False
     
     devmode = settings.GetSettings(&#34;Dev&#34;, &#34;disable_warnings&#34;, False)
+    print(f&#34;Current version: {&#39;.&#39;.join(currentVer)}&#34;)
+    print(f&#34;Remote version: {&#39;.&#39;.join(remoteVer)}&#34;)
+    print(f&#34;Update available: {update}&#34;)
+    if update:
+        print(f&#34;Changelog:\n{requests.get(&#39;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#39;).text}&#34;)
     if devmode == False:
         if update:
-            changelog = variables.CHANGELOG
+            changelog = requests.get(&#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#34;).text
             from tkinter import messagebox
             if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
                 os.system(&#34;git stash&#34;)
@@ -477,7 +483,6 @@ import json
 from src.logger import print
 import src.logger as logger
 import traceback
-import src.settings as settings
 import src.translator as translator
 import src.controls as controls
 import psutil
@@ -796,9 +801,19 @@ if __name__ == &#34;__main__&#34;:
                 LoadApplication()
                 variables.RELOAD = False
             
+            # Update the input manager.
+            controlsStartTime = time.time()
+            data = controls.plugin(data)
+            controlsEndTime = time.time()
+            data[&#34;executionTimes&#34;][&#34;Control callbacks&#34;] = controlsEndTime - controlsStartTime
+            
+            
             # Enable / Disable the main loop
             if variables.ENABLELOOP == False:
+                start = time.time()
                 mainUI.update(data)
+                end = time.time()
+                data[&#34;executionTimes&#34;][&#34;UI&#34;] = end - start
                 allEnd = time.time()
                 data[&#34;executionTimes&#34;][&#34;all&#34;] = allEnd - allStart
                 try:
@@ -812,8 +827,6 @@ if __name__ == &#34;__main__&#34;:
                 FindPlugins()
                 variables.UPDATEPLUGINS = False
             
-            # Update the input manager.
-            data = controls.plugin(data)
             
             data = UpdatePlugins(&#34;before image capture&#34;, data)
             data = UpdatePlugins(&#34;image capture&#34;, data)
@@ -1233,9 +1246,14 @@ if __name__ == &#34;__main__&#34;:
         update = False
     
     devmode = settings.GetSettings(&#34;Dev&#34;, &#34;disable_warnings&#34;, False)
+    print(f&#34;Current version: {&#39;.&#39;.join(currentVer)}&#34;)
+    print(f&#34;Remote version: {&#39;.&#39;.join(remoteVer)}&#34;)
+    print(f&#34;Update available: {update}&#34;)
+    if update:
+        print(f&#34;Changelog:\n{requests.get(&#39;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#39;).text}&#34;)
     if devmode == False:
         if update:
-            changelog = variables.CHANGELOG
+            changelog = requests.get(&#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#34;).text
             from tkinter import messagebox
             if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
                 os.system(&#34;git stash&#34;)

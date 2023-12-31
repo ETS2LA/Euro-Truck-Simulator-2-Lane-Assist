@@ -2162,13 +2162,15 @@ def plugin(data):
                         settings.CreateSettings(&#34;dxcam&#34;, &#34;device&#34;, 0)
                         screencap_device = 0
 
-                cv2.destroyAllWindows()
+                cv2.destroyWindow(&#39;Setup&#39;)
+                cv2.destroyWindow(&#39;Example Image&#39;)
 
                 if enabled_plugins != settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                     
                     for i in range(len(enabled_plugins)):
                         if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;DXCamScreenCapture&#34;:
-                            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
+                            if enabled_plugins[i] not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                                settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
                     if enabled_plugins == settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                         DefaultSteering.enabled = True
@@ -5014,13 +5016,15 @@ class UI():
                         settings.CreateSettings(&#34;dxcam&#34;, &#34;device&#34;, 0)
                         screencap_device = 0
 
-                cv2.destroyAllWindows()
+                cv2.destroyWindow(&#39;Setup&#39;)
+                cv2.destroyWindow(&#39;Example Image&#39;)
 
                 if enabled_plugins != settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                     
                     for i in range(len(enabled_plugins)):
                         if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;DXCamScreenCapture&#34;:
-                            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
+                            if enabled_plugins[i] not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                                settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
                     if enabled_plugins == settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                         DefaultSteering.enabled = True

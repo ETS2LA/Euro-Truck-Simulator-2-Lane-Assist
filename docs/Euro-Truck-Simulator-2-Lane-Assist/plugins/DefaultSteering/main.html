@@ -422,11 +422,7 @@ def verifySetting(category, key, default):
 
 lastWheelIndex = -1
 def updateSettings():
-    global wheel
     global lastWheelIndex
-    global rightIndicator
-    global leftIndicator
-    global steeringAxis
     global maximumControl
     global controlSmoothness
     global sensitivity
@@ -435,9 +431,6 @@ def updateSettings():
     global gamepadSmoothness
     global enableDisable
     global keyboard
-    global enableDisableKey
-    global rightIndicatorKey
-    global leftIndicatorKey
     global lanechangingnavdetection
     global keyboardSensitivity
     global keyboardReturnSensitivity
@@ -493,8 +486,6 @@ def plugin(data):
     global keyboardSensitivity
     global keyboardReturnSensitivity
     # global disableLaneAssistWhenIndicating
-
-    print(controls.GetKeybindValue(&#34;Enable/Disable Steering&#34;))
 
     try:
         desiredControl = data[&#34;LaneDetection&#34;][&#34;difference&#34;] * sensitivity + offset
@@ -554,6 +545,10 @@ def plugin(data):
         try:
             IndicatingLeft = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;]
             IndicatingRight = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerRightActive&#34;]
+            if IndicatingLeft == True or IndicatingRight == True:
+                if &#34;NavigationDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                    IndicatingLeft = False
+                    IndicatingRight = False
 
             enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
             if(controls.GetKeybindValue(&#34;Enable/Disable Steering&#34;) and enabledTimer &gt; 15):
@@ -635,6 +630,10 @@ def plugin(data):
             enabledTimer += 1
             IndicatingLeft = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;]
             IndicatingRight = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerRightActive&#34;]
+            if IndicatingLeft == True or IndicatingRight == True:
+                if &#34;NavigationDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                    IndicatingLeft = False
+                    IndicatingRight = False
 
             if(controls.GetKeybindValue(&#34;Enable/Disable Steering&#34;) and enabledTimer &gt; 15):
                 if enabled == True:
@@ -856,7 +855,6 @@ class UI():
             keyboardFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(keyboardFrame, &#34;Keyboard&#34;, 3, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
             self.keyboard = helpers.MakeCheckButton(keyboardFrame, &#34;Keyboard Mode&#34;, &#34;DefaultSteering&#34;, &#34;keyboard&#34;, 4, 1, width=15, default=False)
-            self.enableDisableKey = helpers.MakeComboEntry(keyboardFrame, &#34;Enable/Disable Key&#34;, &#34;DefaultSteering&#34;, &#34;enableDisableKey&#34;, 5, 1, width=12, value=&#34;n&#34;, isString=True, labelwidth=20)
             
             self.keyboardSensitivity = tk.Scale(keyboardFrame, from_=0, to=1, orient=&#34;horizontal&#34;, length=500, resolution=0.01, label=Translate(&#34;Keyboard Sensitivity&#34;))
             self.keyboardSensitivity.grid(row=6, column=0, columnspan=3, pady=0)
@@ -888,19 +886,11 @@ class UI():
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;smoothness&#34;, self.smoothness.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;sensitivity&#34;, self.sensitivity.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;maximumControl&#34;, self.maximumControl.get())
-            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;steeringAxis&#34;, self.steeringAxis.get())
-            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisable&#34;, self.enableDisable.get())
             # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicator&#34;, self.rightIndicator.get())
             # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicator&#34;, self.leftIndicator.get())
-            try:
-                controller = self.list.curselection()[0]
-            except:
-                controller = self.list.curselection()
-            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;, controller)
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, self.gamepad.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadSmoothness&#34;, self.gamepadSmoothness.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboard&#34;, self.keyboard.get())
-            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisableKey&#34;, self.enableDisableKey.get())
             # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicatorKey&#34;, self.rightIndicatorKey.get())
             # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicatorKey&#34;, self.leftIndicatorKey.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboardSensitivity&#34;, self.keyboardSensitivity.get())
@@ -984,8 +974,6 @@ class UI():
     global keyboardReturnSensitivity
     # global disableLaneAssistWhenIndicating
 
-    print(controls.GetKeybindValue(&#34;Enable/Disable Steering&#34;))
-
     try:
         desiredControl = data[&#34;LaneDetection&#34;][&#34;difference&#34;] * sensitivity + offset
     except Exception as ex:
@@ -1044,6 +1032,10 @@ class UI():
         try:
             IndicatingLeft = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;]
             IndicatingRight = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerRightActive&#34;]
+            if IndicatingLeft == True or IndicatingRight == True:
+                if &#34;NavigationDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                    IndicatingLeft = False
+                    IndicatingRight = False
 
             enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
             if(controls.GetKeybindValue(&#34;Enable/Disable Steering&#34;) and enabledTimer &gt; 15):
@@ -1125,6 +1117,10 @@ class UI():
             enabledTimer += 1
             IndicatingLeft = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;]
             IndicatingRight = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerRightActive&#34;]
+            if IndicatingLeft == True or IndicatingRight == True:
+                if &#34;NavigationDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                    IndicatingLeft = False
+                    IndicatingRight = False
 
             if(controls.GetKeybindValue(&#34;Enable/Disable Steering&#34;) and enabledTimer &gt; 15):
                 if enabled == True:
@@ -1274,11 +1270,7 @@ class UI():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def updateSettings():
-    global wheel
     global lastWheelIndex
-    global rightIndicator
-    global leftIndicator
-    global steeringAxis
     global maximumControl
     global controlSmoothness
     global sensitivity
@@ -1287,9 +1279,6 @@ class UI():
     global gamepadSmoothness
     global enableDisable
     global keyboard
-    global enableDisableKey
-    global rightIndicatorKey
-    global leftIndicatorKey
     global lanechangingnavdetection
     global keyboardSensitivity
     global keyboardReturnSensitivity
@@ -1425,7 +1414,6 @@ class UI():
             keyboardFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(keyboardFrame, &#34;Keyboard&#34;, 3, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
             self.keyboard = helpers.MakeCheckButton(keyboardFrame, &#34;Keyboard Mode&#34;, &#34;DefaultSteering&#34;, &#34;keyboard&#34;, 4, 1, width=15, default=False)
-            self.enableDisableKey = helpers.MakeComboEntry(keyboardFrame, &#34;Enable/Disable Key&#34;, &#34;DefaultSteering&#34;, &#34;enableDisableKey&#34;, 5, 1, width=12, value=&#34;n&#34;, isString=True, labelwidth=20)
             
             self.keyboardSensitivity = tk.Scale(keyboardFrame, from_=0, to=1, orient=&#34;horizontal&#34;, length=500, resolution=0.01, label=Translate(&#34;Keyboard Sensitivity&#34;))
             self.keyboardSensitivity.grid(row=6, column=0, columnspan=3, pady=0)
@@ -1457,19 +1445,11 @@ class UI():
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;smoothness&#34;, self.smoothness.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;sensitivity&#34;, self.sensitivity.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;maximumControl&#34;, self.maximumControl.get())
-            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;steeringAxis&#34;, self.steeringAxis.get())
-            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisable&#34;, self.enableDisable.get())
             # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicator&#34;, self.rightIndicator.get())
             # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicator&#34;, self.leftIndicator.get())
-            try:
-                controller = self.list.curselection()[0]
-            except:
-                controller = self.list.curselection()
-            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;, controller)
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, self.gamepad.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadSmoothness&#34;, self.gamepadSmoothness.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboard&#34;, self.keyboard.get())
-            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisableKey&#34;, self.enableDisableKey.get())
             # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicatorKey&#34;, self.rightIndicatorKey.get())
             # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicatorKey&#34;, self.leftIndicatorKey.get())
             settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboardSensitivity&#34;, self.keyboardSensitivity.get())
@@ -1581,7 +1561,6 @@ class UI():
     keyboardFrame.columnconfigure(2, weight=1)
     helpers.MakeLabel(keyboardFrame, &#34;Keyboard&#34;, 3, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
     self.keyboard = helpers.MakeCheckButton(keyboardFrame, &#34;Keyboard Mode&#34;, &#34;DefaultSteering&#34;, &#34;keyboard&#34;, 4, 1, width=15, default=False)
-    self.enableDisableKey = helpers.MakeComboEntry(keyboardFrame, &#34;Enable/Disable Key&#34;, &#34;DefaultSteering&#34;, &#34;enableDisableKey&#34;, 5, 1, width=12, value=&#34;n&#34;, isString=True, labelwidth=20)
     
     self.keyboardSensitivity = tk.Scale(keyboardFrame, from_=0, to=1, orient=&#34;horizontal&#34;, length=500, resolution=0.01, label=Translate(&#34;Keyboard Sensitivity&#34;))
     self.keyboardSensitivity.grid(row=6, column=0, columnspan=3, pady=0)
@@ -1622,19 +1601,11 @@ class UI():
     settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;smoothness&#34;, self.smoothness.get())
     settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;sensitivity&#34;, self.sensitivity.get())
     settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;maximumControl&#34;, self.maximumControl.get())
-    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;steeringAxis&#34;, self.steeringAxis.get())
-    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisable&#34;, self.enableDisable.get())
     # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicator&#34;, self.rightIndicator.get())
     # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicator&#34;, self.leftIndicator.get())
-    try:
-        controller = self.list.curselection()[0]
-    except:
-        controller = self.list.curselection()
-    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;, controller)
     settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, self.gamepad.get())
     settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadSmoothness&#34;, self.gamepadSmoothness.get())
     settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboard&#34;, self.keyboard.get())
-    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisableKey&#34;, self.enableDisableKey.get())
     # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicatorKey&#34;, self.rightIndicatorKey.get())
     # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicatorKey&#34;, self.leftIndicatorKey.get())
     settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboardSensitivity&#34;, self.keyboardSensitivity.get())

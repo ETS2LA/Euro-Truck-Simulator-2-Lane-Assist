@@ -429,20 +429,25 @@ def CreateServer():
     serverThread.start()
     
 
+def convert_ndarrays(obj):
+    if isinstance(obj, np.ndarray):
+        return &#34;ndarray not supported&#34;
+    elif isinstance(obj, dict):
+        return {key: convert_ndarrays(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_ndarrays(value) for value in obj]
+    else:
+        return obj
+
 def plugin(data):
     global currentData
     tempData = {}
-    
     # Go though the data and if there are any ndarrays then convert them to lists
     for key in data:
-        if type(data[key]) == np.ndarray:
-            if key == &#34;frame&#34;:
-                tempData[key] = data[key].tolist()
-                continue
-            else:
-                tempData[key] = data[key].tolist()
-                continue
-            
+        if key == &#34;frame&#34; or key == &#34;frameFull&#34;:
+            tempData[key] = &#34;too large to send&#34;
+            continue
+        
         if key == &#34;GPS&#34;:
             from plugins.Map.GameData.roads import RoadToJson
             tempData[key] = data[key]
@@ -451,8 +456,8 @@ def plugin(data):
         
         tempData[key] = data[key]
 
-    currentData = tempData
 
+    currentData = convert_ndarrays(tempData)
     return data # Plugins need to ALWAYS return the data
 
 
@@ -567,6 +572,26 @@ class UI():
         time.sleep(0.1) # 10fps</code></pre>
 </details>
 </dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.convert_ndarrays"><code class="name flex">
+<span>def <span class="ident">convert_ndarrays</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_ndarrays(obj):
+    if isinstance(obj, np.ndarray):
+        return &#34;ndarray not supported&#34;
+    elif isinstance(obj, dict):
+        return {key: convert_ndarrays(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_ndarrays(value) for value in obj]
+    else:
+        return obj</code></pre>
+</details>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onDisable"><code class="name flex">
 <span>def <span class="ident">onDisable</span></span>(<span>)</span>
 </code></dt>
@@ -612,17 +637,12 @@ class UI():
 <pre><code class="python">def plugin(data):
     global currentData
     tempData = {}
-    
     # Go though the data and if there are any ndarrays then convert them to lists
     for key in data:
-        if type(data[key]) == np.ndarray:
-            if key == &#34;frame&#34;:
-                tempData[key] = data[key].tolist()
-                continue
-            else:
-                tempData[key] = data[key].tolist()
-                continue
-            
+        if key == &#34;frame&#34; or key == &#34;frameFull&#34;:
+            tempData[key] = &#34;too large to send&#34;
+            continue
+        
         if key == &#34;GPS&#34;:
             from plugins.Map.GameData.roads import RoadToJson
             tempData[key] = data[key]
@@ -631,8 +651,8 @@ class UI():
         
         tempData[key] = data[key]
 
-    currentData = tempData
 
+    currentData = convert_ndarrays(tempData)
     return data # Plugins need to ALWAYS return the data</code></pre>
 </details>
 </dd>
@@ -951,9 +971,10 @@ validatecommand=(self.root.register(validate_entry), &#34;%S&#34;)).grid(row=2, 
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.CreateServer" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.CreateServer">CreateServer</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.ServerThread" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.ServerThread">ServerThread</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.convert_ndarrays" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.convert_ndarrays">convert_ndarrays</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onDisable">onDisable</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onEnable">onEnable</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.plugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.plugin">plugin</a></code></li>

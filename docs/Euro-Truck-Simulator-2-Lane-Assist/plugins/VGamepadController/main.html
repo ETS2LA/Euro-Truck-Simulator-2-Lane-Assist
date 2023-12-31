@@ -380,6 +380,20 @@ import vgamepad as vg
 import random
 import time
 import threading
+import src.controls as controls
+
+timer = time.time()
+temporarilyDisablePausing = False
+def ToggleTemporarilyDisablePausing():
+    global temporarilyDisablePausing
+    global timer
+    if time.time() - timer &lt; 0.5:
+        return # Prevents double presses
+    temporarilyDisablePausing = not temporarilyDisablePausing
+    print(&#34;Temporarily disable pausing: &#34; + str(temporarilyDisablePausing))
+    timer = time.time()
+
+controls.RegisterKeybind(&#34;Temporarily allow steering while paused&#34;, description=&#34;This is needed during setup&#34;,defaultButtonIndex=&#34;m&#34;, callback=lambda: ToggleTemporarilyDisablePausing())
 
 gamepad = None
 def createController():
@@ -429,7 +443,7 @@ def controllerThread():
         if stop:
             break
         try:
-            if gamepaused == False:   
+            if gamepaused == False or temporarilyDisablePausing:   
                 # Lerp between the two values depending on how long it&#39;s been since the last frame
                 # print(lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime))
                 gamepad.left_joystick_float(x_value_float=lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime), y_value_float=0)
@@ -515,7 +529,7 @@ def plugin(data):
         button_B_pressed = False
         button_X_pressed = False
 
-        if gamepaused == True:
+        if gamepaused == True and not temporarilyDisablePausing:
             lefttrigger = 0
             righttrigger = 0
 
@@ -556,6 +570,25 @@ def plugin(data):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.ToggleTemporarilyDisablePausing"><code class="name flex">
+<span>def <span class="ident">ToggleTemporarilyDisablePausing</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ToggleTemporarilyDisablePausing():
+    global temporarilyDisablePausing
+    global timer
+    if time.time() - timer &lt; 0.5:
+        return # Prevents double presses
+    temporarilyDisablePausing = not temporarilyDisablePausing
+    print(&#34;Temporarily disable pausing: &#34; + str(temporarilyDisablePausing))
+    timer = time.time()</code></pre>
+</details>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.controllerThread"><code class="name flex">
 <span>def <span class="ident">controllerThread</span></span>(<span>)</span>
 </code></dt>
@@ -572,7 +605,7 @@ def plugin(data):
         if stop:
             break
         try:
-            if gamepaused == False:   
+            if gamepaused == False or temporarilyDisablePausing:   
                 # Lerp between the two values depending on how long it&#39;s been since the last frame
                 # print(lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime))
                 gamepad.left_joystick_float(x_value_float=lastControl + (currentControl - lastControl) * ((time.time() - lastUpdateTime) / lastFrameTime), y_value_float=0)
@@ -725,7 +758,7 @@ def plugin(data):
         button_B_pressed = False
         button_X_pressed = False
 
-        if gamepaused == True:
+        if gamepaused == True and not temporarilyDisablePausing:
             lefttrigger = 0
             righttrigger = 0
 
@@ -777,6 +810,7 @@ def plugin(data):
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.ToggleTemporarilyDisablePausing" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.ToggleTemporarilyDisablePausing">ToggleTemporarilyDisablePausing</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.controllerThread" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.controllerThread">controllerThread</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.createController" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.createController">createController</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.VGamepadController.main.onDisable">onDisable</a></code></li>

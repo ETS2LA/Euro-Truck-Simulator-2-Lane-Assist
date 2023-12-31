@@ -451,7 +451,7 @@ def UpdateSettings():
     automatic_acceleration_after_traffic_light = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, True)
     automatic_acceleration = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoaccel&#34;, False)
     advancedsettings = settings.GetSettings(&#34;CruiseControl&#34;, &#34;advancedsettings&#34;, False)
-    enabledeactflstempkey = settings.GetSettings(&#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, True)
+    enabledeactflstempkey = settings.GetSettings(&#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, False)
 
 
     buttonup = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;)
@@ -502,7 +502,10 @@ def UpdateSettings():
     if deactivate_traffic_light_stop_temporarily_key == None:
         settings.CreateSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, &#34;please set&#34;)
         deactivate_traffic_light_stop_temporarily_key = &#34;please set&#34;
-
+    if enabledeactflstempkey == True:
+        if deactivate_traffic_light_stop_temporarily_key == &#34;please set&#34;:
+            messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the key to temporary ignore the detected traffic lights in General&#34;)
+            deactivate_traffic_light_stop_temporarily_key = &#34;w&#34;
 
     waitforresponse = False
     waitforresponsetimer = time.time()
@@ -857,7 +860,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=800, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -904,33 +907,33 @@ class UI():
             self.root.update()
 
 
-            helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=78, callback=UpdateSettings())
 
 
-            self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=70, width=10, isString=True)
-            self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=70, width=10, isString=True)
-            self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=70, width=10, isString=True)
-            self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=70, width=10, isString=True)
-            self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=70, width=10, isString=True)
+            self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=88, width=10, isString=True)
+            self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=88, width=10, isString=True)
+            self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=88, width=10, isString=True)
+            self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=88, width=10, isString=True)
+            self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=88, width=10, isString=True)
 
 
-            self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=70, width=10)
-            self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=70, width=10)
+            self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=78, width=10)
+            self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=78, width=10)
             
 
-            self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
             self.accelerationspeedSlider.set(settings.GetSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 1))
             self.accelerationspeedSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-            self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
+            self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after a red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
 
 
-            helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporarily ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=60, callback=UpdateSettings())
-            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporarily ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=70, width=10, isString=True)
+            helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporarily ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=78, callback=UpdateSettings())
+            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporarily ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=78, width=10, isString=True)
 
 
             helpers.MakeButton(controllerFrame, &#34;BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
@@ -942,8 +945,8 @@ class UI():
 
             helpers.MakeButton(controllerFrame, &#34;STOP SETUP MODE\n(if you press the button the setup mode will stop and the\nthe triggers and buttons of the virtual controller will\nnot get moved or pressed anymore)&#34;, command=self.stopsetup, row=13, column=0, width=50, columnspan=1)
 
-            helpers.MakeButton(generalFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
-            helpers.MakeButton(advancedFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=32)
+            helpers.MakeButton(generalFrame, &#34;Reset Advanced\nSettings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=20)
+            helpers.MakeButton(advancedFrame, &#34;Reset Advanced\nSettings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=20)
 
         def save(self):
             settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;, self.keyactivate.get())
@@ -1155,7 +1158,7 @@ class UI():
     automatic_acceleration_after_traffic_light = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, True)
     automatic_acceleration = settings.GetSettings(&#34;CruiseControl&#34;, &#34;autoaccel&#34;, False)
     advancedsettings = settings.GetSettings(&#34;CruiseControl&#34;, &#34;advancedsettings&#34;, False)
-    enabledeactflstempkey = settings.GetSettings(&#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, True)
+    enabledeactflstempkey = settings.GetSettings(&#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, False)
 
 
     buttonup = settings.GetSettings(&#34;CruiseControl&#34;, &#34;keyup&#34;)
@@ -1206,7 +1209,10 @@ class UI():
     if deactivate_traffic_light_stop_temporarily_key == None:
         settings.CreateSettings(&#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, &#34;please set&#34;)
         deactivate_traffic_light_stop_temporarily_key = &#34;please set&#34;
-
+    if enabledeactflstempkey == True:
+        if deactivate_traffic_light_stop_temporarily_key == &#34;please set&#34;:
+            messagebox.showwarning(title=&#34;CruiseControl&#34;, message=&#34;Please set the key to temporary ignore the detected traffic lights in General&#34;)
+            deactivate_traffic_light_stop_temporarily_key = &#34;w&#34;
 
     waitforresponse = False
     waitforresponsetimer = time.time()
@@ -1604,7 +1610,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=800, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -1651,33 +1657,33 @@ class UI():
             self.root.update()
 
 
-            helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=78, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=78, callback=UpdateSettings())
 
 
-            self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=70, width=10, isString=True)
-            self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=70, width=10, isString=True)
-            self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=70, width=10, isString=True)
-            self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=70, width=10, isString=True)
-            self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=70, width=10, isString=True)
+            self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=88, width=10, isString=True)
+            self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=88, width=10, isString=True)
+            self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=88, width=10, isString=True)
+            self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=88, width=10, isString=True)
+            self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=88, width=10, isString=True)
 
 
-            self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=70, width=10)
-            self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=70, width=10)
+            self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=78, width=10)
+            self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=78, width=10)
             
 
-            self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
             self.accelerationspeedSlider.set(settings.GetSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 1))
             self.accelerationspeedSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-            self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
+            self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after a red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
 
 
-            helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporarily ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=60, callback=UpdateSettings())
-            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporarily ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=70, width=10, isString=True)
+            helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporarily ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=78, callback=UpdateSettings())
+            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporarily ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=78, width=10, isString=True)
 
 
             helpers.MakeButton(controllerFrame, &#34;BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
@@ -1689,8 +1695,8 @@ class UI():
 
             helpers.MakeButton(controllerFrame, &#34;STOP SETUP MODE\n(if you press the button the setup mode will stop and the\nthe triggers and buttons of the virtual controller will\nnot get moved or pressed anymore)&#34;, command=self.stopsetup, row=13, column=0, width=50, columnspan=1)
 
-            helpers.MakeButton(generalFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
-            helpers.MakeButton(advancedFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=32)
+            helpers.MakeButton(generalFrame, &#34;Reset Advanced\nSettings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=20)
+            helpers.MakeButton(advancedFrame, &#34;Reset Advanced\nSettings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=20)
 
         def save(self):
             settings.CreateSettings(&#34;CruiseControl&#34;, &#34;keyactivate&#34;, self.keyactivate.get())
@@ -1966,7 +1972,7 @@ class UI():
         self.root.destroy() 
     except: pass
     
-    self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
+    self.root = tk.Canvas(self.master, width=800, height=600, border=0, highlightthickness=0)
     self.root.grid_propagate(0) 
     self.root.pack_propagate(0)
     
@@ -2013,33 +2019,33 @@ class UI():
     self.root.update()
 
 
-    helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=60, callback=UpdateSettings())
-    helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=60, callback=UpdateSettings())
-    helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=60, callback=UpdateSettings())
-    helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=60, callback=UpdateSettings())
-    helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=60, callback=UpdateSettings())
-    helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=60, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Use Keyboard for cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyboardmode&#34;, 1, 0, width=78, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Automatically activate cruise control when above 30kph&#34;, &#34;CruiseControl&#34;, &#34;autoccacti&#34;, 2, 0, width=78, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)&#34;, &#34;CruiseControl&#34;, &#34;brakeredtrafficlight&#34;, 3, 0, width=78, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Automatic acceleration after a red traffic light&#34;, &#34;CruiseControl&#34;, &#34;autoaccelatrflght&#34;, 4, 0, width=78, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)&#34;, &#34;CruiseControl&#34;, &#34;autoaccel&#34;, 5, 0, width=78, callback=UpdateSettings())
+    helpers.MakeCheckButton(generalFrame, &#34;Use Advanced Settings&#34;, &#34;CruiseControl&#34;, &#34;advancedsettings&#34;, 6, 0, width=78, callback=UpdateSettings())
 
 
-    self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=70, width=10, isString=True)
-    self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=70, width=10, isString=True)
-    self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=70, width=10, isString=True)
-    self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=70, width=10, isString=True)
-    self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=70, width=10, isString=True)
+    self.keyactivate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to activate in-game cruise control&#34;, &#34;CruiseControl&#34;, &#34;keyactivate&#34;, 1, 0, labelwidth=88, width=10, isString=True)
+    self.keyup = helpers.MakeComboEntry(keyboardFrame, &#34;Key to increase in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keyup&#34;, 2, 0, labelwidth=88, width=10, isString=True)
+    self.keydown = helpers.MakeComboEntry(keyboardFrame, &#34;Key to decrease in-game cruise control speed&#34;, &#34;CruiseControl&#34;, &#34;keydown&#34;, 3, 0, labelwidth=88, width=10, isString=True)
+    self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, &#34;Key to accelerate (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keyaccelerate&#34;, 4, 0, labelwidth=88, width=10, isString=True)
+    self.keybrake = helpers.MakeComboEntry(keyboardFrame, &#34;Key to brake (in-game)&#34;, &#34;CruiseControl&#34;, &#34;keybrake&#34;, 5, 0, labelwidth=88, width=10, isString=True)
 
 
-    self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=70, width=10)
-    self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=70, width=10)
+    self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed in turns (30kph or more)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedinturns&#34;, 1, 0, labelwidth=78, width=10)
+    self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, &#34;Cruise speed at red traffic lights (30 kph or more, or 0 kph)&#34;, &#34;CruiseControl&#34;, &#34;cruisespeedattrafficlight&#34;, 2, 0, labelwidth=78, width=10)
     
 
-    self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateScaleValueFromSlider())
+    self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
     self.accelerationspeedSlider.set(settings.GetSettings(&#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 1))
     self.accelerationspeedSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-    self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
+    self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, &#34;Accelerationspeed after a red traffic light\n(1 is full throttle)&#34;, &#34;CruiseControl&#34;, &#34;accelerationspeed&#34;, 10,0, labelwidth=45, width=45)
 
 
-    helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporarily ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=60, callback=UpdateSettings())
-    self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporarily ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=70, width=10, isString=True)
+    helpers.MakeCheckButton(generalFrame, &#34;Enable the key to temporarily ignore the detected traffic lights\n(if disabled, you dont have to set the key below)&#34;, &#34;CruiseControl&#34;, &#34;enabledeactflstempkey&#34;, 7, 0, width=78, callback=UpdateSettings())
+    self.deactflstempkey = helpers.MakeComboEntry(generalFrame, &#34;Key to temporarily ignore the detected traffic lights\n(press and hold to use in-game)&#34;, &#34;CruiseControl&#34;, &#34;deactflstempkey&#34;, 8, 0, labelwidth=78, width=10, isString=True)
 
 
     helpers.MakeButton(controllerFrame, &#34;BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)&#34;, command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
@@ -2051,8 +2057,8 @@ class UI():
 
     helpers.MakeButton(controllerFrame, &#34;STOP SETUP MODE\n(if you press the button the setup mode will stop and the\nthe triggers and buttons of the virtual controller will\nnot get moved or pressed anymore)&#34;, command=self.stopsetup, row=13, column=0, width=50, columnspan=1)
 
-    helpers.MakeButton(generalFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32)
-    helpers.MakeButton(advancedFrame, &#34;Reset Advanced Settings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=32)</code></pre>
+    helpers.MakeButton(generalFrame, &#34;Reset Advanced\nSettings&#34;, command=self.resetalladvancedsettingstodefault, row=6, column=1, width=20)
+    helpers.MakeButton(advancedFrame, &#34;Reset Advanced\nSettings&#34;, command=self.resetalladvancedsettingstodefault, row=3, column=1, width=20)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.CruiseControl.main.UI.lefttriggersetup"><code class="name flex">
