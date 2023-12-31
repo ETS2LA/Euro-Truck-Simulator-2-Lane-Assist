@@ -2,7 +2,8 @@
 
 REM Quick check
 cd %CD%
-echo %CD%
+echo WARNING, This will uninstall ETS2LA and remove all of your settings. Are you sure you want to continue?
+pause
 
 REM STEP 1
 REM Delete the app folder
