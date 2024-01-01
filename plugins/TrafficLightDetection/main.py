@@ -34,6 +34,7 @@ import numpy as np
 import dxcam
 import time
 import pyautogui
+import ctypes
 import math
 
 screen_width, screen_height = pyautogui.size()
@@ -77,6 +78,8 @@ def UpdateSettings():
     global aiconfirmation
     global coordinates
     global trafficlights
+    global windowwidth
+    global windowheight
     global x1
     global y1
     global x2
@@ -149,28 +152,6 @@ def UpdateSettings():
     else:
         windowwidth = settings.GetSettings("TrafficLightDetection", "outputwindowwidth", round(screen_width/2))
         windowheight = settings.GetSettings("TrafficLightDetection", "outputwindowheight", round(screen_height/3))
-
-    if grayscalewindow == True:
-        cv2.namedWindow('Traffic Light Detection - B/W', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Light Detection - B/W', round(windowwidth*windowscale), round(windowheight*windowscale))
-        cv2.setWindowProperty('Traffic Light Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
-        startframe = np.zeros((round(windowheight * windowscale), round(windowwidth * windowscale), 3))
-        cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
-        cv2.imshow('Traffic Light Detection - B/W', startframe)
-    if redgreenwindow == True:
-        cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
-        cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
-        startframe = np.zeros((round(windowheight * windowscale), round(windowwidth * windowscale), 3))
-        cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
-        cv2.imshow('Traffic Light Detection - Red/Green', startframe)
-    if finalwindow == True:
-        cv2.namedWindow('Traffic Light Detection - Final', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Light Detection - Final', round(windowwidth*windowscale), round(windowheight*windowscale))
-        cv2.setWindowProperty('Traffic Light Detection - Final', cv2.WND_PROP_TOPMOST, 1)
-        startframe = np.zeros((round(windowheight * windowscale), round(windowwidth * windowscale), 3))
-        cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
-        cv2.imshow('Traffic Light Detection - Final', startframe)
     
     if advancedmode == False:
         min_rect_size = screen_width / 240
@@ -2644,16 +2625,41 @@ def plugin(data):
     if grayscalewindow == True:
         if textsize > 0:         
             cv2.putText(filtered_frame_bw, f"Nearest: {currentneareststate}, Distance: {currentdistance}", (20, round(40*textsize)), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 2, cv2.LINE_AA) 
+        window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - B/W')
+        if window_handle == 0:
+            cv2.namedWindow('Traffic Light Detection - B/W', cv2.WINDOW_NORMAL)
+            cv2.resizeWindow('Traffic Light Detection - B/W', round(windowwidth*windowscale), round(windowheight*windowscale))
+            cv2.setWindowProperty('Traffic Light Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
         cv2.imshow('Traffic Light Detection - B/W', filtered_frame_bw)
     if redgreenwindow == True:      
         if performancemode == False:
             if detectyellowlight == False:
+                window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
+                if window_handle == 0:
+                    cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
+                    cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
+                    cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
                 cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red_green)
             else:
+                window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
+                if window_handle == 0:
+                    cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
+                    cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
+                    cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
                 cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red_green_yellow)
         else:
+            window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
+            if window_handle == 0:
+                cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
+                cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
+                cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
             cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red)
     if finalwindow == True:
+        window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Final')
+        if window_handle == 0:
+            cv2.namedWindow('Traffic Light Detection - Final', cv2.WINDOW_NORMAL)
+            cv2.resizeWindow('Traffic Light Detection - Final', round(windowwidth*windowscale), round(windowheight*windowscale))
+            cv2.setWindowProperty('Traffic Light Detection - Final', cv2.WND_PROP_TOPMOST, 1)
         cv2.imshow('Traffic Light Detection - Final', final_frame)
 
     return data # Plugins need to ALWAYS return the data
