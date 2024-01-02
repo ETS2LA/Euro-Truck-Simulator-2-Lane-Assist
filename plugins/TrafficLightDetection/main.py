@@ -523,7 +523,7 @@ def plugin(data):
                     # True: anywindowopen, performancemode --- False: trafficlighttracking, advancedmode
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
                     filtered_frame_bw = filtered_frame_red.copy()
                     final_frame = frame
 
@@ -531,7 +531,7 @@ def plugin(data):
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -731,7 +731,7 @@ def plugin(data):
                     # True: performancemode --- False: trafficlighttracking, advancedmode, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
                     filtered_frame_bw = filtered_frame_red.copy()
                     final_frame = frame
 
@@ -739,7 +739,7 @@ def plugin(data):
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -1042,7 +1042,7 @@ def plugin(data):
                     # True: advancedmode, anywindowopen, performancemode --- False: trafficlighttracking
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
                     filtered_frame_bw = filtered_frame_red.copy()
                     final_frame = frame
 
@@ -1050,7 +1050,7 @@ def plugin(data):
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
 
@@ -1342,7 +1342,7 @@ def plugin(data):
                     # True: advancedmode, performancemode --- False: trafficlighttracking, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
                     filtered_frame_bw = filtered_frame_red.copy()
                     final_frame = frame
 
@@ -1350,7 +1350,7 @@ def plugin(data):
                     currentneareststate = "---"
                     currentdistance = "---"
 
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         
@@ -1626,7 +1626,7 @@ def plugin(data):
                     # True: trafficlighttracking, anywindowopen, performancemode --- False: advancedmode
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
                     filtered_frame_bw = filtered_frame_red.copy()
                     final_frame = frame
 
@@ -1634,7 +1634,7 @@ def plugin(data):
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -1841,7 +1841,7 @@ def plugin(data):
                     # True: trafficlighttracking, performancemode --- False: advancedmode, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
                     filtered_frame_bw = filtered_frame_red.copy()
                     final_frame = frame
 
@@ -1849,7 +1849,7 @@ def plugin(data):
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -2158,7 +2158,7 @@ def plugin(data):
                     # True: trafficlighttracking, advancedmode, anywindowopen, performancemode --- False:     
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
                     filtered_frame_bw = filtered_frame_red.copy()
                     final_frame = frame
 
@@ -2166,7 +2166,7 @@ def plugin(data):
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
 
@@ -2464,7 +2464,7 @@ def plugin(data):
                     # True: trafficlighttracking, advancedmode, performancemode --- False: anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
                     filtered_frame_bw = filtered_frame_red.copy()
                     final_frame = frame
 
@@ -2472,7 +2472,7 @@ def plugin(data):
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         
