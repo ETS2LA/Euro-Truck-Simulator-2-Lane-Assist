@@ -90,26 +90,25 @@ def UpdateChecker():
     else:
         update = False
     
-    devmode = settings.GetSettings("Dev", "disable_warnings", False)
     print(f"Current version: {'.'.join(currentVer)}")
     print(f"Remote version: {'.'.join(remoteVer)}")
     print(f"Update available: {update}")
     if update:
         print(f"Changelog:\n{requests.get('https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt').text}")
-    if devmode == False:
-        if update:
-            changelog = requests.get("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt").text
-            from tkinter import messagebox
-            if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
-                os.system("git stash")
-                os.system("git pull")
-                if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
-                    quit()
-            else:
-                pass
+        changelog = requests.get("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt").text
+        from tkinter import messagebox
+        if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
+            os.system("git stash")
+            os.system("git pull")
+            if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
+                quit()
+        else:
+            pass
 
 try:
-    UpdateChecker()
+    devmode = settings.GetSettings("Dev", "disable_update_checker", False)
+    if devmode == False:
+        UpdateChecker()
 except:
     pass
 
