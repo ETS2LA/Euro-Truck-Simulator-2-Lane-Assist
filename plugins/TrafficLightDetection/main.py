@@ -524,7 +524,7 @@ def plugin(data):
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
                     filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
-                    filtered_frame_bw = filtered_frame_red.copy()
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
@@ -732,7 +732,7 @@ def plugin(data):
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
                     filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
-                    filtered_frame_bw = filtered_frame_red.copy()
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
@@ -1043,7 +1043,7 @@ def plugin(data):
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
                     filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
-                    filtered_frame_bw = filtered_frame_red.copy()
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
@@ -1343,7 +1343,7 @@ def plugin(data):
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
                     filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
-                    filtered_frame_bw = filtered_frame_red.copy()
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
@@ -1627,7 +1627,7 @@ def plugin(data):
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
                     filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
-                    filtered_frame_bw = filtered_frame_red.copy()
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
@@ -1842,7 +1842,7 @@ def plugin(data):
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
                     filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
-                    filtered_frame_bw = filtered_frame_red.copy()
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
@@ -2159,7 +2159,7 @@ def plugin(data):
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
                     filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
-                    filtered_frame_bw = filtered_frame_red.copy()
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
@@ -2465,7 +2465,7 @@ def plugin(data):
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
                     filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
-                    filtered_frame_bw = filtered_frame_red.copy()
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
