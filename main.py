@@ -404,7 +404,7 @@ def LoadApplication():
         settings.CreateSettings("User Interface", "TitleCopyright", True)
         showCopyrightInTitlebar = True
     
-    mainUI.root.title(("Lane Assist - ©Tumppi066 2023 - " if showCopyrightInTitlebar else "Lane Assist - ") + open(settings.currentProfile, "r").readline().replace("\n", ""))
+    mainUI.root.title(("Lane Assist - ©Tumppi066 2024 - " if showCopyrightInTitlebar else "Lane Assist - ") + open(settings.currentProfile, "r").readline().replace("\n", ""))
     mainUI.root.update()
     mainUI.drawButtons()
 

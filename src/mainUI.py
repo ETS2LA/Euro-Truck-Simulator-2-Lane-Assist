@@ -339,7 +339,7 @@ def CreateRoot():
         settings.CreateSettings("User Interface", "TitleCopyright", True)
         showCopyrightInTitlebar = True
     
-    root.title("Lane Assist - ©Tumppi066 2023" if showCopyrightInTitlebar else "Lane Assist")
+    root.title("Lane Assist - ©Tumppi066 2024" if showCopyrightInTitlebar else "Lane Assist")
     
     # Hack to make windows think we are our own app, and then show our icon
     import ctypes
@@ -382,7 +382,7 @@ def CreateRoot():
         settings.CreateSettings("User Interface", "ShowCopyright", False)
         showCopyright = False
     if showCopyright:
-        ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+        ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2024", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
     fps = tk.StringVar()
     
     showFps = settings.GetSettings("User Interface", "ShowFPS")
