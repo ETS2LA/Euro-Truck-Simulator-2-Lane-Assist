@@ -28,6 +28,8 @@ import src.settings as settings
 import os
 import dxcam
 
+verifyWidthAndHeight = settings.GetSettings("dxcam", "verifyWidthAndHeight", value=True)
+
 def onEnable():
     CreateCamera()
     pass
@@ -84,13 +86,19 @@ def CreateCamera():
     screenHeight = int(screen.height)
     
     # Check if these values would go over the screen edges
-    if right > screenWidth:
-        right = screenWidth
-        messagebox.showwarning("Warning", "The width value is too high, it has been lowered to {}".format(right))
+    if right > screenWidth and verifyWidthAndHeight:
+        if messagebox.askokcancel("Warning", "The width value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}".format(right)):
+            verifyWidthAndHeight = False  
+            settings.CreateSettings("dxcam", "verifyWidthAndHeight", False)
+        else:
+            right = screenWidth
     
-    if bottom > screenHeight:
-        bottom = screenHeight
-        messagebox.showwarning("Warning", "The height value is too high, it has been lowered to {}".format(bottom))
+    if bottom > screenHeight and verifyWidthAndHeight:
+        if messagebox.askokcancel("Warning", "The height value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}".format(bottom)):
+            verifyWidthAndHeight = False  
+            settings.CreateSettings("dxcam", "verifyWidthAndHeight", False)
+        else:
+            bottom = screenHeight
     
     if left < 0:
         left = 0
