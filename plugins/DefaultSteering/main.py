@@ -397,7 +397,10 @@ def plugin(data):
                 if lastFrame != 0:
                     wheelValue = lastFrame
                 else:
-                    wheelValue = wheel.get_axis(steeringAxis)
+                    try:
+                        wheelValue = wheel.get_axis(steeringAxis)
+                    except:
+                        wheelValue = 0
             else:
                 wheelValue = keyboardControlValue
             # First draw a gray line to indicate the background
