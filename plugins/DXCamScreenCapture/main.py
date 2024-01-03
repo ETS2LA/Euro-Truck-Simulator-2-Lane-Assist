@@ -29,6 +29,9 @@ import os
 import dxcam
 
 verifyWidthAndHeight = settings.GetSettings("dxcam", "verifyWidthAndHeight", value=True)
+if verifyWidthAndHeight == None:
+    settings.CreateSettings("dxcam", "verifyWidthAndHeight", True)
+    verifyWidthAndHeight = True
 
 def onEnable():
     CreateCamera()
@@ -41,6 +44,7 @@ monitor = None
 def CreateCamera():
     global camera
     global monitor
+    global verifyWidthAndHeight
     
     width = settings.GetSettings("dxcam", "width")
     if width == None:
