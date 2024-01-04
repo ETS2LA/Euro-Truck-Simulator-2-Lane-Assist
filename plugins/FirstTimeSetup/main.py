@@ -638,7 +638,10 @@ class UI():
                     
                     # Copy the plugin to the folder
                     try:
+                        # Copy the API
                         shutil.copy(os.path.join(variables.PATH, "assets", "firstTimeSetup", "sdkPlugin", "scs-telemetry.dll"), os.path.join(game, pluginInstallDir))
+                        # Copy the controller SDK
+                        shutil.copy(os.path.join(variables.PATH, "assets", "firstTimeSetup", "sdkPlugin", "input_semantical.dll"), os.path.join(game, pluginInstallDir))
                         successfullyInstalled.append(game)
                     except:
                         print("Failed to copy the plugin to " + os.path.join(game, pluginInstallDir))
