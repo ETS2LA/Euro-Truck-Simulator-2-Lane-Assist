@@ -151,10 +151,6 @@ def plugin(data):
     reverse = tryExceptDefault(data, ["sdk","Reverse"], False)
     cycl_zoom = tryExceptDefault(data, ["sdk","CycleZoom"], False)
     
-    if keyboard.is_pressed('q') and time.time() - lastPress > 0.5:
-        print("q pressed")
-        pause = True
-        lastPress = time.time()
     
     # Write three floats to memory
     buf[:] = struct.pack('ffff15?', steering, acceleration, brake, clutch,
