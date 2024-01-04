@@ -81,6 +81,8 @@ def UpdateSettings():
     global windowwidth
     global windowheight
     global reset_window
+    global currentneareststate_last_seen
+    global last_neareststate
     global x1
     global y1
     global x2
@@ -184,6 +186,8 @@ def UpdateSettings():
         print("Your Screen Capture Coordinates are invalid because the bottom Y is above the top Y (message from TrafficLightDetection)")
         messagebox.showwarning(title="TrafficLightDetection", message="Your Screen Capture Coordinates are invalid because the bottom Y is above the top Y (message from TrafficLightDetection)")
 
+    currentneareststate_last_seen = 0
+    last_neareststate = "---"
     
     urr = settings.GetSettings("TrafficLightDetection", "upperred_r")
     if urr == None or not isinstance(urr, int) or not (0 <= urr <= 255):
@@ -275,6 +279,8 @@ def plugin(data):
     global trafficlights
     global trafficlightframes
     global reset_window
+    global currentneareststate_last_seen
+    global last_neareststate
     
     try:
         frame = data["frameFull"]
@@ -2623,7 +2629,14 @@ def plugin(data):
         
         except Exception as e:
             print("TrafficLightDetection - Tracking Error: " + str(e))
-        
+    
+    current_time = time.time()
+    if currentneareststate != "---":
+        currentneareststate_last_seen = current_time
+        last_neareststate = currentneareststate
+    if currentneareststate == "---" and last_neareststate != "---" and current_time-0.3<currentneareststate_last_seen:
+        currentneareststate = last_neareststate
+
     data["TrafficLightDetection"] = currentneareststate                   
 
     if grayscalewindow == True:
