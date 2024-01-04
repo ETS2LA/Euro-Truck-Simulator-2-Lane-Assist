@@ -25,7 +25,6 @@ import src.settings as settings
 import src.controls as controls # use controls.RegisterKeybind() and controls.GetKeybindValue()
 import struct
 import time
-import keyboard
 from src.translator import Translate
 
 mmName = r"Local\SCSControls"
