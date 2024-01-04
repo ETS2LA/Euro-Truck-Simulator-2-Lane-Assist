@@ -25,7 +25,6 @@ import src.settings as settings
 import src.controls as controls # use controls.RegisterKeybind() and controls.GetKeybindValue()
 import struct
 import time
-import keyboard
 from src.translator import Translate
 
 mmName = r"Local\SCSControls"
@@ -150,11 +149,6 @@ def plugin(data):
     drive = tryExceptDefault(data, ["sdk","Drive"], False)
     reverse = tryExceptDefault(data, ["sdk","Reverse"], False)
     cycl_zoom = tryExceptDefault(data, ["sdk","CycleZoom"], False)
-    
-    if keyboard.is_pressed('q') and time.time() - lastPress > 0.5:
-        print("q pressed")
-        pause = True
-        lastPress = time.time()
     
     # Write three floats to memory
     buf[:] = struct.pack('ffff15?', steering, acceleration, brake, clutch,
