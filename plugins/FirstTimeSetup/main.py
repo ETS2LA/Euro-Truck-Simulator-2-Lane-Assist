@@ -672,7 +672,7 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.AddToList("Plugins", "Enabled", ["FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "TruckSimAPI"])
+            settings.AddToList("Plugins", "Enabled", ["FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "SDKController", "ShowImage", "TruckSimAPI"])
             variables.UpdatePlugins()
             if detectionmethod.get() == "nav":
                 helpers.MakeLabel(self.root, "Almost there!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
