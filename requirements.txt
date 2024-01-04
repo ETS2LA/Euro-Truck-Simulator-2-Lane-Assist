@@ -3,7 +3,6 @@ opencv-python
 numpy
 sv_ttk
 psutil
-playsound2
 scipy
 colorama
 deep_translator
