@@ -53,18 +53,21 @@ class UI():
             mainUI.resizeWindow(900,600)
 
         def updateAxis(self):
-            # Update the axis using blitting to avoid redrawing the whole graph
-            # the data is updated in the frames list
-            self.line.set_ydata(frames)
-            self.line.set_xdata(range(len(frames)))
-            self.idleLine.set_ydata(idleTime)
-            self.idleLine.set_xdata(range(len(idleTime)))
-            self.ax.draw_artist(self.ax.patch)
-            self.ax.draw_artist(self.line)
-            self.ax.draw_artist(self.idleLine)
-            
-            self.canvas.blit(self.ax.bbox)
-            self.canvas.flush_events()
+            try:
+                # Update the axis using blitting to avoid redrawing the whole graph
+                # the data is updated in the frames list
+                self.line.set_ydata(frames)
+                self.line.set_xdata(range(len(frames)))
+                self.idleLine.set_ydata(idleTime)
+                self.idleLine.set_xdata(range(len(idleTime)))
+                self.ax.draw_artist(self.ax.patch)
+                self.ax.draw_artist(self.line)
+                self.ax.draw_artist(self.idleLine)
+                
+                self.canvas.blit(self.ax.bbox)
+                self.canvas.flush_events()
+            except:
+                pass
             
         def createGraph(self):
             
@@ -78,38 +81,41 @@ class UI():
                 
             except: pass
             
-            background = "#313131" if settings.GetSettings("User Interface", "Theme") == "dark" else "#313131"
-            foreground = "#ffffff" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ffffff"
-            graphColor = "#51b7eb" if settings.GetSettings("User Interface", "Theme") == "dark" else "#51b7eb"
-            idleTimeColor = "#ff0000" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ff0000"
-            
-            # Make a frametime graph (also support blitting)
-            self.fig, self.ax = plt.subplots()
-            self.fig.set_size_inches(7, 2)
-            # "Remove" the white space around the graph
-            self.fig.set_facecolor(background) # Set the background color
-            self.ax.set_facecolor(background) # Set the background color
-            self.ax.tick_params(axis='x', colors=foreground) # Set the axis text color to white
-            self.ax.tick_params(axis='y', colors=foreground) # Set the axis text color to white
-            # Remove the small black lines around the graph
-            self.ax.spines['bottom'].set_color(background)
-            self.ax.spines['top'].set_color(background)
-            self.ax.spines['right'].set_color(background)
-            self.ax.spines['left'].set_color(background)
-            
-            self.ax.set_ylabel("Time (ms) Idle (%)")
-            self.ax.yaxis.label.set_color(foreground)
-            
-            self.ax.set_ylim(0, 100)
-            self.ax.set_xlim(0, 100)
-            self.ax.set_autoscale_on(False)
-            
-            self.line, = self.ax.plot(frames, color=graphColor)
-            self.idleLine, = self.ax.plot(idleTime, color=idleTimeColor)
-            
-            self.canvas = FigureCanvasTkAgg(self.fig, master=self.root)
-            self.canvas.get_tk_widget().grid(row=0, column=0, padx=0, pady=10)
-            self.canvas.draw()
+            try:
+                background = "#313131" if settings.GetSettings("User Interface", "Theme") == "dark" else "#313131"
+                foreground = "#ffffff" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ffffff"
+                graphColor = "#51b7eb" if settings.GetSettings("User Interface", "Theme") == "dark" else "#51b7eb"
+                idleTimeColor = "#ff0000" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ff0000"
+                
+                # Make a frametime graph (also support blitting)
+                self.fig, self.ax = plt.subplots()
+                self.fig.set_size_inches(7, 2)
+                # "Remove" the white space around the graph
+                self.fig.set_facecolor(background) # Set the background color
+                self.ax.set_facecolor(background) # Set the background color
+                self.ax.tick_params(axis='x', colors=foreground) # Set the axis text color to white
+                self.ax.tick_params(axis='y', colors=foreground) # Set the axis text color to white
+                # Remove the small black lines around the graph
+                self.ax.spines['bottom'].set_color(background)
+                self.ax.spines['top'].set_color(background)
+                self.ax.spines['right'].set_color(background)
+                self.ax.spines['left'].set_color(background)
+                
+                self.ax.set_ylabel("Time (ms) Idle (%)")
+                self.ax.yaxis.label.set_color(foreground)
+                
+                self.ax.set_ylim(0, 100)
+                self.ax.set_xlim(0, 100)
+                self.ax.set_autoscale_on(False)
+                
+                self.line, = self.ax.plot(frames, color=graphColor)
+                self.idleLine, = self.ax.plot(idleTime, color=idleTimeColor)
+                
+                self.canvas = FigureCanvasTkAgg(self.fig, master=self.root)
+                self.canvas.get_tk_widget().grid(row=0, column=0, padx=0, pady=10)
+                self.canvas.draw()
+            except:
+                pass
             
             
         def main(self):
