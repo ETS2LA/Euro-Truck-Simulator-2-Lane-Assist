@@ -986,7 +986,10 @@ class UI():
                     
                     # Copy the plugin to the folder
                     try:
+                        # Copy the API
                         shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;scs-telemetry.dll&#34;), os.path.join(game, pluginInstallDir))
+                        # Copy the controller SDK
+                        shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;input_semantical.dll&#34;), os.path.join(game, pluginInstallDir))
                         successfullyInstalled.append(game)
                     except:
                         print(&#34;Failed to copy the plugin to &#34; + os.path.join(game, pluginInstallDir))
@@ -1001,7 +1004,6 @@ class UI():
             
             # Display the automatic installation buttons if the directories were found
             helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
-            
             
         
             self.root.pack()
@@ -1705,7 +1707,10 @@ class UI():
                     
                     # Copy the plugin to the folder
                     try:
+                        # Copy the API
                         shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;scs-telemetry.dll&#34;), os.path.join(game, pluginInstallDir))
+                        # Copy the controller SDK
+                        shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;input_semantical.dll&#34;), os.path.join(game, pluginInstallDir))
                         successfullyInstalled.append(game)
                     except:
                         print(&#34;Failed to copy the plugin to &#34; + os.path.join(game, pluginInstallDir))
@@ -1720,7 +1725,6 @@ class UI():
             
             # Display the automatic installation buttons if the directories were found
             helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
-            
             
         
             self.root.pack()
@@ -2045,7 +2049,10 @@ class UI():
             
             # Copy the plugin to the folder
             try:
+                # Copy the API
                 shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;scs-telemetry.dll&#34;), os.path.join(game, pluginInstallDir))
+                # Copy the controller SDK
+                shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;input_semantical.dll&#34;), os.path.join(game, pluginInstallDir))
                 successfullyInstalled.append(game)
             except:
                 print(&#34;Failed to copy the plugin to &#34; + os.path.join(game, pluginInstallDir))
@@ -2060,7 +2067,6 @@ class UI():
     
     # Display the automatic installation buttons if the directories were found
     helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
-    
     
 
     self.root.pack()

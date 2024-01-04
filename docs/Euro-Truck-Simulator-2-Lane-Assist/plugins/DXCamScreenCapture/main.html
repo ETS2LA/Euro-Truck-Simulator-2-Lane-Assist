@@ -379,6 +379,11 @@ import src.settings as settings
 import os
 import dxcam
 
+verifyWidthAndHeight = settings.GetSettings(&#34;dxcam&#34;, &#34;verifyWidthAndHeight&#34;, value=True)
+if verifyWidthAndHeight == None:
+    settings.CreateSettings(&#34;dxcam&#34;, &#34;verifyWidthAndHeight&#34;, True)
+    verifyWidthAndHeight = True
+
 def onEnable():
     CreateCamera()
     pass
@@ -390,6 +395,7 @@ monitor = None
 def CreateCamera():
     global camera
     global monitor
+    global verifyWidthAndHeight
     
     width = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
     if width == None:
@@ -435,13 +441,19 @@ def CreateCamera():
     screenHeight = int(screen.height)
     
     # Check if these values would go over the screen edges
-    if right &gt; screenWidth:
-        right = screenWidth
-        messagebox.showwarning(&#34;Warning&#34;, &#34;The width value is too high, it has been lowered to {}&#34;.format(right))
+    if right &gt; screenWidth and verifyWidthAndHeight:
+        if messagebox.askokcancel(&#34;Warning&#34;, &#34;The width value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}&#34;.format(right)):
+            verifyWidthAndHeight = False  
+            settings.CreateSettings(&#34;dxcam&#34;, &#34;verifyWidthAndHeight&#34;, False)
+        else:
+            right = screenWidth
     
-    if bottom &gt; screenHeight:
-        bottom = screenHeight
-        messagebox.showwarning(&#34;Warning&#34;, &#34;The height value is too high, it has been lowered to {}&#34;.format(bottom))
+    if bottom &gt; screenHeight and verifyWidthAndHeight:
+        if messagebox.askokcancel(&#34;Warning&#34;, &#34;The height value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}&#34;.format(bottom)):
+            verifyWidthAndHeight = False  
+            settings.CreateSettings(&#34;dxcam&#34;, &#34;verifyWidthAndHeight&#34;, False)
+        else:
+            bottom = screenHeight
     
     if left &lt; 0:
         left = 0
@@ -603,6 +615,7 @@ class UI():
 <pre><code class="python">def CreateCamera():
     global camera
     global monitor
+    global verifyWidthAndHeight
     
     width = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
     if width == None:
@@ -648,13 +661,19 @@ class UI():
     screenHeight = int(screen.height)
     
     # Check if these values would go over the screen edges
-    if right &gt; screenWidth:
-        right = screenWidth
-        messagebox.showwarning(&#34;Warning&#34;, &#34;The width value is too high, it has been lowered to {}&#34;.format(right))
+    if right &gt; screenWidth and verifyWidthAndHeight:
+        if messagebox.askokcancel(&#34;Warning&#34;, &#34;The width value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}&#34;.format(right)):
+            verifyWidthAndHeight = False  
+            settings.CreateSettings(&#34;dxcam&#34;, &#34;verifyWidthAndHeight&#34;, False)
+        else:
+            right = screenWidth
     
-    if bottom &gt; screenHeight:
-        bottom = screenHeight
-        messagebox.showwarning(&#34;Warning&#34;, &#34;The height value is too high, it has been lowered to {}&#34;.format(bottom))
+    if bottom &gt; screenHeight and verifyWidthAndHeight:
+        if messagebox.askokcancel(&#34;Warning&#34;, &#34;The height value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}&#34;.format(bottom)):
+            verifyWidthAndHeight = False  
+            settings.CreateSettings(&#34;dxcam&#34;, &#34;verifyWidthAndHeight&#34;, False)
+        else:
+            bottom = screenHeight
     
     if left &lt; 0:
         left = 0

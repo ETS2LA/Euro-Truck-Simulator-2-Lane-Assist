@@ -26,6 +26,7 @@ import src.controls as controls # use controls.RegisterKeybind() and controls.Ge
 import struct
 import time
 import keyboard
+from src.translator import Translate
 
 mmName = r"Local\SCSControls"
 floatCount = 4
@@ -99,6 +100,11 @@ def plugin(data):
     data["sdk"]["CycleZoom"], bool
     ```
     """
+    if settings.GetSettings("sdk", "firstTime") == None:
+        from tkinter import messagebox
+        messagebox.showinfo("SDK Controller", Translate("IMPORTANT NOTE:\nIf the plugin has been added by an update, and you've not run the first time setup after updating. Please either run it, or copy the file from the\n'plugins/FirstTimeSetup/sdkPlugin'\nfolder to the game plugin folder.\n\nThis can be found by opening steam, right clicking on the game, manage, browse local files, and then opening the bin/win_x64/plugins folder.\n\nIf you've already run the first time setup, you can ignore this message."))
+        settings.CreateSettings("sdk", "firstTime", False)
+    
     global lastPress
     buf = None
 

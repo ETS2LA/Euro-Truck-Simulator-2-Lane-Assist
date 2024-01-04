@@ -657,7 +657,6 @@ class UI():
             # Display the automatic installation buttons if the directories were found
             helpers.MakeButton(self.root, "Install ETS2 / ATS Plugin", lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
             
-            
         
             self.root.pack()
             self.root.update()

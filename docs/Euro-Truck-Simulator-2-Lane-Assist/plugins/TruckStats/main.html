@@ -442,12 +442,12 @@ def LoadSettings():
 
     fuel_value_history = []
     fuel_value_history_adder = settings.GetSettings(&#34;TruckStats&#34;, &#34;fuel_value_history_adder&#34;, 60)
-    fuel_value_history_time = time.time() - fuel_value_history_adder - fuel_value_history_adder + 1
+    fuel_value_history_time = time.time() + 1
     fuel_value_history_count = 0
 
     engine_value_history = []
     engine_value_history_adder = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_history_adder&#34;, 60)
-    engine_value_history_time = time.time() - engine_value_history_adder - engine_value_history_adder + 1
+    engine_value_history_time = time.time() + 1
     engine_value_history_count = 0
 
     open_tab_color_r = settings.GetSettings(&#34;TruckStats&#34;, &#34;open_tab_color_r&#34;)
@@ -709,9 +709,9 @@ def plugin(data):
             fuel_total = fuel_total/4.54609
             fuel_current = fuel_current/4.54609
 
-    if gamepaused == False:
-        fuel_value_history_time = current_time - fuel_value_history_adder - fuel_value_history_adder + 1
-        engine_value_history_time = current_time - engine_value_history_adder - engine_value_history_adder + 1
+    if gamepaused == True:
+        fuel_value_history_time = current_time - round(fuel_value_history_adder/2)
+        engine_value_history_time = current_time - round(engine_value_history_adder/2)
 
     if settings_show_graphs == True and gamepaused == False:
         if fuel_value_history_time &lt;= current_time:
@@ -1392,9 +1392,9 @@ class UI():
             self.root.update()
 
             helpers.MakeEmptyLine(generalFrame, 1, 0)
-            helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=85)
-            helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h and Fahrenheit instead of Celsius)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=85)
-            helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=85)
+            helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h, Fahrenheit instead of Celsius and Gallons instead of Liters)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons.&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=100)
             helpers.MakeLabel(generalFrame, &#34;Tipp: If you close the TruckStats window, it will save the location of the window.&#34;, 5, 0, sticky=&#34;w&#34;)
 
             
@@ -1791,12 +1791,12 @@ class UI():
 
     fuel_value_history = []
     fuel_value_history_adder = settings.GetSettings(&#34;TruckStats&#34;, &#34;fuel_value_history_adder&#34;, 60)
-    fuel_value_history_time = time.time() - fuel_value_history_adder - fuel_value_history_adder + 1
+    fuel_value_history_time = time.time() + 1
     fuel_value_history_count = 0
 
     engine_value_history = []
     engine_value_history_adder = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_history_adder&#34;, 60)
-    engine_value_history_time = time.time() - engine_value_history_adder - engine_value_history_adder + 1
+    engine_value_history_time = time.time() + 1
     engine_value_history_count = 0
 
     open_tab_color_r = settings.GetSettings(&#34;TruckStats&#34;, &#34;open_tab_color_r&#34;)
@@ -2092,9 +2092,9 @@ class UI():
             fuel_total = fuel_total/4.54609
             fuel_current = fuel_current/4.54609
 
-    if gamepaused == False:
-        fuel_value_history_time = current_time - fuel_value_history_adder - fuel_value_history_adder + 1
-        engine_value_history_time = current_time - engine_value_history_adder - engine_value_history_adder + 1
+    if gamepaused == True:
+        fuel_value_history_time = current_time - round(fuel_value_history_adder/2)
+        engine_value_history_time = current_time - round(engine_value_history_adder/2)
 
     if settings_show_graphs == True and gamepaused == False:
         if fuel_value_history_time &lt;= current_time:
@@ -2782,9 +2782,9 @@ class UI():
             self.root.update()
 
             helpers.MakeEmptyLine(generalFrame, 1, 0)
-            helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=85)
-            helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h and Fahrenheit instead of Celsius)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=85)
-            helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=85)
+            helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h, Fahrenheit instead of Celsius and Gallons instead of Liters)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons.&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=100)
             helpers.MakeLabel(generalFrame, &#34;Tipp: If you close the TruckStats window, it will save the location of the window.&#34;, 5, 0, sticky=&#34;w&#34;)
 
             
@@ -3203,9 +3203,9 @@ class UI():
     self.root.update()
 
     helpers.MakeEmptyLine(generalFrame, 1, 0)
-    helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=85)
-    helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h and Fahrenheit instead of Celsius)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=85)
-    helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=85)
+    helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
+    helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h, Fahrenheit instead of Celsius and Gallons instead of Liters)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=100)
+    helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons.&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=100)
     helpers.MakeLabel(generalFrame, &#34;Tipp: If you close the TruckStats window, it will save the location of the window.&#34;, 5, 0, sticky=&#34;w&#34;)
 
     

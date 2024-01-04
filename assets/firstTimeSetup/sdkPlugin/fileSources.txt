@@ -1,0 +1,2 @@
+input_semantical.dll
+Plugin I developed, will interface with the game to send input data with no virtual controller.

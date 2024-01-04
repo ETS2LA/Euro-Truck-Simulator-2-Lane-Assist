@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>Euro-Truck-Simulator-2-Lane-Assist API documentation</title>
-<meta name="description" content="These docs are automatically created from the docstrings in the source code.
-Not all plugins are documented, so you may not find what you&#39;re looking …" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.install API documentation</title>
+<meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
@@ -340,67 +339,51 @@ color: #fff;
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>Euro-Truck-Simulator-2-Lane-Assist</code></h1>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.install</code></h1>
 </header>
 <section id="section-intro">
-<p>These docs are automatically created from the docstrings in the source code.
-Not all plugins are documented, so you may not find what you're looking for without actually checking the code.</p>
-<p>I will try and keep most of the documentation up to date, especially for the core files (src/)</p>
-<h3 id="note-you-can-always-run-the-builddocsbat-file-to-build-the-up-to-date-docs-from-the-source-code">NOTE: You can always run the buildDocs.bat file to build the up to date docs from the source code.</h3>
-<h3 id="how-to-add-docs-to-your-plugin">How to add docs to your plugin</h3>
-<ul>
-<li>If you want a description in the plugins list, then add an <code>__init__.py</code> file with a docstring to your plugin folder.</li>
-<li>For docs on global variables, similarly you will want to add a docstring there.</li>
-<li>For docs on functions, you will want to add a google formatted docstring to the function. An easy way to do this is using the autoDocstring extension for vscode.</li>
-</ul>
-<p>TIP: Check the source on files that have docstrings, that's an easy way to check the format!</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;
-These docs are automatically created from the docstrings in the source code.
-Not all plugins are documented, so you may not find what you&#39;re looking for without actually checking the code.
+<pre><code class="python">requirements = []
+import os
 
-I will try and keep most of the documentation up to date, especially for the core files (src/)
-
-### NOTE: You can always run the buildDocs.bat file to build the up to date docs from the source code.
-
-### How to add docs to your plugin
-- If you want a description in the plugins list, then add an `__init__.py` file with a docstring to your plugin folder.
-- For docs on global variables, similarly you will want to add a docstring there.
-- For docs on functions, you will want to add a google formatted docstring to the function. An easy way to do this is using the autoDocstring extension for vscode.
-
-TIP: Check the source on files that have docstrings, that&#39;s an easy way to check the format!
-&#34;&#34;&#34;</code></pre>
+# This fucntion will be run when the plugin is first discovered.
+# It is recommended to download all requirements here!
+def install():
+    
+    for requirement in requirements:
+        os.system(&#34;pip install &#34; + requirement)
+        
+    pass</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt><code class="name"><a title="Euro-Truck-Simulator-2-Lane-Assist.app" href="app/index.html">Euro-Truck-Simulator-2-Lane-Assist.app</a></code></dt>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.install.install"><code class="name flex">
+<span>def <span class="ident">install</span></span>(<span>)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>These docs are automatically created from the docstrings in the source code.
-Not all plugins are documented, so you may not find what you're looking …</p></div>
-</dd>
-<dt><code class="name"><a title="Euro-Truck-Simulator-2-Lane-Assist.main" href="main.html">Euro-Truck-Simulator-2-Lane-Assist.main</a></code></dt>
-<dd>
-<div class="desc"><p>The main file that runs the programs loop.</p></div>
-</dd>
-<dt><code class="name"><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins" href="plugins/index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins</a></code></dt>
-<dd>
-<div class="desc"><p>This folder contains all of our plugins. Keep in mind most of these plugins are not going to have any compatible documentation.</p></div>
-</dd>
-<dt><code class="name"><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="src/index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></dt>
-<dd>
-<div class="desc"><p>This folder contains the helpers functions all plugins will use.
-This includes files to manage the settings and easy access to the settings api.</p></div>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def install():
+    
+    for requirement in requirements:
+        os.system(&#34;pip install &#34; + requirement)
+        
+    pass</code></pre>
+</details>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
 </section>
 <section>
 </section>
@@ -408,18 +391,17 @@ This includes files to manage the settings and easy access to the settings api.<
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul>
-<li><a href="#note-you-can-always-run-the-builddocsbat-file-to-build-the-up-to-date-docs-from-the-source-code">NOTE: You can always run the buildDocs.bat file to build the up to date docs from the source code.</a></li>
-<li><a href="#how-to-add-docs-to-your-plugin">How to add docs to your plugin</a></li>
-</ul>
+<ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.app" href="app/index.html">Euro-Truck-Simulator-2-Lane-Assist.app</a></code></li>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main" href="main.html">Euro-Truck-Simulator-2-Lane-Assist.main</a></code></li>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins" href="plugins/index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins</a></code></li>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="src/index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.install.install" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.install.install">install</a></code></li>
 </ul>
 </li>
 </ul>
