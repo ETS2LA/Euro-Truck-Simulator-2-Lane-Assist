@@ -80,6 +80,7 @@ def UpdateSettings():
     global trafficlights
     global windowwidth
     global windowheight
+    global reset_window
     global x1
     global y1
     global x2
@@ -153,6 +154,8 @@ def UpdateSettings():
         windowwidth = settings.GetSettings("TrafficLightDetection", "outputwindowwidth", round(screen_width/2))
         windowheight = settings.GetSettings("TrafficLightDetection", "outputwindowheight", round(screen_height/3))
     
+    reset_window = True
+
     if advancedmode == False:
         min_rect_size = screen_width / 240
         max_rect_size = screen_width / 10
@@ -271,6 +274,7 @@ def plugin(data):
     global coordinates
     global trafficlights
     global trafficlightframes
+    global reset_window
     
     try:
         frame = data["frameFull"]
@@ -519,15 +523,15 @@ def plugin(data):
                     # True: anywindowopen, performancemode --- False: trafficlighttracking, advancedmode
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -727,15 +731,15 @@ def plugin(data):
                     # True: performancemode --- False: trafficlighttracking, advancedmode, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -1038,15 +1042,15 @@ def plugin(data):
                     # True: advancedmode, anywindowopen, performancemode --- False: trafficlighttracking
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
 
@@ -1338,15 +1342,15 @@ def plugin(data):
                     # True: advancedmode, performancemode --- False: trafficlighttracking, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
 
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         
@@ -1622,15 +1626,15 @@ def plugin(data):
                     # True: trafficlighttracking, anywindowopen, performancemode --- False: advancedmode
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -1837,15 +1841,15 @@ def plugin(data):
                     # True: trafficlighttracking, performancemode --- False: advancedmode, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -2154,15 +2158,15 @@ def plugin(data):
                     # True: trafficlighttracking, advancedmode, anywindowopen, performancemode --- False:     
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
 
@@ -2460,15 +2464,15 @@ def plugin(data):
                     # True: trafficlighttracking, advancedmode, performancemode --- False: anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         
@@ -2626,7 +2630,7 @@ def plugin(data):
         if textsize > 0:         
             cv2.putText(filtered_frame_bw, f"Nearest: {currentneareststate}, Distance: {currentdistance}", (20, round(40*textsize)), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 2, cv2.LINE_AA) 
         window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - B/W')
-        if window_handle == 0:
+        if window_handle == 0 or reset_window == True:
             cv2.namedWindow('Traffic Light Detection - B/W', cv2.WINDOW_NORMAL)
             cv2.resizeWindow('Traffic Light Detection - B/W', round(windowwidth*windowscale), round(windowheight*windowscale))
             cv2.setWindowProperty('Traffic Light Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
@@ -2635,33 +2639,34 @@ def plugin(data):
         if performancemode == False:
             if detectyellowlight == False:
                 window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
-                if window_handle == 0:
+                if window_handle == 0 or reset_window == True:
                     cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
                     cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
                     cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
                 cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red_green)
             else:
                 window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
-                if window_handle == 0:
+                if window_handle == 0 or reset_window == True:
                     cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
                     cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
                     cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
                 cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red_green_yellow)
         else:
             window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
-            if window_handle == 0:
+            if window_handle == 0 or reset_window == True:
                 cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
                 cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
                 cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
             cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red)
     if finalwindow == True:
         window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Final')
-        if window_handle == 0:
+        if window_handle == 0 or reset_window == True:
             cv2.namedWindow('Traffic Light Detection - Final', cv2.WINDOW_NORMAL)
             cv2.resizeWindow('Traffic Light Detection - Final', round(windowwidth*windowscale), round(windowheight*windowscale))
             cv2.setWindowProperty('Traffic Light Detection - Final', cv2.WND_PROP_TOPMOST, 1)
         cv2.imshow('Traffic Light Detection - Final', final_frame)
-
+    if reset_window == True:
+        reset_window = False
     return data # Plugins need to ALWAYS return the data
 
 

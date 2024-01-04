@@ -244,12 +244,12 @@ def plugin(data):
             trigger_setup_value -= 0.05
 
         if left_trigger_setup == True:
-            data["controller"]["lefttrigger"] = trigger_setup_value
+            data["controller"]["lefttrigger"] = float(trigger_setup_value)
             data["controller"]["righttrigger"] = 0
 
         if right_trigger_setup == True:
             data["controller"]["lefttrigger"] = 0
-            data["controller"]["righttrigger"] = trigger_setup_value
+            data["controller"]["righttrigger"] = float(trigger_setup_value)
 
         if trigger_setup_time + 15 < time.time():
             left_trigger_setup = False
