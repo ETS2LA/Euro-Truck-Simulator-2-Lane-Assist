@@ -118,7 +118,7 @@ def plugin(data):
 
     # For steering accel and brake we have to support the old controller system data variable
     try:
-        steering = data["sdk"]["acceleration"]
+        steering = data["sdk"]["steering"]
     except:
         steering = tryExceptDefault(data, ["controller","leftStick"], 0.0)
     

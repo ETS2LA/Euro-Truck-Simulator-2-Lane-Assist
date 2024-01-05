@@ -2059,27 +2059,23 @@ def plugin(data):
                 indicator_right_wait_for_response = False
             if turnincoming_direction == "Left" and indicator_left == False and indicator_left_wait_for_response == False:
                 data["sdk"]["LeftBlinker"] = True
-                indicator_left = True
                 indicator_left_wait_for_response = True
             if turnincoming_direction == "Right" and indicator_right == False and indicator_right_wait_for_response == False:
                 data["sdk"]["RightBlinker"] = True
-                indicator_right = True
                 indicator_right_wait_for_response = True
             if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True:
                 data["sdk"]["LeftBlinker"] = True
-                indicator_left == False
                 indicator_left_wait_for_response = True
             if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True:
                 data["sdk"]["RightBlinker"] = True
-                indicator_right == False
                 indicator_right_wait_for_response = True
             if turnincoming_detected == True:
                 indicator_changed_by_code = True
             else:
                 indicator_changed_by_code = False
-            if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+            if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
                 lanechanging_current_lane += 1
-            if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+            if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
                 lanechanging_current_lane -= 1
             
             lanechanging_target_offset = lanechanging_width * lanechanging_current_lane
@@ -2093,11 +2089,9 @@ def plugin(data):
             lanechanging_progress = lanechanging_final_offset/lanechanging_width
             if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
                 data["sdk"]["LeftBlinker"] = True
-                indicator_left == False
                 indicator_left_wait_for_response = True
             if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
                 data["sdk"]["RightBlinker"] = True
-                indicator_right == False
                 indicator_right_wait_for_response = True
 
             if width_lane != 0:
@@ -2209,6 +2203,8 @@ def plugin(data):
                 text_width, text_height = text_size
                 cv2.putText(frame, "Detected", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
 
+                correction = 0
+
                 allow_trafficlight_symbol = False
                 show_turn_line = False
             else:
@@ -2304,7 +2300,7 @@ def plugin(data):
             if gamepaused == True:
                 curve = 0
 
-            if speed >= 0:
+            if speed > -0.5:
                 data["LaneDetection"] = {}
                 data["LaneDetection"]["difference"] = -correction/30
             else:
