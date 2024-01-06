@@ -1812,6 +1812,18 @@ def plugin(data):
                 speed = 0
 
             try:
+                fuel_total = data["api"]["configFloat"]["fuelCapacity"]
+                fuel_current = data["api"]["truckFloat"]["fuel"]
+                if fuel_total != 0:
+                    fuel_percentage = (fuel_current/fuel_total)*100
+                else:
+                    fuel_percentage = 100
+            except:
+                fuel_total = 0
+                fuel_current = 0
+                fuel_percentage = 100
+
+            try:
                 indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
                 indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
             except:
@@ -2265,7 +2277,7 @@ def plugin(data):
                 if width_turn != 0 and showing_traffic_light_symbol == False and show_turn_line == True:
                     cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - v3_offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - v3_offset), y_coordinate_of_turn), (255, 255, 255), 2)
             
-            if lanechanging_do_lane_changing == True:
+            if lanechanging_do_lane_changing == True or fuel_percentage < 15:
                 current_text = "Enabled"
                 width_target_current_text = width/4
                 fontscale_current_text = 1
@@ -2280,8 +2292,34 @@ def plugin(data):
                     if max_count_current_text <= 0:
                         break
                 width_enabled_text, height_enabled_text = width_current_text, height_current_text
+
+            if lanechanging_do_lane_changing == True:
                 current_text = f"Lane: {lanechanging_current_lane}"
                 width_target_current_text = width/4
+                fontscale_current_text = 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text = 3
+                while width_current_text != width_target_current_text:
+                    fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text -= 1
+                    if max_count_current_text <= 0:
+                        break
+                width_lane_text, height_lane_text = width_current_text, height_current_text
+                thickness_current_text = round(fontscale_current_text*2)
+                if thickness_current_text <= 0:
+                    thickness_current_text = 1
+                if turnincoming_detected == True:
+                    current_color = (150, 150, 150)
+                else:
+                    current_color = (200, 200, 200)
+                cv2.putText(frame, f"Lane: {lanechanging_current_lane}", (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, current_color, thickness_current_text)
+            
+            if fuel_percentage < 15:
+                current_text = "Refuel!"
+                width_target_current_text = width/4.5
                 fontscale_current_text = 1
                 textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
                 width_current_text, height_current_text = textsize_current_text
@@ -2296,11 +2334,10 @@ def plugin(data):
                 thickness_current_text = round(fontscale_current_text*2)
                 if thickness_current_text <= 0:
                     thickness_current_text = 1
-                if turnincoming_detected == True:
-                    current_color = (150, 150, 150)
+                if lanechanging_do_lane_changing == True:
+                    cv2.putText(frame, current_text, (round(0.01*width), round(0.10*height+height_current_text+height_enabled_text+height_lane_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
                 else:
-                    current_color = (200, 200, 200)
-                cv2.putText(frame, f"Lane: {lanechanging_current_lane}", (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, current_color, thickness_current_text)
+                    cv2.putText(frame, current_text, (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
                 
             if current_time - 1 > allow_playsound_timer and allow_trafficlight_symbol == True and allow_no_lane_detected == True and allow_do_zoom == True and show_turn_line == True:
                 allow_playsound = True
