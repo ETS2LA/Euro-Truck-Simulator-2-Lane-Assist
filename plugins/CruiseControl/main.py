@@ -272,7 +272,7 @@ class UI():
             self.brake = helpers.MakeComboEntry(generalFrame, "Brake\nstrength in %", "CruiseControl", "brake", 8, 0)
 
             helpers.MakeEmptyLine(generalFrame, 9, 0)
-            helpers.MakeLabel(generalFrame, "For the best experience, you need to go in the settings under Gameplay and set the\nAdaptive cruise control to the highest possible distance and set the Emergency\nbrake system to Full detection!", 10, 0, sticky="w")
+            helpers.MakeLabel(generalFrame, "For the best experience, you need to go in the game settings under Gameplay and enable\nthe Adaptive cruise control to the highest possible distance and set the Emergency brake\nsystem to Full detection!", 10, 0, sticky="w")
 
         def save(self):
             settings.CreateSettings("CruiseControl", "acceleration", self.accelerationSlider.get())
