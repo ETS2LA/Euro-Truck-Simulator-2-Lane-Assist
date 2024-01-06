@@ -16,6 +16,8 @@ VERSION = open(PATH + "version.txt", "r").read().replace("\n", "")
 """Current version of the program."""
 CHANGELOG = open(PATH + "changelog.txt", "r").readlines()
 """The current shortened changelog. Used to show the user what's new in the small autoupdater dialog."""
+CONSOLENAME = None
+"""The name/id of the console, is needed to hide or show the console."""
 
 def ToggleEnable():
     """Will toggle the mainloop.

@@ -23,6 +23,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
+import win32gui, win32con
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -58,6 +59,8 @@ class UI():
             
             self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20)
             
+            helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20)
+            
             helpers.MakeButton(self.root, "Translation Settings", lambda: mainUI.switchSelectedPlugin("plugins.DeepTranslator.main"), 4,0, padx=30, pady=10, width=20)
             
             helpers.MakeButton(self.root, "Themes", lambda: mainUI.switchSelectedPlugin("plugins.ThemeManager.main"), 4,1, padx=30, pady=10, width=20)
@@ -81,6 +84,10 @@ class UI():
                 from tkinter import messagebox
                 messagebox.showinfo("Restart required", "You need to restart the app for the DPI mode to take effect.")
             # settings.CreateSettings("Plugins", "Ignore", self.ignore.get())
+            if settings.GetSettings("User Interface", "hide_console") == False:
+                win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+            if settings.GetSettings("User Interface", "hide_console") == True:
+                win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
             
             variables.RELOAD = True
         
