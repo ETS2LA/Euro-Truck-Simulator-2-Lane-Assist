@@ -23,6 +23,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
+import win32gui, win32con
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -57,6 +58,8 @@ class UI():
             # self.ignore = helpers.MakeComboEntry(self.root, "Ignore Modules (seperate by ,)", "Plugins", "Ignore", 2,0, value="EvdevController," if os.name != "nt" else "DXCamScreenCapture,", labelwidth=25, isString=True, width=55)
             
             self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20)
+
+            helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20)
             
             helpers.MakeButton(self.root, "Translation Settings", lambda: mainUI.switchSelectedPlugin("plugins.DeepTranslator.main"), 4,0, padx=30, pady=10, width=20)
             
@@ -81,6 +84,26 @@ class UI():
                 from tkinter import messagebox
                 messagebox.showinfo("Restart required", "You need to restart the app for the DPI mode to take effect.")
             # settings.CreateSettings("Plugins", "Ignore", self.ignore.get())
+            if settings.GetSettings("User Interface", "hide_console") == False:
+                win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+            if settings.GetSettings("User Interface", "hide_console") == True:
+                if variables.CONSOLENAME == None:
+                    window_found = False
+                    target_text = "/venv/Scripts/python"
+                    top_windows = []
+                    win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+                    for hwnd, window_text in top_windows:
+                        if target_text in window_text:
+                            window_found = True
+                            variables.CONSOLENAME = hwnd
+                            break
+                    if window_found == False:
+                        print("Console window not found, unable to hide!")
+                    else:
+                        print(f"Console Name: {window_text}, Console ID: {hwnd}")
+                        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
+                else:
+                    win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
             
             variables.RELOAD = True
         

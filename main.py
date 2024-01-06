@@ -5,6 +5,25 @@ The main file that runs the programs loop.
 # This section is for modules that I've added later as they might 
 # not have been installed yet
 
+import src.settings as settings
+import src.variables as variables # Stores all main variables for the program
+if settings.GetSettings("User Interface", "hide_console", False) == True:
+    import win32gui, win32con
+    window_found = False
+    target_text = "/venv/Scripts/python"
+    top_windows = []
+    win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+    for hwnd, window_text in top_windows:
+        if target_text in window_text:
+            window_found = True
+            variables.CONSOLENAME = hwnd
+            break
+    if window_found == False:
+        print("Console window not found, unable to hide!")
+    else:
+        print(f"Console Name: {window_text}, Console ID: {hwnd}")
+        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
+
 import os
 try:
     import colorama
@@ -44,7 +63,6 @@ except:
 
 # Check that all requirments from requirments.txt are installed
 import pkg_resources
-import src.variables as variables # Stores all main variables for the program
 with open(variables.PATH + r"\requirements.txt") as f:
     requirements = f.read().splitlines()
 
@@ -71,7 +89,6 @@ else:
     pass
 
 import requests
-import src.settings as settings
 def UpdateChecker():
     currentVer = variables.VERSION.split(".")
     url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
@@ -529,7 +546,11 @@ if __name__ == "__main__":
                 import keyboard
                 # Press the F1 key to pause the game
                 keyboard.press_and_release("F1")
-                
+                try:
+                    if settings.GetSettings("User Interface", "hide_console") == True:
+                        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+                except:
+                    pass
                 from tkinter import messagebox
                 import traceback
                 exc = traceback.format_exc()

@@ -17,7 +17,7 @@ PluginInfo = PluginInformation(
     type="dynamic", # = Panel
     dynamicOrder="lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
     exclusive="LaneDetection",
-    requires=["TruckSimAPI"]
+    requires=["DefaultSteering", "DXCamScreenCapture", "TruckSimAPI", "SDKController"]
 )
 
 import tkinter as tk
@@ -26,6 +26,7 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+import src.sounds as sounds
 from src.translator import Translate
 from tkinter import messagebox
 import os
@@ -347,12 +348,13 @@ def LoadSettingsV3():
 
     global v3_offset
 
-    global roadsituation_try_to_drive_anyway
-
-    global last_time_driven_distance
-
     global trafficlightdetection_is_enabled
     global lefthand_traffic
+
+    global check_zoom_timer
+    global do_zoom
+    global allow_playsound
+    global allow_playsound_timer
 
     global left_x_lane
     global right_x_lane
@@ -364,34 +366,21 @@ def LoadSettingsV3():
     global approve_lower_y_left
     global approve_upper_y_right
     global approve_lower_y_right
-    global last_width_lane
+    
+    global detection_offset_lane_y
 
     global turnincoming_detected
     global turnincoming_direction
-    global turnincoming_timer
-    global turnincoming_turn_timer
-    global turnincoming_last_time_true
-    global turnincoming_timeout_time
-    global turnincoming_lane_width_before_turn
+    global turnincoming_last_detected
 
-    global roadsituation_driven_distance
-    global roadsituation_distance_to_drive
-    global roadsituation_warning_timer
-    global roadsituation_distance_to_drive_reason_code
-    global roadsituation_continue_check_for_crossing_lane
-
-    global indicator_left_key
-    global indicator_right_key
     global indicator_last_left
     global indicator_last_right
-    global indicator_enabled_by_player
-    global indicator_wait_for_response_left
-    global indicator_wait_for_response_right
-    global indicator_before_response_left
-    global indicator_before_response_right
-    global indicator_last_change_left
-    global indicator_last_change_right
-    
+    global indicator_left_wait_for_response
+    global indicator_right_wait_for_response
+    global indicator_left_response_timer
+    global indicator_right_response_timer
+    global indicator_changed_by_code
+
     global lanechanging_do_lane_changing
     global lanechanging_speed
     global lanechanging_width
@@ -435,16 +424,18 @@ def LoadSettingsV3():
         navigationsymbol_x = 0
 
     v3_offset = settings.GetSettings("NavigationDetectionV3", "offset", 0)
-    
-    last_time_driven_distance = time.time()
 
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
         trafficlightdetection_is_enabled = True
     else:
         trafficlightdetection_is_enabled = False
 
-    roadsituation_try_to_drive_anyway = settings.GetSettings("NavigationDetectionV3", "roadsituation_try_to_drive_anyway", False)
     lefthand_traffic = settings.GetSettings("NavigationDetectionV3", "lefthand_traffic", False)
+
+    check_zoom_timer = 0
+    do_zoom = False
+    allow_playsound = False
+    allow_playsound_timer = time.time()
 
     left_x_lane = 0
     right_x_lane = 0
@@ -458,45 +449,19 @@ def LoadSettingsV3():
     approve_upper_y_right = 0
     approve_lower_y_right = 0
 
+    detection_offset_lane_y = 0
+
     turnincoming_detected = False
     turnincoming_direction = None
-    turnincoming_timer = time.time()
-    turnincoming_turn_timer = time.time()
-    turnincoming_last_time_true = time.time()
-    turnincoming_timeout_time = 20
-    turnincoming_lane_width_before_turn = 0
+    turnincoming_last_detected = 0
 
-    roadsituation_driven_distance = 0
-    roadsituation_distance_to_drive = 0
-    roadsituation_warning_timer = time.time()
-    roadsituation_distance_to_drive_reason_code = []
-    roadsituation_continue_check_for_crossing_lane = False
-
-    indicator_left_key = settings.GetSettings("NavigationDetectionV3", "indicator_left_key", "unset")
-    indicator_right_key = settings.GetSettings("NavigationDetectionV3", "indicator_right_key", "unset")
-    if indicator_left_key == "unset":
-        indicator_left_key = None
-    if indicator_right_key == "unset":
-        indicator_right_key = None
-    try:
-        kb.is_pressed(indicator_left_key)
-    except:
-        print(f'Left Indicator Key: "{indicator_left_key}" is not a valid key, using "q" instead.')
-        indicator_left_key = "q"
-    try:
-        kb.is_pressed(indicator_right_key)
-    except:
-        print(f'Right Indicator Key: "{indicator_right_key}" is not a valid key, using "e" instead.')
-        indicator_right_key = "e"
     indicator_last_left = False
     indicator_last_right = False
-    indicator_enabled_by_player = False
-    indicator_wait_for_response_left = False
-    indicator_wait_for_response_right = False
-    indicator_before_response_left = False
-    indicator_before_response_right = False
-    indicator_last_change_left = time.time()
-    indicator_last_change_right = time.time()
+    indicator_left_wait_for_response = False
+    indicator_right_wait_for_response = False
+    indicator_left_response_timer = 0
+    indicator_right_response_timer = 0
+    indicator_changed_by_code = True
 
     lanechanging_do_lane_changing = settings.GetSettings("NavigationDetectionV3", "lanechanging_do_lane_changing", True)
     lanechanging_speed = settings.GetSettings("NavigationDetectionV3", "lanechanging_speed", 1)
@@ -1294,8 +1259,6 @@ def plugin(data):
         global setupmode
         global last_window_size
         global last_mouse_position
-        global enabled_plugins
-        global setupframe
         global v3setupzoom
         global zoomoffsetx
         global zoomoffsety
@@ -1314,12 +1277,13 @@ def plugin(data):
 
         global v3_offset
 
-        global roadsituation_try_to_drive_anyway
-
-        global last_time_driven_distance
-
         global trafficlightdetection_is_enabled
         global lefthand_traffic
+
+        global check_zoom_timer
+        global do_zoom
+        global allow_playsound
+        global allow_playsound_timer
 
         global left_x_lane
         global right_x_lane
@@ -1331,33 +1295,20 @@ def plugin(data):
         global approve_lower_y_left
         global approve_upper_y_right
         global approve_lower_y_right
-        global last_width_lane
+        
+        global detection_offset_lane_y
 
         global turnincoming_detected
         global turnincoming_direction
-        global turnincoming_timer
-        global turnincoming_turn_timer
-        global turnincoming_last_time_true
-        global turnincoming_timeout_time
-        global turnincoming_lane_width_before_turn
-        
-        global roadsituation_driven_distance
-        global roadsituation_distance_to_drive
-        global roadsituation_warning_timer
-        global roadsituation_distance_to_drive_reason_code
-        global roadsituation_continue_check_for_crossing_lane
+        global turnincoming_last_detected
 
-        global indicator_left_key
-        global indicator_right_key
         global indicator_last_left
         global indicator_last_right
-        global indicator_enabled_by_player
-        global indicator_wait_for_response_left
-        global indicator_wait_for_response_right
-        global indicator_before_response_left
-        global indicator_before_response_right
-        global indicator_last_change_left
-        global indicator_last_change_right
+        global indicator_left_wait_for_response
+        global indicator_right_wait_for_response
+        global indicator_left_response_timer
+        global indicator_right_response_timer
+        global indicator_changed_by_code
 
         global lanechanging_do_lane_changing
         global lanechanging_speed
@@ -1617,7 +1568,7 @@ def plugin(data):
                         frame_height = frame.shape[0]
                         
                         # Code below by Tumppi066
-                        minimapDistanceFromRight = 28
+                        minimapDistanceFromRight = 27
                         minimapDistanceFromBottom = 134
                         minimapWidth = 560
                         minimapHeight = 293
@@ -1631,7 +1582,7 @@ def plugin(data):
                         #
 
                         if centercoord == None:
-                            centercoord = round(topleft[0] + (bottomright[0] - topleft[0]) / 2), round(topleft[1] + (bottomright[1] - topleft[1]) / 1.85)
+                            centercoord = round(topleft[0] + (bottomright[0] - topleft[0]) / 2), round(topleft[1] + (bottomright[1] - topleft[1]) / 1.86)
                             settings.CreateSettings("NavigationDetectionV3", "centercoord", centercoord)
 
                         settings.CreateSettings("NavigationDetectionV3", "topleft", topleft)
@@ -1827,613 +1778,594 @@ def plugin(data):
                         variables.ENABLELOOP = False
                         mainUI.update(data)
                         setupmode = False
+                        LoadSettingsV3()
                 else:
                     DefaultSteering.enabled = True
                     variables.UPDATEPLUGINS = True
                     variables.ENABLELOOP = False
                     mainUI.update(data)
                     setupmode = False
-                LoadSettingsV3()
+                    LoadSettingsV3()
 
         if setupmode == False:
-            if roadsituation_try_to_drive_anyway == False:
-                current_time = time.time()
-                
-                try:
-                    frame = data["frame"]
-                except:
-                    return data
-                
-                try:
-                    width = frame.shape[1]
-                    height = frame.shape[0]
-                except:
-                    return data
-                
-                try:
-                    gamepaused = data["api"]["pause"]
-                    if gamepaused == True:
-                        speed = 0
-                    else:
-                        speed = round(data["api"]["truckFloat"]["speed"], 2)
-                except:
-                    gamepaused = False
+            current_time = time.time()
+            
+            try:
+                frame = data["frame"]
+            except:
+                return data
+            
+            try:
+                width = frame.shape[1]
+                height = frame.shape[0]
+            except:
+                return data
+            
+            try:
+                gamepaused = data["api"]["pause"]
+                if gamepaused == True:
                     speed = 0
-
-                try:
-                    indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
-                    indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
-                except:
-                    indicator_left = False
-                    indicator_right = False
-
-                if trafficlightdetection_is_enabled == True:
-                    try:
-                        trafficlight = data["TrafficLightDetection"]
-                    except:
-                        trafficlightdetection_is_enabled = False
-                        trafficlight = "Off"
                 else:
+                    speed = round(data["api"]["truckFloat"]["speed"]*3.6, 2)
+            except:
+                gamepaused = False
+                speed = 0
+
+            try:
+                fuel_total = data["api"]["configFloat"]["fuelCapacity"]
+                fuel_current = data["api"]["truckFloat"]["fuel"]
+                if fuel_total != 0:
+                    fuel_percentage = (fuel_current/fuel_total)*100
+                else:
+                    fuel_percentage = 100
+            except:
+                fuel_total = 0
+                fuel_current = 0
+                fuel_percentage = 100
+
+            try:
+                indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
+                indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
+            except:
+                indicator_left = False
+                indicator_right = False
+
+            if trafficlightdetection_is_enabled == True:
+                try:
+                    trafficlight = data["TrafficLightDetection"]
+                except:
+                    trafficlightdetection_is_enabled = False
                     trafficlight = "Off"
+            else:
+                trafficlight = "Off"
 
-                lower_red = np.array([0, 0, 160])
-                upper_red = np.array([110, 110, 255])
-                lower_green = np.array([0, 200, 0])
-                upper_green = np.array([230, 255, 150])
-                white_limit = 1
-
-                mask_red = cv2.inRange(frame, lower_red, upper_red)
-                mask_green = cv2.inRange(frame, lower_green, upper_green)
-
-                frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
-
-                cv2.rectangle(frame_red_green, (0,0), (round(width/6),round(height/3)),(0,0,0),-1)
-                cv2.rectangle(frame_red_green, (width,0), (round(width-width/6),round(height/3)),(0,0,0),-1)
-
-                frame_gray = cv2.cvtColor(frame_red_green, cv2.COLOR_BGR2GRAY)
-                frame_gray_unblurred = frame_gray.copy()
-
-                frame_gray = cv2.GaussianBlur(frame_gray,(3,3),0)
-
-                frame = cv2.cvtColor(frame_gray_unblurred, cv2.COLOR_BGR2RGB)
-                
-                y_coordinate_of_lane = round(navigationsymbol_y / 1.4)
-                y_coordinate_of_turn = round(navigationsymbol_y / 4) 
-                automatic_x_offset = round(width/2-navigationsymbol_y)
-
-                roadsituation_driven_distance += round(speed * (current_time - last_time_driven_distance), 2)
-                last_time_driven_distance = current_time
-
-                roadsituation_able_to_drive = True
-                roadsituation_warning_code = []
-
-                if DefaultSteering.enabled == False:
-                    turnincoming_timer = current_time - turnincoming_timeout_time + 1
-                    turnincoming_detected = False
-                    turnincoming_approved = False
-                    turnincoming_direction = None
-                    steering_disabled = True
-                else:
-                    steering_disabled = False
-
-                def GetArrayOfLaneEdges(y_coordinate_of_detection, tilt, x_offset):
-                    detectingLane = False
-                    laneEdges = []
-
-                    for x in range(0, int(width)):
-                        
-                        y = round(y_coordinate_of_detection + (navigationsymbol_x - x + x_offset) * tilt)
-                        if y < 0:
-                            y = 0
-                        if y > height - 1:
-                            y = height - 1
-
-                        pixel = frame_gray[y, x]
-                        if (white_limit <= pixel):
-                            
-                            if not detectingLane:
-                                detectingLane = True
-                                laneEdges.append(x - x_offset)
-                        else:
-                            if detectingLane:
-                                detectingLane = False
-                                laneEdges.append(x - x_offset)
-
-                    if len(laneEdges) < 2:
-                        laneEdges.append(width)
-
-                    return laneEdges
-                
-                
-                if turnincoming_direction != None:
-                    if turnincoming_direction == "Left":
-                        tilt = 0.5
+            f5_key_state = ctypes.windll.user32.GetAsyncKeyState(0x74)
+            f5_pressed = f5_key_state & 0x8000 != 0
+            if f5_pressed == True:
+                check_zoom_timer = current_time
+            if current_time - 1 < check_zoom_timer or check_zoom_timer == 0:
+                check_zoom = True
+            else:
+                check_zoom = False
+            if check_zoom == True and gamepaused == False:
+                hwnd_ets2 = ctypes.windll.user32.FindWindowW(None, "Euro Truck Simulator 2")
+                hwnd_ets2_multiplayer = ctypes.windll.user32.FindWindowW(None, "Euro Truck Simulator 2 Multiplayer")
+                hwnd_ats = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator")
+                hwnd_ats_multiplayer = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator Multiplayer")
+                hwnd_active = ctypes.windll.user32.GetForegroundWindow()
+                if hwnd_active == hwnd_ets2 or hwnd_active == hwnd_ats or hwnd_active == hwnd_ets2_multiplayer or hwnd_active == hwnd_ats_multiplayer:
+                    lower_blue = np.array([121, 68, 0])
+                    upper_blue = np.array([250, 184, 109])
+                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
+                    y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
+                    mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 <= round(width/10)**2
+                    mask_blue = np.where(mask_circle, mask_blue, 0)
+                    if width != 0 and height != 0:
+                        pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
                     else:
-                        tilt = -0.5
+                        pixel_ratio = 0
+                    if pixel_ratio > 0.0075 and pixel_ratio < 0.009:
+                        do_zoom = False
+                    else:
+                        do_zoom = True
+                    if check_zoom_timer == 0:
+                        check_zoom_timer = current_time
+                
+            lower_red = np.array([0, 0, 160])
+            upper_red = np.array([110, 110, 255])
+            lower_green = np.array([0, 200, 0])
+            upper_green = np.array([230, 255, 150])
+            white_limit = 1
+
+            mask_red = cv2.inRange(frame, lower_red, upper_red)
+            mask_green = cv2.inRange(frame, lower_green, upper_green)
+
+            frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+
+            cv2.rectangle(frame_red_green, (0,0), (round(width/6),round(height/3)),(0,0,0),-1)
+            cv2.rectangle(frame_red_green, (width,0), (round(width-width/6),round(height/3)),(0,0,0),-1)
+
+            frame_gray = cv2.cvtColor(frame_red_green, cv2.COLOR_BGR2GRAY)
+            frame_gray_unblurred = frame_gray.copy()
+
+            frame_gray = cv2.GaussianBlur(frame_gray,(3,3),0)
+
+            frame = cv2.cvtColor(frame_gray_unblurred, cv2.COLOR_BGR2RGB)
+            
+            y_coordinate_of_lane = round(navigationsymbol_y / 1.4)
+            y_coordinate_of_turn = round(navigationsymbol_y / 4) 
+            automatic_x_offset = round(width/2-navigationsymbol_y)
+
+            def GetArrayOfLaneEdges(y_coordinate_of_detection, tilt, x_offset, y_offset):
+                detectingLane = False
+                laneEdges = []
+
+                for x in range(0, int(width)):
+                    
+                    y = round(y_coordinate_of_detection + y_offset + (navigationsymbol_x - x + x_offset) * tilt)
+                    if y < 0:
+                        y = 0
+                    if y > height - 1:
+                        y = height - 1
+
+                    pixel = frame_gray[y, x]
+                    if (white_limit <= pixel):
+                        
+                        if not detectingLane:
+                            detectingLane = True
+                            laneEdges.append(x - x_offset)
+                    else:
+                        if detectingLane:
+                            detectingLane = False
+                            laneEdges.append(x - x_offset)
+
+                if len(laneEdges) < 2:
+                    laneEdges.append(width)
+
+                return laneEdges
+            
+            
+            if turnincoming_direction != None:
+                if turnincoming_direction == "Left":
+                    tilt = 0.25
                 else:
-                    tilt = 0
-                x_offset = lanechanging_final_offset - v3_offset
-                lanes = GetArrayOfLaneEdges(y_coordinate_of_lane, tilt, x_offset)
-                try:
-                    closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - navigationsymbol_x))
-                    left_x_lane, right_x_lane = closest_x_pair
-                except:
-                    if lefthand_traffic == False:
+                    tilt = -0.25
+            else:
+                tilt = 0
+            x_offset = lanechanging_final_offset - v3_offset
+            y_offset = detection_offset_lane_y
+            lanes = GetArrayOfLaneEdges(y_coordinate_of_lane, tilt, x_offset, y_offset)
+            try:
+                closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - navigationsymbol_x))
+                left_x_lane, right_x_lane = closest_x_pair
+            except:
+                if lefthand_traffic == False:
+                    left_x_lane = lanes[len(lanes)-2]
+                    right_x_lane = lanes[len(lanes)-1]
+                else:
+                    try:
+                        left_x_lane = lanes[len(lanes)-4]
+                        right_x_lane = lanes[len(lanes)-3]
+                    except:
                         left_x_lane = lanes[len(lanes)-2]
                         right_x_lane = lanes[len(lanes)-1]
-                    else:
-                        try:
-                            left_x_lane = lanes[len(lanes)-4]
-                            right_x_lane = lanes[len(lanes)-3]
-                        except:
-                            left_x_lane = lanes[len(lanes)-2]
-                            right_x_lane = lanes[len(lanes)-1]
-                
-                left_y_lane = round(y_coordinate_of_lane + (navigationsymbol_x - left_x_lane - x_offset) * tilt)
-                right_y_lane = round(y_coordinate_of_lane + (navigationsymbol_x - right_x_lane - x_offset) * tilt)
-                
+            
+            left_y_lane = round(y_coordinate_of_lane + detection_offset_lane_y + (navigationsymbol_x - left_x_lane - x_offset) * tilt)
+            right_y_lane = round(y_coordinate_of_lane + detection_offset_lane_y + (navigationsymbol_x - right_x_lane - x_offset) * tilt)
 
-                tilt = 0
-                x_offset = lanechanging_final_offset - v3_offset
-                lanes = GetArrayOfLaneEdges(y_coordinate_of_turn, tilt, x_offset)
-                try:
-                    closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - navigationsymbol_x))
-                    left_x_turn, right_x_turn = closest_x_pair
-                except:
-                    if lefthand_traffic == False:
+            tilt = 0
+            x_offset = lanechanging_final_offset - v3_offset
+            y_offset = 0
+            lanes = GetArrayOfLaneEdges(y_coordinate_of_turn, tilt, x_offset, y_offset)
+            try:
+                closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - navigationsymbol_x))
+                left_x_turn, right_x_turn = closest_x_pair
+            except:
+                if lefthand_traffic == False:
+                    left_x_turn = lanes[len(lanes)-2]
+                    right_x_turn = lanes[len(lanes)-1]
+                else:
+                    try:
+                        left_x_turn = lanes[len(lanes)-4]
+                        right_x_turn = lanes[len(lanes)-3]
+                    except:
                         left_x_turn = lanes[len(lanes)-2]
                         right_x_turn = lanes[len(lanes)-1]
+
+            if left_x_lane + lanechanging_final_offset == width:
+                left_x_lane = 0
+                left_y_lane = 0
+                right_x_lane = 0
+                right_y_lane = 0
+            if left_x_turn + lanechanging_final_offset == width:
+                left_x_turn = 0
+                right_x_turn = 0
+
+            width_lane = right_x_lane - left_x_lane
+            width_turn = right_x_turn - left_x_turn
+
+            center_x_lane = (left_x_lane + right_x_lane) / 2
+            center_x_turn = (left_x_turn + right_x_turn) / 2
+
+            approve_x_left = round(navigationsymbol_x - width/4)
+            if approve_x_left >= width:
+                approve_x_left = width - 1
+            if approve_x_left < 0:
+                approve_x_left = 0
+            approve_upper_y_left = 0
+            approve_lower_y_left = 0
+            for y in range(height-1, -1, -1):
+                pixel = frame_gray[y, approve_x_left]
+                if (white_limit <= pixel):
+                    if approve_upper_y_left == 0:
+                        approve_upper_y_left = y
+                        approve_lower_y_left = y
                     else:
-                        try:
-                            left_x_turn = lanes[len(lanes)-4]
-                            right_x_turn = lanes[len(lanes)-3]
-                        except:
-                            left_x_turn = lanes[len(lanes)-2]
-                            right_x_turn = lanes[len(lanes)-1]
-
-                if left_x_lane == width:
-                    left_x_lane = 0
-                    left_y_lane = 0
-                if right_x_lane == width:
-                    right_x_lane = 0
-                    right_y_lane = 0
-                if left_x_turn == width:
-                    left_x_turn = 0
-                if right_x_turn == width:
-                    right_x_turn = 0
-
-                width_lane = right_x_lane - left_x_lane
-                width_turn = right_x_turn - left_x_turn
-
-                if width_lane <= 5:
-                    left_x_lane = 0
-                    right_x_lane = 0
-                    width_lane = 0
-                if width_turn <= 5:
-                    left_x_turn = 0
-                    right_x_turn = 0
-                    width_turn = 0
-
-                center_x_lane = (left_x_lane + right_x_lane) / 2
-                center_x_turn = (left_x_turn + right_x_turn) / 2
-
-                if width_lane > last_width_lane*1.1 or width_lane > width/5 and last_width_lane != 0:
-                    roadsituation_check_for_crossing_lane = True
+                        approve_lower_y_left = y
                 else:
-                    roadsituation_check_for_crossing_lane = False
+                    if approve_upper_y_left != 0:
+                        break
 
-                if turnincoming_detected == True or roadsituation_check_for_crossing_lane == True or roadsituation_continue_check_for_crossing_lane == True:
-                    
-                    approve_x_left = round(navigationsymbol_x + lanechanging_final_offset - turnincoming_lane_width_before_turn*2.5)
-                    if approve_x_left >= width:
-                        approve_x_left = width - 1
-                    if approve_x_left < 0:
-                        approve_x_left = 0
-                    approve_upper_y_left = 0
-                    approve_lower_y_left = 0
-                    for y in range(height):
-                        pixel = frame_gray[y, approve_x_left]
-                        if (white_limit <= pixel):
-                            if approve_upper_y_left == 0:
-                                approve_upper_y_left = y
-                                approve_lower_y_left = y
-                            else:
-                                approve_lower_y_left = y
-
-                    approve_x_right = round(navigationsymbol_x + lanechanging_final_offset + turnincoming_lane_width_before_turn*2.5)
-                    if approve_x_right >= width:
-                        approve_x_right = width - 1
-                    if approve_x_right < 0:
-                        approve_x_right = 0
-                    approve_upper_y_right = 0
-                    approve_lower_y_right = 0
-                    for y in range(height):
-                        pixel = frame_gray[y, approve_x_right]
-                        if (white_limit <= pixel):
-                            if approve_upper_y_right == 0:
-                                approve_upper_y_right = y
-                                approve_lower_y_right = y
-                            else:
-                                approve_lower_y_right = y
-
-                    roadsituation_continue_check_for_crossing_lane = False
-
-                    turnincoming_approved = False
-                    turnincoming_approvement_color_line = (0, 255, 0)
-                    
-                    if approve_upper_y_left != 0 and approve_lower_y_left != 0:
-                        if approve_upper_y_right == 0 and approve_lower_y_right == 0 and turnincoming_direction == "Left":
-                            turnincoming_approved = True
-
-                    if approve_upper_y_right != 0 and approve_lower_y_right != 0:
-                        if approve_upper_y_left == 0 and approve_lower_y_left == 0 and turnincoming_direction == "Right":
-                            turnincoming_approved = True
-
-                    if approve_lower_y_left - approve_upper_y_left > height / 4:
-                        approve_upper_y_left = approve_lower_y_left - 10
-                        turnincoming_approvement_color_line = (0, 165, 255)
-                    
-                    if approve_lower_y_right - approve_upper_y_right > height / 4:
-                        approve_upper_y_right = approve_lower_y_right - 10
-                        turnincoming_approvement_color_line = (0, 165, 255)
-                            
-                    if approve_upper_y_left == 0 and approve_lower_y_left == 0 and approve_upper_y_right == 0 and approve_lower_y_right == 0:
-                        turnincoming_timer = current_time - (turnincoming_timeout_time + 1)
-                        turnincoming_approved = False
-
-                    if turnincoming_approved == False:
-                        turnincoming_approvement_color_line = (0, 0, 255)
-
-                    if approve_upper_y_left != 0 and approve_lower_y_left != 0 and approve_upper_y_right != 0:
-                        turnincoming_approvement_color_line = (0, 0, 255)
-                        roadsituation_able_to_drive = False
-                        roadsituation_continue_check_for_crossing_lane = True
-                        if 1 not in roadsituation_warning_code:
-                            roadsituation_warning_code.append(1)
-                        if 1 not in roadsituation_distance_to_drive_reason_code:
-                            roadsituation_distance_to_drive_reason_code.append(1)
-                    if approve_upper_y_left != 0 and approve_lower_y_left != 0 and approve_lower_y_right != 0:
-                        turnincoming_approvement_color_line = (0, 0, 255)
-                        roadsituation_able_to_drive = False
-                        roadsituation_continue_check_for_crossing_lane = True
-                        if 1 not in roadsituation_warning_code:
-                            roadsituation_warning_code.append(1)
-                        if 1 not in roadsituation_distance_to_drive_reason_code:
-                            roadsituation_distance_to_drive_reason_code.append(1)
-                    if approve_upper_y_right != 0 and approve_lower_y_right != 0 and approve_upper_y_left != 0:
-                        turnincoming_approvement_color_line = (0, 0, 255)
-                        roadsituation_able_to_drive = False
-                        roadsituation_continue_check_for_crossing_lane = True
-                        if 1 not in roadsituation_warning_code:
-                            roadsituation_warning_code.append(1)
-                        if 1 not in roadsituation_distance_to_drive_reason_code:
-                            roadsituation_distance_to_drive_reason_code.append(1)
-                    if approve_upper_y_right != 0 and approve_lower_y_right != 0 and approve_lower_y_left != 0:
-                        turnincoming_approvement_color_line = (0, 0, 255)
-                        roadsituation_able_to_drive = False
-                        roadsituation_continue_check_for_crossing_lane = True
-                        if 1 not in roadsituation_warning_code:
-                            roadsituation_warning_code.append(1)
-                        if 1 not in roadsituation_distance_to_drive_reason_code:
-                            roadsituation_distance_to_drive_reason_code.append(1)
-
-                    if approve_upper_y_left == 0 and approve_lower_y_left == 0 and approve_upper_y_right != 0 and approve_lower_y_right != 0:
-                        turnincoming_direction = "Right"
-                    if approve_upper_y_right == 0 and approve_lower_y_right == 0 and approve_upper_y_left != 0 and approve_lower_y_left != 0:
-                        turnincoming_direction = "Left"
-                    
-                    if approve_upper_y_left - approve_lower_y_left != 0:
-                        cv2.line(frame, (approve_x_left, approve_upper_y_left), (approve_x_left, approve_lower_y_left), turnincoming_approvement_color_line, 2)
-                    if approve_upper_y_right - approve_lower_y_right != 0:
-                        cv2.line(frame, (approve_x_right, approve_upper_y_right), (approve_x_right, approve_lower_y_right), turnincoming_approvement_color_line, 2)
-
+            approve_x_right = round(navigationsymbol_x + width/4)
+            if approve_x_right >= width:
+                approve_x_right = width - 1
+            if approve_x_right < 0:
+                approve_x_right = 0
+            approve_upper_y_right = 0
+            approve_lower_y_right = 0
+            for y in range(height-1, -1, -1):
+                pixel = frame_gray[y, approve_x_right]
+                if (white_limit <= pixel):
+                    if approve_upper_y_right == 0:
+                        approve_upper_y_right = y
+                        approve_lower_y_right = y
+                    else:
+                        approve_lower_y_right = y
                 else:
+                    if approve_upper_y_right != 0:
+                        break
+            
+            if approve_lower_y_left != 0 and approve_lower_y_right != 0:
+                current_color = (0, 0, 255)
+            else:
+                current_color = (0, 255, 0)
+            if approve_lower_y_left != 0:
+                cv2.line(frame, (approve_x_left, approve_upper_y_left), (approve_x_left, approve_lower_y_left), current_color, 2)
+            if approve_lower_y_right != 0:
+                cv2.line(frame, (approve_x_right, approve_upper_y_right), (approve_x_right, approve_lower_y_right), current_color, 2)
 
-                    turnincoming_approved = False
-                
-                if abs(last_width_lane - width_lane) > width_lane / 10 and width_lane < last_width_lane and width_lane != 0 and roadsituation_able_to_drive == True and turnincoming_detected == False:
-                    if left_x_lane != 0 or right_x_lane != 0:
-                        roadsituation_able_to_drive = False
-                        roadsituation_distance_to_drive = roadsituation_driven_distance + 15
-                        if 2 not in roadsituation_warning_code:
-                            roadsituation_warning_code.append(2)
-                        if 2 not in roadsituation_distance_to_drive_reason_code:
-                            roadsituation_distance_to_drive_reason_code.append(2)
-
-                last_width_lane = width_lane
-
-                if roadsituation_warning_code != []:
-                    roadsituation_able_to_drive = False
-
-                if roadsituation_able_to_drive == True:
-                    roadsituation_warning_timer = current_time + 0.3
-
-                if width_turn != 0 and turnincoming_detected == True:
-                    if current_time - 2 > turnincoming_turn_timer:
-                        turnincoming_timer = current_time - turnincoming_timeout_time + 1
-                        turnincoming_turn_timer = current_time
+            if approve_upper_y_left != 0 and approve_upper_y_right != 0:
+                if approve_lower_y_left + round((approve_lower_y_left - approve_upper_y_left) / 2) <= y_coordinate_of_lane <= approve_upper_y_left - round((approve_lower_y_left - approve_upper_y_left) / 2) or approve_lower_y_right + round((approve_lower_y_right - approve_upper_y_right) / 2) <= y_coordinate_of_lane <= approve_upper_y_right - round((approve_lower_y_right - approve_upper_y_right) / 2):
+                    if approve_lower_y_left < approve_lower_y_right:
+                        distance = round((approve_lower_y_left + approve_lower_y_right) / 2 + (approve_lower_y_left - approve_upper_y_left) / 2) - y_coordinate_of_lane
+                    else:
+                        distance = round((approve_lower_y_left + approve_lower_y_right) / 2 + (approve_lower_y_right - approve_upper_y_right) / 2) - y_coordinate_of_lane
+                    if distance < 0:
+                        detection_offset_lane_y = distance
+                    else:
+                        detection_offset_lane_y = 0
                 else:
-                    turnincoming_turn_timer = current_time
+                    detection_offset_lane_y = 0
+            else:
+                detection_offset_lane_y = 0
 
-                if width_turn > width/5:
-                    if abs(left_x_turn - left_x_lane) <= width_lane or abs(right_x_turn - right_x_lane) <= width_lane:
-                        turnincoming_timer = current_time
-                        lanechanging_current_lane = 0
-                        if navigationsymbol_x - left_x_turn > right_x_turn - navigationsymbol_x:
-                            turnincoming_direction = "Left"
-                        else:
-                            turnincoming_direction = "Right"
-
-                if current_time - turnincoming_timer < turnincoming_timeout_time:
+            if width_turn == 0:
+                if approve_upper_y_left != 0:
                     turnincoming_detected = True
-                else:
-                    turnincoming_detected = False
-                    turnincoming_direction = None
-
-                if turnincoming_detected == False and roadsituation_continue_check_for_crossing_lane == False and roadsituation_able_to_drive == True or turnincoming_lane_width_before_turn == 0:
-                    turnincoming_lane_width_before_turn = width_lane
-                
-                if trafficlight == "Red":
-                    if turnincoming_detected == True:
-                        turnincoming_timer = current_time
-                        turnincoming_detected = True
-
-                if center_x_lane != 0:
-                    if turnincoming_direction != None:
-                        if turnincoming_direction == "Left":
-                            correction = navigationsymbol_x - center_x_lane - width_lane/30
-                        else:
-                            correction = navigationsymbol_x - center_x_lane + width_lane/30
-                    else:
-                        correction = navigationsymbol_x - center_x_lane
-                else:
-                    correction = 0
-
-                if turnincoming_detected == True:
-                    turnincoming_last_time_true = current_time
-
-                if indicator_left != indicator_last_left and indicator_left == True and turnincoming_detected == False and current_time - 1 > turnincoming_last_time_true and lanechanging_do_lane_changing == True:
-                    indicator_enabled_by_player = True
-                    lanechanging_current_lane += 1
-                if indicator_right != indicator_last_right and indicator_right == True and turnincoming_detected == False and current_time - 1 > turnincoming_last_time_true and lanechanging_do_lane_changing == True:
-                    lanechanging_current_lane -= 1
-                    indicator_enabled_by_player = True
-
-                if turnincoming_detected == True:
-                    indicator_enabled_by_player = False
-
-                if indicator_left != indicator_last_left and indicator_left == True and indicator_enabled_by_player == True and turnincoming_detected == False and width_turn == 0 and width_lane != 0:
-                    turnincoming_timer = current_time
-                    lanechanging_current_lane = 0
                     turnincoming_direction = "Left"
-                    indicator_enabled_by_player = False
-                if indicator_right != indicator_last_right and indicator_right == True and indicator_enabled_by_player == True and turnincoming_detected == False and width_turn == 0 and width_lane != 0:
-                    turnincoming_timer = current_time
-                    lanechanging_current_lane = 0
+                if approve_upper_y_right != 0:
+                    turnincoming_detected = True
                     turnincoming_direction = "Right"
-                    indicator_enabled_by_player = False
+            else:
+                turnincoming_detected = False
+                turnincoming_direction = None
 
-                if indicator_left != indicator_before_response_left:
-                    indicator_wait_for_response_left = False
-                    indicator_before_response_left = False
-                if indicator_right != indicator_before_response_right:
-                    indicator_wait_for_response_right = False
-                    indicator_before_response_right = False
+            if approve_upper_y_left != 0 and approve_upper_y_right != 0:
+                turnincoming_detected = False
+                turnincoming_direction = None
 
-                if current_time - indicator_last_change_left > 1:
-                    indicator_wait_for_response_left = False
-                    indicator_before_response_left = False
-                if current_time - indicator_last_change_right > 1:
-                    indicator_wait_for_response_right = False
-                    indicator_before_response_right = False
-
-                if indicator_wait_for_response_left == False and indicator_left == False and turnincoming_detected == True and turnincoming_direction == "Left" and roadsituation_able_to_drive == True:
-                    if gamepaused == False and turnincoming_timer - current_time != 0 and steering_disabled == False:
-                        kb.press_and_release(indicator_left_key)
-                        indicator_wait_for_response_left = True
-                        indicator_before_response_left = indicator_left
-                        indicator_last_change_left = current_time
-
-                if indicator_wait_for_response_right == False and indicator_right == False and turnincoming_detected == True and turnincoming_direction == "Right" and roadsituation_able_to_drive == True:
-                    if gamepaused == False and turnincoming_timer - current_time != 0 and steering_disabled == False:
-                        kb.press_and_release(indicator_right_key)
-                        indicator_wait_for_response_right = True
-                        indicator_before_response_right = indicator_right
-                        indicator_last_change_right = current_time
-
-                if indicator_wait_for_response_left == False and indicator_left == True:
-                    if turnincoming_detected == False or roadsituation_able_to_drive == False:
-                        if gamepaused == False and indicator_enabled_by_player == False and steering_disabled == False:
-                            kb.press_and_release(indicator_left_key)
-                            indicator_wait_for_response_left = True
-                            indicator_before_response_left = indicator_left
-                            indicator_last_change_left = current_time
-
-                if indicator_wait_for_response_right == False and indicator_right == True:
-                    if turnincoming_detected == False or roadsituation_able_to_drive == False:
-                        if gamepaused == False and indicator_enabled_by_player == False and steering_disabled == False:
-                            kb.press_and_release(indicator_right_key)
-                            indicator_wait_for_response_right = True
-                            indicator_before_response_right = indicator_right
-                            indicator_last_change_right = current_time
-                
-                lanechanging_target_offset = lanechanging_width * lanechanging_current_lane
-                
-                lanechanging_current_correction = lanechanging_target_offset - lanechanging_final_offset
-                if abs(lanechanging_current_correction) > lanechanging_speed/15:
-                    if lanechanging_current_correction > 0:
-                        lanechanging_current_correction = lanechanging_speed/15
-                    else:
-                        lanechanging_current_correction = -lanechanging_speed/15
-
-                lanechanging_final_offset += lanechanging_current_correction
-                lanechanging_progress = lanechanging_final_offset/lanechanging_width
-                
-                if lanechanging_progress == lanechanging_current_lane and turnincoming_detected == False and turnincoming_approved == False and lanechanging_do_lane_changing == True:
-                    if indicator_wait_for_response_left == False and indicator_left == True:
-                        if turnincoming_detected == False or roadsituation_able_to_drive == False:
-                            if gamepaused == False and indicator_enabled_by_player == True and steering_disabled == False:
-                                kb.press_and_release(indicator_left_key)
-                                indicator_wait_for_response_left = True
-                                indicator_before_response_left = indicator_left
-                                indicator_last_change_left = current_time
-
-                    if indicator_wait_for_response_right == False and indicator_right == True:
-                        if turnincoming_detected == False or roadsituation_able_to_drive == False:
-                            if gamepaused == False and indicator_enabled_by_player == True and steering_disabled == False:
-                                kb.press_and_release(indicator_right_key)
-                                indicator_wait_for_response_right = True
-                                indicator_before_response_right = indicator_right
-                                indicator_last_change_right = current_time
-
-                if roadsituation_warning_timer < current_time or roadsituation_distance_to_drive > roadsituation_driven_distance:
-                    if roadsituation_warning_code == []:
-                        roadsituation_warning_code = roadsituation_distance_to_drive_reason_code
-
-                    correction = 0
-                    turnincoming_detected = False
-                    turnincoming_approved = False
-                    turnincoming_direction = None
-
-                    frame = cv2.GaussianBlur(frame, (9, 9), 0)
-                    frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
-
-                    xofwarning = round(width/2)
-                    yofwarning = round(height/3.5)
-                    sizeofwarning = round(height/5)
-                    warningthickness = round(height/50)
-                    cv2.line(frame, (xofwarning-sizeofwarning,yofwarning+sizeofwarning), (xofwarning+sizeofwarning,yofwarning+sizeofwarning), (0,0,255), warningthickness, cv2.LINE_AA)
-                    cv2.line(frame, (xofwarning-sizeofwarning,yofwarning+sizeofwarning), (xofwarning,yofwarning-sizeofwarning), (0,0,255), warningthickness, cv2.LINE_AA)
-                    cv2.line(frame, (xofwarning+sizeofwarning,yofwarning+sizeofwarning), (xofwarning,yofwarning-sizeofwarning), (0,0,255), warningthickness, cv2.LINE_AA)
-                    cv2.line(frame, (xofwarning,round(yofwarning-sizeofwarning/3)), (xofwarning,round(yofwarning+sizeofwarning/2.5)), (0,0,255), warningthickness, cv2.LINE_AA)
-                    cv2.circle(frame, (xofwarning,round(yofwarning+sizeofwarning/1.5)), round(warningthickness/1.75), (0,0,255), -1, cv2.LINE_AA)
-
-                    sizeoftext = round(height/200)
-                    textthickness = round(height/100)
-                    text_size, _ = cv2.getTextSize("WARNING", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-                    text_width, text_height = text_size
-                    cv2.putText(frame, "WARNING", (round(width/2-text_width/2), round(yofwarning+sizeofwarning*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,0,255), textthickness, cv2.LINE_AA)
-                    
-                    roadsituation_warning_code_str = str(roadsituation_warning_code).replace('[', '').replace(']', '')
-                    text_size, _ = cv2.getTextSize(f"Code: {roadsituation_warning_code_str}", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-                    text_width, text_height = text_size
-                    cv2.putText(frame, f"Code: {roadsituation_warning_code_str}", (round(width/2-text_width/2), round(yofwarning+sizeofwarning*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,0,255), textthickness, cv2.LINE_AA)
-
+            if turnincoming_detected == True:
+                turnincoming_last_detected = current_time
+                lanechanging_current_lane = 0
+            
+            try:
+                data["sdk"]
+            except:
+                data["sdk"] = {}
+            indicator_changed_by_code = False
+            if indicator_left != indicator_last_left:
+                indicator_left_wait_for_response = False
+            if indicator_right != indicator_last_right:
+                indicator_right_wait_for_response = False
+            if current_time - 1 > indicator_left_response_timer:
+                indicator_left_wait_for_response = False
+            if current_time - 1 > indicator_right_response_timer:
+                indicator_right_wait_for_response = False
+            if turnincoming_direction == "Left" and indicator_left == False and indicator_left_wait_for_response == False:
+                data["sdk"]["LeftBlinker"] = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+            if turnincoming_direction == "Right" and indicator_right == False and indicator_right_wait_for_response == False:
+                data["sdk"]["RightBlinker"] = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+            if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True:
+                data["sdk"]["LeftBlinker"] = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+            if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True:
+                data["sdk"]["RightBlinker"] = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+            if turnincoming_detected == True:
+                indicator_changed_by_code = True
+            else:
+                indicator_changed_by_code = False
+            if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
+                lanechanging_current_lane += 1
+            if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
+                lanechanging_current_lane -= 1
+            
+            lanechanging_target_offset = lanechanging_width * lanechanging_current_lane
+            lanechanging_current_correction = lanechanging_target_offset - lanechanging_final_offset
+            if abs(lanechanging_current_correction) > lanechanging_speed/10:
+                if lanechanging_current_correction > 0:
+                    lanechanging_current_correction = lanechanging_speed/10
                 else:
+                    lanechanging_current_correction = -lanechanging_speed/10
+            lanechanging_final_offset += lanechanging_current_correction
+            lanechanging_progress = lanechanging_final_offset/lanechanging_width
+            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+                data["sdk"]["LeftBlinker"] = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+                data["sdk"]["RightBlinker"] = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
 
-                    roadsituation_warning_timer = current_time
-                    roadsituation_distance_to_drive_reason_code = []
-
-
-                    if topleft == None or bottomright == None or centercoord == None:
-                        frame = cv2.GaussianBlur(frame, (9, 9), 0)
-                        frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
-
-                        xofinfo = round(width/2)
-                        yofinfo = round(height/3.5)
-                        sizeofinfo = round(height/5)
-                        infothickness = round(height/50)
-                        cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-                        cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-                        cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
-
-                        sizeoftext = round(height/200)
-                        textthickness = round(height/100)
-                        text_size, _ = cv2.getTextSize("Do the", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-                        text_width, text_height = text_size
-                        cv2.putText(frame, "Do the", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-                        text_size, _ = cv2.getTextSize("Setup", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-                        text_width, text_height = text_size
-                        cv2.putText(frame, "Setup", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-
-                        allow_trafficlight_symbol = False
-                        allow_no_lane_detected = False
-                        show_turn_line = False
-                    else:
-                        allow_trafficlight_symbol = True
-                        allow_no_lane_detected = True
-                        show_turn_line = True
-
-
-                    if right_x_lane == 0 and width_lane == 0 and allow_no_lane_detected == True:
-                        frame = cv2.GaussianBlur(frame, (9, 9), 0)
-                        frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
-
-                        xofinfo = round(width/2)
-                        yofinfo = round(height/3.5)
-                        sizeofinfo = round(height/5)
-                        infothickness = round(height/50)
-                        cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-                        cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-                        cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
-
-                        sizeoftext = round(height/200)
-                        textthickness = round(height/100)
-                        text_size, _ = cv2.getTextSize("No Lane", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-                        text_width, text_height = text_size
-                        cv2.putText(frame, "No Lane", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-                        text_size, _ = cv2.getTextSize("Detected", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-                        text_width, text_height = text_size
-                        cv2.putText(frame, "Detected", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-
-                        allow_trafficlight_symbol = False
-                        show_turn_line = False
-                    else:
-                        if allow_no_lane_detected == True:
-                            allow_trafficlight_symbol = True
-                        else:
-                            allow_trafficlight_symbol = False
-                        show_turn_line = True
-
-
-                    showing_traffic_light_symbol = False
-                    if trafficlightdetection_is_enabled == True and allow_trafficlight_symbol == True:
-                        if trafficlight == "Red":
-                            traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                            cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] - traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 0, 255), -1, cv2.LINE_AA)
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 255), traffic_light_symbol[2])
-                            showing_traffic_light_symbol = True
-                        if trafficlight == "Yellow":
-                            traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                            cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1]), traffic_light_symbol[2], (0, 255, 255), -1, cv2.LINE_AA)
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 255), traffic_light_symbol[2])
-                            showing_traffic_light_symbol = True
-                        if trafficlight == "Green":
-                            traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                            cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] + traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 255, 0), -1, cv2.LINE_AA)
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                            cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 0), traffic_light_symbol[2])
-                            showing_traffic_light_symbol = True
-                    
-                    if width_lane != 0:
-                        cv2.line(frame, (round(left_x_lane + lanechanging_final_offset - v3_offset), left_y_lane), (round(right_x_lane + lanechanging_final_offset - v3_offset), right_y_lane),  (255, 255, 255), 2)
-                    if width_turn != 0 and showing_traffic_light_symbol == False and show_turn_line == True:
-                        cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - v3_offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - v3_offset), y_coordinate_of_turn), (255, 255, 255), 2)
-                
-                
-                if turnincoming_detected == False and turnincoming_approved == False and width_turn != 0:
-                    curve = (center_x_lane - center_x_turn)/30
+            if width_lane != 0:
+                if turnincoming_detected == False:
+                    correction = navigationsymbol_x - center_x_lane
                 else:
-                    curve = 0
+                    if turnincoming_direction == "Left":
+                        correction = navigationsymbol_x - center_x_lane - width_lane/40
+                    else:
+                        correction = navigationsymbol_x - center_x_lane + width_lane/40
+            else:
+                correction = 0
+                if turnincoming_direction == "Left":
+                    data["sdk"]["LeftBlinker"] = False
+                if turnincoming_direction == "Right":
+                    data["sdk"]["RightBlinker"] = False
+                turnincoming_detected = False
+                tunincoming_direction = None
+            
+            if topleft == None or bottomright == None or centercoord == None:
+                if allow_playsound == True:
+                    sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
+                    allow_playsound = False
+                    allow_playsound_timer = current_time
+                frame = cv2.GaussianBlur(frame, (9, 9), 0)
+                frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-                indicator_last_left = indicator_left
-                indicator_last_right = indicator_right
+                xofinfo = round(width/2)
+                yofinfo = round(height/3.5)
+                sizeofinfo = round(height/5)
+                infothickness = round(height/50)
+                cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
+                cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
+                cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
 
+                sizeoftext = round(height/200)
+                textthickness = round(height/100)
+                text_size, _ = cv2.getTextSize("Do the", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, "Do the", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+                text_size, _ = cv2.getTextSize("Setup", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, "Setup", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+
+                allow_trafficlight_symbol = False
+                allow_no_lane_detected = False
+                allow_do_zoom = False
+                show_turn_line = False
+            else:
+                allow_trafficlight_symbol = True
+                allow_no_lane_detected = True
+                allow_do_zoom = True
+                show_turn_line = True
+            
+            if do_zoom == True and allow_do_zoom == True:
+                if allow_playsound == True:
+                    sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
+                    allow_playsound = False
+                    allow_playsound_timer = current_time
+                frame = cv2.GaussianBlur(frame, (9, 9), 0)
+                frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
+
+                xofinfo = round(width/2)
+                yofinfo = round(height/3.5)
+                sizeofinfo = round(height/5)
+                infothickness = round(height/50)
+                cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
+                cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
+                cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+
+                sizeoftext = round(height/200)
+                textthickness = round(height/100)
+                text_size, _ = cv2.getTextSize("Zoom Minimap in", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, "Zoom Minimap in", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*1.7)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+                
+                correction = 0
+
+                allow_trafficlight_symbol = False
+                allow_no_lane_detected = False
+                show_turn_line = False
+            else:
+                allow_trafficlight_symbol = True
+                allow_no_lane_detected = True
+                show_turn_line = True
+
+            if width_lane == 0 and allow_no_lane_detected == True:
+                if allow_playsound == True:
+                    sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
+                    allow_playsound = False
+                    allow_playsound_timer = current_time
+                frame = cv2.GaussianBlur(frame, (9, 9), 0)
+                frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
+
+                xofinfo = round(width/2)
+                yofinfo = round(height/3.5)
+                sizeofinfo = round(height/5)
+                infothickness = round(height/50)
+                cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
+                cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
+                cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+
+                sizeoftext = round(height/200)
+                textthickness = round(height/100)
+                text_size, _ = cv2.getTextSize("No Lane", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, "No Lane", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+                text_size, _ = cv2.getTextSize("Detected", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, "Detected", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+
+                correction = 0
+
+                allow_trafficlight_symbol = False
+                show_turn_line = False
+            else:
+                if allow_no_lane_detected == True:
+                    allow_trafficlight_symbol = True
+                else:
+                    allow_trafficlight_symbol = False
+                show_turn_line = True
+
+            showing_traffic_light_symbol = False
+            if trafficlightdetection_is_enabled == True and allow_trafficlight_symbol == True:
+                if trafficlight == "Red":
+                    traffic_light_symbol = round(width/2), round(height/5), round(width/75)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
+                    cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] - traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 0, 255), -1, cv2.LINE_AA)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 255), traffic_light_symbol[2])
+                    showing_traffic_light_symbol = True
+                if trafficlight == "Yellow":
+                    traffic_light_symbol = round(width/2), round(height/5), round(width/75)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
+                    cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1]), traffic_light_symbol[2], (0, 255, 255), -1, cv2.LINE_AA)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 255), traffic_light_symbol[2])
+                    showing_traffic_light_symbol = True
+                if trafficlight == "Green":
+                    traffic_light_symbol = round(width/2), round(height/5), round(width/75)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
+                    cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] + traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 255, 0), -1, cv2.LINE_AA)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 0), traffic_light_symbol[2])
+                    showing_traffic_light_symbol = True
+            
+            if allow_trafficlight_symbol == True:
+                if width_lane != 0:
+                    cv2.line(frame, (round(left_x_lane + lanechanging_final_offset - v3_offset), left_y_lane), (round(right_x_lane + lanechanging_final_offset - v3_offset), right_y_lane),  (255, 255, 255), 2)
+                if width_turn != 0 and showing_traffic_light_symbol == False and show_turn_line == True:
+                    cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - v3_offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - v3_offset), y_coordinate_of_turn), (255, 255, 255), 2)
+            
+            if lanechanging_do_lane_changing == True or fuel_percentage < 15:
+                current_text = "Enabled"
+                width_target_current_text = width/4
+                fontscale_current_text = 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text = 3
+                while width_current_text != width_target_current_text:
+                    fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text -= 1
+                    if max_count_current_text <= 0:
+                        break
+                width_enabled_text, height_enabled_text = width_current_text, height_current_text
+
+            if lanechanging_do_lane_changing == True:
+                current_text = f"Lane: {lanechanging_current_lane}"
+                width_target_current_text = width/4
+                fontscale_current_text = 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text = 3
+                while width_current_text != width_target_current_text:
+                    fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text -= 1
+                    if max_count_current_text <= 0:
+                        break
+                width_lane_text, height_lane_text = width_current_text, height_current_text
+                thickness_current_text = round(fontscale_current_text*2)
+                if thickness_current_text <= 0:
+                    thickness_current_text = 1
+                if turnincoming_detected == True:
+                    current_color = (150, 150, 150)
+                else:
+                    current_color = (200, 200, 200)
+                cv2.putText(frame, f"Lane: {lanechanging_current_lane}", (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, current_color, thickness_current_text)
+            
+            if fuel_percentage < 15:
+                current_text = "Refuel!"
+                width_target_current_text = width/4.5
+                fontscale_current_text = 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text = 3
+                while width_current_text != width_target_current_text:
+                    fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text -= 1
+                    if max_count_current_text <= 0:
+                        break
+                thickness_current_text = round(fontscale_current_text*2)
+                if thickness_current_text <= 0:
+                    thickness_current_text = 1
+                if lanechanging_do_lane_changing == True:
+                    cv2.putText(frame, current_text, (round(0.01*width), round(0.10*height+height_current_text+height_enabled_text+height_lane_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                else:
+                    cv2.putText(frame, current_text, (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                
+            if current_time - 1 > allow_playsound_timer and allow_trafficlight_symbol == True and allow_no_lane_detected == True and allow_do_zoom == True and show_turn_line == True:
+                allow_playsound = True
+
+            indicator_last_left = indicator_left
+            indicator_last_right = indicator_right
+
+            if speed > 63:
+                correction *= 63/speed
+
+            if turnincoming_detected == False and width_turn != 0 and width_turn < width_lane:
+                curve = (center_x_lane - center_x_turn)/30
+            else:
+                curve = correction/10
+            if gamepaused == True:
+                curve = 0
+
+            if speed > -0.5:
                 data["LaneDetection"] = {}
-                data["LaneDetection"]["difference"] = -correction/15
-                data["NavigationDetection"] = {}
-                data["NavigationDetection"]["turnincoming"] = turnincoming_detected
-                data["NavigationDetection"]["curve"] = curve
-                data["NavigationDetection"]["lane"] = lanechanging_current_lane
-                data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
+                data["LaneDetection"]["difference"] = -correction/30
+            else:
+                data["LaneDetection"] = {}
+                data["LaneDetection"]["difference"] = correction/30
+            data["NavigationDetection"] = {}
+            data["NavigationDetection"]["turnincoming"] = turnincoming_detected
+            data["NavigationDetection"]["curve"] = curve
+            data["NavigationDetection"]["lane"] = lanechanging_current_lane
+            data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
 
             
             data["frame"] = frame
@@ -2560,8 +2492,6 @@ class UI():
 
             v3generalFrame = ttk.Frame(v3Notebook)
             v3generalFrame.pack()
-            v3codesFrame = ttk.Frame(v3Notebook)
-            v3codesFrame.pack()
             v3setupFrame = ttk.Frame(v3Notebook)
             v3setupFrame.pack()
             
@@ -2569,11 +2499,6 @@ class UI():
             v3generalFrame.columnconfigure(1, weight=1)
             v3generalFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(v3generalFrame, "General", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
-
-            v3codesFrame.columnconfigure(0, weight=1)
-            v3codesFrame.columnconfigure(1, weight=1)
-            v3codesFrame.columnconfigure(2, weight=1)
-            helpers.MakeLabel(v3codesFrame, "Warning Codes", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
 
             v3setupFrame.columnconfigure(0, weight=1)
             v3setupFrame.columnconfigure(1, weight=1)
@@ -2607,7 +2532,6 @@ class UI():
             notebook.add(v3Tab, text=Translate("NavigationDetectionV3"))
 
             v3Notebook.add(v3generalFrame, text=Translate("General"))
-            v3Notebook.add(v3codesFrame, text=Translate("Warning Codes"))
             v3Notebook.add(v3setupFrame, text=Translate("Setup"))
             
             ttk.Button(self.root, text="Save", command=self.save, width=15).pack(anchor="center", pady=6)
@@ -2642,6 +2566,7 @@ class UI():
             v2_radio_button.grid(row=2, column=1)
             v3_radio_button = ttk.Radiobutton(generalFrame, text="NavigationDetectionV3", variable=version_ui, value="NavigationDetectionV3", command=version_selection)
             v3_radio_button.grid(row=2, column=2)
+            version_selection()
 
 
             # V1 Tab
@@ -2746,7 +2671,7 @@ class UI():
                     LoadSettingsV3()
 
                     # Code below by Tumppi066
-                    minimapDistanceFromRight = 28
+                    minimapDistanceFromRight = 27
                     minimapDistanceFromBottom = 134
                     minimapWidth = 560
                     minimapHeight = 293
@@ -2788,39 +2713,19 @@ class UI():
                 else:
                     messagebox.showwarning(title="NavigationDetection Setup", message="Disable the app before entering setup mode.")
 
-            def enable_reqired_plugins():
-                if "NavigationDetection" not in settings.GetSettings("Plugins", "Enabled"):
-                    settings.AddToList("Plugins", "Enabled", "NavigationDetection")
-                if "DXCamScreenCapture" not in settings.GetSettings("Plugins", "Enabled"):
-                    settings.AddToList("Plugins", "Enabled", "DXCamScreenCapture")
-                if "VGamepadController" not in settings.GetSettings("Plugins", "Enabled"):
-                    settings.AddToList("Plugins", "Enabled", "VGamepadController")
-                if "DefaultSteering" not in settings.GetSettings("Plugins", "Enabled"):
-                    settings.AddToList("Plugins", "Enabled", "DefaultSteering")
-                if "TruckSimAPI" not in settings.GetSettings("Plugins", "Enabled"):
-                    settings.AddToList("Plugins", "Enabled", "TruckSimAPI")
-                variables.UPDATEPLUGINS = True
-
             helpers.MakeLabel(v3setupFrame, 'You need to do this setup before you can use the NavigationDetectionV3.\nPlease make sure that the mimimap from the game is visible on your screen\nand on the cloesest zoom level before you enter the setup mode.\n‎\nIf you press the button below, a window should come up and you should do the following things:\n‎\nPress on the "Get Top Left Coordinate" and then you can select the top left corner of the\nscreencapture by a left click with your mouse on the top left corner of the minimap.\n(look example image window, it opens when you enter the setup mode)\n‎\nPress on the "Get Bottom Right Coordinate" and then you can select the bottom right corner of the\nscreencapture by a left click with your mouse on the bottom right corner of the minimap.\n(look example image window, it opens when you enter the setup mode)\n‎\nPress on the "Get Center Coordinate" and then you can select the position of the blue navigation\narrow symbol from the games minimap. So you should place the orange circle over the hole in the\nblue navigation arrow symbol.\n(look example image window, it opens when you enter the setup mode)\n‎\n‎\n‎\n‎\n‎', 2, 0, sticky="nw")
             helpers.MakeButton(v3setupFrame, "Start Setup", v3setup, 14, 0, pady=0, padx=0, width=500)
-
-            helpers.MakeLabel(v3codesFrame, 'Sometimes the program is not able to follow the lane you are driving on. If the program is not able to follow\nthe lane, it will warn you and show you why with a code.\n‎', 2, 0, sticky="nw")
-            helpers.MakeLabel(v3codesFrame, 'Code 1:\nThe program detected a lane which crosses the lane you are driving on, in this situation the program is unable to\nfollow your lane reliablely. What you have to do: immediately take over the steering.\nThe program will take over the steering again, when you passed the crossing lane.\n‎', 3, 0, sticky="nw")
-            helpers.MakeLabel(v3codesFrame, 'Code 2:\nThe program detected a symbol which is blocking the line on the minimap. What you have to do: be ready to take\nover the steering, but most of the time you dont have to.\n‎', 4, 0, sticky="nw")
 
             self.offsetSlider = tk.Scale(v3generalFrame, from_=-20, to=20, resolution=0.1, orient=tk.HORIZONTAL, length=510, command=lambda x: self.UpdateSettings())
             self.offsetSlider.set(settings.GetSettings("NavigationDetectionV3", "offset"))
             self.offsetSlider.grid(row=3, column=0, padx=10, pady=0, columnspan=2)
             self.offset = helpers.MakeComboEntry(v3generalFrame, "Offset", "NavigationDetectionV3", "offset", 3, 0, labelwidth=10, width=15, isFloat=True)
             helpers.MakeCheckButton(v3generalFrame, "Left-hand traffic\n----------------------\nEnable this if you are driving in a country with left-hand traffic.", "NavigationDetectionV3", "lefthand_traffic", 4, 0, width=90, callback=lambda: LoadSettings())
-            helpers.MakeButton(v3generalFrame, "Enable required\nplugins", enable_reqired_plugins, 4, 1, pady=0, padx=0, width=17, sticky="w")
             helpers.MakeCheckButton(v3generalFrame, "Lane Changing\n---------------------\nIf enabled, you can change the lane you are driving on using the games indicators.\nTo change the values in the input boxex below, disable the app.", "NavigationDetectionV3", "lanechanging_do_lane_changing", 5, 0, width=90, callback=lambda: LoadSettings())
             helpers.MakeEmptyLine(v3generalFrame, 6, 0)
             self.lanechanging_speed = helpers.MakeComboEntry(v3generalFrame, "Lane Changing Speed\n--------------------------------\nThis sets how fast the truck changes the lane.\n‎", "NavigationDetectionV3", "lanechanging_speed", 6, 0, labelwidth=90, width=15, isFloat=True)
             self.lanechanging_width = helpers.MakeComboEntry(v3generalFrame, "Lane Width\n-----------------\nThis sets how much the truck needs to go left or right to change the lane.\n‎", "NavigationDetectionV3", "lanechanging_width", 7, 0, labelwidth=90, width=15, isFloat=True)
-            self.indicator_left_key = helpers.MakeComboEntry(v3generalFrame, "Left Indicator Key\n--------------------------\nSet this to the key you use in the game to enable the left indicator.\n‎", "NavigationDetectionV3", "indicator_left_key", 8, 0, labelwidth=90, width=15, isString=True)
-            self.indicator_right_key = helpers.MakeComboEntry(v3generalFrame, "Right Indicator Key\n----------------------------\nSet this to the key you use in the game to enable the right indicator.", "NavigationDetectionV3", "indicator_right_key", 9, 0, labelwidth=90, width=15, isString=True)
-
+            
         def save(self):
             
             # V2:
@@ -2830,8 +2735,6 @@ class UI():
             # V3:
             settings.CreateSettings("NavigationDetectionV3", "lanechanging_speed", float(self.lanechanging_speed.get()))
             settings.CreateSettings("NavigationDetectionV3", "lanechanging_width", float(self.lanechanging_width.get()))
-            settings.CreateSettings("NavigationDetectionV3", "indicator_left_key", self.indicator_left_key.get())
-            settings.CreateSettings("NavigationDetectionV3", "indicator_right_key", self.indicator_right_key.get())
 
             settings.CreateSettings("NavigationDetection", "version", self.version_ui)
             version = settings.GetSettings("NavigationDetection", "version")

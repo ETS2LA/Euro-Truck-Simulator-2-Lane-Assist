@@ -13,7 +13,8 @@ PluginInfo = PluginInformation(
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before UI" # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="before UI", # Will run the plugin before anything else in the mainloop (data will be empty)
+    noUI=True
 )
 
 import tkinter as tk
@@ -117,7 +118,7 @@ def plugin(data):
 
     # For steering accel and brake we have to support the old controller system data variable
     try:
-        steering = data["sdk"]["acceleration"]
+        steering = data["sdk"]["steering"]
     except:
         steering = tryExceptDefault(data, ["controller","leftStick"], 0.0)
     
