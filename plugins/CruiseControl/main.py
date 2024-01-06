@@ -196,7 +196,7 @@ def plugin(data):
     else:
         data["sdk"]["acceleration"] = 0
         data["sdk"]["brake"] = 0
-    print(targetspeed)
+    
     last_cruisecontrolspeed = cruisecontrolspeed
     return data # Plugins need to ALWAYS return the data
 
