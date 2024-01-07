@@ -181,7 +181,7 @@ def plugin(data):
             user_braking = True
         else:
             user_braking = False
-        if data["api"]["truckFloat"]["userBrake"] > 0.9:
+        if data["api"]["truckFloat"]["userBrake"] > 0.9 and speed > 30:
             user_emergency_braking = True
         hazard_light = data["api"]["truckBool"]["lightsHazard"]
         gamepaused = data["api"]["pause"]
@@ -306,8 +306,10 @@ def plugin(data):
             indicator_right = False
         symbol = cruisecontrol_on_set.copy()
         if cruisecontrolspeed != 0:
-            if cruisecontrolspeed == targetspeed:
+            if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
                 symbol = cruisecontrol_on_set.copy()
+            else:
+                symbol = cruisecontrol_on_unset.copy()
             if cruisecontrolspeed != targetspeed:
                 symbol = cruisecontrol_on_unset.copy()
             if data["NavigationDetection"]["turnincoming"] == True:
@@ -316,7 +318,7 @@ def plugin(data):
                 symbol = cruisecontrol_on_unset.copy()
         else:
             if cruisecontrolspeed == targetspeed:
-                if auto_accelerate == True:
+                if auto_accelerate == True and DefaultSteering.enabled == True:
                     if data["NavigationDetection"]["turnincoming"] == True:
                         symbol = cruisecontrol_off_slowed.copy()
                     else:
@@ -333,7 +335,7 @@ def plugin(data):
                     symbol = cruisecontrol_off_slowed.copy()
                 else:
                     symbol = cruisecontrol_off_set.copy()
-            elif auto_accelerate == True:
+            elif auto_accelerate == True and DefaultSteering.enabled == True:
                 if data["NavigationDetection"]["turnincoming"] == True:
                     symbol = cruisecontrol_off_slowed.copy()
                 else:
@@ -345,15 +347,19 @@ def plugin(data):
         
         if user_emergency_braking == True:
             if cruisecontrolspeed != 0:
-                if cruisecontrolspeed == targetspeed:
+                if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
                     symbol = cruisecontrol_emergency_set.copy()
+                else:
+                    symbol = cruisecontrol_on_unset.copy()
                 if cruisecontrolspeed != targetspeed:
                     symbol = cruisecontrol_emergency_unset.copy()
                 if data["NavigationDetection"]["turnincoming"] == True:
                     symbol = cruisecontrol_emergency_slowed.copy()
+                if user_braking == True or user_accelerating == True:
+                    symbol = cruisecontrol_emergency_unset.copy()
             else:
                 if cruisecontrolspeed == targetspeed:
-                    if auto_accelerate == True:
+                    if auto_accelerate == True and DefaultSteering.enabled == True:
                         if data["NavigationDetection"]["turnincoming"] == True:
                             symbol = cruisecontrol_emergency_slowed.copy()
                         else:
@@ -370,7 +376,14 @@ def plugin(data):
                         symbol = cruisecontrol_emergency_slowed.copy()
                     else:
                         symbol = cruisecontrol_emergency_set.copy()
+                elif auto_accelerate == True and DefaultSteering.enabled == True:
+                    if data["NavigationDetection"]["turnincoming"] == True:
+                        symbol = cruisecontrol_emergency_slowed.copy()
+                    else:
+                        symbol = cruisecontrol_emergency_set.copy()
                 else:
+                    symbol = cruisecontrol_emergency_unset.copy()
+                if user_braking == True or user_accelerating == True:
                     symbol = cruisecontrol_emergency_unset.copy()
         
         symbol_resized = cv2.resize(symbol, (int(0.4 * height), int(0.234375 * height)))
