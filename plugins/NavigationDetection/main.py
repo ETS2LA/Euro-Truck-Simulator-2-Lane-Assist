@@ -1222,7 +1222,7 @@ def plugin(data):
             correction = distancetocenter * sensitivity
 
             data["LaneDetection"] = {}
-            data["LaneDetection"]["difference"] = -correction/15
+            data["LaneDetection"]["difference"] = -correction/30
 
             correction = round(correction, 3)
 
@@ -1864,7 +1864,7 @@ def plugin(data):
                         pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
                     else:
                         pixel_ratio = 0
-                    if pixel_ratio > 0.0075 and pixel_ratio < 0.009:
+                    if pixel_ratio > 0.007 and pixel_ratio < 0.01:
                         do_zoom = False
                     else:
                         do_zoom = True

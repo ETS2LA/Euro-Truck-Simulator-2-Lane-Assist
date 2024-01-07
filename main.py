@@ -542,15 +542,15 @@ if __name__ == "__main__":
 
         
         except Exception as ex:
+            try:
+                if settings.GetSettings("User Interface", "hide_console") == True:
+                    win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+            except:
+                pass
             if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
                 import keyboard
                 # Press the F1 key to pause the game
                 keyboard.press_and_release("F1")
-                try:
-                    if settings.GetSettings("User Interface", "hide_console") == True:
-                        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
-                except:
-                    pass
                 from tkinter import messagebox
                 import traceback
                 exc = traceback.format_exc()
@@ -562,4 +562,10 @@ if __name__ == "__main__":
                     pass
             else:
                 CloseAllPlugins()
+                try:
+                    if settings.GetSettings("User Interface", "hide_console") == True:
+                        import ctypes
+                        ctypes.windll.user32.PostMessageW(variables.CONSOLENAME, 0x10, 0, 0)
+                except:
+                    print("Failed to close console!")
                 break
