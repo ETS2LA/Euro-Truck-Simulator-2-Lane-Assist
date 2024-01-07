@@ -1,1 +1,1 @@
-Added new SDK dll, this should work without VS installed.
+Fixed some bugs in the CruiseControl Plugin.
