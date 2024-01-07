@@ -1,3 +1,1 @@
-New SDKController, please run the first time setup again to install the dll.
-Will allow the app to connect to the game without a virtual controller.
-Disable vgamepad and enable SDK Controller to use.
+Added new SDK dll, this should work without VS installed.

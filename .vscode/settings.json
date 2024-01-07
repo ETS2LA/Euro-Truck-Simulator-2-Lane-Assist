@@ -2,13 +2,12 @@
     "python.languageServer": "Pylance",
     "python.linting.pylintEnabled": false,
     "python.analysis.diagnosticSeverityOverrides": {
-        "reportMissingModuleSource": "none",
-        "reportShadowedImports": "none"
+        "reportMissingModuleSource": "none"
     },
     "python.analysis.extraPaths": [
         "",
-        "c:\\Users\\tuoma\\.vscode\\extensions\\joedevivo.vscode-circuitpython-0.1.20-win32-x64\\stubs",
-        "c:\\Users\\tuoma\\AppData\\Roaming\\Code\\User\\globalStorage\\joedevivo.vscode-circuitpython\\bundle\\20231228\\adafruit-circuitpython-bundle-py-20231228\\lib"
+        "/home/tuomas/.vscode/extensions/joedevivo.vscode-circuitpython-0.1.20-linux-x64/stubs",
+        "/home/tuomas/.config/Code/User/globalStorage/joedevivo.vscode-circuitpython/bundle/20240106/adafruit-circuitpython-bundle-py-20240106/lib"
     ],
     "circuitpython.board.version": null,
     "files.associations": {
