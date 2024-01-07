@@ -256,6 +256,8 @@ def plugin(data):
             wait_for_response_timer = current_time
         if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
             data["sdk"]["acceleration"] = acceleration_strength
+            if data["api"]["truckFloat"]["userThrottle"] == acceleration_strength:
+                user_accelerating = False
             data["sdk"]["brake"] = 0
         if targetspeed == 0 and speed > 1 and user_accelerating == False:
             data["sdk"]["acceleration"] = 0
@@ -263,6 +265,8 @@ def plugin(data):
             user_emergency_braking_timer = current_time
         if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and auto_accelerate == True:
             data["sdk"]["acceleration"] = acceleration_strength
+            if data["api"]["truckFloat"]["userThrottle"] == acceleration_strength:
+                user_accelerating = False
             data["sdk"]["brake"] = 0
     else:
         data["sdk"]["acceleration"] = 0
@@ -308,6 +312,8 @@ def plugin(data):
                 symbol = cruisecontrol_on_unset.copy()
             if data["NavigationDetection"]["turnincoming"] == True:
                 symbol = cruisecontrol_on_slowed.copy()
+            if user_braking == True or user_accelerating == True:
+                symbol = cruisecontrol_on_unset.copy()
         else:
             if cruisecontrolspeed == targetspeed:
                 if auto_accelerate == True:
@@ -327,7 +333,14 @@ def plugin(data):
                     symbol = cruisecontrol_off_slowed.copy()
                 else:
                     symbol = cruisecontrol_off_set.copy()
+            elif auto_accelerate == True:
+                if data["NavigationDetection"]["turnincoming"] == True:
+                    symbol = cruisecontrol_off_slowed.copy()
+                else:
+                    symbol = cruisecontrol_off_set.copy()
             else:
+                symbol = cruisecontrol_off_unset.copy()
+            if user_braking == True or user_accelerating == True:
                 symbol = cruisecontrol_off_unset.copy()
         
         if user_emergency_braking == True:
