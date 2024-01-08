@@ -2697,7 +2697,7 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master 
             self.exampleFunction()
-            resizeWindow(850,655)
+            resizeWindow(850,600)
         
         def destroy(self):
             self.done = True
@@ -2705,20 +2705,38 @@ class UI():
             del self
 
         def tabFocused(self):
-            resizeWindow(850,655)
-
-        def UpdateScaleValueFromSlider(self):
-            self.textsize.set(self.textsizeSlider.get())
-            self.x1ofsc.set(self.x1ofscSlider.get())
-            self.y1ofsc.set(self.y1ofscSlider.get())
-            self.x2ofsc.set(self.x2ofscSlider.get())
-            self.y2ofsc.set(self.y2ofscSlider.get())
-            self.windowwidth.set(self.windowwidthSlider.get())
-            self.windowheight.set(self.windowheightSlider.get())
+            resizeWindow(850,600)
+            
+        def UpdateSliderValue_scale(self):
             self.scale.set(self.scaleSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "scale", self.scaleSlider.get())
+        def UpdateSliderValue_textsize(self):
+            self.textsize.set(self.textsizeSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "textsize", self.textsizeSlider.get())
+        def UpdateSliderValue_x1ofsc(self):
+            self.x1ofsc.set(self.x1ofscSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "x1ofsc", self.x1ofscSlider.get())
+        def UpdateSliderValue_y1ofsc(self):
+            self.y1ofsc.set(self.y1ofscSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "y1ofsc", self.y1ofscSlider.get())
+        def UpdateSliderValue_x2ofsc(self):
+            self.x2ofsc.set(self.x2ofscSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "x2ofsc", self.x2ofscSlider.get())
+        def UpdateSliderValue_y2ofsc(self):
+            self.y2ofsc.set(self.y2ofscSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "y2ofsc", self.y2ofscSlider.get())
+        def UpdateSliderValue_windowwidth(self):
+            self.windowwidth.set(self.windowwidthSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "outputwindowwidth", self.windowwidthSlider.get())
+        def UpdateSliderValue_windowheight(self):
+            self.windowheight.set(self.windowheightSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "outputwindowheight", self.windowheightSlider.get())
+        def UpdateSliderValue_minrectsize(self):
             self.minrectsize.set(self.minrectsizeSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "minrectsize", self.minrectsizeSlider.get())
+        def UpdateSliderValue_maxrectsize(self):
             self.maxrectsize.set(self.maxrectsizeSlider.get())
-
+            settings.CreateSettings("TrafficLightDetection", "maxrectsize", self.maxrectsizeSlider.get())
         
         def exampleFunction(self):
             
@@ -2726,7 +2744,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=750, height=650, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=750, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -2754,19 +2772,16 @@ class UI():
             filtersFrame.pack()
 
 
-            colorsettingsFrame.configure(height=500)
             colorsettingsFrame.columnconfigure(0, weight=1)
             colorsettingsFrame.columnconfigure(1, weight=1)
             colorsettingsFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(colorsettingsFrame, "Color Settings", 0, 0, font=("Robot", 12, "bold"), columnspan=7)
 
-            filtersFrame.configure(height=500)
             filtersFrame.columnconfigure(0, weight=1)
             filtersFrame.columnconfigure(1, weight=1)
             filtersFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(filtersFrame, "Filters", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
 
-            
             generalFrame.columnconfigure(0, weight=1)
             generalFrame.columnconfigure(1, weight=1)
             generalFrame.columnconfigure(2, weight=1)
@@ -2801,8 +2816,6 @@ class UI():
             advancedNotebook.add(colorsettingsFrame, text=Translate("ColorSettings"))
             advancedNotebook.add(filtersFrame, text=Translate("Filters"))
             
-            ttk.Button(self.root, text="Save", command=self.save, width=15).pack(anchor="center", pady=6)
-            
             self.root.pack(anchor="center", expand=False)
             self.root.update()
 
@@ -2826,55 +2839,93 @@ class UI():
             helpers.MakeCheckButton(trackeraiFrame, "Tracking of Traffic Lights\n-----------------------------------\nIf enabled, the app tracks the detected traffic lights and gives them an ID.\n(required for AI)", "TrafficLightDetection", "trafficlighttracking", 1, 0, width=60, callback=UpdateSettings())
             helpers.MakeCheckButton(trackeraiFrame, "AI Mode\n------------\nIf enabled, the app uses AI (Yolov5) to confirm the detected traffic lights,\nwhich increases accuracy.\nThis feature does not work yet. I am working on it.", "TrafficLightDetection", "aiconfirmation", 2, 0, width=60, callback=UpdateSettings())
 
-            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateSliderValue_textsize())
             self.textsizeSlider.set(settings.GetSettings("TrafficLightDetection", "textsize", 0.5))
             self.textsizeSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
             self.textsize = helpers.MakeComboEntry(generalFrame, "Font Size (Grayscale Window)", "TrafficLightDetection", "textsize", 9, 0, width=32, labelwidth=30)
             
             helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=UpdateSettings())
             
-            self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x1ofsc())
             self.x1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x1ofsc", 0))
             self.x1ofscSlider.grid(row=3, column=0, padx=10, pady=0, columnspan=2)
             self.x1ofsc = helpers.MakeComboEntry(screencaptureFrame, "X1 (topleft)", "TrafficLightDetection", "x1ofsc", 3,0)
 
-            self.y1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.y1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_y1ofsc())
             self.y1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y1ofsc", 0))
             self.y1ofscSlider.grid(row=5, column=0, padx=10, pady=0, columnspan=2)
             self.y1ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y1 (topleft)", "TrafficLightDetection", "y1ofsc", 5,0)
 
-            self.x2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.x2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x2ofsc())
             self.x2ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1))
             self.x2ofscSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
             self.x2ofsc = helpers.MakeComboEntry(screencaptureFrame, "X2 (buttomright)", "TrafficLightDetection", "x2ofsc", 7,0)
 
-            self.y2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.y2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_y2ofsc())
             self.y2ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1))
             self.y2ofscSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
             self.y2ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y2 (buttomright)", "TrafficLightDetection", "y2ofsc", 9,0)
 
+            helpers.MakeButton(screencaptureFrame, "Open/Refresh preview", lambda: screencapture_open_refresh(), 11, 0, width=30, sticky="w")
+            helpers.MakeButton(screencaptureFrame, "Close preview", lambda: screencapture_close(), 12, 0, width=30, sticky="w")
 
-            self.windowwidthSlider = tk.Scale(outputwindowFrame, from_=round(screen_width/20), to=screen_width, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            def screencapture_open_refresh():
+                self.UpdateSliderValue_x1ofsc()
+                self.UpdateSliderValue_y1ofsc()
+                self.UpdateSliderValue_x2ofsc()
+                self.UpdateSliderValue_y2ofsc()
+                screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(self.x1ofscSlider.get(), self.y1ofscSlider.get(), self.x2ofscSlider.get() - self.x1ofscSlider.get(), self.y2ofscSlider.get() - self.y1ofscSlider.get()))), cv2.COLOR_RGB2BGR)
+                if settings.GetSettings("TrafficLightDetection", "usefullframe", True) == True:
+                    current_text = '"Use Full Frame" enabled, disable to set own screencapture area'
+                    width_target_current_text = (self.x2ofscSlider.get() - self.x1ofscSlider.get())*0.9
+                    fontscale_current_text = 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text = 3
+                    while width_current_text != width_target_current_text:
+                        fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                        textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                        width_current_text, height_current_text = textsize_current_text
+                        max_count_current_text -= 1
+                        if max_count_current_text <= 0:
+                            break
+                    thickness_current_text = round(fontscale_current_text*2)
+                    if thickness_current_text <= 0:
+                        thickness_current_text = 1
+                    cv2.putText(screenshot, current_text, (round((self.x2ofscSlider.get() - self.x1ofscSlider.get())/2 - width_current_text/2), height_current_text*2), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.namedWindow('Screencapture Preview', cv2.WINDOW_NORMAL)
+                cv2.setWindowProperty('Screencapture Preview', cv2.WND_PROP_TOPMOST, 1)
+                cv2.resizeWindow('Screencapture Preview', round((self.x2ofscSlider.get()-self.x1ofscSlider.get())/2), round((self.y2ofscSlider.get()-self.y1ofscSlider.get())/2))
+                cv2.imshow('Screencapture Preview', screenshot)
+                cv2.waitKey(1)
+                
+            def screencapture_close():
+                try: 
+                    cv2.destroyWindow('Screencapture Preview')
+                except: 
+                    pass
+
+            self.windowwidthSlider = tk.Scale(outputwindowFrame, from_=round(screen_width/20), to=screen_width, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateSliderValue_windowwidth())
             self.windowwidthSlider.set(settings.GetSettings("TrafficLightDetection", "outputwindowwidth", round(screen_width/2)))
             self.windowwidthSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
             self.windowwidth = helpers.MakeComboEntry(outputwindowFrame, "Window Width", "TrafficLightDetection", "outputwindowwidth", 6,0, labelwidth=13, width=10)
 
-            self.windowheightSlider = tk.Scale(outputwindowFrame, from_=round(screen_height/20), to=screen_height, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.windowheightSlider = tk.Scale(outputwindowFrame, from_=round(screen_height/20), to=screen_height, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateSliderValue_windowheight())
             self.windowheightSlider.set(settings.GetSettings("TrafficLightDetection", "outputwindowheight", round(screen_height/3)))
             self.windowheightSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
             self.windowheight = helpers.MakeComboEntry(outputwindowFrame, "Window Height", "TrafficLightDetection", "outputwindowheight", 7,0, labelwidth=13, width=10)
 
-            self.scaleSlider = tk.Scale(outputwindowFrame, from_=0.1, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.scaleSlider = tk.Scale(outputwindowFrame, from_=0.1, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateSliderValue_scale())
             self.scaleSlider.set(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
             self.scaleSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
             self.scale = helpers.MakeComboEntry(outputwindowFrame, "Window Scale", "TrafficLightDetection", "scale", 8,0, labelwidth=13, width=10)
 
-            self.minrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.minrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateSliderValue_minrectsize())
             self.minrectsizeSlider.set(settings.GetSettings("TrafficLightDetection", "minrectsize", round(screen_width / 240)))
             self.minrectsizeSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
             self.minrectsize = helpers.MakeComboEntry(filtersFrame, "Min. Traffic Light Size Filter", "TrafficLightDetection", "minrectsize", 8,0, labelwidth=80, width=20)
 
-            self.maxrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.maxrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateSliderValue_maxrectsize())
             self.maxrectsizeSlider.set(settings.GetSettings("TrafficLightDetection", "maxrectsize", round(screen_width / 10)))
             self.maxrectsizeSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
             self.maxrectsize = helpers.MakeComboEntry(filtersFrame, "Max. Traffic Light Size Filter", "TrafficLightDetection", "maxrectsize", 10,0, labelwidth=80, width=20)
@@ -2897,6 +2948,7 @@ class UI():
             self.lowergreenr = helpers.MakeComboEntry(colorsettingsFrame, "GREEN:    Lower R:", "TrafficLightDetection", "lowergreen_r", 7, 0, labelwidth=20, width=7)
             self.lowergreeng = helpers.MakeComboEntry(colorsettingsFrame, "Lower G:", "TrafficLightDetection", "lowergreen_g", 7, 2, labelwidth=13, width=7)
             self.lowergreenb = helpers.MakeComboEntry(colorsettingsFrame, "Lower B:", "TrafficLightDetection", "lowergreen_b", 7, 4, labelwidth=13, width=7)
+            helpers.MakeButton(colorsettingsFrame, "Save", command=self.save, row=15, column=0, sticky="w")
 
             helpers.MakeLabel(colorsettingsFrame, "", 13, 0, columnspan=7)
             helpers.MakeLabel(colorsettingsFrame, "", 14, 0, columnspan=7)
@@ -2910,16 +2962,6 @@ class UI():
             
         
         def save(self):
-            settings.CreateSettings("TrafficLightDetection", "scale", self.scaleSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "textsize", self.textsizeSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "x1ofsc", self.x1ofscSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "y1ofsc", self.y1ofscSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "x2ofsc", self.x2ofscSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "y2ofsc", self.y2ofscSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "outputwindowwidth", self.windowwidthSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "outputwindowheight", self.windowheightSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "minrectsize", self.minrectsizeSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "maxrectsize", self.maxrectsizeSlider.get())
             
             try:
                 self.upperredr.get()
