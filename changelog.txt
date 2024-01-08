@@ -1,1 +1,1 @@
-Fixed some bugs in the CruiseControl Plugin.
+Added some features to the CruiseControl and fixed some bugs.

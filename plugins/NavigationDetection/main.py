@@ -1226,7 +1226,13 @@ def plugin(data):
 
             correction = round(correction, 3)
 
+            if lanedetected == "Yes":
+                lane_detected = True
+            else:
+                lane_detected = False
+
             data["NavigationDetection"] = {}
+            data["NavigationDetection"]["lanedetected"] = lane_detected
             data["NavigationDetection"]["turnincoming"] = turnincoming
 
             if turn != "none" or turnincoming == True or center_x_turnincdetec == width:
@@ -2064,6 +2070,10 @@ def plugin(data):
                 turnincoming_detected = False
                 turnincoming_direction = None
 
+            if approve_upper_y_left == 0 and approve_upper_y_right == 0:
+                turnincoming_detected = False
+                turnincoming_direction = None
+
             if turnincoming_detected == True:
                 turnincoming_last_detected = current_time
                 lanechanging_current_lane = 0
@@ -2355,6 +2365,11 @@ def plugin(data):
             if gamepaused == True:
                 curve = 0
 
+            if width_lane == 0:
+                lane_detected = False
+            else:
+                lane_detected = True
+
             if speed > -0.5:
                 data["LaneDetection"] = {}
                 data["LaneDetection"]["difference"] = -correction/30
@@ -2362,6 +2377,7 @@ def plugin(data):
                 data["LaneDetection"] = {}
                 data["LaneDetection"]["difference"] = correction/30
             data["NavigationDetection"] = {}
+            data["NavigationDetection"]["lanedetected"] = lane_detected
             data["NavigationDetection"]["turnincoming"] = turnincoming_detected
             data["NavigationDetection"]["curve"] = curve
             data["NavigationDetection"]["lane"] = lanechanging_current_lane
