@@ -41,8 +41,10 @@ class UI():
             for plugin in settings.GetSettings("Plugins", "Installed"):
                 settings.RemoveFromList("Plugins", "Installed", plugin)
             
-            self.save()
-        
+            from tkinter import messagebox
+            messagebox.showinfo("Reinstall", "All plugins will be reinstalled on next startup. The application will now close.")
+            mainUI.quit()
+            
         def exampleFunction(self):
             
             try:
@@ -73,6 +75,8 @@ class UI():
             helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 7,1, padx=30, pady=10, width=20)
             
             helpers.MakeButton(self.root, "UI Settings", lambda: mainUI.switchSelectedPlugin("plugins.TabSettings.main"), 8,0, padx=30, pady=10, width=20)
+            
+            helpers.MakeButton(self.root, "Reload Plugins", lambda: variables.ReloadAllPlugins(), 8,1, padx=30, pady=10, width=20)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

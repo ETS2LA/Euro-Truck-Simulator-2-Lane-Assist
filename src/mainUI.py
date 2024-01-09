@@ -312,12 +312,12 @@ def CreateRoot():
     # Query DPI Awareness (Windows 10 and 8)
     awareness = ctypes.c_int()
     errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
-    print("Original DPI awareness value : " + str(awareness.value))
+    #print("Original DPI awareness value : " + str(awareness.value))
 
     # Set DPI Awareness  (Windows 10 and 8)
     try:
         errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(wantedAwareness)
-        print("Set DPI awareness value to " + str(wantedAwareness) + " (code " + str(errorCode) + ")")
+        #print("Set DPI awareness value to " + str(wantedAwareness) + " (code " + str(errorCode) + ")")
     except:
         print("Failed to set DPI awareness value")
         #errorCode = ctypes.windll.user32.SetProcessDPIAware()
@@ -334,6 +334,7 @@ def CreateRoot():
     height = 600
 
     root = tk.Tk()
+    
     showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
     if showCopyrightInTitlebar == None:
         settings.CreateSettings("User Interface", "TitleCopyright", True)
@@ -486,7 +487,5 @@ def CreateRoot():
                 pass
 
     print("Loaded previously open tabs")
+    
     root.update()
-
-
-CreateRoot()

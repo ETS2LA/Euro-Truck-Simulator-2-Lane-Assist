@@ -141,6 +141,8 @@ if version not in acceptedVersions:
 
 # Load the UI framework
 import src.mainUI as mainUI
+mainUI.CreateRoot()
+
 import src.loading as loading # And then create a loading window
 
 # Load the rest of the modules
@@ -167,7 +169,7 @@ def GetEnabledPlugins():
     if enabledPlugins == None:
         enabledPlugins = [""]
 
-def FindPlugins():
+def FindPlugins(reloadFully=False):
     global plugins
     global pluginObjects
     
@@ -194,6 +196,26 @@ def FindPlugins():
         pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo", "onEnable"]))
         pluginObjects[-1].onEnable()
         
+def ReloadPluginCode():
+    # Use the inbuilt python modules to reload the code of the plugins
+    import importlib
+    for plugin in pluginObjects:
+        try:
+            importlib.reload(plugin)
+        except Exception as ex:
+            print(ex.args)
+            pass
+    print("Reloaded plugin code.")
+    print("Reloading UI root code...")
+    try:
+        mainUI.DeleteRoot()
+        importlib.reload(mainUI)
+        mainUI.CreateRoot()
+        mainUI.drawButtons()
+    except Exception as ex:
+        print(ex.args)
+        pass
+    print("Reloaded UI root code.")
 
 def RunOnEnable():
     for plugin in pluginObjects:
@@ -321,26 +343,28 @@ def InstallPlugins():
     loadingWindow = loading.LoadingWindow("Installing plugins...")
     
     index = 0
-    for installer, name in zip(installers, pluginNames):
-        print(f"Installing '{name}'...")
-        currentPlugin.set(f"Installing '{name}'...")
-        bar.config(value=(index / len(installers)) * 100)
-        percentage.set(f"{round((index / len(installers)) * 100)}%")
-        mainUI.root.update()
-        installer.install()
-        settings.AddToList("Plugins", "Installed", name.split(" - ")[0])
-        index += 1
-        loadingWindow.update(text=f"Installing '{name}'...")
+    import progress.bar as Bar
+    with Bar.PixelBar("Installing plugins...", max=len(installers)) as progressBar:
+        for installer, name in zip(installers, pluginNames):
+            sys.stdout.write(f"\nInstalling '{name}'...\n")
+            currentPlugin.set(f"Installing '{name}'...")
+            bar.config(value=(index / len(installers)) * 100)
+            percentage.set(f"{round((index / len(installers)) * 100)}%")
+            mainUI.root.update()
+            installer.install()
+            settings.AddToList("Plugins", "Installed", name.split(" - ")[0])
+            index += 1
+            loadingWindow.update(text=f"Installing '{name}'...")
+            os.system("cls")
+            progressBar.next()
     
     # Destroy all the widgets
     for child in installFrame.winfo_children():
         child.destroy()
         
-    ttk.Label(installFrame, text="\n\n\n\n\n\n\nYou should close this tab by middle clicking the name up top.").pack()
-        
     # Remove the tab
     settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
-    variables.RELOAD = True
+    variables.RELOADPLUGINS = True
         
 
 def CheckForONNXRuntimeChange():
@@ -460,6 +484,13 @@ if __name__ == "__main__":
                     "last": {},
                     "executionTimes": {}
                 }  
+            
+            if variables.RELOADPLUGINS:
+                print("Reloading plugins...")
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
             
             if variables.RELOAD:
                 print("Reloading application...")

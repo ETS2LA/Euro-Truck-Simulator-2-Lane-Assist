@@ -21,6 +21,8 @@ CONSOLENAME = None
 APPENDDATANEXTFRAME = None
 """Add custom data for the next frame. This is usually useful for panels that can't add their data the normal way.
 Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI)."""
+RELOADPLUGINS = False
+"""Will fully reload the plugin code for all plugins. This is useful for debugging and development."""
 
 def ToggleEnable():
     """Will toggle the mainloop.
@@ -32,3 +34,8 @@ def UpdatePlugins():
     """Will prompt the application to update it's list of plugins."""
     global UPDATEPLUGINS
     UPDATEPLUGINS = True
+    
+def ReloadAllPlugins():
+    """Will prompt the application to reload all plugins."""
+    global RELOADPLUGINS
+    RELOADPLUGINS = True

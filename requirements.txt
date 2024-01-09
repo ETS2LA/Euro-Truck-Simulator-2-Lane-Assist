@@ -15,4 +15,5 @@ pygame
 keyboard
 mouse
 pyautogui
+progress
 --upgrade --no-cache-dir gdown
