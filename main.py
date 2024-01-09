@@ -474,6 +474,12 @@ if __name__ == "__main__":
             controlsEndTime = time.time()
             data["executionTimes"]["Control callbacks"] = controlsEndTime - controlsStartTime
             
+            try:
+                if variables.APPENDDATANEXTFRAME != None or variables.APPENDDATANEXTFRAME != [] or variables.APPENDDATANEXTFRAME != {} or variables.APPENDDATANEXTFRAME != "":
+                    # Merge the two dictionaries
+                    data.update(variables.APPENDDATANEXTFRAME)
+                    variables.APPENDDATANEXTFRAME = None
+            except: pass
             
             # Enable / Disable the main loop
             if variables.ENABLELOOP == False:
@@ -509,7 +515,6 @@ if __name__ == "__main__":
                 GetEnabledPlugins()
                 FindPlugins()
                 variables.UPDATEPLUGINS = False
-            
             
             data = UpdatePlugins("before image capture", data)
             data = UpdatePlugins("image capture", data)

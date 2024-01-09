@@ -2,7 +2,8 @@
     "python.languageServer": "Pylance",
     "python.linting.pylintEnabled": false,
     "python.analysis.diagnosticSeverityOverrides": {
-        "reportMissingModuleSource": "none"
+        "reportMissingModuleSource": "none",
+        "reportShadowedImports": "none"
     },
     "python.analysis.extraPaths": [
         "",

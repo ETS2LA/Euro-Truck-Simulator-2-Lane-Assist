@@ -18,6 +18,9 @@ CHANGELOG = open(PATH + "changelog.txt", "r").readlines()
 """The current shortened changelog. Used to show the user what's new in the small autoupdater dialog."""
 CONSOLENAME = None
 """The name/id of the console, is needed to hide or show the console."""
+APPENDDATANEXTFRAME = None
+"""Add custom data for the next frame. This is usually useful for panels that can't add their data the normal way.
+Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI)."""
 
 def ToggleEnable():
     """Will toggle the mainloop.
