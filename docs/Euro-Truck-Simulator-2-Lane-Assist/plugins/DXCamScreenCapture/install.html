@@ -352,8 +352,18 @@ import os
 def install():
     
     if os.name == &#34;nt&#34;:
+        import subprocess
+        from progress.spinner import MoonSpinner
+        import time
         for requirement in requirements:
-            os.system(&#34;pip install &#34; + requirement)
+            spinner = MoonSpinner(f&#34;Installing {requirement}... &#34;)
+            timer = time.time()
+            process = subprocess.Popen([&#34;pip&#34;, &#34;install&#34;, &#34;-q&#34;, &#34;-q&#34;, requirement])
+            while process.poll() is None:
+                if time.time() - timer &gt; 0.2:
+                    spinner.next()
+                    timer = time.time()
+            spinner.finish()
         
     pass</code></pre>
 </details>
@@ -377,8 +387,18 @@ def install():
 <pre><code class="python">def install():
     
     if os.name == &#34;nt&#34;:
+        import subprocess
+        from progress.spinner import MoonSpinner
+        import time
         for requirement in requirements:
-            os.system(&#34;pip install &#34; + requirement)
+            spinner = MoonSpinner(f&#34;Installing {requirement}... &#34;)
+            timer = time.time()
+            process = subprocess.Popen([&#34;pip&#34;, &#34;install&#34;, &#34;-q&#34;, &#34;-q&#34;, requirement])
+            while process.poll() is None:
+                if time.time() - timer &gt; 0.2:
+                    spinner.next()
+                    timer = time.time()
+            spinner.finish()
         
     pass</code></pre>
 </details>

@@ -374,6 +374,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
+import win32gui, win32con
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -391,8 +392,10 @@ class UI():
             for plugin in settings.GetSettings(&#34;Plugins&#34;, &#34;Installed&#34;):
                 settings.RemoveFromList(&#34;Plugins&#34;, &#34;Installed&#34;, plugin)
             
-            self.save()
-        
+            from tkinter import messagebox
+            messagebox.showinfo(&#34;Reinstall&#34;, &#34;All plugins will be reinstalled on next startup. The application will now close.&#34;)
+            mainUI.quit()
+            
         def exampleFunction(self):
             
             try:
@@ -408,6 +411,8 @@ class UI():
             # self.ignore = helpers.MakeComboEntry(self.root, &#34;Ignore Modules (seperate by ,)&#34;, &#34;Plugins&#34;, &#34;Ignore&#34;, 2,0, value=&#34;EvdevController,&#34; if os.name != &#34;nt&#34; else &#34;DXCamScreenCapture,&#34;, labelwidth=25, isString=True, width=55)
             
             self.printDebug = helpers.MakeCheckButton(self.root, &#34;Print Debug&#34;, &#34;logger&#34;, &#34;debug&#34;, 3,0, width=20)
+
+            helpers.MakeCheckButton(self.root, &#34;Hide Console&#34;, &#34;User Interface&#34;, &#34;hide_console&#34;, 3,1, width=20)
             
             helpers.MakeButton(self.root, &#34;Translation Settings&#34;, lambda: mainUI.switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 4,0, padx=30, pady=10, width=20)
             
@@ -422,6 +427,8 @@ class UI():
             
             helpers.MakeButton(self.root, &#34;UI Settings&#34;, lambda: mainUI.switchSelectedPlugin(&#34;plugins.TabSettings.main&#34;), 8,0, padx=30, pady=10, width=20)
             
+            helpers.MakeButton(self.root, &#34;Reload Plugins&#34;, lambda: variables.ReloadAllPlugins(), 8,1, padx=30, pady=10, width=20)
+            
             self.root.pack(anchor=&#34;center&#34;, expand=False)
             self.root.update()
         
@@ -432,6 +439,26 @@ class UI():
                 from tkinter import messagebox
                 messagebox.showinfo(&#34;Restart required&#34;, &#34;You need to restart the app for the DPI mode to take effect.&#34;)
             # settings.CreateSettings(&#34;Plugins&#34;, &#34;Ignore&#34;, self.ignore.get())
+            if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == False:
+                win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+            if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == True:
+                if variables.CONSOLENAME == None:
+                    window_found = False
+                    target_text = &#34;/venv/Scripts/python&#34;
+                    top_windows = []
+                    win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+                    for hwnd, window_text in top_windows:
+                        if target_text in window_text:
+                            window_found = True
+                            variables.CONSOLENAME = hwnd
+                            break
+                    if window_found == False:
+                        print(&#34;Console window not found, unable to hide!&#34;)
+                    else:
+                        print(f&#34;Console Name: {window_text}, Console ID: {hwnd}&#34;)
+                        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
+                else:
+                    win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
             
             variables.RELOAD = True
         
@@ -478,8 +505,10 @@ class UI():
             for plugin in settings.GetSettings(&#34;Plugins&#34;, &#34;Installed&#34;):
                 settings.RemoveFromList(&#34;Plugins&#34;, &#34;Installed&#34;, plugin)
             
-            self.save()
-        
+            from tkinter import messagebox
+            messagebox.showinfo(&#34;Reinstall&#34;, &#34;All plugins will be reinstalled on next startup. The application will now close.&#34;)
+            mainUI.quit()
+            
         def exampleFunction(self):
             
             try:
@@ -495,6 +524,8 @@ class UI():
             # self.ignore = helpers.MakeComboEntry(self.root, &#34;Ignore Modules (seperate by ,)&#34;, &#34;Plugins&#34;, &#34;Ignore&#34;, 2,0, value=&#34;EvdevController,&#34; if os.name != &#34;nt&#34; else &#34;DXCamScreenCapture,&#34;, labelwidth=25, isString=True, width=55)
             
             self.printDebug = helpers.MakeCheckButton(self.root, &#34;Print Debug&#34;, &#34;logger&#34;, &#34;debug&#34;, 3,0, width=20)
+
+            helpers.MakeCheckButton(self.root, &#34;Hide Console&#34;, &#34;User Interface&#34;, &#34;hide_console&#34;, 3,1, width=20)
             
             helpers.MakeButton(self.root, &#34;Translation Settings&#34;, lambda: mainUI.switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 4,0, padx=30, pady=10, width=20)
             
@@ -509,6 +540,8 @@ class UI():
             
             helpers.MakeButton(self.root, &#34;UI Settings&#34;, lambda: mainUI.switchSelectedPlugin(&#34;plugins.TabSettings.main&#34;), 8,0, padx=30, pady=10, width=20)
             
+            helpers.MakeButton(self.root, &#34;Reload Plugins&#34;, lambda: variables.ReloadAllPlugins(), 8,1, padx=30, pady=10, width=20)
+            
             self.root.pack(anchor=&#34;center&#34;, expand=False)
             self.root.update()
         
@@ -519,6 +552,26 @@ class UI():
                 from tkinter import messagebox
                 messagebox.showinfo(&#34;Restart required&#34;, &#34;You need to restart the app for the DPI mode to take effect.&#34;)
             # settings.CreateSettings(&#34;Plugins&#34;, &#34;Ignore&#34;, self.ignore.get())
+            if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == False:
+                win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+            if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == True:
+                if variables.CONSOLENAME == None:
+                    window_found = False
+                    target_text = &#34;/venv/Scripts/python&#34;
+                    top_windows = []
+                    win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+                    for hwnd, window_text in top_windows:
+                        if target_text in window_text:
+                            window_found = True
+                            variables.CONSOLENAME = hwnd
+                            break
+                    if window_found == False:
+                        print(&#34;Console window not found, unable to hide!&#34;)
+                    else:
+                        print(f&#34;Console Name: {window_text}, Console ID: {hwnd}&#34;)
+                        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
+                else:
+                    win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
             
             variables.RELOAD = True
         
@@ -570,6 +623,8 @@ class UI():
     # self.ignore = helpers.MakeComboEntry(self.root, &#34;Ignore Modules (seperate by ,)&#34;, &#34;Plugins&#34;, &#34;Ignore&#34;, 2,0, value=&#34;EvdevController,&#34; if os.name != &#34;nt&#34; else &#34;DXCamScreenCapture,&#34;, labelwidth=25, isString=True, width=55)
     
     self.printDebug = helpers.MakeCheckButton(self.root, &#34;Print Debug&#34;, &#34;logger&#34;, &#34;debug&#34;, 3,0, width=20)
+
+    helpers.MakeCheckButton(self.root, &#34;Hide Console&#34;, &#34;User Interface&#34;, &#34;hide_console&#34;, 3,1, width=20)
     
     helpers.MakeButton(self.root, &#34;Translation Settings&#34;, lambda: mainUI.switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 4,0, padx=30, pady=10, width=20)
     
@@ -583,6 +638,8 @@ class UI():
     helpers.MakeButton(self.root, &#34;Save &amp; Reload&#34;, lambda: self.save(), 7,1, padx=30, pady=10, width=20)
     
     helpers.MakeButton(self.root, &#34;UI Settings&#34;, lambda: mainUI.switchSelectedPlugin(&#34;plugins.TabSettings.main&#34;), 8,0, padx=30, pady=10, width=20)
+    
+    helpers.MakeButton(self.root, &#34;Reload Plugins&#34;, lambda: variables.ReloadAllPlugins(), 8,1, padx=30, pady=10, width=20)
     
     self.root.pack(anchor=&#34;center&#34;, expand=False)
     self.root.update()</code></pre>
@@ -601,7 +658,9 @@ class UI():
     for plugin in settings.GetSettings(&#34;Plugins&#34;, &#34;Installed&#34;):
         settings.RemoveFromList(&#34;Plugins&#34;, &#34;Installed&#34;, plugin)
     
-    self.save()</code></pre>
+    from tkinter import messagebox
+    messagebox.showinfo(&#34;Reinstall&#34;, &#34;All plugins will be reinstalled on next startup. The application will now close.&#34;)
+    mainUI.quit()</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Settings.main.UI.save"><code class="name flex">
@@ -620,6 +679,26 @@ class UI():
         from tkinter import messagebox
         messagebox.showinfo(&#34;Restart required&#34;, &#34;You need to restart the app for the DPI mode to take effect.&#34;)
     # settings.CreateSettings(&#34;Plugins&#34;, &#34;Ignore&#34;, self.ignore.get())
+    if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == False:
+        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+    if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == True:
+        if variables.CONSOLENAME == None:
+            window_found = False
+            target_text = &#34;/venv/Scripts/python&#34;
+            top_windows = []
+            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+            for hwnd, window_text in top_windows:
+                if target_text in window_text:
+                    window_found = True
+                    variables.CONSOLENAME = hwnd
+                    break
+            if window_found == False:
+                print(&#34;Console window not found, unable to hide!&#34;)
+            else:
+                print(f&#34;Console Name: {window_text}, Console ID: {hwnd}&#34;)
+                win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
+        else:
+            win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
     
     variables.RELOAD = True</code></pre>
 </details>

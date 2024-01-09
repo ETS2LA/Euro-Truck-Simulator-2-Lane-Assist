@@ -362,11 +362,12 @@ from src.logger import print
 from src.variables import PATH
 
 try:
-    import playsound
+    import pygame
+    pygame.init()
     sounds = True
 except:
     sounds = False
-    print(&#34;Could not import playsound, sounds will not be played.&#34;)
+    print(&#34;Could not import pygame, sounds will not be played.&#34;)
     
 def PlaysoundFromLocalPath(sound:str):
     &#34;&#34;&#34;Will play a sound given a local path.
@@ -378,13 +379,13 @@ def PlaysoundFromLocalPath(sound:str):
         dir = PATH + sound
         if sounds:
             print(&#34;Playing sound: &#34; + dir)
-            playsound.playsound(dir, block=False)
+            pygame.mixer.music.load(dir)
+            pygame.mixer.music.play()
         else:
-            print(&#34;Playsound not imported, could not play sound: &#34; + dir)
+            print(&#34;Pygame not imported, could not play sound: &#34; + dir)
     except Exception as ex:
         print(ex.args)
-        pass
-    </code></pre>
+        pass</code></pre>
 </details>
 </section>
 <section>
@@ -418,9 +419,10 @@ def PlaysoundFromLocalPath(sound:str):
         dir = PATH + sound
         if sounds:
             print(&#34;Playing sound: &#34; + dir)
-            playsound.playsound(dir, block=False)
+            pygame.mixer.music.load(dir)
+            pygame.mixer.music.play()
         else:
-            print(&#34;Playsound not imported, could not play sound: &#34; + dir)
+            print(&#34;Pygame not imported, could not play sound: &#34; + dir)
     except Exception as ex:
         print(ex.args)
         pass</code></pre>

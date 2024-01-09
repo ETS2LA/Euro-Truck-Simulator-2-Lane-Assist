@@ -374,13 +374,15 @@ import src.settings as settings
 import src.controls as controls # use controls.RegisterKeybind() and controls.GetKeybindValue()
 import struct
 import time
-import keyboard
 from src.translator import Translate
+import src.controls as controls
+
+controls.RegisterKeybind(&#34;Test SDK button&#34;, notBoundInfo=&#34;This is intended for developers.&#34;, description=&#34;Will test the button selected in the SDK Controller UI.&#34;)
 
 mmName = r&#34;Local\SCSControls&#34;
 floatCount = 4
 floatSize = 4
-boolCount = 15
+boolCount = 38
 boolSize = 1
 size = floatCount * floatSize + boolCount * boolSize
 
@@ -397,28 +399,93 @@ def tryExceptDefault(data, dataPath, default):
 
 &#34;&#34;&#34;
 Values that the sdk accepts:
+Name, Index, Type, Control Name In File
 
-Name,Index,Type,Control Name In File
-Steering,0,float,steering
-Acceleration,1,float,aforward
-Braking,2,float,abackward
-Clutch,3,float,clutch
-Pause Game,4,bool,
-Parking Brake,5,bool,parkingbrake
-Wipers,6,bool,wipers
-Cruise Control,7,bool,cruiectrl
-Cruise Control Increase,8,bool,cruiectrlinc
-Cruise Control Decrease,9,bool,cruiectrldec
-Cruise Control Reset,10,bool,cruiectrlres
-Lights,11,bool,light
-High Beams,12,bool,hblight
-Left Blinker,13,bool,lblinker
-Right Blinker,14,bool,rblinker
-Quickpark,15,bool,quickpark
-Drive (Gear),16,bool,drive
-Reverse (Gear),17,bool,reverse
-Cycle Zoom (map?),18,bool,cycl_zoom
+Steering, 0, float, steering
+Acceleration, 1, float, aforward
+Braking, 2, float, abackward
+Clutch, 3, float, clutch
+Pause Game, 4, bool,
+Parking Brake, 5, bool, parkingbrake
+Wipers, 6, bool, wipers
+Cruise Control, 7, bool, cruiectrl
+Cruise Control Increase, 8, bool, cruiectrlinc
+Cruise Control Decrease, 9, bool, cruiectrldec
+Cruise Control Reset, 10, bool, cruiectrlres
+Lights, 11, bool, light
+High Beams, 12, bool, hblight
+Left Blinker, 13, bool, lblinker
+Right Blinker, 14, bool, rblinker
+Quickpark, 15, bool, quickpark
+Drive(Gear), 16, bool, drive
+Reverse(Gear), 17, bool, reverse
+Cycle Zoom(map ? ), 18, bool, cycl_zoom
+Reset Trip, 19, bool, tripreset
+Rear Wipers, 20, bool, wipersback
+Wiper LVL 0, 21, bool, wipers0
+Wiper LVL 1, 22, bool, wipers1
+Wiper LVL 2, 23, bool, wipers2
+Wiper LVL 3, 24, bool, wipers3
+Wiper LVL 4, 25, bool, wipers4
+Horn, 26, bool, horn
+Airhorn, 27, bool, airhorn
+Light Horn, 28, bool, lighthorn
+Camera 1, 29, bool, cam1
+Camera 2, 30, bool, cam2
+Camera 3, 31, bool, cam3
+Camera 4, 32, bool, cam4
+Camera 5, 33, bool, cam5
+Camera 6, 34, bool, cam6
+Camera 7, 35, bool, cam7
+Camera 8, 36, bool, cam8
+Zoom Map In, 37, bool, mapzoom_in
+Zoom Map Out, 38, bool, mapzoom_out
+ACC Mode, 39, bool, accmode
+Show Mirrors, 40, bool, showmirrors
+Hazard Lights, 41, bool, flasher4way
 &#34;&#34;&#34;
+
+# This is used for the UI to test each button.
+buttonNames = [
+    &#34;Pause&#34;,
+    &#34;ParkingBrake&#34;,
+    &#34;Wipers&#34;,
+    &#34;CruiseControl&#34;,
+    &#34;CruiseControlIncrease&#34;,
+    &#34;CruiseControlDecrease&#34;,
+    &#34;CruiseControlReset&#34;,
+    &#34;Lights&#34;,
+    &#34;HighBeams&#34;,
+    &#34;LeftBlinker&#34;,
+    &#34;RightBlinker&#34;,
+    &#34;Quickpark&#34;,
+    &#34;Drive&#34;,
+    &#34;Reverse&#34;,
+    &#34;CycleZoom&#34;,
+    &#34;TripReset&#34;,
+    &#34;WipersBack&#34;,
+    &#34;Wipers0&#34;,
+    &#34;Wipers1&#34;,
+    &#34;Wipers2&#34;,
+    &#34;Wipers3&#34;,
+    &#34;Wipers4&#34;,
+    &#34;Horn&#34;,
+    &#34;Airhorn&#34;,
+    &#34;LightHorn&#34;,
+    &#34;Cam1&#34;,
+    &#34;Cam2&#34;,
+    &#34;Cam3&#34;,
+    &#34;Cam4&#34;,
+    &#34;Cam5&#34;,
+    &#34;Cam6&#34;,
+    &#34;Cam7&#34;,
+    &#34;Cam8&#34;,
+    &#34;MapZoomIn&#34;,
+    &#34;MapZoomOut&#34;,
+    &#34;ACCMode&#34;,
+    &#34;ShowMirrors&#34;,
+    &#34;Hazards&#34;
+]
 
 import mmap
 # The main file runs the &#34;plugin&#34; function each time the plugin is called
@@ -447,6 +514,29 @@ def plugin(data):
     data[&#34;sdk&#34;][&#34;Drive&#34;], bool
     data[&#34;sdk&#34;][&#34;Reverse&#34;], bool
     data[&#34;sdk&#34;][&#34;CycleZoom&#34;], bool
+    data[&#34;sdk&#34;][&#34;TripReset&#34;], bool
+    data[&#34;sdk&#34;][&#34;WipersBack&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers0&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers1&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers2&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers3&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers4&#34;], bool
+    data[&#34;sdk&#34;][&#34;Horn&#34;], bool
+    data[&#34;sdk&#34;][&#34;Airhorn&#34;], bool
+    data[&#34;sdk&#34;][&#34;LightHorn&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam1&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam2&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam3&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam4&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam5&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam6&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam7&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam8&#34;], bool
+    data[&#34;sdk&#34;][&#34;MapZoomIn&#34;], bool
+    data[&#34;sdk&#34;][&#34;MapZoomOut&#34;], bool
+    data[&#34;sdk&#34;][&#34;ACCMode&#34;], bool
+    data[&#34;sdk&#34;][&#34;ShowMirrors&#34;], bool
+    data[&#34;sdk&#34;][&#34;Hazards&#34;], bool
     ```
     &#34;&#34;&#34;
     if settings.GetSettings(&#34;sdk&#34;, &#34;firstTime&#34;) == None:
@@ -467,7 +557,7 @@ def plugin(data):
 
     # For steering accel and brake we have to support the old controller system data variable
     try:
-        steering = data[&#34;sdk&#34;][&#34;acceleration&#34;]
+        steering = data[&#34;sdk&#34;][&#34;steering&#34;]
     except:
         steering = tryExceptDefault(data, [&#34;controller&#34;,&#34;leftStick&#34;], 0.0)
     
@@ -499,19 +589,41 @@ def plugin(data):
     drive = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Drive&#34;], False)
     reverse = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Reverse&#34;], False)
     cycl_zoom = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CycleZoom&#34;], False)
-    
-    if keyboard.is_pressed(&#39;q&#39;) and time.time() - lastPress &gt; 0.5:
-        print(&#34;q pressed&#34;)
-        pause = True
-        lastPress = time.time()
+    tripreset = tryExceptDefault(data, [&#34;sdk&#34;,&#34;TripReset&#34;], False)
+    wipersback = tryExceptDefault(data, [&#34;sdk&#34;,&#34;WipersBack&#34;], False)
+    wipers0 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers0&#34;], False)
+    wipers1 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers1&#34;], False)
+    wipers2 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers2&#34;], False)
+    wipers3 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers3&#34;], False)
+    wipers4 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers4&#34;], False)
+    horn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Horn&#34;], False)
+    airhorn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Airhorn&#34;], False)
+    lighthorn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;LightHorn&#34;], False)
+    cam1 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam1&#34;], False)
+    cam2 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam2&#34;], False)
+    cam3 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam3&#34;], False)
+    cam4 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam4&#34;], False)
+    cam5 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam5&#34;], False)
+    cam6 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam6&#34;], False)
+    cam7 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam7&#34;], False)
+    cam8 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam8&#34;], False)
+    mapzoom_in = tryExceptDefault(data, [&#34;sdk&#34;,&#34;MapZoomIn&#34;], False)
+    mapzoom_out = tryExceptDefault(data, [&#34;sdk&#34;,&#34;MapZoomOut&#34;], False)
+    accmode = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ACCMode&#34;], False)
+    showmirrors = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ShowMirrors&#34;], False)
+    hazards = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Hazards&#34;], False)
     
     # Write three floats to memory
-    buf[:] = struct.pack(&#39;ffff15?&#39;, steering, acceleration, brake, clutch,
+    buf[:] = struct.pack(&#39;ffff38?&#39;, steering, acceleration, brake, clutch,
                          pause, parkingbrake, wipers, cruiectrl, cruiectrlinc, cruiectrldec, 
                          cruiectrlres, light, hblight, lblinker, rblinker, quickpark, drive, 
-                         reverse, cycl_zoom)
+                         reverse, cycl_zoom, tripreset, wipersback, wipers0, wipers1, wipers2,
+                         wipers3, wipers4, horn, airhorn, lighthorn, cam1, cam2, cam3, cam4,
+                         cam5, cam6, cam7, cam8, mapzoom_in, mapzoom_out, accmode, showmirrors,
+                         hazards)
 
     return data # Plugins need to ALWAYS return the data
+
 
 
 # Plugins need to all also have the onEnable and onDisable functions
@@ -519,7 +631,70 @@ def onEnable():
     pass
 
 def onDisable():
-    pass</code></pre>
+    pass
+
+lastPress = time.time()
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            # Create text
+            self.text = tk.Label(self.root, text=&#34;Please select a button to test using the keybind in the controls.\nOnly works when this panel is open.&#34;)
+            self.text.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Create a toggle button to select whether to add a delay between presses
+            self.delay = tk.BooleanVar()
+            self.delay.set(False)
+            self.delayButton = tk.Checkbutton(self.root, text=&#34;Add delay between presses&#34;, variable=self.delay)
+            self.delayButton.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Create a selector for the buttons
+            self.buttonSelector = tk.Listbox(self.root, width=30, height=20)
+            self.buttonSelector.pack(side=&#34;left&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Load the buttons
+            for i in buttonNames:
+                self.buttonSelector.insert(&#34;end&#34;, i)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            global lastPress
+            try:
+                if controls.GetKeybindValue(&#34;Test SDK button&#34;):
+                    if time.time() - lastPress &gt; 0.25 or self.delay.get() == False:
+                        lastPress = time.time()
+                        variables.APPENDDATANEXTFRAME = {&#34;sdk&#34;:
+                                                            {self.buttonSelector.get(&#34;active&#34;):
+                                                                True}}
+                        print(&#34;Pressed &#34; + self.buttonSelector.get(&#34;active&#34;))
+            except: pass
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
 </details>
 </section>
 <section>
@@ -579,6 +754,29 @@ data[&quot;sdk&quot;][&quot;Quickpark&quot;], bool
 data[&quot;sdk&quot;][&quot;Drive&quot;], bool
 data[&quot;sdk&quot;][&quot;Reverse&quot;], bool
 data[&quot;sdk&quot;][&quot;CycleZoom&quot;], bool
+data[&quot;sdk&quot;][&quot;TripReset&quot;], bool
+data[&quot;sdk&quot;][&quot;WipersBack&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers0&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers1&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers2&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers3&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers4&quot;], bool
+data[&quot;sdk&quot;][&quot;Horn&quot;], bool
+data[&quot;sdk&quot;][&quot;Airhorn&quot;], bool
+data[&quot;sdk&quot;][&quot;LightHorn&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam1&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam2&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam3&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam4&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam5&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam6&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam7&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam8&quot;], bool
+data[&quot;sdk&quot;][&quot;MapZoomIn&quot;], bool
+data[&quot;sdk&quot;][&quot;MapZoomOut&quot;], bool
+data[&quot;sdk&quot;][&quot;ACCMode&quot;], bool
+data[&quot;sdk&quot;][&quot;ShowMirrors&quot;], bool
+data[&quot;sdk&quot;][&quot;Hazards&quot;], bool
 </code></pre></div>
 <details class="source">
 <summary>
@@ -606,6 +804,29 @@ data[&quot;sdk&quot;][&quot;CycleZoom&quot;], bool
     data[&#34;sdk&#34;][&#34;Drive&#34;], bool
     data[&#34;sdk&#34;][&#34;Reverse&#34;], bool
     data[&#34;sdk&#34;][&#34;CycleZoom&#34;], bool
+    data[&#34;sdk&#34;][&#34;TripReset&#34;], bool
+    data[&#34;sdk&#34;][&#34;WipersBack&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers0&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers1&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers2&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers3&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers4&#34;], bool
+    data[&#34;sdk&#34;][&#34;Horn&#34;], bool
+    data[&#34;sdk&#34;][&#34;Airhorn&#34;], bool
+    data[&#34;sdk&#34;][&#34;LightHorn&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam1&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam2&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam3&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam4&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam5&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam6&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam7&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam8&#34;], bool
+    data[&#34;sdk&#34;][&#34;MapZoomIn&#34;], bool
+    data[&#34;sdk&#34;][&#34;MapZoomOut&#34;], bool
+    data[&#34;sdk&#34;][&#34;ACCMode&#34;], bool
+    data[&#34;sdk&#34;][&#34;ShowMirrors&#34;], bool
+    data[&#34;sdk&#34;][&#34;Hazards&#34;], bool
     ```
     &#34;&#34;&#34;
     if settings.GetSettings(&#34;sdk&#34;, &#34;firstTime&#34;) == None:
@@ -626,7 +847,7 @@ data[&quot;sdk&quot;][&quot;CycleZoom&quot;], bool
 
     # For steering accel and brake we have to support the old controller system data variable
     try:
-        steering = data[&#34;sdk&#34;][&#34;acceleration&#34;]
+        steering = data[&#34;sdk&#34;][&#34;steering&#34;]
     except:
         steering = tryExceptDefault(data, [&#34;controller&#34;,&#34;leftStick&#34;], 0.0)
     
@@ -658,17 +879,38 @@ data[&quot;sdk&quot;][&quot;CycleZoom&quot;], bool
     drive = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Drive&#34;], False)
     reverse = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Reverse&#34;], False)
     cycl_zoom = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CycleZoom&#34;], False)
-    
-    if keyboard.is_pressed(&#39;q&#39;) and time.time() - lastPress &gt; 0.5:
-        print(&#34;q pressed&#34;)
-        pause = True
-        lastPress = time.time()
+    tripreset = tryExceptDefault(data, [&#34;sdk&#34;,&#34;TripReset&#34;], False)
+    wipersback = tryExceptDefault(data, [&#34;sdk&#34;,&#34;WipersBack&#34;], False)
+    wipers0 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers0&#34;], False)
+    wipers1 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers1&#34;], False)
+    wipers2 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers2&#34;], False)
+    wipers3 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers3&#34;], False)
+    wipers4 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers4&#34;], False)
+    horn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Horn&#34;], False)
+    airhorn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Airhorn&#34;], False)
+    lighthorn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;LightHorn&#34;], False)
+    cam1 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam1&#34;], False)
+    cam2 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam2&#34;], False)
+    cam3 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam3&#34;], False)
+    cam4 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam4&#34;], False)
+    cam5 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam5&#34;], False)
+    cam6 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam6&#34;], False)
+    cam7 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam7&#34;], False)
+    cam8 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam8&#34;], False)
+    mapzoom_in = tryExceptDefault(data, [&#34;sdk&#34;,&#34;MapZoomIn&#34;], False)
+    mapzoom_out = tryExceptDefault(data, [&#34;sdk&#34;,&#34;MapZoomOut&#34;], False)
+    accmode = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ACCMode&#34;], False)
+    showmirrors = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ShowMirrors&#34;], False)
+    hazards = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Hazards&#34;], False)
     
     # Write three floats to memory
-    buf[:] = struct.pack(&#39;ffff15?&#39;, steering, acceleration, brake, clutch,
+    buf[:] = struct.pack(&#39;ffff38?&#39;, steering, acceleration, brake, clutch,
                          pause, parkingbrake, wipers, cruiectrl, cruiectrlinc, cruiectrldec, 
                          cruiectrlres, light, hblight, lblinker, rblinker, quickpark, drive, 
-                         reverse, cycl_zoom)
+                         reverse, cycl_zoom, tripreset, wipersback, wipers0, wipers1, wipers2,
+                         wipers3, wipers4, horn, airhorn, lighthorn, cam1, cam2, cam3, cam4,
+                         cam5, cam6, cam7, cam8, mapzoom_in, mapzoom_out, accmode, showmirrors,
+                         hazards)
 
     return data # Plugins need to ALWAYS return the data</code></pre>
 </details>
@@ -697,6 +939,164 @@ data[&quot;sdk&quot;][&quot;CycleZoom&quot;], bool
 </dl>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            # Create text
+            self.text = tk.Label(self.root, text=&#34;Please select a button to test using the keybind in the controls.\nOnly works when this panel is open.&#34;)
+            self.text.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Create a toggle button to select whether to add a delay between presses
+            self.delay = tk.BooleanVar()
+            self.delay.set(False)
+            self.delayButton = tk.Checkbutton(self.root, text=&#34;Add delay between presses&#34;, variable=self.delay)
+            self.delayButton.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Create a selector for the buttons
+            self.buttonSelector = tk.Listbox(self.root, width=30, height=20)
+            self.buttonSelector.pack(side=&#34;left&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Load the buttons
+            for i in buttonNames:
+                self.buttonSelector.insert(&#34;end&#34;, i)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            global lastPress
+            try:
+                if controls.GetKeybindValue(&#34;Test SDK button&#34;):
+                    if time.time() - lastPress &gt; 0.25 or self.delay.get() == False:
+                        lastPress = time.time()
+                        variables.APPENDDATANEXTFRAME = {&#34;sdk&#34;:
+                                                            {self.buttonSelector.get(&#34;active&#34;):
+                                                                True}}
+                        print(&#34;Pressed &#34; + self.buttonSelector.get(&#34;active&#34;))
+            except: pass
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.exampleFunction"><code class="name flex">
+<span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exampleFunction(self):
+    
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+    
+    # Create text
+    self.text = tk.Label(self.root, text=&#34;Please select a button to test using the keybind in the controls.\nOnly works when this panel is open.&#34;)
+    self.text.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+    
+    # Create a toggle button to select whether to add a delay between presses
+    self.delay = tk.BooleanVar()
+    self.delay.set(False)
+    self.delayButton = tk.Checkbutton(self.root, text=&#34;Add delay between presses&#34;, variable=self.delay)
+    self.delayButton.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+    
+    # Create a selector for the buttons
+    self.buttonSelector = tk.Listbox(self.root, width=30, height=20)
+    self.buttonSelector.pack(side=&#34;left&#34;, fill=&#34;both&#34;, expand=True)
+    
+    # Load the buttons
+    for i in buttonNames:
+        self.buttonSelector.insert(&#34;end&#34;, i)
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    global lastPress
+    try:
+        if controls.GetKeybindValue(&#34;Test SDK button&#34;):
+            if time.time() - lastPress &gt; 0.25 or self.delay.get() == False:
+                lastPress = time.time()
+                variables.APPENDDATANEXTFRAME = {&#34;sdk&#34;:
+                                                    {self.buttonSelector.get(&#34;active&#34;):
+                                                        True}}
+                print(&#34;Pressed &#34; + self.buttonSelector.get(&#34;active&#34;))
+    except: pass
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -716,6 +1116,18 @@ data[&quot;sdk&quot;][&quot;CycleZoom&quot;], bool
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.onEnable">onEnable</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.plugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.plugin">plugin</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.tryExceptDefault" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.tryExceptDefault">tryExceptDefault</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.update">update</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

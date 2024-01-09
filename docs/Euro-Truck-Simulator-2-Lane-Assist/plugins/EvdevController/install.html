@@ -353,7 +353,7 @@ def install():
     
     if os.name != &#34;nt&#34;:
         for requirement in requirements:
-            os.system(&#34;pip install &#34; + requirement)
+            os.system(&#34;pip install -q -q &#34; + requirement)
         
     pass</code></pre>
 </details>
@@ -378,7 +378,7 @@ def install():
     
     if os.name != &#34;nt&#34;:
         for requirement in requirements:
-            os.system(&#34;pip install &#34; + requirement)
+            os.system(&#34;pip install -q -q &#34; + requirement)
         
     pass</code></pre>
 </details>

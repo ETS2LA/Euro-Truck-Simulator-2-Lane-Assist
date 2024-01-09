@@ -288,12 +288,24 @@ def savePosition():
 
 titlePath = ""    
 def UpdateTitle(extraText:str=""):
+    """Will update the application title.
+
+    Args:
+        extraText (str, optional): Additional text to add after all of the defaults. Defaults to "".
+
+    Returns:
+        success (bool, optional): If there was an error then this will return False. Otherwise True.
+    """
     showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
     if showCopyrightInTitlebar == None:
         settings.CreateSettings("User Interface", "TitleCopyright", True)
         showCopyrightInTitlebar = True
     
-    root.title("Lane Assist - ©Tumppi066 2024 " + titlePath + extraText if showCopyrightInTitlebar else "Lane Assist " + titlePath + extraText)
+    try:
+        root.title("Lane Assist - ©Tumppi066 2024 " + titlePath + extraText if showCopyrightInTitlebar else "Lane Assist " + titlePath + extraText)
+        return True
+    except:
+        return False
 
 pluginFrames = []
 UIs = []
