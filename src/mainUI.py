@@ -285,7 +285,15 @@ def savePosition():
     x = root.winfo_x()
     y = root.winfo_y()
     settings.CreateSettings("User Interface", "Position", [x, y])
-        
+
+titlePath = ""    
+def UpdateTitle(extraText:str=""):
+    showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings("User Interface", "TitleCopyright", True)
+        showCopyrightInTitlebar = True
+    
+    root.title("Lane Assist - ©Tumppi066 2024 " + titlePath + extraText if showCopyrightInTitlebar else "Lane Assist " + titlePath + extraText)
 
 pluginFrames = []
 UIs = []
@@ -335,12 +343,7 @@ def CreateRoot():
 
     root = tk.Tk()
     
-    showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
-    if showCopyrightInTitlebar == None:
-        settings.CreateSettings("User Interface", "TitleCopyright", True)
-        showCopyrightInTitlebar = True
-    
-    root.title("Lane Assist - ©Tumppi066 2024" if showCopyrightInTitlebar else "Lane Assist")
+    UpdateTitle()
     
     # Hack to make windows think we are our own app, and then show our icon
     import ctypes
