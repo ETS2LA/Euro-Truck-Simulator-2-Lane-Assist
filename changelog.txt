@@ -1,1 +1,5 @@
 TrafficLightDetection UI Update.
+Translation updates.
+SDK update.
+Improved plugin installer.
+Instant plugin code reloading (for devs).
