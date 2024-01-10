@@ -164,7 +164,6 @@ if logger.printDebug == None:
     logger.printDebug = False
     settings.CreateSettings("logger", "debug", False)
     
-
 def GetEnabledPlugins():
     global enabledPlugins
     enabledPlugins = settings.GetSettings("Plugins", "Enabled")
@@ -174,6 +173,10 @@ def GetEnabledPlugins():
 def FindPlugins(reloadFully=False):
     global plugins
     global pluginObjects
+    global pluginNames
+    
+    # Update the list of plugins and panels for the hash check
+    pluginNames = GetListOfAllPluginAndPanelNames()
     
     # Find plugins
     path = os.path.join(variables.PATH, "plugins")
@@ -199,15 +202,19 @@ def FindPlugins(reloadFully=False):
         pluginObjects[-1].onEnable()
         
 def ReloadPluginCode():
+    FindPlugins()
     # Use the inbuilt python modules to reload the code of the plugins
     import importlib
-    for plugin in pluginObjects:
-        try:
-            importlib.reload(plugin)
-        except Exception as ex:
-            print(ex.args)
-            pass
-    print("Reloaded plugin code.")
+    import progress.bar as Bar
+    with Bar.PixelBar("Reloading plugins...", max=len(pluginObjects)) as progressBar:
+        for plugin in pluginObjects:
+            try:
+                importlib.reload(plugin)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
     print("Reloading UI root code...")
     try:
         mainUI.DeleteRoot()
@@ -245,6 +252,25 @@ def UpdatePlugins(dynamicOrder, data):
             pass
     return data
 
+def GetListOfAllPluginAndPanelNames():
+    # Find plugins
+    path = os.path.join(variables.PATH, "plugins")
+    plugins = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if "main.py" in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginName = file
+                    plugins.append(pluginName)
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    return plugins
+
+pluginNames = GetListOfAllPluginAndPanelNames()
 
 def InstallPlugins():
     global startInstall
@@ -466,8 +492,39 @@ def LoadApplication():
 
 LoadApplication()
 
+import hashlib
+lastChecksums = {}
+def CheckForFileChanges():
+    """Will check the plugin main files for changes and reload them if they've changed."""
+    global lastChecksums
+    # Check if it's the first time running this function
+    if lastChecksums == {}:
+        for plugin in pluginNames:
+            try:
+                checksum = hashlib.md5(open(os.path.join(variables.PATH, "plugins", plugin, "main.py"), "rb").read()).hexdigest()
+                lastChecksums[plugin] = checksum
+            except:
+                pass
+        return
+    
+    # Check for changes in the plugins
+    for plugin in pluginNames:
+        try:
+            checksum = hashlib.md5(open(os.path.join(variables.PATH, "plugins", plugin, "main.py"), "rb").read()).hexdigest()
+            if checksum != lastChecksums[plugin]:
+                print(f"Detected changes in {plugin}...")
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+                lastChecksums[plugin] = checksum
+                break
+        except:
+            pass
+
 data = {}
 uiFrameTimer = 0
+pluginChangeTimer = time.time()
 if __name__ == "__main__":
     while True:
         # Main Application Loop
@@ -507,6 +564,14 @@ if __name__ == "__main__":
             data = controls.plugin(data)
             controlsEndTime = time.time()
             data["executionTimes"]["Control callbacks"] = controlsEndTime - controlsStartTime
+            
+            # Check for plugin changes (every second)
+            pluginChangeTime = time.time()
+            if time.time() - pluginChangeTimer > 1:
+                pluginChangeTimer = time.time()
+                CheckForFileChanges()
+            pluginChangeEndTime = time.time()
+            data["executionTimes"]["Filesystem Check"] = pluginChangeEndTime - pluginChangeTime
             
             try:
                 if variables.APPENDDATANEXTFRAME != None or variables.APPENDDATANEXTFRAME != [] or variables.APPENDDATANEXTFRAME != {} or variables.APPENDDATANEXTFRAME != "":
