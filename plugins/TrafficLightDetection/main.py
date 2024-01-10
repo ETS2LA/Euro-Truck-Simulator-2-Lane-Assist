@@ -2639,6 +2639,23 @@ def plugin(data):
 
     data["TrafficLightDetection"] = currentneareststate                   
 
+    if reset_window == True:
+        if grayscalewindow == False:
+            try:
+                cv2.destroyWindow('Traffic Light Detection - B/W')
+            except:
+                pass
+        if redgreenwindow == False:
+            try:
+                cv2.destroyWindow('Traffic Light Detection - Red/Green')
+            except:
+                pass
+        if finalwindow == False:
+            try:
+                cv2.destroyWindow('Traffic Light Detection - Final')
+            except:
+                pass
+
     if grayscalewindow == True:
         if textsize > 0:         
             cv2.putText(filtered_frame_bw, f"Nearest: {currentneareststate}, Distance: {currentdistance}", (20, round(40*textsize)), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 2, cv2.LINE_AA) 
@@ -2710,33 +2727,43 @@ class UI():
         def UpdateSliderValue_scale(self):
             self.scale.set(self.scaleSlider.get())
             settings.CreateSettings("TrafficLightDetection", "scale", self.scaleSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_textsize(self):
             self.textsize.set(self.textsizeSlider.get())
             settings.CreateSettings("TrafficLightDetection", "textsize", self.textsizeSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_x1ofsc(self):
             self.x1ofsc.set(self.x1ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "x1ofsc", self.x1ofscSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_y1ofsc(self):
             self.y1ofsc.set(self.y1ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "y1ofsc", self.y1ofscSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_x2ofsc(self):
             self.x2ofsc.set(self.x2ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "x2ofsc", self.x2ofscSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_y2ofsc(self):
             self.y2ofsc.set(self.y2ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "y2ofsc", self.y2ofscSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_windowwidth(self):
             self.windowwidth.set(self.windowwidthSlider.get())
             settings.CreateSettings("TrafficLightDetection", "outputwindowwidth", self.windowwidthSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_windowheight(self):
             self.windowheight.set(self.windowheightSlider.get())
             settings.CreateSettings("TrafficLightDetection", "outputwindowheight", self.windowheightSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_minrectsize(self):
             self.minrectsize.set(self.minrectsizeSlider.get())
             settings.CreateSettings("TrafficLightDetection", "minrectsize", self.minrectsizeSlider.get())
+            UpdateSettings()
         def UpdateSliderValue_maxrectsize(self):
             self.maxrectsize.set(self.maxrectsizeSlider.get())
             settings.CreateSettings("TrafficLightDetection", "maxrectsize", self.maxrectsizeSlider.get())
+            UpdateSettings()
         
         def exampleFunction(self):
             
@@ -2820,31 +2847,31 @@ class UI():
             self.root.update()
 
 
-            helpers.MakeCheckButton(outputwindowFrame, "Final Window\n--------------------\nIf enabled, the app creates a window with the result of the traffic light detection.", "TrafficLightDetection", "finalwindow", 1, 0, width=80, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window\n---------------------------\nIf enabled, the app creates a window with the color masks combined in a grayscaled frame.", "TrafficLightDetection", "grayscalewindow", 2, 0, width=80, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Red/Green Window\n----------------------------\nIf enabled, the app creates a window with the color masks combined in a frame.", "TrafficLightDetection", "redgreenwindow", 3, 0, width=80, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize\n---------------------------------\nIf enabled, the Window Width and Window Height sliders will no longer have any effect\nand the output window keeps the aspect ratio of the captured frame. Set the size of the\noutput window with the Window Scale slider.", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=80, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Final Window\n--------------------\nIf enabled, the app creates a window with the result of the traffic light detection.", "TrafficLightDetection", "finalwindow", 1, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window\n---------------------------\nIf enabled, the app creates a window with the color masks combined in a grayscaled frame.", "TrafficLightDetection", "grayscalewindow", 2, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Red/Green Window\n----------------------------\nIf enabled, the app creates a window with the color masks combined in a frame.", "TrafficLightDetection", "redgreenwindow", 3, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize\n---------------------------------\nIf enabled, the Window Width and Window Height sliders will no longer have any effect\nand the output window keeps the aspect ratio of the captured frame. Set the size of the\noutput window with the Window Scale slider.", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=80, callback=lambda:UpdateSettings())
             helpers.MakeEmptyLine(outputwindowFrame,5,0)
 
-            helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance, but does not reduce detection accuracy.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Advanced Settings\n---------------------------\nIf enabled, the traffic light detection uses the settings you set in\nthe Advanced tab. (could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance, but does not reduce detection accuracy.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Advanced Settings\n---------------------------\nIf enabled, the traffic light detection uses the settings you set in\nthe Advanced tab. (could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeEmptyLine(generalFrame,7,0)
 
-            helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=lambda:UpdateSettings())
 
-            helpers.MakeCheckButton(trackeraiFrame, "Tracking of Traffic Lights\n-----------------------------------\nIf enabled, the app tracks the detected traffic lights and gives them an ID.\n(required for AI)", "TrafficLightDetection", "trafficlighttracking", 1, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(trackeraiFrame, "AI Mode\n------------\nIf enabled, the app uses AI (Yolov5) to confirm the detected traffic lights,\nwhich increases accuracy.\nThis feature does not work yet. I am working on it.", "TrafficLightDetection", "aiconfirmation", 2, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(trackeraiFrame, "Tracking of Traffic Lights\n-----------------------------------\nIf enabled, the app tracks the detected traffic lights and gives them an ID.\n(required for AI)", "TrafficLightDetection", "trafficlighttracking", 1, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(trackeraiFrame, "AI Mode\n------------\nIf enabled, the app uses AI (Yolov5) to confirm the detected traffic lights,\nwhich increases accuracy.\nThis feature does not work yet. I am working on it.", "TrafficLightDetection", "aiconfirmation", 2, 0, width=60, callback=lambda:UpdateSettings())
 
             self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateSliderValue_textsize())
             self.textsizeSlider.set(settings.GetSettings("TrafficLightDetection", "textsize", 0.5))
             self.textsizeSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
             self.textsize = helpers.MakeComboEntry(generalFrame, "Font Size (Grayscale Window)", "TrafficLightDetection", "textsize", 9, 0, width=32, labelwidth=30)
             
-            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=UpdateSettings())
+            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
             
             self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x1ofsc())
             self.x1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x1ofsc", 0))
