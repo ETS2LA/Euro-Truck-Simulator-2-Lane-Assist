@@ -2901,10 +2901,20 @@ class UI():
                 self.UpdateSliderValue_y1ofsc()
                 self.UpdateSliderValue_x2ofsc()
                 self.UpdateSliderValue_y2ofsc()
-                screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(self.x1ofscSlider.get(), self.y1ofscSlider.get(), self.x2ofscSlider.get() - self.x1ofscSlider.get(), self.y2ofscSlider.get() - self.y1ofscSlider.get()))), cv2.COLOR_RGB2BGR)
-                if settings.GetSettings("TrafficLightDetection", "usefullframe", True) == True:
+                if settings.GetSettings("TrafficLightDetection", "usefullframe", True) == False:
+                    x1 = self.x1ofscSlider.get()
+                    y1 = self.y1ofscSlider.get()
+                    x2 = self.x2ofscSlider.get()
+                    y2 = self.y2ofscSlider.get()
+                    screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1, y1, x2 - x1, y2 - y1))), cv2.COLOR_RGB2BGR)
+                else:
+                    x1 = 0
+                    y1 = 0
+                    x2 = screen_width-1
+                    y2 = round(screen_height/1.5)-1
+                    screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1, y1, x2 - x1, y2 - y1))), cv2.COLOR_RGB2BGR)
                     current_text = '"Use Full Frame" enabled, disable to set own screencapture area'
-                    width_target_current_text = (self.x2ofscSlider.get() - self.x1ofscSlider.get())*0.9
+                    width_target_current_text = (x2 - x1)*0.9
                     fontscale_current_text = 1
                     textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
                     width_current_text, height_current_text = textsize_current_text
@@ -2919,10 +2929,10 @@ class UI():
                     thickness_current_text = round(fontscale_current_text*2)
                     if thickness_current_text <= 0:
                         thickness_current_text = 1
-                    cv2.putText(screenshot, current_text, (round((self.x2ofscSlider.get() - self.x1ofscSlider.get())/2 - width_current_text/2), height_current_text*2), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                    cv2.putText(screenshot, current_text, (round((x2-x1)/2 - width_current_text/2), height_current_text*2), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
                 cv2.namedWindow('Screencapture Preview', cv2.WINDOW_NORMAL)
                 cv2.setWindowProperty('Screencapture Preview', cv2.WND_PROP_TOPMOST, 1)
-                cv2.resizeWindow('Screencapture Preview', round((self.x2ofscSlider.get()-self.x1ofscSlider.get())/2), round((self.y2ofscSlider.get()-self.y1ofscSlider.get())/2))
+                cv2.resizeWindow('Screencapture Preview', round((x2-x1)/2), round((y2-y1)/2))
                 cv2.imshow('Screencapture Preview', screenshot)
                 cv2.waitKey(1)
                 
