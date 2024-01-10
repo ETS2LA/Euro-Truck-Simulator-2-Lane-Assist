@@ -126,8 +126,10 @@ try:
     devmode = settings.GetSettings("Dev", "disable_update_checker", False)
     if devmode == False:
         UpdateChecker()
-except:
-    pass
+except Exception as ex:
+    # If the exception is for the quit command, then do that
+    if ex.args == ("quit",):
+        quit()
 
 # Check tkinter tcl version
 import tkinter as tk
