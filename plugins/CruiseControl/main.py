@@ -303,12 +303,12 @@ def plugin(data):
         if hazard_light != last_hazard_light and hazard_light == False:
             need_to_disable_hazard_light = False
         if user_emergency_braking == True and hazard_light == False and wait_for_response_hazard_light == False:
-            # add code to enable hazard light in sdk (just set the sdk for hazard light to true)
+            data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
             wait_for_response_hazard_light_timer = current_time
             need_to_disable_hazard_light = True
         if user_emergency_braking == False and hazard_light == True and wait_for_response_hazard_light == False and need_to_disable_hazard_light == True:
-            # add code to enable hazard light in sdk (just set the sdk for hazard light to true)
+            data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
             wait_for_response_hazard_light_timer = current_time
 
@@ -321,11 +321,11 @@ def plugin(data):
             if speed > 1:
                 data["sdk"]["brake"] = 0.1
             if hazard_light == False and wait_for_response_hazard_light == False:
-                # add code to enable hazard light in sdk (just set the sdk for hazard light to true)
+                data["sdk"]["Hazards"] = True
                 wait_for_response_hazard_light = True
                 wait_for_response_hazard_light_timer = current_time
         if do_lanedetected_stop == False and last_do_lanedetected_stop == True and hazard_light == True:
-            # add code to enable hazard light in sdk (just set the sdk for hazard light to true)
+            data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
             wait_for_response_hazard_light_timer = current_time
 

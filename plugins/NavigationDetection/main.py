@@ -2078,6 +2078,10 @@ def plugin(data):
                 turnincoming_last_detected = current_time
                 lanechanging_current_lane = 0
             
+            if DefaultSteering.enabled == True:
+                enabled = True
+            else:
+                enabled = False
             try:
                 data["sdk"]
             except:
@@ -2091,19 +2095,19 @@ def plugin(data):
                 indicator_left_wait_for_response = False
             if current_time - 1 > indicator_right_response_timer:
                 indicator_right_wait_for_response = False
-            if turnincoming_direction == "Left" and indicator_left == False and indicator_left_wait_for_response == False:
+            if turnincoming_direction == "Left" and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
                 data["sdk"]["LeftBlinker"] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if turnincoming_direction == "Right" and indicator_right == False and indicator_right_wait_for_response == False:
+            if turnincoming_direction == "Right" and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
                 data["sdk"]["RightBlinker"] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
-            if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True:
+            if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
                 data["sdk"]["LeftBlinker"] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True:
+            if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
                 data["sdk"]["RightBlinker"] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
@@ -2125,11 +2129,11 @@ def plugin(data):
                     lanechanging_current_correction = -lanechanging_speed/10
             lanechanging_final_offset += lanechanging_current_correction
             lanechanging_progress = lanechanging_final_offset/lanechanging_width
-            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True:
                 data["sdk"]["LeftBlinker"] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True:
                 data["sdk"]["RightBlinker"] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
@@ -2144,9 +2148,9 @@ def plugin(data):
                         correction = navigationsymbol_x - center_x_lane + width_lane/40
             else:
                 correction = 0
-                if turnincoming_direction == "Left":
+                if turnincoming_direction == "Left" and enabled == True:
                     data["sdk"]["LeftBlinker"] = False
-                if turnincoming_direction == "Right":
+                if turnincoming_direction == "Right" and enabled == True:
                     data["sdk"]["RightBlinker"] = False
                 turnincoming_detected = False
                 tunincoming_direction = None
