@@ -1,3 +1,6 @@
+This app has matured enough that we will need a name change soon... you can submit any ideas to me on discord 👍
+So far the leader is just a simple ETS2LA, abbreviated from the app name.
+
 ### Links
 
 Discord: https://discord.gg/DpJpkNpqwD
