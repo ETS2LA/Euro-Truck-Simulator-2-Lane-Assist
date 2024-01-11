@@ -1778,20 +1778,12 @@ def plugin(data):
                             if enabled_plugins[i] not in settings.GetSettings("Plugins", "Enabled"):
                                 settings.AddToList("Plugins", "Enabled", enabled_plugins[i])
 
-                    if enabled_plugins == settings.GetSettings("Plugins", "Enabled"):
-                        DefaultSteering.enabled = True
-                        variables.UPDATEPLUGINS = True
-                        variables.ENABLELOOP = False
-                        mainUI.update(data)
-                        setupmode = False
-                        LoadSettingsV3()
-                else:
-                    DefaultSteering.enabled = True
-                    variables.UPDATEPLUGINS = True
-                    variables.ENABLELOOP = False
-                    mainUI.update(data)
-                    setupmode = False
-                    LoadSettingsV3()
+                DefaultSteering.enabled = True
+                variables.UPDATEPLUGINS = True
+                variables.ENABLELOOP = False
+                mainUI.update(data)
+                setupmode = False
+                LoadSettingsV3()
 
         if setupmode == False:
             current_time = time.time()
