@@ -1,5 +1,5 @@
 This app has matured enough that we will need a name change soon... you can submit any ideas to me on discord 👍
-You can see the candidates so far at my [kanboard page.](https://kanboard.tumppi066.fi/public/task/52/b119efc6029af19e58ed53dc4eb30ee8dbdc44095e84d2d597ba8a81657b).
+You can see the candidates so far at my [kanboard page.](https://kanboard.tumppi066.fi/public/task/52/b119efc6029af19e58ed53dc4eb30ee8dbdc44095e84d2d597ba8a81657b)
 
 ### Links
 
