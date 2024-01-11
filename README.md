@@ -22,13 +22,13 @@ What is this app?
 
 ### What does it look like in action?
 
-Check the demonstration [video](https://www.youtube.com/watch?v=XmM87rA_3fw).
+Check the demonstration [video](https://www.youtube.com/watch?v=4F5u0B70pAw).
 
 
 ### How do I install it?
 
-You can watch the latest installation [video](https://www.youtube.com/watch?v=ILLqHix_D8o). Downloading and installing takes about 20 minutes. And then another 10 to tune in your own values.
-Alternatively you can also follow the written instructions on the [wiki](https://wiki.tumppi066.fi/en/LaneAssist). The wiki is more up to date than the video.
+You can watch the latest installation [video](https://www.youtube.com/watch?v=0pic0rzjvik&t=1s). Downloading and installing takes about 20 minutes. And then another 10 to tune in your own values.
+Alternatively you can also follow the written instructions on the [wiki](https://wiki.tumppi066.fi/en/LaneAssist). Keep in mind that both the video and the wiki might not be up to date!
 
 
 ### How to update?
