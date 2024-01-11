@@ -282,7 +282,7 @@ def plugin(data):
             if user_throttle == acceleration_strength:
                 user_accelerating = False
             data["sdk"]["brake"] = 0
-        if targetspeed == 0 and user_accelerating == False:
+        if targetspeed == 0 and speed > 1 and user_accelerating == False:
             data["sdk"]["acceleration"] = 0
             data["sdk"]["brake"] = brake_strength
             user_emergency_braking_timer = current_time
