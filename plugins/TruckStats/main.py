@@ -76,6 +76,12 @@ def LoadSettings():
     width_screen, height_screen = pyautogui.size()
     width_frame = settings.GetSettings("TruckStats", "width_frame", round(height_screen/2.5))
     height_frame = settings.GetSettings("TruckStats", "height_frame", round(height_screen/4))
+    if width_frame < 50:
+        width_frame = round(height_screen/2.5)
+        settings.CreateSettings("TruckStats", "width_frame", round(height_screen/2.5))
+    if height_frame < 50:
+        height_frame = round(height_screen/4)
+        settings.CreateSettings("TruckStats", "height_frame", round(height_screen/4))
     last_width_frame = width_frame
     last_height_frame = height_frame
     frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
@@ -193,6 +199,10 @@ def plugin(data):
         size_frame = cv2.getWindowImageRect(name_window)
         width_frame = size_frame[2]
         height_frame = size_frame[3]
+        if width_frame < 50:
+            width_frame = round(height_screen/2.5)
+        if height_frame < 50:
+            height_frame = round(height_screen/4)
         x1, y1, _, _ = size_frame
         x2, y2 = mouse.get_position()
         mousex = x2-x1
@@ -219,7 +229,7 @@ def plugin(data):
     try:
         if width_frame != last_width_frame or height_frame != last_height_frame:
             frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
-            if width_frame >= 10 and height_frame >= 10:
+            if width_frame >= 50 and height_frame >= 50:
                 settings.CreateSettings("TruckStats", "width_frame", width_frame)
                 settings.CreateSettings("TruckStats", "height_frame", height_frame)
     except:
