@@ -144,6 +144,7 @@ def plugin(data):
         # Crop the frame to the selected area
         frame = frame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
         data["frame"] = frame
+        data["frameOriginal"] = frame
         return data
     except Exception as ex:
         print(ex)

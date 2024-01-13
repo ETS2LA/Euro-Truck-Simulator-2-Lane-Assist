@@ -27,6 +27,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import src.sounds as sounds
+import src.controls as controls
 from src.translator import Translate
 from tkinter import messagebox
 import os
@@ -47,6 +48,14 @@ import os
 
 path = variables.PATH + r"\assets\NavigationDetectionV3\v3setupexample.jpg"
 exampleimage = cv2.imread(path)
+
+controls.RegisterKeybind("Lane change to the left",
+                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
+
+controls.RegisterKeybind("Lane change to the right",
+                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
 
 # Code Parts:
 #-
@@ -353,8 +362,12 @@ def LoadSettingsV3():
 
     global check_zoom_timer
     global do_zoom
+    global do_blocked
     global allow_playsound
     global allow_playsound_timer
+
+    global controls_last_left
+    global controls_last_right
 
     global left_x_lane
     global right_x_lane
@@ -384,6 +397,7 @@ def LoadSettingsV3():
     global lanechanging_do_lane_changing
     global lanechanging_speed
     global lanechanging_width
+    global lanechanging_autolanezero
     global lanechanging_current_lane
     global lanechanging_final_offset
 
@@ -434,8 +448,12 @@ def LoadSettingsV3():
 
     check_zoom_timer = 0
     do_zoom = False
+    do_blocked = False
     allow_playsound = False
     allow_playsound_timer = time.time()
+
+    controls_last_left = False
+    controls_last_right = False
 
     left_x_lane = 0
     right_x_lane = 0
@@ -466,6 +484,7 @@ def LoadSettingsV3():
     lanechanging_do_lane_changing = settings.GetSettings("NavigationDetectionV3", "lanechanging_do_lane_changing", True)
     lanechanging_speed = settings.GetSettings("NavigationDetectionV3", "lanechanging_speed", 1)
     lanechanging_width = settings.GetSettings("NavigationDetectionV3", "lanechanging_width", 10)
+    lanechanging_autolanezero = settings.GetSettings("NavigationDetectionV3", "lanechanging_autolanezero", True)
     lanechanging_current_lane = 0
     lanechanging_final_offset = 0
 
@@ -482,6 +501,8 @@ def LoadSettings():
         LoadSettingsV2()
     if version == "NavigationDetectionV3":
         LoadSettingsV3()
+    global mod
+    mod = settings.GetSettings("NavigationDetection", "mod")
 LoadSettings()
 
 
@@ -1288,8 +1309,12 @@ def plugin(data):
 
         global check_zoom_timer
         global do_zoom
+        global do_blocked
         global allow_playsound
         global allow_playsound_timer
+        
+        global controls_last_left
+        global controls_last_right
 
         global left_x_lane
         global right_x_lane
@@ -1319,6 +1344,7 @@ def plugin(data):
         global lanechanging_do_lane_changing
         global lanechanging_speed
         global lanechanging_width
+        global lanechanging_autolanezero
         global lanechanging_current_lane
         global lanechanging_final_offset
         
@@ -1866,19 +1892,32 @@ def plugin(data):
                         do_zoom = False
                     else:
                         do_zoom = True
+                    if pixel_ratio < 0.001:
+                        do_blocked = True
+                    else:
+                        do_blocked = False
                     if check_zoom_timer == 0:
                         check_zoom_timer = current_time
-                
-            lower_red = np.array([0, 0, 160])
-            upper_red = np.array([110, 110, 255])
-            lower_green = np.array([0, 200, 0])
-            upper_green = np.array([230, 255, 150])
-            white_limit = 1
+            
+            if mod != "1":
+                lower_red = np.array([0, 0, 160])
+                upper_red = np.array([110, 110, 255])
+                lower_green = np.array([0, 200, 0])
+                upper_green = np.array([230, 255, 150])
+                white_limit = 1
 
-            mask_red = cv2.inRange(frame, lower_red, upper_red)
-            mask_green = cv2.inRange(frame, lower_green, upper_green)
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+                mask_green = cv2.inRange(frame, lower_green, upper_green)
 
-            frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+                frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+            else:
+                lower_red = np.array([7, 7, 202])
+                upper_red = np.array([17, 17, 212])
+                white_limit = 1
+
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+
+                frame_red_green = cv2.bitwise_and(frame, frame, mask=mask_red)
 
             cv2.rectangle(frame_red_green, (0,0), (round(width/6),round(height/3)),(0,0,0),-1)
             cv2.rectangle(frame_red_green, (width,0), (round(width-width/6),round(height/3)),(0,0,0),-1)
@@ -2068,7 +2107,8 @@ def plugin(data):
 
             if turnincoming_detected == True:
                 turnincoming_last_detected = current_time
-                lanechanging_current_lane = 0
+                if lanechanging_autolanezero == True:
+                    lanechanging_current_lane = 0
             
             if DefaultSteering.enabled == True:
                 enabled = True
@@ -2107,6 +2147,20 @@ def plugin(data):
                 indicator_changed_by_code = True
             else:
                 indicator_changed_by_code = False
+
+            if 'buttonIndex' in controls.GetKeybindFromName("Lane change to the left") != -1:
+                controls_left_set = True
+                controls_left = controls.GetKeybindValue("Lane change to the left")
+            else:
+                controls_left_set = False
+                controls_left = False
+            if 'buttonIndex' in controls.GetKeybindFromName("Lane change to the right") != -1:
+                controls_right_set = True
+                controls_right = controls.GetKeybindValue("Lane change to the right")
+            else:
+                controls_right_set = False
+                controls_right = False
+
             if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
                 lanechanging_current_lane += 1
             if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
@@ -2174,15 +2228,48 @@ def plugin(data):
 
                 allow_trafficlight_symbol = False
                 allow_no_lane_detected = False
+                allow_do_blocked = False
                 allow_do_zoom = False
                 show_turn_line = False
             else:
                 allow_trafficlight_symbol = True
                 allow_no_lane_detected = True
+                allow_do_blocked = True
                 allow_do_zoom = True
                 show_turn_line = True
-            
-            if do_zoom == True and allow_do_zoom == True:
+
+            if do_blocked == True and allow_do_blocked == True:
+                if allow_playsound == True:
+                    sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
+                    allow_playsound = False
+                    allow_playsound_timer = current_time
+                frame = cv2.GaussianBlur(frame, (9, 9), 0)
+                frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
+
+                xofinfo = round(width/2)
+                yofinfo = round(height/3.5)
+                sizeofinfo = round(height/5)
+                infothickness = round(height/50)
+                cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
+                cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
+                cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+
+                sizeoftext = round(height/200)
+                textthickness = round(height/100)
+                text_size, _ = cv2.getTextSize("Minimap vision", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, "Minimap vision", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+                text_size, _ = cv2.getTextSize("blocked", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, "blocked", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+
+                correction = 0
+
+                allow_trafficlight_symbol = False
+                allow_no_lane_detected = False
+                show_turn_line = False
+
+            elif do_zoom == True and allow_do_zoom == True:
                 if allow_playsound == True:
                     sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                     allow_playsound = False
@@ -2350,6 +2437,10 @@ def plugin(data):
 
             indicator_last_left = indicator_left
             indicator_last_right = indicator_right
+            controls_last_left = controls_left
+            controls_last_right = controls_right
+            
+            lanechanging_last_progress = lanechanging_progress
 
             if speed > 63:
                 correction *= 63/speed
@@ -2365,6 +2456,7 @@ def plugin(data):
                 lane_detected = False
             else:
                 lane_detected = True
+                check_zoom_timer = current_time
 
             if speed > -0.5:
                 data["LaneDetection"] = {}
@@ -2428,6 +2520,7 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.version_ui = ""
+            self.mod_ui = ""
             self.exampleFunction()
             resizeWindow(950,660)        
         
@@ -2560,7 +2653,6 @@ class UI():
             ############################################################################################################################
             
             helpers.MakeLabel(generalFrame, "NavigationDetection Version:", 1, 1, font=("Segoe UI", 12))
-
             # version selector
             version_ui = tk.StringVar() 
             previous_version_ui = settings.GetSettings("NavigationDetection", "version")
@@ -2573,13 +2665,30 @@ class UI():
             def version_selection():
                 self.version_ui = version_ui.get()
             v1_radio_button = ttk.Radiobutton(generalFrame, text="NavigationDetectionV1", variable=version_ui, value="NavigationDetectionV1", command=version_selection)
-            v1_radio_button.grid(row=2, column=0)
+            v1_radio_button.grid(row=2, column=1)
             v2_radio_button = ttk.Radiobutton(generalFrame, text="NavigationDetectionV2", variable=version_ui, value="NavigationDetectionV2", command=version_selection)
-            v2_radio_button.grid(row=2, column=1)
+            v2_radio_button.grid(row=3, column=1)
             v3_radio_button = ttk.Radiobutton(generalFrame, text="NavigationDetectionV3", variable=version_ui, value="NavigationDetectionV3", command=version_selection)
-            v3_radio_button.grid(row=2, column=2)
+            v3_radio_button.grid(row=4, column=1)
             version_selection()
 
+            helpers.MakeEmptyLine(generalFrame, 5, 1)
+
+            helpers.MakeLabel(generalFrame, "CleanRouteAdvisor Mod:", 6, 1, font=("Segoe UI", 12))
+            # mod selection
+            mod_ui = tk.StringVar()
+            previous_mod_ui = settings.GetSettings("NavigationDetection", "mod")
+            if previous_mod_ui == "1":
+                mod_ui.set("1")
+            if previous_mod_ui == "0":
+                mod_ui.set("0")
+            def mod_selection():
+                self.mod_ui = mod_ui.get()
+            mod_true_radio_button = ttk.Radiobutton(generalFrame, text="I use the CleanRouteAdvisor mod.", variable=mod_ui, value="1", command=mod_selection)
+            mod_true_radio_button.grid(row=7, column=1)
+            mod_false_radio_button = ttk.Radiobutton(generalFrame, text="I do not use the CleanRouteAdvisor mod / the mod does not work.", variable=mod_ui, value="0", command=mod_selection)
+            mod_false_radio_button.grid(row=8, column=1)
+            mod_selection()
 
             # V1 Tab
             self.trimSlider = tk.Scale(v1Tab, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
@@ -2737,7 +2846,9 @@ class UI():
             helpers.MakeEmptyLine(v3generalFrame, 6, 0)
             self.lanechanging_speed = helpers.MakeComboEntry(v3generalFrame, "Lane Changing Speed\n--------------------------------\nThis sets how fast the truck changes the lane.\n‎", "NavigationDetectionV3", "lanechanging_speed", 6, 0, labelwidth=90, width=15, isFloat=True)
             self.lanechanging_width = helpers.MakeComboEntry(v3generalFrame, "Lane Width\n-----------------\nThis sets how much the truck needs to go left or right to change the lane.\n‎", "NavigationDetectionV3", "lanechanging_width", 7, 0, labelwidth=90, width=15, isFloat=True)
-            
+            helpers.MakeCheckButton(v3generalFrame, "Automatically change to lane 0 if a turn got detected and lane changing is enabled.\nNote: You wont be able to change lanes when a turn is detected.", "NavigationDetectionV3", "lanechanging_autolanezero", 8, 0, width=90, callback=lambda: LoadSettings())
+            helpers.MakeLabel(v3generalFrame, "If you set the buttons for changing lanes in the controls menu, you can no longer change lanes\nusing the indicators. Remove the buttons from the controls menu if you want to use the indicators\nfor lane changing.", 9, 0, sticky="nw")
+
         def save(self):
             
             # V2:
@@ -2756,6 +2867,8 @@ class UI():
                 LoadSettingsV2()
             if version == "NavigationDetectionV3":
                 LoadSettingsV3()
+                
+            settings.CreateSettings("NavigationDetection", "mod", self.mod_ui)
             LoadSettings()
         
         def update(self, data): # When the panel is open this function is called each frame 
