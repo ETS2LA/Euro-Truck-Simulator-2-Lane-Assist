@@ -1899,7 +1899,7 @@ def plugin(data):
                     if check_zoom_timer == 0:
                         check_zoom_timer = current_time
             
-            if mod == "0":
+            if mod != "1":
                 lower_red = np.array([0, 0, 160])
                 upper_red = np.array([110, 110, 255])
                 lower_green = np.array([0, 200, 0])
