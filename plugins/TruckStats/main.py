@@ -598,10 +598,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text <= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text <= 0:
             thickness_current_text = 1
@@ -679,10 +680,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text <= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text <= 0:
             thickness_current_text = 1
@@ -742,10 +744,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text <= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text <= 0:
             thickness_current_text = 1
@@ -789,10 +792,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text <= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text <= 0:
             thickness_current_text = 1
@@ -868,10 +872,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text <= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text <= 0:
             thickness_current_text = 1
@@ -949,10 +954,11 @@ def plugin(data):
                 fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
                 textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
                 width_current_text, height_current_text = textsize_current_text
-                width_original_text, height_original_text = width_current_text, height_current_text
                 max_count_current_text -= 1
                 if max_count_current_text <= 0:
                     break
+            width_original_text = width_current_text
+            height_original_text = height_current_text
             thickness_current_text = round(fontscale_current_text*2)
             if thickness_current_text <= 0:
                 thickness_current_text = 1

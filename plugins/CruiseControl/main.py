@@ -25,6 +25,7 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+import src.controls as controls
 from src.translator import Translate
 from tkinter import messagebox
 import os
@@ -32,10 +33,18 @@ import os
 import plugins.DefaultSteering.main as DefaultSteering
 import time
 import cv2
+import numpy as np
+import ctypes
+
+controls.RegisterKeybind("Pause/Resume Automatic Acceleration",
+                         notBoundInfo="Bind this if you use the CruiseControl\nplugin with automatic acceleration.",
+                         description="Bind this if you use the CruiseControl\nplugin with automatic acceleration.")
 
 def UpdateSettings():
     global trafficlightdetectionisenabled
     global navigationdetectionisenabled
+    global navigationsymbol_x
+    global navigationsymbol_y
     global cruisecontrol_off_set
     global cruisecontrol_off_unset
     global cruisecontrol_off_slowed
@@ -59,7 +68,6 @@ def UpdateSettings():
     global wait_for_response
     global wait_for_response_timer
     global last_hazard_light
-    global need_to_disable_hazard_light
     global wait_for_response_hazard_light
     global wait_for_response_hazard_light_timer
     global last_speed
@@ -75,6 +83,8 @@ def UpdateSettings():
     global do_lanedetected_stop
     global last_do_lanedetected_stop
     global last_lanedetected
+    global allow_acceleration
+    global pauseresume_allow
     
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
         trafficlightdetectionisenabled = True
@@ -83,6 +93,21 @@ def UpdateSettings():
 
     if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
         navigationdetectionisenabled = True
+        centercoord = settings.GetSettings("NavigationDetectionV3", "centercoord", "unset")
+        screencap_x = settings.GetSettings("dxcam", "x")
+        screencap_y = settings.GetSettings("dxcam", "y")
+        if centercoord == "unset":
+            centercoord = None
+        if centercoord != None and screencap_x != None and screencap_y != None:
+            navigationsymbol_x = centercoord[0] - screencap_x
+            navigationsymbol_y = centercoord[1] - screencap_y
+            if navigationsymbol_x < 0:
+                navigationsymbol_x = 0
+            if navigationsymbol_y < 0:
+                navigationsymbol_y = 0
+        else:
+            navigationsymbol_y = 0
+            navigationsymbol_x = 0
     else:
         navigationdetectionisenabled = False
 
@@ -115,7 +140,6 @@ def UpdateSettings():
     wait_for_response_timer = 0
 
     last_hazard_light = False
-    need_to_disable_hazard_light = False
     wait_for_response_hazard_light = False
     wait_for_response_hazard_light_timer = 0
 
@@ -133,10 +157,14 @@ def UpdateSettings():
     do_lanedetected_stop = False
     last_do_lanedetected_stop = False
     last_lanedetected = False
+    allow_acceleration = True
+    pauseresume_allow = True
 
 def plugin(data):
     global trafficlightdetectionisenabled
     global navigationdetectionisenabled
+    global navigationsymbol_x
+    global navigationsymbol_y
     global cruisecontrol_off_set
     global cruisecontrol_off_unset
     global cruisecontrol_off_slowed
@@ -160,7 +188,6 @@ def plugin(data):
     global wait_for_response
     global wait_for_response_timer
     global last_hazard_light
-    global need_to_disable_hazard_light
     global wait_for_response_hazard_light
     global wait_for_response_hazard_light_timer
     global last_speed
@@ -176,13 +203,13 @@ def plugin(data):
     global do_lanedetected_stop
     global last_do_lanedetected_stop
     global last_lanedetected
+    global allow_acceleration
+    global pauseresume_allow
 
     current_time = time.time()
 
     try:
         speed = round(data["api"]["truckFloat"]["speed"]*3.6, 1)
-        if speed > 5 and speed > last_speed:
-            user_emergency_braking = False
         last_speed = speed
         speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, 1)
         if speedlimit != 0 and speedlimit > 0:
@@ -197,6 +224,10 @@ def plugin(data):
             user_braking = True
         else:
             user_braking = False
+        if speed >= 0.5 and speed > last_speed:
+            user_emergency_braking = False
+        if user_accelerating == True:
+            user_emergency_braking = False
         if data["api"]["truckFloat"]["userBrake"] > 0.9 and speed > 30 and DefaultSteering.enabled == True:
             user_emergency_braking = True
         hazard_light = data["api"]["truckBool"]["lightsHazard"]
@@ -257,6 +288,19 @@ def plugin(data):
         wait_for_response = False
     if last_cruisecontrolspeed != cruisecontrolspeed:
         wait_for_response = False
+        
+    if controls.GetKeybindValue("Pause/Resume Automatic Acceleration") == True and pauseresume_allow == True:
+        if allow_acceleration == True:
+            auto_accelerate = False
+            trafficlight_accelerate = False
+            allow_acceleration = False
+        else:
+            auto_accelerate = settings.GetSettings("CruiseControl", "auto_accelerate", False)
+            trafficlight_accelerate = settings.GetSettings("CruiseControl", "trafficlight_accelerate", True)
+            allow_acceleration = True
+        pauseresume_allow = False
+    elif controls.GetKeybindValue("Pause/Resume Automatic Acceleration") == False:
+        pauseresume_allow = True
 
     try:
         data["sdk"]
@@ -295,39 +339,64 @@ def plugin(data):
         data["sdk"]["acceleration"] = 0
         data["sdk"]["brake"] = 0
 
-    if auto_hazard == True:
+    if auto_hazard == True and do_lanedetected_stop == False:
         if current_time - 1 < user_emergency_braking_timer:
             user_emergency_braking = False
         if hazard_light != last_hazard_light or current_time - 1 >  wait_for_response_hazard_light_timer:
             wait_for_response_hazard_light = False
-        if hazard_light != last_hazard_light and hazard_light == False:
-            need_to_disable_hazard_light = False
         if user_emergency_braking == True and hazard_light == False and wait_for_response_hazard_light == False:
             data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
             wait_for_response_hazard_light_timer = current_time
-            need_to_disable_hazard_light = True
-        if user_emergency_braking == False and hazard_light == True and wait_for_response_hazard_light == False and need_to_disable_hazard_light == True:
+        if user_emergency_braking == False and hazard_light == True and wait_for_response_hazard_light == False:
             data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
             wait_for_response_hazard_light_timer = current_time
 
     if auto_stop == True:
         if gamepaused == False and DefaultSteering.enabled == True and lanedetected == False and last_lanedetected == True and user_accelerating == False:
-            do_lanedetected_stop = True
+            if navigationdetectionisenabled == True:
+                try:
+                    frame = data["frameOriginal"]
+                    width = frame.shape[1]
+                    height = frame.shape[0]
+                except:
+                    return data
+                hwnd_ets2 = ctypes.windll.user32.FindWindowW(None, "Euro Truck Simulator 2")
+                hwnd_ets2_multiplayer = ctypes.windll.user32.FindWindowW(None, "Euro Truck Simulator 2 Multiplayer")
+                hwnd_ats = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator")
+                hwnd_ats_multiplayer = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator Multiplayer")
+                hwnd_active = ctypes.windll.user32.GetForegroundWindow()
+                if hwnd_active == hwnd_ets2 or hwnd_active == hwnd_ats or hwnd_active == hwnd_ets2_multiplayer or hwnd_active == hwnd_ats_multiplayer:
+                    lower_blue = np.array([121, 68, 0])
+                    upper_blue = np.array([250, 184, 109])
+                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
+                    y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
+                    mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 <= round(width/10)**2
+                    mask_blue = np.where(mask_circle, mask_blue, 0)
+                    if width != 0 and height != 0:
+                        pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
+                    else:
+                        pixel_ratio = 0
+                    if pixel_ratio > 0.007 and pixel_ratio < 0.01:
+                        do_lanedetected_stop = True
+            else:
+                do_lanedetected_stop = True
         if user_accelerating == True:
             do_lanedetected_stop = False
-        if do_lanedetected_stop == True:
-            if speed > 1:
-                data["sdk"]["brake"] = 0.1
-            if hazard_light == False and wait_for_response_hazard_light == False:
-                data["sdk"]["Hazards"] = True
-                wait_for_response_hazard_light = True
-                wait_for_response_hazard_light_timer = current_time
-        if do_lanedetected_stop == False and last_do_lanedetected_stop == True and hazard_light == True:
+        if hazard_light != last_hazard_light or current_time - 1 >  wait_for_response_hazard_light_timer:
+            wait_for_response_hazard_light = False
+    if do_lanedetected_stop == True:
+        if speed > 1:
+            data["sdk"]["brake"] = 0.1
+        if hazard_light == False and wait_for_response_hazard_light == False:
             data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
             wait_for_response_hazard_light_timer = current_time
+    if do_lanedetected_stop == False and last_do_lanedetected_stop == True and hazard_light == True and wait_for_response_hazard_light == False:
+        data["sdk"]["Hazards"] = True
+        wait_for_response_hazard_light = True
+        wait_for_response_hazard_light_timer = current_time
 
     if show_symbols == True:
         try:
@@ -390,7 +459,7 @@ def plugin(data):
             if user_braking == True or user_accelerating == True:
                 symbol = cruisecontrol_off_unset.copy()
         
-        if user_emergency_braking == True:
+        if user_emergency_braking == True or do_lanedetected_stop == True:
             if cruisecontrolspeed != 0:
                 if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
                     symbol = cruisecontrol_emergency_set.copy()
@@ -439,7 +508,41 @@ def plugin(data):
             target_region = frame[int(height/4 - 0.2 * height):int(height/4 + 0.034375 * height), width - int(0.4 * height):width]
         target_region[:symbol_resized.shape[0], :symbol_resized.shape[1]] = symbol_resized
 
-        data["frame"] = frame
+    if allow_acceleration == False:
+        current_text = "Acceleration"
+        width_target_current_text = 0.2*width
+        fontscale_current_text = 1
+        textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+        width_current_text, height_current_text = textsize_current_text
+        max_count_current_text = 3
+        while width_current_text != width_target_current_text:
+            fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text -= 1
+            if max_count_current_text <= 0:
+                break
+        thickness_current_text = round(fontscale_current_text*2)
+        if thickness_current_text <= 0:
+            thickness_current_text = 1
+        textsize_paused_text, _ = cv2.getTextSize("Paused", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+        width_paused_text, height_paused_text = textsize_paused_text
+        if indicator_left or indicator_right:
+            if show_symbols == True:
+                cv2.putText(frame, current_text, (round(0.79*width), round(0.4*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.4*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+            else:
+                cv2.putText(frame, current_text, (round(0.79*width), round(0.5*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.5*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+        else:
+            if show_symbols == True:
+                cv2.putText(frame, current_text, (round(0.79*width), round(0.3*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.3*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+            else:
+                cv2.putText(frame, current_text, (round(0.79*width), round(0.4*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.4*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+
+    data["frame"] = frame
     
     last_lanedetected = lanedetected
     last_do_lanedetected_stop = do_lanedetected_stop
@@ -507,7 +610,7 @@ class UI():
             helpers.MakeCheckButton(generalFrame, "Automatically enable cruise control when available.", "CruiseControl", "auto_enable", 2, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Stop the truck when a red traffic light is detected.\n(requires that the TrafficLightDetection plugin is enabled)", "CruiseControl", "stop_trafficlight", 3, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Automatically accelerate when the red traffic light turns green.", "CruiseControl", "trafficlight_accelerate", 4, 0, width=90, callback=lambda: UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Automatically accelerate to the target speed, even if your truck is standing still.\n(if you disable the steering, the truck will not accelerate to the target speed)", "CruiseControl", "auto_accelerate", 5, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatically accelerate to the target speed, even if your truck is standing still.\n(if you disable the steering or pause this feature, the truck will not accelerate to the target speed)", "CruiseControl", "auto_accelerate", 5, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Automatically enable the hazard light, when the user does a emergency stop.", "CruiseControl", "auto_hazard", 6, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Automatically come to a stop and enable the hazard light if no lane is detected.", "CruiseControl", "auto_stop", 7, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Show Cruise Control symbol in the Lane Assist window. (ShowImage Plugin)", "CruiseControl", "show_symbols", 8, 0, width=90, callback=lambda: UpdateSettings())
