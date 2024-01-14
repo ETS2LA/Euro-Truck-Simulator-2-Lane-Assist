@@ -2147,13 +2147,13 @@ def plugin(data):
             else:
                 indicator_changed_by_code = False
 
-            if 'buttonIndex' in controls.GetKeybindFromName("Lane change to the left") != -1:
+            if controls.GetKeybindFromName("Lane change to the left")['buttonIndex'] != -1:
                 controls_left_set = True
                 controls_left = controls.GetKeybindValue("Lane change to the left")
             else:
                 controls_left_set = False
                 controls_left = False
-            if 'buttonIndex' in controls.GetKeybindFromName("Lane change to the right") != -1:
+            if controls.GetKeybindFromName("Lane change to the right")['buttonIndex'] != -1:
                 controls_right_set = True
                 controls_right = controls.GetKeybindValue("Lane change to the right")
             else:
