@@ -69,6 +69,11 @@ def LoadSettings():
     global engine_value_history_adder
     global engine_value_history_count
 
+    global reset_trip
+    global reset_fuelgraph
+    global reset_enginegraph
+    global last_route_distance_left
+
     name_window = "TruckStats"
     current_tab = settings.GetSettings("TruckStats", "current_tab", 1)
     text_color = (255,255,255)
@@ -76,12 +81,6 @@ def LoadSettings():
     width_screen, height_screen = pyautogui.size()
     width_frame = settings.GetSettings("TruckStats", "width_frame", round(height_screen/2.5))
     height_frame = settings.GetSettings("TruckStats", "height_frame", round(height_screen/4))
-    if width_frame < 50:
-        width_frame = round(height_screen/2.5)
-        settings.CreateSettings("TruckStats", "width_frame", round(height_screen/2.5))
-    if height_frame < 50:
-        height_frame = round(height_screen/4)
-        settings.CreateSettings("TruckStats", "height_frame", round(height_screen/4))
     last_width_frame = width_frame
     last_height_frame = height_frame
     frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
@@ -104,6 +103,11 @@ def LoadSettings():
     engine_value_history_adder = settings.GetSettings("TruckStats", "engine_value_history_adder", 60)
     engine_value_history_time = time.time() + 1
     engine_value_history_count = 0
+
+    reset_trip = settings.GetSettings("TruckStats", "reset_trip", False)
+    reset_fuelgraph = settings.GetSettings("TruckStats", "reset_fuelgraph", False)
+    reset_enginegraph = settings.GetSettings("TruckStats", "reset_enginegraph", False)
+    last_route_distance_left = 0
 
     open_tab_color_r = settings.GetSettings("TruckStats", "open_tab_color_r")
     if open_tab_color_r == None or not isinstance(open_tab_color_r, int) or not (0 <= open_tab_color_r <= 255):
@@ -193,16 +197,16 @@ def plugin(data):
     global engine_value_history_time
     global engine_value_history_adder
     global engine_value_history_count
-    
+
+    global reset_trip
+    global reset_fuelgraph
+    global reset_enginegraph
+    global last_route_distance_left
 
     try:
         size_frame = cv2.getWindowImageRect(name_window)
         width_frame = size_frame[2]
         height_frame = size_frame[3]
-        if width_frame < 50:
-            width_frame = round(height_screen/2.5)
-        if height_frame < 50:
-            height_frame = round(height_screen/4)
         x1, y1, _, _ = size_frame
         x2, y2 = mouse.get_position()
         mousex = x2-x1
@@ -225,6 +229,11 @@ def plugin(data):
         gamepaused = data["api"]["pause"]
     except:
         gamepaused = False
+
+    try:
+        data["sdk"]
+    except:
+        data["sdk"] = {}
 
     try:
         if width_frame != last_width_frame or height_frame != last_height_frame:
@@ -409,7 +418,19 @@ def plugin(data):
                 engine_value_history.append((engine_oil_pressure, engine_value_history_count))
                 engine_value_history_time += engine_value_history_adder
                 engine_value_history_count += 1
-        
+
+    if route_distance_left == 0 and last_route_distance_left != 0:
+        if reset_trip == True:
+            data["sdk"]["TripReset"] = True
+        if reset_fuelgraph == True:
+            fuel_value_history = []
+            fuel_value_history_time = current_time + 1
+            fuel_value_history_count = 0
+        if reset_enginegraph == True:
+            engine_value_history = []
+            engine_value_history_time = current_time + 1
+            engine_value_history_count = 0
+    last_route_distance_left = route_distance_left
 
     if current_tab != 1:
         if mouseposx >= 0.14 and mouseposy >= 0.02 and mouseposx <= 0.26 and mouseposy <= 0.06:
@@ -1057,10 +1078,13 @@ class UI():
             self.root.update()
 
             helpers.MakeEmptyLine(generalFrame, 1, 0)
-            helpers.MakeCheckButton(generalFrame, "Show the Graphs.", "TruckStats", "show_graphs", 2, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, "Show the fuel and engine graphs.", "TruckStats", "show_graphs", 2, 0, width=100)
             helpers.MakeCheckButton(generalFrame, "Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h, Fahrenheit instead of Celsius and Gallons instead of Liters)", "TruckStats", "use_imperial_system", 3, 0, width=100)
             helpers.MakeCheckButton(generalFrame, "Use US Gallons.", "TruckStats", "use_us_gallons", 4, 0, width=100)
-            helpers.MakeLabel(generalFrame, "Tipp: If you close the TruckStats window, it will save the location of the window.", 5, 0, sticky="w")
+            helpers.MakeCheckButton(generalFrame, "Reset the in-game trip info if you reach your destination.", "TruckStats", "reset_trip", 5, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, "Reset the fuel graph if you reach your destination.", "TruckStats", "reset_fuelgraph", 6, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, "Reset the engine graph if you reach your destination.", "TruckStats", "reset_enginegraph", 7, 0, width=100)
+            helpers.MakeLabel(generalFrame, "Tipp: If you close the TruckStats window, it will save the location of the window.", 8, 0, sticky="w")
 
             
             self.open_tab_color_r = helpers.MakeComboEntry(colorsFrame, "Open Tab Color R", "TruckStats", "open_tab_color_r", 3, 0, labelwidth=17, width=7, sticky="w",labelPadX=40, translate=False)
@@ -1092,7 +1116,7 @@ class UI():
             helpers.MakeEmptyLine(FuelTabFrame, 1, 0)
             helpers.MakeCheckButton(FuelTabFrame, "Show the Values in green instead of white, if enough fuel is left.", "TruckStats", "show_in_green", 2, 0, width=85)
             helpers.MakeEmptyLine(FuelTabFrame, 3, 0)
-            helpers.MakeLabel(FuelTabFrame, "Value to be displayed in the diagram:", 4, 0, sticky="w")
+            helpers.MakeLabel(FuelTabFrame, "Value to be displayed in the graph:", 4, 0, sticky="w")
             value_to_graph_fuel = tk.StringVar() 
             previous_value_to_graph_fuel = settings.GetSettings("TruckStats", "fuel_value_to_graph")
             if previous_value_to_graph_fuel == "fuel_current":
@@ -1121,7 +1145,7 @@ class UI():
 
 
             helpers.MakeLabel(EngineTabFrame, "                                                                                                                                                          ", 2, 0, translate=False)
-            helpers.MakeLabel(EngineTabFrame, "Value to be displayed in the diagram:", 3, 0, sticky="w")
+            helpers.MakeLabel(EngineTabFrame, "Value to be displayed in the graph:", 3, 0, sticky="w")
             value_to_graph_engine = tk.StringVar() 
             previous_value_to_graph_engine = settings.GetSettings("TruckStats", "engine_value_to_graph")
             if previous_value_to_graph_engine == "rpm":
