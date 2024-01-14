@@ -1084,7 +1084,7 @@ class UI():
             helpers.MakeCheckButton(generalFrame, "Reset the in-game trip info if you reach your destination.", "TruckStats", "reset_trip", 5, 0, width=100)
             helpers.MakeCheckButton(generalFrame, "Reset the fuel graph if you reach your destination.", "TruckStats", "reset_fuelgraph", 6, 0, width=100)
             helpers.MakeCheckButton(generalFrame, "Reset the engine graph if you reach your destination.", "TruckStats", "reset_enginegraph", 7, 0, width=100)
-            helpers.MakeLabel(generalFrame, "Tipp: If you close the TruckStats window, it will save the location of the window.", 8, 0, sticky="w")
+            helpers.MakeLabel(generalFrame, "Note: If you close the TruckStats window, it will save the location of the window.", 8, 0, sticky="w")
 
             
             self.open_tab_color_r = helpers.MakeComboEntry(colorsFrame, "Open Tab Color R", "TruckStats", "open_tab_color_r", 3, 0, labelwidth=17, width=7, sticky="w",labelPadX=40, translate=False)
