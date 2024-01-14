@@ -35,15 +35,14 @@ import os
 
 
 import plugins.DefaultSteering.main as DefaultSteering
-import cv2
-import numpy as np
-import dxcam
-import time
-import pyautogui
 import keyboard as kb
-import mouse
+import numpy as np
+import pyautogui
 import ctypes
+import mouse
 import math
+import time
+import cv2
 import os
 
 path = variables.PATH + r"\assets\NavigationDetectionV3\v3setupexample.jpg"
@@ -392,6 +391,8 @@ def LoadSettingsV3():
     global indicator_right_wait_for_response
     global indicator_left_response_timer
     global indicator_right_response_timer
+    global indicator_enable_left
+    global indicator_enable_right
     global indicator_changed_by_code
 
     global lanechanging_do_lane_changing
@@ -479,6 +480,8 @@ def LoadSettingsV3():
     indicator_right_wait_for_response = False
     indicator_left_response_timer = 0
     indicator_right_response_timer = 0
+    indicator_enable_left = False
+    indicator_enable_right = False
     indicator_changed_by_code = True
 
     lanechanging_do_lane_changing = settings.GetSettings("NavigationDetectionV3", "lanechanging_do_lane_changing", True)
@@ -1339,6 +1342,8 @@ def plugin(data):
         global indicator_right_wait_for_response
         global indicator_left_response_timer
         global indicator_right_response_timer
+        global indicator_enable_left
+        global indicator_enable_right
         global indicator_changed_by_code
 
         global lanechanging_do_lane_changing
@@ -1871,33 +1876,27 @@ def plugin(data):
                 check_zoom = True
             else:
                 check_zoom = False
-            if check_zoom == True and gamepaused == False:
-                hwnd_ets2 = ctypes.windll.user32.FindWindowW(None, "Euro Truck Simulator 2")
-                hwnd_ets2_multiplayer = ctypes.windll.user32.FindWindowW(None, "Euro Truck Simulator 2 Multiplayer")
-                hwnd_ats = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator")
-                hwnd_ats_multiplayer = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator Multiplayer")
-                hwnd_active = ctypes.windll.user32.GetForegroundWindow()
-                if hwnd_active == hwnd_ets2 or hwnd_active == hwnd_ats or hwnd_active == hwnd_ets2_multiplayer or hwnd_active == hwnd_ats_multiplayer:
-                    lower_blue = np.array([121, 68, 0])
-                    upper_blue = np.array([250, 184, 109])
-                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
-                    y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
-                    mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 <= round(width/10)**2
-                    mask_blue = np.where(mask_circle, mask_blue, 0)
-                    if width != 0 and height != 0:
-                        pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
-                    else:
-                        pixel_ratio = 0
-                    if pixel_ratio > 0.007 and pixel_ratio < 0.01:
-                        do_zoom = False
-                    else:
-                        do_zoom = True
-                    if pixel_ratio < 0.001:
-                        do_blocked = True
-                    else:
-                        do_blocked = False
-                    if check_zoom_timer == 0:
-                        check_zoom_timer = current_time
+            if check_zoom == True or check_zoom_timer == 0:
+                lower_blue = np.array([121, 68, 0])
+                upper_blue = np.array([250, 184, 109])
+                mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
+                y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
+                mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 <= round(width/10)**2
+                mask_blue = np.where(mask_circle, mask_blue, 0)
+                if width != 0 and height != 0:
+                    pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
+                else:
+                    pixel_ratio = 0
+                if pixel_ratio > 0.007 and pixel_ratio < 0.01:
+                    do_zoom = False
+                else:
+                    do_zoom = True
+                if pixel_ratio < 0.001:
+                    do_blocked = True
+                else:
+                    do_blocked = False
+                if check_zoom_timer == 0:
+                    check_zoom_timer = current_time
             
             if mod != "1":
                 lower_red = np.array([0, 0, 160])
@@ -2161,11 +2160,42 @@ def plugin(data):
                 controls_right_set = False
                 controls_right = False
 
-            if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
-                lanechanging_current_lane += 1
-            if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
-                lanechanging_current_lane -= 1
-            
+            if controls_left_set == False:
+                if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
+                    lanechanging_current_lane += 1
+            else:
+                if controls_left == True and controls_last_left == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
+                    if indicator_left == True:
+                        lanechanging_current_lane += 1
+                    elif indicator_left == False and indicator_right_wait_for_response == False:
+                        lanechanging_current_lane += 1
+                        indicator_enable_left = True
+            if controls_right_set == False:
+                if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
+                    lanechanging_current_lane -= 1
+            else:
+                if controls_right == True and controls_last_right == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
+                    if indicator_right == True:
+                        lanechanging_current_lane -= 1
+                    elif indicator_right == False and indicator_left_wait_for_response == False:
+                        lanechanging_current_lane -= 1
+                        indicator_enable_right = True
+
+            if indicator_enable_left == True and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
+                data["sdk"]["LeftBlinker"] = True
+                indicator_changed_by_code = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+            elif indicator_left == True and indicator_left_wait_for_response == False:
+                indicator_enable_left = False
+            if indicator_enable_right == True and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
+                data["sdk"]["RightBlinker"] = True
+                indicator_changed_by_code = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+            elif indicator_right == True and indicator_right_wait_for_response == False:
+                indicator_enable_right = False
+
             lanechanging_target_offset = lanechanging_width * lanechanging_current_lane
             lanechanging_current_correction = lanechanging_target_offset - lanechanging_final_offset
             if abs(lanechanging_current_correction) > lanechanging_speed/10:
@@ -2175,11 +2205,21 @@ def plugin(data):
                     lanechanging_current_correction = -lanechanging_speed/10
             lanechanging_final_offset += lanechanging_current_correction
             lanechanging_progress = lanechanging_final_offset/lanechanging_width
-            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True:
+            
+            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_left_set == False:
                 data["sdk"]["LeftBlinker"] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True:
+            elif lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_left_set == True:
+                data["sdk"]["LeftBlinker"] = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+
+            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_right_set == False:
+                data["sdk"]["RightBlinker"] = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+            elif lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_right_set == True:
                 data["sdk"]["RightBlinker"] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
@@ -2412,7 +2452,7 @@ def plugin(data):
             
             if fuel_percentage < 15:
                 current_text = "Refuel!"
-                width_target_current_text = width/4.5
+                width_target_current_text = width/4
                 fontscale_current_text = 1
                 textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
                 width_current_text, height_current_text = textsize_current_text
@@ -2454,9 +2494,9 @@ def plugin(data):
 
             if width_lane == 0:
                 lane_detected = False
+                check_zoom_timer = current_time
             else:
                 lane_detected = True
-                check_zoom_timer = current_time
 
             if speed > -0.5:
                 data["LaneDetection"] = {}
@@ -2522,7 +2562,7 @@ class UI():
             self.version_ui = ""
             self.mod_ui = ""
             self.exampleFunction()
-            resizeWindow(950,660)        
+            resizeWindow(950,665)        
         
         def destroy(self):
             self.done = True
@@ -2530,7 +2570,7 @@ class UI():
             del self
         
         def tabFocused(self): # Called when the tab is focused
-            resizeWindow(950,660)
+            resizeWindow(950,665)
 
         def UpdateSettings(self):
             # V1:
@@ -2574,7 +2614,7 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=950, height=660, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=950, height=665, border=0, highlightthickness=0)
             self.root.grid_propagate(1) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
