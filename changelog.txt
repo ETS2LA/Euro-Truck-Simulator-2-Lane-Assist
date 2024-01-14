@@ -1,1 +1,1 @@
-Fixed bugs and added new features in the NavigationDetection and TruckStats Plugin.
+Fixed bugs and added new features in the NavigationDetection and TruckStats Plugin. The CruiseControl enables the parking brake at red traffic lights now.

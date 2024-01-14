@@ -70,6 +70,10 @@ def UpdateSettings():
     global last_hazard_light
     global wait_for_response_hazard_light
     global wait_for_response_hazard_light_timer
+    global park_brake_target
+    global last_park_brake
+    global wait_for_response_park_brake
+    global wait_for_response_park_brake_timer
     global last_speed
     global last_speedlimit
     global last_cruisecontrolspeed
@@ -85,6 +89,7 @@ def UpdateSettings():
     global last_lanedetected
     global allow_acceleration
     global pauseresume_allow
+    global last_park_brake
     
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
         trafficlightdetectionisenabled = True
@@ -143,6 +148,11 @@ def UpdateSettings():
     wait_for_response_hazard_light = False
     wait_for_response_hazard_light_timer = 0
 
+    park_brake_target = False
+    last_park_brake = False
+    wait_for_response_park_brake = False
+    wait_for_response_park_brake_timer = 0
+
     last_speed = 0
     last_speedlimit = 0
     last_cruisecontrolspeed = 0
@@ -190,6 +200,10 @@ def plugin(data):
     global last_hazard_light
     global wait_for_response_hazard_light
     global wait_for_response_hazard_light_timer
+    global park_brake_target
+    global last_park_brake
+    global wait_for_response_park_brake
+    global wait_for_response_park_brake_timer
     global last_speed
     global last_speedlimit
     global last_cruisecontrolspeed
@@ -205,8 +219,10 @@ def plugin(data):
     global last_lanedetected
     global allow_acceleration
     global pauseresume_allow
+    global last_park_brake
 
     current_time = time.time()
+    park_brake_target = False
 
     try:
         speed = round(data["api"]["truckFloat"]["speed"]*3.6, 1)
@@ -231,6 +247,7 @@ def plugin(data):
         if data["api"]["truckFloat"]["userBrake"] > 0.9 and speed > 30 and DefaultSteering.enabled == True:
             user_emergency_braking = True
         hazard_light = data["api"]["truckBool"]["lightsHazard"]
+        park_brake = data["api"]["truckBool"]["parkBrake"]
         gamepaused = data["api"]["pause"]
     except:
         speed = last_speed
@@ -241,6 +258,7 @@ def plugin(data):
         user_braking = False
         user_emergency_braking = False
         hazard_light = False
+        park_brake = False
         gamepaused = False
 
     if speedlimit != 0 and speedlimit > 0:
@@ -284,7 +302,7 @@ def plugin(data):
     if targetspeed == 0 and speed > 10:
         trafficlight_allow_acceleration = True
 
-    if current_time - 1 > wait_for_response_timer and wait_for_response == True:
+    if current_time - 1 > wait_for_response_timer:
         wait_for_response = False
     if last_cruisecontrolspeed != cruisecontrolspeed:
         wait_for_response = False
@@ -330,6 +348,8 @@ def plugin(data):
             data["sdk"]["acceleration"] = 0
             data["sdk"]["brake"] = brake_strength
             user_emergency_braking_timer = current_time
+        elif targetspeed == 0 and speed < 1 and user_accelerating == False:
+            park_brake_target = True
         if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
             data["sdk"]["acceleration"] = acceleration_strength
             if user_throttle == acceleration_strength:
@@ -352,6 +372,8 @@ def plugin(data):
             data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
             wait_for_response_hazard_light_timer = current_time
+        if user_emergency_braking == True and speed < 1 and user_accelerating == False:
+            park_brake_target = True
 
     if auto_stop == True:
         if gamepaused == False and DefaultSteering.enabled == True and lanedetected == False and last_lanedetected == True and user_accelerating == False:
@@ -388,7 +410,10 @@ def plugin(data):
             wait_for_response_hazard_light = False
     if do_lanedetected_stop == True:
         if speed > 1:
+            data["sdk"]["acceleration"] = 0
             data["sdk"]["brake"] = 0.1
+        elif speed < 1 and user_accelerating == False:
+            park_brake_target = True
         if hazard_light == False and wait_for_response_hazard_light == False:
             data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
@@ -397,6 +422,20 @@ def plugin(data):
         data["sdk"]["Hazards"] = True
         wait_for_response_hazard_light = True
         wait_for_response_hazard_light_timer = current_time
+
+    if current_time - 1 > wait_for_response_park_brake_timer:
+        wait_for_response_park_brake = False
+    if last_park_brake != park_brake:
+        wait_for_response_park_brake = False
+    if park_brake_target == True:
+        if park_brake == False and wait_for_response_park_brake == False:
+            data["sdk"]["ParkingBrake"] = True
+            wait_for_response_park_brake = True
+            wait_for_response_park_brake_timer = current_time
+    elif park_brake == True and wait_for_response_park_brake == False:
+            data["sdk"]["ParkingBrake"] = True
+            wait_for_response_park_brake = True
+            wait_for_response_park_brake_timer = current_time
 
     if show_symbols == True:
         try:
@@ -544,6 +583,7 @@ def plugin(data):
 
     data["frame"] = frame
     
+    last_park_brake = park_brake
     last_lanedetected = lanedetected
     last_do_lanedetected_stop = do_lanedetected_stop
     last_hazard_light = hazard_light
