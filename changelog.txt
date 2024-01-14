@@ -1,4 +1,1 @@
-The app will no longer pass steering axis output to the game when using SDKController.
-Multiple bug fixes.
-The app will autorefresh enabled plugins when the file is edited (for developers)
-CC will now hold the brake when stopped at a traffic light.
+Fixed bugs and added new features in the NavigationDetection and TruckStats Plugin.
