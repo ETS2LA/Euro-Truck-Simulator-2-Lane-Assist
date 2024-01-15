@@ -285,7 +285,27 @@ def savePosition():
     x = root.winfo_x()
     y = root.winfo_y()
     settings.CreateSettings("User Interface", "Position", [x, y])
-        
+
+titlePath = ""    
+def UpdateTitle(extraText:str=""):
+    """Will update the application title.
+
+    Args:
+        extraText (str, optional): Additional text to add after all of the defaults. Defaults to "".
+
+    Returns:
+        success (bool, optional): If there was an error then this will return False. Otherwise True.
+    """
+    showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings("User Interface", "TitleCopyright", True)
+        showCopyrightInTitlebar = True
+    
+    try:
+        root.title("Lane Assist - ©Tumppi066 2024 " + titlePath + extraText if showCopyrightInTitlebar else "Lane Assist " + titlePath + extraText)
+        return True
+    except:
+        return False
 
 pluginFrames = []
 UIs = []
@@ -312,12 +332,12 @@ def CreateRoot():
     # Query DPI Awareness (Windows 10 and 8)
     awareness = ctypes.c_int()
     errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
-    print("Original DPI awareness value : " + str(awareness.value))
+    #print("Original DPI awareness value : " + str(awareness.value))
 
     # Set DPI Awareness  (Windows 10 and 8)
     try:
         errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(wantedAwareness)
-        print("Set DPI awareness value to " + str(wantedAwareness) + " (code " + str(errorCode) + ")")
+        #print("Set DPI awareness value to " + str(wantedAwareness) + " (code " + str(errorCode) + ")")
     except:
         print("Failed to set DPI awareness value")
         #errorCode = ctypes.windll.user32.SetProcessDPIAware()
@@ -334,12 +354,8 @@ def CreateRoot():
     height = 600
 
     root = tk.Tk()
-    showCopyrightInTitlebar = settings.GetSettings("User Interface", "TitleCopyright")
-    if showCopyrightInTitlebar == None:
-        settings.CreateSettings("User Interface", "TitleCopyright", True)
-        showCopyrightInTitlebar = True
     
-    root.title("Lane Assist - ©Tumppi066 2023" if showCopyrightInTitlebar else "Lane Assist")
+    UpdateTitle()
     
     # Hack to make windows think we are our own app, and then show our icon
     import ctypes
@@ -382,7 +398,7 @@ def CreateRoot():
         settings.CreateSettings("User Interface", "ShowCopyright", False)
         showCopyright = False
     if showCopyright:
-        ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
+        ttk.Label(root, text=f"ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2024", font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
     fps = tk.StringVar()
     
     showFps = settings.GetSettings("User Interface", "ShowFPS")
@@ -486,7 +502,5 @@ def CreateRoot():
                 pass
 
     print("Loaded previously open tabs")
+    
     root.update()
-
-
-CreateRoot()

@@ -10,13 +10,13 @@ from src.mainUI import switchSelectedPlugin, resizeWindow
 
 PluginInfo = PluginInformation(
     name="CruiseControl", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
-    description="this is a plugin which uses a virtual controller\nor virtual keyboard to set the in-game cruise control,\nuses TrafficLightDetection to stop at red traffc lights",
+    description="This Plugin automatically sets your cruise control speed,\nusing the SDKController.",
     version="0.1",
     author="Glas42",
     url="https://github.com/Glas42/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
     dynamicOrder="before game", # Will run the plugin before anything else in the mainloop (data will be empty)
-    requires=["TruckSimAPI"]
+    requires=["TruckSimAPI", "SDKController"]
 )
 
 import tkinter as tk
@@ -25,455 +25,569 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+import src.controls as controls
 from src.translator import Translate
 from tkinter import messagebox
 import os
 
 import plugins.DefaultSteering.main as DefaultSteering
-
-
 import time
-import keyboard as kb
+import cv2
+import numpy as np
+import ctypes
 
-
-left_trigger_setup = False
-right_trigger_setup = False
-left_trigger_value = 0
-right_trigger_value = 0
-trigger_setup_value = 0
-trigger_setup_add_or_sub = 1
-trigger_setup_time = time.time()
-button_setup_time = time.time()
-button_A_setup = False
-button_B_setup = False
-button_X_setup = False
-
-last_speed_obj = 0
-last_time_obj = time.time()
-last_obj_ifo_truck = 0, time.time()
-object_in_front_of_truck = False
+controls.RegisterKeybind("Pause/Resume Automatic Acceleration",
+                         notBoundInfo="Bind this if you use the CruiseControl\nplugin with automatic acceleration.",
+                         description="Bind this if you use the CruiseControl\nplugin with automatic acceleration.")
 
 def UpdateSettings():
-    global keyboardmode
-    global brakeatredtrafficlight
-    global automatic_acceleration_after_traffic_light
-    global automatic_acceleration
-    global automatic_cruise_control_activation
-    global advancedsettings
-    global buttonup
-    global buttondown
-    global buttonactivate
-    global buttonbrake
-    global buttonaccelerate
-    global accelerationspeed
-    global unreleased_buttonbrake
-    global unreleased_buttonaccelerate
-    global accelerate_red_traffic_light
-    global waitforresponse
-    global waitforresponsetimer
+    global trafficlightdetectionisenabled
+    global navigationdetectionisenabled
+    global navigationsymbol_x
+    global navigationsymbol_y
+    global cruisecontrol_off_set
+    global cruisecontrol_off_unset
+    global cruisecontrol_off_slowed
+    global cruisecontrol_on_set
+    global cruisecontrol_on_unset
+    global cruisecontrol_on_slowed
+    global cruisecontrol_emergency_set
+    global cruisecontrol_emergency_unset
+    global cruisecontrol_emergency_slowed
+    global auto_enable
+    global stop_trafficlight
+    global trafficlight_accelerate
+    global auto_accelerate
+    global auto_hazard
+    global auto_stop
+    global show_symbols
+    global acceleration_strength
+    global brake_strength
+    global cruisespeed_turn
+    global cruisespeed_trafficlight
+    global wait_for_response
+    global wait_for_response_timer
+    global last_hazard_light
+    global wait_for_response_hazard_light
+    global wait_for_response_hazard_light_timer
+    global park_brake_target
+    global last_park_brake
+    global wait_for_response_park_brake
+    global wait_for_response_park_brake_timer
     global last_speed
     global last_speedlimit
     global last_cruisecontrolspeed
-    global trafficlight
-    global trafficlightdetectionisenabled
-    global deactivate_traffic_light_stop_temporarily_key
-    global enabledeactflstempkey
-    global red_traffic_light_time
-    global last_frame_without_traffic_light
-    global left_trigger_value
-    global right_trigger_value
-    global left_trigger_setup
-    global right_trigger_setup
-    global trigger_setup_time
-    global trigger_setup_value
-    global trigger_setup_add_or_sub
-    global button_A_setup
-    global button_B_setup
-    global button_X_setup
-    global button_setup_time
-    global cruisespeedinturns
-    global cruisespeedattrafficlight
-
-    keyboardmode = settings.GetSettings("CruiseControl", "keyboardmode", False)
-    automatic_cruise_control_activation = settings.GetSettings("CruiseControl", "autoccacti", True)
-    brakeatredtrafficlight = settings.GetSettings("CruiseControl", "brakeredtrafficlight", True)
-    automatic_acceleration_after_traffic_light = settings.GetSettings("CruiseControl", "autoaccelatrflght", True)
-    automatic_acceleration = settings.GetSettings("CruiseControl", "autoaccel", False)
-    advancedsettings = settings.GetSettings("CruiseControl", "advancedsettings", False)
-    enabledeactflstempkey = settings.GetSettings("CruiseControl", "enabledeactflstempkey", False)
-
-
-    buttonup = settings.GetSettings("CruiseControl", "keyup")
-    if buttonup == None:
-        settings.CreateSettings("CruiseControl", "keyup", "please set")
-        buttonup = "please set"
-
-    buttondown = settings.GetSettings("CruiseControl", "keydown")
-    if buttondown == None:
-        settings.CreateSettings("CruiseControl", "keydown", "please set")
-        buttondown = "please set"
-
-    buttonactivate = settings.GetSettings("CruiseControl", "keyactivate")
-    if buttonactivate == None:
-        settings.CreateSettings("CruiseControl", "keyactivate", "please set")
-        buttonactivate = "please set"
-
-    buttonbrake = settings.GetSettings("CruiseControl", "keybrake")
-    if buttonbrake == None:
-        settings.CreateSettings("CruiseControl", "keybrake", "please set")
-        buttonbrake = "please set"
-
-    buttonaccelerate = settings.GetSettings("CruiseControl", "keyaccelerate")
-    if buttonaccelerate == None:
-        settings.CreateSettings("CruiseControl", "keyaccelerate", "please set")
-        buttonaccelerate = "please set"
-
-
-    accelerationspeed = settings.GetSettings("CruiseControl", "accelerationspeed")
-    if accelerationspeed == None:
-        settings.CreateSettings("CruiseControl", "accelerationspeed", 1)
-        accelerationspeed = 1
-
-
-    unreleased_buttonbrake = False
-    unreleased_buttonaccelerate = False
-
-    accelerate_red_traffic_light = False
-    red_traffic_light_time = 0
-    last_frame_without_traffic_light = time.time()
-
+    global trafficlight_last_time_without
+    global trafficlight_last_time_with
+    global turnincoming_last_time_with
+    global trafficlight_allow_acceleration
+    global user_emergency_braking
+    global user_emergency_braking_timer
+    global lanedetected_timer
+    global do_lanedetected_stop
+    global last_do_lanedetected_stop
+    global last_lanedetected
+    global allow_acceleration
+    global pauseresume_allow
+    global last_park_brake
+    
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
         trafficlightdetectionisenabled = True
     else:
         trafficlightdetectionisenabled = False
 
-    deactivate_traffic_light_stop_temporarily_key = settings.GetSettings("CruiseControl", "deactflstempkey")
-    if deactivate_traffic_light_stop_temporarily_key == None:
-        settings.CreateSettings("CruiseControl", "deactflstempkey", "please set")
-        deactivate_traffic_light_stop_temporarily_key = "please set"
-    if enabledeactflstempkey == True:
-        if deactivate_traffic_light_stop_temporarily_key == "please set":
-            messagebox.showwarning(title="CruiseControl", message="Please set the key to temporary ignore the detected traffic lights in General")
-            deactivate_traffic_light_stop_temporarily_key = "w"
+    if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
+        navigationdetectionisenabled = True
+        centercoord = settings.GetSettings("NavigationDetectionV3", "centercoord", "unset")
+        screencap_x = settings.GetSettings("dxcam", "x")
+        screencap_y = settings.GetSettings("dxcam", "y")
+        if centercoord == "unset":
+            centercoord = None
+        if centercoord != None and screencap_x != None and screencap_y != None:
+            navigationsymbol_x = centercoord[0] - screencap_x
+            navigationsymbol_y = centercoord[1] - screencap_y
+            if navigationsymbol_x < 0:
+                navigationsymbol_x = 0
+            if navigationsymbol_y < 0:
+                navigationsymbol_y = 0
+        else:
+            navigationsymbol_y = 0
+            navigationsymbol_x = 0
+    else:
+        navigationdetectionisenabled = False
 
-    waitforresponse = False
-    waitforresponsetimer = time.time()
+    cruisecontrol_off_set = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_off_set.png")
+    cruisecontrol_off_unset = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_off_unset.png")
+    cruisecontrol_off_slowed = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_off_slowed.png")
+    cruisecontrol_on_set = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_on_set.png")
+    cruisecontrol_on_unset = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_on_unset.png")
+    cruisecontrol_on_slowed = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_on_slowed.png")
+    cruisecontrol_emergency_set = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_set.png")
+    cruisecontrol_emergency_unset = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_unset.png")
+    cruisecontrol_emergency_slowed = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_slowed.png")
+
+    auto_enable = settings.GetSettings("CruiseControl", "auto_enable", True)
+    stop_trafficlight = settings.GetSettings("CruiseControl", "stop_trafficlight", True)
+    trafficlight_accelerate = settings.GetSettings("CruiseControl", "trafficlight_accelerate", True)
+    auto_accelerate = settings.GetSettings("CruiseControl", "auto_accelerate", False)
+    auto_hazard = settings.GetSettings("CruiseControl", "auto_hazard", True)
+    auto_stop = settings.GetSettings("CruiseControl", "auto_stop", False)
+    show_symbols = settings.GetSettings("CruiseControl", "show_symbols", True)
+    acceleration_strength = settings.GetSettings("CruiseControl", "acceleration", 50)
+    acceleration_strength /= 100
+    brake_strength = settings.GetSettings("CruiseControl", "brake", 100)
+    brake_strength /= 100
+
+    cruisespeed_turn = 30
+    cruisespeed_trafficlight = 0
+
+    wait_for_response = False
+    wait_for_response_timer = 0
+
+    last_hazard_light = False
+    wait_for_response_hazard_light = False
+    wait_for_response_hazard_light_timer = 0
+
+    park_brake_target = False
+    last_park_brake = False
+    wait_for_response_park_brake = False
+    wait_for_response_park_brake_timer = 0
 
     last_speed = 0
     last_speedlimit = 0
     last_cruisecontrolspeed = 0
+    trafficlight_last_time_without = 0
+    trafficlight_last_time_with = 0
+    turnincoming_last_time_with = 0
 
-    cruisespeedinturns = settings.GetSettings("CruiseControl", "cruisespeedinturns")
-    if cruisespeedinturns == None:
-        settings.CreateSettings("CruiseControl", "cruisespeedinturns", 30)
-        cruisespeedinturns = 30
-    if cruisespeedinturns < 30:
-        cruisespeedinturns = 30
-
-    cruisespeedattrafficlight = settings.GetSettings("CruiseControl", "cruisespeedattrafficlight")
-    if cruisespeedattrafficlight == None:
-        settings.CreateSettings("CruiseControl", "cruisespeedattrafficlight", 0)
-        cruisespeedattrafficlight = 0
-    if cruisespeedattrafficlight < 30:
-        if cruisespeedattrafficlight != 0:
-            cruisespeedattrafficlight = 0
-
+    trafficlight_allow_acceleration = False
+    user_emergency_braking = False
+    user_emergency_braking_timer = 0
+    lanedetected_timer = 0
+    do_lanedetected_stop = False
+    last_do_lanedetected_stop = False
+    last_lanedetected = False
+    allow_acceleration = True
+    pauseresume_allow = True
 
 def plugin(data):
-    global keyboardmode
-    global brakeatredtrafficlight
-    global automatic_acceleration_after_traffic_light
-    global automatic_acceleration
-    global automatic_cruise_control_activation
-    global advancedsettings
-    global buttonup
-    global buttondown
-    global buttonactivate
-    global buttonbrake
-    global buttonaccelerate
-    global accelerationspeed
-    global unreleased_buttonbrake
-    global unreleased_buttonaccelerate
-    global accelerate_red_traffic_light
-    global waitforresponse
-    global waitforresponsetimer
+    global trafficlightdetectionisenabled
+    global navigationdetectionisenabled
+    global navigationsymbol_x
+    global navigationsymbol_y
+    global cruisecontrol_off_set
+    global cruisecontrol_off_unset
+    global cruisecontrol_off_slowed
+    global cruisecontrol_on_set
+    global cruisecontrol_on_unset
+    global cruisecontrol_on_slowed
+    global cruisecontrol_emergency_set
+    global cruisecontrol_emergency_unset
+    global cruisecontrol_emergency_slowed
+    global auto_enable
+    global stop_trafficlight
+    global trafficlight_accelerate
+    global auto_accelerate
+    global auto_hazard
+    global auto_stop
+    global show_symbols
+    global acceleration_strength
+    global brake_strength
+    global cruisespeed_turn
+    global cruisespeed_trafficlight
+    global wait_for_response
+    global wait_for_response_timer
+    global last_hazard_light
+    global wait_for_response_hazard_light
+    global wait_for_response_hazard_light_timer
+    global park_brake_target
+    global last_park_brake
+    global wait_for_response_park_brake
+    global wait_for_response_park_brake_timer
     global last_speed
     global last_speedlimit
     global last_cruisecontrolspeed
-    global trafficlight
-    global trafficlightdetectionisenabled
-    global deactivate_traffic_light_stop_temporarily_key
-    global enabledeactflstempkey
-    global red_traffic_light_time
-    global last_frame_without_traffic_light
-    global left_trigger_value
-    global right_trigger_value
-    global left_trigger_setup
-    global right_trigger_setup
-    global trigger_setup_time
-    global trigger_setup_value
-    global trigger_setup_add_or_sub
-    global button_A_setup
-    global button_B_setup
-    global button_X_setup
-    global button_setup_time
-    global cruisespeedinturns
-    global cruisespeedattrafficlight
-    global last_speed_obj
-    global last_time_obj
-    global last_obj_ifo_truck
-    global object_in_front_of_truck
+    global trafficlight_last_time_without
+    global trafficlight_last_time_with
+    global turnincoming_last_time_with
+    global trafficlight_allow_acceleration
+    global user_emergency_braking
+    global user_emergency_braking_timer
+    global lanedetected_timer
+    global do_lanedetected_stop
+    global last_do_lanedetected_stop
+    global last_lanedetected
+    global allow_acceleration
+    global pauseresume_allow
+    global last_park_brake
 
-    
+    current_time = time.time()
+    park_brake_target = False
+
     try:
-        data["controller"]["leftStick"]
+        speed = round(data["api"]["truckFloat"]["speed"]*3.6, 1)
+        last_speed = speed
+        speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, 1)
+        if speedlimit != 0 and speedlimit > 0:
+            last_speedlimit = speedlimit
+        cruisecontrolspeed = round(data["api"]["truckFloat"]["cruiseControlSpeed"]*3.6, 1)
+        if data["api"]["truckFloat"]["userThrottle"] > 0.1:
+            user_accelerating = True
+        else:
+            user_accelerating = False
+        user_throttle = data["api"]["truckFloat"]["userThrottle"]
+        if data["api"]["truckFloat"]["userBrake"] > 0.1:
+            user_braking = True
+        else:
+            user_braking = False
+        if speed >= 0.5 and speed > last_speed:
+            user_emergency_braking = False
+        if user_accelerating == True:
+            user_emergency_braking = False
+        if data["api"]["truckFloat"]["userBrake"] > 0.9 and speed > 30 and DefaultSteering.enabled == True:
+            user_emergency_braking = True
+        hazard_light = data["api"]["truckBool"]["lightsHazard"]
+        park_brake = data["api"]["truckBool"]["parkBrake"]
+        gamepaused = data["api"]["pause"]
     except:
-        data["controller"] = {}
+        speed = last_speed
+        speedlimit = last_speedlimit
+        cruisecontrolspeed = 0
+        user_accelerating = False
+        user_throttle = 0
+        user_braking = False
+        user_emergency_braking = False
+        hazard_light = False
+        park_brake = False
+        gamepaused = False
 
-    if left_trigger_setup == True or right_trigger_setup == True:
-        
-        if trigger_setup_value > 1:
-            trigger_setup_add_or_sub = 0
-
-        if trigger_setup_value < 0:
-            trigger_setup_add_or_sub = 1
-
-        if trigger_setup_add_or_sub == 1:
-            trigger_setup_value += 0.05
+    if speedlimit != 0 and speedlimit > 0:
+        targetspeed = speedlimit
+    else:
+        if last_speedlimit != 0 and last_speedlimit > 0:
+            targetspeed = last_speedlimit
         else:
-            trigger_setup_value -= 0.05
-
-        if left_trigger_setup == True:
-            data["controller"]["lefttrigger"] = trigger_setup_value
-            data["controller"]["righttrigger"] = 0
-
-        if right_trigger_setup == True:
-            data["controller"]["lefttrigger"] = 0
-            data["controller"]["righttrigger"] = trigger_setup_value
-
-        if trigger_setup_time + 15 < time.time():
-            left_trigger_setup = False
-            right_trigger_setup = False
-            data["controller"]["lefttrigger"] = 0
-            data["controller"]["righttrigger"] = 0
-            variables.ENABLELOOP = False
-
-
-    if button_A_setup == True or button_B_setup == True or button_X_setup == True:
-        data["controller"]["button_A"] = False
-        data["controller"]["button_B"] = False
-        data["controller"]["button_X"] = False
-
-        if button_A_setup == True:
-            if button_B_setup == True:
-                button_B_setup = False
-            if button_X_setup == True:
-                button_X_setup = False
-            if round(time.time()) % 2 == 0:
-                data["controller"]["button_A"] = True
-
-        if button_B_setup == True:
-            if button_A_setup == True:
-                button_A_setup = False
-            if button_X_setup == True:
-                button_X_setup = False
-            if round(time.time()) % 2 == 0:
-                data["controller"]["button_B"] = True
-
-        if button_X_setup == True:
-            if button_A_setup == True:
-                button_A_setup = False
-            if button_B_setup == True:
-                button_B_setup = False
-            if round(time.time()) % 2 == 0:
-                data["controller"]["button_X"] = True
-
-        if button_setup_time + 15 < time.time():
-            button_A_setup = False
-            button_B_setup = False
-            button_X_setup = False
-            variables.ENABLELOOP = False
-
-
-    if left_trigger_setup != True and right_trigger_setup != True and button_A_setup != True and button_B_setup != True and button_X_setup != True:
-
-        # get api data
+            targetspeed = 30
+    
+    if trafficlightdetectionisenabled == True:
         try:
-            speed = round(data["api"]["truckFloat"]["speed"]*3.6, 1)
-            last_speed = speed
-            speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, 1)
-            if speedlimit != 0:
-                last_speedlimit = speedlimit
-            cruisecontrolspeed = round(data["api"]["truckFloat"]["cruiseControlSpeed"]*3.6, 1)
-            gamepaused = data["api"]["pause"]
+            trafficlight = data["TrafficLightDetection"]
         except:
-            speed = last_speed
-            speedlimit = last_speedlimit
-            cruisecontrolspeed = 0
-            gamepaused = False
-
-        data["controller"]["button_A"] = False
-        data["controller"]["button_B"] = False
-        data["controller"]["button_X"] = False
-
-        #set target speeds
-        if speedlimit != 0:
-            targetspeed = speedlimit
-        else:
-            if last_speedlimit != 0:
-                targetspeed = last_speedlimit
-            else:
-                targetspeed = 30
-
+            trafficlight = "---"
+    else:
+        trafficlight = "Off"
+    if navigationdetectionisenabled == True:
         try:
-            turnincoming = data["NavigationDetection"]["turnincoming"]
+            if data["NavigationDetection"]["turnincoming"] == True:
+                turnincoming_last_time_with = current_time
+            if data["NavigationDetection"]["lanedetected"] == True:
+                lanedetected_timer = current_time
+        except:
+            pass
+    if current_time - 1 < turnincoming_last_time_with:
+        targetspeed = cruisespeed_turn
+    if current_time - 1 < lanedetected_timer:
+        lanedetected = True
+    else:
+        lanedetected = False
+
+    if trafficlight != "Red":
+        trafficlight_last_time_without = current_time
+    else:
+        trafficlight_last_time_with = current_time
+    if current_time - 0.5 > trafficlight_last_time_without or current_time - 0.5 < trafficlight_last_time_with:
+        if stop_trafficlight == True:
+            targetspeed = cruisespeed_trafficlight
+    
+    if targetspeed == 0 and speed > 10:
+        trafficlight_allow_acceleration = True
+
+    if current_time - 1 > wait_for_response_timer:
+        wait_for_response = False
+    if last_cruisecontrolspeed != cruisecontrolspeed:
+        wait_for_response = False
+        
+    if controls.GetKeybindValue("Pause/Resume Automatic Acceleration") == True and pauseresume_allow == True:
+        if allow_acceleration == True:
+            auto_accelerate = False
+            trafficlight_accelerate = False
+            allow_acceleration = False
+        else:
+            auto_accelerate = settings.GetSettings("CruiseControl", "auto_accelerate", False)
+            trafficlight_accelerate = settings.GetSettings("CruiseControl", "trafficlight_accelerate", True)
+            allow_acceleration = True
+        pauseresume_allow = False
+    elif controls.GetKeybindValue("Pause/Resume Automatic Acceleration") == False:
+        pauseresume_allow = True
+
+    try:
+        data["sdk"]
+    except:
+        data["sdk"] = {}
+    if gamepaused == False and DefaultSteering.enabled == True:
+        if speed > 30 and cruisecontrolspeed == 0 and auto_enable == True and wait_for_response == False and targetspeed != 0:
+            data["sdk"]["CruiseControl"] = True
+            wait_for_response = True
+            wait_for_response_timer = current_time
+            data["sdk"]["acceleration"] = 0
+            trafficlight_allow_acceleration = False
+        if cruisecontrolspeed != 0 and cruisecontrolspeed < targetspeed and wait_for_response == False and targetspeed != 0:
+            data["sdk"]["CruiseControlIncrease"] = True
+            wait_for_response = True
+            wait_for_response_timer = current_time
+        if cruisecontrolspeed != 0 and cruisecontrolspeed > targetspeed and wait_for_response == False and targetspeed != 0:
+            data["sdk"]["CruiseControlDecrease"] = True
+            wait_for_response = True
+            wait_for_response_timer = current_time
+        if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True and user_emergency_braking == False and do_lanedetected_stop == False:
+            data["sdk"]["acceleration"] = acceleration_strength
+            if user_throttle == acceleration_strength:
+                user_accelerating = False
+            data["sdk"]["brake"] = 0
+        if targetspeed == 0 and speed > 1 and user_accelerating == False:
+            data["sdk"]["acceleration"] = 0
+            data["sdk"]["brake"] = brake_strength
+            user_emergency_braking_timer = current_time
+        elif targetspeed == 0 and speed < 1 and user_accelerating == False:
+            park_brake_target = True
+        if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
+            data["sdk"]["acceleration"] = acceleration_strength
+            if user_throttle == acceleration_strength:
+                user_accelerating = False
+            data["sdk"]["brake"] = 0
+    else:
+        data["sdk"]["acceleration"] = 0
+        data["sdk"]["brake"] = 0
+
+    if auto_hazard == True and do_lanedetected_stop == False:
+        if current_time - 1 < user_emergency_braking_timer:
+            user_emergency_braking = False
+        if hazard_light != last_hazard_light or current_time - 1 >  wait_for_response_hazard_light_timer:
+            wait_for_response_hazard_light = False
+        if user_emergency_braking == True and hazard_light == False and wait_for_response_hazard_light == False:
+            data["sdk"]["Hazards"] = True
+            wait_for_response_hazard_light = True
+            wait_for_response_hazard_light_timer = current_time
+        if user_emergency_braking == False and hazard_light == True and wait_for_response_hazard_light == False:
+            data["sdk"]["Hazards"] = True
+            wait_for_response_hazard_light = True
+            wait_for_response_hazard_light_timer = current_time
+        if user_emergency_braking == True and speed < 1 and user_accelerating == False:
+            park_brake_target = True
+
+    if auto_stop == True:
+        if gamepaused == False and DefaultSteering.enabled == True and lanedetected == False and last_lanedetected == True and user_accelerating == False:
+            if navigationdetectionisenabled == True:
+                try:
+                    frame = data["frameOriginal"]
+                    width = frame.shape[1]
+                    height = frame.shape[0]
+                except:
+                    return data
+                hwnd_ets2 = ctypes.windll.user32.FindWindowW(None, "Euro Truck Simulator 2")
+                hwnd_ets2_multiplayer = ctypes.windll.user32.FindWindowW(None, "Euro Truck Simulator 2 Multiplayer")
+                hwnd_ats = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator")
+                hwnd_ats_multiplayer = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator Multiplayer")
+                hwnd_active = ctypes.windll.user32.GetForegroundWindow()
+                if hwnd_active == hwnd_ets2 or hwnd_active == hwnd_ats or hwnd_active == hwnd_ets2_multiplayer or hwnd_active == hwnd_ats_multiplayer:
+                    lower_blue = np.array([121, 68, 0])
+                    upper_blue = np.array([250, 184, 109])
+                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
+                    y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
+                    mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 <= round(width/10)**2
+                    mask_blue = np.where(mask_circle, mask_blue, 0)
+                    if width != 0 and height != 0:
+                        pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
+                    else:
+                        pixel_ratio = 0
+                    if pixel_ratio > 0.007 and pixel_ratio < 0.01:
+                        do_lanedetected_stop = True
+            else:
+                do_lanedetected_stop = True
+        if user_accelerating == True:
+            do_lanedetected_stop = False
+        if hazard_light != last_hazard_light or current_time - 1 >  wait_for_response_hazard_light_timer:
+            wait_for_response_hazard_light = False
+    if do_lanedetected_stop == True:
+        if speed > 1:
+            data["sdk"]["acceleration"] = 0
+            data["sdk"]["brake"] = 0.1
+        elif speed < 1 and user_accelerating == False:
+            park_brake_target = True
+        if hazard_light == False and wait_for_response_hazard_light == False:
+            data["sdk"]["Hazards"] = True
+            wait_for_response_hazard_light = True
+            wait_for_response_hazard_light_timer = current_time
+    if do_lanedetected_stop == False and last_do_lanedetected_stop == True and hazard_light == True and wait_for_response_hazard_light == False:
+        data["sdk"]["Hazards"] = True
+        wait_for_response_hazard_light = True
+        wait_for_response_hazard_light_timer = current_time
+
+    if current_time - 1 > wait_for_response_park_brake_timer:
+        wait_for_response_park_brake = False
+    if last_park_brake != park_brake:
+        wait_for_response_park_brake = False
+    if park_brake_target == True:
+        if park_brake == False and wait_for_response_park_brake == False:
+            data["sdk"]["ParkingBrake"] = True
+            wait_for_response_park_brake = True
+            wait_for_response_park_brake_timer = current_time
+    elif park_brake == True and wait_for_response_park_brake == False:
+            data["sdk"]["ParkingBrake"] = True
+            wait_for_response_park_brake = True
+            wait_for_response_park_brake_timer = current_time
+
+    if show_symbols == True:
+        try:
+            frame = data["frame"]
+        except:
+            return data
+        try:
+            width = frame.shape[1]
+            height = frame.shape[0]
+        except:
+            return data
+        try:
+            indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
+            indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
+        except:
+            indicator_left = False
+            indicator_right = False
+        try:
+           turnincoming = data["NavigationDetection"]["turnincoming"]
         except:
             turnincoming = False
-        if turnincoming == True:
-            targetspeed = cruisespeedinturns
-        
-        if trafficlightdetectionisenabled == True:
-            try:
-                trafficlight = data["TrafficLightDetection"]
-            except:
-                trafficlight = "---"
-        else:
-            trafficlight = "Off"
-
-        if trafficlight != "Red":
-            last_frame_without_traffic_light = time.time()
-
-        if enabledeactflstempkey == True:
-            if kb.is_pressed(deactivate_traffic_light_stop_temporarily_key):
-                trafficlight = "---"
-                red_traffic_light_time = time.time() - 1.1
-
-        if trafficlight == "Red":
-            if brakeatredtrafficlight == True:
-                if time.time() - 0.2 > last_frame_without_traffic_light:
-                    targetspeed = cruisespeedattrafficlight
-                    red_traffic_light_time = time.time()
-                    if speed < 30:
-                        accelerate_red_traffic_light = True
-
-        if red_traffic_light_time > time.time()-1:
-            if brakeatredtrafficlight == True:
-                if time.time() - 0.2 > last_frame_without_traffic_light:
-                    targetspeed = cruisespeedattrafficlight
-
-        #check for response or timeout of button click
-        if last_cruisecontrolspeed != cruisecontrolspeed or time.time() - waitforresponsetimer > 1:
-            waitforresponse = False
-
-        #if there are no open requests
-        if waitforresponse == False:
-
-            #activate cruise control
-            if targetspeed != 0 and cruisecontrolspeed == 0 and speed > 30:
-                if automatic_cruise_control_activation == True:
-                    if DefaultSteering.enabled and gamepaused == False:
-                        if keyboardmode == True:
-                            kb.press_and_release(buttonactivate)
-                        else:
-                            data["controller"]["button_X"] = True
-                        waitforresponse = True
-                        waitforresponsetimer = time.time()
-                        unreleased_buttonbrake = True
-                        unreleased_buttonaccelerate = True
-            
-            #change the cruisecontrol speed if needed
-            if targetspeed != 0:
-                if targetspeed > cruisecontrolspeed:
-                    if cruisecontrolspeed != 0:
-                        if DefaultSteering.enabled and gamepaused == False:
-                            if keyboardmode == True:
-                                kb.press_and_release(buttonup)
-                            else:
-                                data["controller"]["button_B"] = True
-                            waitforresponse = True
-                            waitforresponsetimer = time.time()
-
-                if targetspeed < cruisecontrolspeed:
-                    if cruisecontrolspeed != 0:
-                        if DefaultSteering.enabled and gamepaused == False:
-                            if keyboardmode == True:
-                                kb.press_and_release(buttondown)
-                            else:
-                                data["controller"]["button_A"] = True
-                            waitforresponse = True
-                            waitforresponsetimer = time.time()
-
-
-            #accelerate after traffic light if enabled in settings
-            if targetspeed != 0 and cruisecontrolspeed == 0:
-                if automatic_acceleration_after_traffic_light == True or automatic_acceleration == True:
-                    if DefaultSteering.enabled and gamepaused == False:
-                        if accelerate_red_traffic_light == True or automatic_acceleration == True:
-                            if keyboardmode == True:
-                                kb.release(buttonbrake)
-                                kb.press(buttonaccelerate)
-                            else:
-                                left_trigger_value = 0
-                                right_trigger_value = accelerationspeed
-                            unreleased_buttonaccelerate = True
-                            if speed > 30:
-                                accelerate_red_traffic_light = False
-
-            #brake if target speed is 0
-            if targetspeed == 0:
-                if speed > 0.5:
-                    if DefaultSteering.enabled and gamepaused == False:
-                        if keyboardmode == True:
-                            kb.release(buttonaccelerate)
-                            kb.press(buttonbrake)
-                        else:
-                            right_trigger_value = 0
-                            left_trigger_value = 1
-                        waitforresponse = True
-                        waitforresponsetimer = time.time()
-                        unreleased_buttonbrake = True
-
-        #release brake button if needed
-        if unreleased_buttonbrake == True and speed < 0.5:
-            if keyboardmode == True:
-                kb.release(buttonbrake)
+        symbol = cruisecontrol_on_set.copy()
+        if cruisecontrolspeed != 0:
+            if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
+                symbol = cruisecontrol_on_set.copy()
             else:
-                left_trigger_value = 0
-            unreleased_buttonbrake = False
-                
-        #release acceleration button if needed
-        if automatic_acceleration_after_traffic_light == True:
-            if unreleased_buttonaccelerate == True and speed > 30:
-                if keyboardmode == True:
-                    kb.release(buttonaccelerate)
-                else:
-                    right_trigger_value = 0
-                unreleased_buttonaccelerate = False
-
-        if DefaultSteering.enabled == False or gamepaused == True:
-            left_trigger_value = 0
-            right_trigger_value = 0
-
-        data["CruiseControl"] = {}
-        if targetspeed-3 > speed and last_speed_obj > speed:
-            last_time_obj = time.time()
-
-        if last_time_obj > time.time()-0.5:
-            object_in_front_of_truck = True
+                symbol = cruisecontrol_on_unset.copy()
+            if cruisecontrolspeed != targetspeed:
+                symbol = cruisecontrol_on_unset.copy()
+            if turnincoming == True:
+                symbol = cruisecontrol_on_slowed.copy()
+            if user_braking == True or user_accelerating == True:
+                symbol = cruisecontrol_on_unset.copy()
         else:
-            time_difference = time.time() - last_obj_ifo_truck[1]
-            speed_difference = speed - last_obj_ifo_truck[0]
-            if speed_difference*time_difference*100 > 0.3 or targetspeed - 1 < speed:
-                object_in_front_of_truck = False
+            if cruisecontrolspeed == targetspeed:
+                if auto_accelerate == True and DefaultSteering.enabled == True:
+                    if turnincoming == True:
+                        symbol = cruisecontrol_off_slowed.copy()
+                    else:
+                        symbol = cruisecontrol_off_set.copy()
+                elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
+                    if turnincoming == True:
+                        symbol = cruisecontrol_off_slowed.copy()
+                    else:
+                        symbol = cruisecontrol_off_set.copy()
+                else:
+                    symbol = cruisecontrol_off_unset.copy()
+            elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
+                if turnincoming == True:
+                    symbol = cruisecontrol_off_slowed.copy()
+                else:
+                    symbol = cruisecontrol_off_set.copy()
+            elif auto_accelerate == True and DefaultSteering.enabled == True:
+                if turnincoming == True:
+                    symbol = cruisecontrol_off_slowed.copy()
+                else:
+                    symbol = cruisecontrol_off_set.copy()
+            else:
+                symbol = cruisecontrol_off_unset.copy()
+            if user_braking == True or user_accelerating == True:
+                symbol = cruisecontrol_off_unset.copy()
         
-        data["CruiseControl"]["obj_ifo_truck"] = object_in_front_of_truck
+        if user_emergency_braking == True or do_lanedetected_stop == True:
+            if cruisecontrolspeed != 0:
+                if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
+                    symbol = cruisecontrol_emergency_set.copy()
+                else:
+                    symbol = cruisecontrol_on_unset.copy()
+                if cruisecontrolspeed != targetspeed:
+                    symbol = cruisecontrol_emergency_unset.copy()
+                if turnincoming == True:
+                    symbol = cruisecontrol_emergency_slowed.copy()
+                if user_braking == True or user_accelerating == True:
+                    symbol = cruisecontrol_emergency_unset.copy()
+            else:
+                if cruisecontrolspeed == targetspeed:
+                    if auto_accelerate == True and DefaultSteering.enabled == True:
+                        if turnincoming == True:
+                            symbol = cruisecontrol_emergency_slowed.copy()
+                        else:
+                            symbol = cruisecontrol_emergency_set.copy()
+                    elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
+                        if turnincoming == True:
+                            symbol = cruisecontrol_emergency_slowed.copy()
+                        else:
+                            symbol = cruisecontrol_emergency_set.copy()
+                    else:
+                        symbol = cruisecontrol_emergency_unset.copy()
+                elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
+                    if turnincoming == True:
+                        symbol = cruisecontrol_emergency_slowed.copy()
+                    else:
+                        symbol = cruisecontrol_emergency_set.copy()
+                elif auto_accelerate == True and DefaultSteering.enabled == True:
+                    if turnincoming == True:
+                        symbol = cruisecontrol_emergency_slowed.copy()
+                    else:
+                        symbol = cruisecontrol_emergency_set.copy()
+                else:
+                    symbol = cruisecontrol_emergency_unset.copy()
+                if user_braking == True or user_accelerating == True:
+                    symbol = cruisecontrol_emergency_unset.copy()
+        
+        symbol_resized = cv2.resize(symbol, (int(0.4 * height), int(0.234375 * height)))
+        target_region = frame[int(height/2.8 - 0.2 * height):int(height/2.8 + 0.034375 * height), width - int(0.4 * height):width]
+        if indicator_left or indicator_right:
+            target_region = frame[int(height/2.8 - 0.2 * height):int(height/2.8 + 0.034375 * height), width - int(0.4 * height):width]
+        else:
+            target_region = frame[int(height/4 - 0.2 * height):int(height/4 + 0.034375 * height), width - int(0.4 * height):width]
+        target_region[:symbol_resized.shape[0], :symbol_resized.shape[1]] = symbol_resized
 
-        data["controller"]["lefttrigger"] = left_trigger_value
-        data["controller"]["righttrigger"] = right_trigger_value
+    if allow_acceleration == False:
+        current_text = "Acceleration"
+        width_target_current_text = 0.2*width
+        fontscale_current_text = 1
+        textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+        width_current_text, height_current_text = textsize_current_text
+        max_count_current_text = 3
+        while width_current_text != width_target_current_text:
+            fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text -= 1
+            if max_count_current_text <= 0:
+                break
+        thickness_current_text = round(fontscale_current_text*2)
+        if thickness_current_text <= 0:
+            thickness_current_text = 1
+        textsize_paused_text, _ = cv2.getTextSize("Paused", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+        width_paused_text, height_paused_text = textsize_paused_text
+        if indicator_left or indicator_right:
+            if show_symbols == True:
+                cv2.putText(frame, current_text, (round(0.79*width), round(0.4*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.4*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+            else:
+                cv2.putText(frame, current_text, (round(0.79*width), round(0.5*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.5*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+        else:
+            if show_symbols == True:
+                cv2.putText(frame, current_text, (round(0.79*width), round(0.3*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.3*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+            else:
+                cv2.putText(frame, current_text, (round(0.79*width), round(0.4*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.4*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
 
-        last_speed_obj = speed
-        last_obj_ifo_truck = speed, time.time()
-        last_cruisecontrolspeed = cruisecontrolspeed
+    data["frame"] = frame
+    
+    last_park_brake = park_brake
+    last_lanedetected = lanedetected
+    last_do_lanedetected_stop = do_lanedetected_stop
+    last_hazard_light = hazard_light
+    last_cruisecontrolspeed = cruisecontrolspeed
     return data # Plugins need to ALWAYS return the data
 
 
@@ -491,10 +605,10 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
-            resizeWindow(900,620)
+            resizeWindow(900,600)
         
         def tabFocused(self):
-            resizeWindow(900,620)
+            resizeWindow(900,600)
         
         def destroy(self):
             self.done = True
@@ -502,14 +616,18 @@ class UI():
             del self
         
         def UpdateScaleValueFromSlider(self):
-            self.accelerationspeed.set(self.accelerationspeedSlider.get())
+            self.acceleration.set(self.accelerationSlider.get())
+            self.brake.set(self.brakeSlider.get())
+            settings.CreateSettings("CruiseControl", "acceleration", self.accelerationSlider.get())
+            settings.CreateSettings("CruiseControl", "brake", self.brakeSlider.get())
+            UpdateSettings()
         
         def exampleFunction(self):
             try:
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=800, height=600, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=800, height=580, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -518,223 +636,36 @@ class UI():
             
             generalFrame = ttk.Frame(notebook)
             generalFrame.pack()
-            keyboardFrame = ttk.Frame(notebook)
-            keyboardFrame.pack()
-            controllerFrame = ttk.Frame(notebook)
-            controllerFrame.pack()
-            advancedFrame = ttk.Frame(notebook)
-            advancedFrame.pack()
             
             generalFrame.columnconfigure(0, weight=1)
             generalFrame.columnconfigure(1, weight=1)
             generalFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(generalFrame, "General", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
-            
-            keyboardFrame.columnconfigure(0, weight=1)
-            keyboardFrame.columnconfigure(1, weight=1)
-            keyboardFrame.columnconfigure(2, weight=1)
-            helpers.MakeLabel(keyboardFrame, "Keyboard", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
-
-            controllerFrame.columnconfigure(0, weight=1)
-            controllerFrame.columnconfigure(1, weight=1)
-            controllerFrame.columnconfigure(2, weight=1)
-            helpers.MakeLabel(controllerFrame, "Controller", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
-
-            advancedFrame.columnconfigure(0, weight=1)
-            advancedFrame.columnconfigure(1, weight=1)
-            advancedFrame.columnconfigure(2, weight=1)
-            helpers.MakeLabel(advancedFrame, "Advanced", 0, 0, font=("Robot", 12, "bold"), columnspan=7)
 
             notebook.add(generalFrame, text=Translate("General"))
-            notebook.add(keyboardFrame, text=Translate("Keyboard"))
-            notebook.add(controllerFrame, text=Translate("Controller"))
-            notebook.add(advancedFrame, text=Translate("Advanced"))
-            
-            ttk.Button(self.root, text="Save", command=self.save, width=15).pack(anchor="center", pady=6)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
-
-
-            helpers.MakeCheckButton(generalFrame, "Use Keyboard for cruise control", "CruiseControl", "keyboardmode", 1, 0, width=78, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Automatically activate cruise control when above 30kph", "CruiseControl", "autoccacti", 2, 0, width=78, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Brake at a red traffic light\n(requires that the TrafficLightDetection plugin is enabled)", "CruiseControl", "brakeredtrafficlight", 3, 0, width=78, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Automatic acceleration after a red traffic light", "CruiseControl", "autoaccelatrflght", 4, 0, width=78, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Accelerate to targetspeed, even if you are slower than 30kph\n(if you disable the lane assist with the the key you set in the\nDefault Steering plugin, the truck will not accelerate to the targetspeed)", "CruiseControl", "autoaccel", 5, 0, width=78, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Use Advanced Settings", "CruiseControl", "advancedsettings", 6, 0, width=78, callback=UpdateSettings())
-
-
-            self.keyactivate = helpers.MakeComboEntry(keyboardFrame, "Key to activate in-game cruise control", "CruiseControl", "keyactivate", 1, 0, labelwidth=88, width=10, isString=True)
-            self.keyup = helpers.MakeComboEntry(keyboardFrame, "Key to increase in-game cruise control speed", "CruiseControl", "keyup", 2, 0, labelwidth=88, width=10, isString=True)
-            self.keydown = helpers.MakeComboEntry(keyboardFrame, "Key to decrease in-game cruise control speed", "CruiseControl", "keydown", 3, 0, labelwidth=88, width=10, isString=True)
-            self.keyaccelerate = helpers.MakeComboEntry(keyboardFrame, "Key to accelerate (in-game)", "CruiseControl", "keyaccelerate", 4, 0, labelwidth=88, width=10, isString=True)
-            self.keybrake = helpers.MakeComboEntry(keyboardFrame, "Key to brake (in-game)", "CruiseControl", "keybrake", 5, 0, labelwidth=88, width=10, isString=True)
-
-
-            self.cruisespeedinturns = helpers.MakeComboEntry(advancedFrame, "Cruise speed in turns (30kph or more)", "CruiseControl", "cruisespeedinturns", 1, 0, labelwidth=78, width=10)
-            self.cruisespeedattrafficlight = helpers.MakeComboEntry(advancedFrame, "Cruise speed at red traffic lights (30 kph or more, or 0 kph)", "CruiseControl", "cruisespeedattrafficlight", 2, 0, labelwidth=78, width=10)
             
+            helpers.MakeCheckButton(generalFrame, "Automatically enable cruise control when available.", "CruiseControl", "auto_enable", 2, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Stop the truck when a red traffic light is detected.\n(requires that the TrafficLightDetection plugin is enabled)", "CruiseControl", "stop_trafficlight", 3, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatically accelerate when the red traffic light turns green.", "CruiseControl", "trafficlight_accelerate", 4, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatically accelerate to the target speed, even if your truck is standing still.\n(if you disable the steering or pause this feature, the truck will not accelerate to the target speed)", "CruiseControl", "auto_accelerate", 5, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatically enable the hazard light, when the user does a emergency stop.", "CruiseControl", "auto_hazard", 6, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatically come to a stop and enable the hazard light if no lane is detected.", "CruiseControl", "auto_stop", 7, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Show Cruise Control symbol in the Lane Assist window. (ShowImage Plugin)", "CruiseControl", "show_symbols", 8, 0, width=90, callback=lambda: UpdateSettings())
+            
+            self.accelerationSlider = tk.Scale(generalFrame, from_=0, to=100, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.accelerationSlider.set(settings.GetSettings("CruiseControl", "acceleration", 50))
+            self.accelerationSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
+            self.acceleration = helpers.MakeComboEntry(generalFrame, "Acceleration\nstrength in %", "CruiseControl", "acceleration", 9, 0)
+            
+            self.brakeSlider = tk.Scale(generalFrame, from_=0, to=100, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.brakeSlider.set(settings.GetSettings("CruiseControl", "brake", 100))
+            self.brakeSlider.grid(row=10, column=0, padx=10, pady=0, columnspan=2)
+            self.brake = helpers.MakeComboEntry(generalFrame, "Brake\nstrength in %", "CruiseControl", "brake", 10, 0)
 
-            self.accelerationspeedSlider = tk.Scale(controllerFrame, from_=0.01, to=1, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
-            self.accelerationspeedSlider.set(settings.GetSettings("CruiseControl", "accelerationspeed", 1))
-            self.accelerationspeedSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-            self.accelerationspeed = helpers.MakeComboEntry(controllerFrame, "Accelerationspeed after a red traffic light\n(1 is full throttle)", "CruiseControl", "accelerationspeed", 10,0, labelwidth=45, width=45)
-
-
-            helpers.MakeCheckButton(generalFrame, "Enable the key to temporarily ignore the detected traffic lights\n(if disabled, you dont have to set the key below)", "CruiseControl", "enabledeactflstempkey", 7, 0, width=78, callback=UpdateSettings())
-            self.deactflstempkey = helpers.MakeComboEntry(generalFrame, "Key to temporarily ignore the detected traffic lights\n(press and hold to use in-game)", "CruiseControl", "deactflstempkey", 8, 0, labelwidth=78, width=10, isString=True)
-
-
-            helpers.MakeButton(controllerFrame, "BRAKE SETUP (LEFT TRIGGER)\n(this will move the left trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)", command=self.lefttriggersetup, row=11, column=0, width=50, columnspan=1)
-            helpers.MakeButton(controllerFrame, "THROTTLE SETUP (RIGHT TRIGGER)\n(this will move the right trigger of the virtual\ncontroller, so you can set up the controls\nin the in-game settings)", command=self.righttriggersetup, row=11, column=1, width=50, columnspan=1)
-
-            helpers.MakeButton(controllerFrame, "DECREASE BUTTON SETUP (BUTTON A)\n(this will press the button A for 15s so you can set\nup your controls in game, later the button A will be\npressed to decrease the cruisecontrol speed)", command=self.buttonAsetup, row=13, column=1, width=50, columnspan=1)
-            helpers.MakeButton(controllerFrame, "INCREASE BUTTON SETUP (BUTTON B)\n(this will press the button B for 15s so you can set\nup your controls in game, later the button B will be\npressed to increase the cruisecontrol speed)", command=self.buttonBsetup, row=12, column=1, width=50, columnspan=1)
-            helpers.MakeButton(controllerFrame, "ACTIVATE BUTTON SETUP (BUTTON X)\n(this will press the button X for 15s so you can set\nup your controls in game, later the button X will be\npressed to activate or deactivate the cruise control)", command=self.buttonXsetup, row=12, column=0, width=50, columnspan=1)
-
-            helpers.MakeButton(controllerFrame, "STOP SETUP MODE\n(if you press the button the setup mode will stop and the\nthe triggers and buttons of the virtual controller will\nnot get moved or pressed anymore)", command=self.stopsetup, row=13, column=0, width=50, columnspan=1)
-
-            helpers.MakeButton(generalFrame, "Reset Advanced\nSettings", command=self.resetalladvancedsettingstodefault, row=6, column=1, width=20)
-            helpers.MakeButton(advancedFrame, "Reset Advanced\nSettings", command=self.resetalladvancedsettingstodefault, row=3, column=1, width=20)
-
-        def save(self):
-            settings.CreateSettings("CruiseControl", "keyactivate", self.keyactivate.get())
-            settings.CreateSettings("CruiseControl", "keyup", self.keyup.get())
-            settings.CreateSettings("CruiseControl", "keydown", self.keydown.get())
-            settings.CreateSettings("CruiseControl", "keybrake", self.keybrake.get())
-            settings.CreateSettings("CruiseControl", "keyaccelerate", self.keyaccelerate.get())
-            settings.CreateSettings("CruiseControl", "cruisespeedinturns", self.cruisespeedinturns.get())
-            settings.CreateSettings("CruiseControl", "cruisespeedattrafficlight", self.cruisespeedattrafficlight.get())
-            settings.CreateSettings("CruiseControl", "accelerationspeed", self.accelerationspeedSlider.get())
-            settings.CreateSettings("CruiseControl", "deactflstempkey", self.deactflstempkey.get())
-            UpdateSettings()
-            if self.deactflstempkey.get() == "please set" and enabledeactflstempkey == True:
-                messagebox.showwarning(title="CruiseControl", message="Please set the key to temporarily ignore the detected traffic lights in General")
-            if keyboardmode == True:
-                if (self.keyactivate.get() == "please set" or
-                    self.keyup.get() == "please set" or
-                    self.keydown.get() == "please set" or
-                    self.keybrake.get() == "please set" or
-                    self.keyaccelerate.get() == "please set"):
-                    messagebox.showwarning(title="CruiseControl", message="Please set the correct keys in the Keyboard window")
-            UpdateSettings()
-
-
-        def resetalladvancedsettingstodefault(self):
-            settings.CreateSettings("CruiseControl", "cruisespeedinturns", 30)
-            settings.CreateSettings("CruiseControl", "cruisespeedattrafficlight", 0)
-            UpdateSettings()
-            switchSelectedPlugin("plugins." + "CruiseControl" + ".main")
-
-
-        def lefttriggersetup(self):
-            global left_trigger_setup
-            global right_trigger_setup
-            global trigger_setup_time
-            global button_A_setup
-            global button_B_setup
-            global button_X_setup
-            global button_setup_time
-            left_trigger_setup = True
-            right_trigger_setup = False
-            trigger_setup_time = time.time()
-            button_A_setup = False
-            button_B_setup = False
-            button_X_setup = False
-            button_setup_time = time.time()
-            variables.ENABLELOOP = True
-            UpdateSettings()
-
-        def righttriggersetup(self):
-            global left_trigger_setup
-            global right_trigger_setup
-            global trigger_setup_time
-            global button_A_setup
-            global button_B_setup
-            global button_X_setup
-            global button_setup_time
-            left_trigger_setup = False
-            right_trigger_setup = True
-            trigger_setup_time = time.time()
-            button_A_setup = False
-            button_B_setup = False
-            button_X_setup = False
-            button_setup_time = time.time()
-            variables.ENABLELOOP = True
-            UpdateSettings()
-
-        def buttonAsetup(self):
-            global left_trigger_setup
-            global right_trigger_setup
-            global trigger_setup_time
-            global button_A_setup
-            global button_B_setup
-            global button_X_setup
-            global button_setup_time
-            left_trigger_setup = False
-            right_trigger_setup = False
-            trigger_setup_time = time.time()
-            button_A_setup = True
-            button_B_setup = False
-            button_X_setup = False
-            button_setup_time = time.time()
-            variables.ENABLELOOP = True
-            UpdateSettings()
-
-        def buttonBsetup(self):
-            global left_trigger_setup
-            global right_trigger_setup
-            global trigger_setup_time
-            global button_A_setup
-            global button_B_setup
-            global button_X_setup
-            global button_setup_time
-            left_trigger_setup = False
-            right_trigger_setup = False
-            trigger_setup_time = time.time()
-            button_A_setup = False
-            button_B_setup = True
-            button_X_setup = False
-            button_setup_time = time.time()
-            variables.ENABLELOOP = True
-            UpdateSettings()
-
-        def buttonXsetup(self):
-            global left_trigger_setup
-            global right_trigger_setup
-            global trigger_setup_time
-            global button_A_setup
-            global button_B_setup
-            global button_X_setup
-            global button_setup_time
-            left_trigger_setup = False
-            right_trigger_setup = False
-            trigger_setup_time = time.time()
-            button_A_setup = False
-            button_B_setup = False
-            button_X_setup = True
-            button_setup_time = time.time()
-            variables.ENABLELOOP = True
-            UpdateSettings()
-
-        def stopsetup(self):
-            global left_trigger_setup
-            global right_trigger_setup
-            global trigger_setup_time
-            global button_A_setup
-            global button_B_setup
-            global button_X_setup
-            global button_setup_time
-            left_trigger_setup = False
-            right_trigger_setup = False
-            trigger_setup_time = time.time()
-            button_A_setup = False
-            button_B_setup = False
-            button_X_setup = False
-            button_setup_time = time.time()
-            variables.ENABLELOOP = False
-            UpdateSettings()
-        
+            helpers.MakeLabel(generalFrame, "For the best experience, you need to go in the game settings under Gameplay and enable\nthe Adaptive cruise control to the highest possible distance and set the Emergency brake\nsystem to Full detection!", 11, 0, sticky="w")
 
         def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()

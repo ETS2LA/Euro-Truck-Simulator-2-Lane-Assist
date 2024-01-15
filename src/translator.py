@@ -132,6 +132,24 @@ def CheckCache(text:str, language:str=None):
     Returns:
         str / bool: Either the translation or False.
     """
+    # Code for checking the manual cache
+    if language == None:
+        language = dest
+        
+    manualPath = f"assets/manualTranslations/{origin}-{language}.json"
+    try:
+        file = open(manualPath, "r")
+        cache = json.load(file)
+        file.close()
+        
+        try:
+            return cache[text]
+        except KeyError:
+            pass
+    except:
+        pass
+    
+    # Code for checking the automatic cache
     try:
         file = open(cachePath, "r")
     except:
@@ -143,9 +161,6 @@ def CheckCache(text:str, language:str=None):
         file.close()
         return False
     
-    if language == None:
-        language = dest
-    
     cache = json.load(file)
     file.close()
     try:
@@ -155,6 +170,20 @@ def CheckCache(text:str, language:str=None):
             return False
     except KeyError:
         return False
+
+def ReturnCacheForLanguage(language:str=None):
+    """Will return the entire translation cache for a single language."""
+    file = open(cachePath, "r")
+    cache = json.load(file)
+    file.close()
+    
+    if language == None:
+        language = dest
+        
+    try:
+        return cache[language]
+    except KeyError:
+        return {}
 
 def AddToCache(text:str, translation:str, language:str=None):
     """Will add a translation to the cache.
@@ -223,16 +252,20 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
                     return cache
                 else:
                     mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
+                    mainUI.UpdateTitle(extraText="TRANSLATING...")
                     mainUI.root.update()
 
                     translation = translator.translate(text, max_chars=20000)
                     AddToCache(text, translation)
+                    mainUI.UpdateTitle()
                     return translation
             else:
                 mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
+                mainUI.UpdateTitle(extraText="TRANSLATING...")
                 mainUI.root.update()
 
                 translation = translator.translate(text)
+                mainUI.UpdateTitle()
                 return translation
         except:
             return text # Return the original text if the translation fails
@@ -247,5 +280,25 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
     else:
         return TranslateText(text)
     
+def CreateManualTranslationFile():
+    """Will create a manual translation file.
+    """
+    global origin
+    global dest
     
+    if origin == dest:
+        return
     
+    from tkinter import messagebox
+    
+    try:
+        os.mkdir("assets/manualTranslations")
+    except: pass
+    
+    file = open(f"assets/manualTranslations/{origin}-{dest}.json", "w")
+    # Copy the current translation for the languages
+    cache = ReturnCacheForLanguage(dest)
+    json.dump(cache, file, indent=4)
+    file.close()   
+    
+    messagebox.showinfo("DeepTranslator", f"Manual translation file created in 'assets/manualTranslations/{origin}-{dest}.json'")

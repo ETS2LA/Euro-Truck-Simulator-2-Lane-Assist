@@ -354,6 +354,25 @@ The main file that runs the programs loop.
 # This section is for modules that I&#39;ve added later as they might 
 # not have been installed yet
 
+import src.settings as settings
+import src.variables as variables # Stores all main variables for the program
+if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;, False) == True:
+    import win32gui, win32con
+    window_found = False
+    target_text = &#34;/venv/Scripts/python&#34;
+    top_windows = []
+    win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+    for hwnd, window_text in top_windows:
+        if target_text in window_text:
+            window_found = True
+            variables.CONSOLENAME = hwnd
+            break
+    if window_found == False:
+        print(&#34;Console window not found, unable to hide!&#34;)
+    else:
+        print(f&#34;Console Name: {window_text}, Console ID: {hwnd}&#34;)
+        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
+
 import os
 try:
     import colorama
@@ -393,7 +412,6 @@ except:
 
 # Check that all requirments from requirments.txt are installed
 import pkg_resources
-import src.variables as variables # Stores all main variables for the program
 with open(variables.PATH + r&#34;\requirements.txt&#34;) as f:
     requirements = f.read().splitlines()
 
@@ -438,21 +456,25 @@ def UpdateChecker():
     else:
         update = False
     
-    devmode = settings.GetSettings(&#34;Dev&#34;, &#34;disable_warnings&#34;, False)
-    if devmode == False:
-        if update:
-            changelog = variables.CHANGELOG
-            from tkinter import messagebox
-            if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
-                os.system(&#34;git stash&#34;)
-                os.system(&#34;git pull&#34;)
-                if messagebox.askyesno(&#34;Updater&#34;, (&#34;The update has been installed and the application needs to be restarted. Do you want to quit the app?&#34;)):
-                    quit()
-            else:
-                pass
+    print(f&#34;Current version: {&#39;.&#39;.join(currentVer)}&#34;)
+    print(f&#34;Remote version: {&#39;.&#39;.join(remoteVer)}&#34;)
+    print(f&#34;Update available: {update}&#34;)
+    if update:
+        print(f&#34;Changelog:\n{requests.get(&#39;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#39;).text}&#34;)
+        changelog = requests.get(&#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#34;).text
+        from tkinter import messagebox
+        if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
+            os.system(&#34;git stash&#34;)
+            os.system(&#34;git pull&#34;)
+            if messagebox.askyesno(&#34;Updater&#34;, (&#34;The update has been installed and the application needs to be restarted. Do you want to quit the app?&#34;)):
+                quit()
+        else:
+            pass
 
 try:
-    UpdateChecker()
+    devmode = settings.GetSettings(&#34;Dev&#34;, &#34;disable_update_checker&#34;, False)
+    if devmode == False:
+        UpdateChecker()
 except:
     pass
 
@@ -468,6 +490,8 @@ if version not in acceptedVersions:
 
 # Load the UI framework
 import src.mainUI as mainUI
+mainUI.CreateRoot()
+
 import src.loading as loading # And then create a loading window
 
 # Load the rest of the modules
@@ -477,7 +501,6 @@ import json
 from src.logger import print
 import src.logger as logger
 import traceback
-import src.settings as settings
 import src.translator as translator
 import src.controls as controls
 import psutil
@@ -495,7 +518,7 @@ def GetEnabledPlugins():
     if enabledPlugins == None:
         enabledPlugins = [&#34;&#34;]
 
-def FindPlugins():
+def FindPlugins(reloadFully=False):
     global plugins
     global pluginObjects
     
@@ -522,6 +545,26 @@ def FindPlugins():
         pluginObjects.append(__import__(&#34;plugins.&#34; + plugin.name + &#34;.main&#34;, fromlist=[&#34;plugin&#34;, &#34;UI&#34;, &#34;PluginInfo&#34;, &#34;onEnable&#34;]))
         pluginObjects[-1].onEnable()
         
+def ReloadPluginCode():
+    # Use the inbuilt python modules to reload the code of the plugins
+    import importlib
+    for plugin in pluginObjects:
+        try:
+            importlib.reload(plugin)
+        except Exception as ex:
+            print(ex.args)
+            pass
+    print(&#34;Reloaded plugin code.&#34;)
+    print(&#34;Reloading UI root code...&#34;)
+    try:
+        mainUI.DeleteRoot()
+        importlib.reload(mainUI)
+        mainUI.CreateRoot()
+        mainUI.drawButtons()
+    except Exception as ex:
+        print(ex.args)
+        pass
+    print(&#34;Reloaded UI root code.&#34;)
 
 def RunOnEnable():
     for plugin in pluginObjects:
@@ -649,26 +692,28 @@ def InstallPlugins():
     loadingWindow = loading.LoadingWindow(&#34;Installing plugins...&#34;)
     
     index = 0
-    for installer, name in zip(installers, pluginNames):
-        print(f&#34;Installing &#39;{name}&#39;...&#34;)
-        currentPlugin.set(f&#34;Installing &#39;{name}&#39;...&#34;)
-        bar.config(value=(index / len(installers)) * 100)
-        percentage.set(f&#34;{round((index / len(installers)) * 100)}%&#34;)
-        mainUI.root.update()
-        installer.install()
-        settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
-        index += 1
-        loadingWindow.update(text=f&#34;Installing &#39;{name}&#39;...&#34;)
+    import progress.bar as Bar
+    with Bar.PixelBar(&#34;Installing plugins...&#34;, max=len(installers)) as progressBar:
+        for installer, name in zip(installers, pluginNames):
+            sys.stdout.write(f&#34;\nInstalling &#39;{name}&#39;...\n&#34;)
+            currentPlugin.set(f&#34;Installing &#39;{name}&#39;...&#34;)
+            bar.config(value=(index / len(installers)) * 100)
+            percentage.set(f&#34;{round((index / len(installers)) * 100)}%&#34;)
+            mainUI.root.update()
+            installer.install()
+            settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
+            index += 1
+            loadingWindow.update(text=f&#34;Installing &#39;{name}&#39;...&#34;)
+            os.system(&#34;cls&#34;)
+            progressBar.next()
     
     # Destroy all the widgets
     for child in installFrame.winfo_children():
         child.destroy()
         
-    ttk.Label(installFrame, text=&#34;\n\n\n\n\n\n\nYou should close this tab by middle clicking the name up top.&#34;).pack()
-        
     # Remove the tab
     settings.RemoveFromList(&#34;Plugins&#34;, &#34;OpenTabs&#34;, &#34;Plugin Installer&#34;)
-    variables.RELOAD = True
+    variables.RELOADPLUGINS = True
         
 
 def CheckForONNXRuntimeChange():
@@ -749,7 +794,8 @@ def LoadApplication():
         settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
         showCopyrightInTitlebar = True
     
-    mainUI.root.title((&#34;Lane Assist - ©Tumppi066 2023 - &#34; if showCopyrightInTitlebar else &#34;Lane Assist - &#34;) + open(settings.currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;))
+    mainUI.titlePath = &#34;- &#34; + open(settings.currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;) + &#34; &#34;
+    mainUI.UpdateTitle()
     mainUI.root.update()
     mainUI.drawButtons()
 
@@ -789,6 +835,13 @@ if __name__ == &#34;__main__&#34;:
                     &#34;executionTimes&#34;: {}
                 }  
             
+            if variables.RELOADPLUGINS:
+                print(&#34;Reloading plugins...&#34;)
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+            
             if variables.RELOAD:
                 print(&#34;Reloading application...&#34;)
                 # Reset the open tabs
@@ -796,13 +849,45 @@ if __name__ == &#34;__main__&#34;:
                 LoadApplication()
                 variables.RELOAD = False
             
+            # Update the input manager.
+            controlsStartTime = time.time()
+            data = controls.plugin(data)
+            controlsEndTime = time.time()
+            data[&#34;executionTimes&#34;][&#34;Control callbacks&#34;] = controlsEndTime - controlsStartTime
+            
+            try:
+                if variables.APPENDDATANEXTFRAME != None or variables.APPENDDATANEXTFRAME != [] or variables.APPENDDATANEXTFRAME != {} or variables.APPENDDATANEXTFRAME != &#34;&#34;:
+                    # Merge the two dictionaries
+                    data.update(variables.APPENDDATANEXTFRAME)
+                    variables.APPENDDATANEXTFRAME = None
+            except: pass
+            
             # Enable / Disable the main loop
             if variables.ENABLELOOP == False:
+                start = time.time()
                 mainUI.update(data)
+                end = time.time()
+                data[&#34;executionTimes&#34;][&#34;UI&#34;] = end - start
                 allEnd = time.time()
                 data[&#34;executionTimes&#34;][&#34;all&#34;] = allEnd - allStart
                 try:
                     cv2.destroyWindow(&#34;Lane Assist&#34;)
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow(&#39;Traffic Light Detection - B/W&#39;)
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow(&#39;Traffic Light Detection - Red/Green&#39;)
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow(&#39;Traffic Light Detection - Final&#39;)
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow(&#39;TruckStats&#39;)
                 except:
                     pass
                 continue
@@ -811,9 +896,6 @@ if __name__ == &#34;__main__&#34;:
                 GetEnabledPlugins()
                 FindPlugins()
                 variables.UPDATEPLUGINS = False
-            
-            # Update the input manager.
-            data = controls.plugin(data)
             
             data = UpdatePlugins(&#34;before image capture&#34;, data)
             data = UpdatePlugins(&#34;image capture&#34;, data)
@@ -846,11 +928,15 @@ if __name__ == &#34;__main__&#34;:
 
         
         except Exception as ex:
+            try:
+                if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == True:
+                    win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+            except:
+                pass
             if ex.args != (&#39;The main window has been closed.&#39;, &#39;If you closed the app this is normal.&#39;):
                 import keyboard
                 # Press the F1 key to pause the game
                 keyboard.press_and_release(&#34;F1&#34;)
-                
                 from tkinter import messagebox
                 import traceback
                 exc = traceback.format_exc()
@@ -862,6 +948,12 @@ if __name__ == &#34;__main__&#34;:
                     pass
             else:
                 CloseAllPlugins()
+                try:
+                    if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == True:
+                        import ctypes
+                        ctypes.windll.user32.PostMessageW(variables.CONSOLENAME, 0x10, 0, 0)
+                except:
+                    print(&#34;Failed to close console!&#34;)
                 break</code></pre>
 </details>
 </section>
@@ -936,7 +1028,7 @@ if __name__ == &#34;__main__&#34;:
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.main.FindPlugins"><code class="name flex">
-<span>def <span class="ident">FindPlugins</span></span>(<span>)</span>
+<span>def <span class="ident">FindPlugins</span></span>(<span>reloadFully=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -944,7 +1036,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def FindPlugins():
+<pre><code class="python">def FindPlugins(reloadFully=False):
     global plugins
     global pluginObjects
     
@@ -1096,26 +1188,28 @@ if __name__ == &#34;__main__&#34;:
     loadingWindow = loading.LoadingWindow(&#34;Installing plugins...&#34;)
     
     index = 0
-    for installer, name in zip(installers, pluginNames):
-        print(f&#34;Installing &#39;{name}&#39;...&#34;)
-        currentPlugin.set(f&#34;Installing &#39;{name}&#39;...&#34;)
-        bar.config(value=(index / len(installers)) * 100)
-        percentage.set(f&#34;{round((index / len(installers)) * 100)}%&#34;)
-        mainUI.root.update()
-        installer.install()
-        settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
-        index += 1
-        loadingWindow.update(text=f&#34;Installing &#39;{name}&#39;...&#34;)
+    import progress.bar as Bar
+    with Bar.PixelBar(&#34;Installing plugins...&#34;, max=len(installers)) as progressBar:
+        for installer, name in zip(installers, pluginNames):
+            sys.stdout.write(f&#34;\nInstalling &#39;{name}&#39;...\n&#34;)
+            currentPlugin.set(f&#34;Installing &#39;{name}&#39;...&#34;)
+            bar.config(value=(index / len(installers)) * 100)
+            percentage.set(f&#34;{round((index / len(installers)) * 100)}%&#34;)
+            mainUI.root.update()
+            installer.install()
+            settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
+            index += 1
+            loadingWindow.update(text=f&#34;Installing &#39;{name}&#39;...&#34;)
+            os.system(&#34;cls&#34;)
+            progressBar.next()
     
     # Destroy all the widgets
     for child in installFrame.winfo_children():
         child.destroy()
         
-    ttk.Label(installFrame, text=&#34;\n\n\n\n\n\n\nYou should close this tab by middle clicking the name up top.&#34;).pack()
-        
     # Remove the tab
     settings.RemoveFromList(&#34;Plugins&#34;, &#34;OpenTabs&#34;, &#34;Plugin Installer&#34;)
-    variables.RELOAD = True</code></pre>
+    variables.RELOADPLUGINS = True</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.main.LoadApplication"><code class="name flex">
@@ -1170,7 +1264,8 @@ if __name__ == &#34;__main__&#34;:
         settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
         showCopyrightInTitlebar = True
     
-    mainUI.root.title((&#34;Lane Assist - ©Tumppi066 2023 - &#34; if showCopyrightInTitlebar else &#34;Lane Assist - &#34;) + open(settings.currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;))
+    mainUI.titlePath = &#34;- &#34; + open(settings.currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;) + &#34; &#34;
+    mainUI.UpdateTitle()
     mainUI.root.update()
     mainUI.drawButtons()
 
@@ -1185,6 +1280,37 @@ if __name__ == &#34;__main__&#34;:
     CheckLastKnownVersion()
     # Show the root window
     mainUI.root.deiconify()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.ReloadPluginCode"><code class="name flex">
+<span>def <span class="ident">ReloadPluginCode</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ReloadPluginCode():
+    # Use the inbuilt python modules to reload the code of the plugins
+    import importlib
+    for plugin in pluginObjects:
+        try:
+            importlib.reload(plugin)
+        except Exception as ex:
+            print(ex.args)
+            pass
+    print(&#34;Reloaded plugin code.&#34;)
+    print(&#34;Reloading UI root code...&#34;)
+    try:
+        mainUI.DeleteRoot()
+        importlib.reload(mainUI)
+        mainUI.CreateRoot()
+        mainUI.drawButtons()
+    except Exception as ex:
+        print(ex.args)
+        pass
+    print(&#34;Reloaded UI root code.&#34;)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.main.RunOnEnable"><code class="name flex">
@@ -1232,18 +1358,20 @@ if __name__ == &#34;__main__&#34;:
     else:
         update = False
     
-    devmode = settings.GetSettings(&#34;Dev&#34;, &#34;disable_warnings&#34;, False)
-    if devmode == False:
-        if update:
-            changelog = variables.CHANGELOG
-            from tkinter import messagebox
-            if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
-                os.system(&#34;git stash&#34;)
-                os.system(&#34;git pull&#34;)
-                if messagebox.askyesno(&#34;Updater&#34;, (&#34;The update has been installed and the application needs to be restarted. Do you want to quit the app?&#34;)):
-                    quit()
-            else:
-                pass</code></pre>
+    print(f&#34;Current version: {&#39;.&#39;.join(currentVer)}&#34;)
+    print(f&#34;Remote version: {&#39;.&#39;.join(remoteVer)}&#34;)
+    print(f&#34;Update available: {update}&#34;)
+    if update:
+        print(f&#34;Changelog:\n{requests.get(&#39;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#39;).text}&#34;)
+        changelog = requests.get(&#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#34;).text
+        from tkinter import messagebox
+        if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
+            os.system(&#34;git stash&#34;)
+            os.system(&#34;git pull&#34;)
+            if messagebox.askyesno(&#34;Updater&#34;, (&#34;The update has been installed and the application needs to be restarted. Do you want to quit the app?&#34;)):
+                quit()
+        else:
+            pass</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.main.UpdatePlugins"><code class="name flex">
@@ -1298,6 +1426,7 @@ if __name__ == &#34;__main__&#34;:
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.GetEnabledPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.GetEnabledPlugins">GetEnabledPlugins</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.InstallPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.InstallPlugins">InstallPlugins</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.LoadApplication" href="#Euro-Truck-Simulator-2-Lane-Assist.main.LoadApplication">LoadApplication</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.ReloadPluginCode" href="#Euro-Truck-Simulator-2-Lane-Assist.main.ReloadPluginCode">ReloadPluginCode</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.RunOnEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.main.RunOnEnable">RunOnEnable</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.UpdateChecker" href="#Euro-Truck-Simulator-2-Lane-Assist.main.UpdateChecker">UpdateChecker</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.UpdatePlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.UpdatePlugins">UpdatePlugins</a></code></li>

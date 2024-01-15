@@ -3,7 +3,6 @@ opencv-python
 numpy
 sv_ttk
 psutil
-playsound2
 scipy
 colorama
 deep_translator
@@ -15,4 +14,6 @@ tkinter-tooltip
 pygame
 keyboard
 mouse
+pyautogui
+progress
 --upgrade --no-cache-dir gdown

@@ -440,6 +440,10 @@ class UI():
             
             helpers.MakeButton(self.root, &#34;Remove Cache&#34;, lambda: self.removeCache(), 6,0, padx=10, pady=10, width=25, columnspan=3, sticky=&#34;w&#34;)
             
+            helpers.MakeLabel(self.root, &#34;Please open all UIs once first with the language chosen.&#34;, 8,0, sticky=&#34;w&#34;, padx=10, columnspan=3)
+            
+            helpers.MakeButton(self.root, &#34;Create Manual Cache&#34;, lambda: translator.CreateManualTranslationFile(), 7,0, padx=10, pady=10, width=25, columnspan=3, sticky=&#34;w&#34;)
+            
             self.root.pack(anchor=&#34;center&#34;, expand=False)
             self.root.update()
         
@@ -534,6 +538,10 @@ class UI():
             helpers.MakeButton(self.root, &#34;Reload and Save&#34;, lambda: self.changeCacheSettings(), 5,0, padx=10, pady=10, width=25, columnspan=3, sticky=&#34;w&#34;)
             
             helpers.MakeButton(self.root, &#34;Remove Cache&#34;, lambda: self.removeCache(), 6,0, padx=10, pady=10, width=25, columnspan=3, sticky=&#34;w&#34;)
+            
+            helpers.MakeLabel(self.root, &#34;Please open all UIs once first with the language chosen.&#34;, 8,0, sticky=&#34;w&#34;, padx=10, columnspan=3)
+            
+            helpers.MakeButton(self.root, &#34;Create Manual Cache&#34;, lambda: translator.CreateManualTranslationFile(), 7,0, padx=10, pady=10, width=25, columnspan=3, sticky=&#34;w&#34;)
             
             self.root.pack(anchor=&#34;center&#34;, expand=False)
             self.root.update()
@@ -636,6 +644,10 @@ class UI():
     helpers.MakeButton(self.root, &#34;Reload and Save&#34;, lambda: self.changeCacheSettings(), 5,0, padx=10, pady=10, width=25, columnspan=3, sticky=&#34;w&#34;)
     
     helpers.MakeButton(self.root, &#34;Remove Cache&#34;, lambda: self.removeCache(), 6,0, padx=10, pady=10, width=25, columnspan=3, sticky=&#34;w&#34;)
+    
+    helpers.MakeLabel(self.root, &#34;Please open all UIs once first with the language chosen.&#34;, 8,0, sticky=&#34;w&#34;, padx=10, columnspan=3)
+    
+    helpers.MakeButton(self.root, &#34;Create Manual Cache&#34;, lambda: translator.CreateManualTranslationFile(), 7,0, padx=10, pady=10, width=25, columnspan=3, sticky=&#34;w&#34;)
     
     self.root.pack(anchor=&#34;center&#34;, expand=False)
     self.root.update()</code></pre>

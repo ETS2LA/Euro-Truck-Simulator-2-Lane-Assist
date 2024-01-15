@@ -454,6 +454,7 @@ def SaveKeybind(name, description=&#34;&#34;, deviceGUID=-1, buttonIndex=-1, axi
 
 pygame.init()
 pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 def plugin(data):
     &#34;&#34;&#34;Handles calling back the keybinds. Should not be called directly.
 
@@ -464,15 +465,14 @@ def plugin(data):
         dict: Data dictionary to main.py
     &#34;&#34;&#34;
     pygame.event.pump()
-    joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     for keybind in KEYBINDS:
         if keybind[&#34;callback&#34;] != None:
-            for joystick in joysticks:
-                if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
-                    if keybind[&#34;buttonIndex&#34;] == type(&#34;&#34;): # We are expecting a key
-                        if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]):
-                            keybind[&#34;callback&#34;]()
-                    else: # We are expecting a controller button or axis
+            if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
+                if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]):
+                    keybind[&#34;callback&#34;]()
+            else:
+                for joystick in joysticks:
+                    if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
                         if keybind[&#34;buttonIndex&#34;] != -1:
                             if joystick.get_button(keybind[&#34;buttonIndex&#34;]):
                                 keybind[&#34;callback&#34;]()
@@ -643,6 +643,9 @@ def GetKeybindValue(name):
     if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
         return True if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]) else False
     
+    if keybind[&#34;buttonIndex&#34;] == -1 and keybind[&#34;axisIndex&#34;] == -1:
+        return False
+    
     pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     for joystick in joysticks:
@@ -700,12 +703,23 @@ class UI():
                 
                 # Make labels for the keybind information
                 if keybind[&#34;deviceGUID&#34;] != -1:
+                    noDevice = True
+                    
                     if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
-                        helpers.MakeLabel(frame, &#34;Device: Keyboard&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;])
+                        label = helpers.MakeLabel(frame, &#34;Device: Keyboard&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;])
+                        ToolTip(label, msg=&#34;GUID: &#34; + str(KEYBOARD_GUID) + &#34;\nThis is the keyboard connected to the computer.&#34;)
+                        noDevice = False
+                        
                     for joystick in joysticks:
                         if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
-                            helpers.MakeLabel(frame, &#34;Device: &#34; + joystick.get_name(), 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], tooltip=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                            label = helpers.MakeLabel(frame, &#34;Device: &#34; + joystick.get_name(), 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], tooltip=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                            ToolTip(label, msg=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                            noDevice = False
                             break
+                        
+                    if noDevice:
+                        label = helpers.MakeLabel(frame, &#34;Device: Missing&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], fg=&#34;yellow&#34;)
+                        ToolTip(label, msg=&#34;The device that was used to bind this keybind is not connected to the computer.\nGUID: &#34; + str(keybind[&#34;deviceGUID&#34;]))
                         
                 if keybind[&#34;buttonIndex&#34;] != -1:
                     if type(keybind[&#34;buttonIndex&#34;]) == type(&#34;&#34;):
@@ -962,6 +976,9 @@ class UI():
     if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
         return True if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]) else False
     
+    if keybind[&#34;buttonIndex&#34;] == -1 and keybind[&#34;axisIndex&#34;] == -1:
+        return False
+    
     pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     for joystick in joysticks:
@@ -1139,15 +1156,14 @@ class UI():
         dict: Data dictionary to main.py
     &#34;&#34;&#34;
     pygame.event.pump()
-    joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     for keybind in KEYBINDS:
         if keybind[&#34;callback&#34;] != None:
-            for joystick in joysticks:
-                if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
-                    if keybind[&#34;buttonIndex&#34;] == type(&#34;&#34;): # We are expecting a key
-                        if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]):
-                            keybind[&#34;callback&#34;]()
-                    else: # We are expecting a controller button or axis
+            if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
+                if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]):
+                    keybind[&#34;callback&#34;]()
+            else:
+                for joystick in joysticks:
+                    if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
                         if keybind[&#34;buttonIndex&#34;] != -1:
                             if joystick.get_button(keybind[&#34;buttonIndex&#34;]):
                                 keybind[&#34;callback&#34;]()
@@ -1220,12 +1236,23 @@ class UI():
                 
                 # Make labels for the keybind information
                 if keybind[&#34;deviceGUID&#34;] != -1:
+                    noDevice = True
+                    
                     if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
-                        helpers.MakeLabel(frame, &#34;Device: Keyboard&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;])
+                        label = helpers.MakeLabel(frame, &#34;Device: Keyboard&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;])
+                        ToolTip(label, msg=&#34;GUID: &#34; + str(KEYBOARD_GUID) + &#34;\nThis is the keyboard connected to the computer.&#34;)
+                        noDevice = False
+                        
                     for joystick in joysticks:
                         if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
-                            helpers.MakeLabel(frame, &#34;Device: &#34; + joystick.get_name(), 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], tooltip=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                            label = helpers.MakeLabel(frame, &#34;Device: &#34; + joystick.get_name(), 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], tooltip=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                            ToolTip(label, msg=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                            noDevice = False
                             break
+                        
+                    if noDevice:
+                        label = helpers.MakeLabel(frame, &#34;Device: Missing&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], fg=&#34;yellow&#34;)
+                        ToolTip(label, msg=&#34;The device that was used to bind this keybind is not connected to the computer.\nGUID: &#34; + str(keybind[&#34;deviceGUID&#34;]))
                         
                 if keybind[&#34;buttonIndex&#34;] != -1:
                     if type(keybind[&#34;buttonIndex&#34;]) == type(&#34;&#34;):
@@ -1328,12 +1355,23 @@ class UI():
         
         # Make labels for the keybind information
         if keybind[&#34;deviceGUID&#34;] != -1:
+            noDevice = True
+            
             if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
-                helpers.MakeLabel(frame, &#34;Device: Keyboard&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;])
+                label = helpers.MakeLabel(frame, &#34;Device: Keyboard&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;])
+                ToolTip(label, msg=&#34;GUID: &#34; + str(KEYBOARD_GUID) + &#34;\nThis is the keyboard connected to the computer.&#34;)
+                noDevice = False
+                
             for joystick in joysticks:
                 if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
-                    helpers.MakeLabel(frame, &#34;Device: &#34; + joystick.get_name(), 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], tooltip=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                    label = helpers.MakeLabel(frame, &#34;Device: &#34; + joystick.get_name(), 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], tooltip=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                    ToolTip(label, msg=f&#34;GUID: {str(joystick.get_guid())}&#34;)
+                    noDevice = False
                     break
+                
+            if noDevice:
+                label = helpers.MakeLabel(frame, &#34;Device: Missing&#34;, 0, 2, sticky=&#34;w&#34;, padx=10, pady=0, font=[&#34;Segoe UI&#34;, 10, &#34;bold&#34;], fg=&#34;yellow&#34;)
+                ToolTip(label, msg=&#34;The device that was used to bind this keybind is not connected to the computer.\nGUID: &#34; + str(keybind[&#34;deviceGUID&#34;]))
                 
         if keybind[&#34;buttonIndex&#34;] != -1:
             if type(keybind[&#34;buttonIndex&#34;]) == type(&#34;&#34;):

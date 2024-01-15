@@ -378,6 +378,7 @@ from src.logger import print
 import src.settings as settings
 from src.translator import Translate
 import plugins.ThemeSelector.main as themeSelector
+from tktooltip import ToolTip
 
 root = None
 &#34;&#34;&#34;The root tk.Tk() window of the program.&#34;&#34;&#34;
@@ -640,7 +641,27 @@ def savePosition():
     x = root.winfo_x()
     y = root.winfo_y()
     settings.CreateSettings(&#34;User Interface&#34;, &#34;Position&#34;, [x, y])
-        
+
+titlePath = &#34;&#34;    
+def UpdateTitle(extraText:str=&#34;&#34;):
+    &#34;&#34;&#34;Will update the application title.
+
+    Args:
+        extraText (str, optional): Additional text to add after all of the defaults. Defaults to &#34;&#34;.
+
+    Returns:
+        success (bool, optional): If there was an error then this will return False. Otherwise True.
+    &#34;&#34;&#34;
+    showCopyrightInTitlebar = settings.GetSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;)
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
+        showCopyrightInTitlebar = True
+    
+    try:
+        root.title(&#34;Lane Assist - ©Tumppi066 2024 &#34; + titlePath + extraText if showCopyrightInTitlebar else &#34;Lane Assist &#34; + titlePath + extraText)
+        return True
+    except:
+        return False
 
 pluginFrames = []
 UIs = []
@@ -667,12 +688,12 @@ def CreateRoot():
     # Query DPI Awareness (Windows 10 and 8)
     awareness = ctypes.c_int()
     errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
-    print(&#34;Original DPI awareness value : &#34; + str(awareness.value))
+    #print(&#34;Original DPI awareness value : &#34; + str(awareness.value))
 
     # Set DPI Awareness  (Windows 10 and 8)
     try:
         errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(wantedAwareness)
-        print(&#34;Set DPI awareness value to &#34; + str(wantedAwareness) + &#34; (code &#34; + str(errorCode) + &#34;)&#34;)
+        #print(&#34;Set DPI awareness value to &#34; + str(wantedAwareness) + &#34; (code &#34; + str(errorCode) + &#34;)&#34;)
     except:
         print(&#34;Failed to set DPI awareness value&#34;)
         #errorCode = ctypes.windll.user32.SetProcessDPIAware()
@@ -689,12 +710,8 @@ def CreateRoot():
     height = 600
 
     root = tk.Tk()
-    showCopyrightInTitlebar = settings.GetSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;)
-    if showCopyrightInTitlebar == None:
-        settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
-        showCopyrightInTitlebar = True
     
-    root.title(&#34;Lane Assist - ©Tumppi066 2023&#34; if showCopyrightInTitlebar else &#34;Lane Assist&#34;)
+    UpdateTitle()
     
     # Hack to make windows think we are our own app, and then show our icon
     import ctypes
@@ -737,7 +754,7 @@ def CreateRoot():
         settings.CreateSettings(&#34;User Interface&#34;, &#34;ShowCopyright&#34;, False)
         showCopyright = False
     if showCopyright:
-        ttk.Label(root, text=f&#34;ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023&#34;, font=(&#34;Roboto&#34;, 8)).pack(side=&#34;bottom&#34;, anchor=&#34;s&#34;, padx=10, pady=0)
+        ttk.Label(root, text=f&#34;ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2024&#34;, font=(&#34;Roboto&#34;, 8)).pack(side=&#34;bottom&#34;, anchor=&#34;s&#34;, padx=10, pady=0)
     fps = tk.StringVar()
     
     showFps = settings.GetSettings(&#34;User Interface&#34;, &#34;ShowFPS&#34;)
@@ -841,10 +858,8 @@ def CreateRoot():
                 pass
 
     print(&#34;Loaded previously open tabs&#34;)
-    root.update()
-
-
-CreateRoot()</code></pre>
+    
+    root.update()</code></pre>
 </details>
 </section>
 <section>
@@ -891,12 +906,12 @@ CreateRoot()</code></pre>
     # Query DPI Awareness (Windows 10 and 8)
     awareness = ctypes.c_int()
     errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
-    print(&#34;Original DPI awareness value : &#34; + str(awareness.value))
+    #print(&#34;Original DPI awareness value : &#34; + str(awareness.value))
 
     # Set DPI Awareness  (Windows 10 and 8)
     try:
         errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(wantedAwareness)
-        print(&#34;Set DPI awareness value to &#34; + str(wantedAwareness) + &#34; (code &#34; + str(errorCode) + &#34;)&#34;)
+        #print(&#34;Set DPI awareness value to &#34; + str(wantedAwareness) + &#34; (code &#34; + str(errorCode) + &#34;)&#34;)
     except:
         print(&#34;Failed to set DPI awareness value&#34;)
         #errorCode = ctypes.windll.user32.SetProcessDPIAware()
@@ -913,12 +928,8 @@ CreateRoot()</code></pre>
     height = 600
 
     root = tk.Tk()
-    showCopyrightInTitlebar = settings.GetSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;)
-    if showCopyrightInTitlebar == None:
-        settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
-        showCopyrightInTitlebar = True
     
-    root.title(&#34;Lane Assist - ©Tumppi066 2023&#34; if showCopyrightInTitlebar else &#34;Lane Assist&#34;)
+    UpdateTitle()
     
     # Hack to make windows think we are our own app, and then show our icon
     import ctypes
@@ -961,7 +972,7 @@ CreateRoot()</code></pre>
         settings.CreateSettings(&#34;User Interface&#34;, &#34;ShowCopyright&#34;, False)
         showCopyright = False
     if showCopyright:
-        ttk.Label(root, text=f&#34;ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2023&#34;, font=(&#34;Roboto&#34;, 8)).pack(side=&#34;bottom&#34;, anchor=&#34;s&#34;, padx=10, pady=0)
+        ttk.Label(root, text=f&#34;ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2024&#34;, font=(&#34;Roboto&#34;, 8)).pack(side=&#34;bottom&#34;, anchor=&#34;s&#34;, padx=10, pady=0)
     fps = tk.StringVar()
     
     showFps = settings.GetSettings(&#34;User Interface&#34;, &#34;ShowFPS&#34;)
@@ -1065,6 +1076,7 @@ CreateRoot()</code></pre>
                 pass
 
     print(&#34;Loaded previously open tabs&#34;)
+    
     root.update()</code></pre>
 </details>
 </dd>
@@ -1092,6 +1104,43 @@ CreateRoot()</code></pre>
         del root
     except:
         pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.UpdateTitle"><code class="name flex">
+<span>def <span class="ident">UpdateTitle</span></span>(<span>extraText: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will update the application title.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>extraText</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Additional text to add after all of the defaults. Defaults to "".</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>success (bool, optional): If there was an error then this will return False. Otherwise True.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateTitle(extraText:str=&#34;&#34;):
+    &#34;&#34;&#34;Will update the application title.
+
+    Args:
+        extraText (str, optional): Additional text to add after all of the defaults. Defaults to &#34;&#34;.
+
+    Returns:
+        success (bool, optional): If there was an error then this will return False. Otherwise True.
+    &#34;&#34;&#34;
+    showCopyrightInTitlebar = settings.GetSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;)
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
+        showCopyrightInTitlebar = True
+    
+    try:
+        root.title(&#34;Lane Assist - ©Tumppi066 2024 &#34; + titlePath + extraText if showCopyrightInTitlebar else &#34;Lane Assist &#34; + titlePath + extraText)
+        return True
+    except:
+        return False</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.changeTheme"><code class="name flex">
@@ -1490,6 +1539,7 @@ newHeight (int)</p></div>
 <ul class="">
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.CreateRoot" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.CreateRoot">CreateRoot</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.DeleteRoot" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.DeleteRoot">DeleteRoot</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.UpdateTitle" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.UpdateTitle">UpdateTitle</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.changeTheme" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.changeTheme">changeTheme</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTab" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTab">closeTab</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTabName" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTabName">closeTabName</a></code></li>

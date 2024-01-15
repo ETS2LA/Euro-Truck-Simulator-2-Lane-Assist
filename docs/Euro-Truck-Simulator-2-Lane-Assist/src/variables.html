@@ -365,6 +365,13 @@ VERSION = open(PATH + &#34;version.txt&#34;, &#34;r&#34;).read().replace(&#34;\n
 &#34;&#34;&#34;Current version of the program.&#34;&#34;&#34;
 CHANGELOG = open(PATH + &#34;changelog.txt&#34;, &#34;r&#34;).readlines()
 &#34;&#34;&#34;The current shortened changelog. Used to show the user what&#39;s new in the small autoupdater dialog.&#34;&#34;&#34;
+CONSOLENAME = None
+&#34;&#34;&#34;The name/id of the console, is needed to hide or show the console.&#34;&#34;&#34;
+APPENDDATANEXTFRAME = None
+&#34;&#34;&#34;Add custom data for the next frame. This is usually useful for panels that can&#39;t add their data the normal way.
+Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI).&#34;&#34;&#34;
+RELOADPLUGINS = False
+&#34;&#34;&#34;Will fully reload the plugin code for all plugins. This is useful for debugging and development.&#34;&#34;&#34;
 
 def ToggleEnable():
     &#34;&#34;&#34;Will toggle the mainloop.
@@ -375,7 +382,12 @@ def ToggleEnable():
 def UpdatePlugins():
     &#34;&#34;&#34;Will prompt the application to update it&#39;s list of plugins.&#34;&#34;&#34;
     global UPDATEPLUGINS
-    UPDATEPLUGINS = True</code></pre>
+    UPDATEPLUGINS = True
+    
+def ReloadAllPlugins():
+    &#34;&#34;&#34;Will prompt the application to reload all plugins.&#34;&#34;&#34;
+    global RELOADPLUGINS
+    RELOADPLUGINS = True</code></pre>
 </details>
 </section>
 <section>
@@ -383,9 +395,18 @@ def UpdatePlugins():
 <section>
 <h2 class="section-title" id="header-variables">Global variables</h2>
 <dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.APPENDDATANEXTFRAME"><code class="name">var <span class="ident">APPENDDATANEXTFRAME</span></code></dt>
+<dd>
+<div class="desc"><p>Add custom data for the next frame. This is usually useful for panels that can't add their data the normal way.
+Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI).</p></div>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG"><code class="name">var <span class="ident">CHANGELOG</span></code></dt>
 <dd>
 <div class="desc"><p>The current shortened changelog. Used to show the user what's new in the small autoupdater dialog.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CONSOLENAME"><code class="name">var <span class="ident">CONSOLENAME</span></code></dt>
+<dd>
+<div class="desc"><p>The name/id of the console, is needed to hide or show the console.</p></div>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP"><code class="name">var <span class="ident">ENABLELOOP</span></code></dt>
 <dd>
@@ -398,6 +419,10 @@ def UpdatePlugins():
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD"><code class="name">var <span class="ident">RELOAD</span></code></dt>
 <dd>
 <div class="desc"><p>Whether to reload the program at the start of the next frame.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOADPLUGINS"><code class="name">var <span class="ident">RELOADPLUGINS</span></code></dt>
+<dd>
+<div class="desc"><p>Will fully reload the plugin code for all plugins. This is useful for debugging and development.</p></div>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS"><code class="name">var <span class="ident">UPDATEPLUGINS</span></code></dt>
 <dd>
@@ -412,6 +437,21 @@ def UpdatePlugins():
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ReloadAllPlugins"><code class="name flex">
+<span>def <span class="ident">ReloadAllPlugins</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will prompt the application to reload all plugins.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ReloadAllPlugins():
+    &#34;&#34;&#34;Will prompt the application to reload all plugins.&#34;&#34;&#34;
+    global RELOADPLUGINS
+    RELOADPLUGINS = True</code></pre>
+</details>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ToggleEnable"><code class="name flex">
 <span>def <span class="ident">ToggleEnable</span></span>(<span>)</span>
 </code></dt>
@@ -461,16 +501,20 @@ def UpdatePlugins():
 </li>
 <li><h3><a href="#header-variables">Global variables</a></h3>
 <ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.APPENDDATANEXTFRAME" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.APPENDDATANEXTFRAME">APPENDDATANEXTFRAME</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG">CHANGELOG</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CONSOLENAME" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.CONSOLENAME">CONSOLENAME</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP">ENABLELOOP</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH">PATH</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD">RELOAD</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOADPLUGINS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOADPLUGINS">RELOADPLUGINS</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS">UPDATEPLUGINS</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION">VERSION</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ReloadAllPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ReloadAllPlugins">ReloadAllPlugins</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ToggleEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ToggleEnable">ToggleEnable</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UpdatePlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.UpdatePlugins">UpdatePlugins</a></code></li>
 </ul>

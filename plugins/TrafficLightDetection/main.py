@@ -34,6 +34,7 @@ import numpy as np
 import dxcam
 import time
 import pyautogui
+import ctypes
 import math
 
 screen_width, screen_height = pyautogui.size()
@@ -77,6 +78,11 @@ def UpdateSettings():
     global aiconfirmation
     global coordinates
     global trafficlights
+    global windowwidth
+    global windowheight
+    global reset_window
+    global currentneareststate_last_seen
+    global last_neareststate
     global x1
     global y1
     global x2
@@ -149,29 +155,9 @@ def UpdateSettings():
     else:
         windowwidth = settings.GetSettings("TrafficLightDetection", "outputwindowwidth", round(screen_width/2))
         windowheight = settings.GetSettings("TrafficLightDetection", "outputwindowheight", round(screen_height/3))
-
-    if grayscalewindow == True:
-        cv2.namedWindow('Traffic Light Detection - B/W', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Light Detection - B/W', round(windowwidth*windowscale), round(windowheight*windowscale))
-        cv2.setWindowProperty('Traffic Light Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
-        startframe = np.zeros((round(windowheight * windowscale), round(windowwidth * windowscale), 3))
-        cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
-        cv2.imshow('Traffic Light Detection - B/W', startframe)
-    if redgreenwindow == True:
-        cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
-        cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
-        startframe = np.zeros((round(windowheight * windowscale), round(windowwidth * windowscale), 3))
-        cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
-        cv2.imshow('Traffic Light Detection - Red/Green', startframe)
-    if finalwindow == True:
-        cv2.namedWindow('Traffic Light Detection - Final', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Traffic Light Detection - Final', round(windowwidth*windowscale), round(windowheight*windowscale))
-        cv2.setWindowProperty('Traffic Light Detection - Final', cv2.WND_PROP_TOPMOST, 1)
-        startframe = np.zeros((round(windowheight * windowscale), round(windowwidth * windowscale), 3))
-        cv2.putText(startframe, "enable app", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA) 
-        cv2.imshow('Traffic Light Detection - Final', startframe)
     
+    reset_window = True
+
     if advancedmode == False:
         min_rect_size = screen_width / 240
         max_rect_size = screen_width / 10
@@ -200,6 +186,8 @@ def UpdateSettings():
         print("Your Screen Capture Coordinates are invalid because the bottom Y is above the top Y (message from TrafficLightDetection)")
         messagebox.showwarning(title="TrafficLightDetection", message="Your Screen Capture Coordinates are invalid because the bottom Y is above the top Y (message from TrafficLightDetection)")
 
+    currentneareststate_last_seen = 0
+    last_neareststate = "---"
     
     urr = settings.GetSettings("TrafficLightDetection", "upperred_r")
     if urr == None or not isinstance(urr, int) or not (0 <= urr <= 255):
@@ -290,6 +278,9 @@ def plugin(data):
     global coordinates
     global trafficlights
     global trafficlightframes
+    global reset_window
+    global currentneareststate_last_seen
+    global last_neareststate
     
     try:
         frame = data["frameFull"]
@@ -538,15 +529,15 @@ def plugin(data):
                     # True: anywindowopen, performancemode --- False: trafficlighttracking, advancedmode
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -746,15 +737,15 @@ def plugin(data):
                     # True: performancemode --- False: trafficlighttracking, advancedmode, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -1057,15 +1048,15 @@ def plugin(data):
                     # True: advancedmode, anywindowopen, performancemode --- False: trafficlighttracking
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
 
@@ -1357,15 +1348,15 @@ def plugin(data):
                     # True: advancedmode, performancemode --- False: trafficlighttracking, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
 
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         
@@ -1641,15 +1632,15 @@ def plugin(data):
                     # True: trafficlighttracking, anywindowopen, performancemode --- False: advancedmode
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -1856,15 +1847,15 @@ def plugin(data):
                     # True: trafficlighttracking, performancemode --- False: advancedmode, anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
@@ -2173,15 +2164,15 @@ def plugin(data):
                     # True: trafficlighttracking, advancedmode, anywindowopen, performancemode --- False:     
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
 
@@ -2479,15 +2470,15 @@ def plugin(data):
                     # True: trafficlighttracking, advancedmode, performancemode --- False: anywindowopen
                     mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
 
-                    filtered_frame_red = mask_red
-                    filtered_frame_bw = filtered_frame_red
+                    filtered_frame_red = cv2.bitwise_and(frame, frame, mask=mask_red)
+                    filtered_frame_bw = mask_red.copy()
                     final_frame = frame
 
                     currentnearest = 0
                     currentneareststate = "---"
                     currentdistance = "---"
                     
-                    contours, _ = cv2.findContours(filtered_frame_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     for contour in contours:
                         x, y, w, h = cv2.boundingRect(contour)
                         
@@ -2638,24 +2629,74 @@ def plugin(data):
         
         except Exception as e:
             print("TrafficLightDetection - Tracking Error: " + str(e))
-        
+    
+    current_time = time.time()
+    if currentneareststate != "---":
+        currentneareststate_last_seen = current_time
+        last_neareststate = currentneareststate
+    if currentneareststate == "---" and last_neareststate != "---" and current_time-0.3<currentneareststate_last_seen:
+        currentneareststate = last_neareststate
+
     data["TrafficLightDetection"] = currentneareststate                   
+
+    if reset_window == True:
+        if grayscalewindow == False:
+            try:
+                cv2.destroyWindow('Traffic Light Detection - B/W')
+            except:
+                pass
+        if redgreenwindow == False:
+            try:
+                cv2.destroyWindow('Traffic Light Detection - Red/Green')
+            except:
+                pass
+        if finalwindow == False:
+            try:
+                cv2.destroyWindow('Traffic Light Detection - Final')
+            except:
+                pass
 
     if grayscalewindow == True:
         if textsize > 0:         
             cv2.putText(filtered_frame_bw, f"Nearest: {currentneareststate}, Distance: {currentdistance}", (20, round(40*textsize)), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 2, cv2.LINE_AA) 
+        window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - B/W')
+        if window_handle == 0 or reset_window == True:
+            cv2.namedWindow('Traffic Light Detection - B/W', cv2.WINDOW_NORMAL)
+            cv2.resizeWindow('Traffic Light Detection - B/W', round(windowwidth*windowscale), round(windowheight*windowscale))
+            cv2.setWindowProperty('Traffic Light Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
         cv2.imshow('Traffic Light Detection - B/W', filtered_frame_bw)
     if redgreenwindow == True:      
         if performancemode == False:
             if detectyellowlight == False:
+                window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
+                if window_handle == 0 or reset_window == True:
+                    cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
+                    cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
+                    cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
                 cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red_green)
             else:
+                window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
+                if window_handle == 0 or reset_window == True:
+                    cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
+                    cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
+                    cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
                 cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red_green_yellow)
         else:
+            window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Red/Green')
+            if window_handle == 0 or reset_window == True:
+                cv2.namedWindow('Traffic Light Detection - Red/Green', cv2.WINDOW_NORMAL)
+                cv2.resizeWindow('Traffic Light Detection - Red/Green', round(windowwidth*windowscale), round(windowheight*windowscale))
+                cv2.setWindowProperty('Traffic Light Detection - Red/Green', cv2.WND_PROP_TOPMOST, 1)
             cv2.imshow('Traffic Light Detection - Red/Green', filtered_frame_red)
     if finalwindow == True:
+        window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Final')
+        if window_handle == 0 or reset_window == True:
+            cv2.namedWindow('Traffic Light Detection - Final', cv2.WINDOW_NORMAL)
+            cv2.resizeWindow('Traffic Light Detection - Final', round(windowwidth*windowscale), round(windowheight*windowscale))
+            cv2.setWindowProperty('Traffic Light Detection - Final', cv2.WND_PROP_TOPMOST, 1)
         cv2.imshow('Traffic Light Detection - Final', final_frame)
-
+    if reset_window == True:
+        reset_window = False
     return data # Plugins need to ALWAYS return the data
 
 
@@ -2673,7 +2714,7 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master 
             self.exampleFunction()
-            resizeWindow(850,655)
+            resizeWindow(850,600)
         
         def destroy(self):
             self.done = True
@@ -2681,20 +2722,48 @@ class UI():
             del self
 
         def tabFocused(self):
-            resizeWindow(850,655)
-
-        def UpdateScaleValueFromSlider(self):
-            self.textsize.set(self.textsizeSlider.get())
-            self.x1ofsc.set(self.x1ofscSlider.get())
-            self.y1ofsc.set(self.y1ofscSlider.get())
-            self.x2ofsc.set(self.x2ofscSlider.get())
-            self.y2ofsc.set(self.y2ofscSlider.get())
-            self.windowwidth.set(self.windowwidthSlider.get())
-            self.windowheight.set(self.windowheightSlider.get())
+            resizeWindow(850,600)
+            
+        def UpdateSliderValue_scale(self):
             self.scale.set(self.scaleSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "scale", self.scaleSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_textsize(self):
+            self.textsize.set(self.textsizeSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "textsize", self.textsizeSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_x1ofsc(self):
+            self.x1ofsc.set(self.x1ofscSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "x1ofsc", self.x1ofscSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_y1ofsc(self):
+            self.y1ofsc.set(self.y1ofscSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "y1ofsc", self.y1ofscSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_x2ofsc(self):
+            self.x2ofsc.set(self.x2ofscSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "x2ofsc", self.x2ofscSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_y2ofsc(self):
+            self.y2ofsc.set(self.y2ofscSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "y2ofsc", self.y2ofscSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_windowwidth(self):
+            self.windowwidth.set(self.windowwidthSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "outputwindowwidth", self.windowwidthSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_windowheight(self):
+            self.windowheight.set(self.windowheightSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "outputwindowheight", self.windowheightSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_minrectsize(self):
             self.minrectsize.set(self.minrectsizeSlider.get())
+            settings.CreateSettings("TrafficLightDetection", "minrectsize", self.minrectsizeSlider.get())
+            UpdateSettings()
+        def UpdateSliderValue_maxrectsize(self):
             self.maxrectsize.set(self.maxrectsizeSlider.get())
-
+            settings.CreateSettings("TrafficLightDetection", "maxrectsize", self.maxrectsizeSlider.get())
+            UpdateSettings()
         
         def exampleFunction(self):
             
@@ -2702,7 +2771,7 @@ class UI():
                 self.root.destroy() 
             except: pass
             
-            self.root = tk.Canvas(self.master, width=750, height=650, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=750, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(0) 
             self.root.pack_propagate(0)
             
@@ -2730,19 +2799,16 @@ class UI():
             filtersFrame.pack()
 
 
-            colorsettingsFrame.configure(height=500)
             colorsettingsFrame.columnconfigure(0, weight=1)
             colorsettingsFrame.columnconfigure(1, weight=1)
             colorsettingsFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(colorsettingsFrame, "Color Settings", 0, 0, font=("Robot", 12, "bold"), columnspan=7)
 
-            filtersFrame.configure(height=500)
             filtersFrame.columnconfigure(0, weight=1)
             filtersFrame.columnconfigure(1, weight=1)
             filtersFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(filtersFrame, "Filters", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
 
-            
             generalFrame.columnconfigure(0, weight=1)
             generalFrame.columnconfigure(1, weight=1)
             generalFrame.columnconfigure(2, weight=1)
@@ -2777,80 +2843,126 @@ class UI():
             advancedNotebook.add(colorsettingsFrame, text=Translate("ColorSettings"))
             advancedNotebook.add(filtersFrame, text=Translate("Filters"))
             
-            ttk.Button(self.root, text="Save", command=self.save, width=15).pack(anchor="center", pady=6)
-            
             self.root.pack(anchor="center", expand=False)
             self.root.update()
 
 
-            helpers.MakeCheckButton(outputwindowFrame, "Final Window\n--------------------\nIf enabled, the app creates a window with the result of the traffic light detection.", "TrafficLightDetection", "finalwindow", 1, 0, width=80, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window\n---------------------------\nIf enabled, the app creates a window with the color masks combined in a grayscaled frame.", "TrafficLightDetection", "grayscalewindow", 2, 0, width=80, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Red/Green Window\n----------------------------\nIf enabled, the app creates a window with the color masks combined in a frame.", "TrafficLightDetection", "redgreenwindow", 3, 0, width=80, callback=UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize\n---------------------------------\nIf enabled, the Window Width and Window Height sliders will no longer have any effect\nand the output window keeps the aspect ratio of the captured frame. Set the size of the\noutput window with the Window Scale slider.", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=80, callback=UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Final Window\n--------------------\nIf enabled, the app creates a window with the result of the traffic light detection.", "TrafficLightDetection", "finalwindow", 1, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window\n---------------------------\nIf enabled, the app creates a window with the color masks combined in a grayscaled frame.", "TrafficLightDetection", "grayscalewindow", 2, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Red/Green Window\n----------------------------\nIf enabled, the app creates a window with the color masks combined in a frame.", "TrafficLightDetection", "redgreenwindow", 3, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize\n---------------------------------\nIf enabled, the Window Width and Window Height sliders will no longer have any effect\nand the output window keeps the aspect ratio of the captured frame. Set the size of the\noutput window with the Window Scale slider.", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=80, callback=lambda:UpdateSettings())
             helpers.MakeEmptyLine(outputwindowFrame,5,0)
 
-            helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance, but does not reduce detection accuracy.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Advanced Settings\n---------------------------\nIf enabled, the traffic light detection uses the settings you set in\nthe Advanced tab. (could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance, but does not reduce detection accuracy.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Advanced Settings\n---------------------------\nIf enabled, the traffic light detection uses the settings you set in\nthe Advanced tab. (could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeEmptyLine(generalFrame,7,0)
 
-            helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=lambda:UpdateSettings())
 
-            helpers.MakeCheckButton(trackeraiFrame, "Tracking of Traffic Lights\n-----------------------------------\nIf enabled, the app tracks the detected traffic lights and gives them an ID.\n(required for AI)", "TrafficLightDetection", "trafficlighttracking", 1, 0, width=60, callback=UpdateSettings())
-            helpers.MakeCheckButton(trackeraiFrame, "AI Mode\n------------\nIf enabled, the app uses AI (Yolov5) to confirm the detected traffic lights,\nwhich increases accuracy.\nThis feature does not work yet. I am working on it.", "TrafficLightDetection", "aiconfirmation", 2, 0, width=60, callback=UpdateSettings())
+            helpers.MakeCheckButton(trackeraiFrame, "Tracking of Traffic Lights\n-----------------------------------\nIf enabled, the app tracks the detected traffic lights and gives them an ID.\n(required for AI)", "TrafficLightDetection", "trafficlighttracking", 1, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(trackeraiFrame, "AI Mode\n------------\nIf enabled, the app uses AI (Yolov5) to confirm the detected traffic lights,\nwhich increases accuracy.\nThis feature does not work yet. I am working on it.", "TrafficLightDetection", "aiconfirmation", 2, 0, width=60, callback=lambda:UpdateSettings())
 
-            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateSliderValue_textsize())
             self.textsizeSlider.set(settings.GetSettings("TrafficLightDetection", "textsize", 0.5))
             self.textsizeSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
             self.textsize = helpers.MakeComboEntry(generalFrame, "Font Size (Grayscale Window)", "TrafficLightDetection", "textsize", 9, 0, width=32, labelwidth=30)
             
-            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=UpdateSettings())
+            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
             
-            self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x1ofsc())
             self.x1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x1ofsc", 0))
             self.x1ofscSlider.grid(row=3, column=0, padx=10, pady=0, columnspan=2)
             self.x1ofsc = helpers.MakeComboEntry(screencaptureFrame, "X1 (topleft)", "TrafficLightDetection", "x1ofsc", 3,0)
 
-            self.y1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.y1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_y1ofsc())
             self.y1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y1ofsc", 0))
             self.y1ofscSlider.grid(row=5, column=0, padx=10, pady=0, columnspan=2)
             self.y1ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y1 (topleft)", "TrafficLightDetection", "y1ofsc", 5,0)
 
-            self.x2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.x2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x2ofsc())
             self.x2ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1))
             self.x2ofscSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
             self.x2ofsc = helpers.MakeComboEntry(screencaptureFrame, "X2 (buttomright)", "TrafficLightDetection", "x2ofsc", 7,0)
 
-            self.y2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.y2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_y2ofsc())
             self.y2ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1))
             self.y2ofscSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
             self.y2ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y2 (buttomright)", "TrafficLightDetection", "y2ofsc", 9,0)
 
+            helpers.MakeButton(screencaptureFrame, "Open/Refresh preview", lambda: screencapture_open_refresh(), 11, 0, width=30, sticky="w")
+            helpers.MakeButton(screencaptureFrame, "Close preview", lambda: screencapture_close(), 12, 0, width=30, sticky="w")
 
-            self.windowwidthSlider = tk.Scale(outputwindowFrame, from_=round(screen_width/20), to=screen_width, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            def screencapture_open_refresh():
+                self.UpdateSliderValue_x1ofsc()
+                self.UpdateSliderValue_y1ofsc()
+                self.UpdateSliderValue_x2ofsc()
+                self.UpdateSliderValue_y2ofsc()
+                if settings.GetSettings("TrafficLightDetection", "usefullframe", True) == False:
+                    x1 = self.x1ofscSlider.get()
+                    y1 = self.y1ofscSlider.get()
+                    x2 = self.x2ofscSlider.get()
+                    y2 = self.y2ofscSlider.get()
+                    screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1, y1, x2 - x1, y2 - y1))), cv2.COLOR_RGB2BGR)
+                else:
+                    x1 = 0
+                    y1 = 0
+                    x2 = screen_width-1
+                    y2 = round(screen_height/1.5)-1
+                    screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1, y1, x2 - x1, y2 - y1))), cv2.COLOR_RGB2BGR)
+                    current_text = '"Use Full Frame" enabled, disable to set own screencapture area'
+                    width_target_current_text = (x2 - x1)*0.9
+                    fontscale_current_text = 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text = 3
+                    while width_current_text != width_target_current_text:
+                        fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                        textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                        width_current_text, height_current_text = textsize_current_text
+                        max_count_current_text -= 1
+                        if max_count_current_text <= 0:
+                            break
+                    thickness_current_text = round(fontscale_current_text*2)
+                    if thickness_current_text <= 0:
+                        thickness_current_text = 1
+                    cv2.putText(screenshot, current_text, (round((x2-x1)/2 - width_current_text/2), height_current_text*2), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                cv2.namedWindow('Screencapture Preview', cv2.WINDOW_NORMAL)
+                cv2.setWindowProperty('Screencapture Preview', cv2.WND_PROP_TOPMOST, 1)
+                cv2.resizeWindow('Screencapture Preview', round((x2-x1)/2), round((y2-y1)/2))
+                cv2.imshow('Screencapture Preview', screenshot)
+                cv2.waitKey(1)
+                
+            def screencapture_close():
+                try: 
+                    cv2.destroyWindow('Screencapture Preview')
+                except: 
+                    pass
+
+            self.windowwidthSlider = tk.Scale(outputwindowFrame, from_=round(screen_width/20), to=screen_width, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateSliderValue_windowwidth())
             self.windowwidthSlider.set(settings.GetSettings("TrafficLightDetection", "outputwindowwidth", round(screen_width/2)))
             self.windowwidthSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
             self.windowwidth = helpers.MakeComboEntry(outputwindowFrame, "Window Width", "TrafficLightDetection", "outputwindowwidth", 6,0, labelwidth=13, width=10)
 
-            self.windowheightSlider = tk.Scale(outputwindowFrame, from_=round(screen_height/20), to=screen_height, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.windowheightSlider = tk.Scale(outputwindowFrame, from_=round(screen_height/20), to=screen_height, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateSliderValue_windowheight())
             self.windowheightSlider.set(settings.GetSettings("TrafficLightDetection", "outputwindowheight", round(screen_height/3)))
             self.windowheightSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
             self.windowheight = helpers.MakeComboEntry(outputwindowFrame, "Window Height", "TrafficLightDetection", "outputwindowheight", 7,0, labelwidth=13, width=10)
 
-            self.scaleSlider = tk.Scale(outputwindowFrame, from_=0.1, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.scaleSlider = tk.Scale(outputwindowFrame, from_=0.1, to=2, resolution=0.01, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateSliderValue_scale())
             self.scaleSlider.set(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
             self.scaleSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
             self.scale = helpers.MakeComboEntry(outputwindowFrame, "Window Scale", "TrafficLightDetection", "scale", 8,0, labelwidth=13, width=10)
 
-            self.minrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.minrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateSliderValue_minrectsize())
             self.minrectsizeSlider.set(settings.GetSettings("TrafficLightDetection", "minrectsize", round(screen_width / 240)))
             self.minrectsizeSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
             self.minrectsize = helpers.MakeComboEntry(filtersFrame, "Min. Traffic Light Size Filter", "TrafficLightDetection", "minrectsize", 8,0, labelwidth=80, width=20)
 
-            self.maxrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.maxrectsizeSlider = tk.Scale(filtersFrame, from_=1, to=round(screen_width / 2), resolution=1, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateSliderValue_maxrectsize())
             self.maxrectsizeSlider.set(settings.GetSettings("TrafficLightDetection", "maxrectsize", round(screen_width / 10)))
             self.maxrectsizeSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
             self.maxrectsize = helpers.MakeComboEntry(filtersFrame, "Max. Traffic Light Size Filter", "TrafficLightDetection", "maxrectsize", 10,0, labelwidth=80, width=20)
@@ -2873,6 +2985,7 @@ class UI():
             self.lowergreenr = helpers.MakeComboEntry(colorsettingsFrame, "GREEN:    Lower R:", "TrafficLightDetection", "lowergreen_r", 7, 0, labelwidth=20, width=7)
             self.lowergreeng = helpers.MakeComboEntry(colorsettingsFrame, "Lower G:", "TrafficLightDetection", "lowergreen_g", 7, 2, labelwidth=13, width=7)
             self.lowergreenb = helpers.MakeComboEntry(colorsettingsFrame, "Lower B:", "TrafficLightDetection", "lowergreen_b", 7, 4, labelwidth=13, width=7)
+            helpers.MakeButton(colorsettingsFrame, "Save", command=self.save, row=15, column=0, sticky="w")
 
             helpers.MakeLabel(colorsettingsFrame, "", 13, 0, columnspan=7)
             helpers.MakeLabel(colorsettingsFrame, "", 14, 0, columnspan=7)
@@ -2886,16 +2999,6 @@ class UI():
             
         
         def save(self):
-            settings.CreateSettings("TrafficLightDetection", "scale", self.scaleSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "textsize", self.textsizeSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "x1ofsc", self.x1ofscSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "y1ofsc", self.y1ofscSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "x2ofsc", self.x2ofscSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "y2ofsc", self.y2ofscSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "outputwindowwidth", self.windowwidthSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "outputwindowheight", self.windowheightSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "minrectsize", self.minrectsizeSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "maxrectsize", self.maxrectsizeSlider.get())
             
             try:
                 self.upperredr.get()

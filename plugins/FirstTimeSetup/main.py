@@ -638,7 +638,10 @@ class UI():
                     
                     # Copy the plugin to the folder
                     try:
+                        # Copy the API
                         shutil.copy(os.path.join(variables.PATH, "assets", "firstTimeSetup", "sdkPlugin", "scs-telemetry.dll"), os.path.join(game, pluginInstallDir))
+                        # Copy the controller SDK
+                        shutil.copy(os.path.join(variables.PATH, "assets", "firstTimeSetup", "sdkPlugin", "input_semantical.dll"), os.path.join(game, pluginInstallDir))
                         successfullyInstalled.append(game)
                     except:
                         print("Failed to copy the plugin to " + os.path.join(game, pluginInstallDir))
@@ -653,7 +656,6 @@ class UI():
             
             # Display the automatic installation buttons if the directories were found
             helpers.MakeButton(self.root, "Install ETS2 / ATS Plugin", lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
-            
             
         
             self.root.pack()
@@ -670,7 +672,7 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.AddToList("Plugins", "Enabled", ["FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "VGamepadController", "ShowImage", "TruckSimAPI"])
+            settings.AddToList("Plugins", "Enabled", ["FPSLimiter", "DefaultSteering", "DXCamScreenCapture", "SDKController", "ShowImage", "TruckSimAPI"])
             variables.UpdatePlugins()
             if detectionmethod.get() == "nav":
                 helpers.MakeLabel(self.root, "Almost there!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)

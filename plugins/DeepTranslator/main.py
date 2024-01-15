@@ -89,6 +89,10 @@ class UI():
             
             helpers.MakeButton(self.root, "Remove Cache", lambda: self.removeCache(), 6,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
             
+            helpers.MakeLabel(self.root, "Please open all UIs once first with the language chosen.", 8,0, sticky="w", padx=10, columnspan=3)
+            
+            helpers.MakeButton(self.root, "Create Manual Cache", lambda: translator.CreateManualTranslationFile(), 7,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
+            
             self.root.pack(anchor="center", expand=False)
             self.root.update()
         

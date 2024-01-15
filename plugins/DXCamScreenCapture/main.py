@@ -28,6 +28,11 @@ import src.settings as settings
 import os
 import dxcam
 
+verifyWidthAndHeight = settings.GetSettings("dxcam", "verifyWidthAndHeight", value=True)
+if verifyWidthAndHeight == None:
+    settings.CreateSettings("dxcam", "verifyWidthAndHeight", True)
+    verifyWidthAndHeight = True
+
 def onEnable():
     CreateCamera()
     pass
@@ -39,6 +44,7 @@ monitor = None
 def CreateCamera():
     global camera
     global monitor
+    global verifyWidthAndHeight
     
     width = settings.GetSettings("dxcam", "width")
     if width == None:
@@ -84,13 +90,19 @@ def CreateCamera():
     screenHeight = int(screen.height)
     
     # Check if these values would go over the screen edges
-    if right > screenWidth:
-        right = screenWidth
-        messagebox.showwarning("Warning", "The width value is too high, it has been lowered to {}".format(right))
+    if right > screenWidth and verifyWidthAndHeight:
+        if messagebox.askokcancel("Warning", "The width value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}".format(right)):
+            verifyWidthAndHeight = False  
+            settings.CreateSettings("dxcam", "verifyWidthAndHeight", False)
+        else:
+            right = screenWidth
     
-    if bottom > screenHeight:
-        bottom = screenHeight
-        messagebox.showwarning("Warning", "The height value is too high, it has been lowered to {}".format(bottom))
+    if bottom > screenHeight and verifyWidthAndHeight:
+        if messagebox.askokcancel("Warning", "The height value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}".format(bottom)):
+            verifyWidthAndHeight = False  
+            settings.CreateSettings("dxcam", "verifyWidthAndHeight", False)
+        else:
+            bottom = screenHeight
     
     if left < 0:
         left = 0
@@ -132,6 +144,7 @@ def plugin(data):
         # Crop the frame to the selected area
         frame = frame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
         data["frame"] = frame
+        data["frameOriginal"] = frame
         return data
     except Exception as ex:
         print(ex)

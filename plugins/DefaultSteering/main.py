@@ -279,6 +279,14 @@ def plugin(data):
             enabledTimer += 1
             IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
             IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            if IndicatingLeft == True:
+                IndicatingLeft_original = True
+            else:
+                IndicatingLeft_original = False
+            if IndicatingRight == True:
+                IndicatingRight_original = True
+            else:
+                IndicatingRight_original = False
             if IndicatingLeft == True or IndicatingRight == True:
                 if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
                     IndicatingLeft = False
@@ -299,6 +307,9 @@ def plugin(data):
             try:
                 pygame.event.pump() # Update the controller values
                 steeringAxisValue = controls.GetKeybindValue("Steering Axis")
+                # Check if the SDK controller is enabled and vgamepad is not
+                if "SDKController" in settings.GetSettings("Plugins", "Enabled") and "VGamepadController" not in settings.GetSettings("Plugins", "Enabled"):
+                    steeringAxisValue = 0 # Don't pass the users control values to the game
 
                 # Main controller update loop.
                 if(enabled):
@@ -373,14 +384,45 @@ def plugin(data):
             cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + currentDesired * (w/2 - w/divider)), int(h - h/10)), (0, 100, 255), 2, cv2.LINE_AA)
 
             try:
-                if IndicatingLeft or IndicatingRight:
-                    text_size_indicating, _ = cv2.getTextSize("Indicating", cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)
-                    cv2.putText(output_img, "Indicating", (int(w-text_size_indicating[0]-5), int(27)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
+                if IndicatingLeft_original or IndicatingRight_original:
+                    current_text = "Indicating"
+                    width_target_current_text = w/4
+                    fontscale_current_text = 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text = 3
+                    while width_current_text != width_target_current_text:
+                        fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                        textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                        width_current_text, height_current_text = textsize_current_text
+                        max_count_current_text -= 1
+                        if max_count_current_text <= 0:
+                            break
+                    fontthickness_current_text = round(fontscale_current_text*2)
+                    if fontthickness_current_text <= 0:
+                        fontthickness_current_text = 1
+                    cv2.putText(output_img, "Indicating", (round(0.99*w - width_current_text), round(0.02*w + height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 255, 255), fontthickness_current_text, cv2.LINE_AA)
             except:
                 pass    
             
             # Also draw a enabled text to the top left
-            cv2.putText(output_img, "Enabled", (5, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
+            current_text = "Enabled"
+            width_target_current_text = w/4
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text <= 0:
+                    break
+            fontthickness_current_text = round(fontscale_current_text*2)
+            if fontthickness_current_text <= 0:
+                fontthickness_current_text = 1
+            cv2.putText(output_img, "Enabled", (round(0.01*w), round(0.02*w)+height_current_text), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 255, 0), fontthickness_current_text, cv2.LINE_AA)
             
             data["frame"] = output_img
         else:
@@ -397,7 +439,10 @@ def plugin(data):
                 if lastFrame != 0:
                     wheelValue = lastFrame
                 else:
-                    wheelValue = wheel.get_axis(steeringAxis)
+                    try:
+                        wheelValue = wheel.get_axis(steeringAxis)
+                    except:
+                        wheelValue = 0
             else:
                 wheelValue = keyboardControlValue
             # First draw a gray line to indicate the background
@@ -406,7 +451,24 @@ def plugin(data):
             cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + wheelValue * (w/2 - w/divider)), int(h - h/10)), (0, 255, 100), 6, cv2.LINE_AA)
 
             # Also draw a disabled text to the top left
-            cv2.putText(output_img, "Disabled", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            current_text = "Enabled" # Using text "Enabled" to keep the same text size
+            width_target_current_text = w/4
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text <= 0:
+                    break
+            fontthickness_current_text = round(fontscale_current_text*2)
+            if fontthickness_current_text <= 0:
+                fontthickness_current_text = 1
+            cv2.putText(output_img, "Disabled", (round(0.01*w), round(0.02*w)+height_current_text), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), fontthickness_current_text, cv2.LINE_AA)
+            
             
             data["frame"] = output_img
 

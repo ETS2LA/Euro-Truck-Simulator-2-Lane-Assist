@@ -485,6 +485,24 @@ def CheckCache(text:str, language:str=None):
     Returns:
         str / bool: Either the translation or False.
     &#34;&#34;&#34;
+    # Code for checking the manual cache
+    if language == None:
+        language = dest
+        
+    manualPath = f&#34;assets/manualTranslations/{origin}-{language}.json&#34;
+    try:
+        file = open(manualPath, &#34;r&#34;)
+        cache = json.load(file)
+        file.close()
+        
+        try:
+            return cache[text]
+        except KeyError:
+            pass
+    except:
+        pass
+    
+    # Code for checking the automatic cache
     try:
         file = open(cachePath, &#34;r&#34;)
     except:
@@ -496,9 +514,6 @@ def CheckCache(text:str, language:str=None):
         file.close()
         return False
     
-    if language == None:
-        language = dest
-    
     cache = json.load(file)
     file.close()
     try:
@@ -508,6 +523,20 @@ def CheckCache(text:str, language:str=None):
             return False
     except KeyError:
         return False
+
+def ReturnCacheForLanguage(language:str=None):
+    &#34;&#34;&#34;Will return the entire translation cache for a single language.&#34;&#34;&#34;
+    file = open(cachePath, &#34;r&#34;)
+    cache = json.load(file)
+    file.close()
+    
+    if language == None:
+        language = dest
+        
+    try:
+        return cache[language]
+    except KeyError:
+        return {}
 
 def AddToCache(text:str, translation:str, language:str=None):
     &#34;&#34;&#34;Will add a translation to the cache.
@@ -576,16 +605,20 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
                     return cache
                 else:
                     mainUI.fps.set(f&#34;TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING&#34;)
+                    mainUI.UpdateTitle(extraText=&#34;TRANSLATING...&#34;)
                     mainUI.root.update()
 
                     translation = translator.translate(text, max_chars=20000)
                     AddToCache(text, translation)
+                    mainUI.UpdateTitle()
                     return translation
             else:
                 mainUI.fps.set(f&#34;TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING&#34;)
+                mainUI.UpdateTitle(extraText=&#34;TRANSLATING...&#34;)
                 mainUI.root.update()
 
                 translation = translator.translate(text)
+                mainUI.UpdateTitle()
                 return translation
         except:
             return text # Return the original text if the translation fails
@@ -600,8 +633,28 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
     else:
         return TranslateText(text)
     
+def CreateManualTranslationFile():
+    &#34;&#34;&#34;Will create a manual translation file.
+    &#34;&#34;&#34;
+    global origin
+    global dest
     
-    </code></pre>
+    if origin == dest:
+        return
+    
+    from tkinter import messagebox
+    
+    try:
+        os.mkdir(&#34;assets/manualTranslations&#34;)
+    except: pass
+    
+    file = open(f&#34;assets/manualTranslations/{origin}-{dest}.json&#34;, &#34;w&#34;)
+    # Copy the current translation for the languages
+    cache = ReturnCacheForLanguage(dest)
+    json.dump(cache, file, indent=4)
+    file.close()   
+    
+    messagebox.showinfo(&#34;DeepTranslator&#34;, f&#34;Manual translation file created in &#39;assets/manualTranslations/{origin}-{dest}.json&#39;&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -695,6 +748,24 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
     Returns:
         str / bool: Either the translation or False.
     &#34;&#34;&#34;
+    # Code for checking the manual cache
+    if language == None:
+        language = dest
+        
+    manualPath = f&#34;assets/manualTranslations/{origin}-{language}.json&#34;
+    try:
+        file = open(manualPath, &#34;r&#34;)
+        cache = json.load(file)
+        file.close()
+        
+        try:
+            return cache[text]
+        except KeyError:
+            pass
+    except:
+        pass
+    
+    # Code for checking the automatic cache
     try:
         file = open(cachePath, &#34;r&#34;)
     except:
@@ -706,9 +777,6 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
         file.close()
         return False
     
-    if language == None:
-        language = dest
-    
     cache = json.load(file)
     file.close()
     try:
@@ -718,6 +786,39 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
             return False
     except KeyError:
         return False</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.translator.CreateManualTranslationFile"><code class="name flex">
+<span>def <span class="ident">CreateManualTranslationFile</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will create a manual translation file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CreateManualTranslationFile():
+    &#34;&#34;&#34;Will create a manual translation file.
+    &#34;&#34;&#34;
+    global origin
+    global dest
+    
+    if origin == dest:
+        return
+    
+    from tkinter import messagebox
+    
+    try:
+        os.mkdir(&#34;assets/manualTranslations&#34;)
+    except: pass
+    
+    file = open(f&#34;assets/manualTranslations/{origin}-{dest}.json&#34;, &#34;w&#34;)
+    # Copy the current translation for the languages
+    cache = ReturnCacheForLanguage(dest)
+    json.dump(cache, file, indent=4)
+    file.close()   
+    
+    messagebox.showinfo(&#34;DeepTranslator&#34;, f&#34;Manual translation file created in &#39;assets/manualTranslations/{origin}-{dest}.json&#39;&#34;)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.translator.FindCodeFromLanguage"><code class="name flex">
@@ -902,6 +1003,30 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
                 pass</code></pre>
 </details>
 </dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.translator.ReturnCacheForLanguage"><code class="name flex">
+<span>def <span class="ident">ReturnCacheForLanguage</span></span>(<span>language: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will return the entire translation cache for a single language.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ReturnCacheForLanguage(language:str=None):
+    &#34;&#34;&#34;Will return the entire translation cache for a single language.&#34;&#34;&#34;
+    file = open(cachePath, &#34;r&#34;)
+    cache = json.load(file)
+    file.close()
+    
+    if language == None:
+        language = dest
+        
+    try:
+        return cache[language]
+    except KeyError:
+        return {}</code></pre>
+</details>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.translator.Translate"><code class="name flex">
 <span>def <span class="ident">Translate</span></span>(<span>text: str, originalLanguage: str = None, destinationLanguage: str = None)</span>
 </code></dt>
@@ -966,16 +1091,20 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
                     return cache
                 else:
                     mainUI.fps.set(f&#34;TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING&#34;)
+                    mainUI.UpdateTitle(extraText=&#34;TRANSLATING...&#34;)
                     mainUI.root.update()
 
                     translation = translator.translate(text, max_chars=20000)
                     AddToCache(text, translation)
+                    mainUI.UpdateTitle()
                     return translation
             else:
                 mainUI.fps.set(f&#34;TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING&#34;)
+                mainUI.UpdateTitle(extraText=&#34;TRANSLATING...&#34;)
                 mainUI.root.update()
 
                 translation = translator.translate(text)
+                mainUI.UpdateTitle()
                 return translation
         except:
             return text # Return the original text if the translation fails
@@ -1017,11 +1146,13 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
 <ul class="">
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.AddToCache" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.AddToCache">AddToCache</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.CheckCache" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.CheckCache">CheckCache</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.CreateManualTranslationFile" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.CreateManualTranslationFile">CreateManualTranslationFile</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.FindCodeFromLanguage" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.FindCodeFromLanguage">FindCodeFromLanguage</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.FindLanguageFromCode" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.FindLanguageFromCode">FindLanguageFromCode</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.GetOSLanguage" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.GetOSLanguage">GetOSLanguage</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.LoadSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.LoadSettings">LoadSettings</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.MakeTranslator" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.MakeTranslator">MakeTranslator</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.ReturnCacheForLanguage" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.ReturnCacheForLanguage">ReturnCacheForLanguage</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.translator.Translate" href="#Euro-Truck-Simulator-2-Lane-Assist.src.translator.Translate">Translate</a></code></li>
 </ul>
 </li>

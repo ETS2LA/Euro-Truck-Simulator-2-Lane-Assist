@@ -114,10 +114,10 @@ class UI():
                 self.logoLabel = tk.Label(self.pluginInfoFrame, image=self.logo)
                 self.logoLabel.grid(row=0, column=0, columnspan=1, pady=10, padx=30)
                 
-                helpers.MakeLabel(self.pluginInfoFrame, plugin.name, 0,1, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=1, sticky="w")
+                helpers.MakeLabel(self.pluginInfoFrame, plugin.name, 0,1, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=1, sticky="w", translate=False)
                 
             else:
-                helpers.MakeLabel(self.pluginInfoFrame, plugin.name, 0,0, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
+                helpers.MakeLabel(self.pluginInfoFrame, plugin.name, 0,0, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=2, sticky="w", translate=False)
                 
             helpers.MakeLabel(self.pluginInfoFrame, "Description", 1,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
             helpers.MakeLabel(self.pluginInfoFrame, plugin.description, 2,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")

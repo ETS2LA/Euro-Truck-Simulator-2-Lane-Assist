@@ -5,6 +5,25 @@ The main file that runs the programs loop.
 # This section is for modules that I've added later as they might 
 # not have been installed yet
 
+import src.settings as settings
+import src.variables as variables # Stores all main variables for the program
+if settings.GetSettings("User Interface", "hide_console", False) == True:
+    import win32gui, win32con
+    window_found = False
+    target_text = "/venv/Scripts/python"
+    top_windows = []
+    win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+    for hwnd, window_text in top_windows:
+        if target_text in window_text:
+            window_found = True
+            variables.CONSOLENAME = hwnd
+            break
+    if window_found == False:
+        print("Console window not found, unable to hide!")
+    else:
+        print(f"Console Name: {window_text}, Console ID: {hwnd}")
+        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
+
 import os
 try:
     import colorama
@@ -44,7 +63,6 @@ except:
 
 # Check that all requirments from requirments.txt are installed
 import pkg_resources
-import src.variables as variables # Stores all main variables for the program
 with open(variables.PATH + r"\requirements.txt") as f:
     requirements = f.read().splitlines()
 
@@ -71,7 +89,6 @@ else:
     pass
 
 import requests
-import src.settings as settings
 def UpdateChecker():
     currentVer = variables.VERSION.split(".")
     url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
@@ -90,28 +107,29 @@ def UpdateChecker():
     else:
         update = False
     
-    devmode = settings.GetSettings("Dev", "disable_warnings", False)
     print(f"Current version: {'.'.join(currentVer)}")
     print(f"Remote version: {'.'.join(remoteVer)}")
     print(f"Update available: {update}")
     if update:
         print(f"Changelog:\n{requests.get('https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt').text}")
-    if devmode == False:
-        if update:
-            changelog = requests.get("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt").text
-            from tkinter import messagebox
-            if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
-                os.system("git stash")
-                os.system("git pull")
-                if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
-                    quit()
-            else:
-                pass
+        changelog = requests.get("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt").text
+        from tkinter import messagebox
+        if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
+            os.system("git stash")
+            os.system("git pull")
+            if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
+                quit()
+        else:
+            pass
 
 try:
-    UpdateChecker()
-except:
-    pass
+    devmode = settings.GetSettings("Dev", "disable_update_checker", False)
+    if devmode == False:
+        UpdateChecker()
+except Exception as ex:
+    # If the exception is for the quit command, then do that
+    if ex.args == ("quit",):
+        quit()
 
 # Check tkinter tcl version
 import tkinter as tk
@@ -125,6 +143,8 @@ if version not in acceptedVersions:
 
 # Load the UI framework
 import src.mainUI as mainUI
+mainUI.CreateRoot()
+
 import src.loading as loading # And then create a loading window
 
 # Load the rest of the modules
@@ -144,16 +164,19 @@ if logger.printDebug == None:
     logger.printDebug = False
     settings.CreateSettings("logger", "debug", False)
     
-
 def GetEnabledPlugins():
     global enabledPlugins
     enabledPlugins = settings.GetSettings("Plugins", "Enabled")
     if enabledPlugins == None:
         enabledPlugins = [""]
 
-def FindPlugins():
+def FindPlugins(reloadFully=False):
     global plugins
     global pluginObjects
+    global pluginNames
+    
+    # Update the list of plugins and panels for the hash check
+    pluginNames = GetListOfAllPluginAndPanelNames()
     
     # Find plugins
     path = os.path.join(variables.PATH, "plugins")
@@ -178,6 +201,30 @@ def FindPlugins():
         pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo", "onEnable"]))
         pluginObjects[-1].onEnable()
         
+def ReloadPluginCode():
+    FindPlugins()
+    # Use the inbuilt python modules to reload the code of the plugins
+    import importlib
+    import progress.bar as Bar
+    with Bar.PixelBar("Reloading plugins...", max=len(pluginObjects)) as progressBar:
+        for plugin in pluginObjects:
+            try:
+                importlib.reload(plugin)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
+    print("Reloading UI root code...")
+    try:
+        mainUI.DeleteRoot()
+        importlib.reload(mainUI)
+        mainUI.CreateRoot()
+        mainUI.drawButtons()
+    except Exception as ex:
+        print(ex.args)
+        pass
+    print("Reloaded UI root code.")
 
 def RunOnEnable():
     for plugin in pluginObjects:
@@ -205,6 +252,25 @@ def UpdatePlugins(dynamicOrder, data):
             pass
     return data
 
+def GetListOfAllPluginAndPanelNames():
+    # Find plugins
+    path = os.path.join(variables.PATH, "plugins")
+    plugins = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if "main.py" in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginName = file
+                    plugins.append(pluginName)
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    return plugins
+
+pluginNames = GetListOfAllPluginAndPanelNames()
 
 def InstallPlugins():
     global startInstall
@@ -305,26 +371,28 @@ def InstallPlugins():
     loadingWindow = loading.LoadingWindow("Installing plugins...")
     
     index = 0
-    for installer, name in zip(installers, pluginNames):
-        print(f"Installing '{name}'...")
-        currentPlugin.set(f"Installing '{name}'...")
-        bar.config(value=(index / len(installers)) * 100)
-        percentage.set(f"{round((index / len(installers)) * 100)}%")
-        mainUI.root.update()
-        installer.install()
-        settings.AddToList("Plugins", "Installed", name.split(" - ")[0])
-        index += 1
-        loadingWindow.update(text=f"Installing '{name}'...")
+    import progress.bar as Bar
+    with Bar.PixelBar("Installing plugins...", max=len(installers)) as progressBar:
+        for installer, name in zip(installers, pluginNames):
+            sys.stdout.write(f"\nInstalling '{name}'...\n")
+            currentPlugin.set(f"Installing '{name}'...")
+            bar.config(value=(index / len(installers)) * 100)
+            percentage.set(f"{round((index / len(installers)) * 100)}%")
+            mainUI.root.update()
+            installer.install()
+            settings.AddToList("Plugins", "Installed", name.split(" - ")[0])
+            index += 1
+            loadingWindow.update(text=f"Installing '{name}'...")
+            os.system("cls")
+            progressBar.next()
     
     # Destroy all the widgets
     for child in installFrame.winfo_children():
         child.destroy()
         
-    ttk.Label(installFrame, text="\n\n\n\n\n\n\nYou should close this tab by middle clicking the name up top.").pack()
-        
     # Remove the tab
     settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
-    variables.RELOAD = True
+    variables.RELOADPLUGINS = True
         
 
 def CheckForONNXRuntimeChange():
@@ -405,7 +473,8 @@ def LoadApplication():
         settings.CreateSettings("User Interface", "TitleCopyright", True)
         showCopyrightInTitlebar = True
     
-    mainUI.root.title(("Lane Assist - ©Tumppi066 2023 - " if showCopyrightInTitlebar else "Lane Assist - ") + open(settings.currentProfile, "r").readline().replace("\n", ""))
+    mainUI.titlePath = "- " + open(settings.currentProfile, "r").readline().replace("\n", "") + " "
+    mainUI.UpdateTitle()
     mainUI.root.update()
     mainUI.drawButtons()
 
@@ -423,8 +492,39 @@ def LoadApplication():
 
 LoadApplication()
 
+import hashlib
+lastChecksums = {}
+def CheckForFileChanges():
+    """Will check the plugin main files for changes and reload them if they've changed."""
+    global lastChecksums
+    # Check if it's the first time running this function
+    if lastChecksums == {}:
+        for plugin in pluginNames:
+            try:
+                checksum = hashlib.md5(open(os.path.join(variables.PATH, "plugins", plugin, "main.py"), "rb").read()).hexdigest()
+                lastChecksums[plugin] = checksum
+            except:
+                pass
+        return
+    
+    # Check for changes in the plugins
+    for plugin in pluginNames:
+        try:
+            checksum = hashlib.md5(open(os.path.join(variables.PATH, "plugins", plugin, "main.py"), "rb").read()).hexdigest()
+            if checksum != lastChecksums[plugin]:
+                print(f"Detected changes in {plugin}...")
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+                lastChecksums[plugin] = checksum
+                break
+        except:
+            pass
+
 data = {}
 uiFrameTimer = 0
+pluginChangeTimer = time.time()
 if __name__ == "__main__":
     while True:
         # Main Application Loop
@@ -445,6 +545,13 @@ if __name__ == "__main__":
                     "executionTimes": {}
                 }  
             
+            if variables.RELOADPLUGINS:
+                print("Reloading plugins...")
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+            
             if variables.RELOAD:
                 print("Reloading application...")
                 # Reset the open tabs
@@ -458,6 +565,20 @@ if __name__ == "__main__":
             controlsEndTime = time.time()
             data["executionTimes"]["Control callbacks"] = controlsEndTime - controlsStartTime
             
+            # Check for plugin changes (every second)
+            pluginChangeTime = time.time()
+            if time.time() - pluginChangeTimer > 1:
+                pluginChangeTimer = time.time()
+                CheckForFileChanges()
+            pluginChangeEndTime = time.time()
+            data["executionTimes"]["Filesystem Check"] = pluginChangeEndTime - pluginChangeTime
+            
+            try:
+                if variables.APPENDDATANEXTFRAME != None or variables.APPENDDATANEXTFRAME != [] or variables.APPENDDATANEXTFRAME != {} or variables.APPENDDATANEXTFRAME != "":
+                    # Merge the two dictionaries
+                    data.update(variables.APPENDDATANEXTFRAME)
+                    variables.APPENDDATANEXTFRAME = None
+            except: pass
             
             # Enable / Disable the main loop
             if variables.ENABLELOOP == False:
@@ -471,13 +592,28 @@ if __name__ == "__main__":
                     cv2.destroyWindow("Lane Assist")
                 except:
                     pass
+                try:
+                    cv2.destroyWindow('Traffic Light Detection - B/W')
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow('Traffic Light Detection - Red/Green')
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow('Traffic Light Detection - Final')
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow('TruckStats')
+                except:
+                    pass
                 continue
             
             if variables.UPDATEPLUGINS:
                 GetEnabledPlugins()
                 FindPlugins()
                 variables.UPDATEPLUGINS = False
-            
             
             data = UpdatePlugins("before image capture", data)
             data = UpdatePlugins("image capture", data)
@@ -510,11 +646,15 @@ if __name__ == "__main__":
 
         
         except Exception as ex:
+            try:
+                if settings.GetSettings("User Interface", "hide_console") == True:
+                    win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+            except:
+                pass
             if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
                 import keyboard
                 # Press the F1 key to pause the game
                 keyboard.press_and_release("F1")
-                
                 from tkinter import messagebox
                 import traceback
                 exc = traceback.format_exc()
@@ -526,4 +666,10 @@ if __name__ == "__main__":
                     pass
             else:
                 CloseAllPlugins()
+                try:
+                    if settings.GetSettings("User Interface", "hide_console") == True:
+                        import ctypes
+                        ctypes.windll.user32.PostMessageW(variables.CONSOLENAME, 0x10, 0, 0)
+                except:
+                    print("Failed to close console!")
                 break
