@@ -23,6 +23,10 @@ APPENDDATANEXTFRAME = None
 Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI)."""
 RELOADPLUGINS = False
 """Will fully reload the plugin code for all plugins. This is useful for debugging and development."""
+USERNAME = os.getlogin()
+"""The username of the current windows user."""
+ETS2DOCUMENTSPATH = "C:/Users/" + USERNAME + "/Documents/Euro Truck Simulator 2/"
+"""Path to the ETS2 documents folder. Contains stuff like the mod folder and log files."""
 
 def ToggleEnable():
     """Will toggle the mainloop.

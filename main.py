@@ -158,6 +158,7 @@ import src.translator as translator
 import src.controls as controls
 import psutil
 import cv2
+import src.scsLogReader as LogReader
 
 logger.printDebug = settings.GetSettings("logger", "debug")
 if logger.printDebug == None:
@@ -572,6 +573,13 @@ if __name__ == "__main__":
                 CheckForFileChanges()
             pluginChangeEndTime = time.time()
             data["executionTimes"]["Filesystem Check"] = pluginChangeEndTime - pluginChangeTime
+            
+            # Check for log file changes
+            logCheckTime = time.time()
+            data = LogReader.plugin(data)
+            logCheckEndTime = time.time()
+            data["executionTimes"]["Log Check"] = logCheckEndTime - logCheckTime
+            
             
             try:
                 if variables.APPENDDATANEXTFRAME != None or variables.APPENDDATANEXTFRAME != [] or variables.APPENDDATANEXTFRAME != {} or variables.APPENDDATANEXTFRAME != "":
