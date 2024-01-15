@@ -1,2 +1,2 @@
-1.8.10: Fixed bugs and added new features in the NavigationDetection and TruckStats Plugin. The CruiseControl enables the parking brake at red traffic lights now.
-1.8.11: Important bug fix in NavigationDetection, i accidentally broke the lane change feature for users who use the turn signals to change lanes.
+Removed popups from TruckSimAPI (they were annoying.)
+Added the possibility for multiple UI files for each plugin.

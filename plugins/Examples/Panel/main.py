@@ -9,6 +9,8 @@ from src.logger import print
 
 PluginInfo = PluginInformation(
     name="Panel", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
+    # In case the plugin is not the main file (for example plugins\Panel\Panel.py) then the name would be "Panel.Panel"
+    
     description="ExamplePanel.",
     version="0.1",
     author="Tumppi066",

@@ -116,7 +116,7 @@ def switchSelectedPlugin(pluginName:str):
     for tab in pluginNotebook.tabs():
         notebookNames.append(pluginNotebook.tab(tab, "text"))
     
-    if "main" in pluginName:
+    if "main" in pluginName or "src" in pluginName:
         if pluginName.split(".")[1] in notebookNames:
             pluginNotebook.select(notebookNames.index(pluginName.split(".")[1]))
             ui = UIs[pluginNotebook.index(pluginNotebook.select())]
