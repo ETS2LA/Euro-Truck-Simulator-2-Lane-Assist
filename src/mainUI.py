@@ -116,13 +116,19 @@ def switchSelectedPlugin(pluginName:str):
     for tab in pluginNotebook.tabs():
         notebookNames.append(pluginNotebook.tab(tab, "text"))
     
-    if pluginName.replace("plugins.", "").replace(".main", "").replace("src.", "") in notebookNames:
-        pluginNotebook.select(notebookNames.index(pluginName.replace("plugins.", "").replace(".main", "").replace("src.", "")))
-        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
-        return
-    
+    if "main" in pluginName:
+        if pluginName.split(".")[1] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(".")[1]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+    else:
+        if pluginName.split(".")[1] + "." + pluginName.split(".")[2] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(".")[1] + "." + pluginName.split(".")[2]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+       
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
-    
+
     if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
         if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable all plugins. Do you want to continue?")):
             settings.CreateSettings("Plugins", "Enabled", [])

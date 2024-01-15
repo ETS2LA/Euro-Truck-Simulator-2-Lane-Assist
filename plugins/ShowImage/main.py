@@ -105,6 +105,8 @@ class UI():
             self.windowscale = helpers.MakeComboEntry(generalFrame, "Window Scale", "ShowImage", "windowscale", 4, 0)
             helpers.MakeEmptyLine(generalFrame, 5, 0)
             helpers.MakeLabel(generalFrame, "Note:\nMake sure that the app and this plugin are enabled and the window is visible\nfor the buttons and the slider to take action!", 6, 0, sticky="nw")
+            helpers.MakeButton(generalFrame, "Test", lambda: mainUI.switchSelectedPlugin("plugins.ShowImage.UI"), 7, 0)
+            
 
         def set_aspect_ratio(self):
             try:
