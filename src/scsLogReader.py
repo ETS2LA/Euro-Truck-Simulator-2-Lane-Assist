@@ -11,15 +11,18 @@ def plugin(data):
     global currentFileHash
     global currentLines
     
-    # Check if the file hash is the same as the last time we checked
-    fileHash = hashlib.md5(open(ets2FilePath, 'rb').read()).hexdigest()
-    if currentFileHash == fileHash:
-        data["log"] = currentLines
-        return data
-    
-    currentFileHash = fileHash
-    currentLines = open(ets2FilePath, "r").readlines()
+    try:
+        # Check if the file hash is the same as the last time we checked
+        fileHash = hashlib.md5(open(ets2FilePath, 'rb').read()).hexdigest()
+        if currentFileHash == fileHash:
+            data["log"] = currentLines
+            return data
+        
+        currentFileHash = fileHash
+        currentLines = open(ets2FilePath, "r").readlines()
 
-    data["log"] = currentLines
-    print("Log updated")
+        data["log"] = currentLines
+        print("Log updated")
+    except:
+        pass
     return data
