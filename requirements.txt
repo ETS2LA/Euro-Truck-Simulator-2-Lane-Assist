@@ -18,5 +18,7 @@ pyautogui
 progress
 torch
 requests
+gitpython
+setuptools
 ultralytics
 --upgrade --no-cache-dir gdown
