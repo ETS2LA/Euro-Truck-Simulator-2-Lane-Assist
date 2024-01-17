@@ -497,7 +497,7 @@ def LoadSettingsV3():
 ############################################################################################################################
 def LoadSettings():
     global version
-    version = settings.GetSettings("NavigationDetection", "version")
+    version = settings.GetSettings("NavigationDetection", "version", "NavigationDetectionV3")
     if version == "NavigationDetectionV1":         
         LoadSettingsV1()
     if version == "NavigationDetectionV2":              
@@ -505,7 +505,7 @@ def LoadSettings():
     if version == "NavigationDetectionV3":
         LoadSettingsV3()
     global mod
-    mod = settings.GetSettings("NavigationDetection", "mod")
+    mod = settings.GetSettings("NavigationDetection", "mod", "0")
 LoadSettings()
 
 
@@ -2695,7 +2695,7 @@ class UI():
             helpers.MakeLabel(generalFrame, "NavigationDetection Version:", 1, 1, font=("Segoe UI", 12))
             # version selector
             version_ui = tk.StringVar() 
-            previous_version_ui = settings.GetSettings("NavigationDetection", "version")
+            previous_version_ui = settings.GetSettings("NavigationDetection", "version", "NavigationDetectionV3")
             if previous_version_ui == "NavigationDetectionV1":
                 version_ui.set("NavigationDetectionV1")
             if previous_version_ui == "NavigationDetectionV2":
@@ -2717,7 +2717,7 @@ class UI():
             helpers.MakeLabel(generalFrame, "CleanRouteAdvisor Mod:", 6, 1, font=("Segoe UI", 12))
             # mod selection
             mod_ui = tk.StringVar()
-            previous_mod_ui = settings.GetSettings("NavigationDetection", "mod")
+            previous_mod_ui = settings.GetSettings("NavigationDetection", "mod", "0")
             if previous_mod_ui == "1":
                 mod_ui.set("1")
             if previous_mod_ui == "0":
@@ -2900,7 +2900,7 @@ class UI():
             settings.CreateSettings("NavigationDetectionV3", "lanechanging_width", float(self.lanechanging_width.get()))
 
             settings.CreateSettings("NavigationDetection", "version", self.version_ui)
-            version = settings.GetSettings("NavigationDetection", "version")
+            version = settings.GetSettings("NavigationDetection", "version", "NavigationDetectionV3")
             if version == "NavigationDetectionV1":         
                 LoadSettingsV1()
             if version == "NavigationDetectionV2":              
