@@ -1075,7 +1075,7 @@ def plugin(data):
 
             if trafficlightdetectionisenabled == True:
                 try:
-                    trafficlight = data["TrafficLightDetection"]
+                    trafficlight = data["TrafficLightDetection"]["simple"]
                 except:
                     trafficlightdetectionisenabled = False
                     trafficlight = "Off"
@@ -1861,7 +1861,7 @@ def plugin(data):
 
             if trafficlightdetection_is_enabled == True:
                 try:
-                    trafficlight = data["TrafficLightDetection"]
+                    trafficlight = data["TrafficLightDetection"]["simple"]
                 except:
                     trafficlightdetection_is_enabled = False
                     trafficlight = "Off"

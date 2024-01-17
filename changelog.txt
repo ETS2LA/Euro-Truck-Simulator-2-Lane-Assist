@@ -2,3 +2,4 @@ Removed popups from TruckSimAPI (they were annoying.)
 Added the possibility for multiple UI files for each plugin (DEVS).
 Added the ability to ignore axis and button while setting a control key.
 Added reading of the ETS2 log file (DEVS).
+TrafficLightDetection Update.
