@@ -40,7 +40,11 @@ def plugin(data):
     global lastX
     global lastY
     
-    checkAPI()
+    try:
+        checkAPI()
+    except:
+        print("Error checking API status")
+        return data
     
     apiData = API.update()    
     data["api"] = apiData
