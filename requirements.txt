@@ -16,4 +16,7 @@ keyboard
 mouse
 pyautogui
 progress
+torch
+requests
+ultralytics
 --upgrade --no-cache-dir gdown

@@ -271,9 +271,9 @@ def plugin(data):
     
     if trafficlightdetectionisenabled == True:
         try:
-            trafficlight = data["TrafficLightDetection"]
+            trafficlight = data["TrafficLightDetection"]["simple"]
         except:
-            trafficlight = "---"
+            trafficlight = "None"
     else:
         trafficlight = "Off"
     if navigationdetectionisenabled == True:
