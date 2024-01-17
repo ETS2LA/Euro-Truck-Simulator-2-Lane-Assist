@@ -133,9 +133,9 @@ def UpdateSettings():
     pixelpercentagefilter = settings.GetSettings("TrafficLightDetection", "pixelpercentagefilter", True)
     otherlightsofffilter = settings.GetSettings("TrafficLightDetection", "otherlightsofffilter", True)
 
-    yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", False)
+    yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
     yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
-    yolo_model_str = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5s") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
+    yolo_model_str = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
     if yolo_model_loaded == False:
         print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
         try:
