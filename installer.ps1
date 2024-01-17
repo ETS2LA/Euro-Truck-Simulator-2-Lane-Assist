@@ -1,4 +1,4 @@
-﻿#Check for admin
+#Check for admin
 if ((New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
         Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
     } else {
@@ -931,7 +931,7 @@ def InstallSequence():
 
     # region Update pip
     
-    dir = os.path.dirname(os.path.realpath(__file__))
+    dir = FOLDER
     
     AddLineToConsole("\nPlease wait, updating pip...")
     
