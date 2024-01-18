@@ -1,1 +1,1 @@
-TrafficLightDetection Update.
+TrafficLightDetection now supports YOLO detection.
