@@ -1,1 +1,1 @@
-TrafficLightDetection now supports YOLO detection.
+CruiseControl plugin bug fix.

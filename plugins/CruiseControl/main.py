@@ -227,7 +227,7 @@ def plugin(data):
     try:
         speed = round(data["api"]["truckFloat"]["speed"]*3.6, 1)
         last_speed = speed
-        speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, 1)
+        speedlimit = round(data["api"]["truckFloat"]["speedLimit"]*3.6, -1)
         if speedlimit != 0 and speedlimit > 0:
             last_speedlimit = speedlimit
         cruisecontrolspeed = round(data["api"]["truckFloat"]["cruiseControlSpeed"]*3.6, 1)
