@@ -1,1 +1,1 @@
-CruiseControl plugin bug fix.
+Important TrafficLightDetection bug fix.
