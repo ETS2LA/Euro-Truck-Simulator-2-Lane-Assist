@@ -864,7 +864,7 @@ def plugin(data):
                                 cv2.rectangle(final_frame, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
 
         except Exception as e:
-            print("TrafficLightDetection - Tracking Error: " + str(e))
+            print("TrafficLightDetection - Tracking/YOLO Error: " + str(e))
     else:
         if anywindowopen == True:
             for i in range(len(coordinates)):
@@ -944,19 +944,23 @@ def plugin(data):
             data["TrafficLightDetection"]["simple"] = data_simple
             data["TrafficLightDetection"]["detailed"] = trafficlights
         else:
-            if "Red" in coordinates:
-                data_simple = "Red"
-            elif "Yellow" in coordinates:
-                data_simple = "Yellow"
-            elif "Green" in coordinates:
-                data_simple = "Green"
-            else:
-                data_simple = None
+            data_simple = None
+            for i in range(len(coordinates)):
+                x, y, w, h, state = coordinates[i]
+                if state == "Red":
+                    data_simple = "Red"
+                    break
+                elif state == "Yellow":
+                    data_simple = "Yellow"
+                    break
+                elif state == "Green":
+                    data_simple = "Green"
+                    break
             data["TrafficLightDetection"] = {}
             data["TrafficLightDetection"]["simple"] = data_simple
             data["TrafficLightDetection"]["detailed"] = coordinates
-    except:
-        pass
+    except Exception as e:
+        print("TrafficLightDetection - Data Error: " + str(e))
 
     if reset_window == True:
         if grayscalewindow == False:
