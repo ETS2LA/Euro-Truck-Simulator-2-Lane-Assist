@@ -1287,6 +1287,7 @@ def plugin(data):
 ############################################################################################################################
     if version == "NavigationDetectionV3":
         global setupmode
+        global setupframe
         global last_window_size
         global last_mouse_position
         global v3setupzoom
@@ -1535,7 +1536,7 @@ def plugin(data):
             frame_width = frame.shape[1]
             frame_height = frame.shape[0]
 
-            if mouseposx >= 0.0 and mouseposy >= 0.0 and mouseposx <= 0.1 and mouseposy <= 0.05 and mousecoordroot[1] < 0.25:
+            if mouseposx >= 0.0 and mouseposy >= 0.0 and mouseposx <= 0.1 and mouseposy <= 0.05 and mousecoordroot[1] < 0.30:
                 cv2.rectangle(frame, (round(0.0*frame_width), round(0.0*frame_height)), (round(0.1*frame_width), round(0.05*frame_height)), (70, 20, 20), -1)
                 if left_clicked == True:
                     if round(frame_height*v3setupzoom/100) < round(frame_height-frame_height*v3setupzoom/100) - frame_height/2:
@@ -1563,7 +1564,7 @@ def plugin(data):
             cv2.putText(frame, "Zoom IN", (round(0.0*frame_width), round(0.04*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
             
-            if mouseposx >= 0.0 and mouseposy >= 0.07 and mouseposx <= 0.1 and mouseposy <= 0.12 and mousecoordroot[1] < 0.25:
+            if mouseposx >= 0.0 and mouseposy >= 0.07 and mouseposx <= 0.1 and mouseposy <= 0.12 and mousecoordroot[1] < 0.30:
                 cv2.rectangle(frame, (round(0.0*frame_width), round(0.07*frame_height)), (round(0.1*frame_width), round(0.12*frame_height)), (70, 20, 20), -1)
                 if left_clicked == True:
                     v3setupzoom -= 0.3
@@ -1588,9 +1589,40 @@ def plugin(data):
             if fontthickness_current_text <= 0:
                 fontthickness_current_text = 1
             cv2.putText(frame, "Zoom OUT", (round(0.0*frame_width), round(0.11*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            
+            if mouseposx >= 0.0 and mouseposy >= 0.14 and mouseposx <= 0.1 and mouseposy <= 0.22 and mousecoordroot[1] < 0.30:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.22*frame_height)), (70, 20, 20), -1)
+                if left_clicked == True:
+                    screenshot = pyautogui.screenshot()
+                    setupframe = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+                    frame = setupframe.copy()
+                    frame_width = frame.shape[1]
+                    frame_height = frame.shape[0]
+            else:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.22*frame_height)), (50, 0, 0), -1)
+            current_text = "Screenshot"
+            width_target_current_text = frame_width/10
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text <= 0:
+                    break
+            fontthickness_current_text = round(fontscale_current_text*2)
+            if fontthickness_current_text <= 0:
+                fontthickness_current_text = 1
+            cv2.putText(frame, "Screenshot", (round(0.0*frame_width), round(0.21*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            textsize_current_text, _ = cv2.getTextSize("New", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            cv2.putText(frame, "New", (round(0.05*frame_width-width_current_text/2), round(0.17*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
-            if mouseposx >= 0.0 and mouseposy >= 0.14 and mouseposx <= 0.1 and mouseposy <= 0.19 and mousecoordroot[1] < 0.25:
-                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.19*frame_height)), (0, 0, 255), -1)
+            if mouseposx >= 0.0 and mouseposy >= 0.24 and mouseposx <= 0.1 and mouseposy <= 0.29 and mousecoordroot[1] < 0.30:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.24*frame_height)), (round(0.1*frame_width), round(0.29*frame_height)), (0, 0, 255), -1)
                 if left_clicked == True:
                     if messagebox.askokcancel("Setup", (f"Do you really want to reset the setup to default settings?")):
                         zoomoffsetx = 0
@@ -1626,7 +1658,7 @@ def plugin(data):
                         settings.CreateSettings("NavigationDetectionV3", "bottomright", bottomright)
                         settings.CreateSettings("NavigationDetectionV3", "centercoord", centercoord)
             else:
-                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.19*frame_height)), (0, 0, 230), -1)
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.24*frame_height)), (round(0.1*frame_width), round(0.29*frame_height)), (0, 0, 230), -1)
             current_text = "RESET"
             width_target_current_text = frame_width/12
             fontscale_current_text = 1
@@ -1643,7 +1675,7 @@ def plugin(data):
             fontthickness_current_text = round(fontscale_current_text*2)
             if fontthickness_current_text <= 0:
                 fontthickness_current_text = 1
-            cv2.putText(frame, "RESET", (round(0.007*frame_width), round(0.18*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            cv2.putText(frame, "RESET", (round(0.007*frame_width), round(0.28*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
             if left_clicked == False:
                 moverootx = zoomoffsetx + mousex
@@ -1654,7 +1686,7 @@ def plugin(data):
                     zoomoffsetx = moverootx - mousex
                     zoomoffsety = moverooty - mousey
 
-            if mouseposx >= 0.9 and mouseposy >= 0.0 and mouseposx <= 1.0 and mouseposy <= 0.1 and mousecoordroot[1] < 0.25:
+            if mouseposx >= 0.9 and mouseposy >= 0.0 and mouseposx <= 1.0 and mouseposy <= 0.1 and mousecoordroot[1] < 0.30:
                 cv2.rectangle(frame, (round(0.9*frame_width), round(0.0*frame_height)), (round(1.0*frame_width), round(0.1*frame_height)), (0, 235, 0), -1)
                 if left_clicked == True:
                     finishedsetup = True
@@ -1680,7 +1712,7 @@ def plugin(data):
             cv2.putText(frame, "Setup", (round(0.918*frame_width), round(0.084*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx >= 0.22 and mouseposy >= 0.0 and mouseposx <= 0.35 and mouseposy <= 0.1 and mousecoordroot[1] < 0.25:
+            if mouseposx >= 0.22 and mouseposy >= 0.0 and mouseposx <= 0.35 and mouseposy <= 0.1 and mousecoordroot[1] < 0.30:
                 cv2.rectangle(frame, (round(0.22*frame_width), round(0.0*frame_height)), (round(0.35*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and getbottomright == False and getcentercoord == False:
                     gettopleft = True
@@ -1708,7 +1740,7 @@ def plugin(data):
             cv2.putText(frame, "   Coordinate", (round(0.218*frame_width), round(0.085*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx >= 0.42 and mouseposy >= 0.0 and mouseposx <= 0.58 and mouseposy <= 0.1 and mousecoordroot[1] < 0.25:
+            if mouseposx >= 0.42 and mouseposy >= 0.0 and mouseposx <= 0.58 and mouseposy <= 0.1 and mousecoordroot[1] < 0.30:
                 cv2.rectangle(frame, (round(0.42*frame_width), round(0.0*frame_height)), (round(0.58*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and gettopleft == False and getcentercoord == False:
                     getbottomright = True
@@ -1736,7 +1768,7 @@ def plugin(data):
             cv2.putText(frame, "   Coordinate", (round(0.437*frame_width), round(0.085*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx >= 0.65 and mouseposy >= 0.0 and mouseposx <= 0.78 and mouseposy <= 0.1 and mousecoordroot[1] < 0.25:
+            if mouseposx >= 0.65 and mouseposy >= 0.0 and mouseposx <= 0.78 and mouseposy <= 0.1 and mousecoordroot[1] < 0.30:
                 cv2.rectangle(frame, (round(0.65*frame_width), round(0.0*frame_height)), (round(0.78*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and gettopleft == False and getbottomright == False:
                     getcentercoord = True
