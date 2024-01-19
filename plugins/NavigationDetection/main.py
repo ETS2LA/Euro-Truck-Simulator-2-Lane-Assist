@@ -1942,8 +1942,8 @@ def plugin(data):
 
                 frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
             else:
-                lower_red = np.array([7, 7, 202])
-                upper_red = np.array([17, 17, 212])
+                lower_red = np.array([2, 2, 197])
+                upper_red = np.array([22, 22, 217])
                 white_limit = 1
 
                 mask_red = cv2.inRange(frame, lower_red, upper_red)
