@@ -344,11 +344,11 @@ def plugin(data):
             if user_throttle == acceleration_strength:
                 user_accelerating = False
             data["sdk"]["brake"] = 0
-        if targetspeed == 0 and speed > 1 and user_accelerating == False:
+        if targetspeed == 0 and abs(speed) > 1 and user_accelerating == False:
             data["sdk"]["acceleration"] = 0
             data["sdk"]["brake"] = brake_strength
             user_emergency_braking_timer = current_time
-        elif targetspeed == 0 and speed < 1 and user_accelerating == False:
+        elif targetspeed == 0 and abs(speed) < 1 and user_accelerating == False:
             park_brake_target = True
         if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
             data["sdk"]["acceleration"] = acceleration_strength
@@ -372,7 +372,7 @@ def plugin(data):
             data["sdk"]["Hazards"] = True
             wait_for_response_hazard_light = True
             wait_for_response_hazard_light_timer = current_time
-        if user_emergency_braking == True and speed < 1 and user_accelerating == False:
+        if user_emergency_braking == True and abs(speed) < 1 and user_accelerating == False:
             park_brake_target = True
 
     if auto_stop == True:
@@ -409,10 +409,10 @@ def plugin(data):
         if hazard_light != last_hazard_light or current_time - 1 >  wait_for_response_hazard_light_timer:
             wait_for_response_hazard_light = False
     if do_lanedetected_stop == True:
-        if speed > 1:
+        if abs(speed) > 1:
             data["sdk"]["acceleration"] = 0
             data["sdk"]["brake"] = 0.1
-        elif speed < 1 and user_accelerating == False:
+        elif abs(speed) < 1 and user_accelerating == False:
             park_brake_target = True
         if hazard_light == False and wait_for_response_hazard_light == False:
             data["sdk"]["Hazards"] = True
@@ -427,12 +427,12 @@ def plugin(data):
         wait_for_response_park_brake = False
     if last_park_brake != park_brake:
         wait_for_response_park_brake = False
-    if park_brake_target == True:
+    if park_brake_target == True and DefaultSteering.enabled == True:
         if park_brake == False and wait_for_response_park_brake == False:
             data["sdk"]["ParkingBrake"] = True
             wait_for_response_park_brake = True
             wait_for_response_park_brake_timer = current_time
-    elif park_brake == True and wait_for_response_park_brake == False:
+    elif park_brake == True and wait_for_response_park_brake == False and DefaultSteering.enabled == True:
             data["sdk"]["ParkingBrake"] = True
             wait_for_response_park_brake = True
             wait_for_response_park_brake_timer = current_time
