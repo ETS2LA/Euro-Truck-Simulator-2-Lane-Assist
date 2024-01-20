@@ -22,3 +22,4 @@ gitpython
 setuptools
 ultralytics
 --upgrade --no-cache-dir gdown
+setuptools>=65.5.1
