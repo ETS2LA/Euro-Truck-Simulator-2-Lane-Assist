@@ -1902,7 +1902,7 @@ def plugin(data):
 
             f5_key_state = ctypes.windll.user32.GetAsyncKeyState(0x74)
             f5_pressed = f5_key_state & 0x8000 != 0
-            if f5_pressed == True:
+            if f5_pressed == True or do_blocked == True:
                 check_zoom_timer = current_time
             if current_time - 1 < check_zoom_timer or check_zoom_timer == 0:
                 check_zoom = True
@@ -1929,6 +1929,7 @@ def plugin(data):
                     do_blocked = False
                 if check_zoom_timer == 0:
                     check_zoom_timer = current_time
+                print("Lol")
             
             if mod != "1":
                 lower_red = np.array([0, 0, 160])
@@ -2272,6 +2273,12 @@ def plugin(data):
                     data["sdk"]["RightBlinker"] = False
                 turnincoming_detected = False
                 tunincoming_direction = None
+
+            allow_trafficlight_symbol = True
+            allow_no_lane_detected = True
+            allow_do_blocked = True
+            allow_do_zoom = True
+            show_turn_line = True
             
             if topleft == None or bottomright == None or centercoord == None:
                 if allow_playsound == True:
@@ -2303,12 +2310,6 @@ def plugin(data):
                 allow_do_blocked = False
                 allow_do_zoom = False
                 show_turn_line = False
-            else:
-                allow_trafficlight_symbol = True
-                allow_no_lane_detected = True
-                allow_do_blocked = True
-                allow_do_zoom = True
-                show_turn_line = True
 
             if do_blocked == True and allow_do_blocked == True:
                 if allow_playsound == True:
@@ -2339,6 +2340,8 @@ def plugin(data):
 
                 allow_trafficlight_symbol = False
                 allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
                 show_turn_line = False
 
             elif do_zoom == True and allow_do_zoom == True:
@@ -2367,11 +2370,9 @@ def plugin(data):
 
                 allow_trafficlight_symbol = False
                 allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
                 show_turn_line = False
-            else:
-                allow_trafficlight_symbol = True
-                allow_no_lane_detected = True
-                show_turn_line = True
 
             if width_lane == 0 and allow_no_lane_detected == True:
                 if allow_playsound == True:
@@ -2401,13 +2402,10 @@ def plugin(data):
                 correction = 0
 
                 allow_trafficlight_symbol = False
+                allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
                 show_turn_line = False
-            else:
-                if allow_no_lane_detected == True:
-                    allow_trafficlight_symbol = True
-                else:
-                    allow_trafficlight_symbol = False
-                show_turn_line = True
 
             showing_traffic_light_symbol = False
             if trafficlightdetection_is_enabled == True and allow_trafficlight_symbol == True:
