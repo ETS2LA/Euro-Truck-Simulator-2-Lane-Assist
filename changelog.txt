@@ -1,1 +1,1 @@
-Some changes in the CleanRouteAdvisor mod and fixed problems with the automatic park brake of the cruisecontrol plugin.
+Some bug fixes.

@@ -1929,7 +1929,6 @@ def plugin(data):
                     do_blocked = False
                 if check_zoom_timer == 0:
                     check_zoom_timer = current_time
-                print("Lol")
             
             if mod != "1":
                 lower_red = np.array([0, 0, 160])
