@@ -1908,7 +1908,7 @@ def plugin(data):
                 check_zoom = True
             else:
                 check_zoom = False
-            if check_zoom == True or check_zoom_timer == 0:
+            if check_zoom == True:
                 lower_blue = np.array([121, 68, 0])
                 upper_blue = np.array([250, 184, 109])
                 mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
@@ -1942,8 +1942,8 @@ def plugin(data):
 
                 frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
             else:
-                lower_red = np.array([7, 7, 202])
-                upper_red = np.array([17, 17, 212])
+                lower_red = np.array([0, 0, 180])
+                upper_red = np.array([50, 50, 230])
                 white_limit = 1
 
                 mask_red = cv2.inRange(frame, lower_red, upper_red)
