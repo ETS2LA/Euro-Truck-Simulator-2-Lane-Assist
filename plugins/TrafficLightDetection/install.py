@@ -1,4 +1,4 @@
-requirements = ["pyautogui"]
+requirements = ["pyautogui", "ultralytics", "setuptools==65.5.1"]
 import os
 
 # This fucntion will be run when the plugin is first discovered.
