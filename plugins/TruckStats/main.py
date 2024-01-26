@@ -237,8 +237,8 @@ def plugin(data):
 
     try:
         if width_frame != last_width_frame or height_frame != last_height_frame:
-            frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
             if width_frame >= 50 and height_frame >= 50:
+                frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
                 settings.CreateSettings("TruckStats", "width_frame", width_frame)
                 settings.CreateSettings("TruckStats", "height_frame", height_frame)
     except:
