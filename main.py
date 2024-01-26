@@ -104,11 +104,11 @@ def UpdateChecker():
             print("Failed to check for updates")
             print("Please check your internet connection and try again later")
             return
-    if currentVer[0] < remoteVer[0]:
+    if int(currentVer[0]) < int(remoteVer[0]):
         update = True
-    elif currentVer[1] < remoteVer[1]:
+    elif int(currentVer[1]) < int(remoteVer[1]):
         update = True
-    elif currentVer[2] < remoteVer[2]:
+    elif int(currentVer[2]) < int(remoteVer[2]):
         update = True
     else:
         update = False
@@ -174,6 +174,7 @@ import src.controls as controls
 import psutil
 import cv2
 import src.scsLogReader as LogReader
+from src.server import SendCrashReport
 
 logger.printDebug = settings.GetSettings("logger", "debug")
 if logger.printDebug == None:
