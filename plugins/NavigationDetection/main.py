@@ -1855,6 +1855,8 @@ def plugin(data):
                 frame = data["frame"]
             except:
                 return data
+
+            if frame is None: return data
             
             try:
                 width = frame.shape[1]

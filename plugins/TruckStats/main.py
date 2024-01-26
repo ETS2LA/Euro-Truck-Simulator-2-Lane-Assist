@@ -58,7 +58,10 @@ def LoadSettings():
     global settings_fuel_value_to_graph
     global settings_engine_value_to_graph
 
+    global settings_allow_graphs
+
     global fuel_last_avg_consumption
+
     global fuel_value_history
     global fuel_value_history_time
     global fuel_value_history_adder
@@ -91,6 +94,8 @@ def LoadSettings():
     settings_fuel_tab_color = settings.GetSettings("TruckStats", "show_in_green", True)
     settings_fuel_value_to_graph = settings.GetSettings("TruckStats", "fuel_value_to_graph", "fuel_current")
     settings_engine_value_to_graph = settings.GetSettings("TruckStats", "engine_value_to_graph", "rpm")
+
+    settings_allow_graphs = True
 
     fuel_last_avg_consumption = 0
 
@@ -187,7 +192,10 @@ def plugin(data):
     global settings_fuel_value_to_graph
     global settings_engine_value_to_graph
 
+    global settings_allow_graphs
+
     global fuel_last_avg_consumption
+    
     global fuel_value_history
     global fuel_value_history_time
     global fuel_value_history_adder
@@ -238,9 +246,12 @@ def plugin(data):
     try:
         if width_frame != last_width_frame or height_frame != last_height_frame:
             if width_frame >= 50 and height_frame >= 50:
+                settings_allow_graphs = True
                 frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
                 settings.CreateSettings("TruckStats", "width_frame", width_frame)
                 settings.CreateSettings("TruckStats", "height_frame", height_frame)
+            else:
+                settings_allow_graphs = False
     except:
         pass
     last_width_frame = width_frame
@@ -666,7 +677,7 @@ def plugin(data):
             cv2.putText(frame, f"of {fuel_total_str}L", (round(width_current_text + 0.135*width_frame), round(0.2*height_frame+height_current_text/2+height_current_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
         else:
             cv2.putText(frame, f"of {fuel_total_str}Gal", (round(width_current_text + 0.135*width_frame), round(0.2*height_frame+height_current_text/2+height_current_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
-        if settings_show_graphs == True:
+        if settings_show_graphs == True and settings_allow_graphs == True:
             cv2.line(frame, (round(0.05*width_frame), round(0.93*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame-0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame+0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
@@ -730,7 +741,7 @@ def plugin(data):
         textsize_current_text, _ = cv2.getTextSize(f"{engine_throttle_str}%", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, thickness_current_text)
         width_current_text, height_current_text = textsize_current_text
         cv2.putText(frame, f"{engine_throttle_str}%", (round(0.9*width_frame-width_current_text), round(0.2*height_frame+height_current_text/2+height_original_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
-        if settings_show_graphs == True:
+        if settings_show_graphs == True and settings_allow_graphs == True:
             cv2.line(frame, (round(0.05*width_frame), round(0.93*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame-0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame+0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
