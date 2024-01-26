@@ -68,7 +68,6 @@ def UpdateSettings():
     global performancemode
     global advancedmode
     global windowscale
-    global textsize
     global usefullframe
     global yolo_detection
     global yolo_showunconfirmed
@@ -122,7 +121,6 @@ def UpdateSettings():
     advancedmode = settings.GetSettings("TrafficLightDetection", "advancedmode", False)
     usefullframe = settings.GetSettings("TrafficLightDetection", "usefullframe", True)
     windowscale = float(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
-    textsize = float(settings.GetSettings("TrafficLightDetection", "textsize", 1))
     x1 = settings.GetSettings("TrafficLightDetection", "x1ofsc", 0)
     y1 = settings.GetSettings("TrafficLightDetection", "y1ofsc", 0)
     x2 = settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1)
@@ -1049,10 +1047,6 @@ class UI():
             self.scale.set(self.scaleSlider.get())
             settings.CreateSettings("TrafficLightDetection", "scale", self.scaleSlider.get())
             UpdateSettings()
-        def UpdateSliderValue_textsize(self):
-            self.textsize.set(self.textsizeSlider.get())
-            settings.CreateSettings("TrafficLightDetection", "textsize", self.textsizeSlider.get())
-            UpdateSettings()
         def UpdateSliderValue_x1ofsc(self):
             self.x1ofsc.set(self.x1ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "x1ofsc", self.x1ofscSlider.get())
@@ -1215,11 +1209,6 @@ class UI():
             model_selection()
             helpers.MakeButton(trackeraiFrame, "Save and load model", self.save_and_load_model, 10, 0, width=30, sticky="nw")
 
-            self.textsizeSlider = tk.Scale(generalFrame, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=700, command=lambda x: self.UpdateSliderValue_textsize())
-            self.textsizeSlider.set(settings.GetSettings("TrafficLightDetection", "textsize", 0.5))
-            self.textsizeSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
-            self.textsize = helpers.MakeComboEntry(generalFrame, "Font Size (Grayscale Window)", "TrafficLightDetection", "textsize", 9, 0, width=32, labelwidth=30)
-            
             helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
             
             self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x1ofsc())

@@ -1,1 +1,1 @@
-Fixed the bug that the app crashes when minimizing the TruckStats window.
+Fixed the bug that the app crashes when minimizing the TruckStats window and removed unnecessary "Font Size" slider in th TrafficLightDetection UI.
