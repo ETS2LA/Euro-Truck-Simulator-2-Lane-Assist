@@ -19,6 +19,6 @@ progress
 torch
 requests
 gitpython
+setuptools
 ultralytics
-setuptools==65.5.1
 --upgrade --no-cache-dir gdown
