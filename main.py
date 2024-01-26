@@ -91,13 +91,19 @@ else:
 import requests
 def UpdateChecker():
     currentVer = variables.VERSION.split(".")
-    url = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt"
+    githubUrl = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/"
+    sourceForgeUrl = "https://sourceforge.net/p/eurotrucksimulator2-laneassist/code/ci/main/tree/"
     try:
-        remoteVer = requests.get(url).text.strip().split(".")
+        remoteVer = requests.get(githubUrl + "version.txt").text.strip().split(".")
+        remote = "github"
     except:
-        print("Failed to check for updates")
-        print("Please check your internet connection and try again later")
-        return
+        try:
+            remoteVer = requests.get(sourceForgeUrl + "version.txt?format=raw").text.strip().split(".")
+            remote = "sourceforge"
+        except:
+            print("Failed to check for updates")
+            print("Please check your internet connection and try again later")
+            return
     if currentVer[0] < remoteVer[0]:
         update = True
     elif currentVer[1] < remoteVer[1]:
@@ -107,12 +113,21 @@ def UpdateChecker():
     else:
         update = False
     
+    if remote == "github":
+        url = githubUrl
+    else:
+        url = sourceForgeUrl
+    
     print(f"Current version: {'.'.join(currentVer)}")
     print(f"Remote version: {'.'.join(remoteVer)}")
     print(f"Update available: {update}")
     if update:
-        print(f"Changelog:\n{requests.get('https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt').text}")
-        changelog = requests.get("https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt").text
+        if remote == "github":
+            changelog = requests.get(url + "changelog.txt").text
+        elif remote == "sourceforge":
+            changelog = requests.get(url + "changelog.txt?format=raw").text
+            
+        print(f"Changelog:\n{changelog}")
         from tkinter import messagebox
         if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
             os.system("git stash")
@@ -235,18 +250,23 @@ def RunOnEnable():
             print(ex.args)
             pass
         
-
+import concurrent.futures
+import threading
 def UpdatePlugins(dynamicOrder, data):
     for plugin in pluginObjects:
         try:
             if plugin.PluginInfo.dynamicOrder == dynamicOrder:
                 startTime = time.time()
-                data = plugin.plugin(data)
-                endTime = time.time()
-                if data == None:
-                    print(f"Plugin '{plugin.PluginInfo.name}' returned NoneType instead of a the data variable. Please make sure that you return the data variable.")
+
+                pluginData = plugin.plugin(data)
+                
+                if pluginData != None:
+                    data = pluginData
                 else:
-                    data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
+                    print(f"Plugin '{plugin.PluginInfo.name}' returned NoneType instead of a the data variable. Please make sure that you return the data variable.")
+                
+                endTime = time.time()    
+                data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
                         
         except Exception as ex:
             print(ex.args + f"[{plugin.PluginInfo.name}]")
@@ -652,6 +672,20 @@ if __name__ == "__main__":
             allEnd = time.time()
             data["executionTimes"]["all"] = allEnd - allStart
 
+            # Check if the frame took more than 200ms (5fps)
+            if allEnd - allStart > 0.2:
+                print(f"Frame took {round((allEnd - allStart) * 1000)}ms to execute!")
+                # Check if the anomalousFrames folder exists
+                if not os.path.exists(os.path.join(variables.PATH, "anomalousFrames")):
+                    os.mkdir(os.path.join(variables.PATH, "anomalousFrames"))
+                # Save a new text file with the data
+                with open(os.path.join(variables.PATH, "anomalousFrames", f"{time.time()}.txt"), "w") as f:
+                    # Go throught each key and try and write it
+                    for key in data:
+                        try:
+                            f.write(f"{key}: {data[key]}\n")
+                        except:
+                            pass
         
         except Exception as ex:
             try:

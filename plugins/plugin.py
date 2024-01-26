@@ -2,6 +2,9 @@
 Helper file for plugins
 """
 
+import signal
+import functools
+
 class PluginInformation():
     """
     Class to store plugin information
@@ -33,8 +36,10 @@ class PluginInformation():
         
         requires (list): List of plugins that are required for this plugin to work (plugin names) ["plugin1", "plugin2"]
     
+        maxExecTime (int): Maximum execution time in ms (if the plugin takes longer than this to execute then it will be skipped) (set to 0 to disable the limit, default:100)
+    
     """
-    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None):
+    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None, maxExecTime=100):
         self.name = name
         self.description = description
         self.version = version
@@ -48,3 +53,4 @@ class PluginInformation():
         self.noUI = noUI
         self.exclusive = exclusive
         self.requires = requires
+        self.maxExecTime = maxExecTime

@@ -36,7 +36,6 @@ lastY = 0
 isConnected = False
 
 
-
 def plugin(data):
     global API
     global lastX

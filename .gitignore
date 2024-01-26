@@ -20,6 +20,7 @@ plugins/Map/Old/VisualizeRoads/Roads.json
 plugins/Map/Old/VisualizeRoads/UNPACKTHISFILE.zip
 plugins/Map/GameData/*.json
 plugins/Map/Old
+anomalousFrames
 
 # Ignore themes
 themes/*

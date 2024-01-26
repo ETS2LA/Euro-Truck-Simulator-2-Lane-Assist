@@ -131,19 +131,6 @@ def UpdateSettings():
     pixelpercentagefilter = settings.GetSettings("TrafficLightDetection", "pixelpercentagefilter", True)
     otherlightsofffilter = settings.GetSettings("TrafficLightDetection", "otherlightsofffilter", True)
 
-    yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
-    yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
-    yolo_model_str = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
-    if yolo_model_loaded == False:
-        print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
-        try:
-            import torch
-            torch.hub.set_dir(f"{variables.PATH}plugins\\TrafficLightDetection\\YoloFiles")
-            yolo_model = torch.hub.load("ultralytics/yolov5", yolo_model_str)
-            print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
-        except Exception as e:
-            print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
-        yolo_model_loaded = True
     coordinates = []
     trafficlights = []
 
@@ -269,9 +256,31 @@ def UpdateSettings():
     lower_green_advanced = np.array([lgr, lgg, lgb])
 UpdateSettings()
     
+def loadYOLO():
+    global yolo_model_loaded
+    global yolo_model
+    global yolo_detection
+    global yolo_showunconfirmed
+    global yolo_model_str
+    
+    yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
+    yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
+    yolo_model_str = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
+    if yolo_model_loaded == False:
+        print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
+        try:
+            import torch
+            torch.hub.set_dir(f"{variables.PATH}plugins\\TrafficLightDetection\\YoloFiles")
+            yolo_model = torch.hub.load("ultralytics/yolov5", yolo_model_str)
+            print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
+        except Exception as e:
+            print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
+        yolo_model_loaded = True
 
 def yolo_detection_function(yolo_detection_frame):
     trafficlight = False
+    if yolo_model is None or yolo_model_loaded == False:
+        loadYOLO()
     results = yolo_model(yolo_detection_frame)
     boxes = results.pandas().xyxy[0]
     for _, box in boxes.iterrows():
@@ -1022,6 +1031,7 @@ def plugin(data):
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
     UpdateSettings()
+    loadYOLO()
     pass
 
 def onDisable():
