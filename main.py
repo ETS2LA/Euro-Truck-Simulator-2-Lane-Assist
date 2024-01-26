@@ -673,6 +673,8 @@ if __name__ == "__main__":
             allEnd = time.time()
             data["executionTimes"]["all"] = allEnd - allStart
 
+            SORRYFORTHEPING
+
             # Check if the frame took more than 200ms (5fps)
             if allEnd - allStart > 0.2:
                 print(f"Frame took {round((allEnd - allStart) * 1000)}ms to execute!")
@@ -702,7 +704,10 @@ if __name__ == "__main__":
                 import traceback
                 exc = traceback.format_exc()
                 traceback.print_exc()
-                # Pack everything in ex.args into one string
+                # Get the user name
+                username = os.getlogin()
+                # Send a crash report
+                SendCrashReport("Main loop crash.", exc.replace(username, "censored"))
                 if not messagebox.askretrycancel("Error", translator.Translate("The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n") + exc):
                     break
                 else:

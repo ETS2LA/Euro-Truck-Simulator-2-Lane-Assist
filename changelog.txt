@@ -1,4 +1,1 @@
-Log anomalous frames.
-Add data viewer (for devs)
-Stop TrafficLightDetection from loading the model without being enabled.
-Add fallback update checker for sourceforge.
+Added crash reporting. You will be prompted to either accept or deny this.
