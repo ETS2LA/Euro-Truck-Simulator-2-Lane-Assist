@@ -673,8 +673,6 @@ if __name__ == "__main__":
             allEnd = time.time()
             data["executionTimes"]["all"] = allEnd - allStart
 
-            SORRYFORTHEPING
-
             # Check if the frame took more than 200ms (5fps)
             if allEnd - allStart > 0.2:
                 print(f"Frame took {round((allEnd - allStart) * 1000)}ms to execute!")
