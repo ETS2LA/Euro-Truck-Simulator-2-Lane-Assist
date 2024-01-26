@@ -21,6 +21,12 @@ plugins/Map/Old/VisualizeRoads/UNPACKTHISFILE.zip
 plugins/Map/GameData/*.json
 plugins/Map/Old
 anomalousFrames
+plugins/TrafficLightDetection/YoloFiles
+yolov5n.pt
+yolov5s.pt
+yolov5m.pt
+yolov5l.pt
+yolov5x.pt
 
 # Ignore themes
 themes/*

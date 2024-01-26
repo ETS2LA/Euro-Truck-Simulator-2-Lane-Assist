@@ -31,8 +31,6 @@ import os
 
 import cv2
 import numpy as np
-import dxcam
-import time
 import pyautogui
 import ctypes
 import math
@@ -1217,7 +1215,7 @@ class UI():
             yolov5x = ttk.Radiobutton(trackeraiFrame, text="YOLOv5x (slowest, highest accuracy)", variable=model_ui, value="yolov5x", command=model_selection)
             yolov5x.grid(row=9, column=0, sticky="nw")
             model_selection()
-            helpers.MakeButton(trackeraiFrame, "Save and load model", self.save_and_load_model, 10, 0, width=30, sticky="nw")
+            helpers.MakeButton(trackeraiFrame, "Save and Load Model\n-------------------------------\nLoading the model could take some time.\nIt's normal that the app won't respond for a while.", self.save_and_load_model, 10, 0, width=50, sticky="nw")
 
             helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
             
@@ -1583,12 +1581,11 @@ class UI():
             global yolo_model_loaded
             yolo_model_loaded = False
             settings.CreateSettings("TrafficLightDetection", "yolo_model", self.model_ui)
+            loadYOLO()
             UpdateSettings()
         
         def update(self, data): 
             self.root.update()
             
-    
-    
     except Exception as ex:
         print(ex.args)
