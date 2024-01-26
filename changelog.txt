@@ -1,1 +1,4 @@
-Fixed the bug that the app crashes when minimizing the TruckStats window and removed unnecessary "Font Size" slider in th TrafficLightDetection UI.
+Log anomalous frames.
+Add data viewer (for devs)
+Stop TrafficLightDetection from loading the model without being enabled.
+Add fallback update checker for sourceforge.
