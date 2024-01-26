@@ -674,7 +674,7 @@ if __name__ == "__main__":
             data["executionTimes"]["all"] = allEnd - allStart
 
             # Check if the frame took more than 200ms (5fps)
-            if allEnd - allStart > 0.2:
+            if (allEnd - allStart) - data["executionTimes"]["UI"] > 0.2:
                 print(f"Frame took {round((allEnd - allStart) * 1000)}ms to execute!")
                 # Check if the anomalousFrames folder exists
                 if not os.path.exists(os.path.join(variables.PATH, "anomalousFrames")):
