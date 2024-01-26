@@ -34,9 +34,13 @@ def SendCrashReport(type:str, message:str, additional=None):
             url = 'https://crash.tumppi066.fi/crash'
             headers = {'Content-Type': 'application/json'}
             data = json.dumps(jsonData)
-            response = requests.post(url, headers=headers, data=data)
+            try:
+                response = requests.post(url, headers=headers, data=data)
+            except:
+                print("Caould not connect to server to send crash report.")
             return response.status_code == 200
         else:
-            print("Crash reports are not allowed to be sent.")
+            print("Crash detected, but crash reports are not allowed to be sent.")
     except:
-        pass
+        print("Crash reports are not allowed to be sent.")
+
