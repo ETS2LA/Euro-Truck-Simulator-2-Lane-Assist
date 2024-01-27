@@ -2293,6 +2293,8 @@ def plugin(data):
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness < 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -2324,6 +2326,8 @@ def plugin(data):
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness < 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -2357,6 +2361,8 @@ def plugin(data):
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness < 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -2387,6 +2393,8 @@ def plugin(data):
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness < 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
