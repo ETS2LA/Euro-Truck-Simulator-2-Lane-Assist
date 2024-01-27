@@ -27,6 +27,8 @@ USERNAME = os.getlogin()
 """The username of the current windows user."""
 ETS2DOCUMENTSPATH = "C:/Users/" + USERNAME + "/Documents/Euro Truck Simulator 2/"
 """Path to the ETS2 documents folder. Contains stuff like the mod folder and log files."""
+OS = os.name
+"""The current operating system."""
 
 def ToggleEnable():
     """Will toggle the mainloop.

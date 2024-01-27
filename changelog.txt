@@ -1,3 +1,1 @@
-- Added checkbox in settings to select wethere crash data should be sent or not
-Fixed even more bugs in the NavigationDetection.
-Fixed bugs in CruiseControl plugin.
+Added version info to the crash report.

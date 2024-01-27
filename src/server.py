@@ -3,6 +3,7 @@ import requests
 import json
 import src.settings as settings 
 from src.translator import Translate
+import src.variables as var
 
 ALLOW_CRASH_REPORTS = settings.GetSettings("CrashReporter", "AllowCrashReports")
 """Whether or not crash reports are allowed to be sent to the developers. This will help us fix bugs faster. Defaults to False."""
@@ -11,9 +12,9 @@ if ALLOW_CRASH_REPORTS == None:
     from tkinter import messagebox
     if messagebox.askyesno("Crash reports", Translate("Do you want to allow crash reports to be sent to the developers? This will help us fix bugs faster.\n\nCrash reports are anonymous and will not contain any personal information")):
         ALLOW_CRASH_REPORTS = True
-        settings.CreateSettings("CrashReporter", "AllowCrashReports", 1)
+        settings.CreateSettings("CrashReporter", "AllowCrashReports", True)
     else:
-        settings.CreateSettings("CrashReporter", "AllowCrashReports", 0)
+        settings.CreateSettings("CrashReporter", "AllowCrashReports", False)
 
 def SendCrashReport(type:str, message:str, additional=None):
     """Will send a crash report to the main application server. This will then be forwarded to the developers on discord.
@@ -28,11 +29,21 @@ def SendCrashReport(type:str, message:str, additional=None):
     """
     try:
         if ALLOW_CRASH_REPORTS:
+            
+            additional = {
+                "version": var.VERSION,
+                "os": var.OS,
+                "language": settings.GetSettings("User Interface", "DestinationLanguage"),
+                "custom": additional
+            }
+            
+            
             jsonData = {
                 "type": type,
                 "message": message,
                 "additional": additional
             }
+            
             url = 'https://crash.tumppi066.fi/crash'
             headers = {'Content-Type': 'application/json'}
             data = json.dumps(jsonData)
@@ -44,4 +55,6 @@ def SendCrashReport(type:str, message:str, additional=None):
         else:
             print("Crash detected, but crash reports are not allowed to be sent.")
     except:
-        print("Crash reports are not allowed to be sent.")
+        import traceback
+        traceback.print_exc()
+        print("Crash report sending failed.")

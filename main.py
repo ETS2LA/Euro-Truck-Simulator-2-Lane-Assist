@@ -658,6 +658,7 @@ if __name__ == "__main__":
             
             data = UpdatePlugins("before UI", data)
             
+            
             # Calculate the execution time of the UI
             start = time.time()
             uiFrameTimer += 1

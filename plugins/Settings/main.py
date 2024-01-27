@@ -66,8 +66,8 @@ class UI():
 
             helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20)
         
-            crashreportvar = tk.IntVar()
-            crashreportvar.set(int(settings.GetSettings("CrashReporter", "AllowCrashReports")))
+            crashreportvar = tk.BooleanVar()
+            crashreportvar.set(settings.GetSettings("CrashReporter", "AllowCrashReports", False))
             crashreport = ttk.Checkbutton(self.root, text="Send crash data", variable=crashreportvar, width=20)
             crashreport.grid(row=4, column=0, padx=0, pady=7, sticky="w")
 
@@ -115,14 +115,14 @@ class UI():
                 else:
                     win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
             print(crashreportvar.get())
-            if crashreportvar.get() == 1:
+            if crashreportvar.get():
                 CrashReportWindow = tk.messagebox.askokcancel("CrashReporter", "This will send anonymous crash report data to the developers.\nThis can help improve the app and fix any bugs that are found.\n This will send only the error that caused the app to crash.\n Your name and person info will be censored.\n\nDo you want to continue?", icon="warning") 
                 if CrashReportWindow == True:
-                    settings.CreateSettings("CrashReporter", "AllowCrashReports", 1)
+                    settings.CreateSettings("CrashReporter", "AllowCrashReports", True)
                 else: 
-                    settings.CreateSettings("CrashReporter", "AllowCrashReports", 0)
+                    settings.CreateSettings("CrashReporter", "AllowCrashReports", False)
             else:
-                settings.CreateSettings("CrashReporter", "AllowCrashReports", 0)
+                settings.CreateSettings("CrashReporter", "AllowCrashReports", False)
             
             variables.RELOAD = True
         
