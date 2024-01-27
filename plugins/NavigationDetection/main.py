@@ -1389,6 +1389,9 @@ def plugin(data):
             if width != 0 and height != 0:
                 mouseposx = mousex/width
                 mouseposy = mousey/height
+            else:
+                mouseposx = 0
+                mouseposy = 0
 
             setupframetextsize = math.sqrt(width)/35
             setupframetextthickness = round(math.sqrt(width)/35)*2
