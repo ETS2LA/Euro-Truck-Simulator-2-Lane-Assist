@@ -39,14 +39,12 @@ else:
 
 def plugin(data):
     # Get left stick value
-
-    leftStick = int(32767*data["controller"]["leftStick"])
-
     try:
+        leftStick = int(32767*data["controller"]["leftStick"])
         controller.write(ecodes.EV_ABS, ecodes.ABS_RX, leftStick)
         controller.syn()
-    except Exception as ex:
-        print(ex)
+    except:
+        pass
 
     return data # Plugins need to ALWAYS return the data
 

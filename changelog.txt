@@ -1,1 +1,1 @@
-Added version info to the crash report.
+Fix evdev crash error.
