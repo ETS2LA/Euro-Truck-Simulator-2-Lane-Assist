@@ -1,1 +1,1 @@
-Improved YOLO detection for the TrafficlLightDetection.
+Fixed a bug in the ScreenCapturePlacement.
