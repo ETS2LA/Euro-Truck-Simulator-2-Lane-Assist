@@ -581,8 +581,10 @@ def plugin(data):
                 cv2.putText(frame, current_text, (round(0.79*width), round(0.4*height+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
                 cv2.putText(frame, "Paused", (round(0.89*width-width_paused_text/2), round(0.4*height+height_current_text*2.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
 
-    if frame != None:
+    try:
         data["frame"] = frame
+    except:
+        pass
     
     last_park_brake = park_brake
     last_lanedetected = lanedetected
