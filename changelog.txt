@@ -1,1 +1,1 @@
-Improved YOLO detection for the TrafficlLightDetection.
+Update to 1.9.0. Please see the changelog on github or discord... it's a long one.

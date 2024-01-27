@@ -90,6 +90,7 @@ else:
 
 import requests
 def UpdateChecker():
+    print("Checking for updates...")
     currentVer = variables.VERSION.split(".")
     githubUrl = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/"
     sourceForgeUrl = "https://sourceforge.net/p/eurotrucksimulator2-laneassist/code/ci/main/tree/"
@@ -135,6 +136,7 @@ def UpdateChecker():
             if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
                 quit()
         else:
+            variables.UPDATEAVAILABLE = remoteVer
             pass
 
 try:

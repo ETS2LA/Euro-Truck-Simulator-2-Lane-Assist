@@ -1,4 +1,4 @@
-requirements = ["--upgrade --no-cache-dir gdown"]
+requirements = ["--upgrade --no-cache-dir gdown", "gdown"]
 import os
 
 # This fucntion will be run when the plugin is first discovered.

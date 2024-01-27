@@ -87,17 +87,18 @@ def closeTabName(name:str):
 def selectedOtherTab():
     """Will run when the user selects another tab. Not intended to be called directly.
     """
-    currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]
-    currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
-    # Run the UI tab focus function
-    if currentUI != None:
-        try:
-            currentUI.tabFocused()
-        except:
+    try:
+        currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
+        # Run the UI tab focus function
+        if currentUI != None:
+            try:
+                currentUI.tabFocused()
+            except:
+                resizeWindow(width, height)
+        else:
             resizeWindow(width, height)
-    else:
-        resizeWindow(width, height)
-    
+    except:
+        pass
 
 def switchSelectedPlugin(pluginName:str):
     """Will open a new tab with the given plugin name.
@@ -198,13 +199,36 @@ def drawButtons(refresh:bool=False):
         child.destroy()
     
     try:
-        helpers.MakeButton(pluginFrames[0], "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 0, width=20)
-        helpers.MakeButton(pluginFrames[0], "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 1, 0, width=20)
-        helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 2, 0, width=20, style="Accent.TButton")
-        helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 3, 0, width=20, style="Accent.TButton", translate=False)
-        helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)", 0, 1)
-        helpers.MakeLabel(pluginFrames[0], "The top of the app has all your currently open tabs.              \nThey can be closed with the middle mouse button.", 1, 1)
+        # Make a label to offset the text and buttons to the center of the frame
+        helpers.MakeLabel(pluginFrames[0], "                      ", 0, 0, autoplace=True)
+        helpers.defaultAutoplaceColumn = 1
+        helpers.MakeLabel(pluginFrames[0], f"You are running ETS2LA version {str(variables.VERSION)}", 0, 1, columnspan=2, font=("Roboto", 18, "bold"), autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], f"- from {str(variables.LASTUPDATE).split('+')[0]}", 0, 1, columnspan=2, pady=0, autoplace=True)
+        
+        if variables.UPDATEAVAILABLE != False:
+            helpers.MakeLabel(pluginFrames[0], "An update is available!", 0, 1, columnspan=2, fg="green", autoplace=True, tooltip=f"New version: {'.'.join(variables.UPDATEAVAILABLE)}\nRestart to update.")
+        else: 
+            helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+            
+        helpers.MakeButton(pluginFrames[0], "Panel Manager", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 0, 1, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], "Plugin Manager", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 0, 2, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 0, 1, width=20, style="Accent.TButton", autoplace=True)
+        helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 0, 2, width=20, style="Accent.TButton", translate=False, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], "Video Tutorial ↗ ", lambda: helpers.OpenInBrowser("https://www.youtube.com/watch?v=0pic0rzjvik"), 0, 1, width=20, autoplace=True, tooltip="https://www.youtube.com/watch?v=0pic0rzjvik")
+        helpers.MakeButton(pluginFrames[0], "ETS2LA Wiki ↗ ", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi/en/LaneAssist"), 0, 2, width=20, autoplace=True, tooltip="https://wiki.tumppi066.fi/en/LaneAssist")
+        helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n                    (as long as the app is disabled)", 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], "The top of the app has all your currently open tabs.\n They can be closed with the middle mouse button.\n        (or right mouse button if so configured)", 0, 1, columnspan=2, autoplace=True)
+        # Make a label to show if crash reporting is enabled or disabled
+        crashReporting = settings.GetSettings("CrashReporter", "AllowCrashReports")
+        if crashReporting != None:
+            if crashReporting:
+                helpers.MakeLabel(pluginFrames[0], "Crash reporting is enabled.", 0, 1, columnspan=2, fg="green", autoplace=True, tooltip="You can disable it in the settings if you so desire.")
+            else:
+                helpers.MakeLabel(pluginFrames[0], "Crash reporting is disabled.", 0, 1, columnspan=2, fg="red", autoplace=True, tooltip="You can enable it in the settings.")
     except:
+        import traceback
+        traceback.print_exc()
         pass
     enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=11, padx=9, style="Accent.TButton")
     helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=11, padx=9)
@@ -213,7 +237,7 @@ def drawButtons(refresh:bool=False):
     helpers.MakeButton(buttonFrame, "Settings", lambda: switchSelectedPlugin("plugins.Settings.main"), 4, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, "Controls", lambda: switchSelectedPlugin("src.controls"), 5, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 6, 0, width=11, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings("User Interface", "Theme", "dark")).capitalize() + " Mode", lambda: changeTheme(), 7, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, "Feedback", lambda: switchSelectedPlugin("plugins.Feedback.main"), 7, 0, width=11, padx=9)
     import webbrowser
     helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 8, 0, width=11, padx=9, style="Accent.TButton", translate=False)
 
@@ -426,9 +450,7 @@ def CreateRoot():
     pluginNotebook.grid_propagate(0)
 
     # Create the page for the main menu
-    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
-    pluginFrame.pack_propagate(0)
-    pluginFrame.grid_propagate(0)
+    pluginFrame = ttk.Frame(pluginNotebook)
     pluginFrames = []
     UIs = []
     pluginFrames.append(pluginFrame)

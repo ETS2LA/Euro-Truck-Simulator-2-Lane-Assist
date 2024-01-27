@@ -20,6 +20,8 @@ import src.variables as variables
 import src.settings as settings
 import os
 from PIL import Image, ImageTk
+import time
+import keyboard
 
 class UI():
     
@@ -58,6 +60,7 @@ class UI():
         resizeWindow(1220, 700)
         self.page0()
         self.selectedPlugin(self.plugins[0])
+        self.keybindTimer = time.time()
     
     def destroy(self):
         self.done = True
@@ -74,7 +77,7 @@ class UI():
             del self.plugin
         except: pass
         
-        self.root = tk.Canvas(self.master, width=1200, height=590, border=0, highlightthickness=0)
+        self.root = tk.Canvas(self.master, width=1500, height=800, border=0, highlightthickness=0)
         self.root.grid_propagate(0)
         
         self.plugins = self.findPlugins()
@@ -88,17 +91,17 @@ class UI():
         self.screenCaptureVariable = tk.StringVar()
         self.screenCaptureVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == "ScreenCapture"])
         
-        self.pluginList = tk.Listbox(self.root, width=20, height=26, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.pluginList = tk.Listbox(self.root, width=20, height=31, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.pluginList.grid(row=2, column=0, padx=10, pady=2)
         # Bind double click
         self.pluginList.bind('<Double-Button>', lambda x: self.switchPluginState(self.pluginList.curselection()[0], self.pluginList))
         
-        self.laneDetectionList = tk.Listbox(self.root, width=20, height=26, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.laneDetectionList = tk.Listbox(self.root, width=20, height=31, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.laneDetectionList.grid(row=2, column=1, padx=10, pady=2)
         # Bind double click
         self.laneDetectionList.bind('<Double-Button>', lambda x: self.switchPluginState(self.laneDetectionList.curselection()[0], self.laneDetectionList))
         
-        self.screenCaptureList = tk.Listbox(self.root, width=20, height=26, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.screenCaptureList = tk.Listbox(self.root, width=20, height=31, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.screenCaptureList.grid(row=2, column=2, padx=10, pady=2)
         # Bind double click
         self.screenCaptureList.bind('<Double-Button>', lambda x: self.switchPluginState(self.screenCaptureList.curselection()[0], self.screenCaptureList))
@@ -159,7 +162,7 @@ class UI():
         self.plugin = plugin.PluginInfo
         
         
-        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=425, height=580)
+        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=440, height=650)
         self.pluginInfoFrame.pack_propagate(0)
         self.pluginInfoFrame.grid_propagate(0)
         self.pluginInfoFrame.grid(row=0, column=3, padx=10, pady=2, rowspan=3)
@@ -175,30 +178,30 @@ class UI():
             self.logoLabel = tk.Label(self.pluginInfoFrame, image=self.logo)
             self.logoLabel.grid(row=0, column=0, columnspan=1, pady=10, padx=30)
             
-            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.name, 0,1, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=1, sticky="w", translate=False)
+            helpers.MakeLabel(self.pluginInfoFrame, helpers.ConvertCapitalizationToSpaces(self.plugin.name), 0,1, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=1, sticky="w", translate=False)
             
         else:
-            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.name, 0,0, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=2, sticky="w", translate=False)
+            helpers.MakeLabel(self.pluginInfoFrame, helpers.ConvertCapitalizationToSpaces(self.plugin.name), 0,0, font=("Roboto", 16, "bold"), padx=10, pady=10, columnspan=2, sticky="w", translate=False)
             
         
-        helpers.MakeLabel(self.pluginInfoFrame, "Description", 1,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, "Description", 1,0, font=("Roboto", 12, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.description, 2,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, "Version", 3,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, "Version", 3,0, font=("Roboto", 12, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.version, 4,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, "Author", 5,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, "Author", 5,0, font=("Roboto", 12, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.author, 6,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, "URL", 7,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, "URL", 7,0, font=("Roboto", 12, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.url, 8,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
-        helpers.MakeLabel(self.pluginInfoFrame, "Update point", 9,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+        helpers.MakeLabel(self.pluginInfoFrame, "Update point", 9,0, font=("Roboto", 12, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
         helpers.MakeLabel(self.pluginInfoFrame, self.plugin.dynamicOrder, 10,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         
         if self.plugin.exclusive != None:
-            helpers.MakeLabel(self.pluginInfoFrame, "Exclusive Type", 11,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
+            helpers.MakeLabel(self.pluginInfoFrame, "Exclusive Type", 11,0, font=("Roboto", 12, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
             helpers.MakeLabel(self.pluginInfoFrame, self.plugin.exclusive, 12,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
         
         if self.plugin.requires != None:
-            helpers.MakeLabel(self.pluginInfoFrame, "Dependencies", 12,0, font=("Roboto", 12), padx=10, pady=10, columnspan=2, sticky="w")
-            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.requires, 13,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
+            helpers.MakeLabel(self.pluginInfoFrame, "Dependencies", 12,0, font=("Roboto", 12, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
+            helpers.MakeLabel(self.pluginInfoFrame, ", ".join(self.plugin.requires), 13,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
 
         if self.plugin.name in settings.GetSettings("Plugins", "Enabled"):
             helpers.MakeButton(self.pluginInfoFrame, "Disable plugin", lambda: self.disablePlugin(plugin), 14, 0, width=15, padx=8)
@@ -274,7 +277,6 @@ class UI():
     
     def update(self, data):
         try:
-            
             # Check which list is selected
             if self.pluginList.curselection() != ():
                 if self.pluginList.curselection()[0] != self.lastPlugin or self.lastList != 0:

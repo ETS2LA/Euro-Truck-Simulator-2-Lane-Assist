@@ -223,6 +223,7 @@ def ChangeKeybind(name, updateUI=True):
     ignoredAxis = []
     ignoredButtons = []
     
+    foundAxis = False
     while not save:
         # Check if any of the states change
         pygame.event.pump()
@@ -245,7 +246,7 @@ def ChangeKeybind(name, updateUI=True):
 
             if keybindToChange["shouldBeAxis"]:    
                 for j in range(joystick.get_numaxes()):
-                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState["axes"][j]) > 0.4:
+                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState["axes"][j]) > 0.2:
                         if ignore:
                             print("Ignoring axis " + str(j))    
                             ignoredAxis.append(j)
@@ -260,10 +261,14 @@ def ChangeKeybind(name, updateUI=True):
                         label.config(text=f"Axis: {j}")
                         axisSlider.set(joystick.get_axis(j))
                         currentbinding = {"deviceGUID": joystick.get_guid(), "axisIndex": j}
+                        foundAxis = True
 
+        if not foundAxis and keybindToChange["shouldBeAxis"]:
+            axisSlider.set(0)
 
         mainUI.root.update()
         window.update()
+        foundAxis = False
         
     if currentbinding != None:
         SaveKeybind(name, deviceGUID=currentbinding["deviceGUID"], buttonIndex=currentbinding["buttonIndex"] if "buttonIndex" in currentbinding else -1, axisIndex=currentbinding["axisIndex"] if "axisIndex" in currentbinding else -1)

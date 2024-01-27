@@ -64,13 +64,11 @@ class UI():
         
         def page0(self):
             
-            #helpers.MakeLabel(self.master, "Welcome", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            
             try:
                 self.root.destroy()
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=800, height=700, border=0, highlightthickness=0)
             self.root.grid_propagate(0)
             
             self.plugins = self.findPlugins()
@@ -78,13 +76,42 @@ class UI():
             self.listVariable = tk.StringVar()
             self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.name) for p in self.plugins])
             
-            self.pluginList = tk.Listbox(self.root, width=20, height=20, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
-            self.pluginList.grid(row=1, column=0, padx=10, pady=2)
+            self.pluginList = tk.Listbox(self.root, width=23, height=25, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none")
+            self.pluginList.grid(row=1, column=0, padx=0, pady=2)
             
-            # Douvle click to open
+            # Double click to open
             self.pluginList.bind('<Double-Button>', lambda x: switchSelectedPlugin("plugins." + (self.plugins[self.pluginList.curselection()[0]].name) + ".main"))
+            # Arrow keys to change selection up and down
+            def select(event):
+                # If up arrow
+                curSelection = self.pluginList.curselection()[0]
+                if event.keysym == "Up":
+                    # If not at the top
+                    if curSelection != 0:
+                        # Select the one above
+                        self.pluginList.select_clear(curSelection)
+                        self.pluginList.select_set(curSelection-1)
+                        self.pluginList.activate(curSelection)
+                        self.pluginList.see(curSelection)
+                # If down arrow
+                elif event.keysym == "Down":
+                    # If not at the bottom
+                    if curSelection != len(self.plugins)-1:
+                        # Select the one below
+                        self.pluginList.select_clear(curSelection)
+                        self.pluginList.select_set(curSelection+1)
+                        self.pluginList.activate(curSelection)
+                        self.pluginList.see(curSelection)
+                
+            self.pluginList.bind('<Up>', select)
+            self.pluginList.bind('<Down>', select)
             
-            helpers.MakeLabel(self.root, "Select a panel to load:", 0,0, font=("Roboto", 8), padx=30, pady=10, columnspan=1)
+            helpers.MakeLabel(self.root, "Select a panel to load:\n(the list is scrollable)", 0,0, font=("Roboto", 8), padx=5, pady=10, columnspan=1)
+            
+            # Select the first plugin
+            self.pluginList.select_set(0)
+            self.pluginList.activate(0)
+            self.pluginList.see(0)
             
             self.root.pack(anchor="center", expand=False)
             
@@ -99,7 +126,7 @@ class UI():
             
             self.plugin = plugin
             
-            self.pluginInfoFrame = ttk.LabelFrame(self.root, text=plugin.name, width=380, height=500)
+            self.pluginInfoFrame = ttk.LabelFrame(self.root, text=plugin.name, width=430, height=530)
             self.pluginInfoFrame.pack_propagate(0)
             self.pluginInfoFrame.grid_propagate(0)
             self.pluginInfoFrame.grid(row=0, column=1, padx=10, pady=2, rowspan=3)

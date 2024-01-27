@@ -7,7 +7,35 @@ import webview
 import webbrowser
 from tktooltip import ToolTip
 
-def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButton", width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str="!disabled", columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str="n", tooltip=""):
+lastRow = 0
+lastParent = None
+defaultAutoplaceColumn = 0
+"""Use this value to set the default column (what column means a new line) for the autoplace function. The value will get reset once a new parent is used."""
+def Autoplace(parent, row:int, column:int):
+    """Will automatically determine the row the next element should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Args:
+        parent (tkObject): The parent object of the element.
+    
+    Returns:
+        int: The row the next element should be placed on.
+    """
+    global lastRow
+    global lastParent
+    global defaultAutoplaceColumn
+    
+    if lastParent != parent:
+        lastRow = 0
+        defaultAutoplaceColumn = 0
+        lastParent = parent
+    else:
+        if column == defaultAutoplaceColumn:
+            lastRow += 1
+        
+    return lastRow
+        
+
+def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButton", width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str="!disabled", columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str="n", tooltip="", autoplace:bool=False):
     """Will create a new standard button with the given parameters.
 
     Args:
@@ -27,10 +55,15 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButto
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         sticky (str, optional): Defaults to "n".
         tooltip (str, optional): Defaults to "".
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         ttk.button: The button object we created.
     """
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -46,7 +79,7 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str="TButto
     return button
 
     
-def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=""):
+def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip="", autoplace:bool=False):
     """Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)
 
     Args:
@@ -65,10 +98,14 @@ def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column
         columnspan (int, optional): How many columns the checkbutton will span over. Defaults to 1.
         callback (lambda, optional): Lambda callback. Defaults to None.
         tooltip (str, optional): Defaults to "".
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.BooleanVar: The boolean variable of the checkbutton. (use .get() to get the value)
     """
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -122,7 +159,7 @@ def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column
     return variable
 
 
-def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value="", sticky:str="w", labelSticky:str="w", translate:bool=True, labelPadX:int=10, tooltip=""):
+def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value="", sticky:str="w", labelSticky:str="w", translate:bool=True, labelPadX:int=10, tooltip="", autoplace:bool=False):
     """Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)
 
     Args:
@@ -142,10 +179,14 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         labelPadX (int, optional): Defaults to 10.
         tooltip (str, optional): Defaults to "".
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the entry should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.Var: The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)
     """
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -190,7 +231,7 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
     
     return var
 
-def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str="n", fg:str="", bg:str="", translate:bool=True, tooltip=""):
+def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str="n", fg:str="", bg:str="", translate:bool=True, tooltip="", autoplace:bool=False):
     """Will make a label with the given parameters.
 
     Args:
@@ -207,10 +248,14 @@ def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady
         bg (str, optional): Background color. Defaults to "".
         translate (bool, optional): Whether to translate the label or not. Defaults to True.
         tooltip (str, optional): Defaults to "".
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the label should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.StringVar / ttk.Label: Depending on whether the text input is "" or not.
     """
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -250,7 +295,7 @@ def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady
         return label
         
 
-def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7):
+def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, autoplace:bool=False):
     """Will create an empty line with the given parameters.
 
     Args:
@@ -259,7 +304,12 @@ def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7):
         column (int): The column of the empty line.
         columnspan (int, optional): The number of columns to span the empty line over. Defaults to 1.
         pady (int, optional): Defaults to 7.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
     """
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     ttk.Label(parent, text="").grid(row=row, column=column, columnspan=columnspan, pady=pady)
         
 

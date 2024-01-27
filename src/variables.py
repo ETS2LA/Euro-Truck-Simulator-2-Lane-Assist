@@ -2,7 +2,7 @@
 Stores all global variables for the program.
 '''
 import os
-
+import subprocess
 
 PATH = os.path.dirname(__file__).replace("src", "")
 """The current absolute path to the root of the program."""
@@ -29,6 +29,10 @@ ETS2DOCUMENTSPATH = "C:/Users/" + USERNAME + "/Documents/Euro Truck Simulator 2/
 """Path to the ETS2 documents folder. Contains stuff like the mod folder and log files."""
 OS = os.name
 """The current operating system."""
+LASTUPDATE = subprocess.check_output("git log -1 --format=%cd", shell=True).decode("utf-8").replace("\n", "")
+"""The date of the last update to the local git repo."""
+UPDATEAVAILABLE = False
+"""Will be set to the updated version by the mainloop if an update is available and it's ignored."""
 
 def ToggleEnable():
     """Will toggle the mainloop.

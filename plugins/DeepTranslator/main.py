@@ -69,29 +69,35 @@ class UI():
             
             languagesToDisplay = [string for string in self.languages if string not in ["auto"]]
             # Make a picker of the languages
-            helpers.MakeLabel(self.root, "Application language : ", 0,0, sticky="w", padx=10)
+            helpers.MakeLabel(self.root, "Language Settings", 0,0, sticky="w", padx=10, autoplace=True, font=("Segoe UI", 16, "bold"))
+            helpers.MakeLabel(self.root, "Application language : ", 0,0, sticky="w", padx=10, autoplace=True)
             self.language = ttk.Combobox(self.root, values=languagesToDisplay, width=20)
             currentLanguage = translator.FindLanguageFromCode(settings.GetSettings("User Interface", "DestinationLanguage"))
             indexOfCurrentLanguage = languagesToDisplay.index(currentLanguage)
             self.language.current(indexOfCurrentLanguage)
-            self.language.grid(row=0, column=1, padx=10, pady=10)
+            self.language.grid(row=1, column=1, padx=10, pady=10)
             
-            helpers.MakeButton(self.root, "Apply", lambda: self.changeLanguage(self.language.get()), 0,2, padx=10, pady=10, width=5)
-            helpers.MakeButton(self.root, "Reset to OS", lambda: self.changeLanguage(translator.FindLanguageFromCode(translator.GetOSLanguage())), 0,3, padx=10, pady=10, width=15)
+            helpers.MakeButton(self.root, "Apply", lambda: self.changeLanguage(self.language.get()), 1,0, padx=10, pady=10, width=25, autoplace=True)
+            helpers.MakeButton(self.root, "Reset to OS", lambda: self.changeLanguage(translator.FindLanguageFromCode(translator.GetOSLanguage())), 1,1, padx=10, pady=10, width=21, autoplace=True)
             
-            helpers.MakeEmptyLine(self.root, 1,0, columnspan=4)
-            helpers.MakeEmptyLine(self.root, 2,0, columnspan=4)
+            helpers.MakeEmptyLine(self.root, 2,0, columnspan=3, autoplace=True)
             
-            helpers.MakeCheckButton(self.root, "Enable Cache", "User Interface", "EnableTranslationCache", 3,0, columnspan=3)
-            helpers.MakeComboEntry(self.root, "Cache Path", "User Interface", "TranslationCachePath", 4,0, width=20)
+            helpers.MakeLabel(self.root, "Cache Settings", 2,0, sticky="w", padx=10, autoplace=True, font=("Segoe UI", 16, "bold"))
+            helpers.MakeCheckButton(self.root, "Enable", "User Interface", "EnableTranslationCache", 3,1, columnspan=3, autoplace=True)
             
-            helpers.MakeButton(self.root, "Reload and Save", lambda: self.changeCacheSettings(), 5,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
+            helpers.MakeComboEntry(self.root, "Cache Path", "User Interface", "TranslationCachePath", 4,0, width=30, autoplace=True)
             
-            helpers.MakeButton(self.root, "Remove Cache", lambda: self.removeCache(), 6,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
+            helpers.MakeButton(self.root, "Reload and Save", lambda: self.changeCacheSettings(), 5,0, padx=10, pady=10, width=25, columnspan=3, sticky="w", autoplace=True)
             
-            helpers.MakeLabel(self.root, "Please open all UIs once first with the language chosen.", 8,0, sticky="w", padx=10, columnspan=3)
+            helpers.MakeButton(self.root, "Remove Cache", lambda: self.removeCache(), 6,1, padx=10, pady=10, width=25, columnspan=3, sticky="w", autoplace=True)
             
-            helpers.MakeButton(self.root, "Create Manual Cache", lambda: translator.CreateManualTranslationFile(), 7,0, padx=10, pady=10, width=25, columnspan=3, sticky="w")
+            helpers.MakeEmptyLine(self.root, 7,0, columnspan=3, autoplace=True)
+            
+            helpers.MakeLabel(self.root, "Custom Translations", 7,0, sticky="w", padx=10, autoplace=True, font=("Segoe UI", 16, "bold"))
+            
+            helpers.MakeButton(self.root, "Create Manual Cache", lambda: translator.CreateManualTranslationFile(), 7,0, padx=10, pady=10, width=25, columnspan=3, sticky="w", autoplace=True)
+            helpers.MakeLabel(self.root, "Please open all UIs with the language chosen before creating the manual translation file.", 8,0, sticky="w", padx=10, columnspan=3, autoplace=True)
+            
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

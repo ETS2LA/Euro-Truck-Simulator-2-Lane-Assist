@@ -27,6 +27,11 @@ def SendCrashReport(type:str, message:str, additional=None):
     Returns:
         success (bool): False if not successful, True if successful
     """
+    
+    # Check if the message is empty
+    if message.strip() == "":
+        return False
+    
     try:
         if ALLOW_CRASH_REPORTS:
             

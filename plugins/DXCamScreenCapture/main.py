@@ -27,6 +27,8 @@ import src.variables as variables
 import src.settings as settings
 import os
 import dxcam
+import _ctypes
+from src.translator import Translate
 
 verifyWidthAndHeight = settings.GetSettings("dxcam", "verifyWidthAndHeight", value=True)
 if verifyWidthAndHeight == None:
@@ -117,9 +119,15 @@ def CreateCamera():
         del camera
     except: pass
     
-    camera = dxcam.create(output_color="BGR", output_idx=display, device_idx=device)
+    try:
+        camera = dxcam.create(output_color="BGR", output_idx=display, device_idx=device)
+    except _ctypes.COMError as ex:
+        from tkinter import messagebox
+        if messagebox.askyesno("Error", Translate("DXCam failed to initialize. It is likely that your python is not running on the integrated graphics.\nDo you want to open the instructions on how to fix this?\n\nThe main loop will disable to prevent further errors.")):
+            import webbrowser
+            webbrowser.open("https://wiki.tumppi066.fi/en/LaneAssist/CommonIssues#the-specified-device-interface-or-feature-level-is-not-supported-on-this-system")
         
-
+        variables.ENABLELOOP = False
 
 
 # The main file runs the "plugin" function each time the plugin is called

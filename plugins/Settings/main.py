@@ -54,41 +54,34 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
 
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=600, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            self.updateRate = helpers.MakeComboEntry(self.root, "UI Update Every x Frames", "User Interface", "updateRate", 1,0, value=4, labelwidth=25, width=25)
-            self.awareness = helpers.MakeComboEntry(self.root, "DPI mode (0/1/2)", "User Interface", "DPIAwareness", 2,0, value=0, labelwidth=25, width=25)
-            # self.ignore = helpers.MakeComboEntry(self.root, "Ignore Modules (seperate by ,)", "Plugins", "Ignore", 2,0, value="EvdevController," if os.name != "nt" else "DXCamScreenCapture,", labelwidth=25, isString=True, width=55)
+            helpers.MakeLabel(self.root, "Categories", 0,0, padx=30, pady=10, font=("Segoe UI", 16, "bold"), autoplace=True)
+            helpers.MakeButton(self.root, "Translation Settings", lambda: mainUI.switchSelectedPlugin("plugins.DeepTranslator.main"), 5,0, padx=30, pady=10, width=20, autoplace=True)
+            helpers.MakeButton(self.root, "UI Settings", lambda: mainUI.switchSelectedPlugin("plugins.TabSettings.main"), 6,1, padx=30, pady=10, width=20, autoplace=True)
+            helpers.MakeButton(self.root, "Themes", lambda: mainUI.switchSelectedPlugin("plugins.ThemeManager.main"), 5,0, padx=30, pady=10, width=20, autoplace=True)
             
-            self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20)
+            helpers.MakeLabel(self.root, "Global Settings", 2,0, padx=30, pady=10, font=("Segoe UI", 16, "bold"), autoplace=True)
+            self.updateRate = helpers.MakeComboEntry(self.root, "UI Update Every x Frames", "User Interface", "updateRate", 1,0, value=4, labelwidth=25, width=25, autoplace=True)
+            self.awareness = helpers.MakeComboEntry(self.root, "DPI mode (0/1/2)", "User Interface", "DPIAwareness", 2,0, value=0, labelwidth=25, width=25, autoplace=True)
+            
+            self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20, autoplace=True)
+            helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20, autoplace=True)
+            self.crashreport = helpers.MakeCheckButton(self.root, "Send crash data", "CrashReporter", "AllowCrashReports", 4,0, width=20, autoplace=True)
 
-            helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20)
-        
-            crashreportvar = tk.BooleanVar()
-            crashreportvar.set(settings.GetSettings("CrashReporter", "AllowCrashReports", False))
-            crashreport = ttk.Checkbutton(self.root, text="Send crash data", variable=crashreportvar, width=20)
-            crashreport.grid(row=4, column=0, padx=0, pady=7, sticky="w")
+            
+            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 7,0, padx=30, pady=10, width=20, autoplace=True)
+            
+            
+            helpers.MakeButton(self.root, "Reinstall plugins", lambda: self.reinstall(), 6,0, padx=30, pady=10, width=20, autoplace=True)
+            helpers.MakeButton(self.root, "Reload Plugins", lambda: variables.ReloadAllPlugins(), 7,1, padx=30, pady=10, width=20, autoplace=True)
 
-            
-            helpers.MakeButton(self.root, "Translation Settings", lambda: mainUI.switchSelectedPlugin("plugins.DeepTranslator.main"), 5,0, padx=30, pady=10, width=20)
-            
-            helpers.MakeButton(self.root, "Themes", lambda: mainUI.switchSelectedPlugin("plugins.ThemeManager.main"), 5,1, padx=30, pady=10, width=20)
-            
-            helpers.MakeButton(self.root, "Reinstall all plugins", lambda: self.reinstall(), 6,0, padx=30, pady=10, width=20)
-            
-            # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, "UI Settings", lambda: mainUI.switchSelectedPlugin("plugins.TabSettings.main"), 6,1, padx=30, pady=10, width=20)
-            
-            helpers.MakeButton(self.root, "Reload Plugins", lambda: variables.ReloadAllPlugins(), 7,0, padx=30, pady=10, width=20)
-
-            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 7,1, padx=30, pady=10, width=20)
             self.root.pack(anchor="center", expand=False)
             self.root.update()
         
         def save(self): # This function is called when the user presses the "Save & Quit" button
-            global crashreportvar
             settings.CreateSettings("User Interface", "updateRate", self.updateRate.get())
             if settings.GetSettings("User Interface", "DPIAwareness") != self.awareness.get():
                 settings.CreateSettings("User Interface", "DPIAwareness", self.awareness.get())
@@ -114,8 +107,8 @@ class UI():
                         win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
                 else:
                     win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
-            print(crashreportvar.get())
-            if crashreportvar.get():
+            print(self.crashreport.get())
+            if self.crashreport.get():
                 CrashReportWindow = tk.messagebox.askokcancel("CrashReporter", "This will send anonymous crash report data to the developers.\nThis can help improve the app and fix any bugs that are found.\n This will send only the error that caused the app to crash.\n Your name and person info will be censored.\n\nDo you want to continue?", icon="warning") 
                 if CrashReportWindow == True:
                     settings.CreateSettings("CrashReporter", "AllowCrashReports", True)
