@@ -275,7 +275,7 @@ def loadYOLO():
             print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
         yolo_model_loaded = True
 
-def yolo_detection_function(yolo_detection_frame):
+def yolo_detection_function(yolo_detection_frame, x, y, w, h):
     trafficlight = False
     if yolo_model is None or yolo_model_loaded == False:
         loadYOLO()
@@ -283,7 +283,8 @@ def yolo_detection_function(yolo_detection_frame):
     boxes = results.pandas().xyxy[0]
     for _, box in boxes.iterrows():
         if box['name'] in ['traffic light']:
-            trafficlight = True
+            if (int(box['xmin']) < round(yolo_detection_frame.shape[1] / 2) < int(box['xmax'])) and (int(box['ymin']) < round(yolo_detection_frame.shape[0] / 2) < int(box['ymax'])):
+                trafficlight = True
     return trafficlight
 
 
@@ -719,7 +720,7 @@ def plugin(data):
                                 yolo_detection_frame = frameFull[y1+y1_confirmation:y1+y2_confirmation, x1+x1_confirmation:x1+x2_confirmation]
                             else:
                                 yolo_detection_frame = frameFull[y1_confirmation:y2_confirmation, x1_confirmation:x2_confirmation]
-                            approved = yolo_detection_function(yolo_detection_frame)
+                            approved = yolo_detection_function(yolo_detection_frame, x, y, w, h)
                             trafficlights.append((nearestpoint, new_id, approved))
 
                 # Remove lost traffic lights based on distance traveled

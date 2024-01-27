@@ -1,1 +1,1 @@
-Fix evdev crash error.
+Improved YOLO detection for the TrafficlLightDetection.
