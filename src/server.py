@@ -11,7 +11,9 @@ if ALLOW_CRASH_REPORTS == None:
     from tkinter import messagebox
     if messagebox.askyesno("Crash reports", Translate("Do you want to allow crash reports to be sent to the developers? This will help us fix bugs faster.\n\nCrash reports are anonymous and will not contain any personal information")):
         ALLOW_CRASH_REPORTS = True
-    settings.CreateSettings("CrashReporter", "AllowCrashReports", True)
+        settings.CreateSettings("CrashReporter", "AllowCrashReports", 1)
+    else:
+        settings.CreateSettings("CrashReporter", "AllowCrashReports", 0)
 
 def SendCrashReport(type:str, message:str, additional=None):
     """Will send a crash report to the main application server. This will then be forwarded to the developers on discord.
@@ -34,9 +36,12 @@ def SendCrashReport(type:str, message:str, additional=None):
             url = 'https://crash.tumppi066.fi/crash'
             headers = {'Content-Type': 'application/json'}
             data = json.dumps(jsonData)
-            response = requests.post(url, headers=headers, data=data)
+            try:
+                response = requests.post(url, headers=headers, data=data)
+            except:
+                print("Caould not connect to server to send crash report.")
             return response.status_code == 200
         else:
-            print("Crash reports are not allowed to be sent.")
+            print("Crash detected, but crash reports are not allowed to be sent.")
     except:
-        pass
+        print("Crash reports are not allowed to be sent.")
