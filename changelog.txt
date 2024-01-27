@@ -1,1 +1,3 @@
-Fixed some bugs.
+Prevent selecting keybinds that are not supported.
+(specifically some keyboard keys like l-control)
+Also fix crashing if one is selected.

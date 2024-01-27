@@ -209,6 +209,8 @@ def ChangeKeybind(name, updateUI=True):
     def KeyboardEvent(event):
         global currentbinding
         if not keybindToChange["shouldBeAxis"]:
+            if len(event.keysym) > 2:
+                return # Ignore special keys
             label.config(text=f"Key: '{event.keysym}'")
             currentbinding = {"deviceGUID": KEYBOARD_GUID, "buttonIndex": event.keysym}
     
@@ -320,19 +322,25 @@ def GetKeybindValue(name):
         return False
     
     if keybind["deviceGUID"] == KEYBOARD_GUID:
-        return True if keyboard.is_pressed(keybind["buttonIndex"]) else False
+        try:
+            return True if keyboard.is_pressed(keybind["buttonIndex"]) else False
+        except:
+            return False
     
     if keybind["buttonIndex"] == -1 and keybind["axisIndex"] == -1:
         return False
     
     pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-    for joystick in joysticks:
-        if joystick.get_guid() == keybind["deviceGUID"]:
-            if keybind["buttonIndex"] != -1:
-                return True if joystick.get_button(keybind["buttonIndex"]) == 1 else False
-            elif keybind["axisIndex"] != -1:
-                return joystick.get_axis(keybind["axisIndex"])
+    try:
+        for joystick in joysticks:
+            if joystick.get_guid() == keybind["deviceGUID"]:
+                if keybind["buttonIndex"] != -1:
+                    return True if joystick.get_button(keybind["buttonIndex"]) == 1 else False
+                elif keybind["axisIndex"] != -1:
+                    return joystick.get_axis(keybind["axisIndex"])
+    except:
+        return False
     
     return False
 
