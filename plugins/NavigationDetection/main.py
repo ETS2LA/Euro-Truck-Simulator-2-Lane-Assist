@@ -403,7 +403,7 @@ def LoadSettingsV3():
     global lanechanging_final_offset
 
     setupmode = False
-    last_window_size = 0
+    last_window_size = (0, 0, round(pyautogui.size()[0]/2), round(pyautogui.size()[1]/2))
     last_mouse_position = 0
     v3setupzoom = 0
     zoomoffsetx = 0
