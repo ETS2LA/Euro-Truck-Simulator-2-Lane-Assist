@@ -1,3 +1,4 @@
 1.9.10 - Up to 10ms performance upgrade due to switching to bettercam.
 1.9.11 - Automatically switch DXCam to BetterCam.
 1.9.12 - Plugin installer will no longer crash the app.
+1.8.13 - Fixed the bug that the NavigationDetection is not show the detected traffic lights.
