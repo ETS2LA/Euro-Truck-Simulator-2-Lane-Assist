@@ -1077,8 +1077,9 @@ def plugin(data):
                 try:
                     trafficlight = data["TrafficLightDetection"]["simple"]
                 except:
-                    trafficlightdetectionisenabled = False
-                    trafficlight = "Off"
+                    if "TrafficLightDetection" not in settings.GetSettings("Plugins", "Enabled"):
+                        trafficlightdetectionisenabled = False
+                        trafficlight = "Off"
             else:
                 trafficlight = "Off"
 
@@ -1902,8 +1903,9 @@ def plugin(data):
                 try:
                     trafficlight = data["TrafficLightDetection"]["simple"]
                 except:
-                    trafficlightdetection_is_enabled = False
-                    trafficlight = "Off"
+                    if "TrafficLightDetection" not in settings.GetSettings("Plugins", "Enabled"):
+                        trafficlightdetection_is_enabled = False
+                        trafficlight = "Off"
             else:
                 trafficlight = "Off"
 
