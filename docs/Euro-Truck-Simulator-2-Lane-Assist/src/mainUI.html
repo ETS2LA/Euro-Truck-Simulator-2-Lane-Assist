@@ -443,17 +443,18 @@ def closeTabName(name:str):
 def selectedOtherTab():
     &#34;&#34;&#34;Will run when the user selects another tab. Not intended to be called directly.
     &#34;&#34;&#34;
-    currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]
-    currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
-    # Run the UI tab focus function
-    if currentUI != None:
-        try:
-            currentUI.tabFocused()
-        except:
+    try:
+        currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
+        # Run the UI tab focus function
+        if currentUI != None:
+            try:
+                currentUI.tabFocused()
+            except:
+                resizeWindow(width, height)
+        else:
             resizeWindow(width, height)
-    else:
-        resizeWindow(width, height)
-    
+    except:
+        pass
 
 def switchSelectedPlugin(pluginName:str):
     &#34;&#34;&#34;Will open a new tab with the given plugin name.
@@ -467,28 +468,31 @@ def switchSelectedPlugin(pluginName:str):
     global ui
     global root
 
+            
     # Check if the plugin is already loaded
     notebookNames = []
     for tab in pluginNotebook.tabs():
         notebookNames.append(pluginNotebook.tab(tab, &#34;text&#34;))
     
-    if pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;).replace(&#34;src.&#34;, &#34;&#34;) in notebookNames:
-        pluginNotebook.select(notebookNames.index(pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;).replace(&#34;src.&#34;, &#34;&#34;)))
-        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
-        return
-    
+    if &#34;main&#34; in pluginName or &#34;src&#34; in pluginName:
+        if pluginName.split(&#34;.&#34;)[1] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(&#34;.&#34;)[1]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+    else:
+        if pluginName.split(&#34;.&#34;)[1] + &#34;.&#34; + pluginName.split(&#34;.&#34;)[2] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(&#34;.&#34;)[1] + &#34;.&#34; + pluginName.split(&#34;.&#34;)[2]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+       
     plugin = __import__(pluginName, fromlist=[&#34;UI&#34;, &#34;PluginInfo&#34;])
-    
-    if plugin.PluginInfo.disablePlugins == True and settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) != []:
+
+    if plugin.PluginInfo.disablePlugins == True and (settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) != []):
         if messagebox.askokcancel(&#34;Plugins&#34;, Translate(&#34;The panel has asked to disable all plugins. Do you want to continue?&#34;)):
             settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [])
             variables.UpdatePlugins()
-            
         else: 
-            try:
-                settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, plugin.PluginInfo.name)
-            except:
-                pass
+            return
         
     if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
         if messagebox.askokcancel(&#34;Plugins&#34;, Translate(&#34;The panel has asked to disable the mainloop. Do you want to continue?&#34;)):
@@ -548,13 +552,42 @@ def drawButtons(refresh:bool=False):
         child.destroy()
     
     try:
-        helpers.MakeButton(pluginFrames[0], &#34;Panel Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 0, 0, width=20)
-        helpers.MakeButton(pluginFrames[0], &#34;Plugin Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 1, 0, width=20)
-        helpers.MakeButton(pluginFrames[0], &#34;First Time Setup&#34;, lambda: switchSelectedPlugin(&#34;plugins.FirstTimeSetup.main&#34;), 2, 0, width=20, style=&#34;Accent.TButton&#34;)
-        helpers.MakeButton(pluginFrames[0], &#34;LANGUAGE - 语言设置&#34;, lambda: switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 3, 0, width=20, style=&#34;Accent.TButton&#34;, translate=False)
-        helpers.MakeLabel(pluginFrames[0], &#34;You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)&#34;, 0, 1)
-        helpers.MakeLabel(pluginFrames[0], &#34;The top of the app has all your currently open tabs.              \nThey can be closed with the middle mouse button.&#34;, 1, 1)
+        # Make a label to offset the text and buttons to the center of the frame
+        helpers.MakeLabel(pluginFrames[0], &#34;                      &#34;, 0, 0, autoplace=True)
+        helpers.defaultAutoplaceColumn = 1
+        helpers.MakeLabel(pluginFrames[0], f&#34;You are running ETS2LA version {str(variables.VERSION)}&#34;, 0, 1, columnspan=2, font=(&#34;Roboto&#34;, 18, &#34;bold&#34;), autoplace=True)
+        # date text, month, date, time, year
+        updateTime = str(variables.LASTUPDATE).split(&#34; &#34;)
+        updateTime = updateTime[1:]
+        months = {&#34;Jan&#34;: 1, &#34;Feb&#34;: 2, &#34;Mar&#34;: 3, &#34;Apr&#34;: 4, &#34;May&#34;: 5, &#34;June&#34;: 6, &#34;July&#34;: 7, &#34;Aug&#34;: 8, &#34;Sep&#34;: 9, &#34;Oct&#34;:10, &#34;Nov&#34;: 11, &#34;Dec&#34;: 12}
+        updateTime[0] = months[updateTime[0]]
+        updateText = f&#34;{updateTime[1]}.{updateTime[0]}.{updateTime[3]} - {updateTime[2]} &#34;
+        helpers.MakeLabel(pluginFrames[0], f&#34;Released {updateText}&#34;, 0, 1, columnspan=2, pady=0, autoplace=True)
+        
+        if variables.UPDATEAVAILABLE != False:
+            helpers.MakeLabel(pluginFrames[0], &#34;An update is available!&#34;, 0, 1, columnspan=2, fg=&#34;green&#34;, autoplace=True, tooltip=f&#34;New version: {&#39;.&#39;.join(variables.UPDATEAVAILABLE)}\nRestart to update.&#34;)
+        else: 
+            helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+            
+        helpers.MakeButton(pluginFrames[0], &#34;Panel Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 0, 1, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;Plugin Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 0, 2, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;First Time Setup&#34;, lambda: switchSelectedPlugin(&#34;plugins.FirstTimeSetup.main&#34;), 0, 1, width=20, style=&#34;Accent.TButton&#34;, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;LANGUAGE - 语言设置&#34;, lambda: switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 0, 2, width=20, style=&#34;Accent.TButton&#34;, translate=False, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;Video Tutorial ↗ &#34;, lambda: helpers.OpenInBrowser(&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;), 0, 1, width=20, autoplace=True, tooltip=&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;)
+        helpers.MakeButton(pluginFrames[0], &#34;ETS2LA Wiki ↗ &#34;, lambda: helpers.OpenInBrowser(&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;), 0, 2, width=20, autoplace=True, tooltip=&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;)
+        helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], &#34;You can use F5 to refresh the UI and come back to this page.\n                    (as long as the app is disabled)&#34;, 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], &#34;The top of the app has all your currently open tabs.\n They can be closed with the middle mouse button.\n        (or right mouse button if so configured)&#34;, 0, 1, columnspan=2, autoplace=True)
+        # Make a label to show if crash reporting is enabled or disabled
+        crashReporting = settings.GetSettings(&#34;CrashReporter&#34;, &#34;AllowCrashReports&#34;)
+        if crashReporting != None:
+            if crashReporting:
+                helpers.MakeLabel(pluginFrames[0], &#34;Crash reporting is enabled.&#34;, 0, 1, columnspan=2, fg=&#34;green&#34;, autoplace=True, tooltip=&#34;You can disable it in the settings if you so desire.&#34;)
+            else:
+                helpers.MakeLabel(pluginFrames[0], &#34;Crash reporting is disabled.&#34;, 0, 1, columnspan=2, fg=&#34;red&#34;, autoplace=True, tooltip=&#34;You can enable it in the settings.&#34;)
     except:
+        import traceback
+        traceback.print_exc()
         pass
     enableButton = helpers.MakeButton(buttonFrame, &#34;Enable&#34;, lambda: (variables.ToggleEnable(), enableButton.config(text=(&#34;Disable&#34; if variables.ENABLELOOP else &#34;Enable&#34;))), 0, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;)
     helpers.MakeButton(buttonFrame, &#34;Panels&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 1, 0, width=11, padx=9)
@@ -563,7 +596,7 @@ def drawButtons(refresh:bool=False):
     helpers.MakeButton(buttonFrame, &#34;Settings&#34;, lambda: switchSelectedPlugin(&#34;plugins.Settings.main&#34;), 4, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, &#34;Controls&#34;, lambda: switchSelectedPlugin(&#34;src.controls&#34;), 5, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, &#34;Help/About&#34;, lambda: switchSelectedPlugin(&#34;plugins.About.main&#34;), 6, 0, width=11, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;, &#34;dark&#34;)).capitalize() + &#34; Mode&#34;, lambda: changeTheme(), 7, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Feedback&#34;, lambda: switchSelectedPlugin(&#34;plugins.Feedback.main&#34;), 7, 0, width=11, padx=9)
     import webbrowser
     helpers.MakeButton(buttonFrame, &#34;Discord&#34;, lambda: webbrowser.open(&#34;https://discord.gg/DpJpkNpqwD&#34;), 8, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;, translate=False)
 
@@ -776,9 +809,7 @@ def CreateRoot():
     pluginNotebook.grid_propagate(0)
 
     # Create the page for the main menu
-    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
-    pluginFrame.pack_propagate(0)
-    pluginFrame.grid_propagate(0)
+    pluginFrame = ttk.Frame(pluginNotebook)
     pluginFrames = []
     UIs = []
     pluginFrames.append(pluginFrame)
@@ -994,9 +1025,7 @@ def CreateRoot():
     pluginNotebook.grid_propagate(0)
 
     # Create the page for the main menu
-    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
-    pluginFrame.pack_propagate(0)
-    pluginFrame.grid_propagate(0)
+    pluginFrame = ttk.Frame(pluginNotebook)
     pluginFrames = []
     UIs = []
     pluginFrames.append(pluginFrame)
@@ -1269,13 +1298,42 @@ def CreateRoot():
         child.destroy()
     
     try:
-        helpers.MakeButton(pluginFrames[0], &#34;Panel Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 0, 0, width=20)
-        helpers.MakeButton(pluginFrames[0], &#34;Plugin Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 1, 0, width=20)
-        helpers.MakeButton(pluginFrames[0], &#34;First Time Setup&#34;, lambda: switchSelectedPlugin(&#34;plugins.FirstTimeSetup.main&#34;), 2, 0, width=20, style=&#34;Accent.TButton&#34;)
-        helpers.MakeButton(pluginFrames[0], &#34;LANGUAGE - 语言设置&#34;, lambda: switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 3, 0, width=20, style=&#34;Accent.TButton&#34;, translate=False)
-        helpers.MakeLabel(pluginFrames[0], &#34;You can use F5 to refresh the UI and come back to this page.\n(as long as the app is disabled)&#34;, 0, 1)
-        helpers.MakeLabel(pluginFrames[0], &#34;The top of the app has all your currently open tabs.              \nThey can be closed with the middle mouse button.&#34;, 1, 1)
+        # Make a label to offset the text and buttons to the center of the frame
+        helpers.MakeLabel(pluginFrames[0], &#34;                      &#34;, 0, 0, autoplace=True)
+        helpers.defaultAutoplaceColumn = 1
+        helpers.MakeLabel(pluginFrames[0], f&#34;You are running ETS2LA version {str(variables.VERSION)}&#34;, 0, 1, columnspan=2, font=(&#34;Roboto&#34;, 18, &#34;bold&#34;), autoplace=True)
+        # date text, month, date, time, year
+        updateTime = str(variables.LASTUPDATE).split(&#34; &#34;)
+        updateTime = updateTime[1:]
+        months = {&#34;Jan&#34;: 1, &#34;Feb&#34;: 2, &#34;Mar&#34;: 3, &#34;Apr&#34;: 4, &#34;May&#34;: 5, &#34;June&#34;: 6, &#34;July&#34;: 7, &#34;Aug&#34;: 8, &#34;Sep&#34;: 9, &#34;Oct&#34;:10, &#34;Nov&#34;: 11, &#34;Dec&#34;: 12}
+        updateTime[0] = months[updateTime[0]]
+        updateText = f&#34;{updateTime[1]}.{updateTime[0]}.{updateTime[3]} - {updateTime[2]} &#34;
+        helpers.MakeLabel(pluginFrames[0], f&#34;Released {updateText}&#34;, 0, 1, columnspan=2, pady=0, autoplace=True)
+        
+        if variables.UPDATEAVAILABLE != False:
+            helpers.MakeLabel(pluginFrames[0], &#34;An update is available!&#34;, 0, 1, columnspan=2, fg=&#34;green&#34;, autoplace=True, tooltip=f&#34;New version: {&#39;.&#39;.join(variables.UPDATEAVAILABLE)}\nRestart to update.&#34;)
+        else: 
+            helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+            
+        helpers.MakeButton(pluginFrames[0], &#34;Panel Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 0, 1, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;Plugin Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 0, 2, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;First Time Setup&#34;, lambda: switchSelectedPlugin(&#34;plugins.FirstTimeSetup.main&#34;), 0, 1, width=20, style=&#34;Accent.TButton&#34;, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;LANGUAGE - 语言设置&#34;, lambda: switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 0, 2, width=20, style=&#34;Accent.TButton&#34;, translate=False, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;Video Tutorial ↗ &#34;, lambda: helpers.OpenInBrowser(&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;), 0, 1, width=20, autoplace=True, tooltip=&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;)
+        helpers.MakeButton(pluginFrames[0], &#34;ETS2LA Wiki ↗ &#34;, lambda: helpers.OpenInBrowser(&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;), 0, 2, width=20, autoplace=True, tooltip=&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;)
+        helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], &#34;You can use F5 to refresh the UI and come back to this page.\n                    (as long as the app is disabled)&#34;, 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], &#34;The top of the app has all your currently open tabs.\n They can be closed with the middle mouse button.\n        (or right mouse button if so configured)&#34;, 0, 1, columnspan=2, autoplace=True)
+        # Make a label to show if crash reporting is enabled or disabled
+        crashReporting = settings.GetSettings(&#34;CrashReporter&#34;, &#34;AllowCrashReports&#34;)
+        if crashReporting != None:
+            if crashReporting:
+                helpers.MakeLabel(pluginFrames[0], &#34;Crash reporting is enabled.&#34;, 0, 1, columnspan=2, fg=&#34;green&#34;, autoplace=True, tooltip=&#34;You can disable it in the settings if you so desire.&#34;)
+            else:
+                helpers.MakeLabel(pluginFrames[0], &#34;Crash reporting is disabled.&#34;, 0, 1, columnspan=2, fg=&#34;red&#34;, autoplace=True, tooltip=&#34;You can enable it in the settings.&#34;)
     except:
+        import traceback
+        traceback.print_exc()
         pass
     enableButton = helpers.MakeButton(buttonFrame, &#34;Enable&#34;, lambda: (variables.ToggleEnable(), enableButton.config(text=(&#34;Disable&#34; if variables.ENABLELOOP else &#34;Enable&#34;))), 0, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;)
     helpers.MakeButton(buttonFrame, &#34;Panels&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 1, 0, width=11, padx=9)
@@ -1284,7 +1342,7 @@ def CreateRoot():
     helpers.MakeButton(buttonFrame, &#34;Settings&#34;, lambda: switchSelectedPlugin(&#34;plugins.Settings.main&#34;), 4, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, &#34;Controls&#34;, lambda: switchSelectedPlugin(&#34;src.controls&#34;), 5, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, &#34;Help/About&#34;, lambda: switchSelectedPlugin(&#34;plugins.About.main&#34;), 6, 0, width=11, padx=9)
-    themeButton = helpers.MakeButton(buttonFrame, Translate(settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;, &#34;dark&#34;)).capitalize() + &#34; Mode&#34;, lambda: changeTheme(), 7, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Feedback&#34;, lambda: switchSelectedPlugin(&#34;plugins.Feedback.main&#34;), 7, 0, width=11, padx=9)
     import webbrowser
     helpers.MakeButton(buttonFrame, &#34;Discord&#34;, lambda: webbrowser.open(&#34;https://discord.gg/DpJpkNpqwD&#34;), 8, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;, translate=False)</code></pre>
 </details>
@@ -1370,16 +1428,18 @@ newHeight (int)</p></div>
 <pre><code class="python">def selectedOtherTab():
     &#34;&#34;&#34;Will run when the user selects another tab. Not intended to be called directly.
     &#34;&#34;&#34;
-    currentFrame = pluginFrames[pluginNotebook.index(pluginNotebook.select())]
-    currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
-    # Run the UI tab focus function
-    if currentUI != None:
-        try:
-            currentUI.tabFocused()
-        except:
+    try:
+        currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
+        # Run the UI tab focus function
+        if currentUI != None:
+            try:
+                currentUI.tabFocused()
+            except:
+                resizeWindow(width, height)
+        else:
             resizeWindow(width, height)
-    else:
-        resizeWindow(width, height)</code></pre>
+    except:
+        pass</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.switchSelectedPlugin"><code class="name flex">
@@ -1408,28 +1468,31 @@ newHeight (int)</p></div>
     global ui
     global root
 
+            
     # Check if the plugin is already loaded
     notebookNames = []
     for tab in pluginNotebook.tabs():
         notebookNames.append(pluginNotebook.tab(tab, &#34;text&#34;))
     
-    if pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;).replace(&#34;src.&#34;, &#34;&#34;) in notebookNames:
-        pluginNotebook.select(notebookNames.index(pluginName.replace(&#34;plugins.&#34;, &#34;&#34;).replace(&#34;.main&#34;, &#34;&#34;).replace(&#34;src.&#34;, &#34;&#34;)))
-        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
-        return
-    
+    if &#34;main&#34; in pluginName or &#34;src&#34; in pluginName:
+        if pluginName.split(&#34;.&#34;)[1] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(&#34;.&#34;)[1]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+    else:
+        if pluginName.split(&#34;.&#34;)[1] + &#34;.&#34; + pluginName.split(&#34;.&#34;)[2] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(&#34;.&#34;)[1] + &#34;.&#34; + pluginName.split(&#34;.&#34;)[2]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+       
     plugin = __import__(pluginName, fromlist=[&#34;UI&#34;, &#34;PluginInfo&#34;])
-    
-    if plugin.PluginInfo.disablePlugins == True and settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) != []:
+
+    if plugin.PluginInfo.disablePlugins == True and (settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) != []):
         if messagebox.askokcancel(&#34;Plugins&#34;, Translate(&#34;The panel has asked to disable all plugins. Do you want to continue?&#34;)):
             settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [])
             variables.UpdatePlugins()
-            
         else: 
-            try:
-                settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, plugin.PluginInfo.name)
-            except:
-                pass
+            return
         
     if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
         if messagebox.askokcancel(&#34;Plugins&#34;, Translate(&#34;The panel has asked to disable the mainloop. Do you want to continue?&#34;)):

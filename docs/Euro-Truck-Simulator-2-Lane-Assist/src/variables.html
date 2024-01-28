@@ -351,7 +351,7 @@ color: #fff;
 Stores all global variables for the program.
 &#39;&#39;&#39;
 import os
-
+import subprocess
 
 PATH = os.path.dirname(__file__).replace(&#34;src&#34;, &#34;&#34;)
 &#34;&#34;&#34;The current absolute path to the root of the program.&#34;&#34;&#34;
@@ -372,6 +372,21 @@ APPENDDATANEXTFRAME = None
 Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI).&#34;&#34;&#34;
 RELOADPLUGINS = False
 &#34;&#34;&#34;Will fully reload the plugin code for all plugins. This is useful for debugging and development.&#34;&#34;&#34;
+USERNAME = os.getlogin()
+&#34;&#34;&#34;The username of the current windows user.&#34;&#34;&#34;
+ETS2DOCUMENTSPATH = &#34;C:/Users/&#34; + USERNAME + &#34;/Documents/Euro Truck Simulator 2/&#34;
+&#34;&#34;&#34;Path to the ETS2 documents folder. Contains stuff like the mod folder and log files.&#34;&#34;&#34;
+OS = os.name
+&#34;&#34;&#34;The current operating system.&#34;&#34;&#34;
+LASTUPDATE = None
+&#34;&#34;&#34;The date of the last update to the local git repo.&#34;&#34;&#34;
+try:
+    LASTUPDATE = subprocess.check_output(&#34;git log -1 --date=local --format=%cd&#34;, shell=True).decode(&#34;utf-8&#34;).replace(&#34;\n&#34;, &#34;&#34;)
+except:
+    LASTUPDATE = &#34;Unknown&#34;
+    
+UPDATEAVAILABLE = False
+&#34;&#34;&#34;Will be set to the updated version by the mainloop if an update is available and it&#39;s ignored.&#34;&#34;&#34;
 
 def ToggleEnable():
     &#34;&#34;&#34;Will toggle the mainloop.
@@ -412,6 +427,18 @@ Should be used sparingly, since it only supports one piece of data at a time (fo
 <dd>
 <div class="desc"><p>Whether or not the mainloop is enabled.</p></div>
 </dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ETS2DOCUMENTSPATH"><code class="name">var <span class="ident">ETS2DOCUMENTSPATH</span></code></dt>
+<dd>
+<div class="desc"><p>Path to the ETS2 documents folder. Contains stuff like the mod folder and log files.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.LASTUPDATE"><code class="name">var <span class="ident">LASTUPDATE</span></code></dt>
+<dd>
+<div class="desc"><p>The date of the last update to the local git repo.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.OS"><code class="name">var <span class="ident">OS</span></code></dt>
+<dd>
+<div class="desc"><p>The current operating system.</p></div>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH"><code class="name">var <span class="ident">PATH</span></code></dt>
 <dd>
 <div class="desc"><p>The current absolute path to the root of the program.</p></div>
@@ -424,9 +451,17 @@ Should be used sparingly, since it only supports one piece of data at a time (fo
 <dd>
 <div class="desc"><p>Will fully reload the plugin code for all plugins. This is useful for debugging and development.</p></div>
 </dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEAVAILABLE"><code class="name">var <span class="ident">UPDATEAVAILABLE</span></code></dt>
+<dd>
+<div class="desc"><p>Will be set to the updated version by the mainloop if an update is available and it's ignored.</p></div>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS"><code class="name">var <span class="ident">UPDATEPLUGINS</span></code></dt>
 <dd>
 <div class="desc"><p>Whether to update the list of plugins at the start of the next frame.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.USERNAME"><code class="name">var <span class="ident">USERNAME</span></code></dt>
+<dd>
+<div class="desc"><p>The username of the current windows user.</p></div>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION"><code class="name">var <span class="ident">VERSION</span></code></dt>
 <dd>
@@ -505,10 +540,15 @@ Should be used sparingly, since it only supports one piece of data at a time (fo
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG">CHANGELOG</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CONSOLENAME" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.CONSOLENAME">CONSOLENAME</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP">ENABLELOOP</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ETS2DOCUMENTSPATH" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ETS2DOCUMENTSPATH">ETS2DOCUMENTSPATH</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.LASTUPDATE" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.LASTUPDATE">LASTUPDATE</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.OS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.OS">OS</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH">PATH</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD">RELOAD</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOADPLUGINS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOADPLUGINS">RELOADPLUGINS</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEAVAILABLE" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEAVAILABLE">UPDATEAVAILABLE</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS">UPDATEPLUGINS</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.USERNAME" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.USERNAME">USERNAME</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION">VERSION</a></code></li>
 </ul>
 </li>

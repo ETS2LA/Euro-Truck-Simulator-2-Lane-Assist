@@ -357,6 +357,7 @@ If you need to make a panel that is only updated when it&#39;s open then check t
 
 from plugins.plugin import PluginInformation
 from src.logger import print
+from src.mainUI import switchSelectedPlugin, resizeWindow
 
 PluginInfo = PluginInformation(
     name=&#34;ShowImage&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
@@ -366,7 +367,6 @@ PluginInfo = PluginInformation(
     url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
     type=&#34;dynamic&#34;, # = Panel
     dynamicOrder=&#34;before UI&#34;, # Will run the plugin before anything else in the mainloop (data will be empty)
-    noUI=True, # Will not show the UI button
     image=&#34;opencv.png&#34;
 )
 
@@ -376,6 +376,7 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+from src.translator import Translate
 import os
 import cv2
 
@@ -400,7 +401,82 @@ def plugin(data):
     except Exception as ex:
         if &#34;-215&#34; not in ex.args[0] and &#34;frame&#34; not in ex.args[0]:
             print(ex.args)
-        return data</code></pre>
+        return data
+    
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+            resizeWindow(900,600)
+        
+        def tabFocused(self):
+            resizeWindow(900,600)
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def UpdateScaleValueFromSlider(self):
+            self.windowscale.set(self.windowscaleSlider.get())
+            settings.CreateSettings(&#34;ShowImage&#34;, &#34;windowscale&#34;, self.windowscaleSlider.get())
+        
+        def exampleFunction(self):
+            try:
+                self.root.destroy() 
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=800, height=580, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) 
+            self.root.pack_propagate(0)
+            
+            notebook = ttk.Notebook(self.root)
+            notebook.pack(anchor=&#34;center&#34;, fill=&#34;both&#34;, expand=True)
+            
+            generalFrame = ttk.Frame(notebook)
+            generalFrame.pack()
+            
+            generalFrame.columnconfigure(0, weight=1)
+            generalFrame.columnconfigure(1, weight=1)
+            generalFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(generalFrame, &#34;General&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+            notebook.add(generalFrame, text=Translate(&#34;General&#34;))
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+            
+            helpers.MakeButton(generalFrame, &#34;Save window location&#34;, self.save_position, 2, 0, width=90)
+            helpers.MakeButton(generalFrame, &#34;Set to normal aspect ratio, apply scale and save window location&#34;, self.set_aspect_ratio, 3, 0, width=90)
+            self.windowscaleSlider = tk.Scale(generalFrame, from_=0.1, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.windowscaleSlider.set(settings.GetSettings(&#34;ShowImage&#34;, &#34;windowscale&#34;, 1))
+            self.windowscaleSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
+            self.windowscale = helpers.MakeComboEntry(generalFrame, &#34;Window Scale&#34;, &#34;ShowImage&#34;, &#34;windowscale&#34;, 4, 0)
+            helpers.MakeEmptyLine(generalFrame, 5, 0)
+            helpers.MakeLabel(generalFrame, &#34;Note:\nMake sure that the app and this plugin are enabled and the window is visible\nfor the buttons and the slider to take action!&#34;, 6, 0, sticky=&#34;nw&#34;)
+
+        def set_aspect_ratio(self):
+            try:
+                windowwidth = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
+                windowheight = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+                cv2.resizeWindow(&#39;Lane Assist&#39;, round(windowwidth*self.windowscaleSlider.get()), round(windowheight*self.windowscaleSlider.get()))
+                cv2.destroyWindow(&#39;Lane Assist&#39;)
+            except:
+                pass
+
+        def save_position(self):
+            try:
+                cv2.destroyWindow(&#39;Lane Assist&#39;)
+            except:
+                pass
+
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
 </details>
 </section>
 <section>
@@ -463,6 +539,232 @@ def plugin(data):
 </dl>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+            resizeWindow(900,600)
+        
+        def tabFocused(self):
+            resizeWindow(900,600)
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def UpdateScaleValueFromSlider(self):
+            self.windowscale.set(self.windowscaleSlider.get())
+            settings.CreateSettings(&#34;ShowImage&#34;, &#34;windowscale&#34;, self.windowscaleSlider.get())
+        
+        def exampleFunction(self):
+            try:
+                self.root.destroy() 
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=800, height=580, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) 
+            self.root.pack_propagate(0)
+            
+            notebook = ttk.Notebook(self.root)
+            notebook.pack(anchor=&#34;center&#34;, fill=&#34;both&#34;, expand=True)
+            
+            generalFrame = ttk.Frame(notebook)
+            generalFrame.pack()
+            
+            generalFrame.columnconfigure(0, weight=1)
+            generalFrame.columnconfigure(1, weight=1)
+            generalFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(generalFrame, &#34;General&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+            notebook.add(generalFrame, text=Translate(&#34;General&#34;))
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+            
+            helpers.MakeButton(generalFrame, &#34;Save window location&#34;, self.save_position, 2, 0, width=90)
+            helpers.MakeButton(generalFrame, &#34;Set to normal aspect ratio, apply scale and save window location&#34;, self.set_aspect_ratio, 3, 0, width=90)
+            self.windowscaleSlider = tk.Scale(generalFrame, from_=0.1, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+            self.windowscaleSlider.set(settings.GetSettings(&#34;ShowImage&#34;, &#34;windowscale&#34;, 1))
+            self.windowscaleSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
+            self.windowscale = helpers.MakeComboEntry(generalFrame, &#34;Window Scale&#34;, &#34;ShowImage&#34;, &#34;windowscale&#34;, 4, 0)
+            helpers.MakeEmptyLine(generalFrame, 5, 0)
+            helpers.MakeLabel(generalFrame, &#34;Note:\nMake sure that the app and this plugin are enabled and the window is visible\nfor the buttons and the slider to take action!&#34;, 6, 0, sticky=&#34;nw&#34;)
+
+        def set_aspect_ratio(self):
+            try:
+                windowwidth = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
+                windowheight = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+                cv2.resizeWindow(&#39;Lane Assist&#39;, round(windowwidth*self.windowscaleSlider.get()), round(windowheight*self.windowscaleSlider.get()))
+                cv2.destroyWindow(&#39;Lane Assist&#39;)
+            except:
+                pass
+
+        def save_position(self):
+            try:
+                cv2.destroyWindow(&#39;Lane Assist&#39;)
+            except:
+                pass
+
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.UpdateScaleValueFromSlider"><code class="name flex">
+<span>def <span class="ident">UpdateScaleValueFromSlider</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateScaleValueFromSlider(self):
+    self.windowscale.set(self.windowscaleSlider.get())
+    settings.CreateSettings(&#34;ShowImage&#34;, &#34;windowscale&#34;, self.windowscaleSlider.get())</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.exampleFunction"><code class="name flex">
+<span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exampleFunction(self):
+    try:
+        self.root.destroy() 
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=800, height=580, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) 
+    self.root.pack_propagate(0)
+    
+    notebook = ttk.Notebook(self.root)
+    notebook.pack(anchor=&#34;center&#34;, fill=&#34;both&#34;, expand=True)
+    
+    generalFrame = ttk.Frame(notebook)
+    generalFrame.pack()
+    
+    generalFrame.columnconfigure(0, weight=1)
+    generalFrame.columnconfigure(1, weight=1)
+    generalFrame.columnconfigure(2, weight=1)
+    helpers.MakeLabel(generalFrame, &#34;General&#34;, 0, 0, font=(&#34;Robot&#34;, 12, &#34;bold&#34;), columnspan=3)
+
+    notebook.add(generalFrame, text=Translate(&#34;General&#34;))
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()
+    
+    helpers.MakeButton(generalFrame, &#34;Save window location&#34;, self.save_position, 2, 0, width=90)
+    helpers.MakeButton(generalFrame, &#34;Set to normal aspect ratio, apply scale and save window location&#34;, self.set_aspect_ratio, 3, 0, width=90)
+    self.windowscaleSlider = tk.Scale(generalFrame, from_=0.1, to=3, resolution=0.01, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
+    self.windowscaleSlider.set(settings.GetSettings(&#34;ShowImage&#34;, &#34;windowscale&#34;, 1))
+    self.windowscaleSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
+    self.windowscale = helpers.MakeComboEntry(generalFrame, &#34;Window Scale&#34;, &#34;ShowImage&#34;, &#34;windowscale&#34;, 4, 0)
+    helpers.MakeEmptyLine(generalFrame, 5, 0)
+    helpers.MakeLabel(generalFrame, &#34;Note:\nMake sure that the app and this plugin are enabled and the window is visible\nfor the buttons and the slider to take action!&#34;, 6, 0, sticky=&#34;nw&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.save_position"><code class="name flex">
+<span>def <span class="ident">save_position</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_position(self):
+    try:
+        cv2.destroyWindow(&#39;Lane Assist&#39;)
+    except:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.set_aspect_ratio"><code class="name flex">
+<span>def <span class="ident">set_aspect_ratio</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_aspect_ratio(self):
+    try:
+        windowwidth = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
+        windowheight = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+        cv2.resizeWindow(&#39;Lane Assist&#39;, round(windowwidth*self.windowscaleSlider.get()), round(windowheight*self.windowscaleSlider.get()))
+        cv2.destroyWindow(&#39;Lane Assist&#39;)
+    except:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.tabFocused"><code class="name flex">
+<span>def <span class="ident">tabFocused</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tabFocused(self):
+    resizeWindow(900,600)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -481,6 +783,22 @@ def plugin(data):
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.onDisable">onDisable</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.onEnable">onEnable</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.plugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.plugin">plugin</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.UpdateScaleValueFromSlider" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.UpdateScaleValueFromSlider">UpdateScaleValueFromSlider</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.save_position" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.save_position">save_position</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.set_aspect_ratio" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.set_aspect_ratio">set_aspect_ratio</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.tabFocused" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.tabFocused">tabFocused</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ShowImage.main.UI.update">update</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

@@ -439,29 +439,45 @@ else:
 
 import requests
 def UpdateChecker():
+    print(&#34;Checking for updates...&#34;)
     currentVer = variables.VERSION.split(&#34;.&#34;)
-    url = &#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt&#34;
+    githubUrl = &#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/&#34;
+    sourceForgeUrl = &#34;https://sourceforge.net/p/eurotrucksimulator2-laneassist/code/ci/main/tree/&#34;
     try:
-        remoteVer = requests.get(url).text.strip().split(&#34;.&#34;)
+        remoteVer = requests.get(githubUrl + &#34;version.txt&#34;).text.strip().split(&#34;.&#34;)
+        remote = &#34;github&#34;
     except:
-        print(&#34;Failed to check for updates&#34;)
-        print(&#34;Please check your internet connection and try again later&#34;)
-        return
-    if currentVer[0] &lt; remoteVer[0]:
+        try:
+            remoteVer = requests.get(sourceForgeUrl + &#34;version.txt?format=raw&#34;).text.strip().split(&#34;.&#34;)
+            remote = &#34;sourceforge&#34;
+        except:
+            print(&#34;Failed to check for updates&#34;)
+            print(&#34;Please check your internet connection and try again later&#34;)
+            return
+    if int(currentVer[0]) &lt; int(remoteVer[0]):
         update = True
-    elif currentVer[1] &lt; remoteVer[1]:
+    elif int(currentVer[1]) &lt; int(remoteVer[1]):
         update = True
-    elif currentVer[2] &lt; remoteVer[2]:
+    elif int(currentVer[2]) &lt; int(remoteVer[2]):
         update = True
     else:
         update = False
+    
+    if remote == &#34;github&#34;:
+        url = githubUrl
+    else:
+        url = sourceForgeUrl
     
     print(f&#34;Current version: {&#39;.&#39;.join(currentVer)}&#34;)
     print(f&#34;Remote version: {&#39;.&#39;.join(remoteVer)}&#34;)
     print(f&#34;Update available: {update}&#34;)
     if update:
-        print(f&#34;Changelog:\n{requests.get(&#39;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#39;).text}&#34;)
-        changelog = requests.get(&#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#34;).text
+        if remote == &#34;github&#34;:
+            changelog = requests.get(url + &#34;changelog.txt&#34;).text
+        elif remote == &#34;sourceforge&#34;:
+            changelog = requests.get(url + &#34;changelog.txt?format=raw&#34;).text
+            
+        print(f&#34;Changelog:\n{changelog}&#34;)
         from tkinter import messagebox
         if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
             os.system(&#34;git stash&#34;)
@@ -469,14 +485,17 @@ def UpdateChecker():
             if messagebox.askyesno(&#34;Updater&#34;, (&#34;The update has been installed and the application needs to be restarted. Do you want to quit the app?&#34;)):
                 quit()
         else:
+            variables.UPDATEAVAILABLE = remoteVer
             pass
 
 try:
     devmode = settings.GetSettings(&#34;Dev&#34;, &#34;disable_update_checker&#34;, False)
     if devmode == False:
         UpdateChecker()
-except:
-    pass
+except Exception as ex:
+    # If the exception is for the quit command, then do that
+    if ex.args == (&#34;quit&#34;,):
+        quit()
 
 # Check tkinter tcl version
 import tkinter as tk
@@ -505,26 +524,34 @@ import src.translator as translator
 import src.controls as controls
 import psutil
 import cv2
+import src.scsLogReader as LogReader
+from src.server import SendCrashReport
 
 logger.printDebug = settings.GetSettings(&#34;logger&#34;, &#34;debug&#34;)
 if logger.printDebug == None:
     logger.printDebug = False
     settings.CreateSettings(&#34;logger&#34;, &#34;debug&#34;, False)
     
-
 def GetEnabledPlugins():
     global enabledPlugins
     enabledPlugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
     if enabledPlugins == None:
         enabledPlugins = [&#34;&#34;]
 
+panels = []
 def FindPlugins(reloadFully=False):
     global plugins
+    global panels
     global pluginObjects
+    global pluginNames
+    
+    # Update the list of plugins and panels for the hash check
+    pluginNames = GetListOfAllPluginAndPanelNames()
     
     # Find plugins
     path = os.path.join(variables.PATH, &#34;plugins&#34;)
     plugins = []
+    panels = []
     for file in os.listdir(path):
         if os.path.isdir(os.path.join(path, file)):
             # Check for main.py
@@ -536,6 +563,8 @@ def FindPlugins(reloadFully=False):
                     if plugin.PluginInfo.type == &#34;dynamic&#34;:
                         if plugin.PluginInfo.name in enabledPlugins:
                             plugins.append(plugin.PluginInfo)
+                    else:
+                        panels.append(__import__(&#34;plugins.&#34; + plugin.PluginInfo.name + &#34;.main&#34;, fromlist=[&#34;UI&#34;, &#34;PluginInfo&#34;]))
                 except Exception as ex:
                     print(str(ex.args) + f&#34; [{file}]&#34;)
                     pass
@@ -546,15 +575,28 @@ def FindPlugins(reloadFully=False):
         pluginObjects[-1].onEnable()
         
 def ReloadPluginCode():
+    FindPlugins()
     # Use the inbuilt python modules to reload the code of the plugins
     import importlib
-    for plugin in pluginObjects:
-        try:
-            importlib.reload(plugin)
-        except Exception as ex:
-            print(ex.args)
-            pass
-    print(&#34;Reloaded plugin code.&#34;)
+    import progress.bar as Bar
+    with Bar.PixelBar(&#34;Reloading plugins...&#34;, max=len(pluginObjects)) as progressBar:
+        for plugin in pluginObjects:
+            try:
+                importlib.reload(plugin)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
+    with Bar.PixelBar(&#34;Reloading panels...&#34;, max=len(panels)) as progressBar:
+        for panel in panels:
+            try:
+                importlib.reload(panel)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
     print(&#34;Reloading UI root code...&#34;)
     try:
         mainUI.DeleteRoot()
@@ -574,24 +616,48 @@ def RunOnEnable():
             print(ex.args)
             pass
         
-
+import concurrent.futures
+import threading
 def UpdatePlugins(dynamicOrder, data):
     for plugin in pluginObjects:
         try:
             if plugin.PluginInfo.dynamicOrder == dynamicOrder:
                 startTime = time.time()
-                data = plugin.plugin(data)
-                endTime = time.time()
-                if data == None:
-                    print(f&#34;Plugin &#39;{plugin.PluginInfo.name}&#39; returned NoneType instead of a the data variable. Please make sure that you return the data variable.&#34;)
+
+                pluginData = plugin.plugin(data)
+                
+                if pluginData != None:
+                    data = pluginData
                 else:
-                    data[&#34;executionTimes&#34;][plugin.PluginInfo.name] = endTime - startTime
+                    print(f&#34;Plugin &#39;{plugin.PluginInfo.name}&#39; returned NoneType instead of a the data variable. Please make sure that you return the data variable.&#34;)
+                
+                endTime = time.time()    
+                data[&#34;executionTimes&#34;][plugin.PluginInfo.name] = endTime - startTime
                         
         except Exception as ex:
             print(ex.args + f&#34;[{plugin.PluginInfo.name}]&#34;)
             pass
     return data
 
+def GetListOfAllPluginAndPanelNames():
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    plugins = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginName = file
+                    plugins.append(pluginName)
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    return plugins
+
+pluginNames = GetListOfAllPluginAndPanelNames()
 
 def InstallPlugins():
     global startInstall
@@ -813,8 +879,39 @@ def LoadApplication():
 
 LoadApplication()
 
+import hashlib
+lastChecksums = {}
+def CheckForFileChanges():
+    &#34;&#34;&#34;Will check the plugin main files for changes and reload them if they&#39;ve changed.&#34;&#34;&#34;
+    global lastChecksums
+    # Check if it&#39;s the first time running this function
+    if lastChecksums == {}:
+        for plugin in pluginNames:
+            try:
+                checksum = hashlib.md5(open(os.path.join(variables.PATH, &#34;plugins&#34;, plugin, &#34;main.py&#34;), &#34;rb&#34;).read()).hexdigest()
+                lastChecksums[plugin] = checksum
+            except:
+                pass
+        return
+    
+    # Check for changes in the plugins
+    for plugin in pluginNames:
+        try:
+            checksum = hashlib.md5(open(os.path.join(variables.PATH, &#34;plugins&#34;, plugin, &#34;main.py&#34;), &#34;rb&#34;).read()).hexdigest()
+            if checksum != lastChecksums[plugin]:
+                print(f&#34;Detected changes in {plugin}...&#34;)
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+                lastChecksums[plugin] = checksum
+                break
+        except:
+            pass
+
 data = {}
 uiFrameTimer = 0
+pluginChangeTimer = time.time()
 if __name__ == &#34;__main__&#34;:
     while True:
         # Main Application Loop
@@ -855,6 +952,21 @@ if __name__ == &#34;__main__&#34;:
             controlsEndTime = time.time()
             data[&#34;executionTimes&#34;][&#34;Control callbacks&#34;] = controlsEndTime - controlsStartTime
             
+            # Check for plugin changes (every second)
+            pluginChangeTime = time.time()
+            if time.time() - pluginChangeTimer &gt; 1:
+                pluginChangeTimer = time.time()
+                CheckForFileChanges()
+            pluginChangeEndTime = time.time()
+            data[&#34;executionTimes&#34;][&#34;Filesystem Check&#34;] = pluginChangeEndTime - pluginChangeTime
+            
+            # Check for log file changes
+            logCheckTime = time.time()
+            data = LogReader.plugin(data)
+            logCheckEndTime = time.time()
+            data[&#34;executionTimes&#34;][&#34;Log Check&#34;] = logCheckEndTime - logCheckTime
+            
+            
             try:
                 if variables.APPENDDATANEXTFRAME != None or variables.APPENDDATANEXTFRAME != [] or variables.APPENDDATANEXTFRAME != {} or variables.APPENDDATANEXTFRAME != &#34;&#34;:
                     # Merge the two dictionaries
@@ -879,7 +991,7 @@ if __name__ == &#34;__main__&#34;:
                 except:
                     pass
                 try:
-                    cv2.destroyWindow(&#39;Traffic Light Detection - Red/Green&#39;)
+                    cv2.destroyWindow(&#39;Traffic Light Detection - Red/Yellow/Green&#39;)
                 except:
                     pass
                 try:
@@ -911,6 +1023,7 @@ if __name__ == &#34;__main__&#34;:
             
             data = UpdatePlugins(&#34;before UI&#34;, data)
             
+            
             # Calculate the execution time of the UI
             start = time.time()
             uiFrameTimer += 1
@@ -926,6 +1039,20 @@ if __name__ == &#34;__main__&#34;:
             allEnd = time.time()
             data[&#34;executionTimes&#34;][&#34;all&#34;] = allEnd - allStart
 
+            # Check if the frame took more than 200ms (5fps)
+            if (allEnd - allStart) - data[&#34;executionTimes&#34;][&#34;UI&#34;] &gt; 0.2:
+                print(f&#34;Frame took {round((allEnd - allStart) * 1000)}ms to execute!&#34;)
+                # Check if the anomalousFrames folder exists
+                if not os.path.exists(os.path.join(variables.PATH, &#34;anomalousFrames&#34;)):
+                    os.mkdir(os.path.join(variables.PATH, &#34;anomalousFrames&#34;))
+                # Save a new text file with the data
+                with open(os.path.join(variables.PATH, &#34;anomalousFrames&#34;, f&#34;{time.time()}.txt&#34;), &#34;w&#34;) as f:
+                    # Go throught each key and try and write it
+                    for key in data:
+                        try:
+                            f.write(f&#34;{key}: {data[key]}\n&#34;)
+                        except:
+                            pass
         
         except Exception as ex:
             try:
@@ -941,7 +1068,10 @@ if __name__ == &#34;__main__&#34;:
                 import traceback
                 exc = traceback.format_exc()
                 traceback.print_exc()
-                # Pack everything in ex.args into one string
+                # Get the user name
+                username = os.getlogin()
+                # Send a crash report
+                SendCrashReport(&#34;Main loop crash.&#34;, exc.replace(username, &#34;censored&#34;))
                 if not messagebox.askretrycancel(&#34;Error&#34;, translator.Translate(&#34;The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n&#34;) + exc):
                     break
                 else:
@@ -964,6 +1094,44 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.CheckForFileChanges"><code class="name flex">
+<span>def <span class="ident">CheckForFileChanges</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will check the plugin main files for changes and reload them if they've changed.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CheckForFileChanges():
+    &#34;&#34;&#34;Will check the plugin main files for changes and reload them if they&#39;ve changed.&#34;&#34;&#34;
+    global lastChecksums
+    # Check if it&#39;s the first time running this function
+    if lastChecksums == {}:
+        for plugin in pluginNames:
+            try:
+                checksum = hashlib.md5(open(os.path.join(variables.PATH, &#34;plugins&#34;, plugin, &#34;main.py&#34;), &#34;rb&#34;).read()).hexdigest()
+                lastChecksums[plugin] = checksum
+            except:
+                pass
+        return
+    
+    # Check for changes in the plugins
+    for plugin in pluginNames:
+        try:
+            checksum = hashlib.md5(open(os.path.join(variables.PATH, &#34;plugins&#34;, plugin, &#34;main.py&#34;), &#34;rb&#34;).read()).hexdigest()
+            if checksum != lastChecksums[plugin]:
+                print(f&#34;Detected changes in {plugin}...&#34;)
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+                lastChecksums[plugin] = checksum
+                break
+        except:
+            pass</code></pre>
+</details>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.main.CheckForONNXRuntimeChange"><code class="name flex">
 <span>def <span class="ident">CheckForONNXRuntimeChange</span></span>(<span>)</span>
 </code></dt>
@@ -1038,11 +1206,17 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">def FindPlugins(reloadFully=False):
     global plugins
+    global panels
     global pluginObjects
+    global pluginNames
+    
+    # Update the list of plugins and panels for the hash check
+    pluginNames = GetListOfAllPluginAndPanelNames()
     
     # Find plugins
     path = os.path.join(variables.PATH, &#34;plugins&#34;)
     plugins = []
+    panels = []
     for file in os.listdir(path):
         if os.path.isdir(os.path.join(path, file)):
             # Check for main.py
@@ -1054,6 +1228,8 @@ if __name__ == &#34;__main__&#34;:
                     if plugin.PluginInfo.type == &#34;dynamic&#34;:
                         if plugin.PluginInfo.name in enabledPlugins:
                             plugins.append(plugin.PluginInfo)
+                    else:
+                        panels.append(__import__(&#34;plugins.&#34; + plugin.PluginInfo.name + &#34;.main&#34;, fromlist=[&#34;UI&#34;, &#34;PluginInfo&#34;]))
                 except Exception as ex:
                     print(str(ex.args) + f&#34; [{file}]&#34;)
                     pass
@@ -1078,6 +1254,34 @@ if __name__ == &#34;__main__&#34;:
     enabledPlugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
     if enabledPlugins == None:
         enabledPlugins = [&#34;&#34;]</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.GetListOfAllPluginAndPanelNames"><code class="name flex">
+<span>def <span class="ident">GetListOfAllPluginAndPanelNames</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetListOfAllPluginAndPanelNames():
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    plugins = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginName = file
+                    plugins.append(pluginName)
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    return plugins</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.main.InstallPlugins"><code class="name flex">
@@ -1292,15 +1496,28 @@ if __name__ == &#34;__main__&#34;:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ReloadPluginCode():
+    FindPlugins()
     # Use the inbuilt python modules to reload the code of the plugins
     import importlib
-    for plugin in pluginObjects:
-        try:
-            importlib.reload(plugin)
-        except Exception as ex:
-            print(ex.args)
-            pass
-    print(&#34;Reloaded plugin code.&#34;)
+    import progress.bar as Bar
+    with Bar.PixelBar(&#34;Reloading plugins...&#34;, max=len(pluginObjects)) as progressBar:
+        for plugin in pluginObjects:
+            try:
+                importlib.reload(plugin)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
+    with Bar.PixelBar(&#34;Reloading panels...&#34;, max=len(panels)) as progressBar:
+        for panel in panels:
+            try:
+                importlib.reload(panel)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
     print(&#34;Reloading UI root code...&#34;)
     try:
         mainUI.DeleteRoot()
@@ -1341,29 +1558,45 @@ if __name__ == &#34;__main__&#34;:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def UpdateChecker():
+    print(&#34;Checking for updates...&#34;)
     currentVer = variables.VERSION.split(&#34;.&#34;)
-    url = &#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt&#34;
+    githubUrl = &#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/&#34;
+    sourceForgeUrl = &#34;https://sourceforge.net/p/eurotrucksimulator2-laneassist/code/ci/main/tree/&#34;
     try:
-        remoteVer = requests.get(url).text.strip().split(&#34;.&#34;)
+        remoteVer = requests.get(githubUrl + &#34;version.txt&#34;).text.strip().split(&#34;.&#34;)
+        remote = &#34;github&#34;
     except:
-        print(&#34;Failed to check for updates&#34;)
-        print(&#34;Please check your internet connection and try again later&#34;)
-        return
-    if currentVer[0] &lt; remoteVer[0]:
+        try:
+            remoteVer = requests.get(sourceForgeUrl + &#34;version.txt?format=raw&#34;).text.strip().split(&#34;.&#34;)
+            remote = &#34;sourceforge&#34;
+        except:
+            print(&#34;Failed to check for updates&#34;)
+            print(&#34;Please check your internet connection and try again later&#34;)
+            return
+    if int(currentVer[0]) &lt; int(remoteVer[0]):
         update = True
-    elif currentVer[1] &lt; remoteVer[1]:
+    elif int(currentVer[1]) &lt; int(remoteVer[1]):
         update = True
-    elif currentVer[2] &lt; remoteVer[2]:
+    elif int(currentVer[2]) &lt; int(remoteVer[2]):
         update = True
     else:
         update = False
+    
+    if remote == &#34;github&#34;:
+        url = githubUrl
+    else:
+        url = sourceForgeUrl
     
     print(f&#34;Current version: {&#39;.&#39;.join(currentVer)}&#34;)
     print(f&#34;Remote version: {&#39;.&#39;.join(remoteVer)}&#34;)
     print(f&#34;Update available: {update}&#34;)
     if update:
-        print(f&#34;Changelog:\n{requests.get(&#39;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#39;).text}&#34;)
-        changelog = requests.get(&#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/changelog.txt&#34;).text
+        if remote == &#34;github&#34;:
+            changelog = requests.get(url + &#34;changelog.txt&#34;).text
+        elif remote == &#34;sourceforge&#34;:
+            changelog = requests.get(url + &#34;changelog.txt?format=raw&#34;).text
+            
+        print(f&#34;Changelog:\n{changelog}&#34;)
         from tkinter import messagebox
         if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
             os.system(&#34;git stash&#34;)
@@ -1371,6 +1604,7 @@ if __name__ == &#34;__main__&#34;:
             if messagebox.askyesno(&#34;Updater&#34;, (&#34;The update has been installed and the application needs to be restarted. Do you want to quit the app?&#34;)):
                 quit()
         else:
+            variables.UPDATEAVAILABLE = remoteVer
             pass</code></pre>
 </details>
 </dd>
@@ -1388,12 +1622,16 @@ if __name__ == &#34;__main__&#34;:
         try:
             if plugin.PluginInfo.dynamicOrder == dynamicOrder:
                 startTime = time.time()
-                data = plugin.plugin(data)
-                endTime = time.time()
-                if data == None:
-                    print(f&#34;Plugin &#39;{plugin.PluginInfo.name}&#39; returned NoneType instead of a the data variable. Please make sure that you return the data variable.&#34;)
+
+                pluginData = plugin.plugin(data)
+                
+                if pluginData != None:
+                    data = pluginData
                 else:
-                    data[&#34;executionTimes&#34;][plugin.PluginInfo.name] = endTime - startTime
+                    print(f&#34;Plugin &#39;{plugin.PluginInfo.name}&#39; returned NoneType instead of a the data variable. Please make sure that you return the data variable.&#34;)
+                
+                endTime = time.time()    
+                data[&#34;executionTimes&#34;][plugin.PluginInfo.name] = endTime - startTime
                         
         except Exception as ex:
             print(ex.args + f&#34;[{plugin.PluginInfo.name}]&#34;)
@@ -1419,11 +1657,13 @@ if __name__ == &#34;__main__&#34;:
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.CheckForFileChanges" href="#Euro-Truck-Simulator-2-Lane-Assist.main.CheckForFileChanges">CheckForFileChanges</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.CheckForONNXRuntimeChange" href="#Euro-Truck-Simulator-2-Lane-Assist.main.CheckForONNXRuntimeChange">CheckForONNXRuntimeChange</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.CheckLastKnownVersion" href="#Euro-Truck-Simulator-2-Lane-Assist.main.CheckLastKnownVersion">CheckLastKnownVersion</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.CloseAllPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.CloseAllPlugins">CloseAllPlugins</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.FindPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.FindPlugins">FindPlugins</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.GetEnabledPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.GetEnabledPlugins">GetEnabledPlugins</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.GetListOfAllPluginAndPanelNames" href="#Euro-Truck-Simulator-2-Lane-Assist.main.GetListOfAllPluginAndPanelNames">GetListOfAllPluginAndPanelNames</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.InstallPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.InstallPlugins">InstallPlugins</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.LoadApplication" href="#Euro-Truck-Simulator-2-Lane-Assist.main.LoadApplication">LoadApplication</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.ReloadPluginCode" href="#Euro-Truck-Simulator-2-Lane-Assist.main.ReloadPluginCode">ReloadPluginCode</a></code></li>

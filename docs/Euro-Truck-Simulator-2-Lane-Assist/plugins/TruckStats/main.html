@@ -409,7 +409,10 @@ def LoadSettings():
     global settings_fuel_value_to_graph
     global settings_engine_value_to_graph
 
+    global settings_allow_graphs
+
     global fuel_last_avg_consumption
+
     global fuel_value_history
     global fuel_value_history_time
     global fuel_value_history_adder
@@ -419,6 +422,11 @@ def LoadSettings():
     global engine_value_history_time
     global engine_value_history_adder
     global engine_value_history_count
+
+    global reset_trip
+    global reset_fuelgraph
+    global reset_enginegraph
+    global last_route_distance_left
 
     name_window = &#34;TruckStats&#34;
     current_tab = settings.GetSettings(&#34;TruckStats&#34;, &#34;current_tab&#34;, 1)
@@ -438,6 +446,8 @@ def LoadSettings():
     settings_fuel_value_to_graph = settings.GetSettings(&#34;TruckStats&#34;, &#34;fuel_value_to_graph&#34;, &#34;fuel_current&#34;)
     settings_engine_value_to_graph = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_to_graph&#34;, &#34;rpm&#34;)
 
+    settings_allow_graphs = True
+
     fuel_last_avg_consumption = 0
 
     fuel_value_history = []
@@ -449,6 +459,11 @@ def LoadSettings():
     engine_value_history_adder = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_history_adder&#34;, 60)
     engine_value_history_time = time.time() + 1
     engine_value_history_count = 0
+
+    reset_trip = settings.GetSettings(&#34;TruckStats&#34;, &#34;reset_trip&#34;, False)
+    reset_fuelgraph = settings.GetSettings(&#34;TruckStats&#34;, &#34;reset_fuelgraph&#34;, False)
+    reset_enginegraph = settings.GetSettings(&#34;TruckStats&#34;, &#34;reset_enginegraph&#34;, False)
+    last_route_distance_left = 0
 
     open_tab_color_r = settings.GetSettings(&#34;TruckStats&#34;, &#34;open_tab_color_r&#34;)
     if open_tab_color_r == None or not isinstance(open_tab_color_r, int) or not (0 &lt;= open_tab_color_r &lt;= 255):
@@ -528,7 +543,10 @@ def plugin(data):
     global settings_fuel_value_to_graph
     global settings_engine_value_to_graph
 
+    global settings_allow_graphs
+
     global fuel_last_avg_consumption
+    
     global fuel_value_history
     global fuel_value_history_time
     global fuel_value_history_adder
@@ -538,7 +556,11 @@ def plugin(data):
     global engine_value_history_time
     global engine_value_history_adder
     global engine_value_history_count
-    
+
+    global reset_trip
+    global reset_fuelgraph
+    global reset_enginegraph
+    global last_route_distance_left
 
     try:
         size_frame = cv2.getWindowImageRect(name_window)
@@ -568,11 +590,19 @@ def plugin(data):
         gamepaused = False
 
     try:
+        data[&#34;sdk&#34;]
+    except:
+        data[&#34;sdk&#34;] = {}
+
+    try:
         if width_frame != last_width_frame or height_frame != last_height_frame:
-            frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
-            if width_frame &gt;= 10 and height_frame &gt;= 10:
+            if width_frame &gt;= 50 and height_frame &gt;= 50:
+                settings_allow_graphs = True
+                frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
                 settings.CreateSettings(&#34;TruckStats&#34;, &#34;width_frame&#34;, width_frame)
                 settings.CreateSettings(&#34;TruckStats&#34;, &#34;height_frame&#34;, height_frame)
+            else:
+                settings_allow_graphs = False
     except:
         pass
     last_width_frame = width_frame
@@ -750,7 +780,19 @@ def plugin(data):
                 engine_value_history.append((engine_oil_pressure, engine_value_history_count))
                 engine_value_history_time += engine_value_history_adder
                 engine_value_history_count += 1
-        
+
+    if route_distance_left == 0 and last_route_distance_left != 0:
+        if reset_trip == True:
+            data[&#34;sdk&#34;][&#34;TripReset&#34;] = True
+        if reset_fuelgraph == True:
+            fuel_value_history = []
+            fuel_value_history_time = current_time + 1
+            fuel_value_history_count = 0
+        if reset_enginegraph == True:
+            engine_value_history = []
+            engine_value_history_time = current_time + 1
+            engine_value_history_count = 0
+    last_route_distance_left = route_distance_left
 
     if current_tab != 1:
         if mouseposx &gt;= 0.14 and mouseposy &gt;= 0.02 and mouseposx &lt;= 0.26 and mouseposy &lt;= 0.06:
@@ -939,10 +981,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -985,7 +1028,7 @@ def plugin(data):
             cv2.putText(frame, f&#34;of {fuel_total_str}L&#34;, (round(width_current_text + 0.135*width_frame), round(0.2*height_frame+height_current_text/2+height_current_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
         else:
             cv2.putText(frame, f&#34;of {fuel_total_str}Gal&#34;, (round(width_current_text + 0.135*width_frame), round(0.2*height_frame+height_current_text/2+height_current_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
-        if settings_show_graphs == True:
+        if settings_show_graphs == True and settings_allow_graphs == True:
             cv2.line(frame, (round(0.05*width_frame), round(0.93*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame-0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame+0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
@@ -1020,10 +1063,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -1048,7 +1092,7 @@ def plugin(data):
         textsize_current_text, _ = cv2.getTextSize(f&#34;{engine_throttle_str}%&#34;, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, thickness_current_text)
         width_current_text, height_current_text = textsize_current_text
         cv2.putText(frame, f&#34;{engine_throttle_str}%&#34;, (round(0.9*width_frame-width_current_text), round(0.2*height_frame+height_current_text/2+height_original_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
-        if settings_show_graphs == True:
+        if settings_show_graphs == True and settings_allow_graphs == True:
             cv2.line(frame, (round(0.05*width_frame), round(0.93*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame-0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame+0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
@@ -1083,10 +1127,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -1130,10 +1175,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -1209,10 +1255,11 @@ def plugin(data):
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -1290,10 +1337,11 @@ def plugin(data):
                 fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
                 textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
                 width_current_text, height_current_text = textsize_current_text
-                width_original_text, height_original_text = width_current_text, height_current_text
                 max_count_current_text -= 1
                 if max_count_current_text &lt;= 0:
                     break
+            width_original_text = width_current_text
+            height_original_text = height_current_text
             thickness_current_text = round(fontscale_current_text*2)
             if thickness_current_text &lt;= 0:
                 thickness_current_text = 1
@@ -1392,10 +1440,13 @@ class UI():
             self.root.update()
 
             helpers.MakeEmptyLine(generalFrame, 1, 0)
-            helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Show the fuel and engine graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
             helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h, Fahrenheit instead of Celsius and Gallons instead of Liters)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=100)
             helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons.&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=100)
-            helpers.MakeLabel(generalFrame, &#34;Tipp: If you close the TruckStats window, it will save the location of the window.&#34;, 5, 0, sticky=&#34;w&#34;)
+            helpers.MakeCheckButton(generalFrame, &#34;Reset the in-game trip info if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_trip&#34;, 5, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Reset the fuel graph if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_fuelgraph&#34;, 6, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Reset the engine graph if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_enginegraph&#34;, 7, 0, width=100)
+            helpers.MakeLabel(generalFrame, &#34;Note: If you close the TruckStats window, it will save the location of the window.&#34;, 8, 0, sticky=&#34;w&#34;)
 
             
             self.open_tab_color_r = helpers.MakeComboEntry(colorsFrame, &#34;Open Tab Color R&#34;, &#34;TruckStats&#34;, &#34;open_tab_color_r&#34;, 3, 0, labelwidth=17, width=7, sticky=&#34;w&#34;,labelPadX=40, translate=False)
@@ -1427,7 +1478,7 @@ class UI():
             helpers.MakeEmptyLine(FuelTabFrame, 1, 0)
             helpers.MakeCheckButton(FuelTabFrame, &#34;Show the Values in green instead of white, if enough fuel is left.&#34;, &#34;TruckStats&#34;, &#34;show_in_green&#34;, 2, 0, width=85)
             helpers.MakeEmptyLine(FuelTabFrame, 3, 0)
-            helpers.MakeLabel(FuelTabFrame, &#34;Value to be displayed in the diagram:&#34;, 4, 0, sticky=&#34;w&#34;)
+            helpers.MakeLabel(FuelTabFrame, &#34;Value to be displayed in the graph:&#34;, 4, 0, sticky=&#34;w&#34;)
             value_to_graph_fuel = tk.StringVar() 
             previous_value_to_graph_fuel = settings.GetSettings(&#34;TruckStats&#34;, &#34;fuel_value_to_graph&#34;)
             if previous_value_to_graph_fuel == &#34;fuel_current&#34;:
@@ -1456,7 +1507,7 @@ class UI():
 
 
             helpers.MakeLabel(EngineTabFrame, &#34;                                                                                                                                                          &#34;, 2, 0, translate=False)
-            helpers.MakeLabel(EngineTabFrame, &#34;Value to be displayed in the diagram:&#34;, 3, 0, sticky=&#34;w&#34;)
+            helpers.MakeLabel(EngineTabFrame, &#34;Value to be displayed in the graph:&#34;, 3, 0, sticky=&#34;w&#34;)
             value_to_graph_engine = tk.StringVar() 
             previous_value_to_graph_engine = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_to_graph&#34;)
             if previous_value_to_graph_engine == &#34;rpm&#34;:
@@ -1758,7 +1809,10 @@ class UI():
     global settings_fuel_value_to_graph
     global settings_engine_value_to_graph
 
+    global settings_allow_graphs
+
     global fuel_last_avg_consumption
+
     global fuel_value_history
     global fuel_value_history_time
     global fuel_value_history_adder
@@ -1768,6 +1822,11 @@ class UI():
     global engine_value_history_time
     global engine_value_history_adder
     global engine_value_history_count
+
+    global reset_trip
+    global reset_fuelgraph
+    global reset_enginegraph
+    global last_route_distance_left
 
     name_window = &#34;TruckStats&#34;
     current_tab = settings.GetSettings(&#34;TruckStats&#34;, &#34;current_tab&#34;, 1)
@@ -1787,6 +1846,8 @@ class UI():
     settings_fuel_value_to_graph = settings.GetSettings(&#34;TruckStats&#34;, &#34;fuel_value_to_graph&#34;, &#34;fuel_current&#34;)
     settings_engine_value_to_graph = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_to_graph&#34;, &#34;rpm&#34;)
 
+    settings_allow_graphs = True
+
     fuel_last_avg_consumption = 0
 
     fuel_value_history = []
@@ -1798,6 +1859,11 @@ class UI():
     engine_value_history_adder = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_history_adder&#34;, 60)
     engine_value_history_time = time.time() + 1
     engine_value_history_count = 0
+
+    reset_trip = settings.GetSettings(&#34;TruckStats&#34;, &#34;reset_trip&#34;, False)
+    reset_fuelgraph = settings.GetSettings(&#34;TruckStats&#34;, &#34;reset_fuelgraph&#34;, False)
+    reset_enginegraph = settings.GetSettings(&#34;TruckStats&#34;, &#34;reset_enginegraph&#34;, False)
+    last_route_distance_left = 0
 
     open_tab_color_r = settings.GetSettings(&#34;TruckStats&#34;, &#34;open_tab_color_r&#34;)
     if open_tab_color_r == None or not isinstance(open_tab_color_r, int) or not (0 &lt;= open_tab_color_r &lt;= 255):
@@ -1911,7 +1977,10 @@ class UI():
     global settings_fuel_value_to_graph
     global settings_engine_value_to_graph
 
+    global settings_allow_graphs
+
     global fuel_last_avg_consumption
+    
     global fuel_value_history
     global fuel_value_history_time
     global fuel_value_history_adder
@@ -1921,7 +1990,11 @@ class UI():
     global engine_value_history_time
     global engine_value_history_adder
     global engine_value_history_count
-    
+
+    global reset_trip
+    global reset_fuelgraph
+    global reset_enginegraph
+    global last_route_distance_left
 
     try:
         size_frame = cv2.getWindowImageRect(name_window)
@@ -1951,11 +2024,19 @@ class UI():
         gamepaused = False
 
     try:
+        data[&#34;sdk&#34;]
+    except:
+        data[&#34;sdk&#34;] = {}
+
+    try:
         if width_frame != last_width_frame or height_frame != last_height_frame:
-            frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
-            if width_frame &gt;= 10 and height_frame &gt;= 10:
+            if width_frame &gt;= 50 and height_frame &gt;= 50:
+                settings_allow_graphs = True
+                frame_original = np.zeros((height_frame, width_frame, 3), dtype=np.uint8)
                 settings.CreateSettings(&#34;TruckStats&#34;, &#34;width_frame&#34;, width_frame)
                 settings.CreateSettings(&#34;TruckStats&#34;, &#34;height_frame&#34;, height_frame)
+            else:
+                settings_allow_graphs = False
     except:
         pass
     last_width_frame = width_frame
@@ -2133,7 +2214,19 @@ class UI():
                 engine_value_history.append((engine_oil_pressure, engine_value_history_count))
                 engine_value_history_time += engine_value_history_adder
                 engine_value_history_count += 1
-        
+
+    if route_distance_left == 0 and last_route_distance_left != 0:
+        if reset_trip == True:
+            data[&#34;sdk&#34;][&#34;TripReset&#34;] = True
+        if reset_fuelgraph == True:
+            fuel_value_history = []
+            fuel_value_history_time = current_time + 1
+            fuel_value_history_count = 0
+        if reset_enginegraph == True:
+            engine_value_history = []
+            engine_value_history_time = current_time + 1
+            engine_value_history_count = 0
+    last_route_distance_left = route_distance_left
 
     if current_tab != 1:
         if mouseposx &gt;= 0.14 and mouseposy &gt;= 0.02 and mouseposx &lt;= 0.26 and mouseposy &lt;= 0.06:
@@ -2322,10 +2415,11 @@ class UI():
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -2368,7 +2462,7 @@ class UI():
             cv2.putText(frame, f&#34;of {fuel_total_str}L&#34;, (round(width_current_text + 0.135*width_frame), round(0.2*height_frame+height_current_text/2+height_current_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
         else:
             cv2.putText(frame, f&#34;of {fuel_total_str}Gal&#34;, (round(width_current_text + 0.135*width_frame), round(0.2*height_frame+height_current_text/2+height_current_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
-        if settings_show_graphs == True:
+        if settings_show_graphs == True and settings_allow_graphs == True:
             cv2.line(frame, (round(0.05*width_frame), round(0.93*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame-0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame+0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
@@ -2403,10 +2497,11 @@ class UI():
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -2431,7 +2526,7 @@ class UI():
         textsize_current_text, _ = cv2.getTextSize(f&#34;{engine_throttle_str}%&#34;, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, thickness_current_text)
         width_current_text, height_current_text = textsize_current_text
         cv2.putText(frame, f&#34;{engine_throttle_str}%&#34;, (round(0.9*width_frame-width_current_text), round(0.2*height_frame+height_current_text/2+height_original_text*3)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
-        if settings_show_graphs == True:
+        if settings_show_graphs == True and settings_allow_graphs == True:
             cv2.line(frame, (round(0.05*width_frame), round(0.93*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame-0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
             cv2.line(frame, (round(0.05*width_frame+0.04*height_frame), round(0.59*height_frame)), (round(0.05*width_frame), round(0.55*height_frame)), text_color, thickness_current_text)
@@ -2466,10 +2561,11 @@ class UI():
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -2513,10 +2609,11 @@ class UI():
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -2592,10 +2689,11 @@ class UI():
             fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
             textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
             width_current_text, height_current_text = textsize_current_text
-            width_original_text, height_original_text = width_current_text, height_current_text
             max_count_current_text -= 1
             if max_count_current_text &lt;= 0:
                 break
+        width_original_text = width_current_text
+        height_original_text = height_current_text
         thickness_current_text = round(fontscale_current_text*2)
         if thickness_current_text &lt;= 0:
             thickness_current_text = 1
@@ -2673,10 +2771,11 @@ class UI():
                 fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
                 textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
                 width_current_text, height_current_text = textsize_current_text
-                width_original_text, height_original_text = width_current_text, height_current_text
                 max_count_current_text -= 1
                 if max_count_current_text &lt;= 0:
                     break
+            width_original_text = width_current_text
+            height_original_text = height_current_text
             thickness_current_text = round(fontscale_current_text*2)
             if thickness_current_text &lt;= 0:
                 thickness_current_text = 1
@@ -2782,10 +2881,13 @@ class UI():
             self.root.update()
 
             helpers.MakeEmptyLine(generalFrame, 1, 0)
-            helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Show the fuel and engine graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
             helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h, Fahrenheit instead of Celsius and Gallons instead of Liters)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=100)
             helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons.&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=100)
-            helpers.MakeLabel(generalFrame, &#34;Tipp: If you close the TruckStats window, it will save the location of the window.&#34;, 5, 0, sticky=&#34;w&#34;)
+            helpers.MakeCheckButton(generalFrame, &#34;Reset the in-game trip info if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_trip&#34;, 5, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Reset the fuel graph if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_fuelgraph&#34;, 6, 0, width=100)
+            helpers.MakeCheckButton(generalFrame, &#34;Reset the engine graph if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_enginegraph&#34;, 7, 0, width=100)
+            helpers.MakeLabel(generalFrame, &#34;Note: If you close the TruckStats window, it will save the location of the window.&#34;, 8, 0, sticky=&#34;w&#34;)
 
             
             self.open_tab_color_r = helpers.MakeComboEntry(colorsFrame, &#34;Open Tab Color R&#34;, &#34;TruckStats&#34;, &#34;open_tab_color_r&#34;, 3, 0, labelwidth=17, width=7, sticky=&#34;w&#34;,labelPadX=40, translate=False)
@@ -2817,7 +2919,7 @@ class UI():
             helpers.MakeEmptyLine(FuelTabFrame, 1, 0)
             helpers.MakeCheckButton(FuelTabFrame, &#34;Show the Values in green instead of white, if enough fuel is left.&#34;, &#34;TruckStats&#34;, &#34;show_in_green&#34;, 2, 0, width=85)
             helpers.MakeEmptyLine(FuelTabFrame, 3, 0)
-            helpers.MakeLabel(FuelTabFrame, &#34;Value to be displayed in the diagram:&#34;, 4, 0, sticky=&#34;w&#34;)
+            helpers.MakeLabel(FuelTabFrame, &#34;Value to be displayed in the graph:&#34;, 4, 0, sticky=&#34;w&#34;)
             value_to_graph_fuel = tk.StringVar() 
             previous_value_to_graph_fuel = settings.GetSettings(&#34;TruckStats&#34;, &#34;fuel_value_to_graph&#34;)
             if previous_value_to_graph_fuel == &#34;fuel_current&#34;:
@@ -2846,7 +2948,7 @@ class UI():
 
 
             helpers.MakeLabel(EngineTabFrame, &#34;                                                                                                                                                          &#34;, 2, 0, translate=False)
-            helpers.MakeLabel(EngineTabFrame, &#34;Value to be displayed in the diagram:&#34;, 3, 0, sticky=&#34;w&#34;)
+            helpers.MakeLabel(EngineTabFrame, &#34;Value to be displayed in the graph:&#34;, 3, 0, sticky=&#34;w&#34;)
             value_to_graph_engine = tk.StringVar() 
             previous_value_to_graph_engine = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_to_graph&#34;)
             if previous_value_to_graph_engine == &#34;rpm&#34;:
@@ -3203,10 +3305,13 @@ class UI():
     self.root.update()
 
     helpers.MakeEmptyLine(generalFrame, 1, 0)
-    helpers.MakeCheckButton(generalFrame, &#34;Show the Graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
+    helpers.MakeCheckButton(generalFrame, &#34;Show the fuel and engine graphs.&#34;, &#34;TruckStats&#34;, &#34;show_graphs&#34;, 2, 0, width=100)
     helpers.MakeCheckButton(generalFrame, &#34;Use Imperial Units instead of Metric Units.\n(Miles instead of Kilometers, Mph instead of Km/h, Fahrenheit instead of Celsius and Gallons instead of Liters)&#34;, &#34;TruckStats&#34;, &#34;use_imperial_system&#34;, 3, 0, width=100)
     helpers.MakeCheckButton(generalFrame, &#34;Use US Gallons.&#34;, &#34;TruckStats&#34;, &#34;use_us_gallons&#34;, 4, 0, width=100)
-    helpers.MakeLabel(generalFrame, &#34;Tipp: If you close the TruckStats window, it will save the location of the window.&#34;, 5, 0, sticky=&#34;w&#34;)
+    helpers.MakeCheckButton(generalFrame, &#34;Reset the in-game trip info if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_trip&#34;, 5, 0, width=100)
+    helpers.MakeCheckButton(generalFrame, &#34;Reset the fuel graph if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_fuelgraph&#34;, 6, 0, width=100)
+    helpers.MakeCheckButton(generalFrame, &#34;Reset the engine graph if you reach your destination.&#34;, &#34;TruckStats&#34;, &#34;reset_enginegraph&#34;, 7, 0, width=100)
+    helpers.MakeLabel(generalFrame, &#34;Note: If you close the TruckStats window, it will save the location of the window.&#34;, 8, 0, sticky=&#34;w&#34;)
 
     
     self.open_tab_color_r = helpers.MakeComboEntry(colorsFrame, &#34;Open Tab Color R&#34;, &#34;TruckStats&#34;, &#34;open_tab_color_r&#34;, 3, 0, labelwidth=17, width=7, sticky=&#34;w&#34;,labelPadX=40, translate=False)
@@ -3238,7 +3343,7 @@ class UI():
     helpers.MakeEmptyLine(FuelTabFrame, 1, 0)
     helpers.MakeCheckButton(FuelTabFrame, &#34;Show the Values in green instead of white, if enough fuel is left.&#34;, &#34;TruckStats&#34;, &#34;show_in_green&#34;, 2, 0, width=85)
     helpers.MakeEmptyLine(FuelTabFrame, 3, 0)
-    helpers.MakeLabel(FuelTabFrame, &#34;Value to be displayed in the diagram:&#34;, 4, 0, sticky=&#34;w&#34;)
+    helpers.MakeLabel(FuelTabFrame, &#34;Value to be displayed in the graph:&#34;, 4, 0, sticky=&#34;w&#34;)
     value_to_graph_fuel = tk.StringVar() 
     previous_value_to_graph_fuel = settings.GetSettings(&#34;TruckStats&#34;, &#34;fuel_value_to_graph&#34;)
     if previous_value_to_graph_fuel == &#34;fuel_current&#34;:
@@ -3267,7 +3372,7 @@ class UI():
 
 
     helpers.MakeLabel(EngineTabFrame, &#34;                                                                                                                                                          &#34;, 2, 0, translate=False)
-    helpers.MakeLabel(EngineTabFrame, &#34;Value to be displayed in the diagram:&#34;, 3, 0, sticky=&#34;w&#34;)
+    helpers.MakeLabel(EngineTabFrame, &#34;Value to be displayed in the graph:&#34;, 3, 0, sticky=&#34;w&#34;)
     value_to_graph_engine = tk.StringVar() 
     previous_value_to_graph_engine = settings.GetSettings(&#34;TruckStats&#34;, &#34;engine_value_to_graph&#34;)
     if previous_value_to_graph_engine == &#34;rpm&#34;:

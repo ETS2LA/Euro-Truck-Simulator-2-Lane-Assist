@@ -378,6 +378,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import src.sounds as sounds
+import src.controls as controls
 from src.translator import Translate
 from tkinter import messagebox
 import os
@@ -385,19 +386,26 @@ import os
 
 
 import plugins.DefaultSteering.main as DefaultSteering
-import cv2
-import numpy as np
-import dxcam
-import time
-import pyautogui
 import keyboard as kb
-import mouse
+import numpy as np
+import pyautogui
 import ctypes
+import mouse
 import math
+import time
+import cv2
 import os
 
 path = variables.PATH + r&#34;\assets\NavigationDetectionV3\v3setupexample.jpg&#34;
 exampleimage = cv2.imread(path)
+
+controls.RegisterKeybind(&#34;Lane change to the left&#34;,
+                         notBoundInfo=&#34;Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.&#34;,
+                         description=&#34;Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.&#34;)
+
+controls.RegisterKeybind(&#34;Lane change to the right&#34;,
+                         notBoundInfo=&#34;Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.&#34;,
+                         description=&#34;Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.&#34;)
 
 # Code Parts:
 #-
@@ -704,8 +712,12 @@ def LoadSettingsV3():
 
     global check_zoom_timer
     global do_zoom
+    global do_blocked
     global allow_playsound
     global allow_playsound_timer
+
+    global controls_last_left
+    global controls_last_right
 
     global left_x_lane
     global right_x_lane
@@ -730,16 +742,19 @@ def LoadSettingsV3():
     global indicator_right_wait_for_response
     global indicator_left_response_timer
     global indicator_right_response_timer
+    global indicator_enable_left
+    global indicator_enable_right
     global indicator_changed_by_code
 
     global lanechanging_do_lane_changing
     global lanechanging_speed
     global lanechanging_width
+    global lanechanging_autolanezero
     global lanechanging_current_lane
     global lanechanging_final_offset
 
     setupmode = False
-    last_window_size = 0
+    last_window_size = (0, 0, round(pyautogui.size()[0]/2), round(pyautogui.size()[1]/2))
     last_mouse_position = 0
     v3setupzoom = 0
     zoomoffsetx = 0
@@ -785,8 +800,12 @@ def LoadSettingsV3():
 
     check_zoom_timer = 0
     do_zoom = False
+    do_blocked = False
     allow_playsound = False
     allow_playsound_timer = time.time()
+
+    controls_last_left = False
+    controls_last_right = False
 
     left_x_lane = 0
     right_x_lane = 0
@@ -812,11 +831,14 @@ def LoadSettingsV3():
     indicator_right_wait_for_response = False
     indicator_left_response_timer = 0
     indicator_right_response_timer = 0
+    indicator_enable_left = False
+    indicator_enable_right = False
     indicator_changed_by_code = True
 
     lanechanging_do_lane_changing = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_do_lane_changing&#34;, True)
     lanechanging_speed = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_speed&#34;, 1)
     lanechanging_width = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, 10)
+    lanechanging_autolanezero = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_autolanezero&#34;, True)
     lanechanging_current_lane = 0
     lanechanging_final_offset = 0
 
@@ -826,13 +848,15 @@ def LoadSettingsV3():
 ############################################################################################################################
 def LoadSettings():
     global version
-    version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;)
+    version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, &#34;NavigationDetectionV3&#34;)
     if version == &#34;NavigationDetectionV1&#34;:         
         LoadSettingsV1()
     if version == &#34;NavigationDetectionV2&#34;:              
         LoadSettingsV2()
     if version == &#34;NavigationDetectionV3&#34;:
         LoadSettingsV3()
+    global mod
+    mod = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;mod&#34;, &#34;0&#34;)
 LoadSettings()
 
 
@@ -1402,7 +1426,7 @@ def plugin(data):
 
             if trafficlightdetectionisenabled == True:
                 try:
-                    trafficlight = data[&#34;TrafficLightDetection&#34;]
+                    trafficlight = data[&#34;TrafficLightDetection&#34;][&#34;simple&#34;]
                 except:
                     trafficlightdetectionisenabled = False
                     trafficlight = &#34;Off&#34;
@@ -1614,6 +1638,7 @@ def plugin(data):
 ############################################################################################################################
     if version == &#34;NavigationDetectionV3&#34;:
         global setupmode
+        global setupframe
         global last_window_size
         global last_mouse_position
         global v3setupzoom
@@ -1639,8 +1664,12 @@ def plugin(data):
 
         global check_zoom_timer
         global do_zoom
+        global do_blocked
         global allow_playsound
         global allow_playsound_timer
+        
+        global controls_last_left
+        global controls_last_right
 
         global left_x_lane
         global right_x_lane
@@ -1665,11 +1694,14 @@ def plugin(data):
         global indicator_right_wait_for_response
         global indicator_left_response_timer
         global indicator_right_response_timer
+        global indicator_enable_left
+        global indicator_enable_right
         global indicator_changed_by_code
 
         global lanechanging_do_lane_changing
         global lanechanging_speed
         global lanechanging_width
+        global lanechanging_autolanezero
         global lanechanging_current_lane
         global lanechanging_final_offset
         
@@ -1708,6 +1740,9 @@ def plugin(data):
             if width != 0 and height != 0:
                 mouseposx = mousex/width
                 mouseposy = mousey/height
+            else:
+                mouseposx = 0
+                mouseposy = 0
 
             setupframetextsize = math.sqrt(width)/35
             setupframetextthickness = round(math.sqrt(width)/35)*2
@@ -1855,7 +1890,7 @@ def plugin(data):
             frame_width = frame.shape[1]
             frame_height = frame.shape[0]
 
-            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.05 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.05 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.0*frame_width), round(0.0*frame_height)), (round(0.1*frame_width), round(0.05*frame_height)), (70, 20, 20), -1)
                 if left_clicked == True:
                     if round(frame_height*v3setupzoom/100) &lt; round(frame_height-frame_height*v3setupzoom/100) - frame_height/2:
@@ -1883,7 +1918,7 @@ def plugin(data):
             cv2.putText(frame, &#34;Zoom IN&#34;, (round(0.0*frame_width), round(0.04*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
             
-            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.07 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.12 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.07 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.12 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.0*frame_width), round(0.07*frame_height)), (round(0.1*frame_width), round(0.12*frame_height)), (70, 20, 20), -1)
                 if left_clicked == True:
                     v3setupzoom -= 0.3
@@ -1908,9 +1943,40 @@ def plugin(data):
             if fontthickness_current_text &lt;= 0:
                 fontthickness_current_text = 1
             cv2.putText(frame, &#34;Zoom OUT&#34;, (round(0.0*frame_width), round(0.11*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            
+            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.14 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.22 and mousecoordroot[1] &lt; 0.30:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.22*frame_height)), (70, 20, 20), -1)
+                if left_clicked == True:
+                    screenshot = pyautogui.screenshot()
+                    setupframe = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+                    frame = setupframe.copy()
+                    frame_width = frame.shape[1]
+                    frame_height = frame.shape[0]
+            else:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.22*frame_height)), (50, 0, 0), -1)
+            current_text = &#34;Screenshot&#34;
+            width_target_current_text = frame_width/10
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text &lt;= 0:
+                    break
+            fontthickness_current_text = round(fontscale_current_text*2)
+            if fontthickness_current_text &lt;= 0:
+                fontthickness_current_text = 1
+            cv2.putText(frame, &#34;Screenshot&#34;, (round(0.0*frame_width), round(0.21*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            textsize_current_text, _ = cv2.getTextSize(&#34;New&#34;, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            cv2.putText(frame, &#34;New&#34;, (round(0.05*frame_width-width_current_text/2), round(0.17*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
-            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.14 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.19 and mousecoordroot[1] &lt; 0.25:
-                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.19*frame_height)), (0, 0, 255), -1)
+            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.24 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.29 and mousecoordroot[1] &lt; 0.30:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.24*frame_height)), (round(0.1*frame_width), round(0.29*frame_height)), (0, 0, 255), -1)
                 if left_clicked == True:
                     if messagebox.askokcancel(&#34;Setup&#34;, (f&#34;Do you really want to reset the setup to default settings?&#34;)):
                         zoomoffsetx = 0
@@ -1946,7 +2012,7 @@ def plugin(data):
                         settings.CreateSettings(&#34;NavigationDetectionV3&#34;, &#34;bottomright&#34;, bottomright)
                         settings.CreateSettings(&#34;NavigationDetectionV3&#34;, &#34;centercoord&#34;, centercoord)
             else:
-                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.19*frame_height)), (0, 0, 230), -1)
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.24*frame_height)), (round(0.1*frame_width), round(0.29*frame_height)), (0, 0, 230), -1)
             current_text = &#34;RESET&#34;
             width_target_current_text = frame_width/12
             fontscale_current_text = 1
@@ -1963,7 +2029,7 @@ def plugin(data):
             fontthickness_current_text = round(fontscale_current_text*2)
             if fontthickness_current_text &lt;= 0:
                 fontthickness_current_text = 1
-            cv2.putText(frame, &#34;RESET&#34;, (round(0.007*frame_width), round(0.18*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            cv2.putText(frame, &#34;RESET&#34;, (round(0.007*frame_width), round(0.28*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
             if left_clicked == False:
                 moverootx = zoomoffsetx + mousex
@@ -1974,7 +2040,7 @@ def plugin(data):
                     zoomoffsetx = moverootx - mousex
                     zoomoffsety = moverooty - mousey
 
-            if mouseposx &gt;= 0.9 and mouseposy &gt;= 0.0 and mouseposx &lt;= 1.0 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.9 and mouseposy &gt;= 0.0 and mouseposx &lt;= 1.0 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.9*frame_width), round(0.0*frame_height)), (round(1.0*frame_width), round(0.1*frame_height)), (0, 235, 0), -1)
                 if left_clicked == True:
                     finishedsetup = True
@@ -2000,7 +2066,7 @@ def plugin(data):
             cv2.putText(frame, &#34;Setup&#34;, (round(0.918*frame_width), round(0.084*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx &gt;= 0.22 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.35 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.22 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.35 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.22*frame_width), round(0.0*frame_height)), (round(0.35*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and getbottomright == False and getcentercoord == False:
                     gettopleft = True
@@ -2028,7 +2094,7 @@ def plugin(data):
             cv2.putText(frame, &#34;   Coordinate&#34;, (round(0.218*frame_width), round(0.085*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx &gt;= 0.42 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.58 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.42 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.58 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.42*frame_width), round(0.0*frame_height)), (round(0.58*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and gettopleft == False and getcentercoord == False:
                     getbottomright = True
@@ -2056,7 +2122,7 @@ def plugin(data):
             cv2.putText(frame, &#34;   Coordinate&#34;, (round(0.437*frame_width), round(0.085*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx &gt;= 0.65 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.78 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.65 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.78 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.65*frame_width), round(0.0*frame_height)), (round(0.78*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and gettopleft == False and getbottomright == False:
                     getcentercoord = True
@@ -2129,20 +2195,12 @@ def plugin(data):
                             if enabled_plugins[i] not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                                 settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
-                    if enabled_plugins == settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
-                        DefaultSteering.enabled = True
-                        variables.UPDATEPLUGINS = True
-                        variables.ENABLELOOP = False
-                        mainUI.update(data)
-                        setupmode = False
-                        LoadSettingsV3()
-                else:
-                    DefaultSteering.enabled = True
-                    variables.UPDATEPLUGINS = True
-                    variables.ENABLELOOP = False
-                    mainUI.update(data)
-                    setupmode = False
-                    LoadSettingsV3()
+                DefaultSteering.enabled = True
+                variables.UPDATEPLUGINS = True
+                variables.ENABLELOOP = False
+                mainUI.update(data)
+                setupmode = False
+                LoadSettingsV3()
 
         if setupmode == False:
             current_time = time.time()
@@ -2151,6 +2209,8 @@ def plugin(data):
                 frame = data[&#34;frame&#34;]
             except:
                 return data
+
+            if frame is None: return data
             
             try:
                 width = frame.shape[1]
@@ -2189,7 +2249,7 @@ def plugin(data):
 
             if trafficlightdetection_is_enabled == True:
                 try:
-                    trafficlight = data[&#34;TrafficLightDetection&#34;]
+                    trafficlight = data[&#34;TrafficLightDetection&#34;][&#34;simple&#34;]
                 except:
                     trafficlightdetection_is_enabled = False
                     trafficlight = &#34;Off&#34;
@@ -2198,46 +2258,53 @@ def plugin(data):
 
             f5_key_state = ctypes.windll.user32.GetAsyncKeyState(0x74)
             f5_pressed = f5_key_state &amp; 0x8000 != 0
-            if f5_pressed == True:
+            if f5_pressed == True or do_blocked == True:
                 check_zoom_timer = current_time
             if current_time - 1 &lt; check_zoom_timer or check_zoom_timer == 0:
                 check_zoom = True
             else:
                 check_zoom = False
-            if check_zoom == True and gamepaused == False:
-                hwnd_ets2 = ctypes.windll.user32.FindWindowW(None, &#34;Euro Truck Simulator 2&#34;)
-                hwnd_ets2_multiplayer = ctypes.windll.user32.FindWindowW(None, &#34;Euro Truck Simulator 2 Multiplayer&#34;)
-                hwnd_ats = ctypes.windll.user32.FindWindowW(None, &#34;American Truck Simulator&#34;)
-                hwnd_ats_multiplayer = ctypes.windll.user32.FindWindowW(None, &#34;American Truck Simulator Multiplayer&#34;)
-                hwnd_active = ctypes.windll.user32.GetForegroundWindow()
-                if hwnd_active == hwnd_ets2 or hwnd_active == hwnd_ats or hwnd_active == hwnd_ets2_multiplayer or hwnd_active == hwnd_ats_multiplayer:
-                    lower_blue = np.array([121, 68, 0])
-                    upper_blue = np.array([250, 184, 109])
-                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
-                    y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
-                    mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 &lt;= round(width/10)**2
-                    mask_blue = np.where(mask_circle, mask_blue, 0)
-                    if width != 0 and height != 0:
-                        pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
-                    else:
-                        pixel_ratio = 0
-                    if pixel_ratio &gt; 0.007 and pixel_ratio &lt; 0.01:
-                        do_zoom = False
-                    else:
-                        do_zoom = True
-                    if check_zoom_timer == 0:
-                        check_zoom_timer = current_time
-                
-            lower_red = np.array([0, 0, 160])
-            upper_red = np.array([110, 110, 255])
-            lower_green = np.array([0, 200, 0])
-            upper_green = np.array([230, 255, 150])
-            white_limit = 1
+            if check_zoom == True:
+                lower_blue = np.array([121, 68, 0])
+                upper_blue = np.array([250, 184, 109])
+                mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
+                y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
+                mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 &lt;= round(width/10)**2
+                mask_blue = np.where(mask_circle, mask_blue, 0)
+                if width != 0 and height != 0:
+                    pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
+                else:
+                    pixel_ratio = 0
+                if pixel_ratio &gt; 0.007 and pixel_ratio &lt; 0.01:
+                    do_zoom = False
+                else:
+                    do_zoom = True
+                if pixel_ratio &lt; 0.001:
+                    do_blocked = True
+                else:
+                    do_blocked = False
+                if check_zoom_timer == 0:
+                    check_zoom_timer = current_time
+            
+            if mod != &#34;1&#34;:
+                lower_red = np.array([0, 0, 160])
+                upper_red = np.array([110, 110, 255])
+                lower_green = np.array([0, 200, 0])
+                upper_green = np.array([230, 255, 150])
+                white_limit = 1
 
-            mask_red = cv2.inRange(frame, lower_red, upper_red)
-            mask_green = cv2.inRange(frame, lower_green, upper_green)
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+                mask_green = cv2.inRange(frame, lower_green, upper_green)
 
-            frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+                frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+            else:
+                lower_red = np.array([0, 0, 180])
+                upper_red = np.array([50, 50, 230])
+                white_limit = 1
+
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+
+                frame_red_green = cv2.bitwise_and(frame, frame, mask=mask_red)
 
             cv2.rectangle(frame_red_green, (0,0), (round(width/6),round(height/3)),(0,0,0),-1)
             cv2.rectangle(frame_red_green, (width,0), (round(width-width/6),round(height/3)),(0,0,0),-1)
@@ -2427,8 +2494,13 @@ def plugin(data):
 
             if turnincoming_detected == True:
                 turnincoming_last_detected = current_time
-                lanechanging_current_lane = 0
+                if lanechanging_autolanezero == True:
+                    lanechanging_current_lane = 0
             
+            if DefaultSteering.enabled == True:
+                enabled = True
+            else:
+                enabled = False
             try:
                 data[&#34;sdk&#34;]
             except:
@@ -2442,19 +2514,19 @@ def plugin(data):
                 indicator_left_wait_for_response = False
             if current_time - 1 &gt; indicator_right_response_timer:
                 indicator_right_wait_for_response = False
-            if turnincoming_direction == &#34;Left&#34; and indicator_left == False and indicator_left_wait_for_response == False:
+            if turnincoming_direction == &#34;Left&#34; and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
                 data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if turnincoming_direction == &#34;Right&#34; and indicator_right == False and indicator_right_wait_for_response == False:
+            if turnincoming_direction == &#34;Right&#34; and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
                 data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
-            if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 &gt; turnincoming_last_detected and indicator_changed_by_code == True:
+            if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 &gt; turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
                 data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 &gt; turnincoming_last_detected and indicator_changed_by_code == True:
+            if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 &gt; turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
                 data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
@@ -2462,11 +2534,56 @@ def plugin(data):
                 indicator_changed_by_code = True
             else:
                 indicator_changed_by_code = False
-            if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
-                lanechanging_current_lane += 1
-            if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
-                lanechanging_current_lane -= 1
-            
+
+            if controls.GetKeybindFromName(&#34;Lane change to the left&#34;)[&#39;buttonIndex&#39;] != -1:
+                controls_left_set = True
+                controls_left = controls.GetKeybindValue(&#34;Lane change to the left&#34;)
+            else:
+                controls_left_set = False
+                controls_left = False
+            if controls.GetKeybindFromName(&#34;Lane change to the right&#34;)[&#39;buttonIndex&#39;] != -1:
+                controls_right_set = True
+                controls_right = controls.GetKeybindValue(&#34;Lane change to the right&#34;)
+            else:
+                controls_right_set = False
+                controls_right = False
+
+            if controls_left_set == False:
+                if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
+                    lanechanging_current_lane += 1
+            else:
+                if controls_left == True and controls_last_left == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
+                    if indicator_left == True:
+                        lanechanging_current_lane += 1
+                    elif indicator_left == False and indicator_right_wait_for_response == False:
+                        lanechanging_current_lane += 1
+                        indicator_enable_left = True
+            if controls_right_set == False:
+                if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
+                    lanechanging_current_lane -= 1
+            else:
+                if controls_right == True and controls_last_right == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
+                    if indicator_right == True:
+                        lanechanging_current_lane -= 1
+                    elif indicator_right == False and indicator_left_wait_for_response == False:
+                        lanechanging_current_lane -= 1
+                        indicator_enable_right = True
+
+            if indicator_enable_left == True and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
+                data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
+                indicator_changed_by_code = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+            elif indicator_left == True and indicator_left_wait_for_response == False:
+                indicator_enable_left = False
+            if indicator_enable_right == True and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
+                data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
+                indicator_changed_by_code = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+            elif indicator_right == True and indicator_right_wait_for_response == False:
+                indicator_enable_right = False
+
             lanechanging_target_offset = lanechanging_width * lanechanging_current_lane
             lanechanging_current_correction = lanechanging_target_offset - lanechanging_final_offset
             if abs(lanechanging_current_correction) &gt; lanechanging_speed/10:
@@ -2476,11 +2593,21 @@ def plugin(data):
                     lanechanging_current_correction = -lanechanging_speed/10
             lanechanging_final_offset += lanechanging_current_correction
             lanechanging_progress = lanechanging_final_offset/lanechanging_width
-            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+            
+            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_left_set == False:
                 data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+            elif lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_left_set == True:
+                data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+
+            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_right_set == False:
+                data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+            elif lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_right_set == True:
                 data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
@@ -2495,12 +2622,18 @@ def plugin(data):
                         correction = navigationsymbol_x - center_x_lane + width_lane/40
             else:
                 correction = 0
-                if turnincoming_direction == &#34;Left&#34;:
+                if turnincoming_direction == &#34;Left&#34; and enabled == True:
                     data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = False
-                if turnincoming_direction == &#34;Right&#34;:
+                if turnincoming_direction == &#34;Right&#34; and enabled == True:
                     data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = False
                 turnincoming_detected = False
                 tunincoming_direction = None
+
+            allow_trafficlight_symbol = True
+            allow_no_lane_detected = True
+            allow_do_blocked = True
+            allow_do_zoom = True
+            show_turn_line = True
             
             if topleft == None or bottomright == None or centercoord == None:
                 if allow_playsound == True:
@@ -2514,6 +2647,8 @@ def plugin(data):
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness &lt; 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -2529,15 +2664,11 @@ def plugin(data):
 
                 allow_trafficlight_symbol = False
                 allow_no_lane_detected = False
+                allow_do_blocked = False
                 allow_do_zoom = False
                 show_turn_line = False
-            else:
-                allow_trafficlight_symbol = True
-                allow_no_lane_detected = True
-                allow_do_zoom = True
-                show_turn_line = True
-            
-            if do_zoom == True and allow_do_zoom == True:
+
+            if do_blocked == True and allow_do_blocked == True:
                 if allow_playsound == True:
                     sounds.PlaysoundFromLocalPath(&#34;assets/sounds/info.mp3&#34;)
                     allow_playsound = False
@@ -2549,6 +2680,43 @@ def plugin(data):
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness &lt; 1:
+                    infothickness = 1
+                cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
+                cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
+                cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+
+                sizeoftext = round(height/200)
+                textthickness = round(height/100)
+                text_size, _ = cv2.getTextSize(&#34;Minimap vision&#34;, cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, &#34;Minimap vision&#34;, (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+                text_size, _ = cv2.getTextSize(&#34;blocked&#34;, cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, &#34;blocked&#34;, (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+
+                correction = 0
+
+                allow_trafficlight_symbol = False
+                allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
+                show_turn_line = False
+
+            elif do_zoom == True and allow_do_zoom == True:
+                if allow_playsound == True:
+                    sounds.PlaysoundFromLocalPath(&#34;assets/sounds/info.mp3&#34;)
+                    allow_playsound = False
+                    allow_playsound_timer = current_time
+                frame = cv2.GaussianBlur(frame, (9, 9), 0)
+                frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
+
+                xofinfo = round(width/2)
+                yofinfo = round(height/3.5)
+                sizeofinfo = round(height/5)
+                infothickness = round(height/50)
+                if infothickness &lt; 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -2563,11 +2731,9 @@ def plugin(data):
 
                 allow_trafficlight_symbol = False
                 allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
                 show_turn_line = False
-            else:
-                allow_trafficlight_symbol = True
-                allow_no_lane_detected = True
-                show_turn_line = True
 
             if width_lane == 0 and allow_no_lane_detected == True:
                 if allow_playsound == True:
@@ -2581,6 +2747,8 @@ def plugin(data):
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness &lt; 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -2597,13 +2765,10 @@ def plugin(data):
                 correction = 0
 
                 allow_trafficlight_symbol = False
+                allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
                 show_turn_line = False
-            else:
-                if allow_no_lane_detected == True:
-                    allow_trafficlight_symbol = True
-                else:
-                    allow_trafficlight_symbol = False
-                show_turn_line = True
 
             showing_traffic_light_symbol = False
             if trafficlightdetection_is_enabled == True and allow_trafficlight_symbol == True:
@@ -2680,7 +2845,7 @@ def plugin(data):
             
             if fuel_percentage &lt; 15:
                 current_text = &#34;Refuel!&#34;
-                width_target_current_text = width/4.5
+                width_target_current_text = width/4
                 fontscale_current_text = 1
                 textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
                 width_current_text, height_current_text = textsize_current_text
@@ -2705,6 +2870,10 @@ def plugin(data):
 
             indicator_last_left = indicator_left
             indicator_last_right = indicator_right
+            controls_last_left = controls_left
+            controls_last_right = controls_right
+            
+            lanechanging_last_progress = lanechanging_progress
 
             if speed &gt; 63:
                 correction *= 63/speed
@@ -2718,6 +2887,7 @@ def plugin(data):
 
             if width_lane == 0:
                 lane_detected = False
+                check_zoom_timer = current_time
             else:
                 lane_detected = True
 
@@ -2783,8 +2953,9 @@ class UI():
         def __init__(self, master) -&gt; None:
             self.master = master # &#34;master&#34; is the mainUI window
             self.version_ui = &#34;&#34;
+            self.mod_ui = &#34;&#34;
             self.exampleFunction()
-            resizeWindow(950,660)        
+            resizeWindow(950,665)        
         
         def destroy(self):
             self.done = True
@@ -2792,7 +2963,7 @@ class UI():
             del self
         
         def tabFocused(self): # Called when the tab is focused
-            resizeWindow(950,660)
+            resizeWindow(950,665)
 
         def UpdateSettings(self):
             # V1:
@@ -2836,7 +3007,7 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=950, height=660, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=950, height=665, border=0, highlightthickness=0)
             self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
             self.root.pack_propagate(0)
             
@@ -2915,10 +3086,9 @@ class UI():
             ############################################################################################################################
             
             helpers.MakeLabel(generalFrame, &#34;NavigationDetection Version:&#34;, 1, 1, font=(&#34;Segoe UI&#34;, 12))
-
             # version selector
             version_ui = tk.StringVar() 
-            previous_version_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;)
+            previous_version_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, &#34;NavigationDetectionV3&#34;)
             if previous_version_ui == &#34;NavigationDetectionV1&#34;:
                 version_ui.set(&#34;NavigationDetectionV1&#34;)
             if previous_version_ui == &#34;NavigationDetectionV2&#34;:
@@ -2928,13 +3098,30 @@ class UI():
             def version_selection():
                 self.version_ui = version_ui.get()
             v1_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV1&#34;, variable=version_ui, value=&#34;NavigationDetectionV1&#34;, command=version_selection)
-            v1_radio_button.grid(row=2, column=0)
+            v1_radio_button.grid(row=2, column=1)
             v2_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV2&#34;, variable=version_ui, value=&#34;NavigationDetectionV2&#34;, command=version_selection)
-            v2_radio_button.grid(row=2, column=1)
+            v2_radio_button.grid(row=3, column=1)
             v3_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV3&#34;, variable=version_ui, value=&#34;NavigationDetectionV3&#34;, command=version_selection)
-            v3_radio_button.grid(row=2, column=2)
+            v3_radio_button.grid(row=4, column=1)
             version_selection()
 
+            helpers.MakeEmptyLine(generalFrame, 5, 1)
+
+            helpers.MakeLabel(generalFrame, &#34;CleanRouteAdvisor Mod:&#34;, 6, 1, font=(&#34;Segoe UI&#34;, 12))
+            # mod selection
+            mod_ui = tk.StringVar()
+            previous_mod_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;mod&#34;, &#34;0&#34;)
+            if previous_mod_ui == &#34;1&#34;:
+                mod_ui.set(&#34;1&#34;)
+            if previous_mod_ui == &#34;0&#34;:
+                mod_ui.set(&#34;0&#34;)
+            def mod_selection():
+                self.mod_ui = mod_ui.get()
+            mod_true_radio_button = ttk.Radiobutton(generalFrame, text=&#34;I use the CleanRouteAdvisor mod.&#34;, variable=mod_ui, value=&#34;1&#34;, command=mod_selection)
+            mod_true_radio_button.grid(row=7, column=1)
+            mod_false_radio_button = ttk.Radiobutton(generalFrame, text=&#34;I do not use the CleanRouteAdvisor mod / the mod does not work.&#34;, variable=mod_ui, value=&#34;0&#34;, command=mod_selection)
+            mod_false_radio_button.grid(row=8, column=1)
+            mod_selection()
 
             # V1 Tab
             self.trimSlider = tk.Scale(v1Tab, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
@@ -3092,7 +3279,9 @@ class UI():
             helpers.MakeEmptyLine(v3generalFrame, 6, 0)
             self.lanechanging_speed = helpers.MakeComboEntry(v3generalFrame, &#34;Lane Changing Speed\n--------------------------------\nThis sets how fast the truck changes the lane.\n‎&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_speed&#34;, 6, 0, labelwidth=90, width=15, isFloat=True)
             self.lanechanging_width = helpers.MakeComboEntry(v3generalFrame, &#34;Lane Width\n-----------------\nThis sets how much the truck needs to go left or right to change the lane.\n‎&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, 7, 0, labelwidth=90, width=15, isFloat=True)
-            
+            helpers.MakeCheckButton(v3generalFrame, &#34;Automatically change to lane 0 if a turn got detected and lane changing is enabled.\nNote: You wont be able to change lanes when a turn is detected.&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_autolanezero&#34;, 8, 0, width=90, callback=lambda: LoadSettings())
+            helpers.MakeLabel(v3generalFrame, &#34;If you set the buttons for changing lanes in the controls menu, you can no longer change lanes\nusing the indicators. Remove the buttons from the controls menu if you want to use the indicators\nfor lane changing.&#34;, 9, 0, sticky=&#34;nw&#34;)
+
         def save(self):
             
             # V2:
@@ -3104,13 +3293,15 @@ class UI():
             settings.CreateSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, float(self.lanechanging_width.get()))
 
             settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, self.version_ui)
-            version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;)
+            version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, &#34;NavigationDetectionV3&#34;)
             if version == &#34;NavigationDetectionV1&#34;:         
                 LoadSettingsV1()
             if version == &#34;NavigationDetectionV2&#34;:              
                 LoadSettingsV2()
             if version == &#34;NavigationDetectionV3&#34;:
                 LoadSettingsV3()
+                
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;mod&#34;, self.mod_ui)
             LoadSettings()
         
         def update(self, data): # When the panel is open this function is called each frame 
@@ -3139,13 +3330,15 @@ class UI():
 </summary>
 <pre><code class="python">def LoadSettings():
     global version
-    version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;)
+    version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, &#34;NavigationDetectionV3&#34;)
     if version == &#34;NavigationDetectionV1&#34;:         
         LoadSettingsV1()
     if version == &#34;NavigationDetectionV2&#34;:              
         LoadSettingsV2()
     if version == &#34;NavigationDetectionV3&#34;:
-        LoadSettingsV3()</code></pre>
+        LoadSettingsV3()
+    global mod
+    mod = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;mod&#34;, &#34;0&#34;)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.LoadSettingsV1"><code class="name flex">
@@ -3456,8 +3649,12 @@ class UI():
 
     global check_zoom_timer
     global do_zoom
+    global do_blocked
     global allow_playsound
     global allow_playsound_timer
+
+    global controls_last_left
+    global controls_last_right
 
     global left_x_lane
     global right_x_lane
@@ -3482,16 +3679,19 @@ class UI():
     global indicator_right_wait_for_response
     global indicator_left_response_timer
     global indicator_right_response_timer
+    global indicator_enable_left
+    global indicator_enable_right
     global indicator_changed_by_code
 
     global lanechanging_do_lane_changing
     global lanechanging_speed
     global lanechanging_width
+    global lanechanging_autolanezero
     global lanechanging_current_lane
     global lanechanging_final_offset
 
     setupmode = False
-    last_window_size = 0
+    last_window_size = (0, 0, round(pyautogui.size()[0]/2), round(pyautogui.size()[1]/2))
     last_mouse_position = 0
     v3setupzoom = 0
     zoomoffsetx = 0
@@ -3537,8 +3737,12 @@ class UI():
 
     check_zoom_timer = 0
     do_zoom = False
+    do_blocked = False
     allow_playsound = False
     allow_playsound_timer = time.time()
+
+    controls_last_left = False
+    controls_last_right = False
 
     left_x_lane = 0
     right_x_lane = 0
@@ -3564,11 +3768,14 @@ class UI():
     indicator_right_wait_for_response = False
     indicator_left_response_timer = 0
     indicator_right_response_timer = 0
+    indicator_enable_left = False
+    indicator_enable_right = False
     indicator_changed_by_code = True
 
     lanechanging_do_lane_changing = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_do_lane_changing&#34;, True)
     lanechanging_speed = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_speed&#34;, 1)
     lanechanging_width = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, 10)
+    lanechanging_autolanezero = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_autolanezero&#34;, True)
     lanechanging_current_lane = 0
     lanechanging_final_offset = 0</code></pre>
 </details>
@@ -4174,7 +4381,7 @@ class UI():
 
             if trafficlightdetectionisenabled == True:
                 try:
-                    trafficlight = data[&#34;TrafficLightDetection&#34;]
+                    trafficlight = data[&#34;TrafficLightDetection&#34;][&#34;simple&#34;]
                 except:
                     trafficlightdetectionisenabled = False
                     trafficlight = &#34;Off&#34;
@@ -4386,6 +4593,7 @@ class UI():
 ############################################################################################################################
     if version == &#34;NavigationDetectionV3&#34;:
         global setupmode
+        global setupframe
         global last_window_size
         global last_mouse_position
         global v3setupzoom
@@ -4411,8 +4619,12 @@ class UI():
 
         global check_zoom_timer
         global do_zoom
+        global do_blocked
         global allow_playsound
         global allow_playsound_timer
+        
+        global controls_last_left
+        global controls_last_right
 
         global left_x_lane
         global right_x_lane
@@ -4437,11 +4649,14 @@ class UI():
         global indicator_right_wait_for_response
         global indicator_left_response_timer
         global indicator_right_response_timer
+        global indicator_enable_left
+        global indicator_enable_right
         global indicator_changed_by_code
 
         global lanechanging_do_lane_changing
         global lanechanging_speed
         global lanechanging_width
+        global lanechanging_autolanezero
         global lanechanging_current_lane
         global lanechanging_final_offset
         
@@ -4480,6 +4695,9 @@ class UI():
             if width != 0 and height != 0:
                 mouseposx = mousex/width
                 mouseposy = mousey/height
+            else:
+                mouseposx = 0
+                mouseposy = 0
 
             setupframetextsize = math.sqrt(width)/35
             setupframetextthickness = round(math.sqrt(width)/35)*2
@@ -4627,7 +4845,7 @@ class UI():
             frame_width = frame.shape[1]
             frame_height = frame.shape[0]
 
-            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.05 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.05 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.0*frame_width), round(0.0*frame_height)), (round(0.1*frame_width), round(0.05*frame_height)), (70, 20, 20), -1)
                 if left_clicked == True:
                     if round(frame_height*v3setupzoom/100) &lt; round(frame_height-frame_height*v3setupzoom/100) - frame_height/2:
@@ -4655,7 +4873,7 @@ class UI():
             cv2.putText(frame, &#34;Zoom IN&#34;, (round(0.0*frame_width), round(0.04*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
             
-            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.07 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.12 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.07 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.12 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.0*frame_width), round(0.07*frame_height)), (round(0.1*frame_width), round(0.12*frame_height)), (70, 20, 20), -1)
                 if left_clicked == True:
                     v3setupzoom -= 0.3
@@ -4680,9 +4898,40 @@ class UI():
             if fontthickness_current_text &lt;= 0:
                 fontthickness_current_text = 1
             cv2.putText(frame, &#34;Zoom OUT&#34;, (round(0.0*frame_width), round(0.11*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            
+            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.14 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.22 and mousecoordroot[1] &lt; 0.30:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.22*frame_height)), (70, 20, 20), -1)
+                if left_clicked == True:
+                    screenshot = pyautogui.screenshot()
+                    setupframe = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+                    frame = setupframe.copy()
+                    frame_width = frame.shape[1]
+                    frame_height = frame.shape[0]
+            else:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.22*frame_height)), (50, 0, 0), -1)
+            current_text = &#34;Screenshot&#34;
+            width_target_current_text = frame_width/10
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text &lt;= 0:
+                    break
+            fontthickness_current_text = round(fontscale_current_text*2)
+            if fontthickness_current_text &lt;= 0:
+                fontthickness_current_text = 1
+            cv2.putText(frame, &#34;Screenshot&#34;, (round(0.0*frame_width), round(0.21*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            textsize_current_text, _ = cv2.getTextSize(&#34;New&#34;, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            cv2.putText(frame, &#34;New&#34;, (round(0.05*frame_width-width_current_text/2), round(0.17*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
-            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.14 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.19 and mousecoordroot[1] &lt; 0.25:
-                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.19*frame_height)), (0, 0, 255), -1)
+            if mouseposx &gt;= 0.0 and mouseposy &gt;= 0.24 and mouseposx &lt;= 0.1 and mouseposy &lt;= 0.29 and mousecoordroot[1] &lt; 0.30:
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.24*frame_height)), (round(0.1*frame_width), round(0.29*frame_height)), (0, 0, 255), -1)
                 if left_clicked == True:
                     if messagebox.askokcancel(&#34;Setup&#34;, (f&#34;Do you really want to reset the setup to default settings?&#34;)):
                         zoomoffsetx = 0
@@ -4718,7 +4967,7 @@ class UI():
                         settings.CreateSettings(&#34;NavigationDetectionV3&#34;, &#34;bottomright&#34;, bottomright)
                         settings.CreateSettings(&#34;NavigationDetectionV3&#34;, &#34;centercoord&#34;, centercoord)
             else:
-                cv2.rectangle(frame, (round(0.0*frame_width), round(0.14*frame_height)), (round(0.1*frame_width), round(0.19*frame_height)), (0, 0, 230), -1)
+                cv2.rectangle(frame, (round(0.0*frame_width), round(0.24*frame_height)), (round(0.1*frame_width), round(0.29*frame_height)), (0, 0, 230), -1)
             current_text = &#34;RESET&#34;
             width_target_current_text = frame_width/12
             fontscale_current_text = 1
@@ -4735,7 +4984,7 @@ class UI():
             fontthickness_current_text = round(fontscale_current_text*2)
             if fontthickness_current_text &lt;= 0:
                 fontthickness_current_text = 1
-            cv2.putText(frame, &#34;RESET&#34;, (round(0.007*frame_width), round(0.18*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            cv2.putText(frame, &#34;RESET&#34;, (round(0.007*frame_width), round(0.28*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
             if left_clicked == False:
                 moverootx = zoomoffsetx + mousex
@@ -4746,7 +4995,7 @@ class UI():
                     zoomoffsetx = moverootx - mousex
                     zoomoffsety = moverooty - mousey
 
-            if mouseposx &gt;= 0.9 and mouseposy &gt;= 0.0 and mouseposx &lt;= 1.0 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.9 and mouseposy &gt;= 0.0 and mouseposx &lt;= 1.0 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.9*frame_width), round(0.0*frame_height)), (round(1.0*frame_width), round(0.1*frame_height)), (0, 235, 0), -1)
                 if left_clicked == True:
                     finishedsetup = True
@@ -4772,7 +5021,7 @@ class UI():
             cv2.putText(frame, &#34;Setup&#34;, (round(0.918*frame_width), round(0.084*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx &gt;= 0.22 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.35 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.22 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.35 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.22*frame_width), round(0.0*frame_height)), (round(0.35*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and getbottomright == False and getcentercoord == False:
                     gettopleft = True
@@ -4800,7 +5049,7 @@ class UI():
             cv2.putText(frame, &#34;   Coordinate&#34;, (round(0.218*frame_width), round(0.085*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx &gt;= 0.42 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.58 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.42 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.58 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.42*frame_width), round(0.0*frame_height)), (round(0.58*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and gettopleft == False and getcentercoord == False:
                     getbottomright = True
@@ -4828,7 +5077,7 @@ class UI():
             cv2.putText(frame, &#34;   Coordinate&#34;, (round(0.437*frame_width), round(0.085*frame_height)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), fontthickness_current_text, cv2.LINE_AA)
 
 
-            if mouseposx &gt;= 0.65 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.78 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.25:
+            if mouseposx &gt;= 0.65 and mouseposy &gt;= 0.0 and mouseposx &lt;= 0.78 and mouseposy &lt;= 0.1 and mousecoordroot[1] &lt; 0.30:
                 cv2.rectangle(frame, (round(0.65*frame_width), round(0.0*frame_height)), (round(0.78*frame_width), round(0.1*frame_height)), (252, 3, 90), -1)
                 if left_clicked == True and gettopleft == False and getbottomright == False:
                     getcentercoord = True
@@ -4901,20 +5150,12 @@ class UI():
                             if enabled_plugins[i] not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                                 settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
-                    if enabled_plugins == settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
-                        DefaultSteering.enabled = True
-                        variables.UPDATEPLUGINS = True
-                        variables.ENABLELOOP = False
-                        mainUI.update(data)
-                        setupmode = False
-                        LoadSettingsV3()
-                else:
-                    DefaultSteering.enabled = True
-                    variables.UPDATEPLUGINS = True
-                    variables.ENABLELOOP = False
-                    mainUI.update(data)
-                    setupmode = False
-                    LoadSettingsV3()
+                DefaultSteering.enabled = True
+                variables.UPDATEPLUGINS = True
+                variables.ENABLELOOP = False
+                mainUI.update(data)
+                setupmode = False
+                LoadSettingsV3()
 
         if setupmode == False:
             current_time = time.time()
@@ -4923,6 +5164,8 @@ class UI():
                 frame = data[&#34;frame&#34;]
             except:
                 return data
+
+            if frame is None: return data
             
             try:
                 width = frame.shape[1]
@@ -4961,7 +5204,7 @@ class UI():
 
             if trafficlightdetection_is_enabled == True:
                 try:
-                    trafficlight = data[&#34;TrafficLightDetection&#34;]
+                    trafficlight = data[&#34;TrafficLightDetection&#34;][&#34;simple&#34;]
                 except:
                     trafficlightdetection_is_enabled = False
                     trafficlight = &#34;Off&#34;
@@ -4970,46 +5213,53 @@ class UI():
 
             f5_key_state = ctypes.windll.user32.GetAsyncKeyState(0x74)
             f5_pressed = f5_key_state &amp; 0x8000 != 0
-            if f5_pressed == True:
+            if f5_pressed == True or do_blocked == True:
                 check_zoom_timer = current_time
             if current_time - 1 &lt; check_zoom_timer or check_zoom_timer == 0:
                 check_zoom = True
             else:
                 check_zoom = False
-            if check_zoom == True and gamepaused == False:
-                hwnd_ets2 = ctypes.windll.user32.FindWindowW(None, &#34;Euro Truck Simulator 2&#34;)
-                hwnd_ets2_multiplayer = ctypes.windll.user32.FindWindowW(None, &#34;Euro Truck Simulator 2 Multiplayer&#34;)
-                hwnd_ats = ctypes.windll.user32.FindWindowW(None, &#34;American Truck Simulator&#34;)
-                hwnd_ats_multiplayer = ctypes.windll.user32.FindWindowW(None, &#34;American Truck Simulator Multiplayer&#34;)
-                hwnd_active = ctypes.windll.user32.GetForegroundWindow()
-                if hwnd_active == hwnd_ets2 or hwnd_active == hwnd_ats or hwnd_active == hwnd_ets2_multiplayer or hwnd_active == hwnd_ats_multiplayer:
-                    lower_blue = np.array([121, 68, 0])
-                    upper_blue = np.array([250, 184, 109])
-                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
-                    y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
-                    mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 &lt;= round(width/10)**2
-                    mask_blue = np.where(mask_circle, mask_blue, 0)
-                    if width != 0 and height != 0:
-                        pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
-                    else:
-                        pixel_ratio = 0
-                    if pixel_ratio &gt; 0.007 and pixel_ratio &lt; 0.01:
-                        do_zoom = False
-                    else:
-                        do_zoom = True
-                    if check_zoom_timer == 0:
-                        check_zoom_timer = current_time
-                
-            lower_red = np.array([0, 0, 160])
-            upper_red = np.array([110, 110, 255])
-            lower_green = np.array([0, 200, 0])
-            upper_green = np.array([230, 255, 150])
-            white_limit = 1
+            if check_zoom == True:
+                lower_blue = np.array([121, 68, 0])
+                upper_blue = np.array([250, 184, 109])
+                mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
+                y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
+                mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 &lt;= round(width/10)**2
+                mask_blue = np.where(mask_circle, mask_blue, 0)
+                if width != 0 and height != 0:
+                    pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
+                else:
+                    pixel_ratio = 0
+                if pixel_ratio &gt; 0.007 and pixel_ratio &lt; 0.01:
+                    do_zoom = False
+                else:
+                    do_zoom = True
+                if pixel_ratio &lt; 0.001:
+                    do_blocked = True
+                else:
+                    do_blocked = False
+                if check_zoom_timer == 0:
+                    check_zoom_timer = current_time
+            
+            if mod != &#34;1&#34;:
+                lower_red = np.array([0, 0, 160])
+                upper_red = np.array([110, 110, 255])
+                lower_green = np.array([0, 200, 0])
+                upper_green = np.array([230, 255, 150])
+                white_limit = 1
 
-            mask_red = cv2.inRange(frame, lower_red, upper_red)
-            mask_green = cv2.inRange(frame, lower_green, upper_green)
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+                mask_green = cv2.inRange(frame, lower_green, upper_green)
 
-            frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+                frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+            else:
+                lower_red = np.array([0, 0, 180])
+                upper_red = np.array([50, 50, 230])
+                white_limit = 1
+
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+
+                frame_red_green = cv2.bitwise_and(frame, frame, mask=mask_red)
 
             cv2.rectangle(frame_red_green, (0,0), (round(width/6),round(height/3)),(0,0,0),-1)
             cv2.rectangle(frame_red_green, (width,0), (round(width-width/6),round(height/3)),(0,0,0),-1)
@@ -5199,8 +5449,13 @@ class UI():
 
             if turnincoming_detected == True:
                 turnincoming_last_detected = current_time
-                lanechanging_current_lane = 0
+                if lanechanging_autolanezero == True:
+                    lanechanging_current_lane = 0
             
+            if DefaultSteering.enabled == True:
+                enabled = True
+            else:
+                enabled = False
             try:
                 data[&#34;sdk&#34;]
             except:
@@ -5214,19 +5469,19 @@ class UI():
                 indicator_left_wait_for_response = False
             if current_time - 1 &gt; indicator_right_response_timer:
                 indicator_right_wait_for_response = False
-            if turnincoming_direction == &#34;Left&#34; and indicator_left == False and indicator_left_wait_for_response == False:
+            if turnincoming_direction == &#34;Left&#34; and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
                 data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if turnincoming_direction == &#34;Right&#34; and indicator_right == False and indicator_right_wait_for_response == False:
+            if turnincoming_direction == &#34;Right&#34; and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
                 data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
-            if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 &gt; turnincoming_last_detected and indicator_changed_by_code == True:
+            if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 &gt; turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
                 data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 &gt; turnincoming_last_detected and indicator_changed_by_code == True:
+            if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 &gt; turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
                 data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
@@ -5234,11 +5489,56 @@ class UI():
                 indicator_changed_by_code = True
             else:
                 indicator_changed_by_code = False
-            if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
-                lanechanging_current_lane += 1
-            if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
-                lanechanging_current_lane -= 1
-            
+
+            if controls.GetKeybindFromName(&#34;Lane change to the left&#34;)[&#39;buttonIndex&#39;] != -1:
+                controls_left_set = True
+                controls_left = controls.GetKeybindValue(&#34;Lane change to the left&#34;)
+            else:
+                controls_left_set = False
+                controls_left = False
+            if controls.GetKeybindFromName(&#34;Lane change to the right&#34;)[&#39;buttonIndex&#39;] != -1:
+                controls_right_set = True
+                controls_right = controls.GetKeybindValue(&#34;Lane change to the right&#34;)
+            else:
+                controls_right_set = False
+                controls_right = False
+
+            if controls_left_set == False:
+                if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
+                    lanechanging_current_lane += 1
+            else:
+                if controls_left == True and controls_last_left == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
+                    if indicator_left == True:
+                        lanechanging_current_lane += 1
+                    elif indicator_left == False and indicator_right_wait_for_response == False:
+                        lanechanging_current_lane += 1
+                        indicator_enable_left = True
+            if controls_right_set == False:
+                if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
+                    lanechanging_current_lane -= 1
+            else:
+                if controls_right == True and controls_last_right == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 &gt; turnincoming_last_detected:
+                    if indicator_right == True:
+                        lanechanging_current_lane -= 1
+                    elif indicator_right == False and indicator_left_wait_for_response == False:
+                        lanechanging_current_lane -= 1
+                        indicator_enable_right = True
+
+            if indicator_enable_left == True and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
+                data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
+                indicator_changed_by_code = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+            elif indicator_left == True and indicator_left_wait_for_response == False:
+                indicator_enable_left = False
+            if indicator_enable_right == True and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
+                data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
+                indicator_changed_by_code = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+            elif indicator_right == True and indicator_right_wait_for_response == False:
+                indicator_enable_right = False
+
             lanechanging_target_offset = lanechanging_width * lanechanging_current_lane
             lanechanging_current_correction = lanechanging_target_offset - lanechanging_final_offset
             if abs(lanechanging_current_correction) &gt; lanechanging_speed/10:
@@ -5248,11 +5548,21 @@ class UI():
                     lanechanging_current_correction = -lanechanging_speed/10
             lanechanging_final_offset += lanechanging_current_correction
             lanechanging_progress = lanechanging_final_offset/lanechanging_width
-            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+            
+            if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_left_set == False:
                 data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
                 indicator_left_wait_for_response = True
                 indicator_left_response_timer = current_time
-            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True:
+            elif lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_left_set == True:
+                data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+
+            if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_right_set == False:
+                data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+            elif lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_right_set == True:
                 data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = True
                 indicator_right_wait_for_response = True
                 indicator_right_response_timer = current_time
@@ -5267,12 +5577,18 @@ class UI():
                         correction = navigationsymbol_x - center_x_lane + width_lane/40
             else:
                 correction = 0
-                if turnincoming_direction == &#34;Left&#34;:
+                if turnincoming_direction == &#34;Left&#34; and enabled == True:
                     data[&#34;sdk&#34;][&#34;LeftBlinker&#34;] = False
-                if turnincoming_direction == &#34;Right&#34;:
+                if turnincoming_direction == &#34;Right&#34; and enabled == True:
                     data[&#34;sdk&#34;][&#34;RightBlinker&#34;] = False
                 turnincoming_detected = False
                 tunincoming_direction = None
+
+            allow_trafficlight_symbol = True
+            allow_no_lane_detected = True
+            allow_do_blocked = True
+            allow_do_zoom = True
+            show_turn_line = True
             
             if topleft == None or bottomright == None or centercoord == None:
                 if allow_playsound == True:
@@ -5286,6 +5602,8 @@ class UI():
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness &lt; 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -5301,15 +5619,11 @@ class UI():
 
                 allow_trafficlight_symbol = False
                 allow_no_lane_detected = False
+                allow_do_blocked = False
                 allow_do_zoom = False
                 show_turn_line = False
-            else:
-                allow_trafficlight_symbol = True
-                allow_no_lane_detected = True
-                allow_do_zoom = True
-                show_turn_line = True
-            
-            if do_zoom == True and allow_do_zoom == True:
+
+            if do_blocked == True and allow_do_blocked == True:
                 if allow_playsound == True:
                     sounds.PlaysoundFromLocalPath(&#34;assets/sounds/info.mp3&#34;)
                     allow_playsound = False
@@ -5321,6 +5635,43 @@ class UI():
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness &lt; 1:
+                    infothickness = 1
+                cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
+                cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
+                cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+
+                sizeoftext = round(height/200)
+                textthickness = round(height/100)
+                text_size, _ = cv2.getTextSize(&#34;Minimap vision&#34;, cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, &#34;Minimap vision&#34;, (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+                text_size, _ = cv2.getTextSize(&#34;blocked&#34;, cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
+                text_width, text_height = text_size
+                cv2.putText(frame, &#34;blocked&#34;, (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+
+                correction = 0
+
+                allow_trafficlight_symbol = False
+                allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
+                show_turn_line = False
+
+            elif do_zoom == True and allow_do_zoom == True:
+                if allow_playsound == True:
+                    sounds.PlaysoundFromLocalPath(&#34;assets/sounds/info.mp3&#34;)
+                    allow_playsound = False
+                    allow_playsound_timer = current_time
+                frame = cv2.GaussianBlur(frame, (9, 9), 0)
+                frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
+
+                xofinfo = round(width/2)
+                yofinfo = round(height/3.5)
+                sizeofinfo = round(height/5)
+                infothickness = round(height/50)
+                if infothickness &lt; 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -5335,11 +5686,9 @@ class UI():
 
                 allow_trafficlight_symbol = False
                 allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
                 show_turn_line = False
-            else:
-                allow_trafficlight_symbol = True
-                allow_no_lane_detected = True
-                show_turn_line = True
 
             if width_lane == 0 and allow_no_lane_detected == True:
                 if allow_playsound == True:
@@ -5353,6 +5702,8 @@ class UI():
                 yofinfo = round(height/3.5)
                 sizeofinfo = round(height/5)
                 infothickness = round(height/50)
+                if infothickness &lt; 1:
+                    infothickness = 1
                 cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
                 cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
                 cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
@@ -5369,13 +5720,10 @@ class UI():
                 correction = 0
 
                 allow_trafficlight_symbol = False
+                allow_no_lane_detected = False
+                allow_do_blocked = False
+                allow_do_zoom = False
                 show_turn_line = False
-            else:
-                if allow_no_lane_detected == True:
-                    allow_trafficlight_symbol = True
-                else:
-                    allow_trafficlight_symbol = False
-                show_turn_line = True
 
             showing_traffic_light_symbol = False
             if trafficlightdetection_is_enabled == True and allow_trafficlight_symbol == True:
@@ -5452,7 +5800,7 @@ class UI():
             
             if fuel_percentage &lt; 15:
                 current_text = &#34;Refuel!&#34;
-                width_target_current_text = width/4.5
+                width_target_current_text = width/4
                 fontscale_current_text = 1
                 textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
                 width_current_text, height_current_text = textsize_current_text
@@ -5477,6 +5825,10 @@ class UI():
 
             indicator_last_left = indicator_left
             indicator_last_right = indicator_right
+            controls_last_left = controls_left
+            controls_last_right = controls_right
+            
+            lanechanging_last_progress = lanechanging_progress
 
             if speed &gt; 63:
                 correction *= 63/speed
@@ -5490,6 +5842,7 @@ class UI():
 
             if width_lane == 0:
                 lane_detected = False
+                check_zoom_timer = current_time
             else:
                 lane_detected = True
 
@@ -5562,8 +5915,9 @@ class UI():
         def __init__(self, master) -&gt; None:
             self.master = master # &#34;master&#34; is the mainUI window
             self.version_ui = &#34;&#34;
+            self.mod_ui = &#34;&#34;
             self.exampleFunction()
-            resizeWindow(950,660)        
+            resizeWindow(950,665)        
         
         def destroy(self):
             self.done = True
@@ -5571,7 +5925,7 @@ class UI():
             del self
         
         def tabFocused(self): # Called when the tab is focused
-            resizeWindow(950,660)
+            resizeWindow(950,665)
 
         def UpdateSettings(self):
             # V1:
@@ -5615,7 +5969,7 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=950, height=660, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=950, height=665, border=0, highlightthickness=0)
             self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
             self.root.pack_propagate(0)
             
@@ -5694,10 +6048,9 @@ class UI():
             ############################################################################################################################
             
             helpers.MakeLabel(generalFrame, &#34;NavigationDetection Version:&#34;, 1, 1, font=(&#34;Segoe UI&#34;, 12))
-
             # version selector
             version_ui = tk.StringVar() 
-            previous_version_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;)
+            previous_version_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, &#34;NavigationDetectionV3&#34;)
             if previous_version_ui == &#34;NavigationDetectionV1&#34;:
                 version_ui.set(&#34;NavigationDetectionV1&#34;)
             if previous_version_ui == &#34;NavigationDetectionV2&#34;:
@@ -5707,13 +6060,30 @@ class UI():
             def version_selection():
                 self.version_ui = version_ui.get()
             v1_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV1&#34;, variable=version_ui, value=&#34;NavigationDetectionV1&#34;, command=version_selection)
-            v1_radio_button.grid(row=2, column=0)
+            v1_radio_button.grid(row=2, column=1)
             v2_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV2&#34;, variable=version_ui, value=&#34;NavigationDetectionV2&#34;, command=version_selection)
-            v2_radio_button.grid(row=2, column=1)
+            v2_radio_button.grid(row=3, column=1)
             v3_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV3&#34;, variable=version_ui, value=&#34;NavigationDetectionV3&#34;, command=version_selection)
-            v3_radio_button.grid(row=2, column=2)
+            v3_radio_button.grid(row=4, column=1)
             version_selection()
 
+            helpers.MakeEmptyLine(generalFrame, 5, 1)
+
+            helpers.MakeLabel(generalFrame, &#34;CleanRouteAdvisor Mod:&#34;, 6, 1, font=(&#34;Segoe UI&#34;, 12))
+            # mod selection
+            mod_ui = tk.StringVar()
+            previous_mod_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;mod&#34;, &#34;0&#34;)
+            if previous_mod_ui == &#34;1&#34;:
+                mod_ui.set(&#34;1&#34;)
+            if previous_mod_ui == &#34;0&#34;:
+                mod_ui.set(&#34;0&#34;)
+            def mod_selection():
+                self.mod_ui = mod_ui.get()
+            mod_true_radio_button = ttk.Radiobutton(generalFrame, text=&#34;I use the CleanRouteAdvisor mod.&#34;, variable=mod_ui, value=&#34;1&#34;, command=mod_selection)
+            mod_true_radio_button.grid(row=7, column=1)
+            mod_false_radio_button = ttk.Radiobutton(generalFrame, text=&#34;I do not use the CleanRouteAdvisor mod / the mod does not work.&#34;, variable=mod_ui, value=&#34;0&#34;, command=mod_selection)
+            mod_false_radio_button.grid(row=8, column=1)
+            mod_selection()
 
             # V1 Tab
             self.trimSlider = tk.Scale(v1Tab, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
@@ -5871,7 +6241,9 @@ class UI():
             helpers.MakeEmptyLine(v3generalFrame, 6, 0)
             self.lanechanging_speed = helpers.MakeComboEntry(v3generalFrame, &#34;Lane Changing Speed\n--------------------------------\nThis sets how fast the truck changes the lane.\n‎&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_speed&#34;, 6, 0, labelwidth=90, width=15, isFloat=True)
             self.lanechanging_width = helpers.MakeComboEntry(v3generalFrame, &#34;Lane Width\n-----------------\nThis sets how much the truck needs to go left or right to change the lane.\n‎&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, 7, 0, labelwidth=90, width=15, isFloat=True)
-            
+            helpers.MakeCheckButton(v3generalFrame, &#34;Automatically change to lane 0 if a turn got detected and lane changing is enabled.\nNote: You wont be able to change lanes when a turn is detected.&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_autolanezero&#34;, 8, 0, width=90, callback=lambda: LoadSettings())
+            helpers.MakeLabel(v3generalFrame, &#34;If you set the buttons for changing lanes in the controls menu, you can no longer change lanes\nusing the indicators. Remove the buttons from the controls menu if you want to use the indicators\nfor lane changing.&#34;, 9, 0, sticky=&#34;nw&#34;)
+
         def save(self):
             
             # V2:
@@ -5883,13 +6255,15 @@ class UI():
             settings.CreateSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, float(self.lanechanging_width.get()))
 
             settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, self.version_ui)
-            version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;)
+            version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, &#34;NavigationDetectionV3&#34;)
             if version == &#34;NavigationDetectionV1&#34;:         
                 LoadSettingsV1()
             if version == &#34;NavigationDetectionV2&#34;:              
                 LoadSettingsV2()
             if version == &#34;NavigationDetectionV3&#34;:
                 LoadSettingsV3()
+                
+            settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;mod&#34;, self.mod_ui)
             LoadSettings()
         
         def update(self, data): # When the panel is open this function is called each frame 
@@ -5977,7 +6351,7 @@ class UI():
         self.root.destroy() # Load the UI each time this plugin is called
     except: pass
     
-    self.root = tk.Canvas(self.master, width=950, height=660, border=0, highlightthickness=0)
+    self.root = tk.Canvas(self.master, width=950, height=665, border=0, highlightthickness=0)
     self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
     self.root.pack_propagate(0)
     
@@ -6056,10 +6430,9 @@ class UI():
     ############################################################################################################################
     
     helpers.MakeLabel(generalFrame, &#34;NavigationDetection Version:&#34;, 1, 1, font=(&#34;Segoe UI&#34;, 12))
-
     # version selector
     version_ui = tk.StringVar() 
-    previous_version_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;)
+    previous_version_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, &#34;NavigationDetectionV3&#34;)
     if previous_version_ui == &#34;NavigationDetectionV1&#34;:
         version_ui.set(&#34;NavigationDetectionV1&#34;)
     if previous_version_ui == &#34;NavigationDetectionV2&#34;:
@@ -6069,13 +6442,30 @@ class UI():
     def version_selection():
         self.version_ui = version_ui.get()
     v1_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV1&#34;, variable=version_ui, value=&#34;NavigationDetectionV1&#34;, command=version_selection)
-    v1_radio_button.grid(row=2, column=0)
+    v1_radio_button.grid(row=2, column=1)
     v2_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV2&#34;, variable=version_ui, value=&#34;NavigationDetectionV2&#34;, command=version_selection)
-    v2_radio_button.grid(row=2, column=1)
+    v2_radio_button.grid(row=3, column=1)
     v3_radio_button = ttk.Radiobutton(generalFrame, text=&#34;NavigationDetectionV3&#34;, variable=version_ui, value=&#34;NavigationDetectionV3&#34;, command=version_selection)
-    v3_radio_button.grid(row=2, column=2)
+    v3_radio_button.grid(row=4, column=1)
     version_selection()
 
+    helpers.MakeEmptyLine(generalFrame, 5, 1)
+
+    helpers.MakeLabel(generalFrame, &#34;CleanRouteAdvisor Mod:&#34;, 6, 1, font=(&#34;Segoe UI&#34;, 12))
+    # mod selection
+    mod_ui = tk.StringVar()
+    previous_mod_ui = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;mod&#34;, &#34;0&#34;)
+    if previous_mod_ui == &#34;1&#34;:
+        mod_ui.set(&#34;1&#34;)
+    if previous_mod_ui == &#34;0&#34;:
+        mod_ui.set(&#34;0&#34;)
+    def mod_selection():
+        self.mod_ui = mod_ui.get()
+    mod_true_radio_button = ttk.Radiobutton(generalFrame, text=&#34;I use the CleanRouteAdvisor mod.&#34;, variable=mod_ui, value=&#34;1&#34;, command=mod_selection)
+    mod_true_radio_button.grid(row=7, column=1)
+    mod_false_radio_button = ttk.Radiobutton(generalFrame, text=&#34;I do not use the CleanRouteAdvisor mod / the mod does not work.&#34;, variable=mod_ui, value=&#34;0&#34;, command=mod_selection)
+    mod_false_radio_button.grid(row=8, column=1)
+    mod_selection()
 
     # V1 Tab
     self.trimSlider = tk.Scale(v1Tab, from_=-10, to=10, resolution=0.1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSettings())
@@ -6232,7 +6622,9 @@ class UI():
     helpers.MakeCheckButton(v3generalFrame, &#34;Lane Changing\n---------------------\nIf enabled, you can change the lane you are driving on using the games indicators.\nTo change the values in the input boxex below, disable the app.&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_do_lane_changing&#34;, 5, 0, width=90, callback=lambda: LoadSettings())
     helpers.MakeEmptyLine(v3generalFrame, 6, 0)
     self.lanechanging_speed = helpers.MakeComboEntry(v3generalFrame, &#34;Lane Changing Speed\n--------------------------------\nThis sets how fast the truck changes the lane.\n‎&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_speed&#34;, 6, 0, labelwidth=90, width=15, isFloat=True)
-    self.lanechanging_width = helpers.MakeComboEntry(v3generalFrame, &#34;Lane Width\n-----------------\nThis sets how much the truck needs to go left or right to change the lane.\n‎&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, 7, 0, labelwidth=90, width=15, isFloat=True)</code></pre>
+    self.lanechanging_width = helpers.MakeComboEntry(v3generalFrame, &#34;Lane Width\n-----------------\nThis sets how much the truck needs to go left or right to change the lane.\n‎&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, 7, 0, labelwidth=90, width=15, isFloat=True)
+    helpers.MakeCheckButton(v3generalFrame, &#34;Automatically change to lane 0 if a turn got detected and lane changing is enabled.\nNote: You wont be able to change lanes when a turn is detected.&#34;, &#34;NavigationDetectionV3&#34;, &#34;lanechanging_autolanezero&#34;, 8, 0, width=90, callback=lambda: LoadSettings())
+    helpers.MakeLabel(v3generalFrame, &#34;If you set the buttons for changing lanes in the controls menu, you can no longer change lanes\nusing the indicators. Remove the buttons from the controls menu if you want to use the indicators\nfor lane changing.&#34;, 9, 0, sticky=&#34;nw&#34;)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.save"><code class="name flex">
@@ -6255,13 +6647,15 @@ class UI():
     settings.CreateSettings(&#34;NavigationDetectionV3&#34;, &#34;lanechanging_width&#34;, float(self.lanechanging_width.get()))
 
     settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, self.version_ui)
-    version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;)
+    version = settings.GetSettings(&#34;NavigationDetection&#34;, &#34;version&#34;, &#34;NavigationDetectionV3&#34;)
     if version == &#34;NavigationDetectionV1&#34;:         
         LoadSettingsV1()
     if version == &#34;NavigationDetectionV2&#34;:              
         LoadSettingsV2()
     if version == &#34;NavigationDetectionV3&#34;:
         LoadSettingsV3()
+        
+    settings.CreateSettings(&#34;NavigationDetection&#34;, &#34;mod&#34;, self.mod_ui)
     LoadSettings()</code></pre>
 </details>
 </dd>
@@ -6275,7 +6669,7 @@ class UI():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def tabFocused(self): # Called when the tab is focused
-    resizeWindow(950,660)</code></pre>
+    resizeWindow(950,665)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetection.main.UI.update"><code class="name flex">

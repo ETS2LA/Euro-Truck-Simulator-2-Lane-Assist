@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main API documentation</title>
-<meta name="description" content="This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
-If you need to make a plugin that is updated in the bg then …" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main API documentation</title>
+<meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
@@ -340,33 +339,24 @@ color: #fff;
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main</code></h1>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main</code></h1>
 </header>
 <section id="section-intro">
-<p>This is an example of a panel (type="static"), they will be updated if they are open.
-If you need to make a plugin that is updated in the bg then check the Plugin example!</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;
-This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
-If you need to make a plugin that is updated in the bg then check the Plugin example!
-&#34;&#34;&#34;
-
-
-from plugins.plugin import PluginInformation
+<pre><code class="python">from plugins.plugin import PluginInformation
 from src.logger import print
 
 PluginInfo = PluginInformation(
-    name=&#34;Panel&#34;, # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
-    # In case the plugin is not the main file (for example plugins\Panel\Panel.py) then the name would be &#34;Panel.Panel&#34;
-    
-    description=&#34;ExamplePanel.&#34;,
+    name=&#34;DataViewer&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description=&#34;Shows the current data in the data variable.&#34;,
     version=&#34;0.1&#34;,
     author=&#34;Tumppi066&#34;,
-    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
-    type=&#34;static&#34; # = Panel
+    url=&#34;https://github.com/Cloud-121/ETS2-Python-Api&#34;,
+    type=&#34;static&#34;, # = Panel
+    dynamicOrder=&#34;last&#34; # Will run the plugin before anything else in the mainloop (data will be empty)
 )
 
 import tkinter as tk
@@ -375,7 +365,19 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
+from src.loading import LoadingWindow
+from src.translator import Translate
+import src.mainUI as mainUI
+import time
 import os
+import math
+
+# Plugins need to all also have the onEnable and onDisable functions
+def onEnable():
+    pass
+
+def onDisable():
+    pass
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -389,6 +391,20 @@ class UI():
             self.root.destroy()
             del self
 
+        def readData(self, key, value, depth):
+            if type(value) != dict:
+                self.list.insert(tk.END, &#34; &#34; * depth + key + &#34;: &#34; + str(value))
+            else:
+                self.list.insert(tk.END, &#34; &#34; * depth + &#34; &#34; + key + &#34;:&#34;)
+                for key2, value2 in value.items():
+                    self.readData(key2, value2, depth + 1)
+            
+
+        def updateData(self):
+            self.list.delete(0, tk.END)
+            # recursively get all the data
+            self.readData(&#34;data&#34;, self.data, 0)
+    
         
         def exampleFunction(self):
             
@@ -399,19 +415,24 @@ class UI():
             self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
             self.root.pack_propagate(0)
-            
-            # Helpers provides easy to use functions for creating consistent widgets!
-            helpers.MakeLabel(self.root, &#34;This is a panel!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
-            # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+            # Create a toggle to toggle updating the data
+            self.toggle = tk.BooleanVar()
+            self.toggle.set(True)
+            self.toggleButton = tk.Checkbutton(self.root, text=&#34;Update data&#34;, variable=self.toggle)
+            self.toggleButton.pack(anchor=&#34;w&#34;)
+            # Create a list to hold all of the data
+            self.listVar = tk.StringVar()
+            self.list = tk.Listbox(self.root, width=600, height=520, border=0, highlightthickness=0, listvariable=self.listVar)
+            self.list.pack()
             
             self.root.pack(anchor=&#34;center&#34;, expand=False)
             self.root.update()
         
-        
         def update(self, data): # When the panel is open this function is called each frame 
+            self.data = data
+            if self.toggle.get():
+                self.updateData()
             self.root.update()
-    
     
     except Exception as ex:
         print(ex.args)</code></pre>
@@ -422,11 +443,40 @@ class UI():
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.onDisable"><code class="name flex">
+<span>def <span class="ident">onDisable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onDisable():
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.onEnable"><code class="name flex">
+<span>def <span class="ident">onEnable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onEnable():
+    pass</code></pre>
+</details>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI"><code class="flex name class">
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI"><code class="flex name class">
 <span>class <span class="ident">UI</span></span>
 <span>(</span><span>master)</span>
 </code></dt>
@@ -448,6 +498,20 @@ class UI():
             self.root.destroy()
             del self
 
+        def readData(self, key, value, depth):
+            if type(value) != dict:
+                self.list.insert(tk.END, &#34; &#34; * depth + key + &#34;: &#34; + str(value))
+            else:
+                self.list.insert(tk.END, &#34; &#34; * depth + &#34; &#34; + key + &#34;:&#34;)
+                for key2, value2 in value.items():
+                    self.readData(key2, value2, depth + 1)
+            
+
+        def updateData(self):
+            self.list.delete(0, tk.END)
+            # recursively get all the data
+            self.readData(&#34;data&#34;, self.data, 0)
+    
         
         def exampleFunction(self):
             
@@ -458,26 +522,31 @@ class UI():
             self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
             self.root.pack_propagate(0)
-            
-            # Helpers provides easy to use functions for creating consistent widgets!
-            helpers.MakeLabel(self.root, &#34;This is a panel!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
-            # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+            # Create a toggle to toggle updating the data
+            self.toggle = tk.BooleanVar()
+            self.toggle.set(True)
+            self.toggleButton = tk.Checkbutton(self.root, text=&#34;Update data&#34;, variable=self.toggle)
+            self.toggleButton.pack(anchor=&#34;w&#34;)
+            # Create a list to hold all of the data
+            self.listVar = tk.StringVar()
+            self.list = tk.Listbox(self.root, width=600, height=520, border=0, highlightthickness=0, listvariable=self.listVar)
+            self.list.pack()
             
             self.root.pack(anchor=&#34;center&#34;, expand=False)
             self.root.update()
         
-        
         def update(self, data): # When the panel is open this function is called each frame 
+            self.data = data
+            if self.toggle.get():
+                self.updateData()
             self.root.update()
-    
     
     except Exception as ex:
         print(ex.args)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.destroy"><code class="name flex">
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.destroy"><code class="name flex">
 <span>def <span class="ident">destroy</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -492,7 +561,7 @@ class UI():
     del self</code></pre>
 </details>
 </dd>
-<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.exampleFunction"><code class="name flex">
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.exampleFunction"><code class="name flex">
 <span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -510,17 +579,39 @@ class UI():
     self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
     self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
     self.root.pack_propagate(0)
-    
-    # Helpers provides easy to use functions for creating consistent widgets!
-    helpers.MakeLabel(self.root, &#34;This is a panel!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
-    # Use the mainUI.quit() function to quit the app
-    helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+    # Create a toggle to toggle updating the data
+    self.toggle = tk.BooleanVar()
+    self.toggle.set(True)
+    self.toggleButton = tk.Checkbutton(self.root, text=&#34;Update data&#34;, variable=self.toggle)
+    self.toggleButton.pack(anchor=&#34;w&#34;)
+    # Create a list to hold all of the data
+    self.listVar = tk.StringVar()
+    self.list = tk.Listbox(self.root, width=600, height=520, border=0, highlightthickness=0, listvariable=self.listVar)
+    self.list.pack()
     
     self.root.pack(anchor=&#34;center&#34;, expand=False)
     self.root.update()</code></pre>
 </details>
 </dd>
-<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.update"><code class="name flex">
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.readData"><code class="name flex">
+<span>def <span class="ident">readData</span></span>(<span>self, key, value, depth)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readData(self, key, value, depth):
+    if type(value) != dict:
+        self.list.insert(tk.END, &#34; &#34; * depth + key + &#34;: &#34; + str(value))
+    else:
+        self.list.insert(tk.END, &#34; &#34; * depth + &#34; &#34; + key + &#34;:&#34;)
+        for key2, value2 in value.items():
+            self.readData(key2, value2, depth + 1)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.update"><code class="name flex">
 <span>def <span class="ident">update</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
@@ -530,7 +621,25 @@ class UI():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    self.data = data
+    if self.toggle.get():
+        self.updateData()
     self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.updateData"><code class="name flex">
+<span>def <span class="ident">updateData</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def updateData(self):
+    self.list.delete(0, tk.END)
+    # recursively get all the data
+    self.readData(&#34;data&#34;, self.data, 0)</code></pre>
 </details>
 </dd>
 </dl>
@@ -546,17 +655,25 @@ class UI():
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.onDisable">onDisable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.onEnable">onEnable</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI">UI</a></code></h4>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI">UI</a></code></h4>
 <ul class="">
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.destroy">destroy</a></code></li>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.exampleFunction">exampleFunction</a></code></li>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.update">update</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.readData" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.readData">readData</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.update">update</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.updateData" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.DataViewer.main.UI.updateData">updateData</a></code></li>
 </ul>
 </li>
 </ul>

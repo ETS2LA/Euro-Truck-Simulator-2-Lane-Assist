@@ -378,6 +378,8 @@ import src.variables as variables
 import src.settings as settings
 import os
 import dxcam
+import _ctypes
+from src.translator import Translate
 
 verifyWidthAndHeight = settings.GetSettings(&#34;dxcam&#34;, &#34;verifyWidthAndHeight&#34;, value=True)
 if verifyWidthAndHeight == None:
@@ -468,9 +470,15 @@ def CreateCamera():
         del camera
     except: pass
     
-    camera = dxcam.create(output_color=&#34;BGR&#34;, output_idx=display, device_idx=device)
+    try:
+        camera = dxcam.create(output_color=&#34;BGR&#34;, output_idx=display, device_idx=device)
+    except _ctypes.COMError as ex:
+        from tkinter import messagebox
+        if messagebox.askyesno(&#34;Error&#34;, Translate(&#34;DXCam failed to initialize. It is likely that your python is not running on the integrated graphics.\nDo you want to open the instructions on how to fix this?\n\nThe main loop will disable to prevent further errors.&#34;)):
+            import webbrowser
+            webbrowser.open(&#34;https://wiki.tumppi066.fi/en/LaneAssist/CommonIssues#the-specified-device-interface-or-feature-level-is-not-supported-on-this-system&#34;)
         
-
+        variables.ENABLELOOP = False
 
 
 # The main file runs the &#34;plugin&#34; function each time the plugin is called
@@ -495,6 +503,7 @@ def plugin(data):
         # Crop the frame to the selected area
         frame = frame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
         data[&#34;frame&#34;] = frame
+        data[&#34;frameOriginal&#34;] = frame
         return data
     except Exception as ex:
         print(ex)
@@ -688,7 +697,15 @@ class UI():
         del camera
     except: pass
     
-    camera = dxcam.create(output_color=&#34;BGR&#34;, output_idx=display, device_idx=device)</code></pre>
+    try:
+        camera = dxcam.create(output_color=&#34;BGR&#34;, output_idx=display, device_idx=device)
+    except _ctypes.COMError as ex:
+        from tkinter import messagebox
+        if messagebox.askyesno(&#34;Error&#34;, Translate(&#34;DXCam failed to initialize. It is likely that your python is not running on the integrated graphics.\nDo you want to open the instructions on how to fix this?\n\nThe main loop will disable to prevent further errors.&#34;)):
+            import webbrowser
+            webbrowser.open(&#34;https://wiki.tumppi066.fi/en/LaneAssist/CommonIssues#the-specified-device-interface-or-feature-level-is-not-supported-on-this-system&#34;)
+        
+        variables.ENABLELOOP = False</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.DXCamScreenCapture.main.onDisable"><code class="name flex">
@@ -746,6 +763,7 @@ class UI():
         # Crop the frame to the selected area
         frame = frame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
         data[&#34;frame&#34;] = frame
+        data[&#34;frameOriginal&#34;] = frame
         return data
     except Exception as ex:
         print(ex)

@@ -378,9 +378,9 @@ import os
 import screeninfo
 
 global detectionmethod
-if &#34;NavigationDetectionV2&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+if &#34;NavigationDetectionV2&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, value=[]):
     detectionmethod = &#34;nav&#34;
-elif &#34;UFLDLaneDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+elif &#34;UFLDLaneDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, value=[]):
     detectionmethod = &#34;ufld&#34;
 else:
     detectionmethod = &#34;lstr&#34;

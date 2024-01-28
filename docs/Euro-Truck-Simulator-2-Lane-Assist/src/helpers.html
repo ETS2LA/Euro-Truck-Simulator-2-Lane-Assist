@@ -356,7 +356,35 @@ import webview
 import webbrowser
 from tktooltip import ToolTip
 
-def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;, tooltip=&#34;&#34;):
+lastRow = 0
+lastParent = None
+defaultAutoplaceColumn = 0
+&#34;&#34;&#34;Use this value to set the default column (what column means a new line) for the autoplace function. The value will get reset once a new parent is used.&#34;&#34;&#34;
+def Autoplace(parent, row:int, column:int):
+    &#34;&#34;&#34;Will automatically determine the row the next element should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Args:
+        parent (tkObject): The parent object of the element.
+    
+    Returns:
+        int: The row the next element should be placed on.
+    &#34;&#34;&#34;
+    global lastRow
+    global lastParent
+    global defaultAutoplaceColumn
+    
+    if lastParent != parent:
+        lastRow = 0
+        defaultAutoplaceColumn = 0
+        lastParent = parent
+    else:
+        if column == defaultAutoplaceColumn:
+            lastRow += 1
+        
+    return lastRow
+        
+
+def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;, tooltip=&#34;&#34;, autoplace:bool=False):
     &#34;&#34;&#34;Will create a new standard button with the given parameters.
 
     Args:
@@ -376,10 +404,15 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TB
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         sticky (str, optional): Defaults to &#34;n&#34;.
         tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         ttk.button: The button object we created.
     &#34;&#34;&#34;
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -395,7 +428,7 @@ def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TB
     return button
 
     
-def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=&#34;&#34;):
+def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=&#34;&#34;, autoplace:bool=False):
     &#34;&#34;&#34;Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)
 
     Args:
@@ -414,10 +447,14 @@ def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column
         columnspan (int, optional): How many columns the checkbutton will span over. Defaults to 1.
         callback (lambda, optional): Lambda callback. Defaults to None.
         tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.BooleanVar: The boolean variable of the checkbutton. (use .get() to get the value)
     &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -471,7 +508,7 @@ def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column
     return variable
 
 
-def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10, tooltip=&#34;&#34;):
+def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10, tooltip=&#34;&#34;, autoplace:bool=False):
     &#34;&#34;&#34;Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)
 
     Args:
@@ -491,10 +528,14 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         labelPadX (int, optional): Defaults to 10.
         tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the entry should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.Var: The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)
     &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -539,7 +580,7 @@ def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column
     
     return var
 
-def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True, tooltip=&#34;&#34;):
+def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True, tooltip=&#34;&#34;, autoplace:bool=False):
     &#34;&#34;&#34;Will make a label with the given parameters.
 
     Args:
@@ -556,10 +597,14 @@ def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 1
         bg (str, optional): Background color. Defaults to &#34;&#34;.
         translate (bool, optional): Whether to translate the label or not. Defaults to True.
         tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the label should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.StringVar / ttk.Label: Depending on whether the text input is &#34;&#34; or not.
     &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -599,7 +644,7 @@ def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 1
         return label
         
 
-def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7):
+def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, autoplace:bool=False):
     &#34;&#34;&#34;Will create an empty line with the given parameters.
 
     Args:
@@ -608,7 +653,12 @@ def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7):
         column (int): The column of the empty line.
         columnspan (int, optional): The number of columns to span the empty line over. Defaults to 1.
         pady (int, optional): Defaults to 7.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
     &#34;&#34;&#34;
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     ttk.Label(parent, text=&#34;&#34;).grid(row=row, column=column, columnspan=columnspan, pady=pady)
         
 
@@ -657,10 +707,60 @@ def ConvertCapitalizationToSpaces(text:str):
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.defaultAutoplaceColumn"><code class="name">var <span class="ident">defaultAutoplaceColumn</span></code></dt>
+<dd>
+<div class="desc"><p>Use this value to set the default column (what column means a new line) for the autoplace function. The value will get reset once a new parent is used.</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.Autoplace"><code class="name flex">
+<span>def <span class="ident">Autoplace</span></span>(<span>parent, row: int, column: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will automatically determine the row the next element should be placed on. You can still use the column option freely, but row will be ignored.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent</code></strong> :&ensp;<code>tkObject</code></dt>
+<dd>The parent object of the element.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The row the next element should be placed on.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Autoplace(parent, row:int, column:int):
+    &#34;&#34;&#34;Will automatically determine the row the next element should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Args:
+        parent (tkObject): The parent object of the element.
+    
+    Returns:
+        int: The row the next element should be placed on.
+    &#34;&#34;&#34;
+    global lastRow
+    global lastParent
+    global defaultAutoplaceColumn
+    
+    if lastParent != parent:
+        lastRow = 0
+        defaultAutoplaceColumn = 0
+        lastParent = parent
+    else:
+        if column == defaultAutoplaceColumn:
+            lastRow += 1
+        
+    return lastRow</code></pre>
+</details>
+</dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.ConvertCapitalizationToSpaces"><code class="name flex">
 <span>def <span class="ident">ConvertCapitalizationToSpaces</span></span>(<span>text: str)</span>
 </code></dt>
@@ -703,7 +803,7 @@ def ConvertCapitalizationToSpaces(text:str):
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeButton"><code class="name flex">
-<span>def <span class="ident">MakeButton</span></span>(<span>parent, text: str, command, row: int, column: int, style: str = 'TButton', width: int = 15, center: bool = False, padx: int = 5, pady: int = 10, state: str = '!disabled', columnspan: int = 1, rowspan: int = 1, translate: bool = True, sticky: str = 'n', tooltip='')</span>
+<span>def <span class="ident">MakeButton</span></span>(<span>parent, text: str, command, row: int, column: int, style: str = 'TButton', width: int = 15, center: bool = False, padx: int = 5, pady: int = 10, state: str = '!disabled', columnspan: int = 1, rowspan: int = 1, translate: bool = True, sticky: str = 'n', tooltip='', autoplace: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will create a new standard button with the given parameters.</p>
@@ -741,6 +841,8 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>Defaults to "n".</dd>
 <dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
 <dd>Defaults to "".</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -751,7 +853,7 @@ def ConvertCapitalizationToSpaces(text:str):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;, tooltip=&#34;&#34;):
+<pre><code class="python">def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;, tooltip=&#34;&#34;, autoplace:bool=False):
     &#34;&#34;&#34;Will create a new standard button with the given parameters.
 
     Args:
@@ -771,10 +873,15 @@ def ConvertCapitalizationToSpaces(text:str):
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         sticky (str, optional): Defaults to &#34;n&#34;.
         tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         ttk.button: The button object we created.
     &#34;&#34;&#34;
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -791,7 +898,7 @@ def ConvertCapitalizationToSpaces(text:str):
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeCheckButton"><code class="name flex">
-<span>def <span class="ident">MakeCheckButton</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 17, values=[True, False], onlyTrue: bool = False, onlyFalse: bool = False, default=False, translate: bool = True, columnspan: int = 1, callback=None, tooltip='')</span>
+<span>def <span class="ident">MakeCheckButton</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 17, values=[True, False], onlyTrue: bool = False, onlyFalse: bool = False, default=False, translate: bool = True, columnspan: int = 1, callback=None, tooltip='', autoplace: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)</p>
@@ -827,6 +934,8 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>Lambda callback. Defaults to None.</dd>
 <dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
 <dd>Defaults to "".</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -837,7 +946,7 @@ def ConvertCapitalizationToSpaces(text:str):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=&#34;&#34;):
+<pre><code class="python">def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=&#34;&#34;, autoplace:bool=False):
     &#34;&#34;&#34;Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)
 
     Args:
@@ -856,10 +965,14 @@ def ConvertCapitalizationToSpaces(text:str):
         columnspan (int, optional): How many columns the checkbutton will span over. Defaults to 1.
         callback (lambda, optional): Lambda callback. Defaults to None.
         tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.BooleanVar: The boolean variable of the checkbutton. (use .get() to get the value)
     &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -914,7 +1027,7 @@ def ConvertCapitalizationToSpaces(text:str):
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeComboEntry"><code class="name flex">
-<span>def <span class="ident">MakeComboEntry</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 10, labelwidth: int = 15, isFloat: bool = False, isString: bool = False, value='', sticky: str = 'w', labelSticky: str = 'w', translate: bool = True, labelPadX: int = 10, tooltip='')</span>
+<span>def <span class="ident">MakeComboEntry</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 10, labelwidth: int = 15, isFloat: bool = False, isString: bool = False, value='', sticky: str = 'w', labelSticky: str = 'w', translate: bool = True, labelPadX: int = 10, tooltip='', autoplace: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)</p>
@@ -952,6 +1065,8 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>Defaults to 10.</dd>
 <dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
 <dd>Defaults to "".</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the entry should be placed on. You can still use the column option freely, but row will be ignored.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -962,7 +1077,7 @@ def ConvertCapitalizationToSpaces(text:str):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10, tooltip=&#34;&#34;):
+<pre><code class="python">def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10, tooltip=&#34;&#34;, autoplace:bool=False):
     &#34;&#34;&#34;Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)
 
     Args:
@@ -982,10 +1097,14 @@ def ConvertCapitalizationToSpaces(text:str):
         translate (bool, optional): Whether to translate the text or not. Defaults to True.
         labelPadX (int, optional): Defaults to 10.
         tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the entry should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.Var: The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)
     &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -1032,7 +1151,7 @@ def ConvertCapitalizationToSpaces(text:str):
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeEmptyLine"><code class="name flex">
-<span>def <span class="ident">MakeEmptyLine</span></span>(<span>parent, row: int, column: int, columnspan: int = 1, pady: int = 7)</span>
+<span>def <span class="ident">MakeEmptyLine</span></span>(<span>parent, row: int, column: int, columnspan: int = 1, pady: int = 7, autoplace: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will create an empty line with the given parameters.</p>
@@ -1048,12 +1167,14 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>The number of columns to span the empty line over. Defaults to 1.</dd>
 <dt><strong><code>pady</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>Defaults to 7.</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7):
+<pre><code class="python">def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, autoplace:bool=False):
     &#34;&#34;&#34;Will create an empty line with the given parameters.
 
     Args:
@@ -1062,12 +1183,17 @@ def ConvertCapitalizationToSpaces(text:str):
         column (int): The column of the empty line.
         columnspan (int, optional): The number of columns to span the empty line over. Defaults to 1.
         pady (int, optional): Defaults to 7.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
     &#34;&#34;&#34;
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     ttk.Label(parent, text=&#34;&#34;).grid(row=row, column=column, columnspan=columnspan, pady=pady)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeLabel"><code class="name flex">
-<span>def <span class="ident">MakeLabel</span></span>(<span>parent, text: str, row: int, column: int, font=('Segoe UI', 10), pady: int = 7, padx: int = 7, columnspan: int = 1, sticky: str = 'n', fg: str = '', bg: str = '', translate: bool = True, tooltip='')</span>
+<span>def <span class="ident">MakeLabel</span></span>(<span>parent, text: str, row: int, column: int, font=('Segoe UI', 10), pady: int = 7, padx: int = 7, columnspan: int = 1, sticky: str = 'n', fg: str = '', bg: str = '', translate: bool = True, tooltip='', autoplace: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will make a label with the given parameters.</p>
@@ -1099,6 +1225,8 @@ def ConvertCapitalizationToSpaces(text:str):
 <dd>Whether to translate the label or not. Defaults to True.</dd>
 <dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
 <dd>Defaults to "".</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the label should be placed on. You can still use the column option freely, but row will be ignored.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>tk.StringVar / ttk.Label: Depending on whether the text input is "" or not.</p></div>
@@ -1106,7 +1234,7 @@ def ConvertCapitalizationToSpaces(text:str):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True, tooltip=&#34;&#34;):
+<pre><code class="python">def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True, tooltip=&#34;&#34;, autoplace:bool=False):
     &#34;&#34;&#34;Will make a label with the given parameters.
 
     Args:
@@ -1123,10 +1251,14 @@ def ConvertCapitalizationToSpaces(text:str):
         bg (str, optional): Background color. Defaults to &#34;&#34;.
         translate (bool, optional): Whether to translate the label or not. Defaults to True.
         tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the label should be placed on. You can still use the column option freely, but row will be ignored.
 
     Returns:
         tk.StringVar / ttk.Label: Depending on whether the text input is &#34;&#34; or not.
     &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
     if translate:
         text = translator.Translate(text)
     
@@ -1235,8 +1367,14 @@ def ConvertCapitalizationToSpaces(text:str):
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
 </ul>
 </li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.defaultAutoplaceColumn" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.defaultAutoplaceColumn">defaultAutoplaceColumn</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.Autoplace" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.Autoplace">Autoplace</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.ConvertCapitalizationToSpaces" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.ConvertCapitalizationToSpaces">ConvertCapitalizationToSpaces</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeButton" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeButton">MakeButton</a></code></li>
 <li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeCheckButton" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeCheckButton">MakeCheckButton</a></code></li>

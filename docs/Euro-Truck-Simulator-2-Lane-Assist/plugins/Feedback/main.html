@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main API documentation</title>
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main API documentation</title>
 <meta name="description" content="This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
 If you need to make a plugin that is updated in the bg then …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -340,7 +340,7 @@ color: #fff;
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main</code></h1>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main</code></h1>
 </header>
 <section id="section-intro">
 <p>This is an example of a panel (type="static"), they will be updated if they are open.
@@ -359,10 +359,10 @@ from plugins.plugin import PluginInformation
 from src.logger import print
 
 PluginInfo = PluginInformation(
-    name=&#34;Panel&#34;, # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
+    name=&#34;Feedback&#34;, # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
     # In case the plugin is not the main file (for example plugins\Panel\Panel.py) then the name would be &#34;Panel.Panel&#34;
     
-    description=&#34;ExamplePanel.&#34;,
+    description=&#34;A simple panel to send feedback to the devs.&#34;,
     version=&#34;0.1&#34;,
     author=&#34;Tumppi066&#34;,
     url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
@@ -376,6 +376,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
+from src.server import SendCrashReport
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -389,6 +390,15 @@ class UI():
             self.root.destroy()
             del self
 
+        def sendReport(self):
+            if self.description.get(&#34;1.0&#34;, tk.END) == &#34;\n&#34; or self.description.get(&#34;1.0&#34;, tk.END) == &#34;&#34;: return
+            success = SendCrashReport(&#34;FEEDBACK, NOT A CRASH&#34;, self.description.get(&#34;1.0&#34;, tk.END), self.optional.get(&#34;1.0&#34;, tk.END))
+            if success:
+                from tkinter import messagebox
+                messagebox.showinfo(&#34;Feedback&#34;, &#34;Feedback sent successfully!&#34;)
+            else:
+                from tkinter import messagebox
+                messagebox.showerror(&#34;Feedback&#34;, &#34;Seems like there was an issue. Please try again later.&#34;)
         
         def exampleFunction(self):
             
@@ -396,14 +406,26 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=800, height=1200, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            # Helpers provides easy to use functions for creating consistent widgets!
-            helpers.MakeLabel(self.root, &#34;This is a panel!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
-            # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+            # Create a large text box for the input
+            helpers.MakeLabel(self.root, text=&#34;                   &#34;, row=0, column=0)
+            helpers.MakeLabel(self.root, text=&#34;Description&#34;, row=0, column=1, columnspan=2, font=(&#34;Segoe UI&#34;, 12, &#34;bold&#34;))
+            self.description = tk.Text(self.root, width=65, height=10, border=1, highlightthickness=0)
+            self.description.grid(row=1, column=1, columnspan=1, padx=10, pady=10)
+            helpers.MakeLabel(self.root, text=&#34;Optional information&#34;, row=2, column=1, font=(&#34;Segoe UI&#34;, 12, &#34;bold&#34;))
+            self.optional = tk.Text(self.root, width=65, height=10, border=1, highlightthickness=0)
+            self.optional.grid(row=3, column=1, columnspan=1, padx=10, pady=10)
+            
+            # Check if crash reporting is allowed
+            if not settings.GetSettings(&#34;CrashReporter&#34;, &#34;AllowCrashReports&#34;):
+                helpers.MakeLabel(self.root, text=&#34;Please enable crash reporting.&#34;, row=4, column=1, columnspan=1, font=(&#34;Segoe UI&#34;, 8, &#34;bold&#34;), fg=&#34;red&#34;)
+                helpers.MakeButton(self.root, text=&#34;Open Settings&#34;, row=5, column=1, command=lambda: mainUI.switchSelectedPlugin(&#34;plugins.Settings.main&#34;))
+            else:
+                helpers.MakeButton(self.root, text=&#34;Send&#34;, row=4, column=1, command=self.sendReport)
+                helpers.MakeLabel(self.root, text=&#34;This report is sent exactly the same way as the crash reports are.\nUnless you&#39;ve included such information\nwe cannot identify these reports in any way. They are anonymous.&#34;, row=6, column=1, font=(&#34;Segoe UI&#34;, 8), fg=&#34;gray&#34;)
             
             self.root.pack(anchor=&#34;center&#34;, expand=False)
             self.root.update()
@@ -426,7 +448,7 @@ class UI():
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI"><code class="flex name class">
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI"><code class="flex name class">
 <span>class <span class="ident">UI</span></span>
 <span>(</span><span>master)</span>
 </code></dt>
@@ -448,6 +470,15 @@ class UI():
             self.root.destroy()
             del self
 
+        def sendReport(self):
+            if self.description.get(&#34;1.0&#34;, tk.END) == &#34;\n&#34; or self.description.get(&#34;1.0&#34;, tk.END) == &#34;&#34;: return
+            success = SendCrashReport(&#34;FEEDBACK, NOT A CRASH&#34;, self.description.get(&#34;1.0&#34;, tk.END), self.optional.get(&#34;1.0&#34;, tk.END))
+            if success:
+                from tkinter import messagebox
+                messagebox.showinfo(&#34;Feedback&#34;, &#34;Feedback sent successfully!&#34;)
+            else:
+                from tkinter import messagebox
+                messagebox.showerror(&#34;Feedback&#34;, &#34;Seems like there was an issue. Please try again later.&#34;)
         
         def exampleFunction(self):
             
@@ -455,14 +486,26 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=800, height=1200, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            # Helpers provides easy to use functions for creating consistent widgets!
-            helpers.MakeLabel(self.root, &#34;This is a panel!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
-            # Use the mainUI.quit() function to quit the app
-            helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+            # Create a large text box for the input
+            helpers.MakeLabel(self.root, text=&#34;                   &#34;, row=0, column=0)
+            helpers.MakeLabel(self.root, text=&#34;Description&#34;, row=0, column=1, columnspan=2, font=(&#34;Segoe UI&#34;, 12, &#34;bold&#34;))
+            self.description = tk.Text(self.root, width=65, height=10, border=1, highlightthickness=0)
+            self.description.grid(row=1, column=1, columnspan=1, padx=10, pady=10)
+            helpers.MakeLabel(self.root, text=&#34;Optional information&#34;, row=2, column=1, font=(&#34;Segoe UI&#34;, 12, &#34;bold&#34;))
+            self.optional = tk.Text(self.root, width=65, height=10, border=1, highlightthickness=0)
+            self.optional.grid(row=3, column=1, columnspan=1, padx=10, pady=10)
+            
+            # Check if crash reporting is allowed
+            if not settings.GetSettings(&#34;CrashReporter&#34;, &#34;AllowCrashReports&#34;):
+                helpers.MakeLabel(self.root, text=&#34;Please enable crash reporting.&#34;, row=4, column=1, columnspan=1, font=(&#34;Segoe UI&#34;, 8, &#34;bold&#34;), fg=&#34;red&#34;)
+                helpers.MakeButton(self.root, text=&#34;Open Settings&#34;, row=5, column=1, command=lambda: mainUI.switchSelectedPlugin(&#34;plugins.Settings.main&#34;))
+            else:
+                helpers.MakeButton(self.root, text=&#34;Send&#34;, row=4, column=1, command=self.sendReport)
+                helpers.MakeLabel(self.root, text=&#34;This report is sent exactly the same way as the crash reports are.\nUnless you&#39;ve included such information\nwe cannot identify these reports in any way. They are anonymous.&#34;, row=6, column=1, font=(&#34;Segoe UI&#34;, 8), fg=&#34;gray&#34;)
             
             self.root.pack(anchor=&#34;center&#34;, expand=False)
             self.root.update()
@@ -477,7 +520,7 @@ class UI():
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.destroy"><code class="name flex">
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.destroy"><code class="name flex">
 <span>def <span class="ident">destroy</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -492,7 +535,7 @@ class UI():
     del self</code></pre>
 </details>
 </dd>
-<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.exampleFunction"><code class="name flex">
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.exampleFunction"><code class="name flex">
 <span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -507,20 +550,52 @@ class UI():
         self.root.destroy() # Load the UI each time this plugin is called
     except: pass
     
-    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root = tk.Canvas(self.master, width=800, height=1200, border=0, highlightthickness=0)
     self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
     self.root.pack_propagate(0)
     
-    # Helpers provides easy to use functions for creating consistent widgets!
-    helpers.MakeLabel(self.root, &#34;This is a panel!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
-    # Use the mainUI.quit() function to quit the app
-    helpers.MakeButton(self.root, &#34;Quit&#34;, lambda: mainUI.quit(), 1,0, padx=30, pady=10)
+    # Create a large text box for the input
+    helpers.MakeLabel(self.root, text=&#34;                   &#34;, row=0, column=0)
+    helpers.MakeLabel(self.root, text=&#34;Description&#34;, row=0, column=1, columnspan=2, font=(&#34;Segoe UI&#34;, 12, &#34;bold&#34;))
+    self.description = tk.Text(self.root, width=65, height=10, border=1, highlightthickness=0)
+    self.description.grid(row=1, column=1, columnspan=1, padx=10, pady=10)
+    helpers.MakeLabel(self.root, text=&#34;Optional information&#34;, row=2, column=1, font=(&#34;Segoe UI&#34;, 12, &#34;bold&#34;))
+    self.optional = tk.Text(self.root, width=65, height=10, border=1, highlightthickness=0)
+    self.optional.grid(row=3, column=1, columnspan=1, padx=10, pady=10)
+    
+    # Check if crash reporting is allowed
+    if not settings.GetSettings(&#34;CrashReporter&#34;, &#34;AllowCrashReports&#34;):
+        helpers.MakeLabel(self.root, text=&#34;Please enable crash reporting.&#34;, row=4, column=1, columnspan=1, font=(&#34;Segoe UI&#34;, 8, &#34;bold&#34;), fg=&#34;red&#34;)
+        helpers.MakeButton(self.root, text=&#34;Open Settings&#34;, row=5, column=1, command=lambda: mainUI.switchSelectedPlugin(&#34;plugins.Settings.main&#34;))
+    else:
+        helpers.MakeButton(self.root, text=&#34;Send&#34;, row=4, column=1, command=self.sendReport)
+        helpers.MakeLabel(self.root, text=&#34;This report is sent exactly the same way as the crash reports are.\nUnless you&#39;ve included such information\nwe cannot identify these reports in any way. They are anonymous.&#34;, row=6, column=1, font=(&#34;Segoe UI&#34;, 8), fg=&#34;gray&#34;)
     
     self.root.pack(anchor=&#34;center&#34;, expand=False)
     self.root.update()</code></pre>
 </details>
 </dd>
-<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.update"><code class="name flex">
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.sendReport"><code class="name flex">
+<span>def <span class="ident">sendReport</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sendReport(self):
+    if self.description.get(&#34;1.0&#34;, tk.END) == &#34;\n&#34; or self.description.get(&#34;1.0&#34;, tk.END) == &#34;&#34;: return
+    success = SendCrashReport(&#34;FEEDBACK, NOT A CRASH&#34;, self.description.get(&#34;1.0&#34;, tk.END), self.optional.get(&#34;1.0&#34;, tk.END))
+    if success:
+        from tkinter import messagebox
+        messagebox.showinfo(&#34;Feedback&#34;, &#34;Feedback sent successfully!&#34;)
+    else:
+        from tkinter import messagebox
+        messagebox.showerror(&#34;Feedback&#34;, &#34;Seems like there was an issue. Please try again later.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.update"><code class="name flex">
 <span>def <span class="ident">update</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
@@ -546,17 +621,18 @@ class UI():
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI">UI</a></code></h4>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI">UI</a></code></h4>
 <ul class="">
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.destroy">destroy</a></code></li>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.exampleFunction">exampleFunction</a></code></li>
-<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Examples.Panel.main.UI.update">update</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.sendReport" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.sendReport">sendReport</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Feedback.main.UI.update">update</a></code></li>
 </ul>
 </li>
 </ul>

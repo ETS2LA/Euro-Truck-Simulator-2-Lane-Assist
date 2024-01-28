@@ -351,6 +351,9 @@ color: #fff;
 Helper file for plugins
 &#34;&#34;&#34;
 
+import signal
+import functools
+
 class PluginInformation():
     &#34;&#34;&#34;
     Class to store plugin information
@@ -382,8 +385,10 @@ class PluginInformation():
         
         requires (list): List of plugins that are required for this plugin to work (plugin names) [&#34;plugin1&#34;, &#34;plugin2&#34;]
     
+        maxExecTime (int): Maximum execution time in ms (if the plugin takes longer than this to execute then it will be skipped) (set to 0 to disable the limit, default:100)
+    
     &#34;&#34;&#34;
-    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None):
+    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None, maxExecTime=100):
         self.name = name
         self.description = description
         self.version = version
@@ -396,7 +401,8 @@ class PluginInformation():
         self.disableLoop = disableLoop
         self.noUI = noUI
         self.exclusive = exclusive
-        self.requires = requires</code></pre>
+        self.requires = requires
+        self.maxExecTime = maxExecTime</code></pre>
 </details>
 </section>
 <section>
@@ -410,7 +416,7 @@ class PluginInformation():
 <dl>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.plugin.PluginInformation"><code class="flex name class">
 <span>class <span class="ident">PluginInformation</span></span>
-<span>(</span><span>name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None)</span>
+<span>(</span><span>name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None, maxExecTime=100)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to store plugin information</p>
@@ -442,6 +448,8 @@ class PluginInformation():
 <dd>If set to a str then no other plugins of the same 'exclusive' type can be enabled at the same time </dd>
 <dt><strong><code>requires</code></strong> :&ensp;<code>list</code></dt>
 <dd>List of plugins that are required for this plugin to work (plugin names) ["plugin1", "plugin2"]</dd>
+<dt><strong><code>maxExecTime</code></strong> :&ensp;<code>int</code></dt>
+<dd>Maximum execution time in ms (if the plugin takes longer than this to execute then it will be skipped) (set to 0 to disable the limit, default:100)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -478,8 +486,10 @@ class PluginInformation():
         
         requires (list): List of plugins that are required for this plugin to work (plugin names) [&#34;plugin1&#34;, &#34;plugin2&#34;]
     
+        maxExecTime (int): Maximum execution time in ms (if the plugin takes longer than this to execute then it will be skipped) (set to 0 to disable the limit, default:100)
+    
     &#34;&#34;&#34;
-    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None):
+    def __init__(self, name, description, version, author, url, type, image=None, dynamicOrder=None, disablePlugins=False, disableLoop=False, noUI=False, exclusive=None, requires=None, maxExecTime=100):
         self.name = name
         self.description = description
         self.version = version
@@ -492,7 +502,8 @@ class PluginInformation():
         self.disableLoop = disableLoop
         self.noUI = noUI
         self.exclusive = exclusive
-        self.requires = requires</code></pre>
+        self.requires = requires
+        self.maxExecTime = maxExecTime</code></pre>
 </details>
 </dd>
 </dl>

@@ -360,6 +360,8 @@ from src.logger import print
 
 PluginInfo = PluginInformation(
     name=&#34;Plugin&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    # In case the plugin is not the main file (for example plugins\Plugin\Plugin.py) then the name would be &#34;Plugin.Plugin&#34;
+    
     description=&#34;ExamplePlugin.&#34;,
     version=&#34;0.1&#34;,
     author=&#34;Tumppi066&#34;,

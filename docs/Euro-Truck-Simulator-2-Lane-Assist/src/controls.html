@@ -483,21 +483,24 @@ def plugin(data):
     
     return data
 
-def ChangeKeybind(name, updateUI=True):
+def ChangeKeybind(name, updateUI=True, callback=None):
     &#34;&#34;&#34;Will run the keybind change window code.
 
     Args:
         name (str): Keybind to change (name).
         updateUI (bool): Whether the UI should be updated (should be False if the function is called from other files).
+        callback (function): Callback to run after the keybind has been changed.
     &#34;&#34;&#34;
     global save
+    global ignore
     global currentbinding
     
     print(&#34;Changing keybind &#34; + name)
     # Make a new window to get the keybind on
     window = tk.Toplevel()
     window.title(&#34;Change keybind&#34;)
-    window.geometry(&#34;300x130&#34;)
+    mainUIPos = mainUI.root.winfo_x(), mainUI.root.winfo_y()
+    window.geometry(f&#34;300x200+{mainUIPos[0] + 100}+{mainUIPos[1] + 100}&#34;)
     window.resizable(False, False)
     window.grab_set()
     window.focus_set()
@@ -522,14 +525,23 @@ def ChangeKeybind(name, updateUI=True):
     
     ttk.Label(window, text=&#34;   &#34;).pack()
     
+    def IgnoreBind():
+        global ignore
+        ignore = True
+        print(&#34;Ignoring next input&#34;)
+    
     def SaveBind():
         global save
         save = True
         window.destroy()
     
+    # Ignore button
+    ignoreButton = ttk.Button(window, text=&#34;Ignore&#34;, command=lambda: IgnoreBind(), width=30)
+    ignoreButton.pack()
+    
     # Save button
     saveButton = ttk.Button(window, text=&#34;Save&#34;, command=lambda: SaveBind(), width=30)
-    saveButton.pack()
+    saveButton.pack(pady=10)
     
     # Get all devices from pygame
     pygame.init()
@@ -547,11 +559,14 @@ def ChangeKeybind(name, updateUI=True):
         defaultStates.append({&#34;name&#34;: joystick.get_name(), &#34;buttons&#34;: [joystick.get_button(i) for i in range(joystick.get_numbuttons())], &#34;axes&#34;: [joystick.get_axis(i) for i in range(joystick.get_numaxes())]})
     
     save = False
+    ignore = False
     currentbinding = None
     
     def KeyboardEvent(event):
         global currentbinding
         if not keybindToChange[&#34;shouldBeAxis&#34;]:
+            if len(event.keysym) &gt; 2:
+                return # Ignore special keys
             label.config(text=f&#34;Key: &#39;{event.keysym}&#39;&#34;)
             currentbinding = {&#34;deviceGUID&#34;: KEYBOARD_GUID, &#34;buttonIndex&#34;: event.keysym}
     
@@ -561,6 +576,10 @@ def ChangeKeybind(name, updateUI=True):
     def GetDistanceFromDefault(currentVal, defaultVal):
         return abs(currentVal - defaultVal)
     
+    ignoredAxis = []
+    ignoredButtons = []
+    
+    foundAxis = False
     while not save:
         # Check if any of the states change
         pygame.event.pump()
@@ -570,19 +589,42 @@ def ChangeKeybind(name, updateUI=True):
             if not keybindToChange[&#34;shouldBeAxis&#34;]:
                 for j in range(joystick.get_numbuttons()):
                     if defaultState[&#34;buttons&#34;][j] != joystick.get_button(j):
+                        if ignore:
+                            ignoredButtons.append(j)
+                            ignore = False
+                            label.config(text=f&#34;Listening for input...\n(expecting a button)&#34;)
+                            continue
+                        if j in ignoredButtons:
+                            continue
+                        
                         label.config(text=f&#34;Button: {j}&#34;)
                         currentbinding = {&#34;deviceGUID&#34;: joystick.get_guid(), &#34;buttonIndex&#34;: j}
 
             if keybindToChange[&#34;shouldBeAxis&#34;]:    
                 for j in range(joystick.get_numaxes()):
-                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState[&#34;axes&#34;][j]) &gt; 0.4:
+                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState[&#34;axes&#34;][j]) &gt; 0.2:
+                        if ignore:
+                            print(&#34;Ignoring axis &#34; + str(j))    
+                            ignoredAxis.append(j)
+                            ignore = False
+                            label.config(text=f&#34;Listening for input...\n(expecting an axis)&#34;)
+                            axisSlider.set(0)
+                            continue
+                        if j in ignoredAxis:
+                            print(&#34;Ignoring axis &#34; + str(j))
+                            continue
+                        
                         label.config(text=f&#34;Axis: {j}&#34;)
                         axisSlider.set(joystick.get_axis(j))
                         currentbinding = {&#34;deviceGUID&#34;: joystick.get_guid(), &#34;axisIndex&#34;: j}
+                        foundAxis = True
 
+        if not foundAxis and keybindToChange[&#34;shouldBeAxis&#34;]:
+            axisSlider.set(0)
 
         mainUI.root.update()
         window.update()
+        foundAxis = False
         
     if currentbinding != None:
         SaveKeybind(name, deviceGUID=currentbinding[&#34;deviceGUID&#34;], buttonIndex=currentbinding[&#34;buttonIndex&#34;] if &#34;buttonIndex&#34; in currentbinding else -1, axisIndex=currentbinding[&#34;axisIndex&#34;] if &#34;axisIndex&#34; in currentbinding else -1)
@@ -600,6 +642,9 @@ def ChangeKeybind(name, updateUI=True):
     if updateUI:
         mainUI.closeTabName(&#34;controls&#34;)
         mainUI.switchSelectedPlugin(&#34;src.controls&#34;)
+        
+    if callback != None:
+        callback()
         
 def UnbindKeybind(name, updateUI=True):
     &#34;&#34;&#34;Remove the binding of a keybind.
@@ -641,19 +686,25 @@ def GetKeybindValue(name):
         return False
     
     if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
-        return True if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]) else False
+        try:
+            return True if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]) else False
+        except:
+            return False
     
     if keybind[&#34;buttonIndex&#34;] == -1 and keybind[&#34;axisIndex&#34;] == -1:
         return False
     
     pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-    for joystick in joysticks:
-        if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
-            if keybind[&#34;buttonIndex&#34;] != -1:
-                return True if joystick.get_button(keybind[&#34;buttonIndex&#34;]) == 1 else False
-            elif keybind[&#34;axisIndex&#34;] != -1:
-                return joystick.get_axis(keybind[&#34;axisIndex&#34;])
+    try:
+        for joystick in joysticks:
+            if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
+                if keybind[&#34;buttonIndex&#34;] != -1:
+                    return True if joystick.get_button(keybind[&#34;buttonIndex&#34;]) == 1 else False
+                elif keybind[&#34;axisIndex&#34;] != -1:
+                    return joystick.get_axis(keybind[&#34;axisIndex&#34;])
+    except:
+        return False
     
     return False
 
@@ -773,7 +824,7 @@ class UI():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.controls.ChangeKeybind"><code class="name flex">
-<span>def <span class="ident">ChangeKeybind</span></span>(<span>name, updateUI=True)</span>
+<span>def <span class="ident">ChangeKeybind</span></span>(<span>name, updateUI=True, callback=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will run the keybind change window code.</p>
@@ -783,26 +834,31 @@ class UI():
 <dd>Keybind to change (name).</dd>
 <dt><strong><code>updateUI</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Whether the UI should be updated (should be False if the function is called from other files).</dd>
+<dt><strong><code>callback</code></strong> :&ensp;<code>function</code></dt>
+<dd>Callback to run after the keybind has been changed.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def ChangeKeybind(name, updateUI=True):
+<pre><code class="python">def ChangeKeybind(name, updateUI=True, callback=None):
     &#34;&#34;&#34;Will run the keybind change window code.
 
     Args:
         name (str): Keybind to change (name).
         updateUI (bool): Whether the UI should be updated (should be False if the function is called from other files).
+        callback (function): Callback to run after the keybind has been changed.
     &#34;&#34;&#34;
     global save
+    global ignore
     global currentbinding
     
     print(&#34;Changing keybind &#34; + name)
     # Make a new window to get the keybind on
     window = tk.Toplevel()
     window.title(&#34;Change keybind&#34;)
-    window.geometry(&#34;300x130&#34;)
+    mainUIPos = mainUI.root.winfo_x(), mainUI.root.winfo_y()
+    window.geometry(f&#34;300x200+{mainUIPos[0] + 100}+{mainUIPos[1] + 100}&#34;)
     window.resizable(False, False)
     window.grab_set()
     window.focus_set()
@@ -827,14 +883,23 @@ class UI():
     
     ttk.Label(window, text=&#34;   &#34;).pack()
     
+    def IgnoreBind():
+        global ignore
+        ignore = True
+        print(&#34;Ignoring next input&#34;)
+    
     def SaveBind():
         global save
         save = True
         window.destroy()
     
+    # Ignore button
+    ignoreButton = ttk.Button(window, text=&#34;Ignore&#34;, command=lambda: IgnoreBind(), width=30)
+    ignoreButton.pack()
+    
     # Save button
     saveButton = ttk.Button(window, text=&#34;Save&#34;, command=lambda: SaveBind(), width=30)
-    saveButton.pack()
+    saveButton.pack(pady=10)
     
     # Get all devices from pygame
     pygame.init()
@@ -852,11 +917,14 @@ class UI():
         defaultStates.append({&#34;name&#34;: joystick.get_name(), &#34;buttons&#34;: [joystick.get_button(i) for i in range(joystick.get_numbuttons())], &#34;axes&#34;: [joystick.get_axis(i) for i in range(joystick.get_numaxes())]})
     
     save = False
+    ignore = False
     currentbinding = None
     
     def KeyboardEvent(event):
         global currentbinding
         if not keybindToChange[&#34;shouldBeAxis&#34;]:
+            if len(event.keysym) &gt; 2:
+                return # Ignore special keys
             label.config(text=f&#34;Key: &#39;{event.keysym}&#39;&#34;)
             currentbinding = {&#34;deviceGUID&#34;: KEYBOARD_GUID, &#34;buttonIndex&#34;: event.keysym}
     
@@ -866,6 +934,10 @@ class UI():
     def GetDistanceFromDefault(currentVal, defaultVal):
         return abs(currentVal - defaultVal)
     
+    ignoredAxis = []
+    ignoredButtons = []
+    
+    foundAxis = False
     while not save:
         # Check if any of the states change
         pygame.event.pump()
@@ -875,19 +947,42 @@ class UI():
             if not keybindToChange[&#34;shouldBeAxis&#34;]:
                 for j in range(joystick.get_numbuttons()):
                     if defaultState[&#34;buttons&#34;][j] != joystick.get_button(j):
+                        if ignore:
+                            ignoredButtons.append(j)
+                            ignore = False
+                            label.config(text=f&#34;Listening for input...\n(expecting a button)&#34;)
+                            continue
+                        if j in ignoredButtons:
+                            continue
+                        
                         label.config(text=f&#34;Button: {j}&#34;)
                         currentbinding = {&#34;deviceGUID&#34;: joystick.get_guid(), &#34;buttonIndex&#34;: j}
 
             if keybindToChange[&#34;shouldBeAxis&#34;]:    
                 for j in range(joystick.get_numaxes()):
-                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState[&#34;axes&#34;][j]) &gt; 0.4:
+                    if GetDistanceFromDefault(joystick.get_axis(j), defaultState[&#34;axes&#34;][j]) &gt; 0.2:
+                        if ignore:
+                            print(&#34;Ignoring axis &#34; + str(j))    
+                            ignoredAxis.append(j)
+                            ignore = False
+                            label.config(text=f&#34;Listening for input...\n(expecting an axis)&#34;)
+                            axisSlider.set(0)
+                            continue
+                        if j in ignoredAxis:
+                            print(&#34;Ignoring axis &#34; + str(j))
+                            continue
+                        
                         label.config(text=f&#34;Axis: {j}&#34;)
                         axisSlider.set(joystick.get_axis(j))
                         currentbinding = {&#34;deviceGUID&#34;: joystick.get_guid(), &#34;axisIndex&#34;: j}
+                        foundAxis = True
 
+        if not foundAxis and keybindToChange[&#34;shouldBeAxis&#34;]:
+            axisSlider.set(0)
 
         mainUI.root.update()
         window.update()
+        foundAxis = False
         
     if currentbinding != None:
         SaveKeybind(name, deviceGUID=currentbinding[&#34;deviceGUID&#34;], buttonIndex=currentbinding[&#34;buttonIndex&#34;] if &#34;buttonIndex&#34; in currentbinding else -1, axisIndex=currentbinding[&#34;axisIndex&#34;] if &#34;axisIndex&#34; in currentbinding else -1)
@@ -904,7 +999,10 @@ class UI():
 
     if updateUI:
         mainUI.closeTabName(&#34;controls&#34;)
-        mainUI.switchSelectedPlugin(&#34;src.controls&#34;)</code></pre>
+        mainUI.switchSelectedPlugin(&#34;src.controls&#34;)
+        
+    if callback != None:
+        callback()</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.controls.GetKeybindFromName"><code class="name flex">
@@ -974,19 +1072,25 @@ class UI():
         return False
     
     if keybind[&#34;deviceGUID&#34;] == KEYBOARD_GUID:
-        return True if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]) else False
+        try:
+            return True if keyboard.is_pressed(keybind[&#34;buttonIndex&#34;]) else False
+        except:
+            return False
     
     if keybind[&#34;buttonIndex&#34;] == -1 and keybind[&#34;axisIndex&#34;] == -1:
         return False
     
     pygame.event.pump()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-    for joystick in joysticks:
-        if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
-            if keybind[&#34;buttonIndex&#34;] != -1:
-                return True if joystick.get_button(keybind[&#34;buttonIndex&#34;]) == 1 else False
-            elif keybind[&#34;axisIndex&#34;] != -1:
-                return joystick.get_axis(keybind[&#34;axisIndex&#34;])
+    try:
+        for joystick in joysticks:
+            if joystick.get_guid() == keybind[&#34;deviceGUID&#34;]:
+                if keybind[&#34;buttonIndex&#34;] != -1:
+                    return True if joystick.get_button(keybind[&#34;buttonIndex&#34;]) == 1 else False
+                elif keybind[&#34;axisIndex&#34;] != -1:
+                    return joystick.get_axis(keybind[&#34;axisIndex&#34;])
+    except:
+        return False
     
     return False</code></pre>
 </details>

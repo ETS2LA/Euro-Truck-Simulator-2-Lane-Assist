@@ -376,6 +376,8 @@ import src.settings as settings
 import os
 import webview as wv
 
+CHANGE_LOG_SHOWN = False
+
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
         
@@ -390,6 +392,7 @@ class UI():
 
         
         def exampleFunction(self):
+            global CHANGE_LOG_SHOWN
             
             try:
                 self.root.destroy() # Load the UI each time this plugin is called
@@ -398,10 +401,16 @@ class UI():
             self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don&#39;t fit the canvas to the widgets
             self.root.pack_propagate(0)
+                
             
-            helpers.OpenWebView(&#34;Changelog&#34;, &#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases&#34;)
+            if CHANGE_LOG_SHOWN == False:
+                helpers.OpenWebView(&#34;Changelog&#34;, &#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases&#34;)
+                CHANGE_LOG_SHOWN = True
             
-            variables.RELOAD = True # This will reload the UI when the panel is closed
+            helpers.MakeLabel(self.root, &#34;Close this window by middle clicking on the tab.&#34;, 0, 0)
+            
+            # variables.RELOAD = True # This will reload the UI when the panel is closed
+            self.root.update()
         
         
         def update(self, data): # When the panel is open this function is called each frame 
@@ -445,6 +454,7 @@ class UI():
 
         
         def exampleFunction(self):
+            global CHANGE_LOG_SHOWN
             
             try:
                 self.root.destroy() # Load the UI each time this plugin is called
@@ -453,10 +463,16 @@ class UI():
             self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don&#39;t fit the canvas to the widgets
             self.root.pack_propagate(0)
+                
             
-            helpers.OpenWebView(&#34;Changelog&#34;, &#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases&#34;)
+            if CHANGE_LOG_SHOWN == False:
+                helpers.OpenWebView(&#34;Changelog&#34;, &#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases&#34;)
+                CHANGE_LOG_SHOWN = True
             
-            variables.RELOAD = True # This will reload the UI when the panel is closed
+            helpers.MakeLabel(self.root, &#34;Close this window by middle clicking on the tab.&#34;, 0, 0)
+            
+            # variables.RELOAD = True # This will reload the UI when the panel is closed
+            self.root.update()
         
         
         def update(self, data): # When the panel is open this function is called each frame 
@@ -493,6 +509,7 @@ class UI():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def exampleFunction(self):
+    global CHANGE_LOG_SHOWN
     
     try:
         self.root.destroy() # Load the UI each time this plugin is called
@@ -501,10 +518,16 @@ class UI():
     self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
     self.root.grid_propagate(0) # Don&#39;t fit the canvas to the widgets
     self.root.pack_propagate(0)
+        
     
-    helpers.OpenWebView(&#34;Changelog&#34;, &#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases&#34;)
+    if CHANGE_LOG_SHOWN == False:
+        helpers.OpenWebView(&#34;Changelog&#34;, &#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases&#34;)
+        CHANGE_LOG_SHOWN = True
     
-    variables.RELOAD = True # This will reload the UI when the panel is closed</code></pre>
+    helpers.MakeLabel(self.root, &#34;Close this window by middle clicking on the tab.&#34;, 0, 0)
+    
+    # variables.RELOAD = True # This will reload the UI when the panel is closed
+    self.root.update()</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Changelog.main.UI.update"><code class="name flex">

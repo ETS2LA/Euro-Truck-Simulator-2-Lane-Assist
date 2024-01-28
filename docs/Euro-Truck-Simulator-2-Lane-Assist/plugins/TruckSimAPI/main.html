@@ -386,7 +386,11 @@ def plugin(data):
     global lastX
     global lastY
     
-    checkAPI()
+    try:
+        checkAPI()
+    except:
+        print(&#34;Error checking API status&#34;)
+        return data
     
     apiData = API.update()    
     data[&#34;api&#34;] = apiData
@@ -461,12 +465,6 @@ def onEnable():
     if devmode == False:
         if data[&#34;scsValues&#34;][&#34;telemetryPluginRevision&#34;] &lt; 2:
             print(&#34;Plugin not installed&#34;)
-            from tkinter import messagebox
-            import webbrowser
-            from plugins.PluginManager.main import UI
-            if messagebox.askyesno(&#34;Plugin not installed&#34;, &#34;SDK Plugin not installed or the game is not running, do you want to open the instructions?&#34;):
-                webbrowser.open(&#34;https://wiki.tumppi066.xyz/en/LaneAssist/InGame&#34;)
-    
 
 def onDisable():
     global stop
@@ -616,12 +614,7 @@ class UI():
     devmode = settings.GetSettings(&#34;Dev&#34;, &#34;disable_warnings&#34;, False)
     if devmode == False:
         if data[&#34;scsValues&#34;][&#34;telemetryPluginRevision&#34;] &lt; 2:
-            print(&#34;Plugin not installed&#34;)
-            from tkinter import messagebox
-            import webbrowser
-            from plugins.PluginManager.main import UI
-            if messagebox.askyesno(&#34;Plugin not installed&#34;, &#34;SDK Plugin not installed or the game is not running, do you want to open the instructions?&#34;):
-                webbrowser.open(&#34;https://wiki.tumppi066.xyz/en/LaneAssist/InGame&#34;)</code></pre>
+            print(&#34;Plugin not installed&#34;)</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.main.plugin"><code class="name flex">
@@ -638,7 +631,11 @@ class UI():
     global lastX
     global lastY
     
-    checkAPI()
+    try:
+        checkAPI()
+    except:
+        print(&#34;Error checking API status&#34;)
+        return data
     
     apiData = API.update()    
     data[&#34;api&#34;] = apiData
