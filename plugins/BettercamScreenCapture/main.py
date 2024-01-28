@@ -9,7 +9,7 @@ from src.logger import print
 
 
 PluginInfo = PluginInformation(
-    name="BettercamScreenCapture", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    name="BetterCamScreenCapture", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     description="The default way to capture the screen.",
     version="0.1",
     author="Tumppi066",

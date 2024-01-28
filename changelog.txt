@@ -1,1 +1,1 @@
-Fixed Navigation Detection.
+Up to 10ms performance upgrade due to switching to bettercam.

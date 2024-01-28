@@ -32,6 +32,12 @@ except:
     import colorama
 
 try:
+    import bettercam
+except:
+    os.system("pip install bettercam")
+    import bettercam
+
+try:
     import matplotlib
 except:
     os.system("pip install matplotlib")
