@@ -108,7 +108,7 @@ def SavePickerSettings(category):
     settings.CreateSettings(category, "height", h)
     
     try:
-        import plugins.bettercamScreenCapture.main as bettercam
+        import plugins.BetterCamScreenCapture.main as bettercam
         bettercam.CreateCamera()
         
         import plugins.MSSScreenCapture.main as mss

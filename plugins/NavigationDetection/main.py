@@ -1808,7 +1808,7 @@ def plugin(data):
                     settings.CreateSettings("bettercam", "width", bottomright[0] - topleft[0])
                     settings.CreateSettings("bettercam", "height", bottomright[1] - topleft[1])
 
-                    import plugins.bettercamScreenCapture.main as bettercam
+                    import plugins.BetterCamScreenCapture.main as bettercam
                     bettercam.CreateCamera()
 
                     if centercoord != None and topleft[0] != None and topleft[1] != None:
