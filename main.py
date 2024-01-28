@@ -6,6 +6,13 @@ The main file that runs the programs loop.
 # not have been installed yet
 
 import src.settings as settings
+
+try:
+    if "DXCamScreenCapture" in settings.GetSettings("Plugins", "Enabled"):
+        settings.RemoveFromList("Plugins", "Enabled", "DXCamScreenCapture")
+        settings.AddToList("Plugins", "Enabled", "BetterCamScreenCapture")
+except: pass
+
 import src.variables as variables # Stores all main variables for the program
 if settings.GetSettings("User Interface", "hide_console", False) == True:
     import win32gui, win32con
