@@ -65,7 +65,13 @@ def plugin(data):
     global laneDetector
     
     if laneDetector == None:
-        laneDetector = UltrafastLaneDetectorV2(model_path, model_type)
+        try:
+            laneDetector = UltrafastLaneDetectorV2(model_path, model_type)
+        except:
+            from tkinter import messagebox
+            messagebox.showerror("ULFD", "Could not load the model file. Most likely it's missing.\nUFLD will now disable itself.")
+            settings.RemoveFromList("Plugins", "Enabled", "UFLDLaneDetection")
+            variables.UpdatePlugins()
     
     try:
         lanePoints, lanesDetected = ProcessFrame(data)

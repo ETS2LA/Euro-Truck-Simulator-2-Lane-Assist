@@ -56,7 +56,7 @@ def CheckForTruckersMP():
 def plugin(data):
     
     if CheckForTruckersMP():
-        if messagebox.askokcancel("TruckersMP detected", "TruckersMP has been detected. CONTINUE AT YOUR OWN RISK.\nClicking cancel will close the app.\nClicking ok will disable this plugin."):
+        if messagebox.askokcancel("TruckersMP detected", "TruckersMP has been detected. Using ETS2LA in TMP is allowed, but you need to keep in mind you might get banned for reckless driving. Keep your eyes on the road, and hands on the steering wheel ready to take over.\nClicking cancel will close the app.\nClicking ok will disable this plugin."):
             settings.RemoveFromList("Plugins", "Enabled", "TruckersMPLock")
             variables.UpdatePlugins()
         else:

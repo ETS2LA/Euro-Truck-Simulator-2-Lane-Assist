@@ -203,7 +203,13 @@ def drawButtons(refresh:bool=False):
         helpers.MakeLabel(pluginFrames[0], "                      ", 0, 0, autoplace=True)
         helpers.defaultAutoplaceColumn = 1
         helpers.MakeLabel(pluginFrames[0], f"You are running ETS2LA version {str(variables.VERSION)}", 0, 1, columnspan=2, font=("Roboto", 18, "bold"), autoplace=True)
-        helpers.MakeLabel(pluginFrames[0], f"- from {str(variables.LASTUPDATE)}", 0, 1, columnspan=2, pady=0, autoplace=True)
+        # date text, month, date, time, year
+        updateTime = str(variables.LASTUPDATE).split(" ")
+        updateTime = updateTime[1:]
+        months = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "June": 6, "July": 7, "Aug": 8, "Sep": 9, "Oct":10, "Nov": 11, "Dec": 12}
+        updateTime[0] = months[updateTime[0]]
+        updateText = f"{updateTime[1]}.{updateTime[0]}.{updateTime[3]} - {updateTime[2]} "
+        helpers.MakeLabel(pluginFrames[0], f"Released {updateText}", 0, 1, columnspan=2, pady=0, autoplace=True)
         
         if variables.UPDATEAVAILABLE != False:
             helpers.MakeLabel(pluginFrames[0], "An update is available!", 0, 1, columnspan=2, fg="green", autoplace=True, tooltip=f"New version: {'.'.join(variables.UPDATEAVAILABLE)}\nRestart to update.")

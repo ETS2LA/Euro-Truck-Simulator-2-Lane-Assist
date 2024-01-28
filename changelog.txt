@@ -1,2 +1,2 @@
-Update to 1.9.0. Please see the changelog on github or discord... it's a long one.
 - 1.9.2 Fixed a bug in the TrafficLightDetection that could occur very rarely.
+- 1.9.3 Fix UFLD crash, convert last update time to local timezone, updated TMPLock, changelog will only show up once.

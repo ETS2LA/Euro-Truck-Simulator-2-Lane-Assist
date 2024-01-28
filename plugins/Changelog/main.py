@@ -25,12 +25,17 @@ import src.settings as settings
 import os
 import webview as wv
 
+CHANGE_LOG_SHOWN = False
+
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
         
         def __init__(self, master) -> None:
+            global CHANGE_LOG_SHOWN
             self.master = master # "master" is the mainUI window
-            self.exampleFunction()
+            if not CHANGE_LOG_SHOWN:
+                self.exampleFunction()
+                CHANGE_LOG_SHOWN = True
         
         def destroy(self):
             self.done = True
