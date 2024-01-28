@@ -1916,7 +1916,11 @@ def plugin(data):
             if check_zoom == True:
                 lower_blue = np.array([121, 68, 0])
                 upper_blue = np.array([250, 184, 109])
-                mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
+                try:
+                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
+                except:
+                    print("Frame is empty")
+                    return data
                 y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
                 mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 <= round(width/10)**2
                 mask_blue = np.where(mask_circle, mask_blue, 0)
