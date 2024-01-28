@@ -1946,8 +1946,12 @@ def plugin(data):
                 upper_green = np.array([230, 255, 150])
                 white_limit = 1
 
-                mask_red = cv2.inRange(frame, lower_red, upper_red)
-                mask_green = cv2.inRange(frame, lower_green, upper_green)
+                try:
+                    mask_red = cv2.inRange(frame, lower_red, upper_red)
+                    mask_green = cv2.inRange(frame, lower_green, upper_green)
+                except:
+                    print("Frame is empty")
+                    return data
 
                 frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
             else:
@@ -1955,7 +1959,11 @@ def plugin(data):
                 upper_red = np.array([50, 50, 230])
                 white_limit = 1
 
-                mask_red = cv2.inRange(frame, lower_red, upper_red)
+                try:
+                    mask_red = cv2.inRange(frame, lower_red, upper_red)
+                except:
+                    print("Frame is empty")
+                    return data
 
                 frame_red_green = cv2.bitwise_and(frame, frame, mask=mask_red)
 
