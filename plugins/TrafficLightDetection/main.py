@@ -129,6 +129,9 @@ def UpdateSettings():
     pixelpercentagefilter = settings.GetSettings("TrafficLightDetection", "pixelpercentagefilter", True)
     otherlightsofffilter = settings.GetSettings("TrafficLightDetection", "otherlightsofffilter", True)
 
+    yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
+    yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
+
     coordinates = []
     trafficlights = []
 
