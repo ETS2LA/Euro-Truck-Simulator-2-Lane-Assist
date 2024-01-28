@@ -312,6 +312,7 @@ def plugin(data):
         route_speedlimit = route_speedlimit*3.6
         route_speedlimit_kmh = route_speedlimit
         route_destination = data["api"]["configString"]["cityDstId"]
+        route_destination = route_destination.capitalize()
 
         truck_name = data["api"]["configString"]["truckName"]
         truck_cargo = data["api"]["configString"]["cargo"]
