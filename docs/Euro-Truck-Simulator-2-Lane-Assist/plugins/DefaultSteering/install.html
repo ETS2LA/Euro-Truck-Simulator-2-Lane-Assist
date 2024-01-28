@@ -357,7 +357,12 @@ def install():
     for requirement in requirements:
         spinner = MoonSpinner(f&#34;Installing {requirement}... &#34;)
         timer = time.time()
-        process = subprocess.Popen([&#34;pip&#34;, &#34;install&#34;, &#34;-q&#34;, &#34;-q&#34;, requirement])
+        try:
+                process = subprocess.Popen([&#34;pip&#34;, &#34;install&#34;, &#34;-q&#34;, &#34;-q&#34;, requirement])
+        except:
+            os.system(&#34;whoami&#34;)
+            print(&#34;Ignore the above text, for some reason the pip command failed, and I don&#39;t know why, but running whoami seems to fix it.\nPlease... if you know why this happens, do tell me.&#34;)
+            process = subprocess.Popen([&#34;pip&#34;, &#34;install&#34;, &#34;-q&#34;, &#34;-q&#34;, requirement])
         while process.poll() is None:
             if time.time() - timer &gt; 0.2:
                 spinner.next()
@@ -391,7 +396,12 @@ def install():
     for requirement in requirements:
         spinner = MoonSpinner(f&#34;Installing {requirement}... &#34;)
         timer = time.time()
-        process = subprocess.Popen([&#34;pip&#34;, &#34;install&#34;, &#34;-q&#34;, &#34;-q&#34;, requirement])
+        try:
+                process = subprocess.Popen([&#34;pip&#34;, &#34;install&#34;, &#34;-q&#34;, &#34;-q&#34;, requirement])
+        except:
+            os.system(&#34;whoami&#34;)
+            print(&#34;Ignore the above text, for some reason the pip command failed, and I don&#39;t know why, but running whoami seems to fix it.\nPlease... if you know why this happens, do tell me.&#34;)
+            process = subprocess.Popen([&#34;pip&#34;, &#34;install&#34;, &#34;-q&#34;, &#34;-q&#34;, requirement])
         while process.poll() is None:
             if time.time() - timer &gt; 0.2:
                 spinner.next()

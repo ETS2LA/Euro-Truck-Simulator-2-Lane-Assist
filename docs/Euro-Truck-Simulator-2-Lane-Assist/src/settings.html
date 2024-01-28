@@ -461,7 +461,7 @@ def UpdateSettings(category:str, name:str, data:any):
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)
+        pass
 
 # Get a specific setting
 def GetSettings(category:str, name:str, value:any=None):
@@ -490,7 +490,7 @@ def GetSettings(category:str, name:str, value:any=None):
             CreateSettings(category, name, value)
             return value
         else:
-            print(ex.args)
+            pass
 
 
 # Create a new setting
@@ -521,7 +521,7 @@ def CreateSettings(category:str, name:str, data:any):
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)
+        pass
         
 def AddToList(category:str, name:str, data:any, exclusive:bool=False):
     &#34;&#34;&#34;Will add a new item to a list in the settings file.
@@ -579,7 +579,7 @@ def AddToList(category:str, name:str, data:any, exclusive:bool=False):
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)
+        pass
         
 
 def RemoveFromList(category:str, name:str, data:any):
@@ -609,7 +609,7 @@ def RemoveFromList(category:str, name:str, data:any):
             json.dump(settings, f, indent=6)
         
     except Exception as ex:
-        print(ex.args)
+        pass
         </code></pre>
 </details>
 </section>
@@ -703,7 +703,7 @@ def RemoveFromList(category:str, name:str, data:any):
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)</code></pre>
+        pass</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.ChangeProfile"><code class="name flex">
@@ -811,7 +811,7 @@ def RemoveFromList(category:str, name:str, data:any):
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)</code></pre>
+        pass</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.EnsureFile"><code class="name flex">
@@ -891,7 +891,7 @@ def RemoveFromList(category:str, name:str, data:any):
             CreateSettings(category, name, value)
             return value
         else:
-            print(ex.args)</code></pre>
+            pass</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.RemoveFromList"><code class="name flex">
@@ -939,7 +939,7 @@ def RemoveFromList(category:str, name:str, data:any):
             json.dump(settings, f, indent=6)
         
     except Exception as ex:
-        print(ex.args)</code></pre>
+        pass</code></pre>
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.UpdateSettings"><code class="name flex">
@@ -981,7 +981,7 @@ In case the setting doesn't exist, it will be created.</p>
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)</code></pre>
+        pass</code></pre>
 </details>
 </dd>
 </dl>

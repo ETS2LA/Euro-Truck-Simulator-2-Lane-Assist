@@ -373,45 +373,24 @@ if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;, False)
         print(f&#34;Console Name: {window_text}, Console ID: {hwnd}&#34;)
         win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
 
+    
 import os
-try:
-    import colorama
-except:
-    os.system(&#34;pip install colorama&#34;)
-    import colorama
-
-try:
-    import matplotlib
-except:
-    os.system(&#34;pip install matplotlib&#34;)
-    import matplotlib
-
-try:
-    import webview
-except:
-    os.system(&#34;pip install pywebview&#34;)
-    import webview
-
-try:
-    import vdf
-except:
-    os.system(&#34;pip install vdf&#34;)
-    import vdf
-
-try:
-    import deep_translator
-except:
-    os.system(&#34;pip install deep_translator&#34;)
-    import deep_translator
-
-try: 
-    import babel
-except:
-    os.system(&#34;pip install babel&#34;)
-    import babel
-
-# Check that all requirments from requirments.txt are installed
 import pkg_resources
+listOfRequirementsAddedLater = [&#34;colorama&#34;, &#34;bettercam&#34;, &#34;matplotlib&#34;, &#34;pywebview&#34;, &#34;vdf&#34;, &#34;deep_translator&#34;, &#34;babel&#34;]
+# Check all of them
+installed = [pkg.key for pkg in pkg_resources.working_set]
+requirementsset = set(listOfRequirementsAddedLater)
+installedset = set(installed)
+missing = requirementsset - installedset
+
+if missing:
+    for modules in missing:
+        if modules == &#34;deep_translator&#34;: # For some reason this is always missing
+            continue
+        print(&#34;installing&#34; + &#34; &#34; + modules)
+        os.system(&#34;pip install&#34; + &#34; &#34; + modules)
+
+# Check that all requirements from requirements.txt are installed
 with open(variables.PATH + r&#34;\requirements.txt&#34;) as f:
     requirements = f.read().splitlines()
 
