@@ -31,11 +31,8 @@ class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
         
         def __init__(self, master) -> None:
-            global CHANGE_LOG_SHOWN
             self.master = master # "master" is the mainUI window
-            if not CHANGE_LOG_SHOWN:
-                self.exampleFunction()
-                CHANGE_LOG_SHOWN = True
+            self.exampleFunction()
         
         def destroy(self):
             self.done = True
@@ -44,6 +41,7 @@ class UI():
 
         
         def exampleFunction(self):
+            global CHANGE_LOG_SHOWN
             
             try:
                 self.root.destroy() # Load the UI each time this plugin is called
@@ -52,10 +50,16 @@ class UI():
             self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don't fit the canvas to the widgets
             self.root.pack_propagate(0)
+                
             
-            helpers.OpenWebView("Changelog", "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases")
+            if CHANGE_LOG_SHOWN == False:
+                helpers.OpenWebView("Changelog", "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases")
+                CHANGE_LOG_SHOWN = True
             
-            variables.RELOAD = True # This will reload the UI when the panel is closed
+            helpers.MakeLabel(self.root, "Close this window by middle clicking on the tab.", 0, 0)
+            
+            # variables.RELOAD = True # This will reload the UI when the panel is closed
+            self.root.update()
         
         
         def update(self, data): # When the panel is open this function is called each frame 

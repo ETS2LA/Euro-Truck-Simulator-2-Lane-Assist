@@ -29,8 +29,13 @@ ETS2DOCUMENTSPATH = "C:/Users/" + USERNAME + "/Documents/Euro Truck Simulator 2/
 """Path to the ETS2 documents folder. Contains stuff like the mod folder and log files."""
 OS = os.name
 """The current operating system."""
-LASTUPDATE = subprocess.check_output("git log -1 --date=local --format=%cd", shell=True).decode("utf-8").replace("\n", "")
+LASTUPDATE = None
 """The date of the last update to the local git repo."""
+try:
+    LASTUPDATE = subprocess.check_output("git log -1 --date=local --format=%cd", shell=True).decode("utf-8").replace("\n", "")
+except:
+    LASTUPDATE = "Unknown"
+    
 UPDATEAVAILABLE = False
 """Will be set to the updated version by the mainloop if an update is available and it's ignored."""
 
