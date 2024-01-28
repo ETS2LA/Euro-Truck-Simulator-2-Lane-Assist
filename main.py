@@ -403,8 +403,12 @@ def InstallPlugins():
             bar.config(value=(index / len(installers)) * 100)
             percentage.set(f"{round((index / len(installers)) * 100)}%")
             mainUI.root.update()
-            installer.install()
-            settings.AddToList("Plugins", "Installed", name.split(" - ")[0])
+            try:
+                installer.install()
+                settings.AddToList("Plugins", "Installed", name.split(" - ")[0])
+            except:
+                print(f"Warning. Failed to install '{name}' fully! The plugin might still work though.")
+                pass
             index += 1
             loadingWindow.update(text=f"Installing '{name}'...")
             os.system("cls")
