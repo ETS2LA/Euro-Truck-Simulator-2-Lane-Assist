@@ -1,1 +1,2 @@
 Update to 1.9.0. Please see the changelog on github or discord... it's a long one.
+- 1.9.2 Fixed a bug in the TrafficLightDetection that could occur very rarely.
