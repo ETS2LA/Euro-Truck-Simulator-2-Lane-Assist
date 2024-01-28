@@ -22,7 +22,6 @@ def plugin(data):
         currentLines = open(ets2FilePath, "r").readlines()
 
         data["log"] = currentLines
-        print("Log updated")
     except:
         pass
     return data

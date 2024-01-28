@@ -1,2 +1,3 @@
 Fix nav detect crashing when frame is null.
-Fix TruckStats destination.
+Fix TruckStats destination. 
+Silence settings and scsLogReader.

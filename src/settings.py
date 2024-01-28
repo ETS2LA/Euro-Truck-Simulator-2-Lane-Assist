@@ -103,7 +103,7 @@ def UpdateSettings(category:str, name:str, data:any):
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)
+        pass
 
 # Get a specific setting
 def GetSettings(category:str, name:str, value:any=None):
@@ -132,7 +132,7 @@ def GetSettings(category:str, name:str, value:any=None):
             CreateSettings(category, name, value)
             return value
         else:
-            print(ex.args)
+            pass
 
 
 # Create a new setting
@@ -163,7 +163,7 @@ def CreateSettings(category:str, name:str, data:any):
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)
+        pass
         
 def AddToList(category:str, name:str, data:any, exclusive:bool=False):
     """Will add a new item to a list in the settings file.
@@ -221,7 +221,7 @@ def AddToList(category:str, name:str, data:any, exclusive:bool=False):
             f.truncate(0)
             json.dump(settings, f, indent=6)
     except Exception as ex:
-        print(ex.args)
+        pass
         
 
 def RemoveFromList(category:str, name:str, data:any):
@@ -251,5 +251,5 @@ def RemoveFromList(category:str, name:str, data:any):
             json.dump(settings, f, indent=6)
         
     except Exception as ex:
-        print(ex.args)
+        pass
         
