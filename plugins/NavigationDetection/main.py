@@ -1856,15 +1856,17 @@ def plugin(data):
             
             try:
                 frame = data["frame"]
+                width = frame.shape[1]
+                height = frame.shape[0]
             except:
                 return data
 
             if frame is None: return data
             
-            try:
-                width = frame.shape[1]
-                height = frame.shape[0]
-            except:
+            if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
+                valid_frame = True
+            else:
+                valid_frame = False
                 return data
             
             try:
@@ -1916,11 +1918,7 @@ def plugin(data):
             if check_zoom == True:
                 lower_blue = np.array([121, 68, 0])
                 upper_blue = np.array([250, 184, 109])
-                try:
-                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
-                except:
-                    print("Frame is empty")
-                    return data
+                mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
                 y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
                 mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 <= round(width/10)**2
                 mask_blue = np.where(mask_circle, mask_blue, 0)
@@ -1946,12 +1944,8 @@ def plugin(data):
                 upper_green = np.array([230, 255, 150])
                 white_limit = 1
 
-                try:
-                    mask_red = cv2.inRange(frame, lower_red, upper_red)
-                    mask_green = cv2.inRange(frame, lower_green, upper_green)
-                except:
-                    print("Frame is empty")
-                    return data
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+                mask_green = cv2.inRange(frame, lower_green, upper_green)
 
                 frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
             else:
@@ -1959,11 +1953,7 @@ def plugin(data):
                 upper_red = np.array([50, 50, 230])
                 white_limit = 1
 
-                try:
-                    mask_red = cv2.inRange(frame, lower_red, upper_red)
-                except:
-                    print("Frame is empty")
-                    return data
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
 
                 frame_red_green = cv2.bitwise_and(frame, frame, mask=mask_red)
 
