@@ -129,6 +129,9 @@ def UpdateSettings():
     pixelpercentagefilter = settings.GetSettings("TrafficLightDetection", "pixelpercentagefilter", True)
     otherlightsofffilter = settings.GetSettings("TrafficLightDetection", "otherlightsofffilter", True)
 
+    yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
+    yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
+
     coordinates = []
     trafficlights = []
 
@@ -357,6 +360,12 @@ def plugin(data):
                                     centerx = round(x + w / 2)
                                     centery1 = round(y + h / 2)-h
                                     centery2 = round(y + h / 2)-h*2
+                                else:
+                                    colorstr = "Red"
+                                    yoffset1 = y+h*2
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)+h
+                                    centery2 = round(y + h / 2)+h*2
                                 try:
                                     centery1_color = rgb_frame[centery1, centerx]
                                 except:
@@ -412,6 +421,12 @@ def plugin(data):
                                     centerx = round(x + w / 2)
                                     centery1 = round(y + h / 2)-h
                                     centery2 = round(y + h / 2)-h*2
+                                else:
+                                    colorstr = "Red"
+                                    yoffset1 = y+h*2
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)+h
+                                    centery2 = round(y + h / 2)+h*2
                                 try:
                                     centery1_color = rgb_frame[centery1, centerx]
                                 except:
@@ -509,6 +524,12 @@ def plugin(data):
                                     centerx = round(x + w / 2)
                                     centery1 = round(y + h / 2)-h
                                     centery2 = round(y + h / 2)-h*2
+                                else:
+                                    colorstr = "Red"
+                                    yoffset1 = y+h*2
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)+h
+                                    centery2 = round(y + h / 2)+h*2
                                 try:
                                     centery1_color = rgb_frame[centery1, centerx]
                                 except:
@@ -588,6 +609,12 @@ def plugin(data):
                                     centerx = round(x + w / 2)
                                     centery1 = round(y + h / 2)-h
                                     centery2 = round(y + h / 2)-h*2
+                                else:
+                                    colorstr = "Red"
+                                    yoffset1 = y+h*2
+                                    centerx = round(x + w / 2)
+                                    centery1 = round(y + h / 2)+h
+                                    centery2 = round(y + h / 2)+h*2
                                 try:
                                     centery1_color = rgb_frame[centery1, centerx]
                                 except:
