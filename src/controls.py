@@ -128,12 +128,13 @@ def plugin(data):
     
     return data
 
-def ChangeKeybind(name, updateUI=True):
+def ChangeKeybind(name, updateUI=True, callback=None):
     """Will run the keybind change window code.
 
     Args:
         name (str): Keybind to change (name).
         updateUI (bool): Whether the UI should be updated (should be False if the function is called from other files).
+        callback (function): Callback to run after the keybind has been changed.
     """
     global save
     global ignore
@@ -286,6 +287,9 @@ def ChangeKeybind(name, updateUI=True):
     if updateUI:
         mainUI.closeTabName("controls")
         mainUI.switchSelectedPlugin("src.controls")
+        
+    if callback != None:
+        callback()
         
 def UnbindKeybind(name, updateUI=True):
     """Remove the binding of a keybind.

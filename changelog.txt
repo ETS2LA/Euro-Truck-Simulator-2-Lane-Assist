@@ -1,3 +1,1 @@
-- 1.9.2 Fixed a bug in the TrafficLightDetection that could occur very rarely.
-- 1.9.3 Fix UFLD crash, convert last update time to local timezone, updated TMPLock, changelog will only show up once.
-- 1.9.4 Fix crashing when checking last update time
+Reloading now works for panels aswell (devs). Remade the first time setup.

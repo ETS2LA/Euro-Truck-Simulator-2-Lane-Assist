@@ -189,8 +189,10 @@ def GetEnabledPlugins():
     if enabledPlugins == None:
         enabledPlugins = [""]
 
+panels = []
 def FindPlugins(reloadFully=False):
     global plugins
+    global panels
     global pluginObjects
     global pluginNames
     
@@ -200,6 +202,7 @@ def FindPlugins(reloadFully=False):
     # Find plugins
     path = os.path.join(variables.PATH, "plugins")
     plugins = []
+    panels = []
     for file in os.listdir(path):
         if os.path.isdir(os.path.join(path, file)):
             # Check for main.py
@@ -211,6 +214,8 @@ def FindPlugins(reloadFully=False):
                     if plugin.PluginInfo.type == "dynamic":
                         if plugin.PluginInfo.name in enabledPlugins:
                             plugins.append(plugin.PluginInfo)
+                    else:
+                        panels.append(__import__("plugins." + plugin.PluginInfo.name + ".main", fromlist=["UI", "PluginInfo"]))
                 except Exception as ex:
                     print(str(ex.args) + f" [{file}]")
                     pass
@@ -229,6 +234,15 @@ def ReloadPluginCode():
         for plugin in pluginObjects:
             try:
                 importlib.reload(plugin)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
+    with Bar.PixelBar("Reloading panels...", max=len(panels)) as progressBar:
+        for panel in panels:
+            try:
+                importlib.reload(panel)
             except Exception as ex:
                 print(ex.args)
                 pass

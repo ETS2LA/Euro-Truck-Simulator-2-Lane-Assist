@@ -112,6 +112,7 @@ def switchSelectedPlugin(pluginName:str):
     global ui
     global root
 
+            
     # Check if the plugin is already loaded
     notebookNames = []
     for tab in pluginNotebook.tabs():
@@ -130,16 +131,12 @@ def switchSelectedPlugin(pluginName:str):
        
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
 
-    if plugin.PluginInfo.disablePlugins == True and settings.GetSettings("Plugins", "Enabled") != []:
+    if plugin.PluginInfo.disablePlugins == True and (settings.GetSettings("Plugins", "Enabled") != []):
         if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable all plugins. Do you want to continue?")):
             settings.CreateSettings("Plugins", "Enabled", [])
             variables.UpdatePlugins()
-            
         else: 
-            try:
-                settings.RemoveFromList("User Interface", "OpenTabs", plugin.PluginInfo.name)
-            except:
-                pass
+            return
         
     if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
         if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable the mainloop. Do you want to continue?")):
