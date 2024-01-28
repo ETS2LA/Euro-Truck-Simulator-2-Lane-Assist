@@ -360,7 +360,7 @@ from src.logger import print
 
 PluginInfo = PluginInformation(
     name=&#34;MSSScreenCapture&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
-    description=&#34;Uses more cpu power than DXCam, but works on linux.&#34;,
+    description=&#34;Uses more cpu power than bettercam, but works on linux.&#34;,
     version=&#34;0.1&#34;,
     author=&#34;Tumppi066&#34;,
     url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
@@ -386,24 +386,24 @@ def CreateCamera():
     global width
     global height
     
-    width = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
+    width = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
     if width == None:
-        settings.CreateSettings(&#34;dxcam&#34;, &#34;width&#34;, 1280)
+        settings.CreateSettings(&#34;bettercam&#34;, &#34;width&#34;, 1280)
         width = 1280
 
-    height = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+    height = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
     if height == None:
-        settings.CreateSettings(&#34;dxcam&#34;, &#34;height&#34;, 720)
+        settings.CreateSettings(&#34;bettercam&#34;, &#34;height&#34;, 720)
         height = 720
         
-    x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
+    x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
     if x == None:
-        settings.CreateSettings(&#34;dxcam&#34;, &#34;x&#34;, 0)
+        settings.CreateSettings(&#34;bettercam&#34;, &#34;x&#34;, 0)
         x = 0
 
-    y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+    y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
     if y == None:
-        settings.CreateSettings(&#34;dxcam&#34;, &#34;y&#34;, 0)
+        settings.CreateSettings(&#34;bettercam&#34;, &#34;y&#34;, 0)
         y = 0
 
     left, top = x, y
@@ -458,7 +458,7 @@ class UI():
             import screeninfo
             
             try:
-                screen = screeninfo.get_monitors()[settings.GetSettings(&#34;dxcam&#34;, &#34;display&#34;)]
+                screen = screeninfo.get_monitors()[settings.GetSettings(&#34;bettercam&#34;, &#34;display&#34;)]
             except:
                 screen = screeninfo.get_monitors()[0]
                 
@@ -485,25 +485,25 @@ class UI():
             
             # Helpers provides easy to use functions for creating consistent widgets!
             self.widthSlider = tk.Scale(self.root, from_=0, to=self.screenWidth, orient=tk.HORIZONTAL, length=500, command=lambda x: updateWidth(self.widthSlider.get()))
-            self.widthSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;))
+            self.widthSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;))
             self.widthSlider.grid(row=0, column=0, padx=10, pady=0, columnspan=2)
-            self.width = helpers.MakeComboEntry(self.root, &#34;Width&#34;, &#34;dxcam&#34;, &#34;width&#34;, 1,0)
+            self.width = helpers.MakeComboEntry(self.root, &#34;Width&#34;, &#34;bettercam&#34;, &#34;width&#34;, 1,0)
             
             self.heightSlider = tk.Scale(self.root, from_=0, to=self.screenHeight, orient=tk.HORIZONTAL, length=500, command=lambda x: updateHeight(self.heightSlider.get()))
-            self.heightSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;))
+            self.heightSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;))
             self.heightSlider.grid(row=2, column=0, padx=10, pady=0, columnspan=2)
-            self.height = helpers.MakeComboEntry(self.root, &#34;Height&#34;, &#34;dxcam&#34;, &#34;height&#34;, 3,0)
+            self.height = helpers.MakeComboEntry(self.root, &#34;Height&#34;, &#34;bettercam&#34;, &#34;height&#34;, 3,0)
             
             self.xSlider = tk.Scale(self.root, from_=0, to=self.screenWidth - self.width.get(), orient=tk.HORIZONTAL, length=500, command=lambda x: updateX(self.xSlider.get()))
-            self.xSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;))
+            self.xSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;))
             self.xSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
-            self.x = helpers.MakeComboEntry(self.root, &#34;X&#34;, &#34;dxcam&#34;, &#34;x&#34;, 5,0)
+            self.x = helpers.MakeComboEntry(self.root, &#34;X&#34;, &#34;bettercam&#34;, &#34;x&#34;, 5,0)
             
             self.ySlider = tk.Scale(self.root, from_=0, to=self.screenHeight - self.height.get(), orient=tk.HORIZONTAL, length=500, command=lambda x: updateY(self.ySlider.get()))
-            self.ySlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;))
+            self.ySlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;))
             self.ySlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
-            self.y = helpers.MakeComboEntry(self.root, &#34;Y&#34;, &#34;dxcam&#34;, &#34;y&#34;, 7,0)
-            self.display = helpers.MakeComboEntry(self.root, &#34;Display&#34;, &#34;dxcam&#34;, &#34;display&#34;, 8,0, value=0)
+            self.y = helpers.MakeComboEntry(self.root, &#34;Y&#34;, &#34;bettercam&#34;, &#34;y&#34;, 7,0)
+            self.display = helpers.MakeComboEntry(self.root, &#34;Display&#34;, &#34;bettercam&#34;, &#34;display&#34;, 8,0, value=0)
             
             helpers.MakeButton(self.root, &#34;Apply&#34;, lambda: self.updateSettings(), 9,0)
             
@@ -511,10 +511,10 @@ class UI():
             self.root.update()
         
         def updateSettings(self):
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;width&#34;, self.width.get())
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;height&#34;, self.height.get())
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;x&#34;, self.x.get())
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;y&#34;, self.y.get())
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;width&#34;, self.width.get())
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;height&#34;, self.height.get())
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;x&#34;, self.x.get())
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;y&#34;, self.y.get())
             CreateCamera()
         
         def update(self, data): # When the panel is open this function is called each frame 
@@ -546,24 +546,24 @@ class UI():
     global width
     global height
     
-    width = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
+    width = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
     if width == None:
-        settings.CreateSettings(&#34;dxcam&#34;, &#34;width&#34;, 1280)
+        settings.CreateSettings(&#34;bettercam&#34;, &#34;width&#34;, 1280)
         width = 1280
 
-    height = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+    height = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
     if height == None:
-        settings.CreateSettings(&#34;dxcam&#34;, &#34;height&#34;, 720)
+        settings.CreateSettings(&#34;bettercam&#34;, &#34;height&#34;, 720)
         height = 720
         
-    x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
+    x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
     if x == None:
-        settings.CreateSettings(&#34;dxcam&#34;, &#34;x&#34;, 0)
+        settings.CreateSettings(&#34;bettercam&#34;, &#34;x&#34;, 0)
         x = 0
 
-    y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+    y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
     if y == None:
-        settings.CreateSettings(&#34;dxcam&#34;, &#34;y&#34;, 0)
+        settings.CreateSettings(&#34;bettercam&#34;, &#34;y&#34;, 0)
         y = 0
 
     left, top = x, y
@@ -655,7 +655,7 @@ class UI():
             import screeninfo
             
             try:
-                screen = screeninfo.get_monitors()[settings.GetSettings(&#34;dxcam&#34;, &#34;display&#34;)]
+                screen = screeninfo.get_monitors()[settings.GetSettings(&#34;bettercam&#34;, &#34;display&#34;)]
             except:
                 screen = screeninfo.get_monitors()[0]
                 
@@ -682,25 +682,25 @@ class UI():
             
             # Helpers provides easy to use functions for creating consistent widgets!
             self.widthSlider = tk.Scale(self.root, from_=0, to=self.screenWidth, orient=tk.HORIZONTAL, length=500, command=lambda x: updateWidth(self.widthSlider.get()))
-            self.widthSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;))
+            self.widthSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;))
             self.widthSlider.grid(row=0, column=0, padx=10, pady=0, columnspan=2)
-            self.width = helpers.MakeComboEntry(self.root, &#34;Width&#34;, &#34;dxcam&#34;, &#34;width&#34;, 1,0)
+            self.width = helpers.MakeComboEntry(self.root, &#34;Width&#34;, &#34;bettercam&#34;, &#34;width&#34;, 1,0)
             
             self.heightSlider = tk.Scale(self.root, from_=0, to=self.screenHeight, orient=tk.HORIZONTAL, length=500, command=lambda x: updateHeight(self.heightSlider.get()))
-            self.heightSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;))
+            self.heightSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;))
             self.heightSlider.grid(row=2, column=0, padx=10, pady=0, columnspan=2)
-            self.height = helpers.MakeComboEntry(self.root, &#34;Height&#34;, &#34;dxcam&#34;, &#34;height&#34;, 3,0)
+            self.height = helpers.MakeComboEntry(self.root, &#34;Height&#34;, &#34;bettercam&#34;, &#34;height&#34;, 3,0)
             
             self.xSlider = tk.Scale(self.root, from_=0, to=self.screenWidth - self.width.get(), orient=tk.HORIZONTAL, length=500, command=lambda x: updateX(self.xSlider.get()))
-            self.xSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;))
+            self.xSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;))
             self.xSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
-            self.x = helpers.MakeComboEntry(self.root, &#34;X&#34;, &#34;dxcam&#34;, &#34;x&#34;, 5,0)
+            self.x = helpers.MakeComboEntry(self.root, &#34;X&#34;, &#34;bettercam&#34;, &#34;x&#34;, 5,0)
             
             self.ySlider = tk.Scale(self.root, from_=0, to=self.screenHeight - self.height.get(), orient=tk.HORIZONTAL, length=500, command=lambda x: updateY(self.ySlider.get()))
-            self.ySlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;))
+            self.ySlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;))
             self.ySlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
-            self.y = helpers.MakeComboEntry(self.root, &#34;Y&#34;, &#34;dxcam&#34;, &#34;y&#34;, 7,0)
-            self.display = helpers.MakeComboEntry(self.root, &#34;Display&#34;, &#34;dxcam&#34;, &#34;display&#34;, 8,0, value=0)
+            self.y = helpers.MakeComboEntry(self.root, &#34;Y&#34;, &#34;bettercam&#34;, &#34;y&#34;, 7,0)
+            self.display = helpers.MakeComboEntry(self.root, &#34;Display&#34;, &#34;bettercam&#34;, &#34;display&#34;, 8,0, value=0)
             
             helpers.MakeButton(self.root, &#34;Apply&#34;, lambda: self.updateSettings(), 9,0)
             
@@ -708,10 +708,10 @@ class UI():
             self.root.update()
         
         def updateSettings(self):
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;width&#34;, self.width.get())
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;height&#34;, self.height.get())
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;x&#34;, self.x.get())
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;y&#34;, self.y.get())
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;width&#34;, self.width.get())
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;height&#34;, self.height.get())
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;x&#34;, self.x.get())
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;y&#34;, self.y.get())
             CreateCamera()
         
         def update(self, data): # When the panel is open this function is called each frame 
@@ -756,7 +756,7 @@ class UI():
     import screeninfo
     
     try:
-        screen = screeninfo.get_monitors()[settings.GetSettings(&#34;dxcam&#34;, &#34;display&#34;)]
+        screen = screeninfo.get_monitors()[settings.GetSettings(&#34;bettercam&#34;, &#34;display&#34;)]
     except:
         screen = screeninfo.get_monitors()[0]
         
@@ -783,25 +783,25 @@ class UI():
     
     # Helpers provides easy to use functions for creating consistent widgets!
     self.widthSlider = tk.Scale(self.root, from_=0, to=self.screenWidth, orient=tk.HORIZONTAL, length=500, command=lambda x: updateWidth(self.widthSlider.get()))
-    self.widthSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;))
+    self.widthSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;))
     self.widthSlider.grid(row=0, column=0, padx=10, pady=0, columnspan=2)
-    self.width = helpers.MakeComboEntry(self.root, &#34;Width&#34;, &#34;dxcam&#34;, &#34;width&#34;, 1,0)
+    self.width = helpers.MakeComboEntry(self.root, &#34;Width&#34;, &#34;bettercam&#34;, &#34;width&#34;, 1,0)
     
     self.heightSlider = tk.Scale(self.root, from_=0, to=self.screenHeight, orient=tk.HORIZONTAL, length=500, command=lambda x: updateHeight(self.heightSlider.get()))
-    self.heightSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;))
+    self.heightSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;))
     self.heightSlider.grid(row=2, column=0, padx=10, pady=0, columnspan=2)
-    self.height = helpers.MakeComboEntry(self.root, &#34;Height&#34;, &#34;dxcam&#34;, &#34;height&#34;, 3,0)
+    self.height = helpers.MakeComboEntry(self.root, &#34;Height&#34;, &#34;bettercam&#34;, &#34;height&#34;, 3,0)
     
     self.xSlider = tk.Scale(self.root, from_=0, to=self.screenWidth - self.width.get(), orient=tk.HORIZONTAL, length=500, command=lambda x: updateX(self.xSlider.get()))
-    self.xSlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;))
+    self.xSlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;))
     self.xSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
-    self.x = helpers.MakeComboEntry(self.root, &#34;X&#34;, &#34;dxcam&#34;, &#34;x&#34;, 5,0)
+    self.x = helpers.MakeComboEntry(self.root, &#34;X&#34;, &#34;bettercam&#34;, &#34;x&#34;, 5,0)
     
     self.ySlider = tk.Scale(self.root, from_=0, to=self.screenHeight - self.height.get(), orient=tk.HORIZONTAL, length=500, command=lambda x: updateY(self.ySlider.get()))
-    self.ySlider.set(settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;))
+    self.ySlider.set(settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;))
     self.ySlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
-    self.y = helpers.MakeComboEntry(self.root, &#34;Y&#34;, &#34;dxcam&#34;, &#34;y&#34;, 7,0)
-    self.display = helpers.MakeComboEntry(self.root, &#34;Display&#34;, &#34;dxcam&#34;, &#34;display&#34;, 8,0, value=0)
+    self.y = helpers.MakeComboEntry(self.root, &#34;Y&#34;, &#34;bettercam&#34;, &#34;y&#34;, 7,0)
+    self.display = helpers.MakeComboEntry(self.root, &#34;Display&#34;, &#34;bettercam&#34;, &#34;display&#34;, 8,0, value=0)
     
     helpers.MakeButton(self.root, &#34;Apply&#34;, lambda: self.updateSettings(), 9,0)
     
@@ -832,10 +832,10 @@ class UI():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def updateSettings(self):
-    settings.CreateSettings(&#34;dxcam&#34;, &#34;width&#34;, self.width.get())
-    settings.CreateSettings(&#34;dxcam&#34;, &#34;height&#34;, self.height.get())
-    settings.CreateSettings(&#34;dxcam&#34;, &#34;x&#34;, self.x.get())
-    settings.CreateSettings(&#34;dxcam&#34;, &#34;y&#34;, self.y.get())
+    settings.CreateSettings(&#34;bettercam&#34;, &#34;width&#34;, self.width.get())
+    settings.CreateSettings(&#34;bettercam&#34;, &#34;height&#34;, self.height.get())
+    settings.CreateSettings(&#34;bettercam&#34;, &#34;x&#34;, self.x.get())
+    settings.CreateSettings(&#34;bettercam&#34;, &#34;y&#34;, self.y.get())
     CreateCamera()</code></pre>
 </details>
 </dd>

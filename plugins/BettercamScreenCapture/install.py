@@ -1,4 +1,4 @@
-requirements = ["https://github.com/AI-M-BOT/DXcam/archive/592acb7325e3a463ff1e186c5745dfdcec7e82b4.zip"]
+requirements = ["bettercam"]
 import os
 
 def install():
