@@ -308,9 +308,12 @@ def plugin(data):
                 pygame.event.pump() # Update the controller values
                 steeringAxisValue = controls.GetKeybindValue("Steering Axis")
                 # Check if the SDK controller is enabled and vgamepad is not
-                if "SDKController" in settings.GetSettings("Plugins", "Enabled") and "VGamepadController" not in settings.GetSettings("Plugins", "Enabled"):
+                try:
+                    if "SDKController" in settings.GetSettings("Plugins", "Enabled") and "VGamepadController" not in settings.GetSettings("Plugins", "Enabled"):
+                        steeringAxisValue = 0 # Don't pass the users control values to the game
+                except:
                     steeringAxisValue = 0 # Don't pass the users control values to the game
-
+                    
                 # Main controller update loop.
                 if(enabled):
                     # Clamp the control
