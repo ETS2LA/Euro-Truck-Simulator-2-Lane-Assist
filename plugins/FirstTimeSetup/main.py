@@ -28,9 +28,9 @@ import webview
 import src.controls as controls
 
 try:
-    import dxcam
+    import bettercam
 except:
-    dxcam = None
+    bettercam = None
 
 pygame.display.init()
 pygame.joystick.init()
@@ -221,7 +221,7 @@ class UI():
             # helpers.MakeButton(self.root, "Bind steer right key", lambda: controls.ChangeKeybind("Steer Right Key", updateUI=False), 4, 0)
 
             helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 8,0)
-            if dxcam != None:
+            if bettercam != None:
                 helpers.MakeButton(self.root, "Next", lambda: self.screenCaptureSetup(), 8,1)
             else:
                 helpers.MakeButton(self.root, "Next", lambda: self.laneDetectionFeatures(), 8,1)
@@ -260,7 +260,7 @@ class UI():
             from plugins.DefaultSteering.main import updateSettings
             updateSettings()
             
-            if dxcam != None:
+            if bettercam != None:
                 self.screenCaptureSetup()      
             else:
                 self.laneDetectionFeatures()
@@ -276,15 +276,15 @@ class UI():
             helpers.MakeLabel(self.root, "Please select the monitor ETS2 is going to be on.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
 
             # Detect all displays
-            dxcamOutput = dxcam.output_info()
+            bettercamOutput = bettercam.output_info()
             for i in range(0,4):
                 # Remove GPU indices
-                dxcamOutput = dxcamOutput.replace(f"Device[{i}]", "")
+                bettercamOutput = bettercamOutput.replace(f"Device[{i}]", "")
                 # Also remove 'rot'?
-                dxcamOutput = dxcamOutput.replace(f"Rot:{i}", "")
+                bettercamOutput = bettercamOutput.replace(f"Rot:{i}", "")
                 
             
-            displays = dxcamOutput.split("\n")
+            displays = bettercamOutput.split("\n")
             
             displayArray = []
             for display in displays:
@@ -312,7 +312,7 @@ class UI():
             
         
         def setScreenCaptureSettings(self, display):
-            settings.CreateSettings("dxcam", "display", int(display))
+            settings.CreateSettings("bettercam", "display", int(display))
             #settings.CreateSettings("Screen Capture", "Refresh Rate", self.refreshRate.get())
             self.soundSettings()
 

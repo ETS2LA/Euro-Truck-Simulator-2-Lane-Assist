@@ -24,9 +24,9 @@ import mouse
 import cv2 
 import pyautogui
 try:
-    import dxcam
+    import bettercam
 except:
-    print("DX Cam is not installed, Grab cordinates will not work")
+    print("Bettercam is not installed, Grab cordinates will not work")
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -46,12 +46,12 @@ class UI():
                 variables.ENABLELOOP = False
                 cv2.destroyAllWindows()
 
-            camera = dxcam.create(device_idx=0,output_color="BGR")
+            camera = bettercam.create(device_idx=0,output_color="BGR")
 
-            min_x = settings.GetSettings("dxcam", "x")
-            min_y = settings.GetSettings("dxcam", "y")
-            height = settings.GetSettings("dxcam", "height")
-            width = settings.GetSettings("dxcam", "width")
+            min_x = settings.GetSettings("bettercam", "x")
+            min_y = settings.GetSettings("bettercam", "y")
+            height = settings.GetSettings("bettercam", "height")
+            width = settings.GetSettings("bettercam", "width")
 
             cv2.namedWindow("Lane Assist", cv2.WINDOW_NORMAL)
             cv2.setWindowProperty("Lane Assist", cv2.WND_PROP_TOPMOST, 1)

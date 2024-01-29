@@ -33,10 +33,10 @@ def plugin(data):
         if root.winfo_exists() == 0:
             pass
     except:
-        x = settings.GetSettings("dxcam", "x")
-        y = settings.GetSettings("dxcam", "y")
-        width = settings.GetSettings("dxcam", "width")
-        height = settings.GetSettings("dxcam", "height")
+        x = settings.GetSettings("bettercam", "x")
+        y = settings.GetSettings("bettercam", "y")
+        width = settings.GetSettings("bettercam", "width")
+        height = settings.GetSettings("bettercam", "height")
         print("Creating Window")
         CreateWindow(x,y,width,height)
         print("Window Created")

@@ -459,8 +459,8 @@ class UI():
 
         def set_aspect_ratio(self):
             try:
-                windowwidth = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
-                windowheight = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+                windowwidth = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+                windowheight = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
                 cv2.resizeWindow(&#39;Lane Assist&#39;, round(windowwidth*self.windowscaleSlider.get()), round(windowheight*self.windowscaleSlider.get()))
                 cv2.destroyWindow(&#39;Lane Assist&#39;)
             except:
@@ -607,8 +607,8 @@ class UI():
 
         def set_aspect_ratio(self):
             try:
-                windowwidth = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
-                windowheight = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+                windowwidth = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+                windowheight = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
                 cv2.resizeWindow(&#39;Lane Assist&#39;, round(windowwidth*self.windowscaleSlider.get()), round(windowheight*self.windowscaleSlider.get()))
                 cv2.destroyWindow(&#39;Lane Assist&#39;)
             except:
@@ -728,8 +728,8 @@ class UI():
 </summary>
 <pre><code class="python">def set_aspect_ratio(self):
     try:
-        windowwidth = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
-        windowheight = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+        windowwidth = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+        windowheight = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
         cv2.resizeWindow(&#39;Lane Assist&#39;, round(windowwidth*self.windowscaleSlider.get()), round(windowheight*self.windowscaleSlider.get()))
         cv2.destroyWindow(&#39;Lane Assist&#39;)
     except:

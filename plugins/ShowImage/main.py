@@ -108,8 +108,8 @@ class UI():
 
         def set_aspect_ratio(self):
             try:
-                windowwidth = settings.GetSettings("dxcam", "width")
-                windowheight = settings.GetSettings("dxcam", "height")
+                windowwidth = settings.GetSettings("bettercam", "width")
+                windowheight = settings.GetSettings("bettercam", "height")
                 cv2.resizeWindow('Lane Assist', round(windowwidth*self.windowscaleSlider.get()), round(windowheight*self.windowscaleSlider.get()))
                 cv2.destroyWindow('Lane Assist')
             except:

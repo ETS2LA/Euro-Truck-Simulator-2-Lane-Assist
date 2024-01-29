@@ -450,8 +450,8 @@ def UpdateSettings():
     if &#34;NavigationDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
         navigationdetectionisenabled = True
         centercoord = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;centercoord&#34;, &#34;unset&#34;)
-        screencap_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-        screencap_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+        screencap_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+        screencap_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
         if centercoord == &#34;unset&#34;:
             centercoord = None
         if centercoord != None and screencap_x != None and screencap_y != None:
@@ -1105,8 +1105,8 @@ class UI():
     if &#34;NavigationDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
         navigationdetectionisenabled = True
         centercoord = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;centercoord&#34;, &#34;unset&#34;)
-        screencap_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-        screencap_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+        screencap_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+        screencap_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
         if centercoord == &#34;unset&#34;:
             centercoord = None
         if centercoord != None and screencap_x != None and screencap_y != None:

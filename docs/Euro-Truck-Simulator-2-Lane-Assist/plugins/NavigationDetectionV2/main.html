@@ -383,7 +383,7 @@ import plugins.DefaultSteering.main as DefaultSteering
 
 import cv2
 import numpy as np
-import dxcam
+import bettercam
 import time
 import pyautogui
 import mouse
@@ -485,8 +485,8 @@ def LoadSettings():
         navcoordsarezero = False
 
 
-    widthofscreencapture = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
-    heightofscreencapture = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+    widthofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+    heightofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
     if navsymbolx &gt; widthofscreencapture - 3 or navsymbolx &lt; 3:
         getnavcoordinates = True
         if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
@@ -554,8 +554,8 @@ def plugin(data):
             frame = data[&#34;frame&#34;]
             width = frame.shape[1]
             height = frame.shape[0]
-            min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-            min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
         except:
             return data 
         
@@ -633,8 +633,8 @@ def plugin(data):
         try:
             width = frame.shape[1]
             height = frame.shape[0]
-            min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-            min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
         except:
             return data
         
@@ -1098,8 +1098,8 @@ class UI():
         navcoordsarezero = False
 
 
-    widthofscreencapture = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
-    heightofscreencapture = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+    widthofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+    heightofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
     if navsymbolx &gt; widthofscreencapture - 3 or navsymbolx &lt; 3:
         getnavcoordinates = True
         if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
@@ -1200,8 +1200,8 @@ class UI():
             frame = data[&#34;frame&#34;]
             width = frame.shape[1]
             height = frame.shape[0]
-            min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-            min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
         except:
             return data 
         
@@ -1279,8 +1279,8 @@ class UI():
         try:
             width = frame.shape[1]
             height = frame.shape[0]
-            min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-            min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
         except:
             return data
         

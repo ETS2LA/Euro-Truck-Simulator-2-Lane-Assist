@@ -28,7 +28,7 @@ class PluginInformation():
 
         disablePlugins (bool): If true then the panel will prompt to disable plugins when opened
         
-        disableLoop (bool): If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with dxcam for example)
+        disableLoop (bool): If true then the panel will prompt to disable the mainloop when opened (useful for panels that use a lot of resources or have problems with bettercam for example)
         
         noUI (bool): If true then the UI button will not be shown
         

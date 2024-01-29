@@ -368,7 +368,7 @@ PluginInfo = PluginInformation(
     type=&#34;dynamic&#34;, # = Panel
     dynamicOrder=&#34;lane detection&#34;, # Will run the plugin before anything else in the mainloop (data will be empty)
     exclusive=&#34;LaneDetection&#34;,
-    requires=[&#34;DefaultSteering&#34;, &#34;DXCamScreenCapture&#34;, &#34;TruckSimAPI&#34;, &#34;SDKController&#34;]
+    requires=[&#34;DefaultSteering&#34;, &#34;bettercamScreenCapture&#34;, &#34;TruckSimAPI&#34;, &#34;SDKController&#34;]
 )
 
 import tkinter as tk
@@ -644,8 +644,8 @@ def LoadSettingsV2():
         navcoordsarezero = False
 
 
-    widthofscreencapture = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
-    heightofscreencapture = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+    widthofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+    heightofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
     if navsymbolx &gt; widthofscreencapture - 3 or navsymbolx &lt; 3:
         getnavcoordinates = True
         if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
@@ -768,8 +768,8 @@ def LoadSettingsV3():
     topleft = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;topleft&#34;, &#34;unset&#34;)
     bottomright = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;bottomright&#34;, &#34;unset&#34;)
     centercoord = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;centercoord&#34;, &#34;unset&#34;)
-    screencap_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-    screencap_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+    screencap_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+    screencap_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
 
     if topleft == &#34;unset&#34;:
         topleft = None
@@ -1285,8 +1285,8 @@ def plugin(data):
                 frame = data[&#34;frame&#34;]
                 width = frame.shape[1]
                 height = frame.shape[0]
-                min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-                min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+                min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+                min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
             except:
                 return data 
             
@@ -1368,8 +1368,8 @@ def plugin(data):
             try:
                 width = frame.shape[1]
                 height = frame.shape[0]
-                min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-                min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+                min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+                min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
             except:
                 return data
             
@@ -2154,13 +2154,13 @@ def plugin(data):
             
             if finishedsetup == True:
                 if topleft != None and bottomright != None:
-                    settings.CreateSettings(&#34;dxcam&#34;, &#34;x&#34;, topleft[0])
-                    settings.CreateSettings(&#34;dxcam&#34;, &#34;y&#34;, topleft[1])
-                    settings.CreateSettings(&#34;dxcam&#34;, &#34;width&#34;, bottomright[0] - topleft[0])
-                    settings.CreateSettings(&#34;dxcam&#34;, &#34;height&#34;, bottomright[1] - topleft[1])
+                    settings.CreateSettings(&#34;bettercam&#34;, &#34;x&#34;, topleft[0])
+                    settings.CreateSettings(&#34;bettercam&#34;, &#34;y&#34;, topleft[1])
+                    settings.CreateSettings(&#34;bettercam&#34;, &#34;width&#34;, bottomright[0] - topleft[0])
+                    settings.CreateSettings(&#34;bettercam&#34;, &#34;height&#34;, bottomright[1] - topleft[1])
 
-                    import plugins.DXCamScreenCapture.main as dxcam
-                    dxcam.CreateCamera()
+                    import plugins.BetterCamScreenCapture.main as bettercam
+                    bettercam.CreateCamera()
 
                     if centercoord != None and topleft[0] != None and topleft[1] != None:
                         navigationsymbol_x = centercoord[0] - topleft[0]
@@ -2176,13 +2176,13 @@ def plugin(data):
                     settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;, navigationsymbol_x)
                     settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;, navigationsymbol_y)
 
-                    screencap_display = settings.GetSettings(&#34;dxcam&#34;, &#34;display&#34;)
+                    screencap_display = settings.GetSettings(&#34;bettercam&#34;, &#34;display&#34;)
                     if screencap_display == None:
-                        settings.CreateSettings(&#34;dxcam&#34;, &#34;display&#34;, 0)
+                        settings.CreateSettings(&#34;bettercam&#34;, &#34;display&#34;, 0)
                         screencap_display = 0
-                    screencap_device = settings.GetSettings(&#34;dxcam&#34;, &#34;device&#34;)
+                    screencap_device = settings.GetSettings(&#34;bettercam&#34;, &#34;device&#34;)
                     if screencap_device == None:
-                        settings.CreateSettings(&#34;dxcam&#34;, &#34;device&#34;, 0)
+                        settings.CreateSettings(&#34;bettercam&#34;, &#34;device&#34;, 0)
                         screencap_device = 0
 
                 cv2.destroyWindow(&#39;Setup&#39;)
@@ -2191,7 +2191,7 @@ def plugin(data):
                 if enabled_plugins != settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                     
                     for i in range(len(enabled_plugins)):
-                        if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;DXCamScreenCapture&#34;:
+                        if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;bettercamScreenCapture&#34;:
                             if enabled_plugins[i] not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                                 settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
@@ -2207,15 +2207,17 @@ def plugin(data):
             
             try:
                 frame = data[&#34;frame&#34;]
+                width = frame.shape[1]
+                height = frame.shape[0]
             except:
                 return data
 
             if frame is None: return data
             
-            try:
-                width = frame.shape[1]
-                height = frame.shape[0]
-            except:
+            if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size &gt; 0:
+                valid_frame = True
+            else:
+                valid_frame = False
                 return data
             
             try:
@@ -3255,10 +3257,10 @@ class UI():
                     enabled_plugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
                     if &#34;NavigationDetection&#34; not in enabled_plugins:
                         settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;NavigationDetection&#34;)
-                    if &#34;DXCamScreenCapture&#34; not in enabled_plugins:
-                        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;DXCamScreenCapture&#34;)
+                    if &#34;bettercamScreenCapture&#34; not in enabled_plugins:
+                        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;bettercamScreenCapture&#34;)
                     for i in range(len(enabled_plugins)):
-                        if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;DXCamScreenCapture&#34;:
+                        if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;bettercamScreenCapture&#34;:
                             settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
                     DefaultSteering.enabled = False
@@ -3575,8 +3577,8 @@ class UI():
         navcoordsarezero = False
 
 
-    widthofscreencapture = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
-    heightofscreencapture = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
+    widthofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+    heightofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
     if navsymbolx &gt; widthofscreencapture - 3 or navsymbolx &lt; 3:
         getnavcoordinates = True
         if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
@@ -3705,8 +3707,8 @@ class UI():
     topleft = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;topleft&#34;, &#34;unset&#34;)
     bottomright = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;bottomright&#34;, &#34;unset&#34;)
     centercoord = settings.GetSettings(&#34;NavigationDetectionV3&#34;, &#34;centercoord&#34;, &#34;unset&#34;)
-    screencap_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-    screencap_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+    screencap_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+    screencap_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
 
     if topleft == &#34;unset&#34;:
         topleft = None
@@ -4240,8 +4242,8 @@ class UI():
                 frame = data[&#34;frame&#34;]
                 width = frame.shape[1]
                 height = frame.shape[0]
-                min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-                min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+                min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+                min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
             except:
                 return data 
             
@@ -4323,8 +4325,8 @@ class UI():
             try:
                 width = frame.shape[1]
                 height = frame.shape[0]
-                min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-                min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
+                min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+                min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
             except:
                 return data
             
@@ -5109,13 +5111,13 @@ class UI():
             
             if finishedsetup == True:
                 if topleft != None and bottomright != None:
-                    settings.CreateSettings(&#34;dxcam&#34;, &#34;x&#34;, topleft[0])
-                    settings.CreateSettings(&#34;dxcam&#34;, &#34;y&#34;, topleft[1])
-                    settings.CreateSettings(&#34;dxcam&#34;, &#34;width&#34;, bottomright[0] - topleft[0])
-                    settings.CreateSettings(&#34;dxcam&#34;, &#34;height&#34;, bottomright[1] - topleft[1])
+                    settings.CreateSettings(&#34;bettercam&#34;, &#34;x&#34;, topleft[0])
+                    settings.CreateSettings(&#34;bettercam&#34;, &#34;y&#34;, topleft[1])
+                    settings.CreateSettings(&#34;bettercam&#34;, &#34;width&#34;, bottomright[0] - topleft[0])
+                    settings.CreateSettings(&#34;bettercam&#34;, &#34;height&#34;, bottomright[1] - topleft[1])
 
-                    import plugins.DXCamScreenCapture.main as dxcam
-                    dxcam.CreateCamera()
+                    import plugins.BetterCamScreenCapture.main as bettercam
+                    bettercam.CreateCamera()
 
                     if centercoord != None and topleft[0] != None and topleft[1] != None:
                         navigationsymbol_x = centercoord[0] - topleft[0]
@@ -5131,13 +5133,13 @@ class UI():
                     settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;, navigationsymbol_x)
                     settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;, navigationsymbol_y)
 
-                    screencap_display = settings.GetSettings(&#34;dxcam&#34;, &#34;display&#34;)
+                    screencap_display = settings.GetSettings(&#34;bettercam&#34;, &#34;display&#34;)
                     if screencap_display == None:
-                        settings.CreateSettings(&#34;dxcam&#34;, &#34;display&#34;, 0)
+                        settings.CreateSettings(&#34;bettercam&#34;, &#34;display&#34;, 0)
                         screencap_display = 0
-                    screencap_device = settings.GetSettings(&#34;dxcam&#34;, &#34;device&#34;)
+                    screencap_device = settings.GetSettings(&#34;bettercam&#34;, &#34;device&#34;)
                     if screencap_device == None:
-                        settings.CreateSettings(&#34;dxcam&#34;, &#34;device&#34;, 0)
+                        settings.CreateSettings(&#34;bettercam&#34;, &#34;device&#34;, 0)
                         screencap_device = 0
 
                 cv2.destroyWindow(&#39;Setup&#39;)
@@ -5146,7 +5148,7 @@ class UI():
                 if enabled_plugins != settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                     
                     for i in range(len(enabled_plugins)):
-                        if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;DXCamScreenCapture&#34;:
+                        if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;bettercamScreenCapture&#34;:
                             if enabled_plugins[i] not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
                                 settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
@@ -5162,15 +5164,17 @@ class UI():
             
             try:
                 frame = data[&#34;frame&#34;]
+                width = frame.shape[1]
+                height = frame.shape[0]
             except:
                 return data
 
             if frame is None: return data
             
-            try:
-                width = frame.shape[1]
-                height = frame.shape[0]
-            except:
+            if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size &gt; 0:
+                valid_frame = True
+            else:
+                valid_frame = False
                 return data
             
             try:
@@ -6217,10 +6221,10 @@ class UI():
                     enabled_plugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
                     if &#34;NavigationDetection&#34; not in enabled_plugins:
                         settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;NavigationDetection&#34;)
-                    if &#34;DXCamScreenCapture&#34; not in enabled_plugins:
-                        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;DXCamScreenCapture&#34;)
+                    if &#34;bettercamScreenCapture&#34; not in enabled_plugins:
+                        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;bettercamScreenCapture&#34;)
                     for i in range(len(enabled_plugins)):
-                        if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;DXCamScreenCapture&#34;:
+                        if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;bettercamScreenCapture&#34;:
                             settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
                     DefaultSteering.enabled = False
@@ -6599,10 +6603,10 @@ class UI():
             enabled_plugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
             if &#34;NavigationDetection&#34; not in enabled_plugins:
                 settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;NavigationDetection&#34;)
-            if &#34;DXCamScreenCapture&#34; not in enabled_plugins:
-                settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;DXCamScreenCapture&#34;)
+            if &#34;bettercamScreenCapture&#34; not in enabled_plugins:
+                settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;bettercamScreenCapture&#34;)
             for i in range(len(enabled_plugins)):
-                if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;DXCamScreenCapture&#34;:
+                if enabled_plugins[i] != &#34;NavigationDetection&#34; and enabled_plugins[i] != &#34;bettercamScreenCapture&#34;:
                     settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, enabled_plugins[i])
 
             DefaultSteering.enabled = False

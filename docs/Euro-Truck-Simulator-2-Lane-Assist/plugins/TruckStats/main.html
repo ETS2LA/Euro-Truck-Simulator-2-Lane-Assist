@@ -662,7 +662,8 @@ def plugin(data):
         route_speedlimit = data[&#34;api&#34;][&#34;truckFloat&#34;][&#34;speedLimit&#34;]
         route_speedlimit = route_speedlimit*3.6
         route_speedlimit_kmh = route_speedlimit
-        route_destination = data[&#34;api&#34;][&#34;configString&#34;][&#34;cityDst&#34;]
+        route_destination = data[&#34;api&#34;][&#34;configString&#34;][&#34;cityDstId&#34;]
+        route_destination = route_destination.capitalize()
 
         truck_name = data[&#34;api&#34;][&#34;configString&#34;][&#34;truckName&#34;]
         truck_cargo = data[&#34;api&#34;][&#34;configString&#34;][&#34;cargo&#34;]
@@ -2096,7 +2097,8 @@ class UI():
         route_speedlimit = data[&#34;api&#34;][&#34;truckFloat&#34;][&#34;speedLimit&#34;]
         route_speedlimit = route_speedlimit*3.6
         route_speedlimit_kmh = route_speedlimit
-        route_destination = data[&#34;api&#34;][&#34;configString&#34;][&#34;cityDst&#34;]
+        route_destination = data[&#34;api&#34;][&#34;configString&#34;][&#34;cityDstId&#34;]
+        route_destination = route_destination.capitalize()
 
         truck_name = data[&#34;api&#34;][&#34;configString&#34;][&#34;truckName&#34;]
         truck_cargo = data[&#34;api&#34;][&#34;configString&#34;][&#34;cargo&#34;]

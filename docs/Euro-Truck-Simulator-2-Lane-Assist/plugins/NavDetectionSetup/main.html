@@ -372,9 +372,9 @@ import mouse
 import cv2 
 import pyautogui
 try:
-    import dxcam
+    import bettercam
 except:
-    print(&#34;DX Cam is not installed, Grab cordinates will not work&#34;)
+    print(&#34;Bettercam is not installed, Grab cordinates will not work&#34;)
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -394,12 +394,12 @@ class UI():
                 variables.ENABLELOOP = False
                 cv2.destroyAllWindows()
 
-            camera = dxcam.create(device_idx=0,output_color=&#34;BGR&#34;)
+            camera = bettercam.create(device_idx=0,output_color=&#34;BGR&#34;)
 
-            min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-            min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
-            height = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
-            width = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
+            height = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
+            width = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
 
             cv2.namedWindow(&#34;Lane Assist&#34;, cv2.WINDOW_NORMAL)
             cv2.setWindowProperty(&#34;Lane Assist&#34;, cv2.WND_PROP_TOPMOST, 1)
@@ -504,12 +504,12 @@ class UI():
         variables.ENABLELOOP = False
         cv2.destroyAllWindows()
 
-    camera = dxcam.create(device_idx=0,output_color=&#34;BGR&#34;)
+    camera = bettercam.create(device_idx=0,output_color=&#34;BGR&#34;)
 
-    min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-    min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
-    height = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
-    width = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
+    min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+    min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
+    height = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
+    width = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
 
     cv2.namedWindow(&#34;Lane Assist&#34;, cv2.WINDOW_NORMAL)
     cv2.setWindowProperty(&#34;Lane Assist&#34;, cv2.WND_PROP_TOPMOST, 1)
@@ -572,12 +572,12 @@ class UI():
                 variables.ENABLELOOP = False
                 cv2.destroyAllWindows()
 
-            camera = dxcam.create(device_idx=0,output_color=&#34;BGR&#34;)
+            camera = bettercam.create(device_idx=0,output_color=&#34;BGR&#34;)
 
-            min_x = settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;)
-            min_y = settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;)
-            height = settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;)
-            width = settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;)
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
+            height = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
+            width = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
 
             cv2.namedWindow(&#34;Lane Assist&#34;, cv2.WINDOW_NORMAL)
             cv2.setWindowProperty(&#34;Lane Assist&#34;, cv2.WND_PROP_TOPMOST, 1)

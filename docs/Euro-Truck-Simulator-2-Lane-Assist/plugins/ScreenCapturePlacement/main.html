@@ -459,8 +459,8 @@ def SavePickerSettings(category):
     settings.CreateSettings(category, &#34;height&#34;, h)
     
     try:
-        import plugins.DXCamScreenCapture.main as dxcam
-        dxcam.CreateCamera()
+        import plugins.BetterCamScreenCapture.main as bettercam
+        bettercam.CreateCamera()
         
         import plugins.MSSScreenCapture.main as mss
         mss.CreateCamera()
@@ -503,10 +503,10 @@ class UI():
             
             # Get the screen size
             try:
-                width = int(settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;))
-                height = int(settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;))
-                x = int(settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;))
-                y = int(settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;))
+                width = int(settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;))
+                height = int(settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;))
+                x = int(settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;))
+                y = int(settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;))
             except:
                 screen = screeninfo.get_monitors()[0]
                 height = int(screen.height / 2)
@@ -515,10 +515,10 @@ class UI():
                 y = 100
             
             helpers.MakeButton(self.root, &#34;Enable Picker&#34;, lambda: CreateWindow(x,y,width, height), 0,0, padx=10, pady=10, width=15)
-            helpers.MakeLabel(self.root, &#34;Set this to your screencapture category (default &#39;dxcam&#39;):&#34;, 1,0, font=(&#34;Roboto&#34;, 8), padx=30, pady=10)
+            helpers.MakeLabel(self.root, &#34;Set this to your screencapture category (default &#39;bettercam&#39;):&#34;, 1,0, font=(&#34;Roboto&#34;, 8), padx=30, pady=10)
             
             entryVar = tk.StringVar()
-            entryVar.set(&#34;dxcam&#34;)
+            entryVar.set(&#34;bettercam&#34;)
             entry = ttk.Entry(self.root, width=15, textvariable=entryVar)
             entry.grid(row=2, column=0, padx=10, pady=10)
             
@@ -704,8 +704,8 @@ class UI():
     settings.CreateSettings(category, &#34;height&#34;, h)
     
     try:
-        import plugins.DXCamScreenCapture.main as dxcam
-        dxcam.CreateCamera()
+        import plugins.BetterCamScreenCapture.main as bettercam
+        bettercam.CreateCamera()
         
         import plugins.MSSScreenCapture.main as mss
         mss.CreateCamera()
@@ -756,10 +756,10 @@ class UI():
             
             # Get the screen size
             try:
-                width = int(settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;))
-                height = int(settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;))
-                x = int(settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;))
-                y = int(settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;))
+                width = int(settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;))
+                height = int(settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;))
+                x = int(settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;))
+                y = int(settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;))
             except:
                 screen = screeninfo.get_monitors()[0]
                 height = int(screen.height / 2)
@@ -768,10 +768,10 @@ class UI():
                 y = 100
             
             helpers.MakeButton(self.root, &#34;Enable Picker&#34;, lambda: CreateWindow(x,y,width, height), 0,0, padx=10, pady=10, width=15)
-            helpers.MakeLabel(self.root, &#34;Set this to your screencapture category (default &#39;dxcam&#39;):&#34;, 1,0, font=(&#34;Roboto&#34;, 8), padx=30, pady=10)
+            helpers.MakeLabel(self.root, &#34;Set this to your screencapture category (default &#39;bettercam&#39;):&#34;, 1,0, font=(&#34;Roboto&#34;, 8), padx=30, pady=10)
             
             entryVar = tk.StringVar()
-            entryVar.set(&#34;dxcam&#34;)
+            entryVar.set(&#34;bettercam&#34;)
             entry = ttk.Entry(self.root, width=15, textvariable=entryVar)
             entry.grid(row=2, column=0, padx=10, pady=10)
             
@@ -860,10 +860,10 @@ class UI():
     
     # Get the screen size
     try:
-        width = int(settings.GetSettings(&#34;dxcam&#34;, &#34;width&#34;))
-        height = int(settings.GetSettings(&#34;dxcam&#34;, &#34;height&#34;))
-        x = int(settings.GetSettings(&#34;dxcam&#34;, &#34;x&#34;))
-        y = int(settings.GetSettings(&#34;dxcam&#34;, &#34;y&#34;))
+        width = int(settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;))
+        height = int(settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;))
+        x = int(settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;))
+        y = int(settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;))
     except:
         screen = screeninfo.get_monitors()[0]
         height = int(screen.height / 2)
@@ -872,10 +872,10 @@ class UI():
         y = 100
     
     helpers.MakeButton(self.root, &#34;Enable Picker&#34;, lambda: CreateWindow(x,y,width, height), 0,0, padx=10, pady=10, width=15)
-    helpers.MakeLabel(self.root, &#34;Set this to your screencapture category (default &#39;dxcam&#39;):&#34;, 1,0, font=(&#34;Roboto&#34;, 8), padx=30, pady=10)
+    helpers.MakeLabel(self.root, &#34;Set this to your screencapture category (default &#39;bettercam&#39;):&#34;, 1,0, font=(&#34;Roboto&#34;, 8), padx=30, pady=10)
     
     entryVar = tk.StringVar()
-    entryVar.set(&#34;dxcam&#34;)
+    entryVar.set(&#34;bettercam&#34;)
     entry = ttk.Entry(self.root, width=15, textvariable=entryVar)
     entry.grid(row=2, column=0, padx=10, pady=10)
     

@@ -99,8 +99,8 @@ def UpdateSettings():
     if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
         navigationdetectionisenabled = True
         centercoord = settings.GetSettings("NavigationDetectionV3", "centercoord", "unset")
-        screencap_x = settings.GetSettings("dxcam", "x")
-        screencap_y = settings.GetSettings("dxcam", "y")
+        screencap_x = settings.GetSettings("bettercam", "x")
+        screencap_y = settings.GetSettings("bettercam", "y")
         if centercoord == "unset":
             centercoord = None
         if centercoord != None and screencap_x != None and screencap_y != None:

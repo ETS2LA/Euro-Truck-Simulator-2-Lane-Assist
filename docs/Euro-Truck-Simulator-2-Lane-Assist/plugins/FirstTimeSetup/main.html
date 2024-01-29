@@ -376,9 +376,9 @@ import webview
 import src.controls as controls
 
 try:
-    import dxcam
+    import bettercam
 except:
-    dxcam = None
+    bettercam = None
 
 pygame.display.init()
 pygame.joystick.init()
@@ -569,7 +569,7 @@ class UI():
             # helpers.MakeButton(self.root, &#34;Bind steer right key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Right Key&#34;, updateUI=False), 4, 0)
 
             helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
-            if dxcam != None:
+            if bettercam != None:
                 helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.screenCaptureSetup(), 8,1)
             else:
                 helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.laneDetectionFeatures(), 8,1)
@@ -608,7 +608,7 @@ class UI():
             from plugins.DefaultSteering.main import updateSettings
             updateSettings()
             
-            if dxcam != None:
+            if bettercam != None:
                 self.screenCaptureSetup()      
             else:
                 self.laneDetectionFeatures()
@@ -624,15 +624,15 @@ class UI():
             helpers.MakeLabel(self.root, &#34;Please select the monitor ETS2 is going to be on.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
 
             # Detect all displays
-            dxcamOutput = dxcam.output_info()
+            bettercamOutput = bettercam.output_info()
             for i in range(0,4):
                 # Remove GPU indices
-                dxcamOutput = dxcamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
+                bettercamOutput = bettercamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
                 # Also remove &#39;rot&#39;?
-                dxcamOutput = dxcamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
+                bettercamOutput = bettercamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
                 
             
-            displays = dxcamOutput.split(&#34;\n&#34;)
+            displays = bettercamOutput.split(&#34;\n&#34;)
             
             displayArray = []
             for display in displays:
@@ -660,7 +660,7 @@ class UI():
             
         
         def setScreenCaptureSettings(self, display):
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;display&#34;, int(display))
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;display&#34;, int(display))
             #settings.CreateSettings(&#34;Screen Capture&#34;, &#34;Refresh Rate&#34;, self.refreshRate.get())
             self.soundSettings()
 
@@ -799,7 +799,7 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;DXCamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;bettercamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
             variables.UpdatePlugins()
             if detectionmethod.get() == &#34;nav&#34;:
                 helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
@@ -1072,7 +1072,7 @@ class UI():
             # helpers.MakeButton(self.root, &#34;Bind steer right key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Right Key&#34;, updateUI=False), 4, 0)
 
             helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
-            if dxcam != None:
+            if bettercam != None:
                 helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.screenCaptureSetup(), 8,1)
             else:
                 helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.laneDetectionFeatures(), 8,1)
@@ -1111,7 +1111,7 @@ class UI():
             from plugins.DefaultSteering.main import updateSettings
             updateSettings()
             
-            if dxcam != None:
+            if bettercam != None:
                 self.screenCaptureSetup()      
             else:
                 self.laneDetectionFeatures()
@@ -1127,15 +1127,15 @@ class UI():
             helpers.MakeLabel(self.root, &#34;Please select the monitor ETS2 is going to be on.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
 
             # Detect all displays
-            dxcamOutput = dxcam.output_info()
+            bettercamOutput = bettercam.output_info()
             for i in range(0,4):
                 # Remove GPU indices
-                dxcamOutput = dxcamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
+                bettercamOutput = bettercamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
                 # Also remove &#39;rot&#39;?
-                dxcamOutput = dxcamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
+                bettercamOutput = bettercamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
                 
             
-            displays = dxcamOutput.split(&#34;\n&#34;)
+            displays = bettercamOutput.split(&#34;\n&#34;)
             
             displayArray = []
             for display in displays:
@@ -1163,7 +1163,7 @@ class UI():
             
         
         def setScreenCaptureSettings(self, display):
-            settings.CreateSettings(&#34;dxcam&#34;, &#34;display&#34;, int(display))
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;display&#34;, int(display))
             #settings.CreateSettings(&#34;Screen Capture&#34;, &#34;Refresh Rate&#34;, self.refreshRate.get())
             self.soundSettings()
 
@@ -1302,7 +1302,7 @@ class UI():
             self.root = tk.Canvas(self.master)
             
             # Set all necessary plugins
-            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;DXCamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;bettercamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
             variables.UpdatePlugins()
             if detectionmethod.get() == &#34;nav&#34;:
                 helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
@@ -1636,7 +1636,7 @@ class UI():
     # helpers.MakeButton(self.root, &#34;Bind steer right key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Right Key&#34;, updateUI=False), 4, 0)
 
     helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
-    if dxcam != None:
+    if bettercam != None:
         helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.screenCaptureSetup(), 8,1)
     else:
         helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.laneDetectionFeatures(), 8,1)
@@ -1658,7 +1658,7 @@ class UI():
     self.root = tk.Canvas(self.master)
     
     # Set all necessary plugins
-    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;DXCamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;bettercamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
     variables.UpdatePlugins()
     if detectionmethod.get() == &#34;nav&#34;:
         helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
@@ -1781,7 +1781,7 @@ class UI():
     from plugins.DefaultSteering.main import updateSettings
     updateSettings()
     
-    if dxcam != None:
+    if bettercam != None:
         self.screenCaptureSetup()      
     else:
         self.laneDetectionFeatures()</code></pre>
@@ -1824,15 +1824,15 @@ class UI():
     helpers.MakeLabel(self.root, &#34;Please select the monitor ETS2 is going to be on.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
 
     # Detect all displays
-    dxcamOutput = dxcam.output_info()
+    bettercamOutput = bettercam.output_info()
     for i in range(0,4):
         # Remove GPU indices
-        dxcamOutput = dxcamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
+        bettercamOutput = bettercamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
         # Also remove &#39;rot&#39;?
-        dxcamOutput = dxcamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
+        bettercamOutput = bettercamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
         
     
-    displays = dxcamOutput.split(&#34;\n&#34;)
+    displays = bettercamOutput.split(&#34;\n&#34;)
     
     displayArray = []
     for display in displays:
@@ -1869,7 +1869,7 @@ class UI():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def setScreenCaptureSettings(self, display):
-    settings.CreateSettings(&#34;dxcam&#34;, &#34;display&#34;, int(display))
+    settings.CreateSettings(&#34;bettercam&#34;, &#34;display&#34;, int(display))
     #settings.CreateSettings(&#34;Screen Capture&#34;, &#34;Refresh Rate&#34;, self.refreshRate.get())
     self.soundSettings()</code></pre>
 </details>
