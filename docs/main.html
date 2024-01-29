@@ -355,6 +355,13 @@ The main file that runs the programs loop.
 # not have been installed yet
 
 import src.settings as settings
+
+try:
+    if &#34;DXCamScreenCapture&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;DXCamScreenCapture&#34;)
+        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;BetterCamScreenCapture&#34;)
+except: pass
+
 import src.variables as variables # Stores all main variables for the program
 if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;, False) == True:
     import win32gui, win32con
@@ -745,8 +752,12 @@ def InstallPlugins():
             bar.config(value=(index / len(installers)) * 100)
             percentage.set(f&#34;{round((index / len(installers)) * 100)}%&#34;)
             mainUI.root.update()
-            installer.install()
-            settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
+            try:
+                installer.install()
+                settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
+            except:
+                print(f&#34;Warning. Failed to install &#39;{name}&#39; fully! The plugin might still work though.&#34;)
+                pass
             index += 1
             loadingWindow.update(text=f&#34;Installing &#39;{name}&#39;...&#34;)
             os.system(&#34;cls&#34;)
@@ -1379,8 +1390,12 @@ if __name__ == &#34;__main__&#34;:
             bar.config(value=(index / len(installers)) * 100)
             percentage.set(f&#34;{round((index / len(installers)) * 100)}%&#34;)
             mainUI.root.update()
-            installer.install()
-            settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
+            try:
+                installer.install()
+                settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
+            except:
+                print(f&#34;Warning. Failed to install &#39;{name}&#39; fully! The plugin might still work though.&#34;)
+                pass
             index += 1
             loadingWindow.update(text=f&#34;Installing &#39;{name}&#39;...&#34;)
             os.system(&#34;cls&#34;)

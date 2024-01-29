@@ -5,3 +5,7 @@ echo The docs will be built in ./docs
 pause
 
 python -m pdoc --template-dir pdoc --force -o docs --html .
+
+echo Copying the Euro Truck Simulator 2 Lane Assist docs to the docs folder
+xcopy /E /Y docs\Euro-Truck-Simulator-2-Lane-Assist\* docs 
+rmdir /S /Q docs\Euro-Truck-Simulator-2-Lane-Assist

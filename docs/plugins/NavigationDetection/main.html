@@ -1428,8 +1428,9 @@ def plugin(data):
                 try:
                     trafficlight = data[&#34;TrafficLightDetection&#34;][&#34;simple&#34;]
                 except:
-                    trafficlightdetectionisenabled = False
-                    trafficlight = &#34;Off&#34;
+                    if &#34;TrafficLightDetection&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                        trafficlightdetectionisenabled = False
+                        trafficlight = &#34;Off&#34;
             else:
                 trafficlight = &#34;Off&#34;
 
@@ -1726,8 +1727,14 @@ def plugin(data):
                 last_window_size = (x1, y1, width, height)
                 last_mouse_position = (x2, y2)
             except:
-                x1, y1, width, height = last_window_size
-                x2, y2 = last_mouse_position
+                try:
+                    x1, y1, width, height = last_window_size
+                except:
+                    x1, y1, width, height = (0, 0, 100, 100)
+                try:
+                    x2, y2 = last_mouse_position
+                except:
+                    x2, y2 = (0, 0)
                 mousex = x2-x1
                 mousey = y2-y1
                 frame_width = setupframe.shape[1]
@@ -2253,8 +2260,9 @@ def plugin(data):
                 try:
                     trafficlight = data[&#34;TrafficLightDetection&#34;][&#34;simple&#34;]
                 except:
-                    trafficlightdetection_is_enabled = False
-                    trafficlight = &#34;Off&#34;
+                    if &#34;TrafficLightDetection&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                        trafficlightdetection_is_enabled = False
+                        trafficlight = &#34;Off&#34;
             else:
                 trafficlight = &#34;Off&#34;
 
@@ -4385,8 +4393,9 @@ class UI():
                 try:
                     trafficlight = data[&#34;TrafficLightDetection&#34;][&#34;simple&#34;]
                 except:
-                    trafficlightdetectionisenabled = False
-                    trafficlight = &#34;Off&#34;
+                    if &#34;TrafficLightDetection&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                        trafficlightdetectionisenabled = False
+                        trafficlight = &#34;Off&#34;
             else:
                 trafficlight = &#34;Off&#34;
 
@@ -4683,8 +4692,14 @@ class UI():
                 last_window_size = (x1, y1, width, height)
                 last_mouse_position = (x2, y2)
             except:
-                x1, y1, width, height = last_window_size
-                x2, y2 = last_mouse_position
+                try:
+                    x1, y1, width, height = last_window_size
+                except:
+                    x1, y1, width, height = (0, 0, 100, 100)
+                try:
+                    x2, y2 = last_mouse_position
+                except:
+                    x2, y2 = (0, 0)
                 mousex = x2-x1
                 mousey = y2-y1
                 frame_width = setupframe.shape[1]
@@ -5210,8 +5225,9 @@ class UI():
                 try:
                     trafficlight = data[&#34;TrafficLightDetection&#34;][&#34;simple&#34;]
                 except:
-                    trafficlightdetection_is_enabled = False
-                    trafficlight = &#34;Off&#34;
+                    if &#34;TrafficLightDetection&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                        trafficlightdetection_is_enabled = False
+                        trafficlight = &#34;Off&#34;
             else:
                 trafficlight = &#34;Off&#34;
 

@@ -659,9 +659,12 @@ def plugin(data):
                 pygame.event.pump() # Update the controller values
                 steeringAxisValue = controls.GetKeybindValue(&#34;Steering Axis&#34;)
                 # Check if the SDK controller is enabled and vgamepad is not
-                if &#34;SDKController&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) and &#34;VGamepadController&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                try:
+                    if &#34;SDKController&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) and &#34;VGamepadController&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                        steeringAxisValue = 0 # Don&#39;t pass the users control values to the game
+                except:
                     steeringAxisValue = 0 # Don&#39;t pass the users control values to the game
-
+                    
                 # Main controller update loop.
                 if(enabled):
                     # Clamp the control
@@ -1208,9 +1211,12 @@ class UI():
                 pygame.event.pump() # Update the controller values
                 steeringAxisValue = controls.GetKeybindValue(&#34;Steering Axis&#34;)
                 # Check if the SDK controller is enabled and vgamepad is not
-                if &#34;SDKController&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) and &#34;VGamepadController&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                try:
+                    if &#34;SDKController&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) and &#34;VGamepadController&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                        steeringAxisValue = 0 # Don&#39;t pass the users control values to the game
+                except:
                     steeringAxisValue = 0 # Don&#39;t pass the users control values to the game
-
+                    
                 # Main controller update loop.
                 if(enabled):
                     # Clamp the control
