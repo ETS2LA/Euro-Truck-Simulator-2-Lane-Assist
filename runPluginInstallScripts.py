@@ -1,15 +1,16 @@
 """This file is mainly used to easily run all plugin install scripts with github actions."""
 
-# Install requirements from requirements.txt one by one
+# Install requirements
 import os
 import sys
 import importlib.util
 file = open("requirements.txt", "r")
-for line in file:
-    try:
-        os.system(f"pip install {line}")
-    except:
-        print(f"Failed to install {line}")
+requirements = file.read().split("\n")
+if requirements[-1] == "":
+    requirements.pop()
+if requirements[-1] == "--upgrade --no-cache-dir gdown":
+    requirements.pop()
+os.system(f"pip install {' '.join(requirements)}")
 
 # Find all folders in plugins/
 # Run install.py (install function) in each folder
@@ -18,6 +19,7 @@ for line in file:
 pluginsPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plugins")
 
 # Get all folders in the plugins folder
+print("Running install scripts... please wait.")
 plugins = [f.path for f in os.scandir(pluginsPath) if f.is_dir()]
 for plugin in plugins:
     # Get the install.py file in each folder
