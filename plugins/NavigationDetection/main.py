@@ -1376,8 +1376,14 @@ def plugin(data):
                 last_window_size = (x1, y1, width, height)
                 last_mouse_position = (x2, y2)
             except:
-                x1, y1, width, height = last_window_size
-                x2, y2 = last_mouse_position
+                try:
+                    x1, y1, width, height = last_window_size
+                except:
+                    x1, y1, width, height = (0, 0, 100, 100)
+                try:
+                    x2, y2 = last_mouse_position
+                except:
+                    x2, y2 = (0, 0)
                 mousex = x2-x1
                 mousey = y2-y1
                 frame_width = setupframe.shape[1]
