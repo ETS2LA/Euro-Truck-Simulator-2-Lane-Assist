@@ -1,4 +1,4 @@
-![](https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/assets/83072683/b5b048d4-69b0-4c25-b050-f52df79610c1)
+![](assets/markdownLogo.png)
 
 # ETS2LA
 This app has matured enough that we will need a name change soon... you can submit any ideas to me on discord 👍

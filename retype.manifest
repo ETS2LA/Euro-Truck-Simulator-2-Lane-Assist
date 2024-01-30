@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-30T21.06.26Z",
+  "created": "2024-01-30T21.20.37Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -139,6 +139,9 @@
     },
     {
       "path": "assets\\manualtranslations\\en-fi.json"
+    },
+    {
+      "path": "assets\\markdownlogo.png"
     },
     {
       "path": "assets\\mods\\cleanrouteadvisor.scs"
@@ -1611,7 +1614,8 @@
       "path": "plugins\\lstrlanedetection\\lstrlanedetection\\doc\\img\\lane_detection.jpg"
     },
     {
-      "path": "plugins\\lstrlanedetection\\lstrlanedetection\\index.html"
+      "path": "plugins\\lstrlanedetection\\lstrlanedetection\\index.html",
+      "old": true
     },
     {
       "path": "plugins\\lstrlanedetection\\lstrlanedetection\\output.jpg"
