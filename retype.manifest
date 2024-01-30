@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-30T20.22.36Z",
+  "created": "2024-01-30T20.50.50Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -173,6 +173,9 @@
     },
     {
       "path": "changelog.txt"
+    },
+    {
+      "path": "changelog\\index.html"
     },
     {
       "path": "CNAME"

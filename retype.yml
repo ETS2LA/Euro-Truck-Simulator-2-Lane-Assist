@@ -51,7 +51,7 @@ links:                        # Custom links to add to the top bar
     target: blank             # Custom target
                               # Use "blank" to open link in a new window
   - text: Developer Documentation
-    link: https://docs.tumppi066.fi # Link to an internal file
+    link: https://tumppi066.github.io/Euro-Truck-Simulator-2-Lane-Assist/ # Link to an internal file
     icon: gear                # A custom icon name, :emoji:, <svg>, or
                               # a path to a file
     iconAlign: left           # Icon alignment, to the left or right
