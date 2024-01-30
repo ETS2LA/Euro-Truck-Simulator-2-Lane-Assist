@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog</title>
+    <link>https://wiki.tumppi066.fi/blog/</link>
+    <description>Blog</description>
+    <copyright>Tumppi066 &amp; Contributors © All rights reserved.</copyright>
+    <lastBuildDate>Tue, 30 Jan 2024 00:00:00 GMT</lastBuildDate>
+    <generator>https://retype.com</generator>
+    <atom:link rel="self" type="application/rss+xml" href="https://wiki.tumppi066.fi/blog/feed.xml" />
+    <image>
+      <title>Blog</title>
+      <link>https://wiki.tumppi066.fi/blog/</link>
+      <url>https://wiki.tumppi066.fi/favicon.ico</url>
+    </image>
+    <item>
+      <title>Version 1.9 &gt; Minor</title>
+      <guid isPermaLink="true">https://wiki.tumppi066.fi/blog/v1.9.minor/</guid>
+      <description>This changelog will contain all change from 1.9.0 onwards before the next major version.</description>
+      <author>Tumppi066 - https://github.com/Tumppi066, Glas42 - https://github.com/Glas42</author>
+      <pubDate>Tue, 30 Jan 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Version 1.9.0</title>
+      <guid isPermaLink="true">https://wiki.tumppi066.fi/blog/v1.9.0/</guid>
+      <description>There is way too much information between 1.8.0 - 1.8.33, so I will highlight the biggest changes.</description>
+      <author>Tumppi066 - https://github.com/Tumppi066</author>
+      <pubDate>Tue, 30 Jan 2024 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

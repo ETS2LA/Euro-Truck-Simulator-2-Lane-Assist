@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-30T19.21.10Z",
+  "created": "2024-01-30T20.22.36Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -9,40 +9,70 @@
       "path": "404.html"
     },
     {
-      "path": "anomalousframes\\1706294237.7624671.txt"
+      "path": "anomalousframes\\1706294237.7624671.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706294239.4981456.txt"
+      "path": "anomalousframes\\1706294239.4981456.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706445252.9844398.txt"
+      "path": "anomalousframes\\1706445252.9844398.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706445264.585978.txt"
+      "path": "anomalousframes\\1706445264.585978.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706445265.446671.txt"
+      "path": "anomalousframes\\1706445265.446671.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706445329.4785187.txt"
+      "path": "anomalousframes\\1706445329.4785187.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706445329.7591782.txt"
+      "path": "anomalousframes\\1706445329.7591782.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706445331.15356.txt"
+      "path": "anomalousframes\\1706445331.15356.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706445761.3524632.txt"
+      "path": "anomalousframes\\1706445761.3524632.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706446252.2430804.txt"
+      "path": "anomalousframes\\1706446252.2430804.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706446347.3241658.txt"
+      "path": "anomalousframes\\1706446347.3241658.txt",
+      "old": true
     },
     {
-      "path": "anomalousframes\\1706446361.2499404.txt"
+      "path": "anomalousframes\\1706446361.2499404.txt",
+      "old": true
+    },
+    {
+      "path": "anomalousframes\\1706474411.2386212.txt"
+    },
+    {
+      "path": "anomalousframes\\1706474437.9077225.txt"
+    },
+    {
+      "path": "anomalousframes\\1706474442.7353504.txt"
+    },
+    {
+      "path": "anomalousframes\\1706477580.4385436.txt"
+    },
+    {
+      "path": "anomalousframes\\1706477610.1727111.txt"
+    },
+    {
+      "path": "anomalousframes\\1706477631.8728745.txt"
     },
     {
       "path": "assets\\cruisecontrol\\cruisecontrol_emergency_set.png"
@@ -126,7 +156,20 @@
       "path": "assets\\sounds\\warning.mp3"
     },
     {
-      "path": "assets\\translationcache\\cache.json"
+      "path": "assets\\translationcache\\cache.json",
+      "old": true
+    },
+    {
+      "path": "blog\\feed.xml"
+    },
+    {
+      "path": "blog\\index.html"
+    },
+    {
+      "path": "blog\\v1.9.0\\index.html"
+    },
+    {
+      "path": "blog\\v1.9.minor\\index.html"
     },
     {
       "path": "changelog.txt"
@@ -135,577 +178,768 @@
       "path": "CNAME"
     },
     {
-      "path": "docs\\app\\index.html"
+      "path": "docs\\app\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\main.html"
+      "path": "docs\\app\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\about\\index.html"
+      "path": "docs\\app\\plugins\\about\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\about\\install.html"
+      "path": "docs\\app\\plugins\\about\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\about\\main.html"
+      "path": "docs\\app\\plugins\\about\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\changelog\\index.html"
+      "path": "docs\\app\\plugins\\changelog\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\changelog\\install.html"
+      "path": "docs\\app\\plugins\\changelog\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\changelog\\main.html"
+      "path": "docs\\app\\plugins\\changelog\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\cruisecontrol\\index.html"
+      "path": "docs\\app\\plugins\\cruisecontrol\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\cruisecontrol\\install.html"
+      "path": "docs\\app\\plugins\\cruisecontrol\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\cruisecontrol\\main.html"
+      "path": "docs\\app\\plugins\\cruisecontrol\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\deeptranslator\\index.html"
+      "path": "docs\\app\\plugins\\deeptranslator\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\deeptranslator\\install.html"
+      "path": "docs\\app\\plugins\\deeptranslator\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\deeptranslator\\main.html"
+      "path": "docs\\app\\plugins\\deeptranslator\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\defaultsteering\\index.html"
+      "path": "docs\\app\\plugins\\defaultsteering\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\defaultsteering\\install.html"
+      "path": "docs\\app\\plugins\\defaultsteering\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\defaultsteering\\main.html"
+      "path": "docs\\app\\plugins\\defaultsteering\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\dxcamscreencapture\\index.html"
+      "path": "docs\\app\\plugins\\dxcamscreencapture\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\dxcamscreencapture\\install.html"
+      "path": "docs\\app\\plugins\\dxcamscreencapture\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\dxcamscreencapture\\main.html"
+      "path": "docs\\app\\plugins\\dxcamscreencapture\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\evdevcontroller\\index.html"
+      "path": "docs\\app\\plugins\\evdevcontroller\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\evdevcontroller\\install.html"
+      "path": "docs\\app\\plugins\\evdevcontroller\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\evdevcontroller\\main.html"
+      "path": "docs\\app\\plugins\\evdevcontroller\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\examples\\index.html"
+      "path": "docs\\app\\plugins\\examples\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\examples\\panel\\index.html"
+      "path": "docs\\app\\plugins\\examples\\panel\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\examples\\panel\\install.html"
+      "path": "docs\\app\\plugins\\examples\\panel\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\examples\\panel\\main.html"
+      "path": "docs\\app\\plugins\\examples\\panel\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\examples\\plugin\\index.html"
+      "path": "docs\\app\\plugins\\examples\\plugin\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\examples\\plugin\\install.html"
+      "path": "docs\\app\\plugins\\examples\\plugin\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\examples\\plugin\\main.html"
+      "path": "docs\\app\\plugins\\examples\\plugin\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\externalapi\\index.html"
+      "path": "docs\\app\\plugins\\externalapi\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\externalapi\\install.html"
+      "path": "docs\\app\\plugins\\externalapi\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\externalapi\\main.html"
+      "path": "docs\\app\\plugins\\externalapi\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\firsttimesetup\\index.html"
+      "path": "docs\\app\\plugins\\firsttimesetup\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\firsttimesetup\\install.html"
+      "path": "docs\\app\\plugins\\firsttimesetup\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\firsttimesetup\\main.html"
+      "path": "docs\\app\\plugins\\firsttimesetup\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\firsttimesetup\\steamparser.html"
+      "path": "docs\\app\\plugins\\firsttimesetup\\steamparser.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\fpslimiter\\index.html"
+      "path": "docs\\app\\plugins\\fpslimiter\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\fpslimiter\\install.html"
+      "path": "docs\\app\\plugins\\fpslimiter\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\fpslimiter\\main.html"
+      "path": "docs\\app\\plugins\\fpslimiter\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\hud\\index.html"
+      "path": "docs\\app\\plugins\\hud\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\hud\\install.html"
+      "path": "docs\\app\\plugins\\hud\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\hud\\main.html"
+      "path": "docs\\app\\plugins\\hud\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\index.html"
+      "path": "docs\\app\\plugins\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lanedeparturewarning\\index.html"
+      "path": "docs\\app\\plugins\\lanedeparturewarning\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lanedeparturewarning\\install.html"
+      "path": "docs\\app\\plugins\\lanedeparturewarning\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lanedeparturewarning\\main.html"
+      "path": "docs\\app\\plugins\\lanedeparturewarning\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrdrawlanes\\index.html"
+      "path": "docs\\app\\plugins\\lstrdrawlanes\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrdrawlanes\\install.html"
+      "path": "docs\\app\\plugins\\lstrdrawlanes\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrdrawlanes\\main.html"
+      "path": "docs\\app\\plugins\\lstrdrawlanes\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrlanedetection\\index.html"
+      "path": "docs\\app\\plugins\\lstrlanedetection\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrlanedetection\\install.html"
+      "path": "docs\\app\\plugins\\lstrlanedetection\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\index.html"
+      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\lstr\\index.html"
+      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\lstr\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\lstr\\lstr.html"
+      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\lstr\\lstr.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\lstrlanedetection\\main.html"
+      "path": "docs\\app\\plugins\\lstrlanedetection\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\gamedata\\index.html"
+      "path": "docs\\app\\plugins\\map\\gamedata\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\gamedata\\nodes.html"
+      "path": "docs\\app\\plugins\\map\\gamedata\\nodes.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\gamedata\\prefabitems.html"
+      "path": "docs\\app\\plugins\\map\\gamedata\\prefabitems.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\gamedata\\prefabs.html"
+      "path": "docs\\app\\plugins\\map\\gamedata\\prefabs.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\gamedata\\roads.html"
+      "path": "docs\\app\\plugins\\map\\gamedata\\roads.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\index.html"
+      "path": "docs\\app\\plugins\\map\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\install.html"
+      "path": "docs\\app\\plugins\\map\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\main.html"
+      "path": "docs\\app\\plugins\\map\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\index.html"
+      "path": "docs\\app\\plugins\\map\\old\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\install.html"
+      "path": "docs\\app\\plugins\\map\\old\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\main.html"
+      "path": "docs\\app\\plugins\\map\\old\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\index.html"
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\main.html"
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\node.html"
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\node.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\road.html"
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\road.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\roadlook.html"
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\roadlook.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\utils.html"
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\utils.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\visualize\\index.html"
+      "path": "docs\\app\\plugins\\map\\visualize\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\map\\visualize\\visualize.html"
+      "path": "docs\\app\\plugins\\map\\visualize\\visualize.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\mssscreencapture\\index.html"
+      "path": "docs\\app\\plugins\\mssscreencapture\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\mssscreencapture\\install.html"
+      "path": "docs\\app\\plugins\\mssscreencapture\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\mssscreencapture\\main.html"
+      "path": "docs\\app\\plugins\\mssscreencapture\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\navdetectionsetup\\index.html"
+      "path": "docs\\app\\plugins\\navdetectionsetup\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\navdetectionsetup\\install.html"
+      "path": "docs\\app\\plugins\\navdetectionsetup\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\navdetectionsetup\\main.html"
+      "path": "docs\\app\\plugins\\navdetectionsetup\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\navigationdetection\\index.html"
+      "path": "docs\\app\\plugins\\navigationdetection\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\navigationdetection\\install.html"
+      "path": "docs\\app\\plugins\\navigationdetection\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\navigationdetection\\main.html"
+      "path": "docs\\app\\plugins\\navigationdetection\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\panelmanager\\index.html"
+      "path": "docs\\app\\plugins\\panelmanager\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\panelmanager\\install.html"
+      "path": "docs\\app\\plugins\\panelmanager\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\panelmanager\\main.html"
+      "path": "docs\\app\\plugins\\panelmanager\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\performance\\index.html"
+      "path": "docs\\app\\plugins\\performance\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\performance\\install.html"
+      "path": "docs\\app\\plugins\\performance\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\performance\\main.html"
+      "path": "docs\\app\\plugins\\performance\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\plugin.html"
+      "path": "docs\\app\\plugins\\plugin.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\pluginmanager\\index.html"
+      "path": "docs\\app\\plugins\\pluginmanager\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\pluginmanager\\install.html"
+      "path": "docs\\app\\plugins\\pluginmanager\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\pluginmanager\\main.html"
+      "path": "docs\\app\\plugins\\pluginmanager\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\profilemanager\\index.html"
+      "path": "docs\\app\\plugins\\profilemanager\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\profilemanager\\install.html"
+      "path": "docs\\app\\plugins\\profilemanager\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\profilemanager\\main.html"
+      "path": "docs\\app\\plugins\\profilemanager\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\screencaptureplacement\\index.html"
+      "path": "docs\\app\\plugins\\screencaptureplacement\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\screencaptureplacement\\install.html"
+      "path": "docs\\app\\plugins\\screencaptureplacement\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\screencaptureplacement\\main.html"
+      "path": "docs\\app\\plugins\\screencaptureplacement\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\settings\\index.html"
+      "path": "docs\\app\\plugins\\settings\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\settings\\install.html"
+      "path": "docs\\app\\plugins\\settings\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\settings\\main.html"
+      "path": "docs\\app\\plugins\\settings\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\settingsjsonviewer\\index.html"
+      "path": "docs\\app\\plugins\\settingsjsonviewer\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\settingsjsonviewer\\install.html"
+      "path": "docs\\app\\plugins\\settingsjsonviewer\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\settingsjsonviewer\\main.html"
+      "path": "docs\\app\\plugins\\settingsjsonviewer\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\showimage\\index.html"
+      "path": "docs\\app\\plugins\\showimage\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\showimage\\install.html"
+      "path": "docs\\app\\plugins\\showimage\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\showimage\\main.html"
+      "path": "docs\\app\\plugins\\showimage\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\index.html"
+      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\install.html"
+      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\main.html"
+      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\tabsettings\\index.html"
+      "path": "docs\\app\\plugins\\tabsettings\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\tabsettings\\install.html"
+      "path": "docs\\app\\plugins\\tabsettings\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\tabsettings\\main.html"
+      "path": "docs\\app\\plugins\\tabsettings\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\thememaker\\index.html"
+      "path": "docs\\app\\plugins\\thememaker\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\thememaker\\install.html"
+      "path": "docs\\app\\plugins\\thememaker\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\thememaker\\main.html"
+      "path": "docs\\app\\plugins\\thememaker\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\thememanager\\index.html"
+      "path": "docs\\app\\plugins\\thememanager\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\thememanager\\install.html"
+      "path": "docs\\app\\plugins\\thememanager\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\thememanager\\main.html"
+      "path": "docs\\app\\plugins\\thememanager\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\themeselector\\index.html"
+      "path": "docs\\app\\plugins\\themeselector\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\themeselector\\install.html"
+      "path": "docs\\app\\plugins\\themeselector\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\themeselector\\main.html"
+      "path": "docs\\app\\plugins\\themeselector\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\trafficlightdetection\\index.html"
+      "path": "docs\\app\\plugins\\trafficlightdetection\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\trafficlightdetection\\install.html"
+      "path": "docs\\app\\plugins\\trafficlightdetection\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\trafficlightdetection\\main.html"
+      "path": "docs\\app\\plugins\\trafficlightdetection\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\truckersmplock\\index.html"
+      "path": "docs\\app\\plugins\\truckersmplock\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\truckersmplock\\install.html"
+      "path": "docs\\app\\plugins\\truckersmplock\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\truckersmplock\\main.html"
+      "path": "docs\\app\\plugins\\truckersmplock\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\trucksimapi\\index.html"
+      "path": "docs\\app\\plugins\\trucksimapi\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\trucksimapi\\install.html"
+      "path": "docs\\app\\plugins\\trucksimapi\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\trucksimapi\\main.html"
+      "path": "docs\\app\\plugins\\trucksimapi\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\trucksimapi\\scsplugin.html"
+      "path": "docs\\app\\plugins\\trucksimapi\\scsplugin.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\truckstats\\index.html"
+      "path": "docs\\app\\plugins\\truckstats\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\truckstats\\install.html"
+      "path": "docs\\app\\plugins\\truckstats\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\truckstats\\main.html"
+      "path": "docs\\app\\plugins\\truckstats\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\uflddrawlanes\\index.html"
+      "path": "docs\\app\\plugins\\uflddrawlanes\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\uflddrawlanes\\install.html"
+      "path": "docs\\app\\plugins\\uflddrawlanes\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\uflddrawlanes\\main.html"
+      "path": "docs\\app\\plugins\\uflddrawlanes\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldinstaller\\index.html"
+      "path": "docs\\app\\plugins\\ufldinstaller\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldinstaller\\install.html"
+      "path": "docs\\app\\plugins\\ufldinstaller\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldinstaller\\main.html"
+      "path": "docs\\app\\plugins\\ufldinstaller\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\index.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\install.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\main.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\convertpytorchtoonnx.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\convertpytorchtoonnx.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\imagedetection.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\imagedetection.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\index.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\index.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\backbone.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\backbone.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\index.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\model.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\model.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\backbone.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\backbone.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\config.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\config.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\culane_res18.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\culane_res18.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\culane_res34.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\culane_res34.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\curvelanes_res18.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\curvelanes_res18.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\curvelanes_res34.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\curvelanes_res34.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\index.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\tusimple_res18.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\tusimple_res18.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\tusimple_res34.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\tusimple_res34.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\index.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\layer.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\layer.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_culane.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_culane.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_curvelanes.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_curvelanes.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_tusimple.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_tusimple.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\seg_model.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\seg_model.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\index.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\perspectivetransformation.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\perspectivetransformation.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\ultrafastlanedetector.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\ultrafastlanedetector.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\ultrafastlanedetectorv2.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\ultrafastlanedetectorv2.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\utils.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\utils.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\videodetection.html"
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\videodetection.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\vgamepadcontroller\\index.html"
+      "path": "docs\\app\\plugins\\vgamepadcontroller\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\vgamepadcontroller\\install.html"
+      "path": "docs\\app\\plugins\\vgamepadcontroller\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\vgamepadcontroller\\main.html"
+      "path": "docs\\app\\plugins\\vgamepadcontroller\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\virtualsimapi\\index.html"
+      "path": "docs\\app\\plugins\\virtualsimapi\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\virtualsimapi\\install.html"
+      "path": "docs\\app\\plugins\\virtualsimapi\\install.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\virtualsimapi\\main.html"
+      "path": "docs\\app\\plugins\\virtualsimapi\\main.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\plugins\\virtualsimapi\\scsplugin.html"
+      "path": "docs\\app\\plugins\\virtualsimapi\\scsplugin.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\controls.html"
+      "path": "docs\\app\\src\\controls.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\helpers.html"
+      "path": "docs\\app\\src\\helpers.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\index.html"
+      "path": "docs\\app\\src\\index.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\loading.html"
+      "path": "docs\\app\\src\\loading.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\logger.html"
+      "path": "docs\\app\\src\\logger.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\mainui.html"
+      "path": "docs\\app\\src\\mainui.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\settings.html"
+      "path": "docs\\app\\src\\settings.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\sounds.html"
+      "path": "docs\\app\\src\\sounds.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\translator.html"
+      "path": "docs\\app\\src\\translator.html",
+      "old": true
     },
     {
-      "path": "docs\\app\\src\\variables.html"
+      "path": "docs\\app\\src\\variables.html",
+      "old": true
     },
     {
       "path": "docs\\index.html"

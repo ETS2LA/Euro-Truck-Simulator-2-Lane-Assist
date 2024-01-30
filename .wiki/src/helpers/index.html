@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.759952866004">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.759960922248">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -31,12 +31,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../assets/favicon.ico" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.5.0.759952866004" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.759960922248" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.759952866004" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.759960922248" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.759952866004" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.759952866004" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.759960922248" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.759960922248" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -270,7 +270,7 @@ MakeButton(parent, text:str, command,
            pady:int=10, state:str=&quot;!disabled&quot;, columnspan:int=1, 
            rowspan:int=1, translate:bool=True, sticky:str=&quot;n&quot;, 
            tooltip=&quot;&quot;, autoplace:bool=False
-          )
+           )
 
 # Make a standard checkbutton (checkbox).
 MakeCheckButton(parent, text:str, category:str, 
@@ -279,7 +279,80 @@ MakeCheckButton(parent, text:str, category:str,
                 onlyFalse:bool=False, default=False, translate:bool=True, 
                 columnspan:int=1, callback=None, tooltip=&quot;&quot;, 
                 autoplace:bool=False
-               )</code></pre>
+                )
+
+# Make a standard combo entry.
+# NOTE: This will place the label on the column provided, and the entry on the next column.
+MakeComboEntry(parent, text:str, category:str, 
+               setting:str, row: int, column: int, 
+               width: int=10, labelwidth:int=15, isFloat:bool=False, 
+               isString:bool=False, value=&quot;&quot;, sticky:str=&quot;w&quot;, 
+               labelSticky:str=&quot;w&quot;, translate:bool=True, labelPadX:int=10, 
+               tooltip=&quot;&quot;, autoplace:bool=False
+               )
+
+# Make a standard label.
+MakeLabel(parent, text:str, row:int, 
+          column:int, font=(&quot;Segoe UI&quot;, 10), pady:int=7, 
+          padx:int=7, columnspan:int=1, sticky:str=&quot;n&quot;, 
+          fg:str=&quot;&quot;, bg:str=&quot;&quot;, translate:bool=True, 
+          tooltip=&quot;&quot;, autoplace:bool=False
+          )
+
+# Make an empty line.
+MakeEmptyLine(parent, row:int, column:int, 
+              columnspan:int=1, pady:int=7, autoplace:bool=False
+              )
+
+# Open a web view
+# NOTE: This is blocking the main thread. The app will not continue until the web view is closed.
+OpenWebView(title:str, urlOrFile:str, width:int=900, height:int=700)
+
+# Open a url in a browser.
+OpenInBrowser(url:str)
+
+# Convert capitalization to spaces. This is useful for converting plugin names.
+ConvertCapitalizationToSpaces(text:str)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="example">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#example">#</doc-anchor-trigger>
+        <span>Example</span>
+    </h2>
+</doc-anchor-target>
+<p>The most basic way of using these is as follows:</p>
+<div class="codeblock-wrapper"><doc-codeblock line-numbers>
+<pre class="language-python"><code v-pre class="language-python">import src.helpers as helpers
+
+# Assuming we are in a UI class so we have access to `self.root`.
+helpers.MakeLabel(self.root, &quot;Label text&quot;, 0, 0, autoplace=True)
+helpers.MakeButton(self.root, &quot;Button text&quot;, lambda: print(&quot;Button pressed&quot;), 0, 0, autoplace=True)
+# If autoplace = True then you don't need to specify the row.
+# We can still specify the column to have multiple elements on a row.
+helpers.MakeButton(self.root, &quot;Button text 2&quot;, lambda: print(&quot;Button 2 pressed&quot;), 0, 1, autoplace=True)</code></pre>
+</doc-codeblock></div>
+<p>This example on the other hand is most of the code for the main menu.<br />
+Notice how I use the autoplace parameter to calculate the rows.</p>
+<div class="codeblock-wrapper"><doc-codeblock line-numbers>
+<pre class="language-python"><code v-pre class="language-python">import src.helpers as helpers
+import src.variables as variables
+from src.mainUI import switchSelectedPlugin
+
+# Offset row 1 to the center of the window.
+helpers.MakeLabel(pluginFrames[0], &quot;                      &quot;, 0, 0, autoplace=True)
+# Make column 1 the default so that the autoplace function will calculate the rows from column 1.
+helpers.defaultAutoplaceColumn = 1 # Will be reset to 0 after the root changes.
+helpers.MakeLabel(pluginFrames[0], f&quot;You are running ETS2LA version {str(variables.VERSION)}&quot;, 0, 1, columnspan=2, font=(&quot;Roboto&quot;, 18, &quot;bold&quot;), autoplace=True)
+
+helpers.MakeButton(pluginFrames[0], &quot;Panel Manager&quot;, lambda: switchSelectedPlugin(&quot;plugins.PanelManager.main&quot;), 0, 1, width=20, autoplace=True)
+helpers.MakeButton(pluginFrames[0], &quot;Plugin Manager&quot;, lambda: switchSelectedPlugin(&quot;plugins.PluginManager.main&quot;), 0, 2, width=20, autoplace=True)
+helpers.MakeButton(pluginFrames[0], &quot;First Time Setup&quot;, lambda: switchSelectedPlugin(&quot;plugins.FirstTimeSetup.main&quot;), 0, 1, width=20, style=&quot;Accent.TButton&quot;, autoplace=True)
+helpers.MakeButton(pluginFrames[0], &quot;LANGUAGE - 语言设置&quot;, lambda: switchSelectedPlugin(&quot;plugins.DeepTranslator.main&quot;), 0, 2, width=20, style=&quot;Accent.TButton&quot;, translate=False, autoplace=True)
+helpers.MakeButton(pluginFrames[0], &quot;Video Tutorial ↗ &quot;, lambda: helpers.OpenInBrowser(&quot;https://www.youtube.com/watch?v=0pic0rzjvik&quot;), 0, 1, width=20, autoplace=True, tooltip=&quot;https://www.youtube.com/watch?v=0pic0rzjvik&quot;)
+helpers.MakeButton(pluginFrames[0], &quot;ETS2LA Wiki ↗ &quot;, lambda: helpers.OpenInBrowser(&quot;https://wiki.tumppi066.fi/en/LaneAssist&quot;), 0, 2, width=20, autoplace=True, tooltip=&quot;https://wiki.tumppi066.fi/en/LaneAssist&quot;)
+helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+helpers.MakeLabel(pluginFrames[0], &quot;You can use F5 to refresh the UI and come back to this page.\n                    (as long as the app is disabled)&quot;, 0, 1, columnspan=2, autoplace=True)
+helpers.MakeLabel(pluginFrames[0], &quot;The top of the app has all your currently open tabs.\n They can be closed with the middle mouse button.\n        (or right mouse button if so configured)&quot;, 0, 1, columnspan=2, autoplace=True)</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="description">
     <h2>

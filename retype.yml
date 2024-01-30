@@ -1,6 +1,6 @@
 # To run this file please first download retype:
 # npm install retypeapp --global
-# (you will need npm to be installed)
+# (you will need to have npm installed => winget install OpenJS.NodeJS)
 # Then run:
 # retype start
 # It will build the wiki and start a local server at http://localhost:5005
