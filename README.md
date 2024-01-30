@@ -1,13 +1,3 @@
----
-authors: 
-  - name: Tumppi066
-    link: https://github.com/Tumppi066
-    avatar: https://avatars.githubusercontent.com/u/83072683?v=4
-date: 2024-1-30
-icon: home
-order: 100
----
-
 ![](https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/assets/83072683/b5b048d4-69b0-4c25-b050-f52df79610c1)
 
 # ETS2LA
