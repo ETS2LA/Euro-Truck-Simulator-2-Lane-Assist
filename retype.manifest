@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-30T21.01.31Z",
+  "created": "2024-01-30T21.06.26Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -1609,6 +1609,9 @@
     },
     {
       "path": "plugins\\lstrlanedetection\\lstrlanedetection\\doc\\img\\lane_detection.jpg"
+    },
+    {
+      "path": "plugins\\lstrlanedetection\\lstrlanedetection\\index.html"
     },
     {
       "path": "plugins\\lstrlanedetection\\lstrlanedetection\\output.jpg"
