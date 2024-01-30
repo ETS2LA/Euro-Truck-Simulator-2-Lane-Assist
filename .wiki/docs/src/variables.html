@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.src.variables API documentation</title>
+<meta name="description" content="Stores all global variables for the program." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.variables</code></h1>
+</header>
+<section id="section-intro">
+<p>Stores all global variables for the program.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+Stores all global variables for the program.
+&#39;&#39;&#39;
+import os
+import subprocess
+
+PATH = os.path.dirname(__file__).replace(&#34;src&#34;, &#34;&#34;)
+&#34;&#34;&#34;The current absolute path to the root of the program.&#34;&#34;&#34;
+ENABLELOOP = False
+&#34;&#34;&#34;Whether or not the mainloop is enabled.&#34;&#34;&#34;
+UPDATEPLUGINS = False
+&#34;&#34;&#34;Whether to update the list of plugins at the start of the next frame.&#34;&#34;&#34;
+RELOAD = False
+&#34;&#34;&#34;Whether to reload the program at the start of the next frame.&#34;&#34;&#34;
+VERSION = open(PATH + &#34;version.txt&#34;, &#34;r&#34;).read().replace(&#34;\n&#34;, &#34;&#34;)
+&#34;&#34;&#34;Current version of the program.&#34;&#34;&#34;
+CHANGELOG = open(PATH + &#34;changelog.txt&#34;, &#34;r&#34;).readlines()
+&#34;&#34;&#34;The current shortened changelog. Used to show the user what&#39;s new in the small autoupdater dialog.&#34;&#34;&#34;
+CONSOLENAME = None
+&#34;&#34;&#34;The name/id of the console, is needed to hide or show the console.&#34;&#34;&#34;
+APPENDDATANEXTFRAME = None
+&#34;&#34;&#34;Add custom data for the next frame. This is usually useful for panels that can&#39;t add their data the normal way.
+Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI).&#34;&#34;&#34;
+RELOADPLUGINS = False
+&#34;&#34;&#34;Will fully reload the plugin code for all plugins. This is useful for debugging and development.&#34;&#34;&#34;
+USERNAME = os.getlogin()
+&#34;&#34;&#34;The username of the current windows user.&#34;&#34;&#34;
+ETS2DOCUMENTSPATH = &#34;C:/Users/&#34; + USERNAME + &#34;/Documents/Euro Truck Simulator 2/&#34;
+&#34;&#34;&#34;Path to the ETS2 documents folder. Contains stuff like the mod folder and log files.&#34;&#34;&#34;
+OS = os.name
+&#34;&#34;&#34;The current operating system.&#34;&#34;&#34;
+LASTUPDATE = None
+&#34;&#34;&#34;The date of the last update to the local git repo.&#34;&#34;&#34;
+try:
+    LASTUPDATE = subprocess.check_output(&#34;git log -1 --date=local --format=%cd&#34;, shell=True).decode(&#34;utf-8&#34;).replace(&#34;\n&#34;, &#34;&#34;)
+except:
+    LASTUPDATE = &#34;Unknown&#34;
+    
+UPDATEAVAILABLE = False
+&#34;&#34;&#34;Will be set to the updated version by the mainloop if an update is available and it&#39;s ignored.&#34;&#34;&#34;
+
+def ToggleEnable():
+    &#34;&#34;&#34;Will toggle the mainloop.
+    &#34;&#34;&#34;
+    global ENABLELOOP
+    ENABLELOOP = not ENABLELOOP
+
+def UpdatePlugins():
+    &#34;&#34;&#34;Will prompt the application to update it&#39;s list of plugins.&#34;&#34;&#34;
+    global UPDATEPLUGINS
+    UPDATEPLUGINS = True
+    
+def ReloadAllPlugins():
+    &#34;&#34;&#34;Will prompt the application to reload all plugins.&#34;&#34;&#34;
+    global RELOADPLUGINS
+    RELOADPLUGINS = True</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.APPENDDATANEXTFRAME"><code class="name">var <span class="ident">APPENDDATANEXTFRAME</span></code></dt>
+<dd>
+<div class="desc"><p>Add custom data for the next frame. This is usually useful for panels that can't add their data the normal way.
+Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI).</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG"><code class="name">var <span class="ident">CHANGELOG</span></code></dt>
+<dd>
+<div class="desc"><p>The current shortened changelog. Used to show the user what's new in the small autoupdater dialog.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CONSOLENAME"><code class="name">var <span class="ident">CONSOLENAME</span></code></dt>
+<dd>
+<div class="desc"><p>The name/id of the console, is needed to hide or show the console.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP"><code class="name">var <span class="ident">ENABLELOOP</span></code></dt>
+<dd>
+<div class="desc"><p>Whether or not the mainloop is enabled.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ETS2DOCUMENTSPATH"><code class="name">var <span class="ident">ETS2DOCUMENTSPATH</span></code></dt>
+<dd>
+<div class="desc"><p>Path to the ETS2 documents folder. Contains stuff like the mod folder and log files.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.LASTUPDATE"><code class="name">var <span class="ident">LASTUPDATE</span></code></dt>
+<dd>
+<div class="desc"><p>The date of the last update to the local git repo.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.OS"><code class="name">var <span class="ident">OS</span></code></dt>
+<dd>
+<div class="desc"><p>The current operating system.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH"><code class="name">var <span class="ident">PATH</span></code></dt>
+<dd>
+<div class="desc"><p>The current absolute path to the root of the program.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD"><code class="name">var <span class="ident">RELOAD</span></code></dt>
+<dd>
+<div class="desc"><p>Whether to reload the program at the start of the next frame.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOADPLUGINS"><code class="name">var <span class="ident">RELOADPLUGINS</span></code></dt>
+<dd>
+<div class="desc"><p>Will fully reload the plugin code for all plugins. This is useful for debugging and development.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEAVAILABLE"><code class="name">var <span class="ident">UPDATEAVAILABLE</span></code></dt>
+<dd>
+<div class="desc"><p>Will be set to the updated version by the mainloop if an update is available and it's ignored.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS"><code class="name">var <span class="ident">UPDATEPLUGINS</span></code></dt>
+<dd>
+<div class="desc"><p>Whether to update the list of plugins at the start of the next frame.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.USERNAME"><code class="name">var <span class="ident">USERNAME</span></code></dt>
+<dd>
+<div class="desc"><p>The username of the current windows user.</p></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION"><code class="name">var <span class="ident">VERSION</span></code></dt>
+<dd>
+<div class="desc"><p>Current version of the program.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ReloadAllPlugins"><code class="name flex">
+<span>def <span class="ident">ReloadAllPlugins</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will prompt the application to reload all plugins.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ReloadAllPlugins():
+    &#34;&#34;&#34;Will prompt the application to reload all plugins.&#34;&#34;&#34;
+    global RELOADPLUGINS
+    RELOADPLUGINS = True</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ToggleEnable"><code class="name flex">
+<span>def <span class="ident">ToggleEnable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will toggle the mainloop.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ToggleEnable():
+    &#34;&#34;&#34;Will toggle the mainloop.
+    &#34;&#34;&#34;
+    global ENABLELOOP
+    ENABLELOOP = not ENABLELOOP</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UpdatePlugins"><code class="name flex">
+<span>def <span class="ident">UpdatePlugins</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will prompt the application to update it's list of plugins.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdatePlugins():
+    &#34;&#34;&#34;Will prompt the application to update it&#39;s list of plugins.&#34;&#34;&#34;
+    global UPDATEPLUGINS
+    UPDATEPLUGINS = True</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.APPENDDATANEXTFRAME" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.APPENDDATANEXTFRAME">APPENDDATANEXTFRAME</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.CHANGELOG">CHANGELOG</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.CONSOLENAME" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.CONSOLENAME">CONSOLENAME</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ENABLELOOP">ENABLELOOP</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ETS2DOCUMENTSPATH" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ETS2DOCUMENTSPATH">ETS2DOCUMENTSPATH</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.LASTUPDATE" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.LASTUPDATE">LASTUPDATE</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.OS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.OS">OS</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.PATH">PATH</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOAD">RELOAD</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOADPLUGINS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.RELOADPLUGINS">RELOADPLUGINS</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEAVAILABLE" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEAVAILABLE">UPDATEAVAILABLE</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.UPDATEPLUGINS">UPDATEPLUGINS</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.USERNAME" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.USERNAME">USERNAME</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.VERSION">VERSION</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ReloadAllPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ReloadAllPlugins">ReloadAllPlugins</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.ToggleEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.ToggleEnable">ToggleEnable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.variables.UpdatePlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.src.variables.UpdatePlugins">UpdatePlugins</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

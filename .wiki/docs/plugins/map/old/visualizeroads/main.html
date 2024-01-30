@@ -1,0 +1,2161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import cv2
+from PIL import Image
+import json
+import math
+import random
+import numpy as np
+import time
+
+from plugins.Map.Old.VisualizeRoads.Node import Node
+from plugins.Map.Old.VisualizeRoads.RoadLook import RoadLook
+from plugins.Map.Old.VisualizeRoads.Road import Road
+import plugins.Map.Old.VisualizeRoads.utils as utils
+import threading
+from src.loading import LoadingWindow
+import src.mainUI as mainUI
+from scipy.interpolate import interp1d
+
+roads = []
+
+roadColor = (0, 0, 0)
+shoulderColor = (25, 25, 25)
+laneMarkingColor = (255, 255, 255)
+
+GLOBAL_LANE_OFFSET = 0
+PARSE_PREFABS = True
+# Recommended to keep False
+# if you are doing changes to the roadOffsets.json then set to True for real time updates
+UPDATE_EACH_FRAME = False
+
+parsingDone = False
+def ParseJsonFile():
+    global parsingDone
+
+    
+    def ParseThread():
+        global parsingDone
+        loading = LoadingWindow(&#34;Loading JSON file...&#34;, progress=0)
+        print(&#34;Loading JSON file...&#34;)
+        loading.update(progress=0, text=&#34;Loading JSON file...&#34;)
+        fileName = &#34;plugins/Map/VisualizeRoads/Roads.json&#34;
+        length = len(json.load(open(fileName)))
+        counter = 0
+        for road in json.load(open(fileName)):
+            
+            if road[&#34;Type&#34;] == &#34;Prefab&#34;:
+                if PARSE_PREFABS:
+                    roadObj = Road()
+                    roadObj.Type = road[&#34;Type&#34;]
+                    roadObj.X = (road[&#34;StartPoint&#34;][0] + road[&#34;EndPoint&#34;][0]) / 2
+                    roadObj.Y = (road[&#34;StartPoint&#34;][1] + road[&#34;EndPoint&#34;][1]) / 2
+                    roadObj.Width = road[&#34;Width&#34;]
+                    roadObj.RoadLook = RoadLook()
+                    roadObj.RoadLook.Offset = road[&#34;Offset&#34;]
+                    roadObj.RoadLook.Name = &#34;Prefab&#34;
+                    if road[&#34;LanesCount&#34;] == 1:
+                        roadObj.RoadLook.LanesRight = [0]
+                    else:
+                        # Always make sure that there are more lanes on the right than on the left
+                        roadObj.RoadLook.LanesLeft = [i for i in range(math.floor(road[&#34;LanesCount&#34;]/2))]
+                        roadObj.RoadLook.LanesRight = [i for i in range(math.ceil(road[&#34;LanesCount&#34;]/2))]
+                    
+                    roadObj.Points = [
+                    {
+                        &#34;X&#34;: road[&#34;StartPoint&#34;][0],
+                        &#34;Y&#34;: road[&#34;StartPoint&#34;][1],
+                        &#34;isEmpty&#34;: False  
+                    },
+                    {
+                        &#34;X&#34;: road[&#34;EndPoint&#34;][0],
+                        &#34;Y&#34;: road[&#34;EndPoint&#34;][1],
+                        &#34;isEmpty&#34;: False
+                    }
+                    ]
+                    
+                    # Create a bounding box with the Start and End nodes
+                    roadObj.BoundingBox = [roadObj.Points[0][&#34;X&#34;] - 2, roadObj.Points[0][&#34;Y&#34;] + 2, roadObj.Points[-1][&#34;X&#34;] + 2, roadObj.Points[-1][&#34;Y&#34;] - 2]
+                    
+                    if roadObj.RoadLook.LanesLeft != [] or roadObj.RoadLook.LanesRight != []:
+                        roads.append(roadObj)
+                        
+                    if counter % 1000 == 0:
+                        loading.update(progress=(counter / length * 100), text=f&#34;Parsing road {counter} of {length} ({round(counter / length * 100)}%)&#34;)
+                    print(&#34;Parsing road &#34; + str(counter) + &#34; of &#34; + str(length) + f&#34; ({round(counter / length * 100)}%)&#34;, end=&#34;\r&#34;)
+                    counter += 1
+                continue
+            
+            roadObj = Road()
+            roadObj.DlcGuard = road[&#34;DlcGuard&#34;]
+            roadObj.RoadLook = utils.ParseRoadLook(road[&#34;RoadLook&#34;])
+            roadObj.IsSecret = road[&#34;IsSecret&#34;]
+            roadObj.Uid = road[&#34;Uid&#34;]
+            roadObj.Points = road[&#34;_points&#34;]
+            # By default this object is None
+            try:
+                roadObj.Nodes = utils.ParseNodes(road[&#34;Nodes&#34;])
+            except: pass
+            roadObj.BlockSize = road[&#34;BlockSize&#34;]
+            roadObj.Valid = road[&#34;Valid&#34;]
+            roadObj.Type = road[&#34;Type&#34;]
+            
+            # The default road center X and Y makes absolutely no sense so we need to calculate it ourselves
+            roadCenterX = 0
+            roadCenterY = 0
+            
+            # Average the X and Y of all the points
+            for point in roadObj.Points:
+                roadCenterX += point[&#34;X&#34;]
+                roadCenterY += point[&#34;Y&#34;]
+                
+            roadCenterX /= len(roadObj.Points)
+            roadCenterY /= len(roadObj.Points)
+            
+            roadObj.X = roadCenterX
+            roadObj.Y = roadCenterY
+            
+            
+            roadObj.Hidden = road[&#34;Hidden&#34;]
+            roadObj.StartNode = utils.ParseNode(road[&#34;StartNode&#34;])
+            roadObj.EndNode = utils.ParseNode(road[&#34;EndNode&#34;])
+            
+            # Create a bounding box with the Start and End nodes
+            roadObj.BoundingBox = [roadObj.Points[0][&#34;X&#34;] - 2, roadObj.Points[0][&#34;Y&#34;] + 2, roadObj.Points[-1][&#34;X&#34;] + 2, roadObj.Points[-1][&#34;Y&#34;] - 2]
+            
+            roadObj.Width = road[&#34;Width&#34;]
+            
+            if roadObj.RoadLook != None:
+                roads.append(roadObj)
+            
+            if counter % 1000 == 0:
+                loading.update(progress=(counter / length * 100), text=f&#34;Parsing road {counter} of {length} ({round(counter / length * 100)}%)&#34;)
+            print(&#34;Parsed road &#34; + str(counter) + &#34; of &#34; + str(length), end=&#34;\r&#34;)
+            counter += 1
+        
+        # Loop through the roads and append them to the correct map tile
+        print(&#34;Calculating road positions...&#34;)
+        for road in roads:
+            xy = utils.ConvertGameXYToPixelXY(road.X, road.Y)
+            x = xy[0]
+            y = xy[1]
+            # The map tiles are 512x512 so we need to divide the x and y by 512
+            x = math.floor(x / 512)
+            y = math.floor(y / 512)
+            # Append the road to the correct map tile
+            try:
+                utils.data[&#34;folders&#34;][x][&#34;files&#34;][y][&#34;roads&#34;]
+            except:
+                utils.data[&#34;folders&#34;][x][&#34;files&#34;][y][&#34;roads&#34;] = []
+                
+            utils.data[&#34;folders&#34;][x][&#34;files&#34;][y][&#34;roads&#34;].append(road)
+        
+        print(&#34;&#34;)
+        # print(&#34;Connecting roads...&#34;)
+        # tiles = 255
+        # for x in range(tiles):
+        #     print(&#34;Connecting roads in tile &#34; + str(x) + &#34; of &#34; + str(tiles), end=&#34;\r&#34;)
+        #     for y in range(tiles):
+        #         if &#34;roads&#34; in utils.data[&#34;folders&#34;][x][&#34;files&#34;][y]:
+        #             ConnectRoadsInTile(x, y)
+        # 
+        parsingDone = True
+        print(&#34;Successfully parsed &#34; + str(len(roads)) + f&#34; roads ({round(len(roads) / length*100)}%)        &#34;)
+        loading.destroy()
+    
+    thread = threading.Thread(target=ParseThread)
+    thread.start()
+    thread.join()
+    print(&#34;Done parsing&#34;)
+    
+     
+    
+def IsInsideBoundingBox(x, y, boundingBox):
+    # Bounding box = [x1, y1, x2, y2]
+    try:
+        
+        if x &gt; boundingBox[0] and x &lt; boundingBox[2] and y &gt; boundingBox[1] and y &lt; boundingBox[3]:
+            return True
+    
+    except: pass
+    return False
+    
+def ConnectRoadsInTile(tileX, tileY):
+    tileRoads = utils.data[&#34;folders&#34;][tileX][&#34;files&#34;][tileY][&#34;roads&#34;]
+    
+    
+    def DistanceBetweenPoints(pointA, pointB):
+        return math.sqrt((pointA[0] - pointB[0])**2 + (pointA[1] - pointB[1])**2)
+    
+    # Connect start and end nodes within x meters of each other
+    connectDistance = 50
+    counter = 0
+    length = len(tileRoads)
+    connectedRoads = 0
+    for road in tileRoads:
+        if road.Type != &#34;Prefab&#34;:
+            for otherRoad in tileRoads:
+                if otherRoad.Type != &#34;Prefab&#34;:
+                    roadPoint = (road.Points[0][&#34;X&#34;], road.Points[0][&#34;Y&#34;])
+                    otherRoadPoint = (otherRoad.Points[-1][&#34;X&#34;], otherRoad.Points[-1][&#34;Y&#34;])
+                    
+                    if DistanceBetweenPoints(roadPoint, otherRoadPoint) &lt; connectDistance:
+                        road.Points[0] = {
+                            &#34;X&#34;: otherRoadPoint[0],
+                            &#34;Y&#34;: otherRoadPoint[1],
+                            &#34;isEmpty&#34;: False    
+                        }
+                        connectedRoads += 1
+        counter += 1
+    print(f&#34;Connected {connectedRoads} roads&#34;)
+    
+
+def Get3x3Roads(x, y):
+    foundRoads = []
+    try: foundRoads += utils.data[&#34;folders&#34;][x][&#34;files&#34;][y][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x+1][&#34;files&#34;][y][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x-1][&#34;files&#34;][y][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x][&#34;files&#34;][y+1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x][&#34;files&#34;][y-1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x+1][&#34;files&#34;][y+1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x+1][&#34;files&#34;][y-1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x-1][&#34;files&#34;][y+1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x-1][&#34;files&#34;][y-1][&#34;roads&#34;]
+    except: pass
+    
+    return foundRoads
+
+
+def CalculateParallelCurves(road):
+    import numpy as np
+    
+    try:
+        points = road.Points
+        lanesLeft = len(road.RoadLook.LanesLeft)
+        lanesRight = len(road.RoadLook.LanesRight)
+        
+        if road.RoadLook.RoadSizeLeft != 999:
+            roadSizeLeft = road.RoadLook.RoadSizeLeft
+            roadSizeRight = road.RoadLook.RoadSizeRight
+        else:
+            roadSizeLeft = road.Width / 2
+            roadSizeRight = road.Width / 2
+          
+        if road.RoadLook.ShoulderSpaceLeft != 999:
+            roadSizeLeft += road.RoadLook.ShoulderSpaceLeft
+        if road.RoadLook.ShoulderSpaceRight != 999:
+            roadSizeRight += road.RoadLook.ShoulderSpaceRight
+
+        # Calculate lane width
+        totalRoadWidth = roadSizeRight + roadSizeLeft
+        try:
+            laneWidth = totalRoadWidth / (lanesRight + lanesLeft)
+        except:
+            laneWidth = totalRoadWidth
+
+        # Get the offset for the current road type
+        roadOffset = utils.GetRoadOffset(road.RoadLook.Name)
+
+        # Calculate the points for each lane
+        newPoints = []
+
+        pointCounter = 0
+        for point in points:
+            x = point[&#39;X&#39;]
+            y = point[&#39;Y&#39;]
+
+            # Calculate the tangent vector at the point
+            tangentVector = np.array([0, 0])
+            if pointCounter &lt; len(points) - 1:
+                xPoints = np.array([points[pointCounter][&#39;X&#39;], points[pointCounter + 1][&#39;X&#39;]])
+                yPoints = np.array([points[pointCounter][&#39;Y&#39;], points[pointCounter + 1][&#39;Y&#39;]])
+                # Try and not use np.gradient
+                # tangentVector = np.gradient(yPoints, xPoints).T
+                tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
+            else:
+                xPoints = np.array([points[pointCounter - 1][&#39;X&#39;], points[pointCounter][&#39;X&#39;]])
+                yPoints = np.array([points[pointCounter - 1][&#39;Y&#39;], points[pointCounter][&#39;Y&#39;]])
+                tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
+                
+
+            # Calculate the normal vector (perpendicular to the tangent)
+            normalVector = np.array([-tangentVector[1], tangentVector[0]])
+
+            # Normalize the normal vector
+            normalVector /= np.linalg.norm(normalVector, axis=0)
+
+            # Calculate the offset for each lane
+            laneOffsetsLeft = np.arange(-lanesLeft - 1, -1) * laneWidth
+            laneOffsetsRight = np.arange(1, lanesRight + 1) * laneWidth
+
+            # Calculate the new points for each lane
+            counter = 0
+            for laneOffset in laneOffsetsLeft:
+                
+                if laneOffset == 0:
+                    continue
+                
+                if lanesRight &gt; 0:
+                    laneOffset += road.RoadLook.Offset / 2
+                    if road.Type != &#34;Prefab&#34;:
+                        laneOffset += laneWidth
+                    else:
+                        laneOffset += laneWidth - (laneWidth / 3)
+                else:
+                    laneOffset += laneWidth
+                
+                laneOffset -= GLOBAL_LANE_OFFSET
+                laneOffset -= roadOffset[0]
+                
+                newPoints.append([])
+                offsetVector = laneOffset * normalVector
+
+                newPoint = np.array([x, y]) + offsetVector.T
+                newPoints[counter].append(newPoint.tolist())
+                counter += 1
+
+            for laneOffset in laneOffsetsRight:
+                
+                if laneOffset == 0:
+                    continue
+                
+                if lanesLeft &gt; 0:
+                    laneOffset -= road.RoadLook.Offset / 2
+                    if road.Type != &#34;Prefab&#34;:
+                        laneOffset -= laneWidth
+                    else:
+                        laneOffset -= laneWidth - (laneWidth / 3)
+                else: 
+                    laneOffset -= laneWidth
+                    
+                laneOffset -= GLOBAL_LANE_OFFSET
+                laneOffset -= roadOffset[1]
+                
+                
+                newPoints.append([])
+                offsetVector = laneOffset * normalVector
+
+                newPoint = np.array([x, y]) + offsetVector.T
+                newPoints[counter].append(newPoint.tolist())
+                counter += 1
+
+            pointCounter += 1
+
+        # Calculate a new bounding box for the road using these points
+        boundingBox = [999999, 999999, -999999, -999999]
+        for lane in newPoints:
+            for point in lane:
+                if point[0] &lt; boundingBox[0]:
+                    boundingBox[0] = point[0]
+                if point[1] &lt; boundingBox[1]:
+                    boundingBox[1] = point[1]
+                if point[0] &gt; boundingBox[2]:
+                    boundingBox[2] = point[0]
+                if point[1] &gt; boundingBox[3]:
+                    boundingBox[3] = point[1]
+                    
+        road.BoundingBox = boundingBox
+
+        return newPoints, laneWidth
+        
+    except Exception as ex:
+        return [[], []], 0
+
+def DrawBoundingBox(x,y, img, boundingbox, mapX, mapY, ImgSize):
+    # Bounding box = [x1, y1, x2, y2]
+    # Convert the coordinates to pixel coordinates
+    x1, y1 = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(boundingbox[0], boundingbox[1]), mapX, mapY, ImgSize)
+    x2, y2 = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(boundingbox[2], boundingbox[3]), mapX, mapY, ImgSize)
+    
+    
+    if IsInsideBoundingBox(x,y, boundingbox):
+        cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 1, cv2.LINE_AA)
+    else:
+        cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 50, 0), 1, cv2.LINE_AA)
+    
+    
+lastSteering = 0
+def CalculateSteeringToCenterOfLane(x, y, lane, data, laneIndex, road):
+    global lastSteering
+    
+    steering = 0
+    
+    # Get the percentage we are through the lane
+    startPoint = lane[0]
+    endPoint = lane[-1]
+    distanceToStart = math.sqrt((startPoint[0] - x)**2 + (startPoint[1] - y)**2)
+    distanceToEnd = math.sqrt((endPoint[0] - x)**2 + (endPoint[1] - y)**2)
+    
+    percentage = distanceToStart / (distanceToStart + distanceToEnd)
+    
+    # Find the two closest points that match the percentage
+    firstPoint = None
+    firstPointDistance = 999999
+    secondPoint = None
+    secondPointDistance = 999999
+    for point in lane:
+        distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
+        if distance &lt; firstPointDistance:
+            secondPoint = firstPoint
+            secondPointDistance = firstPointDistance
+            firstPoint = point
+            firstPointDistance = distance
+        elif distance &lt; secondPointDistance:
+            secondPoint = point
+            secondPointDistance = distance
+            
+    if firstPoint == None or secondPoint == None:
+        return 0
+    
+    
+    try:
+        # Get all the xPoints and yPoints
+        xPoints = np.array(lane)[:,0]
+        yPoints = np.array(lane)[:,1]
+        
+        # Calculate distance between consecutive points
+        dist = np.sqrt((np.diff(xPoints) ** 2) + (np.diff(yPoints) ** 2))
+        dist = np.concatenate(([0], dist))  # Insert a distance of 0 for the first point
+
+        # Calculate cumulative distance
+        cumulative_dist = np.cumsum(dist)
+
+        # Normalize cumulative distance between 0 and 1
+        t = cumulative_dist / cumulative_dist[-1]
+
+        # Perform cubic spline interpolation
+        f = interp1d(t, np.array(lane), kind=&#39;cubic&#39;, axis=0)
+        
+        # Get the new point
+        newPoint = f(percentage)
+        
+        # Find the distance between the player and the new point
+    except:
+        # Get the percentage of the first point
+        startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+        endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+        sumDistance = startDistance + endDistance
+        firstPointPercentage = startDistance / sumDistance
+        
+        # Get the percentage of the second point
+        startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+        endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+        sumDistance = startDistance + endDistance
+        secondPointPercentage = startDistance / sumDistance
+        
+        # Interpolate the point
+        newPoint = [0, 0]
+        newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
+        newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
+    
+    newPointDistance = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
+    # Get the player&#39;s velocity
+    try:
+        velocity = data[&#34;api&#34;][&#34;velocity&#34;]
+        newPosition = [x + velocity[0], y + velocity[1]]
+        
+        # Check if this position is closer to the start or the end of the lane
+        newDistanceToStart = math.sqrt((startPoint[0] - newPosition[0])**2 + (startPoint[1] - newPosition[1])**2)
+        
+        if newDistanceToStart &lt; distanceToStart:
+            # We want to be on the right side of the road
+            # Calculate the distance to the new point
+            distanceToNewPoint = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
+            
+            # Right side
+            # Get a vector from the new point to the player
+            vector = [x - newPoint[0], y - newPoint[1]]
+            # Get the tangent of the road
+            tangent = [endPoint[0] - startPoint[0], endPoint[1] - startPoint[1]]
+            # Normalize both vectors
+            vector = [vector[0] / math.sqrt(vector[0]**2 + vector[1]**2), vector[1] / math.sqrt(vector[0]**2 + vector[1]**2)]
+            tangent = [tangent[0] / math.sqrt(tangent[0]**2 + tangent[1]**2), tangent[1] / math.sqrt(tangent[0]**2 + tangent[1]**2)]
+            
+            # Compare them and see if we are to the right or the left
+            newCrossProduct = tangent[0] * vector[1] - tangent[1] * vector[0]
+            
+            # We are to the right
+            if newCrossProduct &gt; 0:
+                steering = -math.pow(distanceToNewPoint, 2)
+            
+            # We are to the left
+            elif newCrossProduct &lt; 0:
+                steering = math.pow(distanceToNewPoint, 2)
+
+            else:
+                steering = lastSteering
+                
+                
+        else:
+            # We want to be on the right side of the road
+            # Calculate the distance to the new point
+            distanceToNewPoint = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
+            
+            # Right side
+            # Get a vector from the new point to the player
+            vector = [x - newPoint[0], y - newPoint[1]]
+            # Get the tangent of the road
+            tangent = [endPoint[0] - startPoint[0], endPoint[1] - startPoint[1]]
+            # Compare them and see if we are to the right or the left
+            newCrossProduct = vector[0] * tangent[1] - vector[1] * tangent[0]
+            
+            # We are to the right
+            if newCrossProduct &lt; 0:
+                steering = math.pow(distanceToNewPoint, 2)
+            
+            # We are to the left
+            elif newCrossProduct &gt; 0:
+                steering = -math.pow(distanceToNewPoint, 2)
+                
+            else:
+                steering = lastSteering
+            
+    
+    except:
+        import traceback
+        traceback.print_exc()
+        steering = 0
+    
+    lastSteering = steering
+    return -steering
+    
+    
+
+def FindClosestLane(x,y, lanes, road = None):
+    closestLane = None
+    closestLaneDistance = 999
+    
+    # First get the players percentage of each lane
+    lanePercentages = []
+    for lane in lanes:
+        
+        if lane == []: continue
+        
+        startPoint = lane[0]
+        endPoint = lane[-1]
+        playerPoint = [x, y]
+        
+        # Calculate the distance between the player and the start and end points
+        startDistance = math.sqrt((startPoint[0] - playerPoint[0])**2 + (startPoint[1] - playerPoint[1])**2)
+        endDistance = math.sqrt((endPoint[0] - playerPoint[0])**2 + (endPoint[1] - playerPoint[1])**2)
+        sumDistance = startDistance + endDistance
+        
+        percentage = startDistance / sumDistance
+        lanePercentages.append(percentage)
+        
+    # Now for each lane interpolate the point that maches the players percentage
+    interpolatedPoints = []
+    pointsLanes = []
+    for lane in lanes:
+        
+        if lane == []: continue
+        
+        # Get the two points closest to the player
+        firstPoint = None
+        firstPointDistance = 999999
+        secondPoint = None
+        secondPointDistance = 999999
+        for point in lane:
+            distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
+            if distance &lt; firstPointDistance:
+                secondPoint = firstPoint
+                secondPointDistance = firstPointDistance
+                firstPoint = point
+                firstPointDistance = distance
+            elif distance &lt; secondPointDistance:
+                secondPoint = point
+                secondPointDistance = distance
+        
+        if firstPoint == None or secondPoint == None:
+            continue
+        
+        # Get the percentage of the first point
+        startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+        endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+        sumDistance = startDistance + endDistance
+        firstPointPercentage = startDistance / sumDistance
+        
+        # Get the percentage of the second point
+        startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+        endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+        sumDistance = startDistance + endDistance
+        secondPointPercentage = startDistance / sumDistance
+        
+        # Interpolate the point
+        newPoint = [0, 0]
+        newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
+        newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
+        
+        interpolatedPoints.append(newPoint)
+        pointsLanes.append(lane)
+    
+    for i in range(len(interpolatedPoints)):
+        point = interpolatedPoints[i]
+        distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
+        if distance &lt; closestLaneDistance:
+            closestLane = pointsLanes[i]
+            closestLaneDistance = distance
+        
+    
+    # Find which index the lane is in
+    if road != None:
+        index = 0
+        counter = 0
+        for lane in road.LanePoints:
+            if lane == closestLane:
+                index = counter
+                break
+            counter += 1
+            
+        return closestLane, index, road
+    
+    else:
+        return closestLane
+
+
+def OffsetPixelToBeInCenterOfTile(xy, mapX, mapY, ImgSize):
+    pointX = xy[0]
+    pointY = xy[1]
+    pointX -= mapX * 512 - 512
+    pointY -= mapY * 512 - 512
+    
+    return pointX, pointY
+
+
+def FindClosestRoad(x, y, closestRoads):
+    closestRoad = None
+    closestRoadDistance = 9999
+    roadsIn = []
+    for road in closestRoads:
+        if road.Valid:
+            if IsInsideBoundingBox(x, y, road.BoundingBox):
+                roadsIn.append(road)
+            
+    for road in roadsIn:
+        distance = math.sqrt((road.X - x)**2 + (road.Y - y)**2)
+        if distance &lt; closestRoadDistance:
+            closestRoad = road
+            closestRoadDistance = distance
+    
+    return closestRoad, closestRoadDistance
+
+lastClosestRoad = None
+def DrawVisualization(x, y, roadsWithin, closestRoad, closestLane):
+    global lastClosestRoad
+    
+    # Convert the x and y to pixel coordinates
+    xy = utils.ConvertGameXYToPixelXY(x, y)
+    mapX = xy[0]
+    mapY = xy[1]
+    
+    # Find the map tile it&#39;s in
+    mapX = math.floor(mapX / 512)
+    mapY = math.floor(mapY / 512)
+    
+    
+    startTime = time.time()
+    # Show the road locations on a map
+    # A nice dark blue for the background
+    # CV2 uses BGR instead of RGB
+    backgroundColor = (25, 0, 0)
+    img = Image.new(&#34;RGB&#34;, (512*3, 512*3), backgroundColor)
+    img = np.array(img)
+    
+    # Get the road closes to the x and y coordinates
+    
+    for road in roadsWithin:
+        try:
+            if road.Valid:
+                if road.LanePoints == [] or UPDATE_EACH_FRAME:
+                    lanePoints, laneWidth = CalculateParallelCurves(road)
+
+                    if lanePoints == None or laneWidth == None:
+                        continue
+                    
+                    road.LanePoints = lanePoints
+                    road.LaneWidth = laneWidth
+                else:
+                    lanePoints = road.LanePoints
+                    laneWidth = road.LaneWidth
+                
+                DrawBoundingBox(x,y,img,road.BoundingBox, mapX, mapY, 512*3)
+                
+                # Draw the road under the lanes
+                screenPoints = []
+                for points in road.Points:
+                    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[&#34;X&#34;], points[&#34;Y&#34;]), mapX, mapY, 512*3)
+                    
+                    screenPoints.append([int(pointX), int(pointY)])
+                
+                
+                cv2.polylines(img, np.int32([screenPoints]), False, (50,50,50), int(road.Width), cv2.LINE_AA)
+                for lane in lanePoints:
+                    screenPoints = []
+                    for points in lane:
+                        pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                        screenPoints.append([int(pointX), int(pointY)])
+                        
+                    cv2.polylines(img, np.int32([screenPoints]), False, (255,255,255), int(laneWidth / 4), cv2.LINE_AA)
+        
+        except:
+            continue
+            
+                
+    if closestRoad != None:
+        if closestRoad.Valid:
+            try:
+                if lastClosestRoad.RoadLook.Name != closestRoad.RoadLook.Name:
+                    lastClosestRoad = closestRoad
+                    print(&#34;&#34;)
+                    print(&#34;Entered road type &#34; + closestRoad.RoadLook.Name)
+                    print(&#34;New width: &#34; + str(closestRoad.Width))
+                    print(&#34;Lanes left: &#34; + str(len(closestRoad.RoadLook.LanesLeft)))
+                    print(&#34;Lanes right: &#34; + str(len(closestRoad.RoadLook.LanesRight)))
+                    print(&#34;Offset: &#34; + str(closestRoad.RoadLook.Offset))
+                    print(&#34;Shoulder Space Left: &#34; + str(closestRoad.RoadLook.ShoulderSpaceLeft))
+                    print(&#34;Shoulder Space Right: &#34; + str(closestRoad.RoadLook.ShoulderSpaceRight))
+            except:
+                print(&#34;&#34;)
+                print(&#34;Entered road type &#34; + closestRoad.RoadLook.Name)
+                print(&#34;New width: &#34; + str(closestRoad.Width))
+                print(&#34;Lanes left: &#34; + str(len(closestRoad.RoadLook.LanesLeft)))
+                print(&#34;Lanes right: &#34; + str(len(closestRoad.RoadLook.LanesRight)))
+                print(&#34;Offset: &#34; + str(closestRoad.RoadLook.Offset))
+                print(&#34;Shoulder Space Left: &#34; + str(closestRoad.RoadLook.ShoulderSpaceLeft))
+                print(&#34;Shoulder Space Right: &#34; + str(closestRoad.RoadLook.ShoulderSpaceRight))
+                lastClosestRoad = closestRoad
+                
+            if lastClosestRoad != closestRoad:
+                lastClosestRoad = closestRoad
+                print(&#34;&#34;)
+                print(&#34;New width: &#34; + str(closestRoad.Width))
+                print(&#34;Lanes left: &#34; + str(len(closestRoad.RoadLook.LanesLeft)))
+                print(&#34;Lanes right: &#34; + str(len(closestRoad.RoadLook.LanesRight)))
+                print(&#34;Offset: &#34; + str(closestRoad.RoadLook.Offset))
+                print(&#34;Shoulder Space Left: &#34; + str(closestRoad.RoadLook.ShoulderSpaceLeft))
+                print(&#34;Shoulder Space Right: &#34; + str(closestRoad.RoadLook.ShoulderSpaceRight))
+                
+            
+            lanePoints, laneWidth = CalculateParallelCurves(closestRoad)
+
+            DrawBoundingBox(x,y,img,road.BoundingBox, mapX, mapY, 512*3)
+
+            # Draw the road under the lanes
+            screenPoints = []
+            for points in closestRoad.Points:
+                pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[&#34;X&#34;], points[&#34;Y&#34;]), mapX, mapY, 512*3)
+            
+            cv2.polylines(img, np.int32([screenPoints]), False, (50,50,50), int(closestRoad.Width), cv2.LINE_AA)
+
+            try:
+                for lane in lanePoints:
+                    screenPoints = []
+                    for points in lane:
+                        pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                        
+                        screenPoints.append([int(pointX), int(pointY)])
+                    
+                    # print(screenPoints)
+                    cv2.polylines(img, np.int32([screenPoints]), False, (255,255,255), int(laneWidth / 4), cv2.LINE_AA)
+            except: pass
+                
+            try:
+                closestLanePoints = []
+                for points in closestLane:
+                    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                    closestLanePoints.append([int(pointX), int(pointY)])
+            
+                cv2.polylines(img, np.int32([closestLanePoints]), False, (255,0,255), int(laneWidth / 4), cv2.LINE_AA)
+            except Exception as ex: 
+                pass
+        
+    # Render the target point
+    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(x, y), mapX, mapY, 512*3)
+    cv2.circle(img, (int(pointX), int(pointY)), 2, (255, 255, 0), -1, cv2.LINE_AA)
+    
+    # Flip the map upside down
+    img = cv2.flip(img, 0)
+    
+    # Zoom in onto the targe point (make it 1024x1024)
+    fromX = int(pointX - 512/2)
+    toX = int(pointX + 512/2)
+    fromY = int(-pointY - 512/2)
+    toY = int(-pointY + 512/2)
+    img = img[fromY:toY, fromX:toX]
+    
+    
+    cv2.putText(img, str(round(x)) + &#34;, &#34; + str(round(y)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 2, cv2.LINE_AA)    
+    
+    if closestRoad == None:
+        cv2.putText(img, &#34;Not on a road&#34;, (10, 60), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 2, cv2.LINE_AA) 
+    
+    
+    endTime = time.time()
+    ms = (endTime - startTime) * 1000
+    cv2.putText(img, &#34;Took &#34; + str(round(ms)) + &#34;ms to draw&#34;, (10, 90), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 2, cv2.LINE_AA)
+    
+    print(&#34;Took &#34; + str(round(ms)) + &#34;ms to draw&#34;, end=&#34;\r&#34;)
+    return img
+
+def GetRoadsWithinRange(x, y, range):
+    
+    # Convert the x and y to pixel coordinates
+    xy = utils.ConvertGameXYToPixelXY(x, y)
+    mapX = xy[0]
+    mapY = xy[1]
+    
+    # Find the map tile it&#39;s in
+    mapX = math.floor(mapX / 512)
+    mapY = math.floor(mapY / 512)
+    
+    # Get the roads in that map tile, in addition to the 8 surrounding tiles
+    foundRoads = Get3x3Roads(mapX, mapY)
+        
+    
+    # Loop through the roads and find the ones within the range
+    roadsWithin = []
+    for road in foundRoads:
+        if road.X &gt; x - range and road.X &lt; x + range and road.Y &gt; y - range and road.Y &lt; y + range:
+            roadsWithin.append(road)
+    
+    if roadsWithin == []:
+        return None
+    
+    for road in roadsWithin:
+        if road.LanePoints == [] or UPDATE_EACH_FRAME:
+            lanePoints, laneWidth = CalculateParallelCurves(road)
+
+            if lanePoints == None or laneWidth == None:
+                continue
+            
+            road.LanePoints = lanePoints
+            road.LaneWidth = laneWidth
+    
+    return roadsWithin
+
+
+        </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.CalculateParallelCurves"><code class="name flex">
+<span>def <span class="ident">CalculateParallelCurves</span></span>(<span>road)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CalculateParallelCurves(road):
+    import numpy as np
+    
+    try:
+        points = road.Points
+        lanesLeft = len(road.RoadLook.LanesLeft)
+        lanesRight = len(road.RoadLook.LanesRight)
+        
+        if road.RoadLook.RoadSizeLeft != 999:
+            roadSizeLeft = road.RoadLook.RoadSizeLeft
+            roadSizeRight = road.RoadLook.RoadSizeRight
+        else:
+            roadSizeLeft = road.Width / 2
+            roadSizeRight = road.Width / 2
+          
+        if road.RoadLook.ShoulderSpaceLeft != 999:
+            roadSizeLeft += road.RoadLook.ShoulderSpaceLeft
+        if road.RoadLook.ShoulderSpaceRight != 999:
+            roadSizeRight += road.RoadLook.ShoulderSpaceRight
+
+        # Calculate lane width
+        totalRoadWidth = roadSizeRight + roadSizeLeft
+        try:
+            laneWidth = totalRoadWidth / (lanesRight + lanesLeft)
+        except:
+            laneWidth = totalRoadWidth
+
+        # Get the offset for the current road type
+        roadOffset = utils.GetRoadOffset(road.RoadLook.Name)
+
+        # Calculate the points for each lane
+        newPoints = []
+
+        pointCounter = 0
+        for point in points:
+            x = point[&#39;X&#39;]
+            y = point[&#39;Y&#39;]
+
+            # Calculate the tangent vector at the point
+            tangentVector = np.array([0, 0])
+            if pointCounter &lt; len(points) - 1:
+                xPoints = np.array([points[pointCounter][&#39;X&#39;], points[pointCounter + 1][&#39;X&#39;]])
+                yPoints = np.array([points[pointCounter][&#39;Y&#39;], points[pointCounter + 1][&#39;Y&#39;]])
+                # Try and not use np.gradient
+                # tangentVector = np.gradient(yPoints, xPoints).T
+                tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
+            else:
+                xPoints = np.array([points[pointCounter - 1][&#39;X&#39;], points[pointCounter][&#39;X&#39;]])
+                yPoints = np.array([points[pointCounter - 1][&#39;Y&#39;], points[pointCounter][&#39;Y&#39;]])
+                tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
+                
+
+            # Calculate the normal vector (perpendicular to the tangent)
+            normalVector = np.array([-tangentVector[1], tangentVector[0]])
+
+            # Normalize the normal vector
+            normalVector /= np.linalg.norm(normalVector, axis=0)
+
+            # Calculate the offset for each lane
+            laneOffsetsLeft = np.arange(-lanesLeft - 1, -1) * laneWidth
+            laneOffsetsRight = np.arange(1, lanesRight + 1) * laneWidth
+
+            # Calculate the new points for each lane
+            counter = 0
+            for laneOffset in laneOffsetsLeft:
+                
+                if laneOffset == 0:
+                    continue
+                
+                if lanesRight &gt; 0:
+                    laneOffset += road.RoadLook.Offset / 2
+                    if road.Type != &#34;Prefab&#34;:
+                        laneOffset += laneWidth
+                    else:
+                        laneOffset += laneWidth - (laneWidth / 3)
+                else:
+                    laneOffset += laneWidth
+                
+                laneOffset -= GLOBAL_LANE_OFFSET
+                laneOffset -= roadOffset[0]
+                
+                newPoints.append([])
+                offsetVector = laneOffset * normalVector
+
+                newPoint = np.array([x, y]) + offsetVector.T
+                newPoints[counter].append(newPoint.tolist())
+                counter += 1
+
+            for laneOffset in laneOffsetsRight:
+                
+                if laneOffset == 0:
+                    continue
+                
+                if lanesLeft &gt; 0:
+                    laneOffset -= road.RoadLook.Offset / 2
+                    if road.Type != &#34;Prefab&#34;:
+                        laneOffset -= laneWidth
+                    else:
+                        laneOffset -= laneWidth - (laneWidth / 3)
+                else: 
+                    laneOffset -= laneWidth
+                    
+                laneOffset -= GLOBAL_LANE_OFFSET
+                laneOffset -= roadOffset[1]
+                
+                
+                newPoints.append([])
+                offsetVector = laneOffset * normalVector
+
+                newPoint = np.array([x, y]) + offsetVector.T
+                newPoints[counter].append(newPoint.tolist())
+                counter += 1
+
+            pointCounter += 1
+
+        # Calculate a new bounding box for the road using these points
+        boundingBox = [999999, 999999, -999999, -999999]
+        for lane in newPoints:
+            for point in lane:
+                if point[0] &lt; boundingBox[0]:
+                    boundingBox[0] = point[0]
+                if point[1] &lt; boundingBox[1]:
+                    boundingBox[1] = point[1]
+                if point[0] &gt; boundingBox[2]:
+                    boundingBox[2] = point[0]
+                if point[1] &gt; boundingBox[3]:
+                    boundingBox[3] = point[1]
+                    
+        road.BoundingBox = boundingBox
+
+        return newPoints, laneWidth
+        
+    except Exception as ex:
+        return [[], []], 0</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.CalculateSteeringToCenterOfLane"><code class="name flex">
+<span>def <span class="ident">CalculateSteeringToCenterOfLane</span></span>(<span>x, y, lane, data, laneIndex, road)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CalculateSteeringToCenterOfLane(x, y, lane, data, laneIndex, road):
+    global lastSteering
+    
+    steering = 0
+    
+    # Get the percentage we are through the lane
+    startPoint = lane[0]
+    endPoint = lane[-1]
+    distanceToStart = math.sqrt((startPoint[0] - x)**2 + (startPoint[1] - y)**2)
+    distanceToEnd = math.sqrt((endPoint[0] - x)**2 + (endPoint[1] - y)**2)
+    
+    percentage = distanceToStart / (distanceToStart + distanceToEnd)
+    
+    # Find the two closest points that match the percentage
+    firstPoint = None
+    firstPointDistance = 999999
+    secondPoint = None
+    secondPointDistance = 999999
+    for point in lane:
+        distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
+        if distance &lt; firstPointDistance:
+            secondPoint = firstPoint
+            secondPointDistance = firstPointDistance
+            firstPoint = point
+            firstPointDistance = distance
+        elif distance &lt; secondPointDistance:
+            secondPoint = point
+            secondPointDistance = distance
+            
+    if firstPoint == None or secondPoint == None:
+        return 0
+    
+    
+    try:
+        # Get all the xPoints and yPoints
+        xPoints = np.array(lane)[:,0]
+        yPoints = np.array(lane)[:,1]
+        
+        # Calculate distance between consecutive points
+        dist = np.sqrt((np.diff(xPoints) ** 2) + (np.diff(yPoints) ** 2))
+        dist = np.concatenate(([0], dist))  # Insert a distance of 0 for the first point
+
+        # Calculate cumulative distance
+        cumulative_dist = np.cumsum(dist)
+
+        # Normalize cumulative distance between 0 and 1
+        t = cumulative_dist / cumulative_dist[-1]
+
+        # Perform cubic spline interpolation
+        f = interp1d(t, np.array(lane), kind=&#39;cubic&#39;, axis=0)
+        
+        # Get the new point
+        newPoint = f(percentage)
+        
+        # Find the distance between the player and the new point
+    except:
+        # Get the percentage of the first point
+        startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+        endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+        sumDistance = startDistance + endDistance
+        firstPointPercentage = startDistance / sumDistance
+        
+        # Get the percentage of the second point
+        startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+        endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+        sumDistance = startDistance + endDistance
+        secondPointPercentage = startDistance / sumDistance
+        
+        # Interpolate the point
+        newPoint = [0, 0]
+        newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
+        newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
+    
+    newPointDistance = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
+    # Get the player&#39;s velocity
+    try:
+        velocity = data[&#34;api&#34;][&#34;velocity&#34;]
+        newPosition = [x + velocity[0], y + velocity[1]]
+        
+        # Check if this position is closer to the start or the end of the lane
+        newDistanceToStart = math.sqrt((startPoint[0] - newPosition[0])**2 + (startPoint[1] - newPosition[1])**2)
+        
+        if newDistanceToStart &lt; distanceToStart:
+            # We want to be on the right side of the road
+            # Calculate the distance to the new point
+            distanceToNewPoint = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
+            
+            # Right side
+            # Get a vector from the new point to the player
+            vector = [x - newPoint[0], y - newPoint[1]]
+            # Get the tangent of the road
+            tangent = [endPoint[0] - startPoint[0], endPoint[1] - startPoint[1]]
+            # Normalize both vectors
+            vector = [vector[0] / math.sqrt(vector[0]**2 + vector[1]**2), vector[1] / math.sqrt(vector[0]**2 + vector[1]**2)]
+            tangent = [tangent[0] / math.sqrt(tangent[0]**2 + tangent[1]**2), tangent[1] / math.sqrt(tangent[0]**2 + tangent[1]**2)]
+            
+            # Compare them and see if we are to the right or the left
+            newCrossProduct = tangent[0] * vector[1] - tangent[1] * vector[0]
+            
+            # We are to the right
+            if newCrossProduct &gt; 0:
+                steering = -math.pow(distanceToNewPoint, 2)
+            
+            # We are to the left
+            elif newCrossProduct &lt; 0:
+                steering = math.pow(distanceToNewPoint, 2)
+
+            else:
+                steering = lastSteering
+                
+                
+        else:
+            # We want to be on the right side of the road
+            # Calculate the distance to the new point
+            distanceToNewPoint = math.sqrt((newPoint[0] - x)**2 + (newPoint[1] - y)**2)
+            
+            # Right side
+            # Get a vector from the new point to the player
+            vector = [x - newPoint[0], y - newPoint[1]]
+            # Get the tangent of the road
+            tangent = [endPoint[0] - startPoint[0], endPoint[1] - startPoint[1]]
+            # Compare them and see if we are to the right or the left
+            newCrossProduct = vector[0] * tangent[1] - vector[1] * tangent[0]
+            
+            # We are to the right
+            if newCrossProduct &lt; 0:
+                steering = math.pow(distanceToNewPoint, 2)
+            
+            # We are to the left
+            elif newCrossProduct &gt; 0:
+                steering = -math.pow(distanceToNewPoint, 2)
+                
+            else:
+                steering = lastSteering
+            
+    
+    except:
+        import traceback
+        traceback.print_exc()
+        steering = 0
+    
+    lastSteering = steering
+    return -steering</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.ConnectRoadsInTile"><code class="name flex">
+<span>def <span class="ident">ConnectRoadsInTile</span></span>(<span>tileX, tileY)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ConnectRoadsInTile(tileX, tileY):
+    tileRoads = utils.data[&#34;folders&#34;][tileX][&#34;files&#34;][tileY][&#34;roads&#34;]
+    
+    
+    def DistanceBetweenPoints(pointA, pointB):
+        return math.sqrt((pointA[0] - pointB[0])**2 + (pointA[1] - pointB[1])**2)
+    
+    # Connect start and end nodes within x meters of each other
+    connectDistance = 50
+    counter = 0
+    length = len(tileRoads)
+    connectedRoads = 0
+    for road in tileRoads:
+        if road.Type != &#34;Prefab&#34;:
+            for otherRoad in tileRoads:
+                if otherRoad.Type != &#34;Prefab&#34;:
+                    roadPoint = (road.Points[0][&#34;X&#34;], road.Points[0][&#34;Y&#34;])
+                    otherRoadPoint = (otherRoad.Points[-1][&#34;X&#34;], otherRoad.Points[-1][&#34;Y&#34;])
+                    
+                    if DistanceBetweenPoints(roadPoint, otherRoadPoint) &lt; connectDistance:
+                        road.Points[0] = {
+                            &#34;X&#34;: otherRoadPoint[0],
+                            &#34;Y&#34;: otherRoadPoint[1],
+                            &#34;isEmpty&#34;: False    
+                        }
+                        connectedRoads += 1
+        counter += 1
+    print(f&#34;Connected {connectedRoads} roads&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.DrawBoundingBox"><code class="name flex">
+<span>def <span class="ident">DrawBoundingBox</span></span>(<span>x, y, img, boundingbox, mapX, mapY, ImgSize)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DrawBoundingBox(x,y, img, boundingbox, mapX, mapY, ImgSize):
+    # Bounding box = [x1, y1, x2, y2]
+    # Convert the coordinates to pixel coordinates
+    x1, y1 = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(boundingbox[0], boundingbox[1]), mapX, mapY, ImgSize)
+    x2, y2 = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(boundingbox[2], boundingbox[3]), mapX, mapY, ImgSize)
+    
+    
+    if IsInsideBoundingBox(x,y, boundingbox):
+        cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 1, cv2.LINE_AA)
+    else:
+        cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 50, 0), 1, cv2.LINE_AA)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.DrawVisualization"><code class="name flex">
+<span>def <span class="ident">DrawVisualization</span></span>(<span>x, y, roadsWithin, closestRoad, closestLane)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DrawVisualization(x, y, roadsWithin, closestRoad, closestLane):
+    global lastClosestRoad
+    
+    # Convert the x and y to pixel coordinates
+    xy = utils.ConvertGameXYToPixelXY(x, y)
+    mapX = xy[0]
+    mapY = xy[1]
+    
+    # Find the map tile it&#39;s in
+    mapX = math.floor(mapX / 512)
+    mapY = math.floor(mapY / 512)
+    
+    
+    startTime = time.time()
+    # Show the road locations on a map
+    # A nice dark blue for the background
+    # CV2 uses BGR instead of RGB
+    backgroundColor = (25, 0, 0)
+    img = Image.new(&#34;RGB&#34;, (512*3, 512*3), backgroundColor)
+    img = np.array(img)
+    
+    # Get the road closes to the x and y coordinates
+    
+    for road in roadsWithin:
+        try:
+            if road.Valid:
+                if road.LanePoints == [] or UPDATE_EACH_FRAME:
+                    lanePoints, laneWidth = CalculateParallelCurves(road)
+
+                    if lanePoints == None or laneWidth == None:
+                        continue
+                    
+                    road.LanePoints = lanePoints
+                    road.LaneWidth = laneWidth
+                else:
+                    lanePoints = road.LanePoints
+                    laneWidth = road.LaneWidth
+                
+                DrawBoundingBox(x,y,img,road.BoundingBox, mapX, mapY, 512*3)
+                
+                # Draw the road under the lanes
+                screenPoints = []
+                for points in road.Points:
+                    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[&#34;X&#34;], points[&#34;Y&#34;]), mapX, mapY, 512*3)
+                    
+                    screenPoints.append([int(pointX), int(pointY)])
+                
+                
+                cv2.polylines(img, np.int32([screenPoints]), False, (50,50,50), int(road.Width), cv2.LINE_AA)
+                for lane in lanePoints:
+                    screenPoints = []
+                    for points in lane:
+                        pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                        screenPoints.append([int(pointX), int(pointY)])
+                        
+                    cv2.polylines(img, np.int32([screenPoints]), False, (255,255,255), int(laneWidth / 4), cv2.LINE_AA)
+        
+        except:
+            continue
+            
+                
+    if closestRoad != None:
+        if closestRoad.Valid:
+            try:
+                if lastClosestRoad.RoadLook.Name != closestRoad.RoadLook.Name:
+                    lastClosestRoad = closestRoad
+                    print(&#34;&#34;)
+                    print(&#34;Entered road type &#34; + closestRoad.RoadLook.Name)
+                    print(&#34;New width: &#34; + str(closestRoad.Width))
+                    print(&#34;Lanes left: &#34; + str(len(closestRoad.RoadLook.LanesLeft)))
+                    print(&#34;Lanes right: &#34; + str(len(closestRoad.RoadLook.LanesRight)))
+                    print(&#34;Offset: &#34; + str(closestRoad.RoadLook.Offset))
+                    print(&#34;Shoulder Space Left: &#34; + str(closestRoad.RoadLook.ShoulderSpaceLeft))
+                    print(&#34;Shoulder Space Right: &#34; + str(closestRoad.RoadLook.ShoulderSpaceRight))
+            except:
+                print(&#34;&#34;)
+                print(&#34;Entered road type &#34; + closestRoad.RoadLook.Name)
+                print(&#34;New width: &#34; + str(closestRoad.Width))
+                print(&#34;Lanes left: &#34; + str(len(closestRoad.RoadLook.LanesLeft)))
+                print(&#34;Lanes right: &#34; + str(len(closestRoad.RoadLook.LanesRight)))
+                print(&#34;Offset: &#34; + str(closestRoad.RoadLook.Offset))
+                print(&#34;Shoulder Space Left: &#34; + str(closestRoad.RoadLook.ShoulderSpaceLeft))
+                print(&#34;Shoulder Space Right: &#34; + str(closestRoad.RoadLook.ShoulderSpaceRight))
+                lastClosestRoad = closestRoad
+                
+            if lastClosestRoad != closestRoad:
+                lastClosestRoad = closestRoad
+                print(&#34;&#34;)
+                print(&#34;New width: &#34; + str(closestRoad.Width))
+                print(&#34;Lanes left: &#34; + str(len(closestRoad.RoadLook.LanesLeft)))
+                print(&#34;Lanes right: &#34; + str(len(closestRoad.RoadLook.LanesRight)))
+                print(&#34;Offset: &#34; + str(closestRoad.RoadLook.Offset))
+                print(&#34;Shoulder Space Left: &#34; + str(closestRoad.RoadLook.ShoulderSpaceLeft))
+                print(&#34;Shoulder Space Right: &#34; + str(closestRoad.RoadLook.ShoulderSpaceRight))
+                
+            
+            lanePoints, laneWidth = CalculateParallelCurves(closestRoad)
+
+            DrawBoundingBox(x,y,img,road.BoundingBox, mapX, mapY, 512*3)
+
+            # Draw the road under the lanes
+            screenPoints = []
+            for points in closestRoad.Points:
+                pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[&#34;X&#34;], points[&#34;Y&#34;]), mapX, mapY, 512*3)
+            
+            cv2.polylines(img, np.int32([screenPoints]), False, (50,50,50), int(closestRoad.Width), cv2.LINE_AA)
+
+            try:
+                for lane in lanePoints:
+                    screenPoints = []
+                    for points in lane:
+                        pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                        
+                        screenPoints.append([int(pointX), int(pointY)])
+                    
+                    # print(screenPoints)
+                    cv2.polylines(img, np.int32([screenPoints]), False, (255,255,255), int(laneWidth / 4), cv2.LINE_AA)
+            except: pass
+                
+            try:
+                closestLanePoints = []
+                for points in closestLane:
+                    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(points[0], points[1]), mapX, mapY, 512*3)
+                    closestLanePoints.append([int(pointX), int(pointY)])
+            
+                cv2.polylines(img, np.int32([closestLanePoints]), False, (255,0,255), int(laneWidth / 4), cv2.LINE_AA)
+            except Exception as ex: 
+                pass
+        
+    # Render the target point
+    pointX, pointY = OffsetPixelToBeInCenterOfTile(utils.ConvertGameXYToPixelXY(x, y), mapX, mapY, 512*3)
+    cv2.circle(img, (int(pointX), int(pointY)), 2, (255, 255, 0), -1, cv2.LINE_AA)
+    
+    # Flip the map upside down
+    img = cv2.flip(img, 0)
+    
+    # Zoom in onto the targe point (make it 1024x1024)
+    fromX = int(pointX - 512/2)
+    toX = int(pointX + 512/2)
+    fromY = int(-pointY - 512/2)
+    toY = int(-pointY + 512/2)
+    img = img[fromY:toY, fromX:toX]
+    
+    
+    cv2.putText(img, str(round(x)) + &#34;, &#34; + str(round(y)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 2, cv2.LINE_AA)    
+    
+    if closestRoad == None:
+        cv2.putText(img, &#34;Not on a road&#34;, (10, 60), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 2, cv2.LINE_AA) 
+    
+    
+    endTime = time.time()
+    ms = (endTime - startTime) * 1000
+    cv2.putText(img, &#34;Took &#34; + str(round(ms)) + &#34;ms to draw&#34;, (10, 90), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 2, cv2.LINE_AA)
+    
+    print(&#34;Took &#34; + str(round(ms)) + &#34;ms to draw&#34;, end=&#34;\r&#34;)
+    return img</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.FindClosestLane"><code class="name flex">
+<span>def <span class="ident">FindClosestLane</span></span>(<span>x, y, lanes, road=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def FindClosestLane(x,y, lanes, road = None):
+    closestLane = None
+    closestLaneDistance = 999
+    
+    # First get the players percentage of each lane
+    lanePercentages = []
+    for lane in lanes:
+        
+        if lane == []: continue
+        
+        startPoint = lane[0]
+        endPoint = lane[-1]
+        playerPoint = [x, y]
+        
+        # Calculate the distance between the player and the start and end points
+        startDistance = math.sqrt((startPoint[0] - playerPoint[0])**2 + (startPoint[1] - playerPoint[1])**2)
+        endDistance = math.sqrt((endPoint[0] - playerPoint[0])**2 + (endPoint[1] - playerPoint[1])**2)
+        sumDistance = startDistance + endDistance
+        
+        percentage = startDistance / sumDistance
+        lanePercentages.append(percentage)
+        
+    # Now for each lane interpolate the point that maches the players percentage
+    interpolatedPoints = []
+    pointsLanes = []
+    for lane in lanes:
+        
+        if lane == []: continue
+        
+        # Get the two points closest to the player
+        firstPoint = None
+        firstPointDistance = 999999
+        secondPoint = None
+        secondPointDistance = 999999
+        for point in lane:
+            distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
+            if distance &lt; firstPointDistance:
+                secondPoint = firstPoint
+                secondPointDistance = firstPointDistance
+                firstPoint = point
+                firstPointDistance = distance
+            elif distance &lt; secondPointDistance:
+                secondPoint = point
+                secondPointDistance = distance
+        
+        if firstPoint == None or secondPoint == None:
+            continue
+        
+        # Get the percentage of the first point
+        startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+        endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+        sumDistance = startDistance + endDistance
+        firstPointPercentage = startDistance / sumDistance
+        
+        # Get the percentage of the second point
+        startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+        endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+        sumDistance = startDistance + endDistance
+        secondPointPercentage = startDistance / sumDistance
+        
+        # Interpolate the point
+        newPoint = [0, 0]
+        newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
+        newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
+        
+        interpolatedPoints.append(newPoint)
+        pointsLanes.append(lane)
+    
+    for i in range(len(interpolatedPoints)):
+        point = interpolatedPoints[i]
+        distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
+        if distance &lt; closestLaneDistance:
+            closestLane = pointsLanes[i]
+            closestLaneDistance = distance
+        
+    
+    # Find which index the lane is in
+    if road != None:
+        index = 0
+        counter = 0
+        for lane in road.LanePoints:
+            if lane == closestLane:
+                index = counter
+                break
+            counter += 1
+            
+        return closestLane, index, road
+    
+    else:
+        return closestLane</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.FindClosestRoad"><code class="name flex">
+<span>def <span class="ident">FindClosestRoad</span></span>(<span>x, y, closestRoads)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def FindClosestRoad(x, y, closestRoads):
+    closestRoad = None
+    closestRoadDistance = 9999
+    roadsIn = []
+    for road in closestRoads:
+        if road.Valid:
+            if IsInsideBoundingBox(x, y, road.BoundingBox):
+                roadsIn.append(road)
+            
+    for road in roadsIn:
+        distance = math.sqrt((road.X - x)**2 + (road.Y - y)**2)
+        if distance &lt; closestRoadDistance:
+            closestRoad = road
+            closestRoadDistance = distance
+    
+    return closestRoad, closestRoadDistance</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.Get3x3Roads"><code class="name flex">
+<span>def <span class="ident">Get3x3Roads</span></span>(<span>x, y)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Get3x3Roads(x, y):
+    foundRoads = []
+    try: foundRoads += utils.data[&#34;folders&#34;][x][&#34;files&#34;][y][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x+1][&#34;files&#34;][y][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x-1][&#34;files&#34;][y][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x][&#34;files&#34;][y+1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x][&#34;files&#34;][y-1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x+1][&#34;files&#34;][y+1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x+1][&#34;files&#34;][y-1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x-1][&#34;files&#34;][y+1][&#34;roads&#34;]
+    except: pass
+    try: foundRoads += utils.data[&#34;folders&#34;][x-1][&#34;files&#34;][y-1][&#34;roads&#34;]
+    except: pass
+    
+    return foundRoads</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.GetRoadsWithinRange"><code class="name flex">
+<span>def <span class="ident">GetRoadsWithinRange</span></span>(<span>x, y, range)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetRoadsWithinRange(x, y, range):
+    
+    # Convert the x and y to pixel coordinates
+    xy = utils.ConvertGameXYToPixelXY(x, y)
+    mapX = xy[0]
+    mapY = xy[1]
+    
+    # Find the map tile it&#39;s in
+    mapX = math.floor(mapX / 512)
+    mapY = math.floor(mapY / 512)
+    
+    # Get the roads in that map tile, in addition to the 8 surrounding tiles
+    foundRoads = Get3x3Roads(mapX, mapY)
+        
+    
+    # Loop through the roads and find the ones within the range
+    roadsWithin = []
+    for road in foundRoads:
+        if road.X &gt; x - range and road.X &lt; x + range and road.Y &gt; y - range and road.Y &lt; y + range:
+            roadsWithin.append(road)
+    
+    if roadsWithin == []:
+        return None
+    
+    for road in roadsWithin:
+        if road.LanePoints == [] or UPDATE_EACH_FRAME:
+            lanePoints, laneWidth = CalculateParallelCurves(road)
+
+            if lanePoints == None or laneWidth == None:
+                continue
+            
+            road.LanePoints = lanePoints
+            road.LaneWidth = laneWidth
+    
+    return roadsWithin</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.IsInsideBoundingBox"><code class="name flex">
+<span>def <span class="ident">IsInsideBoundingBox</span></span>(<span>x, y, boundingBox)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def IsInsideBoundingBox(x, y, boundingBox):
+    # Bounding box = [x1, y1, x2, y2]
+    try:
+        
+        if x &gt; boundingBox[0] and x &lt; boundingBox[2] and y &gt; boundingBox[1] and y &lt; boundingBox[3]:
+            return True
+    
+    except: pass
+    return False</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.OffsetPixelToBeInCenterOfTile"><code class="name flex">
+<span>def <span class="ident">OffsetPixelToBeInCenterOfTile</span></span>(<span>xy, mapX, mapY, ImgSize)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def OffsetPixelToBeInCenterOfTile(xy, mapX, mapY, ImgSize):
+    pointX = xy[0]
+    pointY = xy[1]
+    pointX -= mapX * 512 - 512
+    pointY -= mapY * 512 - 512
+    
+    return pointX, pointY</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.ParseJsonFile"><code class="name flex">
+<span>def <span class="ident">ParseJsonFile</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ParseJsonFile():
+    global parsingDone
+
+    
+    def ParseThread():
+        global parsingDone
+        loading = LoadingWindow(&#34;Loading JSON file...&#34;, progress=0)
+        print(&#34;Loading JSON file...&#34;)
+        loading.update(progress=0, text=&#34;Loading JSON file...&#34;)
+        fileName = &#34;plugins/Map/VisualizeRoads/Roads.json&#34;
+        length = len(json.load(open(fileName)))
+        counter = 0
+        for road in json.load(open(fileName)):
+            
+            if road[&#34;Type&#34;] == &#34;Prefab&#34;:
+                if PARSE_PREFABS:
+                    roadObj = Road()
+                    roadObj.Type = road[&#34;Type&#34;]
+                    roadObj.X = (road[&#34;StartPoint&#34;][0] + road[&#34;EndPoint&#34;][0]) / 2
+                    roadObj.Y = (road[&#34;StartPoint&#34;][1] + road[&#34;EndPoint&#34;][1]) / 2
+                    roadObj.Width = road[&#34;Width&#34;]
+                    roadObj.RoadLook = RoadLook()
+                    roadObj.RoadLook.Offset = road[&#34;Offset&#34;]
+                    roadObj.RoadLook.Name = &#34;Prefab&#34;
+                    if road[&#34;LanesCount&#34;] == 1:
+                        roadObj.RoadLook.LanesRight = [0]
+                    else:
+                        # Always make sure that there are more lanes on the right than on the left
+                        roadObj.RoadLook.LanesLeft = [i for i in range(math.floor(road[&#34;LanesCount&#34;]/2))]
+                        roadObj.RoadLook.LanesRight = [i for i in range(math.ceil(road[&#34;LanesCount&#34;]/2))]
+                    
+                    roadObj.Points = [
+                    {
+                        &#34;X&#34;: road[&#34;StartPoint&#34;][0],
+                        &#34;Y&#34;: road[&#34;StartPoint&#34;][1],
+                        &#34;isEmpty&#34;: False  
+                    },
+                    {
+                        &#34;X&#34;: road[&#34;EndPoint&#34;][0],
+                        &#34;Y&#34;: road[&#34;EndPoint&#34;][1],
+                        &#34;isEmpty&#34;: False
+                    }
+                    ]
+                    
+                    # Create a bounding box with the Start and End nodes
+                    roadObj.BoundingBox = [roadObj.Points[0][&#34;X&#34;] - 2, roadObj.Points[0][&#34;Y&#34;] + 2, roadObj.Points[-1][&#34;X&#34;] + 2, roadObj.Points[-1][&#34;Y&#34;] - 2]
+                    
+                    if roadObj.RoadLook.LanesLeft != [] or roadObj.RoadLook.LanesRight != []:
+                        roads.append(roadObj)
+                        
+                    if counter % 1000 == 0:
+                        loading.update(progress=(counter / length * 100), text=f&#34;Parsing road {counter} of {length} ({round(counter / length * 100)}%)&#34;)
+                    print(&#34;Parsing road &#34; + str(counter) + &#34; of &#34; + str(length) + f&#34; ({round(counter / length * 100)}%)&#34;, end=&#34;\r&#34;)
+                    counter += 1
+                continue
+            
+            roadObj = Road()
+            roadObj.DlcGuard = road[&#34;DlcGuard&#34;]
+            roadObj.RoadLook = utils.ParseRoadLook(road[&#34;RoadLook&#34;])
+            roadObj.IsSecret = road[&#34;IsSecret&#34;]
+            roadObj.Uid = road[&#34;Uid&#34;]
+            roadObj.Points = road[&#34;_points&#34;]
+            # By default this object is None
+            try:
+                roadObj.Nodes = utils.ParseNodes(road[&#34;Nodes&#34;])
+            except: pass
+            roadObj.BlockSize = road[&#34;BlockSize&#34;]
+            roadObj.Valid = road[&#34;Valid&#34;]
+            roadObj.Type = road[&#34;Type&#34;]
+            
+            # The default road center X and Y makes absolutely no sense so we need to calculate it ourselves
+            roadCenterX = 0
+            roadCenterY = 0
+            
+            # Average the X and Y of all the points
+            for point in roadObj.Points:
+                roadCenterX += point[&#34;X&#34;]
+                roadCenterY += point[&#34;Y&#34;]
+                
+            roadCenterX /= len(roadObj.Points)
+            roadCenterY /= len(roadObj.Points)
+            
+            roadObj.X = roadCenterX
+            roadObj.Y = roadCenterY
+            
+            
+            roadObj.Hidden = road[&#34;Hidden&#34;]
+            roadObj.StartNode = utils.ParseNode(road[&#34;StartNode&#34;])
+            roadObj.EndNode = utils.ParseNode(road[&#34;EndNode&#34;])
+            
+            # Create a bounding box with the Start and End nodes
+            roadObj.BoundingBox = [roadObj.Points[0][&#34;X&#34;] - 2, roadObj.Points[0][&#34;Y&#34;] + 2, roadObj.Points[-1][&#34;X&#34;] + 2, roadObj.Points[-1][&#34;Y&#34;] - 2]
+            
+            roadObj.Width = road[&#34;Width&#34;]
+            
+            if roadObj.RoadLook != None:
+                roads.append(roadObj)
+            
+            if counter % 1000 == 0:
+                loading.update(progress=(counter / length * 100), text=f&#34;Parsing road {counter} of {length} ({round(counter / length * 100)}%)&#34;)
+            print(&#34;Parsed road &#34; + str(counter) + &#34; of &#34; + str(length), end=&#34;\r&#34;)
+            counter += 1
+        
+        # Loop through the roads and append them to the correct map tile
+        print(&#34;Calculating road positions...&#34;)
+        for road in roads:
+            xy = utils.ConvertGameXYToPixelXY(road.X, road.Y)
+            x = xy[0]
+            y = xy[1]
+            # The map tiles are 512x512 so we need to divide the x and y by 512
+            x = math.floor(x / 512)
+            y = math.floor(y / 512)
+            # Append the road to the correct map tile
+            try:
+                utils.data[&#34;folders&#34;][x][&#34;files&#34;][y][&#34;roads&#34;]
+            except:
+                utils.data[&#34;folders&#34;][x][&#34;files&#34;][y][&#34;roads&#34;] = []
+                
+            utils.data[&#34;folders&#34;][x][&#34;files&#34;][y][&#34;roads&#34;].append(road)
+        
+        print(&#34;&#34;)
+        # print(&#34;Connecting roads...&#34;)
+        # tiles = 255
+        # for x in range(tiles):
+        #     print(&#34;Connecting roads in tile &#34; + str(x) + &#34; of &#34; + str(tiles), end=&#34;\r&#34;)
+        #     for y in range(tiles):
+        #         if &#34;roads&#34; in utils.data[&#34;folders&#34;][x][&#34;files&#34;][y]:
+        #             ConnectRoadsInTile(x, y)
+        # 
+        parsingDone = True
+        print(&#34;Successfully parsed &#34; + str(len(roads)) + f&#34; roads ({round(len(roads) / length*100)}%)        &#34;)
+        loading.destroy()
+    
+    thread = threading.Thread(target=ParseThread)
+    thread.start()
+    thread.join()
+    print(&#34;Done parsing&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.CalculateParallelCurves" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.CalculateParallelCurves">CalculateParallelCurves</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.CalculateSteeringToCenterOfLane" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.CalculateSteeringToCenterOfLane">CalculateSteeringToCenterOfLane</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.ConnectRoadsInTile" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.ConnectRoadsInTile">ConnectRoadsInTile</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.DrawBoundingBox" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.DrawBoundingBox">DrawBoundingBox</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.DrawVisualization" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.DrawVisualization">DrawVisualization</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.FindClosestLane" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.FindClosestLane">FindClosestLane</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.FindClosestRoad" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.FindClosestRoad">FindClosestRoad</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.Get3x3Roads" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.Get3x3Roads">Get3x3Roads</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.GetRoadsWithinRange" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.GetRoadsWithinRange">GetRoadsWithinRange</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.IsInsideBoundingBox" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.IsInsideBoundingBox">IsInsideBoundingBox</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.OffsetPixelToBeInCenterOfTile" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.OffsetPixelToBeInCenterOfTile">OffsetPixelToBeInCenterOfTile</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.ParseJsonFile" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.Old.VisualizeRoads.main.ParseJsonFile">ParseJsonFile</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

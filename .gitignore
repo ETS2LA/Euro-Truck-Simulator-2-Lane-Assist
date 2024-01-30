@@ -27,6 +27,8 @@ yolov5s.pt
 yolov5m.pt
 yolov5l.pt
 yolov5x.pt
+# Wiki is built by github actions, no need to have users download it constantly
+wiki/* 
 
 # Ignore themes
 themes/*

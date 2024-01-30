@@ -1,0 +1,1859 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main API documentation</title>
+<meta name="description" content="This is an example of a plugin (type=&#34;dynamic&#34;), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main</code></h1>
+</header>
+<section id="section-intro">
+<p>This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it's open then check the Panel example!</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This is an example of a plugin (type=&#34;dynamic&#34;), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it&#39;s open then check the Panel example!
+&#34;&#34;&#34;
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+from src.mainUI import resizeWindow
+
+PluginInfo = PluginInformation(
+    name=&#34;NavigationDetectionV2&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description=&#34;Uses the navigation line in the minimap.&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;Glas42&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;dynamic&#34;, # = Panel
+    dynamicOrder=&#34;lane detection&#34;, # Will run the plugin before anything else in the mainloop (data will be empty)
+    exclusive=&#34;LaneDetection&#34;,
+    requires=[&#34;TruckSimAPI&#34;]
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+import os
+
+import plugins.DefaultSteering.main as DefaultSteering
+
+import cv2
+import numpy as np
+import bettercam
+import time
+import pyautogui
+import mouse
+import math
+
+screen_width, screen_height = pyautogui.size()
+
+timerforturnincoming = 0
+turnincdirec = None
+white_limit = (1, 1, 1)
+getnavcoordinates = False
+trafficlightdetectionisenabled = False
+trucksimapiisenabled = False
+
+currentlane = 0
+lastblinker = None
+currentoffsetsteeringvalue = 0
+
+avg_lanewidth = None
+avg_lanewidth_counter = 1
+avg_lanewidth_value = 0
+
+disableshowimagelater = False
+
+def LoadSettings():
+    global curvemultip
+    global sensitivity
+    global offset
+    global textsize
+    global textdistancescale
+    global navsymbolx
+    global navsymboly
+    global getnavcoordinates
+    global navcoordsarezero
+    global leftsidetraffic
+    global automaticlaneselection
+    global trafficlightdetectionisenabled
+    global trucksimapiisenabled
+    global lanechanging
+    global lanechangingspeed
+    global lanewidth
+    global avg_lanewidth
+    global avg_lanewidth_counter
+    global avg_lanewidth_value
+    global disableshowimagelater
+    
+    curvemultip = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;)
+    if curvemultip == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;, 1)
+        curvemultip = 1
+    
+    sensitivity = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;)
+    if sensitivity == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;, 1)
+        sensitivity = 1
+
+    offset = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;)
+    if offset == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;, 0)
+        offset = 0
+    
+    textsize = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;)
+    if textsize == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;, 0.5)
+        textsize = 0.5
+        
+    textdistancescale = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;)
+    if textdistancescale == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;, 1)
+        textdistancescale = 1
+
+    leftsidetraffic = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;leftsidetraffic&#34;)
+    if leftsidetraffic == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;leftsidetraffic&#34;, 0)
+        leftsidetraffic = 0
+
+    automaticlaneselection = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;automaticlaneselection&#34;)
+    if automaticlaneselection == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;automaticlaneselection&#34;, 1)
+        automaticlaneselection = 1
+
+    navsymbolx = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;)
+    if navsymbolx == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;, 0)
+        navsymbolx = 0
+
+    navsymboly = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;)
+    if navsymboly == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;, 0)
+        navsymboly = 0
+
+    if navsymbolx == 0 or navsymboly == 0:
+        navcoordsarezero = True
+        DefaultSteering.enabled = False
+        if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            disableshowimagelater = True
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+    else:
+        navcoordsarezero = False
+
+
+    widthofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+    heightofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
+    if navsymbolx &gt; widthofscreencapture - 3 or navsymbolx &lt; 3:
+        getnavcoordinates = True
+        if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            disableshowimagelater = True
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+
+    if navsymboly &gt; heightofscreencapture - 3 or navsymboly &lt; 3:
+        getnavcoordinates = True
+        DefaultSteering.enabled = False
+        if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            disableshowimagelater = True
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+
+    
+    if &#34;TrafficLightDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        trafficlightdetectionisenabled = True
+    else:
+        trafficlightdetectionisenabled = False
+
+    if &#34;TruckSimAPI&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        trucksimapiisenabled = True
+    else:
+        trucksimapiisenabled = False
+
+    lanechanging = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechanging&#34;, True)
+    lanechangingspeed = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;)
+    if lanechangingspeed == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;, 1)
+        lanechangingspeed = 1
+    lanewidth = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;)
+    if lanewidth == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;, 10)
+        lanewidth = 1
+    lanewidth = round(lanewidth, 2)
+
+LoadSettings()
+
+
+def plugin(data):
+    global timerforturnincoming
+    global turnincdirec
+    global white_limit
+    global getnavcoordinates
+    global navcoordsarezero
+    global trafficlightdetectionisenabled
+    global trucksimapiisenabled
+
+    global currentlane
+    global lastblinker
+    global currentoffsetsteeringvalue
+    global lanechangingspeed
+    global lanechanging
+    global lanewidth
+
+    global avg_lanewidth
+    global avg_lanewidth_counter
+    global avg_lanewidth_value
+
+    global disableshowimagelater
+
+    if getnavcoordinates == True or navcoordsarezero == True:
+
+        
+        try:
+            frame = data[&#34;frame&#34;]
+            width = frame.shape[1]
+            height = frame.shape[0]
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
+        except:
+            return data 
+        
+
+        mousex, mousey = mouse.get_position()
+        circlex = mousex - min_x
+        circley = mousey - min_y
+        if circlex &gt; 5 and circlex &lt; width-5 and circley &gt; 5 and circley &lt; height-5:
+            cv2.circle(frame, (circlex,circley), round(width/40), (40,130,210), 2)
+        else:
+
+            vector_mousetocenter_x = round((min_x + width/2) - mousex)
+            vector_mousetocenter_y = round((min_y + height/2) - mousey)
+
+            original_length = math.sqrt(vector_mousetocenter_x**2 + vector_mousetocenter_y**2)
+
+            vector_mousetocenter_x = round((vector_mousetocenter_x / original_length) * width*1.5)
+            vector_mousetocenter_y = round((vector_mousetocenter_y / original_length) * width*1.5)
+
+            scaled_length = original_length / 2
+
+            angle_degrees = 45
+
+            angle_radians = math.radians(angle_degrees)
+
+            x_scaled = (vector_mousetocenter_x / original_length) * scaled_length
+            y_scaled = (vector_mousetocenter_y / original_length) * scaled_length
+
+            x_counterclockwise = x_scaled * math.cos(angle_radians) - y_scaled * math.sin(angle_radians)
+            y_counterclockwise = x_scaled * math.sin(angle_radians) + y_scaled * math.cos(angle_radians)
+
+            x_clockwise = x_scaled * math.cos(-angle_radians) - y_scaled * math.sin(-angle_radians)
+            y_clockwise = x_scaled * math.sin(-angle_radians) + y_scaled * math.cos(-angle_radians)
+
+            cv2.line(frame, (round(width/2 - x_counterclockwise/10), round(height/1.5 - y_counterclockwise/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.line(frame, (round(width/2 - x_clockwise/10), round(height/1.5 - y_clockwise/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.line(frame, (round(width/2 - vector_mousetocenter_x/10), round(height/1.5 - vector_mousetocenter_y/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.putText(frame, &#34;move your mouse in the&#34;, (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (156,0,91), 2)
+            cv2.putText(frame, &#34;direction the arrow shows&#34;, (5, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (156,0,91), 2)
+            
+
+        if mouse.is_pressed(button=&#34;left&#34;) == True and circlex &gt; 5 and circlex &lt; width-5 and circley &gt; 5 and circley &lt; height-5:
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;, circlex)    
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;, circley)
+            
+            if disableshowimagelater == True:
+                settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+
+                if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                    DefaultSteering.enabled = True
+                    variables.ENABLELOOP = False
+                    disableshowimagelater = False
+                    getnavcoordinates = False
+                    navcoordsarezero = False
+            else:
+                DefaultSteering.enabled = True
+                variables.ENABLELOOP = False
+                disableshowimagelater = False
+                getnavcoordinates = False
+                navcoordsarezero = False
+
+
+        data[&#34;frame&#34;] = frame
+
+    else:
+
+        start_time = time.time()
+        
+        try:
+            frame = data[&#34;frame&#34;]
+        except:
+            return data
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
+        try:
+            width = frame.shape[1]
+            height = frame.shape[0]
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
+        except:
+            return data
+        
+        try:
+            gamepaused = data[&#34;api&#34;][&#34;pause&#34;]
+        except:
+            gamepaused = False
+
+        lower_red = np.array([160, 0, 0])
+        upper_red = np.array([255, 110, 110])
+        lower_green = np.array([0, 200, 0])
+        upper_green = np.array([150, 255, 230])
+
+        mask_red = cv2.inRange(frame, lower_red, upper_red)
+        mask_green = cv2.inRange(frame, lower_green, upper_green)
+
+        filtered_frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+
+        cv2.rectangle(filtered_frame_red_green, (0,0), (round((width/6)),round((height/3))),(0,0,0),-1)
+
+        filtered_frame_bw = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY)
+
+        filtered_frame_bw = cv2.GaussianBlur(filtered_frame_bw,(3,3),0)
+
+
+        #get the left and right x coordinates
+        def GetArrayOfLaneEdges(y_coordinate_of_lane_detection):
+            detectingLane = False
+            laneEdges = []
+            
+            for x in range(0, int(width)):
+                pixel = filtered_frame_bw[y_coordinate_of_lane_detection, x]
+                pixel = (pixel, pixel, pixel)
+                if (white_limit[0] &lt;= pixel[0]):
+                    
+                    if not detectingLane:
+                        detectingLane = True
+                        laneEdges.append(x)
+                else:
+                    if detectingLane:
+                        detectingLane = False
+                        laneEdges.append(x)
+
+            if len(laneEdges) &lt; 2:
+                laneEdges.append(width)
+
+            return laneEdges
+        
+        circley = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;)
+        circlex = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;)
+        y_coordinate_turnincdetec = round(circley / 4)
+        y_coordinate_lane = round(circley / 1.4)
+        automaticxoffset = round(width/2-circlex)
+
+        if trafficlightdetectionisenabled == True:
+            try:
+                trafficlight = data[&#34;TrafficLightDetection&#34;]
+            except:
+                trafficlightdetectionisenabled = False
+                trafficlight = &#34;Off&#34;
+        else:
+            trafficlight = &#34;Off&#34;
+
+        if circley != None:        
+            lanes = GetArrayOfLaneEdges(y_coordinate_turnincdetec)
+            if automaticlaneselection == True:
+                try:
+                    closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - circlex))
+                    left_x_turnincdetec, right_x_turnincdetec = closest_x_pair
+                except:
+                    if leftsidetraffic == False:
+                        left_x_turnincdetec = lanes[len(lanes)-2]
+                        right_x_turnincdetec = lanes[len(lanes)-1]
+                    else:
+                        try:
+                            left_x_turnincdetec = lanes[len(lanes)-4]
+                            right_x_turnincdetec = lanes[len(lanes)-3]
+                        except:
+                            left_x_turnincdetec = lanes[len(lanes)-2]
+                            right_x_turnincdetec = lanes[len(lanes)-1]
+            else:
+                if leftsidetraffic == False:
+                    left_x_turnincdetec = lanes[len(lanes)-2]
+                    right_x_turnincdetec = lanes[len(lanes)-1]
+                else:
+                    try:
+                        left_x_turnincdetec = lanes[len(lanes)-4]
+                        right_x_turnincdetec = lanes[len(lanes)-3]
+                    except:
+                        left_x_turnincdetec = lanes[len(lanes)-2]
+                        right_x_turnincdetec = lanes[len(lanes)-1]
+            cv2.line(filtered_frame_bw, (left_x_turnincdetec,y_coordinate_turnincdetec), (right_x_turnincdetec,y_coordinate_turnincdetec), (255,255,255),1)
+
+            lanes = GetArrayOfLaneEdges(y_coordinate_lane)
+            if automaticlaneselection == True:
+                try:
+                    closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - circlex))
+                    left_x_lane, right_x_lane = closest_x_pair
+                except:
+                    if leftsidetraffic == False:
+                        left_x_lane = lanes[len(lanes)-2]
+                        right_x_lane = lanes[len(lanes)-1]
+                    else:
+                        try:
+                            left_x_lane = lanes[len(lanes)-4]
+                            right_x_lane = lanes[len(lanes)-3]
+                        except:
+                            left_x_lane = lanes[len(lanes)-2]
+                            right_x_lane = lanes[len(lanes)-1]
+            else:
+                if leftsidetraffic == False:
+                    left_x_lane = lanes[len(lanes)-2]
+                    right_x_lane = lanes[len(lanes)-1]
+                else:
+                    try:
+                        left_x_lane = lanes[len(lanes)-4]
+                        right_x_lane = lanes[len(lanes)-3]
+                    except:
+                        left_x_lane = lanes[len(lanes)-2]
+                        right_x_lane = lanes[len(lanes)-1]
+            cv2.line(filtered_frame_bw, (left_x_lane,y_coordinate_lane), (right_x_lane,y_coordinate_lane), (255,255,255),1)
+
+            if left_x_lane == 0:
+                left_x_lane = 1
+            if left_x_turnincdetec == 0:
+                left_x_turnincdetec = 1
+
+            lane_width = right_x_lane - left_x_lane
+        
+            lane_width_turnincdetec = right_x_turnincdetec - left_x_turnincdetec
+
+            if lane_width_turnincdetec &gt; width/5:
+                timerforturnincoming = time.time()
+                currentlane = 0
+                if width/2 - left_x_turnincdetec &gt; right_x_turnincdetec - width/2:
+                    turnincdirec = &#34;Left&#34;
+                else:
+                    turnincdirec = &#34;Right&#34;
+
+            if start_time - timerforturnincoming &lt; 20:
+                turnincoming = True
+            else:
+                turnincoming = False
+
+            if DefaultSteering.enabled == False:
+                timerforturnincoming = time.time()-21
+                turnincoming = False
+
+            if trafficlight == &#34;Red&#34;:
+                if turnincoming == True:
+                    timerforturnincoming = time.time() - 10
+
+            if turnincoming == False and lane_width != 0:
+                avg_lanewidth_counter += 1
+                avg_lanewidth_value += lane_width
+                avg_lanewidth = avg_lanewidth_value/avg_lanewidth_counter
+            
+            if turnincoming == False:
+                center_x = (left_x_lane + right_x_lane) / 2 if left_x_lane and right_x_lane is not None else None
+            else:
+                if turnincdirec == &#34;Right&#34;:
+                    center_x = left_x_lane + avg_lanewidth/2
+                else:
+                    center_x = right_x_lane - avg_lanewidth/2
+        
+            center_x_turnincdetec = (left_x_turnincdetec + right_x_turnincdetec) / 2 if left_x_turnincdetec and right_x_turnincdetec is not None else None
+            
+
+        if lane_width &gt; width/5: ######################################################### change the minimum lane width
+            if width/2 - left_x_lane &gt; right_x_lane - width/2:
+                turn = &#34;Left&#34;
+                timerforturnincoming = time.time() - 17
+            else:
+                turn = &#34;Right&#34;
+                timerforturnincoming = time.time() - 17
+        else:
+            turn = &#34;none&#34;
+
+        if lanechanging == True:
+            if trucksimapiisenabled == True:
+                try:
+                    IndicatingLeft = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;]
+                    IndicatingRight = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerRightActive&#34;]
+                except:
+                    trucksimapiisenabled = False
+            
+                if IndicatingLeft == True and lastblinker != &#34;left&#34;:
+                    currentlane += 1
+                    lastblinker = &#34;left&#34;
+
+                if IndicatingRight == True and lastblinker != &#34;right&#34;:
+                    currentlane -= 1
+                    lastblinker = &#34;right&#34;
+
+                if IndicatingLeft == False and IndicatingRight == False:
+                    lastblinker = None
+
+                targetoffsetsteeringvalue = round(lanewidth * currentlane, 2)
+                
+                lanecorrection = targetoffsetsteeringvalue - currentoffsetsteeringvalue
+                if abs(lanecorrection) &gt; lanechangingspeed/10:
+                    if lanecorrection &gt; 0:
+                        lanecorrection = lanechangingspeed/10
+                    else:
+                        lanecorrection = -lanechangingspeed/10
+
+                currentoffsetsteeringvalue += lanecorrection
+        
+
+        if center_x != width and center_x is not None and gamepaused == False:
+            curve = round((center_x - center_x_turnincdetec)/30 * curvemultip, 3)
+            if turn != &#34;none&#34; or turnincoming == True or center_x_turnincdetec == width:
+                curve = 0
+            distancetocenter = round((width/2-center_x)-curve-automaticxoffset + currentoffsetsteeringvalue, 3) - offset
+            lanedetected = &#34;Yes&#34;
+        else:
+            lanedetected = &#34;No&#34;
+            distancetocenter = 0
+            curve = 0
+            center_x = round(width/2)
+            center_x_turnincdetec = round(width/2)
+        
+        correction = distancetocenter * sensitivity
+
+        data[&#34;LaneDetection&#34;] = {}
+        data[&#34;LaneDetection&#34;][&#34;difference&#34;] = -correction/15
+
+        correction = round(correction, 3)
+
+        data[&#34;NavigationDetectionV2&#34;] = {}
+        data[&#34;NavigationDetectionV2&#34;][&#34;turnincoming&#34;] = turnincoming
+
+        if turn != &#34;none&#34; or turnincoming == True or center_x_turnincdetec == width:
+            data[&#34;NavigationDetectionV2&#34;][&#34;curve&#34;] = correction / 5
+        else:
+            data[&#34;NavigationDetectionV2&#34;][&#34;curve&#34;] = (center_x - center_x_turnincdetec)/30 
+
+        data[&#34;NavigationDetectionV2&#34;][&#34;lane&#34;] = currentlane
+        data[&#34;NavigationDetectionV2&#34;][&#34;laneoffsetpercent&#34;] = currentoffsetsteeringvalue/lanewidth
+
+        filtered_frame_red_green = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2RGB)
+ 
+        if textsize != 0:      
+            cv2.putText(filtered_frame_bw, f&#34;lanedetected: {lanedetected}&#34;, (round(10*textdistancescale), round(20*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;curve: {curve}&#34;, (round(10*textdistancescale), round(40*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;correction: {correction}&#34;, (round(10*textdistancescale), round(60*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;turninc: {turnincoming}&#34;, (round(10*textdistancescale), round(80*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;turn: {turn}&#34;, (round(10*textdistancescale), round(100*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;lane: {currentlane}&#34;, (round(10*textdistancescale), round(120*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;trafficlight: {trafficlight}&#34;, (round(10*textdistancescale), round(140*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+
+        data[&#34;frame&#34;] = filtered_frame_bw
+        
+    return data
+        
+
+
+# Plugins need to all also have the onEnable and onDisable functions
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
+# Plugins can also have UIs, this works the same as the panel example
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+            resizeWindow(950,750)        
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def UpdateSettings(self):
+            self.curvemultip.set(self.curvemultipSlider.get())
+            self.sensitivity.set(self.sensitivitySlider.get())
+            self.offset.set(self.offsetSlider.get())
+            self.textsize.set(self.textsizeSlider.get())
+            self.textdistancescale.set(self.textdistancescaleSlider.get())
+            
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;, self.curvemultipSlider.get())
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;, self.sensitivitySlider.get())
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;, self.offsetSlider.get())
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;, self.textsizeSlider.get())
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;, self.textdistancescaleSlider.get())
+            LoadSettings()
+        
+        def tabFocused(self): # Called when the tab is focused
+            resizeWindow(950,750)
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=750, height=750, border=0, highlightthickness=0)
+            self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            self.curvemultipSlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.curvemultipSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;))
+            self.curvemultipSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
+            self.curvemultip = helpers.MakeComboEntry(self.root, &#34;Curvemultip&#34;, &#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;, 1,0)
+            
+            self.sensitivitySlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.sensitivitySlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;))
+            self.sensitivitySlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
+            self.sensitivity = helpers.MakeComboEntry(self.root, &#34;Sensitivity&#34;, &#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;, 3,0)
+
+            self.offsetSlider = tk.Scale(self.root, from_=-20, to=20, resolution=0.1, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.offsetSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;))
+            self.offsetSlider.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
+            self.offset = helpers.MakeComboEntry(self.root, &#34;Offset&#34;, &#34;NavigationDetectionV2&#34;, &#34;offset&#34;, 5,0)
+
+            self.textsizeSlider = tk.Scale(self.root, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.textsizeSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;))
+            self.textsizeSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
+            self.textsize = helpers.MakeComboEntry(self.root, &#34;Textsize&#34;, &#34;NavigationDetectionV2&#34;, &#34;textsize&#34;, 7,0)
+            
+            self.textdistancescaleSlider = tk.Scale(self.root, from_=0.1, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.textdistancescaleSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;))
+            self.textdistancescaleSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
+            self.textdistancescale = helpers.MakeComboEntry(self.root, &#34;Textspacescale&#34;, &#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;, 9,0)
+            
+            helpers.MakeEmptyLine(self.root, 10, 0)
+            helpers.MakeCheckButton(self.root, &#34;Lane Changing&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanechanging&#34;, 11, 0, callback=lambda: LoadSettings())
+            helpers.MakeLabel(self.root, &#34;If activated, you can change the lane you are driving on using the indicators&#34;, 11, 1)
+            self.lanechangingspeed = helpers.MakeComboEntry(self.root, &#34;Lane Changing Speed&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;, 12, 0, labelwidth=20, isFloat=True)
+            self.lanewidth = helpers.MakeComboEntry(self.root, &#34;Lane Width&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;, 13, 0, labelwidth=20, isFloat=True)
+            helpers.MakeButton(self.root, &#34;Save Lane Settings&#34;, self.save, 12, 2, pady=0, padx=0, width=16)
+
+            def setnavcordstrue():
+                global getnavcoordinates
+                global disableshowimagelater
+                getnavcoordinates = True
+                if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                    disableshowimagelater = True
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+                DefaultSteering.enabled = False
+                variables.ENABLELOOP = True
+
+            helpers.MakeButton(self.root, &#34;Grab Coordinates&#34;, setnavcordstrue, 14, 2, pady=20, padx=5)
+
+            helpers.MakeCheckButton(self.root, &#34;Left-hand traffic&#34;, &#34;NavigationDetectionV2&#34;, &#34;leftsidetraffic&#34;, 14, 1, callback=lambda: LoadSettings())
+
+            helpers.MakeCheckButton(self.root, &#34;Automatic lane&#34;, &#34;NavigationDetectionV2&#34;, &#34;automaticlaneselection&#34;, 14, 0, callback=lambda: LoadSettings())
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def save(self):
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;, float(self.lanechangingspeed.get()))
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;, float(self.lanewidth.get()))
+            
+            LoadSettings()
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.LoadSettings"><code class="name flex">
+<span>def <span class="ident">LoadSettings</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def LoadSettings():
+    global curvemultip
+    global sensitivity
+    global offset
+    global textsize
+    global textdistancescale
+    global navsymbolx
+    global navsymboly
+    global getnavcoordinates
+    global navcoordsarezero
+    global leftsidetraffic
+    global automaticlaneselection
+    global trafficlightdetectionisenabled
+    global trucksimapiisenabled
+    global lanechanging
+    global lanechangingspeed
+    global lanewidth
+    global avg_lanewidth
+    global avg_lanewidth_counter
+    global avg_lanewidth_value
+    global disableshowimagelater
+    
+    curvemultip = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;)
+    if curvemultip == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;, 1)
+        curvemultip = 1
+    
+    sensitivity = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;)
+    if sensitivity == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;, 1)
+        sensitivity = 1
+
+    offset = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;)
+    if offset == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;, 0)
+        offset = 0
+    
+    textsize = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;)
+    if textsize == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;, 0.5)
+        textsize = 0.5
+        
+    textdistancescale = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;)
+    if textdistancescale == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;, 1)
+        textdistancescale = 1
+
+    leftsidetraffic = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;leftsidetraffic&#34;)
+    if leftsidetraffic == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;leftsidetraffic&#34;, 0)
+        leftsidetraffic = 0
+
+    automaticlaneselection = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;automaticlaneselection&#34;)
+    if automaticlaneselection == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;automaticlaneselection&#34;, 1)
+        automaticlaneselection = 1
+
+    navsymbolx = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;)
+    if navsymbolx == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;, 0)
+        navsymbolx = 0
+
+    navsymboly = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;)
+    if navsymboly == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;, 0)
+        navsymboly = 0
+
+    if navsymbolx == 0 or navsymboly == 0:
+        navcoordsarezero = True
+        DefaultSteering.enabled = False
+        if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            disableshowimagelater = True
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+    else:
+        navcoordsarezero = False
+
+
+    widthofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;width&#34;)
+    heightofscreencapture = settings.GetSettings(&#34;bettercam&#34;, &#34;height&#34;)
+    if navsymbolx &gt; widthofscreencapture - 3 or navsymbolx &lt; 3:
+        getnavcoordinates = True
+        if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            disableshowimagelater = True
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+
+    if navsymboly &gt; heightofscreencapture - 3 or navsymboly &lt; 3:
+        getnavcoordinates = True
+        DefaultSteering.enabled = False
+        if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            disableshowimagelater = True
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+
+    
+    if &#34;TrafficLightDetection&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        trafficlightdetectionisenabled = True
+    else:
+        trafficlightdetectionisenabled = False
+
+    if &#34;TruckSimAPI&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        trucksimapiisenabled = True
+    else:
+        trucksimapiisenabled = False
+
+    lanechanging = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechanging&#34;, True)
+    lanechangingspeed = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;)
+    if lanechangingspeed == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;, 1)
+        lanechangingspeed = 1
+    lanewidth = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;)
+    if lanewidth == None:
+        settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;, 10)
+        lanewidth = 1
+    lanewidth = round(lanewidth, 2)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.onDisable"><code class="name flex">
+<span>def <span class="ident">onDisable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onDisable():
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.onEnable"><code class="name flex">
+<span>def <span class="ident">onEnable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onEnable():
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.plugin"><code class="name flex">
+<span>def <span class="ident">plugin</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plugin(data):
+    global timerforturnincoming
+    global turnincdirec
+    global white_limit
+    global getnavcoordinates
+    global navcoordsarezero
+    global trafficlightdetectionisenabled
+    global trucksimapiisenabled
+
+    global currentlane
+    global lastblinker
+    global currentoffsetsteeringvalue
+    global lanechangingspeed
+    global lanechanging
+    global lanewidth
+
+    global avg_lanewidth
+    global avg_lanewidth_counter
+    global avg_lanewidth_value
+
+    global disableshowimagelater
+
+    if getnavcoordinates == True or navcoordsarezero == True:
+
+        
+        try:
+            frame = data[&#34;frame&#34;]
+            width = frame.shape[1]
+            height = frame.shape[0]
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
+        except:
+            return data 
+        
+
+        mousex, mousey = mouse.get_position()
+        circlex = mousex - min_x
+        circley = mousey - min_y
+        if circlex &gt; 5 and circlex &lt; width-5 and circley &gt; 5 and circley &lt; height-5:
+            cv2.circle(frame, (circlex,circley), round(width/40), (40,130,210), 2)
+        else:
+
+            vector_mousetocenter_x = round((min_x + width/2) - mousex)
+            vector_mousetocenter_y = round((min_y + height/2) - mousey)
+
+            original_length = math.sqrt(vector_mousetocenter_x**2 + vector_mousetocenter_y**2)
+
+            vector_mousetocenter_x = round((vector_mousetocenter_x / original_length) * width*1.5)
+            vector_mousetocenter_y = round((vector_mousetocenter_y / original_length) * width*1.5)
+
+            scaled_length = original_length / 2
+
+            angle_degrees = 45
+
+            angle_radians = math.radians(angle_degrees)
+
+            x_scaled = (vector_mousetocenter_x / original_length) * scaled_length
+            y_scaled = (vector_mousetocenter_y / original_length) * scaled_length
+
+            x_counterclockwise = x_scaled * math.cos(angle_radians) - y_scaled * math.sin(angle_radians)
+            y_counterclockwise = x_scaled * math.sin(angle_radians) + y_scaled * math.cos(angle_radians)
+
+            x_clockwise = x_scaled * math.cos(-angle_radians) - y_scaled * math.sin(-angle_radians)
+            y_clockwise = x_scaled * math.sin(-angle_radians) + y_scaled * math.cos(-angle_radians)
+
+            cv2.line(frame, (round(width/2 - x_counterclockwise/10), round(height/1.5 - y_counterclockwise/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.line(frame, (round(width/2 - x_clockwise/10), round(height/1.5 - y_clockwise/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.line(frame, (round(width/2 - vector_mousetocenter_x/10), round(height/1.5 - vector_mousetocenter_y/10)), (round(width/2), round(height/1.5)), (156,0,91), 2, cv2.LINE_AA)
+            cv2.putText(frame, &#34;move your mouse in the&#34;, (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (156,0,91), 2)
+            cv2.putText(frame, &#34;direction the arrow shows&#34;, (5, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (156,0,91), 2)
+            
+
+        if mouse.is_pressed(button=&#34;left&#34;) == True and circlex &gt; 5 and circlex &lt; width-5 and circley &gt; 5 and circley &lt; height-5:
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;, circlex)    
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;, circley)
+            
+            if disableshowimagelater == True:
+                settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+
+                if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                    DefaultSteering.enabled = True
+                    variables.ENABLELOOP = False
+                    disableshowimagelater = False
+                    getnavcoordinates = False
+                    navcoordsarezero = False
+            else:
+                DefaultSteering.enabled = True
+                variables.ENABLELOOP = False
+                disableshowimagelater = False
+                getnavcoordinates = False
+                navcoordsarezero = False
+
+
+        data[&#34;frame&#34;] = frame
+
+    else:
+
+        start_time = time.time()
+        
+        try:
+            frame = data[&#34;frame&#34;]
+        except:
+            return data
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
+        try:
+            width = frame.shape[1]
+            height = frame.shape[0]
+            min_x = settings.GetSettings(&#34;bettercam&#34;, &#34;x&#34;)
+            min_y = settings.GetSettings(&#34;bettercam&#34;, &#34;y&#34;)
+        except:
+            return data
+        
+        try:
+            gamepaused = data[&#34;api&#34;][&#34;pause&#34;]
+        except:
+            gamepaused = False
+
+        lower_red = np.array([160, 0, 0])
+        upper_red = np.array([255, 110, 110])
+        lower_green = np.array([0, 200, 0])
+        upper_green = np.array([150, 255, 230])
+
+        mask_red = cv2.inRange(frame, lower_red, upper_red)
+        mask_green = cv2.inRange(frame, lower_green, upper_green)
+
+        filtered_frame_red_green = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
+
+        cv2.rectangle(filtered_frame_red_green, (0,0), (round((width/6)),round((height/3))),(0,0,0),-1)
+
+        filtered_frame_bw = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2GRAY)
+
+        filtered_frame_bw = cv2.GaussianBlur(filtered_frame_bw,(3,3),0)
+
+
+        #get the left and right x coordinates
+        def GetArrayOfLaneEdges(y_coordinate_of_lane_detection):
+            detectingLane = False
+            laneEdges = []
+            
+            for x in range(0, int(width)):
+                pixel = filtered_frame_bw[y_coordinate_of_lane_detection, x]
+                pixel = (pixel, pixel, pixel)
+                if (white_limit[0] &lt;= pixel[0]):
+                    
+                    if not detectingLane:
+                        detectingLane = True
+                        laneEdges.append(x)
+                else:
+                    if detectingLane:
+                        detectingLane = False
+                        laneEdges.append(x)
+
+            if len(laneEdges) &lt; 2:
+                laneEdges.append(width)
+
+            return laneEdges
+        
+        circley = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymboly&#34;)
+        circlex = settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;navsymbolx&#34;)
+        y_coordinate_turnincdetec = round(circley / 4)
+        y_coordinate_lane = round(circley / 1.4)
+        automaticxoffset = round(width/2-circlex)
+
+        if trafficlightdetectionisenabled == True:
+            try:
+                trafficlight = data[&#34;TrafficLightDetection&#34;]
+            except:
+                trafficlightdetectionisenabled = False
+                trafficlight = &#34;Off&#34;
+        else:
+            trafficlight = &#34;Off&#34;
+
+        if circley != None:        
+            lanes = GetArrayOfLaneEdges(y_coordinate_turnincdetec)
+            if automaticlaneselection == True:
+                try:
+                    closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - circlex))
+                    left_x_turnincdetec, right_x_turnincdetec = closest_x_pair
+                except:
+                    if leftsidetraffic == False:
+                        left_x_turnincdetec = lanes[len(lanes)-2]
+                        right_x_turnincdetec = lanes[len(lanes)-1]
+                    else:
+                        try:
+                            left_x_turnincdetec = lanes[len(lanes)-4]
+                            right_x_turnincdetec = lanes[len(lanes)-3]
+                        except:
+                            left_x_turnincdetec = lanes[len(lanes)-2]
+                            right_x_turnincdetec = lanes[len(lanes)-1]
+            else:
+                if leftsidetraffic == False:
+                    left_x_turnincdetec = lanes[len(lanes)-2]
+                    right_x_turnincdetec = lanes[len(lanes)-1]
+                else:
+                    try:
+                        left_x_turnincdetec = lanes[len(lanes)-4]
+                        right_x_turnincdetec = lanes[len(lanes)-3]
+                    except:
+                        left_x_turnincdetec = lanes[len(lanes)-2]
+                        right_x_turnincdetec = lanes[len(lanes)-1]
+            cv2.line(filtered_frame_bw, (left_x_turnincdetec,y_coordinate_turnincdetec), (right_x_turnincdetec,y_coordinate_turnincdetec), (255,255,255),1)
+
+            lanes = GetArrayOfLaneEdges(y_coordinate_lane)
+            if automaticlaneselection == True:
+                try:
+                    closest_x_pair = min([(left_x, right_x) for left_x, right_x in zip(lanes[::2], lanes[1::2])], key=lambda pair: abs((pair[0] + pair[1]) / 2 - circlex))
+                    left_x_lane, right_x_lane = closest_x_pair
+                except:
+                    if leftsidetraffic == False:
+                        left_x_lane = lanes[len(lanes)-2]
+                        right_x_lane = lanes[len(lanes)-1]
+                    else:
+                        try:
+                            left_x_lane = lanes[len(lanes)-4]
+                            right_x_lane = lanes[len(lanes)-3]
+                        except:
+                            left_x_lane = lanes[len(lanes)-2]
+                            right_x_lane = lanes[len(lanes)-1]
+            else:
+                if leftsidetraffic == False:
+                    left_x_lane = lanes[len(lanes)-2]
+                    right_x_lane = lanes[len(lanes)-1]
+                else:
+                    try:
+                        left_x_lane = lanes[len(lanes)-4]
+                        right_x_lane = lanes[len(lanes)-3]
+                    except:
+                        left_x_lane = lanes[len(lanes)-2]
+                        right_x_lane = lanes[len(lanes)-1]
+            cv2.line(filtered_frame_bw, (left_x_lane,y_coordinate_lane), (right_x_lane,y_coordinate_lane), (255,255,255),1)
+
+            if left_x_lane == 0:
+                left_x_lane = 1
+            if left_x_turnincdetec == 0:
+                left_x_turnincdetec = 1
+
+            lane_width = right_x_lane - left_x_lane
+        
+            lane_width_turnincdetec = right_x_turnincdetec - left_x_turnincdetec
+
+            if lane_width_turnincdetec &gt; width/5:
+                timerforturnincoming = time.time()
+                currentlane = 0
+                if width/2 - left_x_turnincdetec &gt; right_x_turnincdetec - width/2:
+                    turnincdirec = &#34;Left&#34;
+                else:
+                    turnincdirec = &#34;Right&#34;
+
+            if start_time - timerforturnincoming &lt; 20:
+                turnincoming = True
+            else:
+                turnincoming = False
+
+            if DefaultSteering.enabled == False:
+                timerforturnincoming = time.time()-21
+                turnincoming = False
+
+            if trafficlight == &#34;Red&#34;:
+                if turnincoming == True:
+                    timerforturnincoming = time.time() - 10
+
+            if turnincoming == False and lane_width != 0:
+                avg_lanewidth_counter += 1
+                avg_lanewidth_value += lane_width
+                avg_lanewidth = avg_lanewidth_value/avg_lanewidth_counter
+            
+            if turnincoming == False:
+                center_x = (left_x_lane + right_x_lane) / 2 if left_x_lane and right_x_lane is not None else None
+            else:
+                if turnincdirec == &#34;Right&#34;:
+                    center_x = left_x_lane + avg_lanewidth/2
+                else:
+                    center_x = right_x_lane - avg_lanewidth/2
+        
+            center_x_turnincdetec = (left_x_turnincdetec + right_x_turnincdetec) / 2 if left_x_turnincdetec and right_x_turnincdetec is not None else None
+            
+
+        if lane_width &gt; width/5: ######################################################### change the minimum lane width
+            if width/2 - left_x_lane &gt; right_x_lane - width/2:
+                turn = &#34;Left&#34;
+                timerforturnincoming = time.time() - 17
+            else:
+                turn = &#34;Right&#34;
+                timerforturnincoming = time.time() - 17
+        else:
+            turn = &#34;none&#34;
+
+        if lanechanging == True:
+            if trucksimapiisenabled == True:
+                try:
+                    IndicatingLeft = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;]
+                    IndicatingRight = data[&#34;api&#34;][&#34;truckBool&#34;][&#34;blinkerRightActive&#34;]
+                except:
+                    trucksimapiisenabled = False
+            
+                if IndicatingLeft == True and lastblinker != &#34;left&#34;:
+                    currentlane += 1
+                    lastblinker = &#34;left&#34;
+
+                if IndicatingRight == True and lastblinker != &#34;right&#34;:
+                    currentlane -= 1
+                    lastblinker = &#34;right&#34;
+
+                if IndicatingLeft == False and IndicatingRight == False:
+                    lastblinker = None
+
+                targetoffsetsteeringvalue = round(lanewidth * currentlane, 2)
+                
+                lanecorrection = targetoffsetsteeringvalue - currentoffsetsteeringvalue
+                if abs(lanecorrection) &gt; lanechangingspeed/10:
+                    if lanecorrection &gt; 0:
+                        lanecorrection = lanechangingspeed/10
+                    else:
+                        lanecorrection = -lanechangingspeed/10
+
+                currentoffsetsteeringvalue += lanecorrection
+        
+
+        if center_x != width and center_x is not None and gamepaused == False:
+            curve = round((center_x - center_x_turnincdetec)/30 * curvemultip, 3)
+            if turn != &#34;none&#34; or turnincoming == True or center_x_turnincdetec == width:
+                curve = 0
+            distancetocenter = round((width/2-center_x)-curve-automaticxoffset + currentoffsetsteeringvalue, 3) - offset
+            lanedetected = &#34;Yes&#34;
+        else:
+            lanedetected = &#34;No&#34;
+            distancetocenter = 0
+            curve = 0
+            center_x = round(width/2)
+            center_x_turnincdetec = round(width/2)
+        
+        correction = distancetocenter * sensitivity
+
+        data[&#34;LaneDetection&#34;] = {}
+        data[&#34;LaneDetection&#34;][&#34;difference&#34;] = -correction/15
+
+        correction = round(correction, 3)
+
+        data[&#34;NavigationDetectionV2&#34;] = {}
+        data[&#34;NavigationDetectionV2&#34;][&#34;turnincoming&#34;] = turnincoming
+
+        if turn != &#34;none&#34; or turnincoming == True or center_x_turnincdetec == width:
+            data[&#34;NavigationDetectionV2&#34;][&#34;curve&#34;] = correction / 5
+        else:
+            data[&#34;NavigationDetectionV2&#34;][&#34;curve&#34;] = (center_x - center_x_turnincdetec)/30 
+
+        data[&#34;NavigationDetectionV2&#34;][&#34;lane&#34;] = currentlane
+        data[&#34;NavigationDetectionV2&#34;][&#34;laneoffsetpercent&#34;] = currentoffsetsteeringvalue/lanewidth
+
+        filtered_frame_red_green = cv2.cvtColor(filtered_frame_red_green, cv2.COLOR_BGR2RGB)
+ 
+        if textsize != 0:      
+            cv2.putText(filtered_frame_bw, f&#34;lanedetected: {lanedetected}&#34;, (round(10*textdistancescale), round(20*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;curve: {curve}&#34;, (round(10*textdistancescale), round(40*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;correction: {correction}&#34;, (round(10*textdistancescale), round(60*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;turninc: {turnincoming}&#34;, (round(10*textdistancescale), round(80*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;turn: {turn}&#34;, (round(10*textdistancescale), round(100*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;lane: {currentlane}&#34;, (round(10*textdistancescale), round(120*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(filtered_frame_bw, f&#34;trafficlight: {trafficlight}&#34;, (round(10*textdistancescale), round(140*textdistancescale)+30), cv2.FONT_HERSHEY_SIMPLEX, textsize, (255, 255, 255), 1, cv2.LINE_AA)
+
+        data[&#34;frame&#34;] = filtered_frame_bw
+        
+    return data</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+            resizeWindow(950,750)        
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        def UpdateSettings(self):
+            self.curvemultip.set(self.curvemultipSlider.get())
+            self.sensitivity.set(self.sensitivitySlider.get())
+            self.offset.set(self.offsetSlider.get())
+            self.textsize.set(self.textsizeSlider.get())
+            self.textdistancescale.set(self.textdistancescaleSlider.get())
+            
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;, self.curvemultipSlider.get())
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;, self.sensitivitySlider.get())
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;, self.offsetSlider.get())
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;, self.textsizeSlider.get())
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;, self.textdistancescaleSlider.get())
+            LoadSettings()
+        
+        def tabFocused(self): # Called when the tab is focused
+            resizeWindow(950,750)
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=750, height=750, border=0, highlightthickness=0)
+            self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            self.curvemultipSlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.curvemultipSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;))
+            self.curvemultipSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
+            self.curvemultip = helpers.MakeComboEntry(self.root, &#34;Curvemultip&#34;, &#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;, 1,0)
+            
+            self.sensitivitySlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.sensitivitySlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;))
+            self.sensitivitySlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
+            self.sensitivity = helpers.MakeComboEntry(self.root, &#34;Sensitivity&#34;, &#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;, 3,0)
+
+            self.offsetSlider = tk.Scale(self.root, from_=-20, to=20, resolution=0.1, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.offsetSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;))
+            self.offsetSlider.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
+            self.offset = helpers.MakeComboEntry(self.root, &#34;Offset&#34;, &#34;NavigationDetectionV2&#34;, &#34;offset&#34;, 5,0)
+
+            self.textsizeSlider = tk.Scale(self.root, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.textsizeSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;))
+            self.textsizeSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
+            self.textsize = helpers.MakeComboEntry(self.root, &#34;Textsize&#34;, &#34;NavigationDetectionV2&#34;, &#34;textsize&#34;, 7,0)
+            
+            self.textdistancescaleSlider = tk.Scale(self.root, from_=0.1, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+            self.textdistancescaleSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;))
+            self.textdistancescaleSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
+            self.textdistancescale = helpers.MakeComboEntry(self.root, &#34;Textspacescale&#34;, &#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;, 9,0)
+            
+            helpers.MakeEmptyLine(self.root, 10, 0)
+            helpers.MakeCheckButton(self.root, &#34;Lane Changing&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanechanging&#34;, 11, 0, callback=lambda: LoadSettings())
+            helpers.MakeLabel(self.root, &#34;If activated, you can change the lane you are driving on using the indicators&#34;, 11, 1)
+            self.lanechangingspeed = helpers.MakeComboEntry(self.root, &#34;Lane Changing Speed&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;, 12, 0, labelwidth=20, isFloat=True)
+            self.lanewidth = helpers.MakeComboEntry(self.root, &#34;Lane Width&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;, 13, 0, labelwidth=20, isFloat=True)
+            helpers.MakeButton(self.root, &#34;Save Lane Settings&#34;, self.save, 12, 2, pady=0, padx=0, width=16)
+
+            def setnavcordstrue():
+                global getnavcoordinates
+                global disableshowimagelater
+                getnavcoordinates = True
+                if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+                    disableshowimagelater = True
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+                DefaultSteering.enabled = False
+                variables.ENABLELOOP = True
+
+            helpers.MakeButton(self.root, &#34;Grab Coordinates&#34;, setnavcordstrue, 14, 2, pady=20, padx=5)
+
+            helpers.MakeCheckButton(self.root, &#34;Left-hand traffic&#34;, &#34;NavigationDetectionV2&#34;, &#34;leftsidetraffic&#34;, 14, 1, callback=lambda: LoadSettings())
+
+            helpers.MakeCheckButton(self.root, &#34;Automatic lane&#34;, &#34;NavigationDetectionV2&#34;, &#34;automaticlaneselection&#34;, 14, 0, callback=lambda: LoadSettings())
+
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+
+        def save(self):
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;, float(self.lanechangingspeed.get()))
+            settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;, float(self.lanewidth.get()))
+            
+            LoadSettings()
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.UpdateSettings"><code class="name flex">
+<span>def <span class="ident">UpdateSettings</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateSettings(self):
+    self.curvemultip.set(self.curvemultipSlider.get())
+    self.sensitivity.set(self.sensitivitySlider.get())
+    self.offset.set(self.offsetSlider.get())
+    self.textsize.set(self.textsizeSlider.get())
+    self.textdistancescale.set(self.textdistancescaleSlider.get())
+    
+    settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;, self.curvemultipSlider.get())
+    settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;, self.sensitivitySlider.get())
+    settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;, self.offsetSlider.get())
+    settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;, self.textsizeSlider.get())
+    settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;, self.textdistancescaleSlider.get())
+    LoadSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.exampleFunction"><code class="name flex">
+<span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exampleFunction(self):
+    
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=750, height=750, border=0, highlightthickness=0)
+    self.root.grid_propagate(1) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+    
+    self.curvemultipSlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+    self.curvemultipSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;))
+    self.curvemultipSlider.grid(row=0, column=1, padx=10, pady=0, columnspan=2)
+    self.curvemultip = helpers.MakeComboEntry(self.root, &#34;Curvemultip&#34;, &#34;NavigationDetectionV2&#34;, &#34;curvemultip&#34;, 1,0)
+    
+    self.sensitivitySlider = tk.Scale(self.root, from_=0.01, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+    self.sensitivitySlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;))
+    self.sensitivitySlider.grid(row=2, column=1, padx=10, pady=0, columnspan=2)
+    self.sensitivity = helpers.MakeComboEntry(self.root, &#34;Sensitivity&#34;, &#34;NavigationDetectionV2&#34;, &#34;sensitivity&#34;, 3,0)
+
+    self.offsetSlider = tk.Scale(self.root, from_=-20, to=20, resolution=0.1, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+    self.offsetSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;offset&#34;))
+    self.offsetSlider.grid(row=4, column=1, padx=10, pady=0, columnspan=2)
+    self.offset = helpers.MakeComboEntry(self.root, &#34;Offset&#34;, &#34;NavigationDetectionV2&#34;, &#34;offset&#34;, 5,0)
+
+    self.textsizeSlider = tk.Scale(self.root, from_=0, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+    self.textsizeSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textsize&#34;))
+    self.textsizeSlider.grid(row=6, column=1, padx=10, pady=0, columnspan=2)
+    self.textsize = helpers.MakeComboEntry(self.root, &#34;Textsize&#34;, &#34;NavigationDetectionV2&#34;, &#34;textsize&#34;, 7,0)
+    
+    self.textdistancescaleSlider = tk.Scale(self.root, from_=0.1, to=5, resolution=0.01, orient=tk.HORIZONTAL, length=600, command=lambda x: self.UpdateSettings())
+    self.textdistancescaleSlider.set(settings.GetSettings(&#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;))
+    self.textdistancescaleSlider.grid(row=8, column=1, padx=10, pady=0, columnspan=2)
+    self.textdistancescale = helpers.MakeComboEntry(self.root, &#34;Textspacescale&#34;, &#34;NavigationDetectionV2&#34;, &#34;textdistancescale&#34;, 9,0)
+    
+    helpers.MakeEmptyLine(self.root, 10, 0)
+    helpers.MakeCheckButton(self.root, &#34;Lane Changing&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanechanging&#34;, 11, 0, callback=lambda: LoadSettings())
+    helpers.MakeLabel(self.root, &#34;If activated, you can change the lane you are driving on using the indicators&#34;, 11, 1)
+    self.lanechangingspeed = helpers.MakeComboEntry(self.root, &#34;Lane Changing Speed&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;, 12, 0, labelwidth=20, isFloat=True)
+    self.lanewidth = helpers.MakeComboEntry(self.root, &#34;Lane Width&#34;, &#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;, 13, 0, labelwidth=20, isFloat=True)
+    helpers.MakeButton(self.root, &#34;Save Lane Settings&#34;, self.save, 12, 2, pady=0, padx=0, width=16)
+
+    def setnavcordstrue():
+        global getnavcoordinates
+        global disableshowimagelater
+        getnavcoordinates = True
+        if &#34;ShowImage&#34; not in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            disableshowimagelater = True
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;ShowImage&#34;)
+        DefaultSteering.enabled = False
+        variables.ENABLELOOP = True
+
+    helpers.MakeButton(self.root, &#34;Grab Coordinates&#34;, setnavcordstrue, 14, 2, pady=20, padx=5)
+
+    helpers.MakeCheckButton(self.root, &#34;Left-hand traffic&#34;, &#34;NavigationDetectionV2&#34;, &#34;leftsidetraffic&#34;, 14, 1, callback=lambda: LoadSettings())
+
+    helpers.MakeCheckButton(self.root, &#34;Automatic lane&#34;, &#34;NavigationDetectionV2&#34;, &#34;automaticlaneselection&#34;, 14, 0, callback=lambda: LoadSettings())
+
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.save"><code class="name flex">
+<span>def <span class="ident">save</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save(self):
+    settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanechangingspeed&#34;, float(self.lanechangingspeed.get()))
+    settings.CreateSettings(&#34;NavigationDetectionV2&#34;, &#34;lanewidth&#34;, float(self.lanewidth.get()))
+    
+    LoadSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.tabFocused"><code class="name flex">
+<span>def <span class="ident">tabFocused</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tabFocused(self): # Called when the tab is focused
+    resizeWindow(950,750)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.LoadSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.LoadSettings">LoadSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.onDisable">onDisable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.onEnable">onEnable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.plugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.plugin">plugin</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI">UI</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.UpdateSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.UpdateSettings">UpdateSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.save" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.save">save</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.tabFocused" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.tabFocused">tabFocused</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.NavigationDetectionV2.main.UI.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

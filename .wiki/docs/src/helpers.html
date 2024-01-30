@@ -1,0 +1,1395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.src.helpers API documentation</title>
+<meta name="description" content="Provides helper functions for plugins, mainly to create consistent UI." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.helpers</code></h1>
+</header>
+<section id="section-intro">
+<p>Provides helper functions for plugins, mainly to create consistent UI.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Provides helper functions for plugins, mainly to create consistent UI.&#34;&#34;&#34;
+from tkinter import ttk
+import tkinter as tk
+import src.settings as settings
+import src.translator as translator
+import webview
+import webbrowser
+from tktooltip import ToolTip
+
+lastRow = 0
+lastParent = None
+defaultAutoplaceColumn = 0
+&#34;&#34;&#34;Use this value to set the default column (what column means a new line) for the autoplace function. The value will get reset once a new parent is used.&#34;&#34;&#34;
+def Autoplace(parent, row:int, column:int):
+    &#34;&#34;&#34;Will automatically determine the row the next element should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Args:
+        parent (tkObject): The parent object of the element.
+    
+    Returns:
+        int: The row the next element should be placed on.
+    &#34;&#34;&#34;
+    global lastRow
+    global lastParent
+    global defaultAutoplaceColumn
+    
+    if lastParent != parent:
+        lastRow = 0
+        defaultAutoplaceColumn = 0
+        lastParent = parent
+    else:
+        if column == defaultAutoplaceColumn:
+            lastRow += 1
+        
+    return lastRow
+        
+
+def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;, tooltip=&#34;&#34;, autoplace:bool=False):
+    &#34;&#34;&#34;Will create a new standard button with the given parameters.
+
+    Args:
+        parent (tkObject): The parent object of the button.
+        text (str): The text that will be displayed on the button.
+        command (lambda): The command that will be executed when the button is pressed.
+        row (int): The row of the button.
+        column (int): The column of the button.
+        style (str, optional): You can use different tk styles here. Defaults to &#34;TButton&#34;.
+        width (int, optional): Defaults to 15.
+        center (bool, optional): Defaults to False.
+        padx (int, optional): Defaults to 5.
+        pady (int, optional): Defaults to 10.
+        state (str, optional): Defaults to &#34;!disabled&#34;.
+        columnspan (int, optional): How many columns the button will span over. Defaults to 1.
+        rowspan (int, optional): How many rows the button will span over. Defaults to 1.
+        translate (bool, optional): Whether to translate the text or not. Defaults to True.
+        sticky (str, optional): Defaults to &#34;n&#34;.
+        tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Returns:
+        ttk.button: The button object we created.
+    &#34;&#34;&#34;
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    if translate:
+        text = translator.Translate(text)
+    
+    button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
+    if not center:
+        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, rowspan=rowspan, sticky=sticky)
+    else:
+        button.grid(row=row, column=column, padx=padx, pady=pady, sticky=&#34;n&#34;, columnspan=columnspan, rowspan=rowspan)
+        
+    if tooltip != &#34;&#34;:
+        ToolTip(button, msg=tooltip)
+        
+    return button
+
+    
+def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=&#34;&#34;, autoplace:bool=False):
+    &#34;&#34;&#34;Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)
+
+    Args:
+        parent (tkObject): The parent object of the checkbutton.
+        text (str): The text that will be displayed on the checkbutton.
+        category (str): The json category of the setting.
+        setting (str): The json setting.
+        row (int): The row of the checkbutton.
+        column (int): The column of the checkbutton.
+        width (int, optional): Defaults to 17.
+        values (list, optional): Set custom values to save when the button is on or off. Defaults to [True, False].
+        onlyTrue (bool, optional): Only save the value when it&#39;s true. Defaults to False.
+        onlyFalse (bool, optional): Only save the value when it&#39;s false. Defaults to False.
+        default (bool, optional): The default value. Defaults to False.
+        translate (bool, optional): Whether to translate the text or not. Defaults to True.
+        columnspan (int, optional): How many columns the checkbutton will span over. Defaults to 1.
+        callback (lambda, optional): Lambda callback. Defaults to None.
+        tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Returns:
+        tk.BooleanVar: The boolean variable of the checkbutton. (use .get() to get the value)
+    &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    if translate:
+        text = translator.Translate(text)
+    
+    variable = tk.BooleanVar()
+    value = settings.GetSettings(category, setting)
+    
+    if value == None:
+        value = default
+        settings.CreateSettings(category, setting, value)
+        variable.set(value)
+    else:
+        variable.set(value)
+    
+    if onlyTrue:
+        if callback != None:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0])
+                callback()
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0])
+                
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed() if variable.get() else None, width=width)
+    elif onlyFalse:
+        if callback != None:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[1])
+                callback()
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[1])
+        
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed() if not variable.get() else None, width=width)
+    else:
+        if callback != None:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0] if variable.get() else values[1])
+                callback()
+                
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0] if variable.get() else values[1])
+                
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed(), width=width)
+    
+    button.grid(row=row, column=column, padx=0, pady=7, sticky=&#34;w&#34;, columnspan=columnspan)
+    
+    if tooltip != &#34;&#34;:
+        ToolTip(button, msg=tooltip)
+    
+    return variable
+
+
+def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10, tooltip=&#34;&#34;, autoplace:bool=False):
+    &#34;&#34;&#34;Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)
+
+    Args:
+        parent (tkObject): The parent object of the combo entry.
+        text (str): The text that will be displayed on the combo entry.
+        category (str): The json category of the setting.
+        setting (str): The json setting.
+        row (str): The row of the combo entry.
+        column (str): The column of the combo entry.
+        width (int, optional): Defaults to 10.
+        labelwidth (int, optional): The width of the label (text). Defaults to 15.
+        isFloat (bool, optional): If the entry output should be a float. Defaults to False.
+        isString (bool, optional): If the entry output should be a string. Defaults to False.
+        value (str, optional): The default value. Defaults to &#34;&#34;.
+        sticky (str, optional): Defaults to &#34;w&#34;.
+        labelSticky (str, optional): Defaults to &#34;w&#34;.
+        translate (bool, optional): Whether to translate the text or not. Defaults to True.
+        labelPadX (int, optional): Defaults to 10.
+        tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the entry should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Returns:
+        tk.Var: The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)
+    &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    if translate:
+        text = translator.Translate(text)
+    
+    label = ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
+    if tooltip != &#34;&#34;: 
+        ToolTip(label, msg=tooltip)
+    
+    if not isFloat and not isString:
+        var = tk.IntVar()
+        
+        setting = settings.GetSettings(category, setting)
+        if setting == None:
+            var.set(value)
+            settings.CreateSettings(category, setting, value)
+        else:
+            var.set(setting)
+            
+    elif isString:
+        var = tk.StringVar()
+        
+        setting = settings.GetSettings(category, setting)
+        if setting == None:
+            var.set(value)
+            settings.CreateSettings(category, setting, value)
+        else:
+            var.set(setting)
+            
+    else:
+        var = tk.DoubleVar()
+        
+        setting = settings.GetSettings(category, setting)
+        if setting == None:
+            var.set(value)
+            settings.CreateSettings(category, setting, value)
+        else:
+            var.set(setting)
+            
+    entry = ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
+    
+    if tooltip != &#34;&#34;:
+        ToolTip(entry, msg=tooltip)
+    
+    return var
+
+def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True, tooltip=&#34;&#34;, autoplace:bool=False):
+    &#34;&#34;&#34;Will make a label with the given parameters.
+
+    Args:
+        parent (tkObject): The parent object of the label.
+        text (str): The text that will be displayed on the label.
+        row (int): The row of the label.
+        column (int): The column of the label.
+        font (tuple, optional): Defaults to (&#34;Segoe UI&#34;, 10).
+        pady (int, optional): Defaults to 7.
+        padx (int, optional): Defaults to 7.
+        columnspan (int, optional): Will span the label over a number of columns. Defaults to 1.
+        sticky (str, optional): Defaults to &#34;n&#34;.
+        fg (str, optional): Foreground color. Defaults to &#34;&#34;.
+        bg (str, optional): Background color. Defaults to &#34;&#34;.
+        translate (bool, optional): Whether to translate the label or not. Defaults to True.
+        tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the label should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Returns:
+        tk.StringVar / ttk.Label: Depending on whether the text input is &#34;&#34; or not.
+    &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    if translate:
+        text = translator.Translate(text)
+    
+    if text == &#34;&#34;:
+        var = tk.StringVar()
+        var.set(text)
+        
+        if fg != &#34;&#34; and bg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg)
+        elif fg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, textvariable=var, foreground=fg)
+        elif bg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg)
+        else: 
+            label = ttk.Label(parent, font=font, textvariable=var)
+            
+        label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != &#34;&#34;:
+            ToolTip(label, msg=tooltip)
+            
+        return var
+    else:
+        if fg != &#34;&#34; and bg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, text=text, background=bg, foreground=fg)
+        elif fg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, text=text, foreground=fg)
+        elif bg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, text=text, background=bg)
+        else:
+            label = ttk.Label(parent, font=font, text=text)
+        label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != &#34;&#34;:
+            ToolTip(label, msg=tooltip)
+        
+        return label
+        
+
+def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, autoplace:bool=False):
+    &#34;&#34;&#34;Will create an empty line with the given parameters.
+
+    Args:
+        parent (tkObject): The parent object of the empty line.
+        row (int): The row of the empty line.
+        column (int): The column of the empty line.
+        columnspan (int, optional): The number of columns to span the empty line over. Defaults to 1.
+        pady (int, optional): Defaults to 7.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
+    &#34;&#34;&#34;
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    ttk.Label(parent, text=&#34;&#34;).grid(row=row, column=column, columnspan=columnspan, pady=pady)
+        
+
+def OpenWebView(title:str, urlOrFile:str, width:int=900, height:int=700):
+    &#34;&#34;&#34;Will open a webview window with the given parameters.
+
+    Args:
+        title (str): The window title.
+        urlOrFile (str): A URL / File path.
+        width (int, optional): Defaults to 900.
+        height (int, optional): Defaults to 700.
+    &#34;&#34;&#34;
+    webview.create_window(title, urlOrFile, width=width, height=height)
+    webview.start()
+
+def OpenInBrowser(url:str):
+    &#34;&#34;&#34;Will open the given URL in the default browser.
+
+    Args:
+        url (str)
+    &#34;&#34;&#34;
+    webbrowser.open(url)
+
+def ConvertCapitalizationToSpaces(text:str):
+    &#34;&#34;&#34;Standard way to convert capitalization to spaces.
+
+    Args:
+        text (str): Input text.
+
+    Returns:
+        str: Output text with spaces.
+    &#34;&#34;&#34;
+    newText = &#34;&#34;
+    for i in range(len(text)):
+        char = text[i]
+        nextChar = text[i+1] if i+1 &lt; len(text) else &#34;&#34;
+        
+        if char.isupper() and nextChar.islower() and i != 0:
+            newText += &#34; &#34; + char
+        else:
+            newText += char
+            
+    return newText</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.defaultAutoplaceColumn"><code class="name">var <span class="ident">defaultAutoplaceColumn</span></code></dt>
+<dd>
+<div class="desc"><p>Use this value to set the default column (what column means a new line) for the autoplace function. The value will get reset once a new parent is used.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.Autoplace"><code class="name flex">
+<span>def <span class="ident">Autoplace</span></span>(<span>parent, row: int, column: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will automatically determine the row the next element should be placed on. You can still use the column option freely, but row will be ignored.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent</code></strong> :&ensp;<code>tkObject</code></dt>
+<dd>The parent object of the element.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The row the next element should be placed on.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Autoplace(parent, row:int, column:int):
+    &#34;&#34;&#34;Will automatically determine the row the next element should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Args:
+        parent (tkObject): The parent object of the element.
+    
+    Returns:
+        int: The row the next element should be placed on.
+    &#34;&#34;&#34;
+    global lastRow
+    global lastParent
+    global defaultAutoplaceColumn
+    
+    if lastParent != parent:
+        lastRow = 0
+        defaultAutoplaceColumn = 0
+        lastParent = parent
+    else:
+        if column == defaultAutoplaceColumn:
+            lastRow += 1
+        
+    return lastRow</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.ConvertCapitalizationToSpaces"><code class="name flex">
+<span>def <span class="ident">ConvertCapitalizationToSpaces</span></span>(<span>text: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Standard way to convert capitalization to spaces.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>text</code></strong> :&ensp;<code>str</code></dt>
+<dd>Input text.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Output text with spaces.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ConvertCapitalizationToSpaces(text:str):
+    &#34;&#34;&#34;Standard way to convert capitalization to spaces.
+
+    Args:
+        text (str): Input text.
+
+    Returns:
+        str: Output text with spaces.
+    &#34;&#34;&#34;
+    newText = &#34;&#34;
+    for i in range(len(text)):
+        char = text[i]
+        nextChar = text[i+1] if i+1 &lt; len(text) else &#34;&#34;
+        
+        if char.isupper() and nextChar.islower() and i != 0:
+            newText += &#34; &#34; + char
+        else:
+            newText += char
+            
+    return newText</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeButton"><code class="name flex">
+<span>def <span class="ident">MakeButton</span></span>(<span>parent, text: str, command, row: int, column: int, style: str = 'TButton', width: int = 15, center: bool = False, padx: int = 5, pady: int = 10, state: str = '!disabled', columnspan: int = 1, rowspan: int = 1, translate: bool = True, sticky: str = 'n', tooltip='', autoplace: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will create a new standard button with the given parameters.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent</code></strong> :&ensp;<code>tkObject</code></dt>
+<dd>The parent object of the button.</dd>
+<dt><strong><code>text</code></strong> :&ensp;<code>str</code></dt>
+<dd>The text that will be displayed on the button.</dd>
+<dt><strong><code>command</code></strong> :&ensp;<code>lambda</code></dt>
+<dd>The command that will be executed when the button is pressed.</dd>
+<dt><strong><code>row</code></strong> :&ensp;<code>int</code></dt>
+<dd>The row of the button.</dd>
+<dt><strong><code>column</code></strong> :&ensp;<code>int</code></dt>
+<dd>The column of the button.</dd>
+<dt><strong><code>style</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>You can use different tk styles here. Defaults to "TButton".</dd>
+<dt><strong><code>width</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 15.</dd>
+<dt><strong><code>center</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False.</dd>
+<dt><strong><code>padx</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 5.</dd>
+<dt><strong><code>pady</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 10.</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "!disabled".</dd>
+<dt><strong><code>columnspan</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>How many columns the button will span over. Defaults to 1.</dd>
+<dt><strong><code>rowspan</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>How many rows the button will span over. Defaults to 1.</dd>
+<dt><strong><code>translate</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to translate the text or not. Defaults to True.</dd>
+<dt><strong><code>sticky</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "n".</dd>
+<dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "".</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ttk.button</code></dt>
+<dd>The button object we created.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MakeButton(parent, text:str, command, row:int, column:int, style:str=&#34;TButton&#34;, width:int=15, center:bool=False, padx:int=5, pady:int=10, state:str=&#34;!disabled&#34;, columnspan:int=1, rowspan:int=1, translate:bool=True, sticky:str=&#34;n&#34;, tooltip=&#34;&#34;, autoplace:bool=False):
+    &#34;&#34;&#34;Will create a new standard button with the given parameters.
+
+    Args:
+        parent (tkObject): The parent object of the button.
+        text (str): The text that will be displayed on the button.
+        command (lambda): The command that will be executed when the button is pressed.
+        row (int): The row of the button.
+        column (int): The column of the button.
+        style (str, optional): You can use different tk styles here. Defaults to &#34;TButton&#34;.
+        width (int, optional): Defaults to 15.
+        center (bool, optional): Defaults to False.
+        padx (int, optional): Defaults to 5.
+        pady (int, optional): Defaults to 10.
+        state (str, optional): Defaults to &#34;!disabled&#34;.
+        columnspan (int, optional): How many columns the button will span over. Defaults to 1.
+        rowspan (int, optional): How many rows the button will span over. Defaults to 1.
+        translate (bool, optional): Whether to translate the text or not. Defaults to True.
+        sticky (str, optional): Defaults to &#34;n&#34;.
+        tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Returns:
+        ttk.button: The button object we created.
+    &#34;&#34;&#34;
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    if translate:
+        text = translator.Translate(text)
+    
+    button = ttk.Button(parent, text=text, command=command, style=style, padding=10, width=width, state=state)
+    if not center:
+        button.grid(row=row, column=column, padx=padx, pady=pady, columnspan=columnspan, rowspan=rowspan, sticky=sticky)
+    else:
+        button.grid(row=row, column=column, padx=padx, pady=pady, sticky=&#34;n&#34;, columnspan=columnspan, rowspan=rowspan)
+        
+    if tooltip != &#34;&#34;:
+        ToolTip(button, msg=tooltip)
+        
+    return button</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeCheckButton"><code class="name flex">
+<span>def <span class="ident">MakeCheckButton</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 17, values=[True, False], onlyTrue: bool = False, onlyFalse: bool = False, default=False, translate: bool = True, columnspan: int = 1, callback=None, tooltip='', autoplace: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent</code></strong> :&ensp;<code>tkObject</code></dt>
+<dd>The parent object of the checkbutton.</dd>
+<dt><strong><code>text</code></strong> :&ensp;<code>str</code></dt>
+<dd>The text that will be displayed on the checkbutton.</dd>
+<dt><strong><code>category</code></strong> :&ensp;<code>str</code></dt>
+<dd>The json category of the setting.</dd>
+<dt><strong><code>setting</code></strong> :&ensp;<code>str</code></dt>
+<dd>The json setting.</dd>
+<dt><strong><code>row</code></strong> :&ensp;<code>int</code></dt>
+<dd>The row of the checkbutton.</dd>
+<dt><strong><code>column</code></strong> :&ensp;<code>int</code></dt>
+<dd>The column of the checkbutton.</dd>
+<dt><strong><code>width</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 17.</dd>
+<dt><strong><code>values</code></strong> :&ensp;<code>list</code>, optional</dt>
+<dd>Set custom values to save when the button is on or off. Defaults to [True, False].</dd>
+<dt><strong><code>onlyTrue</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Only save the value when it's true. Defaults to False.</dd>
+<dt><strong><code>onlyFalse</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Only save the value when it's false. Defaults to False.</dd>
+<dt><strong><code>default</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>The default value. Defaults to False.</dd>
+<dt><strong><code>translate</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to translate the text or not. Defaults to True.</dd>
+<dt><strong><code>columnspan</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>How many columns the checkbutton will span over. Defaults to 1.</dd>
+<dt><strong><code>callback</code></strong> :&ensp;<code>lambda</code>, optional</dt>
+<dd>Lambda callback. Defaults to None.</dd>
+<dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "".</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tk.BooleanVar</code></dt>
+<dd>The boolean variable of the checkbutton. (use .get() to get the value)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MakeCheckButton(parent, text:str, category:str, setting:str, row:int, column:int, width:int=17, values=[True, False], onlyTrue:bool=False, onlyFalse:bool=False, default=False, translate:bool=True, columnspan:int=1, callback=None, tooltip=&#34;&#34;, autoplace:bool=False):
+    &#34;&#34;&#34;Will create a new checkbutton with the given parameters. The text will be on column 0 and the checkbutton on column 1. (Depending on the input column)
+
+    Args:
+        parent (tkObject): The parent object of the checkbutton.
+        text (str): The text that will be displayed on the checkbutton.
+        category (str): The json category of the setting.
+        setting (str): The json setting.
+        row (int): The row of the checkbutton.
+        column (int): The column of the checkbutton.
+        width (int, optional): Defaults to 17.
+        values (list, optional): Set custom values to save when the button is on or off. Defaults to [True, False].
+        onlyTrue (bool, optional): Only save the value when it&#39;s true. Defaults to False.
+        onlyFalse (bool, optional): Only save the value when it&#39;s false. Defaults to False.
+        default (bool, optional): The default value. Defaults to False.
+        translate (bool, optional): Whether to translate the text or not. Defaults to True.
+        columnspan (int, optional): How many columns the checkbutton will span over. Defaults to 1.
+        callback (lambda, optional): Lambda callback. Defaults to None.
+        tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Returns:
+        tk.BooleanVar: The boolean variable of the checkbutton. (use .get() to get the value)
+    &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    if translate:
+        text = translator.Translate(text)
+    
+    variable = tk.BooleanVar()
+    value = settings.GetSettings(category, setting)
+    
+    if value == None:
+        value = default
+        settings.CreateSettings(category, setting, value)
+        variable.set(value)
+    else:
+        variable.set(value)
+    
+    if onlyTrue:
+        if callback != None:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0])
+                callback()
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0])
+                
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed() if variable.get() else None, width=width)
+    elif onlyFalse:
+        if callback != None:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[1])
+                callback()
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[1])
+        
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed() if not variable.get() else None, width=width)
+    else:
+        if callback != None:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0] if variable.get() else values[1])
+                callback()
+                
+        else:
+            def ButtonPressed():
+                settings.CreateSettings(category, setting, values[0] if variable.get() else values[1])
+                
+        button = ttk.Checkbutton(parent, text=text, variable=variable, command=lambda: ButtonPressed(), width=width)
+    
+    button.grid(row=row, column=column, padx=0, pady=7, sticky=&#34;w&#34;, columnspan=columnspan)
+    
+    if tooltip != &#34;&#34;:
+        ToolTip(button, msg=tooltip)
+    
+    return variable</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeComboEntry"><code class="name flex">
+<span>def <span class="ident">MakeComboEntry</span></span>(<span>parent, text: str, category: str, setting: str, row: int, column: int, width: int = 10, labelwidth: int = 15, isFloat: bool = False, isString: bool = False, value='', sticky: str = 'w', labelSticky: str = 'w', translate: bool = True, labelPadX: int = 10, tooltip='', autoplace: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent</code></strong> :&ensp;<code>tkObject</code></dt>
+<dd>The parent object of the combo entry.</dd>
+<dt><strong><code>text</code></strong> :&ensp;<code>str</code></dt>
+<dd>The text that will be displayed on the combo entry.</dd>
+<dt><strong><code>category</code></strong> :&ensp;<code>str</code></dt>
+<dd>The json category of the setting.</dd>
+<dt><strong><code>setting</code></strong> :&ensp;<code>str</code></dt>
+<dd>The json setting.</dd>
+<dt><strong><code>row</code></strong> :&ensp;<code>str</code></dt>
+<dd>The row of the combo entry.</dd>
+<dt><strong><code>column</code></strong> :&ensp;<code>str</code></dt>
+<dd>The column of the combo entry.</dd>
+<dt><strong><code>width</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 10.</dd>
+<dt><strong><code>labelwidth</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>The width of the label (text). Defaults to 15.</dd>
+<dt><strong><code>isFloat</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If the entry output should be a float. Defaults to False.</dd>
+<dt><strong><code>isString</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If the entry output should be a string. Defaults to False.</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>The default value. Defaults to "".</dd>
+<dt><strong><code>sticky</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "w".</dd>
+<dt><strong><code>labelSticky</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "w".</dd>
+<dt><strong><code>translate</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to translate the text or not. Defaults to True.</dd>
+<dt><strong><code>labelPadX</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 10.</dd>
+<dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "".</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the entry should be placed on. You can still use the column option freely, but row will be ignored.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tk.Var</code></dt>
+<dd>The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MakeComboEntry(parent, text:str, category:str, setting:str, row: int, column: int, width: int=10, labelwidth:int=15, isFloat:bool=False, isString:bool=False, value=&#34;&#34;, sticky:str=&#34;w&#34;, labelSticky:str=&#34;w&#34;, translate:bool=True, labelPadX:int=10, tooltip=&#34;&#34;, autoplace:bool=False):
+    &#34;&#34;&#34;Will make a new combo entry with the given parameters. The text will be on column 0 and the entry on column 1. (Depending on the input column)
+
+    Args:
+        parent (tkObject): The parent object of the combo entry.
+        text (str): The text that will be displayed on the combo entry.
+        category (str): The json category of the setting.
+        setting (str): The json setting.
+        row (str): The row of the combo entry.
+        column (str): The column of the combo entry.
+        width (int, optional): Defaults to 10.
+        labelwidth (int, optional): The width of the label (text). Defaults to 15.
+        isFloat (bool, optional): If the entry output should be a float. Defaults to False.
+        isString (bool, optional): If the entry output should be a string. Defaults to False.
+        value (str, optional): The default value. Defaults to &#34;&#34;.
+        sticky (str, optional): Defaults to &#34;w&#34;.
+        labelSticky (str, optional): Defaults to &#34;w&#34;.
+        translate (bool, optional): Whether to translate the text or not. Defaults to True.
+        labelPadX (int, optional): Defaults to 10.
+        tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the entry should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Returns:
+        tk.Var: The corresponding variable. Will be int, str, or float depending on the input. (use .get() to get the value)
+    &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    if translate:
+        text = translator.Translate(text)
+    
+    label = ttk.Label(parent, text=text, width=labelwidth).grid(row=row, column=column, sticky=labelSticky, padx=labelPadX)
+    if tooltip != &#34;&#34;: 
+        ToolTip(label, msg=tooltip)
+    
+    if not isFloat and not isString:
+        var = tk.IntVar()
+        
+        setting = settings.GetSettings(category, setting)
+        if setting == None:
+            var.set(value)
+            settings.CreateSettings(category, setting, value)
+        else:
+            var.set(setting)
+            
+    elif isString:
+        var = tk.StringVar()
+        
+        setting = settings.GetSettings(category, setting)
+        if setting == None:
+            var.set(value)
+            settings.CreateSettings(category, setting, value)
+        else:
+            var.set(setting)
+            
+    else:
+        var = tk.DoubleVar()
+        
+        setting = settings.GetSettings(category, setting)
+        if setting == None:
+            var.set(value)
+            settings.CreateSettings(category, setting, value)
+        else:
+            var.set(setting)
+            
+    entry = ttk.Entry(parent, textvariable=var, width=width, validatecommand=lambda: settings.CreateSettings(category, setting, var.get())).grid(row=row, column=column+1, sticky=sticky, padx=7, pady=7)
+    
+    if tooltip != &#34;&#34;:
+        ToolTip(entry, msg=tooltip)
+    
+    return var</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeEmptyLine"><code class="name flex">
+<span>def <span class="ident">MakeEmptyLine</span></span>(<span>parent, row: int, column: int, columnspan: int = 1, pady: int = 7, autoplace: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will create an empty line with the given parameters.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent</code></strong> :&ensp;<code>tkObject</code></dt>
+<dd>The parent object of the empty line.</dd>
+<dt><strong><code>row</code></strong> :&ensp;<code>int</code></dt>
+<dd>The row of the empty line.</dd>
+<dt><strong><code>column</code></strong> :&ensp;<code>int</code></dt>
+<dd>The column of the empty line.</dd>
+<dt><strong><code>columnspan</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>The number of columns to span the empty line over. Defaults to 1.</dd>
+<dt><strong><code>pady</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 7.</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, autoplace:bool=False):
+    &#34;&#34;&#34;Will create an empty line with the given parameters.
+
+    Args:
+        parent (tkObject): The parent object of the empty line.
+        row (int): The row of the empty line.
+        column (int): The column of the empty line.
+        columnspan (int, optional): The number of columns to span the empty line over. Defaults to 1.
+        pady (int, optional): Defaults to 7.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
+    &#34;&#34;&#34;
+    
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    ttk.Label(parent, text=&#34;&#34;).grid(row=row, column=column, columnspan=columnspan, pady=pady)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeLabel"><code class="name flex">
+<span>def <span class="ident">MakeLabel</span></span>(<span>parent, text: str, row: int, column: int, font=('Segoe UI', 10), pady: int = 7, padx: int = 7, columnspan: int = 1, sticky: str = 'n', fg: str = '', bg: str = '', translate: bool = True, tooltip='', autoplace: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will make a label with the given parameters.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent</code></strong> :&ensp;<code>tkObject</code></dt>
+<dd>The parent object of the label.</dd>
+<dt><strong><code>text</code></strong> :&ensp;<code>str</code></dt>
+<dd>The text that will be displayed on the label.</dd>
+<dt><strong><code>row</code></strong> :&ensp;<code>int</code></dt>
+<dd>The row of the label.</dd>
+<dt><strong><code>column</code></strong> :&ensp;<code>int</code></dt>
+<dd>The column of the label.</dd>
+<dt><strong><code>font</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dd>Defaults to ("Segoe UI", 10).</dd>
+<dt><strong><code>pady</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 7.</dd>
+<dt><strong><code>padx</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 7.</dd>
+<dt><strong><code>columnspan</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Will span the label over a number of columns. Defaults to 1.</dd>
+<dt><strong><code>sticky</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "n".</dd>
+<dt><strong><code>fg</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Foreground color. Defaults to "".</dd>
+<dt><strong><code>bg</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Background color. Defaults to "".</dd>
+<dt><strong><code>translate</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to translate the label or not. Defaults to True.</dd>
+<dt><strong><code>tooltip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Defaults to "".</dd>
+<dt><strong><code>autoplace</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Defaults to False. Will automatically determine the row the label should be placed on. You can still use the column option freely, but row will be ignored.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>tk.StringVar / ttk.Label: Depending on whether the text input is "" or not.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MakeLabel(parent, text:str, row:int, column:int, font=(&#34;Segoe UI&#34;, 10), pady:int=7, padx:int=7, columnspan:int=1, sticky:str=&#34;n&#34;, fg:str=&#34;&#34;, bg:str=&#34;&#34;, translate:bool=True, tooltip=&#34;&#34;, autoplace:bool=False):
+    &#34;&#34;&#34;Will make a label with the given parameters.
+
+    Args:
+        parent (tkObject): The parent object of the label.
+        text (str): The text that will be displayed on the label.
+        row (int): The row of the label.
+        column (int): The column of the label.
+        font (tuple, optional): Defaults to (&#34;Segoe UI&#34;, 10).
+        pady (int, optional): Defaults to 7.
+        padx (int, optional): Defaults to 7.
+        columnspan (int, optional): Will span the label over a number of columns. Defaults to 1.
+        sticky (str, optional): Defaults to &#34;n&#34;.
+        fg (str, optional): Foreground color. Defaults to &#34;&#34;.
+        bg (str, optional): Background color. Defaults to &#34;&#34;.
+        translate (bool, optional): Whether to translate the label or not. Defaults to True.
+        tooltip (str, optional): Defaults to &#34;&#34;.
+        autoplace (bool, optional): Defaults to False. Will automatically determine the row the label should be placed on. You can still use the column option freely, but row will be ignored.
+
+    Returns:
+        tk.StringVar / ttk.Label: Depending on whether the text input is &#34;&#34; or not.
+    &#34;&#34;&#34;
+    if autoplace:
+        row = Autoplace(parent, row, column)
+    
+    if translate:
+        text = translator.Translate(text)
+    
+    if text == &#34;&#34;:
+        var = tk.StringVar()
+        var.set(text)
+        
+        if fg != &#34;&#34; and bg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg, foreground=fg)
+        elif fg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, textvariable=var, foreground=fg)
+        elif bg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, textvariable=var, background=bg)
+        else: 
+            label = ttk.Label(parent, font=font, textvariable=var)
+            
+        label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != &#34;&#34;:
+            ToolTip(label, msg=tooltip)
+            
+        return var
+    else:
+        if fg != &#34;&#34; and bg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, text=text, background=bg, foreground=fg)
+        elif fg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, text=text, foreground=fg)
+        elif bg != &#34;&#34;:
+            label = ttk.Label(parent, font=font, text=text, background=bg)
+        else:
+            label = ttk.Label(parent, font=font, text=text)
+        label.grid(row=row, column=column, columnspan=columnspan, padx=padx, pady=pady, sticky=sticky)
+        
+        if tooltip != &#34;&#34;:
+            ToolTip(label, msg=tooltip)
+        
+        return label</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.OpenInBrowser"><code class="name flex">
+<span>def <span class="ident">OpenInBrowser</span></span>(<span>url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will open the given URL in the default browser.</p>
+<h2 id="args">Args</h2>
+<p>url (str)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def OpenInBrowser(url:str):
+    &#34;&#34;&#34;Will open the given URL in the default browser.
+
+    Args:
+        url (str)
+    &#34;&#34;&#34;
+    webbrowser.open(url)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.OpenWebView"><code class="name flex">
+<span>def <span class="ident">OpenWebView</span></span>(<span>title: str, urlOrFile: str, width: int = 900, height: int = 700)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will open a webview window with the given parameters.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code></dt>
+<dd>The window title.</dd>
+<dt><strong><code>urlOrFile</code></strong> :&ensp;<code>str</code></dt>
+<dd>A URL / File path.</dd>
+<dt><strong><code>width</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 900.</dd>
+<dt><strong><code>height</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Defaults to 700.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def OpenWebView(title:str, urlOrFile:str, width:int=900, height:int=700):
+    &#34;&#34;&#34;Will open a webview window with the given parameters.
+
+    Args:
+        title (str): The window title.
+        urlOrFile (str): A URL / File path.
+        width (int, optional): Defaults to 900.
+        height (int, optional): Defaults to 700.
+    &#34;&#34;&#34;
+    webview.create_window(title, urlOrFile, width=width, height=height)
+    webview.start()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.defaultAutoplaceColumn" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.defaultAutoplaceColumn">defaultAutoplaceColumn</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.Autoplace" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.Autoplace">Autoplace</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.ConvertCapitalizationToSpaces" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.ConvertCapitalizationToSpaces">ConvertCapitalizationToSpaces</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeButton" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeButton">MakeButton</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeCheckButton" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeCheckButton">MakeCheckButton</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeComboEntry" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeComboEntry">MakeComboEntry</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeEmptyLine" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeEmptyLine">MakeEmptyLine</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeLabel" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.MakeLabel">MakeLabel</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.OpenInBrowser" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.OpenInBrowser">OpenInBrowser</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.helpers.OpenWebView" href="#Euro-Truck-Simulator-2-Lane-Assist.src.helpers.OpenWebView">OpenWebView</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

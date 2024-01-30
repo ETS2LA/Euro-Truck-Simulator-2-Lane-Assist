@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main API documentation</title>
+<meta name="description" content="This is an example of a plugin (type=&#34;dynamic&#34;), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main</code></h1>
+</header>
+<section id="section-intro">
+<p>This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it's open then check the Panel example!</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This is an example of a plugin (type=&#34;dynamic&#34;), they will be updated during the stated point in the mainloop.
+If you need to make a panel that is only updated when it&#39;s open then check the Panel example!
+&#34;&#34;&#34;
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+
+PluginInfo = PluginInformation(
+    name=&#34;ExternalAPI&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description=&#34;Will post the application data to\nlocalhost:39847\nUsed for external applications.&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;Tumppi066&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;dynamic&#34;, # = Panel
+    dynamicOrder=&#34;last&#34; # Will run the plugin before anything else in the mainloop (data will be empty)
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+import os
+import json
+import time
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
+import numpy as np
+
+url = &#34;localhost&#34;
+port = settings.GetSettings(&#34;ExternalAPI&#34;, &#34;port&#34;)
+
+if port == None:
+    settings.CreateSettings(&#34;ExternalAPI&#34;, &#34;port&#34;, 39847)
+    port = 39847
+
+currentData = {}
+close = False
+
+# Send the data variable to the external application
+class HttpHandler(BaseHTTPRequestHandler):
+    global currentData
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header(&#39;Access-Control-Allow-Origin&#39;, &#39;*&#39;)
+        self.send_header(&#34;Content-type&#34;, &#34;application/json&#34;)
+        self.send_header(&#34;Content-length&#34;, len(json.dumps(currentData)))
+        self.end_headers()
+        self.wfile.write(bytes(json.dumps(currentData), &#34;utf-8&#34;))
+        
+    # Disable logging
+    def log_message(self, format, *args):
+        return
+
+def ServerThread():
+    global close
+    global server
+    
+    while not close:
+        try:
+            server.handle_request()
+        except:
+            pass
+        time.sleep(0.1) # 10fps
+
+
+def CreateServer():
+    print(&#34;Starting server&#34;)
+    global server
+    global serverThread
+    server = HTTPServer((url, port), HttpHandler)
+    server.timeout = 0.1
+    
+    serverThread = threading.Thread(target=ServerThread)
+    serverThread.start()
+    
+
+def convert_ndarrays(obj):
+    if isinstance(obj, np.ndarray):
+        return &#34;ndarray not supported&#34;
+    elif isinstance(obj, dict):
+        return {key: convert_ndarrays(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_ndarrays(value) for value in obj]
+    else:
+        return obj
+
+def plugin(data):
+    global currentData
+    tempData = {}
+    # Go though the data and if there are any ndarrays then convert them to lists
+    for key in data:
+        if key == &#34;frame&#34; or key == &#34;frameFull&#34;:
+            tempData[key] = &#34;too large to send&#34;
+            continue
+        
+        if key == &#34;GPS&#34;:
+            from plugins.Map.GameData.roads import RoadToJson
+            tempData[key] = data[key]
+            tempData[key][&#34;roads&#34;] = [RoadToJson(road) for road in data[key][&#34;roads&#34;]]
+            continue
+        
+        tempData[key] = data[key]
+
+
+    currentData = convert_ndarrays(tempData)
+    return data # Plugins need to ALWAYS return the data
+
+
+# Plugins need to all also have the onEnable and onDisable functions
+def onEnable():
+    CreateServer()
+    pass
+
+def onDisable():
+    global close
+    global serverThread
+    
+    close = True
+    serverThread.join()
+    
+    pass
+
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            def savenewport():
+                print(self.newport.get())
+                settings.CreateSettings(&#34;ExternalAPI&#34;, &#34;port&#34;, self.newport.get())
+            def validate_entry(text):
+                # Make sure that only integers can be typed
+                return text.isdecimal()
+
+            ttk.Label(self.root, text=&#34;Port&#34;).grid(row=1, padx=5, pady=5)
+            self.newport = tk.IntVar()
+            ttk.Entry(self.root, validate=&#34;key&#34;, textvariable=self.newport,
+    validatecommand=(self.root.register(validate_entry), &#34;%S&#34;)).grid(row=2, padx=5, pady=5)
+            ttk.Button(self.root, text=&#34;Save&#34;, command=savenewport).grid(row=3, padx=5, pady=5)
+
+            ttk.button(self.root, text=&#34;button&#34;).grid()
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.CreateServer"><code class="name flex">
+<span>def <span class="ident">CreateServer</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CreateServer():
+    print(&#34;Starting server&#34;)
+    global server
+    global serverThread
+    server = HTTPServer((url, port), HttpHandler)
+    server.timeout = 0.1
+    
+    serverThread = threading.Thread(target=ServerThread)
+    serverThread.start()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.ServerThread"><code class="name flex">
+<span>def <span class="ident">ServerThread</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ServerThread():
+    global close
+    global server
+    
+    while not close:
+        try:
+            server.handle_request()
+        except:
+            pass
+        time.sleep(0.1) # 10fps</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.convert_ndarrays"><code class="name flex">
+<span>def <span class="ident">convert_ndarrays</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_ndarrays(obj):
+    if isinstance(obj, np.ndarray):
+        return &#34;ndarray not supported&#34;
+    elif isinstance(obj, dict):
+        return {key: convert_ndarrays(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_ndarrays(value) for value in obj]
+    else:
+        return obj</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onDisable"><code class="name flex">
+<span>def <span class="ident">onDisable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onDisable():
+    global close
+    global serverThread
+    
+    close = True
+    serverThread.join()
+    
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onEnable"><code class="name flex">
+<span>def <span class="ident">onEnable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onEnable():
+    CreateServer()
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.plugin"><code class="name flex">
+<span>def <span class="ident">plugin</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plugin(data):
+    global currentData
+    tempData = {}
+    # Go though the data and if there are any ndarrays then convert them to lists
+    for key in data:
+        if key == &#34;frame&#34; or key == &#34;frameFull&#34;:
+            tempData[key] = &#34;too large to send&#34;
+            continue
+        
+        if key == &#34;GPS&#34;:
+            from plugins.Map.GameData.roads import RoadToJson
+            tempData[key] = data[key]
+            tempData[key][&#34;roads&#34;] = [RoadToJson(road) for road in data[key][&#34;roads&#34;]]
+            continue
+        
+        tempData[key] = data[key]
+
+
+    currentData = convert_ndarrays(tempData)
+    return data # Plugins need to ALWAYS return the data</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler"><code class="flex name class">
+<span>class <span class="ident">HttpHandler</span></span>
+<span>(</span><span>request, client_address, server)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>HTTP request handler base class.</p>
+<p>The following explanation of HTTP serves to guide you through the
+code as well as to expose any misunderstandings I may have about
+HTTP (so you don't need to read the code to figure out I'm wrong
+:-).</p>
+<p>HTTP (HyperText Transfer Protocol) is an extensible protocol on
+top of a reliable stream transport (e.g. TCP/IP).
+The protocol
+recognizes three parts to a request:</p>
+<ol>
+<li>One line identifying the request type and path</li>
+<li>An optional set of RFC-822-style headers</li>
+<li>An optional data part</li>
+</ol>
+<p>The headers and data are separated by a blank line.</p>
+<p>The first line of the request has the form</p>
+<p><command> <path> <version></p>
+<p>where <command> is a (case-sensitive) keyword such as GET or POST,
+<path> is a string containing path information for the request,
+and <version> should be the string "HTTP/1.0" or "HTTP/1.1".
+<path> is encoded using the URL encoding scheme (using %xx to signify
+the ASCII character with hex code xx).</p>
+<p>The specification specifies that lines are separated by CRLF but
+for compatibility with the widest range of clients recommends
+servers also handle LF.
+Similarly, whitespace in the request line
+is treated sensibly (allowing multiple spaces between components
+and allowing trailing whitespace).</p>
+<p>Similarly, for output, lines ought to be separated by CRLF pairs
+but most clients grok LF characters just fine.</p>
+<p>If the first line of the request has the form</p>
+<p><command> <path></p>
+<p>(i.e. <version> is left out) then this is assumed to be an HTTP
+0.9 request; this form has no optional headers and data part and
+the reply consists of just the data.</p>
+<p>The reply form of the HTTP 1.x protocol again has three parts:</p>
+<ol>
+<li>One line giving the response code</li>
+<li>An optional set of RFC-822-style headers</li>
+<li>The data</li>
+</ol>
+<p>Again, the headers and data are separated by a blank line.</p>
+<p>The response code line has the form</p>
+<p><version> <responsecode> <responsestring></p>
+<p>where <version> is the protocol version ("HTTP/1.0" or "HTTP/1.1"),
+<responsecode> is a 3-digit response code indicating success or
+failure of the request, and <responsestring> is an optional
+human-readable string explaining what the response code means.</p>
+<p>This server parses the request and the headers, and then calls a
+function specific to the request type (<command>).
+Specifically,
+a request SPAM will be handled by a method do_SPAM().
+If no
+such method exists the server sends an error response to the
+client.
+If it exists, it is called with no arguments:</p>
+<p>do_SPAM()</p>
+<p>Note that the request name is case sensitive (i.e. SPAM and spam
+are different requests).</p>
+<p>The various request details are stored in instance variables:</p>
+<ul>
+<li>
+<p>client_address is the client IP address in the form (host,
+port);</p>
+</li>
+<li>
+<p>command, path and version are the broken-down request line;</p>
+</li>
+<li>
+<p>headers is an instance of email.message.Message (or a derived
+class) containing the header information;</p>
+</li>
+<li>
+<p>rfile is a file object open for reading positioned at the
+start of the optional input data part;</p>
+</li>
+<li>
+<p>wfile is a file object open for writing.</p>
+</li>
+</ul>
+<p>IT IS IMPORTANT TO ADHERE TO THE PROTOCOL FOR WRITING!</p>
+<p>The first thing to be written must be the response line.
+Then
+follow 0 or more header lines, then a blank line, and then the
+actual data (if any).
+The meaning of the header lines depends on
+the command executed by the server; in most cases, when data is
+returned, there should be at least one header line of the form</p>
+<p>Content-type: <type>/<subtype></p>
+<p>where <type> and <subtype> should be registered MIME types,
+e.g. "text/html" or "text/plain".</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class HttpHandler(BaseHTTPRequestHandler):
+    global currentData
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header(&#39;Access-Control-Allow-Origin&#39;, &#39;*&#39;)
+        self.send_header(&#34;Content-type&#34;, &#34;application/json&#34;)
+        self.send_header(&#34;Content-length&#34;, len(json.dumps(currentData)))
+        self.end_headers()
+        self.wfile.write(bytes(json.dumps(currentData), &#34;utf-8&#34;))
+        
+    # Disable logging
+    def log_message(self, format, *args):
+        return</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>http.server.BaseHTTPRequestHandler</li>
+<li>socketserver.StreamRequestHandler</li>
+<li>socketserver.BaseRequestHandler</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler.do_GET"><code class="name flex">
+<span>def <span class="ident">do_GET</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_GET(self):
+    self.send_response(200)
+    self.send_header(&#39;Access-Control-Allow-Origin&#39;, &#39;*&#39;)
+    self.send_header(&#34;Content-type&#34;, &#34;application/json&#34;)
+    self.send_header(&#34;Content-length&#34;, len(json.dumps(currentData)))
+    self.end_headers()
+    self.wfile.write(bytes(json.dumps(currentData), &#34;utf-8&#34;))</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler.log_message"><code class="name flex">
+<span>def <span class="ident">log_message</span></span>(<span>self, format, *args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Log an arbitrary message.</p>
+<p>This is used by all other logging functions.
+Override
+it if you have specific logging wishes.</p>
+<p>The first argument, FORMAT, is a format string for the
+message to be logged.
+If the format string contains
+any % escapes requiring parameters, they should be
+specified as subsequent arguments (it's just like
+printf!).</p>
+<p>The client ip and current date/time are prefixed to
+every message.</p>
+<p>Unicode control characters are replaced with escaped hex
+before writing the output to stderr.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def log_message(self, format, *args):
+    return</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+
+            def savenewport():
+                print(self.newport.get())
+                settings.CreateSettings(&#34;ExternalAPI&#34;, &#34;port&#34;, self.newport.get())
+            def validate_entry(text):
+                # Make sure that only integers can be typed
+                return text.isdecimal()
+
+            ttk.Label(self.root, text=&#34;Port&#34;).grid(row=1, padx=5, pady=5)
+            self.newport = tk.IntVar()
+            ttk.Entry(self.root, validate=&#34;key&#34;, textvariable=self.newport,
+    validatecommand=(self.root.register(validate_entry), &#34;%S&#34;)).grid(row=2, padx=5, pady=5)
+            ttk.Button(self.root, text=&#34;Save&#34;, command=savenewport).grid(row=3, padx=5, pady=5)
+
+            ttk.button(self.root, text=&#34;button&#34;).grid()
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.exampleFunction"><code class="name flex">
+<span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    def exampleFunction(self):
+        
+        try:
+            self.root.destroy() # Load the UI each time this plugin is called
+        except: pass
+        
+        self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+        self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+        self.root.pack_propagate(0)
+
+        def savenewport():
+            print(self.newport.get())
+            settings.CreateSettings(&#34;ExternalAPI&#34;, &#34;port&#34;, self.newport.get())
+        def validate_entry(text):
+            # Make sure that only integers can be typed
+            return text.isdecimal()
+
+        ttk.Label(self.root, text=&#34;Port&#34;).grid(row=1, padx=5, pady=5)
+        self.newport = tk.IntVar()
+        ttk.Entry(self.root, validate=&#34;key&#34;, textvariable=self.newport,
+validatecommand=(self.root.register(validate_entry), &#34;%S&#34;)).grid(row=2, padx=5, pady=5)
+        ttk.Button(self.root, text=&#34;Save&#34;, command=savenewport).grid(row=3, padx=5, pady=5)
+
+        ttk.button(self.root, text=&#34;button&#34;).grid()
+        self.root.pack(anchor=&#34;center&#34;, expand=False)
+        self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.CreateServer" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.CreateServer">CreateServer</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.ServerThread" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.ServerThread">ServerThread</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.convert_ndarrays" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.convert_ndarrays">convert_ndarrays</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onDisable">onDisable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.onEnable">onEnable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.plugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.plugin">plugin</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler">HttpHandler</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler.do_GET" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler.do_GET">do_GET</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler.log_message" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.HttpHandler.log_message">log_message</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ExternalAPI.main.UI.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

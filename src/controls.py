@@ -34,7 +34,7 @@ PluginInfo = PluginInformation(
 
 KEYBOARD_GUID = 1
 KEYBINDS = []
-def RegisterKeybind(name, callback=None, notBoundInfo="", description="", axis=False, defaultButtonIndex=-1, defaultAxisIndex=-1):
+def RegisterKeybind(name:str, callback=None, notBoundInfo:str="", description:str="", axis:bool=False, defaultButtonIndex:int=-1, defaultAxisIndex:int=-1):
     """Will register a keybind to the input manager. This is necessary to use the keybind.
 
     Args:
@@ -128,7 +128,7 @@ def plugin(data):
     
     return data
 
-def ChangeKeybind(name, updateUI=True, callback=None):
+def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
     """Will run the keybind change window code.
 
     Args:
@@ -312,7 +312,7 @@ def UnbindKeybind(name, updateUI=True):
         mainUI.switchSelectedPlugin("src.controls")
 
 
-def GetKeybindValue(name):
+def GetKeybindValue(name:str):
     """Will get the value of a keybind.
 
     Args:

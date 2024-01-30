@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main API documentation</title>
+<meta name="description" content="This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main</code></h1>
+</header>
+<section id="section-intro">
+<p>This is an example of a panel (type="static"), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then check the Plugin example!</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This is an example of a panel (type=&#34;static&#34;), they will be updated if they are open.
+If you need to make a plugin that is updated in the bg then check the Plugin example!
+&#34;&#34;&#34;
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+
+PluginInfo = PluginInformation(
+    name=&#34;ThemeSelector&#34;, # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
+    description=&#34;Will let you switch between themes.\nTHEMES CREATED BY rdbende!&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;rdbende,Tumppi066&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;static&#34; # = Panel
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+import os
+
+
+# Will switch the application theme
+# theme = &#34;SunValley&#34;, &#34;Forest&#34;, &#34;Azure&#34;
+reloads = 0
+def ChangeTheme(theme, root, changedColor=False):
+    global reloads
+    
+    if theme != &#34;SunValley&#34; and theme != &#34;Azure&#34;:
+        ChangeThemeCustom(fr&#34;themes\{theme}\theme.tcl&#34;, root, &#34;forest&#34;, name=theme, titlebar=&#34;0x313131&#34;) # Support custom themes from mainUI
+        return
+    
+    else:
+        from tkinter import messagebox
+        messagebox.showinfo(&#34;Theme&#34;, &#34;The old default themes have been deprecated, please use / create a new theme for yourself to use.\nFor now we have selected the default ForestRed theme.&#34;)
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;, &#34;ForestRed&#34;)
+        ChangeThemeCustom(fr&#34;themes\ForestRed\theme.tcl&#34;, root, &#34;forest&#34;, name=&#34;ForestRed&#34;, titlebar=&#34;0x313131&#34;) # Support custom themes from mainUI
+    
+def ChangeThemeCustom(themePath, root, base, name=&#34;Custom&#34;, titlebar=&#34;0x313131&#34;):
+    global reloads
+    
+    source = themePath
+    
+    try:
+        root.tk.call(&#34;source&#34;, source)
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+    
+    try:
+        if base.lower() == &#34;forest&#34;:
+            ttk.Style().theme_use(f&#34;{name}&#34;)
+        else:
+            root.tk.call(f&#34;{name}&#34;)
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+    
+    settings.CreateSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;, name)
+    ColorTitleBar(root, override=titlebar)
+    
+    if reloads != 0:
+        variables.RELOAD = True
+    reloads += 1
+            
+
+def ColorTitleBar(root, override=False):
+    
+    theme = settings.GetSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;)
+    
+    # Needs to be int values so windows can understand them
+    # For dark themes it should be #2d2d2d and for light themes #f0f0f0
+    # These have to then be converted to windows compatible int values
+    if override == False:
+        darkTitlebarColors = {
+            &#34;SunValley&#34;: 0x1c1c1c,
+            &#34;Forest&#34;: 0x313131,
+            &#34;Azure&#34;: 0x333333
+        }
+        lightTitlebarColors = {
+            &#34;SunValley&#34;: 0xfafafa,
+            &#34;Forest&#34;: 0xffffff,
+            &#34;Azure&#34;: 0xffffff
+        }
+        
+        # Change the titlebar color
+        from ctypes import windll, c_int, byref, sizeof
+        HWND = windll.user32.GetParent(mainUI.root.winfo_id())
+        try:
+            returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(lightTitlebarColors[theme]) if themeType == &#34;light&#34; else c_int(darkTitlebarColors[theme])), sizeof(c_int))
+        except:
+            returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(0x313131)), sizeof(c_int))
+            
+        print(f&#34;Titlebar color change return code: {returnCode}&#34;)
+    else:
+        # Convert from str to int
+        override = int(override, 16)
+        
+        from ctypes import windll, c_int, byref, sizeof
+        HWND = windll.user32.GetParent(mainUI.root.winfo_id())
+        returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(override)), sizeof(c_int))
+        print(f&#34;Titlebar color change return code: {returnCode}&#34;)
+    
+
+def SwitchThemeType():
+    global themeType
+    print(themeType)
+    themeType = &#34;dark&#34; if themeType == &#34;light&#34; else &#34;light&#34;
+    ChangeTheme(settings.GetSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;), mainUI.root, changedColor=True)
+    settings.CreateSettings(&#34;User Interface&#34;, &#34;Theme&#34;, themeType)
+    print(&#34;Switched theme type to &#34; + themeType)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ChangeTheme"><code class="name flex">
+<span>def <span class="ident">ChangeTheme</span></span>(<span>theme, root, changedColor=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ChangeTheme(theme, root, changedColor=False):
+    global reloads
+    
+    if theme != &#34;SunValley&#34; and theme != &#34;Azure&#34;:
+        ChangeThemeCustom(fr&#34;themes\{theme}\theme.tcl&#34;, root, &#34;forest&#34;, name=theme, titlebar=&#34;0x313131&#34;) # Support custom themes from mainUI
+        return
+    
+    else:
+        from tkinter import messagebox
+        messagebox.showinfo(&#34;Theme&#34;, &#34;The old default themes have been deprecated, please use / create a new theme for yourself to use.\nFor now we have selected the default ForestRed theme.&#34;)
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;, &#34;ForestRed&#34;)
+        ChangeThemeCustom(fr&#34;themes\ForestRed\theme.tcl&#34;, root, &#34;forest&#34;, name=&#34;ForestRed&#34;, titlebar=&#34;0x313131&#34;) # Support custom themes from mainUI</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ChangeThemeCustom"><code class="name flex">
+<span>def <span class="ident">ChangeThemeCustom</span></span>(<span>themePath, root, base, name='Custom', titlebar='0x313131')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ChangeThemeCustom(themePath, root, base, name=&#34;Custom&#34;, titlebar=&#34;0x313131&#34;):
+    global reloads
+    
+    source = themePath
+    
+    try:
+        root.tk.call(&#34;source&#34;, source)
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+    
+    try:
+        if base.lower() == &#34;forest&#34;:
+            ttk.Style().theme_use(f&#34;{name}&#34;)
+        else:
+            root.tk.call(f&#34;{name}&#34;)
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+    
+    settings.CreateSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;, name)
+    ColorTitleBar(root, override=titlebar)
+    
+    if reloads != 0:
+        variables.RELOAD = True
+    reloads += 1</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ColorTitleBar"><code class="name flex">
+<span>def <span class="ident">ColorTitleBar</span></span>(<span>root, override=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ColorTitleBar(root, override=False):
+    
+    theme = settings.GetSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;)
+    
+    # Needs to be int values so windows can understand them
+    # For dark themes it should be #2d2d2d and for light themes #f0f0f0
+    # These have to then be converted to windows compatible int values
+    if override == False:
+        darkTitlebarColors = {
+            &#34;SunValley&#34;: 0x1c1c1c,
+            &#34;Forest&#34;: 0x313131,
+            &#34;Azure&#34;: 0x333333
+        }
+        lightTitlebarColors = {
+            &#34;SunValley&#34;: 0xfafafa,
+            &#34;Forest&#34;: 0xffffff,
+            &#34;Azure&#34;: 0xffffff
+        }
+        
+        # Change the titlebar color
+        from ctypes import windll, c_int, byref, sizeof
+        HWND = windll.user32.GetParent(mainUI.root.winfo_id())
+        try:
+            returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(lightTitlebarColors[theme]) if themeType == &#34;light&#34; else c_int(darkTitlebarColors[theme])), sizeof(c_int))
+        except:
+            returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(0x313131)), sizeof(c_int))
+            
+        print(f&#34;Titlebar color change return code: {returnCode}&#34;)
+    else:
+        # Convert from str to int
+        override = int(override, 16)
+        
+        from ctypes import windll, c_int, byref, sizeof
+        HWND = windll.user32.GetParent(mainUI.root.winfo_id())
+        returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(override)), sizeof(c_int))
+        print(f&#34;Titlebar color change return code: {returnCode}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.SwitchThemeType"><code class="name flex">
+<span>def <span class="ident">SwitchThemeType</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def SwitchThemeType():
+    global themeType
+    print(themeType)
+    themeType = &#34;dark&#34; if themeType == &#34;light&#34; else &#34;light&#34;
+    ChangeTheme(settings.GetSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;), mainUI.root, changedColor=True)
+    settings.CreateSettings(&#34;User Interface&#34;, &#34;Theme&#34;, themeType)
+    print(&#34;Switched theme type to &#34; + themeType)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ChangeTheme" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ChangeTheme">ChangeTheme</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ChangeThemeCustom" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ChangeThemeCustom">ChangeThemeCustom</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ColorTitleBar" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.ColorTitleBar">ColorTitleBar</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.SwitchThemeType" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.ThemeSelector.main.SwitchThemeType">SwitchThemeType</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

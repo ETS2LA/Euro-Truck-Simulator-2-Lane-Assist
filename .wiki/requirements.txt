@@ -1,0 +1,24 @@
+wheel
+opencv-python
+numpy
+sv_ttk
+psutil
+scipy
+colorama
+deep_translator
+babel
+pywebview
+matplotlib
+pywin32
+tkinter-tooltip
+pygame
+keyboard
+mouse
+pyautogui
+progress
+torch
+requests
+gitpython
+setuptools
+ultralytics
+--upgrade --no-cache-dir gdown

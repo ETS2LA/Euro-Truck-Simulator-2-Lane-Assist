@@ -1,0 +1,31 @@
+This will be the folder you place cudnn and cuda files.
+I cannot package them with the source code for the following reasons : 
+1. They are too large (> 900mb)
+2. Their terms of use prevent distribution with anything that could make them be affected by an open source license (since it's propriatery NVIDIA code)
+
+For this reason you can do one of the following : 
+- Download the NVIDIA files that I distribute on my discord server. This will come with a terms of service that closely matches the NVIDIA terms of service, thus I can distribute the binaries legally.
+https://discord.gg/JVTnzg8WMW
+
+- Download the files from NVIDIA. This is the best option but you will have to register as an NVIDIA developer.
+Check the required versions here https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements (1.15 requires CUDA 18 and cudnn 8.5)
+Then download CUDA here https://developer.nvidia.com/cuda-toolkit-archive
+And cudnn here https://developer.nvidia.com/rdp/cudnn-download
+
+Now install both (cudnn is a zip file -> unpack that to in C:\ProgramFiles\NVIDIA\CUDNN\vx.x\)
+Then copy the following files into this folder: 
+(cudnn files can be found in the zip or where you unpacked it)
+(CUDA file are in C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\version\bin\)
+
+zlibwapi.dll -> http://www.winimage.com/zLibDll/zlib123dllx64.zip
+cufft64_10.dll
+cudnn_ops_infer64_8.dll
+cudnn_cnn_infer64_8.dll
+cudnn_adv_infer64_8.dll
+cudnn64_8.dll
+cudart64_110.dll
+cudart32_110.dll
+cublastLt64_11.dll
+cublas64_11.dll
+
+You can now run the app and assuming that you have an NVIDIA gpu, you should be able to access GPU support. The console will display the current version when pressing "Enable".

@@ -1,0 +1,1379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from plugins.plugin import PluginInformation
+from src.logger import print
+
+PluginInfo = PluginInformation(
+    name=&#34;PluginManager&#34;,
+    description=&#34;Allows you to select different plugins.&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;Tumppi066&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;static&#34;
+)
+
+
+from src.loading import LoadingWindow
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+from src.mainUI import quit, switchSelectedPlugin, resizeWindow
+import src.variables as variables
+import src.settings as settings
+import os
+from PIL import Image, ImageTk
+import time
+import keyboard
+
+class UI():
+    
+    def findPlugins(self):
+        print(&#34;Importing plugins...&#34;)
+        # loading = LoadingWindow(&#34;Importing plugins...&#34;)
+        # Find plugins
+        path = os.path.join(variables.PATH, &#34;plugins&#34;)
+        plugins = []
+        for file in os.listdir(path):
+            if os.path.isdir(os.path.join(path, file)):
+                # Check for main.py
+                if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                    # Check for PluginInformation class
+                    try:
+                        pluginPath = &#34;plugins.&#34; + file + &#34;.main&#34;
+                        plugin = __import__(pluginPath, fromlist=[&#34;PluginInformation&#34;, &#34;onDisable&#34;, &#34;onEnable&#34;])
+                        if plugin.PluginInfo.type == &#34;dynamic&#34;:
+                            plugins.append(plugin)
+                            print(&#34;Found plugin: &#34; + pluginPath)
+                    except Exception as ex:
+                        print(ex.args)
+                        pass
+                    
+        # loading.destroy()
+        return plugins
+    
+
+    
+    def __init__(self, master) -&gt; None:
+        self.done = False
+        self.master = master
+        self.lastTheme = settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)
+        self.lastPlugin = 0
+        self.lastList = 0
+        resizeWindow(1220, 700)
+        self.page0()
+        self.selectedPlugin(self.plugins[0])
+        self.keybindTimer = time.time()
+    
+    def destroy(self):
+        self.done = True
+        self.root.destroy()
+        del self
+
+    def tabFocused(self):
+        resizeWindow(1220, 700)
+    
+    def page0(self):
+        
+        try:
+            self.root.destroy()
+            del self.plugin
+        except: pass
+        
+        self.root = tk.Canvas(self.master, width=1500, height=800, border=0, highlightthickness=0)
+        self.root.grid_propagate(0)
+        
+        self.plugins = self.findPlugins()
+        
+        self.listVariable = tk.StringVar()
+        self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == None])
+        
+        self.laneDetectionVariable = tk.StringVar()
+        self.laneDetectionVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == &#34;LaneDetection&#34;])
+        
+        self.screenCaptureVariable = tk.StringVar()
+        self.screenCaptureVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == &#34;ScreenCapture&#34;])
+        
+        self.pluginList = tk.Listbox(self.root, width=20, height=31, listvariable=self.listVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+        self.pluginList.grid(row=2, column=0, padx=10, pady=2)
+        # Bind double click
+        self.pluginList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.pluginList.curselection()[0], self.pluginList))
+        
+        self.laneDetectionList = tk.Listbox(self.root, width=20, height=31, listvariable=self.laneDetectionVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+        self.laneDetectionList.grid(row=2, column=1, padx=10, pady=2)
+        # Bind double click
+        self.laneDetectionList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.laneDetectionList.curselection()[0], self.laneDetectionList))
+        
+        self.screenCaptureList = tk.Listbox(self.root, width=20, height=31, listvariable=self.screenCaptureVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+        self.screenCaptureList.grid(row=2, column=2, padx=10, pady=2)
+        # Bind double click
+        self.screenCaptureList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.screenCaptureList.curselection()[0], self.screenCaptureList))
+        
+        
+        self.colorPlugins()
+        
+        helpers.MakeLabel(self.root, &#34;Misc. Plugins&#34;, 0,0, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, &#34;optional&#34;, 1,0, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1)
+        helpers.MakeLabel(self.root, &#34;Lane Detection Plugins&#34;, 0,1, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, &#34;required for lane detection&#34;, 1,1, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1, fg=&#34;#cc0000&#34;)
+        helpers.MakeLabel(self.root, &#34;Screen Capture Plugins&#34;, 0,2, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, &#34;required for lane detection&#34;, 1,2, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1, fg=&#34;#cc0000&#34;)
+        
+        self.root.pack(anchor=&#34;center&#34;, expand=False, ipady=10)
+        
+        self.root.update()
+    
+    
+    def colorPlugins(self):
+        
+        enabledPlugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
+        if enabledPlugins == None:
+            settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [])
+            enabledPlugins = []
+            
+        # Set plugin colors
+        colorTone = settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)
+        if colorTone == None:
+            colorTone = &#34;dark&#34;
+            
+        colors = {
+            &#34;darkEnabled&#34;: &#34;#204d63&#34;,
+            &#34;darkDisabled&#34;: &#34;#2e2e2e&#34;,
+            &#34;lightEnabled&#34;: &#34;#1e6fbc&#34;,
+            &#34;lightDisabled&#34;: &#34;#d9d9d9&#34;
+        }
+        
+        def colorListbox(listbox, color):
+            for i in range(len(listbox.get(0, &#34;end&#34;))):
+                if listbox.get(i).replace(&#34; &#34;, &#34;&#34;) in enabledPlugins:
+                    listbox.itemconfig(i, bg=f&#34;{colors[color + &#39;Enabled&#39;]}&#34;, fg=&#34;#ffffff&#34;)
+                else:
+                    listbox.itemconfig(i, bg=f&#34;{colors[color + &#39;Disabled&#39;]}&#34;)
+        
+        colorListbox(self.pluginList, colorTone)
+        colorListbox(self.laneDetectionList, colorTone)
+        colorListbox(self.screenCaptureList, colorTone)
+
+    
+    def selectedPlugin(self, plugin):
+        try:
+            self.pluginInfoFrame.destroy()
+        except:
+            pass
+        
+        
+        self.plugin = plugin.PluginInfo
+        
+        
+        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=440, height=650)
+        self.pluginInfoFrame.pack_propagate(0)
+        self.pluginInfoFrame.grid_propagate(0)
+        self.pluginInfoFrame.grid(row=0, column=3, padx=10, pady=2, rowspan=3)
+        
+        
+        if self.plugin.image != None:
+            # Load the logo
+            self.logo = Image.open(os.path.join(variables.PATH, &#34;plugins&#34;, self.plugin.name, self.plugin.image))
+            # Resize to height keeping the aspect ratio
+            height = 130
+            self.logo = self.logo.resize((int(height*self.logo.width/self.logo.height), height), Image.Resampling.BILINEAR)
+            self.logo = ImageTk.PhotoImage(self.logo)
+            self.logoLabel = tk.Label(self.pluginInfoFrame, image=self.logo)
+            self.logoLabel.grid(row=0, column=0, columnspan=1, pady=10, padx=30)
+            
+            helpers.MakeLabel(self.pluginInfoFrame, helpers.ConvertCapitalizationToSpaces(self.plugin.name), 0,1, font=(&#34;Roboto&#34;, 16, &#34;bold&#34;), padx=10, pady=10, columnspan=1, sticky=&#34;w&#34;, translate=False)
+            
+        else:
+            helpers.MakeLabel(self.pluginInfoFrame, helpers.ConvertCapitalizationToSpaces(self.plugin.name), 0,0, font=(&#34;Roboto&#34;, 16, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;, translate=False)
+            
+        
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Description&#34;, 1,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.description, 2,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Version&#34;, 3,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.version, 4,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Author&#34;, 5,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.author, 6,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;URL&#34;, 7,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.url, 8,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Update point&#34;, 9,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.dynamicOrder, 10,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        
+        if self.plugin.exclusive != None:
+            helpers.MakeLabel(self.pluginInfoFrame, &#34;Exclusive Type&#34;, 11,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.exclusive, 12,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        
+        if self.plugin.requires != None:
+            helpers.MakeLabel(self.pluginInfoFrame, &#34;Dependencies&#34;, 12,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+            helpers.MakeLabel(self.pluginInfoFrame, &#34;, &#34;.join(self.plugin.requires), 13,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+
+        if self.plugin.name in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            helpers.MakeButton(self.pluginInfoFrame, &#34;Disable plugin&#34;, lambda: self.disablePlugin(plugin), 14, 0, width=15, padx=8)
+        else:
+            helpers.MakeButton(self.pluginInfoFrame, &#34;Enable plugin&#34;, lambda: self.enablePlugin(plugin), 14, 0, width=15, padx=8)
+        
+        if not self.plugin.noUI:
+            helpers.MakeButton(self.pluginInfoFrame, &#34;Load plugin UI&#34;, lambda: switchSelectedPlugin(&#34;plugins.&#34; + self.plugin.name + &#34;.main&#34;), 14, 1, width=15, padx=8)        
+        else:
+            helpers.MakeButton(self.pluginInfoFrame, &#34;Load plugin UI&#34;, lambda: switchSelectedPlugin(&#34;plugins.&#34; + self.plugin.name + &#34;.main&#34;), 14, 1, width=15, padx=8, state=&#34;disabled&#34;)
+        
+        
+    def convertFromListToGlobalIndex(self, list, pluginIndex):
+        # Get the name
+        plugin = list.get(pluginIndex).replace(&#34; &#34;, &#34;&#34;)
+        
+        # Find the index of the plugin in the plugins array
+        for i in range(len(self.plugins)):
+            if self.plugins[i].PluginInfo.name == plugin:
+                return i
+            
+        # Check if the plugin is a string
+        print(&#34;Plugin not found.&#34;)
+        return 0
+        
+        
+    
+    def switchPluginState(self, plugin, list):
+        
+        # Get the name
+        plugin = self.convertFromListToGlobalIndex(list, plugin)
+        plugin = self.plugins[plugin]
+        
+        if plugin.PluginInfo.name in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            self.disablePlugin(plugin)
+        else:
+            self.enablePlugin(plugin)
+    
+    def disablePlugin(self, plugin):
+        settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, plugin.PluginInfo.name)
+        variables.UpdatePlugins()
+        plugin.onDisable()
+        try:
+            self.page0()
+        except:
+            pass
+        
+    def enablePlugin(self, plugin):
+        # Check for exclusivity
+        if plugin.PluginInfo.exclusive != None:
+            from tkinter import messagebox
+            if messagebox.askokcancel(&#34;Exclusive plugin&#34;, &#34;This plugin is exclusive, enabling it will disable all other exclusive plugins of type &#39;&#34; + plugin.PluginInfo.exclusive + &#34;&#39;.&#34;):
+                for otherPlugin in self.plugins:
+                    if otherPlugin.PluginInfo.exclusive != None:
+                        if otherPlugin.PluginInfo.exclusive == plugin.PluginInfo.exclusive:
+                            settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, otherPlugin.PluginInfo.name)
+            else: return
+            
+        if plugin.PluginInfo.requires != None:
+            from tkinter import messagebox
+            if messagebox.askokcancel(&#34;Required plugins&#34;, &#34;This plugin requires other plugins to work, enabling it will enable all required plugins.\n\n&#34; + &#34;\n&#34;.join(plugin.PluginInfo.requires) + &#34;\n\nDo you want to continue?&#34;):
+                for otherPlugin in self.plugins:
+                    if otherPlugin.PluginInfo.name in plugin.PluginInfo.requires:
+                        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, otherPlugin.PluginInfo.name)
+            else:
+                return
+            
+        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, plugin.PluginInfo.name)
+        variables.UpdatePlugins()
+        plugin.onEnable()
+        self.page0()
+        #helpers.MakeLabel(self.root, &#34;Restart Required&#34;, 11, 0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=2, columnspan=1, sticky=&#34;n&#34;)
+    
+    def update(self, data):
+        try:
+            # Check which list is selected
+            if self.pluginList.curselection() != ():
+                if self.pluginList.curselection()[0] != self.lastPlugin or self.lastList != 0:
+                    self.lastList = 0
+                    self.lastPlugin = self.pluginList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.pluginList, self.pluginList.curselection()[0])])
+            elif self.laneDetectionList.curselection() != ():
+                if self.laneDetectionList.curselection()[0] != self.lastPlugin or self.lastList != 1:
+                    self.lastList = 1
+                    self.lastPlugin = self.laneDetectionList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.laneDetectionList, self.laneDetectionList.curselection()[0])])
+            elif self.screenCaptureList.curselection() != ():
+                if self.screenCaptureList.curselection()[0] != self.lastPlugin or self.lastList != 2:
+                    self.lastList = 2
+                    self.lastPlugin = self.screenCaptureList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.screenCaptureList, self.screenCaptureList.curselection()[0])])
+            
+        except:
+            try:
+                self.plugin
+            except:
+                self.selectedPlugin(self.plugins[0])
+        
+        if settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;) != self.lastTheme:
+            self.lastTheme = settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)
+            self.colorPlugins()
+        
+        self.root.update()
+    </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    
+    def findPlugins(self):
+        print(&#34;Importing plugins...&#34;)
+        # loading = LoadingWindow(&#34;Importing plugins...&#34;)
+        # Find plugins
+        path = os.path.join(variables.PATH, &#34;plugins&#34;)
+        plugins = []
+        for file in os.listdir(path):
+            if os.path.isdir(os.path.join(path, file)):
+                # Check for main.py
+                if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                    # Check for PluginInformation class
+                    try:
+                        pluginPath = &#34;plugins.&#34; + file + &#34;.main&#34;
+                        plugin = __import__(pluginPath, fromlist=[&#34;PluginInformation&#34;, &#34;onDisable&#34;, &#34;onEnable&#34;])
+                        if plugin.PluginInfo.type == &#34;dynamic&#34;:
+                            plugins.append(plugin)
+                            print(&#34;Found plugin: &#34; + pluginPath)
+                    except Exception as ex:
+                        print(ex.args)
+                        pass
+                    
+        # loading.destroy()
+        return plugins
+    
+
+    
+    def __init__(self, master) -&gt; None:
+        self.done = False
+        self.master = master
+        self.lastTheme = settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)
+        self.lastPlugin = 0
+        self.lastList = 0
+        resizeWindow(1220, 700)
+        self.page0()
+        self.selectedPlugin(self.plugins[0])
+        self.keybindTimer = time.time()
+    
+    def destroy(self):
+        self.done = True
+        self.root.destroy()
+        del self
+
+    def tabFocused(self):
+        resizeWindow(1220, 700)
+    
+    def page0(self):
+        
+        try:
+            self.root.destroy()
+            del self.plugin
+        except: pass
+        
+        self.root = tk.Canvas(self.master, width=1500, height=800, border=0, highlightthickness=0)
+        self.root.grid_propagate(0)
+        
+        self.plugins = self.findPlugins()
+        
+        self.listVariable = tk.StringVar()
+        self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == None])
+        
+        self.laneDetectionVariable = tk.StringVar()
+        self.laneDetectionVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == &#34;LaneDetection&#34;])
+        
+        self.screenCaptureVariable = tk.StringVar()
+        self.screenCaptureVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == &#34;ScreenCapture&#34;])
+        
+        self.pluginList = tk.Listbox(self.root, width=20, height=31, listvariable=self.listVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+        self.pluginList.grid(row=2, column=0, padx=10, pady=2)
+        # Bind double click
+        self.pluginList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.pluginList.curselection()[0], self.pluginList))
+        
+        self.laneDetectionList = tk.Listbox(self.root, width=20, height=31, listvariable=self.laneDetectionVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+        self.laneDetectionList.grid(row=2, column=1, padx=10, pady=2)
+        # Bind double click
+        self.laneDetectionList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.laneDetectionList.curselection()[0], self.laneDetectionList))
+        
+        self.screenCaptureList = tk.Listbox(self.root, width=20, height=31, listvariable=self.screenCaptureVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+        self.screenCaptureList.grid(row=2, column=2, padx=10, pady=2)
+        # Bind double click
+        self.screenCaptureList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.screenCaptureList.curselection()[0], self.screenCaptureList))
+        
+        
+        self.colorPlugins()
+        
+        helpers.MakeLabel(self.root, &#34;Misc. Plugins&#34;, 0,0, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, &#34;optional&#34;, 1,0, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1)
+        helpers.MakeLabel(self.root, &#34;Lane Detection Plugins&#34;, 0,1, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, &#34;required for lane detection&#34;, 1,1, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1, fg=&#34;#cc0000&#34;)
+        helpers.MakeLabel(self.root, &#34;Screen Capture Plugins&#34;, 0,2, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+        helpers.MakeLabel(self.root, &#34;required for lane detection&#34;, 1,2, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1, fg=&#34;#cc0000&#34;)
+        
+        self.root.pack(anchor=&#34;center&#34;, expand=False, ipady=10)
+        
+        self.root.update()
+    
+    
+    def colorPlugins(self):
+        
+        enabledPlugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
+        if enabledPlugins == None:
+            settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [])
+            enabledPlugins = []
+            
+        # Set plugin colors
+        colorTone = settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)
+        if colorTone == None:
+            colorTone = &#34;dark&#34;
+            
+        colors = {
+            &#34;darkEnabled&#34;: &#34;#204d63&#34;,
+            &#34;darkDisabled&#34;: &#34;#2e2e2e&#34;,
+            &#34;lightEnabled&#34;: &#34;#1e6fbc&#34;,
+            &#34;lightDisabled&#34;: &#34;#d9d9d9&#34;
+        }
+        
+        def colorListbox(listbox, color):
+            for i in range(len(listbox.get(0, &#34;end&#34;))):
+                if listbox.get(i).replace(&#34; &#34;, &#34;&#34;) in enabledPlugins:
+                    listbox.itemconfig(i, bg=f&#34;{colors[color + &#39;Enabled&#39;]}&#34;, fg=&#34;#ffffff&#34;)
+                else:
+                    listbox.itemconfig(i, bg=f&#34;{colors[color + &#39;Disabled&#39;]}&#34;)
+        
+        colorListbox(self.pluginList, colorTone)
+        colorListbox(self.laneDetectionList, colorTone)
+        colorListbox(self.screenCaptureList, colorTone)
+
+    
+    def selectedPlugin(self, plugin):
+        try:
+            self.pluginInfoFrame.destroy()
+        except:
+            pass
+        
+        
+        self.plugin = plugin.PluginInfo
+        
+        
+        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=440, height=650)
+        self.pluginInfoFrame.pack_propagate(0)
+        self.pluginInfoFrame.grid_propagate(0)
+        self.pluginInfoFrame.grid(row=0, column=3, padx=10, pady=2, rowspan=3)
+        
+        
+        if self.plugin.image != None:
+            # Load the logo
+            self.logo = Image.open(os.path.join(variables.PATH, &#34;plugins&#34;, self.plugin.name, self.plugin.image))
+            # Resize to height keeping the aspect ratio
+            height = 130
+            self.logo = self.logo.resize((int(height*self.logo.width/self.logo.height), height), Image.Resampling.BILINEAR)
+            self.logo = ImageTk.PhotoImage(self.logo)
+            self.logoLabel = tk.Label(self.pluginInfoFrame, image=self.logo)
+            self.logoLabel.grid(row=0, column=0, columnspan=1, pady=10, padx=30)
+            
+            helpers.MakeLabel(self.pluginInfoFrame, helpers.ConvertCapitalizationToSpaces(self.plugin.name), 0,1, font=(&#34;Roboto&#34;, 16, &#34;bold&#34;), padx=10, pady=10, columnspan=1, sticky=&#34;w&#34;, translate=False)
+            
+        else:
+            helpers.MakeLabel(self.pluginInfoFrame, helpers.ConvertCapitalizationToSpaces(self.plugin.name), 0,0, font=(&#34;Roboto&#34;, 16, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;, translate=False)
+            
+        
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Description&#34;, 1,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.description, 2,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Version&#34;, 3,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.version, 4,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Author&#34;, 5,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.author, 6,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;URL&#34;, 7,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.url, 8,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Update point&#34;, 9,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.dynamicOrder, 10,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        
+        if self.plugin.exclusive != None:
+            helpers.MakeLabel(self.pluginInfoFrame, &#34;Exclusive Type&#34;, 11,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+            helpers.MakeLabel(self.pluginInfoFrame, self.plugin.exclusive, 12,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+        
+        if self.plugin.requires != None:
+            helpers.MakeLabel(self.pluginInfoFrame, &#34;Dependencies&#34;, 12,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+            helpers.MakeLabel(self.pluginInfoFrame, &#34;, &#34;.join(self.plugin.requires), 13,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+
+        if self.plugin.name in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            helpers.MakeButton(self.pluginInfoFrame, &#34;Disable plugin&#34;, lambda: self.disablePlugin(plugin), 14, 0, width=15, padx=8)
+        else:
+            helpers.MakeButton(self.pluginInfoFrame, &#34;Enable plugin&#34;, lambda: self.enablePlugin(plugin), 14, 0, width=15, padx=8)
+        
+        if not self.plugin.noUI:
+            helpers.MakeButton(self.pluginInfoFrame, &#34;Load plugin UI&#34;, lambda: switchSelectedPlugin(&#34;plugins.&#34; + self.plugin.name + &#34;.main&#34;), 14, 1, width=15, padx=8)        
+        else:
+            helpers.MakeButton(self.pluginInfoFrame, &#34;Load plugin UI&#34;, lambda: switchSelectedPlugin(&#34;plugins.&#34; + self.plugin.name + &#34;.main&#34;), 14, 1, width=15, padx=8, state=&#34;disabled&#34;)
+        
+        
+    def convertFromListToGlobalIndex(self, list, pluginIndex):
+        # Get the name
+        plugin = list.get(pluginIndex).replace(&#34; &#34;, &#34;&#34;)
+        
+        # Find the index of the plugin in the plugins array
+        for i in range(len(self.plugins)):
+            if self.plugins[i].PluginInfo.name == plugin:
+                return i
+            
+        # Check if the plugin is a string
+        print(&#34;Plugin not found.&#34;)
+        return 0
+        
+        
+    
+    def switchPluginState(self, plugin, list):
+        
+        # Get the name
+        plugin = self.convertFromListToGlobalIndex(list, plugin)
+        plugin = self.plugins[plugin]
+        
+        if plugin.PluginInfo.name in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+            self.disablePlugin(plugin)
+        else:
+            self.enablePlugin(plugin)
+    
+    def disablePlugin(self, plugin):
+        settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, plugin.PluginInfo.name)
+        variables.UpdatePlugins()
+        plugin.onDisable()
+        try:
+            self.page0()
+        except:
+            pass
+        
+    def enablePlugin(self, plugin):
+        # Check for exclusivity
+        if plugin.PluginInfo.exclusive != None:
+            from tkinter import messagebox
+            if messagebox.askokcancel(&#34;Exclusive plugin&#34;, &#34;This plugin is exclusive, enabling it will disable all other exclusive plugins of type &#39;&#34; + plugin.PluginInfo.exclusive + &#34;&#39;.&#34;):
+                for otherPlugin in self.plugins:
+                    if otherPlugin.PluginInfo.exclusive != None:
+                        if otherPlugin.PluginInfo.exclusive == plugin.PluginInfo.exclusive:
+                            settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, otherPlugin.PluginInfo.name)
+            else: return
+            
+        if plugin.PluginInfo.requires != None:
+            from tkinter import messagebox
+            if messagebox.askokcancel(&#34;Required plugins&#34;, &#34;This plugin requires other plugins to work, enabling it will enable all required plugins.\n\n&#34; + &#34;\n&#34;.join(plugin.PluginInfo.requires) + &#34;\n\nDo you want to continue?&#34;):
+                for otherPlugin in self.plugins:
+                    if otherPlugin.PluginInfo.name in plugin.PluginInfo.requires:
+                        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, otherPlugin.PluginInfo.name)
+            else:
+                return
+            
+        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, plugin.PluginInfo.name)
+        variables.UpdatePlugins()
+        plugin.onEnable()
+        self.page0()
+        #helpers.MakeLabel(self.root, &#34;Restart Required&#34;, 11, 0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=2, columnspan=1, sticky=&#34;n&#34;)
+    
+    def update(self, data):
+        try:
+            # Check which list is selected
+            if self.pluginList.curselection() != ():
+                if self.pluginList.curselection()[0] != self.lastPlugin or self.lastList != 0:
+                    self.lastList = 0
+                    self.lastPlugin = self.pluginList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.pluginList, self.pluginList.curselection()[0])])
+            elif self.laneDetectionList.curselection() != ():
+                if self.laneDetectionList.curselection()[0] != self.lastPlugin or self.lastList != 1:
+                    self.lastList = 1
+                    self.lastPlugin = self.laneDetectionList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.laneDetectionList, self.laneDetectionList.curselection()[0])])
+            elif self.screenCaptureList.curselection() != ():
+                if self.screenCaptureList.curselection()[0] != self.lastPlugin or self.lastList != 2:
+                    self.lastList = 2
+                    self.lastPlugin = self.screenCaptureList.curselection()[0]
+                    self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.screenCaptureList, self.screenCaptureList.curselection()[0])])
+            
+        except:
+            try:
+                self.plugin
+            except:
+                self.selectedPlugin(self.plugins[0])
+        
+        if settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;) != self.lastTheme:
+            self.lastTheme = settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)
+            self.colorPlugins()
+        
+        self.root.update()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.colorPlugins"><code class="name flex">
+<span>def <span class="ident">colorPlugins</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def colorPlugins(self):
+    
+    enabledPlugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
+    if enabledPlugins == None:
+        settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [])
+        enabledPlugins = []
+        
+    # Set plugin colors
+    colorTone = settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)
+    if colorTone == None:
+        colorTone = &#34;dark&#34;
+        
+    colors = {
+        &#34;darkEnabled&#34;: &#34;#204d63&#34;,
+        &#34;darkDisabled&#34;: &#34;#2e2e2e&#34;,
+        &#34;lightEnabled&#34;: &#34;#1e6fbc&#34;,
+        &#34;lightDisabled&#34;: &#34;#d9d9d9&#34;
+    }
+    
+    def colorListbox(listbox, color):
+        for i in range(len(listbox.get(0, &#34;end&#34;))):
+            if listbox.get(i).replace(&#34; &#34;, &#34;&#34;) in enabledPlugins:
+                listbox.itemconfig(i, bg=f&#34;{colors[color + &#39;Enabled&#39;]}&#34;, fg=&#34;#ffffff&#34;)
+            else:
+                listbox.itemconfig(i, bg=f&#34;{colors[color + &#39;Disabled&#39;]}&#34;)
+    
+    colorListbox(self.pluginList, colorTone)
+    colorListbox(self.laneDetectionList, colorTone)
+    colorListbox(self.screenCaptureList, colorTone)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.convertFromListToGlobalIndex"><code class="name flex">
+<span>def <span class="ident">convertFromListToGlobalIndex</span></span>(<span>self, list, pluginIndex)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convertFromListToGlobalIndex(self, list, pluginIndex):
+    # Get the name
+    plugin = list.get(pluginIndex).replace(&#34; &#34;, &#34;&#34;)
+    
+    # Find the index of the plugin in the plugins array
+    for i in range(len(self.plugins)):
+        if self.plugins[i].PluginInfo.name == plugin:
+            return i
+        
+    # Check if the plugin is a string
+    print(&#34;Plugin not found.&#34;)
+    return 0</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.disablePlugin"><code class="name flex">
+<span>def <span class="ident">disablePlugin</span></span>(<span>self, plugin)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def disablePlugin(self, plugin):
+    settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, plugin.PluginInfo.name)
+    variables.UpdatePlugins()
+    plugin.onDisable()
+    try:
+        self.page0()
+    except:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.enablePlugin"><code class="name flex">
+<span>def <span class="ident">enablePlugin</span></span>(<span>self, plugin)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def enablePlugin(self, plugin):
+    # Check for exclusivity
+    if plugin.PluginInfo.exclusive != None:
+        from tkinter import messagebox
+        if messagebox.askokcancel(&#34;Exclusive plugin&#34;, &#34;This plugin is exclusive, enabling it will disable all other exclusive plugins of type &#39;&#34; + plugin.PluginInfo.exclusive + &#34;&#39;.&#34;):
+            for otherPlugin in self.plugins:
+                if otherPlugin.PluginInfo.exclusive != None:
+                    if otherPlugin.PluginInfo.exclusive == plugin.PluginInfo.exclusive:
+                        settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, otherPlugin.PluginInfo.name)
+        else: return
+        
+    if plugin.PluginInfo.requires != None:
+        from tkinter import messagebox
+        if messagebox.askokcancel(&#34;Required plugins&#34;, &#34;This plugin requires other plugins to work, enabling it will enable all required plugins.\n\n&#34; + &#34;\n&#34;.join(plugin.PluginInfo.requires) + &#34;\n\nDo you want to continue?&#34;):
+            for otherPlugin in self.plugins:
+                if otherPlugin.PluginInfo.name in plugin.PluginInfo.requires:
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, otherPlugin.PluginInfo.name)
+        else:
+            return
+        
+    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, plugin.PluginInfo.name)
+    variables.UpdatePlugins()
+    plugin.onEnable()
+    self.page0()
+    #helpers.MakeLabel(self.root, &#34;Restart Required&#34;, 11, 0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=2, columnspan=1, sticky=&#34;n&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.findPlugins"><code class="name flex">
+<span>def <span class="ident">findPlugins</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def findPlugins(self):
+    print(&#34;Importing plugins...&#34;)
+    # loading = LoadingWindow(&#34;Importing plugins...&#34;)
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    plugins = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginPath = &#34;plugins.&#34; + file + &#34;.main&#34;
+                    plugin = __import__(pluginPath, fromlist=[&#34;PluginInformation&#34;, &#34;onDisable&#34;, &#34;onEnable&#34;])
+                    if plugin.PluginInfo.type == &#34;dynamic&#34;:
+                        plugins.append(plugin)
+                        print(&#34;Found plugin: &#34; + pluginPath)
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+                
+    # loading.destroy()
+    return plugins</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.page0"><code class="name flex">
+<span>def <span class="ident">page0</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def page0(self):
+    
+    try:
+        self.root.destroy()
+        del self.plugin
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=1500, height=800, border=0, highlightthickness=0)
+    self.root.grid_propagate(0)
+    
+    self.plugins = self.findPlugins()
+    
+    self.listVariable = tk.StringVar()
+    self.listVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == None])
+    
+    self.laneDetectionVariable = tk.StringVar()
+    self.laneDetectionVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == &#34;LaneDetection&#34;])
+    
+    self.screenCaptureVariable = tk.StringVar()
+    self.screenCaptureVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == &#34;ScreenCapture&#34;])
+    
+    self.pluginList = tk.Listbox(self.root, width=20, height=31, listvariable=self.listVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+    self.pluginList.grid(row=2, column=0, padx=10, pady=2)
+    # Bind double click
+    self.pluginList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.pluginList.curselection()[0], self.pluginList))
+    
+    self.laneDetectionList = tk.Listbox(self.root, width=20, height=31, listvariable=self.laneDetectionVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+    self.laneDetectionList.grid(row=2, column=1, padx=10, pady=2)
+    # Bind double click
+    self.laneDetectionList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.laneDetectionList.curselection()[0], self.laneDetectionList))
+    
+    self.screenCaptureList = tk.Listbox(self.root, width=20, height=31, listvariable=self.screenCaptureVariable, font=(&#34;Roboto&#34;, 12), selectmode=&#34;single&#34;, activestyle=&#34;none&#34;, justify=&#34;center&#34;)
+    self.screenCaptureList.grid(row=2, column=2, padx=10, pady=2)
+    # Bind double click
+    self.screenCaptureList.bind(&#39;&lt;Double-Button&gt;&#39;, lambda x: self.switchPluginState(self.screenCaptureList.curselection()[0], self.screenCaptureList))
+    
+    
+    self.colorPlugins()
+    
+    helpers.MakeLabel(self.root, &#34;Misc. Plugins&#34;, 0,0, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+    helpers.MakeLabel(self.root, &#34;optional&#34;, 1,0, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1)
+    helpers.MakeLabel(self.root, &#34;Lane Detection Plugins&#34;, 0,1, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+    helpers.MakeLabel(self.root, &#34;required for lane detection&#34;, 1,1, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1, fg=&#34;#cc0000&#34;)
+    helpers.MakeLabel(self.root, &#34;Screen Capture Plugins&#34;, 0,2, font=(&#34;Roboto&#34;, 10), padx=30, pady=10, columnspan=1)
+    helpers.MakeLabel(self.root, &#34;required for lane detection&#34;, 1,2, font=(&#34;Roboto&#34;, 10), padx=30, pady=2, columnspan=1, fg=&#34;#cc0000&#34;)
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False, ipady=10)
+    
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.selectedPlugin"><code class="name flex">
+<span>def <span class="ident">selectedPlugin</span></span>(<span>self, plugin)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def selectedPlugin(self, plugin):
+    try:
+        self.pluginInfoFrame.destroy()
+    except:
+        pass
+    
+    
+    self.plugin = plugin.PluginInfo
+    
+    
+    self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=440, height=650)
+    self.pluginInfoFrame.pack_propagate(0)
+    self.pluginInfoFrame.grid_propagate(0)
+    self.pluginInfoFrame.grid(row=0, column=3, padx=10, pady=2, rowspan=3)
+    
+    
+    if self.plugin.image != None:
+        # Load the logo
+        self.logo = Image.open(os.path.join(variables.PATH, &#34;plugins&#34;, self.plugin.name, self.plugin.image))
+        # Resize to height keeping the aspect ratio
+        height = 130
+        self.logo = self.logo.resize((int(height*self.logo.width/self.logo.height), height), Image.Resampling.BILINEAR)
+        self.logo = ImageTk.PhotoImage(self.logo)
+        self.logoLabel = tk.Label(self.pluginInfoFrame, image=self.logo)
+        self.logoLabel.grid(row=0, column=0, columnspan=1, pady=10, padx=30)
+        
+        helpers.MakeLabel(self.pluginInfoFrame, helpers.ConvertCapitalizationToSpaces(self.plugin.name), 0,1, font=(&#34;Roboto&#34;, 16, &#34;bold&#34;), padx=10, pady=10, columnspan=1, sticky=&#34;w&#34;, translate=False)
+        
+    else:
+        helpers.MakeLabel(self.pluginInfoFrame, helpers.ConvertCapitalizationToSpaces(self.plugin.name), 0,0, font=(&#34;Roboto&#34;, 16, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;, translate=False)
+        
+    
+    helpers.MakeLabel(self.pluginInfoFrame, &#34;Description&#34;, 1,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, self.plugin.description, 2,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, &#34;Version&#34;, 3,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, self.plugin.version, 4,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, &#34;Author&#34;, 5,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, self.plugin.author, 6,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, &#34;URL&#34;, 7,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, self.plugin.url, 8,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, &#34;Update point&#34;, 9,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+    helpers.MakeLabel(self.pluginInfoFrame, self.plugin.dynamicOrder, 10,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+    
+    if self.plugin.exclusive != None:
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Exclusive Type&#34;, 11,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, self.plugin.exclusive, 12,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+    
+    if self.plugin.requires != None:
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;Dependencies&#34;, 12,0, font=(&#34;Roboto&#34;, 12, &#34;bold&#34;), padx=10, pady=10, columnspan=2, sticky=&#34;w&#34;)
+        helpers.MakeLabel(self.pluginInfoFrame, &#34;, &#34;.join(self.plugin.requires), 13,0, font=(&#34;Roboto&#34;, 8), padx=10, pady=2, columnspan=2, sticky=&#34;w&#34;)
+
+    if self.plugin.name in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        helpers.MakeButton(self.pluginInfoFrame, &#34;Disable plugin&#34;, lambda: self.disablePlugin(plugin), 14, 0, width=15, padx=8)
+    else:
+        helpers.MakeButton(self.pluginInfoFrame, &#34;Enable plugin&#34;, lambda: self.enablePlugin(plugin), 14, 0, width=15, padx=8)
+    
+    if not self.plugin.noUI:
+        helpers.MakeButton(self.pluginInfoFrame, &#34;Load plugin UI&#34;, lambda: switchSelectedPlugin(&#34;plugins.&#34; + self.plugin.name + &#34;.main&#34;), 14, 1, width=15, padx=8)        
+    else:
+        helpers.MakeButton(self.pluginInfoFrame, &#34;Load plugin UI&#34;, lambda: switchSelectedPlugin(&#34;plugins.&#34; + self.plugin.name + &#34;.main&#34;), 14, 1, width=15, padx=8, state=&#34;disabled&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.switchPluginState"><code class="name flex">
+<span>def <span class="ident">switchPluginState</span></span>(<span>self, plugin, list)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def switchPluginState(self, plugin, list):
+    
+    # Get the name
+    plugin = self.convertFromListToGlobalIndex(list, plugin)
+    plugin = self.plugins[plugin]
+    
+    if plugin.PluginInfo.name in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        self.disablePlugin(plugin)
+    else:
+        self.enablePlugin(plugin)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.tabFocused"><code class="name flex">
+<span>def <span class="ident">tabFocused</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tabFocused(self):
+    resizeWindow(1220, 700)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data):
+    try:
+        # Check which list is selected
+        if self.pluginList.curselection() != ():
+            if self.pluginList.curselection()[0] != self.lastPlugin or self.lastList != 0:
+                self.lastList = 0
+                self.lastPlugin = self.pluginList.curselection()[0]
+                self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.pluginList, self.pluginList.curselection()[0])])
+        elif self.laneDetectionList.curselection() != ():
+            if self.laneDetectionList.curselection()[0] != self.lastPlugin or self.lastList != 1:
+                self.lastList = 1
+                self.lastPlugin = self.laneDetectionList.curselection()[0]
+                self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.laneDetectionList, self.laneDetectionList.curselection()[0])])
+        elif self.screenCaptureList.curselection() != ():
+            if self.screenCaptureList.curselection()[0] != self.lastPlugin or self.lastList != 2:
+                self.lastList = 2
+                self.lastPlugin = self.screenCaptureList.curselection()[0]
+                self.selectedPlugin(self.plugins[self.convertFromListToGlobalIndex(self.screenCaptureList, self.screenCaptureList.curselection()[0])])
+        
+    except:
+        try:
+            self.plugin
+        except:
+            self.selectedPlugin(self.plugins[0])
+    
+    if settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;) != self.lastTheme:
+        self.lastTheme = settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)
+        self.colorPlugins()
+    
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.colorPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.colorPlugins">colorPlugins</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.convertFromListToGlobalIndex" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.convertFromListToGlobalIndex">convertFromListToGlobalIndex</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.disablePlugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.disablePlugin">disablePlugin</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.enablePlugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.enablePlugin">enablePlugin</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.findPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.findPlugins">findPlugins</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.page0" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.page0">page0</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.selectedPlugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.selectedPlugin">selectedPlugin</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.switchPluginState" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.switchPluginState">switchPluginState</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.tabFocused" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.tabFocused">tabFocused</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.PluginManager.main.UI.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

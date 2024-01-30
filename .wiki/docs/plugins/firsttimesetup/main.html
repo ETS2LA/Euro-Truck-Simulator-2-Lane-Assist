@@ -1,0 +1,2042 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from plugins.plugin import PluginInformation
+
+PluginInfo = PluginInformation(
+    name=&#34;FirstTimeSetup&#34;,
+    description=&#34;Will help you get the app up and running!&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;Tumppi066&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;static&#34;,
+    image=&#34;image.png&#34;,
+    disablePlugins=True
+)
+
+
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk
+import src.helpers as helpers
+from src.mainUI import quit
+from PIL import Image, ImageTk
+import src.variables as variables
+import os
+import pygame
+import src.settings as settings
+import cv2
+import plugins.TruckSimAPI.main as api
+import webview
+import src.controls as controls
+
+try:
+    import bettercam
+except:
+    bettercam = None
+
+pygame.display.init()
+pygame.joystick.init()
+
+
+class UI():
+    
+    def destroy(self):
+        self.done = True
+        self.root.destroy()
+        del self
+    
+    try:
+        
+        def __init__(self, master) -&gt; None:
+            self.done = False
+            self.master = master
+            self.waitForAPI = False
+            self.page0()
+        
+        def page0(self):
+            
+            try:
+                self.root.destroy()
+            except: pass
+            
+            self.root = tk.Canvas(self.master)
+            
+            helpers.MakeLabel(self.root, &#34;Welcome&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;This setup will automatically configure the OFFICIAL plugins. &#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;If you have any other plugins installed, please configure them manually.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+
+            helpers.MakeEmptyLine(self.root, 3,0, columnspan=3)
+            
+            # REMEMBER TO CHANGE BACK TO PAGE1
+            helpers.MakeButton(self.root, &#34;Tutorial Video ↗&#34;, lambda: helpers.OpenInBrowser(&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;), 4,0, width=20)
+            helpers.MakeButton(self.root, &#34;Wiki ↗&#34;, lambda: helpers.OpenInBrowser(&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;), 4,1, width=20)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.detectionselection(), 4,2, width=20)
+
+            helpers.MakeEmptyLine(self.root, 5,0, columnspan=3)
+            
+            # Load the logo
+            self.logo = Image.open(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;logo.png&#34;))
+            height = 320
+            width = round(height * 1.665)
+            self.logo = self.logo.resize((width, height), resample=Image.LANCZOS)
+            self.logo = ImageTk.PhotoImage(self.logo)
+            self.logoLabel = tk.Label(self.root, image=self.logo)
+            self.logoLabel.grid(row=6, column=0, columnspan=3, pady=10, padx=30)
+
+            self.root.pack(anchor=&#34;center&#34;)
+            
+            self.root.update()
+        
+
+        def detectionselection(self):
+            settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;TruckersMPLock&#34;])
+            def openwiki():
+                    webview.create_window(&#34;Lane Assist Wiki&#34;, &#34;https://wiki.tumppi066.fi/en/LaneAssist/DetectionTypes&#34;)
+                    webview.start()
+            self.root.destroy()
+            del self.root
+            self.root = tk.Canvas(self.master, highlightthickness=0)
+            helpers.MakeLabel(self.root, &#34;Lane detection type.&#34;, 0,0, font=(&#34;Roboto&#34;, 15, &#34;bold&#34;), padx=30, pady=10, columnspan=3,)
+            helpers.MakeLabel(self.root, &#34;TLDR: Navigation Detection is the recommended model for most people.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 12), padx=30, pady=0, columnspan=3)
+            ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=2, column=0, ipadx=0, ipady=0, pady=0)
+            ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=5, column=0, ipadx=0, ipady=0, pady=0)
+            global detectionmethod
+            detectionmethod = tk.StringVar()
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;LSTR Lane Detection (Scans the road for lane lines)&#34;, value=&#34;lstr&#34;).grid(columnspan=3, row=6, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;UFLD Lane Detection (Only for use with Nvidia GPU &gt; GTX 1060)&#34;, value=&#34;ufld&#34;).grid(columnspan=3, row=7, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;Navigation Detection (Uses the minimap for lane detection (Recommended))&#34;, value=&#34;nav&#34;).grid(columnspan=3, row=8, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+            detectionmethod.set(&#34;nav&#34;)
+            ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=9, column=0, ipadx=0, ipady=0, pady=0)
+            
+            def detectionsettings():
+                if detectionmethod.get() == &#34;lstr&#34;:
+                    print(&#34;LSTR Selected&#34;)
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;LSTRDrawLanes&#34;])
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;LSTRLaneDetection&#34;])
+                elif detectionmethod.get() == &#34;ufld&#34;:
+                    ufldmessagebox = messagebox.askokcancel(&#34;Are you sure you want to use UFLD&#34;,
+                                            &#34;UFLD requires a NVIDIA GPU 1060 TI or better, if you use UFLD without one you risk crashing your system. You are responsible for any damage while using UFLD.&#34;,
+                                            icon=&#34;warning&#34;)
+                    if ufldmessagebox == False:
+                        return
+                    print(&#34;UFLD Selected&#34;)
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;UFLDDrawLanes&#34;])
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;UFLDLaneDetection&#34;])
+                elif detectionmethod.get() == &#34;nav&#34;:
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;NavigationDetection&#34;])
+                else:
+                    print(&#34;Please select a detection method&#34;)
+                    return
+                self.page1()
+            
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.page0(), 10,0)
+            helpers.MakeButton(self.root, &#34;Wiki&#34;, openwiki, 10,1)
+            helpers.MakeButton(self.root, &#34;Confirm&#34;, detectionsettings, 10,2)
+            self.root.pack()
+
+        def page1(self):
+            self.root.destroy()
+            del self.root
+            self.root = tk.Canvas(self.master)
+
+            helpers.MakeLabel(self.root, &#34;Select your controller type&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;Great! Now we need to know what kind of controller you are using.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeEmptyLine(self.root, 2,0, columnspan=3)
+            
+            helpers.MakeButton(self.root, &#34;Gamepad&#34;, lambda: self.gamepadPage(), 3,0)
+            helpers.MakeButton(self.root, &#34;Wheel&#34;, lambda: self.wheelPage(), 3,1)
+            helpers.MakeButton(self.root, &#34;Keyboard&#34;, lambda: self.keyboardPage(), 3,2)
+            helpers.MakeEmptyLine(self.root, 4,0, columnspan=3)
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.detectionselection(), 5,1)
+            
+            self.root.pack()
+            
+            
+        def gamepadPage(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, True)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadSmoothness&#34;, 0.05)
+
+            # helpers.MakeLabel(self.root, &#34;Gamepad&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            # helpers.MakeLabel(self.root, &#34;Great! I&#39;ll automatically set all the necessary options for gamepad usage.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+            # helpers.MakeLabel(self.root, &#34;Just be aware that you will have to set the controller type to &#39;wheel&#39; in the game.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)        
+            # helpers.MakeLabel(self.root, &#34;Don&#39;t worry there will be instructions later! For now please select your controller from the list below.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+            # pygame.event.pump()
+            # 
+            # 
+            # helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
+            # helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.axisSetup(), 8,1)
+
+            self.buttonSetup()
+            
+            
+        def wheelPage(self):
+            
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, False)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadsmoothness&#34;, 0.05)
+            # 
+            # from plugins.DefaultSteering.main import updateSettings
+            # updateSettings()
+            # 
+            # self.root.destroy()
+            # self.root = tk.Canvas(self.master)
+# 
+            # helpers.MakeLabel(self.root, &#34;Wheel&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            # helpers.MakeLabel(self.root, &#34;Great! Using a wheel has the most straight forward setup process.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)    
+            # helpers.MakeLabel(self.root, &#34;Please select your wheel from the list below.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+# 
+            # pygame.event.pump()
+# 
+            # self.joysticks = pygame.joystick.get_count()
+            # self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
+            # 
+            # self.listVariable = tk.StringVar(self.root)
+            # self.listVariable.set([j.get_name() for j in self.joysticks])
+            # 
+            # self.list = tk.Listbox(self.root, width=70, height=4, listvariable=self.listVariable, selectmode=&#34;single&#34;)
+            # self.list.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
+# 
+            # helpers.MakeLabel(self.root, &#34;The list is scrollable, if you can&#39;t find your controller then go back and open the page again.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+# 
+            # helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 5,0)
+            # helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.axisSetup(), 5,1)
+
+            self.buttonSetup()
+            
+            
+        def keyboardPage(self):
+            
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboard&#34;, True)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, False)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadsmoothness&#34;, 0.05)
+            
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+
+            helpers.MakeLabel(self.root, &#34;Keyboard&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Please bind the following buttons&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+
+            helpers.MakeButton(self.root, &#34;Bind enable / disable key&#34;, lambda: controls.ChangeKeybind(&#34;Enable/Disable Steering&#34;, updateUI=False), 2, 0, columnspan=2, width=25, tooltip=&#34;This button will enable and disable the steering.&#34;)
+            # helpers.MakeButton(self.root, &#34;Bind steer left key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Left Key&#34;, updateUI=False), 3, 0)
+            # helpers.MakeButton(self.root, &#34;Bind steer right key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Right Key&#34;, updateUI=False), 4, 0)
+
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
+            if bettercam != None:
+                helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.screenCaptureSetup(), 8,1)
+            else:
+                helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.laneDetectionFeatures(), 8,1)
+
+            self.root.pack()
+            
+            
+        def buttonSetup(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+
+            helpers.MakeLabel(self.root, &#34;Button Setup&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            
+            def ButtonBound():
+                self.boundVar.set(f&#34;Bound to button index {settings.GetSettings(&#39;Input&#39;, &#39;Enable/Disable Steering&#39;)[&#39;buttonIndex&#39;]}&#34;)
+            
+            helpers.MakeLabel(self.root, &#34;                                                  Please bind the enable disable button.                                                  &#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeButton(self.root, &#34;Bind enable / disable button&#34;, lambda: controls.ChangeKeybind(&#34;Enable/Disable Steering&#34;, updateUI=False, callback=lambda: ButtonBound()), 3, 1, width=25, tooltip=&#34;This button will enable and disable the steering.&#34;)
+
+            self.boundVar = helpers.MakeLabel(self.root, &#34;&#34;, 4,0, columnspan=3)
+            
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 5,0, columnspan=2)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.saveButtonSettings(), 5,1, columnspan=2)
+
+
+            self.root.pack()
+            self.root.update()
+            
+        def saveButtonSettings(self):
+            
+            # Save the button settings
+            # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicator&#34;, int(self.leftBlinkerCombo.get().split(&#34; &#34;)[1]))
+            # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicator&#34;, int(self.rightBlinkerCombo.get().split(&#34; &#34;)[1]))
+            # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisable&#34;, int(self.enableDisableCombo.get().split(&#34; &#34;)[1]))
+            
+            from plugins.DefaultSteering.main import updateSettings
+            updateSettings()
+            
+            if bettercam != None:
+                self.screenCaptureSetup()      
+            else:
+                self.laneDetectionFeatures()
+        
+        def screenCaptureSetup(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+
+            helpers.MakeLabel(self.root, &#34;Screen Capture&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This app will screen capture your screen and detect the lanes on those images.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;For this reason we need to make sure that the screen we capture on is correct.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)  
+            helpers.MakeLabel(self.root, &#34; &#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)       
+            helpers.MakeLabel(self.root, &#34;Please select the monitor ETS2 is going to be on.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+
+            # Detect all displays
+            bettercamOutput = bettercam.output_info()
+            for i in range(0,4):
+                # Remove GPU indices
+                bettercamOutput = bettercamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
+                # Also remove &#39;rot&#39;?
+                bettercamOutput = bettercamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
+                
+            
+            displays = bettercamOutput.split(&#34;\n&#34;)
+            
+            displayArray = []
+            for display in displays:
+                if display != &#34;&#34;:
+                    display = display.split(&#34;:&#34;)
+                    displayObject = &#34;&#34;
+                    # This is extremely ugly but it works
+                    displayObject += f&#39;Display{(display[0].replace(&#34;Output&#34;, &#34;&#34;).replace(&#34;[&#34;, &#34;&#34;).replace(&#34;]&#34;, &#34;&#34;))}&#39;
+                    displayObject += f&#39; ({display[2].replace(&#34;(&#34;, &#34;&#34;).replace(&#34;)&#34;, &#34;&#34;).replace(&#34;,&#34;, &#34;x&#34;).replace(&#34; &#34;, &#34;&#34;).replace(&#34;Primary&#34;, &#34;&#34;)})&#39;
+                    if display[3] == &#34;True&#34;:
+                        displayObject += &#34; (Primary)&#34;
+                    
+                    displayArray.append(displayObject)
+            
+            self.displays = ttk.Combobox(self.root, state=&#34;readonly&#34;, width=50)
+            self.displays[&#39;values&#39;] = displayArray
+            self.displays.set(displayArray[0])
+            
+            self.displays.grid(row=5, column=0, columnspan=2, padx=30, pady=10)
+
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.buttonSetup(), 6,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.setScreenCaptureSettings(self.displays.get().split(&#39; &#39;)[1]), 6,1)
+
+            self.root.pack()
+            
+        
+        def setScreenCaptureSettings(self, display):
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;display&#34;, int(display))
+            #settings.CreateSettings(&#34;Screen Capture&#34;, &#34;Refresh Rate&#34;, self.refreshRate.get())
+            self.soundSettings()
+
+                    
+        def soundSettings(self):
+            self.root.destroy()
+            settings.CreateSettings(&#34;Sound&#34;, &#34;enabled&#34;, True)
+            settings.CreateSettings(&#34;Sound&#34;, &#34;enable&#34;, &#34;assets/sounds/start.mp3&#34;)
+            settings.CreateSettings(&#34;Sound&#34;, &#34;disable&#34;, &#34;assets/sounds/end.mp3&#34;)
+            settings.CreateSettings(&#34;Sound&#34;, &#34;warning&#34;, &#34;assets/sounds/warning.mp3&#34;)
+            
+            self.root = tk.Canvas(self.master)
+            
+            helpers.MakeLabel(self.root, &#34;Sounds&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)    
+            helpers.MakeLabel(self.root, &#34;If you have custom sounds then place them in the folder and type out the path here.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+            
+            helpers.MakeCheckButton(self.root, &#34;Sounds Enabled&#34;, &#34;Sound&#34;, &#34;enabled&#34;, 3, 0)
+            self.enable = helpers.MakeComboEntry(self.root, &#34;Enable&#34;, &#34;Sound&#34;, &#34;enable&#34;, 4, 0, value=&#34;assets/sounds/start.mp3&#34;, width=50, isString=True)
+            self.disable = helpers.MakeComboEntry(self.root, &#34;Disable&#34;, &#34;Sound&#34;, &#34;disable&#34;, 5, 0, value=&#34;assets/sounds/end.mp3&#34;, width=50, isString=True)
+            self.warning = helpers.MakeComboEntry(self.root, &#34;Warning&#34;, &#34;Sound&#34;, &#34;warning&#34;, 6, 0, value=&#34;assets/sounds/warning.mp3&#34;, width=50, isString=True)
+            
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.screenCaptureSetup(), 7,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.saveSounds(), 7,1)
+            
+            self.root.pack()
+            self.root.update()
+            
+        
+        def saveSounds(self):
+            settings.CreateSettings(&#34;Sound&#34;, &#34;enable&#34;, self.enable.get())
+            settings.CreateSettings(&#34;Sound&#34;, &#34;disable&#34;, self.disable.get())
+            settings.CreateSettings(&#34;Sound&#34;, &#34;warning&#34;, self.warning.get())
+            
+            self.ets2APIsetup()
+        
+        def ets2APIsetup(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+            self.waitForAPI = True
+            
+            
+            
+            helpers.MakeLabel(self.root, &#34;Automatic installation&#34;, 4,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            
+            # Check for ETS2 / ATS directories 
+            import plugins.FirstTimeSetup.steamParser as steamParser
+            
+            self.scsGames = steamParser.FindSCSGames()
+                
+            foundString = &#34;Found the following games automatically:\n&#34;
+            
+            for game in self.scsGames:
+                foundString += game + &#34;: True\n&#34;
+            
+            self.gameText = helpers.MakeLabel(self.root, foundString, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            
+            from tkinter import filedialog
+            
+            self.foundAdditionalDir = False
+            def GetAdditionalDir(self):
+                self.additionalDir = filedialog.askdirectory()
+                # Check the base.scs file exists in that directory
+                if os.path.isfile(os.path.join(self.additionalDir, &#34;base.scs&#34;)):
+                    self.gameText.config(text=foundString + self.additionalDir + &#34;: True&#34;)
+                    self.foundAdditionalDir = True
+                    self.installButton.config(state=&#34;normal&#34;)
+                else:
+                    self.gameText.config(text=foundString + self.additionalDir + &#34;: False&#34;)
+                    self.foundAdditionalDir = False
+            
+            helpers.MakeButton(self.root, &#34;Add game (if not found)&#34;, lambda: GetAdditionalDir(self), 6,0, columnspan=3, width=30)
+            
+            import shutil
+            
+            def InstallETS2ATSPlugin(self):
+                pluginInstallDir = r&#34;bin\win_x64\plugins&#34;
+                # Make that folder if it doesn&#39;t exist
+                try:
+                    self.scsGames += [self.additionalDir]
+                except:
+                    pass
+                
+                # Copy the plugin to the correct folder
+                successfullyInstalled = []
+                for game in self.scsGames:
+                    print(game)
+                    # Check if the plugins folder exists
+                    if not os.path.isdir(os.path.join(game, pluginInstallDir)):
+                        os.makedirs(os.path.join(game, pluginInstallDir))
+                    
+                    # Copy the plugin to the folder
+                    try:
+                        # Copy the API
+                        shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;scs-telemetry.dll&#34;), os.path.join(game, pluginInstallDir))
+                        # Copy the controller SDK
+                        shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;input_semantical.dll&#34;), os.path.join(game, pluginInstallDir))
+                        successfullyInstalled.append(game)
+                    except:
+                        print(&#34;Failed to copy the plugin to &#34; + os.path.join(game, pluginInstallDir))
+                        
+                from tkinter import messagebox
+                if successfullyInstalled != []:
+                    messagebox.showinfo(&#34;Success&#34;, &#34;Successfully installed at least some plugin(s)!\nYou should start the game now to enable the SDK and continue on!\n\nInstalled to:\n&#34; + &#34;\n&#34;.join(successfullyInstalled))    
+                else:
+                    messagebox.showerror(&#34;Error&#34;, &#34;Failed to install the plugin(s)!\nAre you sure you set your path properly?&#34;)
+                
+                
+            
+            # Display the automatic installation buttons if the directories were found
+            if self.scsGames != []:
+                self.installButton = helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
+            else:
+                self.installButton = helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30, state=&#34;disabled&#34;)
+            
+            helpers.MakeLabel(self.root, &#34;\nETS2 API&#34;, 8,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;This app will also connect to your ETS2&#39;s / ATS&#39; API and get data about your truck.&#34;, 9,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;Press the button below to open the instructions (scroll down on the page).\nThe loading window will automatically disappear once connection is established.&#34;, 10,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+        
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.soundSettings(), 11,0)
+            import webbrowser
+            helpers.MakeButton(self.root, &#34;Open instructions&#34;, lambda: webbrowser.open(&#34;https://wiki.tumppi066.fi/en/LaneAssist/InGame&#34;), 11,1)
+            self.apiNextButton = helpers.MakeButton(self.root, &#34;Waiting for api...&#34;, lambda: self.lastPage(), 11,2, state=&#34;disabled&#34;)
+        
+            self.root.pack()
+            self.root.update()
+            
+            try:
+                if not api.loading:
+                    api.checkAPI()
+            except:
+                api.checkAPI()
+        
+        def lastPage(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+            
+            # Set all necessary plugins
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;BetterCamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+            variables.UpdatePlugins()
+            if detectionmethod.get() == &#34;nav&#34;:
+                helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34; &#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;We need to make sure that the app can see the game, so set your game to windowed mode.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;And then click the button below, and open the &#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;navigation detection V3 setup.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+            else:
+                helpers.MakeLabel(self.root, &#34;One more step!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34; &#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;We need to make sure that the app can see the game, so set your game to borderless!&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;And then click the button below, and move the &#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;window to where you are looking forward out of your truck.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+
+
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.ets2APIsetup(), 7,0)
+            from src.mainUI import switchSelectedPlugin
+            if os.name == &#34;nt&#34;:
+                if detectionmethod.get() == &#34;nav&#34;:
+                    helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.NavigationDetection.main&#34;), 7,1)
+                else:
+                    helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.ScreenCapturePlacement.main&#34;), 7,1)
+            else:
+                helpers.MakeLabel(self.root, &#34;Detected non windows system. You will have to manually enter the values!&#34;, 6,0, columnspan=2)
+                helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.MSSScreenCapture.main&#34;), 7,1)
+            
+            self.root.pack()
+            self.root.update()
+        
+        def update(self, data):
+            self.root.update()
+            pygame.event.pump()
+            try:
+                for i in range(len(self.sliderVars)):
+                    self.sliderVars[i].set(self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_axis(i))
+            except: pass
+            
+            try:
+                value = &#34;&#34;
+                for i in range(self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_numbuttons()):
+                    if self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_button(i):
+                        value += (&#34; Button &#34; + str(i))
+                self.pressedButtons.set(value)
+            except: pass
+            
+            try:
+                image = self.camera.get_latest_frame()
+                image = cv2.resize(image, (int(image.shape[1]/3), int(image.shape[0]/3)))
+                cv2.imshow(&#34;test&#34;, image)
+                
+            except: 
+                cv2.destroyAllWindows()
+                pass
+            
+            try:
+                self.apiNextButton.config(state=&#34;normal&#34;, text=&#34;Next&#34;)
+            except:
+                pass
+                
+                
+            
+    except Exception as ex:
+        print(ex.args)
+        destroy()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    
+    def destroy(self):
+        self.done = True
+        self.root.destroy()
+        del self
+    
+    try:
+        
+        def __init__(self, master) -&gt; None:
+            self.done = False
+            self.master = master
+            self.waitForAPI = False
+            self.page0()
+        
+        def page0(self):
+            
+            try:
+                self.root.destroy()
+            except: pass
+            
+            self.root = tk.Canvas(self.master)
+            
+            helpers.MakeLabel(self.root, &#34;Welcome&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;This setup will automatically configure the OFFICIAL plugins. &#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;If you have any other plugins installed, please configure them manually.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+
+            helpers.MakeEmptyLine(self.root, 3,0, columnspan=3)
+            
+            # REMEMBER TO CHANGE BACK TO PAGE1
+            helpers.MakeButton(self.root, &#34;Tutorial Video ↗&#34;, lambda: helpers.OpenInBrowser(&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;), 4,0, width=20)
+            helpers.MakeButton(self.root, &#34;Wiki ↗&#34;, lambda: helpers.OpenInBrowser(&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;), 4,1, width=20)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.detectionselection(), 4,2, width=20)
+
+            helpers.MakeEmptyLine(self.root, 5,0, columnspan=3)
+            
+            # Load the logo
+            self.logo = Image.open(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;logo.png&#34;))
+            height = 320
+            width = round(height * 1.665)
+            self.logo = self.logo.resize((width, height), resample=Image.LANCZOS)
+            self.logo = ImageTk.PhotoImage(self.logo)
+            self.logoLabel = tk.Label(self.root, image=self.logo)
+            self.logoLabel.grid(row=6, column=0, columnspan=3, pady=10, padx=30)
+
+            self.root.pack(anchor=&#34;center&#34;)
+            
+            self.root.update()
+        
+
+        def detectionselection(self):
+            settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;TruckersMPLock&#34;])
+            def openwiki():
+                    webview.create_window(&#34;Lane Assist Wiki&#34;, &#34;https://wiki.tumppi066.fi/en/LaneAssist/DetectionTypes&#34;)
+                    webview.start()
+            self.root.destroy()
+            del self.root
+            self.root = tk.Canvas(self.master, highlightthickness=0)
+            helpers.MakeLabel(self.root, &#34;Lane detection type.&#34;, 0,0, font=(&#34;Roboto&#34;, 15, &#34;bold&#34;), padx=30, pady=10, columnspan=3,)
+            helpers.MakeLabel(self.root, &#34;TLDR: Navigation Detection is the recommended model for most people.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 12), padx=30, pady=0, columnspan=3)
+            ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=2, column=0, ipadx=0, ipady=0, pady=0)
+            ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=5, column=0, ipadx=0, ipady=0, pady=0)
+            global detectionmethod
+            detectionmethod = tk.StringVar()
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;LSTR Lane Detection (Scans the road for lane lines)&#34;, value=&#34;lstr&#34;).grid(columnspan=3, row=6, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;UFLD Lane Detection (Only for use with Nvidia GPU &gt; GTX 1060)&#34;, value=&#34;ufld&#34;).grid(columnspan=3, row=7, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+            ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;Navigation Detection (Uses the minimap for lane detection (Recommended))&#34;, value=&#34;nav&#34;).grid(columnspan=3, row=8, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+            detectionmethod.set(&#34;nav&#34;)
+            ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=9, column=0, ipadx=0, ipady=0, pady=0)
+            
+            def detectionsettings():
+                if detectionmethod.get() == &#34;lstr&#34;:
+                    print(&#34;LSTR Selected&#34;)
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;LSTRDrawLanes&#34;])
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;LSTRLaneDetection&#34;])
+                elif detectionmethod.get() == &#34;ufld&#34;:
+                    ufldmessagebox = messagebox.askokcancel(&#34;Are you sure you want to use UFLD&#34;,
+                                            &#34;UFLD requires a NVIDIA GPU 1060 TI or better, if you use UFLD without one you risk crashing your system. You are responsible for any damage while using UFLD.&#34;,
+                                            icon=&#34;warning&#34;)
+                    if ufldmessagebox == False:
+                        return
+                    print(&#34;UFLD Selected&#34;)
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;UFLDDrawLanes&#34;])
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;UFLDLaneDetection&#34;])
+                elif detectionmethod.get() == &#34;nav&#34;:
+                    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;NavigationDetection&#34;])
+                else:
+                    print(&#34;Please select a detection method&#34;)
+                    return
+                self.page1()
+            
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.page0(), 10,0)
+            helpers.MakeButton(self.root, &#34;Wiki&#34;, openwiki, 10,1)
+            helpers.MakeButton(self.root, &#34;Confirm&#34;, detectionsettings, 10,2)
+            self.root.pack()
+
+        def page1(self):
+            self.root.destroy()
+            del self.root
+            self.root = tk.Canvas(self.master)
+
+            helpers.MakeLabel(self.root, &#34;Select your controller type&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;Great! Now we need to know what kind of controller you are using.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeEmptyLine(self.root, 2,0, columnspan=3)
+            
+            helpers.MakeButton(self.root, &#34;Gamepad&#34;, lambda: self.gamepadPage(), 3,0)
+            helpers.MakeButton(self.root, &#34;Wheel&#34;, lambda: self.wheelPage(), 3,1)
+            helpers.MakeButton(self.root, &#34;Keyboard&#34;, lambda: self.keyboardPage(), 3,2)
+            helpers.MakeEmptyLine(self.root, 4,0, columnspan=3)
+            helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.detectionselection(), 5,1)
+            
+            self.root.pack()
+            
+            
+        def gamepadPage(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, True)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadSmoothness&#34;, 0.05)
+
+            # helpers.MakeLabel(self.root, &#34;Gamepad&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            # helpers.MakeLabel(self.root, &#34;Great! I&#39;ll automatically set all the necessary options for gamepad usage.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+            # helpers.MakeLabel(self.root, &#34;Just be aware that you will have to set the controller type to &#39;wheel&#39; in the game.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)        
+            # helpers.MakeLabel(self.root, &#34;Don&#39;t worry there will be instructions later! For now please select your controller from the list below.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+            # pygame.event.pump()
+            # 
+            # 
+            # helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
+            # helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.axisSetup(), 8,1)
+
+            self.buttonSetup()
+            
+            
+        def wheelPage(self):
+            
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, False)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadsmoothness&#34;, 0.05)
+            # 
+            # from plugins.DefaultSteering.main import updateSettings
+            # updateSettings()
+            # 
+            # self.root.destroy()
+            # self.root = tk.Canvas(self.master)
+# 
+            # helpers.MakeLabel(self.root, &#34;Wheel&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            # helpers.MakeLabel(self.root, &#34;Great! Using a wheel has the most straight forward setup process.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)    
+            # helpers.MakeLabel(self.root, &#34;Please select your wheel from the list below.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+# 
+            # pygame.event.pump()
+# 
+            # self.joysticks = pygame.joystick.get_count()
+            # self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
+            # 
+            # self.listVariable = tk.StringVar(self.root)
+            # self.listVariable.set([j.get_name() for j in self.joysticks])
+            # 
+            # self.list = tk.Listbox(self.root, width=70, height=4, listvariable=self.listVariable, selectmode=&#34;single&#34;)
+            # self.list.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
+# 
+            # helpers.MakeLabel(self.root, &#34;The list is scrollable, if you can&#39;t find your controller then go back and open the page again.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+# 
+            # helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 5,0)
+            # helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.axisSetup(), 5,1)
+
+            self.buttonSetup()
+            
+            
+        def keyboardPage(self):
+            
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboard&#34;, True)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, False)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadsmoothness&#34;, 0.05)
+            
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+
+            helpers.MakeLabel(self.root, &#34;Keyboard&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Please bind the following buttons&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+
+            helpers.MakeButton(self.root, &#34;Bind enable / disable key&#34;, lambda: controls.ChangeKeybind(&#34;Enable/Disable Steering&#34;, updateUI=False), 2, 0, columnspan=2, width=25, tooltip=&#34;This button will enable and disable the steering.&#34;)
+            # helpers.MakeButton(self.root, &#34;Bind steer left key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Left Key&#34;, updateUI=False), 3, 0)
+            # helpers.MakeButton(self.root, &#34;Bind steer right key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Right Key&#34;, updateUI=False), 4, 0)
+
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
+            if bettercam != None:
+                helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.screenCaptureSetup(), 8,1)
+            else:
+                helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.laneDetectionFeatures(), 8,1)
+
+            self.root.pack()
+            
+            
+        def buttonSetup(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+
+            helpers.MakeLabel(self.root, &#34;Button Setup&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            
+            def ButtonBound():
+                self.boundVar.set(f&#34;Bound to button index {settings.GetSettings(&#39;Input&#39;, &#39;Enable/Disable Steering&#39;)[&#39;buttonIndex&#39;]}&#34;)
+            
+            helpers.MakeLabel(self.root, &#34;                                                  Please bind the enable disable button.                                                  &#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeButton(self.root, &#34;Bind enable / disable button&#34;, lambda: controls.ChangeKeybind(&#34;Enable/Disable Steering&#34;, updateUI=False, callback=lambda: ButtonBound()), 3, 1, width=25, tooltip=&#34;This button will enable and disable the steering.&#34;)
+
+            self.boundVar = helpers.MakeLabel(self.root, &#34;&#34;, 4,0, columnspan=3)
+            
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 5,0, columnspan=2)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.saveButtonSettings(), 5,1, columnspan=2)
+
+
+            self.root.pack()
+            self.root.update()
+            
+        def saveButtonSettings(self):
+            
+            # Save the button settings
+            # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicator&#34;, int(self.leftBlinkerCombo.get().split(&#34; &#34;)[1]))
+            # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicator&#34;, int(self.rightBlinkerCombo.get().split(&#34; &#34;)[1]))
+            # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisable&#34;, int(self.enableDisableCombo.get().split(&#34; &#34;)[1]))
+            
+            from plugins.DefaultSteering.main import updateSettings
+            updateSettings()
+            
+            if bettercam != None:
+                self.screenCaptureSetup()      
+            else:
+                self.laneDetectionFeatures()
+        
+        def screenCaptureSetup(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+
+            helpers.MakeLabel(self.root, &#34;Screen Capture&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;This app will screen capture your screen and detect the lanes on those images.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;For this reason we need to make sure that the screen we capture on is correct.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)  
+            helpers.MakeLabel(self.root, &#34; &#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)       
+            helpers.MakeLabel(self.root, &#34;Please select the monitor ETS2 is going to be on.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+
+            # Detect all displays
+            bettercamOutput = bettercam.output_info()
+            for i in range(0,4):
+                # Remove GPU indices
+                bettercamOutput = bettercamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
+                # Also remove &#39;rot&#39;?
+                bettercamOutput = bettercamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
+                
+            
+            displays = bettercamOutput.split(&#34;\n&#34;)
+            
+            displayArray = []
+            for display in displays:
+                if display != &#34;&#34;:
+                    display = display.split(&#34;:&#34;)
+                    displayObject = &#34;&#34;
+                    # This is extremely ugly but it works
+                    displayObject += f&#39;Display{(display[0].replace(&#34;Output&#34;, &#34;&#34;).replace(&#34;[&#34;, &#34;&#34;).replace(&#34;]&#34;, &#34;&#34;))}&#39;
+                    displayObject += f&#39; ({display[2].replace(&#34;(&#34;, &#34;&#34;).replace(&#34;)&#34;, &#34;&#34;).replace(&#34;,&#34;, &#34;x&#34;).replace(&#34; &#34;, &#34;&#34;).replace(&#34;Primary&#34;, &#34;&#34;)})&#39;
+                    if display[3] == &#34;True&#34;:
+                        displayObject += &#34; (Primary)&#34;
+                    
+                    displayArray.append(displayObject)
+            
+            self.displays = ttk.Combobox(self.root, state=&#34;readonly&#34;, width=50)
+            self.displays[&#39;values&#39;] = displayArray
+            self.displays.set(displayArray[0])
+            
+            self.displays.grid(row=5, column=0, columnspan=2, padx=30, pady=10)
+
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.buttonSetup(), 6,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.setScreenCaptureSettings(self.displays.get().split(&#39; &#39;)[1]), 6,1)
+
+            self.root.pack()
+            
+        
+        def setScreenCaptureSettings(self, display):
+            settings.CreateSettings(&#34;bettercam&#34;, &#34;display&#34;, int(display))
+            #settings.CreateSettings(&#34;Screen Capture&#34;, &#34;Refresh Rate&#34;, self.refreshRate.get())
+            self.soundSettings()
+
+                    
+        def soundSettings(self):
+            self.root.destroy()
+            settings.CreateSettings(&#34;Sound&#34;, &#34;enabled&#34;, True)
+            settings.CreateSettings(&#34;Sound&#34;, &#34;enable&#34;, &#34;assets/sounds/start.mp3&#34;)
+            settings.CreateSettings(&#34;Sound&#34;, &#34;disable&#34;, &#34;assets/sounds/end.mp3&#34;)
+            settings.CreateSettings(&#34;Sound&#34;, &#34;warning&#34;, &#34;assets/sounds/warning.mp3&#34;)
+            
+            self.root = tk.Canvas(self.master)
+            
+            helpers.MakeLabel(self.root, &#34;Sounds&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)    
+            helpers.MakeLabel(self.root, &#34;If you have custom sounds then place them in the folder and type out the path here.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+            
+            helpers.MakeCheckButton(self.root, &#34;Sounds Enabled&#34;, &#34;Sound&#34;, &#34;enabled&#34;, 3, 0)
+            self.enable = helpers.MakeComboEntry(self.root, &#34;Enable&#34;, &#34;Sound&#34;, &#34;enable&#34;, 4, 0, value=&#34;assets/sounds/start.mp3&#34;, width=50, isString=True)
+            self.disable = helpers.MakeComboEntry(self.root, &#34;Disable&#34;, &#34;Sound&#34;, &#34;disable&#34;, 5, 0, value=&#34;assets/sounds/end.mp3&#34;, width=50, isString=True)
+            self.warning = helpers.MakeComboEntry(self.root, &#34;Warning&#34;, &#34;Sound&#34;, &#34;warning&#34;, 6, 0, value=&#34;assets/sounds/warning.mp3&#34;, width=50, isString=True)
+            
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.screenCaptureSetup(), 7,0)
+            helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.saveSounds(), 7,1)
+            
+            self.root.pack()
+            self.root.update()
+            
+        
+        def saveSounds(self):
+            settings.CreateSettings(&#34;Sound&#34;, &#34;enable&#34;, self.enable.get())
+            settings.CreateSettings(&#34;Sound&#34;, &#34;disable&#34;, self.disable.get())
+            settings.CreateSettings(&#34;Sound&#34;, &#34;warning&#34;, self.warning.get())
+            
+            self.ets2APIsetup()
+        
+        def ets2APIsetup(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+            self.waitForAPI = True
+            
+            
+            
+            helpers.MakeLabel(self.root, &#34;Automatic installation&#34;, 4,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            
+            # Check for ETS2 / ATS directories 
+            import plugins.FirstTimeSetup.steamParser as steamParser
+            
+            self.scsGames = steamParser.FindSCSGames()
+                
+            foundString = &#34;Found the following games automatically:\n&#34;
+            
+            for game in self.scsGames:
+                foundString += game + &#34;: True\n&#34;
+            
+            self.gameText = helpers.MakeLabel(self.root, foundString, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            
+            from tkinter import filedialog
+            
+            self.foundAdditionalDir = False
+            def GetAdditionalDir(self):
+                self.additionalDir = filedialog.askdirectory()
+                # Check the base.scs file exists in that directory
+                if os.path.isfile(os.path.join(self.additionalDir, &#34;base.scs&#34;)):
+                    self.gameText.config(text=foundString + self.additionalDir + &#34;: True&#34;)
+                    self.foundAdditionalDir = True
+                    self.installButton.config(state=&#34;normal&#34;)
+                else:
+                    self.gameText.config(text=foundString + self.additionalDir + &#34;: False&#34;)
+                    self.foundAdditionalDir = False
+            
+            helpers.MakeButton(self.root, &#34;Add game (if not found)&#34;, lambda: GetAdditionalDir(self), 6,0, columnspan=3, width=30)
+            
+            import shutil
+            
+            def InstallETS2ATSPlugin(self):
+                pluginInstallDir = r&#34;bin\win_x64\plugins&#34;
+                # Make that folder if it doesn&#39;t exist
+                try:
+                    self.scsGames += [self.additionalDir]
+                except:
+                    pass
+                
+                # Copy the plugin to the correct folder
+                successfullyInstalled = []
+                for game in self.scsGames:
+                    print(game)
+                    # Check if the plugins folder exists
+                    if not os.path.isdir(os.path.join(game, pluginInstallDir)):
+                        os.makedirs(os.path.join(game, pluginInstallDir))
+                    
+                    # Copy the plugin to the folder
+                    try:
+                        # Copy the API
+                        shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;scs-telemetry.dll&#34;), os.path.join(game, pluginInstallDir))
+                        # Copy the controller SDK
+                        shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;input_semantical.dll&#34;), os.path.join(game, pluginInstallDir))
+                        successfullyInstalled.append(game)
+                    except:
+                        print(&#34;Failed to copy the plugin to &#34; + os.path.join(game, pluginInstallDir))
+                        
+                from tkinter import messagebox
+                if successfullyInstalled != []:
+                    messagebox.showinfo(&#34;Success&#34;, &#34;Successfully installed at least some plugin(s)!\nYou should start the game now to enable the SDK and continue on!\n\nInstalled to:\n&#34; + &#34;\n&#34;.join(successfullyInstalled))    
+                else:
+                    messagebox.showerror(&#34;Error&#34;, &#34;Failed to install the plugin(s)!\nAre you sure you set your path properly?&#34;)
+                
+                
+            
+            # Display the automatic installation buttons if the directories were found
+            if self.scsGames != []:
+                self.installButton = helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
+            else:
+                self.installButton = helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30, state=&#34;disabled&#34;)
+            
+            helpers.MakeLabel(self.root, &#34;\nETS2 API&#34;, 8,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;This app will also connect to your ETS2&#39;s / ATS&#39; API and get data about your truck.&#34;, 9,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+            helpers.MakeLabel(self.root, &#34;Press the button below to open the instructions (scroll down on the page).\nThe loading window will automatically disappear once connection is established.&#34;, 10,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+        
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.soundSettings(), 11,0)
+            import webbrowser
+            helpers.MakeButton(self.root, &#34;Open instructions&#34;, lambda: webbrowser.open(&#34;https://wiki.tumppi066.fi/en/LaneAssist/InGame&#34;), 11,1)
+            self.apiNextButton = helpers.MakeButton(self.root, &#34;Waiting for api...&#34;, lambda: self.lastPage(), 11,2, state=&#34;disabled&#34;)
+        
+            self.root.pack()
+            self.root.update()
+            
+            try:
+                if not api.loading:
+                    api.checkAPI()
+            except:
+                api.checkAPI()
+        
+        def lastPage(self):
+            self.root.destroy()
+            self.root = tk.Canvas(self.master)
+            
+            # Set all necessary plugins
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;BetterCamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+            variables.UpdatePlugins()
+            if detectionmethod.get() == &#34;nav&#34;:
+                helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34; &#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;We need to make sure that the app can see the game, so set your game to windowed mode.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;And then click the button below, and open the &#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;navigation detection V3 setup.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+            else:
+                helpers.MakeLabel(self.root, &#34;One more step!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34; &#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;We need to make sure that the app can see the game, so set your game to borderless!&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;And then click the button below, and move the &#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, &#34;window to where you are looking forward out of your truck.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+
+
+            helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.ets2APIsetup(), 7,0)
+            from src.mainUI import switchSelectedPlugin
+            if os.name == &#34;nt&#34;:
+                if detectionmethod.get() == &#34;nav&#34;:
+                    helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.NavigationDetection.main&#34;), 7,1)
+                else:
+                    helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.ScreenCapturePlacement.main&#34;), 7,1)
+            else:
+                helpers.MakeLabel(self.root, &#34;Detected non windows system. You will have to manually enter the values!&#34;, 6,0, columnspan=2)
+                helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.MSSScreenCapture.main&#34;), 7,1)
+            
+            self.root.pack()
+            self.root.update()
+        
+        def update(self, data):
+            self.root.update()
+            pygame.event.pump()
+            try:
+                for i in range(len(self.sliderVars)):
+                    self.sliderVars[i].set(self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_axis(i))
+            except: pass
+            
+            try:
+                value = &#34;&#34;
+                for i in range(self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_numbuttons()):
+                    if self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_button(i):
+                        value += (&#34; Button &#34; + str(i))
+                self.pressedButtons.set(value)
+            except: pass
+            
+            try:
+                image = self.camera.get_latest_frame()
+                image = cv2.resize(image, (int(image.shape[1]/3), int(image.shape[0]/3)))
+                cv2.imshow(&#34;test&#34;, image)
+                
+            except: 
+                cv2.destroyAllWindows()
+                pass
+            
+            try:
+                self.apiNextButton.config(state=&#34;normal&#34;, text=&#34;Next&#34;)
+            except:
+                pass
+                
+                
+            
+    except Exception as ex:
+        print(ex.args)
+        destroy()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.buttonSetup"><code class="name flex">
+<span>def <span class="ident">buttonSetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def buttonSetup(self):
+    self.root.destroy()
+    self.root = tk.Canvas(self.master)
+
+    helpers.MakeLabel(self.root, &#34;Button Setup&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+    
+    def ButtonBound():
+        self.boundVar.set(f&#34;Bound to button index {settings.GetSettings(&#39;Input&#39;, &#39;Enable/Disable Steering&#39;)[&#39;buttonIndex&#39;]}&#34;)
+    
+    helpers.MakeLabel(self.root, &#34;                                                  Please bind the enable disable button.                                                  &#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+    helpers.MakeButton(self.root, &#34;Bind enable / disable button&#34;, lambda: controls.ChangeKeybind(&#34;Enable/Disable Steering&#34;, updateUI=False, callback=lambda: ButtonBound()), 3, 1, width=25, tooltip=&#34;This button will enable and disable the steering.&#34;)
+
+    self.boundVar = helpers.MakeLabel(self.root, &#34;&#34;, 4,0, columnspan=3)
+    
+    helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 5,0, columnspan=2)
+    helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.saveButtonSettings(), 5,1, columnspan=2)
+
+
+    self.root.pack()
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.detectionselection"><code class="name flex">
+<span>def <span class="ident">detectionselection</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def detectionselection(self):
+    settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;TruckersMPLock&#34;])
+    def openwiki():
+            webview.create_window(&#34;Lane Assist Wiki&#34;, &#34;https://wiki.tumppi066.fi/en/LaneAssist/DetectionTypes&#34;)
+            webview.start()
+    self.root.destroy()
+    del self.root
+    self.root = tk.Canvas(self.master, highlightthickness=0)
+    helpers.MakeLabel(self.root, &#34;Lane detection type.&#34;, 0,0, font=(&#34;Roboto&#34;, 15, &#34;bold&#34;), padx=30, pady=10, columnspan=3,)
+    helpers.MakeLabel(self.root, &#34;TLDR: Navigation Detection is the recommended model for most people.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 12), padx=30, pady=0, columnspan=3)
+    ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=2, column=0, ipadx=0, ipady=0, pady=0)
+    ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=5, column=0, ipadx=0, ipady=0, pady=0)
+    global detectionmethod
+    detectionmethod = tk.StringVar()
+    ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;LSTR Lane Detection (Scans the road for lane lines)&#34;, value=&#34;lstr&#34;).grid(columnspan=3, row=6, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+    ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;UFLD Lane Detection (Only for use with Nvidia GPU &gt; GTX 1060)&#34;, value=&#34;ufld&#34;).grid(columnspan=3, row=7, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+    ttk.Radiobutton(master=self.root, variable=detectionmethod, text=&#34;Navigation Detection (Uses the minimap for lane detection (Recommended))&#34;, value=&#34;nav&#34;).grid(columnspan=3, row=8, column=0, sticky=&#39;w&#39;, padx=5, pady=5)
+    detectionmethod.set(&#34;nav&#34;)
+    ttk.Label(self.root, text=&#34;&#34;).grid(columnspan=3, row=9, column=0, ipadx=0, ipady=0, pady=0)
+    
+    def detectionsettings():
+        if detectionmethod.get() == &#34;lstr&#34;:
+            print(&#34;LSTR Selected&#34;)
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;LSTRDrawLanes&#34;])
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;LSTRLaneDetection&#34;])
+        elif detectionmethod.get() == &#34;ufld&#34;:
+            ufldmessagebox = messagebox.askokcancel(&#34;Are you sure you want to use UFLD&#34;,
+                                    &#34;UFLD requires a NVIDIA GPU 1060 TI or better, if you use UFLD without one you risk crashing your system. You are responsible for any damage while using UFLD.&#34;,
+                                    icon=&#34;warning&#34;)
+            if ufldmessagebox == False:
+                return
+            print(&#34;UFLD Selected&#34;)
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;UFLDDrawLanes&#34;])
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;UFLDLaneDetection&#34;])
+        elif detectionmethod.get() == &#34;nav&#34;:
+            settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;NavigationDetection&#34;])
+        else:
+            print(&#34;Please select a detection method&#34;)
+            return
+        self.page1()
+    
+    helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.page0(), 10,0)
+    helpers.MakeButton(self.root, &#34;Wiki&#34;, openwiki, 10,1)
+    helpers.MakeButton(self.root, &#34;Confirm&#34;, detectionsettings, 10,2)
+    self.root.pack()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.ets2APIsetup"><code class="name flex">
+<span>def <span class="ident">ets2APIsetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ets2APIsetup(self):
+    self.root.destroy()
+    self.root = tk.Canvas(self.master)
+    self.waitForAPI = True
+    
+    
+    
+    helpers.MakeLabel(self.root, &#34;Automatic installation&#34;, 4,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+    
+    # Check for ETS2 / ATS directories 
+    import plugins.FirstTimeSetup.steamParser as steamParser
+    
+    self.scsGames = steamParser.FindSCSGames()
+        
+    foundString = &#34;Found the following games automatically:\n&#34;
+    
+    for game in self.scsGames:
+        foundString += game + &#34;: True\n&#34;
+    
+    self.gameText = helpers.MakeLabel(self.root, foundString, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+    
+    from tkinter import filedialog
+    
+    self.foundAdditionalDir = False
+    def GetAdditionalDir(self):
+        self.additionalDir = filedialog.askdirectory()
+        # Check the base.scs file exists in that directory
+        if os.path.isfile(os.path.join(self.additionalDir, &#34;base.scs&#34;)):
+            self.gameText.config(text=foundString + self.additionalDir + &#34;: True&#34;)
+            self.foundAdditionalDir = True
+            self.installButton.config(state=&#34;normal&#34;)
+        else:
+            self.gameText.config(text=foundString + self.additionalDir + &#34;: False&#34;)
+            self.foundAdditionalDir = False
+    
+    helpers.MakeButton(self.root, &#34;Add game (if not found)&#34;, lambda: GetAdditionalDir(self), 6,0, columnspan=3, width=30)
+    
+    import shutil
+    
+    def InstallETS2ATSPlugin(self):
+        pluginInstallDir = r&#34;bin\win_x64\plugins&#34;
+        # Make that folder if it doesn&#39;t exist
+        try:
+            self.scsGames += [self.additionalDir]
+        except:
+            pass
+        
+        # Copy the plugin to the correct folder
+        successfullyInstalled = []
+        for game in self.scsGames:
+            print(game)
+            # Check if the plugins folder exists
+            if not os.path.isdir(os.path.join(game, pluginInstallDir)):
+                os.makedirs(os.path.join(game, pluginInstallDir))
+            
+            # Copy the plugin to the folder
+            try:
+                # Copy the API
+                shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;scs-telemetry.dll&#34;), os.path.join(game, pluginInstallDir))
+                # Copy the controller SDK
+                shutil.copy(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;sdkPlugin&#34;, &#34;input_semantical.dll&#34;), os.path.join(game, pluginInstallDir))
+                successfullyInstalled.append(game)
+            except:
+                print(&#34;Failed to copy the plugin to &#34; + os.path.join(game, pluginInstallDir))
+                
+        from tkinter import messagebox
+        if successfullyInstalled != []:
+            messagebox.showinfo(&#34;Success&#34;, &#34;Successfully installed at least some plugin(s)!\nYou should start the game now to enable the SDK and continue on!\n\nInstalled to:\n&#34; + &#34;\n&#34;.join(successfullyInstalled))    
+        else:
+            messagebox.showerror(&#34;Error&#34;, &#34;Failed to install the plugin(s)!\nAre you sure you set your path properly?&#34;)
+        
+        
+    
+    # Display the automatic installation buttons if the directories were found
+    if self.scsGames != []:
+        self.installButton = helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30)
+    else:
+        self.installButton = helpers.MakeButton(self.root, &#34;Install ETS2 / ATS Plugin&#34;, lambda: InstallETS2ATSPlugin(self), 7,0, columnspan=3, width=30, state=&#34;disabled&#34;)
+    
+    helpers.MakeLabel(self.root, &#34;\nETS2 API&#34;, 8,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+    helpers.MakeLabel(self.root, &#34;This app will also connect to your ETS2&#39;s / ATS&#39; API and get data about your truck.&#34;, 9,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+    helpers.MakeLabel(self.root, &#34;Press the button below to open the instructions (scroll down on the page).\nThe loading window will automatically disappear once connection is established.&#34;, 10,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+
+    helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.soundSettings(), 11,0)
+    import webbrowser
+    helpers.MakeButton(self.root, &#34;Open instructions&#34;, lambda: webbrowser.open(&#34;https://wiki.tumppi066.fi/en/LaneAssist/InGame&#34;), 11,1)
+    self.apiNextButton = helpers.MakeButton(self.root, &#34;Waiting for api...&#34;, lambda: self.lastPage(), 11,2, state=&#34;disabled&#34;)
+
+    self.root.pack()
+    self.root.update()
+    
+    try:
+        if not api.loading:
+            api.checkAPI()
+    except:
+        api.checkAPI()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.gamepadPage"><code class="name flex">
+<span>def <span class="ident">gamepadPage</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def gamepadPage(self):
+    self.root.destroy()
+    self.root = tk.Canvas(self.master)
+
+    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, True)
+    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadSmoothness&#34;, 0.05)
+
+    # helpers.MakeLabel(self.root, &#34;Gamepad&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+    # helpers.MakeLabel(self.root, &#34;Great! I&#39;ll automatically set all the necessary options for gamepad usage.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+    # helpers.MakeLabel(self.root, &#34;Just be aware that you will have to set the controller type to &#39;wheel&#39; in the game.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)        
+    # helpers.MakeLabel(self.root, &#34;Don&#39;t worry there will be instructions later! For now please select your controller from the list below.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+    # pygame.event.pump()
+    # 
+    # 
+    # helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
+    # helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.axisSetup(), 8,1)
+
+    self.buttonSetup()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.keyboardPage"><code class="name flex">
+<span>def <span class="ident">keyboardPage</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def keyboardPage(self):
+    
+    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;keyboard&#34;, True)
+    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, False)
+    settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadsmoothness&#34;, 0.05)
+    
+    self.root.destroy()
+    self.root = tk.Canvas(self.master)
+
+    helpers.MakeLabel(self.root, &#34;Keyboard&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;Please bind the following buttons&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+
+    helpers.MakeButton(self.root, &#34;Bind enable / disable key&#34;, lambda: controls.ChangeKeybind(&#34;Enable/Disable Steering&#34;, updateUI=False), 2, 0, columnspan=2, width=25, tooltip=&#34;This button will enable and disable the steering.&#34;)
+    # helpers.MakeButton(self.root, &#34;Bind steer left key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Left Key&#34;, updateUI=False), 3, 0)
+    # helpers.MakeButton(self.root, &#34;Bind steer right key&#34;, lambda: controls.ChangeKeybind(&#34;Steer Right Key&#34;, updateUI=False), 4, 0)
+
+    helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 8,0)
+    if bettercam != None:
+        helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.screenCaptureSetup(), 8,1)
+    else:
+        helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.laneDetectionFeatures(), 8,1)
+
+    self.root.pack()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.lastPage"><code class="name flex">
+<span>def <span class="ident">lastPage</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lastPage(self):
+    self.root.destroy()
+    self.root = tk.Canvas(self.master)
+    
+    # Set all necessary plugins
+    settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, [&#34;FPSLimiter&#34;, &#34;DefaultSteering&#34;, &#34;BetterCamScreenCapture&#34;, &#34;SDKController&#34;, &#34;ShowImage&#34;, &#34;TruckSimAPI&#34;])
+    variables.UpdatePlugins()
+    if detectionmethod.get() == &#34;nav&#34;:
+        helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+        helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+        helpers.MakeLabel(self.root, &#34; &#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+        helpers.MakeLabel(self.root, &#34;We need to make sure that the app can see the game, so set your game to windowed mode.&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+        helpers.MakeLabel(self.root, &#34;And then click the button below, and open the &#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+        helpers.MakeLabel(self.root, &#34;navigation detection V3 setup.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+    else:
+        helpers.MakeLabel(self.root, &#34;One more step!&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+        helpers.MakeLabel(self.root, &#34;You should now open the game and return to this page!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+        helpers.MakeLabel(self.root, &#34; &#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+        helpers.MakeLabel(self.root, &#34;We need to make sure that the app can see the game, so set your game to borderless!&#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+        helpers.MakeLabel(self.root, &#34;And then click the button below, and move the &#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+        helpers.MakeLabel(self.root, &#34;window to where you are looking forward out of your truck.&#34;, 5,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+
+
+    helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.ets2APIsetup(), 7,0)
+    from src.mainUI import switchSelectedPlugin
+    if os.name == &#34;nt&#34;:
+        if detectionmethod.get() == &#34;nav&#34;:
+            helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.NavigationDetection.main&#34;), 7,1)
+        else:
+            helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.ScreenCapturePlacement.main&#34;), 7,1)
+    else:
+        helpers.MakeLabel(self.root, &#34;Detected non windows system. You will have to manually enter the values!&#34;, 6,0, columnspan=2)
+        helpers.MakeButton(self.root, &#34;Open Panel&#34;, lambda: switchSelectedPlugin(&#34;plugins.MSSScreenCapture.main&#34;), 7,1)
+    
+    self.root.pack()
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.page0"><code class="name flex">
+<span>def <span class="ident">page0</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def page0(self):
+    
+    try:
+        self.root.destroy()
+    except: pass
+    
+    self.root = tk.Canvas(self.master)
+    
+    helpers.MakeLabel(self.root, &#34;Welcome&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+    helpers.MakeLabel(self.root, &#34;This setup will automatically configure the OFFICIAL plugins. &#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+    helpers.MakeLabel(self.root, &#34;If you have any other plugins installed, please configure them manually.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+
+    helpers.MakeEmptyLine(self.root, 3,0, columnspan=3)
+    
+    # REMEMBER TO CHANGE BACK TO PAGE1
+    helpers.MakeButton(self.root, &#34;Tutorial Video ↗&#34;, lambda: helpers.OpenInBrowser(&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;), 4,0, width=20)
+    helpers.MakeButton(self.root, &#34;Wiki ↗&#34;, lambda: helpers.OpenInBrowser(&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;), 4,1, width=20)
+    helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.detectionselection(), 4,2, width=20)
+
+    helpers.MakeEmptyLine(self.root, 5,0, columnspan=3)
+    
+    # Load the logo
+    self.logo = Image.open(os.path.join(variables.PATH, &#34;assets&#34;, &#34;firstTimeSetup&#34;, &#34;logo.png&#34;))
+    height = 320
+    width = round(height * 1.665)
+    self.logo = self.logo.resize((width, height), resample=Image.LANCZOS)
+    self.logo = ImageTk.PhotoImage(self.logo)
+    self.logoLabel = tk.Label(self.root, image=self.logo)
+    self.logoLabel.grid(row=6, column=0, columnspan=3, pady=10, padx=30)
+
+    self.root.pack(anchor=&#34;center&#34;)
+    
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.page1"><code class="name flex">
+<span>def <span class="ident">page1</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def page1(self):
+    self.root.destroy()
+    del self.root
+    self.root = tk.Canvas(self.master)
+
+    helpers.MakeLabel(self.root, &#34;Select your controller type&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=3)
+    helpers.MakeLabel(self.root, &#34;Great! Now we need to know what kind of controller you are using.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=3)
+    helpers.MakeEmptyLine(self.root, 2,0, columnspan=3)
+    
+    helpers.MakeButton(self.root, &#34;Gamepad&#34;, lambda: self.gamepadPage(), 3,0)
+    helpers.MakeButton(self.root, &#34;Wheel&#34;, lambda: self.wheelPage(), 3,1)
+    helpers.MakeButton(self.root, &#34;Keyboard&#34;, lambda: self.keyboardPage(), 3,2)
+    helpers.MakeEmptyLine(self.root, 4,0, columnspan=3)
+    helpers.MakeButton(self.root, &#34;Back&#34;, lambda: self.detectionselection(), 5,1)
+    
+    self.root.pack()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.saveButtonSettings"><code class="name flex">
+<span>def <span class="ident">saveButtonSettings</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def saveButtonSettings(self):
+    
+    # Save the button settings
+    # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;leftIndicator&#34;, int(self.leftBlinkerCombo.get().split(&#34; &#34;)[1]))
+    # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;rightIndicator&#34;, int(self.rightBlinkerCombo.get().split(&#34; &#34;)[1]))
+    # settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;enableDisable&#34;, int(self.enableDisableCombo.get().split(&#34; &#34;)[1]))
+    
+    from plugins.DefaultSteering.main import updateSettings
+    updateSettings()
+    
+    if bettercam != None:
+        self.screenCaptureSetup()      
+    else:
+        self.laneDetectionFeatures()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.saveSounds"><code class="name flex">
+<span>def <span class="ident">saveSounds</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def saveSounds(self):
+    settings.CreateSettings(&#34;Sound&#34;, &#34;enable&#34;, self.enable.get())
+    settings.CreateSettings(&#34;Sound&#34;, &#34;disable&#34;, self.disable.get())
+    settings.CreateSettings(&#34;Sound&#34;, &#34;warning&#34;, self.warning.get())
+    
+    self.ets2APIsetup()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.screenCaptureSetup"><code class="name flex">
+<span>def <span class="ident">screenCaptureSetup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def screenCaptureSetup(self):
+    self.root.destroy()
+    self.root = tk.Canvas(self.master)
+
+    helpers.MakeLabel(self.root, &#34;Screen Capture&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;This app will screen capture your screen and detect the lanes on those images.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;For this reason we need to make sure that the screen we capture on is correct.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)  
+    helpers.MakeLabel(self.root, &#34; &#34;, 3,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)       
+    helpers.MakeLabel(self.root, &#34;Please select the monitor ETS2 is going to be on.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+
+    # Detect all displays
+    bettercamOutput = bettercam.output_info()
+    for i in range(0,4):
+        # Remove GPU indices
+        bettercamOutput = bettercamOutput.replace(f&#34;Device[{i}]&#34;, &#34;&#34;)
+        # Also remove &#39;rot&#39;?
+        bettercamOutput = bettercamOutput.replace(f&#34;Rot:{i}&#34;, &#34;&#34;)
+        
+    
+    displays = bettercamOutput.split(&#34;\n&#34;)
+    
+    displayArray = []
+    for display in displays:
+        if display != &#34;&#34;:
+            display = display.split(&#34;:&#34;)
+            displayObject = &#34;&#34;
+            # This is extremely ugly but it works
+            displayObject += f&#39;Display{(display[0].replace(&#34;Output&#34;, &#34;&#34;).replace(&#34;[&#34;, &#34;&#34;).replace(&#34;]&#34;, &#34;&#34;))}&#39;
+            displayObject += f&#39; ({display[2].replace(&#34;(&#34;, &#34;&#34;).replace(&#34;)&#34;, &#34;&#34;).replace(&#34;,&#34;, &#34;x&#34;).replace(&#34; &#34;, &#34;&#34;).replace(&#34;Primary&#34;, &#34;&#34;)})&#39;
+            if display[3] == &#34;True&#34;:
+                displayObject += &#34; (Primary)&#34;
+            
+            displayArray.append(displayObject)
+    
+    self.displays = ttk.Combobox(self.root, state=&#34;readonly&#34;, width=50)
+    self.displays[&#39;values&#39;] = displayArray
+    self.displays.set(displayArray[0])
+    
+    self.displays.grid(row=5, column=0, columnspan=2, padx=30, pady=10)
+
+    helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.buttonSetup(), 6,0)
+    helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.setScreenCaptureSettings(self.displays.get().split(&#39; &#39;)[1]), 6,1)
+
+    self.root.pack()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.setScreenCaptureSettings"><code class="name flex">
+<span>def <span class="ident">setScreenCaptureSettings</span></span>(<span>self, display)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setScreenCaptureSettings(self, display):
+    settings.CreateSettings(&#34;bettercam&#34;, &#34;display&#34;, int(display))
+    #settings.CreateSettings(&#34;Screen Capture&#34;, &#34;Refresh Rate&#34;, self.refreshRate.get())
+    self.soundSettings()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.soundSettings"><code class="name flex">
+<span>def <span class="ident">soundSettings</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def soundSettings(self):
+    self.root.destroy()
+    settings.CreateSettings(&#34;Sound&#34;, &#34;enabled&#34;, True)
+    settings.CreateSettings(&#34;Sound&#34;, &#34;enable&#34;, &#34;assets/sounds/start.mp3&#34;)
+    settings.CreateSettings(&#34;Sound&#34;, &#34;disable&#34;, &#34;assets/sounds/end.mp3&#34;)
+    settings.CreateSettings(&#34;Sound&#34;, &#34;warning&#34;, &#34;assets/sounds/warning.mp3&#34;)
+    
+    self.root = tk.Canvas(self.master)
+    
+    helpers.MakeLabel(self.root, &#34;Sounds&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+    helpers.MakeLabel(self.root, &#34;Almost there!&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)    
+    helpers.MakeLabel(self.root, &#34;If you have custom sounds then place them in the folder and type out the path here.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2) 
+    
+    helpers.MakeCheckButton(self.root, &#34;Sounds Enabled&#34;, &#34;Sound&#34;, &#34;enabled&#34;, 3, 0)
+    self.enable = helpers.MakeComboEntry(self.root, &#34;Enable&#34;, &#34;Sound&#34;, &#34;enable&#34;, 4, 0, value=&#34;assets/sounds/start.mp3&#34;, width=50, isString=True)
+    self.disable = helpers.MakeComboEntry(self.root, &#34;Disable&#34;, &#34;Sound&#34;, &#34;disable&#34;, 5, 0, value=&#34;assets/sounds/end.mp3&#34;, width=50, isString=True)
+    self.warning = helpers.MakeComboEntry(self.root, &#34;Warning&#34;, &#34;Sound&#34;, &#34;warning&#34;, 6, 0, value=&#34;assets/sounds/warning.mp3&#34;, width=50, isString=True)
+    
+    helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.screenCaptureSetup(), 7,0)
+    helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.saveSounds(), 7,1)
+    
+    self.root.pack()
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data):
+    self.root.update()
+    pygame.event.pump()
+    try:
+        for i in range(len(self.sliderVars)):
+            self.sliderVars[i].set(self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_axis(i))
+    except: pass
+    
+    try:
+        value = &#34;&#34;
+        for i in range(self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_numbuttons()):
+            if self.joysticks[settings.GetSettings(&#34;DefaultSteering&#34;, &#34;controller&#34;)].get_button(i):
+                value += (&#34; Button &#34; + str(i))
+        self.pressedButtons.set(value)
+    except: pass
+    
+    try:
+        image = self.camera.get_latest_frame()
+        image = cv2.resize(image, (int(image.shape[1]/3), int(image.shape[0]/3)))
+        cv2.imshow(&#34;test&#34;, image)
+        
+    except: 
+        cv2.destroyAllWindows()
+        pass
+    
+    try:
+        self.apiNextButton.config(state=&#34;normal&#34;, text=&#34;Next&#34;)
+    except:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.wheelPage"><code class="name flex">
+<span>def <span class="ident">wheelPage</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">        def wheelPage(self):
+            
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepad&#34;, False)
+            settings.CreateSettings(&#34;DefaultSteering&#34;, &#34;gamepadsmoothness&#34;, 0.05)
+            # 
+            # from plugins.DefaultSteering.main import updateSettings
+            # updateSettings()
+            # 
+            # self.root.destroy()
+            # self.root = tk.Canvas(self.master)
+# 
+            # helpers.MakeLabel(self.root, &#34;Wheel&#34;, 0,0, font=(&#34;Roboto&#34;, 20, &#34;bold&#34;), padx=30, pady=10, columnspan=2)
+            # helpers.MakeLabel(self.root, &#34;Great! Using a wheel has the most straight forward setup process.&#34;, 1,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)    
+            # helpers.MakeLabel(self.root, &#34;Please select your wheel from the list below.&#34;, 2,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+# 
+            # pygame.event.pump()
+# 
+            # self.joysticks = pygame.joystick.get_count()
+            # self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
+            # 
+            # self.listVariable = tk.StringVar(self.root)
+            # self.listVariable.set([j.get_name() for j in self.joysticks])
+            # 
+            # self.list = tk.Listbox(self.root, width=70, height=4, listvariable=self.listVariable, selectmode=&#34;single&#34;)
+            # self.list.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
+# 
+            # helpers.MakeLabel(self.root, &#34;The list is scrollable, if you can&#39;t find your controller then go back and open the page again.&#34;, 4,0, font=(&#34;Segoe UI&#34;, 10), padx=30, pady=0, columnspan=2)
+# 
+            # helpers.MakeButton(self.root, &#34;Previous&#34;, lambda: self.page1(), 5,0)
+            # helpers.MakeButton(self.root, &#34;Next&#34;, lambda: self.axisSetup(), 5,1)
+
+            self.buttonSetup()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.buttonSetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.buttonSetup">buttonSetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.detectionselection" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.detectionselection">detectionselection</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.ets2APIsetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.ets2APIsetup">ets2APIsetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.gamepadPage" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.gamepadPage">gamepadPage</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.keyboardPage" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.keyboardPage">keyboardPage</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.lastPage" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.lastPage">lastPage</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.page0" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.page0">page0</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.page1" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.page1">page1</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.saveButtonSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.saveButtonSettings">saveButtonSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.saveSounds" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.saveSounds">saveSounds</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.screenCaptureSetup" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.screenCaptureSetup">screenCaptureSetup</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.setScreenCaptureSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.setScreenCaptureSettings">setScreenCaptureSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.soundSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.soundSettings">soundSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.update">update</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.wheelPage" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.FirstTimeSetup.main.UI.wheelPage">wheelPage</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

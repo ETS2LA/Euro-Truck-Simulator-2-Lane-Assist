@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import torch
+from .backbone import resnet
+import numpy as np
+
+class conv_bn_relu(torch.nn.Module):
+    def __init__(self,in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1,bias=False):
+        super(conv_bn_relu,self).__init__()
+        self.conv = torch.nn.Conv2d(in_channels,out_channels, kernel_size, 
+            stride = stride, padding = padding, dilation = dilation,bias = bias)
+        self.bn = torch.nn.BatchNorm2d(out_channels)
+        self.relu = torch.nn.ReLU()
+
+    def forward(self,x):
+        x = self.conv(x)
+        x = self.bn(x)
+        x = self.relu(x)
+        return x
+
+class parsingNet(torch.nn.Module):
+    def __init__(self, size=(288, 800), pretrained=True, backbone=&#39;50&#39;, cls_dim=(37, 10, 4), use_aux=False):
+        super(parsingNet, self).__init__()
+
+        self.size = size
+        self.w = size[0]
+        self.h = size[1]
+        self.cls_dim = cls_dim # (num_gridding, num_cls_per_lane, num_of_lanes)
+        # num_cls_per_lane is the number of row anchors
+        self.use_aux = use_aux
+        self.total_dim = np.prod(cls_dim)
+
+        # input : nchw,
+        # output: (w+1) * sample_rows * 4 
+        self.model = resnet(backbone, pretrained=pretrained)
+
+        if self.use_aux:
+            self.aux_header2 = torch.nn.Sequential(
+                conv_bn_relu(128, 128, kernel_size=3, stride=1, padding=1) if backbone in [&#39;34&#39;,&#39;18&#39;] else conv_bn_relu(512, 128, kernel_size=3, stride=1, padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+            )
+            self.aux_header3 = torch.nn.Sequential(
+                conv_bn_relu(256, 128, kernel_size=3, stride=1, padding=1) if backbone in [&#39;34&#39;,&#39;18&#39;] else conv_bn_relu(1024, 128, kernel_size=3, stride=1, padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+            )
+            self.aux_header4 = torch.nn.Sequential(
+                conv_bn_relu(512, 128, kernel_size=3, stride=1, padding=1) if backbone in [&#39;34&#39;,&#39;18&#39;] else conv_bn_relu(2048, 128, kernel_size=3, stride=1, padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+            )
+            self.aux_combine = torch.nn.Sequential(
+                conv_bn_relu(384, 256, 3,padding=2,dilation=2),
+                conv_bn_relu(256, 128, 3,padding=2,dilation=2),
+                conv_bn_relu(128, 128, 3,padding=2,dilation=2),
+                conv_bn_relu(128, 128, 3,padding=4,dilation=4),
+                torch.nn.Conv2d(128, cls_dim[-1] + 1,1)
+                # output : n, num_of_lanes+1, h, w
+            )
+            initialize_weights(self.aux_header2,self.aux_header3,self.aux_header4,self.aux_combine)
+
+        self.cls = torch.nn.Sequential(
+            torch.nn.Linear(1800, 2048),
+            torch.nn.ReLU(),
+            torch.nn.Linear(2048, self.total_dim),
+        )
+
+        self.pool = torch.nn.Conv2d(512,8,1) if backbone in [&#39;34&#39;,&#39;18&#39;] else torch.nn.Conv2d(2048,8,1)
+        # 1/32,2048 channel
+        # 288,800 -&gt; 9,40,2048
+        # (w+1) * sample_rows * 4
+        # 37 * 10 * 4
+        #initialize_weights(self.cls)
+
+    def forward(self, x):
+        # n c h w - &gt; n 2048 sh sw
+        # -&gt; n 2048
+        x2,x3,fea = self.model(x)
+        if self.use_aux:
+            x2 = self.aux_header2(x2)
+            x3 = self.aux_header3(x3)
+            x3 = torch.nn.functional.interpolate(x3,scale_factor = 2,mode=&#39;bilinear&#39;)
+            x4 = self.aux_header4(fea)
+            x4 = torch.nn.functional.interpolate(x4,scale_factor = 4,mode=&#39;bilinear&#39;)
+            aux_seg = torch.cat([x2,x3,x4],dim=1)
+            aux_seg = self.aux_combine(aux_seg)
+        else:
+            aux_seg = None
+
+        fea = self.pool(fea).view(-1, 1800)
+
+        group_cls = self.cls(fea).view(-1, *self.cls_dim)
+
+        if self.use_aux:
+            return group_cls, aux_seg
+
+        return group_cls
+
+
+def initialize_weights(*models):
+    for model in models:
+        real_init_weights(model)
+def real_init_weights(m):
+
+    if isinstance(m, list):
+        for mini_m in m:
+            real_init_weights(mini_m)
+    else:
+        if isinstance(m, torch.nn.Conv2d):    
+            torch.nn.init.kaiming_normal_(m.weight, nonlinearity=&#39;relu&#39;)
+            if m.bias is not None:
+                torch.nn.init.constant_(m.bias, 0)
+        elif isinstance(m, torch.nn.Linear):
+            m.weight.data.normal_(0.0, std=0.01)
+        elif isinstance(m, torch.nn.BatchNorm2d):
+            torch.nn.init.constant_(m.weight, 1)
+            torch.nn.init.constant_(m.bias, 0)
+        elif isinstance(m,torch.nn.Module):
+            for mini_m in m.children():
+                real_init_weights(mini_m)
+        else:
+            print(&#39;unkonwn module&#39;, m)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.initialize_weights"><code class="name flex">
+<span>def <span class="ident">initialize_weights</span></span>(<span>*models)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def initialize_weights(*models):
+    for model in models:
+        real_init_weights(model)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.real_init_weights"><code class="name flex">
+<span>def <span class="ident">real_init_weights</span></span>(<span>m)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def real_init_weights(m):
+
+    if isinstance(m, list):
+        for mini_m in m:
+            real_init_weights(mini_m)
+    else:
+        if isinstance(m, torch.nn.Conv2d):    
+            torch.nn.init.kaiming_normal_(m.weight, nonlinearity=&#39;relu&#39;)
+            if m.bias is not None:
+                torch.nn.init.constant_(m.bias, 0)
+        elif isinstance(m, torch.nn.Linear):
+            m.weight.data.normal_(0.0, std=0.01)
+        elif isinstance(m, torch.nn.BatchNorm2d):
+            torch.nn.init.constant_(m.weight, 1)
+            torch.nn.init.constant_(m.bias, 0)
+        elif isinstance(m,torch.nn.Module):
+            for mini_m in m.children():
+                real_init_weights(mini_m)
+        else:
+            print(&#39;unkonwn module&#39;, m)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.conv_bn_relu"><code class="flex name class">
+<span>class <span class="ident">conv_bn_relu</span></span>
+<span>(</span><span>in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, bias=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As per the example above, an <code>__init__()</code> call to the parent class
+must be made before assignment on the child.</p>
+</div>
+<p>:ivar training: Boolean represents whether this module is in training or
+evaluation mode.
+:vartype training: bool</p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class conv_bn_relu(torch.nn.Module):
+    def __init__(self,in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1,bias=False):
+        super(conv_bn_relu,self).__init__()
+        self.conv = torch.nn.Conv2d(in_channels,out_channels, kernel_size, 
+            stride = stride, padding = padding, dilation = dilation,bias = bias)
+        self.bn = torch.nn.BatchNorm2d(out_channels)
+        self.relu = torch.nn.ReLU()
+
+    def forward(self,x):
+        x = self.conv(x)
+        x = self.bn(x)
+        x = self.relu(x)
+        return x</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>torch.nn.modules.module.Module</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.conv_bn_relu.forward"><code class="name flex">
+<span>def <span class="ident">forward</span></span>(<span>self, x) ‑> Callable[..., Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the :class:<code>Module</code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def forward(self,x):
+    x = self.conv(x)
+    x = self.bn(x)
+    x = self.relu(x)
+    return x</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.parsingNet"><code class="flex name class">
+<span>class <span class="ident">parsingNet</span></span>
+<span>(</span><span>size=(288, 800), pretrained=True, backbone='50', cls_dim=(37, 10, 4), use_aux=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As per the example above, an <code>__init__()</code> call to the parent class
+must be made before assignment on the child.</p>
+</div>
+<p>:ivar training: Boolean represents whether this module is in training or
+evaluation mode.
+:vartype training: bool</p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class parsingNet(torch.nn.Module):
+    def __init__(self, size=(288, 800), pretrained=True, backbone=&#39;50&#39;, cls_dim=(37, 10, 4), use_aux=False):
+        super(parsingNet, self).__init__()
+
+        self.size = size
+        self.w = size[0]
+        self.h = size[1]
+        self.cls_dim = cls_dim # (num_gridding, num_cls_per_lane, num_of_lanes)
+        # num_cls_per_lane is the number of row anchors
+        self.use_aux = use_aux
+        self.total_dim = np.prod(cls_dim)
+
+        # input : nchw,
+        # output: (w+1) * sample_rows * 4 
+        self.model = resnet(backbone, pretrained=pretrained)
+
+        if self.use_aux:
+            self.aux_header2 = torch.nn.Sequential(
+                conv_bn_relu(128, 128, kernel_size=3, stride=1, padding=1) if backbone in [&#39;34&#39;,&#39;18&#39;] else conv_bn_relu(512, 128, kernel_size=3, stride=1, padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+            )
+            self.aux_header3 = torch.nn.Sequential(
+                conv_bn_relu(256, 128, kernel_size=3, stride=1, padding=1) if backbone in [&#39;34&#39;,&#39;18&#39;] else conv_bn_relu(1024, 128, kernel_size=3, stride=1, padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+            )
+            self.aux_header4 = torch.nn.Sequential(
+                conv_bn_relu(512, 128, kernel_size=3, stride=1, padding=1) if backbone in [&#39;34&#39;,&#39;18&#39;] else conv_bn_relu(2048, 128, kernel_size=3, stride=1, padding=1),
+                conv_bn_relu(128,128,3,padding=1),
+            )
+            self.aux_combine = torch.nn.Sequential(
+                conv_bn_relu(384, 256, 3,padding=2,dilation=2),
+                conv_bn_relu(256, 128, 3,padding=2,dilation=2),
+                conv_bn_relu(128, 128, 3,padding=2,dilation=2),
+                conv_bn_relu(128, 128, 3,padding=4,dilation=4),
+                torch.nn.Conv2d(128, cls_dim[-1] + 1,1)
+                # output : n, num_of_lanes+1, h, w
+            )
+            initialize_weights(self.aux_header2,self.aux_header3,self.aux_header4,self.aux_combine)
+
+        self.cls = torch.nn.Sequential(
+            torch.nn.Linear(1800, 2048),
+            torch.nn.ReLU(),
+            torch.nn.Linear(2048, self.total_dim),
+        )
+
+        self.pool = torch.nn.Conv2d(512,8,1) if backbone in [&#39;34&#39;,&#39;18&#39;] else torch.nn.Conv2d(2048,8,1)
+        # 1/32,2048 channel
+        # 288,800 -&gt; 9,40,2048
+        # (w+1) * sample_rows * 4
+        # 37 * 10 * 4
+        #initialize_weights(self.cls)
+
+    def forward(self, x):
+        # n c h w - &gt; n 2048 sh sw
+        # -&gt; n 2048
+        x2,x3,fea = self.model(x)
+        if self.use_aux:
+            x2 = self.aux_header2(x2)
+            x3 = self.aux_header3(x3)
+            x3 = torch.nn.functional.interpolate(x3,scale_factor = 2,mode=&#39;bilinear&#39;)
+            x4 = self.aux_header4(fea)
+            x4 = torch.nn.functional.interpolate(x4,scale_factor = 4,mode=&#39;bilinear&#39;)
+            aux_seg = torch.cat([x2,x3,x4],dim=1)
+            aux_seg = self.aux_combine(aux_seg)
+        else:
+            aux_seg = None
+
+        fea = self.pool(fea).view(-1, 1800)
+
+        group_cls = self.cls(fea).view(-1, *self.cls_dim)
+
+        if self.use_aux:
+            return group_cls, aux_seg
+
+        return group_cls</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>torch.nn.modules.module.Module</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.parsingNet.forward"><code class="name flex">
+<span>def <span class="ident">forward</span></span>(<span>self, x) ‑> Callable[..., Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the :class:<code>Module</code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def forward(self, x):
+    # n c h w - &gt; n 2048 sh sw
+    # -&gt; n 2048
+    x2,x3,fea = self.model(x)
+    if self.use_aux:
+        x2 = self.aux_header2(x2)
+        x3 = self.aux_header3(x3)
+        x3 = torch.nn.functional.interpolate(x3,scale_factor = 2,mode=&#39;bilinear&#39;)
+        x4 = self.aux_header4(fea)
+        x4 = torch.nn.functional.interpolate(x4,scale_factor = 4,mode=&#39;bilinear&#39;)
+        aux_seg = torch.cat([x2,x3,x4],dim=1)
+        aux_seg = self.aux_combine(aux_seg)
+    else:
+        aux_seg = None
+
+    fea = self.pool(fea).view(-1, 1800)
+
+    group_cls = self.cls(fea).view(-1, *self.cls_dim)
+
+    if self.use_aux:
+        return group_cls, aux_seg
+
+    return group_cls</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.initialize_weights" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.initialize_weights">initialize_weights</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.real_init_weights" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.real_init_weights">real_init_weights</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.conv_bn_relu" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.conv_bn_relu">conv_bn_relu</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.conv_bn_relu.forward" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.conv_bn_relu.forward">forward</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.parsingNet" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.parsingNet">parsingNet</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.parsingNet.forward" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.UFLDLaneDetection.UFLD.ultrafastLaneDetector.exportLib.ultrafastLane.model.parsingNet.forward">forward</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

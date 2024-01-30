@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.src.settings API documentation</title>
+<meta name="description" content="Provides an interface to read and write settings from the main JSON file.
+Ideally all settings should be stored using this interface …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.settings</code></h1>
+</header>
+<section id="section-intro">
+<p>Provides an interface to read and write settings from the main JSON file.
+Ideally all settings should be stored using this interface.</p>
+<p>Main functions:</p>
+<pre><code class="language-python"># Will create (or update) a new setting in the settings file.
+CreateSettings(category, name, data) 
+
+# Will get a specific setting from the settings file.
+GetSettings(category, name, value=None) 
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Provides an interface to read and write settings from the main JSON file.
+Ideally all settings should be stored using this interface.
+
+Main functions:
+```python
+# Will create (or update) a new setting in the settings file.
+CreateSettings(category, name, data) 
+
+# Will get a specific setting from the settings file.
+GetSettings(category, name, value=None) 
+```
+&#34;&#34;&#34;
+import json
+from src.logger import print
+from src.variables import PATH
+import os
+
+currentProfile = &#34;&#34;
+&#34;&#34;&#34;The currently selected profile (filename).&#34;&#34;&#34;
+
+if os.name == &#34;nt&#34;:
+    currentProfile = r&#34;profiles\currentProfile.txt&#34;
+else:
+    currentProfile = &#34;profiles/currentProfile.txt&#34;
+
+if open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;) == &#34;&#34;:
+    with open(currentProfile, &#34;w&#34;) as f:
+        f.write(&#34;profiles/settings.json&#34;)
+    print(&#34;Profile variable was empty, set it to settings.json&#34;)
+
+def EnsureFile(file:str):
+    &#34;&#34;&#34;Will check if a file exists and create it if it doesn&#39;t.
+
+    Args:
+        file (str): Filename.
+    &#34;&#34;&#34;
+    try:
+        with open(file, &#34;r&#34;) as f:
+            pass
+    except:
+        with open(file, &#34;w&#34;) as f:
+            f.write(&#34;{}&#34;)
+
+def ChangeProfile():
+    &#34;&#34;&#34;Will change the currently selected profile and reload the app.
+    &#34;&#34;&#34;
+    global currentProfile
+    
+    from tkinter import filedialog
+    file = filedialog.askopenfilename(initialdir=PATH+&#34;\\profiles&#34;, title=&#34;Select a profile&#34;, filetypes=((&#34;JSON files&#34;, &#34;*.json&#34;), (&#34;All files&#34;, &#34;*.*&#34;)))
+    with open(currentProfile, &#34;w&#34;) as f:
+        f.truncate(0)
+        f.write(file)
+    
+    import src.variables
+    src.variables.RELOAD = True
+
+def CreateProfile():
+    &#34;&#34;&#34;Will create a new profile based on the current one. Will not change the current profile.
+    &#34;&#34;&#34;
+    from tkinter import filedialog
+    newFile = filedialog.asksaveasfile(initialdir=PATH+&#34;\\profiles&#34;, initialfile=&#34;newProfile.json&#34;, title=&#34;Create a new profile&#34;, filetypes=((&#34;JSON files&#34;, &#34;*.json&#34;), (&#34;All files&#34;, &#34;*.*&#34;)))
+    try:       
+        # Copy the current profile
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+            
+        with open(profile, &#34;r&#34;) as f:
+            data = json.load(f)
+        
+        newFile.truncate(0)
+        json.dump(data, newFile, indent=6)
+            
+        filePath = newFile.name
+        
+        newFile.close()
+            
+        # Change the current profile
+        # ChangeProfile(filePath)
+    
+    except Exception as ex:
+        print(ex.args)
+        print(&#34;Failed to create profile&#34;)
+
+# Change settings in the json file
+def UpdateSettings(category:str, name:str, data:any):
+    &#34;&#34;&#34;Update a setting in the settings file.
+    In case the setting doesn&#39;t exist, it will be created.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        data (_type_): Data to write.
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+
+        settings[category][name] = data
+        with open(profile, &#34;w&#34;) as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        pass
+
+# Get a specific setting
+def GetSettings(category:str, name:str, value:any=None):
+    &#34;&#34;&#34;Will get a specific setting from the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        value (_type_, optional): Default value in case the data is not found. Defaults to None.
+
+    Returns:
+        _type_: The data from the json file. (or the default value)
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+        
+        if settings[category][name] == None:
+            return value    
+        
+        return settings[category][name]
+    except Exception as ex:
+        if value != None:
+            CreateSettings(category, name, value)
+            return value
+        else:
+            pass
+
+
+# Create a new setting
+def CreateSettings(category:str, name:str, data:any):
+    &#34;&#34;&#34;Will create a new setting in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        data (_type_): Data to write.
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+
+        # If the setting doesn&#39;t exist then create it 
+        if not category in settings:
+            settings[category] = {}
+            settings[category][name] = data
+        
+        # If the setting exists then overwrite it
+        if category in settings:
+            settings[category][name] = data
+            
+        with open(profile, &#34;w&#34;) as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        pass
+        
+def AddToList(category:str, name:str, data:any, exclusive:bool=False):
+    &#34;&#34;&#34;Will add a new item to a list in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json list name.
+        data (str): Data to add to the list.
+        exclusive (bool, optional): Whether to allow adding multiple instances of the same data. Defaults to False.
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+
+        # If the setting doesn&#39;t exist then create it 
+        if not category in settings:
+            settings[category] = {}
+            settings[category][name] = []
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    settings[category][name].append(item)
+            else:
+                settings[category][name].append(data)
+        
+        if not name in settings[category]:
+            settings[category][name] = []
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    settings[category][name].append(item)
+            else:
+                settings[category][name].append(data)
+        
+        # If the setting exists then overwrite it
+        if category in settings:
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    if exclusive:
+                        if not item in settings[category][name]:
+                            settings[category][name].append(item)
+                    else:
+                        settings[category][name].append(item)
+            else:
+                if exclusive:
+                    if not data in settings[category][name]:
+                        settings[category][name].append(data)
+                else:
+                    settings[category][name].append(data)
+            
+        with open(profile, &#34;w&#34;) as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        pass
+        
+
+def RemoveFromList(category:str, name:str, data:any):
+    &#34;&#34;&#34;Remove an item from a list in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json list name.
+        data (_type_): Data to remove from the list.
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+
+        # If the setting doesn&#39;t exist then don&#39;t do anything 
+        if not category in settings:
+            return
+        
+        # If the setting exists then overwrite it
+        if category in settings:
+            settings[category][name].remove(data)
+            
+        with open(profile, &#34;w&#34;) as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+        
+    except Exception as ex:
+        pass
+        </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.currentProfile"><code class="name">var <span class="ident">currentProfile</span></code></dt>
+<dd>
+<div class="desc"><p>The currently selected profile (filename).</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.AddToList"><code class="name flex">
+<span>def <span class="ident">AddToList</span></span>(<span>category: str, name: str, data: <built-in function any>, exclusive: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will add a new item to a list in the settings file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>category</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json category.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json list name.</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>str</code></dt>
+<dd>Data to add to the list.</dd>
+<dt><strong><code>exclusive</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to allow adding multiple instances of the same data. Defaults to False.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def AddToList(category:str, name:str, data:any, exclusive:bool=False):
+    &#34;&#34;&#34;Will add a new item to a list in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json list name.
+        data (str): Data to add to the list.
+        exclusive (bool, optional): Whether to allow adding multiple instances of the same data. Defaults to False.
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+
+        # If the setting doesn&#39;t exist then create it 
+        if not category in settings:
+            settings[category] = {}
+            settings[category][name] = []
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    settings[category][name].append(item)
+            else:
+                settings[category][name].append(data)
+        
+        if not name in settings[category]:
+            settings[category][name] = []
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    settings[category][name].append(item)
+            else:
+                settings[category][name].append(data)
+        
+        # If the setting exists then overwrite it
+        if category in settings:
+            # Check if the data is a list
+            if isinstance(data, list):
+                for item in data:
+                    if exclusive:
+                        if not item in settings[category][name]:
+                            settings[category][name].append(item)
+                    else:
+                        settings[category][name].append(item)
+            else:
+                if exclusive:
+                    if not data in settings[category][name]:
+                        settings[category][name].append(data)
+                else:
+                    settings[category][name].append(data)
+            
+        with open(profile, &#34;w&#34;) as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.ChangeProfile"><code class="name flex">
+<span>def <span class="ident">ChangeProfile</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will change the currently selected profile and reload the app.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ChangeProfile():
+    &#34;&#34;&#34;Will change the currently selected profile and reload the app.
+    &#34;&#34;&#34;
+    global currentProfile
+    
+    from tkinter import filedialog
+    file = filedialog.askopenfilename(initialdir=PATH+&#34;\\profiles&#34;, title=&#34;Select a profile&#34;, filetypes=((&#34;JSON files&#34;, &#34;*.json&#34;), (&#34;All files&#34;, &#34;*.*&#34;)))
+    with open(currentProfile, &#34;w&#34;) as f:
+        f.truncate(0)
+        f.write(file)
+    
+    import src.variables
+    src.variables.RELOAD = True</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.CreateProfile"><code class="name flex">
+<span>def <span class="ident">CreateProfile</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will create a new profile based on the current one. Will not change the current profile.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CreateProfile():
+    &#34;&#34;&#34;Will create a new profile based on the current one. Will not change the current profile.
+    &#34;&#34;&#34;
+    from tkinter import filedialog
+    newFile = filedialog.asksaveasfile(initialdir=PATH+&#34;\\profiles&#34;, initialfile=&#34;newProfile.json&#34;, title=&#34;Create a new profile&#34;, filetypes=((&#34;JSON files&#34;, &#34;*.json&#34;), (&#34;All files&#34;, &#34;*.*&#34;)))
+    try:       
+        # Copy the current profile
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+            
+        with open(profile, &#34;r&#34;) as f:
+            data = json.load(f)
+        
+        newFile.truncate(0)
+        json.dump(data, newFile, indent=6)
+            
+        filePath = newFile.name
+        
+        newFile.close()
+            
+        # Change the current profile
+        # ChangeProfile(filePath)
+    
+    except Exception as ex:
+        print(ex.args)
+        print(&#34;Failed to create profile&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.CreateSettings"><code class="name flex">
+<span>def <span class="ident">CreateSettings</span></span>(<span>category: str, name: str, data: <built-in function any>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will create a new setting in the settings file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>category</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json category.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json setting name.</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>_type_</code></dt>
+<dd>Data to write.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CreateSettings(category:str, name:str, data:any):
+    &#34;&#34;&#34;Will create a new setting in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        data (_type_): Data to write.
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+
+        # If the setting doesn&#39;t exist then create it 
+        if not category in settings:
+            settings[category] = {}
+            settings[category][name] = data
+        
+        # If the setting exists then overwrite it
+        if category in settings:
+            settings[category][name] = data
+            
+        with open(profile, &#34;w&#34;) as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.EnsureFile"><code class="name flex">
+<span>def <span class="ident">EnsureFile</span></span>(<span>file: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will check if a file exists and create it if it doesn't.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file</code></strong> :&ensp;<code>str</code></dt>
+<dd>Filename.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def EnsureFile(file:str):
+    &#34;&#34;&#34;Will check if a file exists and create it if it doesn&#39;t.
+
+    Args:
+        file (str): Filename.
+    &#34;&#34;&#34;
+    try:
+        with open(file, &#34;r&#34;) as f:
+            pass
+    except:
+        with open(file, &#34;w&#34;) as f:
+            f.write(&#34;{}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.GetSettings"><code class="name flex">
+<span>def <span class="ident">GetSettings</span></span>(<span>category: str, name: str, value: <built-in function any> = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will get a specific setting from the settings file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>category</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json category.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json setting name.</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>_type_</code>, optional</dt>
+<dd>Default value in case the data is not found. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>_type_</code></dt>
+<dd>The data from the json file. (or the default value)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetSettings(category:str, name:str, value:any=None):
+    &#34;&#34;&#34;Will get a specific setting from the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        value (_type_, optional): Default value in case the data is not found. Defaults to None.
+
+    Returns:
+        _type_: The data from the json file. (or the default value)
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+        
+        if settings[category][name] == None:
+            return value    
+        
+        return settings[category][name]
+    except Exception as ex:
+        if value != None:
+            CreateSettings(category, name, value)
+            return value
+        else:
+            pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.RemoveFromList"><code class="name flex">
+<span>def <span class="ident">RemoveFromList</span></span>(<span>category: str, name: str, data: <built-in function any>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Remove an item from a list in the settings file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>category</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json category.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json list name.</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>_type_</code></dt>
+<dd>Data to remove from the list.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def RemoveFromList(category:str, name:str, data:any):
+    &#34;&#34;&#34;Remove an item from a list in the settings file.
+
+    Args:
+        category (str): Json category.
+        name (str): Json list name.
+        data (_type_): Data to remove from the list.
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+
+        # If the setting doesn&#39;t exist then don&#39;t do anything 
+        if not category in settings:
+            return
+        
+        # If the setting exists then overwrite it
+        if category in settings:
+            settings[category][name].remove(data)
+            
+        with open(profile, &#34;w&#34;) as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+        
+    except Exception as ex:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.settings.UpdateSettings"><code class="name flex">
+<span>def <span class="ident">UpdateSettings</span></span>(<span>category: str, name: str, data: <built-in function any>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update a setting in the settings file.
+In case the setting doesn't exist, it will be created.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>category</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json category.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Json setting name.</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>_type_</code></dt>
+<dd>Data to write.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateSettings(category:str, name:str, data:any):
+    &#34;&#34;&#34;Update a setting in the settings file.
+    In case the setting doesn&#39;t exist, it will be created.
+
+    Args:
+        category (str): Json category.
+        name (str): Json setting name.
+        data (_type_): Data to write.
+    &#34;&#34;&#34;
+    try:
+        profile = open(currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;)
+        EnsureFile(profile)
+        with open(profile, &#34;r&#34;) as f:
+            settings = json.load(f)
+
+        settings[category][name] = data
+        with open(profile, &#34;w&#34;) as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
+    except Exception as ex:
+        pass</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.currentProfile" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.currentProfile">currentProfile</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.AddToList" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.AddToList">AddToList</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.ChangeProfile" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.ChangeProfile">ChangeProfile</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.CreateProfile" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.CreateProfile">CreateProfile</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.CreateSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.CreateSettings">CreateSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.EnsureFile" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.EnsureFile">EnsureFile</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.GetSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.GetSettings">GetSettings</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.RemoveFromList" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.RemoveFromList">RemoveFromList</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.settings.UpdateSettings" href="#Euro-Truck-Simulator-2-Lane-Assist.src.settings.UpdateSettings">UpdateSettings</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

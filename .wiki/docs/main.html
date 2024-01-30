@@ -1,0 +1,1676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.main API documentation</title>
+<meta name="description" content="The main file that runs the programs loop." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.main</code></h1>
+</header>
+<section id="section-intro">
+<p>The main file that runs the programs loop.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+The main file that runs the programs loop.
+&#39;&#39;&#39;
+
+# This section is for modules that I&#39;ve added later as they might 
+# not have been installed yet
+
+import src.settings as settings
+
+try:
+    if &#34;DXCamScreenCapture&#34; in settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;):
+        settings.RemoveFromList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;DXCamScreenCapture&#34;)
+        settings.AddToList(&#34;Plugins&#34;, &#34;Enabled&#34;, &#34;BetterCamScreenCapture&#34;)
+except: pass
+
+import src.variables as variables # Stores all main variables for the program
+if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;, False) == True:
+    import win32gui, win32con
+    window_found = False
+    target_text = &#34;/venv/Scripts/python&#34;
+    top_windows = []
+    win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+    for hwnd, window_text in top_windows:
+        if target_text in window_text:
+            window_found = True
+            variables.CONSOLENAME = hwnd
+            break
+    if window_found == False:
+        print(&#34;Console window not found, unable to hide!&#34;)
+    else:
+        print(f&#34;Console Name: {window_text}, Console ID: {hwnd}&#34;)
+        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
+
+    
+import os
+import pkg_resources
+listOfRequirementsAddedLater = [&#34;colorama&#34;, &#34;bettercam&#34;, &#34;matplotlib&#34;, &#34;pywebview&#34;, &#34;vdf&#34;, &#34;deep_translator&#34;, &#34;babel&#34;]
+# Check all of them
+installed = [pkg.key for pkg in pkg_resources.working_set]
+requirementsset = set(listOfRequirementsAddedLater)
+installedset = set(installed)
+missing = requirementsset - installedset
+
+if missing:
+    for modules in missing:
+        if modules == &#34;deep_translator&#34;: # For some reason this is always missing
+            continue
+        print(&#34;installing&#34; + &#34; &#34; + modules)
+        os.system(&#34;pip install&#34; + &#34; &#34; + modules)
+
+# Check that all requirements from requirements.txt are installed
+with open(variables.PATH + r&#34;\requirements.txt&#34;) as f:
+    requirements = f.read().splitlines()
+
+installed = [pkg.key for pkg in pkg_resources.working_set]
+requirementsset = set(requirements)
+installedset = set(installed)
+missing = requirementsset - installedset
+
+if missing:
+    for modules in missing:
+        if &#34;deep_translator&#34; in modules:
+            pass
+        elif &#34;--upgrade --no-cache-dir gdown&#34; in modules:
+            pass
+        elif &#34;sv_ttk&#34; in modules:
+            pass
+        elif &#34;playsound2&#34; in modules:
+            os.system(&#34;pip uninstall -y playsound&#34;)
+            os.system(&#34;pip install playsound2&#34;)
+        else:
+            print(&#34;installing&#34; + &#34; &#34; + modules)
+            os.system(&#34;pip install&#34; + &#34; &#34; + modules)
+else:
+    pass
+
+import requests
+def UpdateChecker():
+    print(&#34;Checking for updates...&#34;)
+    currentVer = variables.VERSION.split(&#34;.&#34;)
+    githubUrl = &#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/&#34;
+    sourceForgeUrl = &#34;https://sourceforge.net/p/eurotrucksimulator2-laneassist/code/ci/main/tree/&#34;
+    try:
+        remoteVer = requests.get(githubUrl + &#34;version.txt&#34;).text.strip().split(&#34;.&#34;)
+        remote = &#34;github&#34;
+    except:
+        try:
+            remoteVer = requests.get(sourceForgeUrl + &#34;version.txt?format=raw&#34;).text.strip().split(&#34;.&#34;)
+            remote = &#34;sourceforge&#34;
+        except:
+            print(&#34;Failed to check for updates&#34;)
+            print(&#34;Please check your internet connection and try again later&#34;)
+            return
+    if int(currentVer[0]) &lt; int(remoteVer[0]):
+        update = True
+    elif int(currentVer[1]) &lt; int(remoteVer[1]):
+        update = True
+    elif int(currentVer[2]) &lt; int(remoteVer[2]):
+        update = True
+    else:
+        update = False
+    
+    if remote == &#34;github&#34;:
+        url = githubUrl
+    else:
+        url = sourceForgeUrl
+    
+    print(f&#34;Current version: {&#39;.&#39;.join(currentVer)}&#34;)
+    print(f&#34;Remote version: {&#39;.&#39;.join(remoteVer)}&#34;)
+    print(f&#34;Update available: {update}&#34;)
+    if update:
+        if remote == &#34;github&#34;:
+            changelog = requests.get(url + &#34;changelog.txt&#34;).text
+        elif remote == &#34;sourceforge&#34;:
+            changelog = requests.get(url + &#34;changelog.txt?format=raw&#34;).text
+            
+        print(f&#34;Changelog:\n{changelog}&#34;)
+        from tkinter import messagebox
+        if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
+            os.system(&#34;git stash&#34;)
+            os.system(&#34;git pull&#34;)
+            if messagebox.askyesno(&#34;Updater&#34;, (&#34;The update has been installed and the application needs to be restarted. Do you want to quit the app?&#34;)):
+                quit()
+        else:
+            variables.UPDATEAVAILABLE = remoteVer
+            pass
+
+try:
+    devmode = settings.GetSettings(&#34;Dev&#34;, &#34;disable_update_checker&#34;, False)
+    if devmode == False:
+        UpdateChecker()
+except Exception as ex:
+    # If the exception is for the quit command, then do that
+    if ex.args == (&#34;quit&#34;,):
+        quit()
+
+# Check tkinter tcl version
+import tkinter as tk
+from tkinter import messagebox
+tcl = tk.Tcl()
+acceptedVersions = [&#34;8.6.11&#34;, &#34;8.6.12&#34;, &#34;8.6.13&#34;]
+version = str(tcl.call(&#39;info&#39;, &#39;patchlevel&#39;))
+if version not in acceptedVersions:
+    messagebox.showwarning(&#34;Warning&#34;, f&#34;Your tkinter version ({version} is not &gt;= 8.6.11) is too old. Windows scaling will be broken with this version.&#34;)
+    print(f&#34;Your tkinter version ({version} is not &gt;= 8.6.11) is too old. Windows scaling will be broken with this version.&#34;)
+
+# Load the UI framework
+import src.mainUI as mainUI
+mainUI.CreateRoot()
+
+import src.loading as loading # And then create a loading window
+
+# Load the rest of the modules
+import sys
+import time
+import json
+from src.logger import print
+import src.logger as logger
+import traceback
+import src.translator as translator
+import src.controls as controls
+import psutil
+import cv2
+import src.scsLogReader as LogReader
+from src.server import SendCrashReport
+
+logger.printDebug = settings.GetSettings(&#34;logger&#34;, &#34;debug&#34;)
+if logger.printDebug == None:
+    logger.printDebug = False
+    settings.CreateSettings(&#34;logger&#34;, &#34;debug&#34;, False)
+    
+def GetEnabledPlugins():
+    global enabledPlugins
+    enabledPlugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
+    if enabledPlugins == None:
+        enabledPlugins = [&#34;&#34;]
+
+panels = []
+def FindPlugins(reloadFully=False):
+    global plugins
+    global panels
+    global pluginObjects
+    global pluginNames
+    
+    # Update the list of plugins and panels for the hash check
+    pluginNames = GetListOfAllPluginAndPanelNames()
+    
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    plugins = []
+    panels = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginPath = &#34;plugins.&#34; + file + &#34;.main&#34;
+                    plugin = __import__(pluginPath, fromlist=[&#34;PluginInformation&#34;])
+                    if plugin.PluginInfo.type == &#34;dynamic&#34;:
+                        if plugin.PluginInfo.name in enabledPlugins:
+                            plugins.append(plugin.PluginInfo)
+                    else:
+                        panels.append(__import__(&#34;plugins.&#34; + plugin.PluginInfo.name + &#34;.main&#34;, fromlist=[&#34;UI&#34;, &#34;PluginInfo&#34;]))
+                except Exception as ex:
+                    print(str(ex.args) + f&#34; [{file}]&#34;)
+                    pass
+
+    pluginObjects = []
+    for plugin in plugins:
+        pluginObjects.append(__import__(&#34;plugins.&#34; + plugin.name + &#34;.main&#34;, fromlist=[&#34;plugin&#34;, &#34;UI&#34;, &#34;PluginInfo&#34;, &#34;onEnable&#34;]))
+        pluginObjects[-1].onEnable()
+        
+def ReloadPluginCode():
+    FindPlugins()
+    # Use the inbuilt python modules to reload the code of the plugins
+    import importlib
+    import progress.bar as Bar
+    with Bar.PixelBar(&#34;Reloading plugins...&#34;, max=len(pluginObjects)) as progressBar:
+        for plugin in pluginObjects:
+            try:
+                importlib.reload(plugin)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
+    with Bar.PixelBar(&#34;Reloading panels...&#34;, max=len(panels)) as progressBar:
+        for panel in panels:
+            try:
+                importlib.reload(panel)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
+    print(&#34;Reloading UI root code...&#34;)
+    try:
+        mainUI.DeleteRoot()
+        importlib.reload(mainUI)
+        mainUI.CreateRoot()
+        mainUI.drawButtons()
+    except Exception as ex:
+        print(ex.args)
+        pass
+    print(&#34;Reloaded UI root code.&#34;)
+
+def RunOnEnable():
+    for plugin in pluginObjects:
+        try:
+            plugin.onEnable()
+        except Exception as ex:
+            print(ex.args)
+            pass
+        
+import concurrent.futures
+import threading
+def UpdatePlugins(dynamicOrder, data):
+    for plugin in pluginObjects:
+        try:
+            if plugin.PluginInfo.dynamicOrder == dynamicOrder:
+                startTime = time.time()
+
+                pluginData = plugin.plugin(data)
+                
+                if pluginData != None:
+                    data = pluginData
+                else:
+                    print(f&#34;Plugin &#39;{plugin.PluginInfo.name}&#39; returned NoneType instead of a the data variable. Please make sure that you return the data variable.&#34;)
+                
+                endTime = time.time()    
+                data[&#34;executionTimes&#34;][plugin.PluginInfo.name] = endTime - startTime
+                        
+        except Exception as ex:
+            print(ex.args + f&#34;[{plugin.PluginInfo.name}]&#34;)
+            pass
+    return data
+
+def GetListOfAllPluginAndPanelNames():
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    plugins = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginName = file
+                    plugins.append(pluginName)
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    return plugins
+
+pluginNames = GetListOfAllPluginAndPanelNames()
+
+def InstallPlugins():
+    global startInstall
+    global loadingWindow
+    
+    list = settings.GetSettings(&#34;Plugins&#34;, &#34;Installed&#34;)
+    if list == None:
+        settings.CreateSettings(&#34;Plugins&#34;, &#34;Installed&#34;, [])
+    
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    installers = []
+    pluginNames = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    # Get installers for plugins that are not installed
+                    if file not in settings.GetSettings(&#34;Plugins&#34;, &#34;Installed&#34;):
+                        pluginPath = &#34;plugins.&#34; + file + &#34;.install&#34;
+                        try:
+                            pluginNames.append(f&#34;{file}&#34;)
+                            installers.append(__import__(pluginPath, fromlist=[&#34;install&#34;]))
+                        except: # No installer
+                            pass
+                        
+                    
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    if installers == []:
+        return
+    
+    import tkinter as tk
+    from tkinter import ttk
+    
+    try:
+        loadingWindow.destroy()
+    except:
+        pass
+    
+    # Create a new tab for the installer
+    installFrame = ttk.Frame(mainUI.pluginNotebook, width=600, height=520)
+    installFrame.pack(anchor=tk.CENTER, expand=True, fill=tk.BOTH)
+    mainUI.pluginNotebook.add(installFrame, text=&#34;Plugin Installer&#34;)
+    mainUI.pluginNotebook.select(mainUI.pluginNotebook.tabs()[-1])
+    
+    ttk.Label(installFrame, text=&#34;The app has detected plugins that have not yet been installed.&#34;).pack()
+    ttk.Label(installFrame, text=&#34;Please install them before continuing.&#34;).pack()
+    ttk.Label(installFrame, text=&#34;&#34;).pack()
+    ttk.Label(installFrame, text=&#34;WARNING: Make sure you trust the authors of the plugins.&#34;).pack()
+    ttk.Label(installFrame, text=&#34;If you are at all skeptical then you can see the install script at&#34;).pack()
+    ttk.Label(installFrame, text=&#34;app/plugins/&lt;plugin name&gt;/installer.py&#34;).pack()
+    ttk.Label(installFrame, text=&#34;&#34;).pack()
+    
+    startInstall = False
+    def SetInstallToTrue():
+        global startInstall
+        startInstall = True
+    ttk.Button(installFrame, text=&#34;Install plugins&#34;, command=lambda: SetInstallToTrue()).pack()
+    
+    ttk.Label(installFrame, text=&#34;&#34;).pack()
+    ttk.Label(installFrame, text=&#34;The following plugins require installation: &#34;).pack()
+    # Make tk list object
+    listbox = tk.Listbox(installFrame, width=75, height=30)
+    listbox.pack()
+    # Add the plugins there
+    for plugin in pluginNames:
+        listbox.insert(tk.END, plugin)
+    # Center the listbox text
+    listbox.config(justify=tk.CENTER)
+    
+    while not startInstall:
+        mainUI.root.update()
+    
+    # Destroy all the widgets
+    for child in installFrame.winfo_children():
+        child.destroy()
+        
+    # Create the progress indicators
+    ttk.Label(installFrame, text=&#34;\n\n\n\n\n\n\n&#34;).pack()
+    currentPlugin = tk.StringVar(installFrame)
+    currentPlugin.set(&#34;Installing plugins...&#34;)
+    ttk.Label(installFrame, textvariable=currentPlugin).pack()
+    bar = ttk.Progressbar(installFrame, orient=tk.HORIZONTAL, length=200, mode=&#39;determinate&#39;)
+    bar.pack(pady=15)
+    percentage = tk.StringVar(installFrame)
+    ttk.Label(installFrame, textvariable=percentage).pack()
+    ttk.Label(installFrame, text=&#34;&#34;).pack()
+    ttk.Label(installFrame, text=&#34;This may take a while...&#34;).pack()
+    ttk.Label(installFrame, text=&#34;For more information check the console.&#34;).pack()
+    
+    mainUI.root.update()
+    
+    loadingWindow = loading.LoadingWindow(&#34;Installing plugins...&#34;)
+    
+    index = 0
+    import progress.bar as Bar
+    with Bar.PixelBar(&#34;Installing plugins...&#34;, max=len(installers)) as progressBar:
+        for installer, name in zip(installers, pluginNames):
+            sys.stdout.write(f&#34;\nInstalling &#39;{name}&#39;...\n&#34;)
+            currentPlugin.set(f&#34;Installing &#39;{name}&#39;...&#34;)
+            bar.config(value=(index / len(installers)) * 100)
+            percentage.set(f&#34;{round((index / len(installers)) * 100)}%&#34;)
+            mainUI.root.update()
+            try:
+                installer.install()
+                settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
+            except:
+                print(f&#34;Warning. Failed to install &#39;{name}&#39; fully! The plugin might still work though.&#34;)
+                pass
+            index += 1
+            loadingWindow.update(text=f&#34;Installing &#39;{name}&#39;...&#34;)
+            os.system(&#34;cls&#34;)
+            progressBar.next()
+    
+    # Destroy all the widgets
+    for child in installFrame.winfo_children():
+        child.destroy()
+        
+    # Remove the tab
+    settings.RemoveFromList(&#34;Plugins&#34;, &#34;OpenTabs&#34;, &#34;Plugin Installer&#34;)
+    variables.RELOADPLUGINS = True
+        
+
+def CheckForONNXRuntimeChange():
+    change = settings.GetSettings(&#34;SwitchLaneDetectionDevice&#34;, &#34;switchTo&#34;)
+    if change != None:
+        if change == &#34;GPU&#34;:
+            loadingWindow.update(text=&#34;Uninstalling ONNX...&#34;)
+            os.system(&#34;pip uninstall onnxruntime -y&#34;)
+            loadingWindow.update(text=&#34;Installing ONNX GPU...&#34;)
+            os.system(&#34;pip install onnxruntime-gpu&#34;)
+        else:
+            loadingWindow.update(text=&#34;Uninstalling ONNX GPU...&#34;)
+            os.system(&#34;pip uninstall onnxruntime-gpu -y&#34;)
+            loadingWindow.update(text=&#34;Installing ONNX...&#34;)
+            os.system(&#34;pip install onnxruntime&#34;)
+            
+    settings.CreateSettings(&#34;SwitchLaneDetectionDevice&#34;, &#34;switchTo&#34;, None)
+
+def CheckLastKnownVersion():
+    lastVersion = settings.GetSettings(&#34;User Interface&#34;, &#34;version&#34;)
+    if lastVersion == None:
+        settings.UpdateSettings(&#34;User Interface&#34;, &#34;version&#34;, variables.VERSION)
+        mainUI.switchSelectedPlugin(&#34;plugins.Changelog.main&#34;)
+        return
+    
+    if lastVersion != variables.VERSION:
+        settings.UpdateSettings(&#34;User Interface&#34;, &#34;version&#34;, variables.VERSION)
+        mainUI.switchSelectedPlugin(&#34;plugins.Changelog.main&#34;)
+        return
+    
+def CloseAllPlugins():
+    for plugin in pluginObjects:
+        plugin.onDisable()
+        del plugin
+        
+
+timesLoaded = 0
+def LoadApplication():
+    global mainUI
+    global uiUpdateRate
+    global loadingWindow
+    global timesLoaded
+
+    loadingWindow = loading.LoadingWindow(&#34;Please wait initializing...&#34;)
+    
+    if timesLoaded &gt; 0:
+        try:
+            mainUI.DeleteRoot()
+            del mainUI
+            import src.mainUI as mainUI
+            mainUI.CreateRoot()
+        except:
+            pass
+        
+    timesLoaded += 1
+        
+
+    CheckForONNXRuntimeChange()
+
+    # Check for new plugin installs
+    InstallPlugins()
+    
+    # Load all plugins 
+    loadingWindow.update(text=&#34;Loading plugins...&#34;)
+    GetEnabledPlugins()
+    FindPlugins()
+    loadingWindow.update(text=&#34;Initializing plugins...&#34;)
+    RunOnEnable()
+
+    logger.printDebug = settings.GetSettings(&#34;logger&#34;, &#34;debug&#34;)
+    if logger.printDebug == None:
+        logger.printDebug = False
+        settings.CreateSettings(&#34;logger&#34;, &#34;debug&#34;, False)
+
+    # We&#39;ve loaded all necessary modules
+    showCopyrightInTitlebar = settings.GetSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;)
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
+        showCopyrightInTitlebar = True
+    
+    mainUI.titlePath = &#34;- &#34; + open(settings.currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;) + &#34; &#34;
+    mainUI.UpdateTitle()
+    mainUI.root.update()
+    mainUI.drawButtons()
+
+    loadingWindow.destroy()
+    del loadingWindow
+
+    uiUpdateRate = settings.GetSettings(&#34;User Interface&#34;, &#34;updateRate&#34;)
+    if uiUpdateRate == None: 
+        uiUpdateRate = 0
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;updateRate&#34;, 0)
+
+    CheckLastKnownVersion()
+    # Show the root window
+    mainUI.root.deiconify()
+
+LoadApplication()
+
+import hashlib
+lastChecksums = {}
+def CheckForFileChanges():
+    &#34;&#34;&#34;Will check the plugin main files for changes and reload them if they&#39;ve changed.&#34;&#34;&#34;
+    global lastChecksums
+    # Check if it&#39;s the first time running this function
+    if lastChecksums == {}:
+        for plugin in pluginNames:
+            try:
+                checksum = hashlib.md5(open(os.path.join(variables.PATH, &#34;plugins&#34;, plugin, &#34;main.py&#34;), &#34;rb&#34;).read()).hexdigest()
+                lastChecksums[plugin] = checksum
+            except:
+                pass
+        return
+    
+    # Check for changes in the plugins
+    for plugin in pluginNames:
+        try:
+            checksum = hashlib.md5(open(os.path.join(variables.PATH, &#34;plugins&#34;, plugin, &#34;main.py&#34;), &#34;rb&#34;).read()).hexdigest()
+            if checksum != lastChecksums[plugin]:
+                print(f&#34;Detected changes in {plugin}...&#34;)
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+                lastChecksums[plugin] = checksum
+                break
+        except:
+            pass
+
+data = {}
+uiFrameTimer = 0
+pluginChangeTimer = time.time()
+if __name__ == &#34;__main__&#34;:
+    while True:
+        # Main Application Loop
+        try:
+            
+            allStart = time.time()
+            
+            # Remove &#34;last&#34; from the data and set it as this frame&#39;s &#34;last&#34;
+            try: 
+                data.pop(&#34;last&#34;)
+                data = {
+                    &#34;last&#34;: data, 
+                    &#34;executionTimes&#34;: {}
+                }
+            except Exception as ex:
+                data = {
+                    &#34;last&#34;: {},
+                    &#34;executionTimes&#34;: {}
+                }  
+            
+            if variables.RELOADPLUGINS:
+                print(&#34;Reloading plugins...&#34;)
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+            
+            if variables.RELOAD:
+                print(&#34;Reloading application...&#34;)
+                # Reset the open tabs
+                settings.UpdateSettings(&#34;User Interface&#34;, &#34;OpenTabs&#34;, [])
+                LoadApplication()
+                variables.RELOAD = False
+            
+            # Update the input manager.
+            controlsStartTime = time.time()
+            data = controls.plugin(data)
+            controlsEndTime = time.time()
+            data[&#34;executionTimes&#34;][&#34;Control callbacks&#34;] = controlsEndTime - controlsStartTime
+            
+            # Check for plugin changes (every second)
+            pluginChangeTime = time.time()
+            if time.time() - pluginChangeTimer &gt; 1:
+                pluginChangeTimer = time.time()
+                CheckForFileChanges()
+            pluginChangeEndTime = time.time()
+            data[&#34;executionTimes&#34;][&#34;Filesystem Check&#34;] = pluginChangeEndTime - pluginChangeTime
+            
+            # Check for log file changes
+            logCheckTime = time.time()
+            data = LogReader.plugin(data)
+            logCheckEndTime = time.time()
+            data[&#34;executionTimes&#34;][&#34;Log Check&#34;] = logCheckEndTime - logCheckTime
+            
+            
+            try:
+                if variables.APPENDDATANEXTFRAME != None or variables.APPENDDATANEXTFRAME != [] or variables.APPENDDATANEXTFRAME != {} or variables.APPENDDATANEXTFRAME != &#34;&#34;:
+                    # Merge the two dictionaries
+                    data.update(variables.APPENDDATANEXTFRAME)
+                    variables.APPENDDATANEXTFRAME = None
+            except: pass
+            
+            # Enable / Disable the main loop
+            if variables.ENABLELOOP == False:
+                start = time.time()
+                mainUI.update(data)
+                end = time.time()
+                data[&#34;executionTimes&#34;][&#34;UI&#34;] = end - start
+                allEnd = time.time()
+                data[&#34;executionTimes&#34;][&#34;all&#34;] = allEnd - allStart
+                try:
+                    cv2.destroyWindow(&#34;Lane Assist&#34;)
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow(&#39;Traffic Light Detection - B/W&#39;)
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow(&#39;Traffic Light Detection - Red/Yellow/Green&#39;)
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow(&#39;Traffic Light Detection - Final&#39;)
+                except:
+                    pass
+                try:
+                    cv2.destroyWindow(&#39;TruckStats&#39;)
+                except:
+                    pass
+                continue
+            
+            if variables.UPDATEPLUGINS:
+                GetEnabledPlugins()
+                FindPlugins()
+                variables.UPDATEPLUGINS = False
+            
+            data = UpdatePlugins(&#34;before image capture&#34;, data)
+            data = UpdatePlugins(&#34;image capture&#34;, data)
+            
+            data = UpdatePlugins(&#34;before lane detection&#34;, data)
+            data = UpdatePlugins(&#34;lane detection&#34;, data)
+            
+            data = UpdatePlugins(&#34;before controller&#34;, data)
+            data = UpdatePlugins(&#34;controller&#34;, data)
+            
+            data = UpdatePlugins(&#34;before game&#34;, data)
+            data = UpdatePlugins(&#34;game&#34;, data)
+            
+            data = UpdatePlugins(&#34;before UI&#34;, data)
+            
+            
+            # Calculate the execution time of the UI
+            start = time.time()
+            uiFrameTimer += 1
+            if uiFrameTimer &gt; uiUpdateRate:
+                mainUI.update(data)
+                uiFrameTimer = 0
+            end = time.time()
+            data[&#34;executionTimes&#34;][&#34;UI&#34;] = end - start
+            
+            data = UpdatePlugins(&#34;last&#34;, data)
+            
+            # And then the entire app
+            allEnd = time.time()
+            data[&#34;executionTimes&#34;][&#34;all&#34;] = allEnd - allStart
+
+            # Check if the frame took more than 200ms (5fps)
+            if (allEnd - allStart) - data[&#34;executionTimes&#34;][&#34;UI&#34;] &gt; 0.2:
+                print(f&#34;Frame took {round((allEnd - allStart) * 1000)}ms to execute!&#34;)
+                # Check if the anomalousFrames folder exists
+                if not os.path.exists(os.path.join(variables.PATH, &#34;anomalousFrames&#34;)):
+                    os.mkdir(os.path.join(variables.PATH, &#34;anomalousFrames&#34;))
+                # Save a new text file with the data
+                with open(os.path.join(variables.PATH, &#34;anomalousFrames&#34;, f&#34;{time.time()}.txt&#34;), &#34;w&#34;) as f:
+                    # Go throught each key and try and write it
+                    for key in data:
+                        try:
+                            f.write(f&#34;{key}: {data[key]}\n&#34;)
+                        except:
+                            pass
+        
+        except Exception as ex:
+            try:
+                if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == True:
+                    win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+            except:
+                pass
+            if ex.args != (&#39;The main window has been closed.&#39;, &#39;If you closed the app this is normal.&#39;):
+                import keyboard
+                # Press the F1 key to pause the game
+                keyboard.press_and_release(&#34;F1&#34;)
+                from tkinter import messagebox
+                import traceback
+                exc = traceback.format_exc()
+                traceback.print_exc()
+                # Get the user name
+                username = os.getlogin()
+                # Send a crash report
+                SendCrashReport(&#34;Main loop crash.&#34;, exc.replace(username, &#34;censored&#34;))
+                if not messagebox.askretrycancel(&#34;Error&#34;, translator.Translate(&#34;The application has encountered an error in the main thread!\nPlease either retry execution or close the application (cancel)!\n\n&#34;) + exc):
+                    break
+                else:
+                    pass
+            else:
+                CloseAllPlugins()
+                try:
+                    if settings.GetSettings(&#34;User Interface&#34;, &#34;hide_console&#34;) == True:
+                        import ctypes
+                        ctypes.windll.user32.PostMessageW(variables.CONSOLENAME, 0x10, 0, 0)
+                except:
+                    print(&#34;Failed to close console!&#34;)
+                break</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.CheckForFileChanges"><code class="name flex">
+<span>def <span class="ident">CheckForFileChanges</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will check the plugin main files for changes and reload them if they've changed.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CheckForFileChanges():
+    &#34;&#34;&#34;Will check the plugin main files for changes and reload them if they&#39;ve changed.&#34;&#34;&#34;
+    global lastChecksums
+    # Check if it&#39;s the first time running this function
+    if lastChecksums == {}:
+        for plugin in pluginNames:
+            try:
+                checksum = hashlib.md5(open(os.path.join(variables.PATH, &#34;plugins&#34;, plugin, &#34;main.py&#34;), &#34;rb&#34;).read()).hexdigest()
+                lastChecksums[plugin] = checksum
+            except:
+                pass
+        return
+    
+    # Check for changes in the plugins
+    for plugin in pluginNames:
+        try:
+            checksum = hashlib.md5(open(os.path.join(variables.PATH, &#34;plugins&#34;, plugin, &#34;main.py&#34;), &#34;rb&#34;).read()).hexdigest()
+            if checksum != lastChecksums[plugin]:
+                print(f&#34;Detected changes in {plugin}...&#34;)
+                ReloadPluginCode()
+                RunOnEnable()
+                variables.RELOADPLUGINS = False
+                variables.RELOAD = False # Already reloaded
+                lastChecksums[plugin] = checksum
+                break
+        except:
+            pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.CheckForONNXRuntimeChange"><code class="name flex">
+<span>def <span class="ident">CheckForONNXRuntimeChange</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CheckForONNXRuntimeChange():
+    change = settings.GetSettings(&#34;SwitchLaneDetectionDevice&#34;, &#34;switchTo&#34;)
+    if change != None:
+        if change == &#34;GPU&#34;:
+            loadingWindow.update(text=&#34;Uninstalling ONNX...&#34;)
+            os.system(&#34;pip uninstall onnxruntime -y&#34;)
+            loadingWindow.update(text=&#34;Installing ONNX GPU...&#34;)
+            os.system(&#34;pip install onnxruntime-gpu&#34;)
+        else:
+            loadingWindow.update(text=&#34;Uninstalling ONNX GPU...&#34;)
+            os.system(&#34;pip uninstall onnxruntime-gpu -y&#34;)
+            loadingWindow.update(text=&#34;Installing ONNX...&#34;)
+            os.system(&#34;pip install onnxruntime&#34;)
+            
+    settings.CreateSettings(&#34;SwitchLaneDetectionDevice&#34;, &#34;switchTo&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.CheckLastKnownVersion"><code class="name flex">
+<span>def <span class="ident">CheckLastKnownVersion</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CheckLastKnownVersion():
+    lastVersion = settings.GetSettings(&#34;User Interface&#34;, &#34;version&#34;)
+    if lastVersion == None:
+        settings.UpdateSettings(&#34;User Interface&#34;, &#34;version&#34;, variables.VERSION)
+        mainUI.switchSelectedPlugin(&#34;plugins.Changelog.main&#34;)
+        return
+    
+    if lastVersion != variables.VERSION:
+        settings.UpdateSettings(&#34;User Interface&#34;, &#34;version&#34;, variables.VERSION)
+        mainUI.switchSelectedPlugin(&#34;plugins.Changelog.main&#34;)
+        return</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.CloseAllPlugins"><code class="name flex">
+<span>def <span class="ident">CloseAllPlugins</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CloseAllPlugins():
+    for plugin in pluginObjects:
+        plugin.onDisable()
+        del plugin</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.FindPlugins"><code class="name flex">
+<span>def <span class="ident">FindPlugins</span></span>(<span>reloadFully=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def FindPlugins(reloadFully=False):
+    global plugins
+    global panels
+    global pluginObjects
+    global pluginNames
+    
+    # Update the list of plugins and panels for the hash check
+    pluginNames = GetListOfAllPluginAndPanelNames()
+    
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    plugins = []
+    panels = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginPath = &#34;plugins.&#34; + file + &#34;.main&#34;
+                    plugin = __import__(pluginPath, fromlist=[&#34;PluginInformation&#34;])
+                    if plugin.PluginInfo.type == &#34;dynamic&#34;:
+                        if plugin.PluginInfo.name in enabledPlugins:
+                            plugins.append(plugin.PluginInfo)
+                    else:
+                        panels.append(__import__(&#34;plugins.&#34; + plugin.PluginInfo.name + &#34;.main&#34;, fromlist=[&#34;UI&#34;, &#34;PluginInfo&#34;]))
+                except Exception as ex:
+                    print(str(ex.args) + f&#34; [{file}]&#34;)
+                    pass
+
+    pluginObjects = []
+    for plugin in plugins:
+        pluginObjects.append(__import__(&#34;plugins.&#34; + plugin.name + &#34;.main&#34;, fromlist=[&#34;plugin&#34;, &#34;UI&#34;, &#34;PluginInfo&#34;, &#34;onEnable&#34;]))
+        pluginObjects[-1].onEnable()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.GetEnabledPlugins"><code class="name flex">
+<span>def <span class="ident">GetEnabledPlugins</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetEnabledPlugins():
+    global enabledPlugins
+    enabledPlugins = settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;)
+    if enabledPlugins == None:
+        enabledPlugins = [&#34;&#34;]</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.GetListOfAllPluginAndPanelNames"><code class="name flex">
+<span>def <span class="ident">GetListOfAllPluginAndPanelNames</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetListOfAllPluginAndPanelNames():
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    plugins = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    pluginName = file
+                    plugins.append(pluginName)
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    return plugins</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.InstallPlugins"><code class="name flex">
+<span>def <span class="ident">InstallPlugins</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def InstallPlugins():
+    global startInstall
+    global loadingWindow
+    
+    list = settings.GetSettings(&#34;Plugins&#34;, &#34;Installed&#34;)
+    if list == None:
+        settings.CreateSettings(&#34;Plugins&#34;, &#34;Installed&#34;, [])
+    
+    # Find plugins
+    path = os.path.join(variables.PATH, &#34;plugins&#34;)
+    installers = []
+    pluginNames = []
+    for file in os.listdir(path):
+        if os.path.isdir(os.path.join(path, file)):
+            # Check for main.py
+            if &#34;main.py&#34; in os.listdir(os.path.join(path, file)):
+                # Check for PluginInformation class
+                try:
+                    # Get installers for plugins that are not installed
+                    if file not in settings.GetSettings(&#34;Plugins&#34;, &#34;Installed&#34;):
+                        pluginPath = &#34;plugins.&#34; + file + &#34;.install&#34;
+                        try:
+                            pluginNames.append(f&#34;{file}&#34;)
+                            installers.append(__import__(pluginPath, fromlist=[&#34;install&#34;]))
+                        except: # No installer
+                            pass
+                        
+                    
+                except Exception as ex:
+                    print(ex.args)
+                    pass
+    
+    if installers == []:
+        return
+    
+    import tkinter as tk
+    from tkinter import ttk
+    
+    try:
+        loadingWindow.destroy()
+    except:
+        pass
+    
+    # Create a new tab for the installer
+    installFrame = ttk.Frame(mainUI.pluginNotebook, width=600, height=520)
+    installFrame.pack(anchor=tk.CENTER, expand=True, fill=tk.BOTH)
+    mainUI.pluginNotebook.add(installFrame, text=&#34;Plugin Installer&#34;)
+    mainUI.pluginNotebook.select(mainUI.pluginNotebook.tabs()[-1])
+    
+    ttk.Label(installFrame, text=&#34;The app has detected plugins that have not yet been installed.&#34;).pack()
+    ttk.Label(installFrame, text=&#34;Please install them before continuing.&#34;).pack()
+    ttk.Label(installFrame, text=&#34;&#34;).pack()
+    ttk.Label(installFrame, text=&#34;WARNING: Make sure you trust the authors of the plugins.&#34;).pack()
+    ttk.Label(installFrame, text=&#34;If you are at all skeptical then you can see the install script at&#34;).pack()
+    ttk.Label(installFrame, text=&#34;app/plugins/&lt;plugin name&gt;/installer.py&#34;).pack()
+    ttk.Label(installFrame, text=&#34;&#34;).pack()
+    
+    startInstall = False
+    def SetInstallToTrue():
+        global startInstall
+        startInstall = True
+    ttk.Button(installFrame, text=&#34;Install plugins&#34;, command=lambda: SetInstallToTrue()).pack()
+    
+    ttk.Label(installFrame, text=&#34;&#34;).pack()
+    ttk.Label(installFrame, text=&#34;The following plugins require installation: &#34;).pack()
+    # Make tk list object
+    listbox = tk.Listbox(installFrame, width=75, height=30)
+    listbox.pack()
+    # Add the plugins there
+    for plugin in pluginNames:
+        listbox.insert(tk.END, plugin)
+    # Center the listbox text
+    listbox.config(justify=tk.CENTER)
+    
+    while not startInstall:
+        mainUI.root.update()
+    
+    # Destroy all the widgets
+    for child in installFrame.winfo_children():
+        child.destroy()
+        
+    # Create the progress indicators
+    ttk.Label(installFrame, text=&#34;\n\n\n\n\n\n\n&#34;).pack()
+    currentPlugin = tk.StringVar(installFrame)
+    currentPlugin.set(&#34;Installing plugins...&#34;)
+    ttk.Label(installFrame, textvariable=currentPlugin).pack()
+    bar = ttk.Progressbar(installFrame, orient=tk.HORIZONTAL, length=200, mode=&#39;determinate&#39;)
+    bar.pack(pady=15)
+    percentage = tk.StringVar(installFrame)
+    ttk.Label(installFrame, textvariable=percentage).pack()
+    ttk.Label(installFrame, text=&#34;&#34;).pack()
+    ttk.Label(installFrame, text=&#34;This may take a while...&#34;).pack()
+    ttk.Label(installFrame, text=&#34;For more information check the console.&#34;).pack()
+    
+    mainUI.root.update()
+    
+    loadingWindow = loading.LoadingWindow(&#34;Installing plugins...&#34;)
+    
+    index = 0
+    import progress.bar as Bar
+    with Bar.PixelBar(&#34;Installing plugins...&#34;, max=len(installers)) as progressBar:
+        for installer, name in zip(installers, pluginNames):
+            sys.stdout.write(f&#34;\nInstalling &#39;{name}&#39;...\n&#34;)
+            currentPlugin.set(f&#34;Installing &#39;{name}&#39;...&#34;)
+            bar.config(value=(index / len(installers)) * 100)
+            percentage.set(f&#34;{round((index / len(installers)) * 100)}%&#34;)
+            mainUI.root.update()
+            try:
+                installer.install()
+                settings.AddToList(&#34;Plugins&#34;, &#34;Installed&#34;, name.split(&#34; - &#34;)[0])
+            except:
+                print(f&#34;Warning. Failed to install &#39;{name}&#39; fully! The plugin might still work though.&#34;)
+                pass
+            index += 1
+            loadingWindow.update(text=f&#34;Installing &#39;{name}&#39;...&#34;)
+            os.system(&#34;cls&#34;)
+            progressBar.next()
+    
+    # Destroy all the widgets
+    for child in installFrame.winfo_children():
+        child.destroy()
+        
+    # Remove the tab
+    settings.RemoveFromList(&#34;Plugins&#34;, &#34;OpenTabs&#34;, &#34;Plugin Installer&#34;)
+    variables.RELOADPLUGINS = True</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.LoadApplication"><code class="name flex">
+<span>def <span class="ident">LoadApplication</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def LoadApplication():
+    global mainUI
+    global uiUpdateRate
+    global loadingWindow
+    global timesLoaded
+
+    loadingWindow = loading.LoadingWindow(&#34;Please wait initializing...&#34;)
+    
+    if timesLoaded &gt; 0:
+        try:
+            mainUI.DeleteRoot()
+            del mainUI
+            import src.mainUI as mainUI
+            mainUI.CreateRoot()
+        except:
+            pass
+        
+    timesLoaded += 1
+        
+
+    CheckForONNXRuntimeChange()
+
+    # Check for new plugin installs
+    InstallPlugins()
+    
+    # Load all plugins 
+    loadingWindow.update(text=&#34;Loading plugins...&#34;)
+    GetEnabledPlugins()
+    FindPlugins()
+    loadingWindow.update(text=&#34;Initializing plugins...&#34;)
+    RunOnEnable()
+
+    logger.printDebug = settings.GetSettings(&#34;logger&#34;, &#34;debug&#34;)
+    if logger.printDebug == None:
+        logger.printDebug = False
+        settings.CreateSettings(&#34;logger&#34;, &#34;debug&#34;, False)
+
+    # We&#39;ve loaded all necessary modules
+    showCopyrightInTitlebar = settings.GetSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;)
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
+        showCopyrightInTitlebar = True
+    
+    mainUI.titlePath = &#34;- &#34; + open(settings.currentProfile, &#34;r&#34;).readline().replace(&#34;\n&#34;, &#34;&#34;) + &#34; &#34;
+    mainUI.UpdateTitle()
+    mainUI.root.update()
+    mainUI.drawButtons()
+
+    loadingWindow.destroy()
+    del loadingWindow
+
+    uiUpdateRate = settings.GetSettings(&#34;User Interface&#34;, &#34;updateRate&#34;)
+    if uiUpdateRate == None: 
+        uiUpdateRate = 0
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;updateRate&#34;, 0)
+
+    CheckLastKnownVersion()
+    # Show the root window
+    mainUI.root.deiconify()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.ReloadPluginCode"><code class="name flex">
+<span>def <span class="ident">ReloadPluginCode</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ReloadPluginCode():
+    FindPlugins()
+    # Use the inbuilt python modules to reload the code of the plugins
+    import importlib
+    import progress.bar as Bar
+    with Bar.PixelBar(&#34;Reloading plugins...&#34;, max=len(pluginObjects)) as progressBar:
+        for plugin in pluginObjects:
+            try:
+                importlib.reload(plugin)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
+    with Bar.PixelBar(&#34;Reloading panels...&#34;, max=len(panels)) as progressBar:
+        for panel in panels:
+            try:
+                importlib.reload(panel)
+            except Exception as ex:
+                print(ex.args)
+                pass
+            progressBar.next()
+            
+    print(&#34;Reloading UI root code...&#34;)
+    try:
+        mainUI.DeleteRoot()
+        importlib.reload(mainUI)
+        mainUI.CreateRoot()
+        mainUI.drawButtons()
+    except Exception as ex:
+        print(ex.args)
+        pass
+    print(&#34;Reloaded UI root code.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.RunOnEnable"><code class="name flex">
+<span>def <span class="ident">RunOnEnable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def RunOnEnable():
+    for plugin in pluginObjects:
+        try:
+            plugin.onEnable()
+        except Exception as ex:
+            print(ex.args)
+            pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.UpdateChecker"><code class="name flex">
+<span>def <span class="ident">UpdateChecker</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateChecker():
+    print(&#34;Checking for updates...&#34;)
+    currentVer = variables.VERSION.split(&#34;.&#34;)
+    githubUrl = &#34;https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/&#34;
+    sourceForgeUrl = &#34;https://sourceforge.net/p/eurotrucksimulator2-laneassist/code/ci/main/tree/&#34;
+    try:
+        remoteVer = requests.get(githubUrl + &#34;version.txt&#34;).text.strip().split(&#34;.&#34;)
+        remote = &#34;github&#34;
+    except:
+        try:
+            remoteVer = requests.get(sourceForgeUrl + &#34;version.txt?format=raw&#34;).text.strip().split(&#34;.&#34;)
+            remote = &#34;sourceforge&#34;
+        except:
+            print(&#34;Failed to check for updates&#34;)
+            print(&#34;Please check your internet connection and try again later&#34;)
+            return
+    if int(currentVer[0]) &lt; int(remoteVer[0]):
+        update = True
+    elif int(currentVer[1]) &lt; int(remoteVer[1]):
+        update = True
+    elif int(currentVer[2]) &lt; int(remoteVer[2]):
+        update = True
+    else:
+        update = False
+    
+    if remote == &#34;github&#34;:
+        url = githubUrl
+    else:
+        url = sourceForgeUrl
+    
+    print(f&#34;Current version: {&#39;.&#39;.join(currentVer)}&#34;)
+    print(f&#34;Remote version: {&#39;.&#39;.join(remoteVer)}&#34;)
+    print(f&#34;Update available: {update}&#34;)
+    if update:
+        if remote == &#34;github&#34;:
+            changelog = requests.get(url + &#34;changelog.txt&#34;).text
+        elif remote == &#34;sourceforge&#34;:
+            changelog = requests.get(url + &#34;changelog.txt?format=raw&#34;).text
+            
+        print(f&#34;Changelog:\n{changelog}&#34;)
+        from tkinter import messagebox
+        if messagebox.askokcancel(&#34;Updater&#34;, (f&#34;We have detected an update, do you want to install it?\nCurrent - {&#39;.&#39;.join(currentVer)}\nUpdated - {&#39;.&#39;.join(remoteVer)}\n\nChangelog:\n{changelog}&#34;)):
+            os.system(&#34;git stash&#34;)
+            os.system(&#34;git pull&#34;)
+            if messagebox.askyesno(&#34;Updater&#34;, (&#34;The update has been installed and the application needs to be restarted. Do you want to quit the app?&#34;)):
+                quit()
+        else:
+            variables.UPDATEAVAILABLE = remoteVer
+            pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.main.UpdatePlugins"><code class="name flex">
+<span>def <span class="ident">UpdatePlugins</span></span>(<span>dynamicOrder, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdatePlugins(dynamicOrder, data):
+    for plugin in pluginObjects:
+        try:
+            if plugin.PluginInfo.dynamicOrder == dynamicOrder:
+                startTime = time.time()
+
+                pluginData = plugin.plugin(data)
+                
+                if pluginData != None:
+                    data = pluginData
+                else:
+                    print(f&#34;Plugin &#39;{plugin.PluginInfo.name}&#39; returned NoneType instead of a the data variable. Please make sure that you return the data variable.&#34;)
+                
+                endTime = time.time()    
+                data[&#34;executionTimes&#34;][plugin.PluginInfo.name] = endTime - startTime
+                        
+        except Exception as ex:
+            print(ex.args + f&#34;[{plugin.PluginInfo.name}]&#34;)
+            pass
+    return data</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist" href="index.html">Euro-Truck-Simulator-2-Lane-Assist</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.CheckForFileChanges" href="#Euro-Truck-Simulator-2-Lane-Assist.main.CheckForFileChanges">CheckForFileChanges</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.CheckForONNXRuntimeChange" href="#Euro-Truck-Simulator-2-Lane-Assist.main.CheckForONNXRuntimeChange">CheckForONNXRuntimeChange</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.CheckLastKnownVersion" href="#Euro-Truck-Simulator-2-Lane-Assist.main.CheckLastKnownVersion">CheckLastKnownVersion</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.CloseAllPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.CloseAllPlugins">CloseAllPlugins</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.FindPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.FindPlugins">FindPlugins</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.GetEnabledPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.GetEnabledPlugins">GetEnabledPlugins</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.GetListOfAllPluginAndPanelNames" href="#Euro-Truck-Simulator-2-Lane-Assist.main.GetListOfAllPluginAndPanelNames">GetListOfAllPluginAndPanelNames</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.InstallPlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.InstallPlugins">InstallPlugins</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.LoadApplication" href="#Euro-Truck-Simulator-2-Lane-Assist.main.LoadApplication">LoadApplication</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.ReloadPluginCode" href="#Euro-Truck-Simulator-2-Lane-Assist.main.ReloadPluginCode">ReloadPluginCode</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.RunOnEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.main.RunOnEnable">RunOnEnable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.UpdateChecker" href="#Euro-Truck-Simulator-2-Lane-Assist.main.UpdateChecker">UpdateChecker</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.main.UpdatePlugins" href="#Euro-Truck-Simulator-2-Lane-Assist.main.UpdatePlugins">UpdatePlugins</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

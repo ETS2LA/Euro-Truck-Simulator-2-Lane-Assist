@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import json
+from src.logger import print
+from src.variables import *
+from src.settings import *
+from src.helpers import *
+from src.mainUI import *
+import src.mainUI as mainUI
+import sys
+import plugins.Map.GameData.nodes as nodes
+import math
+
+class Road():
+    Uid = 0
+    StartNodeUid = 0
+    StartNode = None
+    EndNodeUid = 0
+    EndNode = None
+    Nodes = None
+    BlockSize = 0
+    Valid = False
+    Type = 0
+    X = 0
+    Z = 0
+    Hidden = False
+    Flags = 0
+    Navigation = None
+    RoadLook = None
+    Points = None
+    IsSecret = False
+    ConnectedPrefabItems = []
+
+class RoadLook():
+    offset = 0.0
+    lanesLeft = []
+    lanesRight = []
+    token = 0
+    isHighway = False
+    isLocal = False
+    isExpress = False
+    isNoVehicles = False
+
+
+roads = []
+optimizedRoads = {}
+uidOptimizedRoads = {}
+roadFileName = variables.PATH + &#34;/plugins/Map/GameData/roads.json&#34;
+
+roadsMaxX = 0
+roadsMaxZ = 0
+roadsMinX = 0
+roadsMinZ = 0
+totalWidth = 0
+totalHeight = 0
+areaCountX = 0
+areaCountZ = 0
+
+limitToCount = 0
+
+def RoadToJson(road):
+    roadJson = {}
+    
+    roadJson[&#34;Uid&#34;] = road.Uid
+    roadJson[&#34;StartNodeUid&#34;] = road.StartNodeUid
+    roadJson[&#34;EndNodeUid&#34;] = road.EndNodeUid
+    roadJson[&#34;Nodes&#34;] = road.Nodes
+    roadJson[&#34;BlockSize&#34;] = road.BlockSize
+    roadJson[&#34;Valid&#34;] = road.Valid
+    roadJson[&#34;Type&#34;] = road.Type
+    roadJson[&#34;X&#34;] = road.X
+    roadJson[&#34;Z&#34;] = road.Z
+    roadJson[&#34;Hidden&#34;] = road.Hidden
+    roadJson[&#34;Flags&#34;] = road.Flags
+    roadJson[&#34;Navigation&#34;] = road.Navigation
+    roadJson[&#34;Points&#34;] = []
+    try:
+        for point in road.Points:
+            # A point is a tuple of (x, z)
+            point = {
+                &#34;X&#34;: point[0],
+                &#34;Z&#34;: point[1]
+            }
+            roadJson[&#34;Points&#34;].append(point)
+    except:
+        pass
+    roadJson[&#34;IsSecret&#34;] = road.IsSecret
+    
+    roadJson[&#34;RoadLook&#34;] = {}
+    roadJson[&#34;RoadLook&#34;][&#34;Offset&#34;] = road.RoadLook.offset
+    roadJson[&#34;RoadLook&#34;][&#34;LanesLeft&#34;] = road.RoadLook.lanesLeft
+    roadJson[&#34;RoadLook&#34;][&#34;LanesRight&#34;] = road.RoadLook.lanesRight
+    roadJson[&#34;RoadLook&#34;][&#34;Token&#34;] = road.RoadLook.token
+    roadJson[&#34;RoadLook&#34;][&#34;IsHighway&#34;] = road.RoadLook.isHighway
+    roadJson[&#34;RoadLook&#34;][&#34;IsLocal&#34;] = road.RoadLook.isLocal
+    roadJson[&#34;RoadLook&#34;][&#34;IsExpress&#34;] = road.RoadLook.isExpress
+    roadJson[&#34;RoadLook&#34;][&#34;IsNoVehicles&#34;] = road.RoadLook.isNoVehicles
+    
+    return roadJson
+
+def Hermite(s, x, z, tanX, tanZ):
+    h1 = 2 * math.pow(s, 3) - 3 * math.pow(s, 2) + 1
+    h2 = -2 * math.pow(s, 3) + 3 * math.pow(s, 2)
+    h3 = math.pow(s, 3) - 2 * math.pow(s, 2) + s
+    h4 = math.pow(s, 3) - math.pow(s, 2)
+    return h1 * x + h2 * z + h3 * tanX + h4 * tanZ
+
+def CreatePointsForRoad(road):
+    # All this code is copied from the original C# implementation of point calculations
+    # ts-map-lane-assist/TsMap/TsMapRenderer.cs -&gt; 473 (after foreach(var road in _mapper.Roads))
+    newPoints = []
+
+    sx = road.StartNode.X
+    sz = road.StartNode.Z
+    ex = road.EndNode.X
+    ez = road.EndNode.Z
+
+    radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+
+    tanSx = math.cos(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEx = math.cos(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+    tanSz = math.sin(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEz = math.sin(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+
+    for i in range(8):
+        s = i / (8 - 1)
+        x = Hermite(s, sx, ex, tanSx, tanEx)
+        z = Hermite(s, sz, ez, tanSz, tanEz)
+        newPoints.append((x, z))
+
+    road.Points = newPoints
+
+def LoadRoads():
+    global roadsMaxX
+    global roadsMaxZ
+    global roadsMinX
+    global roadsMinZ
+    global totalWidth
+    global totalHeight
+    global areaCountX
+    global areaCountZ
+    global roads
+    global optimizedRoads
+    
+    if nodes.nodes == []:
+        nodes.LoadNodes()
+    
+    jsonData = json.load(open(roadFileName))
+    
+    data = {
+        &#34;state&#34;: f&#34;Loading roads...&#34;,
+        &#34;stateProgress&#34;: 100,
+        &#34;totalProgress&#34;: 25
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
+    
+    count = 0
+    for road in jsonData:
+        road = jsonData[road]
+        
+        roadObj = Road()
+        roadObj.Uid = road[&#34;Uid&#34;]
+        roadObj.StartNodeUid = road[&#34;StartNodeUid&#34;]
+        roadObj.EndNodeUid = road[&#34;EndNodeUid&#34;]
+        roadObj.Nodes = road[&#34;Nodes&#34;]
+        roadObj.BlockSize = road[&#34;BlockSize&#34;]
+        roadObj.Valid = road[&#34;Valid&#34;]
+        roadObj.Type = road[&#34;Type&#34;]
+        roadObj.X = road[&#34;X&#34;]
+        roadObj.Z = road[&#34;Z&#34;]
+        roadObj.Hidden = road[&#34;Hidden&#34;]
+        roadObj.Flags = road[&#34;Flags&#34;]
+        roadObj.Navigation = road[&#34;Navigation&#34;]
+        roadObj.Points = road[&#34;Points&#34;]
+        roadObj.IsSecret = road[&#34;IsSecret&#34;]
+    
+        roadObj.RoadLook = RoadLook()
+        
+        roadObj.RoadLook.offset = road[&#34;RoadLook&#34;][&#34;Offset&#34;]
+        roadObj.RoadLook.lanesLeft = road[&#34;RoadLook&#34;][&#34;LanesLeft&#34;]
+        roadObj.RoadLook.lanesRight = road[&#34;RoadLook&#34;][&#34;LanesRight&#34;]
+        roadObj.RoadLook.token = road[&#34;RoadLook&#34;][&#34;Token&#34;]
+        roadObj.RoadLook.isHighway = road[&#34;RoadLook&#34;][&#34;IsHighway&#34;]
+        roadObj.RoadLook.isLocal = road[&#34;RoadLook&#34;][&#34;IsLocal&#34;]
+        roadObj.RoadLook.isExpress = road[&#34;RoadLook&#34;][&#34;IsExpress&#34;]
+        roadObj.RoadLook.isNoVehicles = road[&#34;RoadLook&#34;][&#34;IsNoVehicles&#34;]
+    
+        roads.append(roadObj)
+        count += 1
+    
+        if limitToCount != 0 and count &gt;= limitToCount:
+            break
+    
+    sys.stdout.write(f&#34;Loaded roads : {count}\nNow matching roads to nodes...\n&#34;)
+    
+    # Match the nodes to the roads
+    count = 0
+    noLocationData = 0
+    for road in roads:
+        road.StartNode = nodes.GetNodeByUid(road.StartNodeUid)
+        road.EndNode = nodes.GetNodeByUid(road.EndNodeUid)
+        
+        if road.StartNode == None or road.EndNode == None:
+            noLocationData += 1
+        
+        count += 1
+        if count % 1000 == 0:
+            sys.stdout.write(f&#34;Matched roads : {count}\r&#34;)
+            data = {
+                &#34;state&#34;: f&#34;Matching roads to nodes... {round(count/len(roads) * 100)}%&#34;,
+                &#34;stateProgress&#34;: count/len(roads) * 100,
+                &#34;totalProgress&#34;: 25 + (count/len(roads) * 25)
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
+    
+    sys.stdout.write(f&#34;Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n&#34;)
+    
+    
+    # Make an optimized array for the roads. Do this by splitting the map into 1km / 1km areas and then adding the roads to the correct area
+    data = {
+        &#34;state&#34;: f&#34;Optimizing array...&#34;,
+        &#34;stateProgress&#34;: 100,
+        &#34;totalProgress&#34;: 50
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
+    
+    for road in roads:
+        if road.StartNode.X &gt; roadsMaxX:
+            roadsMaxX = road.StartNode.X
+        if road.StartNode.Z &gt; roadsMaxZ:
+            roadsMaxZ = road.StartNode.Z
+        if road.StartNode.X &lt; roadsMinX:
+            roadsMinX = road.StartNode.X
+        if road.StartNode.Z &lt; roadsMinZ:
+            roadsMinZ = road.StartNode.Z
+        
+        if road.EndNode.X &gt; roadsMaxX:
+            roadsMaxX = road.EndNode.X
+        if road.EndNode.Z &gt; roadsMaxZ:
+            roadsMaxZ = road.EndNode.Z
+        if road.EndNode.X &lt; roadsMinX:
+            roadsMinX = road.EndNode.X
+        if road.EndNode.Z &lt; roadsMinZ:
+            roadsMinZ = road.EndNode.Z
+            
+    totalWidth = roadsMaxX - roadsMinX
+    totalHeight = roadsMaxZ - roadsMinZ
+    
+    # Make the array 1km / 1km
+    totalWidth = math.ceil(totalWidth / 1000)
+    totalHeight = math.ceil(totalHeight / 1000)
+        
+    for road in roads:
+        # Get the area the road should be in from the START node
+        x = math.floor((road.StartNode.X - roadsMinX) / 1000)
+        z = math.floor((road.StartNode.Z - roadsMinZ) / 1000)
+        
+        if x &gt; areaCountX:
+            areaCountX = x
+        if z &gt; areaCountZ:
+            areaCountZ = z
+        
+        if x not in optimizedRoads:
+            optimizedRoads[x] = {}
+        if z not in optimizedRoads[x]:
+            optimizedRoads[x][z] = []
+        
+        optimizedRoads[x][z].append(road)
+        
+    print(f&#34;Roads optimized to {areaCountX}x{areaCountZ} areas&#34;)
+        
+    # Optimize roads by the three first numbers of the UID
+    for road in roads:
+        uid = str(road.Uid)
+        uid = uid[:3]
+        uid = int(uid)
+        
+        if uid not in uidOptimizedRoads:
+            uidOptimizedRoads[uid] = []
+            
+        uidOptimizedRoads[uid].append(road)
+        
+    print(&#34;Road parsing done!&#34;)
+
+
+def GetRoadsInTileByCoordinates(x, z):
+    # Convert the global coordinates to tile coordinates
+    x = math.floor((x - roadsMinX) / 1000)
+    z = math.floor((z - roadsMinZ) / 1000)
+    
+    if x in optimizedRoads:
+        if z in optimizedRoads[x]:
+            areaRoads = optimizedRoads[x][z].copy()
+            return areaRoads
+    
+    return []
+
+def GetTileCoordinates(x, z):
+    x = math.floor((x - roadsMinX) / 1000)
+    z = math.floor((z - roadsMinZ) / 1000)
+    
+    return x, z
+
+def GetLocalCoordinateInTile(x, y, tileX=-1, tileY=-1):
+    if tileX == -1 or tileY == -1:
+        tileX = math.floor((x - roadsMinX) / 1000)
+        tileY = math.floor((y - roadsMinZ) / 1000)
+        
+    x = x - (tileX * 1000) - roadsMinX
+    y = y - (tileY * 1000) - roadsMinZ
+    
+    return x, y
+
+def GetRoadByUid(uid):
+    for road in uidOptimizedRoads[int(str(uid)[:3])]:
+        if road.Uid == uid:
+            return road
+    
+    return None</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.CreatePointsForRoad"><code class="name flex">
+<span>def <span class="ident">CreatePointsForRoad</span></span>(<span>road)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CreatePointsForRoad(road):
+    # All this code is copied from the original C# implementation of point calculations
+    # ts-map-lane-assist/TsMap/TsMapRenderer.cs -&gt; 473 (after foreach(var road in _mapper.Roads))
+    newPoints = []
+
+    sx = road.StartNode.X
+    sz = road.StartNode.Z
+    ex = road.EndNode.X
+    ez = road.EndNode.Z
+
+    radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+
+    tanSx = math.cos(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEx = math.cos(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+    tanSz = math.sin(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEz = math.sin(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+
+    for i in range(8):
+        s = i / (8 - 1)
+        x = Hermite(s, sx, ex, tanSx, tanEx)
+        z = Hermite(s, sz, ez, tanSz, tanEz)
+        newPoints.append((x, z))
+
+    road.Points = newPoints</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetLocalCoordinateInTile"><code class="name flex">
+<span>def <span class="ident">GetLocalCoordinateInTile</span></span>(<span>x, y, tileX=-1, tileY=-1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetLocalCoordinateInTile(x, y, tileX=-1, tileY=-1):
+    if tileX == -1 or tileY == -1:
+        tileX = math.floor((x - roadsMinX) / 1000)
+        tileY = math.floor((y - roadsMinZ) / 1000)
+        
+    x = x - (tileX * 1000) - roadsMinX
+    y = y - (tileY * 1000) - roadsMinZ
+    
+    return x, y</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetRoadByUid"><code class="name flex">
+<span>def <span class="ident">GetRoadByUid</span></span>(<span>uid)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetRoadByUid(uid):
+    for road in uidOptimizedRoads[int(str(uid)[:3])]:
+        if road.Uid == uid:
+            return road
+    
+    return None</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetRoadsInTileByCoordinates"><code class="name flex">
+<span>def <span class="ident">GetRoadsInTileByCoordinates</span></span>(<span>x, z)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetRoadsInTileByCoordinates(x, z):
+    # Convert the global coordinates to tile coordinates
+    x = math.floor((x - roadsMinX) / 1000)
+    z = math.floor((z - roadsMinZ) / 1000)
+    
+    if x in optimizedRoads:
+        if z in optimizedRoads[x]:
+            areaRoads = optimizedRoads[x][z].copy()
+            return areaRoads
+    
+    return []</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetTileCoordinates"><code class="name flex">
+<span>def <span class="ident">GetTileCoordinates</span></span>(<span>x, z)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetTileCoordinates(x, z):
+    x = math.floor((x - roadsMinX) / 1000)
+    z = math.floor((z - roadsMinZ) / 1000)
+    
+    return x, z</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Hermite"><code class="name flex">
+<span>def <span class="ident">Hermite</span></span>(<span>s, x, z, tanX, tanZ)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Hermite(s, x, z, tanX, tanZ):
+    h1 = 2 * math.pow(s, 3) - 3 * math.pow(s, 2) + 1
+    h2 = -2 * math.pow(s, 3) + 3 * math.pow(s, 2)
+    h3 = math.pow(s, 3) - 2 * math.pow(s, 2) + s
+    h4 = math.pow(s, 3) - math.pow(s, 2)
+    return h1 * x + h2 * z + h3 * tanX + h4 * tanZ</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.LoadRoads"><code class="name flex">
+<span>def <span class="ident">LoadRoads</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def LoadRoads():
+    global roadsMaxX
+    global roadsMaxZ
+    global roadsMinX
+    global roadsMinZ
+    global totalWidth
+    global totalHeight
+    global areaCountX
+    global areaCountZ
+    global roads
+    global optimizedRoads
+    
+    if nodes.nodes == []:
+        nodes.LoadNodes()
+    
+    jsonData = json.load(open(roadFileName))
+    
+    data = {
+        &#34;state&#34;: f&#34;Loading roads...&#34;,
+        &#34;stateProgress&#34;: 100,
+        &#34;totalProgress&#34;: 25
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
+    
+    count = 0
+    for road in jsonData:
+        road = jsonData[road]
+        
+        roadObj = Road()
+        roadObj.Uid = road[&#34;Uid&#34;]
+        roadObj.StartNodeUid = road[&#34;StartNodeUid&#34;]
+        roadObj.EndNodeUid = road[&#34;EndNodeUid&#34;]
+        roadObj.Nodes = road[&#34;Nodes&#34;]
+        roadObj.BlockSize = road[&#34;BlockSize&#34;]
+        roadObj.Valid = road[&#34;Valid&#34;]
+        roadObj.Type = road[&#34;Type&#34;]
+        roadObj.X = road[&#34;X&#34;]
+        roadObj.Z = road[&#34;Z&#34;]
+        roadObj.Hidden = road[&#34;Hidden&#34;]
+        roadObj.Flags = road[&#34;Flags&#34;]
+        roadObj.Navigation = road[&#34;Navigation&#34;]
+        roadObj.Points = road[&#34;Points&#34;]
+        roadObj.IsSecret = road[&#34;IsSecret&#34;]
+    
+        roadObj.RoadLook = RoadLook()
+        
+        roadObj.RoadLook.offset = road[&#34;RoadLook&#34;][&#34;Offset&#34;]
+        roadObj.RoadLook.lanesLeft = road[&#34;RoadLook&#34;][&#34;LanesLeft&#34;]
+        roadObj.RoadLook.lanesRight = road[&#34;RoadLook&#34;][&#34;LanesRight&#34;]
+        roadObj.RoadLook.token = road[&#34;RoadLook&#34;][&#34;Token&#34;]
+        roadObj.RoadLook.isHighway = road[&#34;RoadLook&#34;][&#34;IsHighway&#34;]
+        roadObj.RoadLook.isLocal = road[&#34;RoadLook&#34;][&#34;IsLocal&#34;]
+        roadObj.RoadLook.isExpress = road[&#34;RoadLook&#34;][&#34;IsExpress&#34;]
+        roadObj.RoadLook.isNoVehicles = road[&#34;RoadLook&#34;][&#34;IsNoVehicles&#34;]
+    
+        roads.append(roadObj)
+        count += 1
+    
+        if limitToCount != 0 and count &gt;= limitToCount:
+            break
+    
+    sys.stdout.write(f&#34;Loaded roads : {count}\nNow matching roads to nodes...\n&#34;)
+    
+    # Match the nodes to the roads
+    count = 0
+    noLocationData = 0
+    for road in roads:
+        road.StartNode = nodes.GetNodeByUid(road.StartNodeUid)
+        road.EndNode = nodes.GetNodeByUid(road.EndNodeUid)
+        
+        if road.StartNode == None or road.EndNode == None:
+            noLocationData += 1
+        
+        count += 1
+        if count % 1000 == 0:
+            sys.stdout.write(f&#34;Matched roads : {count}\r&#34;)
+            data = {
+                &#34;state&#34;: f&#34;Matching roads to nodes... {round(count/len(roads) * 100)}%&#34;,
+                &#34;stateProgress&#34;: count/len(roads) * 100,
+                &#34;totalProgress&#34;: 25 + (count/len(roads) * 25)
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
+    
+    sys.stdout.write(f&#34;Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n&#34;)
+    
+    
+    # Make an optimized array for the roads. Do this by splitting the map into 1km / 1km areas and then adding the roads to the correct area
+    data = {
+        &#34;state&#34;: f&#34;Optimizing array...&#34;,
+        &#34;stateProgress&#34;: 100,
+        &#34;totalProgress&#34;: 50
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
+    
+    for road in roads:
+        if road.StartNode.X &gt; roadsMaxX:
+            roadsMaxX = road.StartNode.X
+        if road.StartNode.Z &gt; roadsMaxZ:
+            roadsMaxZ = road.StartNode.Z
+        if road.StartNode.X &lt; roadsMinX:
+            roadsMinX = road.StartNode.X
+        if road.StartNode.Z &lt; roadsMinZ:
+            roadsMinZ = road.StartNode.Z
+        
+        if road.EndNode.X &gt; roadsMaxX:
+            roadsMaxX = road.EndNode.X
+        if road.EndNode.Z &gt; roadsMaxZ:
+            roadsMaxZ = road.EndNode.Z
+        if road.EndNode.X &lt; roadsMinX:
+            roadsMinX = road.EndNode.X
+        if road.EndNode.Z &lt; roadsMinZ:
+            roadsMinZ = road.EndNode.Z
+            
+    totalWidth = roadsMaxX - roadsMinX
+    totalHeight = roadsMaxZ - roadsMinZ
+    
+    # Make the array 1km / 1km
+    totalWidth = math.ceil(totalWidth / 1000)
+    totalHeight = math.ceil(totalHeight / 1000)
+        
+    for road in roads:
+        # Get the area the road should be in from the START node
+        x = math.floor((road.StartNode.X - roadsMinX) / 1000)
+        z = math.floor((road.StartNode.Z - roadsMinZ) / 1000)
+        
+        if x &gt; areaCountX:
+            areaCountX = x
+        if z &gt; areaCountZ:
+            areaCountZ = z
+        
+        if x not in optimizedRoads:
+            optimizedRoads[x] = {}
+        if z not in optimizedRoads[x]:
+            optimizedRoads[x][z] = []
+        
+        optimizedRoads[x][z].append(road)
+        
+    print(f&#34;Roads optimized to {areaCountX}x{areaCountZ} areas&#34;)
+        
+    # Optimize roads by the three first numbers of the UID
+    for road in roads:
+        uid = str(road.Uid)
+        uid = uid[:3]
+        uid = int(uid)
+        
+        if uid not in uidOptimizedRoads:
+            uidOptimizedRoads[uid] = []
+            
+        uidOptimizedRoads[uid].append(road)
+        
+    print(&#34;Road parsing done!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadToJson"><code class="name flex">
+<span>def <span class="ident">RoadToJson</span></span>(<span>road)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def RoadToJson(road):
+    roadJson = {}
+    
+    roadJson[&#34;Uid&#34;] = road.Uid
+    roadJson[&#34;StartNodeUid&#34;] = road.StartNodeUid
+    roadJson[&#34;EndNodeUid&#34;] = road.EndNodeUid
+    roadJson[&#34;Nodes&#34;] = road.Nodes
+    roadJson[&#34;BlockSize&#34;] = road.BlockSize
+    roadJson[&#34;Valid&#34;] = road.Valid
+    roadJson[&#34;Type&#34;] = road.Type
+    roadJson[&#34;X&#34;] = road.X
+    roadJson[&#34;Z&#34;] = road.Z
+    roadJson[&#34;Hidden&#34;] = road.Hidden
+    roadJson[&#34;Flags&#34;] = road.Flags
+    roadJson[&#34;Navigation&#34;] = road.Navigation
+    roadJson[&#34;Points&#34;] = []
+    try:
+        for point in road.Points:
+            # A point is a tuple of (x, z)
+            point = {
+                &#34;X&#34;: point[0],
+                &#34;Z&#34;: point[1]
+            }
+            roadJson[&#34;Points&#34;].append(point)
+    except:
+        pass
+    roadJson[&#34;IsSecret&#34;] = road.IsSecret
+    
+    roadJson[&#34;RoadLook&#34;] = {}
+    roadJson[&#34;RoadLook&#34;][&#34;Offset&#34;] = road.RoadLook.offset
+    roadJson[&#34;RoadLook&#34;][&#34;LanesLeft&#34;] = road.RoadLook.lanesLeft
+    roadJson[&#34;RoadLook&#34;][&#34;LanesRight&#34;] = road.RoadLook.lanesRight
+    roadJson[&#34;RoadLook&#34;][&#34;Token&#34;] = road.RoadLook.token
+    roadJson[&#34;RoadLook&#34;][&#34;IsHighway&#34;] = road.RoadLook.isHighway
+    roadJson[&#34;RoadLook&#34;][&#34;IsLocal&#34;] = road.RoadLook.isLocal
+    roadJson[&#34;RoadLook&#34;][&#34;IsExpress&#34;] = road.RoadLook.isExpress
+    roadJson[&#34;RoadLook&#34;][&#34;IsNoVehicles&#34;] = road.RoadLook.isNoVehicles
+    
+    return roadJson</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road"><code class="flex name class">
+<span>class <span class="ident">Road</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Road():
+    Uid = 0
+    StartNodeUid = 0
+    StartNode = None
+    EndNodeUid = 0
+    EndNode = None
+    Nodes = None
+    BlockSize = 0
+    Valid = False
+    Type = 0
+    X = 0
+    Z = 0
+    Hidden = False
+    Flags = 0
+    Navigation = None
+    RoadLook = None
+    Points = None
+    IsSecret = False
+    ConnectedPrefabItems = []</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.BlockSize"><code class="name">var <span class="ident">BlockSize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.ConnectedPrefabItems"><code class="name">var <span class="ident">ConnectedPrefabItems</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.EndNode"><code class="name">var <span class="ident">EndNode</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.EndNodeUid"><code class="name">var <span class="ident">EndNodeUid</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Flags"><code class="name">var <span class="ident">Flags</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Hidden"><code class="name">var <span class="ident">Hidden</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.IsSecret"><code class="name">var <span class="ident">IsSecret</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Navigation"><code class="name">var <span class="ident">Navigation</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Nodes"><code class="name">var <span class="ident">Nodes</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Points"><code class="name">var <span class="ident">Points</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.RoadLook"><code class="name">var <span class="ident">RoadLook</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.StartNode"><code class="name">var <span class="ident">StartNode</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.StartNodeUid"><code class="name">var <span class="ident">StartNodeUid</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Type"><code class="name">var <span class="ident">Type</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Uid"><code class="name">var <span class="ident">Uid</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Valid"><code class="name">var <span class="ident">Valid</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.X"><code class="name">var <span class="ident">X</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Z"><code class="name">var <span class="ident">Z</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook"><code class="flex name class">
+<span>class <span class="ident">RoadLook</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RoadLook():
+    offset = 0.0
+    lanesLeft = []
+    lanesRight = []
+    token = 0
+    isHighway = False
+    isLocal = False
+    isExpress = False
+    isNoVehicles = False</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isExpress"><code class="name">var <span class="ident">isExpress</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isHighway"><code class="name">var <span class="ident">isHighway</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isLocal"><code class="name">var <span class="ident">isLocal</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isNoVehicles"><code class="name">var <span class="ident">isNoVehicles</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.lanesLeft"><code class="name">var <span class="ident">lanesLeft</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.lanesRight"><code class="name">var <span class="ident">lanesRight</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.offset"><code class="name">var <span class="ident">offset</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.token"><code class="name">var <span class="ident">token</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.CreatePointsForRoad" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.CreatePointsForRoad">CreatePointsForRoad</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetLocalCoordinateInTile" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetLocalCoordinateInTile">GetLocalCoordinateInTile</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetRoadByUid" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetRoadByUid">GetRoadByUid</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetRoadsInTileByCoordinates" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetRoadsInTileByCoordinates">GetRoadsInTileByCoordinates</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetTileCoordinates" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.GetTileCoordinates">GetTileCoordinates</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Hermite" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Hermite">Hermite</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.LoadRoads" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.LoadRoads">LoadRoads</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadToJson" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadToJson">RoadToJson</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road">Road</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.BlockSize" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.BlockSize">BlockSize</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.ConnectedPrefabItems" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.ConnectedPrefabItems">ConnectedPrefabItems</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.EndNode" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.EndNode">EndNode</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.EndNodeUid" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.EndNodeUid">EndNodeUid</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Flags" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Flags">Flags</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Hidden" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Hidden">Hidden</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.IsSecret" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.IsSecret">IsSecret</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Navigation" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Navigation">Navigation</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Nodes" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Nodes">Nodes</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Points" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Points">Points</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.RoadLook" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.RoadLook">RoadLook</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.StartNode" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.StartNode">StartNode</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.StartNodeUid" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.StartNodeUid">StartNodeUid</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Type" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Type">Type</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Uid" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Uid">Uid</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Valid" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Valid">Valid</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.X" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.X">X</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Z" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.Road.Z">Z</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook">RoadLook</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isExpress" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isExpress">isExpress</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isHighway" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isHighway">isHighway</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isLocal" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isLocal">isLocal</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isNoVehicles" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.isNoVehicles">isNoVehicles</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.lanesLeft" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.lanesLeft">lanesLeft</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.lanesRight" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.lanesRight">lanesRight</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.offset" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.offset">offset</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.token" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.roads.RoadLook.token">token</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

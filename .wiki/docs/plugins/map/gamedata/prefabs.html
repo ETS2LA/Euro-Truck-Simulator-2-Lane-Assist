@@ -1,0 +1,1253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import json
+from src.logger import print
+from src.variables import *
+from src.settings import *
+from src.helpers import *
+from src.mainUI import *
+import sys
+import plugins.Map.GameData.nodes as nodes
+import math
+import src.mainUI as mainUI
+
+class Prefab:
+    FilePath = &#34;&#34;
+    Token = 0
+    Category = &#34;&#34;
+    ValidRoad = False
+    PrefabNodes = []
+    SpawnPoints = []
+    MapPoints = []
+    TriggerPoints = []
+    PrefabCurves = []
+    NavigationRoutes = []
+    CalculatedLanePoints = []
+    
+    
+class PrefabCurve:
+    id = 0
+    idNode = 0
+    startX = 0
+    startZ = 0
+    endX = 0
+    endZ = 0
+    length = 0
+    nextLines = []
+    prevLines = []
+    
+class NavigationRoute:
+    Name = &#34;&#34;
+    CurveIds = []
+    Distance = 0
+    StartNode = None
+    EndNode = None
+    
+class NavigationRouteNode:
+    id = 0
+    X = 0
+    Z = 0
+    RotX = 0
+    RotZ = 0
+    LaneCount = 0
+    InputPoints = []
+    OutputPoints = []
+    
+class MapPoint:
+    X = 0
+    Z = 0
+    LaneOffset = 0
+    LaneCount = 0
+    Hidden = False
+    PrefabColorFlags = 0
+    NeighbourCount = 0
+    Neighbours = []
+    ControlNodeIndex = 0
+    
+class PrefabNode:
+    id = 0
+    X = 0
+    Z = 0
+    RotX = 0
+    RotZ = 0
+    LaneCount = 0
+    InputPoints = []
+    OutputPoints = []
+    
+prefabs = []
+optimizedPrefabs = {}
+prefabFileName = variables.PATH + &#34;/plugins/Map/GameData/prefabs.json&#34;
+limitToCount = 0
+
+def LoadPrefabs():
+    global prefabs
+    global optimizedPrefabs
+    
+    jsonData = json.load(open(prefabFileName))
+    jsonLength = len(jsonData)
+    
+    count = 0
+    for prefab in jsonData:
+        
+        prefab = jsonData[prefab]
+        
+        prefabObj = Prefab()
+        prefabObj.FilePath = prefab[&#34;FilePath&#34;]
+        prefabObj.Token = prefab[&#34;Token&#34;]
+        prefabObj.Category = prefab[&#34;Category&#34;]
+        prefabObj.ValidRoad = prefab[&#34;ValidRoad&#34;]
+        
+        for node in prefab[&#34;PrefabNodes&#34;]:
+            nodeObj = PrefabNode()
+            nodeObj.id = node[&#34;id&#34;]
+            nodeObj.X = node[&#34;X&#34;]
+            nodeObj.Z = node[&#34;Z&#34;]
+            nodeObj.RotX = node[&#34;RotX&#34;]
+            nodeObj.RotZ = node[&#34;RotZ&#34;]
+            nodeObj.LaneCount = node[&#34;LaneCount&#34;]
+            nodeObj.InputPoints = node[&#34;InputPoints&#34;]
+            nodeObj.OutputPoints = node[&#34;OutputPoints&#34;]
+            prefabObj.PrefabNodes.append(nodeObj)
+        
+        for spawnPoint in prefab[&#34;SpawnPoints&#34;]:
+            prefabObj.SpawnPoints.append(spawnPoint)
+        
+        for mapPoint in prefab[&#34;MapPoints&#34;]:
+            mapPointObj = MapPoint()
+            mapPointObj.X = mapPoint[&#34;X&#34;]
+            mapPointObj.Z = mapPoint[&#34;Z&#34;]
+            mapPointObj.LaneOffset = mapPoint[&#34;LaneOffset&#34;]
+            mapPointObj.LaneCount = mapPoint[&#34;LaneCount&#34;]
+            mapPointObj.Hidden = mapPoint[&#34;Hidden&#34;]
+            mapPointObj.PrefabColorFlags = mapPoint[&#34;PrefabColorFlags&#34;]
+            mapPointObj.NeighbourCount = mapPoint[&#34;NeighbourCount&#34;]
+            mapPointObj.Neighbours = mapPoint[&#34;Neighbours&#34;]
+            mapPointObj.ControlNodeIndex = mapPoint[&#34;ControlNodeIndex&#34;]
+            prefabObj.MapPoints.append(mapPointObj)
+        
+        for triggerPoint in prefab[&#34;TriggerPoints&#34;]:
+            prefabObj.TriggerPoints.append(triggerPoint)
+        
+        prefabObj.PrefabCurves = []
+        for prefabCurve in prefab[&#34;PrefabCurves&#34;]:
+            prefabCurveObj = PrefabCurve()
+            prefabCurveObj.id = prefabCurve[&#34;id&#34;]
+            prefabCurveObj.idNode = prefabCurve[&#34;idNode&#34;]
+            prefabCurveObj.startX = prefabCurve[&#34;start_X&#34;]
+            prefabCurveObj.startZ = prefabCurve[&#34;start_Z&#34;]
+            prefabCurveObj.endX = prefabCurve[&#34;end_X&#34;]
+            prefabCurveObj.endZ = prefabCurve[&#34;end_Z&#34;]
+            try: prefabCurveObj.length = prefabCurve[&#34;length&#34;] 
+            except: pass
+            prefabCurveObj.nextLines = prefabCurve[&#34;nextLines&#34;]
+            prefabCurveObj.prevLines = prefabCurve[&#34;prevLines&#34;]
+            prefabObj.PrefabCurves.append(prefabCurveObj)
+                    
+            
+        for navigationRoute in prefab[&#34;NavigationRoutes&#34;]:
+            name = navigationRoute
+            navigationRoute = prefab[&#34;NavigationRoutes&#34;][navigationRoute]
+            navigationRouteObj = NavigationRoute()
+            navigationRouteObj.Name = name
+            navigationRouteObj.CurveIds = navigationRoute[&#34;CurveIds&#34;]
+            navigationRouteObj.Distance = navigationRoute[&#34;Distance&#34;]
+            navigationRouteObj.StartNode = NavigationRouteNode()
+            navigationRouteObj.StartNode.id = navigationRoute[&#34;StartNode&#34;][&#34;id&#34;]
+            navigationRouteObj.StartNode.X = navigationRoute[&#34;StartNode&#34;][&#34;X&#34;]
+            navigationRouteObj.StartNode.Z = navigationRoute[&#34;StartNode&#34;][&#34;Z&#34;]
+            navigationRouteObj.StartNode.RotX = navigationRoute[&#34;StartNode&#34;][&#34;RotX&#34;]
+            navigationRouteObj.StartNode.RotZ = navigationRoute[&#34;StartNode&#34;][&#34;RotZ&#34;]
+            navigationRouteObj.StartNode.LaneCount = navigationRoute[&#34;StartNode&#34;][&#34;LaneCount&#34;]
+            navigationRouteObj.StartNode.InputPoints = navigationRoute[&#34;StartNode&#34;][&#34;InputPoints&#34;]
+            navigationRouteObj.StartNode.OutputPoints = navigationRoute[&#34;StartNode&#34;][&#34;OutputPoints&#34;]
+            navigationRouteObj.EndNode = NavigationRouteNode()
+            navigationRouteObj.EndNode.id = navigationRoute[&#34;EndNode&#34;][&#34;id&#34;]
+            navigationRouteObj.EndNode.X = navigationRoute[&#34;EndNode&#34;][&#34;X&#34;]
+            navigationRouteObj.EndNode.Z = navigationRoute[&#34;EndNode&#34;][&#34;Z&#34;]
+            navigationRouteObj.EndNode.RotX = navigationRoute[&#34;EndNode&#34;][&#34;RotX&#34;]
+            navigationRouteObj.EndNode.RotZ = navigationRoute[&#34;EndNode&#34;][&#34;RotZ&#34;]
+            navigationRouteObj.EndNode.LaneCount = navigationRoute[&#34;EndNode&#34;][&#34;LaneCount&#34;]
+            navigationRouteObj.EndNode.InputPoints = navigationRoute[&#34;EndNode&#34;][&#34;InputPoints&#34;]
+            navigationRouteObj.EndNode.OutputPoints = navigationRoute[&#34;EndNode&#34;][&#34;OutputPoints&#34;]
+            
+            prefabObj.NavigationRoutes.append(navigationRouteObj)
+            
+        prefabs.append(prefabObj)
+        
+        count += 1
+        if count % int(jsonLength/100) == 0:
+            sys.stdout.write(f&#34;\rLoaded {count} prefabs.\r&#34;)
+            data = {
+                &#34;state&#34;: f&#34;Parsing prefabs... {round(count/jsonLength * 100)}%&#34;,
+                &#34;stateProgress&#34;: count/jsonLength * 100,
+                &#34;totalProgress&#34;: 50 + count/jsonLength * 5
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
+           
+        if limitToCount != 0 and count &gt;= limitToCount:
+            break 
+    
+    sys.stdout.write(f&#34;\rLoaded {count} prefabs.\nNow optimizing prefabs...&#34;)  
+    
+    
+    count = 0
+    removedCurves = 0
+    for prefab in prefabs:
+        neededCurves = []
+        for navigationRoute in prefab.NavigationRoutes:
+            for curveId in navigationRoute.CurveIds:
+                if curveId not in neededCurves:
+                    neededCurves.append(curveId)
+        
+        newCurves = []
+        for curve in prefab.PrefabCurves:
+            if curve.id not in neededCurves:
+                prefab.PrefabCurves.remove(curve)
+                removedCurves += 1
+                
+        count += 1
+        if count % 50 == 0:
+            sys.stdout.write(f&#34;\rOptimized {count} prefabs.\r&#34;)
+            data = {
+                &#34;state&#34;: f&#34;Optimizing prefabs... {round(count/len(prefabs) * 100)}%&#34;,
+                &#34;stateProgress&#34;: count/len(prefabs) * 100,
+                &#34;totalProgress&#34;: 55 + count/len(prefabs) * 20
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
+    
+    sys.stdout.write(f&#34;\rOptimized {count} prefabs.\nRemoved {removedCurves} curves.\nNow optimizing array...\n&#34;)
+    
+    # Use the first 3 numbers of the prefab token to optimize the array
+    data = {
+        &#34;state&#34;: f&#34;Optimizing array...&#34;,
+        &#34;stateProgress&#34;: 100,
+        &#34;totalProgress&#34;: 75
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
+    
+    for prefab in prefabs:
+        token = str(prefab.Token)[:3]
+        if token not in optimizedPrefabs:
+            optimizedPrefabs[token] = []
+        optimizedPrefabs[token].append(prefab)
+    
+    print(&#34;Prefab parsing done!&#34;)
+        
+        
+def GetPrefabByToken(token):
+    first3 = str(token)[:3]
+    if first3 in optimizedPrefabs:
+        for prefab in optimizedPrefabs[first3]:
+            if prefab.Token == token:
+                return prefab
+    else:
+        for prefab in prefabs:
+            if prefab.Token == token:
+                return prefab
+    
+    return None</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.GetPrefabByToken"><code class="name flex">
+<span>def <span class="ident">GetPrefabByToken</span></span>(<span>token)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetPrefabByToken(token):
+    first3 = str(token)[:3]
+    if first3 in optimizedPrefabs:
+        for prefab in optimizedPrefabs[first3]:
+            if prefab.Token == token:
+                return prefab
+    else:
+        for prefab in prefabs:
+            if prefab.Token == token:
+                return prefab
+    
+    return None</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.LoadPrefabs"><code class="name flex">
+<span>def <span class="ident">LoadPrefabs</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def LoadPrefabs():
+    global prefabs
+    global optimizedPrefabs
+    
+    jsonData = json.load(open(prefabFileName))
+    jsonLength = len(jsonData)
+    
+    count = 0
+    for prefab in jsonData:
+        
+        prefab = jsonData[prefab]
+        
+        prefabObj = Prefab()
+        prefabObj.FilePath = prefab[&#34;FilePath&#34;]
+        prefabObj.Token = prefab[&#34;Token&#34;]
+        prefabObj.Category = prefab[&#34;Category&#34;]
+        prefabObj.ValidRoad = prefab[&#34;ValidRoad&#34;]
+        
+        for node in prefab[&#34;PrefabNodes&#34;]:
+            nodeObj = PrefabNode()
+            nodeObj.id = node[&#34;id&#34;]
+            nodeObj.X = node[&#34;X&#34;]
+            nodeObj.Z = node[&#34;Z&#34;]
+            nodeObj.RotX = node[&#34;RotX&#34;]
+            nodeObj.RotZ = node[&#34;RotZ&#34;]
+            nodeObj.LaneCount = node[&#34;LaneCount&#34;]
+            nodeObj.InputPoints = node[&#34;InputPoints&#34;]
+            nodeObj.OutputPoints = node[&#34;OutputPoints&#34;]
+            prefabObj.PrefabNodes.append(nodeObj)
+        
+        for spawnPoint in prefab[&#34;SpawnPoints&#34;]:
+            prefabObj.SpawnPoints.append(spawnPoint)
+        
+        for mapPoint in prefab[&#34;MapPoints&#34;]:
+            mapPointObj = MapPoint()
+            mapPointObj.X = mapPoint[&#34;X&#34;]
+            mapPointObj.Z = mapPoint[&#34;Z&#34;]
+            mapPointObj.LaneOffset = mapPoint[&#34;LaneOffset&#34;]
+            mapPointObj.LaneCount = mapPoint[&#34;LaneCount&#34;]
+            mapPointObj.Hidden = mapPoint[&#34;Hidden&#34;]
+            mapPointObj.PrefabColorFlags = mapPoint[&#34;PrefabColorFlags&#34;]
+            mapPointObj.NeighbourCount = mapPoint[&#34;NeighbourCount&#34;]
+            mapPointObj.Neighbours = mapPoint[&#34;Neighbours&#34;]
+            mapPointObj.ControlNodeIndex = mapPoint[&#34;ControlNodeIndex&#34;]
+            prefabObj.MapPoints.append(mapPointObj)
+        
+        for triggerPoint in prefab[&#34;TriggerPoints&#34;]:
+            prefabObj.TriggerPoints.append(triggerPoint)
+        
+        prefabObj.PrefabCurves = []
+        for prefabCurve in prefab[&#34;PrefabCurves&#34;]:
+            prefabCurveObj = PrefabCurve()
+            prefabCurveObj.id = prefabCurve[&#34;id&#34;]
+            prefabCurveObj.idNode = prefabCurve[&#34;idNode&#34;]
+            prefabCurveObj.startX = prefabCurve[&#34;start_X&#34;]
+            prefabCurveObj.startZ = prefabCurve[&#34;start_Z&#34;]
+            prefabCurveObj.endX = prefabCurve[&#34;end_X&#34;]
+            prefabCurveObj.endZ = prefabCurve[&#34;end_Z&#34;]
+            try: prefabCurveObj.length = prefabCurve[&#34;length&#34;] 
+            except: pass
+            prefabCurveObj.nextLines = prefabCurve[&#34;nextLines&#34;]
+            prefabCurveObj.prevLines = prefabCurve[&#34;prevLines&#34;]
+            prefabObj.PrefabCurves.append(prefabCurveObj)
+                    
+            
+        for navigationRoute in prefab[&#34;NavigationRoutes&#34;]:
+            name = navigationRoute
+            navigationRoute = prefab[&#34;NavigationRoutes&#34;][navigationRoute]
+            navigationRouteObj = NavigationRoute()
+            navigationRouteObj.Name = name
+            navigationRouteObj.CurveIds = navigationRoute[&#34;CurveIds&#34;]
+            navigationRouteObj.Distance = navigationRoute[&#34;Distance&#34;]
+            navigationRouteObj.StartNode = NavigationRouteNode()
+            navigationRouteObj.StartNode.id = navigationRoute[&#34;StartNode&#34;][&#34;id&#34;]
+            navigationRouteObj.StartNode.X = navigationRoute[&#34;StartNode&#34;][&#34;X&#34;]
+            navigationRouteObj.StartNode.Z = navigationRoute[&#34;StartNode&#34;][&#34;Z&#34;]
+            navigationRouteObj.StartNode.RotX = navigationRoute[&#34;StartNode&#34;][&#34;RotX&#34;]
+            navigationRouteObj.StartNode.RotZ = navigationRoute[&#34;StartNode&#34;][&#34;RotZ&#34;]
+            navigationRouteObj.StartNode.LaneCount = navigationRoute[&#34;StartNode&#34;][&#34;LaneCount&#34;]
+            navigationRouteObj.StartNode.InputPoints = navigationRoute[&#34;StartNode&#34;][&#34;InputPoints&#34;]
+            navigationRouteObj.StartNode.OutputPoints = navigationRoute[&#34;StartNode&#34;][&#34;OutputPoints&#34;]
+            navigationRouteObj.EndNode = NavigationRouteNode()
+            navigationRouteObj.EndNode.id = navigationRoute[&#34;EndNode&#34;][&#34;id&#34;]
+            navigationRouteObj.EndNode.X = navigationRoute[&#34;EndNode&#34;][&#34;X&#34;]
+            navigationRouteObj.EndNode.Z = navigationRoute[&#34;EndNode&#34;][&#34;Z&#34;]
+            navigationRouteObj.EndNode.RotX = navigationRoute[&#34;EndNode&#34;][&#34;RotX&#34;]
+            navigationRouteObj.EndNode.RotZ = navigationRoute[&#34;EndNode&#34;][&#34;RotZ&#34;]
+            navigationRouteObj.EndNode.LaneCount = navigationRoute[&#34;EndNode&#34;][&#34;LaneCount&#34;]
+            navigationRouteObj.EndNode.InputPoints = navigationRoute[&#34;EndNode&#34;][&#34;InputPoints&#34;]
+            navigationRouteObj.EndNode.OutputPoints = navigationRoute[&#34;EndNode&#34;][&#34;OutputPoints&#34;]
+            
+            prefabObj.NavigationRoutes.append(navigationRouteObj)
+            
+        prefabs.append(prefabObj)
+        
+        count += 1
+        if count % int(jsonLength/100) == 0:
+            sys.stdout.write(f&#34;\rLoaded {count} prefabs.\r&#34;)
+            data = {
+                &#34;state&#34;: f&#34;Parsing prefabs... {round(count/jsonLength * 100)}%&#34;,
+                &#34;stateProgress&#34;: count/jsonLength * 100,
+                &#34;totalProgress&#34;: 50 + count/jsonLength * 5
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
+           
+        if limitToCount != 0 and count &gt;= limitToCount:
+            break 
+    
+    sys.stdout.write(f&#34;\rLoaded {count} prefabs.\nNow optimizing prefabs...&#34;)  
+    
+    
+    count = 0
+    removedCurves = 0
+    for prefab in prefabs:
+        neededCurves = []
+        for navigationRoute in prefab.NavigationRoutes:
+            for curveId in navigationRoute.CurveIds:
+                if curveId not in neededCurves:
+                    neededCurves.append(curveId)
+        
+        newCurves = []
+        for curve in prefab.PrefabCurves:
+            if curve.id not in neededCurves:
+                prefab.PrefabCurves.remove(curve)
+                removedCurves += 1
+                
+        count += 1
+        if count % 50 == 0:
+            sys.stdout.write(f&#34;\rOptimized {count} prefabs.\r&#34;)
+            data = {
+                &#34;state&#34;: f&#34;Optimizing prefabs... {round(count/len(prefabs) * 100)}%&#34;,
+                &#34;stateProgress&#34;: count/len(prefabs) * 100,
+                &#34;totalProgress&#34;: 55 + count/len(prefabs) * 20
+            }
+            mainUI.ui.update(data)
+            mainUI.root.update()
+    
+    sys.stdout.write(f&#34;\rOptimized {count} prefabs.\nRemoved {removedCurves} curves.\nNow optimizing array...\n&#34;)
+    
+    # Use the first 3 numbers of the prefab token to optimize the array
+    data = {
+        &#34;state&#34;: f&#34;Optimizing array...&#34;,
+        &#34;stateProgress&#34;: 100,
+        &#34;totalProgress&#34;: 75
+    }
+    mainUI.ui.update(data)
+    mainUI.root.update()
+    
+    for prefab in prefabs:
+        token = str(prefab.Token)[:3]
+        if token not in optimizedPrefabs:
+            optimizedPrefabs[token] = []
+        optimizedPrefabs[token].append(prefab)
+    
+    print(&#34;Prefab parsing done!&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint"><code class="flex name class">
+<span>class <span class="ident">MapPoint</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MapPoint:
+    X = 0
+    Z = 0
+    LaneOffset = 0
+    LaneCount = 0
+    Hidden = False
+    PrefabColorFlags = 0
+    NeighbourCount = 0
+    Neighbours = []
+    ControlNodeIndex = 0</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.ControlNodeIndex"><code class="name">var <span class="ident">ControlNodeIndex</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Hidden"><code class="name">var <span class="ident">Hidden</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.LaneCount"><code class="name">var <span class="ident">LaneCount</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.LaneOffset"><code class="name">var <span class="ident">LaneOffset</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.NeighbourCount"><code class="name">var <span class="ident">NeighbourCount</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Neighbours"><code class="name">var <span class="ident">Neighbours</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.PrefabColorFlags"><code class="name">var <span class="ident">PrefabColorFlags</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.X"><code class="name">var <span class="ident">X</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Z"><code class="name">var <span class="ident">Z</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute"><code class="flex name class">
+<span>class <span class="ident">NavigationRoute</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NavigationRoute:
+    Name = &#34;&#34;
+    CurveIds = []
+    Distance = 0
+    StartNode = None
+    EndNode = None</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.CurveIds"><code class="name">var <span class="ident">CurveIds</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.Distance"><code class="name">var <span class="ident">Distance</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.EndNode"><code class="name">var <span class="ident">EndNode</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.Name"><code class="name">var <span class="ident">Name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.StartNode"><code class="name">var <span class="ident">StartNode</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode"><code class="flex name class">
+<span>class <span class="ident">NavigationRouteNode</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NavigationRouteNode:
+    id = 0
+    X = 0
+    Z = 0
+    RotX = 0
+    RotZ = 0
+    LaneCount = 0
+    InputPoints = []
+    OutputPoints = []</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.InputPoints"><code class="name">var <span class="ident">InputPoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.LaneCount"><code class="name">var <span class="ident">LaneCount</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.OutputPoints"><code class="name">var <span class="ident">OutputPoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.RotX"><code class="name">var <span class="ident">RotX</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.RotZ"><code class="name">var <span class="ident">RotZ</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.X"><code class="name">var <span class="ident">X</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.Z"><code class="name">var <span class="ident">Z</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab"><code class="flex name class">
+<span>class <span class="ident">Prefab</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Prefab:
+    FilePath = &#34;&#34;
+    Token = 0
+    Category = &#34;&#34;
+    ValidRoad = False
+    PrefabNodes = []
+    SpawnPoints = []
+    MapPoints = []
+    TriggerPoints = []
+    PrefabCurves = []
+    NavigationRoutes = []
+    CalculatedLanePoints = []</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.CalculatedLanePoints"><code class="name">var <span class="ident">CalculatedLanePoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.Category"><code class="name">var <span class="ident">Category</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.FilePath"><code class="name">var <span class="ident">FilePath</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.MapPoints"><code class="name">var <span class="ident">MapPoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.NavigationRoutes"><code class="name">var <span class="ident">NavigationRoutes</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.PrefabCurves"><code class="name">var <span class="ident">PrefabCurves</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.PrefabNodes"><code class="name">var <span class="ident">PrefabNodes</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.SpawnPoints"><code class="name">var <span class="ident">SpawnPoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.Token"><code class="name">var <span class="ident">Token</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.TriggerPoints"><code class="name">var <span class="ident">TriggerPoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.ValidRoad"><code class="name">var <span class="ident">ValidRoad</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve"><code class="flex name class">
+<span>class <span class="ident">PrefabCurve</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PrefabCurve:
+    id = 0
+    idNode = 0
+    startX = 0
+    startZ = 0
+    endX = 0
+    endZ = 0
+    length = 0
+    nextLines = []
+    prevLines = []</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.endX"><code class="name">var <span class="ident">endX</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.endZ"><code class="name">var <span class="ident">endZ</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.idNode"><code class="name">var <span class="ident">idNode</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.length"><code class="name">var <span class="ident">length</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.nextLines"><code class="name">var <span class="ident">nextLines</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.prevLines"><code class="name">var <span class="ident">prevLines</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.startX"><code class="name">var <span class="ident">startX</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.startZ"><code class="name">var <span class="ident">startZ</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode"><code class="flex name class">
+<span>class <span class="ident">PrefabNode</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PrefabNode:
+    id = 0
+    X = 0
+    Z = 0
+    RotX = 0
+    RotZ = 0
+    LaneCount = 0
+    InputPoints = []
+    OutputPoints = []</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.InputPoints"><code class="name">var <span class="ident">InputPoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.LaneCount"><code class="name">var <span class="ident">LaneCount</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.OutputPoints"><code class="name">var <span class="ident">OutputPoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.RotX"><code class="name">var <span class="ident">RotX</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.RotZ"><code class="name">var <span class="ident">RotZ</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.X"><code class="name">var <span class="ident">X</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.Z"><code class="name">var <span class="ident">Z</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.GetPrefabByToken" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.GetPrefabByToken">GetPrefabByToken</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.LoadPrefabs" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.LoadPrefabs">LoadPrefabs</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint">MapPoint</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.ControlNodeIndex" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.ControlNodeIndex">ControlNodeIndex</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Hidden" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Hidden">Hidden</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.LaneCount" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.LaneCount">LaneCount</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.LaneOffset" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.LaneOffset">LaneOffset</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.NeighbourCount" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.NeighbourCount">NeighbourCount</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Neighbours" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Neighbours">Neighbours</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.PrefabColorFlags" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.PrefabColorFlags">PrefabColorFlags</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.X" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.X">X</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Z" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.MapPoint.Z">Z</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute">NavigationRoute</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.CurveIds" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.CurveIds">CurveIds</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.Distance" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.Distance">Distance</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.EndNode" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.EndNode">EndNode</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.Name" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.Name">Name</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.StartNode" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRoute.StartNode">StartNode</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode">NavigationRouteNode</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.InputPoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.InputPoints">InputPoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.LaneCount" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.LaneCount">LaneCount</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.OutputPoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.OutputPoints">OutputPoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.RotX" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.RotX">RotX</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.RotZ" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.RotZ">RotZ</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.X" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.X">X</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.Z" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.Z">Z</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.id" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.NavigationRouteNode.id">id</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab">Prefab</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.CalculatedLanePoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.CalculatedLanePoints">CalculatedLanePoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.Category" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.Category">Category</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.FilePath" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.FilePath">FilePath</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.MapPoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.MapPoints">MapPoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.NavigationRoutes" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.NavigationRoutes">NavigationRoutes</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.PrefabCurves" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.PrefabCurves">PrefabCurves</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.PrefabNodes" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.PrefabNodes">PrefabNodes</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.SpawnPoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.SpawnPoints">SpawnPoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.Token" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.Token">Token</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.TriggerPoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.TriggerPoints">TriggerPoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.ValidRoad" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.Prefab.ValidRoad">ValidRoad</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve">PrefabCurve</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.endX" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.endX">endX</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.endZ" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.endZ">endZ</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.id" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.id">id</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.idNode" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.idNode">idNode</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.length" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.length">length</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.nextLines" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.nextLines">nextLines</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.prevLines" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.prevLines">prevLines</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.startX" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.startX">startX</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.startZ" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabCurve.startZ">startZ</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode">PrefabNode</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.InputPoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.InputPoints">InputPoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.LaneCount" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.LaneCount">LaneCount</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.OutputPoints" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.OutputPoints">OutputPoints</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.RotX" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.RotX">RotX</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.RotZ" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.RotZ">RotZ</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.X" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.X">X</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.Z" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.Z">Z</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.id" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.Map.GameData.prefabs.PrefabNode.id">id</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

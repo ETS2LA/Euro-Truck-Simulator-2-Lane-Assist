@@ -1,0 +1,2309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import mmap
+import struct
+from src.logger import print
+
+# https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
+
+mmapName = &#34;Local\SCSTelemetry&#34;
+mmapSize = 32*1024
+
+stringSize = 64
+wheelSize = 14
+substanceSize = 25
+
+
+import time
+
+class scsTelemetry:
+    
+    # VARIABLE READING
+    
+    def readGame(self, offset):
+        int = struct.unpack(&#39;i&#39;, self.mm[offset:offset+4])[0]
+        if int == 1:
+            return &#34;ETS2&#34;, offset+4
+        elif int == 2:
+            return &#34;ATS&#34;, offset+4
+        else:
+            return &#34;unknown&#34;, offset+4
+    
+    # SPECIAL READING
+    
+    def readTrailer(self, offset, count=1):
+        trailers = []
+        for i in range(count):
+            data = {}
+            
+            # START OF FIRST ZONE AT OFFSET 0 
+            
+            data[&#34;conBool&#34;] = {}
+            data[&#34;conBool&#34;][&#34;wheelSteerable&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;conBool&#34;][&#34;wheelSimulated&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;conBool&#34;][&#34;wheelPowered&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;conBool&#34;][&#34;wheelLiftable&#34;], offset = self.readBool(offset, count=16)
+
+            data[&#34;comBool&#34;] = {}
+            data[&#34;comBool&#34;][&#34;wheelOnGround&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;comBool&#34;][&#34;attached&#34;], offset = self.readBool(offset)
+            
+            data[&#34;bufferBool&#34;], offset = self.readChar(offset, count=3)
+            
+            # END OF FIRST ZONE -&gt; Offset 84
+            
+            # START OF SECOND ZONE -&gt; Offset 84
+            
+            data[&#34;comUI&#34;] = {}
+            data[&#34;comUI&#34;][&#34;wheelSubstance&#34;], offset = self.readInt(offset, count=16)
+            
+            data[&#34;conUI&#34;] = {}
+            data[&#34;conUI&#34;][&#34;wheelCount&#34;], offset = self.readInt(offset)
+            
+            # END OF SECOND ZONE -&gt; Offset 152
+            
+            # START OF THIRD ZONE -&gt; Offset 152
+            
+            data[&#34;comFloat&#34;] = {}
+            data[&#34;comFloat&#34;][&#34;cargoDamage&#34;], offset = self.readFloat(offset)
+            data[&#34;comFloat&#34;][&#34;wearChassis&#34;], offset = self.readFloat(offset)
+            data[&#34;comFloat&#34;][&#34;wearWheels&#34;], offset = self.readFloat(offset)
+            data[&#34;comFloat&#34;][&#34;wearBody&#34;], offset = self.readFloat(offset)
+
+            data[&#34;comFloat&#34;][&#34;wheelSuspDeflection&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelVelocity&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelSteering&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelRotation&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelLift&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelLiftOffset&#34;], offset = self.readFloat(offset, count=16)
+
+            data[&#34;conFloat&#34;] = {}
+            data[&#34;conFloat&#34;][&#34;wheelRadius&#34;], offset = self.readFloat(offset, count=16)
+            
+            # END OF THIRD ZONE -&gt; Offset 616
+            
+            # START OF FOURTH ZONE -&gt; Offset 616
+            
+            data[&#34;comVector&#34;] = {}
+            data[&#34;comVector&#34;][&#34;linearVelocityX&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearVelocityY&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearVelocityZ&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularVelocityX&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularVelocityY&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularVelocityZ&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearAccelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearAccelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearAccelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularAccelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularAccelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularAccelerationZ&#34;], offset = self.readFloat(offset)
+
+            data[&#34;conVector&#34;] = {}
+            data[&#34;conVector&#34;][&#34;hookPositionX&#34;], offset = self.readFloat(offset)
+            data[&#34;conVector&#34;][&#34;hookPositionY&#34;], offset = self.readFloat(offset)
+            data[&#34;conVector&#34;][&#34;hookPositionZ&#34;], offset = self.readFloat(offset)
+            data[&#34;conVector&#34;][&#34;wheelPositionX&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;conVector&#34;][&#34;wheelPositionY&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;conVector&#34;][&#34;wheelPositionZ&#34;], offset = self.readFloat(offset, count=16)
+
+            data[&#34;bufferVector&#34;], offset = self.readChar(offset, count=4)
+            
+            # END OF FOURTH ZONE -&gt; Offset 872
+            
+            # START OF FIFTH ZONE -&gt; Offset 872
+            
+            data[&#34;comDouble&#34;] = {}
+            data[&#34;comDouble&#34;][&#34;worldX&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;worldY&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;worldZ&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;rotationX&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;rotationY&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;rotationZ&#34;], offset = self.readDouble(offset)
+            
+            # END OF FIFTH ZONE -&gt; Offset 920
+            
+            # START OF SIXTH ZONE -&gt; Offset 920
+            
+            data[&#34;conString&#34;] = {}
+            data[&#34;conString&#34;][&#34;id&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;cargoAcessoryId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;bodyType&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;brandId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;brand&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;name&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;chainType&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;licensePlate&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;licensePlateCountry&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;licensePlateCountryId&#34;], offset = self.readChar(offset, count=stringSize)
+            
+            # END OF SIXTH ZONE -&gt; Offset 1560
+            
+            trailers.append(data)
+            
+        return trailers, offset
+            
+    
+    # VALUE READING
+    
+    def readBool(self, offset, count=1):
+        if count == 1:
+            bool = struct.unpack(&#39;?&#39;, self.mm[offset:offset+1])[0]
+            return bool, offset+1
+        else:
+            bools = []
+            for i in range(count):
+                bools.append(struct.unpack(&#39;?&#39;, self.mm[offset+i:offset+i+1])[0])
+            return bools, offset+count
+            
+    
+    def readInt(self, offset, count=1):
+        if count == 1:
+            int = struct.unpack(&#39;i&#39;, self.mm[offset:offset+4])[0]
+            return int, offset+4
+        else:
+            ints = []
+            for i in range(count):
+                ints.append(struct.unpack(&#39;i&#39;, self.mm[offset+i*4:offset+i*4+4])[0])
+            return ints, offset+count*4
+    
+    def readFloat(self, offset, count=1):
+        if count == 1:
+            float = struct.unpack(&#39;f&#39;, self.mm[offset:offset+4])[0]
+            return float, offset+4
+        else:
+            floats = []
+            for i in range(count):
+                floats.append(struct.unpack(&#39;f&#39;, self.mm[offset+i*4:offset+i*4+4])[0])
+            return floats, offset+count*4
+    
+    def readLong(self, offset, count=1):
+        if count == 1:
+            long = struct.unpack(&#39;q&#39;, self.mm[offset:offset+8])[0]
+        return long, offset+8
+    
+    def readLongLong(self, offset, count=1):
+        if count == 1:
+            longlong = struct.unpack(&#39;Q&#39;, self.mm[offset:offset+8])[0]
+        return longlong, offset+8
+    
+    def readChar(self, offset, count):
+        char = &#34;&#34;
+        newChar = &#34;&#34;
+        for i in range(count):
+            try:
+                newChar = struct.unpack(&#39;s&#39;, self.mm[offset+i:offset+i+1])[0].decode(&#34;utf-8&#34;)
+            except:
+                newChar == &#34;\u0000&#34;
+                
+            if newChar == &#34;\u0000&#34;:
+                char += &#34;&#34;
+            else:
+                char += newChar 
+            
+        
+        char.replace(r&#34;\u0000&#34;, &#34;&#34;)
+        
+        return char, offset+count
+    
+    def readDouble(self, offset, count=1):
+        if count == 1:
+            double = struct.unpack(&#39;d&#39;, self.mm[offset:offset+8])[0]
+            return double, offset+8
+        else:
+            doubles = []
+            for i in range(count):
+                doubles.append(struct.unpack(&#39;d&#39;, self.mm[offset+i*8:offset+i*8+8])[0])
+            return doubles, offset+count*8
+    
+    def readStringArray(self, offset, count, stringSize):
+        strings = []
+        for i in range(count):
+            strings.append(self.readChar(offset+i*stringSize, stringSize)[0])
+        return strings, offset+count*stringSize
+    
+    def update(self, trailerData=False):
+        self.mm = mmap.mmap(0, mmapSize, mmapName)
+        
+        data = {}
+        offset = 0
+        
+        # ALL COMMENTS EXTRACTED FROM https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
+        try:
+            # ZONE 1 -&gt; Start at offset 0
+            
+            data[&#34;sdkActive&#34;], offset = self.readBool(offset)
+            data[&#34;placeHolder&#34;], offset = self.readChar(offset, 3)
+            data[&#34;pause&#34;], offset = self.readBool(offset)
+            data[&#34;placeHolder2&#34;], offset = self.readChar(offset, 3)
+            
+            data[&#34;time&#34;], offset = self.readLongLong(offset)
+            data[&#34;simulatedTime&#34;], offset = self.readLongLong(offset)
+            data[&#34;renderTime&#34;], offset = self.readLongLong(offset)
+            data[&#34;multiplayerTimeOffset&#34;], offset = self.readLongLong(offset)
+            
+            # END OF ZONE 1 -&gt; Offset 40
+            
+            # START OF ZONE 2 -&gt; Offset 40
+            # The Second zone contains unsigned integers and it sorted in sub structures
+            
+            data[&#34;scsValues&#34;] = {}
+            data[&#34;scsValues&#34;][&#34;telemetryPluginRevision&#34;], offset = self.readInt(offset)
+            data[&#34;scsValues&#34;][&#34;versionMajor&#34;], offset = self.readInt(offset)
+            data[&#34;scsValues&#34;][&#34;versionMinor&#34;], offset = self.readInt(offset)
+            data[&#34;scsValues&#34;][&#34;game&#34;], offset = self.readGame(offset)
+            data[&#34;scsValues&#34;][&#34;telemetryVersionGameMajor&#34;], offset = self.readInt(offset)
+            data[&#34;scsValues&#34;][&#34;telemetryVersionGameMinor&#34;], offset = self.readInt(offset)
+            
+            data[&#34;commonUI&#34;] = {}
+            data[&#34;commonUI&#34;][&#34;timeAbs&#34;], offset = self.readInt(offset)
+            
+            data[&#34;configUI&#34;] = {}
+            data[&#34;configUI&#34;][&#34;gears&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;gearsReverse&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;retarderStepCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;truckWheelCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;selectorCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;timeAbsDelivery&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;maxTrailerCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;unitCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;plannedDistanceKm&#34;], offset = self.readInt(offset)
+            
+            data[&#34;truckUI&#34;] = {}
+            data[&#34;truckUI&#34;][&#34;shifterSlot&#34;], offset = self.readInt(offset)
+            data[&#34;truckUI&#34;][&#34;retarderBrake&#34;], offset = self.readInt(offset)
+            data[&#34;truckUI&#34;][&#34;lightsAuxFront&#34;], offset = self.readInt(offset)
+            data[&#34;truckUI&#34;][&#34;lightsAuxRoof&#34;], offset = self.readInt(offset)
+            data[&#34;truckUI&#34;][&#34;truckWheelSubstance&#34;], offset = self.readInt(offset, count=16)
+            data[&#34;truckUI&#34;][&#34;hshifterPosition&#34;], offset = self.readInt(offset, count=32)
+            data[&#34;truckUI&#34;][&#34;hshifterBitmask&#34;], offset = self.readInt(offset, count=32)
+            
+            data[&#34;gameplayUI&#34;] = {}
+            data[&#34;gameplayUI&#34;][&#34;jobDeliveredDeliveryTime&#34;], offset = self.readInt(offset)
+            data[&#34;gameplayUI&#34;][&#34;jobStartingTime&#34;], offset = self.readInt(offset)
+            data[&#34;gameplayUI&#34;][&#34;jobFinishedTime&#34;], offset = self.readInt(offset)
+            
+            data[&#34;bufferUI&#34;], offset = self.readChar(offset, 48)
+            
+            # END OF ZONE 2 -&gt; Offset 500
+            
+            # START OF ZONE 3 -&gt; Offset 500
+            # The third zone contains integers and is sorted in sub structures
+            
+            data[&#34;commonInt&#34;] = {}
+            data[&#34;commonInt&#34;][&#34;restStop&#34;], offset = self.readInt(offset)
+            
+            data[&#34;truckInt&#34;] = {}
+            data[&#34;truckInt&#34;][&#34;gear&#34;], offset = self.readInt(offset)
+            data[&#34;truckInt&#34;][&#34;gearDashboard&#34;], offset = self.readInt(offset)
+            data[&#34;truckInt&#34;][&#34;hshifterResulting&#34;], offset = self.readInt(offset, count=32)
+            
+            data[&#34;bufferInt&#34;], offset = self.readChar(offset, 56)
+            
+            # END OF ZONE 3 -&gt; Offset 696
+            
+            offset += 4
+            
+            # START IF ZONE 4 -&gt; Offset 700
+            # The fourth zone contains floats and is sorted in sub structures
+            
+            data[&#34;commonFloat&#34;] = {}
+            data[&#34;commonFloat&#34;][&#34;scale&#34;], offset = self.readFloat(offset)
+            
+            data[&#34;configFloat&#34;] = {}
+            data[&#34;configFloat&#34;][&#34;fuelCapacity&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;fuelWarningFactor&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;adblueCapacity&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;adblueWarningFactor&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;airPressureWarning&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;airPressureEmergency&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;oilPressureWarning&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;waterTemperatureWarning&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;batteryVoltageWarning&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;engineRpmMax&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;gearDifferential&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;cargoMass&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;truckWheelRadius&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;configFloat&#34;][&#34;gearRatiosForward&#34;], offset = self.readFloat(offset, count=24)
+            data[&#34;configFloat&#34;][&#34;gearRatiosReverse&#34;], offset = self.readFloat(offset, count=8)
+            data[&#34;configFloat&#34;][&#34;unitMass&#34;], offset = self.readFloat(offset)
+            
+            data[&#34;truckFloat&#34;] = {}
+            data[&#34;truckFloat&#34;][&#34;speed&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;engineRpm&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;userSteer&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;userThrottle&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;userBrake&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;userClutch&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;gameSteer&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;gameThrottle&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;gameBrake&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;gameClutch&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;cruiseControlSpeed&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;airPressure&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;brakeTemperature&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;fuel&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;fuelAvgConsumption&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;fuelRange&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;adblue&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;oilPressure&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;oilTemperature&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;waterTemperature&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;batteryVoltage&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;lightsDashboard&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearEngine&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearTransmission&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearCabin&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearChassis&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearWheels&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;truckOdometer&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;routeDistance&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;routeTime&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;speedLimit&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelSuspDeflection&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelVelocity&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelSteering&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelRotation&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelLift&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelLiftOffset&#34;], offset = self.readFloat(offset, count=16)
+            
+            data[&#34;gameplayFloat&#34;] = {}
+            data[&#34;gameplayFloat&#34;][&#34;jobDeliveredCargoDamage&#34;], offset = self.readFloat(offset)
+            data[&#34;gameplayFloat&#34;][&#34;jobDeliveredDistanceKm&#34;], offset = self.readFloat(offset)
+            data[&#34;gameplayFloat&#34;][&#34;refuelAmount&#34;], offset = self.readFloat(offset)
+            
+            data[&#34;jobFloat&#34;] = {}
+            data[&#34;jobFloat&#34;][&#34;cargoDamage&#34;], offset = self.readFloat(offset)
+            
+            data[&#34;bufferFloat&#34;], offset = self.readChar(offset, 28)
+            
+            # END OF ZONE 4 -&gt; Offset 1500
+            
+            # START OF ZONE 5 -&gt; Offset 1500
+            # The fifth zone contains bool and is sorted in sub structures
+            
+            data[&#34;configBool&#34;] = {}
+            data[&#34;configBool&#34;][&#34;truckWheelSteerable&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;configBool&#34;][&#34;truckWheelSimulated&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;configBool&#34;][&#34;truckWheelPowered&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;configBool&#34;][&#34;truckWheelLiftable&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;configBool&#34;][&#34;isCargoLoaded&#34;], offset = self.readBool(offset)
+            data[&#34;configBool&#34;][&#34;specialJob&#34;], offset = self.readBool(offset)
+
+            data[&#34;truckBool&#34;] = {}
+            data[&#34;truckBool&#34;][&#34;parkBrake&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;motorBrake&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;airPressureWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;airPressureEmergency&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;fuelWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;adblueWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;oilPressureWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;waterTemperatureWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;batteryVoltageWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;electricEnabled&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;engineEnabled&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;wipers&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;blinkerRightActive&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;blinkerLeftOn&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;blinkerRightOn&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsParking&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsBeamLow&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsBeamHigh&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsBeacon&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsBrake&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsReverse&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsHazard&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;cruiseControl&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;truck_wheelOnGround&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;truckBool&#34;][&#34;shifterToggle&#34;], offset = self.readBool(offset, count=2)
+            data[&#34;truckBool&#34;][&#34;differentialLock&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;liftAxle&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;liftAxleIndicator&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;trailerLiftAxle&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;trailerLiftAxleIndicator&#34;], offset = self.readBool(offset)
+
+            data[&#34;gameplayBool&#34;] = {}
+            data[&#34;gameplayBool&#34;][&#34;jobDeliveredAutoparkUsed&#34;], offset = self.readBool(offset)
+            data[&#34;gameplayBool&#34;][&#34;jobDeliveredAutoloadUsed&#34;], offset = self.readBool(offset)
+
+            data[&#34;bufferBool&#34;], offset = self.readChar(offset, count=25)
+            
+            # END OF ZONE 5 -&gt; Offset 1640
+            
+            # START OF ZONE 6 -&gt; Offset 1640
+            # The sixth zone contains fvector and is sorted in sub structures
+            
+            data[&#34;configVector&#34;] = {}
+            data[&#34;configVector&#34;][&#34;cabinPositionX&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;cabinPositionY&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;cabinPositionZ&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;headPositionX&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;headPositionY&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;headPositionZ&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;truckHookPositionX&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;truckHookPositionY&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;truckHookPositionZ&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;truckWheelPositionX&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;configVector&#34;][&#34;truckWheelPositionY&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;configVector&#34;][&#34;truckWheelPositionZ&#34;], offset = self.readFloat(offset, count=16)
+
+            data[&#34;truckVector&#34;] = {}
+            data[&#34;truckVector&#34;][&#34;lv_accelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;lv_accelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;lv_accelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;av_accelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;av_accelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;av_accelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;accelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;accelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;accelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;aa_accelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;aa_accelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;aa_accelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAVX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAVY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAVZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAAX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAAY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAAZ&#34;], offset = self.readFloat(offset)
+
+            data[&#34;bufferVector&#34;], offset = self.readChar(offset, count=60)
+            
+            # END OF ZONE 6 -&gt; Offset 2000
+            
+            # START OF ZONE 7 -&gt; Offset 2000
+            # The 7th zone contains fplacement and is sorted in sub structures
+            data[&#34;headPlacement&#34;] = {}
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetX&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetY&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetZ&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationX&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationY&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetX&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetY&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetZ&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetrotationX&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetrotationY&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetrotationZ&#34;], offset = self.readFloat(offset)
+
+            data[&#34;bufferHeadPlacement&#34;], offset = self.readChar(offset, count=152)
+            
+            # END OF ZONE 7 -&gt; Offset 2200
+            
+            # START OF ZONE 8 -&gt; Offset 2200
+            
+            data[&#34;truckPlacement&#34;] = {}
+            data[&#34;truckPlacement&#34;][&#34;coordinateX&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;coordinateY&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;coordinateZ&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;rotationX&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;rotationY&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;rotationZ&#34;], offset = self.readDouble(offset)
+
+            data[&#34;bufferTruckPlacement&#34;], offset = self.readChar(offset, count=52)
+            
+            # END OF ZONE 8 -&gt; Offset 2300
+            
+            # START OF ZONE 9 -&gt; Offset 2300
+            # The 9th zone contains strings and is sorted in sub structures
+            
+            data[&#34;configString&#34;] = {}
+            data[&#34;configString&#34;][&#34;truckBrandId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckBrand&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;cargoId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;cargo&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;cityDstId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;cityDst&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;compDstId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;compDst&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;citySrcId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;citySrc&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;compSrcId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;compSrc&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;shifterType&#34;], offset = self.readChar(offset, count=16)
+            data[&#34;configString&#34;][&#34;truckLicensePlate&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckLicensePlateCountryId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckLicensePlateCountry&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;jobMarket&#34;], offset = self.readChar(offset, count=32)
+
+            data[&#34;gameplayString&#34;] = {}
+            data[&#34;gameplayString&#34;][&#34;fineOffence&#34;], offset = self.readChar(offset, count=32)
+            data[&#34;gameplayString&#34;][&#34;ferrySourceName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;ferryTargetName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;ferrySourceId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;ferryTargetId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;trainSourceName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;trainTargetName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;trainSourceId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;trainTargetId&#34;], offset = self.readChar(offset, count=stringSize)
+
+            data[&#34;bufferString&#34;], offset = self.readChar(offset, count=20)
+            
+            # END OF ZONE 9 -&gt; Offset 4000
+            
+            # START OF ZONE 10 -&gt; Offset 4000
+            # The 10th zone contains unsigned long long and is sorted in sub structures
+            
+            data[&#34;configLongLong&#34;] = {}
+            data[&#34;configLongLong&#34;][&#34;jobIncome&#34;], offset = self.readLongLong(offset)
+            
+            data[&#34;bufferLongLong&#34;], offset = self.readChar(offset, count=192)
+            
+            # END OF ZONE 10 -&gt; Offset 4200
+            
+            # START OF ZONE 11 -&gt; Offset 4200
+            # The 11th zone contains long long and is sorted in sub structures
+            
+            data[&#34;gameplayLongLong&#34;] = {}
+            data[&#34;gameplayLongLong&#34;][&#34;jobCancelledPenalty&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;jobDeliveredRevenue&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;fineAmount&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;tollgatePayAmount&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;ferryPayAmount&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;trainPayAmount&#34;], offset = self.readLongLong(offset)
+
+            data[&#34;bufferLongLong&#34;], offset = self.readChar(offset, count=52)
+            
+            # END OF ZONE 11 -&gt; Offset 4300
+            
+            # START OF ZONE 12 -&gt; Offset 4300
+            # The 12th zone contains special events and is sorted in sub structures
+            
+            data[&#34;specialBool&#34;] = {}
+            data[&#34;specialBool&#34;][&#34;onJob&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;jobFinished&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;jobCancelled&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;jobDelivered&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;fined&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;tollgate&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;ferry&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;train&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;refuel&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;refuelPayed&#34;], offset = self.readBool(offset)
+
+            data[&#34;bufferSpecial&#34;], offset = self.readChar(offset, count=90)
+            
+            # END OF ZONE 12 -&gt; Offset 4400
+            
+            # START OF ZONE 13 -&gt; Offset 4400
+            
+            data[&#34;substances&#34;], offset = self.readStringArray(offset, count=substanceSize, stringSize=stringSize)
+            
+            # END OF ZONE 13 -&gt; Offset 6000
+            
+            # START OF ZONE 14 -&gt; Offset 6000
+            if trailerData:
+                data[&#34;trailers&#34;], offset = self.readTrailer(offset, count=10)
+        
+        except Exception as e:
+            print(e)
+            try:
+                print(&#34;Current offset : &#34; + offset)
+            except:
+                pass
+        
+        self.mm.close()
+        
+        return data
+           </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry"><code class="flex name class">
+<span>class <span class="ident">scsTelemetry</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class scsTelemetry:
+    
+    # VARIABLE READING
+    
+    def readGame(self, offset):
+        int = struct.unpack(&#39;i&#39;, self.mm[offset:offset+4])[0]
+        if int == 1:
+            return &#34;ETS2&#34;, offset+4
+        elif int == 2:
+            return &#34;ATS&#34;, offset+4
+        else:
+            return &#34;unknown&#34;, offset+4
+    
+    # SPECIAL READING
+    
+    def readTrailer(self, offset, count=1):
+        trailers = []
+        for i in range(count):
+            data = {}
+            
+            # START OF FIRST ZONE AT OFFSET 0 
+            
+            data[&#34;conBool&#34;] = {}
+            data[&#34;conBool&#34;][&#34;wheelSteerable&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;conBool&#34;][&#34;wheelSimulated&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;conBool&#34;][&#34;wheelPowered&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;conBool&#34;][&#34;wheelLiftable&#34;], offset = self.readBool(offset, count=16)
+
+            data[&#34;comBool&#34;] = {}
+            data[&#34;comBool&#34;][&#34;wheelOnGround&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;comBool&#34;][&#34;attached&#34;], offset = self.readBool(offset)
+            
+            data[&#34;bufferBool&#34;], offset = self.readChar(offset, count=3)
+            
+            # END OF FIRST ZONE -&gt; Offset 84
+            
+            # START OF SECOND ZONE -&gt; Offset 84
+            
+            data[&#34;comUI&#34;] = {}
+            data[&#34;comUI&#34;][&#34;wheelSubstance&#34;], offset = self.readInt(offset, count=16)
+            
+            data[&#34;conUI&#34;] = {}
+            data[&#34;conUI&#34;][&#34;wheelCount&#34;], offset = self.readInt(offset)
+            
+            # END OF SECOND ZONE -&gt; Offset 152
+            
+            # START OF THIRD ZONE -&gt; Offset 152
+            
+            data[&#34;comFloat&#34;] = {}
+            data[&#34;comFloat&#34;][&#34;cargoDamage&#34;], offset = self.readFloat(offset)
+            data[&#34;comFloat&#34;][&#34;wearChassis&#34;], offset = self.readFloat(offset)
+            data[&#34;comFloat&#34;][&#34;wearWheels&#34;], offset = self.readFloat(offset)
+            data[&#34;comFloat&#34;][&#34;wearBody&#34;], offset = self.readFloat(offset)
+
+            data[&#34;comFloat&#34;][&#34;wheelSuspDeflection&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelVelocity&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelSteering&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelRotation&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelLift&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;comFloat&#34;][&#34;wheelLiftOffset&#34;], offset = self.readFloat(offset, count=16)
+
+            data[&#34;conFloat&#34;] = {}
+            data[&#34;conFloat&#34;][&#34;wheelRadius&#34;], offset = self.readFloat(offset, count=16)
+            
+            # END OF THIRD ZONE -&gt; Offset 616
+            
+            # START OF FOURTH ZONE -&gt; Offset 616
+            
+            data[&#34;comVector&#34;] = {}
+            data[&#34;comVector&#34;][&#34;linearVelocityX&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearVelocityY&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearVelocityZ&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularVelocityX&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularVelocityY&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularVelocityZ&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearAccelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearAccelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;linearAccelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularAccelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularAccelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;comVector&#34;][&#34;angularAccelerationZ&#34;], offset = self.readFloat(offset)
+
+            data[&#34;conVector&#34;] = {}
+            data[&#34;conVector&#34;][&#34;hookPositionX&#34;], offset = self.readFloat(offset)
+            data[&#34;conVector&#34;][&#34;hookPositionY&#34;], offset = self.readFloat(offset)
+            data[&#34;conVector&#34;][&#34;hookPositionZ&#34;], offset = self.readFloat(offset)
+            data[&#34;conVector&#34;][&#34;wheelPositionX&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;conVector&#34;][&#34;wheelPositionY&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;conVector&#34;][&#34;wheelPositionZ&#34;], offset = self.readFloat(offset, count=16)
+
+            data[&#34;bufferVector&#34;], offset = self.readChar(offset, count=4)
+            
+            # END OF FOURTH ZONE -&gt; Offset 872
+            
+            # START OF FIFTH ZONE -&gt; Offset 872
+            
+            data[&#34;comDouble&#34;] = {}
+            data[&#34;comDouble&#34;][&#34;worldX&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;worldY&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;worldZ&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;rotationX&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;rotationY&#34;], offset = self.readDouble(offset)
+            data[&#34;comDouble&#34;][&#34;rotationZ&#34;], offset = self.readDouble(offset)
+            
+            # END OF FIFTH ZONE -&gt; Offset 920
+            
+            # START OF SIXTH ZONE -&gt; Offset 920
+            
+            data[&#34;conString&#34;] = {}
+            data[&#34;conString&#34;][&#34;id&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;cargoAcessoryId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;bodyType&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;brandId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;brand&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;name&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;chainType&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;licensePlate&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;licensePlateCountry&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;conString&#34;][&#34;licensePlateCountryId&#34;], offset = self.readChar(offset, count=stringSize)
+            
+            # END OF SIXTH ZONE -&gt; Offset 1560
+            
+            trailers.append(data)
+            
+        return trailers, offset
+            
+    
+    # VALUE READING
+    
+    def readBool(self, offset, count=1):
+        if count == 1:
+            bool = struct.unpack(&#39;?&#39;, self.mm[offset:offset+1])[0]
+            return bool, offset+1
+        else:
+            bools = []
+            for i in range(count):
+                bools.append(struct.unpack(&#39;?&#39;, self.mm[offset+i:offset+i+1])[0])
+            return bools, offset+count
+            
+    
+    def readInt(self, offset, count=1):
+        if count == 1:
+            int = struct.unpack(&#39;i&#39;, self.mm[offset:offset+4])[0]
+            return int, offset+4
+        else:
+            ints = []
+            for i in range(count):
+                ints.append(struct.unpack(&#39;i&#39;, self.mm[offset+i*4:offset+i*4+4])[0])
+            return ints, offset+count*4
+    
+    def readFloat(self, offset, count=1):
+        if count == 1:
+            float = struct.unpack(&#39;f&#39;, self.mm[offset:offset+4])[0]
+            return float, offset+4
+        else:
+            floats = []
+            for i in range(count):
+                floats.append(struct.unpack(&#39;f&#39;, self.mm[offset+i*4:offset+i*4+4])[0])
+            return floats, offset+count*4
+    
+    def readLong(self, offset, count=1):
+        if count == 1:
+            long = struct.unpack(&#39;q&#39;, self.mm[offset:offset+8])[0]
+        return long, offset+8
+    
+    def readLongLong(self, offset, count=1):
+        if count == 1:
+            longlong = struct.unpack(&#39;Q&#39;, self.mm[offset:offset+8])[0]
+        return longlong, offset+8
+    
+    def readChar(self, offset, count):
+        char = &#34;&#34;
+        newChar = &#34;&#34;
+        for i in range(count):
+            try:
+                newChar = struct.unpack(&#39;s&#39;, self.mm[offset+i:offset+i+1])[0].decode(&#34;utf-8&#34;)
+            except:
+                newChar == &#34;\u0000&#34;
+                
+            if newChar == &#34;\u0000&#34;:
+                char += &#34;&#34;
+            else:
+                char += newChar 
+            
+        
+        char.replace(r&#34;\u0000&#34;, &#34;&#34;)
+        
+        return char, offset+count
+    
+    def readDouble(self, offset, count=1):
+        if count == 1:
+            double = struct.unpack(&#39;d&#39;, self.mm[offset:offset+8])[0]
+            return double, offset+8
+        else:
+            doubles = []
+            for i in range(count):
+                doubles.append(struct.unpack(&#39;d&#39;, self.mm[offset+i*8:offset+i*8+8])[0])
+            return doubles, offset+count*8
+    
+    def readStringArray(self, offset, count, stringSize):
+        strings = []
+        for i in range(count):
+            strings.append(self.readChar(offset+i*stringSize, stringSize)[0])
+        return strings, offset+count*stringSize
+    
+    def update(self, trailerData=False):
+        self.mm = mmap.mmap(0, mmapSize, mmapName)
+        
+        data = {}
+        offset = 0
+        
+        # ALL COMMENTS EXTRACTED FROM https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
+        try:
+            # ZONE 1 -&gt; Start at offset 0
+            
+            data[&#34;sdkActive&#34;], offset = self.readBool(offset)
+            data[&#34;placeHolder&#34;], offset = self.readChar(offset, 3)
+            data[&#34;pause&#34;], offset = self.readBool(offset)
+            data[&#34;placeHolder2&#34;], offset = self.readChar(offset, 3)
+            
+            data[&#34;time&#34;], offset = self.readLongLong(offset)
+            data[&#34;simulatedTime&#34;], offset = self.readLongLong(offset)
+            data[&#34;renderTime&#34;], offset = self.readLongLong(offset)
+            data[&#34;multiplayerTimeOffset&#34;], offset = self.readLongLong(offset)
+            
+            # END OF ZONE 1 -&gt; Offset 40
+            
+            # START OF ZONE 2 -&gt; Offset 40
+            # The Second zone contains unsigned integers and it sorted in sub structures
+            
+            data[&#34;scsValues&#34;] = {}
+            data[&#34;scsValues&#34;][&#34;telemetryPluginRevision&#34;], offset = self.readInt(offset)
+            data[&#34;scsValues&#34;][&#34;versionMajor&#34;], offset = self.readInt(offset)
+            data[&#34;scsValues&#34;][&#34;versionMinor&#34;], offset = self.readInt(offset)
+            data[&#34;scsValues&#34;][&#34;game&#34;], offset = self.readGame(offset)
+            data[&#34;scsValues&#34;][&#34;telemetryVersionGameMajor&#34;], offset = self.readInt(offset)
+            data[&#34;scsValues&#34;][&#34;telemetryVersionGameMinor&#34;], offset = self.readInt(offset)
+            
+            data[&#34;commonUI&#34;] = {}
+            data[&#34;commonUI&#34;][&#34;timeAbs&#34;], offset = self.readInt(offset)
+            
+            data[&#34;configUI&#34;] = {}
+            data[&#34;configUI&#34;][&#34;gears&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;gearsReverse&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;retarderStepCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;truckWheelCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;selectorCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;timeAbsDelivery&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;maxTrailerCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;unitCount&#34;], offset = self.readInt(offset)
+            data[&#34;configUI&#34;][&#34;plannedDistanceKm&#34;], offset = self.readInt(offset)
+            
+            data[&#34;truckUI&#34;] = {}
+            data[&#34;truckUI&#34;][&#34;shifterSlot&#34;], offset = self.readInt(offset)
+            data[&#34;truckUI&#34;][&#34;retarderBrake&#34;], offset = self.readInt(offset)
+            data[&#34;truckUI&#34;][&#34;lightsAuxFront&#34;], offset = self.readInt(offset)
+            data[&#34;truckUI&#34;][&#34;lightsAuxRoof&#34;], offset = self.readInt(offset)
+            data[&#34;truckUI&#34;][&#34;truckWheelSubstance&#34;], offset = self.readInt(offset, count=16)
+            data[&#34;truckUI&#34;][&#34;hshifterPosition&#34;], offset = self.readInt(offset, count=32)
+            data[&#34;truckUI&#34;][&#34;hshifterBitmask&#34;], offset = self.readInt(offset, count=32)
+            
+            data[&#34;gameplayUI&#34;] = {}
+            data[&#34;gameplayUI&#34;][&#34;jobDeliveredDeliveryTime&#34;], offset = self.readInt(offset)
+            data[&#34;gameplayUI&#34;][&#34;jobStartingTime&#34;], offset = self.readInt(offset)
+            data[&#34;gameplayUI&#34;][&#34;jobFinishedTime&#34;], offset = self.readInt(offset)
+            
+            data[&#34;bufferUI&#34;], offset = self.readChar(offset, 48)
+            
+            # END OF ZONE 2 -&gt; Offset 500
+            
+            # START OF ZONE 3 -&gt; Offset 500
+            # The third zone contains integers and is sorted in sub structures
+            
+            data[&#34;commonInt&#34;] = {}
+            data[&#34;commonInt&#34;][&#34;restStop&#34;], offset = self.readInt(offset)
+            
+            data[&#34;truckInt&#34;] = {}
+            data[&#34;truckInt&#34;][&#34;gear&#34;], offset = self.readInt(offset)
+            data[&#34;truckInt&#34;][&#34;gearDashboard&#34;], offset = self.readInt(offset)
+            data[&#34;truckInt&#34;][&#34;hshifterResulting&#34;], offset = self.readInt(offset, count=32)
+            
+            data[&#34;bufferInt&#34;], offset = self.readChar(offset, 56)
+            
+            # END OF ZONE 3 -&gt; Offset 696
+            
+            offset += 4
+            
+            # START IF ZONE 4 -&gt; Offset 700
+            # The fourth zone contains floats and is sorted in sub structures
+            
+            data[&#34;commonFloat&#34;] = {}
+            data[&#34;commonFloat&#34;][&#34;scale&#34;], offset = self.readFloat(offset)
+            
+            data[&#34;configFloat&#34;] = {}
+            data[&#34;configFloat&#34;][&#34;fuelCapacity&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;fuelWarningFactor&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;adblueCapacity&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;adblueWarningFactor&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;airPressureWarning&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;airPressureEmergency&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;oilPressureWarning&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;waterTemperatureWarning&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;batteryVoltageWarning&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;engineRpmMax&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;gearDifferential&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;cargoMass&#34;], offset = self.readFloat(offset)
+            data[&#34;configFloat&#34;][&#34;truckWheelRadius&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;configFloat&#34;][&#34;gearRatiosForward&#34;], offset = self.readFloat(offset, count=24)
+            data[&#34;configFloat&#34;][&#34;gearRatiosReverse&#34;], offset = self.readFloat(offset, count=8)
+            data[&#34;configFloat&#34;][&#34;unitMass&#34;], offset = self.readFloat(offset)
+            
+            data[&#34;truckFloat&#34;] = {}
+            data[&#34;truckFloat&#34;][&#34;speed&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;engineRpm&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;userSteer&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;userThrottle&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;userBrake&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;userClutch&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;gameSteer&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;gameThrottle&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;gameBrake&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;gameClutch&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;cruiseControlSpeed&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;airPressure&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;brakeTemperature&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;fuel&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;fuelAvgConsumption&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;fuelRange&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;adblue&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;oilPressure&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;oilTemperature&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;waterTemperature&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;batteryVoltage&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;lightsDashboard&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearEngine&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearTransmission&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearCabin&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearChassis&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;wearWheels&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;truckOdometer&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;routeDistance&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;routeTime&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;speedLimit&#34;], offset = self.readFloat(offset)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelSuspDeflection&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelVelocity&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelSteering&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelRotation&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelLift&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;truckFloat&#34;][&#34;truck_wheelLiftOffset&#34;], offset = self.readFloat(offset, count=16)
+            
+            data[&#34;gameplayFloat&#34;] = {}
+            data[&#34;gameplayFloat&#34;][&#34;jobDeliveredCargoDamage&#34;], offset = self.readFloat(offset)
+            data[&#34;gameplayFloat&#34;][&#34;jobDeliveredDistanceKm&#34;], offset = self.readFloat(offset)
+            data[&#34;gameplayFloat&#34;][&#34;refuelAmount&#34;], offset = self.readFloat(offset)
+            
+            data[&#34;jobFloat&#34;] = {}
+            data[&#34;jobFloat&#34;][&#34;cargoDamage&#34;], offset = self.readFloat(offset)
+            
+            data[&#34;bufferFloat&#34;], offset = self.readChar(offset, 28)
+            
+            # END OF ZONE 4 -&gt; Offset 1500
+            
+            # START OF ZONE 5 -&gt; Offset 1500
+            # The fifth zone contains bool and is sorted in sub structures
+            
+            data[&#34;configBool&#34;] = {}
+            data[&#34;configBool&#34;][&#34;truckWheelSteerable&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;configBool&#34;][&#34;truckWheelSimulated&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;configBool&#34;][&#34;truckWheelPowered&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;configBool&#34;][&#34;truckWheelLiftable&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;configBool&#34;][&#34;isCargoLoaded&#34;], offset = self.readBool(offset)
+            data[&#34;configBool&#34;][&#34;specialJob&#34;], offset = self.readBool(offset)
+
+            data[&#34;truckBool&#34;] = {}
+            data[&#34;truckBool&#34;][&#34;parkBrake&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;motorBrake&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;airPressureWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;airPressureEmergency&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;fuelWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;adblueWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;oilPressureWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;waterTemperatureWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;batteryVoltageWarning&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;electricEnabled&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;engineEnabled&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;wipers&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;blinkerRightActive&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;blinkerLeftOn&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;blinkerRightOn&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsParking&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsBeamLow&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsBeamHigh&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsBeacon&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsBrake&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsReverse&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;lightsHazard&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;cruiseControl&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;truck_wheelOnGround&#34;], offset = self.readBool(offset, count=16)
+            data[&#34;truckBool&#34;][&#34;shifterToggle&#34;], offset = self.readBool(offset, count=2)
+            data[&#34;truckBool&#34;][&#34;differentialLock&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;liftAxle&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;liftAxleIndicator&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;trailerLiftAxle&#34;], offset = self.readBool(offset)
+            data[&#34;truckBool&#34;][&#34;trailerLiftAxleIndicator&#34;], offset = self.readBool(offset)
+
+            data[&#34;gameplayBool&#34;] = {}
+            data[&#34;gameplayBool&#34;][&#34;jobDeliveredAutoparkUsed&#34;], offset = self.readBool(offset)
+            data[&#34;gameplayBool&#34;][&#34;jobDeliveredAutoloadUsed&#34;], offset = self.readBool(offset)
+
+            data[&#34;bufferBool&#34;], offset = self.readChar(offset, count=25)
+            
+            # END OF ZONE 5 -&gt; Offset 1640
+            
+            # START OF ZONE 6 -&gt; Offset 1640
+            # The sixth zone contains fvector and is sorted in sub structures
+            
+            data[&#34;configVector&#34;] = {}
+            data[&#34;configVector&#34;][&#34;cabinPositionX&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;cabinPositionY&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;cabinPositionZ&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;headPositionX&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;headPositionY&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;headPositionZ&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;truckHookPositionX&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;truckHookPositionY&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;truckHookPositionZ&#34;], offset = self.readFloat(offset)
+            data[&#34;configVector&#34;][&#34;truckWheelPositionX&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;configVector&#34;][&#34;truckWheelPositionY&#34;], offset = self.readFloat(offset, count=16)
+            data[&#34;configVector&#34;][&#34;truckWheelPositionZ&#34;], offset = self.readFloat(offset, count=16)
+
+            data[&#34;truckVector&#34;] = {}
+            data[&#34;truckVector&#34;][&#34;lv_accelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;lv_accelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;lv_accelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;av_accelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;av_accelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;av_accelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;accelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;accelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;accelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;aa_accelerationX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;aa_accelerationY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;aa_accelerationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAVX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAVY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAVZ&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAAX&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAAY&#34;], offset = self.readFloat(offset)
+            data[&#34;truckVector&#34;][&#34;cabinAAZ&#34;], offset = self.readFloat(offset)
+
+            data[&#34;bufferVector&#34;], offset = self.readChar(offset, count=60)
+            
+            # END OF ZONE 6 -&gt; Offset 2000
+            
+            # START OF ZONE 7 -&gt; Offset 2000
+            # The 7th zone contains fplacement and is sorted in sub structures
+            data[&#34;headPlacement&#34;] = {}
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetX&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetY&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetZ&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationX&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationY&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationZ&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetX&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetY&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetZ&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetrotationX&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetrotationY&#34;], offset = self.readFloat(offset)
+            data[&#34;headPlacement&#34;][&#34;headOffsetrotationZ&#34;], offset = self.readFloat(offset)
+
+            data[&#34;bufferHeadPlacement&#34;], offset = self.readChar(offset, count=152)
+            
+            # END OF ZONE 7 -&gt; Offset 2200
+            
+            # START OF ZONE 8 -&gt; Offset 2200
+            
+            data[&#34;truckPlacement&#34;] = {}
+            data[&#34;truckPlacement&#34;][&#34;coordinateX&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;coordinateY&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;coordinateZ&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;rotationX&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;rotationY&#34;], offset = self.readDouble(offset)
+            data[&#34;truckPlacement&#34;][&#34;rotationZ&#34;], offset = self.readDouble(offset)
+
+            data[&#34;bufferTruckPlacement&#34;], offset = self.readChar(offset, count=52)
+            
+            # END OF ZONE 8 -&gt; Offset 2300
+            
+            # START OF ZONE 9 -&gt; Offset 2300
+            # The 9th zone contains strings and is sorted in sub structures
+            
+            data[&#34;configString&#34;] = {}
+            data[&#34;configString&#34;][&#34;truckBrandId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckBrand&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;cargoId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;cargo&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;cityDstId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;cityDst&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;compDstId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;compDst&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;citySrcId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;citySrc&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;compSrcId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;compSrc&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;shifterType&#34;], offset = self.readChar(offset, count=16)
+            data[&#34;configString&#34;][&#34;truckLicensePlate&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckLicensePlateCountryId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;truckLicensePlateCountry&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;configString&#34;][&#34;jobMarket&#34;], offset = self.readChar(offset, count=32)
+
+            data[&#34;gameplayString&#34;] = {}
+            data[&#34;gameplayString&#34;][&#34;fineOffence&#34;], offset = self.readChar(offset, count=32)
+            data[&#34;gameplayString&#34;][&#34;ferrySourceName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;ferryTargetName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;ferrySourceId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;ferryTargetId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;trainSourceName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;trainTargetName&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;trainSourceId&#34;], offset = self.readChar(offset, count=stringSize)
+            data[&#34;gameplayString&#34;][&#34;trainTargetId&#34;], offset = self.readChar(offset, count=stringSize)
+
+            data[&#34;bufferString&#34;], offset = self.readChar(offset, count=20)
+            
+            # END OF ZONE 9 -&gt; Offset 4000
+            
+            # START OF ZONE 10 -&gt; Offset 4000
+            # The 10th zone contains unsigned long long and is sorted in sub structures
+            
+            data[&#34;configLongLong&#34;] = {}
+            data[&#34;configLongLong&#34;][&#34;jobIncome&#34;], offset = self.readLongLong(offset)
+            
+            data[&#34;bufferLongLong&#34;], offset = self.readChar(offset, count=192)
+            
+            # END OF ZONE 10 -&gt; Offset 4200
+            
+            # START OF ZONE 11 -&gt; Offset 4200
+            # The 11th zone contains long long and is sorted in sub structures
+            
+            data[&#34;gameplayLongLong&#34;] = {}
+            data[&#34;gameplayLongLong&#34;][&#34;jobCancelledPenalty&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;jobDeliveredRevenue&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;fineAmount&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;tollgatePayAmount&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;ferryPayAmount&#34;], offset = self.readLongLong(offset)
+            data[&#34;gameplayLongLong&#34;][&#34;trainPayAmount&#34;], offset = self.readLongLong(offset)
+
+            data[&#34;bufferLongLong&#34;], offset = self.readChar(offset, count=52)
+            
+            # END OF ZONE 11 -&gt; Offset 4300
+            
+            # START OF ZONE 12 -&gt; Offset 4300
+            # The 12th zone contains special events and is sorted in sub structures
+            
+            data[&#34;specialBool&#34;] = {}
+            data[&#34;specialBool&#34;][&#34;onJob&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;jobFinished&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;jobCancelled&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;jobDelivered&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;fined&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;tollgate&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;ferry&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;train&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;refuel&#34;], offset = self.readBool(offset)
+            data[&#34;specialBool&#34;][&#34;refuelPayed&#34;], offset = self.readBool(offset)
+
+            data[&#34;bufferSpecial&#34;], offset = self.readChar(offset, count=90)
+            
+            # END OF ZONE 12 -&gt; Offset 4400
+            
+            # START OF ZONE 13 -&gt; Offset 4400
+            
+            data[&#34;substances&#34;], offset = self.readStringArray(offset, count=substanceSize, stringSize=stringSize)
+            
+            # END OF ZONE 13 -&gt; Offset 6000
+            
+            # START OF ZONE 14 -&gt; Offset 6000
+            if trailerData:
+                data[&#34;trailers&#34;], offset = self.readTrailer(offset, count=10)
+        
+        except Exception as e:
+            print(e)
+            try:
+                print(&#34;Current offset : &#34; + offset)
+            except:
+                pass
+        
+        self.mm.close()
+        
+        return data</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readBool"><code class="name flex">
+<span>def <span class="ident">readBool</span></span>(<span>self, offset, count=1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readBool(self, offset, count=1):
+    if count == 1:
+        bool = struct.unpack(&#39;?&#39;, self.mm[offset:offset+1])[0]
+        return bool, offset+1
+    else:
+        bools = []
+        for i in range(count):
+            bools.append(struct.unpack(&#39;?&#39;, self.mm[offset+i:offset+i+1])[0])
+        return bools, offset+count</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readChar"><code class="name flex">
+<span>def <span class="ident">readChar</span></span>(<span>self, offset, count)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readChar(self, offset, count):
+    char = &#34;&#34;
+    newChar = &#34;&#34;
+    for i in range(count):
+        try:
+            newChar = struct.unpack(&#39;s&#39;, self.mm[offset+i:offset+i+1])[0].decode(&#34;utf-8&#34;)
+        except:
+            newChar == &#34;\u0000&#34;
+            
+        if newChar == &#34;\u0000&#34;:
+            char += &#34;&#34;
+        else:
+            char += newChar 
+        
+    
+    char.replace(r&#34;\u0000&#34;, &#34;&#34;)
+    
+    return char, offset+count</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readDouble"><code class="name flex">
+<span>def <span class="ident">readDouble</span></span>(<span>self, offset, count=1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readDouble(self, offset, count=1):
+    if count == 1:
+        double = struct.unpack(&#39;d&#39;, self.mm[offset:offset+8])[0]
+        return double, offset+8
+    else:
+        doubles = []
+        for i in range(count):
+            doubles.append(struct.unpack(&#39;d&#39;, self.mm[offset+i*8:offset+i*8+8])[0])
+        return doubles, offset+count*8</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readFloat"><code class="name flex">
+<span>def <span class="ident">readFloat</span></span>(<span>self, offset, count=1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readFloat(self, offset, count=1):
+    if count == 1:
+        float = struct.unpack(&#39;f&#39;, self.mm[offset:offset+4])[0]
+        return float, offset+4
+    else:
+        floats = []
+        for i in range(count):
+            floats.append(struct.unpack(&#39;f&#39;, self.mm[offset+i*4:offset+i*4+4])[0])
+        return floats, offset+count*4</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readGame"><code class="name flex">
+<span>def <span class="ident">readGame</span></span>(<span>self, offset)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readGame(self, offset):
+    int = struct.unpack(&#39;i&#39;, self.mm[offset:offset+4])[0]
+    if int == 1:
+        return &#34;ETS2&#34;, offset+4
+    elif int == 2:
+        return &#34;ATS&#34;, offset+4
+    else:
+        return &#34;unknown&#34;, offset+4</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readInt"><code class="name flex">
+<span>def <span class="ident">readInt</span></span>(<span>self, offset, count=1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readInt(self, offset, count=1):
+    if count == 1:
+        int = struct.unpack(&#39;i&#39;, self.mm[offset:offset+4])[0]
+        return int, offset+4
+    else:
+        ints = []
+        for i in range(count):
+            ints.append(struct.unpack(&#39;i&#39;, self.mm[offset+i*4:offset+i*4+4])[0])
+        return ints, offset+count*4</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readLong"><code class="name flex">
+<span>def <span class="ident">readLong</span></span>(<span>self, offset, count=1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readLong(self, offset, count=1):
+    if count == 1:
+        long = struct.unpack(&#39;q&#39;, self.mm[offset:offset+8])[0]
+    return long, offset+8</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readLongLong"><code class="name flex">
+<span>def <span class="ident">readLongLong</span></span>(<span>self, offset, count=1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readLongLong(self, offset, count=1):
+    if count == 1:
+        longlong = struct.unpack(&#39;Q&#39;, self.mm[offset:offset+8])[0]
+    return longlong, offset+8</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readStringArray"><code class="name flex">
+<span>def <span class="ident">readStringArray</span></span>(<span>self, offset, count, stringSize)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readStringArray(self, offset, count, stringSize):
+    strings = []
+    for i in range(count):
+        strings.append(self.readChar(offset+i*stringSize, stringSize)[0])
+    return strings, offset+count*stringSize</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readTrailer"><code class="name flex">
+<span>def <span class="ident">readTrailer</span></span>(<span>self, offset, count=1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def readTrailer(self, offset, count=1):
+    trailers = []
+    for i in range(count):
+        data = {}
+        
+        # START OF FIRST ZONE AT OFFSET 0 
+        
+        data[&#34;conBool&#34;] = {}
+        data[&#34;conBool&#34;][&#34;wheelSteerable&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;conBool&#34;][&#34;wheelSimulated&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;conBool&#34;][&#34;wheelPowered&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;conBool&#34;][&#34;wheelLiftable&#34;], offset = self.readBool(offset, count=16)
+
+        data[&#34;comBool&#34;] = {}
+        data[&#34;comBool&#34;][&#34;wheelOnGround&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;comBool&#34;][&#34;attached&#34;], offset = self.readBool(offset)
+        
+        data[&#34;bufferBool&#34;], offset = self.readChar(offset, count=3)
+        
+        # END OF FIRST ZONE -&gt; Offset 84
+        
+        # START OF SECOND ZONE -&gt; Offset 84
+        
+        data[&#34;comUI&#34;] = {}
+        data[&#34;comUI&#34;][&#34;wheelSubstance&#34;], offset = self.readInt(offset, count=16)
+        
+        data[&#34;conUI&#34;] = {}
+        data[&#34;conUI&#34;][&#34;wheelCount&#34;], offset = self.readInt(offset)
+        
+        # END OF SECOND ZONE -&gt; Offset 152
+        
+        # START OF THIRD ZONE -&gt; Offset 152
+        
+        data[&#34;comFloat&#34;] = {}
+        data[&#34;comFloat&#34;][&#34;cargoDamage&#34;], offset = self.readFloat(offset)
+        data[&#34;comFloat&#34;][&#34;wearChassis&#34;], offset = self.readFloat(offset)
+        data[&#34;comFloat&#34;][&#34;wearWheels&#34;], offset = self.readFloat(offset)
+        data[&#34;comFloat&#34;][&#34;wearBody&#34;], offset = self.readFloat(offset)
+
+        data[&#34;comFloat&#34;][&#34;wheelSuspDeflection&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;comFloat&#34;][&#34;wheelVelocity&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;comFloat&#34;][&#34;wheelSteering&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;comFloat&#34;][&#34;wheelRotation&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;comFloat&#34;][&#34;wheelLift&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;comFloat&#34;][&#34;wheelLiftOffset&#34;], offset = self.readFloat(offset, count=16)
+
+        data[&#34;conFloat&#34;] = {}
+        data[&#34;conFloat&#34;][&#34;wheelRadius&#34;], offset = self.readFloat(offset, count=16)
+        
+        # END OF THIRD ZONE -&gt; Offset 616
+        
+        # START OF FOURTH ZONE -&gt; Offset 616
+        
+        data[&#34;comVector&#34;] = {}
+        data[&#34;comVector&#34;][&#34;linearVelocityX&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;linearVelocityY&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;linearVelocityZ&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;angularVelocityX&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;angularVelocityY&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;angularVelocityZ&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;linearAccelerationX&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;linearAccelerationY&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;linearAccelerationZ&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;angularAccelerationX&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;angularAccelerationY&#34;], offset = self.readFloat(offset)
+        data[&#34;comVector&#34;][&#34;angularAccelerationZ&#34;], offset = self.readFloat(offset)
+
+        data[&#34;conVector&#34;] = {}
+        data[&#34;conVector&#34;][&#34;hookPositionX&#34;], offset = self.readFloat(offset)
+        data[&#34;conVector&#34;][&#34;hookPositionY&#34;], offset = self.readFloat(offset)
+        data[&#34;conVector&#34;][&#34;hookPositionZ&#34;], offset = self.readFloat(offset)
+        data[&#34;conVector&#34;][&#34;wheelPositionX&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;conVector&#34;][&#34;wheelPositionY&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;conVector&#34;][&#34;wheelPositionZ&#34;], offset = self.readFloat(offset, count=16)
+
+        data[&#34;bufferVector&#34;], offset = self.readChar(offset, count=4)
+        
+        # END OF FOURTH ZONE -&gt; Offset 872
+        
+        # START OF FIFTH ZONE -&gt; Offset 872
+        
+        data[&#34;comDouble&#34;] = {}
+        data[&#34;comDouble&#34;][&#34;worldX&#34;], offset = self.readDouble(offset)
+        data[&#34;comDouble&#34;][&#34;worldY&#34;], offset = self.readDouble(offset)
+        data[&#34;comDouble&#34;][&#34;worldZ&#34;], offset = self.readDouble(offset)
+        data[&#34;comDouble&#34;][&#34;rotationX&#34;], offset = self.readDouble(offset)
+        data[&#34;comDouble&#34;][&#34;rotationY&#34;], offset = self.readDouble(offset)
+        data[&#34;comDouble&#34;][&#34;rotationZ&#34;], offset = self.readDouble(offset)
+        
+        # END OF FIFTH ZONE -&gt; Offset 920
+        
+        # START OF SIXTH ZONE -&gt; Offset 920
+        
+        data[&#34;conString&#34;] = {}
+        data[&#34;conString&#34;][&#34;id&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;cargoAcessoryId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;bodyType&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;brandId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;brand&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;name&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;chainType&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;licensePlate&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;licensePlateCountry&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;conString&#34;][&#34;licensePlateCountryId&#34;], offset = self.readChar(offset, count=stringSize)
+        
+        # END OF SIXTH ZONE -&gt; Offset 1560
+        
+        trailers.append(data)
+        
+    return trailers, offset</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, trailerData=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, trailerData=False):
+    self.mm = mmap.mmap(0, mmapSize, mmapName)
+    
+    data = {}
+    offset = 0
+    
+    # ALL COMMENTS EXTRACTED FROM https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
+    try:
+        # ZONE 1 -&gt; Start at offset 0
+        
+        data[&#34;sdkActive&#34;], offset = self.readBool(offset)
+        data[&#34;placeHolder&#34;], offset = self.readChar(offset, 3)
+        data[&#34;pause&#34;], offset = self.readBool(offset)
+        data[&#34;placeHolder2&#34;], offset = self.readChar(offset, 3)
+        
+        data[&#34;time&#34;], offset = self.readLongLong(offset)
+        data[&#34;simulatedTime&#34;], offset = self.readLongLong(offset)
+        data[&#34;renderTime&#34;], offset = self.readLongLong(offset)
+        data[&#34;multiplayerTimeOffset&#34;], offset = self.readLongLong(offset)
+        
+        # END OF ZONE 1 -&gt; Offset 40
+        
+        # START OF ZONE 2 -&gt; Offset 40
+        # The Second zone contains unsigned integers and it sorted in sub structures
+        
+        data[&#34;scsValues&#34;] = {}
+        data[&#34;scsValues&#34;][&#34;telemetryPluginRevision&#34;], offset = self.readInt(offset)
+        data[&#34;scsValues&#34;][&#34;versionMajor&#34;], offset = self.readInt(offset)
+        data[&#34;scsValues&#34;][&#34;versionMinor&#34;], offset = self.readInt(offset)
+        data[&#34;scsValues&#34;][&#34;game&#34;], offset = self.readGame(offset)
+        data[&#34;scsValues&#34;][&#34;telemetryVersionGameMajor&#34;], offset = self.readInt(offset)
+        data[&#34;scsValues&#34;][&#34;telemetryVersionGameMinor&#34;], offset = self.readInt(offset)
+        
+        data[&#34;commonUI&#34;] = {}
+        data[&#34;commonUI&#34;][&#34;timeAbs&#34;], offset = self.readInt(offset)
+        
+        data[&#34;configUI&#34;] = {}
+        data[&#34;configUI&#34;][&#34;gears&#34;], offset = self.readInt(offset)
+        data[&#34;configUI&#34;][&#34;gearsReverse&#34;], offset = self.readInt(offset)
+        data[&#34;configUI&#34;][&#34;retarderStepCount&#34;], offset = self.readInt(offset)
+        data[&#34;configUI&#34;][&#34;truckWheelCount&#34;], offset = self.readInt(offset)
+        data[&#34;configUI&#34;][&#34;selectorCount&#34;], offset = self.readInt(offset)
+        data[&#34;configUI&#34;][&#34;timeAbsDelivery&#34;], offset = self.readInt(offset)
+        data[&#34;configUI&#34;][&#34;maxTrailerCount&#34;], offset = self.readInt(offset)
+        data[&#34;configUI&#34;][&#34;unitCount&#34;], offset = self.readInt(offset)
+        data[&#34;configUI&#34;][&#34;plannedDistanceKm&#34;], offset = self.readInt(offset)
+        
+        data[&#34;truckUI&#34;] = {}
+        data[&#34;truckUI&#34;][&#34;shifterSlot&#34;], offset = self.readInt(offset)
+        data[&#34;truckUI&#34;][&#34;retarderBrake&#34;], offset = self.readInt(offset)
+        data[&#34;truckUI&#34;][&#34;lightsAuxFront&#34;], offset = self.readInt(offset)
+        data[&#34;truckUI&#34;][&#34;lightsAuxRoof&#34;], offset = self.readInt(offset)
+        data[&#34;truckUI&#34;][&#34;truckWheelSubstance&#34;], offset = self.readInt(offset, count=16)
+        data[&#34;truckUI&#34;][&#34;hshifterPosition&#34;], offset = self.readInt(offset, count=32)
+        data[&#34;truckUI&#34;][&#34;hshifterBitmask&#34;], offset = self.readInt(offset, count=32)
+        
+        data[&#34;gameplayUI&#34;] = {}
+        data[&#34;gameplayUI&#34;][&#34;jobDeliveredDeliveryTime&#34;], offset = self.readInt(offset)
+        data[&#34;gameplayUI&#34;][&#34;jobStartingTime&#34;], offset = self.readInt(offset)
+        data[&#34;gameplayUI&#34;][&#34;jobFinishedTime&#34;], offset = self.readInt(offset)
+        
+        data[&#34;bufferUI&#34;], offset = self.readChar(offset, 48)
+        
+        # END OF ZONE 2 -&gt; Offset 500
+        
+        # START OF ZONE 3 -&gt; Offset 500
+        # The third zone contains integers and is sorted in sub structures
+        
+        data[&#34;commonInt&#34;] = {}
+        data[&#34;commonInt&#34;][&#34;restStop&#34;], offset = self.readInt(offset)
+        
+        data[&#34;truckInt&#34;] = {}
+        data[&#34;truckInt&#34;][&#34;gear&#34;], offset = self.readInt(offset)
+        data[&#34;truckInt&#34;][&#34;gearDashboard&#34;], offset = self.readInt(offset)
+        data[&#34;truckInt&#34;][&#34;hshifterResulting&#34;], offset = self.readInt(offset, count=32)
+        
+        data[&#34;bufferInt&#34;], offset = self.readChar(offset, 56)
+        
+        # END OF ZONE 3 -&gt; Offset 696
+        
+        offset += 4
+        
+        # START IF ZONE 4 -&gt; Offset 700
+        # The fourth zone contains floats and is sorted in sub structures
+        
+        data[&#34;commonFloat&#34;] = {}
+        data[&#34;commonFloat&#34;][&#34;scale&#34;], offset = self.readFloat(offset)
+        
+        data[&#34;configFloat&#34;] = {}
+        data[&#34;configFloat&#34;][&#34;fuelCapacity&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;fuelWarningFactor&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;adblueCapacity&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;adblueWarningFactor&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;airPressureWarning&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;airPressureEmergency&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;oilPressureWarning&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;waterTemperatureWarning&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;batteryVoltageWarning&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;engineRpmMax&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;gearDifferential&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;cargoMass&#34;], offset = self.readFloat(offset)
+        data[&#34;configFloat&#34;][&#34;truckWheelRadius&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;configFloat&#34;][&#34;gearRatiosForward&#34;], offset = self.readFloat(offset, count=24)
+        data[&#34;configFloat&#34;][&#34;gearRatiosReverse&#34;], offset = self.readFloat(offset, count=8)
+        data[&#34;configFloat&#34;][&#34;unitMass&#34;], offset = self.readFloat(offset)
+        
+        data[&#34;truckFloat&#34;] = {}
+        data[&#34;truckFloat&#34;][&#34;speed&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;engineRpm&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;userSteer&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;userThrottle&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;userBrake&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;userClutch&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;gameSteer&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;gameThrottle&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;gameBrake&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;gameClutch&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;cruiseControlSpeed&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;airPressure&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;brakeTemperature&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;fuel&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;fuelAvgConsumption&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;fuelRange&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;adblue&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;oilPressure&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;oilTemperature&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;waterTemperature&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;batteryVoltage&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;lightsDashboard&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;wearEngine&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;wearTransmission&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;wearCabin&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;wearChassis&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;wearWheels&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;truckOdometer&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;routeDistance&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;routeTime&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;speedLimit&#34;], offset = self.readFloat(offset)
+        data[&#34;truckFloat&#34;][&#34;truck_wheelSuspDeflection&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;truckFloat&#34;][&#34;truck_wheelVelocity&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;truckFloat&#34;][&#34;truck_wheelSteering&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;truckFloat&#34;][&#34;truck_wheelRotation&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;truckFloat&#34;][&#34;truck_wheelLift&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;truckFloat&#34;][&#34;truck_wheelLiftOffset&#34;], offset = self.readFloat(offset, count=16)
+        
+        data[&#34;gameplayFloat&#34;] = {}
+        data[&#34;gameplayFloat&#34;][&#34;jobDeliveredCargoDamage&#34;], offset = self.readFloat(offset)
+        data[&#34;gameplayFloat&#34;][&#34;jobDeliveredDistanceKm&#34;], offset = self.readFloat(offset)
+        data[&#34;gameplayFloat&#34;][&#34;refuelAmount&#34;], offset = self.readFloat(offset)
+        
+        data[&#34;jobFloat&#34;] = {}
+        data[&#34;jobFloat&#34;][&#34;cargoDamage&#34;], offset = self.readFloat(offset)
+        
+        data[&#34;bufferFloat&#34;], offset = self.readChar(offset, 28)
+        
+        # END OF ZONE 4 -&gt; Offset 1500
+        
+        # START OF ZONE 5 -&gt; Offset 1500
+        # The fifth zone contains bool and is sorted in sub structures
+        
+        data[&#34;configBool&#34;] = {}
+        data[&#34;configBool&#34;][&#34;truckWheelSteerable&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;configBool&#34;][&#34;truckWheelSimulated&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;configBool&#34;][&#34;truckWheelPowered&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;configBool&#34;][&#34;truckWheelLiftable&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;configBool&#34;][&#34;isCargoLoaded&#34;], offset = self.readBool(offset)
+        data[&#34;configBool&#34;][&#34;specialJob&#34;], offset = self.readBool(offset)
+
+        data[&#34;truckBool&#34;] = {}
+        data[&#34;truckBool&#34;][&#34;parkBrake&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;motorBrake&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;airPressureWarning&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;airPressureEmergency&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;fuelWarning&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;adblueWarning&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;oilPressureWarning&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;waterTemperatureWarning&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;batteryVoltageWarning&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;electricEnabled&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;engineEnabled&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;wipers&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;blinkerLeftActive&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;blinkerRightActive&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;blinkerLeftOn&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;blinkerRightOn&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;lightsParking&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;lightsBeamLow&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;lightsBeamHigh&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;lightsBeacon&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;lightsBrake&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;lightsReverse&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;lightsHazard&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;cruiseControl&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;truck_wheelOnGround&#34;], offset = self.readBool(offset, count=16)
+        data[&#34;truckBool&#34;][&#34;shifterToggle&#34;], offset = self.readBool(offset, count=2)
+        data[&#34;truckBool&#34;][&#34;differentialLock&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;liftAxle&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;liftAxleIndicator&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;trailerLiftAxle&#34;], offset = self.readBool(offset)
+        data[&#34;truckBool&#34;][&#34;trailerLiftAxleIndicator&#34;], offset = self.readBool(offset)
+
+        data[&#34;gameplayBool&#34;] = {}
+        data[&#34;gameplayBool&#34;][&#34;jobDeliveredAutoparkUsed&#34;], offset = self.readBool(offset)
+        data[&#34;gameplayBool&#34;][&#34;jobDeliveredAutoloadUsed&#34;], offset = self.readBool(offset)
+
+        data[&#34;bufferBool&#34;], offset = self.readChar(offset, count=25)
+        
+        # END OF ZONE 5 -&gt; Offset 1640
+        
+        # START OF ZONE 6 -&gt; Offset 1640
+        # The sixth zone contains fvector and is sorted in sub structures
+        
+        data[&#34;configVector&#34;] = {}
+        data[&#34;configVector&#34;][&#34;cabinPositionX&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;cabinPositionY&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;cabinPositionZ&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;headPositionX&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;headPositionY&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;headPositionZ&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;truckHookPositionX&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;truckHookPositionY&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;truckHookPositionZ&#34;], offset = self.readFloat(offset)
+        data[&#34;configVector&#34;][&#34;truckWheelPositionX&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;configVector&#34;][&#34;truckWheelPositionY&#34;], offset = self.readFloat(offset, count=16)
+        data[&#34;configVector&#34;][&#34;truckWheelPositionZ&#34;], offset = self.readFloat(offset, count=16)
+
+        data[&#34;truckVector&#34;] = {}
+        data[&#34;truckVector&#34;][&#34;lv_accelerationX&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;lv_accelerationY&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;lv_accelerationZ&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;av_accelerationX&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;av_accelerationY&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;av_accelerationZ&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;accelerationX&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;accelerationY&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;accelerationZ&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;aa_accelerationX&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;aa_accelerationY&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;aa_accelerationZ&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;cabinAVX&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;cabinAVY&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;cabinAVZ&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;cabinAAX&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;cabinAAY&#34;], offset = self.readFloat(offset)
+        data[&#34;truckVector&#34;][&#34;cabinAAZ&#34;], offset = self.readFloat(offset)
+
+        data[&#34;bufferVector&#34;], offset = self.readChar(offset, count=60)
+        
+        # END OF ZONE 6 -&gt; Offset 2000
+        
+        # START OF ZONE 7 -&gt; Offset 2000
+        # The 7th zone contains fplacement and is sorted in sub structures
+        data[&#34;headPlacement&#34;] = {}
+        data[&#34;headPlacement&#34;][&#34;cabinOffsetX&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;cabinOffsetY&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;cabinOffsetZ&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationX&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationY&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;cabinOffsetrotationZ&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;headOffsetX&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;headOffsetY&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;headOffsetZ&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;headOffsetrotationX&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;headOffsetrotationY&#34;], offset = self.readFloat(offset)
+        data[&#34;headPlacement&#34;][&#34;headOffsetrotationZ&#34;], offset = self.readFloat(offset)
+
+        data[&#34;bufferHeadPlacement&#34;], offset = self.readChar(offset, count=152)
+        
+        # END OF ZONE 7 -&gt; Offset 2200
+        
+        # START OF ZONE 8 -&gt; Offset 2200
+        
+        data[&#34;truckPlacement&#34;] = {}
+        data[&#34;truckPlacement&#34;][&#34;coordinateX&#34;], offset = self.readDouble(offset)
+        data[&#34;truckPlacement&#34;][&#34;coordinateY&#34;], offset = self.readDouble(offset)
+        data[&#34;truckPlacement&#34;][&#34;coordinateZ&#34;], offset = self.readDouble(offset)
+        data[&#34;truckPlacement&#34;][&#34;rotationX&#34;], offset = self.readDouble(offset)
+        data[&#34;truckPlacement&#34;][&#34;rotationY&#34;], offset = self.readDouble(offset)
+        data[&#34;truckPlacement&#34;][&#34;rotationZ&#34;], offset = self.readDouble(offset)
+
+        data[&#34;bufferTruckPlacement&#34;], offset = self.readChar(offset, count=52)
+        
+        # END OF ZONE 8 -&gt; Offset 2300
+        
+        # START OF ZONE 9 -&gt; Offset 2300
+        # The 9th zone contains strings and is sorted in sub structures
+        
+        data[&#34;configString&#34;] = {}
+        data[&#34;configString&#34;][&#34;truckBrandId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;truckBrand&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;truckId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;truckName&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;cargoId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;cargo&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;cityDstId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;cityDst&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;compDstId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;compDst&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;citySrcId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;citySrc&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;compSrcId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;compSrc&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;shifterType&#34;], offset = self.readChar(offset, count=16)
+        data[&#34;configString&#34;][&#34;truckLicensePlate&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;truckLicensePlateCountryId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;truckLicensePlateCountry&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;configString&#34;][&#34;jobMarket&#34;], offset = self.readChar(offset, count=32)
+
+        data[&#34;gameplayString&#34;] = {}
+        data[&#34;gameplayString&#34;][&#34;fineOffence&#34;], offset = self.readChar(offset, count=32)
+        data[&#34;gameplayString&#34;][&#34;ferrySourceName&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;gameplayString&#34;][&#34;ferryTargetName&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;gameplayString&#34;][&#34;ferrySourceId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;gameplayString&#34;][&#34;ferryTargetId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;gameplayString&#34;][&#34;trainSourceName&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;gameplayString&#34;][&#34;trainTargetName&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;gameplayString&#34;][&#34;trainSourceId&#34;], offset = self.readChar(offset, count=stringSize)
+        data[&#34;gameplayString&#34;][&#34;trainTargetId&#34;], offset = self.readChar(offset, count=stringSize)
+
+        data[&#34;bufferString&#34;], offset = self.readChar(offset, count=20)
+        
+        # END OF ZONE 9 -&gt; Offset 4000
+        
+        # START OF ZONE 10 -&gt; Offset 4000
+        # The 10th zone contains unsigned long long and is sorted in sub structures
+        
+        data[&#34;configLongLong&#34;] = {}
+        data[&#34;configLongLong&#34;][&#34;jobIncome&#34;], offset = self.readLongLong(offset)
+        
+        data[&#34;bufferLongLong&#34;], offset = self.readChar(offset, count=192)
+        
+        # END OF ZONE 10 -&gt; Offset 4200
+        
+        # START OF ZONE 11 -&gt; Offset 4200
+        # The 11th zone contains long long and is sorted in sub structures
+        
+        data[&#34;gameplayLongLong&#34;] = {}
+        data[&#34;gameplayLongLong&#34;][&#34;jobCancelledPenalty&#34;], offset = self.readLongLong(offset)
+        data[&#34;gameplayLongLong&#34;][&#34;jobDeliveredRevenue&#34;], offset = self.readLongLong(offset)
+        data[&#34;gameplayLongLong&#34;][&#34;fineAmount&#34;], offset = self.readLongLong(offset)
+        data[&#34;gameplayLongLong&#34;][&#34;tollgatePayAmount&#34;], offset = self.readLongLong(offset)
+        data[&#34;gameplayLongLong&#34;][&#34;ferryPayAmount&#34;], offset = self.readLongLong(offset)
+        data[&#34;gameplayLongLong&#34;][&#34;trainPayAmount&#34;], offset = self.readLongLong(offset)
+
+        data[&#34;bufferLongLong&#34;], offset = self.readChar(offset, count=52)
+        
+        # END OF ZONE 11 -&gt; Offset 4300
+        
+        # START OF ZONE 12 -&gt; Offset 4300
+        # The 12th zone contains special events and is sorted in sub structures
+        
+        data[&#34;specialBool&#34;] = {}
+        data[&#34;specialBool&#34;][&#34;onJob&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;jobFinished&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;jobCancelled&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;jobDelivered&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;fined&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;tollgate&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;ferry&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;train&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;refuel&#34;], offset = self.readBool(offset)
+        data[&#34;specialBool&#34;][&#34;refuelPayed&#34;], offset = self.readBool(offset)
+
+        data[&#34;bufferSpecial&#34;], offset = self.readChar(offset, count=90)
+        
+        # END OF ZONE 12 -&gt; Offset 4400
+        
+        # START OF ZONE 13 -&gt; Offset 4400
+        
+        data[&#34;substances&#34;], offset = self.readStringArray(offset, count=substanceSize, stringSize=stringSize)
+        
+        # END OF ZONE 13 -&gt; Offset 6000
+        
+        # START OF ZONE 14 -&gt; Offset 6000
+        if trailerData:
+            data[&#34;trailers&#34;], offset = self.readTrailer(offset, count=10)
+    
+    except Exception as e:
+        print(e)
+        try:
+            print(&#34;Current offset : &#34; + offset)
+        except:
+            pass
+    
+    self.mm.close()
+    
+    return data</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry">scsTelemetry</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readBool" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readBool">readBool</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readChar" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readChar">readChar</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readDouble" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readDouble">readDouble</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readFloat" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readFloat">readFloat</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readGame" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readGame">readGame</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readInt" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readInt">readInt</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readLong" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readLong">readLong</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readLongLong" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readLongLong">readLongLong</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readStringArray" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readStringArray">readStringArray</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readTrailer" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.readTrailer">readTrailer</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.TruckSimAPI.scsPlugin.scsTelemetry.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

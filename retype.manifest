@@ -1,0 +1,2328 @@
+{
+  "version": "3.5.0",
+  "created": "2024-01-30T19.21.10Z",
+  "files": [
+    {
+      "path": ".nojekyll"
+    },
+    {
+      "path": "404.html"
+    },
+    {
+      "path": "anomalousframes\\1706294237.7624671.txt"
+    },
+    {
+      "path": "anomalousframes\\1706294239.4981456.txt"
+    },
+    {
+      "path": "anomalousframes\\1706445252.9844398.txt"
+    },
+    {
+      "path": "anomalousframes\\1706445264.585978.txt"
+    },
+    {
+      "path": "anomalousframes\\1706445265.446671.txt"
+    },
+    {
+      "path": "anomalousframes\\1706445329.4785187.txt"
+    },
+    {
+      "path": "anomalousframes\\1706445329.7591782.txt"
+    },
+    {
+      "path": "anomalousframes\\1706445331.15356.txt"
+    },
+    {
+      "path": "anomalousframes\\1706445761.3524632.txt"
+    },
+    {
+      "path": "anomalousframes\\1706446252.2430804.txt"
+    },
+    {
+      "path": "anomalousframes\\1706446347.3241658.txt"
+    },
+    {
+      "path": "anomalousframes\\1706446361.2499404.txt"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_emergency_set.png"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_emergency_slowed.png"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_emergency_unset.png"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_off_set.png"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_off_slowed.png"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_off_unset.png"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_on_set.png"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_on_slowed.png"
+    },
+    {
+      "path": "assets\\cruisecontrol\\cruisecontrol_on_unset.png"
+    },
+    {
+      "path": "assets\\favicon.ico"
+    },
+    {
+      "path": "assets\\firsttimesetup\\default.jpg"
+    },
+    {
+      "path": "assets\\firsttimesetup\\drawlanes.jpg"
+    },
+    {
+      "path": "assets\\firsttimesetup\\drawsteeringline.jpg"
+    },
+    {
+      "path": "assets\\firsttimesetup\\filllane.jpg"
+    },
+    {
+      "path": "assets\\firsttimesetup\\logo.png"
+    },
+    {
+      "path": "assets\\firsttimesetup\\sdkplugin\\filesources.txt"
+    },
+    {
+      "path": "assets\\firsttimesetup\\sdkplugin\\input_semantical.dll"
+    },
+    {
+      "path": "assets\\firsttimesetup\\sdkplugin\\scs-telemetry.dll"
+    },
+    {
+      "path": "assets\\firsttimesetup\\showlanepoints.jpg"
+    },
+    {
+      "path": "assets\\manualtranslations\\en-fi.json"
+    },
+    {
+      "path": "assets\\mods\\cleanrouteadvisor.scs"
+    },
+    {
+      "path": "assets\\navigationdetectionv3\\v3setupexample.jpg"
+    },
+    {
+      "path": "assets\\sounds\\end.mp3"
+    },
+    {
+      "path": "assets\\sounds\\info.mp3"
+    },
+    {
+      "path": "assets\\sounds\\info.txt"
+    },
+    {
+      "path": "assets\\sounds\\start.mp3"
+    },
+    {
+      "path": "assets\\sounds\\warning.mp3"
+    },
+    {
+      "path": "assets\\translationcache\\cache.json"
+    },
+    {
+      "path": "changelog.txt"
+    },
+    {
+      "path": "CNAME"
+    },
+    {
+      "path": "docs\\app\\index.html"
+    },
+    {
+      "path": "docs\\app\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\about\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\about\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\about\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\changelog\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\changelog\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\changelog\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\cruisecontrol\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\cruisecontrol\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\cruisecontrol\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\deeptranslator\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\deeptranslator\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\deeptranslator\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\defaultsteering\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\defaultsteering\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\defaultsteering\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\dxcamscreencapture\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\dxcamscreencapture\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\dxcamscreencapture\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\evdevcontroller\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\evdevcontroller\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\evdevcontroller\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\examples\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\examples\\panel\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\examples\\panel\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\examples\\panel\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\examples\\plugin\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\examples\\plugin\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\examples\\plugin\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\externalapi\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\externalapi\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\externalapi\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\firsttimesetup\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\firsttimesetup\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\firsttimesetup\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\firsttimesetup\\steamparser.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\fpslimiter\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\fpslimiter\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\fpslimiter\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\hud\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\hud\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\hud\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lanedeparturewarning\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lanedeparturewarning\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lanedeparturewarning\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrdrawlanes\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrdrawlanes\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrdrawlanes\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrlanedetection\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrlanedetection\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\lstr\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrlanedetection\\lstrlanedetection\\lstr\\lstr.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\lstrlanedetection\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\gamedata\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\gamedata\\nodes.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\gamedata\\prefabitems.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\gamedata\\prefabs.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\gamedata\\roads.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\node.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\road.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\roadlook.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\old\\visualizeroads\\utils.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\visualize\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\map\\visualize\\visualize.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\mssscreencapture\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\mssscreencapture\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\mssscreencapture\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\navdetectionsetup\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\navdetectionsetup\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\navdetectionsetup\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\navigationdetection\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\navigationdetection\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\navigationdetection\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\panelmanager\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\panelmanager\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\panelmanager\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\performance\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\performance\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\performance\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\plugin.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\pluginmanager\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\pluginmanager\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\pluginmanager\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\profilemanager\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\profilemanager\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\profilemanager\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\screencaptureplacement\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\screencaptureplacement\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\screencaptureplacement\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\settings\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\settings\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\settings\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\settingsjsonviewer\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\settingsjsonviewer\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\settingsjsonviewer\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\showimage\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\showimage\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\showimage\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\switchlanedetectiondevice\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\tabsettings\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\tabsettings\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\tabsettings\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\thememaker\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\thememaker\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\thememaker\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\thememanager\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\thememanager\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\thememanager\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\themeselector\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\themeselector\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\themeselector\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\trafficlightdetection\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\trafficlightdetection\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\trafficlightdetection\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\truckersmplock\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\truckersmplock\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\truckersmplock\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\trucksimapi\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\trucksimapi\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\trucksimapi\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\trucksimapi\\scsplugin.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\truckstats\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\truckstats\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\truckstats\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\uflddrawlanes\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\uflddrawlanes\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\uflddrawlanes\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldinstaller\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldinstaller\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldinstaller\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\convertpytorchtoonnx.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\imagedetection.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\backbone.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\model.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\backbone.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\config.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\culane_res18.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\culane_res34.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\curvelanes_res18.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\curvelanes_res34.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\tusimple_res18.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\tusimple_res34.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\layer.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_culane.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_curvelanes.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_tusimple.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\seg_model.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\perspectivetransformation.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\ultrafastlanedetector.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\ultrafastlanedetectorv2.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\utils.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\ufldlanedetection\\ufld\\videodetection.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\vgamepadcontroller\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\vgamepadcontroller\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\vgamepadcontroller\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\virtualsimapi\\index.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\virtualsimapi\\install.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\virtualsimapi\\main.html"
+    },
+    {
+      "path": "docs\\app\\plugins\\virtualsimapi\\scsplugin.html"
+    },
+    {
+      "path": "docs\\app\\src\\controls.html"
+    },
+    {
+      "path": "docs\\app\\src\\helpers.html"
+    },
+    {
+      "path": "docs\\app\\src\\index.html"
+    },
+    {
+      "path": "docs\\app\\src\\loading.html"
+    },
+    {
+      "path": "docs\\app\\src\\logger.html"
+    },
+    {
+      "path": "docs\\app\\src\\mainui.html"
+    },
+    {
+      "path": "docs\\app\\src\\settings.html"
+    },
+    {
+      "path": "docs\\app\\src\\sounds.html"
+    },
+    {
+      "path": "docs\\app\\src\\translator.html"
+    },
+    {
+      "path": "docs\\app\\src\\variables.html"
+    },
+    {
+      "path": "docs\\index.html"
+    },
+    {
+      "path": "docs\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\about\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\about\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\about\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\bettercamscreencapture\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\bettercamscreencapture\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\bettercamscreencapture\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\changelog\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\changelog\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\changelog\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\cruisecontrol\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\cruisecontrol\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\cruisecontrol\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\dataviewer\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\dataviewer\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\dataviewer\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\deeptranslator\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\deeptranslator\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\deeptranslator\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\defaultsteering\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\defaultsteering\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\defaultsteering\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\dxcamscreencapture\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\dxcamscreencapture\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\dxcamscreencapture\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\ets2controlfilereader\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ets2controlfilereader\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\ets2controlfilereader\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\evdevcontroller\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\evdevcontroller\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\evdevcontroller\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\examples\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\examples\\panel\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\examples\\panel\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\examples\\panel\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\examples\\plugin\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\examples\\plugin\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\examples\\plugin\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\externalapi\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\externalapi\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\externalapi\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\feedback\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\feedback\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\feedback\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\firsttimesetup\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\firsttimesetup\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\firsttimesetup\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\firsttimesetup\\steamparser.html"
+    },
+    {
+      "path": "docs\\plugins\\fpslimiter\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\fpslimiter\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\fpslimiter\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\hud\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\hud\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\hud\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\lanedeparturewarning\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\lanedeparturewarning\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\lanedeparturewarning\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrdrawlanes\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrdrawlanes\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrdrawlanes\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrlanedetection\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrlanedetection\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrlanedetection\\lstrlanedetection\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrlanedetection\\lstrlanedetection\\lstr\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrlanedetection\\lstrlanedetection\\lstr\\lstr.html"
+    },
+    {
+      "path": "docs\\plugins\\lstrlanedetection\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\gamedata\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\gamedata\\nodes.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\gamedata\\prefabitems.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\gamedata\\prefabs.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\gamedata\\roads.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\visualizeroads\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\visualizeroads\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\visualizeroads\\node.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\visualizeroads\\road.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\visualizeroads\\roadlook.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\old\\visualizeroads\\utils.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\visualize\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\map\\visualize\\visualize.html"
+    },
+    {
+      "path": "docs\\plugins\\mssscreencapture\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\mssscreencapture\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\mssscreencapture\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\navdetectionsetup\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\navdetectionsetup\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\navdetectionsetup\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\navigationdetection\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\navigationdetection\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\navigationdetection\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\navigationdetectionv2\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\navigationdetectionv2\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\navigationdetectionv2\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\panelmanager\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\panelmanager\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\panelmanager\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\performance\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\performance\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\performance\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\plugin.html"
+    },
+    {
+      "path": "docs\\plugins\\pluginmanager\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\pluginmanager\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\pluginmanager\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\profilemanager\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\profilemanager\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\profilemanager\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\screencaptureplacement\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\screencaptureplacement\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\screencaptureplacement\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\sdkcontroller\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\sdkcontroller\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\sdkcontroller\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\settings\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\settings\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\settings\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\settingsjsonviewer\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\settingsjsonviewer\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\settingsjsonviewer\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\showimage\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\showimage\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\showimage\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\switchlanedetectiondevice\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\switchlanedetectiondevice\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\switchlanedetectiondevice\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\tabsettings\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\tabsettings\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\tabsettings\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\thememaker\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\thememaker\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\thememaker\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\thememanager\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\thememanager\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\thememanager\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\themeselector\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\themeselector\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\themeselector\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\trafficlightdetection\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\trafficlightdetection\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\trafficlightdetection\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\truckersmplock\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\truckersmplock\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\truckersmplock\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\trucksimapi\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\trucksimapi\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\trucksimapi\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\trucksimapi\\scsplugin.html"
+    },
+    {
+      "path": "docs\\plugins\\truckstats\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\truckstats\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\truckstats\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\uflddrawlanes\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\uflddrawlanes\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\uflddrawlanes\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldinstaller\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldinstaller\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldinstaller\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\convertpytorchtoonnx.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\imagedetection.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\backbone.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlane\\model.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\backbone.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\config.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\culane_res18.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\culane_res34.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\curvelanes_res18.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\curvelanes_res34.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\tusimple_res18.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\configs\\tusimple_res34.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\layer.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_culane.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_curvelanes.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\model_tusimple.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\exportlib\\ultrafastlanev2\\seg_model.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\perspectivetransformation.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\ultrafastlanedetector.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\ultrafastlanedetectorv2.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\ultrafastlanedetector\\utils.html"
+    },
+    {
+      "path": "docs\\plugins\\ufldlanedetection\\ufld\\videodetection.html"
+    },
+    {
+      "path": "docs\\plugins\\vgamepadcontroller\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\vgamepadcontroller\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\vgamepadcontroller\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\virtualsimapi\\index.html"
+    },
+    {
+      "path": "docs\\plugins\\virtualsimapi\\install.html"
+    },
+    {
+      "path": "docs\\plugins\\virtualsimapi\\main.html"
+    },
+    {
+      "path": "docs\\plugins\\virtualsimapi\\scsplugin.html"
+    },
+    {
+      "path": "docs\\src\\controls.html"
+    },
+    {
+      "path": "docs\\src\\helpers.html"
+    },
+    {
+      "path": "docs\\src\\index.html"
+    },
+    {
+      "path": "docs\\src\\loading.html"
+    },
+    {
+      "path": "docs\\src\\logger.html"
+    },
+    {
+      "path": "docs\\src\\mainui.html"
+    },
+    {
+      "path": "docs\\src\\scslogreader.html"
+    },
+    {
+      "path": "docs\\src\\server.html"
+    },
+    {
+      "path": "docs\\src\\settings.html"
+    },
+    {
+      "path": "docs\\src\\sounds.html"
+    },
+    {
+      "path": "docs\\src\\translator.html"
+    },
+    {
+      "path": "docs\\src\\variables.html"
+    },
+    {
+      "path": "index.html"
+    },
+    {
+      "path": "license"
+    },
+    {
+      "path": "log.txt"
+    },
+    {
+      "path": "plugins\\bettercamscreencapture\\docs\\index.html"
+    },
+    {
+      "path": "plugins\\bettercamscreencapture\\index.html"
+    },
+    {
+      "path": "plugins\\firsttimesetup\\image.png"
+    },
+    {
+      "path": "plugins\\firsttimesetup\\tutorialembed.html"
+    },
+    {
+      "path": "plugins\\lstrlanedetection\\lstrlanedetection\\doc\\img\\lane_detection.gif"
+    },
+    {
+      "path": "plugins\\lstrlanedetection\\lstrlanedetection\\doc\\img\\lane_detection.jpg"
+    },
+    {
+      "path": "plugins\\lstrlanedetection\\lstrlanedetection\\output.jpg"
+    },
+    {
+      "path": "plugins\\map\\godotvisualization\\icon.svg"
+    },
+    {
+      "path": "plugins\\map\\old\\visualizeroads\\map.png"
+    },
+    {
+      "path": "plugins\\navdetectionsetup\\images\\finish.png"
+    },
+    {
+      "path": "plugins\\navdetectionsetup\\images\\placecircle.png"
+    },
+    {
+      "path": "plugins\\performance\\web\\performance.html"
+    },
+    {
+      "path": "plugins\\showimage\\opencv.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\border-accent-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\border-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\border-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\border-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\border-invalid.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\card.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-tri-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-tri-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-tri-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-unsel-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-unsel-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-unsel-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\check-unsel-pressed.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\circle-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\circle-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\circle-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\combo-button-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\combo-button-focus.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\combo-button-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\down.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\empty.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\hor-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\hor-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\hor-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\notebook.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\off-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\off-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\off-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\on-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\on-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\on-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-tri-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-tri-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-tri-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-unsel-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-unsel-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\radio-unsel-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\rect-accent-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\rect-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\rect-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\rect-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\right.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\scale-hor.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\scale-vert.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\separator.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\sizegrip.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\spin-button-down-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\spin-button-down-focus.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\spin-button-up.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\tab-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\tab-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\tab-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\thumb-hor-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\thumb-hor-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\thumb-hor-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\thumb-vert-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\thumb-vert-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\thumb-vert-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\tree-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\tree-pressed.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\up.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\vert-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\vert-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\base_dark\\vert-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\border-accent-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\border-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\border-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\border-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\border-invalid.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\card.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-tri-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-tri-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-tri-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-unsel-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-unsel-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-unsel-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\check-unsel-pressed.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\circle-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\circle-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\circle-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\combo-button-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\combo-button-focus.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\combo-button-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\down.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\empty.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\hor-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\hor-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\hor-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\notebook.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\off-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\off-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\off-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\on-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\on-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\on-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-tri-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-tri-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-tri-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-unsel-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-unsel-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\radio-unsel-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\rect-accent-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\rect-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\rect-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\rect-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\right.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\scale-hor.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\scale-vert.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\separator.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\sizegrip.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\spin-button-down-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\spin-button-down-focus.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\spin-button-up.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\tab-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\tab-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\tab-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\thumb-hor-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\thumb-hor-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\thumb-hor-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\thumb-vert-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\thumb-vert-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\thumb-vert-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\tree-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\tree-pressed.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\up.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\vert-accent.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\vert-basic.png"
+    },
+    {
+      "path": "plugins\\thememaker\\edited\\vert-hover.png"
+    },
+    {
+      "path": "plugins\\thememaker\\example.png"
+    },
+    {
+      "path": "profiles\\currentprofile.txt"
+    },
+    {
+      "path": "requirements.txt"
+    },
+    {
+      "path": "resources\\css\\retype.css"
+    },
+    {
+      "path": "resources\\fonts\\Inter-italic-latin-var.woff2"
+    },
+    {
+      "path": "resources\\fonts\\Inter-roman-latin-var.woff2"
+    },
+    {
+      "path": "resources\\js\\config.js"
+    },
+    {
+      "path": "resources\\js\\lunr.js"
+    },
+    {
+      "path": "resources\\js\\prism.js"
+    },
+    {
+      "path": "resources\\js\\retype.js"
+    },
+    {
+      "path": "resources\\js\\search.json"
+    },
+    {
+      "path": "resources\\lunr.js.LICENSE.txt"
+    },
+    {
+      "path": "resources\\mermaid.js.LICENSE.txt"
+    },
+    {
+      "path": "resources\\prism.js.LICENSE.txt"
+    },
+    {
+      "path": "resources\\retype.js.LICENSE.txt"
+    },
+    {
+      "path": "resources\\retype.LICENSE.txt"
+    },
+    {
+      "path": "robots.txt"
+    },
+    {
+      "path": "sitemap.xml.gz"
+    },
+    {
+      "path": "src\\controls\\index.html"
+    },
+    {
+      "path": "src\\helpers\\index.html"
+    },
+    {
+      "path": "src\\index.html"
+    },
+    {
+      "path": "src\\loading\\index.html"
+    },
+    {
+      "path": "src\\logger\\index.html"
+    },
+    {
+      "path": "src\\mainui\\index.html"
+    },
+    {
+      "path": "src\\nvidia\\information.txt"
+    },
+    {
+      "path": "src\\scslogreader\\index.html"
+    },
+    {
+      "path": "src\\server\\index.html"
+    },
+    {
+      "path": "src\\settings\\index.html"
+    },
+    {
+      "path": "src\\sounds\\index.html"
+    },
+    {
+      "path": "src\\translator\\index.html"
+    },
+    {
+      "path": "src\\variables\\index.html"
+    },
+    {
+      "path": "themes\\forest\\forest\\border-accent-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\border-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\border-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\border-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\border-invalid.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\card.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-tri-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-tri-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-tri-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-unsel-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-unsel-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-unsel-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\check-unsel-pressed.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\circle-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\circle-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\circle-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\combo-button-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\combo-button-focus.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\combo-button-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\down.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\empty.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\hor-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\hor-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\hor-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\notebook.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\off-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\off-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\off-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\on-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\on-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\on-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-tri-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-tri-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-tri-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-unsel-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-unsel-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\radio-unsel-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\rect-accent-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\rect-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\rect-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\rect-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\right.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\scale-hor.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\scale-vert.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\separator.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\sizegrip.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\spin-button-down-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\spin-button-down-focus.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\spin-button-up.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\tab-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\tab-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\tab-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\thumb-hor-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\thumb-hor-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\thumb-hor-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\thumb-vert-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\thumb-vert-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\thumb-vert-hover.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\tree-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\tree-pressed.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\up.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\vert-accent.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\vert-basic.png"
+    },
+    {
+      "path": "themes\\forest\\forest\\vert-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\border-accent-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\border-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\border-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\border-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\border-invalid.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\card.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-tri-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-tri-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-tri-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-unsel-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-unsel-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-unsel-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\check-unsel-pressed.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\circle-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\circle-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\circle-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\combo-button-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\combo-button-focus.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\combo-button-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\down.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\empty.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\hor-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\hor-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\hor-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\notebook.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\off-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\off-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\off-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\on-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\on-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\on-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-tri-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-tri-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-tri-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-unsel-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-unsel-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\radio-unsel-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\rect-accent-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\rect-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\rect-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\rect-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\right.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\scale-hor.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\scale-vert.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\separator.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\sizegrip.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\spin-button-down-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\spin-button-down-focus.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\spin-button-up.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\tab-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\tab-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\tab-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\thumb-hor-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\thumb-hor-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\thumb-hor-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\thumb-vert-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\thumb-vert-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\thumb-vert-hover.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\tree-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\tree-pressed.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\up.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\vert-accent.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\vert-basic.png"
+    },
+    {
+      "path": "themes\\forestred\\forestred\\vert-hover.png"
+    },
+    {
+      "path": "version.txt"
+    }
+  ]
+}

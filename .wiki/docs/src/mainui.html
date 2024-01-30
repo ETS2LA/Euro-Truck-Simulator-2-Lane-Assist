@@ -1,0 +1,1625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.src.mainUI API documentation</title>
+<meta name="description" content="This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.src.mainUI</code></h1>
+</header>
+<section id="section-intro">
+<p>This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements.</p>
+<p>Main functions to take note of for plugins:</p>
+<pre><code class="language-python"># Should be in the following format &quot;plugins.&lt;pluginName&gt;.main&quot;
+switchSelectedPlugin(pluginName:str)
+
+# Will resize the window to the given size.
+resizeWindow(newWidth:int, newHeight:int)
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+This file contains the main UI for the program. It is responsible for creating the window and setting up the main UI elements.
+
+Main functions to take note of for plugins:
+```python
+# Should be in the following format &#34;plugins.&lt;pluginName&gt;.main&#34;
+switchSelectedPlugin(pluginName:str)
+
+# Will resize the window to the given size.
+resizeWindow(newWidth:int, newHeight:int)
+```&#39;&#39;&#39;
+
+from src.logger import print
+import time
+import tkinter as tk
+from tkinter import ttk, messagebox
+import src.helpers as helpers
+from tkinter import font
+import src.variables as variables
+from src.loading import LoadingWindow
+from src.logger import print
+import src.settings as settings
+from src.translator import Translate
+import plugins.ThemeSelector.main as themeSelector
+from tktooltip import ToolTip
+
+root = None
+&#34;&#34;&#34;The root tk.Tk() window of the program.&#34;&#34;&#34;
+
+def DeleteRoot():
+    &#34;&#34;&#34;Will delete the root window and save it&#39;s location.
+    &#34;&#34;&#34;
+    global root
+    
+    # Save the current position
+    x = root.winfo_x()
+    y = root.winfo_y()
+    settings.CreateSettings(&#34;User Interface&#34;, &#34;Position&#34;, [x, y])
+    
+    try:
+        root.destroy()
+        del root
+    except:
+        pass
+
+lastClosedTabName = &#34;About&#34;
+def closeTab(event):
+    &#34;&#34;&#34;Will close a tab based on the tkinter input event. Not intended to be called directly.
+
+    Args:
+        event (tkInputEvent): The input event that was triggered.
+    &#34;&#34;&#34;
+    global lastClosedTabName
+    try:
+        index = pluginNotebook.tk.call(pluginNotebook._w, &#34;identify&#34;, &#34;tab&#34;, event.x, event.y)
+        # Get plugin name from the pluginNotebook
+        pluginName = pluginNotebook.tab(index, &#34;text&#34;)
+        pluginNotebook.forget(index)
+        pluginFrames.pop(index)
+        UIs.pop(index)
+        lastClosedTabName = pluginName
+        settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, pluginName)
+    except:
+        pass
+
+def closeTabName(name:str):
+    &#34;&#34;&#34;Close a tab with the given name.
+
+    Args:
+        name (str): Name of the tab to close.
+    &#34;&#34;&#34;
+    global lastClosedTabName
+    try:
+        for i in range(len(pluginFrames)):
+            if pluginNotebook.tab(i, &#34;text&#34;) == name:
+                pluginNotebook.forget(i)
+                pluginFrames.pop(i)
+                UIs.pop(i)
+                lastClosedTabName = name
+                settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, name)
+                break
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+
+def selectedOtherTab():
+    &#34;&#34;&#34;Will run when the user selects another tab. Not intended to be called directly.
+    &#34;&#34;&#34;
+    try:
+        currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
+        # Run the UI tab focus function
+        if currentUI != None:
+            try:
+                currentUI.tabFocused()
+            except:
+                resizeWindow(width, height)
+        else:
+            resizeWindow(width, height)
+    except:
+        pass
+
+def switchSelectedPlugin(pluginName:str):
+    &#34;&#34;&#34;Will open a new tab with the given plugin name.
+
+    Args:
+        pluginName (str): Enter the plugin name in the format of &#34;plugins.&lt;pluginName&gt;.main&#34;
+    &#34;&#34;&#34;
+    global plugin
+    global pluginFrame
+    global pluginFrames
+    global ui
+    global root
+
+            
+    # Check if the plugin is already loaded
+    notebookNames = []
+    for tab in pluginNotebook.tabs():
+        notebookNames.append(pluginNotebook.tab(tab, &#34;text&#34;))
+    
+    if &#34;main&#34; in pluginName or &#34;src&#34; in pluginName:
+        if pluginName.split(&#34;.&#34;)[1] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(&#34;.&#34;)[1]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+    else:
+        if pluginName.split(&#34;.&#34;)[1] + &#34;.&#34; + pluginName.split(&#34;.&#34;)[2] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(&#34;.&#34;)[1] + &#34;.&#34; + pluginName.split(&#34;.&#34;)[2]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+       
+    plugin = __import__(pluginName, fromlist=[&#34;UI&#34;, &#34;PluginInfo&#34;])
+
+    if plugin.PluginInfo.disablePlugins == True and (settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) != []):
+        if messagebox.askokcancel(&#34;Plugins&#34;, Translate(&#34;The panel has asked to disable all plugins. Do you want to continue?&#34;)):
+            settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [])
+            variables.UpdatePlugins()
+        else: 
+            return
+        
+    if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
+        if messagebox.askokcancel(&#34;Plugins&#34;, Translate(&#34;The panel has asked to disable the mainloop. Do you want to continue?&#34;)):
+            variables.ToggleEnable()
+            enableButton.config(text=(Translate(&#34;Disable&#34;) if variables.ENABLELOOP else Translate(&#34;Enable&#34;)))
+        
+        else: return
+        
+        
+        
+    # Create a new frame for the plugin in the notebook
+    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
+    pluginFrame.pack_propagate(0)
+    pluginFrame.grid_propagate(0)
+    
+    ui = plugin.UI(pluginFrame)
+    UIs.append(ui)
+    
+    pluginFrames.append(pluginFrame)
+    pluginNotebook.add(pluginFrame, text=plugin.PluginInfo.name)
+    
+    pluginNotebook.select(pluginFrames.index(pluginFrame))
+    
+    print(&#34;Loaded &#34; + pluginName)
+    
+    settings.AddToList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, plugin.PluginInfo.name, exclusive=True)
+
+def quit():
+    &#34;&#34;&#34;Will kill the root. This means that the program will close on the next update from the mainloop.
+    &#34;&#34;&#34;
+    global root
+    savePosition()
+    if messagebox.askokcancel(&#34;Quit&#34;, &#34;Do you want to quit?&#34;):
+        # Destroy the root window
+        root.destroy()
+        del root
+
+def drawButtons(refresh:bool=False):
+    &#34;&#34;&#34;Will draw the buttons on the left menu.
+
+    Args:
+        refresh (bool, optional): Will create the root again. Defaults to False.
+    &#34;&#34;&#34;
+    global enableButton
+    global themeButton
+    
+    if refresh or pluginFrames == []:
+        CreateRoot()
+    
+    try:
+        for child in pluginFrames[0].winfo_children():
+            child.destroy()
+    except:
+        pass
+        
+    for child in buttonFrame.winfo_children():
+        child.destroy()
+    
+    try:
+        # Make a label to offset the text and buttons to the center of the frame
+        helpers.MakeLabel(pluginFrames[0], &#34;                      &#34;, 0, 0, autoplace=True)
+        helpers.defaultAutoplaceColumn = 1
+        helpers.MakeLabel(pluginFrames[0], f&#34;You are running ETS2LA version {str(variables.VERSION)}&#34;, 0, 1, columnspan=2, font=(&#34;Roboto&#34;, 18, &#34;bold&#34;), autoplace=True)
+        # date text, month, date, time, year
+        updateTime = str(variables.LASTUPDATE).split(&#34; &#34;)
+        updateTime = updateTime[1:]
+        months = {&#34;Jan&#34;: 1, &#34;Feb&#34;: 2, &#34;Mar&#34;: 3, &#34;Apr&#34;: 4, &#34;May&#34;: 5, &#34;June&#34;: 6, &#34;July&#34;: 7, &#34;Aug&#34;: 8, &#34;Sep&#34;: 9, &#34;Oct&#34;:10, &#34;Nov&#34;: 11, &#34;Dec&#34;: 12}
+        updateTime[0] = months[updateTime[0]]
+        updateText = f&#34;{updateTime[1]}.{updateTime[0]}.{updateTime[3]} - {updateTime[2]} &#34;
+        helpers.MakeLabel(pluginFrames[0], f&#34;Released {updateText}&#34;, 0, 1, columnspan=2, pady=0, autoplace=True)
+        
+        if variables.UPDATEAVAILABLE != False:
+            helpers.MakeLabel(pluginFrames[0], &#34;An update is available!&#34;, 0, 1, columnspan=2, fg=&#34;green&#34;, autoplace=True, tooltip=f&#34;New version: {&#39;.&#39;.join(variables.UPDATEAVAILABLE)}\nRestart to update.&#34;)
+        else: 
+            helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+            
+        helpers.MakeButton(pluginFrames[0], &#34;Panel Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 0, 1, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;Plugin Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 0, 2, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;First Time Setup&#34;, lambda: switchSelectedPlugin(&#34;plugins.FirstTimeSetup.main&#34;), 0, 1, width=20, style=&#34;Accent.TButton&#34;, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;LANGUAGE - 语言设置&#34;, lambda: switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 0, 2, width=20, style=&#34;Accent.TButton&#34;, translate=False, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;Video Tutorial ↗ &#34;, lambda: helpers.OpenInBrowser(&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;), 0, 1, width=20, autoplace=True, tooltip=&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;)
+        helpers.MakeButton(pluginFrames[0], &#34;ETS2LA Wiki ↗ &#34;, lambda: helpers.OpenInBrowser(&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;), 0, 2, width=20, autoplace=True, tooltip=&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;)
+        helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], &#34;You can use F5 to refresh the UI and come back to this page.\n                    (as long as the app is disabled)&#34;, 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], &#34;The top of the app has all your currently open tabs.\n They can be closed with the middle mouse button.\n        (or right mouse button if so configured)&#34;, 0, 1, columnspan=2, autoplace=True)
+        # Make a label to show if crash reporting is enabled or disabled
+        crashReporting = settings.GetSettings(&#34;CrashReporter&#34;, &#34;AllowCrashReports&#34;)
+        if crashReporting != None:
+            if crashReporting:
+                helpers.MakeLabel(pluginFrames[0], &#34;Crash reporting is enabled.&#34;, 0, 1, columnspan=2, fg=&#34;green&#34;, autoplace=True, tooltip=&#34;You can disable it in the settings if you so desire.&#34;)
+            else:
+                helpers.MakeLabel(pluginFrames[0], &#34;Crash reporting is disabled.&#34;, 0, 1, columnspan=2, fg=&#34;red&#34;, autoplace=True, tooltip=&#34;You can enable it in the settings.&#34;)
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+    enableButton = helpers.MakeButton(buttonFrame, &#34;Enable&#34;, lambda: (variables.ToggleEnable(), enableButton.config(text=(&#34;Disable&#34; if variables.ENABLELOOP else &#34;Enable&#34;))), 0, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;)
+    helpers.MakeButton(buttonFrame, &#34;Panels&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 1, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Plugins&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 2, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Performance&#34;, lambda: switchSelectedPlugin(&#34;plugins.Performance.main&#34;), 3, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Settings&#34;, lambda: switchSelectedPlugin(&#34;plugins.Settings.main&#34;), 4, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Controls&#34;, lambda: switchSelectedPlugin(&#34;src.controls&#34;), 5, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Help/About&#34;, lambda: switchSelectedPlugin(&#34;plugins.About.main&#34;), 6, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Feedback&#34;, lambda: switchSelectedPlugin(&#34;plugins.Feedback.main&#34;), 7, 0, width=11, padx=9)
+    import webbrowser
+    helpers.MakeButton(buttonFrame, &#34;Discord&#34;, lambda: webbrowser.open(&#34;https://discord.gg/DpJpkNpqwD&#34;), 8, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;, translate=False)
+
+
+prevFrame = 100
+def update(data:dict):
+    &#34;&#34;&#34;Update the mainUI.
+
+    Args:
+        data (dict): The input data from the mainloop.
+
+    Raises:
+        Exception: The root has been killed, most likely due to closing the app.
+    &#34;&#34;&#34;
+    global fps
+    global prevFrame
+    
+    # Calculate the UI caused overhead
+    frame = time.time()
+    try:
+        fps.set(f&#34;UI FPS: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)&#34;)
+    except: pass
+    prevFrame = frame
+        
+    try:
+        # Update the selected plugin
+        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+        if ui != None:
+            ui.update(data)
+    except Exception as ex:
+        if &#34;&#39;UI&#39; object has no attribute &#39;update&#39;&#34; in str(ex):
+            print(&#34;Currently open panel does not have an update method. Please add one.&#34;)
+        elif &#34;name &#39;ui&#39; is not defined&#34; not in str(ex):
+            print(str(ex))
+        pass
+
+    try:
+        root.update()
+    except:
+        raise Exception(&#34;The main window has been closed.&#34;, &#34;If you closed the app this is normal.&#34;)
+    
+def resizeWindow(newWidth:int, newHeight:int):
+    &#34;&#34;&#34;Will resize the window to the given size.
+
+    Args:
+        newWidth (int)
+        newHeight (int)
+    &#34;&#34;&#34;
+    global root
+    global root
+    # Offsets for the new tabs
+    newHeight += 20
+    newWidth += 40
+    
+    root.geometry(f&#34;{newWidth}x{newHeight}&#34;)
+    pluginNotebook.config(width=newWidth, height=newHeight-20)
+    buttonFrame.config(height=newHeight-20)
+    root.update()
+        
+def changeTheme():
+    &#34;&#34;&#34;Would have changed the theme from dark / light to light / dark. Not currently in use.
+    &#34;&#34;&#34;
+    print(&#34;Changing theme&#34;)
+    from tkinter import messagebox
+    messagebox.showinfo(&#34;Theme&#34;, Translate(&#34;Unfortunately with the change to new themes you can no longer change the mode on the fly.\nThis functionality might return in the future.&#34;))
+    # global themeButton
+    # themeSelector.SwitchThemeType()
+    # themeButton.config(text=Translate(settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)).capitalize() + &#34; Mode&#34;)
+    
+# Save the position of the window if it&#39;s closed
+def savePosition():
+    &#34;&#34;&#34;Will save the current position of the window.
+    &#34;&#34;&#34;
+    global root
+    x = root.winfo_x()
+    y = root.winfo_y()
+    settings.CreateSettings(&#34;User Interface&#34;, &#34;Position&#34;, [x, y])
+
+titlePath = &#34;&#34;    
+def UpdateTitle(extraText:str=&#34;&#34;):
+    &#34;&#34;&#34;Will update the application title.
+
+    Args:
+        extraText (str, optional): Additional text to add after all of the defaults. Defaults to &#34;&#34;.
+
+    Returns:
+        success (bool, optional): If there was an error then this will return False. Otherwise True.
+    &#34;&#34;&#34;
+    showCopyrightInTitlebar = settings.GetSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;)
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
+        showCopyrightInTitlebar = True
+    
+    try:
+        root.title(&#34;Lane Assist - ©Tumppi066 2024 &#34; + titlePath + extraText if showCopyrightInTitlebar else &#34;Lane Assist &#34; + titlePath + extraText)
+        return True
+    except:
+        return False
+
+pluginFrames = []
+UIs = []
+additionals = []
+ui = None
+def CreateRoot():
+    &#34;&#34;&#34;Will create the root window and set it up.
+    &#34;&#34;&#34;
+    global root
+    global buttonFrame
+    global pluginFrames
+    global UIs
+    global pluginNotebook
+    global width
+    global height
+    global fps
+    global fpsLabel
+    
+    # Stack overflow comes to the rescue once again here
+    # https://stackoverflow.com/a/44422362
+    import ctypes
+    wantedAwareness = settings.GetSettings(&#34;User Interface&#34;, &#34;DPIAwareness&#34;, 0)
+
+    # Query DPI Awareness (Windows 10 and 8)
+    awareness = ctypes.c_int()
+    errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
+    #print(&#34;Original DPI awareness value : &#34; + str(awareness.value))
+
+    # Set DPI Awareness  (Windows 10 and 8)
+    try:
+        errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(wantedAwareness)
+        #print(&#34;Set DPI awareness value to &#34; + str(wantedAwareness) + &#34; (code &#34; + str(errorCode) + &#34;)&#34;)
+    except:
+        print(&#34;Failed to set DPI awareness value&#34;)
+        #errorCode = ctypes.windll.user32.SetProcessDPIAware()
+
+    # the argument is the awareness level, which can be 0, 1 or 2:
+    # for 1-to-1 pixel control I seem to need it to be non-zero (I&#39;m using level 2)
+    
+    try:
+        root.destroy()
+    except:
+        pass  
+    
+    width = 800
+    height = 600
+
+    root = tk.Tk()
+    
+    UpdateTitle()
+    
+    # Hack to make windows think we are our own app, and then show our icon
+    import ctypes
+    myappid = u&#39;mycompany.myproduct.subproduct.version&#39; # arbitrary string
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+    root.iconbitmap(default=&#34;assets/favicon.ico&#34;)
+
+    root.resizable(False, False)
+    # Load the size and position
+    position = settings.GetSettings(&#34;User Interface&#34;, &#34;Position&#34;)
+    if position == None:
+        root.geometry(f&#34;{width}x{height}&#34;)
+    else:
+        root.geometry(f&#34;{width}x{height}+{position[0]}+{position[1]}&#34;)
+    root.protocol(&#34;WM_DELETE_WINDOW&#34;, lambda: quit())
+    
+    theme = settings.GetSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;)
+    if theme == None:
+        theme = &#34;Forest&#34;
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;, theme)
+    
+    themeSelector.ChangeTheme(theme, root)
+
+    # Check if an image exists in assets/images/wallpaper.png
+    # If it does then set it as a background image called and then make a canvas
+    try:
+        from PIL import Image, ImageTk
+        image = Image.open(&#34;assets/images/wallpaper.png&#34;)
+        image = image.resize((width, height), Image.Resampling.BILINEAR)
+        image = ImageTk.PhotoImage(image)
+        imageLabel = tk.Label(root, image=image)
+        imageLabel.image = image
+        imageLabel.place(x=0, y=0, relwidth=1, relheight=1)
+    except:
+        pass
+
+    # Bottom text
+    showCopyright = settings.GetSettings(&#34;User Interface&#34;, &#34;ShowCopyright&#34;)
+    if showCopyright == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ShowCopyright&#34;, False)
+        showCopyright = False
+    if showCopyright:
+        ttk.Label(root, text=f&#34;ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2024&#34;, font=(&#34;Roboto&#34;, 8)).pack(side=&#34;bottom&#34;, anchor=&#34;s&#34;, padx=10, pady=0)
+    fps = tk.StringVar()
+    
+    showFps = settings.GetSettings(&#34;User Interface&#34;, &#34;ShowFPS&#34;)
+    if showFps == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ShowFPS&#34;, False)
+        showFps = False
+    if showFps:
+        fpsLabel = ttk.Label(root, textvariable=fps, font=(&#34;Roboto&#34;, 8)).pack(side=&#34;bottom&#34;, anchor=&#34;s&#34;, padx=10, pady=0)
+
+    buttonFrame = ttk.LabelFrame(root, text=&#34;Lane Assist&#34;, width=width-675, height=height-20)
+    
+    buttonFrame.pack_propagate(0)
+    buttonFrame.grid_propagate(0)
+    buttonFrame.pack(side=&#34;left&#34;, anchor=&#34;n&#34;, padx=10, pady=10)
+
+    # Create the plugin notebook
+    pluginNotebook = ttk.Notebook(root, width=width, height=height-20)
+    pluginNotebook.pack_propagate(0)
+    pluginNotebook.grid_propagate(0)
+
+    # Create the page for the main menu
+    pluginFrame = ttk.Frame(pluginNotebook)
+    pluginFrames = []
+    UIs = []
+    pluginFrames.append(pluginFrame)
+    UIs.append(None)
+    pluginNotebook.add(pluginFrame, text=&#34;Main Menu&#34;)
+    
+    pluginNotebook.pack(side=&#34;left&#34;, anchor=&#34;n&#34;, padx=10, pady=10)
+    
+    # Make a callback for selecting another tab
+    pluginNotebook.bind(&#34;&lt;&lt;NotebookTabChanged&gt;&gt;&#34;, lambda e: selectedOtherTab())
+    
+    # Bind middleclick on a tab to close it
+    closeMMB = settings.GetSettings(&#34;User Interface&#34;, &#34;CloseTabMMB&#34;)
+    if closeMMB == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;CloseTabMMB&#34;, True)
+        closeMMB = True
+    closeRMB = settings.GetSettings(&#34;User Interface&#34;, &#34;CloseTabRMB&#34;)
+    if closeRMB == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;CloseTabRMB&#34;, False)
+        closeRMB = False
+        
+    if closeMMB:
+        pluginNotebook.bind(&#34;&lt;Button-2&gt;&#34;, lambda e: closeTab(e))
+    if closeRMB:
+        pluginNotebook.bind(&#34;&lt;Button-3&gt;&#34;, lambda e: closeTab(e))
+    
+    # Bind the custom key to close the tab
+    try:
+        customKey = settings.GetSettings(&#34;User Interface&#34;, &#34;CustomKey&#34;)
+        if customKey != None and customKey != &#34;&#34;:
+            root.bind(f&#34;&lt;{customKey}&gt;&#34;, lambda e: closeTab(e))
+            print(f&#34;Bound &lt;{customKey}&gt; to close tab&#34;)
+    except:
+        print(&#34;Failed to bind custom key to close tab&#34;)
+    
+    # Bind rightclick on a tab to move it to another position
+    # TODO: Make this work
+    # pluginNotebook.bind(&#34;&lt;Button-3&gt;&#34;, lambda e: moveTab(e))
+
+    # Bind CTRL Z to undo closing last tab
+    root.bind(&#34;&lt;Control-z&gt;&#34;, lambda e: switchSelectedPlugin(f&#34;plugins.{lastClosedTabName}.main&#34;))
+
+    def Reload():
+        variables.RELOAD = True
+
+    # Bind F5 to drawButtons
+    root.bind(&#34;&lt;F5&gt;&#34;, lambda e: Reload())
+    print(&#34;Initialized UI&#34;)
+    
+    # Bind movement of the window to save the position
+    # root.bind(&#34;&lt;Configure&gt;&#34;, lambda e: savePosition(e))
+
+    root.update()
+    
+    if theme != &#34;SunValley&#34; and theme != &#34;Forest&#34; and theme != &#34;Azure&#34;:
+        themeSelector.ColorTitleBar(root, override=&#34;0x313131&#34;)
+    else:
+        themeSelector.ColorTitleBar(root)
+        
+    # Open previously open tabs
+    ReopenTabs = settings.GetSettings(&#34;User Interface&#34;, &#34;ReopenTabs&#34;)
+    if ReopenTabs == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ReopenTabs&#34;, True)
+        ReopenTabs = True
+        
+    if settings.GetSettings(&#34;User Interface&#34;, &#34;OpenTabs&#34;) is not None and ReopenTabs:
+        for tab in settings.GetSettings(&#34;User Interface&#34;, &#34;OpenTabs&#34;):
+            print(&#34;Loading &#34; + tab)
+            try:
+                if tab == &#34;controls&#34;:
+                    settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, tab)
+                    continue
+                else:
+                    switchSelectedPlugin(f&#34;plugins.{tab}.main&#34;)
+            except Exception as ex:
+                print(ex.args)
+                pass
+
+    print(&#34;Loaded previously open tabs&#34;)
+    
+    root.update()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.root"><code class="name">var <span class="ident">root</span></code></dt>
+<dd>
+<div class="desc"><p>The root tk.Tk() window of the program.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.CreateRoot"><code class="name flex">
+<span>def <span class="ident">CreateRoot</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will create the root window and set it up.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CreateRoot():
+    &#34;&#34;&#34;Will create the root window and set it up.
+    &#34;&#34;&#34;
+    global root
+    global buttonFrame
+    global pluginFrames
+    global UIs
+    global pluginNotebook
+    global width
+    global height
+    global fps
+    global fpsLabel
+    
+    # Stack overflow comes to the rescue once again here
+    # https://stackoverflow.com/a/44422362
+    import ctypes
+    wantedAwareness = settings.GetSettings(&#34;User Interface&#34;, &#34;DPIAwareness&#34;, 0)
+
+    # Query DPI Awareness (Windows 10 and 8)
+    awareness = ctypes.c_int()
+    errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
+    #print(&#34;Original DPI awareness value : &#34; + str(awareness.value))
+
+    # Set DPI Awareness  (Windows 10 and 8)
+    try:
+        errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(wantedAwareness)
+        #print(&#34;Set DPI awareness value to &#34; + str(wantedAwareness) + &#34; (code &#34; + str(errorCode) + &#34;)&#34;)
+    except:
+        print(&#34;Failed to set DPI awareness value&#34;)
+        #errorCode = ctypes.windll.user32.SetProcessDPIAware()
+
+    # the argument is the awareness level, which can be 0, 1 or 2:
+    # for 1-to-1 pixel control I seem to need it to be non-zero (I&#39;m using level 2)
+    
+    try:
+        root.destroy()
+    except:
+        pass  
+    
+    width = 800
+    height = 600
+
+    root = tk.Tk()
+    
+    UpdateTitle()
+    
+    # Hack to make windows think we are our own app, and then show our icon
+    import ctypes
+    myappid = u&#39;mycompany.myproduct.subproduct.version&#39; # arbitrary string
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+    root.iconbitmap(default=&#34;assets/favicon.ico&#34;)
+
+    root.resizable(False, False)
+    # Load the size and position
+    position = settings.GetSettings(&#34;User Interface&#34;, &#34;Position&#34;)
+    if position == None:
+        root.geometry(f&#34;{width}x{height}&#34;)
+    else:
+        root.geometry(f&#34;{width}x{height}+{position[0]}+{position[1]}&#34;)
+    root.protocol(&#34;WM_DELETE_WINDOW&#34;, lambda: quit())
+    
+    theme = settings.GetSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;)
+    if theme == None:
+        theme = &#34;Forest&#34;
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ColorTheme&#34;, theme)
+    
+    themeSelector.ChangeTheme(theme, root)
+
+    # Check if an image exists in assets/images/wallpaper.png
+    # If it does then set it as a background image called and then make a canvas
+    try:
+        from PIL import Image, ImageTk
+        image = Image.open(&#34;assets/images/wallpaper.png&#34;)
+        image = image.resize((width, height), Image.Resampling.BILINEAR)
+        image = ImageTk.PhotoImage(image)
+        imageLabel = tk.Label(root, image=image)
+        imageLabel.image = image
+        imageLabel.place(x=0, y=0, relwidth=1, relheight=1)
+    except:
+        pass
+
+    # Bottom text
+    showCopyright = settings.GetSettings(&#34;User Interface&#34;, &#34;ShowCopyright&#34;)
+    if showCopyright == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ShowCopyright&#34;, False)
+        showCopyright = False
+    if showCopyright:
+        ttk.Label(root, text=f&#34;ETS2 Lane Assist ({variables.VERSION})   ©Tumppi066 - 2024&#34;, font=(&#34;Roboto&#34;, 8)).pack(side=&#34;bottom&#34;, anchor=&#34;s&#34;, padx=10, pady=0)
+    fps = tk.StringVar()
+    
+    showFps = settings.GetSettings(&#34;User Interface&#34;, &#34;ShowFPS&#34;)
+    if showFps == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ShowFPS&#34;, False)
+        showFps = False
+    if showFps:
+        fpsLabel = ttk.Label(root, textvariable=fps, font=(&#34;Roboto&#34;, 8)).pack(side=&#34;bottom&#34;, anchor=&#34;s&#34;, padx=10, pady=0)
+
+    buttonFrame = ttk.LabelFrame(root, text=&#34;Lane Assist&#34;, width=width-675, height=height-20)
+    
+    buttonFrame.pack_propagate(0)
+    buttonFrame.grid_propagate(0)
+    buttonFrame.pack(side=&#34;left&#34;, anchor=&#34;n&#34;, padx=10, pady=10)
+
+    # Create the plugin notebook
+    pluginNotebook = ttk.Notebook(root, width=width, height=height-20)
+    pluginNotebook.pack_propagate(0)
+    pluginNotebook.grid_propagate(0)
+
+    # Create the page for the main menu
+    pluginFrame = ttk.Frame(pluginNotebook)
+    pluginFrames = []
+    UIs = []
+    pluginFrames.append(pluginFrame)
+    UIs.append(None)
+    pluginNotebook.add(pluginFrame, text=&#34;Main Menu&#34;)
+    
+    pluginNotebook.pack(side=&#34;left&#34;, anchor=&#34;n&#34;, padx=10, pady=10)
+    
+    # Make a callback for selecting another tab
+    pluginNotebook.bind(&#34;&lt;&lt;NotebookTabChanged&gt;&gt;&#34;, lambda e: selectedOtherTab())
+    
+    # Bind middleclick on a tab to close it
+    closeMMB = settings.GetSettings(&#34;User Interface&#34;, &#34;CloseTabMMB&#34;)
+    if closeMMB == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;CloseTabMMB&#34;, True)
+        closeMMB = True
+    closeRMB = settings.GetSettings(&#34;User Interface&#34;, &#34;CloseTabRMB&#34;)
+    if closeRMB == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;CloseTabRMB&#34;, False)
+        closeRMB = False
+        
+    if closeMMB:
+        pluginNotebook.bind(&#34;&lt;Button-2&gt;&#34;, lambda e: closeTab(e))
+    if closeRMB:
+        pluginNotebook.bind(&#34;&lt;Button-3&gt;&#34;, lambda e: closeTab(e))
+    
+    # Bind the custom key to close the tab
+    try:
+        customKey = settings.GetSettings(&#34;User Interface&#34;, &#34;CustomKey&#34;)
+        if customKey != None and customKey != &#34;&#34;:
+            root.bind(f&#34;&lt;{customKey}&gt;&#34;, lambda e: closeTab(e))
+            print(f&#34;Bound &lt;{customKey}&gt; to close tab&#34;)
+    except:
+        print(&#34;Failed to bind custom key to close tab&#34;)
+    
+    # Bind rightclick on a tab to move it to another position
+    # TODO: Make this work
+    # pluginNotebook.bind(&#34;&lt;Button-3&gt;&#34;, lambda e: moveTab(e))
+
+    # Bind CTRL Z to undo closing last tab
+    root.bind(&#34;&lt;Control-z&gt;&#34;, lambda e: switchSelectedPlugin(f&#34;plugins.{lastClosedTabName}.main&#34;))
+
+    def Reload():
+        variables.RELOAD = True
+
+    # Bind F5 to drawButtons
+    root.bind(&#34;&lt;F5&gt;&#34;, lambda e: Reload())
+    print(&#34;Initialized UI&#34;)
+    
+    # Bind movement of the window to save the position
+    # root.bind(&#34;&lt;Configure&gt;&#34;, lambda e: savePosition(e))
+
+    root.update()
+    
+    if theme != &#34;SunValley&#34; and theme != &#34;Forest&#34; and theme != &#34;Azure&#34;:
+        themeSelector.ColorTitleBar(root, override=&#34;0x313131&#34;)
+    else:
+        themeSelector.ColorTitleBar(root)
+        
+    # Open previously open tabs
+    ReopenTabs = settings.GetSettings(&#34;User Interface&#34;, &#34;ReopenTabs&#34;)
+    if ReopenTabs == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;ReopenTabs&#34;, True)
+        ReopenTabs = True
+        
+    if settings.GetSettings(&#34;User Interface&#34;, &#34;OpenTabs&#34;) is not None and ReopenTabs:
+        for tab in settings.GetSettings(&#34;User Interface&#34;, &#34;OpenTabs&#34;):
+            print(&#34;Loading &#34; + tab)
+            try:
+                if tab == &#34;controls&#34;:
+                    settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, tab)
+                    continue
+                else:
+                    switchSelectedPlugin(f&#34;plugins.{tab}.main&#34;)
+            except Exception as ex:
+                print(ex.args)
+                pass
+
+    print(&#34;Loaded previously open tabs&#34;)
+    
+    root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.DeleteRoot"><code class="name flex">
+<span>def <span class="ident">DeleteRoot</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will delete the root window and save it's location.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DeleteRoot():
+    &#34;&#34;&#34;Will delete the root window and save it&#39;s location.
+    &#34;&#34;&#34;
+    global root
+    
+    # Save the current position
+    x = root.winfo_x()
+    y = root.winfo_y()
+    settings.CreateSettings(&#34;User Interface&#34;, &#34;Position&#34;, [x, y])
+    
+    try:
+        root.destroy()
+        del root
+    except:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.UpdateTitle"><code class="name flex">
+<span>def <span class="ident">UpdateTitle</span></span>(<span>extraText: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will update the application title.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>extraText</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Additional text to add after all of the defaults. Defaults to "".</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>success (bool, optional): If there was an error then this will return False. Otherwise True.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def UpdateTitle(extraText:str=&#34;&#34;):
+    &#34;&#34;&#34;Will update the application title.
+
+    Args:
+        extraText (str, optional): Additional text to add after all of the defaults. Defaults to &#34;&#34;.
+
+    Returns:
+        success (bool, optional): If there was an error then this will return False. Otherwise True.
+    &#34;&#34;&#34;
+    showCopyrightInTitlebar = settings.GetSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;)
+    if showCopyrightInTitlebar == None:
+        settings.CreateSettings(&#34;User Interface&#34;, &#34;TitleCopyright&#34;, True)
+        showCopyrightInTitlebar = True
+    
+    try:
+        root.title(&#34;Lane Assist - ©Tumppi066 2024 &#34; + titlePath + extraText if showCopyrightInTitlebar else &#34;Lane Assist &#34; + titlePath + extraText)
+        return True
+    except:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.changeTheme"><code class="name flex">
+<span>def <span class="ident">changeTheme</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Would have changed the theme from dark / light to light / dark. Not currently in use.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def changeTheme():
+    &#34;&#34;&#34;Would have changed the theme from dark / light to light / dark. Not currently in use.
+    &#34;&#34;&#34;
+    print(&#34;Changing theme&#34;)
+    from tkinter import messagebox
+    messagebox.showinfo(&#34;Theme&#34;, Translate(&#34;Unfortunately with the change to new themes you can no longer change the mode on the fly.\nThis functionality might return in the future.&#34;))
+    # global themeButton
+    # themeSelector.SwitchThemeType()
+    # themeButton.config(text=Translate(settings.GetSettings(&#34;User Interface&#34;, &#34;Theme&#34;)).capitalize() + &#34; Mode&#34;)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTab"><code class="name flex">
+<span>def <span class="ident">closeTab</span></span>(<span>event)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will close a tab based on the tkinter input event. Not intended to be called directly.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>event</code></strong> :&ensp;<code>tkInputEvent</code></dt>
+<dd>The input event that was triggered.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def closeTab(event):
+    &#34;&#34;&#34;Will close a tab based on the tkinter input event. Not intended to be called directly.
+
+    Args:
+        event (tkInputEvent): The input event that was triggered.
+    &#34;&#34;&#34;
+    global lastClosedTabName
+    try:
+        index = pluginNotebook.tk.call(pluginNotebook._w, &#34;identify&#34;, &#34;tab&#34;, event.x, event.y)
+        # Get plugin name from the pluginNotebook
+        pluginName = pluginNotebook.tab(index, &#34;text&#34;)
+        pluginNotebook.forget(index)
+        pluginFrames.pop(index)
+        UIs.pop(index)
+        lastClosedTabName = pluginName
+        settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, pluginName)
+    except:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTabName"><code class="name flex">
+<span>def <span class="ident">closeTabName</span></span>(<span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Close a tab with the given name.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the tab to close.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def closeTabName(name:str):
+    &#34;&#34;&#34;Close a tab with the given name.
+
+    Args:
+        name (str): Name of the tab to close.
+    &#34;&#34;&#34;
+    global lastClosedTabName
+    try:
+        for i in range(len(pluginFrames)):
+            if pluginNotebook.tab(i, &#34;text&#34;) == name:
+                pluginNotebook.forget(i)
+                pluginFrames.pop(i)
+                UIs.pop(i)
+                lastClosedTabName = name
+                settings.RemoveFromList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, name)
+                break
+    except:
+        import traceback
+        traceback.print_exc()
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.drawButtons"><code class="name flex">
+<span>def <span class="ident">drawButtons</span></span>(<span>refresh: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will draw the buttons on the left menu.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>refresh</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Will create the root again. Defaults to False.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drawButtons(refresh:bool=False):
+    &#34;&#34;&#34;Will draw the buttons on the left menu.
+
+    Args:
+        refresh (bool, optional): Will create the root again. Defaults to False.
+    &#34;&#34;&#34;
+    global enableButton
+    global themeButton
+    
+    if refresh or pluginFrames == []:
+        CreateRoot()
+    
+    try:
+        for child in pluginFrames[0].winfo_children():
+            child.destroy()
+    except:
+        pass
+        
+    for child in buttonFrame.winfo_children():
+        child.destroy()
+    
+    try:
+        # Make a label to offset the text and buttons to the center of the frame
+        helpers.MakeLabel(pluginFrames[0], &#34;                      &#34;, 0, 0, autoplace=True)
+        helpers.defaultAutoplaceColumn = 1
+        helpers.MakeLabel(pluginFrames[0], f&#34;You are running ETS2LA version {str(variables.VERSION)}&#34;, 0, 1, columnspan=2, font=(&#34;Roboto&#34;, 18, &#34;bold&#34;), autoplace=True)
+        # date text, month, date, time, year
+        updateTime = str(variables.LASTUPDATE).split(&#34; &#34;)
+        updateTime = updateTime[1:]
+        months = {&#34;Jan&#34;: 1, &#34;Feb&#34;: 2, &#34;Mar&#34;: 3, &#34;Apr&#34;: 4, &#34;May&#34;: 5, &#34;June&#34;: 6, &#34;July&#34;: 7, &#34;Aug&#34;: 8, &#34;Sep&#34;: 9, &#34;Oct&#34;:10, &#34;Nov&#34;: 11, &#34;Dec&#34;: 12}
+        updateTime[0] = months[updateTime[0]]
+        updateText = f&#34;{updateTime[1]}.{updateTime[0]}.{updateTime[3]} - {updateTime[2]} &#34;
+        helpers.MakeLabel(pluginFrames[0], f&#34;Released {updateText}&#34;, 0, 1, columnspan=2, pady=0, autoplace=True)
+        
+        if variables.UPDATEAVAILABLE != False:
+            helpers.MakeLabel(pluginFrames[0], &#34;An update is available!&#34;, 0, 1, columnspan=2, fg=&#34;green&#34;, autoplace=True, tooltip=f&#34;New version: {&#39;.&#39;.join(variables.UPDATEAVAILABLE)}\nRestart to update.&#34;)
+        else: 
+            helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+            
+        helpers.MakeButton(pluginFrames[0], &#34;Panel Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 0, 1, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;Plugin Manager&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 0, 2, width=20, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;First Time Setup&#34;, lambda: switchSelectedPlugin(&#34;plugins.FirstTimeSetup.main&#34;), 0, 1, width=20, style=&#34;Accent.TButton&#34;, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;LANGUAGE - 语言设置&#34;, lambda: switchSelectedPlugin(&#34;plugins.DeepTranslator.main&#34;), 0, 2, width=20, style=&#34;Accent.TButton&#34;, translate=False, autoplace=True)
+        helpers.MakeButton(pluginFrames[0], &#34;Video Tutorial ↗ &#34;, lambda: helpers.OpenInBrowser(&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;), 0, 1, width=20, autoplace=True, tooltip=&#34;https://www.youtube.com/watch?v=0pic0rzjvik&#34;)
+        helpers.MakeButton(pluginFrames[0], &#34;ETS2LA Wiki ↗ &#34;, lambda: helpers.OpenInBrowser(&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;), 0, 2, width=20, autoplace=True, tooltip=&#34;https://wiki.tumppi066.fi/en/LaneAssist&#34;)
+        helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], &#34;You can use F5 to refresh the UI and come back to this page.\n                    (as long as the app is disabled)&#34;, 0, 1, columnspan=2, autoplace=True)
+        helpers.MakeLabel(pluginFrames[0], &#34;The top of the app has all your currently open tabs.\n They can be closed with the middle mouse button.\n        (or right mouse button if so configured)&#34;, 0, 1, columnspan=2, autoplace=True)
+        # Make a label to show if crash reporting is enabled or disabled
+        crashReporting = settings.GetSettings(&#34;CrashReporter&#34;, &#34;AllowCrashReports&#34;)
+        if crashReporting != None:
+            if crashReporting:
+                helpers.MakeLabel(pluginFrames[0], &#34;Crash reporting is enabled.&#34;, 0, 1, columnspan=2, fg=&#34;green&#34;, autoplace=True, tooltip=&#34;You can disable it in the settings if you so desire.&#34;)
+            else:
+                helpers.MakeLabel(pluginFrames[0], &#34;Crash reporting is disabled.&#34;, 0, 1, columnspan=2, fg=&#34;red&#34;, autoplace=True, tooltip=&#34;You can enable it in the settings.&#34;)
+    except:
+        import traceback
+        traceback.print_exc()
+        pass
+    enableButton = helpers.MakeButton(buttonFrame, &#34;Enable&#34;, lambda: (variables.ToggleEnable(), enableButton.config(text=(&#34;Disable&#34; if variables.ENABLELOOP else &#34;Enable&#34;))), 0, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;)
+    helpers.MakeButton(buttonFrame, &#34;Panels&#34;, lambda: switchSelectedPlugin(&#34;plugins.PanelManager.main&#34;), 1, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Plugins&#34;, lambda: switchSelectedPlugin(&#34;plugins.PluginManager.main&#34;), 2, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Performance&#34;, lambda: switchSelectedPlugin(&#34;plugins.Performance.main&#34;), 3, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Settings&#34;, lambda: switchSelectedPlugin(&#34;plugins.Settings.main&#34;), 4, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Controls&#34;, lambda: switchSelectedPlugin(&#34;src.controls&#34;), 5, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Help/About&#34;, lambda: switchSelectedPlugin(&#34;plugins.About.main&#34;), 6, 0, width=11, padx=9)
+    helpers.MakeButton(buttonFrame, &#34;Feedback&#34;, lambda: switchSelectedPlugin(&#34;plugins.Feedback.main&#34;), 7, 0, width=11, padx=9)
+    import webbrowser
+    helpers.MakeButton(buttonFrame, &#34;Discord&#34;, lambda: webbrowser.open(&#34;https://discord.gg/DpJpkNpqwD&#34;), 8, 0, width=11, padx=9, style=&#34;Accent.TButton&#34;, translate=False)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.quit"><code class="name flex">
+<span>def <span class="ident">quit</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will kill the root. This means that the program will close on the next update from the mainloop.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def quit():
+    &#34;&#34;&#34;Will kill the root. This means that the program will close on the next update from the mainloop.
+    &#34;&#34;&#34;
+    global root
+    savePosition()
+    if messagebox.askokcancel(&#34;Quit&#34;, &#34;Do you want to quit?&#34;):
+        # Destroy the root window
+        root.destroy()
+        del root</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.resizeWindow"><code class="name flex">
+<span>def <span class="ident">resizeWindow</span></span>(<span>newWidth: int, newHeight: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will resize the window to the given size.</p>
+<h2 id="args">Args</h2>
+<p>newWidth (int)
+newHeight (int)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def resizeWindow(newWidth:int, newHeight:int):
+    &#34;&#34;&#34;Will resize the window to the given size.
+
+    Args:
+        newWidth (int)
+        newHeight (int)
+    &#34;&#34;&#34;
+    global root
+    global root
+    # Offsets for the new tabs
+    newHeight += 20
+    newWidth += 40
+    
+    root.geometry(f&#34;{newWidth}x{newHeight}&#34;)
+    pluginNotebook.config(width=newWidth, height=newHeight-20)
+    buttonFrame.config(height=newHeight-20)
+    root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.savePosition"><code class="name flex">
+<span>def <span class="ident">savePosition</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will save the current position of the window.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def savePosition():
+    &#34;&#34;&#34;Will save the current position of the window.
+    &#34;&#34;&#34;
+    global root
+    x = root.winfo_x()
+    y = root.winfo_y()
+    settings.CreateSettings(&#34;User Interface&#34;, &#34;Position&#34;, [x, y])</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.selectedOtherTab"><code class="name flex">
+<span>def <span class="ident">selectedOtherTab</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will run when the user selects another tab. Not intended to be called directly.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def selectedOtherTab():
+    &#34;&#34;&#34;Will run when the user selects another tab. Not intended to be called directly.
+    &#34;&#34;&#34;
+    try:
+        currentUI = UIs[pluginNotebook.index(pluginNotebook.select())]
+        # Run the UI tab focus function
+        if currentUI != None:
+            try:
+                currentUI.tabFocused()
+            except:
+                resizeWindow(width, height)
+        else:
+            resizeWindow(width, height)
+    except:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.switchSelectedPlugin"><code class="name flex">
+<span>def <span class="ident">switchSelectedPlugin</span></span>(<span>pluginName: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Will open a new tab with the given plugin name.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pluginName</code></strong> :&ensp;<code>str</code></dt>
+<dd>Enter the plugin name in the format of "plugins.<pluginName>.main"</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def switchSelectedPlugin(pluginName:str):
+    &#34;&#34;&#34;Will open a new tab with the given plugin name.
+
+    Args:
+        pluginName (str): Enter the plugin name in the format of &#34;plugins.&lt;pluginName&gt;.main&#34;
+    &#34;&#34;&#34;
+    global plugin
+    global pluginFrame
+    global pluginFrames
+    global ui
+    global root
+
+            
+    # Check if the plugin is already loaded
+    notebookNames = []
+    for tab in pluginNotebook.tabs():
+        notebookNames.append(pluginNotebook.tab(tab, &#34;text&#34;))
+    
+    if &#34;main&#34; in pluginName or &#34;src&#34; in pluginName:
+        if pluginName.split(&#34;.&#34;)[1] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(&#34;.&#34;)[1]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+    else:
+        if pluginName.split(&#34;.&#34;)[1] + &#34;.&#34; + pluginName.split(&#34;.&#34;)[2] in notebookNames:
+            pluginNotebook.select(notebookNames.index(pluginName.split(&#34;.&#34;)[1] + &#34;.&#34; + pluginName.split(&#34;.&#34;)[2]))
+            ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            return
+       
+    plugin = __import__(pluginName, fromlist=[&#34;UI&#34;, &#34;PluginInfo&#34;])
+
+    if plugin.PluginInfo.disablePlugins == True and (settings.GetSettings(&#34;Plugins&#34;, &#34;Enabled&#34;) != []):
+        if messagebox.askokcancel(&#34;Plugins&#34;, Translate(&#34;The panel has asked to disable all plugins. Do you want to continue?&#34;)):
+            settings.CreateSettings(&#34;Plugins&#34;, &#34;Enabled&#34;, [])
+            variables.UpdatePlugins()
+        else: 
+            return
+        
+    if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
+        if messagebox.askokcancel(&#34;Plugins&#34;, Translate(&#34;The panel has asked to disable the mainloop. Do you want to continue?&#34;)):
+            variables.ToggleEnable()
+            enableButton.config(text=(Translate(&#34;Disable&#34;) if variables.ENABLELOOP else Translate(&#34;Enable&#34;)))
+        
+        else: return
+        
+        
+        
+    # Create a new frame for the plugin in the notebook
+    pluginFrame = ttk.Frame(pluginNotebook, width=width, height=height-20)
+    pluginFrame.pack_propagate(0)
+    pluginFrame.grid_propagate(0)
+    
+    ui = plugin.UI(pluginFrame)
+    UIs.append(ui)
+    
+    pluginFrames.append(pluginFrame)
+    pluginNotebook.add(pluginFrame, text=plugin.PluginInfo.name)
+    
+    pluginNotebook.select(pluginFrames.index(pluginFrame))
+    
+    print(&#34;Loaded &#34; + pluginName)
+    
+    settings.AddToList(&#34;User Interface&#34;, &#34;OpenTabs&#34;, plugin.PluginInfo.name, exclusive=True)</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>data: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the mainUI.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>The input data from the mainloop.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>The root has been killed, most likely due to closing the app.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(data:dict):
+    &#34;&#34;&#34;Update the mainUI.
+
+    Args:
+        data (dict): The input data from the mainloop.
+
+    Raises:
+        Exception: The root has been killed, most likely due to closing the app.
+    &#34;&#34;&#34;
+    global fps
+    global prevFrame
+    
+    # Calculate the UI caused overhead
+    frame = time.time()
+    try:
+        fps.set(f&#34;UI FPS: {round((frame-prevFrame)*1000)}ms ({round(1/(frame-prevFrame))}fps)&#34;)
+    except: pass
+    prevFrame = frame
+        
+    try:
+        # Update the selected plugin
+        ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+        if ui != None:
+            ui.update(data)
+    except Exception as ex:
+        if &#34;&#39;UI&#39; object has no attribute &#39;update&#39;&#34; in str(ex):
+            print(&#34;Currently open panel does not have an update method. Please add one.&#34;)
+        elif &#34;name &#39;ui&#39; is not defined&#34; not in str(ex):
+            print(str(ex))
+        pass
+
+    try:
+        root.update()
+    except:
+        raise Exception(&#34;The main window has been closed.&#34;, &#34;If you closed the app this is normal.&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.root" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.root">root</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.CreateRoot" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.CreateRoot">CreateRoot</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.DeleteRoot" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.DeleteRoot">DeleteRoot</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.UpdateTitle" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.UpdateTitle">UpdateTitle</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.changeTheme" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.changeTheme">changeTheme</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTab" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTab">closeTab</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTabName" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.closeTabName">closeTabName</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.drawButtons" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.drawButtons">drawButtons</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.quit" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.quit">quit</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.resizeWindow" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.resizeWindow">resizeWindow</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.savePosition" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.savePosition">savePosition</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.selectedOtherTab" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.selectedOtherTab">selectedOtherTab</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.switchSelectedPlugin" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.switchSelectedPlugin">switchSelectedPlugin</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.src.mainUI.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

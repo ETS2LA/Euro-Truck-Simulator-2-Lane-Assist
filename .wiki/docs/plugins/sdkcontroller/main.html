@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main API documentation</title>
+<meta name="description" content="The main file." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/ir-black.min.css" crossorigin>
+<style>
+:root {
+--highlight-color: #202;
+}
+html {
+scrollbar-face-color: #646464;
+scrollbar-base-color: #646464;
+scrollbar-3dlight-color: #646464;
+scrollbar-highlight-color: #646464;
+scrollbar-track-color: #000;
+scrollbar-arrow-color: #000;
+scrollbar-shadow-color: #646464;
+scrollbar-dark-shadow-color: #646464;
+}
+::-webkit-scrollbar { width: 14px; height: 3px;}
+::-webkit-scrollbar-button {
+background-color: #000;
+height: 3px;}
+::-webkit-scrollbar-track {
+background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 7px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+.flex {
+display: flex !important;
+}
+body {
+line-height: 1.5em;
+color: #fff;
+background-color: #1e1e1e;
+font: 14px/1.5 Helvetica, Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+#content {
+padding: 20px;
+}
+#sidebar {
+padding: 30px;
+overflow: hidden;
+}
+#sidebar>*:last-child {
+margin-bottom: 2cm;
+}
+.http-server-breadcrumbs {
+font-size: 130%;
+margin: 0 0 15px 0;
+}
+#footer {
+font-size: .75em;
+padding: 5px 30px;
+border-top: 1px solid #fff;
+text-align: right;
+}
+#footer p {
+margin: 0 0 0 1em;
+display: inline-block;
+}
+#footer p:last-child {
+margin-right: 30px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+font-weight: 300;
+color: #fff;
+}
+h1 {
+font-size: 2.5em;
+line-height: 1.1em;
+}
+h2 {
+font-size: 1.75em;
+margin: 1em 0 .50em 0;
+}
+h3 {
+font-size: 1.4em;
+margin: 25px 0 10px 0;
+}
+h4 {
+margin: 0;
+font-size: 105%;
+}
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+background: #1e1e1e;
+padding: 0.2em 0;
+}
+a {
+color: #8fd6fc;
+text-decoration: none;
+transition: color .3s ease-in-out;
+}
+a:hover {
+color: #00a4fc;
+}
+.title code {
+font-weight: bold;
+}
+h2[id^="header-"] {
+margin-top: 2em;
+}
+.ident {
+color: #f6fc85;
+}
+strong {
+color: #8fd6fc;
+}
+pre code {
+background: transparent;
+font-size: .8em;
+line-height: 1.4em;
+}
+code {
+background: rgba(255, 255, 255, 0.1);
+padding: 1px 4px;
+overflow-wrap: break-word;
+}
+h1 code {
+background: transparent
+}
+pre {
+background: transparent;
+border: 0;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 1em 0;
+padding: 1ex;
+}
+#http-server-module-list {
+display: flex;
+flex-flow: column;
+}
+#http-server-module-list div {
+display: flex;
+}
+#http-server-module-list dt {
+min-width: 10%;
+}
+#http-server-module-list p {
+margin-top: 0;
+}
+.toc ul,
+#index {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+#index code {
+background: transparent;
+}
+#index h3 {
+border-bottom: 1px solid #ddd;
+}
+#index ul {
+padding: 0;
+}
+#index h4 {
+margin-top: .6em;
+font-weight: bold;
+}
+/* Make TOC lists have 2+ columns when viewport is wide enough.
+Assuming ~20-character identifiers and ~30% wide sidebar. */
+@media (min-width: 200ex) {
+#index .two-column {
+column-count: 2
+}
+}
+@media (min-width: 300ex) {
+#index .two-column {
+column-count: 3
+}
+}
+dl {
+margin-bottom: 2em;
+}
+dl dl:last-child {
+margin-bottom: 4em;
+}
+dd {
+margin: 0 0 1em 3em;
+}
+#header-classes+dl>dd {
+margin-bottom: 3em;
+}
+dd dd {
+margin-left: 2em;
+}
+dd p {
+margin: 10px 0;
+}
+.name {
+background: #000;
+font-weight: bold;
+font-size: .85em;
+padding: 5px 10px;
+display: inline-block;
+min-width: 40%;
+}
+.name:hover {
+background: #0b0b0b;
+}
+dt:target .name {
+background: var(--highlight-color);
+}
+.name>span:first-child {
+white-space: nowrap;
+}
+.name.class>span:nth-child(2) {
+margin-left: .4em;
+}
+.inherited {
+color: #999;
+border-left: 5px solid #eee;
+padding-left: 1em;
+}
+.inheritance em {
+font-style: normal;
+font-weight: bold;
+}
+.pydefname {
+color: #f90;
+}
+/* Docstrings titles, e.g. in numpydoc format */
+.desc h2 {
+font-weight: 400;
+font-size: 1.25em;
+}
+.desc h3 {
+font-size: 1em;
+}
+.desc dt code {
+background: inherit;
+/* Don't grey-back parameters */
+}
+.source summary,
+.git-link-div {
+color: #666;
+text-align: right;
+font-weight: 400;
+font-size: .8em;
+text-transform: uppercase;
+}
+.source summary>* {
+white-space: nowrap;
+cursor: pointer;
+}
+.git-link {
+color: inherit;
+margin-left: 1em;
+}
+.source pre {
+max-height: 500px;
+overflow: auto;
+margin: 0;
+}
+.source pre code {
+font-size: 12px;
+overflow: visible;
+}
+.hlist {
+list-style: none;
+}
+.hlist li {
+display: inline;
+}
+.hlist li:after {
+content: ',\2002';
+}
+.hlist li:last-child:after {
+content: none;
+}
+.hlist .hlist {
+display: inline;
+padding-left: 1em;
+}
+img {
+max-width: 100%;
+}
+td {
+padding: 0 .5em;
+}
+.admonition {
+padding: .1em .5em;
+margin-bottom: 1em;
+}
+.admonition-title {
+font-weight: bold;
+}
+.admonition.note,
+.admonition.info,
+.admonition.important {
+background: #00a;
+}
+.admonition.todo,
+.admonition.versionadded,
+.admonition.tip,
+.admonition.hint {
+background: #050;
+}
+.admonition.warning,
+.admonition.versionchanged,
+.admonition.deprecated {
+background: #ec0;
+}
+.admonition.error,
+.admonition.danger,
+.admonition.caution {
+background: #c20010;
+}
+p {
+color: #fff;
+}
+</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main</code></h1>
+</header>
+<section id="section-intro">
+<p>The main file.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+The main file.
+&#34;&#34;&#34;
+
+
+from plugins.plugin import PluginInformation
+from src.logger import print
+
+PluginInfo = PluginInformation(
+    name=&#34;SDKController&#34;, # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    description=&#34;Send data to the game with the SDK.&#34;,
+    version=&#34;0.1&#34;,
+    author=&#34;Tumppi066&#34;,
+    url=&#34;https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist&#34;,
+    type=&#34;dynamic&#34;, # = Panel
+    dynamicOrder=&#34;before UI&#34; # Will run the plugin before anything else in the mainloop (data will be empty)
+)
+
+import tkinter as tk
+from tkinter import ttk
+import src.helpers as helpers
+import src.mainUI as mainUI
+import src.variables as variables
+import src.settings as settings
+import src.controls as controls # use controls.RegisterKeybind() and controls.GetKeybindValue()
+import struct
+import time
+from src.translator import Translate
+import src.controls as controls
+
+controls.RegisterKeybind(&#34;Test SDK button&#34;, notBoundInfo=&#34;This is intended for developers.&#34;, description=&#34;Will test the button selected in the SDK Controller UI.&#34;)
+
+mmName = r&#34;Local\SCSControls&#34;
+floatCount = 4
+floatSize = 4
+boolCount = 38
+boolSize = 1
+size = floatCount * floatSize + boolCount * boolSize
+
+def tryExceptDefault(data, dataPath, default):
+    &#34;&#34;&#34;Tries to get data from the data variable, if it fails returns the default value.&#34;&#34;&#34;
+    # Datapath is an array of strings
+    try:
+        workingData = data
+        for i in dataPath:
+            workingData = workingData[i]
+        return workingData
+    except:
+        return default
+
+&#34;&#34;&#34;
+Values that the sdk accepts:
+Name, Index, Type, Control Name In File
+
+Steering, 0, float, steering
+Acceleration, 1, float, aforward
+Braking, 2, float, abackward
+Clutch, 3, float, clutch
+Pause Game, 4, bool,
+Parking Brake, 5, bool, parkingbrake
+Wipers, 6, bool, wipers
+Cruise Control, 7, bool, cruiectrl
+Cruise Control Increase, 8, bool, cruiectrlinc
+Cruise Control Decrease, 9, bool, cruiectrldec
+Cruise Control Reset, 10, bool, cruiectrlres
+Lights, 11, bool, light
+High Beams, 12, bool, hblight
+Left Blinker, 13, bool, lblinker
+Right Blinker, 14, bool, rblinker
+Quickpark, 15, bool, quickpark
+Drive(Gear), 16, bool, drive
+Reverse(Gear), 17, bool, reverse
+Cycle Zoom(map ? ), 18, bool, cycl_zoom
+Reset Trip, 19, bool, tripreset
+Rear Wipers, 20, bool, wipersback
+Wiper LVL 0, 21, bool, wipers0
+Wiper LVL 1, 22, bool, wipers1
+Wiper LVL 2, 23, bool, wipers2
+Wiper LVL 3, 24, bool, wipers3
+Wiper LVL 4, 25, bool, wipers4
+Horn, 26, bool, horn
+Airhorn, 27, bool, airhorn
+Light Horn, 28, bool, lighthorn
+Camera 1, 29, bool, cam1
+Camera 2, 30, bool, cam2
+Camera 3, 31, bool, cam3
+Camera 4, 32, bool, cam4
+Camera 5, 33, bool, cam5
+Camera 6, 34, bool, cam6
+Camera 7, 35, bool, cam7
+Camera 8, 36, bool, cam8
+Zoom Map In, 37, bool, mapzoom_in
+Zoom Map Out, 38, bool, mapzoom_out
+ACC Mode, 39, bool, accmode
+Show Mirrors, 40, bool, showmirrors
+Hazard Lights, 41, bool, flasher4way
+&#34;&#34;&#34;
+
+# This is used for the UI to test each button.
+buttonNames = [
+    &#34;Pause&#34;,
+    &#34;ParkingBrake&#34;,
+    &#34;Wipers&#34;,
+    &#34;CruiseControl&#34;,
+    &#34;CruiseControlIncrease&#34;,
+    &#34;CruiseControlDecrease&#34;,
+    &#34;CruiseControlReset&#34;,
+    &#34;Lights&#34;,
+    &#34;HighBeams&#34;,
+    &#34;LeftBlinker&#34;,
+    &#34;RightBlinker&#34;,
+    &#34;Quickpark&#34;,
+    &#34;Drive&#34;,
+    &#34;Reverse&#34;,
+    &#34;CycleZoom&#34;,
+    &#34;TripReset&#34;,
+    &#34;WipersBack&#34;,
+    &#34;Wipers0&#34;,
+    &#34;Wipers1&#34;,
+    &#34;Wipers2&#34;,
+    &#34;Wipers3&#34;,
+    &#34;Wipers4&#34;,
+    &#34;Horn&#34;,
+    &#34;Airhorn&#34;,
+    &#34;LightHorn&#34;,
+    &#34;Cam1&#34;,
+    &#34;Cam2&#34;,
+    &#34;Cam3&#34;,
+    &#34;Cam4&#34;,
+    &#34;Cam5&#34;,
+    &#34;Cam6&#34;,
+    &#34;Cam7&#34;,
+    &#34;Cam8&#34;,
+    &#34;MapZoomIn&#34;,
+    &#34;MapZoomOut&#34;,
+    &#34;ACCMode&#34;,
+    &#34;ShowMirrors&#34;,
+    &#34;Hazards&#34;
+]
+
+import mmap
+# The main file runs the &#34;plugin&#34; function each time the plugin is called
+# The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
+# The data from the last frame is contained under data[&#34;last&#34;]
+lastPress = time.time()
+def plugin(data):
+    &#34;&#34;&#34;Available controls are 
+    ```
+    data[&#34;sdk&#34;][&#34;steering&#34;], float
+    data[&#34;sdk&#34;][&#34;acceleration&#34;], float
+    data[&#34;sdk&#34;][&#34;brake&#34;], float
+    data[&#34;sdk&#34;][&#34;clutch&#34;], float
+    data[&#34;sdk&#34;][&#34;Pause&#34;], bool
+    data[&#34;sdk&#34;][&#34;ParkingBrake&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers&#34;], bool
+    data[&#34;sdk&#34;][&#34;CruiseControl&#34;], bool
+    data[&#34;sdk&#34;][&#34;CruiseControlIncrease&#34;], bool
+    data[&#34;sdk&#34;][&#34;CruiseControlDecrease&#34;], bool
+    data[&#34;sdk&#34;][&#34;CruiseControlReset&#34;], bool
+    data[&#34;sdk&#34;][&#34;Lights&#34;], bool
+    data[&#34;sdk&#34;][&#34;HighBeams&#34;], bool
+    data[&#34;sdk&#34;][&#34;LeftBlinker&#34;], bool
+    data[&#34;sdk&#34;][&#34;RightBlinker&#34;], bool
+    data[&#34;sdk&#34;][&#34;Quickpark&#34;], bool
+    data[&#34;sdk&#34;][&#34;Drive&#34;], bool
+    data[&#34;sdk&#34;][&#34;Reverse&#34;], bool
+    data[&#34;sdk&#34;][&#34;CycleZoom&#34;], bool
+    data[&#34;sdk&#34;][&#34;TripReset&#34;], bool
+    data[&#34;sdk&#34;][&#34;WipersBack&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers0&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers1&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers2&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers3&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers4&#34;], bool
+    data[&#34;sdk&#34;][&#34;Horn&#34;], bool
+    data[&#34;sdk&#34;][&#34;Airhorn&#34;], bool
+    data[&#34;sdk&#34;][&#34;LightHorn&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam1&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam2&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam3&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam4&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam5&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam6&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam7&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam8&#34;], bool
+    data[&#34;sdk&#34;][&#34;MapZoomIn&#34;], bool
+    data[&#34;sdk&#34;][&#34;MapZoomOut&#34;], bool
+    data[&#34;sdk&#34;][&#34;ACCMode&#34;], bool
+    data[&#34;sdk&#34;][&#34;ShowMirrors&#34;], bool
+    data[&#34;sdk&#34;][&#34;Hazards&#34;], bool
+    ```
+    &#34;&#34;&#34;
+    if settings.GetSettings(&#34;sdk&#34;, &#34;firstTime&#34;) == None:
+        from tkinter import messagebox
+        messagebox.showinfo(&#34;SDK Controller&#34;, Translate(&#34;IMPORTANT NOTE:\nIf the plugin has been added by an update, and you&#39;ve not run the first time setup after updating. Please either run it, or copy the file from the\n&#39;plugins/FirstTimeSetup/sdkPlugin&#39;\nfolder to the game plugin folder.\n\nThis can be found by opening steam, right clicking on the game, manage, browse local files, and then opening the bin/win_x64/plugins folder.\n\nIf you&#39;ve already run the first time setup, you can ignore this message.&#34;))
+        settings.CreateSettings(&#34;sdk&#34;, &#34;firstTime&#34;, False)
+    
+    global lastPress
+    buf = None
+
+    try:
+        buf = mmap.mmap(0, size, &#34;Local\SCSControls&#34;)  # 3 floats, 4 bytes each
+    except:
+        return data
+    
+    if buf == None:
+        return data
+
+    # For steering accel and brake we have to support the old controller system data variable
+    try:
+        steering = data[&#34;sdk&#34;][&#34;steering&#34;]
+    except:
+        steering = tryExceptDefault(data, [&#34;controller&#34;,&#34;leftStick&#34;], 0.0)
+    
+    try:
+        acceleration = data[&#34;sdk&#34;][&#34;acceleration&#34;]
+    except:
+        acceleration = tryExceptDefault(data, [&#34;controller&#34;,&#34;righttrigger&#34;], 0.0)
+        
+    try:
+        brake = data[&#34;sdk&#34;][&#34;brake&#34;]
+    except:
+        brake = tryExceptDefault(data, [&#34;controller&#34;,&#34;lefttrigger&#34;], 0.0)
+    
+    clutch = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Clutch&#34;], 0.0)
+    
+    # Get bools
+    pause = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Pause&#34;], False)
+    parkingbrake = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ParkingBrake&#34;], False)
+    wipers = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers&#34;], False)
+    cruiectrl = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CruiseControl&#34;], False)
+    cruiectrlinc = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CruiseControlIncrease&#34;], False)
+    cruiectrldec = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CruiseControlDecrease&#34;], False)
+    cruiectrlres = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CruiseControlReset&#34;], False)
+    light = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Lights&#34;], False)
+    hblight = tryExceptDefault(data, [&#34;sdk&#34;,&#34;HighBeams&#34;], False)
+    lblinker = tryExceptDefault(data, [&#34;sdk&#34;,&#34;LeftBlinker&#34;], False)
+    rblinker = tryExceptDefault(data, [&#34;sdk&#34;,&#34;RightBlinker&#34;], False)
+    quickpark = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Quickpark&#34;], False)
+    drive = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Drive&#34;], False)
+    reverse = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Reverse&#34;], False)
+    cycl_zoom = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CycleZoom&#34;], False)
+    tripreset = tryExceptDefault(data, [&#34;sdk&#34;,&#34;TripReset&#34;], False)
+    wipersback = tryExceptDefault(data, [&#34;sdk&#34;,&#34;WipersBack&#34;], False)
+    wipers0 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers0&#34;], False)
+    wipers1 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers1&#34;], False)
+    wipers2 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers2&#34;], False)
+    wipers3 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers3&#34;], False)
+    wipers4 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers4&#34;], False)
+    horn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Horn&#34;], False)
+    airhorn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Airhorn&#34;], False)
+    lighthorn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;LightHorn&#34;], False)
+    cam1 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam1&#34;], False)
+    cam2 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam2&#34;], False)
+    cam3 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam3&#34;], False)
+    cam4 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam4&#34;], False)
+    cam5 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam5&#34;], False)
+    cam6 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam6&#34;], False)
+    cam7 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam7&#34;], False)
+    cam8 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam8&#34;], False)
+    mapzoom_in = tryExceptDefault(data, [&#34;sdk&#34;,&#34;MapZoomIn&#34;], False)
+    mapzoom_out = tryExceptDefault(data, [&#34;sdk&#34;,&#34;MapZoomOut&#34;], False)
+    accmode = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ACCMode&#34;], False)
+    showmirrors = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ShowMirrors&#34;], False)
+    hazards = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Hazards&#34;], False)
+    
+    # Write three floats to memory
+    buf[:] = struct.pack(&#39;ffff38?&#39;, steering, acceleration, brake, clutch,
+                         pause, parkingbrake, wipers, cruiectrl, cruiectrlinc, cruiectrldec, 
+                         cruiectrlres, light, hblight, lblinker, rblinker, quickpark, drive, 
+                         reverse, cycl_zoom, tripreset, wipersback, wipers0, wipers1, wipers2,
+                         wipers3, wipers4, horn, airhorn, lighthorn, cam1, cam2, cam3, cam4,
+                         cam5, cam6, cam7, cam8, mapzoom_in, mapzoom_out, accmode, showmirrors,
+                         hazards)
+
+    return data # Plugins need to ALWAYS return the data
+
+
+
+# Plugins need to all also have the onEnable and onDisable functions
+def onEnable():
+    pass
+
+def onDisable():
+    pass
+
+lastPress = time.time()
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            # Create text
+            self.text = tk.Label(self.root, text=&#34;Please select a button to test using the keybind in the controls.\nOnly works when this panel is open.&#34;)
+            self.text.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Create a toggle button to select whether to add a delay between presses
+            self.delay = tk.BooleanVar()
+            self.delay.set(False)
+            self.delayButton = tk.Checkbutton(self.root, text=&#34;Add delay between presses&#34;, variable=self.delay)
+            self.delayButton.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Create a selector for the buttons
+            self.buttonSelector = tk.Listbox(self.root, width=30, height=20)
+            self.buttonSelector.pack(side=&#34;left&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Load the buttons
+            for i in buttonNames:
+                self.buttonSelector.insert(&#34;end&#34;, i)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            global lastPress
+            try:
+                if controls.GetKeybindValue(&#34;Test SDK button&#34;):
+                    if time.time() - lastPress &gt; 0.25 or self.delay.get() == False:
+                        lastPress = time.time()
+                        variables.APPENDDATANEXTFRAME = {&#34;sdk&#34;:
+                                                            {self.buttonSelector.get(&#34;active&#34;):
+                                                                True}}
+                        print(&#34;Pressed &#34; + self.buttonSelector.get(&#34;active&#34;))
+            except: pass
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.onDisable"><code class="name flex">
+<span>def <span class="ident">onDisable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onDisable():
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.onEnable"><code class="name flex">
+<span>def <span class="ident">onEnable</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def onEnable():
+    pass</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.plugin"><code class="name flex">
+<span>def <span class="ident">plugin</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Available controls are </p>
+<pre><code>data[&quot;sdk&quot;][&quot;steering&quot;], float
+data[&quot;sdk&quot;][&quot;acceleration&quot;], float
+data[&quot;sdk&quot;][&quot;brake&quot;], float
+data[&quot;sdk&quot;][&quot;clutch&quot;], float
+data[&quot;sdk&quot;][&quot;Pause&quot;], bool
+data[&quot;sdk&quot;][&quot;ParkingBrake&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers&quot;], bool
+data[&quot;sdk&quot;][&quot;CruiseControl&quot;], bool
+data[&quot;sdk&quot;][&quot;CruiseControlIncrease&quot;], bool
+data[&quot;sdk&quot;][&quot;CruiseControlDecrease&quot;], bool
+data[&quot;sdk&quot;][&quot;CruiseControlReset&quot;], bool
+data[&quot;sdk&quot;][&quot;Lights&quot;], bool
+data[&quot;sdk&quot;][&quot;HighBeams&quot;], bool
+data[&quot;sdk&quot;][&quot;LeftBlinker&quot;], bool
+data[&quot;sdk&quot;][&quot;RightBlinker&quot;], bool
+data[&quot;sdk&quot;][&quot;Quickpark&quot;], bool
+data[&quot;sdk&quot;][&quot;Drive&quot;], bool
+data[&quot;sdk&quot;][&quot;Reverse&quot;], bool
+data[&quot;sdk&quot;][&quot;CycleZoom&quot;], bool
+data[&quot;sdk&quot;][&quot;TripReset&quot;], bool
+data[&quot;sdk&quot;][&quot;WipersBack&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers0&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers1&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers2&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers3&quot;], bool
+data[&quot;sdk&quot;][&quot;Wipers4&quot;], bool
+data[&quot;sdk&quot;][&quot;Horn&quot;], bool
+data[&quot;sdk&quot;][&quot;Airhorn&quot;], bool
+data[&quot;sdk&quot;][&quot;LightHorn&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam1&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam2&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam3&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam4&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam5&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam6&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam7&quot;], bool
+data[&quot;sdk&quot;][&quot;Cam8&quot;], bool
+data[&quot;sdk&quot;][&quot;MapZoomIn&quot;], bool
+data[&quot;sdk&quot;][&quot;MapZoomOut&quot;], bool
+data[&quot;sdk&quot;][&quot;ACCMode&quot;], bool
+data[&quot;sdk&quot;][&quot;ShowMirrors&quot;], bool
+data[&quot;sdk&quot;][&quot;Hazards&quot;], bool
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plugin(data):
+    &#34;&#34;&#34;Available controls are 
+    ```
+    data[&#34;sdk&#34;][&#34;steering&#34;], float
+    data[&#34;sdk&#34;][&#34;acceleration&#34;], float
+    data[&#34;sdk&#34;][&#34;brake&#34;], float
+    data[&#34;sdk&#34;][&#34;clutch&#34;], float
+    data[&#34;sdk&#34;][&#34;Pause&#34;], bool
+    data[&#34;sdk&#34;][&#34;ParkingBrake&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers&#34;], bool
+    data[&#34;sdk&#34;][&#34;CruiseControl&#34;], bool
+    data[&#34;sdk&#34;][&#34;CruiseControlIncrease&#34;], bool
+    data[&#34;sdk&#34;][&#34;CruiseControlDecrease&#34;], bool
+    data[&#34;sdk&#34;][&#34;CruiseControlReset&#34;], bool
+    data[&#34;sdk&#34;][&#34;Lights&#34;], bool
+    data[&#34;sdk&#34;][&#34;HighBeams&#34;], bool
+    data[&#34;sdk&#34;][&#34;LeftBlinker&#34;], bool
+    data[&#34;sdk&#34;][&#34;RightBlinker&#34;], bool
+    data[&#34;sdk&#34;][&#34;Quickpark&#34;], bool
+    data[&#34;sdk&#34;][&#34;Drive&#34;], bool
+    data[&#34;sdk&#34;][&#34;Reverse&#34;], bool
+    data[&#34;sdk&#34;][&#34;CycleZoom&#34;], bool
+    data[&#34;sdk&#34;][&#34;TripReset&#34;], bool
+    data[&#34;sdk&#34;][&#34;WipersBack&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers0&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers1&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers2&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers3&#34;], bool
+    data[&#34;sdk&#34;][&#34;Wipers4&#34;], bool
+    data[&#34;sdk&#34;][&#34;Horn&#34;], bool
+    data[&#34;sdk&#34;][&#34;Airhorn&#34;], bool
+    data[&#34;sdk&#34;][&#34;LightHorn&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam1&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam2&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam3&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam4&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam5&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam6&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam7&#34;], bool
+    data[&#34;sdk&#34;][&#34;Cam8&#34;], bool
+    data[&#34;sdk&#34;][&#34;MapZoomIn&#34;], bool
+    data[&#34;sdk&#34;][&#34;MapZoomOut&#34;], bool
+    data[&#34;sdk&#34;][&#34;ACCMode&#34;], bool
+    data[&#34;sdk&#34;][&#34;ShowMirrors&#34;], bool
+    data[&#34;sdk&#34;][&#34;Hazards&#34;], bool
+    ```
+    &#34;&#34;&#34;
+    if settings.GetSettings(&#34;sdk&#34;, &#34;firstTime&#34;) == None:
+        from tkinter import messagebox
+        messagebox.showinfo(&#34;SDK Controller&#34;, Translate(&#34;IMPORTANT NOTE:\nIf the plugin has been added by an update, and you&#39;ve not run the first time setup after updating. Please either run it, or copy the file from the\n&#39;plugins/FirstTimeSetup/sdkPlugin&#39;\nfolder to the game plugin folder.\n\nThis can be found by opening steam, right clicking on the game, manage, browse local files, and then opening the bin/win_x64/plugins folder.\n\nIf you&#39;ve already run the first time setup, you can ignore this message.&#34;))
+        settings.CreateSettings(&#34;sdk&#34;, &#34;firstTime&#34;, False)
+    
+    global lastPress
+    buf = None
+
+    try:
+        buf = mmap.mmap(0, size, &#34;Local\SCSControls&#34;)  # 3 floats, 4 bytes each
+    except:
+        return data
+    
+    if buf == None:
+        return data
+
+    # For steering accel and brake we have to support the old controller system data variable
+    try:
+        steering = data[&#34;sdk&#34;][&#34;steering&#34;]
+    except:
+        steering = tryExceptDefault(data, [&#34;controller&#34;,&#34;leftStick&#34;], 0.0)
+    
+    try:
+        acceleration = data[&#34;sdk&#34;][&#34;acceleration&#34;]
+    except:
+        acceleration = tryExceptDefault(data, [&#34;controller&#34;,&#34;righttrigger&#34;], 0.0)
+        
+    try:
+        brake = data[&#34;sdk&#34;][&#34;brake&#34;]
+    except:
+        brake = tryExceptDefault(data, [&#34;controller&#34;,&#34;lefttrigger&#34;], 0.0)
+    
+    clutch = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Clutch&#34;], 0.0)
+    
+    # Get bools
+    pause = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Pause&#34;], False)
+    parkingbrake = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ParkingBrake&#34;], False)
+    wipers = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers&#34;], False)
+    cruiectrl = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CruiseControl&#34;], False)
+    cruiectrlinc = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CruiseControlIncrease&#34;], False)
+    cruiectrldec = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CruiseControlDecrease&#34;], False)
+    cruiectrlres = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CruiseControlReset&#34;], False)
+    light = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Lights&#34;], False)
+    hblight = tryExceptDefault(data, [&#34;sdk&#34;,&#34;HighBeams&#34;], False)
+    lblinker = tryExceptDefault(data, [&#34;sdk&#34;,&#34;LeftBlinker&#34;], False)
+    rblinker = tryExceptDefault(data, [&#34;sdk&#34;,&#34;RightBlinker&#34;], False)
+    quickpark = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Quickpark&#34;], False)
+    drive = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Drive&#34;], False)
+    reverse = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Reverse&#34;], False)
+    cycl_zoom = tryExceptDefault(data, [&#34;sdk&#34;,&#34;CycleZoom&#34;], False)
+    tripreset = tryExceptDefault(data, [&#34;sdk&#34;,&#34;TripReset&#34;], False)
+    wipersback = tryExceptDefault(data, [&#34;sdk&#34;,&#34;WipersBack&#34;], False)
+    wipers0 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers0&#34;], False)
+    wipers1 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers1&#34;], False)
+    wipers2 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers2&#34;], False)
+    wipers3 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers3&#34;], False)
+    wipers4 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Wipers4&#34;], False)
+    horn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Horn&#34;], False)
+    airhorn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Airhorn&#34;], False)
+    lighthorn = tryExceptDefault(data, [&#34;sdk&#34;,&#34;LightHorn&#34;], False)
+    cam1 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam1&#34;], False)
+    cam2 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam2&#34;], False)
+    cam3 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam3&#34;], False)
+    cam4 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam4&#34;], False)
+    cam5 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam5&#34;], False)
+    cam6 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam6&#34;], False)
+    cam7 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam7&#34;], False)
+    cam8 = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Cam8&#34;], False)
+    mapzoom_in = tryExceptDefault(data, [&#34;sdk&#34;,&#34;MapZoomIn&#34;], False)
+    mapzoom_out = tryExceptDefault(data, [&#34;sdk&#34;,&#34;MapZoomOut&#34;], False)
+    accmode = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ACCMode&#34;], False)
+    showmirrors = tryExceptDefault(data, [&#34;sdk&#34;,&#34;ShowMirrors&#34;], False)
+    hazards = tryExceptDefault(data, [&#34;sdk&#34;,&#34;Hazards&#34;], False)
+    
+    # Write three floats to memory
+    buf[:] = struct.pack(&#39;ffff38?&#39;, steering, acceleration, brake, clutch,
+                         pause, parkingbrake, wipers, cruiectrl, cruiectrlinc, cruiectrldec, 
+                         cruiectrlres, light, hblight, lblinker, rblinker, quickpark, drive, 
+                         reverse, cycl_zoom, tripreset, wipersback, wipers0, wipers1, wipers2,
+                         wipers3, wipers4, horn, airhorn, lighthorn, cam1, cam2, cam3, cam4,
+                         cam5, cam6, cam7, cam8, mapzoom_in, mapzoom_out, accmode, showmirrors,
+                         hazards)
+
+    return data # Plugins need to ALWAYS return the data</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.tryExceptDefault"><code class="name flex">
+<span>def <span class="ident">tryExceptDefault</span></span>(<span>data, dataPath, default)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Tries to get data from the data variable, if it fails returns the default value.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tryExceptDefault(data, dataPath, default):
+    &#34;&#34;&#34;Tries to get data from the data variable, if it fails returns the default value.&#34;&#34;&#34;
+    # Datapath is an array of strings
+    try:
+        workingData = data
+        for i in dataPath:
+            workingData = workingData[i]
+        return workingData
+    except:
+        return default</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>master)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -&gt; None:
+            self.master = master # &#34;master&#34; is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
+
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            # Create text
+            self.text = tk.Label(self.root, text=&#34;Please select a button to test using the keybind in the controls.\nOnly works when this panel is open.&#34;)
+            self.text.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Create a toggle button to select whether to add a delay between presses
+            self.delay = tk.BooleanVar()
+            self.delay.set(False)
+            self.delayButton = tk.Checkbutton(self.root, text=&#34;Add delay between presses&#34;, variable=self.delay)
+            self.delayButton.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Create a selector for the buttons
+            self.buttonSelector = tk.Listbox(self.root, width=30, height=20)
+            self.buttonSelector.pack(side=&#34;left&#34;, fill=&#34;both&#34;, expand=True)
+            
+            # Load the buttons
+            for i in buttonNames:
+                self.buttonSelector.insert(&#34;end&#34;, i)
+            
+            self.root.pack(anchor=&#34;center&#34;, expand=False)
+            self.root.update()
+        
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            global lastPress
+            try:
+                if controls.GetKeybindValue(&#34;Test SDK button&#34;):
+                    if time.time() - lastPress &gt; 0.25 or self.delay.get() == False:
+                        lastPress = time.time()
+                        variables.APPENDDATANEXTFRAME = {&#34;sdk&#34;:
+                                                            {self.buttonSelector.get(&#34;active&#34;):
+                                                                True}}
+                        print(&#34;Pressed &#34; + self.buttonSelector.get(&#34;active&#34;))
+            except: pass
+            self.root.update()
+    
+    
+    except Exception as ex:
+        print(ex.args)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def destroy(self):
+    self.done = True
+    self.root.destroy()
+    del self</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.exampleFunction"><code class="name flex">
+<span>def <span class="ident">exampleFunction</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exampleFunction(self):
+    
+    try:
+        self.root.destroy() # Load the UI each time this plugin is called
+    except: pass
+    
+    self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+    self.root.grid_propagate(0) # Don&#39;t fit the canvast to the widgets
+    self.root.pack_propagate(0)
+    
+    # Create text
+    self.text = tk.Label(self.root, text=&#34;Please select a button to test using the keybind in the controls.\nOnly works when this panel is open.&#34;)
+    self.text.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+    
+    # Create a toggle button to select whether to add a delay between presses
+    self.delay = tk.BooleanVar()
+    self.delay.set(False)
+    self.delayButton = tk.Checkbutton(self.root, text=&#34;Add delay between presses&#34;, variable=self.delay)
+    self.delayButton.pack(side=&#34;top&#34;, fill=&#34;both&#34;, expand=True)
+    
+    # Create a selector for the buttons
+    self.buttonSelector = tk.Listbox(self.root, width=30, height=20)
+    self.buttonSelector.pack(side=&#34;left&#34;, fill=&#34;both&#34;, expand=True)
+    
+    # Load the buttons
+    for i in buttonNames:
+        self.buttonSelector.insert(&#34;end&#34;, i)
+    
+    self.root.pack(anchor=&#34;center&#34;, expand=False)
+    self.root.update()</code></pre>
+</details>
+</dd>
+<dt id="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, data): # When the panel is open this function is called each frame 
+    global lastPress
+    try:
+        if controls.GetKeybindValue(&#34;Test SDK button&#34;):
+            if time.time() - lastPress &gt; 0.25 or self.delay.get() == False:
+                lastPress = time.time()
+                variables.APPENDDATANEXTFRAME = {&#34;sdk&#34;:
+                                                    {self.buttonSelector.get(&#34;active&#34;):
+                                                        True}}
+                print(&#34;Pressed &#34; + self.buttonSelector.get(&#34;active&#34;))
+    except: pass
+    self.root.update()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController" href="index.html">Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.onDisable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.onDisable">onDisable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.onEnable" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.onEnable">onEnable</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.plugin" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.plugin">plugin</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.tryExceptDefault" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.tryExceptDefault">tryExceptDefault</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI">UI</a></code></h4>
+<ul class="">
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.destroy" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.destroy">destroy</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.exampleFunction" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.exampleFunction">exampleFunction</a></code></li>
+<li><code><a title="Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.update" href="#Euro-Truck-Simulator-2-Lane-Assist.plugins.SDKController.main.UI.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
