@@ -15,7 +15,7 @@ input: .                      # Local path from this retype.yml file to the
 
 # -----------------------------------------------------------------------------
 
-output: .wiki               # Custom path to the output directory
+output: wiki               # Custom path to the output directory
                               # See also: input
 
 # -----------------------------------------------------------------------------
