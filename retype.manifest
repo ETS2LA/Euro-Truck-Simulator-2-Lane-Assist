@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-31T08.11.53Z",
+  "created": "2024-01-31T10.38.26Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -1596,13 +1596,16 @@
       "path": "log.txt"
     },
     {
-      "path": "Panels\\DataViewer\\index.html"
+      "path": "Panels\\DataViewer\\index.html",
+      "old": true
     },
     {
-      "path": "panels\\index.html"
+      "path": "panels\\index.html",
+      "old": true
     },
     {
-      "path": "Panels\\index.html"
+      "path": "Panels\\index.html",
+      "old": true
     },
     {
       "path": "plugins\\about\\index.html"
