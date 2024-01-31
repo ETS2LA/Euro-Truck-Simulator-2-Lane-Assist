@@ -1214,8 +1214,8 @@ class UI():
             helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=lambda:UpdateSettings())
 
-            helpers.MakeCheckButton(trackeraiFrame, "Do Yolo Detection confirmation\n---------------------------------------------\nIf enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection.\nWhat this means: higher accuracy, but a small lag every time the detection detects a new trafficlight.", "TrafficLightDetection", "yolo_detection", 1, 0, width=100, callback=lambda:UpdateSettings())
-            helpers.MakeCheckButton(trackeraiFrame, "Show unconfirmed traffic lights\n--------------------------------------------\nIf enabled, the app will show unconfirmed traffic lights in gray in the output window.", "TrafficLightDetection", "yolo_showunconfirmed", 2, 0, width=100, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(trackeraiFrame, "Do Yolo Detection confirmation\n---------------------------------------------\nIf enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection.\nWhat this means: higher accuracy, but a small lag every time the detection detects a new traffic light.", "TrafficLightDetection", "yolo_detection", 1, 0, width=100, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(trackeraiFrame, "Show unconfirmed traffic lights\n--------------------------------------------\nIf enabled, the app will show unconfirmed or wrongly detected traffic lights in gray in the output window.", "TrafficLightDetection", "yolo_showunconfirmed", 2, 0, width=100, callback=lambda:UpdateSettings())
             helpers.MakeEmptyLine(trackeraiFrame,3,0)
             helpers.MakeLabel(trackeraiFrame, "YOLOv5 Model:", 4, 0, sticky="nw")
             model_ui = tk.StringVar() 
