@@ -28,7 +28,7 @@ url: wiki.tumppi066.fi         # Can also be a sub-domain
 # -----------------------------------------------------------------------------
 
 branding:
-  title: Euro Truck...              # Your custom website title; keep it short
+  title: ETS2LA              # Your custom website title; keep it short
   # logo: /assets/firstTimeSetup/logo.png             # Path to a logo file
   # logoDark: /assets/firstTimeSetup/logo.png    # Path to a logo file to use in dark mode
   # logoAlign: right            # Align the logo to the right or the left
@@ -51,7 +51,7 @@ links:                        # Custom links to add to the top bar
     target: blank             # Custom target
                               # Use "blank" to open link in a new window
   - text: Developer Documentation
-    link: https://tumppi066.github.io/Euro-Truck-Simulator-2-Lane-Assist/ # Link to an internal file
+    link: https://wiki.tumppi066.fi/docs/ # Link to an internal file
     icon: gear                # A custom icon name, :emoji:, <svg>, or
                               # a path to a file
     iconAlign: left           # Icon alignment, to the left or right
