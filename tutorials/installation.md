@@ -10,3 +10,9 @@ tags:
 ---
 
 [!embed](https://www.youtube.com/watch?v=0pic0rzjvik)
+
+!!! Note
+This page will be expanded in the future once the new installer is released. There is no reason for us to write a tutorial for something that is going to be replaced in a week or so :+1:
+
+For now you can enjoy my extremely enthusiastic video tutorial👌
+!!!
