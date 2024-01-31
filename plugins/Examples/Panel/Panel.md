@@ -5,8 +5,11 @@ authors:
     avatar: https://retype.com/static/retype-logo-dark.svg
 date: 2024-1-30
 icon: stack
+tags:
+  - panel
 ---
 
+[!button Developer Documentation](Docs.md)
 # REMEMBER TO CHANGE THE FILENAME TO THE PANEL FOLDER NAME AND REMOVE THIS LINE
 ### Description
 What does this do?

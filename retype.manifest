@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-30T21.20.37Z",
+  "created": "2024-01-31T08.11.53Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -1596,10 +1596,31 @@
       "path": "log.txt"
     },
     {
+      "path": "Panels\\DataViewer\\index.html"
+    },
+    {
+      "path": "panels\\index.html"
+    },
+    {
+      "path": "Panels\\index.html"
+    },
+    {
+      "path": "plugins\\about\\index.html"
+    },
+    {
       "path": "plugins\\bettercamscreencapture\\docs\\index.html"
     },
     {
       "path": "plugins\\bettercamscreencapture\\index.html"
+    },
+    {
+      "path": "plugins\\changelog\\index.html"
+    },
+    {
+      "path": "plugins\\dataviewer\\index.html"
+    },
+    {
+      "path": "plugins\\deeptranslator\\index.html"
     },
     {
       "path": "plugins\\firsttimesetup\\image.png"
@@ -2150,6 +2171,15 @@
     },
     {
       "path": "src\\variables\\index.html"
+    },
+    {
+      "path": "tags\\index.html"
+    },
+    {
+      "path": "tags\\panel\\index.html"
+    },
+    {
+      "path": "tags\\plugin\\index.html"
     },
     {
       "path": "themes\\forest\\forest\\border-accent-hover.png"

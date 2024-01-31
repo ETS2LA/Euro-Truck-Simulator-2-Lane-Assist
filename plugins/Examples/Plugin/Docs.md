@@ -5,6 +5,8 @@ authors:
     avatar: https://retype.com/static/retype-logo-dark.svg
 date: 2024-1-30
 icon: stack
+tags: 
+  - documentation
 ---
 !!!warning Warning
 This page is meant for `developers`

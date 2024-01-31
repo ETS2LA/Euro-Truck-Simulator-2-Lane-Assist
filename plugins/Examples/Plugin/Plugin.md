@@ -5,7 +5,10 @@ authors:
     avatar: https://retype.com/static/retype-logo-dark.svg
 date: 2024-1-30
 icon: gear
+tags:
+  - plugin
 ---
+[!button Developer Documentation](Docs.md)
 # REMEMBER TO CHANGE THE FILENAME TO THE PLUGIN FOLDER NAME AND REMOVE THIS LINE
 ### Description
 What does this do?

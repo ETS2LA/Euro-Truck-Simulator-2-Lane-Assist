@@ -5,6 +5,9 @@ authors:
     avatar: https://avatars.githubusercontent.com/u/83072683?v=4
 date: 2024-1-30
 icon: gear
+visibility: hidden
+tags:
+  - documentation
 ---
 
 !!!warning Warning

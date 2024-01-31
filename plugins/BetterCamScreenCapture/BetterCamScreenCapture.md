@@ -5,8 +5,10 @@ authors:
     avatar: https://avatars.githubusercontent.com/u/83072683?v=4
 date: 2024-1-30
 icon: stack
+tags: 
+  - plugin
 ---
-
+[!button Developer Documentation](Docs.md)
 ### Description
 This plugin will capture your display extremely fast with DirectX and provide that data to the rest of the plugins.
 
