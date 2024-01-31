@@ -10,6 +10,7 @@ date: 2024-1-30
 icon: gear
 tags:
   - plugin
+  - dynamicOrder
 ---
 [!button Developer Documentation](Docs.md)
 # REMEMBER TO CHANGE THE FILENAME TO THE PLUGIN FOLDER NAME AND REMOVE THIS LINE
