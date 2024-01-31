@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-31T17.40.40Z",
+  "created": "2024-01-31T18.58.45Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -1413,6 +1413,9 @@
       "path": "plugins\\bettercamscreencapture\\index.html"
     },
     {
+      "path": "plugins\\by-tags\\index.html"
+    },
+    {
       "path": "plugins\\changelog\\index.html"
     },
     {
@@ -1457,6 +1460,12 @@
     },
     {
       "path": "plugins\\navdetectionsetup\\images\\placecircle.png"
+    },
+    {
+      "path": "plugins\\only-panels\\index.html"
+    },
+    {
+      "path": "plugins\\only-plugins\\index.html"
     },
     {
       "path": "plugins\\performance\\web\\performance.html"
