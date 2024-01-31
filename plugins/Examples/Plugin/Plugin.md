@@ -45,12 +45,12 @@ Tab3 content
 
 
 ### Installation
-This plugin will install the following python packages:
-```
-PLEASE FILL IN WITH YOUR PLUGIN'S PACKAGES.
-
-bettercam
-```
+This panel will install the following python packages:
+=== a python package
+Used for something
+=== another python package
+Used for something else
+===
 
 OTHER NOTES HERE
 

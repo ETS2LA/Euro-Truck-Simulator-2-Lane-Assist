@@ -29,9 +29,9 @@ Display : The display to capture from
 
 ### Installation
 This plugin will install the following python packages:
-```
-bettercam
-```
+=== bettercam
+Used for capturing the display.
+===
 
 ### Debugging
 ##### 'The specified device interface or feature level is not supported on this system.'

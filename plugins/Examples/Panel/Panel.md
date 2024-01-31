@@ -47,11 +47,11 @@ Tab3 content
 
 ### Installation
 This panel will install the following python packages:
-```
-PLEASE FILL IN WITH YOUR PANEL'S PACKAGES.
-
-bettercam
-```
+=== a python package
+Used for something
+=== another python package
+Used for something else
+===
 
 OTHER NOTES HERE
 

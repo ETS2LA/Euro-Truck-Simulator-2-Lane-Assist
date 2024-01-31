@@ -28,14 +28,10 @@ import src.settings as settings
 import src.sounds as sounds
 from src.translator import Translate
 import os
-import pygame
 import cv2
 import keyboard as kb
 from tkinter import messagebox
 import src.controls as controls
-
-pygame.joystick.init()
-pygame.display.init()
 
 controls.RegisterKeybind("Enable/Disable Steering", 
                          defaultButtonIndex="n", 
@@ -213,7 +209,6 @@ def plugin(data):
                     sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
 
             try:
-                pygame.event.pump() # Update the controller values
 
                 # Main controller update loop.
                 if(enabled):
@@ -305,7 +300,6 @@ def plugin(data):
                     sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
 
             try:
-                pygame.event.pump() # Update the controller values
                 steeringAxisValue = controls.GetKeybindValue("Steering Axis")
                 # Check if the SDK controller is enabled and vgamepad is not
                 try:
@@ -443,7 +437,7 @@ def plugin(data):
                     wheelValue = lastFrame
                 else:
                     try:
-                        wheelValue = wheel.get_axis(steeringAxis)
+                        wheelValue = controls.GetKeybindValue("Steering Axis")
                     except:
                         wheelValue = 0
             else:
@@ -613,8 +607,6 @@ class UI():
             
         
         def update(self, data): # When the panel is open this function is called each frame 
-            pygame.event.pump()
-            
             self.root.update()
             
     

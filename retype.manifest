@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-31T15.04.31Z",
+  "created": "2024-01-31T17.00.58Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -1422,6 +1422,12 @@
       "path": "plugins\\deeptranslator\\index.html"
     },
     {
+      "path": "plugins\\defaultsteering\\docs\\index.html"
+    },
+    {
+      "path": "plugins\\defaultsteering\\index.html"
+    },
+    {
       "path": "plugins\\firsttimesetup\\image.png"
     },
     {
@@ -1978,6 +1984,12 @@
       "path": "tags\\panel\\index.html"
     },
     {
+      "path": "tags\\plugin\\index.html"
+    },
+    {
+      "path": "tags\\tutorial\\index.html"
+    },
+    {
       "path": "themes\\forest\\forest\\border-accent-hover.png"
     },
     {
@@ -2396,6 +2408,12 @@
     },
     {
       "path": "themes\\forestred\\forestred\\vert-hover.png"
+    },
+    {
+      "path": "tutorials\\index.html"
+    },
+    {
+      "path": "tutorials\\installation\\index.html"
     },
     {
       "path": "version.txt"

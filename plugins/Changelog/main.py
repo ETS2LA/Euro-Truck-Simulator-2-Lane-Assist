@@ -53,7 +53,7 @@ class UI():
                 
             
             if CHANGE_LOG_SHOWN == False:
-                helpers.OpenWebView("Changelog", "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/releases")
+                helpers.OpenWebView("Changelog", "https://wiki.tumppi066.fi/blog/", width=800, height=600)
                 CHANGE_LOG_SHOWN = True
             
             helpers.MakeLabel(self.root, "Close this window by middle clicking on the tab.", 0, 0)
