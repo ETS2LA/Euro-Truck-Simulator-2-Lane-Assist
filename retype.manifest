@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-01-30T21.20.37Z",
+  "created": "2024-01-31T07.03.34Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -173,6 +173,9 @@
     },
     {
       "path": "blog\\index.html"
+    },
+    {
+      "path": "blog\\v1.10.0\\index.html"
     },
     {
       "path": "blog\\v1.9.0\\index.html"
