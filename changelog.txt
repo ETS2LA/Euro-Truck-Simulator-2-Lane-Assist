@@ -1,1 +1,1 @@
-Update changelog url
+Fixed logger error that caused the app to crash.

@@ -29,10 +29,12 @@ lastMsg = ""
 times = 0
 
 # Clear the log file
-with open("log.txt", "w") as f:
-    f.truncate(0)
-    f.write("")
-
+try:
+    with open("log.txt", "w") as f:
+        f.truncate(0)
+        f.write("")
+except:
+    sys.stdout.write(f"[{RED}ERROR{NORMAL}] [{YELLOW}logger.py{NORMAL}] - Failed to clear log file!")
 
 # Initialize colors for the terminal
 colorama.init()
@@ -93,11 +95,14 @@ def print(text:str, end:str=""):
         sys.stdout.write(message + RED + "[ERROR] The log file is too big! (10mb) Saving paused! Please rerun the app!\n")
         raise Exception("Usually you have a problem if the log file is this big!")
     
-    with open("log.txt", "a") as f:
-        fileMessage = message
-        # Remove the color tags from the message so that the file is easier to read
-        fileMessage = fileMessage.replace(GREEN, "").replace(YELLOW, "").replace(NORMAL, "").replace(BLUE, "").replace(RED, "")
-        f.write(fileMessage)
+    try:
+        with open("log.txt", "a") as f:
+            fileMessage = message
+            # Remove the color tags from the message so that the file is easier to read
+            fileMessage = fileMessage.replace(GREEN, "").replace(YELLOW, "").replace(NORMAL, "").replace(BLUE, "").replace(RED, "")
+            f.write(fileMessage)
+    except:
+        pass
     
     # Can't use print() because it will cause an infinite loop
     sys.stdout.write(message + end)

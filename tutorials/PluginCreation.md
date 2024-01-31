@@ -4,7 +4,7 @@ authors:
     link: https://github.com/Tumppi066
     avatar: https://avatars.githubusercontent.com/u/83072683?v=4
 date: 2024-1-31
-icon: stack
+icon: checklist
 tags: 
   - tutorial
 title: Plugin Creation
@@ -87,7 +87,111 @@ This function is called when the plugin is disabled. This is useful for cleaning
 ==- [!badge variant="ghost" text="Optional"] ‎ `class UI()`
 This class is used to create UI for the plugin. We will be using this later on, and it will be explained in more detail then.
 
-
 ==-
 
++++
+
+### How to create plugin?
+!!! Note
+I will be using visual studio code going forward. You can use any editor you want, but vs code is free and lightweight so I'm going with it. As long as you are not just using notepad you'll be absolutely fine.
+!!!
+Creating plugins is actually really simple. 
+I have included templates for both plugins and panels *(going to be explored later)* in the `plugins/Examples/.` folder.
+
++++ Step 1
+#### Creating the plugin.
+The first step is cloning that example plugin folder and renaming it to something else, I will use `PrintGameTime` as an example.
+![](../tutorials/assets/PluginCreation/copyPlugin.png)
+
+This way we will have all the required files and templates ready to go, making the process a lot easier and quicker.
+
++++ Step 2
+#### Customizing PluginInfo.
+Now we will want to configure the plugin information. To do this, open the main.py file, and edit the `PluginInfo` class.
+```python
+PluginInfo = PluginInformation(
+    name="PrintGameTime", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    # In case the plugin is not the main file (for example plugins\Plugin\Plugin.py) then the name would be "Plugin.Plugin"
+    
+    description="This plugin will print the game time to the console when pressing a defined keybind.\nI addition if the time is past 18:00 it will enable the lights,\nand if it's past 9:00 it will disable them.",
+    version="0.1",
+    author="Tumppi066",
+    url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
+    type="dynamic", # = Panel
+    dynamicOrder="before controller" # Will run the plugin before anything else in the mainloop (data will be empty)
+)
+```
+Here all I've is configure the name, description, version, author and url.
+
+Now when you start the app, without doing anything else you should see the installer come up, and then the plugin will be available in the plugin manager.
+![](../tutorials/assets/PluginCreation/pluginShowsUp.png)
+
+!!! Note on dynamicOrder
+This defines where in the apps main loop cycle the plugin will be run. Since we want to send data to the game, we will run before the controller.
+All available options are:
+1. `before image capture` / `image capture`
+2. `before lane detection` / `lane detection`
+3. `before controller` / `controller` 
+4. `before game` / `game`
+5. `before UI`
+6. [!badge variant="info" text="Reserved for the fps limiter!"] ‎ `last`
+!!!
+
++++ Step 3
+#### Getting data from the game.
+Now we are at the fun part!
+
+We get to start writing the actual code for the plugin in question. Remember how all plugin code should be in the `plugin(data)` function? Well that's where we are going to start.
+```python
+def plugin(data):
+    gameTime = data["api"]["time"]
+    print(gameTime)
+    return data
+```
+- ![](../tutorials/assets/PluginCreation/printingTime.png)
+Seems like it's working!
+Do note that it's printing only 1s because I'm using the `VirtualSimAPI` here. It's convenient since I don't have to have the game open to test the plugin.  
+
+!!! Note
+You can use the UI of the `TruckSimAPI` plugin to check what data is available at what data path.
+!!!
+
++++ Step 4
+#### Get user inputs.
+Now that we have the time printing to the console, we can assign a keybind to it.
+For this we can use the already imported [src.controls](../src/controls.md) module.
+```python
+# Register a keybind. defaultButtonIndex is the default keybind, if a string is passed it will be a keyboard event.
+controls.RegisterKeybind("Print game time", defaultButtonIndex=",")
+lastPressed = False
+def plugin(data):
+    global lastPressed
+    gameTime = data["api"]["time"]
+    
+    # Check if the keybind is pressed.
+    if controls.GetKeybindValue("Print game time"):
+        if not lastPressed:
+            lastPressed = True
+            print(gameTime)
+    elif lastPressed:
+        lastPressed = False
+            
+    return data
+```
+This is fairly simple too. What we can check now is that the keybind is working as intended, and we can change it in the settings.
+- ![](../tutorials/assets/PluginCreation/printWithKeybind.png)
+
+Seems like it's working!
+Now let's check the controls menu.
+- ![](../tutorials/assets/PluginCreation/keybindInControls.png)
+
+It was put on the second page, but our keybind is indeed there. Now the user can change it to whatever they want.
+
+!!! Note on keybinds.
+You can also get a float value from a controller. To do this add `axis=True` to the RegisterKeybind function. 
+For more info on the controls module, check out the [controls page](https://wiki.tumppi066.fi/docs/src/controls.html).
+!!!
++++ Step 5
+#### Sending data to the game.
+WIP
 +++

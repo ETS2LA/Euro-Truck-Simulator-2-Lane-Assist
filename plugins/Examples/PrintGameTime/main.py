@@ -1,6 +1,5 @@
 """
-This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
-If you need to make a panel that is only updated when it's open then check the Panel example!
+This example is a part of the wiki page available here: https://wiki.tumppi066.fi/tutorials/plugincreation/
 """
 
 
@@ -8,15 +7,15 @@ from plugins.plugin import PluginInformation
 from src.logger import print
 
 PluginInfo = PluginInformation(
-    name="Plugin", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    name="PrintGameTime", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     # In case the plugin is not the main file (for example plugins\Plugin\Plugin.py) then the name would be "Plugin.Plugin"
     
-    description="ExamplePlugin.",
+    description="This plugin will print the game time to the console when pressing a defined keybind.\nI addition if the time is past 18:00 it will enable the lights,\nand if it's past 9:00 it will disable them.",
     version="0.1",
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
-    type="dynamic", # = Plugin
-    dynamicOrder="before lane detection" # Will run the plugin before anything else in the mainloop (data will be empty)
+    type="dynamic", # = Panel
+    dynamicOrder="before controller" # Will run the plugin before anything else in the mainloop (data will be empty)
 )
 
 import tkinter as tk
@@ -32,10 +31,20 @@ import os
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
+controls.RegisterKeybind("Print game time", defaultButtonIndex=",")
+lastPressed = False
 def plugin(data):
-    print(data) # Print the data from the last frame
-
-    return data # Plugins need to ALWAYS return the data
+    global lastPressed
+    gameTime = data["api"]["time"]
+    
+    if controls.GetKeybindValue("Print game time"):
+        if not lastPressed:
+            lastPressed = True
+            print(gameTime)
+    elif lastPressed:
+        lastPressed = False
+            
+    return data
 
 
 # Plugins need to all also have the onEnable and onDisable functions

@@ -389,7 +389,7 @@ PluginInfo = PluginInformation(
 
 KEYBOARD_GUID = 1
 KEYBINDS = []
-def RegisterKeybind(name, callback=None, notBoundInfo=&#34;&#34;, description=&#34;&#34;, axis=False, defaultButtonIndex=-1, defaultAxisIndex=-1):
+def RegisterKeybind(name:str, callback=None, notBoundInfo:str=&#34;&#34;, description:str=&#34;&#34;, axis:bool=False, defaultButtonIndex:int=-1, defaultAxisIndex:int=-1):
     &#34;&#34;&#34;Will register a keybind to the input manager. This is necessary to use the keybind.
 
     Args:
@@ -483,7 +483,7 @@ def plugin(data):
     
     return data
 
-def ChangeKeybind(name, updateUI=True, callback=None):
+def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
     &#34;&#34;&#34;Will run the keybind change window code.
 
     Args:
@@ -667,7 +667,7 @@ def UnbindKeybind(name, updateUI=True):
         mainUI.switchSelectedPlugin(&#34;src.controls&#34;)
 
 
-def GetKeybindValue(name):
+def GetKeybindValue(name:str):
     &#34;&#34;&#34;Will get the value of a keybind.
 
     Args:
@@ -824,7 +824,7 @@ class UI():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.controls.ChangeKeybind"><code class="name flex">
-<span>def <span class="ident">ChangeKeybind</span></span>(<span>name, updateUI=True, callback=None)</span>
+<span>def <span class="ident">ChangeKeybind</span></span>(<span>name: str, updateUI: bool = True, callback=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will run the keybind change window code.</p>
@@ -841,7 +841,7 @@ class UI():
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def ChangeKeybind(name, updateUI=True, callback=None):
+<pre><code class="python">def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
     &#34;&#34;&#34;Will run the keybind change window code.
 
     Args:
@@ -1038,7 +1038,7 @@ class UI():
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.controls.GetKeybindValue"><code class="name flex">
-<span>def <span class="ident">GetKeybindValue</span></span>(<span>name)</span>
+<span>def <span class="ident">GetKeybindValue</span></span>(<span>name: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will get the value of a keybind.</p>
@@ -1053,7 +1053,7 @@ class UI():
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def GetKeybindValue(name):
+<pre><code class="python">def GetKeybindValue(name:str):
     &#34;&#34;&#34;Will get the value of a keybind.
 
     Args:
@@ -1096,7 +1096,7 @@ class UI():
 </details>
 </dd>
 <dt id="Euro-Truck-Simulator-2-Lane-Assist.src.controls.RegisterKeybind"><code class="name flex">
-<span>def <span class="ident">RegisterKeybind</span></span>(<span>name, callback=None, notBoundInfo='', description='', axis=False, defaultButtonIndex=-1, defaultAxisIndex=-1)</span>
+<span>def <span class="ident">RegisterKeybind</span></span>(<span>name: str, callback=None, notBoundInfo: str = '', description: str = '', axis: bool = False, defaultButtonIndex: int = -1, defaultAxisIndex: int = -1)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Will register a keybind to the input manager. This is necessary to use the keybind.</p>
@@ -1117,7 +1117,7 @@ class UI():
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def RegisterKeybind(name, callback=None, notBoundInfo=&#34;&#34;, description=&#34;&#34;, axis=False, defaultButtonIndex=-1, defaultAxisIndex=-1):
+<pre><code class="python">def RegisterKeybind(name:str, callback=None, notBoundInfo:str=&#34;&#34;, description:str=&#34;&#34;, axis:bool=False, defaultButtonIndex:int=-1, defaultAxisIndex:int=-1):
     &#34;&#34;&#34;Will register a keybind to the input manager. This is necessary to use the keybind.
 
     Args:
