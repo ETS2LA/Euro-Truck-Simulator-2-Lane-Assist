@@ -8,6 +8,7 @@ icon: stack
 tags: 
   - plugin
 ---
+
 [!button Developer Documentation](Docs.md)
 ### Description
 This plugin will capture your display extremely fast with DirectX and provide that data to the rest of the plugins.

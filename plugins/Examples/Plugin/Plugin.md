@@ -1,4 +1,7 @@
 ---
+# https://retype.com/configuration/page/
+# please also see the docs for components 
+# https://retype.com/components/alert/
 authors: 
   - name: Retype
     link: https://retype.com/configuration/page/#visibility
