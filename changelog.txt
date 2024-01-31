@@ -1,2 +1,2 @@
-Added new wiki @ docs.tumppi066.fi
-This is still under construction.
+Added new installer/menu from Dyldev
+This is a GUI that merges install, update, activate, debug, and uninstall into one menu.
