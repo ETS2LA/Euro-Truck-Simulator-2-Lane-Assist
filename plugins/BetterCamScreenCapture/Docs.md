@@ -15,13 +15,13 @@ This page is meant for `developers`
 !!!
 ## Data variable usage
 The plugin will use the following data variable values:
-=== data/frame
+=== [!badge variant="dark" text="Output"] ‎ data/frame
 The cropped image frame defined by the settings.
 
-=== data/frameFull
+=== [!badge variant="dark" text="Output"] ‎ data/frameFull
 The full image from the display.
 
-=== data/frameOriginal
+=== [!badge variant="dark" text="Output"] ‎ data/frameOriginal
 The original image. THIS SHOULD NOT BE EDITED!
 
 ===
@@ -42,7 +42,3 @@ def plugin(data):
     data["frame"] = frame
     return data
 ```
-
-
-## Directly usable functions and values
-**None**

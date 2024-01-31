@@ -10,8 +10,8 @@ date: 2024-1-31
 icon: stack
 tags:
   - plugin
+  - before controller
 ---
-[!button Developer Documentation](Docs.md)
 
 ### Description
 This plugin handles converting the steering offset from the lane detection models into a usable output for the game.
@@ -23,6 +23,7 @@ This plugin will just work when it's enabled.
 ### Configuration / UI
 
 +++ General
+
 ==- Steering Offset
 Will control how much the steering will be offset from the center of the lane detection model. This is useful if you find the truck driving too far to the right or left.
 ==- Control Smoothness
@@ -35,7 +36,9 @@ Will control the multiplier on the steering. Essentially changing how much the a
 ==- Maximum Control
 The maximum control the app is allowed to output. 1 is the maximum, 0 is the minimum.
 ==-
+
 +++ Gamepad
+
 ==- Gamepad mode
 Will smooth the input from the controller to the app. If you are using a gamepad then this is basically required.
 ==- Control Smoothness
@@ -44,7 +47,9 @@ Will control how many frames the steering offset will be averaged over. This wil
 !!! Note
 This page is only necessary if you are using vgamepad to replace the main steering axis in game. 
 !!!
+
 +++ Keyboard
+
 ==- Keyboard Mode
 Will listen to keyboard inputs instead of controller inputs.
 ==- Keyboard Sensitivity
@@ -55,6 +60,7 @@ How fast the steering will return to the center when no keyboard inputs are dete
 !!! Note
 This page is only necessary if you are using vgamepad to replace the main steering axis in game. 
 !!!
+
 +++
 
 
@@ -67,3 +73,10 @@ Used for gamepad input
 === keyboard
 Used for keyboard input
 ===
+
+### Requirements
+This plugin needs and will enable the following plugins:
+=== TruckSimAPI
+Used to communicate with the game.
+===
+[!button Developer Documentation](Docs.md)

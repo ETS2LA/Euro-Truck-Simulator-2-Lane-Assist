@@ -18,11 +18,11 @@ This page is meant for `developers`
 
 ## Data variable usage
 The plugin will use the following data variable values:
-=== data/the/path/to/your/variable
-The description of the variable
+=== [!badge variant="dark" text="Input"] ‎ data/path/to/some/input/var
+Some kind of description.
 
-=== data/another/variable
-The description of another variable
+=== [!badge variant="dark" text="Output"] ‎ data/path/to/some/output/var
+Some kind of description.
 
 ===
 
@@ -44,4 +44,4 @@ def plugin(data):
 ```
 
 ## Directly usable functions and values
-**None / PLEASE FILL IN**
+**REMOVE / PLEASE FILL IN**

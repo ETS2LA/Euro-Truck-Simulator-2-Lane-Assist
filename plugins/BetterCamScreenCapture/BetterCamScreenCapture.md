@@ -7,9 +7,9 @@ date: 2024-1-30
 icon: stack
 tags: 
   - plugin
+  - before lane detection
 ---
 
-[!button Developer Documentation](Docs.md)
 ### Description
 This plugin will capture your display extremely fast with DirectX and provide that data to the rest of the plugins.
 
@@ -33,8 +33,14 @@ This plugin will install the following python packages:
 Used for capturing the display.
 ===
 
+### Exclusivity
+This plugin is exclusive to the following types:
+=== ScreenCapture
+We only want one screen capturing plugin.
+===
+
 ### Debugging
-##### 'The specified device interface or feature level is not supported on this system.'
+==- 'The specified device interface or feature level is not supported on this system.'
 There are two cases in which this error happens:
 1. You have a device that has an integrated GPU (for example on a laptop), and python is running on the dedicated GPU.
 2. Your computer is too old to support the directx version dxcam needs.
@@ -48,3 +54,7 @@ A common location could be `C:\Users\YourUserName\AppData\Local\Programs\Python\
 ***Fix for case 2:***
 
 Disable dxcam and enable mss in the plugin menu. Keep in mind that plugins are designed to run on dxcam, and not everything will work with mss.
+
+==-
+
+[!button Developer Documentation](Docs.md)

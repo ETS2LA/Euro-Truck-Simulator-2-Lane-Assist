@@ -23,24 +23,22 @@ There is no special usage notes... the plugin should work as is.
 
 PLEASE FILL WITH YOUR UI CONFIG. EXAMPLE HERE:
 
-The UI includes some settings for the plugin. The settings are as follows:
-```
-  Width : The width of the image capture
- Height : The height of the image capture
-      X : The X coordinate of the image capture
-      Y : The Y coordinate of the image capture
-Display : The display to capture from
- Device : The device to capture from
-```
++++ Tab 1
 
-FOR TABS:
+==- Some Setting
+Some setting stuff...
+==- Some Other Setting
+Some setting stuff...
+==-
 
-+++ Tab1
-Tab1 content
-+++ Tab2
-Tab2 content
-+++ Tab3
-Tab3 content
++++ Tab 2
+
+==- Some Setting
+Some setting stuff...
+==- Some Other Setting
+Some setting stuff...
+==-
+
 +++
 
 
@@ -52,7 +50,11 @@ Used for something
 Used for something else
 ===
 
-OTHER NOTES HERE
+### Exclusivity
+This plugin is exclusive to the following types:
+=== ScreenCapture / LaneDetection
+Why?
+===
 
 ### Debugging
 PLEASE FILL IN OR REMOVE.
