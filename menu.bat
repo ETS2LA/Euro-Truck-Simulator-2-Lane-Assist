@@ -1,0 +1,1 @@
+Powershell.exe -File "./Installer Sources/installer.ps1
