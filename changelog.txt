@@ -1,2 +1,1 @@
-Fix permission error with new installer.
-Fix main menu not loading when last update time is null.
+New .exe installer.
