@@ -1,7 +1,7 @@
 # Create a temporary directory
 $tempDir = New-Item -ItemType Directory -Path "$env:TEMP\ScriptOutput" -Force
 $scriptDirectory = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
-$scriptDirectory = $scriptDirectory.Replace("\Installer Sources", "")
+$scriptDirectory = $scriptDirectory.Replace("\InstallerSources", "")
 # Specify the file names
 $installerbatFileName = "installer.bat"
 $installpyFileName = "installer.py"
