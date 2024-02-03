@@ -816,7 +816,7 @@ def InstallSequence():
             os.system("git clone -b " + branch.get() + " " + GITHUB_APP_URL + " app")
         else:
             os.system("git clone -b " + branch.get() + " " + SOURCEFORGE_APP_URL)
-            os.rename("code", "ETS2-Lane-Assist")
+            os.rename("code", "app")
         pass
     
     AddLineToConsole("\nChecking app...")
