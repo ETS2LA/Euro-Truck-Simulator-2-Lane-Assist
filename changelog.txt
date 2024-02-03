@@ -1,1 +1,2 @@
-Fixed logger error that caused the app to crash.
+Fix permission error with new installer.
+Fix main menu not loading when last update time is null.
