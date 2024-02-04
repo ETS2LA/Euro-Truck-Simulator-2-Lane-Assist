@@ -351,11 +351,6 @@ def create_gui():
 create_gui()
 "@
 
-if ((Get-Item .).Name -eq 'goodgirl') {
-    Add-Type -AssemblyName PresentationFramework
-    [System.Windows.MessageBox]::Show(':3', 'Good girl', 'OK', 'Information')
-}
-
 $installpydata = @"
 import sys
 import subprocess
