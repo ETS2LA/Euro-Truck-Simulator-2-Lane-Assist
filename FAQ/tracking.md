@@ -16,7 +16,7 @@ This page will tell you what we track, how, and where it's stored.
 !!!secondary TLDR
 By default all optional settings are off. If you don't touch these settings, no data will ever be saved on the server.
 !!!
-### Tracking architecture
+### Tracking architecture.
 There are two types of tracking in the app. 
 **Plugins cannot require tracking being enabled, I will not force it on anyone.**
 ||| Passive
@@ -93,3 +93,12 @@ We also do not send any files etc...
 If you want to check the actual code then it is [available on github](https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/blob/main/src/server.py), so we have nothing to hide.
 Server code is not open source for multitudes of reasons, one of which obviously being security.
 !!!
+
+### What happens if my server crashes, or you don't have an internet connection?
+- The app will work as it always has. We will never include anything that would lock the app when the user doesn't have connection to the server.
+- Any feature that requires the server specifically will not work.
+  - For example, the feedback and crash reports.
+- There's going to be a note in the main menu that the server is down.
+- The app will keep looking for the server once every 2 minutes.
+
+As for data, the UUIDs relating to the automatic pings will be lost. Most other data is saved on disk, and with the exception of data that is sent at the exact time of the crash, that data will remain even if the server crashes.
