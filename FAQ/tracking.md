@@ -18,6 +18,7 @@ By default all optional settings are off. If you don't touch these settings, no 
 !!!
 ### Tracking architecture
 There are two types of tracking in the app. 
+**Plugins cannot require tracking being enabled, I will not force it on anyone.**
 ||| Passive
 
 ==- [!badge variant="dark" text="Required"] ‎ Passive server pings
