@@ -6,7 +6,7 @@ $scriptDirectory = $scriptDirectory.Replace("\InstallerSources", "")
 $installerbatFileName = "installer.bat"
 $installpyFileName = "installer.py"
 $uninstallerpsFileName = "uninstaller.ps1"
-$debugbatFileName = "debug.bat"
+$debugbatFileName = "debug.py"
 $updatebatFileName = "update.bat"
 $activatebatFileName = "activate.bat"
 $SteamParserpyFileName = "SteamParser.py"
@@ -204,80 +204,149 @@ if ($confirmation -eq 'yes') {
 '@
 
 $debugdata = @"
-REM Specify the path to the version.txt file
-set "version_file=$($scriptDirectory)\app\version.txt"
-REM Specify the path to the log file
-set "log_file=$($scriptDirectory)\app\log.txt"
-REM Specify the path to the settings file
-set "settings_file=$($scriptDirectory)\app\profiles\settings.json"
-REM Specify the path to the debug.txt file
-set "debug_file=$($scriptDirectory)\debug.txt"
+import requests
+import json
+import platform
+import sys
+import os
+import tkinter as tk
+from tkinter import ttk
 
-REM Clear the debug.txt file
-echo. > "%debug_file%"
+def get_os_info():
+    global oss
+    global osversion
+    global appversion
+    global pythonversion
+    global gitversion
+    global cpu
+    global gpu
+    global logs
+    global settings
 
-REM Check if version.txt exists
-if not exist "%version_file%" (
-    echo Error: %version_file% not found! >> "%debug_file%"
-    echo Error: %version_file% not found!
-    exit /b 1
-)
+    try:
+        oss = platform.system()
+    except:
+        oss = "Os not found, Why I have no idea. Something is messed up"
 
-REM Display the content of version.txt
-set /p version_content=<"%version_file%"
-echo Version content: %version_content% >> "%debug_file%"
+    try:
+        osversion = platform.version()
+    except:
+        osversion = "Os version not found, Why I have no idea. Something is messed up"
 
-REM Check if log.txt exists
-if not exist "%log_file%" (
-    echo Error: %log_file% not found! >> "%debug_file%"
-    echo Error: %log_file% not found!
-    exit /b 1
-)
+    try:
+        with open("app/version.txt", 'r') as file:
+            appversion = file.read()
+    except:
+        appversion = "App version not found, Why I have no idea. Something is messed up"
 
-REM Check if settings.txt exists
-if not exist "%settings_file%" (
-    echo Error: %settings% not found! >> "%debug_file%"
-    echo Error: %settings% not found!
-    exit /b 1
-)
+    try:
+        pythonversion = sys.version
+    except:
+        pythonversion = "Python version not found, Why I have no idea. Something is messed up"
 
+    try:
+        gitversion = os.popen('git --version').read()
+    except:
+        gitversion = "Git version not found, Why I have no idea. Something is messed up"
 
+    try:
+        cpu = os.popen('wmic cpu get name').read()
+    except:
+        cpu = "Cpu not found, Why I have no idea. Something is messed up"
 
+    try:
+        gpu = os.popen('wmic path win32_videocontroller get caption').read()
+    except:
+        gpu = "Gpu not found, Why I have no idea. Something is messed up"
 
-REM Check if Python is installed
-where python > nul 2>&1
-if %errorlevel% neq 0 (
-    echo Python is not installed! >> "%debug_file%"
-    echo Python is not installed!
-    exit /b 1
-)
+    try:
+        with open("app/log.txt", 'r') as file:
+            logsuncence = file.read()
+        username = os.getlogin()
+        logs = logsuncence.replace(username, "censored") 
+    except:
+        logs = "Log not found, Why I have no idea. Something is messed up"
 
-REM Get Python version
-for /f "tokens=2 delims= " %%v in ('python --version 2^>^&1') do set "python_version=%%v"
+    try:
+        with open("app/profiles/settings.json", 'r') as file:
+            settingsuncence = file.read()
+        username = os.getlogin()
+        settings = settingsuncence.replace(username, "censored") 
+    except:
+        settings = "Settings not found, Why I have no idea. Something is messed up"
 
-REM Display Python version
-echo Python version: %python_version%
-echo Python version: %python_version% >> "%debug_file%"
+    jsonData = {
+        "type": "Debug",
+        "logs": logs,
+        "settings": settings,
+        "additional": f"OS: {oss} \nOS Version: {osversion} \n\nApp version: {appversion} \nPython Version: {pythonversion} \nGit Version: {gitversion} \nCPU: {cpu} \nGPU: {gpu}"
+    }
 
-REM Display gpus 
-echo Gpu: >> "%debug_file%
-echo --------------------------- >> "%debug_file%"
-wmic path win32_videocontroller get caption >> "%debug_file%"
-REM Display the content of log.txt
-echo END FILE >> "%debug_file%"
-echo Settings file: >> "%debug_file%"
-echo --------------------------- >> "%debug_file%"
-type "%settings_file%" >> %debug_file%"
+    return jsonData
 
-REM Display the content of log.txt
-echo END FILE >> "%debug_file%"
-echo --------------------------- >> "%debug_file%"
-echo Log file: >> "%debug_file%"
-echo --------------------------- >> "%debug_file%"
-type "%log_file%" >> %debug_file%"
-echo END FILE >> "%debug_file%"
-exit /b 0
+def send_debug_data():
+    global root  # Declare root as a global variable
+    data = get_os_info()
 
+    url = 'https://crash.tumppi066.fi/debug'  # Replace with your actual endpoint
+    headers = {'Content-Type': 'application/json'}
+
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        print("Data sent successfully")
+        
+        # Switch to the "Sent Complete" menu
+        show_frame(sent_complete_frame)
+        
+    except Exception as e:
+        print(f"Failed to send data: {e}")
+
+def show_frame(frame):
+    frame.tkraise()
+
+def create_gui():
+    json_data = get_os_info()
+    global sent_complete_frame  # Declare sent_complete_frame as a global variable
+    root = tk.Tk()
+    root.title("Debug Information")
+
+    # Frame for debug information
+    debug_frame = ttk.Frame(root, padding="10")
+    debug_frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
+    title_label = ttk.Label(debug_frame, text=f"Please review the following information before sending the debug data: \n - OS: {oss} \n - OS version: {osversion} \n - App version: {appversion} \n - Python version: {platform.python_version()} \n - Git version: {gitversion} \n - CPU \n - GPU \n - Logs \n - Settings", font=("Helvetica", 14))
+    title_label.grid(column=0, row=0, columnspan=2, pady=5)
+
+    text_label = ttk.Label(debug_frame, text="Raw Debug Being Sent:")
+    text_label.grid(column=0, row=1, columnspan=2, pady=5)
+
+    info_text = tk.Text(debug_frame, height=15, width=50)
+    info_text.grid(column=0, row=2, columnspan=2, pady=5)
+
+    # Call the function to get JSON data and display it in the text box
+    info_text.insert(tk.END, json.dumps(json_data, indent=2))
+
+    send_button = ttk.Button(debug_frame, text="Send Debug Data", command=send_debug_data)
+    send_button.grid(column=0, row=3, columnspan=2, pady=10)
+
+    # Frame for "Sent Complete" message
+    sent_complete_frame = ttk.Frame(root, padding="10")
+    sent_complete_frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
+    # Increase font size for the "Sent Complete" frame
+    message_label = ttk.Label(sent_complete_frame, text="Sent complete. You can now close the window. \nThanks for helping in the development of ETS2LA", font=("Helvetica", 20))
+    message_label.grid(column=0, row=0, pady=10)
+
+    close_button = ttk.Button(sent_complete_frame, text="Close", command=root.destroy)
+    close_button.grid(column=0, row=1, pady=10)
+
+    # Initially, show the debug information frame
+    show_frame(debug_frame)
+
+    root.mainloop()
+
+# Run the GUI
+create_gui()
 "@
 
 $installpydata = @"
@@ -1292,7 +1361,7 @@ $DebugButton.location = New-Object System.Drawing.Point(230,150)
 $DebugButton.Font = 'Microsoft Sans Serif,12'
 $DebugButton.ForeColor = "#FFFFFF"
 $DebugButton.Enabled = ButtonEnabled
-$DebugButton.add_click({RunScript("debug.bat")})
+$DebugButton.add_click({python($debugfilepath)})
 $gui.controls.Add($DebugButton)
 
 $ActivateButton = New-Object system.Windows.Forms.Button
