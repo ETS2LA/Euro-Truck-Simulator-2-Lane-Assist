@@ -1122,10 +1122,10 @@ $uninstallerdataarray[2] | Add-Content -Path $uninstallerFilePath -NoNewline
 $uninstallerdataarray[3] | Add-Content -Path $uninstallerFilePath
 $uninstallerdataarray[4] | Add-Content -Path $uninstallerFilePath
 $debugdata | Set-Content -Path $debugfilepath
-$installpydata | Set-Content -Path $installpyFilePath
+$installpydata | Set-Content -Path $installpyFilePath -Encoding utf8
 $updatedata | Set-Content -Path $updatebatFilePath
 $activatedata | Set-Content -Path $activatebatFilePath
-$steamparserpydata | Set-Content -Path $steamparserpyFilePath
+$steamparserpydata | Set-Content -Path $steamparserpyFilePath -Encoding utf8
 
 Set-Location $scriptDirectory
 
