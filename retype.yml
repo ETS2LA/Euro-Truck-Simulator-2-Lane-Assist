@@ -29,15 +29,15 @@ url: wiki.tumppi066.fi         # Can also be a sub-domain
 
 branding:
   title: ETS2LA              # Your custom website title; keep it short
-  # logo: /assets/firstTimeSetup/logo.png             # Path to a logo file
+  logo: /assets/favicon.ico             # Path to a logo file
   # logoDark: /assets/firstTimeSetup/logo.png    # Path to a logo file to use in dark mode
   # logoAlign: right            # Align the logo to the right or the left
-  label: Wiki                 # Optional label
+  label: 1.10.0                 # Optional label
                               # To remove the label, remove this config
-#  colors:
-#    label:                    # Label colors
-#      text: "#ffffff"         # Custom color for the label text
-#      background: "#ff0000"   # Custom color for the label background
+  colors:
+    label:                    # Label colors
+      text: "#ffffff"   # Custom color for the label background
+      background: "#c65c15"         # Custom color for the label text
 
 # -----------------------------------------------------------------------------
 
