@@ -61,7 +61,7 @@ class UI():
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=1000, height=520, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
