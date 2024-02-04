@@ -2,6 +2,7 @@
 
 # ETS2LA
 Lane assist and plugin based interface program for SCS truck simulators.
+
 ![](https://img.shields.io/sourceforge/dw/EuroTruckSimulator2-LaneAssist?style=for-the-badge&logo=sourceforge)
 ![](https://img.shields.io/discord/1120719484982939790?style=for-the-badge&logo=discord)
 ![](https://img.shields.io/github/commit-activity/m/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist?style=for-the-badge&logo=Github)
