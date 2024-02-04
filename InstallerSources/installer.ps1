@@ -227,38 +227,38 @@ def get_os_info():
     try:
         oss = platform.system()
     except:
-        oss = "Os not found, Why I have no idea. Something is messed up"
+        oss = "OS name not found."
 
     try:
         osversion = platform.version()
     except:
-        osversion = "Os version not found, Why I have no idea. Something is messed up"
+        osversion = "OS version not found"
 
     try:
         with open("app/version.txt", 'r') as file:
             appversion = file.read()
     except:
-        appversion = "App version not found, Why I have no idea. Something is messed up"
+        appversion = "App version not found."
 
     try:
         pythonversion = sys.version
     except:
-        pythonversion = "Python version not found, Why I have no idea. Something is messed up"
+        pythonversion = "Python Not Found"
 
     try:
         gitversion = os.popen('git --version').read()
     except:
-        gitversion = "Git version not found, Why I have no idea. Something is messed up"
+        gitversion = "Git was not found."
 
     try:
         cpu = os.popen('wmic cpu get name').read()
     except:
-        cpu = "Cpu not found, Why I have no idea. Something is messed up"
+        cpu = "No CPU Found."
 
     try:
         gpu = os.popen('wmic path win32_videocontroller get caption').read()
     except:
-        gpu = "Gpu not found, Why I have no idea. Something is messed up"
+        gpu = "No GPU Found."
 
     try:
         with open("app/log.txt", 'r') as file:
@@ -266,7 +266,7 @@ def get_os_info():
         username = os.getlogin()
         logs = logsuncence.replace(username, "censored") 
     except:
-        logs = "Log not found, Why I have no idea. Something is messed up"
+        logs = "No log file found"
 
     try:
         with open("app/profiles/settings.json", 'r') as file:
@@ -274,7 +274,7 @@ def get_os_info():
         username = os.getlogin()
         settings = settingsuncence.replace(username, "censored") 
     except:
-        settings = "Settings not found, Why I have no idea. Something is messed up"
+        settings = "No settings file found."
 
     jsonData = {
         "type": "Debug",
