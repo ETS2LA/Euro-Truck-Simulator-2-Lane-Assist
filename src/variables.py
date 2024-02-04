@@ -32,7 +32,18 @@ OS = os.name
 LASTUPDATE = None
 """The date of the last update to the local git repo."""
 try:
-    LASTUPDATE = subprocess.check_output("git log -1 --date=local --format=%cd", shell=True).decode("utf-8").replace("\n", "")
+    try:
+        LASTUPDATE = subprocess.check_output("git log -1 --date=local --format=%cd", shell=True).decode("utf-8").replace("\n", "")
+    except:
+        # Git is probably notifying us of the root folder being owned by admin
+        unixPath = PATH.replace("\\", "/")
+        if unixPath[-1] == "/":
+            unixPath = unixPath[:-1]
+            
+        os.system(f'cmd /k "cd {PATH} & git config --global --add safe.directory {unixPath} & exit"')
+
+        LASTUPDATE = subprocess.check_output("git log -1 --date=local --format=%cd", shell=True).decode("utf-8").replace("\n", "")
+        
 except:
     LASTUPDATE = "Unknown"
     

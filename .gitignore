@@ -30,6 +30,11 @@ yolov5x.pt
 # Wiki is built by github actions, no need to have users download it constantly
 wiki/* 
 
+# NPM
+node_modules
+package-lock.json
+package.json
+
 # Ignore themes
 themes/*
 !themes/ExampleTheme
