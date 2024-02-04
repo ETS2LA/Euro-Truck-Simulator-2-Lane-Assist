@@ -13,7 +13,9 @@ Only the crash reporter is present in the application currently. The purpose of 
 # Tracking
 This page will tell you what we track, how, and where it's stored. 
 **Our goal is to be as transparent as possible, especially regarding tracking**.
-
+!!!secondary TLDR
+By default all optional settings are off. If you don't touch these settings, no data will ever be saved on the server.
+!!!
 ### Tracking architecture
 There are two types of tracking in the app. 
 ||| Passive
@@ -48,10 +50,6 @@ This data is sent to a private discord channel for developers. I do not store th
 
 ==-
 |||
-
-!!!secondary TLDR
-By default all optional settings are set off. If you don't touch these settings, no data will ever be saved on the server.
-!!!
 
 ### How we store data.
 Everything collected is stored on my own server. There are no backups online, and nothing leaves my own local network. Any exceptions to this are listed in the architecture section above.
