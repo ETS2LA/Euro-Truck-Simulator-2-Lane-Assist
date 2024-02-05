@@ -1,1 +1,2 @@
-New .exe installer.
+Removed NavigationDetection V1 and V2
+Added an automatic setup method for NavigationDetection
