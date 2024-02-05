@@ -22,7 +22,7 @@ $SteamParserpyFilePath = Join-Path $tempDir $SteamParserpyFileName
 
 $installerdata = @"
 winget --version >nul 2>&1 || (
-    color 4 & echo WARNING, You do not have winget avialble on your system, This is most lickly because your on a windows version older then 2004. Please update your windows install and try again.
+    color 4 & echo WARNING, You do not have winget avialble on your system, This is most likely because your on a windows version older then 2004. Please update your windows install and try again.
     pause
     exit 0
 )
@@ -241,7 +241,7 @@ def get_os_info():
         appversion = "App version not found."
 
     try:
-        pythonversion = sys.version
+        pythonversion = platform.python_version()
     except:
         pythonversion = "Python Not Found"
 
