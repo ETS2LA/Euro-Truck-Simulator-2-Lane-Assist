@@ -627,17 +627,25 @@ def plugin(data):
         indicator_changed_by_code = True
     else:
         indicator_changed_by_code = False
-
-    if controls.GetKeybindFromName("Lane change to the left")['buttonIndex'] != -1:
-        controls_left_set = True
-        controls_left = controls.GetKeybindValue("Lane change to the left")
-    else:
+    
+    try:
+        if controls.GetKeybindFromName("Lane change to the left")['buttonIndex'] != -1:
+            controls_left_set = True
+            controls_left = controls.GetKeybindValue("Lane change to the left")
+        else:
+            controls_left_set = False
+            controls_left = False
+    except:
         controls_left_set = False
         controls_left = False
-    if controls.GetKeybindFromName("Lane change to the right")['buttonIndex'] != -1:
-        controls_right_set = True
-        controls_right = controls.GetKeybindValue("Lane change to the right")
-    else:
+    try:
+        if controls.GetKeybindFromName("Lane change to the right")['buttonIndex'] != -1:
+            controls_right_set = True
+            controls_right = controls.GetKeybindValue("Lane change to the right")
+        else:
+            controls_right_set = False
+            controls_right = False
+    except:
         controls_right_set = False
         controls_right = False
 
