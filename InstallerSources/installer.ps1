@@ -3,7 +3,6 @@ $tempDir = New-Item -ItemType Directory -Path "$env:TEMP\ScriptOutput" -Force
 $scriptDirectory = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 $scriptDirectory = $scriptDirectory.Replace("\InstallerSources", "")
 # Specify the file names
-$installerbatFileName = "installer.bat"
 $installpyFileName = "installer.py"
 $uninstallerpsFileName = "uninstaller.ps1"
 $debugbatFileName = "debug.py"
@@ -12,7 +11,6 @@ $activatebatFileName = "activate.bat"
 $SteamParserpyFileName = "SteamParser.py"
 
 # Specify the path to the bat file
-$installerFilePath = Join-Path $tempDir $installerbatFileName
 $uninstallerFilePath = Join-Path $tempDir $uninstallerpsFileName
 $debugfilepath = Join-Path $tempDir $debugbatFileName
 $installpyFilePath = Join-Path $tempDir $installpyFileName
@@ -20,34 +18,6 @@ $updatebatFilePath = Join-Path $tempDir $updatebatFileName
 $activatebatFilePath = Join-Path $tempDir $activatebatFileName
 $SteamParserpyFilePath = Join-Path $tempDir $SteamParserpyFileName
 
-$installerdata = @"
-winget --version >nul 2>&1 || (
-    color 4 & echo WARNING, You do not have winget avialble on your system, This is most likely because your on a windows version older then 2004. Please update your windows install and try again.
-    pause
-    exit 0
-)
-
-git --version >nul 2>&1 || (
-    color 6 & echo Installing git, Please read and accept the windows smart screen prompt
-    winget install Git.Git
-    echo git is now installed
-)
-
-python --version >nul 2>&1 || (
-    color 6 & echo Installing python, Please read and accept the windows smart screen prompt
-    winget install -e --id Python.Python.3.11
-    echo Python is now installed
-)
-
-python --version >nul 2>&1 || (
-    color 2 & echo Successfully install all requirements please re run installer.bat
-    pause
-    exit 0
-)
-python $installpyFilePath
-
-pause
-"@
 $uninstallerdataarray = '$tempDir =', "'$($tempDir)'", 
 '$scriptDirectory = ', "'$($scriptDirectory)'",
 @'
@@ -1205,7 +1175,6 @@ if __name__ == "__main__":
 "@
 
 # Save the content to the bat file
-$installerdata | Set-Content -Path $installerFilePath
 $uninstallerdataarray[0] | Set-Content -Path $uninstallerFilePath -NoNewline
 $uninstallerdataarray[1] | Add-Content -Path $uninstallerFilePath
 $uninstallerdataarray[2] | Add-Content -Path $uninstallerFilePath -NoNewline
@@ -1346,7 +1315,7 @@ $InstallerButton.height = 45
 $InstallerButton.location = New-Object System.Drawing.Point(20,90)
 $InstallerButton.Font = 'Microsoft Sans Serif,12'
 $InstallerButton.ForeColor = "#FFFFFF"
-$InstallerButton.add_click({RunScript("installer.bat")})
+$InstallerButton.add_click({python($installpyFilePath)})
 $gui.controls.Add($InstallerButton)
 
 $UninstallerButton = New-Object system.Windows.Forms.Button
@@ -1401,7 +1370,6 @@ $gui.controls.Add($ActivateButton)
 [void]$gui.ShowDialog()
 
 # Remove the bat files
-Remove-Item -Path $installerFilePath -Force
 Remove-Item -Path $uninstallerFilePath -Force
 Remove-Item -Path $debugfilepath -Force
 Remove-Item -Path $installpyFilePath -Force
