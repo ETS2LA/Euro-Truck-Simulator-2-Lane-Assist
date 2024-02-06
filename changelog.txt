@@ -1,1 +1,1 @@
-Fixed a bug in the NavigationDetection setup.
+Fixed some bugs
