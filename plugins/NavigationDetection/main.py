@@ -649,26 +649,27 @@ def plugin(data):
         controls_right_set = False
         controls_right = False
 
-    if controls_left_set == False:
-        if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
-            lanechanging_current_lane += 1
-    else:
-        if controls_left == True and controls_last_left == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
-            if indicator_left == True:
+    if enabled == True:
+        if controls_left_set == False:
+            if indicator_left != indicator_last_left and indicator_left == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
                 lanechanging_current_lane += 1
-            elif indicator_left == False and indicator_right_wait_for_response == False:
-                lanechanging_current_lane += 1
-                indicator_enable_left = True
-    if controls_right_set == False:
-        if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
-            lanechanging_current_lane -= 1
-    else:
-        if controls_right == True and controls_last_right == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
-            if indicator_right == True:
+        else:
+            if controls_left == True and controls_last_left == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
+                if indicator_left == True:
+                    lanechanging_current_lane += 1
+                elif indicator_left == False and indicator_right_wait_for_response == False:
+                    lanechanging_current_lane += 1
+                    indicator_enable_left = True
+        if controls_right_set == False:
+            if indicator_right != indicator_last_right and indicator_right == True and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
                 lanechanging_current_lane -= 1
-            elif indicator_right == False and indicator_left_wait_for_response == False:
-                lanechanging_current_lane -= 1
-                indicator_enable_right = True
+        else:
+            if controls_right == True and controls_last_right == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and current_time - 1 > turnincoming_last_detected:
+                if indicator_right == True:
+                    lanechanging_current_lane -= 1
+                elif indicator_right == False and indicator_left_wait_for_response == False:
+                    lanechanging_current_lane -= 1
+                    indicator_enable_right = True
 
     if indicator_enable_left == True and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
         data["sdk"]["LeftBlinker"] = True
