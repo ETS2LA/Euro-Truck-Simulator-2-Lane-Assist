@@ -1,2 +1,1 @@
-Removed NavigationDetection V1 and V2
-Added an automatic setup method for NavigationDetection
+Fixed a bug in the NavigationDetection setup.
