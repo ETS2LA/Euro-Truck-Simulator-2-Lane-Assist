@@ -1113,11 +1113,11 @@ class UI():
             LoadSettings()
         
         def manual_setup(self):
-            subprocess.Popen(["python", os.path.join(variables.PATH, "plugins\\NavigationDetection", "manual_setup.py")])
+            subprocess.Popen([f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe", os.path.join(variables.PATH, "plugins/NavigationDetection", "manual_setup.py")], shell=True)
 
         def automatic_setup(self):
-            subprocess.Popen(["python", os.path.join(variables.PATH, "plugins\\NavigationDetection", "automatic_setup.py")])
-        
+            subprocess.Popen([f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe", os.path.join(variables.PATH, "plugins/NavigationDetection", "automatic_setup.py")], shell=True)
+
         def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()
     
