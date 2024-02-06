@@ -276,12 +276,31 @@ def get_os_info():
     except:
         settings = "No settings file found."
 
-    jsonData = {
-        "type": "Debug",
-        "logs": logs,
-        "settings": settings,
-        "additional": f"OS: {oss} \nOS Version: {osversion} \n\nApp version: {appversion} \nPython Version: {pythonversion} \nGit Version: {gitversion} \nCPU: {cpu} \nGPU: {gpu}"
-    }
+    try:
+        config_data = json.loads(settings)
+        app_enabled = config_data.get("Plugins", {}).get("Enabled", [])
+    except:
+        if(settings == "No settings file found."):
+            app_enabled = ""
+        else:
+            app_enabled = "No plugins enabled"
+
+    if app_enabled == "":
+        jsonData = {
+            "type": "Debug",
+            "logs": logs,
+            "settings": settings,
+            "additional": f"OS: {oss} \nOS Version: {osversion} \n\nApp version: {appversion} \nPython Version: {pythonversion} \nGit Version: {gitversion} \nCPU: {cpu} \nGPU: {gpu}"
+        } 
+    else:
+        jsonData = {
+            "type": "Debug",
+            "logs": logs,
+            "settings": settings,
+            "pluginEnabled": app_enabled,
+            "additional": f"OS: {oss} \nOS Version: {osversion} \n\nApp version: {appversion} \nPython Version: {pythonversion} \nGit Version: {gitversion} \nCPU: {cpu} \nGPU: {gpu}"
+        }
+    
     jsonDatadumped = json.dumps(jsonData, indent=4) 
     subprocess.run(['clip'], input=jsonDatadumped, text=True, check=True)
     return jsonData
