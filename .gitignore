@@ -35,6 +35,11 @@ node_modules
 package-lock.json
 package.json
 
+# Ignore gource files
+gource.mp4
+gource.txt
+output
+
 # Ignore themes
 themes/*
 !themes/ExampleTheme
