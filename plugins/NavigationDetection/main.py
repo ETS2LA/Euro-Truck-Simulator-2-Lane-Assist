@@ -128,8 +128,7 @@ def LoadSettings():
     map_bottomright = settings.GetSettings("NavigationDetection", "map_bottomright", "unset")
     arrow_topleft = settings.GetSettings("NavigationDetection", "arrow_topleft", "unset")
     arrow_bottomright = settings.GetSettings("NavigationDetection", "arrow_bottomright", "unset")
-
-    arrow_percentage = settings.GetSettings("NavigationDetection", "arrow_percentage", 0.4)
+    arrow_percentage = settings.GetSettings("NavigationDetection", "arrow_percentage", "unset")
 
     if map_topleft == "unset":
         map_topleft = None
@@ -139,6 +138,8 @@ def LoadSettings():
         arrow_topleft = None
     if arrow_bottomright == "unset":
         arrow_bottomright = None
+    if arrow_percentage == "unset":
+        arrow_percentage = None
     
     if arrow_topleft != None and arrow_bottomright != None and map_topleft != None and map_bottomright != None:
         navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
@@ -149,7 +150,7 @@ def LoadSettings():
 
     offset = settings.GetSettings("NavigationDetection", "offset", 0)
 
-    if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
+    if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled", []):
         trafficlightdetection_is_enabled = True
     else:
         trafficlightdetection_is_enabled = False
@@ -328,7 +329,7 @@ def plugin(data):
             trafficlight = data["TrafficLightDetection"]["simple"]
         except:
             trafficlight = None
-            if "TrafficLightDetection" not in settings.GetSettings("Plugins", "Enabled"):
+            if "TrafficLightDetection" not in settings.GetSettings("Plugins", "Enabled", []):
                 trafficlightdetection_is_enabled = False
                 trafficlight = "Off"
     else:
@@ -355,13 +356,17 @@ def plugin(data):
         else:
             pixel_ratio = 0
 
-        if pixel_ratio > arrow_percentage * 0.9 and pixel_ratio < arrow_percentage * 1.1:
+        if arrow_percentage != None:
+            if pixel_ratio > arrow_percentage * 0.9 and pixel_ratio < arrow_percentage * 1.1:
+                do_zoom = False
+            else:
+                do_zoom = True
+            if pixel_ratio < 0.01:
+                do_blocked = True
+            else:
+                do_blocked = False
+        else:
             do_zoom = False
-        else:
-            do_zoom = True
-        if pixel_ratio < 0.01:
-            do_blocked = True
-        else:
             do_blocked = False
         if check_map_timer == 0:
             check_map_timer = current_time
@@ -723,7 +728,7 @@ def plugin(data):
     allow_do_zoom = True
     show_turn_line = True
     
-    if map_topleft == None or map_bottomright == None or arrow_topleft == None or arrow_bottomright == None:
+    if map_topleft == None or map_bottomright == None or arrow_topleft == None or arrow_bottomright == None or arrow_percentage == None:
         if allow_playsound == True:
             sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
             allow_playsound = False
@@ -1124,4 +1129,4 @@ class UI():
     except Exception as ex:
         print(ex.args)
 
-# this comment is used to reload the app after finishing the setup - 0
+# this comment is used to reload the app after finishing the setup - 1
