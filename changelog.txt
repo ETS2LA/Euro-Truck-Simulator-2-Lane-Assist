@@ -1,2 +1,1 @@
-Hopefully fix changelog opening multiple times.
-At the same time fix it opening when no update was actually performed.
+Fixed some bugs

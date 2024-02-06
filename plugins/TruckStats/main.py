@@ -975,7 +975,7 @@ def plugin(data):
 
 
     if look_for_trucksimapi == True:
-        if "TruckSimAPI" not in settings.GetSettings("Plugins", "Enabled"):
+        if "TruckSimAPI" not in settings.GetSettings("Plugins", "Enabled", []):
             frame = frame_original
             current_text = f"Enable TruckSimAPI"
             width_target_current_text = 0.8*width_frame

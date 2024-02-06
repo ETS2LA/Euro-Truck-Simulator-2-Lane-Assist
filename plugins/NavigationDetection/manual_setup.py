@@ -618,7 +618,7 @@ while True:
                 CreateSettings("NavigationDetection", "map_bottomright", map_bottomright)
                 CreateSettings("NavigationDetection", "arrow_topleft", arrow_topleft)
                 CreateSettings("NavigationDetection", "arrow_bottomright", arrow_bottomright)
-                CreateSettings("NavigationDetection", "arrow_percentage", 0.4)
+                CreateSettings("NavigationDetection", "arrow_percentage", "unset")
 
             with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "main.py"), "r+") as file:
                 content = file.read()

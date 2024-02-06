@@ -43,6 +43,11 @@ controls.RegisterKeybind("Pause/Resume Automatic Acceleration",
 def UpdateSettings():
     global trafficlightdetectionisenabled
     global navigationdetectionisenabled
+    global map_topleft
+    global map_bottomright
+    global arrow_topleft
+    global arrow_bottomright
+    global arrow_percentage
     global navigationsymbol_x
     global navigationsymbol_y
     global cruisecontrol_off_set
@@ -91,28 +96,36 @@ def UpdateSettings():
     global pauseresume_allow
     global last_park_brake
     
-    if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled"):
+    if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled", []):
         trafficlightdetectionisenabled = True
     else:
         trafficlightdetectionisenabled = False
 
-    if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
+    if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled", []):
         navigationdetectionisenabled = True
-        centercoord = settings.GetSettings("NavigationDetectionV3", "centercoord", "unset")
-        screencap_x = settings.GetSettings("bettercam", "x")
-        screencap_y = settings.GetSettings("bettercam", "y")
-        if centercoord == "unset":
-            centercoord = None
-        if centercoord != None and screencap_x != None and screencap_y != None:
-            navigationsymbol_x = centercoord[0] - screencap_x
-            navigationsymbol_y = centercoord[1] - screencap_y
-            if navigationsymbol_x < 0:
-                navigationsymbol_x = 0
-            if navigationsymbol_y < 0:
-                navigationsymbol_y = 0
+        map_topleft = settings.GetSettings("NavigationDetection", "map_topleft", "unset")
+        map_bottomright = settings.GetSettings("NavigationDetection", "map_bottomright", "unset")
+        arrow_topleft = settings.GetSettings("NavigationDetection", "arrow_topleft", "unset")
+        arrow_bottomright = settings.GetSettings("NavigationDetection", "arrow_bottomright", "unset")
+        arrow_percentage = settings.GetSettings("NavigationDetection", "arrow_percentage", "unset")
+
+        if map_topleft == "unset":
+            map_topleft = None
+        if map_bottomright == "unset":
+            map_bottomright = None
+        if arrow_topleft == "unset":
+            arrow_topleft = None
+        if arrow_bottomright == "unset":
+            arrow_bottomright = None
+        if arrow_percentage == "unset":
+            arrow_percentage = None
+        
+        if arrow_topleft != None and arrow_bottomright != None and map_topleft != None and map_bottomright != None:
+            navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
+            navigationsymbol_y = round((arrow_topleft[1] + arrow_bottomright[1]) / 2 - map_topleft[1])
         else:
-            navigationsymbol_y = 0
             navigationsymbol_x = 0
+            navigationsymbol_y = 0
     else:
         navigationdetectionisenabled = False
 
@@ -173,6 +186,11 @@ def UpdateSettings():
 def plugin(data):
     global trafficlightdetectionisenabled
     global navigationdetectionisenabled
+    global map_topleft
+    global map_bottomright
+    global arrow_topleft
+    global arrow_bottomright
+    global arrow_percentage
     global navigationsymbol_x
     global navigationsymbol_y
     global cruisecontrol_off_set
@@ -390,20 +408,21 @@ def plugin(data):
                 hwnd_ats_multiplayer = ctypes.windll.user32.FindWindowW(None, "American Truck Simulator Multiplayer")
                 hwnd_active = ctypes.windll.user32.GetForegroundWindow()
                 if hwnd_active == hwnd_ets2 or hwnd_active == hwnd_ats or hwnd_active == hwnd_ets2_multiplayer or hwnd_active == hwnd_ats_multiplayer:
-                    lower_blue = np.array([121, 68, 0])
-                    upper_blue = np.array([250, 184, 109])
-                    mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
-                    y, x = np.ogrid[:mask_blue.shape[0], :mask_blue.shape[1]]
-                    mask_circle = (x - navigationsymbol_x)**2 + (y - navigationsymbol_y)**2 <= round(width/10)**2
-                    mask_blue = np.where(mask_circle, mask_blue, 0)
-                    if width != 0 and height != 0:
-                        pixel_ratio = cv2.countNonZero(mask_blue) / (width * height)
+                    if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None:
+                        lower_blue = np.array([121, 68, 0])
+                        upper_blue = np.array([250, 184, 109])
+                        mask_blue = cv2.inRange(frame[arrow_topleft[1] - map_topleft[1]:arrow_bottomright[1] - map_bottomright[1], arrow_topleft[0] - map_topleft[0]:arrow_bottomright[0] - map_bottomright[0]], lower_blue, upper_blue)
+                        arrow_height, arrow_width = mask_blue.shape[:2]
+                        pixel_ratio = round(cv2.countNonZero(mask_blue) / (arrow_width * arrow_height), 3)
                     else:
                         pixel_ratio = 0
-                    if pixel_ratio > 0.007 and pixel_ratio < 0.01:
-                        do_lanedetected_stop = True
+                    if arrow_percentage != None:
+                        if pixel_ratio > arrow_percentage * 0.9 and pixel_ratio < arrow_percentage * 1.1:
+                            do_lanedetected_stop = True
+                    else:
+                        do_lanedetected_stop = False
             else:
-                do_lanedetected_stop = True
+                do_lanedetected_stop = False
         if user_accelerating == True:
             do_lanedetected_stop = False
         if hazard_light != last_hazard_light or current_time - 1 >  wait_for_response_hazard_light_timer:
