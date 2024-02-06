@@ -526,7 +526,7 @@ def CreateRoot():
         for tab in settings.GetSettings("User Interface", "OpenTabs"):
             print("Loading " + tab)
             try:
-                if tab == "controls":
+                if tab == "controls" or tab == "Changelog":
                     settings.RemoveFromList("User Interface", "OpenTabs", tab)
                     continue
                 else:
