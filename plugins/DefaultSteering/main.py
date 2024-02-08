@@ -107,7 +107,7 @@ IndicatingLeft = False
 lastIndicatingRight = False
 lastIndicatingLeft = False
 enabled = True
-enabledTimer = 0
+isHolding = False
 keyboardControlValue = 0
 def plugin(data):
     global desiredControl
@@ -125,7 +125,7 @@ def plugin(data):
     global gamepadSmoothness
     global lastFrame
     global enableDisable
-    global enabledTimer
+    global isHolding
     global keyboard
     global keyboardControlValue
     global keyboardSensitivity
@@ -195,18 +195,19 @@ def plugin(data):
                     IndicatingLeft = False
                     IndicatingRight = False
 
-            enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
-            if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
+            if(controls.GetKeybindValue("Enable/Disable Steering") and not isHolding):
                 if enabled == True:
                     enabled = False
                     print("Disabled")
-                    enabledTimer = 0
+                    isHolding = True
                     sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
                 else:
                     enabled = True
                     print("Enabled")
-                    enabledTimer = 0
+                    isHolding = True
                     sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
+            elif not controls.GetKeybindValue("Enable/Disable Steering"):
+                isHolding = False
 
             try:
 
@@ -287,17 +288,19 @@ def plugin(data):
                     IndicatingLeft = False
                     IndicatingRight = False
 
-            if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
+            if(controls.GetKeybindValue("Enable/Disable Steering") and not isHolding):
                 if enabled == True:
                     enabled = False
                     print("Disabled")
-                    enabledTimer = 0
+                    isHolding = True
                     sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
                 else:
                     enabled = True
                     print("Enabled")
-                    enabledTimer = 0
+                    isHolding = True
                     sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
+            elif not controls.GetKeybindValue("Enable/Disable Steering"):
+                isHolding = False
 
             try:
                 steeringAxisValue = controls.GetKeybindValue("Steering Axis")

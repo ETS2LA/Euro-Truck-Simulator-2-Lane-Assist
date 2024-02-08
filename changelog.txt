@@ -1,1 +1,1 @@
-Fixed some bugs
+Fixed app enabling and disabling constantly while holding the toggle button.
