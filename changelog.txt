@@ -1,2 +1,1 @@
-Fixed logger crashing when log.txt is not found for some reason.
-Fixed settings crashing when currentProfile.txt is not found, the file will now be created.
+Fix crash that was caused by 1.10.6

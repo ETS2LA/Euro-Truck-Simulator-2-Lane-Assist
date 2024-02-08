@@ -272,7 +272,6 @@ def plugin(data):
     # Controller based control
     else:
         try:
-            enabledTimer += 1
             IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
             IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
             if IndicatingLeft == True:
