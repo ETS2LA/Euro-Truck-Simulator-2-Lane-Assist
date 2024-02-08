@@ -89,20 +89,29 @@ def print(text:str, end:str=""):
         message = f"[{date}] " + message 
     
     # Make sure the file is not too big
-    size = os.path.getsize("log.txt")
-    # 10MB
-    if size > 10000000:
-        sys.stdout.write(message + RED + "[ERROR] The log file is too big! (10mb) Saving paused! Please rerun the app!\n")
-        raise Exception("Usually you have a problem if the log file is this big!")
-    
     try:
-        with open("log.txt", "a") as f:
-            fileMessage = message
-            # Remove the color tags from the message so that the file is easier to read
-            fileMessage = fileMessage.replace(GREEN, "").replace(YELLOW, "").replace(NORMAL, "").replace(BLUE, "").replace(RED, "")
-            f.write(fileMessage)
+        size = os.path.getsize("log.txt")
+        # 10MB
+        if size > 10000000:
+            sys.stdout.write(message + RED + "[ERROR] The log file is too big! (10mb) Saving paused! Please rerun the app!\n")
+            raise Exception("Usually you have a problem if the log file is this big!")
+        
+        try:
+            with open("log.txt", "a") as f:
+                fileMessage = message
+                # Remove the color tags from the message so that the file is easier to read
+                fileMessage = fileMessage.replace(GREEN, "").replace(YELLOW, "").replace(NORMAL, "").replace(BLUE, "").replace(RED, "")
+                f.write(fileMessage)
+        except:
+            pass
     except:
-        pass
+        try:
+            # Check if the file exists
+            if not os.path.exists("log.txt"):
+                with open("log.txt", "w") as f:
+                    f.write("")
+        except:
+            pass
     
     # Can't use print() because it will cause an infinite loop
     sys.stdout.write(message + end)

@@ -24,6 +24,12 @@ if os.name == "nt":
 else:
     currentProfile = "profiles/currentProfile.txt"
 
+# Check that the current profile file exists
+if not os.path.exists(currentProfile):
+    with open(currentProfile, "w") as f:
+        f.write("profiles/settings.json")
+    print("Profile file didn't exist, created a new one")
+
 if open(currentProfile, "r").readline().replace("\n", "") == "":
     with open(currentProfile, "w") as f:
         f.write("profiles/settings.json")
