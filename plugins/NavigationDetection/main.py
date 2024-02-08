@@ -347,7 +347,7 @@ def plugin(data):
         check_map = False
 
     if check_map == True:
-        if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None:
+        if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None and map_topleft[0] < map_bottomright[0] and map_topleft[1] < map_bottomright[1] and arrow_topleft[0] < arrow_bottomright[0] and arrow_topleft[1] < arrow_bottomright[1]:
             lower_blue = np.array([121, 68, 0])
             upper_blue = np.array([250, 184, 109])
             mask_blue = cv2.inRange(frame[arrow_topleft[1] - map_topleft[1]:arrow_bottomright[1] - map_bottomright[1], arrow_topleft[0] - map_topleft[0]:arrow_bottomright[0] - map_bottomright[0]], lower_blue, upper_blue)
@@ -737,7 +737,7 @@ def plugin(data):
     allow_do_zoom = True
     show_turn_line = True
     
-    if map_topleft == None or map_bottomright == None or arrow_topleft == None or arrow_bottomright == None or arrow_percentage == None:
+    if map_topleft == None or map_bottomright == None or arrow_topleft == None or arrow_bottomright == None or arrow_percentage == None or map_topleft[0] > map_bottomright[0] or map_topleft[1] > map_bottomright[1] or arrow_topleft[0] > arrow_bottomright[0] or arrow_topleft[1] > arrow_bottomright[1]:
         if allow_playsound == True:
             sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
             allow_playsound = False

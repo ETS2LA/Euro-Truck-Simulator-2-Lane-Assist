@@ -21,12 +21,15 @@ plugins/Map/Old/VisualizeRoads/UNPACKTHISFILE.zip
 plugins/Map/GameData/*.json
 plugins/Map/Old
 anomalousFrames
+profiles/installer_config.cfg
 plugins/TrafficLightDetection/YoloFiles
 yolov5n.pt
 yolov5s.pt
 yolov5m.pt
 yolov5l.pt
 yolov5x.pt
+plugins/NavigationDetection/YoloFiles
+plugins/NavigationDetection/YOLOv5_MapDetectionModel.pt
 # Wiki is built by github actions, no need to have users download it constantly
 wiki/* 
 
