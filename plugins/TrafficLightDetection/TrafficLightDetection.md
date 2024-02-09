@@ -4,7 +4,7 @@
 # https://retype.com/components/alert/
 authors: 
   - name: Glas42
-    link: https://github.com/Tumppi066
+    link: https://github.com/Glas42
     avatar: https://avatars.githubusercontent.com/u/145870870?v=4
 date: 2024-1-31
 icon: stack

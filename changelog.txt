@@ -1,1 +1,1 @@
-Fix crash that was caused by 1.10.6
+NavigationDetection UI update.

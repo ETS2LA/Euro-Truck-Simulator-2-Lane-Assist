@@ -11,7 +11,7 @@ from src.mainUI import resizeWindow
 PluginInfo = PluginInformation(
     name="NavigationDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     description="Uses the navigation line in the minimap.",
-    version="0.1",
+    version="3.1",
     author="Glas42",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
@@ -29,19 +29,16 @@ import src.settings as settings
 import src.sounds as sounds
 import src.controls as controls
 from src.translator import Translate
+from src.mainUI import switchSelectedPlugin
 from tkinter import messagebox
 import os
 
 
 
 import plugins.DefaultSteering.main as DefaultSteering
-import keyboard as kb
 import numpy as np
 import subprocess
-import pyautogui
 import ctypes
-import mouse
-import math
 import time
 import cv2
 import os
@@ -736,6 +733,8 @@ def plugin(data):
     allow_do_blocked = True
     allow_do_zoom = True
     show_turn_line = True
+
+    map_detected = True
     
     if map_topleft == None or map_bottomright == None or arrow_topleft == None or arrow_bottomright == None or arrow_percentage == None or map_topleft[0] > map_bottomright[0] or map_topleft[1] > map_bottomright[1] or arrow_topleft[0] > arrow_bottomright[0] or arrow_topleft[1] > arrow_bottomright[1]:
         if allow_playsound == True:
@@ -764,6 +763,8 @@ def plugin(data):
         text_width, text_height = text_size
         cv2.putText(frame, "Setup", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
 
+        correction = 0
+        map_detected = False
         allow_trafficlight_symbol = False
         allow_no_lane_detected = False
         allow_do_blocked = False
@@ -798,7 +799,7 @@ def plugin(data):
         cv2.putText(frame, "blocked", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
 
         correction = 0
-
+        map_detected = False
         allow_trafficlight_symbol = False
         allow_no_lane_detected = False
         allow_do_blocked = False
@@ -830,7 +831,7 @@ def plugin(data):
         cv2.putText(frame, "Zoom Minimap in", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*1.7)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
         
         correction = 0
-
+        map_detected = False
         allow_trafficlight_symbol = False
         allow_no_lane_detected = False
         allow_do_blocked = False
@@ -865,7 +866,7 @@ def plugin(data):
         cv2.putText(frame, "Detected", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
 
         correction = 0
-
+        map_detected = False
         allow_trafficlight_symbol = False
         allow_no_lane_detected = False
         allow_do_blocked = False
@@ -974,8 +975,6 @@ def plugin(data):
     indicator_last_right = indicator_right
     controls_last_left = controls_left
     controls_last_right = controls_right
-    
-    lanechanging_last_progress = lanechanging_progress
 
     if speed > 63:
         correction *= 63/speed
@@ -1001,6 +1000,7 @@ def plugin(data):
         data["LaneDetection"]["difference"] = correction/30
     data["NavigationDetection"] = {}
     data["NavigationDetection"]["lanedetected"] = lane_detected
+    data["NavigationDetection"]["mapdetected"] = map_detected
     data["NavigationDetection"]["turnincoming"] = turnincoming_detected
     data["NavigationDetection"]["curve"] = curve
     data["NavigationDetection"]["lane"] = lanechanging_current_lane
@@ -1077,35 +1077,39 @@ class UI():
             ############################################################################################################################
             # UI
             ############################################################################################################################
-            
-            helpers.MakeEmptyLine(generalFrame, 1, 0)
 
             self.UI_offsetSlider = tk.Scale(generalFrame, from_=-20, to=20, resolution=0.1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
             self.UI_offsetSlider.set(settings.GetSettings("NavigationDetection", "offset"))
             self.UI_offsetSlider.grid(row=2, column=0, padx=10, pady=0, columnspan=2)
-            self.UI_offset = helpers.MakeComboEntry(generalFrame, "Lane Offset", "NavigationDetection", "offset", 2, 0, labelwidth=10, width=8, isFloat=True)
+            self.UI_offset = helpers.MakeComboEntry(generalFrame, "Lane Offset", "NavigationDetection", "offset", 2, 0, labelwidth=10, width=8, isFloat=True, sticky="ne")
 
             helpers.MakeEmptyLine(generalFrame, 3, 0)
 
-            helpers.MakeCheckButton(generalFrame, "Left-hand traffic\n----------------------\nEnable this if you are driving in a country with left-hand traffic.", "NavigationDetection", "lefthand_traffic", 4, 0, width=97, callback=lambda: LoadSettings())
+            helpers.MakeCheckButton(generalFrame, "Left-hand traffic\n----------------------\nEnable this if you are driving in a country with left-hand traffic.", "NavigationDetection", "lefthand_traffic", 4, 0, width=80, callback=lambda: LoadSettings())
             
             helpers.MakeEmptyLine(generalFrame, 5, 0)
             
-            helpers.MakeCheckButton(generalFrame, "Lane Changing\n---------------------\nIf enabled, you can change the lane you are driving on using the games indicators or using the\nbuttons you set in the Controls menu.", "NavigationDetection", "lanechanging_do_lane_changing", 6, 0, width=97, callback=lambda: LoadSettings())
+            helpers.MakeCheckButton(generalFrame, "Lane Changing\n---------------------\nIf enabled, you can change the lane you are driving on using the games indicators\nor the buttons you set in the Controls menu.", "NavigationDetection", "lanechanging_do_lane_changing", 6, 0, width=80, callback=lambda: LoadSettings())
             
             self.UI_lanechanging_speedSlider = tk.Scale(generalFrame, from_=0.1, to=3, resolution=0.1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
             self.UI_lanechanging_speedSlider.set(settings.GetSettings("NavigationDetection", "lanechanging_speed"))
             self.UI_lanechanging_speedSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
-            self.UI_lanechanging_speed = helpers.MakeComboEntry(generalFrame, "Lane Changing Speed", "NavigationDetection", "lanechanging_speed", 7, 0, labelwidth=18, width=8, isFloat=True)
+            self.UI_lanechanging_speed = helpers.MakeComboEntry(generalFrame, "Lane Changing Speed", "NavigationDetection", "lanechanging_speed", 7, 0, labelwidth=18, width=8, isFloat=True, sticky="ne")
+
+            helpers.MakeLabel(generalFrame, "╚> This slider sets the speed of the lane changing.", 8, 0, sticky="nw")
             
             self.UI_lanechanging_widthSlider = tk.Scale(generalFrame, from_=1, to=30, resolution=0.1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
             self.UI_lanechanging_widthSlider.set(settings.GetSettings("NavigationDetection", "lanechanging_width"))
-            self.UI_lanechanging_widthSlider.grid(row=8, column=0, padx=10, pady=0, columnspan=2)
-            self.UI_lanechanging_width = helpers.MakeComboEntry(generalFrame, "Lane Width", "NavigationDetection", "lanechanging_width", 8, 0, labelwidth=18, width=8, isFloat=True)
+            self.UI_lanechanging_widthSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
+            self.UI_lanechanging_width = helpers.MakeComboEntry(generalFrame, "Lane Width", "NavigationDetection", "lanechanging_width", 9, 0, labelwidth=18, width=8, isFloat=True, sticky="ne")
             
-            helpers.MakeEmptyLine(generalFrame, 9, 0)
+            helpers.MakeLabel(generalFrame, "╚> This slider sets how much the truck needs to go left or right to change the lane.", 10, 0, sticky="nw")
 
-            helpers.MakeLabel(generalFrame, "Info:\nIf you set the buttons for changing lanes in the controls menu, you can no longer change lanes\nusing the indicators. Remove the buttons from the controls menu if you want to use the indicators\nfor lane changing.", 10, 0, sticky="nw")
+            helpers.MakeEmptyLine(generalFrame, 11, 0)
+
+            helpers.MakeButton(generalFrame, "Give me feedback or report a bug", lambda: switchSelectedPlugin("plugins.Feedback.main"), 12, 0, width=80, sticky="nw")
+
+            helpers.MakeButton(generalFrame, "Open Wiki", lambda: helpers.OpenWebView("Wiki", "https://wiki.tumppi066.fi/plugins/navigationdetection", width=800, height=600), 12, 1, width=23, sticky="nw")
 
             
             helpers.MakeLabel(setupFrame, "Choose a setup method:", 1, 0, font=("Robot", 12, "bold"), sticky="nw")
@@ -1138,4 +1142,4 @@ class UI():
     except Exception as ex:
         print(ex.args)
 
-# this comment is used to reload the app after finishing the setup - 1
+# this comment is used to reload the app after finishing the setup - 0
