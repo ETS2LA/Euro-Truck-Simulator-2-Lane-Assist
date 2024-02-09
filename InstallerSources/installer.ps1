@@ -1,5 +1,6 @@
 # Create a temporary directory
 $tempDir = New-Item -ItemType Directory -Path "$env:TEMP\ScriptOutput" -Force
+$tempDir -replace ' ', '` '
 $scriptDirectory = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 $scriptDirectory = $scriptDirectory.Replace("\InstallerSources", "")
 # Specify the file names
