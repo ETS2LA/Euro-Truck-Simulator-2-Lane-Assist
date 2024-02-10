@@ -1,1 +1,1 @@
-Added crash reports to TrafficLightDetection.
+Bug fixes in the TrafficLightDetection.

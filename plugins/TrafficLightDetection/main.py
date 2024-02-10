@@ -296,7 +296,7 @@ def yolo_load_model():
                 yolo_model_loaded = True
             except Exception as e:
                 exc = traceback.format_exc()
-                SendCrashReport("TrafficLightDetection YOLO load error.", str(exc))
+                SendCrashReport("TrafficLightDetection loading YOLO model error.", str(exc))
                 console.RestoreConsole()
                 print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
                 if internet_connection == False:
@@ -330,7 +330,7 @@ def yolo_load_model():
         loading_thread.start()
 
 
-def yolo_detection_function(yolo_detection_frame, x, y, w, h):
+def yolo_detection_function(yolo_detection_frame):
     trafficlight = False
     if yolo_model is None or yolo_model_loaded == False:
         if yolo_model_loaded != "loading...":
@@ -368,12 +368,6 @@ def plugin(data):
     # True: --- False: advancedmode, performancemode, detectyellowlight
     # True: detectyellowlight --- False: advancedmode, performancemode
     # True: performancemode --- False: advancedmode
-    # True: --- False: advancedmode, performancemode, detectyellowlight
-    # True: detectyellowlight --- False: advancedmode, performancemode
-    # True: performancemode --- False: advancedmode
-    # True: advancedmode --- False: performancemode, detectyellowlight
-    # True: advancedmode, detectyellowlight --- False: performancemode
-    # True: advancedmode, performancemode --- False: 
     # True: advancedmode --- False: performancemode, detectyellowlight
     # True: advancedmode, detectyellowlight --- False: performancemode
     # True: advancedmode, performancemode --- False: 
@@ -408,7 +402,7 @@ def plugin(data):
                                     centery2 = round(y + h / 2)+h*2
                                 elif green_ratio > red_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y-h
+                                    yoffset1 = y
                                     centerx = round(x + w / 2)
                                     centery1 = round(y + h / 2)-h
                                     centery2 = round(y + h / 2)-h*2
@@ -469,7 +463,7 @@ def plugin(data):
                                     centery2 = round(y + h / 2)+h
                                 elif green_ratio > red_ratio and green_ratio > yellow_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y-h
+                                    yoffset1 = y
                                     centerx = round(x + w / 2)
                                     centery1 = round(y + h / 2)-h
                                     centery2 = round(y + h / 2)-h*2
@@ -572,7 +566,7 @@ def plugin(data):
                                     centery2 = round(y + h / 2)+h*2
                                 elif green_ratio > red_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y-h
+                                    yoffset1 = y
                                     centerx = round(x + w / 2)
                                     centery1 = round(y + h / 2)-h
                                     centery2 = round(y + h / 2)-h*2
@@ -657,7 +651,7 @@ def plugin(data):
                                     centery2 = round(y + h / 2)+h
                                 elif green_ratio > red_ratio and green_ratio > yellow_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y-h
+                                    yoffset1 = y
                                     centerx = round(x + w / 2)
                                     centery1 = round(y + h / 2)-h
                                     centery2 = round(y + h / 2)-h*2
@@ -799,7 +793,7 @@ def plugin(data):
                                 yolo_detection_frame = frameFull[y1+y1_confirmation:y1+y2_confirmation, x1+x1_confirmation:x1+x2_confirmation]
                             else:
                                 yolo_detection_frame = frameFull[y1_confirmation:y2_confirmation, x1_confirmation:x2_confirmation]
-                            approved = yolo_detection_function(yolo_detection_frame, x, y, w, h)
+                            approved = yolo_detection_function(yolo_detection_frame)
                             trafficlights.append((nearestpoint, new_id, approved))
 
                 # Remove lost traffic lights based on distance traveled
@@ -814,7 +808,8 @@ def plugin(data):
                     for _ in range(lost_trafficlights):
                         if max_distances:
                             max_index = max_distances.pop(0)[1]
-                            del trafficlights[max_index]
+                            if max_index < len(trafficlights):
+                                del trafficlights[max_index]
 
                 # Filter to remove extra IDs
                 if len(trafficlights) > len(coordinates):
@@ -831,14 +826,35 @@ def plugin(data):
                                 max_count = id_counts[id]
 
                         if max_index is not None:
+                            del id_counts[trafficlights[max_index][1]]
                             del trafficlights[max_index]
-                            id_counts[trafficlights[max_index][1]] -= 1
 
                 
             if anywindowopen == True:
+                if grayscalewindow == True:
+                    current_text = f"Traffic Lights:"
+                    width_target_current_text = 0.15 * filtered_frame_bw.shape[1]
+                    fontscale_current_text = 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text = 3
+                    while width_current_text != width_target_current_text:
+                        fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                        textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                        width_current_text, height_current_text = textsize_current_text
+                        max_count_current_text -= 1
+                        if max_count_current_text <= 0:
+                            break
+                    thickness_current_text = round(fontscale_current_text*2)
+                    if thickness_current_text <= 0:
+                        thickness_current_text = 1
+                    cv2.putText(filtered_frame_bw, current_text, (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
                 for i in range(len(trafficlights)):
                     coord, id, approved = trafficlights[i]
                     x, y, w, h, state = coord
+                    if grayscalewindow == True:
+                        cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
+                        cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
                     radius = round((w+h)/4)
                     thickness = round((w+h)/30)
                     if thickness < 1:
@@ -880,21 +896,21 @@ def plugin(data):
                                 cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
                         if state == "Green":
                             color = (0, 255, 0)
-                            cv2.circle(final_frame, (x,y+h*2), radius, color, thickness)
-                            cv2.circle(filtered_frame_bw, (x,y+h*2), radius, (255, 255, 255), thickness)
-                            cv2.circle(filtered_frame_red_yellow_green, (x,y+h*2), radius,color, thickness)
-                            cv2.rectangle(final_frame, (x-w, y-h), (x+w, y+h*3), color, radius)
-                            cv2.rectangle(filtered_frame_red_yellow_green, (x-w, y-h), (x+w, y+h*3), color, radius)
+                            cv2.circle(final_frame, (x,y+h), radius, color, thickness)
+                            cv2.circle(filtered_frame_bw, (x,y+h), radius, (255, 255, 255), thickness)
+                            cv2.circle(filtered_frame_red_yellow_green, (x,y+h), radius,color, thickness)
+                            cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
+                            cv2.rectangle(filtered_frame_red_yellow_green, (x-w, y-h*2), (x+w, y+h*3), color, radius)
                             if grayscalewindow == True:
-                                cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
+                                cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*0.5)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
                             if redyellowgreenwindow == True:
+                                cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
                                 cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                                 cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                                cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
                             if finalwindow == True:
+                                cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                                 cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                                 cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                                cv2.rectangle(final_frame, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
                     elif approved == False and yolo_showunconfirmed == True:
                         if state == "Red":
                             color = (150, 150, 150)
@@ -932,24 +948,26 @@ def plugin(data):
                                 cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
                         if state == "Green":
                             color = (150, 150, 150)
-                            cv2.circle(final_frame, (x,y+h*2), radius, color, thickness)
-                            cv2.circle(filtered_frame_bw, (x,y+h*2), radius, (255, 255, 255), thickness)
-                            cv2.circle(filtered_frame_red_yellow_green, (x,y+h*2), radius,color, thickness)
-                            cv2.rectangle(final_frame, (x-w, y-h), (x+w, y+h*3), color, radius)
-                            cv2.rectangle(filtered_frame_red_yellow_green, (x-w, y-h), (x+w, y+h*3), color, radius)
+                            cv2.circle(final_frame, (x,y+h), radius, color, thickness)
+                            cv2.circle(filtered_frame_bw, (x,y+h), radius, (255, 255, 255), thickness)
+                            cv2.circle(filtered_frame_red_yellow_green, (x,y+h), radius,color, thickness)
+                            cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
+                            cv2.rectangle(filtered_frame_red_yellow_green, (x-w, y-h*2), (x+w, y+h*3), color, radius)
                             if grayscalewindow == True:
-                                cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
+                                cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*0.5)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
                             if redyellowgreenwindow == True:
+                                cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
                                 cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                                 cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                                cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
                             if finalwindow == True:
+                                cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                                 cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                                 cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                                cv2.rectangle(final_frame, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
 
         except Exception as e:
-            print("TrafficLightDetection - Tracking/YOLO Error: " + str(e))
+            exc = traceback.format_exc()
+            SendCrashReport("TrafficLightDetection Tracking/YOLO Error.", str(exc))
+            print("TrafficLightDetection - Tracking/YOLO Error: " + str(exc))
     else:
         if anywindowopen == True:
             for i in range(len(coordinates)):
@@ -994,21 +1012,21 @@ def plugin(data):
                         cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
                 if state == "Green":
                     color = (0, 255, 0)
-                    cv2.circle(final_frame, (x,y+h*2), radius, color, thickness)
-                    cv2.circle(filtered_frame_bw, (x,y+h*2), radius, (255, 255, 255), thickness)
-                    cv2.circle(filtered_frame_red_yellow_green, (x,y+h*2), radius,color, thickness)
-                    cv2.rectangle(final_frame, (x-w, y-h), (x+w, y+h*3), color, radius)
-                    cv2.rectangle(filtered_frame_red_yellow_green, (x-w, y-h), (x+w, y+h*3), color, radius)
+                    cv2.circle(final_frame, (x,y+h), radius, color, thickness)
+                    cv2.circle(filtered_frame_bw, (x,y+h), radius, (255, 255, 255), thickness)
+                    cv2.circle(filtered_frame_red_yellow_green, (x,y+h), radius,color, thickness)
+                    cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
+                    cv2.rectangle(filtered_frame_red_yellow_green, (x-w, y-h*2), (x+w, y+h*3), color, radius)
                     if grayscalewindow == True:
-                        cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
+                        cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*0.5)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
                     if redyellowgreenwindow == True:
+                        cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
                         cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                         cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                        cv2.rectangle(filtered_frame_red_yellow_green, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
                     if finalwindow == True:
+                        cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                         cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
                         cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                        cv2.rectangle(final_frame, (x-round(w/2), y+round(h*1.5)), (x+round(w/2), y+round(h*2.5)), (150, 150, 150), thickness)
 
     try:
         if yolo_detection == True:
@@ -1428,7 +1446,7 @@ class UI():
             helpers.MakeEmptyLine(colorsettingsFrame,14,1)
             helpers.MakeButton(filtersFrame, "Reset", command=self.resetadvancedfilterstodefault, row=15, column=1, width=20)
             helpers.MakeEmptyLine(filtersFrame,14,1)
-            helpers.MakeButton(generalFrame, "Reset Advanced Settings\nto Default\n------------------------------------", command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32,)
+            helpers.MakeButton(generalFrame, "Reset Advanced\nSettings to Default\n------------------------------------", command=self.resetalladvancedsettingstodefault, row=6, column=1, width=32,)
             
         
         def save(self):
