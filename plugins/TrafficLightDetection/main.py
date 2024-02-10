@@ -11,8 +11,8 @@ from src.mainUI import switchSelectedPlugin, resizeWindow
 PluginInfo = PluginInformation(
     name="TrafficLightDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     description="Detects traffic lights with vision.",
-    version="0.4",
-    author="Glas42, Tumppi066",
+    version="0.5",
+    author="Glas42",
     url="https://github.com/Glas42/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
     dynamicOrder="before lane detection" # Will run the plugin before anything else in the mainloop (data will be empty)
@@ -853,8 +853,12 @@ def plugin(data):
                     coord, id, approved = trafficlights[i]
                     x, y, w, h, state = coord
                     if grayscalewindow == True:
-                        cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
-                        cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
+                        if yolo_showunconfirmed == False and approved == True:
+                            cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
+                            cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
+                        elif yolo_showunconfirmed == True:
+                            cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
+                            cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
                     radius = round((w+h)/4)
                     thickness = round((w+h)/30)
                     if thickness < 1:
@@ -1380,10 +1384,10 @@ class UI():
                     thickness_current_text = round(fontscale_current_text*2)
                     if thickness_current_text <= 0:
                         thickness_current_text = 1
-                    cv2.putText(screenshot, current_text, (round((x2-x1)/2 - width_current_text/2), height_current_text*2), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                    cv2.putText(screenshot, current_text, (round((x2_preview-x1_preview)/2 - width_current_text/2), height_current_text*2), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
                 cv2.namedWindow('Screencapture Preview', cv2.WINDOW_NORMAL)
                 cv2.setWindowProperty('Screencapture Preview', cv2.WND_PROP_TOPMOST, 1)
-                cv2.resizeWindow('Screencapture Preview', round((x2-x1)/2), round((y2-y1)/2))
+                cv2.resizeWindow('Screencapture Preview', round((x2_preview-x1_preview)/2), round((y2_preview-y1_preview)/2))
                 cv2.imshow('Screencapture Preview', screenshot)
                 cv2.waitKey(1)
                 
