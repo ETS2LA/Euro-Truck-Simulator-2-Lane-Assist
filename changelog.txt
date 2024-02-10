@@ -1,1 +1,1 @@
-NavigationDetection UI update.
+Improved the YOLO model loading for the TrafficLightDetection.

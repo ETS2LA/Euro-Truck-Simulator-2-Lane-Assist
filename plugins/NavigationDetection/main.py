@@ -5,8 +5,8 @@ If you need to make a panel that is only updated when it's open then check the P
 
 
 from plugins.plugin import PluginInformation
-from src.logger import print
 from src.mainUI import resizeWindow
+from src.logger import print
 
 PluginInfo = PluginInformation(
     name="NavigationDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
@@ -20,19 +20,15 @@ PluginInfo = PluginInformation(
     requires=["DefaultSteering", "bettercamScreenCapture", "TruckSimAPI", "SDKController"]
 )
 
-import tkinter as tk
-from tkinter import ttk
-import src.helpers as helpers
-import src.mainUI as mainUI
+from src.mainUI import switchSelectedPlugin
+from src.translator import Translate
 import src.variables as variables
 import src.settings as settings
-import src.sounds as sounds
 import src.controls as controls
-from src.translator import Translate
-from src.mainUI import switchSelectedPlugin
-from tkinter import messagebox
-import os
-
+import src.helpers as helpers
+import src.sounds as sounds
+from tkinter import ttk
+import tkinter as tk
 
 
 import plugins.DefaultSteering.main as DefaultSteering
@@ -354,7 +350,7 @@ def plugin(data):
             pixel_ratio = 0
 
         if arrow_percentage != None:
-            if pixel_ratio > arrow_percentage * 0.9 and pixel_ratio < arrow_percentage * 1.1:
+            if pixel_ratio > arrow_percentage * 0.85 and pixel_ratio < arrow_percentage * 1.15:
                 do_zoom = False
             else:
                 do_zoom = True
@@ -733,7 +729,7 @@ def plugin(data):
     allow_do_blocked = True
     allow_do_zoom = True
     show_turn_line = True
-
+    
     map_detected = True
     
     if map_topleft == None or map_bottomright == None or arrow_topleft == None or arrow_bottomright == None or arrow_percentage == None or map_topleft[0] > map_bottomright[0] or map_topleft[1] > map_bottomright[1] or arrow_topleft[0] > arrow_bottomright[0] or arrow_topleft[1] > arrow_bottomright[1]:
@@ -1107,9 +1103,9 @@ class UI():
 
             helpers.MakeEmptyLine(generalFrame, 11, 0)
 
-            helpers.MakeButton(generalFrame, "Give me feedback or report a bug", lambda: switchSelectedPlugin("plugins.Feedback.main"), 12, 0, width=80, sticky="nw")
+            helpers.MakeButton(generalFrame, "Give feedback, report a bug or suggest a new feature", lambda: switchSelectedPlugin("plugins.Feedback.main"), 12, 0, width=80, sticky="nw")
 
-            helpers.MakeButton(generalFrame, "Open Wiki", lambda: helpers.OpenWebView("Wiki", "https://wiki.tumppi066.fi/plugins/navigationdetection", width=800, height=600), 12, 1, width=23, sticky="nw")
+            helpers.MakeButton(generalFrame, "Open Wiki", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi/plugins/navigationdetection"), 12, 1, width=23, sticky="nw")
 
             
             helpers.MakeLabel(setupFrame, "Choose a setup method:", 1, 0, font=("Robot", 12, "bold"), sticky="nw")

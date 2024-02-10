@@ -18,22 +18,24 @@ PluginInfo = PluginInformation(
     dynamicOrder="before lane detection" # Will run the plugin before anything else in the mainloop (data will be empty)
 )
 
-import tkinter as tk
-from tkinter import ttk
-import src.helpers as helpers
-import src.mainUI as mainUI
+from src.loading import LoadingWindow
+from src.translator import Translate
 import src.variables as variables
 import src.settings as settings
-from src.translator import Translate
 from tkinter import messagebox
-import os
+import src.console as console
+import src.helpers as helpers
+from tkinter import ttk
+import tkinter as tk
 
-
-import cv2
 import numpy as np
+import threading
 import pyautogui
+import socket
 import ctypes
 import math
+import time
+import cv2
 
 screen_width, screen_height = pyautogui.size()
 
@@ -256,32 +258,81 @@ def UpdateSettings():
     upper_green_advanced = np.array([ugr, ugg, ugb])
     lower_green_advanced = np.array([lgr, lgg, lgb])
 UpdateSettings()
-    
-def loadYOLO():
-    global yolo_model_loaded
+
+
+def check_internet_connection(host="github.com", port=443, timeout=3):
+    try:
+        socket.create_connection((host, port), timeout=timeout)
+        return True
+    except:
+        return False
+
+
+def yolo_load_model():
+    internet_connection = check_internet_connection()
     global yolo_model
+    global yolo_model_loaded
     global yolo_detection
     global yolo_showunconfirmed
     global yolo_model_str
-    
     yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
     yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
     yolo_model_str = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
     if yolo_model_loaded == False:
-        print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
-        try:
-            import torch
-            torch.hub.set_dir(f"{variables.PATH}plugins\\TrafficLightDetection\\YoloFiles")
-            yolo_model = torch.hub.load("ultralytics/yolov5", yolo_model_str)
-            print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
-        except Exception as e:
-            print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
-        yolo_model_loaded = True
+        yolo_model_loaded = "loading..."
+        yolo_model = None
+        def yolo_load_model_thread():
+            global yolo_model
+            global yolo_model_loaded
+            global yolo_detection
+            try:
+                print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
+                import torch
+                torch.hub.set_dir(f"{variables.PATH}plugins\\TrafficLightDetection\\YoloFiles")
+                yolo_model = torch.hub.load("ultralytics/yolov5", yolo_model_str)
+                print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
+                yolo_model_loaded = True
+            except Exception as e:
+                console.RestoreConsole()
+                print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
+                if internet_connection == False:
+                    print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
+                yolo_model_loaded = False
+                yolo_detection = False
+        def yolo_loading_window_thread():
+            global yolo_model_loaded
+            global yolo_model_str
+            loading = LoadingWindow(text="TrafficLightDetection", grab=False)
+            loading_text = 0
+            loading_textswitch = time.time() + 2
+            while yolo_model_loaded == "loading...":
+                if time.time() > loading_textswitch:
+                    loading_textswitch = time.time() + 2
+                    if loading_text == 0:
+                        loading_text = 1
+                    else:
+                        loading_text = 0
+                if loading_text == 1:
+                    loading.update(text=f"Loading the {yolo_model_str} model...\nThis may take a while...")
+                else:
+                    loading.update(text=f"Loading the {yolo_model_str} model...\nDO NOT CLOSE THE APP")
+            try:
+                loading.destroy()
+            except:
+                pass
+        model_thread = threading.Thread(target=yolo_load_model_thread)
+        model_thread.start()
+        loading_thread = threading.Thread(target=yolo_loading_window_thread)
+        loading_thread.start()
+
 
 def yolo_detection_function(yolo_detection_frame, x, y, w, h):
     trafficlight = False
     if yolo_model is None or yolo_model_loaded == False:
-        loadYOLO()
+        if yolo_model_loaded != "loading...":
+            yolo_load_model()
+        else:
+            return trafficlight
     results = yolo_model(yolo_detection_frame)
     boxes = results.pandas().xyxy[0]
     for _, box in boxes.iterrows():
@@ -291,9 +342,6 @@ def yolo_detection_function(yolo_detection_frame, x, y, w, h):
     return trafficlight
 
 
-# The main file runs the "plugin" function each time the plugin is called
-# The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
-# The data from the last frame is contained under data["last"]
 def plugin(data):
     global coordinates
     global trafficlights
@@ -1057,7 +1105,7 @@ def plugin(data):
 # Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
     UpdateSettings()
-    loadYOLO()
+    yolo_load_model()
     pass
 
 def onDisable():
@@ -1243,7 +1291,7 @@ class UI():
             yolov5x = ttk.Radiobutton(trackeraiFrame, text="YOLOv5x (slowest, highest accuracy)", variable=model_ui, value="yolov5x", command=model_selection)
             yolov5x.grid(row=9, column=0, sticky="nw")
             model_selection()
-            helpers.MakeButton(trackeraiFrame, "Save and Load Model\n-------------------------------\nLoading the model could take some time.\nIt's normal that the app won't respond for a while.", self.save_and_load_model, 10, 0, width=50, sticky="nw")
+            helpers.MakeButton(trackeraiFrame, "Save and Load Model\n-------------------------------\nLoading the model could take some time.", self.save_and_load_model, 10, 0, width=50, sticky="nw")
 
             helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
             
@@ -1607,10 +1655,13 @@ class UI():
 
         def save_and_load_model(self):
             global yolo_model_loaded
-            yolo_model_loaded = False
-            settings.CreateSettings("TrafficLightDetection", "yolo_model", self.model_ui)
-            loadYOLO()
-            UpdateSettings()
+            if yolo_model_loaded != "loading...":
+                yolo_model_loaded = False
+                settings.CreateSettings("TrafficLightDetection", "yolo_model", self.model_ui)
+                yolo_load_model()
+                UpdateSettings()
+            else:
+                messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
         
         def update(self, data): 
             self.root.update()
