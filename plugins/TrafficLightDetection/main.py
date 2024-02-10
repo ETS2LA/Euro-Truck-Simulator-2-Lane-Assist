@@ -18,6 +18,7 @@ PluginInfo = PluginInformation(
     dynamicOrder="before lane detection" # Will run the plugin before anything else in the mainloop (data will be empty)
 )
 
+from src.server import SendCrashReport
 from src.loading import LoadingWindow
 from src.translator import Translate
 import src.variables as variables
@@ -30,6 +31,7 @@ import tkinter as tk
 
 import numpy as np
 import threading
+import traceback
 import pyautogui
 import socket
 import ctypes
@@ -293,6 +295,8 @@ def yolo_load_model():
                 print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
                 yolo_model_loaded = True
             except Exception as e:
+                exc = traceback.format_exc()
+                SendCrashReport("TrafficLightDetection YOLO load error.", str(exc))
                 console.RestoreConsole()
                 print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
                 if internet_connection == False:
@@ -1112,8 +1116,9 @@ def onDisable():
     pass
 
 class UI():
+    global last_model_load_press
+    last_model_load_press = 0
     try: 
-        
         def __init__(self, master) -> None:
             self.master = master 
             self.exampleFunction()
@@ -1256,6 +1261,12 @@ class UI():
             helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance, but does not reduce detection accuracy.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Advanced Settings\n---------------------------\nIf enabled, the traffic light detection uses the settings you set in\nthe Advanced tab. (could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeEmptyLine(generalFrame,7,0)
+            helpers.MakeEmptyLine(generalFrame,8,0)
+            helpers.MakeEmptyLine(generalFrame,9,0)
+            helpers.MakeEmptyLine(generalFrame,10,0)
+            helpers.MakeButton(generalFrame, "Give feedback, report a bug or suggest a new feature", lambda: switchSelectedPlugin("plugins.Feedback.main"), 12, 0, width=70, sticky="nw")
+            helpers.MakeButton(generalFrame, "Open Wiki", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi/plugins/trafficlightdetection"), 12, 1, width=32, sticky="nw")
+
 
             helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60, callback=lambda:UpdateSettings())
@@ -1654,15 +1665,20 @@ class UI():
             UpdateSettings()
 
         def save_and_load_model(self):
+            global last_model_load_press
             global yolo_model_loaded
-            if yolo_model_loaded != "loading...":
-                yolo_model_loaded = False
-                settings.CreateSettings("TrafficLightDetection", "yolo_model", self.model_ui)
-                yolo_load_model()
-                UpdateSettings()
+            if time.time() > last_model_load_press + 1:
+                last_model_load_press = time.time()
+                if yolo_model_loaded != "loading...":
+                    yolo_model_loaded = False
+                    settings.CreateSettings("TrafficLightDetection", "yolo_model", self.model_ui)
+                    yolo_load_model()
+                    UpdateSettings()
+                else:
+                    messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
             else:
                 messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
-        
+
         def update(self, data): 
             self.root.update()
             
