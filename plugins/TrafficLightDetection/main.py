@@ -9,13 +9,13 @@ from src.logger import print
 from src.mainUI import switchSelectedPlugin, resizeWindow
 
 PluginInfo = PluginInformation(
-    name="TrafficLightDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    name="TrafficLightDetection",
     description="Detects traffic lights with vision.",
     version="0.5",
     author="Glas42",
     url="https://github.com/Glas42/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before lane detection" # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="before lane detection"
 )
 
 from src.server import SendCrashReport
@@ -271,7 +271,6 @@ def check_internet_connection(host="github.com", port=443, timeout=3):
 
 
 def yolo_load_model():
-    internet_connection = check_internet_connection()
     global yolo_model
     global yolo_model_loaded
     global yolo_detection
@@ -296,9 +295,10 @@ def yolo_load_model():
                 yolo_model_loaded = True
             except Exception as e:
                 exc = traceback.format_exc()
-                SendCrashReport("TrafficLightDetection loading YOLO model error.", str(exc))
+                SendCrashReport("TrafficLightDetection - Loading YOLO Error.", str(exc))
                 console.RestoreConsole()
                 print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
+                internet_connection = check_internet_connection()
                 if internet_connection == False:
                     print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
                 yolo_model_loaded = False
@@ -970,8 +970,8 @@ def plugin(data):
 
         except Exception as e:
             exc = traceback.format_exc()
-            SendCrashReport("TrafficLightDetection Tracking/YOLO Error.", str(exc))
-            print("TrafficLightDetection - Tracking/YOLO Error: " + str(exc))
+            SendCrashReport("TrafficLightDetection - Tracking/YOLO Error.", str(exc))
+            print("TrafficLightDetection - Tracking/YOLO Error: " + str(e))
     else:
         if anywindowopen == True:
             for i in range(len(coordinates)):
@@ -1067,6 +1067,8 @@ def plugin(data):
             data["TrafficLightDetection"]["simple"] = data_simple
             data["TrafficLightDetection"]["detailed"] = coordinates
     except Exception as e:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Data Error.", str(exc))
         print("TrafficLightDetection - Data Error: " + str(e))
 
     if reset_window == True:
