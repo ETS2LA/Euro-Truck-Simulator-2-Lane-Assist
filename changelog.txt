@@ -1,1 +1,1 @@
-Improved the YOLO model loading for the TrafficLightDetection.
+Added crash reports to TrafficLightDetection.
