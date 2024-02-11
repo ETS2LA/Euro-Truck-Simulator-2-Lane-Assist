@@ -5,31 +5,29 @@ If you need to make a panel that is only updated when it's open then check the P
 
 
 from plugins.plugin import PluginInformation
-from src.mainUI import resizeWindow
-from src.logger import print
-
 PluginInfo = PluginInformation(
-    name="NavigationDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    name="NavigationDetection",
     description="Uses the navigation line in the minimap.",
     version="3.1",
     author="Glas42",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
-    type="dynamic", # = Panel
-    dynamicOrder="lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
+    type="dynamic",
+    dynamicOrder="lane detection",
     exclusive="LaneDetection",
     requires=["DefaultSteering", "bettercamScreenCapture", "TruckSimAPI", "SDKController"]
 )
 
 from src.mainUI import switchSelectedPlugin
 from src.translator import Translate
+from src.mainUI import resizeWindow
 import src.variables as variables
 import src.settings as settings
 import src.controls as controls
 import src.helpers as helpers
+from src.logger import print
 import src.sounds as sounds
 from tkinter import ttk
 import tkinter as tk
-
 
 import plugins.DefaultSteering.main as DefaultSteering
 import numpy as np
@@ -331,7 +329,7 @@ def plugin(data):
     f5_key_state = ctypes.windll.user32.GetAsyncKeyState(0x74)
     f5_pressed = f5_key_state & 0x8000 != 0
     
-    if f5_pressed == True or do_blocked == True:
+    if f5_pressed == True or do_blocked == True or do_zoom == True:
         check_map_timer = current_time
     
     if current_time - 1 < check_map_timer or check_map_timer == 0:
@@ -402,7 +400,7 @@ def plugin(data):
 
     frame = cv2.cvtColor(frame_gray_unblurred, cv2.COLOR_BGR2RGB)
     
-    y_coordinate_of_lane = round(navigationsymbol_y / 1.35)
+    y_coordinate_of_lane = round(navigationsymbol_y / 1.3)
     y_coordinate_of_turn = round(navigationsymbol_y / 4) 
     automatic_x_offset = round(width/2-navigationsymbol_y)
 
