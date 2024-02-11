@@ -155,7 +155,7 @@ class UI():
                 y = 100
             
             helpers.MakeButton(self.root, "Enable Picker", lambda: CreateWindow(x,y,width, height), 0,0, padx=10, pady=10, width=15)
-            helpers.MakeLabel(self.root, "Set this to your screencapture category (default 'bettercam'):", 1,0, font=("Roboto", 8), padx=30, pady=10)
+            helpers.MakeLabel(self.root, "Set this to your screen capture category (default 'bettercam'):", 1,0, font=("Roboto", 8), padx=30, pady=10)
             
             entryVar = tk.StringVar()
             entryVar.set("bettercam")
@@ -166,9 +166,24 @@ class UI():
             helpers.MakeButton(self.root, "Disable Picker", lambda: root.destroy(), 5,0, padx=10, pady=10, width=15)
             
             helpers.MakeLabel(self.root, "Compatibility mode is for older versions of Windows\nwhere the transparent background doesn't work.\nCreate the window again after toggling!", 6,0, font=("Roboto", 8), padx=30, pady=10)
-            helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30, callback=lambda: LostFocus()
-                                    
-            helpers.MakeButton(self.root, "Finish", Lambda:variables.RELOAD = True,  8,0, padx=10, pady=10, width=15)
+            helpers.MakeCheckButton(self.root, "Compatibility mode", "ScreenCapturePlacement", "compatibilityMode", 7,0, width=30, callback=lambda: LostFocus())
+            
+            if "UFLDLaneDetection" in settings.GetSettings("Plugins", "Enabled"):
+                detectionmethod = "ufld"
+            else:
+                detectionmethod = "lstr"
+            def checkdetection():
+                if detectionmethod == "ufld":
+                    mainUI.switchSelectedPlugin("plugins.UFLDInstaller.main")
+                else:
+                    variables.RELOAD = True
+
+            if detectionmethod == "ufld":
+                buttontext = "UFLD Installer"
+                helpers.MakeButton(self.root, buttontext, checkdetection, 8,0, padx=10, pady=10, width=30)
+            else:
+                buttontext = "Finish"
+                helpers.MakeButton(self.root, buttontext, checkdetection, 8,0, padx=10, pady=10, width=15)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
