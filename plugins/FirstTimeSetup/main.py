@@ -459,7 +459,7 @@ class UI():
                 helpers.MakeLabel(self.root, " ", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
                 helpers.MakeLabel(self.root, "We need to make sure that the app can see the game, so set your game to windowed mode.", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
                 helpers.MakeLabel(self.root, "And then click the button below, and open the ", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-                helpers.MakeLabel(self.root, "navigation detection V3 setup.", 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
+                helpers.MakeLabel(self.root, "Navigation Detection setup.", 5,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
             else:
                 helpers.MakeLabel(self.root, "One more step!", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
                 helpers.MakeLabel(self.root, "You should now open the game and return to this page!", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
