@@ -48,7 +48,7 @@ Alternatively you can also follow the written instructions on the [wiki](https:/
 
 ### How to update?
 
-You can run the update.bat script or go into `app/` and run `git pull`.
+You can run the menu.bat script and click "Update" or go into `app/` and run `git pull`.
 The app will also automatically give a prompt when an update is available.
 
 
