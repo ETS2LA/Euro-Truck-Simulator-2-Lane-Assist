@@ -113,17 +113,23 @@ def plugin(data):
     for keybind in KEYBINDS:
         if keybind["callback"] != None:
             if keybind["deviceGUID"] == KEYBOARD_GUID:
-                if keyboard.is_pressed(keybind["buttonIndex"]):
-                    keybind["callback"]()
+                try:
+                    if keyboard.is_pressed(keybind["buttonIndex"]):
+                        keybind["callback"]()
+                except:
+                    pass
             else:
                 for joystick in joysticks:
-                    if joystick.get_guid() == keybind["deviceGUID"]:
-                        if keybind["buttonIndex"] != -1:
-                            if joystick.get_button(keybind["buttonIndex"]):
-                                keybind["callback"]()
-                        elif keybind["axisIndex"] != -1:
-                            if abs(joystick.get_axis(keybind["axisIndex"])) > 0.4:
-                                keybind["callback"]()
+                    try:
+                        if joystick.get_guid() == keybind["deviceGUID"]:
+                            if keybind["buttonIndex"] != -1:
+                                if joystick.get_button(keybind["buttonIndex"]):
+                                    keybind["callback"]()
+                            elif keybind["axisIndex"] != -1:
+                                if abs(joystick.get_axis(keybind["axisIndex"])) > 0.4:
+                                    keybind["callback"]()
+                    except:
+                        pass
             pass
     
     return data
