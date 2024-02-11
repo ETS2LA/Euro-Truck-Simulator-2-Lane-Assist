@@ -615,12 +615,19 @@ if __name__ == "__main__":
                     variables.APPENDDATANEXTFRAME = None
             except: pass
             
+            if variables.UPDATEPLUGINS:
+                GetEnabledPlugins()
+                FindPlugins()
+                variables.UPDATEPLUGINS = False
+                
+                
             # Enable / Disable the main loop
             if variables.ENABLELOOP == False:
                 start = time.time()
                 mainUI.update(data)
                 end = time.time()
                 data["executionTimes"]["UI"] = end - start
+                data = UpdatePlugins("last", data)
                 allEnd = time.time()
                 data["executionTimes"]["all"] = allEnd - allStart
                 try:
@@ -645,10 +652,6 @@ if __name__ == "__main__":
                     pass
                 continue
             
-            if variables.UPDATEPLUGINS:
-                GetEnabledPlugins()
-                FindPlugins()
-                variables.UPDATEPLUGINS = False
             
             data = UpdatePlugins("before image capture", data)
             data = UpdatePlugins("image capture", data)

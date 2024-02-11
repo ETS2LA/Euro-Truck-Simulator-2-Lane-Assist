@@ -1,1 +1,1 @@
-Bug fixes in the TrafficLightDetection.
+FPS limiter works when mainloop is disabled.
