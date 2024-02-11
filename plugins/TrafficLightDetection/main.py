@@ -315,6 +315,8 @@ def yolo_load_model():
                 loading.destroy()
             except:
                 pass
+        import matplotlib
+        matplotlib.use("Agg")
         model_thread = threading.Thread(target=yolo_load_model_thread)
         model_thread.start()
         loading_thread = threading.Thread(target=yolo_loading_window_thread)

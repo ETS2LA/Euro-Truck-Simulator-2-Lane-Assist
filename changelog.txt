@@ -1,1 +1,1 @@
-Fix crash when (keyboard) keybind is invalid.
+Bug fixes in the TrafficLightDetection.
