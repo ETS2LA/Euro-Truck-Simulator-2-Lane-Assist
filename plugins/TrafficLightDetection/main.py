@@ -3,21 +3,18 @@ This is an example of a plugin (type="dynamic"), they will be updated during the
 If you need to make a panel that is only updated when it's open then check the Panel example!
 """
 
-
 from plugins.plugin import PluginInformation
-from src.logger import print
-from src.mainUI import switchSelectedPlugin, resizeWindow
-
 PluginInfo = PluginInformation(
-    name="TrafficLightDetection", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
+    name="TrafficLightDetection",
     description="Detects traffic lights with vision.",
     version="0.5",
     author="Glas42",
     url="https://github.com/Glas42/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before lane detection" # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="before lane detection"
 )
 
+from src.mainUI import switchSelectedPlugin, resizeWindow
 from src.server import SendCrashReport
 from src.loading import LoadingWindow
 from src.translator import Translate
@@ -26,6 +23,7 @@ import src.settings as settings
 from tkinter import messagebox
 import src.console as console
 import src.helpers as helpers
+from src.logger import print
 from tkinter import ttk
 import tkinter as tk
 
@@ -173,13 +171,6 @@ def UpdateSettings():
     else:
         anywindowopen = False
 
-    if x2-x1-1 < 0:
-        print("Your Screen Capture Coordinates are invalid because the right X is to the left of the left X (message from TrafficLightDetection)")
-        messagebox.showwarning(title="TrafficLightDetection", message="Your Screen Capture Coordinates are invalid because the right X is to the left of the left X (message from TrafficLightDetection)")
-    if y2-y1-1 < 0:
-        print("Your Screen Capture Coordinates are invalid because the bottom Y is above the top Y (message from TrafficLightDetection)")
-        messagebox.showwarning(title="TrafficLightDetection", message="Your Screen Capture Coordinates are invalid because the bottom Y is above the top Y (message from TrafficLightDetection)")
-    
     urr = settings.GetSettings("TrafficLightDetection", "upperred_r")
     if urr == None or not isinstance(urr, int) or not (0 <= urr <= 255):
         settings.CreateSettings("TrafficLightDetection", "upperred_r", 255)
@@ -271,7 +262,6 @@ def check_internet_connection(host="github.com", port=443, timeout=3):
 
 
 def yolo_load_model():
-    internet_connection = check_internet_connection()
     global yolo_model
     global yolo_model_loaded
     global yolo_detection
@@ -296,9 +286,10 @@ def yolo_load_model():
                 yolo_model_loaded = True
             except Exception as e:
                 exc = traceback.format_exc()
-                SendCrashReport("TrafficLightDetection loading YOLO model error.", str(exc))
+                SendCrashReport("TrafficLightDetection - Loading YOLO Error.", str(exc))
                 console.RestoreConsole()
                 print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
+                internet_connection = check_internet_connection()
                 if internet_connection == False:
                     print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
                 yolo_model_loaded = False
@@ -324,6 +315,8 @@ def yolo_load_model():
                 loading.destroy()
             except:
                 pass
+        import matplotlib
+        matplotlib.use("Agg")
         model_thread = threading.Thread(target=yolo_load_model_thread)
         model_thread.start()
         loading_thread = threading.Thread(target=yolo_loading_window_thread)
@@ -970,8 +963,8 @@ def plugin(data):
 
         except Exception as e:
             exc = traceback.format_exc()
-            SendCrashReport("TrafficLightDetection Tracking/YOLO Error.", str(exc))
-            print("TrafficLightDetection - Tracking/YOLO Error: " + str(exc))
+            SendCrashReport("TrafficLightDetection - Tracking/YOLO Error.", str(exc))
+            print("TrafficLightDetection - Tracking/YOLO Error: " + str(e))
     else:
         if anywindowopen == True:
             for i in range(len(coordinates)):
@@ -1067,6 +1060,8 @@ def plugin(data):
             data["TrafficLightDetection"]["simple"] = data_simple
             data["TrafficLightDetection"]["detailed"] = coordinates
     except Exception as e:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Data Error.", str(exc))
         print("TrafficLightDetection - Data Error: " + str(e))
 
     if reset_window == True:
@@ -1160,18 +1155,50 @@ class UI():
             UpdateSettings()
         def UpdateSliderValue_x1ofsc(self):
             self.x1ofsc.set(self.x1ofscSlider.get())
+            if self.x1ofscSlider.get() >= self.x2ofscSlider.get():
+                if self.x2ofscSlider.get() == screen_width-1:
+                    self.x1ofsc.set(self.x2ofsc.get()-1)
+                    self.x1ofscSlider.set(self.x1ofsc.get())
+                else:
+                    self.x2ofsc.set(self.x1ofsc.get()+1)
+                    self.x2ofscSlider.set(self.x2ofsc.get())
+                    settings.CreateSettings("TrafficLightDetection", "x2ofsc", self.x2ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "x1ofsc", self.x1ofscSlider.get())
             UpdateSettings()
         def UpdateSliderValue_y1ofsc(self):
             self.y1ofsc.set(self.y1ofscSlider.get())
+            if self.y1ofscSlider.get() >= self.y2ofscSlider.get():
+                if self.y2ofscSlider.get() == screen_height-1:
+                    self.y1ofsc.set(self.y2ofsc.get()-1)
+                    self.y1ofscSlider.set(self.y1ofsc.get())
+                else:
+                    self.y2ofsc.set(self.y1ofsc.get()+1)
+                    self.y2ofscSlider.set(self.y2ofsc.get())
+                    settings.CreateSettings("TrafficLightDetection", "y2ofsc", self.y2ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "y1ofsc", self.y1ofscSlider.get())
             UpdateSettings()
         def UpdateSliderValue_x2ofsc(self):
             self.x2ofsc.set(self.x2ofscSlider.get())
+            if self.x2ofscSlider.get() <= self.x1ofscSlider.get():
+                if self.x1ofscSlider.get() == 0:
+                    self.x2ofsc.set(self.x1ofsc.get()+1)
+                    self.x2ofscSlider.set(self.x2ofsc.get())
+                else:
+                    self.x1ofsc.set(self.x2ofsc.get()-1)
+                    self.x1ofscSlider.set(self.x1ofsc.get())
+                    settings.CreateSettings("TrafficLightDetection", "x1ofsc", self.x1ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "x2ofsc", self.x2ofscSlider.get())
             UpdateSettings()
         def UpdateSliderValue_y2ofsc(self):
             self.y2ofsc.set(self.y2ofscSlider.get())
+            if self.y2ofscSlider.get() <= self.y1ofscSlider.get():
+                if self.y1ofscSlider.get() == 0:
+                    self.y2ofsc.set(self.y1ofsc.get()+1)
+                    self.y2ofscSlider.set(self.y2ofsc.get())
+                else:
+                    self.y1ofsc.set(self.y2ofsc.get()-1)
+                    self.y1ofscSlider.set(self.y1ofsc.get())
+                    settings.CreateSettings("TrafficLightDetection", "y1ofsc", self.y1ofscSlider.get())
             settings.CreateSettings("TrafficLightDetection", "y2ofsc", self.y2ofscSlider.get())
             UpdateSettings()
         def UpdateSliderValue_windowwidth(self):
@@ -1326,7 +1353,7 @@ class UI():
             model_selection()
             helpers.MakeButton(trackeraiFrame, "Save and Load Model\n-------------------------------\nLoading the model could take some time.", self.save_and_load_model, 10, 0, width=50, sticky="nw")
 
-            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screencapture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screencapture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screen capture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screen capture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
             
             self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x1ofsc())
             self.x1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x1ofsc", 0))
@@ -1368,7 +1395,7 @@ class UI():
                     x2_preview = screen_width-1
                     y2_preview = round(screen_height/1.5)-1
                     screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1_preview, y1_preview, x2_preview - x1_preview, y2_preview - y1_preview))), cv2.COLOR_RGB2BGR)
-                    current_text = '"Use Full Frame" enabled, disable to set own screencapture area'
+                    current_text = '"Use Full Frame" enabled, disable to set own screen capture area'
                     width_target_current_text = (x2_preview - x1_preview)*0.9
                     fontscale_current_text = 1
                     textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
@@ -1385,15 +1412,15 @@ class UI():
                     if thickness_current_text <= 0:
                         thickness_current_text = 1
                     cv2.putText(screenshot, current_text, (round((x2_preview-x1_preview)/2 - width_current_text/2), height_current_text*2), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
-                cv2.namedWindow('Screencapture Preview', cv2.WINDOW_NORMAL)
-                cv2.setWindowProperty('Screencapture Preview', cv2.WND_PROP_TOPMOST, 1)
-                cv2.resizeWindow('Screencapture Preview', round((x2_preview-x1_preview)/2), round((y2_preview-y1_preview)/2))
-                cv2.imshow('Screencapture Preview', screenshot)
+                cv2.namedWindow('Screen Capture Preview', cv2.WINDOW_NORMAL)
+                cv2.setWindowProperty('Screen Capture Preview', cv2.WND_PROP_TOPMOST, 1)
+                cv2.resizeWindow('Screen Capture Preview', round((x2_preview-x1_preview)/2), round((y2_preview-y1_preview)/2))
+                cv2.imshow('Screen Capture Preview', screenshot)
                 cv2.waitKey(1)
                 
             def screencapture_close():
                 try: 
-                    cv2.destroyWindow('Screencapture Preview')
+                    cv2.destroyWindow('Screen Capture Preview')
                 except: 
                     pass
 
