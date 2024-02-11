@@ -37,6 +37,7 @@ def onEnable():
 def onDisable():
     pass
 
+
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
@@ -49,12 +50,15 @@ def plugin(data):
         executionTime += float(data["executionTimes"][plugin])
     
     # Calculate the ms needed to reach the desired FPS
-    timeNeeded = 1 / fps
+    try:
+        timeNeeded = 1 / fps
+    except:
+        timeNeeded = 0
     
     # Sleep for the remaining time
     sleepLenght = timeNeeded - executionTime
     if sleepLenght > 0:
-        time.sleep(sleepLenght)
+        helpers.AccurateSleep(sleepLenght)
         
     return data
 

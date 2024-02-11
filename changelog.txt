@@ -1,1 +1,2 @@
-FPS limiter works when mainloop is disabled.
+Added more accurate custom sleep method.
+Fix divide by zero in fps limiter.

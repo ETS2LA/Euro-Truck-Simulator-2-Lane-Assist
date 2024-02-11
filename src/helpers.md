@@ -69,6 +69,9 @@ OpenInBrowser(url:str)
 
 # Convert capitalization to spaces. This is useful for converting plugin names.
 ConvertCapitalizationToSpaces(text:str)
+
+# A more accurate sleep function, use this instead of time.sleep().
+AccurateSleep(seconds:float)
 ```
 
 ## Example

@@ -549,6 +549,7 @@ def CheckForFileChanges():
                 break
         except:
             pass
+        
 
 data = {}
 uiFrameTimer = 0
