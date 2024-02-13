@@ -77,6 +77,7 @@ def updateSettings():
     global enableDisable
     global keyboard
     global lanechangingnavdetection
+    global keyboardControlValue
     global keyboardSensitivity
     global keyboardReturnSensitivity
     global sensitivity # determines how hard the system reacts to the current error. AKA: Proportional Gain
@@ -93,6 +94,7 @@ def updateSettings():
     
     keyboard = verifySetting("DefaultSteering", "keyboard", False)
     
+    keyboardControlValue = 0
     keyboardSensitivity = verifySetting("DefaultSteering", "keyboardSensitivity", 0.5)
     keyboardReturnSensitivity = verifySetting("DefaultSteering", "keyboardReturnSensitivity", 0.2)
 
