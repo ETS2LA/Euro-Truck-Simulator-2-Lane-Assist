@@ -100,23 +100,19 @@ updateSettings()
 
 # MOST OF THIS FILE IS COPIED FROM THE OLD VERSION
 desiredControl = 0
-oldDesiredControl = 0
+lastDesiredControl = 0
 lastFrame = 0
-indicating_right = False
-indicating_left = False
-lastindicating_right = False
-lastindicating_left = False
+indicatingRight = False
+indicatingLeft = False
 enabled = True
 isHolding = False
 keyboardControlValue = 0
 def plugin(data):
     global desiredControl
-    global oldDesiredControl
+    global lastDesiredControl
     global enabled
-    global indicating_right
-    global indicating_left
-    global lastindicating_left
-    global lastindicating_right
+    global indicatingRight
+    global indicatingLeft
     global maximumControl
     global controlSmoothness
     global sensitivity
@@ -138,17 +134,7 @@ def plugin(data):
         if "LaneDetection" not in ex.args[0] and "difference" not in ex.args[0]:
             print(ex)
             
-        desiredControl = oldDesiredControl * 0.9
-        
-
-    try:
-        testData = data["api"]
-        if testData == None:
-            apiAvailable = False
-        else:
-            apiAvailable = True
-    except:
-        apiAvailable = False
+        desiredControl = lastDesiredControl * 0.9
 
     data["controller"] = {}
 
@@ -187,6 +173,7 @@ def plugin(data):
 
 
     def get_indicating_state():
+        global indicatingLeft, indicatingRight
         try:
             indicating_left = data["api"]["truckBool"]["blinkerLeftActive"]
             indicating_right = data["api"]["truckBool"]["blinkerRightActive"]
@@ -194,7 +181,7 @@ def plugin(data):
             if indicating_state:
                 if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
                     return False, False, indicating_state
-            return indicating_left, indicating_right, indicating_state
+            return indicating_state
         except KeyError: 
             return False, False, False
         
@@ -211,7 +198,7 @@ def plugin(data):
         isHolding = True
 
     def update_controller_input(input_value, is_keyboard, lane_assist_enabled):
-        global lastFrame, oldDesiredControl, controlSmoothness
+        global lastFrame, lastDesiredControl, controlSmoothness, indicatingLeft, indicatingRight, lanechangingnavdetection
 
         # Check if lane assist is enabled or not
         if lane_assist_enabled:
@@ -228,8 +215,8 @@ def plugin(data):
                 control_value = input_value
 
             # Adjust control value based on control smoothness and desired control, if not indicating
-            if not (indicating_left or indicating_right) or lanechangingnavdetection:
-                control_value = ((oldDesiredControl * controlSmoothness) + clamped_desired_control) / (controlSmoothness + 1) + control_value
+            if not (indicatingLeft or indicatingRight) or lanechangingnavdetection:
+                control_value = ((lastDesiredControl * controlSmoothness) + clamped_desired_control) / (controlSmoothness + 1) + control_value
         else:
             # If the lane assist is disabled, directly use the input value for gamepad mode
             # or keep the control value as is for non-gamepad mode
@@ -244,12 +231,12 @@ def plugin(data):
         # Update the control
         data["controller"]["leftStick"] = control_value
         if lane_assist_enabled:
-            oldDesiredControl = ((oldDesiredControl * controlSmoothness) + clamped_desired_control) / (controlSmoothness + 1)
+            lastDesiredControl = ((lastDesiredControl * controlSmoothness) + clamped_desired_control) / (controlSmoothness + 1)
 
     speed = get_speed()
 
     try:
-        indicating_left, indicating_right, indicating_ui_state = get_indicating_state()
+        indicating_ui_state = get_indicating_state()
     except Exception as ex:
         print(ex)
         print("Most likely fix : change your indicator and or enable/disable buttons.")
@@ -338,7 +325,7 @@ def plugin(data):
         indicating_position = (round(0.99*w - w/4), round(0.02*h))
         if enabled:
             currentDesired = desiredControl * (1/maximumControl)
-            actualSteering = oldDesiredControl * (1/maximumControl)
+            actualSteering = lastDesiredControl * (1/maximumControl)
             draw_steering_lines(output_img, w, h, actualSteering, (0, 255, 100), 6)  # Actual steering
             draw_steering_lines(output_img, w, h, currentDesired, (0, 100, 255), 2)  # Desired steering
             if indicating_ui_state:
