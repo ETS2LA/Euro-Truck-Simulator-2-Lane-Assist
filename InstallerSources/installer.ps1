@@ -399,7 +399,7 @@ except:
 
 GITHUB_APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
 SOURCEFORGE_APP_URL = "https://git.code.sf.net/p/eurotrucksimulator2-laneassist/code"
-FOLDER = $($scriptDirectory)
+FOLDER = r"$($scriptDirectory)"
 
 try:
     with open("version.txt", 'r') as file:
