@@ -1,1 +1,5 @@
-Backend changes: Cleaned up DefaultSteering plugin for easier maintainability
+- Cleaned up and refactored Control
+- Cleaned up and refactored Status UI
+- Cleaned up and refactored Plugin UI
+- Fixed inconsistencies throughout the code
+- Added alpha PID functionality, currently disabled and set to zero. 
