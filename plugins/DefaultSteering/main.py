@@ -313,8 +313,6 @@ def plugin(data):
         position = position[0], position[1] + text_size[1]
         cv2.putText(output_img, text, position, cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, font_thickness, cv2.LINE_AA)
     
-    print(f"indicating_ui_state: {indicating_ui_state}")
-          
     try:
         output_img = convert_to_rgb_if_necessary(data["frame"])
         w, h = output_img.shape[1], output_img.shape[0]
