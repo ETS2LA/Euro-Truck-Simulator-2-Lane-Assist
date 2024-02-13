@@ -399,7 +399,7 @@ except:
 
 GITHUB_APP_URL = "https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/"
 SOURCEFORGE_APP_URL = "https://git.code.sf.net/p/eurotrucksimulator2-laneassist/code"
-FOLDER = r"$($scriptDirectory)"
+FOLDER = $($scriptDirectory)
 
 try:
     with open("version.txt", 'r') as file:
@@ -409,7 +409,6 @@ except:
     checkupdate = 0
     VERSION = "Unknown (Please rerun installer.bat)"
 
-    
 os.chdir(FOLDER)
 
 def UpdateChecker():
@@ -1037,25 +1036,11 @@ def InstallSequence():
     preferenceFrame.pack_propagate(False)
     preferenceFrame.grid_propagate(False)
     preferenceFrame.grid(row=1, sticky="e", padx=10, pady=10)
-    
-    def themeset():
-        if str(theme.get()) == "Dark":
-            sv_ttk.set_theme("dark")
-        if str(theme.get()) == "Light":
-            sv_ttk.set_theme("light")
 
     preferenceslabel = ttk.Label(preferenceFrame, text="Preferences", font=("Roboto", 16, "bold"))
     preferenceslabel.grid(columnspan=3, row=0, sticky='n', padx=150, pady=0)
     canchange = ttk.Label(preferenceFrame, text="You can change these in the settings later", font=("Roboto", 10))
     canchange.grid(columnspan=3, row=1, sticky='n', padx=150, pady=5)
-
-    #selectthemelabel = ttk.Label(preferenceFrame, text="Select Theme", font=("Roboto", 12))
-    #selectthemelabel.grid(columnspan=3, row=2, sticky='w', pady=5, padx=10)
-    #theme = tk.StringVar()
-    #dark = ttk.Radiobutton(preferenceFrame, text="Dark", variable=theme, value="Dark", command=themeset)
-    #dark.grid(columnspan=3, row=3, sticky='w', pady=5, padx=10)
-    #light = ttk.Radiobutton(preferenceFrame, text="Light", variable=theme, value="Light", command=themeset)
-    #light.grid(columnspan=3, row=4, sticky='w', pady=5, padx=10)
 
     selectotherslabel = ttk.Label(preferenceFrame, text="Other Settings", font=("Roboto", 12))
     selectotherslabel.grid(columnspan=3, row=5, sticky='w', pady=5, padx=10)
@@ -1068,12 +1053,6 @@ def InstallSequence():
 
     # Runs when the confirm button is pressed
     def confirmselection():
-        #themesave = (str(theme.get()))
-        FOLDER = os.path.dirname(__file__)
-        #if themesave == "": 
-        #    printRed("Please select a theme")
-        #    return
-        
         UpdateProgress(5, 0, 0.5)
         pleasewait = ttk.Label(preferenceFrame, text="Please wait, saving preferences", font=("Roboto", 15, "bold"))
         pleasewait.grid(columnspan=3, row=8, padx=0, pady=15)
@@ -1089,19 +1068,12 @@ def InstallSequence():
         else:
             print("Shortcut not created")
             pass
-
-        #time.sleep(2)
-        #if themesave == "Dark": 
-        #    CreateSettings("User Interface", "Theme", "dark")
-        #elif themesave == "Light": 
-        #    CreateSettings("User Interface", "Theme", "light")
         restoreconsole()
 
     
 
     # Restore the console after preferences are saved
     def restoreconsole():
-        sv_ttk.set_theme("dark")
         preferenceFrame.destroy()
         infoPage.grid(padx=10)
         statusFrame.grid(row=1, sticky="e", padx=10, pady=10)
@@ -1127,7 +1099,8 @@ def InstallSequence():
 begin = ttk.Button(infoPage, text="Begin", command=InstallSequence, width=64)
 begin.grid(pady=5, sticky="w", padx=9)
 
-root.mainloop()
+InstallerThread = threading.Thread(target=root.mainloop())
+InstallerThread.start()
 
 "@
 
