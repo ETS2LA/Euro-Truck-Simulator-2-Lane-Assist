@@ -12,7 +12,7 @@ PluginInfo = PluginInformation(
     name="DefaultSteering", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     description="Will use the LaneDetection data to output steering.",
     version="0.1",
-    author="Tumppi066",
+    author="Tumppi066, Erdosis",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
     dynamicOrder="before controller", # Will run the plugin before anything else in the mainloop (data will be empty)
@@ -107,6 +107,7 @@ indicatingLeft = False
 enabled = True
 isHolding = False
 keyboardControlValue = 0
+
 def plugin(data):
     global desiredControl
     global lastDesiredControl
@@ -126,7 +127,6 @@ def plugin(data):
     global keyboardControlValue
     global keyboardSensitivity
     global keyboardReturnSensitivity
-    # global disableLaneAssistWhenIndicating
 
     try:
         desiredControl = data["LaneDetection"]["difference"] * sensitivity + offset
