@@ -435,8 +435,8 @@ class UI:
             ("Control Smoothness", "smoothness", 0, 10, 1),
             ("Maximum Control", "maximumControl", 0, 1, 0.01),
             ("Sensitivity", "sensitivity", 0, 1, 0.01),
-            ("Prediction Strength", "derivativegain", 0, 1, 0),
-            ("Error Correction Strength", "integralgain", 0, 1, 0),
+            #("Prediction Strength", "derivativegain", 0, 1, 0),
+            #("Error Correction Strength", "integralgain", 0, 1, 0),
         ], start_row=1)
 
     def populateGamepadFrame(self):
