@@ -1,2 +1,1 @@
-Added more accurate custom sleep method.
-Fix divide by zero in fps limiter.
+Backend changes: Cleaned up DefaultSteering plugin for easier maintainability
