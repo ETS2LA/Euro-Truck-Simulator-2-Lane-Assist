@@ -127,10 +127,10 @@ try:
     folder_path = os.path.dirname(__file__)
     model_path = os.path.join(folder_path, 'YOLOv5_MapDetectionModel.pt')
     try:
-        torch.hub.set_dir(f"{folder_path}\\YoloFiles")
+        torch.hub.set_dir(f"{folder_path}\\YOLOFiles")
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=model_path)
     except:
-        torch.hub.set_dir(f"{folder_path}\\YoloFiles")
+        torch.hub.set_dir(f"{folder_path}\\YOLOFiles")
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=model_path, force_reload=True)
     print("\033[92m" + f"Successfully loaded the YOLOv5_MapDetectionModel.pt model!" + "\033[0m")
     startscreen("Setup model successfully loaded!", (0,255,0))

@@ -115,9 +115,7 @@ def onEnable():
     
     print("Plugin version: " + str(data["scsValues"]["telemetryPluginRevision"]))
     
-    devmode = settings.GetSettings("Dev", "disable_warnings", False)
-    if devmode == False:
-        if data["scsValues"]["telemetryPluginRevision"] < 2:
+    if data["scsValues"]["telemetryPluginRevision"] < 2:
             print("Plugin not installed")
 
 def onDisable():
