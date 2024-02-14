@@ -502,7 +502,7 @@ class UI:
 
     def addCheckButton(self, frame, label, setting_key, row, column=0, columnspan=3, default=False):
         var = tk.BooleanVar(value=settings.GetSettings("DefaultSteering", setting_key) if settings.GetSettings("DefaultSteering", setting_key) is not None else default)
-        checkButton = tk.Checkbutton(frame, text=label, variable=var)
+        checkButton = ttk.Checkbutton(frame, text=label, variable=var)
         checkButton.grid(row=row, column=column, columnspan=columnspan, sticky="w", padx=(70, 0))
         setattr(self, setting_key, var)  # Store the variable for later retrieval
 
