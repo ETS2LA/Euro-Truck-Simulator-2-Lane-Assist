@@ -280,8 +280,8 @@ def yolo_load_model():
             try:
                 print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
                 import torch
-                torch.hub.set_dir(f"{variables.PATH}plugins\\TrafficLightDetection\\YoloFiles")
-                yolo_model = torch.hub.load("ultralytics/yolov5", yolo_model_str)
+                torch.hub.set_dir(f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOFiles")
+                yolo_model = torch.hub.load("ultralytics/yolov5:master", 'custom', f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOModels\\{yolo_model_str}")
                 print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
                 yolo_model_loaded = True
             except Exception as e:
@@ -1324,8 +1324,7 @@ class UI():
 
             helpers.MakeCheckButton(trackeraiFrame, "Do Yolo Detection confirmation\n---------------------------------------------\nIf enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection.\nWhat this means: higher accuracy, but a small lag every time the detection detects a new traffic light.", "TrafficLightDetection", "yolo_detection", 1, 0, width=100, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(trackeraiFrame, "Show unconfirmed traffic lights\n--------------------------------------------\nIf enabled, the app will show unconfirmed or wrongly detected traffic lights in gray in the output window.", "TrafficLightDetection", "yolo_showunconfirmed", 2, 0, width=100, callback=lambda:UpdateSettings())
-            helpers.MakeEmptyLine(trackeraiFrame,3,0)
-            helpers.MakeLabel(trackeraiFrame, "YOLOv5 Model:", 4, 0, sticky="nw")
+            helpers.MakeLabel(trackeraiFrame, "YOLOv5 Model:", 4, 0, sticky="nw", font=("Segoe UI", 12))
             model_ui = tk.StringVar() 
             previous_model_ui = settings.GetSettings("TrafficLightDetection", "yolo_model")
             if previous_model_ui == "yolov5n":
@@ -1351,7 +1350,8 @@ class UI():
             yolov5x = ttk.Radiobutton(trackeraiFrame, text="YOLOv5x (slowest, highest accuracy)", variable=model_ui, value="yolov5x", command=model_selection)
             yolov5x.grid(row=9, column=0, sticky="nw")
             model_selection()
-            helpers.MakeButton(trackeraiFrame, "Save and Load Model\n-------------------------------\nLoading the model could take some time.", self.save_and_load_model, 10, 0, width=50, sticky="nw")
+            helpers.MakeButton(trackeraiFrame, "Save and Load Model", self.save_and_load_model, 10, 0, width=100, sticky="nw")
+            helpers.MakeButton(trackeraiFrame, "Delete all downloaded models and redownload the model you are currently using.\nThis could fix faulty model files and other issues.", self.delete_and_redownload_model, 11, 0, width=100, sticky="nw")
 
             helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screen capture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screen capture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
             
@@ -1727,6 +1727,32 @@ class UI():
                     messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
             else:
                 messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
+
+        def delete_and_redownload_model(self):
+            global last_model_load_press
+            global yolo_model_loaded
+            if time.time() > last_model_load_press + 1:
+                last_model_load_press = time.time()
+                if yolo_model_loaded != "loading...":
+                    try:
+                        import os
+                        yolomodels_path = f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOModels"
+                        for filename in os.listdir(yolomodels_path):
+                            file_path = os.path.join(yolomodels_path, filename)
+                            if os.path.isfile(file_path) and filename.lower() != 'index.md':
+                                os.remove(file_path)
+                    except Exception as e:
+                        messagebox.showwarning("TrafficLightDetection", f"The code encountered an error while deleting the model files. Please try again.")
+                        exc = traceback.format_exc()
+                        SendCrashReport("TrafficLightDetection - Model Delete Error.", str(exc))
+                        print("TrafficLightDetection - Model Delete Error: " + str(e))
+                    yolo_model_loaded = False
+                    yolo_load_model()
+                    UpdateSettings()
+                else:
+                    messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
+            else:
+                messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
 
         def update(self, data): 
             self.root.update()
