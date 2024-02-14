@@ -159,6 +159,7 @@ def plugin(data):
         return speed
 
     def update_control_value(direction, sensitivity, speed):
+        global keyboardControlValue
         if direction == "left":
             decrement = sensitivity / speed
             if keyboardControlValue < -1:
@@ -177,6 +178,8 @@ def plugin(data):
                 keyboardControlValue += increment
 
     def adjust_control_towards_center(speed):
+        global keyboardControlValue
+        global keyboardReturnSensitivity
         if keyboardControlValue > keyboardReturnSensitivity / speed:
             keyboardControlValue -= keyboardReturnSensitivity / speed
         elif keyboardControlValue < -keyboardReturnSensitivity / speed:
