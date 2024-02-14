@@ -11,8 +11,8 @@ from src.logger import print
 PluginInfo = PluginInformation(
     name="DefaultSteering", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
     description="Will use the LaneDetection data to output steering.",
-    version="0.2",
-    author="Tumppi066, Erdosis",
+    version="0.1",
+    author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
     dynamicOrder="before controller", # Will run the plugin before anything else in the mainloop (data will be empty)
@@ -32,7 +32,6 @@ import cv2
 import keyboard as kb
 from tkinter import messagebox
 import src.controls as controls
-import time
 
 controls.RegisterKeybind("Enable/Disable Steering", 
                          defaultButtonIndex="n", 
@@ -71,18 +70,15 @@ def updateSettings():
     global lastWheelIndex
     global maximumControl
     global controlSmoothness
+    global sensitivity
     global offset
     global gamepadMode
     global gamepadSmoothness
     global enableDisable
     global keyboard
     global lanechangingnavdetection
-    global keyboardControlValue
     global keyboardSensitivity
     global keyboardReturnSensitivity
-    global sensitivity # determines how hard the system reacts to the current error. AKA: Proportional Gain
-    global integralgain # deals with errors that accumulate over time, should be zero since it's a video game. No wind here! 
-    global derivativegain # anticipates future errors based on the rate of change.
         
     maximumControl = verifySetting("DefaultSteering", "maximumControl", 0.2)
     controlSmoothness = verifySetting("DefaultSteering", "smoothness", 4)
@@ -94,39 +90,33 @@ def updateSettings():
     
     keyboard = verifySetting("DefaultSteering", "keyboard", False)
     
-    keyboardControlValue = 0
     keyboardSensitivity = verifySetting("DefaultSteering", "keyboardSensitivity", 0.5)
     keyboardReturnSensitivity = verifySetting("DefaultSteering", "keyboardReturnSensitivity", 0.2)
 
     lanechangingnavdetection = settings.GetSettings("NavigationDetectionV2", "lanechanging", True)
-
-    integralgain = verifySetting("DefaultSteering", "integralgain", 0.0)
-    derivativegain = verifySetting("DefaultSteering", "derivativegain", 0.0)
     
     
 updateSettings()
 
 # MOST OF THIS FILE IS COPIED FROM THE OLD VERSION
 desiredControl = 0
-lastDesiredControl = 0
+oldDesiredControl = 0
 lastFrame = 0
-indicatingRight = False
-indicatingLeft = False
+IndicatingRight = False
+IndicatingLeft = False
+lastIndicatingRight = False
+lastIndicatingLeft = False
 enabled = True
-isHolding = False
+enabledTimer = 0
 keyboardControlValue = 0
-integral_error = 0.0
-previous_error = 0.0
-lastFrameTime = 0
-derivative_buffer = []
-derivative_buffer_max_len = 100
-
 def plugin(data):
     global desiredControl
-    global lastDesiredControl
+    global oldDesiredControl
     global enabled
-    global indicatingRight
-    global indicatingLeft
+    global IndicatingRight
+    global IndicatingLeft
+    global lastIndicatingLeft
+    global lastIndicatingRight
     global maximumControl
     global controlSmoothness
     global sensitivity
@@ -135,252 +125,352 @@ def plugin(data):
     global gamepadSmoothness
     global lastFrame
     global enableDisable
-    global isHolding
+    global enabledTimer
     global keyboard
     global keyboardControlValue
     global keyboardSensitivity
     global keyboardReturnSensitivity
-    global integralgain 
-    global derivativegain 
-    global lastFrameTime
-    global integral_error
-    global previous_error
-    global derivative_buffer
-    global derivative_buffer_max_len
+    # global disableLaneAssistWhenIndicating
 
-
-    data["controller"] = {}
-
-    def get_speed():
-        try:
-            speed = abs(data["api"]["truckFloat"]["speed"]) or 1
-        except KeyError:  # More specific exception
-            speed = 50
-        return speed
-
-    def update_control_value(direction, sensitivity, speed):
-        global keyboardControlValue
-        if direction == "left":
-            decrement = sensitivity / speed
-            if keyboardControlValue < -1:
-                keyboardControlValue = -1
-            elif keyboardControlValue > 0:
-                keyboardControlValue -= (1 + decrement) / speed
-            else:
-                keyboardControlValue -= decrement
-        elif direction == "right":
-            increment = sensitivity / speed
-            if keyboardControlValue > 1:
-                keyboardControlValue = 1
-            elif keyboardControlValue < 0:
-                keyboardControlValue += (1 + increment) / speed
-            else:
-                keyboardControlValue += increment
-
-    def adjust_control_towards_center(speed):
-        global keyboardControlValue
-        global keyboardReturnSensitivity
-        if keyboardControlValue > keyboardReturnSensitivity / speed:
-            keyboardControlValue -= keyboardReturnSensitivity / speed
-        elif keyboardControlValue < -keyboardReturnSensitivity / speed:
-            keyboardControlValue += keyboardReturnSensitivity / speed
-        else:
-            keyboardControlValue = 0
-
-
-    def get_indicating_state():
-        global indicatingLeft, indicatingRight
-        try:
-            indicating_left = data["api"]["truckBool"]["blinkerLeftActive"]
-            indicating_right = data["api"]["truckBool"]["blinkerRightActive"]
-            indicating_state = indicating_left or indicating_right
-            if indicating_state:
-                if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
-                    return False, False, indicating_state
-            return indicating_state
-        except KeyError: 
-            return False, False, False
-        
-    def toggle_enabled_state():
-        global enabled, isHolding 
-        if enabled:
-            enabled = False
-            print("Disabled")
-            sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
-        else:
-            enabled = True
-            print("Enabled")
-            sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
-        isHolding = True
-
-    def pid_controller(currentdesiredControl, lastDesiredControl):
-        global integral_error, previous_error, lastFrameTime
-        global sensitivity, integralgain, derivativegain
-        
-        currentTime = time.time()
-        deltaTime = max(currentTime - lastFrameTime, 1e-4)  # Avoid division by zero
-        lastFrameTime = currentTime  # Update for the next call
-
-        integral_error += currentdesiredControl * deltaTime  # Accumulate error over time, considering function call rate
-        current_derivative = (currentdesiredControl - lastDesiredControl) / deltaTime  # Rate of error change, considering function call rate
-
-        derivative_buffer.append(current_derivative)
-        if len(derivative_buffer) > derivative_buffer_max_len:
-            derivative_buffer.pop(0) 
-        if derivative_buffer:  # Check to avoid division by zero if the list is somehow empty
-            smoothed_derivative = sum(derivative_buffer) / len(derivative_buffer)
-        else:
-            smoothed_derivative = 0
-        
-
-        # Compute the control value using PID formula
-        pid_control_value = (sensitivity * currentdesiredControl) + (integralgain * integral_error) + (derivativegain/100 * smoothed_derivative)
-        
-        return pid_control_value
-    
-
-    def update_controller_input(input_value, lane_assist_enabled):
-        global lastFrame, lastDesiredControl, controlSmoothness, indicatingLeft, indicatingRight, lanechangingnavdetection
-
-        # Calculate the value based on whether we are in gamepad mode
-        if gamepadMode:
-            squared_value = pow(input_value, 2) if input_value >= 0 else -pow(input_value, 2)
-            newValue = lastFrame + (squared_value - lastFrame) * gamepadSmoothness
-            lastFrame = newValue
-            control_value = newValue
-        else:
-            control_value = input_value
-
-        # Check if lane assist is enabled or not
-        if lane_assist_enabled:
-            # Adjust control value based on control smoothness and desired control, if not indicating
-            if not (indicatingLeft or indicatingRight) or lanechangingnavdetection:
-                pid_control_value = pid_controller(desiredControl, lastDesiredControl) # Calculate PID value before user corrections
-                # Clamp the control based on the maximum amount the user wants the wheel to turn
-                clamped_desired_control = max(min(pid_control_value, maximumControl), -maximumControl)
-                control_value = ((lastDesiredControl * controlSmoothness) + clamped_desired_control) / (controlSmoothness + 1) + pid_control_value
-
-        # Update the control
-        data["controller"]["leftStick"] = control_value
-        if lane_assist_enabled:
-            lastDesiredControl = ((lastDesiredControl * controlSmoothness) + clamped_desired_control) / (controlSmoothness + 1)
-
-    speed = get_speed()
-    lastFrameTime = time.time()
-    
     try:
-        desiredControl = data["LaneDetection"]["difference"] + offset
+        desiredControl = data["LaneDetection"]["difference"] * sensitivity + offset
     except Exception as ex:
         if "LaneDetection" not in ex.args[0] and "difference" not in ex.args[0]:
             print(ex)
             
-        desiredControl = lastDesiredControl * 0.9
+        desiredControl = oldDesiredControl * 0.9
+        
 
     try:
-        indicating_ui_state = get_indicating_state()
-    except Exception as ex:
-        print(ex)
-        print("Most likely fix : change your indicator and or enable/disable buttons.")
-        pass
+        testData = data["api"]
+        if testData == None:
+            apiAvailable = False
+        else:
+            apiAvailable = True
+    except:
+        apiAvailable = False
 
-    if controls.GetKeybindValue("Enable/Disable Steering") and not isHolding:
-        toggle_enabled_state()
-    elif not controls.GetKeybindValue("Enable/Disable Steering"):
-        isHolding = False
-
+    data["controller"] = {}
 
     # Keyboard based control
     if keyboard:
-                
-        if controls.GetKeybindValue("Steer Left Key"):
-            update_control_value("left", keyboardSensitivity, speed)
-        elif controls.GetKeybindValue("Steer Right Key"):
-            update_control_value("right", keyboardSensitivity, speed)
-        else:
-            adjust_control_towards_center(speed)
-
         try:
-            if enabled:
-                update_controller_input(keyboardControlValue, lane_assist_enabled=True)
+            speed = data["api"]["truckFloat"]["speed"]
+            if speed < 0:
+                speed = -speed
+            if speed == 0:
+                speed = 1
+        except:
+            speed = 50
+        
+        if controls.GetKeybindValue("Steer Left Key"):
+            if keyboardControlValue < -1:
+                keyboardControlValue = -1
             else:
-                # If the lane assist is disabled, we just input the default control.
-                update_controller_input(keyboardControlValue, lane_assist_enabled=False)
+                keyboardControlValue -= keyboardSensitivity / speed
+                if keyboardControlValue > 0:
+                    keyboardControlValue -= 1 / speed
+        elif controls.GetKeybindValue("Steer Right Key"):
+            if keyboardControlValue > 1:
+                keyboardControlValue = 1
+            else:
+                keyboardControlValue += keyboardSensitivity / speed
+                if keyboardControlValue < 0:
+                    keyboardControlValue += 1 / speed
+        else:
+            # Move closer to the center
+            if keyboardControlValue > keyboardReturnSensitivity / speed:
+                keyboardControlValue -= keyboardReturnSensitivity / speed
+            elif keyboardControlValue < -keyboardReturnSensitivity / speed:
+                keyboardControlValue += keyboardReturnSensitivity / speed
+            else:
+                keyboardControlValue = 0
+            
+        
+        try:
+            IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
+            IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            if IndicatingLeft == True or IndicatingRight == True:
+                if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
+                    IndicatingLeft = False
+                    IndicatingRight = False
+
+            enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
+            if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
+                if enabled == True:
+                    enabled = False
+                    print("Disabled")
+                    enabledTimer = 0
+                    sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
+                else:
+                    enabled = True
+                    print("Enabled")
+                    enabledTimer = 0
+                    sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
+
+            try:
+
+                # Main controller update loop.
+                if(enabled):
+                    # Clamp the control
+                    if desiredControl > maximumControl:
+                        desiredControl = maximumControl
+                    if desiredControl < -maximumControl:
+                        desiredControl = -maximumControl
+
+                    if lanechangingnavdetection == False:
+                        # If we are indicating, then disable the automatic control.
+                        if(IndicatingRight or IndicatingLeft):
+                            if gamepadMode:
+                                value = pow(keyboardControlValue, 2) 
+                                if(keyboardControlValue < 0) : value = -value
+                                newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                                lastFrame = newValue
+                                data["controller"]["leftStick"] = newValue
+                            else:
+                                data["controller"]["leftStick"] = keyboardControlValue
+                        else:
+                            if gamepadMode:
+                                value = pow(keyboardControlValue, 2) 
+                                if(keyboardControlValue < 0) : value = -value
+                                newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                                lastFrame = newValue
+                                data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
+                            else:
+                                data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + keyboardControlValue
+                    else:
+                        if gamepadMode:
+                            value = pow(keyboardControlValue, 2) 
+                            if(keyboardControlValue < 0) : value = -value
+                            newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                            lastFrame = newValue
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
+                        else:
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + keyboardControlValue
+
+
+                    oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
+                else:
+                    # If the lane assist is disabled we just input the default control.
+                    if gamepadMode:
+                        value = pow(keyboardControlValue, 2) 
+                        if(keyboardControlValue < 0) : value = -value
+                        newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                        lastFrame = newValue
+                        data["controller"]["leftStick"] = newValue
+                    else:
+                        data["controller"]["leftStick"] = keyboardControlValue
+                
+            except Exception as ex:
+                print(ex)
+                pass
         except Exception as ex:
             print(ex)
-        
+            pass
     
     # Controller based control
     else:
-
         try:
-            steeringAxisValue = controls.GetKeybindValue("Steering Axis")
-            # Check if the SDK controller is enabled and vgamepad is not
+            enabledTimer += 1
+            IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
+            IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            if IndicatingLeft == True:
+                IndicatingLeft_original = True
+            else:
+                IndicatingLeft_original = False
+            if IndicatingRight == True:
+                IndicatingRight_original = True
+            else:
+                IndicatingRight_original = False
+            if IndicatingLeft == True or IndicatingRight == True:
+                if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
+                    IndicatingLeft = False
+                    IndicatingRight = False
+
+            if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
+                if enabled == True:
+                    enabled = False
+                    print("Disabled")
+                    enabledTimer = 0
+                    sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
+                else:
+                    enabled = True
+                    print("Enabled")
+                    enabledTimer = 0
+                    sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
+
             try:
-                if "SDKController" in settings.GetSettings("Plugins", "Enabled") and "VGamepadController" not in settings.GetSettings("Plugins", "Enabled"):
+                steeringAxisValue = controls.GetKeybindValue("Steering Axis")
+                # Check if the SDK controller is enabled and vgamepad is not
+                try:
+                    if "SDKController" in settings.GetSettings("Plugins", "Enabled") and "VGamepadController" not in settings.GetSettings("Plugins", "Enabled"):
+                        steeringAxisValue = 0 # Don't pass the users control values to the game
+                except:
                     steeringAxisValue = 0 # Don't pass the users control values to the game
-            except:
-                steeringAxisValue = 0 # Don't pass the users control values to the game
+                    
+                # Main controller update loop.
+                if(enabled):
+                    # Clamp the control
+                    if desiredControl > maximumControl:
+                        desiredControl = maximumControl
+                    if desiredControl < -maximumControl:
+                        desiredControl = -maximumControl
+
+                    # If we are indicating, then disable the automatic control.
+                    if(IndicatingRight or IndicatingLeft):
+                        
+                        if gamepadMode:
+                            value = pow(steeringAxisValue, 2) 
+                            if(steeringAxisValue < 0) : value = -value
+                            newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                            lastFrame = newValue
+                            data["controller"]["leftStick"] = newValue
+                        else:
+                            data["controller"]["leftStick"] = steeringAxisValue
+                    else:
+                        if gamepadMode:
+                            value = pow(steeringAxisValue, 2) 
+                            if(steeringAxisValue < 0) : value = -value
+                            newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                            lastFrame = newValue
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + newValue
+                        else:
+                            data["controller"]["leftStick"] = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1) + steeringAxisValue
+                    
+                    oldDesiredControl = ((oldDesiredControl*controlSmoothness)+desiredControl)/(controlSmoothness+1)
+                else:
+                    # If the lane assist is disabled we just input the default control.
+                    if gamepadMode:
+                        value = pow(steeringAxisValue, 2) 
+                        if(steeringAxisValue < 0) : value = -value
+                        newValue = lastFrame + (value - lastFrame) * gamepadSmoothness
+                        lastFrame = newValue
+                        data["controller"]["leftStick"] = newValue
+                    else:
+                        data["controller"]["leftStick"] = steeringAxisValue
+                
+            except Exception as ex:
+                print(ex)
+                print("Most likely fix : change your indicator and or enable/disable buttons.")
+                pass
         except Exception as ex:
             print(ex)
             print("Most likely fix : change your indicator and or enable/disable buttons.")
             pass
+
+
+    try:
         
         if enabled:
-            update_controller_input(steeringAxisValue, lane_assist_enabled=True)
-        else:
-            # If the lane assist is disabled, we just input the default control.
-            update_controller_input(steeringAxisValue, lane_assist_enabled=False)
-
-    # Draw Correction UI
-    def convert_to_rgb_if_necessary(image):
-        try:
-            return cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
-        except:
-            return image
-
-    def draw_steering_lines(output_img, w, h, value, color, thickness):
-        divider = 5
-        cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + value * (w/2 - w/divider)), int(h - h/10)), color, thickness, cv2.LINE_AA)
-
-    def draw_text(output_img, text, target_width, position, font_scale=1, color=(0, 0, 0)):
-        # Initial text size calculation
-        text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, font_scale, 1)
-        max_count = 3
-        while text_size[0] != target_width and max_count > 0:
-            font_scale *= target_width / text_size[0] if text_size[0] != 0 else 1
-            text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, font_scale, 1)
-            max_count -= 1
-        font_thickness = max(round(font_scale * 2), 1)
-        position = position[0], position[1] + text_size[1]
-        cv2.putText(output_img, text, position, cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, font_thickness, cv2.LINE_AA)
-    
-    try:
-        output_img = convert_to_rgb_if_necessary(data["frame"])
-        w, h = output_img.shape[1], output_img.shape[0]
-
-        # Common line to indicate the background
-        cv2.line(output_img, (int(w/5), int(h - h/10)), (int(4*w/5), int(h - h/10)), (100, 100, 100), 6, cv2.LINE_AA)
-        enabled_position = (round(0.01*w), round(0.02*h))
-        indicating_position = (round(0.99*w - w/4), round(0.02*h))
-        if enabled:
+            try:
+                output_img = cv2.cvtColor(data["frame"], cv2.COLOR_GRAY2RGB)
+            except:
+                output_img = data["frame"]
+            w = output_img.shape[1]
+            h = output_img.shape[0]
+            
             currentDesired = desiredControl * (1/maximumControl)
-            actualSteering = lastDesiredControl * (1/maximumControl)
-            draw_steering_lines(output_img, w, h, actualSteering, (0, 255, 100), 6)  # Actual steering
-            draw_steering_lines(output_img, w, h, currentDesired, (0, 100, 255), 2)  # Desired steering
-            if indicating_ui_state:
-                draw_text(output_img, "Indicating", w/4, indicating_position, color=(0, 255, 255))
-            draw_text(output_img, "Enabled", w/4, enabled_position, color=(0, 255, 0))
+            actualSteering = oldDesiredControl * (1/maximumControl)
+
+            divider = 5
+            # First draw a gray line to indicate the background
+            cv2.line(output_img, (int(w/divider), int(h - h/10)), (int(w/divider*(divider-1)), int(h - h/10)), (100, 100, 100), 6, cv2.LINE_AA)
+            # Then draw a light green line to indicate the actual steering
+            cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + actualSteering * (w/2 - w/divider)), int(h - h/10)), (0, 255, 100), 6, cv2.LINE_AA)
+            # Then draw a light red line to indicate the desired steering
+            cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + currentDesired * (w/2 - w/divider)), int(h - h/10)), (0, 100, 255), 2, cv2.LINE_AA)
+
+            try:
+                if IndicatingLeft_original or IndicatingRight_original:
+                    current_text = "Indicating"
+                    width_target_current_text = w/4
+                    fontscale_current_text = 1
+                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                    width_current_text, height_current_text = textsize_current_text
+                    max_count_current_text = 3
+                    while width_current_text != width_target_current_text:
+                        fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                        textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                        width_current_text, height_current_text = textsize_current_text
+                        max_count_current_text -= 1
+                        if max_count_current_text <= 0:
+                            break
+                    fontthickness_current_text = round(fontscale_current_text*2)
+                    if fontthickness_current_text <= 0:
+                        fontthickness_current_text = 1
+                    cv2.putText(output_img, "Indicating", (round(0.99*w - width_current_text), round(0.02*w + height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 255, 255), fontthickness_current_text, cv2.LINE_AA)
+            except:
+                pass    
+            
+            # Also draw a enabled text to the top left
+            current_text = "Enabled"
+            width_target_current_text = w/4
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text <= 0:
+                    break
+            fontthickness_current_text = round(fontscale_current_text*2)
+            if fontthickness_current_text <= 0:
+                fontthickness_current_text = 1
+            cv2.putText(output_img, "Enabled", (round(0.01*w), round(0.02*w)+height_current_text), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 255, 0), fontthickness_current_text, cv2.LINE_AA)
+            
+            data["frame"] = output_img
         else:
-            wheelValue = keyboardControlValue if keyboard else (lastFrame if lastFrame != 0 else 0)
-            draw_steering_lines(output_img, w, h, wheelValue, (0, 255, 100), 6)  # Wheel indication
-            draw_text(output_img, "Disabled", w/4, enabled_position, color=(0, 0, 255))
+            try:
+                output_img = cv2.cvtColor(data["frame"], cv2.COLOR_GRAY2RGB)
+            except:
+                output_img = data["frame"]
+            w = output_img.shape[1]
+            h = output_img.shape[0]
+            
+            divider = 5
+            
+            if not keyboard:
+                if lastFrame != 0:
+                    wheelValue = lastFrame
+                else:
+                    try:
+                        wheelValue = controls.GetKeybindValue("Steering Axis")
+                    except:
+                        wheelValue = 0
+            else:
+                wheelValue = keyboardControlValue
+            # First draw a gray line to indicate the background
+            cv2.line(output_img, (int(w/divider), int(h - h/10)), (int(w/divider*(divider-1)), int(h - h/10)), (100, 100, 100), 6, cv2.LINE_AA)
+            # Then draw a light green line to indicate the wheel
+            cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + wheelValue * (w/2 - w/divider)), int(h - h/10)), (0, 255, 100), 6, cv2.LINE_AA)
 
-        data["frame"] = output_img
-
+            # Also draw a disabled text to the top left
+            current_text = "Enabled" # Using text "Enabled" to keep the same text size
+            width_target_current_text = w/4
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text <= 0:
+                    break
+            fontthickness_current_text = round(fontscale_current_text*2)
+            if fontthickness_current_text <= 0:
+                fontthickness_current_text = 1
+            cv2.putText(output_img, "Disabled", (round(0.01*w), round(0.02*w)+height_current_text), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), fontthickness_current_text, cv2.LINE_AA)
+            
+            
+            data["frame"] = output_img
 
     except Exception as ex:
         pass
-
 
     try:
         if data["controller"]["leftstick"] == None:
@@ -391,123 +481,135 @@ def plugin(data):
     return data # Plugins need to ALWAYS return the data
 
 
-# Plugin UI
-class UI:
-    def __init__(self, master):
-        self.master = master  # "master" is the main UI window
-        self.setupUI()
+# Plugins can also have UIs, this works the same as the panel example
+class UI():
+    try: # The panel is in a try loop so that the logger can log errors if they occur
+        
+        def __init__(self, master) -> None:
+            self.master = master # "master" is the mainUI window
+            self.exampleFunction()
+        
+        def destroy(self):
+            self.done = True
+            self.root.destroy()
+            del self
 
-    def setupUI(self):
-        try:
-            self.destroyUIIfExists()
-            self.createCanvas()
-            self.createNotebook()
-            self.createFrames()
-            self.populateGeneralFrame()
-            self.populateGamepadFrame()
-            self.populateKeyboardFrame()
-            self.addFramesToNotebook()
-            self.createSaveButton()
-        except Exception as ex:
-            print(ex)
-
-    def destroyUIIfExists(self):
-        try:
-            self.root.destroy()  # Attempt to destroy the UI if it exists
-        except AttributeError:
-            pass  # If self.root doesn't exist, do nothing
-
-    def createCanvas(self):
-        self.root = tk.Canvas(self.master, width=700, height=520, border=0, highlightthickness=0)
-        self.root.grid_propagate(False)  # Don't fit the canvas to the widgets
-        self.root.pack_propagate(False)
-        self.root.pack(anchor="center", expand=False)
-
-    def createNotebook(self):
-        self.notebook = ttk.Notebook(self.root)
-        self.notebook.pack(anchor="center", fill="both", expand=True)
-
-    def createFrames(self):
-        self.generalFrame = ttk.Frame(self.notebook)
-        self.gamepadFrame = ttk.Frame(self.notebook)
-        self.keyboardFrame = ttk.Frame(self.notebook)
-
-    def populateGeneralFrame(self):
-        self.configureFrameLayout(self.generalFrame, 3)
-        self.addLabel(self.generalFrame, "General", 0, 0, 3)
-        self.addScales(self.generalFrame, [
-            ("Steering Offset", "offset", -0.5, 0.5, 0.01),
-            ("Control Smoothness", "smoothness", 0, 10, 1),
-            ("Maximum Control", "maximumControl", 0, 1, 0.01),
-            ("Sensitivity", "sensitivity", 0, 1, 0.01),
-            #("Prediction Strength", "derivativegain", 0, 1, 0),
-            #("Error Correction Strength", "integralgain", 0, 1, 0),
-        ], start_row=1)
-
-    def populateGamepadFrame(self):
-        self.configureFrameLayout(self.gamepadFrame, 3)
-        self.addLabel(self.gamepadFrame, "Gamepad", 0, 0, 3)
-        self.addCheckButton(self.gamepadFrame, "Gamepad Mode", "gamepad", row=1, default=True)
-        self.addScales(self.gamepadFrame, [
-            ("Gamepad Smoothness", "gamepadSmoothness", 0, 0.4, 0.01)
-        ], start_row=2) # Assuming the next available row after the checkbox is 2
-
-    def populateKeyboardFrame(self):
-        self.configureFrameLayout(self.keyboardFrame, 3)
-        self.addLabel(self.keyboardFrame, "Keyboard", 0, 0, 3)
-        self.addCheckButton(self.keyboardFrame, "Keyboard Mode", "keyboard", default=False, row=1)
-        self.addScales(self.keyboardFrame, [
-            ("Keyboard Sensitivity", "keyboardSensitivity", 0, 1, 0.01),
-            ("Keyboard Return Sensitivity", "keyboardReturnSensitivity", 0, 1, 0.01),
-        ], start_row=2) # Assuming the next available row after the checkbox is 2
-
-
-    def addFramesToNotebook(self):
-        self.notebook.add(self.generalFrame, text="General")
-        self.notebook.add(self.gamepadFrame, text="Gamepad")
-        self.notebook.add(self.keyboardFrame, text="Keyboard")
-
-    def createSaveButton(self):
-        ttk.Button(self.root, text="Save", command=self.save, width=20).pack(anchor="center", pady=10)
-
-    def configureFrameLayout(self, frame, num_columns):
-        for i in range(num_columns):
-            frame.columnconfigure(i, weight=1)
-
-    def save(self):
-    # Dynamically access each attribute based on its setting key and save the settings
-        settings_keys = [
-            "offset", "smoothness", "sensitivity", "derivativegain",
-            "integralgain", "maximumControl", "gamepad", "gamepadSmoothness",
-            "keyboard", "keyboardSensitivity", "keyboardReturnSensitivity"
-        ]
-        for key in settings_keys:
-            setting_value = getattr(self, key).get()  # Use getattr to dynamically access the attribute
-            settings.CreateSettings("DefaultSteering", key, setting_value)
-        updateSettings()
-
-
-    def addLabel(self, frame, text, row, column, columnspan, font=("Robot", 12, "bold")):
-        ttk.Label(frame, text=text, font=font).grid(row=row, column=column, columnspan=columnspan)
-
-    def addScales(self, frame, scale_info, start_row):
-        for idx, (label, setting_key, from_, to, resolution) in enumerate(scale_info, start=start_row):
-            scale = tk.Scale(frame, from_=from_, to=to, orient="horizontal", length=500, resolution=resolution, label=label)
-            scale.grid(row=idx, column=0, columnspan=3, pady=0)
-            value = settings.GetSettings("DefaultSteering", setting_key)
-            if value is None: value = from_ + (to - from_) / 2  # Default to midpoint if not set
-            scale.set(value)
-            setattr(self, setting_key, scale)  # Save the scale widget as an attribute of the UI object
-
-
-    def addCheckButton(self, frame, label, setting_key, row, column=0, columnspan=3, default=False):
-        var = tk.BooleanVar(value=settings.GetSettings("DefaultSteering", setting_key) if settings.GetSettings("DefaultSteering", setting_key) is not None else default)
-        checkButton = ttk.Checkbutton(frame, text=label, variable=var)
-        checkButton.grid(row=row, column=column, columnspan=columnspan, sticky="w", padx=(70, 0))
-        setattr(self, setting_key, var)  # Store the variable for later retrieval
-
-
-
-
-    def update(self, data):
-        self.root.update() # When the panel is open this function is called each frame 
+        
+        def exampleFunction(self):
+            
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
+            
+            self.root = tk.Canvas(self.master, width=700, height=520, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
+            self.root.pack_propagate(0)
+            
+            # Create a notebook 
+            notebook = ttk.Notebook(self.root)
+            notebook.pack(anchor="center", fill="both", expand=True)
+            
+            generalFrame = ttk.Frame(notebook)
+            generalFrame.pack()
+            gamepadFrame = ttk.Frame(notebook)
+            gamepadFrame.pack()
+            keyboardFrame = ttk.Frame(notebook)
+            keyboardFrame.pack()
+            
+            # Scuffed way to get the settings to be in the center
+            generalFrame.columnconfigure(0, weight=1)
+            generalFrame.columnconfigure(1, weight=1)
+            generalFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(generalFrame, "General", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
+            # self.offset = helpers.MakeComboEntry(generalFrame, "Steering Offset", "DefaultSteering", "offset", 1, 1, width=12, value=-0.2, isFloat=True)
+            self.offset = tk.Scale(generalFrame, from_=-0.5, to=0.5, orient="horizontal", length=500, resolution=0.01, label=Translate("Steering Offset"))
+            self.offset.grid(row=1, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "offset")
+            if value == None: value = 0.0
+            self.offset.set(value)
+            
+            self.smoothness = tk.Scale(generalFrame, from_=0, to=10, orient="horizontal", length=500, resolution=1, label=Translate("Control Smoothness"))
+            self.smoothness.grid(row=2, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "smoothness")
+            if value == None: value = 4
+            self.smoothness.set(value)
+            
+            self.sensitivity = tk.Scale(generalFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label=Translate("Sensitivity"))
+            self.sensitivity.grid(row=3, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "sensitivity")
+            if value == None: value = 0.4
+            self.sensitivity.set(value)
+            
+            self.maximumControl = tk.Scale(generalFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label=Translate("Maximum Control"))
+            self.maximumControl.grid(row=4, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "maximumControl")
+            if value == None: value = 0.2
+            self.maximumControl.set(value)
+            
+            
+            gamepadFrame.columnconfigure(0, weight=1)
+            gamepadFrame.columnconfigure(1, weight=1)
+            gamepadFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(gamepadFrame, "Gamepad", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
+            self.gamepad = helpers.MakeCheckButton(gamepadFrame, "Gamepad Mode", "DefaultSteering", "gamepad", 1, 1, width=15, default=True)
+            self.gamepadSmoothness = tk.Scale(gamepadFrame, from_=0, to=0.4, orient="horizontal", length=500, resolution=0.01, label=Translate("Gamepad Smoothness"))
+            self.gamepadSmoothness.grid(row=2, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "gamepadSmoothness")
+            if value == None: value = 0.05
+            self.gamepadSmoothness.set(value)
+            
+            keyboardFrame.columnconfigure(0, weight=1)
+            keyboardFrame.columnconfigure(1, weight=1)
+            keyboardFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(keyboardFrame, "Keyboard", 3, 0, font=("Robot", 12, "bold"), columnspan=3)
+            self.keyboard = helpers.MakeCheckButton(keyboardFrame, "Keyboard Mode", "DefaultSteering", "keyboard", 4, 1, width=15, default=False)
+            
+            self.keyboardSensitivity = tk.Scale(keyboardFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label=Translate("Keyboard Sensitivity"))
+            self.keyboardSensitivity.grid(row=6, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "keyboardSensitivity")
+            if value == None: value = 0.5
+            self.keyboardSensitivity.set(value)
+            
+            self.keyboardReturnSens = tk.Scale(keyboardFrame, from_=0, to=1, orient="horizontal", length=500, resolution=0.01, label=Translate("Keyboard Return Sensitivity"))
+            self.keyboardReturnSens.grid(row=7, column=0, columnspan=3, pady=0)
+            value = settings.GetSettings("DefaultSteering", "keyboardReturnSensitivity")
+            if value == None: value = 0.2
+            self.keyboardReturnSens.set(value)
+            
+            # self.rightIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Right Indicator Key", "DefaultSteering", "rightIndicatorKey", 6, 1, width=12, value="e", isString=True)
+            # self.leftIndicatorKey = helpers.MakeComboEntry(keyboardFrame, "Left Indicator Key", "DefaultSteering", "leftIndicatorKey", 7, 1, width=12, value="q", isString=True)
+            
+            notebook.add(generalFrame, text=Translate("General"))
+            notebook.add(gamepadFrame, text=Translate("Gamepad"))
+            notebook.add(keyboardFrame, text=Translate("Keyboard"))
+            
+            ttk.Button(self.root, text="Save", command=self.save, width=20).pack(anchor="center", pady=10)
+            
+            self.root.pack(anchor="center", expand=False)
+            self.root.update()
+            
+        
+        def save(self):
+            settings.CreateSettings("DefaultSteering", "offset", self.offset.get())
+            settings.CreateSettings("DefaultSteering", "smoothness", self.smoothness.get())
+            settings.CreateSettings("DefaultSteering", "sensitivity", self.sensitivity.get())
+            settings.CreateSettings("DefaultSteering", "maximumControl", self.maximumControl.get())
+            # settings.CreateSettings("DefaultSteering", "rightIndicator", self.rightIndicator.get())
+            # settings.CreateSettings("DefaultSteering", "leftIndicator", self.leftIndicator.get())
+            settings.CreateSettings("DefaultSteering", "gamepad", self.gamepad.get())
+            settings.CreateSettings("DefaultSteering", "gamepadSmoothness", self.gamepadSmoothness.get())
+            settings.CreateSettings("DefaultSteering", "keyboard", self.keyboard.get())
+            # settings.CreateSettings("DefaultSteering", "rightIndicatorKey", self.rightIndicatorKey.get())
+            # settings.CreateSettings("DefaultSteering", "leftIndicatorKey", self.leftIndicatorKey.get())
+            settings.CreateSettings("DefaultSteering", "keyboardSensitivity", self.keyboardSensitivity.get())
+            settings.CreateSettings("DefaultSteering", "keyboardReturnSensitivity", self.keyboardReturnSens.get())
+            updateSettings()
+            
+        
+        def update(self, data): # When the panel is open this function is called each frame 
+            self.root.update()
+            
+    
+    
+    except Exception as ex:
+        print(ex.args)
