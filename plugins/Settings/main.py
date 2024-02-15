@@ -73,6 +73,7 @@ class UI():
 
             
             helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 7,0, padx=30, pady=10, width=20, autoplace=True)
+            helpers.MakeButton(self.root, "Open Installer Menu", lambda: self.open_menu(), 7,1, padx=30, pady=10, width=20, autoplace=True)
             
             
             helpers.MakeButton(self.root, "Reinstall plugins", lambda: self.reinstall(), 6,0, padx=30, pady=10, width=20, autoplace=True)
@@ -118,6 +119,11 @@ class UI():
                 settings.CreateSettings("CrashReporter", "AllowCrashReports", False)
             
             variables.RELOAD = True
+
+        def open_menu(self):
+            import subprocess
+            import os
+            subprocess.Popen(os.path.dirname(os.path.dirname(variables.PATH)) + "\menu.bat")
         
         def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()
