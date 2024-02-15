@@ -240,7 +240,7 @@ while True:
         any_hovered = False
 
     if finish_setup_pressed == True and get_top_left == False and get_bottom_right == False:
-        if top_left[0] < bottom_right[0] or top_left[1] < bottom_right[1]:
+        if top_left[0] < bottom_right[0] and top_left[1] < bottom_right[1]:
             CreateSettings("TrafficLightDetection", "x1ofsc", top_left[0])
             CreateSettings("TrafficLightDetection", "y1ofsc", top_left[1])
             CreateSettings("TrafficLightDetection", "x2ofsc", bottom_right[0])
@@ -274,13 +274,13 @@ while True:
             break
         else:
             if top_left[0] >= bottom_right[0] and top_left[1] >= bottom_right[1]:
-                messagebox.showerror("TrafficLightDetection", "The Top Left Corner must to the left and above the Bottom Right Corner!\nThe Code will not exit, please try again!")
+                messagebox.showwarning("TrafficLightDetection", "The Top Left Corner must to the left and above the Bottom Right Corner!\nThe Code will not exit, please try again!")
             elif top_left[0] >= bottom_right[0]:
-                messagebox.showerror("TrafficLightDetection", "The Top Left Corner must to the left of the Bottom Right Corner!\nThe Code will not exit, please try again!")
+                messagebox.showwarning("TrafficLightDetection", "The Top Left Corner must to the left of the Bottom Right Corner!\nThe Code will not exit, please try again!")
             elif top_left[1] >= bottom_right[1]:
-                messagebox.showerror("TrafficLightDetection", "The Top Left Corner must to above the Bottom Right Corner!\nThe Code will not exit, please try again!")
+                messagebox.showwarning("TrafficLightDetection", "The Top Left Corner must to above the Bottom Right Corner!\nThe Code will not exit, please try again!")
             else:
-                messagebox.showerror("TrafficLightDetection", "The Top Left Corner must to the left and above the Bottom Right Corner!\nThe Code will not exit, please try again!")
+                messagebox.showwarning("TrafficLightDetection", "The Top Left Corner must to the left and above the Bottom Right Corner!\nThe Code will not exit, please try again!")
     
     if new_screenshot_pressed == True:
         screenshot = pyautogui.screenshot()
