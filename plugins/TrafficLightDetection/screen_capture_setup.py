@@ -62,7 +62,7 @@ currentProfile = os.path.join(file_path, "profiles", "currentProfile.txt")
 cv2.namedWindow('Example Image', cv2.WINDOW_NORMAL)
 exampleimage_width = exampleimage.shape[1]
 exampleimage_height = exampleimage.shape[0]
-cv2.resizeWindow('Example Image', round(exampleimage_width/2), round(exampleimage_height/2))
+cv2.resizeWindow('Example Image', round(frame_width/2.5), round(frame_width/5.93))
 cv2.imshow('Example Image', exampleimage)
 cv2.imshow('TrafficLightDetection - Screen Capture Setup', startframe)
 cv2.waitKey(1)
@@ -129,7 +129,7 @@ while True:
         cv2.namedWindow('Example Image', cv2.WINDOW_NORMAL)
         exampleimage_width = exampleimage.shape[1]
         exampleimage_height = exampleimage.shape[0]
-        cv2.resizeWindow('Example Image', round(exampleimage_width/2), round(exampleimage_height/2))
+        cv2.resizeWindow('Example Image', round(frame_width/2.5), round(frame_width/5.93)))
 
     try:
         window_x, window_y, window_width, window_height = cv2.getWindowImageRect('TrafficLightDetection - Screen Capture Setup')
