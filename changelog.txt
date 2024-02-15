@@ -1,1 +1,1 @@
-TrafficLightDetection UI Update.
+Added missing assets from the last update.
