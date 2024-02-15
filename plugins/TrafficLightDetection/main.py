@@ -36,6 +36,7 @@ import ctypes
 import math
 import time
 import cv2
+import os
 
 screen_width, screen_height = pyautogui.size()
 
@@ -68,7 +69,6 @@ def UpdateSettings():
     global performancemode
     global advancedmode
     global windowscale
-    global usefullframe
     global yolo_detection
     global yolo_showunconfirmed
     global yolo_model_loaded
@@ -119,12 +119,22 @@ def UpdateSettings():
     detectyellowlight = settings.GetSettings("TrafficLightDetection", "detectyellowlight", False)
     performancemode = settings.GetSettings("TrafficLightDetection", "performancemode", True)
     advancedmode = settings.GetSettings("TrafficLightDetection", "advancedmode", False)
-    usefullframe = settings.GetSettings("TrafficLightDetection", "usefullframe", True)
     windowscale = float(settings.GetSettings("TrafficLightDetection", "scale", 0.5))
     x1 = settings.GetSettings("TrafficLightDetection", "x1ofsc", 0)
     y1 = settings.GetSettings("TrafficLightDetection", "y1ofsc", 0)
     x2 = settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1)
     y2 = settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1)
+
+    if x1 >= x2:
+        if screen_width-x1 > screen_width-x2:
+            x1 = x2-1
+        else:
+            x2 = x1+1
+    if y1 >= y2:
+        if screen_height-y1 > screen_height-y2:
+            y1 = y2-1
+        else:
+            y2 = y1+1
 
     rectsizefilter = settings.GetSettings("TrafficLightDetection", "rectsizefilter", True)
     widthheightratiofilter = settings.GetSettings("TrafficLightDetection", "widthheightratiofilter", True)
@@ -138,12 +148,8 @@ def UpdateSettings():
     trafficlights = []
 
     if automaticwindowsize == True:
-        if usefullframe == False:
-            windowwidth = x2-x1
-            windowheight = y2-y1
-        else:
-            windowwidth = screen_width
-            windowheight = round(screen_height/1.5)
+        windowwidth = x2-x1
+        windowheight = y2-y1
     else:
         windowwidth = settings.GetSettings("TrafficLightDetection", "outputwindowwidth", round(screen_width/2))
         windowheight = settings.GetSettings("TrafficLightDetection", "outputwindowheight", round(screen_height/3))
@@ -346,10 +352,10 @@ def plugin(data):
     
     try:
         frameFull = data["frameFull"]
-        if usefullframe == False and x2-x1 > 0 and y2-y1 > 0:
+        if x1 < x2 and y1 < y2:
             frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
-        else: 
-            frame = frameFull[0:round(screen_height/1.5), 0:screen_width] 
+        else:
+            frame = frameFull[0:round(screen_height/1.5), 0:screen_width]
     except:
         return data
     
@@ -782,10 +788,7 @@ def plugin(data):
                                 x2_confirmation = screen_width - 1
                             if y2_confirmation > screen_height - 1:
                                 y2_confirmation = screen_height - 1
-                            if usefullframe == False and x2-x1 > 0 and y2-y1 > 0:
-                                yolo_detection_frame = frameFull[y1+y1_confirmation:y1+y2_confirmation, x1+x1_confirmation:x1+x2_confirmation]
-                            else:
-                                yolo_detection_frame = frameFull[y1_confirmation:y2_confirmation, x1_confirmation:x2_confirmation]
+                            yolo_detection_frame = frameFull[y1+y1_confirmation:y1+y2_confirmation, x1+x1_confirmation:x1+x2_confirmation]
                             approved = yolo_detection_function(yolo_detection_frame)
                             trafficlights.append((nearestpoint, new_id, approved))
 
@@ -1353,12 +1356,14 @@ class UI():
             helpers.MakeButton(trackeraiFrame, "Save and Load Model", self.save_and_load_model, 10, 0, width=100, sticky="nw")
             helpers.MakeButton(trackeraiFrame, "Delete all downloaded models and redownload the model you are currently using.\nThis could fix faulty model files and other issues.", self.delete_and_redownload_model, 11, 0, width=100, sticky="nw")
 
-            helpers.MakeCheckButton(screencaptureFrame, "Use Full Frame\n----------------------\nIf enabled, the screen capture for the traffic light detection uses the top ⅔ of the screen for\nthe traffic light detection. (not recommended, could have a bad impact on performance)\n\nTo set own screen capture coordinates disable Use Full Frame and use sliders below.", "TrafficLightDetection", "usefullframe", 1, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeEmptyLine(screencaptureFrame, 1, 0)
+            helpers.MakeButton(screencaptureFrame, "Screen Capture Setup", self.open_screencapture_setup, 2, 0, width=80, sticky="nw")
+            helpers.MakeEmptyLine(screencaptureFrame, 3, 0)
             
             self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x1ofsc())
             self.x1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x1ofsc", 0))
-            self.x1ofscSlider.grid(row=3, column=0, padx=10, pady=0, columnspan=2)
-            self.x1ofsc = helpers.MakeComboEntry(screencaptureFrame, "X1 (topleft)", "TrafficLightDetection", "x1ofsc", 3,0)
+            self.x1ofscSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
+            self.x1ofsc = helpers.MakeComboEntry(screencaptureFrame, "X1 (topleft)", "TrafficLightDetection", "x1ofsc", 4,0)
 
             self.y1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_y1ofsc())
             self.y1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y1ofsc", 0))
@@ -1383,35 +1388,11 @@ class UI():
                 self.UpdateSliderValue_y1ofsc()
                 self.UpdateSliderValue_x2ofsc()
                 self.UpdateSliderValue_y2ofsc()
-                if settings.GetSettings("TrafficLightDetection", "usefullframe", True) == False:
-                    x1_preview = self.x1ofscSlider.get()
-                    y1_preview = self.y1ofscSlider.get()
-                    x2_preview = self.x2ofscSlider.get()
-                    y2_preview = self.y2ofscSlider.get()
-                    screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1_preview, y1_preview, x2_preview - x1_preview, y2_preview - y1_preview))), cv2.COLOR_RGB2BGR)
-                else:
-                    x1_preview = 0
-                    y1_preview = 0
-                    x2_preview = screen_width-1
-                    y2_preview = round(screen_height/1.5)-1
-                    screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1_preview, y1_preview, x2_preview - x1_preview, y2_preview - y1_preview))), cv2.COLOR_RGB2BGR)
-                    current_text = '"Use Full Frame" enabled, disable to set own screen capture area'
-                    width_target_current_text = (x2_preview - x1_preview)*0.9
-                    fontscale_current_text = 1
-                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                    width_current_text, height_current_text = textsize_current_text
-                    max_count_current_text = 3
-                    while width_current_text != width_target_current_text:
-                        fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                        textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                        width_current_text, height_current_text = textsize_current_text
-                        max_count_current_text -= 1
-                        if max_count_current_text <= 0:
-                            break
-                    thickness_current_text = round(fontscale_current_text*2)
-                    if thickness_current_text <= 0:
-                        thickness_current_text = 1
-                    cv2.putText(screenshot, current_text, (round((x2_preview-x1_preview)/2 - width_current_text/2), height_current_text*2), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
+                x1_preview = self.x1ofscSlider.get()
+                y1_preview = self.y1ofscSlider.get()
+                x2_preview = self.x2ofscSlider.get()
+                y2_preview = self.y2ofscSlider.get()
+                screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1_preview, y1_preview, x2_preview - x1_preview, y2_preview - y1_preview))), cv2.COLOR_RGB2BGR)
                 cv2.namedWindow('Screen Capture Preview', cv2.WINDOW_NORMAL)
                 cv2.setWindowProperty('Screen Capture Preview', cv2.WND_PROP_TOPMOST, 1)
                 cv2.resizeWindow('Screen Capture Preview', round((x2_preview-x1_preview)/2), round((y2_preview-y1_preview)/2))
@@ -1735,7 +1716,6 @@ class UI():
                 last_model_load_press = time.time()
                 if yolo_model_loaded != "loading...":
                     try:
-                        import os
                         yolomodels_path = f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOModels"
                         for filename in os.listdir(yolomodels_path):
                             file_path = os.path.join(yolomodels_path, filename)
@@ -1754,8 +1734,14 @@ class UI():
             else:
                 messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
 
+        def open_screencapture_setup(self):
+            import subprocess
+            subprocess.Popen([f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe", os.path.join(variables.PATH, "plugins/TrafficLightDetection", "screen_capture_setup.py")], shell=True)
+
         def update(self, data): 
             self.root.update()
             
     except Exception as ex:
         print(ex.args)
+
+# this comment is used to reload the app after finishing the setup - 0
