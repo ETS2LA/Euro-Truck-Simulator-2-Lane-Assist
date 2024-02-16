@@ -22,8 +22,8 @@ import src.helpers as helpers
 import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
-import os
-import win32gui, win32con
+import src.console as console
+import win32gui, win32con, win32console
 
 global crashreportvar
 
@@ -67,12 +67,12 @@ class UI():
             self.updateRate = helpers.MakeComboEntry(self.root, "UI Update Every x Frames", "User Interface", "updateRate", 1,0, value=4, labelwidth=25, width=25, autoplace=True)
             self.awareness = helpers.MakeComboEntry(self.root, "DPI mode (0/1/2)", "User Interface", "DPIAwareness", 2,0, value=0, labelwidth=25, width=25, autoplace=True)
             
-            self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20, autoplace=True)
-            helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20, autoplace=True)
-            self.crashreport = helpers.MakeCheckButton(self.root, "Send crash data", "CrashReporter", "AllowCrashReports", 4,0, width=20, autoplace=True)
+            self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20, autoplace=True, callback=self.save)
+            helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20, autoplace=True, callback=self.save)
+            self.crashreport = helpers.MakeCheckButton(self.root, "Send crash data", "CrashReporter", "AllowCrashReports",4,0, width=20, autoplace=True, callback=self.show_crashreports_info)
 
             
-            helpers.MakeButton(self.root, "Save & Reload", lambda: self.save(), 7,0, padx=30, pady=10, width=20, autoplace=True)
+            helpers.MakeButton(self.root, "Reload", lambda: self.reload(), 7,0, padx=30, pady=10, width=20, autoplace=True)
             helpers.MakeButton(self.root, "Open Installer Menu", lambda: self.open_menu(), 7,1, padx=30, pady=10, width=20, autoplace=True)
             
             
@@ -89,45 +89,35 @@ class UI():
                 tk.messagebox.showinfo("Restart required", "You need to restart the app for the DPI mode to take effect.")
             # settings.CreateSettings("Plugins", "Ignore", self.ignore.get())
             if settings.GetSettings("User Interface", "hide_console") == False:
-                win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_RESTORE)
+                console.RestoreConsole()
             if settings.GetSettings("User Interface", "hide_console") == True:
-                if variables.CONSOLENAME == None:
-                    window_found = False
-                    target_text = "/venv/Scripts/python"
-                    top_windows = []
-                    win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
-                    for hwnd, window_text in top_windows:
-                        if target_text in window_text:
-                            window_found = True
-                            variables.CONSOLENAME = hwnd
-                            break
-                    if window_found == False:
-                        print("Console window not found, unable to hide!")
-                    else:
-                        print(f"Console Name: {window_text}, Console ID: {hwnd}")
-                        win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
-                else:
-                    win32gui.ShowWindow(variables.CONSOLENAME, win32con.SW_HIDE)
-            print(self.crashreport.get())
+                console.HideConsole()
+
+        def open_menu(self):
+            import subprocess
+            import os
+            subprocess.Popen(os.path.dirname(os.path.dirname(variables.PATH)) + "\menu.bat")
+
+        def show_crashreports_info(self):
             if self.crashreport.get():
                 CrashReportWindow = tk.messagebox.askokcancel("CrashReporter", "This will send anonymous crash report data to the developers.\nThis can help improve the app and fix any bugs that are found.\n This will send only the error that caused the app to crash.\n Your name and person info will be censored.\n\nDo you want to continue?", icon="warning") 
                 if CrashReportWindow == True:
                     settings.CreateSettings("CrashReporter", "AllowCrashReports", True)
                 else: 
                     settings.CreateSettings("CrashReporter", "AllowCrashReports", False)
+                    self.exampleFunction()
             else:
                 settings.CreateSettings("CrashReporter", "AllowCrashReports", False)
-            
+        
+        def reload(self):
             variables.RELOAD = True
 
-        def open_menu(self):
-            import subprocess
-            import os
-            subprocess.Popen(os.path.dirname(os.path.dirname(variables.PATH)) + "\menu.bat")
-        
         def update(self, data): # When the panel is open this function is called each frame 
+            if self.updateRate.get() != settings.GetSettings("User Interface", "updateRate"):
+                self.save()
+            if self.awareness.get() != settings.GetSettings("User Interface", "DPIAwareness"):
+                self.save()
             self.root.update()
-    
     
     except Exception as ex:
         print(ex.args)

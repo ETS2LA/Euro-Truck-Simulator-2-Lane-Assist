@@ -27,8 +27,10 @@ RELOAD:bool
 VERSION:str
 """The current shortened changelog. Used to show the user what's new in the small autoupdater dialog."""
 CHANGELOG:str
-"""The name/id of the console, is needed to hide or show the console."""
-CONSOLENAME:bool
+"""The name of the console, it is needed to hide or show the console."""
+CONSOLENAME = None
+"""The hwnd of the console, it is needed to hide or show the console."""
+CONSOLEHWND = None
 """Add custom data for the next frame. This is usually useful for panels that can't add their data the normal way.
 Should be used sparingly, since it only supports one piece of data at a time (for the one open panel / UI)."""
 APPENDDATANEXTFRAME:bool
