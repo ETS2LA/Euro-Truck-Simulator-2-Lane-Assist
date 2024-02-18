@@ -1305,7 +1305,7 @@ class UI():
 
             helpers.MakeCheckButton(outputwindowFrame, "Final Window\n--------------------\nIf enabled, the app creates a window with the result of the traffic light detection.", "TrafficLightDetection", "finalwindow", 1, 0, width=80, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(outputwindowFrame, "Grayscale Window\n---------------------------\nIf enabled, the app creates a window with the color masks combined in a grayscaled frame.", "TrafficLightDetection", "grayscalewindow", 2, 0, width=80, callback=lambda:UpdateSettings())
-            helpers.MakeCheckButton(outputwindowFrame, "Red/Yellow/Green Window\n----------------------------\nIf enabled, the app creates a window with the color masks combined in a frame.", "TrafficLightDetection", "redyellowgreenwindow", 3, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(outputwindowFrame, "Non-Grayscale Window\n----------------------------------\nIf enabled, the app creates a window with the color masks combined in a frame.", "TrafficLightDetection", "redyellowgreenwindow", 3, 0, width=80, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(outputwindowFrame, "Automatic Windowsize\n---------------------------------\nIf enabled, the Window Width and Window Height sliders will no longer have any effect\nand the output window keeps the aspect ratio of the captured frame. Set the size of the\noutput window with the Window Scale slider.", "TrafficLightDetection", "automaticwindowsize", 4, 0, width=80, callback=lambda:UpdateSettings())
             helpers.MakeEmptyLine(outputwindowFrame,5,0)
 
@@ -1356,32 +1356,33 @@ class UI():
             helpers.MakeButton(trackeraiFrame, "Save and Load Model", self.save_and_load_model, 10, 0, width=100, sticky="nw")
             helpers.MakeButton(trackeraiFrame, "Delete all downloaded models and redownload the model you are currently using.\nThis could fix faulty model files and other issues.", self.delete_and_redownload_model, 11, 0, width=100, sticky="nw")
 
-            helpers.MakeEmptyLine(screencaptureFrame, 1, 0)
-            helpers.MakeButton(screencaptureFrame, "Screen Capture Setup", self.open_screencapture_setup, 2, 0, width=80, sticky="nw")
+            helpers.MakeLabel(screencaptureFrame, "Simple Setup:　　　　　　　　　　　　　　　　　　　　　　　　　　　　　", 1, 0, sticky="nw", font=("Segoe UI", 12))
+            helpers.MakeButton(screencaptureFrame, "Screen Capture Setup", self.open_screencapture_setup, 2, 0, width=40, sticky="nw")
             helpers.MakeEmptyLine(screencaptureFrame, 3, 0)
+            helpers.MakeLabel(screencaptureFrame, "Advanced Setup:", 4, 0, sticky="nw", font=("Segoe UI", 12))
             
-            self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x1ofsc())
+            self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=430, command=lambda x: self.UpdateSliderValue_x1ofsc())
             self.x1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x1ofsc", 0))
-            self.x1ofscSlider.grid(row=4, column=0, padx=10, pady=0, columnspan=2)
-            self.x1ofsc = helpers.MakeComboEntry(screencaptureFrame, "X1 (topleft)", "TrafficLightDetection", "x1ofsc", 4,0)
+            self.x1ofscSlider.grid(row=5, column=0, padx=10, pady=0, columnspan=2)
+            self.x1ofsc = helpers.MakeComboEntry(screencaptureFrame, "X1 (topleft)", "TrafficLightDetection", "x1ofsc", 5,0, labelwidth=16, width=11)
 
-            self.y1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_y1ofsc())
+            self.y1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=430, command=lambda x: self.UpdateSliderValue_y1ofsc())
             self.y1ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y1ofsc", 0))
-            self.y1ofscSlider.grid(row=5, column=0, padx=10, pady=0, columnspan=2)
-            self.y1ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y1 (topleft)", "TrafficLightDetection", "y1ofsc", 5,0)
+            self.y1ofscSlider.grid(row=6, column=0, padx=10, pady=0, columnspan=2)
+            self.y1ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y1 (topleft)", "TrafficLightDetection", "y1ofsc", 6,0, labelwidth=16, width=11)
 
-            self.x2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_x2ofsc())
+            self.x2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=430, command=lambda x: self.UpdateSliderValue_x2ofsc())
             self.x2ofscSlider.set(settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1))
             self.x2ofscSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
-            self.x2ofsc = helpers.MakeComboEntry(screencaptureFrame, "X2 (buttomright)", "TrafficLightDetection", "x2ofsc", 7,0)
+            self.x2ofsc = helpers.MakeComboEntry(screencaptureFrame, "X2 (buttomright)", "TrafficLightDetection", "x2ofsc", 7,0, labelwidth=16, width=11)
 
-            self.y2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=460, command=lambda x: self.UpdateSliderValue_y2ofsc())
+            self.y2ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_height-1, resolution=1, orient=tk.HORIZONTAL, length=430, command=lambda x: self.UpdateSliderValue_y2ofsc())
             self.y2ofscSlider.set(settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1))
             self.y2ofscSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-            self.y2ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y2 (buttomright)", "TrafficLightDetection", "y2ofsc", 9,0)
+            self.y2ofsc = helpers.MakeComboEntry(screencaptureFrame, "Y2 (buttomright)", "TrafficLightDetection", "y2ofsc", 9,0, labelwidth=16, width=11)
 
-            helpers.MakeButton(screencaptureFrame, "Open/Refresh preview", lambda: screencapture_open_refresh(), 11, 0, width=30, sticky="w")
-            helpers.MakeButton(screencaptureFrame, "Close preview", lambda: screencapture_close(), 12, 0, width=30, sticky="w")
+            helpers.MakeButton(screencaptureFrame, "Open/Refresh preview", lambda: screencapture_open_refresh(), 11, 0, width=40, sticky="w")
+            helpers.MakeButton(screencaptureFrame, "Close preview", lambda: screencapture_close(), 12, 0, width=40, sticky="w")
 
             def screencapture_open_refresh():
                 self.UpdateSliderValue_x1ofsc()
