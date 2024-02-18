@@ -1197,13 +1197,14 @@ function RunScript($file) {
     $file_type = $file.Split(".")[1]
     $file_name = $file.Split(".")[0]
     $file_name = $file_name.TrimEnd(".")
+    Write-Host "Running $file_name Script"
 
     Set-Location $tempDir
 
     if ($file_type -eq "bat") {
-    Start-Process -FilePath "./$($file)" -Wait
-    } else {       	
-    Start-Process -FilePath "powershell.exe" -ArgumentList "-File $($file)" -Wait
+    Start-Process -FilePath "./$($file)"
+    } else {
+    Start-Process -FilePath "powershell.exe" -ArgumentList "-File $($file)"
     }
     Set-Location $scriptDirectory
 }
