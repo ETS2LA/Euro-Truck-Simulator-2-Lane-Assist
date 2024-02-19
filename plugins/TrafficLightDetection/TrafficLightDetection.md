@@ -39,22 +39,20 @@ Enable this if you want to use the settings you set in the advanced settings tab
 
 +++ Screen Capture
 
-==- Use Full Frame
-If enabled, the TrafficLightDetection will look at the top top two thirds of the screen for detection.
+==- Simple Setup
+The app will open another window where you can set your own screencapture area using the buttons to set the conrners.
 ==-
 
 ==- X1, Y1, X2, Y2 Sliders
-You can set your own screencapture area with these four sliders, X1 and Y1 set the top left corner and X2 and Y2 the bottom right corner of the screencapture area.
-!!!warning Warning
-To set your own area, you need to disable the Use Full Frame option.
-!!!
+You can set your screencapture area with these four sliders, X1 and Y1 set the top left corner and X2 and Y2 the bottom right corner of the screencapture area.
+It does the same as the simple setup.
 ==-
 
 
 +++ Output Window
 
-==- Final Window, Grayscale Window, Red/Yellow/Green Window
-These window can output the results of the detection.
+==- Final Window, Grayscale Window, Non-Grayscale Window
+These window can output the results of the detection in different formats.
 ==-
 
 ==- Automatic Windowsize
