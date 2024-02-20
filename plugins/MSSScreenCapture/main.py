@@ -72,19 +72,16 @@ def onDisable():
 # The data from the last frame is contained under data["last"]
 def plugin(data):
     try:
-        # Capture full screen
+        # Capture full screen once
         frame = sct.grab(monitor_full)
-        # Make it so that cv2 can read it
-        frame = np.array(Image.frombytes('RGB', (monitor_full[2], monitor_full[3]), sct.grab(monitor_full).rgb)) 
-        # Convert to BGR
-        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        # Save the frame
+        # Make the frame usable for opencv
+        frame = cv2.cvtColor(np.array(frame), cv2.COLOR_RGBA2RGB)
+        # Save the full frame
         data["frameFull"] = frame
-        # Crop the frame to the selected area
-        frame = frame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
-        # Save the cropped frame
-        data["frame"] = frame
-        data["frameOriginal"] = frame
+        # Crop the frame to the selected area and save
+        data["frame"] = frame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
+        # Save a copy of the original cropped frame
+        data["frameOriginal"] = data["frame"].copy()
         return data
     except Exception as ex:
         print(ex)
