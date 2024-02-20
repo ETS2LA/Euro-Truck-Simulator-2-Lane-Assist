@@ -1356,9 +1356,9 @@ class UI():
             helpers.MakeButton(trackeraiFrame, "Save and Load Model", self.save_and_load_model, 10, 0, width=100, sticky="nw")
             helpers.MakeButton(trackeraiFrame, "Delete all downloaded models and redownload the model you are currently using.\nThis could fix faulty model files and other issues.", self.delete_and_redownload_model, 11, 0, width=100, sticky="nw")
 
-            helpers.MakeLabel(screencaptureFrame, "Simple Setup:　　　　　　　　　　　　　　　　　　　　　　　　　　　　　", 1, 0, sticky="nw", font=("Segoe UI", 12))
+            helpers.MakeLabel(screencaptureFrame, "Simple Setup:", 1, 0, sticky="nw", font=("Segoe UI", 12))
             helpers.MakeButton(screencaptureFrame, "Screen Capture Setup", self.open_screencapture_setup, 2, 0, width=40, sticky="nw")
-            helpers.MakeEmptyLine(screencaptureFrame, 3, 0)
+            helpers.MakeLabel(screencaptureFrame, "　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　", 3, 0, sticky="nw", translate=False)
             helpers.MakeLabel(screencaptureFrame, "Advanced Setup:", 4, 0, sticky="nw", font=("Segoe UI", 12))
             
             self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=430, command=lambda x: self.UpdateSliderValue_x1ofsc())
