@@ -33,6 +33,7 @@ import tkinter as tk
 import plugins.DefaultSteering.main as DefaultSteering
 import numpy as np
 import subprocess
+import pyautogui
 import ctypes
 import time
 import cv2
@@ -278,6 +279,8 @@ def plugin(data):
         return data
 
     if frame is None: return data
+    if width == 0 or width == None: return data
+    if height == 0 or height == None: return data
     
     if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
         valid_frame = True
@@ -285,7 +288,7 @@ def plugin(data):
         valid_frame = False
         return data
     
-    if 0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < width and 0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < height:
+    if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < pyautogui.size().width) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < pyautogui.size().height):
         valid_setup = True
     else:
         valid_setup = False
