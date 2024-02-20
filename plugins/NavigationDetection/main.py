@@ -23,6 +23,7 @@ from src.mainUI import resizeWindow
 import src.variables as variables
 import src.settings as settings
 import src.controls as controls
+import src.console as console
 import src.helpers as helpers
 from src.logger import print
 import src.sounds as sounds
@@ -284,6 +285,16 @@ def plugin(data):
         valid_frame = False
         return data
     
+    if 0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < width and 0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < height:
+        valid_setup = True
+    else:
+        valid_setup = False
+        return data
+    
+    if valid_setup == False:
+        print("NavigationDetection: Invalid frame or setup. Possible fix: Set the screen capture to your main monitor in your Screen Capture Plugin. Non-main monitor support coming soon.")
+        console.RestoreConsole()
+
     try:
         gamepaused = data["api"]["pause"]
         if gamepaused == True:
@@ -720,7 +731,7 @@ def plugin(data):
         if turnincoming_direction == "Right" and enabled == True:
             data["sdk"]["RightBlinker"] = False
         turnincoming_detected = False
-        tunincoming_direction = None
+        turnincoming_direction = None
 
     allow_trafficlight_symbol = True
     allow_no_lane_detected = True
