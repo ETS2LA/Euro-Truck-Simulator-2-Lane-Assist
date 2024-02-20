@@ -72,6 +72,7 @@ def UpdateSettings():
     global yolo_detection
     global yolo_showunconfirmed
     global yolo_model_loaded
+    global yolo_model_str
     global yolo_model
     global coordinates
     global trafficlights
@@ -143,6 +144,7 @@ def UpdateSettings():
 
     yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
     yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
+    yolo_model_str = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
 
     coordinates = []
     trafficlights = []
@@ -1329,7 +1331,7 @@ class UI():
             helpers.MakeCheckButton(trackeraiFrame, "Show unconfirmed traffic lights\n--------------------------------------------\nIf enabled, the app will show unconfirmed or wrongly detected traffic lights in gray in the output window.", "TrafficLightDetection", "yolo_showunconfirmed", 2, 0, width=100, callback=lambda:UpdateSettings())
             helpers.MakeLabel(trackeraiFrame, "YOLOv5 Model:", 4, 0, sticky="nw", font=("Segoe UI", 12))
             model_ui = tk.StringVar() 
-            previous_model_ui = settings.GetSettings("TrafficLightDetection", "yolo_model")
+            previous_model_ui = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n")
             if previous_model_ui == "yolov5n":
                 model_ui.set("yolov5n")
             if previous_model_ui == "yolov5s":
