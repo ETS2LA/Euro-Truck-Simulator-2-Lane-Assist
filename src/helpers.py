@@ -311,7 +311,27 @@ def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, aut
         row = Autoplace(parent, row, column)
     
     ttk.Label(parent, text="").grid(row=row, column=column, columnspan=columnspan, pady=pady)
-        
+    
+def MakeNotebook(parent, row:int, column:int, columnspan:int=1, rowspan:int=1, sticky:str="n", padx:int=5, pady:int=5):
+    """Will create a new ttk.Notebook with the given parameters.
+
+    Args:
+        parent (tkObject): The parent object of the notebook.
+        row (int): The row of the notebook.
+        column (int): The column of the notebook.
+        columnspan (int, optional): Defaults to 1.
+        rowspan (int, optional): Defaults to 1.
+        sticky (str, optional): Defaults to "n".
+        padx (int, optional): Defaults to 5.
+        pady (int, optional): Defaults to 5.
+
+    Returns:
+        ttk.Notebook: The notebook object we created.
+    """
+    notebook = ttk.Notebook(parent)
+    notebook.grid(row=row, column=column, columnspan=columnspan, rowspan=rowspan, sticky=sticky, padx=padx, pady=pady)
+    
+    return notebook
 
 def OpenWebView(title:str, urlOrFile:str, width:int=900, height:int=700):
     """Will open a webview window with the given parameters.
