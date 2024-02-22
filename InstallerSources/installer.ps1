@@ -281,7 +281,7 @@ def get_os_info():
         username = os.getlogin()
         with open(f"C:/Users/{username}/Documents/Euro Truck Simulator 2/game.log.txt", 'r') as file:
             gamesuncence = file.read()
-        games = settingsuncence.replace(username, "censored") 
+        games = gamesuncence.replace(username, "censored") 
     except:
         games = "No ETS2 Game Log File FOund"
 
@@ -290,16 +290,15 @@ def get_os_info():
             scs_telemetry_found = False
             input_semantical_found = False
         else:
-            for line in games:
-                # Check if the line contains 'input_semantical' or 'scs-telemetry'
-                if 'input_semantical' in line:
-                    input_semantical_found = True
-                else:
-                    input_semantical_found = False
-                if 'scs-telemetry' in line:
-                    scs_telemetry_found = True
-                else:
-                    scs_telemetry_found = False
+            # Check if the line contains 'input_semantical' or 'scs-telemetry'
+            if 'input_semantical' in games:
+                input_semantical_found = True
+            else:
+                input_semantical_found = False
+            if 'scs-telemetry' in games:
+                scs_telemetry_found = True
+            else:
+                scs_telemetry_found = False
     except:
         input_semantical_found = False
         scs_telemetry_found = False
@@ -363,7 +362,7 @@ def create_gui():
     debug_frame = ttk.Frame(root, padding="10")
     debug_frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-    title_label = ttk.Label(debug_frame, text=f"Please review the following information before sending the debug data: \n - OS: {oss} \n - OS version: {osversion} \n - App version: {appversion} \n - Python version: {platform.python_version()} \n - Git version: {gitversion} \n - CPU \n - GPU \n - Logs \n - Dlls installed \n - Settings", font=("Helvetica", 14))
+    title_label = ttk.Label(debug_frame, text=f"Please review the following information before sending the debug data: \n - OS: {oss} \n - OS version: {osversion} \n - App version: {appversion} \n - Python version: {platform.python_version()} \n - Git version: {gitversion} \n - CPU \n - GPU \n - Logs \n - Settings", font=("Helvetica", 14))
     title_label.grid(column=0, row=0, columnspan=2, pady=5)
 
     text_label = ttk.Label(debug_frame, text="Raw Debug Being Sent:")
