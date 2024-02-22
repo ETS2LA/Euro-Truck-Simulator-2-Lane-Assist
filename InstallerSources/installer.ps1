@@ -286,20 +286,14 @@ def get_os_info():
         games = "No ETS2 Game Log File FOund"
 
     try:
-        print("Testrun")
         if (games == "No ETS2 Game Log File Found"):
             scs_telemetry_found = False
-            print(games)
-            print("Testrun")
             input_semantical_found = False
         else:
             for line in games:
-                print(line)
-                print("Testrun")
                 # Check if the line contains 'input_semantical' or 'scs-telemetry'
                 if 'input_semantical' in line:
                     input_semantical_found = True
-                    print("Input found")
                 else:
                     input_semantical_found = False
                 if 'scs-telemetry' in line:
