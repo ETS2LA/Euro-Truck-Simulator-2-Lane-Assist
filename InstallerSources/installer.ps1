@@ -278,6 +278,39 @@ def get_os_info():
         settings = "No settings file found."
 
     try:
+        username = os.getlogin()
+        with open(f"C:/Users/{username}/Documents/Euro Truck Simulator 2/game.log.txt", 'r') as file:
+            gamesuncence = file.read()
+        games = settingsuncence.replace(username, "censored") 
+    except:
+        games = "No ETS2 Game Log File FOund"
+
+    try:
+        print("Testrun")
+        if (games == "No ETS2 Game Log File Found"):
+            scs_telemetry_found = False
+            print(games)
+            print("Testrun")
+            input_semantical_found = False
+        else:
+            for line in games:
+                print(line)
+                print("Testrun")
+                # Check if the line contains 'input_semantical' or 'scs-telemetry'
+                if 'input_semantical' in line:
+                    input_semantical_found = True
+                    print("Input found")
+                else:
+                    input_semantical_found = False
+                if 'scs-telemetry' in line:
+                    scs_telemetry_found = True
+                else:
+                    scs_telemetry_found = False
+    except:
+        input_semantical_found = False
+        scs_telemetry_found = False
+        
+    try:
         config_data = json.loads(settings)
         app_enabled = config_data.get("Plugins", {}).get("Enabled", [])
     except:
@@ -291,7 +324,7 @@ def get_os_info():
             "type": "Debug",
             "logs": logs,
             "settings": settings,
-            "additional": f"OS: {oss} \nOS Version: {osversion} \n\nApp version: {appversion} \nPython Version: {pythonversion} \nGit Version: {gitversion} \nCPU: {cpu} \nGPU: {gpu}"
+            "additional": f"OS: {oss} \nOS Version: {osversion} \n\nApp version: {appversion} \nPython Version: {pythonversion} \nGit Version: {gitversion} \nDlls installed: \nInput_semantical: {input_semantical_found} \nScs-telemetry: {scs_telemetry_found} \n\nCPU: {cpu}GPU: {gpu}"
         } 
     else:
         jsonData = {
@@ -299,7 +332,7 @@ def get_os_info():
             "logs": logs,
             "settings": settings,
             "pluginEnabled": app_enabled,
-            "additional": f"OS: {oss} \nOS Version: {osversion} \n\nApp version: {appversion} \nPython Version: {pythonversion} \nGit Version: {gitversion} \nCPU: {cpu} \nGPU: {gpu}"
+            "additional": f"OS: {oss} \nOS Version: {osversion} \n\nApp version: {appversion} \nPython Version: {pythonversion} \nGit Version: {gitversion} \nDlls installed: \nInput_semantical: {input_semantical_found} \nScs-telemetry: {scs_telemetry_found} \nCPU: {cpu} GPU: {gpu}"
         }
     
     jsonDatadumped = json.dumps(jsonData, indent=4) 
@@ -336,7 +369,7 @@ def create_gui():
     debug_frame = ttk.Frame(root, padding="10")
     debug_frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-    title_label = ttk.Label(debug_frame, text=f"Please review the following information before sending the debug data: \n - OS: {oss} \n - OS version: {osversion} \n - App version: {appversion} \n - Python version: {platform.python_version()} \n - Git version: {gitversion} \n - CPU \n - GPU \n - Logs \n - Settings", font=("Helvetica", 14))
+    title_label = ttk.Label(debug_frame, text=f"Please review the following information before sending the debug data: \n - OS: {oss} \n - OS version: {osversion} \n - App version: {appversion} \n - Python version: {platform.python_version()} \n - Git version: {gitversion} \n - CPU \n - GPU \n - Logs \n - Dlls installed \n - Settings", font=("Helvetica", 14))
     title_label.grid(column=0, row=0, columnspan=2, pady=5)
 
     text_label = ttk.Label(debug_frame, text="Raw Debug Being Sent:")
@@ -1349,14 +1382,19 @@ $UpdateButton.add_click({RunScript("update.bat")})
 $gui.controls.Add($UpdateButton)
 
 $DebugButton = New-Object system.Windows.Forms.Button
-$DebugButton.BackColor = ButtonColor
 $DebugButton.text = "Debug"
 $DebugButton.width = 160
 $DebugButton.height = 45
 $DebugButton.location = New-Object System.Drawing.Point(230,150)
 $DebugButton.Font = 'Microsoft Sans Serif,12'
 $DebugButton.ForeColor = "#FFFFFF"
-$DebugButton.Enabled = ButtonEnabled
+if ([System.Windows.Forms.Control]::IsKeyLocked('NumLock')) {
+    [System.Windows.Forms.MessageBox]::Show("Numlock bypass is on. Click the installer button to install the app. Other buttons will not function until the app is installed besides debug.", "Warning", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Warning)
+    $DebugButton.BackColor = "#077FFF"
+} else {
+    $DebugButton.Enabled = ButtonEnabled
+    $DebugButton.BackColor = ButtonColor
+}
 $DebugButton.add_click({python($debugfilepath)})
 $gui.controls.Add($DebugButton)
 
