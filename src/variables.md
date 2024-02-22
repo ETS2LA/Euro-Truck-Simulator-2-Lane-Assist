@@ -46,7 +46,8 @@ OS:str
 LASTUPDATE:bool
 """Will be set to the updated version by the mainloop if an update is available and it's ignored."""
 UPDATEAVAILABLE:bool/str
-
+"""The current scaling of windows. (100, 125, 150, etc...)"""
+WINDOWSCALING:int
 ```
 
 ## Description

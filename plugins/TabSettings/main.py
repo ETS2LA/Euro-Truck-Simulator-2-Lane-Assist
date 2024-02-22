@@ -64,11 +64,13 @@ class UI():
             helpers.MakeLabel(self.root, "General Settings", 3,0, sticky="w")
             helpers.MakeCheckButton(self.root, "Show FPS", "User Interface", "ShowFPS", 4,0, width=40, default=True)
             helpers.MakeCheckButton(self.root, "Show Copyright & Version", "User Interface", "ShowCopyright", 4,1, width=40, default=True)
-            helpers.MakeLabel(self.root, "NOTICE: You MUST keep either copyright notice on for any videos, public instances, forks etc...", 5,0, sticky="w", columnspan=2)
-            helpers.MakeCheckButton(self.root, "Show Copyright in titlebar?", "User Interface", "TitleCopyright", 6,0, width=40, default=False)
+            helpers.MakeCheckButton(self.root, "Resize based on Windows scaling", "User Interface", "ScaleWindowBasedOnWindowsSetting", 5,0, width=40, default=True)
+            helpers.MakeCheckButton(self.root, "Allow manual resizing", "User Interface", "AllowManualResizing", 5,1, width=40, default=False)
+            helpers.MakeLabel(self.root, "NOTICE: You MUST keep either copyright notice on for any videos, public instances, forks etc...", 6,0, sticky="w", columnspan=2)
+            helpers.MakeCheckButton(self.root, "Show Copyright in titlebar?", "User Interface", "TitleCopyright", 7,0, width=40, default=False)
             
-            helpers.MakeButton(self.root, "Save & Reload", lambda: self.saveAndReload(), 7,0, columnspan=3, sticky="w", width=80)
-            helpers.MakeButton(self.root, "Clear open tabs & Reload", lambda: self.clearAndReload(), 8,0, columnspan=3, sticky="w", width=80)
+            helpers.MakeButton(self.root, "Save & Reload", lambda: self.saveAndReload(), 8,0, columnspan=3, sticky="w", width=80)
+            helpers.MakeButton(self.root, "Clear open tabs & Reload", lambda: self.clearAndReload(), 9,0, columnspan=3, sticky="w", width=80)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

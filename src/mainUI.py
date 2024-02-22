@@ -163,6 +163,12 @@ def switchSelectedPlugin(pluginName:str):
     print("Loaded " + pluginName)
     
     settings.AddToList("User Interface", "OpenTabs", plugin.PluginInfo.name, exclusive=True)
+    
+    if variables.WINDOWSCALING != 100:
+        ui.root.update()
+        # Increase the ui.root size based on the scaling
+        ui.root.config(width=ui.root.winfo_width() * (variables.WINDOWSCALING / 100), height=ui.root.winfo_height() * (variables.WINDOWSCALING / 100))
+        ui.root.update()
 
 def quit():
     """Will kill the root. This means that the program will close on the next update from the mainloop.
@@ -294,6 +300,13 @@ def resizeWindow(newWidth:int, newHeight:int):
     """
     global root
     global root
+    
+    if settings.GetSettings("User Interface", "ScaleWindowBasedOnWindowsSetting", value=True):
+        scaling = variables.WINDOWSCALING
+        if scaling != 100:
+            newWidth = int(newWidth * (scaling / 100))
+            newHeight = int(newHeight * (scaling / 100))
+    
     # Offsets for the new tabs
     newHeight += 20
     newWidth += 40
@@ -399,7 +412,9 @@ def CreateRoot():
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
     root.iconbitmap(default="assets/favicon.ico")
 
-    root.resizable(False, False)
+    # Set the resize
+    if not settings.GetSettings("User Interface", "AllowManualResizing", value=False):
+        root.resizable(False, False)
     # Load the size and position
     position = settings.GetSettings("User Interface", "Position")
     if position == None:

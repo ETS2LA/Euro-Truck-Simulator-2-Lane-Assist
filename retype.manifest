@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-02-04T17.06.30Z",
+  "created": "2024-02-22T16.36.04Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -85,6 +85,831 @@
       "old": true
     },
     {
+      "path": "anomalousframes\\1707658016.5721204.txt"
+    },
+    {
+      "path": "anomalousframes\\1707675201.784984.txt"
+    },
+    {
+      "path": "anomalousframes\\1707675202.0380514.txt"
+    },
+    {
+      "path": "anomalousframes\\1708363874.8406005.txt"
+    },
+    {
+      "path": "anomalousframes\\1708363880.532974.txt"
+    },
+    {
+      "path": "anomalousframes\\1708363951.6937056.txt"
+    },
+    {
+      "path": "anomalousframes\\1708363956.5726326.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364020.009556.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364056.8336182.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364090.7353687.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364095.482114.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364101.1661592.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364107.1481147.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364143.1371925.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364147.5222557.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364150.8708413.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364156.2640665.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364200.8542924.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364208.3576884.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364359.9264152.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364495.1930668.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364671.522825.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364691.1429641.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364743.5612524.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364765.7380342.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364778.8348508.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364797.8075683.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364855.0886607.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364935.7323866.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364957.1617918.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364973.584366.txt"
+    },
+    {
+      "path": "anomalousframes\\1708364997.880563.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365099.0355835.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365130.618928.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365149.133802.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365153.4347029.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365158.8376768.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365176.9600482.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365193.3292036.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365203.681814.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365205.7646127.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365212.0209544.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365219.2232082.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365230.935849.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365287.9047115.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365302.2136905.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365334.6306317.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365348.8075342.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365355.3731372.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365386.7366045.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365525.5412054.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365571.5553324.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365593.7767143.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365605.3315015.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365622.1863477.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365650.0390067.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365811.8045962.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365829.7749186.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365887.0483217.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365919.0576618.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365936.622921.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365964.725315.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365969.9717078.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365974.0848298.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365980.4082077.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365985.0768628.txt"
+    },
+    {
+      "path": "anomalousframes\\1708365993.672876.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366008.3251967.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366014.6294255.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366022.8312433.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366034.118487.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366049.715086.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366058.9892719.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366073.6364357.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366087.4294465.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366101.6475043.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366109.8716278.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366187.3224638.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366198.6223862.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366206.8091831.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366214.0395308.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366228.35269.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366231.6370304.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366249.9709282.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366265.3773777.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366276.5456917.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366281.701163.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366301.036808.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366322.2898242.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366331.8326757.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366401.690495.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366416.4287412.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366422.9038956.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366428.460468.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366430.7291622.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366437.557596.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366480.2971733.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366491.849545.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366507.3606586.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366521.971745.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366530.34161.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366576.3554196.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366578.7447565.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366585.19761.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366609.6026845.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366626.93059.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366633.4279172.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366644.8897166.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366764.7701027.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366770.4836261.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366784.3785875.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366788.7207797.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366832.846187.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366843.2332742.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366850.5915532.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366870.302453.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366890.6164427.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366909.9134736.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366929.0321362.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366960.183035.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366981.7024305.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366987.4605756.txt"
+    },
+    {
+      "path": "anomalousframes\\1708366999.2004795.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367004.5813403.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367010.0240245.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367016.9732974.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367038.3941576.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367048.22017.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367050.5281355.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367057.0793428.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367063.6955748.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367070.2276065.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367108.822448.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367118.4855924.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367124.001921.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367129.3801622.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367134.8422668.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367138.4108815.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367145.0350964.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367150.5125968.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367156.050944.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367161.637458.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367168.0871797.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367174.822077.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367181.1765673.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367190.9329202.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367195.3453543.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367203.1174145.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367207.3370442.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367214.798075.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367220.308726.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367225.6862504.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367231.1526842.txt"
+    },
+    {
+      "path": "anomalousframes\\1708367235.550572.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369151.3781126.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369184.356054.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369186.446076.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369203.7463002.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369205.8098018.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369212.0458157.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369221.1565342.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369228.3054252.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369231.5536578.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369244.7029562.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369259.8901193.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369278.0893865.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369286.2224188.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369291.4851835.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369299.6862774.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369305.835106.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369351.6280665.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369359.9026785.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369365.1063023.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369384.4860396.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369388.6901145.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369409.9517171.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369419.183081.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369452.6284857.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369458.817893.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369475.0774612.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369486.2390678.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369493.5065582.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369516.84772.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369523.053.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369528.2187138.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369541.571705.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369600.7273731.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369623.5734043.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369635.4637144.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369644.4393573.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369661.5204747.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369706.1256404.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369757.263681.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369830.5380838.txt"
+    },
+    {
+      "path": "anomalousframes\\1708369961.5093088.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370027.1843975.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370055.6052089.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370060.9656441.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370071.7242827.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370077.2954261.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370080.632385.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370096.3770013.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370109.986277.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370122.0221853.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370140.7136168.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370152.2566018.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370159.754383.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370181.5826135.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370218.7677865.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370226.1360157.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370251.3053703.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370369.751193.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370381.3762336.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370391.0105603.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370398.4647918.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370405.0376155.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370411.5832748.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370417.9990802.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370425.5396364.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370433.2013724.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370440.6891458.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370451.3492758.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370475.7537048.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370483.3422914.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370490.0901.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370496.9165049.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370505.4544299.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370508.720774.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370519.533338.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370577.230059.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370591.0654054.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370716.0698802.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370742.419491.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370941.2922041.txt"
+    },
+    {
+      "path": "anomalousframes\\1708370988.38075.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371034.5675957.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371063.9903016.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371087.0659075.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371105.140065.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371108.3322566.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371121.177085.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371130.9600437.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371169.8312526.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371191.9654481.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371205.884396.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371220.565417.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371231.1293452.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371237.725206.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371245.2313411.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371253.7846034.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371261.372652.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371281.2294958.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371289.8630388.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371298.5679765.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371313.324327.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371321.0453897.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371329.5380042.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371353.6896288.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371357.2298946.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371368.9269755.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371431.9202592.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371444.8393562.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371469.1909318.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371480.0094988.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371492.887117.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371529.827882.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371550.9611402.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371566.8836784.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371577.3976953.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371588.02466.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371594.549927.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371803.8397572.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371819.702586.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371828.3847964.txt"
+    },
+    {
+      "path": "anomalousframes\\1708371853.8700302.txt"
+    },
+    {
       "path": "assets\\cruisecontrol\\cruisecontrol_emergency_set.png"
     },
     {
@@ -151,7 +976,11 @@
       "path": "assets\\mods\\cleanrouteadvisor.scs"
     },
     {
-      "path": "assets\\navigationdetectionv3\\v3setupexample.jpg"
+      "path": "assets\\navigationdetection\\setupexample.png"
+    },
+    {
+      "path": "assets\\navigationdetectionv3\\v3setupexample.jpg",
+      "old": true
     },
     {
       "path": "assets\\sounds\\end.mp3"
@@ -169,6 +998,9 @@
       "path": "assets\\sounds\\warning.mp3"
     },
     {
+      "path": "assets\\trafficlightdetection\\setupexample.png"
+    },
+    {
       "path": "assets\\translationcache\\cache.json"
     },
     {
@@ -179,6 +1011,9 @@
     },
     {
       "path": "blog\\v1.10.0\\index.html"
+    },
+    {
+      "path": "blog\\v1.10.minor\\index.html"
     },
     {
       "path": "blog\\v1.9.0\\index.html"
@@ -1490,10 +2325,45 @@
       "path": "plugins\\map\\old\\visualizeroads\\map.png"
     },
     {
-      "path": "plugins\\navdetectionsetup\\images\\finish.png"
+      "path": "plugins\\navdetectionsetup\\images\\finish.png",
+      "old": true
     },
     {
-      "path": "plugins\\navdetectionsetup\\images\\placecircle.png"
+      "path": "plugins\\navdetectionsetup\\images\\placecircle.png",
+      "old": true
+    },
+    {
+      "path": "plugins\\navigationdetection\\index.html"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\contributing\\index.html"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\data\\images\\bus.jpg"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\data\\images\\zidane.jpg"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\index.html"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\readme.zh-cn\\index.html"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\requirements.txt"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\utils\\flask_rest_api\\index.html"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\utils\\google_app_engine\\additional_requirements.txt"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\utils\\loggers\\clearml\\index.html"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\utils\\loggers\\comet\\index.html"
     },
     {
       "path": "plugins\\only-panels\\index.html"
@@ -1934,6 +2804,39 @@
       "path": "plugins\\trafficlightdetection\\index.html"
     },
     {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\contributing\\index.html"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\data\\images\\bus.jpg"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\data\\images\\zidane.jpg"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\index.html"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\readme.zh-cn\\index.html"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\requirements.txt"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\utils\\flask_rest_api\\index.html"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\utils\\google_app_engine\\additional_requirements.txt"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\utils\\loggers\\clearml\\index.html"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolofiles\\ultralytics_yolov5_master\\utils\\loggers\\comet\\index.html"
+    },
+    {
+      "path": "plugins\\trafficlightdetection\\yolomodels\\index.html"
+    },
+    {
       "path": "profiles\\currentprofile.txt"
     },
     {
@@ -1985,6 +2888,9 @@
       "path": "sitemap.xml.gz"
     },
     {
+      "path": "src\\console\\index.html"
+    },
+    {
       "path": "src\\controls\\index.html"
     },
     {
@@ -2031,6 +2937,9 @@
     },
     {
       "path": "tags\\index.html"
+    },
+    {
+      "path": "tags\\lane-detection\\index.html"
     },
     {
       "path": "tags\\panel\\index.html"

@@ -3,7 +3,9 @@ Stores all global variables for the program.
 '''
 import os
 import subprocess
+import ctypes
 
+#region Variables
 PATH = os.path.dirname(__file__).replace("src", "")
 """The current absolute path to the root of the program."""
 ENABLELOOP = False
@@ -33,6 +35,14 @@ OS = os.name
 """The current operating system."""
 LASTUPDATE = None
 """The date of the last update to the local git repo."""
+UPDATEAVAILABLE = False
+"""Will be set to the updated version by the mainloop if an update is available and it's ignored."""
+WINDOWSCALING = ctypes.windll.shcore.GetScaleFactorForDevice(0)
+"""The current scaling of windows."""
+#endregion
+
+#region Var Set Functions
+
 try:
     try:
         LASTUPDATE = subprocess.check_output("git log -1 --date=local --format=%cd", shell=True).decode("utf-8").replace("\n", "")
@@ -48,9 +58,9 @@ try:
         
 except:
     LASTUPDATE = "Unknown"
-    
-UPDATEAVAILABLE = False
-"""Will be set to the updated version by the mainloop if an update is available and it's ignored."""
+#endregion
+
+#region Functions
 
 def ToggleEnable():
     """Will toggle the mainloop.
@@ -67,3 +77,5 @@ def ReloadAllPlugins():
     """Will prompt the application to reload all plugins."""
     global RELOADPLUGINS
     RELOADPLUGINS = True
+    
+#endregion
