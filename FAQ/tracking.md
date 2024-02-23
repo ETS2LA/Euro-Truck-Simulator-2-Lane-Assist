@@ -7,7 +7,7 @@ date: 2024-02-04
 icon: question
 ---
 !!! Note
-Only the crash reporter is present in the application currently. The purpose of this page is to gather feedback on future features. If you have any, please let us know in the feedback panel in the app, or on the discord.
+Only the crash reporter and server pinging is present in the application currently. The purpose of this page is to gather feedback on future features. If you have any, please let us know in the feedback panel in the app, or on the discord.
 !!!
 
 # Tracking
@@ -22,13 +22,9 @@ There are two types of tracking in the app.
 ||| Passive
 
 ==- [!badge variant="dark" text="Required"] ‎ Passive server pings
-This ping is used to determine the amount of currently active users. The app will passively ping the server every 2 minutes.
+This ping is used to determine the amount of currently active users. The app will passively ping the server every minute. **No data is sent via the ping**.
 
 In the future this ping will also check for responses to feedback or crash reports, and notify the user if there are any.
-
-!!! Note
-This ping sends the server your UUID, but it is not stored anywhere. If the server crashes, the UUID is lost.
-!!!
 
 ==- [!badge variant="ghost" text="Optional"] ‎ Additional information pings
 If enabled, it will ping the server with additional information. This includes your FPS and enabled plugins. These are sent along with your UUID, this is to make sure that we don't overlap data.
@@ -60,7 +56,7 @@ You can see a list of what all the data we collect is used for and means.
 **Please note that depending on the tracking options you have selected, not all of this data is gathered. You can see which options enable each data point in the list below.**
 
 ==- User UUID
-[!badge variant="ghost" text="Passive server pings"] [!badge variant="ghost" text="Additional information pings"]
+[!badge variant="ghost" text="Additional information pings"]
 
 This is a unique identifier for your computer. The UUID cannot be used to determine anything about your PC, but it is used to make sure we can tell the difference between different machines. In the future you should also be able to use your UUID to log into the web interface to follow your crash reports and feedback requests.
 
@@ -101,4 +97,4 @@ Server code is not open source for multitudes of reasons, one of which obviously
 - There's going to be a note in the main menu that the server is down.
 - The app will keep looking for the server once every 2 minutes.
 
-As for data, the UUIDs relating to the automatic pings will be lost. Most other data is saved on disk, and with the exception of data that is sent at the exact time of the crash, that data will remain even if the server crashes.
+Basically all data is saved on disk, and with the exception of data that is sent at the exact time of the crash, that data will remain even if the server crashes.

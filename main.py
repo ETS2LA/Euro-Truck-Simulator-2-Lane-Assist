@@ -148,7 +148,10 @@ import src.controls as controls
 import psutil
 import cv2
 import src.scsLogReader as LogReader
-from src.server import SendCrashReport
+import src.helpers as helpers
+from src.server import SendCrashReport, Ping
+
+helpers.RunEvery(60, lambda: Ping())
 
 logger.printDebug = settings.GetSettings("logger", "debug")
 if logger.printDebug == None:
@@ -407,7 +410,8 @@ def InstallPlugins():
     # Remove the tab
     settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
     variables.RELOADPLUGINS = True
-        
+    
+InstallPlugins()    
 
 def CheckForONNXRuntimeChange():
     change = settings.GetSettings("SwitchLaneDetectionDevice", "switchTo")
@@ -450,7 +454,14 @@ def LoadApplication():
     global loadingWindow
     global timesLoaded
 
-    loadingWindow = loading.LoadingWindow("Please wait initializing...")
+    try:
+        loadingWindow = loading.LoadingWindow("Please wait initializing...")
+    except:
+        try:
+            loadingWindow.destroy()
+            loadingWindow = loading.LoadingWindow("Please wait initializing...")
+        except:
+            loadingWindow = loading.LoadingWindow("Please wait initializing...", grab=False)
     
     if timesLoaded > 0:
         try:

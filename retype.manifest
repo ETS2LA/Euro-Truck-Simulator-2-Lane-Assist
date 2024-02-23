@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-02-22T16.36.04Z",
+  "created": "2024-02-23T19.51.10Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -2306,6 +2306,9 @@
       "path": "plugins\\firsttimesetup\\tutorialembed.html"
     },
     {
+      "path": "plugins\\lstrlanedetection\\index.html"
+    },
+    {
       "path": "plugins\\lstrlanedetection\\lstrlanedetection\\doc\\img\\lane_detection.gif"
     },
     {
@@ -2317,6 +2320,9 @@
     },
     {
       "path": "plugins\\lstrlanedetection\\lstrlanedetection\\output.jpg"
+    },
+    {
+      "path": "plugins\\mainmenu\\index.html"
     },
     {
       "path": "plugins\\map\\godotvisualization\\icon.svg"

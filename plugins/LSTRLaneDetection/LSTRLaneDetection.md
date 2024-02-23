@@ -4,11 +4,11 @@ authors:
     link: https://github.com/DylDevs
     avatar: https://avatars.githubusercontent.com/u/110776467?v=4
 date: 2024-2-18
-icon: checklist
+icon: stack
 tags: 
   - plugin
 ---
-# LSTR Lane Detection
+# LSTRLaneDetection
 !!! danger Note:
 This is a depreciated version of lane detection. You should use Navigation Detection instead. This is a legacy lane detection model that was used before Navigation Detection.
 !!!

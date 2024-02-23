@@ -23,6 +23,7 @@ def Autoplace(parent, row:int, column:int):
     global lastRow
     global lastParent
     global defaultAutoplaceColumn
+    global lastDefaultColumn
     
     if lastParent != parent:
         lastRow = 0
@@ -295,7 +296,7 @@ def MakeLabel(parent, text:str, row:int, column:int, font=("Segoe UI", 10), pady
         return label
         
 
-def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, autoplace:bool=False):
+def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, autoplace:bool=False, fontSize:int=9):
     """Will create an empty line with the given parameters.
 
     Args:
@@ -305,12 +306,13 @@ def MakeEmptyLine(parent, row:int, column:int, columnspan:int=1, pady:int=7, aut
         columnspan (int, optional): The number of columns to span the empty line over. Defaults to 1.
         pady (int, optional): Defaults to 7.
         autoplace (bool, optional): Defaults to False. Will automatically determine the row the button should be placed on. You can still use the column option freely, but row will be ignored.
+        fontSize (int, optional): Defaults to 9.
     """
     
     if autoplace:
         row = Autoplace(parent, row, column)
     
-    ttk.Label(parent, text="").grid(row=row, column=column, columnspan=columnspan, pady=pady)
+    ttk.Label(parent, text="", font=("Segoe UI", fontSize)).grid(row=row, column=column, columnspan=columnspan, pady=pady)
     
 def MakeNotebook(parent, row:int, column:int, columnspan:int=1, rowspan:int=1, sticky:str="n", padx:int=5, pady:int=5):
     """Will create a new ttk.Notebook with the given parameters.
@@ -387,3 +389,37 @@ def AccurateSleep(duration, get_now=time.perf_counter):
     end = now + duration
     while now < end:
         now = get_now()
+        
+def RunEvery(duration, function, *args, **kwargs):
+    """Will run the given function every x seconds.
+
+    Args:
+        duration (float): Seconds to wait between each function call.
+        function (lambda): The function to run.
+    """
+    def wrapper():
+        while True:
+            function(*args, **kwargs)
+            time.sleep(duration)
+            
+    import threading
+    thread = threading.Thread(target=wrapper)
+    thread.daemon = True
+    thread.start()
+    
+def RunIn(duration, function, *args, **kwargs):
+    """Will run the given function after x seconds.
+
+    Args:
+        duration (float): Seconds to wait before running the function.
+        function (lambda): The function to run.
+    """
+    def wrapper():
+        time.sleep(duration)
+        function(*args, **kwargs)
+        
+    import threading
+    thread = threading.Thread(target=wrapper)
+    thread.daemon = True
+    thread.start()
+            
