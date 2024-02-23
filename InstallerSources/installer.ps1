@@ -283,7 +283,7 @@ def get_os_info():
             gamesuncence = file.read()
         games = gamesuncence.replace(username, "censored") 
     except:
-        games = "No ETS2 Game Log File FOund"
+        games = "No ETS2 Game Log File Found"
 
     try:
         if (games == "No ETS2 Game Log File Found"):
