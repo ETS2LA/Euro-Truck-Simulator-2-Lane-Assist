@@ -1,5 +1,8 @@
+1.10.24
 Hopefully fix some issues with the plugin installers.
 Migrate the Main Menu to be a panel, instead of being hard coded.
 Added an MOTD to the Main Menu.
 Add pinging the server. This is used to determine current user count. (NO DATA IS SENT)
 (devs) add control of line height to empty lines
+1.10.25
+Fix first UI disappearing on cold start.

@@ -189,14 +189,8 @@ def drawButtons(refresh:bool=False):
     """
     global enableButton
     
-    if refresh or pluginFrames == []:
+    if refresh:
         CreateRoot()
-    
-    try:
-        for child in pluginFrames[0].winfo_children():
-            child.destroy()
-    except:
-        pass
         
     for child in buttonFrame.winfo_children():
         child.destroy()
