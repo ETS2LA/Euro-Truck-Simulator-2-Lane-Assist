@@ -28,6 +28,7 @@ import src.server as server
 from src.translator import Translate
 import os
 import time
+from tkinter.font import families
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -121,8 +122,9 @@ class UI():
                     
                 try:
                     self.userCount.config(text=f"Users online: {server.GetUserCount()}") # Get the amount of users online
-                except Exception as ex:
-                    print(ex.args)
+                except:
+                    self.exampleFunction()
+                    self.motdUpdateTime = 0
                     
             # Scroll the MOTD text horizontally
             charactersToShow = 60
