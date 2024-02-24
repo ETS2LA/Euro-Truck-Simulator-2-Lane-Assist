@@ -77,7 +77,7 @@ def GetMotd():
     
     try:
         url = 'https://crash.tumppi066.fi/motd'
-        response = json.loads(requests.get(url).text)
+        response = json.loads(requests.get(url, timeout=1).text)
         return response["motd"]
     except:
         return "Could not get server message."
@@ -94,7 +94,7 @@ def GetUserCount():
     
     try:
         url = 'https://crash.tumppi066.fi/usercount'
-        response = json.loads(requests.get(url).text)
+        response = json.loads(requests.get(url, timeout=1).text)
         return response["usercount"]
     except:
         return "Could not get user count."
@@ -103,7 +103,7 @@ def Ping():
     """Will send a ping to the server, doesn't send any data."""
     try:
         url = 'https://crash.tumppi066.fi/ping'
-        requests.get(url)
+        requests.get(url, timeout=1)
         print("Ping!")
     except:
         pass
