@@ -304,6 +304,13 @@ def resizeWindow(newWidth:int, newHeight:int):
     newWidth += 40
     # Offset for the new favorites screen
     newWidth += 150
+    # Offsets for fps and copyright at the bottom
+    showCopyright = settings.GetSettings("User Interface", "ShowCopyright")
+    showFps = settings.GetSettings("User Interface", "ShowFPS")
+    if showCopyright:
+        newHeight += 16
+    if showFps:
+        newHeight += 16
     
     root.geometry(f"{newWidth}x{newHeight}")
     pluginNotebook.config(width=newWidth, height=newHeight-20)
