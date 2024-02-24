@@ -1,9 +1,3 @@
-"""
-This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
-If you need to make a panel that is only updated when it's open then check the Panel example!
-"""
-
-
 from plugins.plugin import PluginInformation
 PluginInfo = PluginInformation(
     name="NavigationDetection",
@@ -33,7 +27,6 @@ import tkinter as tk
 import plugins.DefaultSteering.main as DefaultSteering
 import numpy as np
 import subprocess
-import pyautogui
 import ctypes
 import time
 import cv2
@@ -288,7 +281,7 @@ def plugin(data):
         valid_frame = False
         return data
     
-    if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < pyautogui.size().width) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < pyautogui.size().height):
+    if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < data["frameFull"].shape[1]) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < data["frameFull"].shape[0]):
         valid_setup = True
     else:
         valid_setup = False
