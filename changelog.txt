@@ -1,1 +1,1 @@
-Fix favorites only opening the last favorite.
+The app now supports non main monitors.

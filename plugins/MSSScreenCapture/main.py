@@ -31,8 +31,8 @@ sct = mss.mss()
 def CreateCamera():
     global width
     global height
+    global display
     global monitor
-    global monitor_full
     
     width = settings.GetSettings("bettercam", "width")
     if width == None:
@@ -53,11 +53,16 @@ def CreateCamera():
     if y == None:
         settings.CreateSettings("bettercam", "y", 0)
         y = 0
+    
+    display = settings.GetSettings("bettercam", "display")
+    if display == None:
+        settings.CreateSettings("bettercam", "display", 0)
+        display = 0
+    display += 1
 
     left, top = x, y
     right, bottom = left + width, top + height
     monitor = (left,top,right,bottom)
-    monitor_full = (0,0,pyautogui.size().width,pyautogui.size().height)
 
 CreateCamera()
 
@@ -73,9 +78,7 @@ def onDisable():
 def plugin(data):
     try:
         # Capture full screen once
-        frame = sct.grab(monitor_full)
-        # Make the frame usable for opencv
-        frame = cv2.cvtColor(np.array(frame), cv2.COLOR_RGBA2RGB)
+        frame = cv2.cvtColor(np.array(sct.grab(sct.monitors[(display + 1)])), cv2.COLOR_BGRA2BGR)
         # Save the full frame
         data["frameFull"] = frame
         # Crop the frame to the selected area and save

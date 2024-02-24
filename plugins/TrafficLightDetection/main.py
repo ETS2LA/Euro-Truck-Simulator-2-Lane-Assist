@@ -1,8 +1,3 @@
-"""
-This is an example of a plugin (type="dynamic"), they will be updated during the stated point in the mainloop.
-If you need to make a panel that is only updated when it's open then check the Panel example!
-"""
-
 from plugins.plugin import PluginInformation
 PluginInfo = PluginInformation(
     name="TrafficLightDetection",
@@ -30,15 +25,19 @@ import tkinter as tk
 import numpy as np
 import threading
 import traceback
-import pyautogui
 import socket
 import ctypes
 import math
 import time
 import cv2
+import mss
 import os
 
-screen_width, screen_height = pyautogui.size()
+sct = mss.mss()
+monitor = settings.GetSettings("bettercam", "display", 0)
+monitor = sct.monitors[(monitor + 1)]
+screen_width = monitor["width"]
+screen_height = monitor["height"]
 
 coordinates = []
 trafficlights = []
@@ -1395,7 +1394,9 @@ class UI():
                 y1_preview = self.y1ofscSlider.get()
                 x2_preview = self.x2ofscSlider.get()
                 y2_preview = self.y2ofscSlider.get()
-                screenshot = cv2.cvtColor(np.array(pyautogui.screenshot(region=(x1_preview, y1_preview, x2_preview - x1_preview, y2_preview - y1_preview))), cv2.COLOR_RGB2BGR)
+                monitor = settings.GetSettings("bettercam", "display", 0)
+                scrrenshot = cv2.cvtColor(np.array(sct.grab(sct.monitors[(monitor + 1)])), cv2.COLOR_BGRA2BGR)
+                screenshot = scrrenshot[y1_preview:y2_preview, x1_preview:x2_preview]
                 cv2.namedWindow('Screen Capture Preview', cv2.WINDOW_NORMAL)
                 cv2.setWindowProperty('Screen Capture Preview', cv2.WND_PROP_TOPMOST, 1)
                 cv2.resizeWindow('Screen Capture Preview', round((x2_preview-x1_preview)/2), round((y2_preview-y1_preview)/2))
