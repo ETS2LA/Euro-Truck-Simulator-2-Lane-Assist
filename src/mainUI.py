@@ -235,7 +235,7 @@ def drawButtons(refresh:bool=False):
         name = helpers.ConvertCapitalizationToSpaces(name)
         if len(name) > 11:
             name = name[:10] + "..."
-        helpers.MakeButton(customButtonFrame, name, lambda: switchSelectedPlugin(favorite), 0, 0, width=11, padx=9, autoplace=True)
+        helpers.MakeButton(customButtonFrame, name, lambda favorite=favorite: switchSelectedPlugin(favorite), 0, 0, width=11, padx=9, autoplace=True)
     
 
 prevFrame = 100

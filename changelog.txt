@@ -1,3 +1,1 @@
-Fix UIs and PluginFrames not correctly resetting. This manifested as weird UI bugs after a reload.
-Added a favorites bar.
-Slightly tweaked the plugin manager to make it fit in the frame correctly.
+Fix favorites only opening the last favorite.
