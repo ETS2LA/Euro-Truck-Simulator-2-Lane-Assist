@@ -123,11 +123,13 @@ def switchSelectedPlugin(pluginName:str):
         if pluginName.split(".")[1] in notebookNames:
             pluginNotebook.select(notebookNames.index(pluginName.split(".")[1]))
             ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
             return
     else:
         if pluginName.split(".")[1] + "." + pluginName.split(".")[2] in notebookNames:
             pluginNotebook.select(notebookNames.index(pluginName.split(".")[1] + "." + pluginName.split(".")[2]))
             ui = UIs[pluginNotebook.index(pluginNotebook.select())]
+            plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
             return
        
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
@@ -181,6 +183,22 @@ def quit():
         root.destroy()
         del root
 
+def addCurrentToFavorites():
+    """Will add (or remove) the currently open tab from the favorites."""
+    try:
+        tabName = plugin.PluginInfo.name
+        fullPath = f"plugins.{tabName}.main"
+        # Check if the tab is already in the favorites
+        favorites = settings.GetSettings("User Interface", "Favorites", value=["plugins.MainMenu.main"])
+        if fullPath in favorites:
+            settings.RemoveFromList("User Interface", "Favorites", fullPath)
+        else:
+            settings.AddToList("User Interface", "Favorites", fullPath, exclusive=True)
+            
+        variables.RELOAD = True
+    except:
+        print("Failed to add current tab to favorites")
+
 def drawButtons(refresh:bool=False):
     """Will draw the buttons on the left menu.
 
@@ -195,6 +213,9 @@ def drawButtons(refresh:bool=False):
     for child in buttonFrame.winfo_children():
         child.destroy()
     
+    for child in customButtonFrame.winfo_children():
+        child.destroy()
+    
     enableButton = helpers.MakeButton(buttonFrame, "Enable", lambda: (variables.ToggleEnable(), enableButton.config(text=("Disable" if variables.ENABLELOOP else "Enable"))), 0, 0, width=11, padx=9, style="Accent.TButton")
     helpers.MakeButton(buttonFrame, "Panels", lambda: switchSelectedPlugin("plugins.PanelManager.main"), 1, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, "Plugins", lambda: switchSelectedPlugin("plugins.PluginManager.main"), 2, 0, width=11, padx=9)
@@ -206,6 +227,16 @@ def drawButtons(refresh:bool=False):
     import webbrowser
     helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 8, 0, width=11, padx=9, style="Accent.TButton", translate=False)
 
+    # Draw the favorites
+    helpers.MakeButton(customButtonFrame, "Add/Remove", lambda: addCurrentToFavorites(), 0, 0, width=11, padx=9, autoplace=True, style="Accent.TButton")
+    favorites = settings.GetSettings("User Interface", "Favorites", value=["plugins.MainMenu.main"])
+    for favorite in favorites:
+        name = favorite.split(".")[1]
+        name = helpers.ConvertCapitalizationToSpaces(name)
+        if len(name) > 11:
+            name = name[:10] + "..."
+        helpers.MakeButton(customButtonFrame, name, lambda: switchSelectedPlugin(favorite), 0, 0, width=11, padx=9, autoplace=True)
+    
 
 prevFrame = 100
 def update(data:dict):
@@ -271,10 +302,13 @@ def resizeWindow(newWidth:int, newHeight:int):
     # Offsets for the new tabs
     newHeight += 20
     newWidth += 40
+    # Offset for the new favorites screen
+    newWidth += 150
     
     root.geometry(f"{newWidth}x{newHeight}")
     pluginNotebook.config(width=newWidth, height=newHeight-20)
     buttonFrame.config(height=newHeight-20)
+    customButtonFrame.config(height=newHeight-20)
     root.update()
         
 def changeTheme():
@@ -326,6 +360,7 @@ def CreateRoot():
     """
     global root
     global buttonFrame
+    global customButtonFrame
     global pluginFrames
     global UIs
     global pluginNotebook
@@ -355,14 +390,14 @@ def CreateRoot():
     # the argument is the awareness level, which can be 0, 1 or 2:
     # for 1-to-1 pixel control I seem to need it to be non-zero (I'm using level 2)
     
-    try:
-        root.destroy()
-    except:
-        pass  
     
     width = 800
     height = 600
 
+    try:
+        root.destroy()
+    except:
+        pass 
     root = tk.Tk()
     
     UpdateTitle()
@@ -420,13 +455,31 @@ def CreateRoot():
     if showFps:
         fpsLabel = ttk.Label(root, textvariable=fps, font=("Roboto", 8)).pack(side="bottom", anchor="s", padx=10, pady=0)
 
-    buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height-20)
-    
+    # Button Frame
+    try:
+        buttonFrame.destroy()
+    except:
+        pass
+    buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height)
     buttonFrame.pack_propagate(0)
     buttonFrame.grid_propagate(0)
     buttonFrame.pack(side="left", anchor="n", padx=10, pady=10)
+    
+    # Create the custom button frame on the right side of the window
+    try:
+        customButtonFrame.destroy()
+    except:
+        pass
+    customButtonFrame = ttk.LabelFrame(root, text="Favorites", width=width-675, height=height)
+    customButtonFrame.pack_propagate(0)
+    customButtonFrame.grid_propagate(0)
+    customButtonFrame.pack(side="right", anchor="n", padx=10, pady=10)
 
     # Create the plugin notebook
+    try:
+        pluginNotebook.destroy()
+    except:
+        pass
     pluginNotebook = ttk.Notebook(root, width=width, height=height-20)
     pluginNotebook.pack_propagate(0)
     pluginNotebook.grid_propagate(0)
@@ -435,6 +488,10 @@ def CreateRoot():
     
     # Make a callback for selecting another tab
     pluginNotebook.bind("<<NotebookTabChanged>>", lambda e: selectedOtherTab())
+    
+    # Reset the pluginFrames and UIs
+    pluginFrames = []
+    UIs = []
     
     # Bind middleclick on a tab to close it
     closeMMB = settings.GetSettings("User Interface", "CloseTabMMB")

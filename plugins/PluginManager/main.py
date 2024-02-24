@@ -57,7 +57,7 @@ class UI():
         self.lastTheme = settings.GetSettings("User Interface", "Theme")
         self.lastPlugin = 0
         self.lastList = 0
-        resizeWindow(1220, 700)
+        resizeWindow(1220, 715)
         self.page0()
         self.selectedPlugin(self.plugins[0])
         self.keybindTimer = time.time()
@@ -68,7 +68,7 @@ class UI():
         del self
 
     def tabFocused(self):
-        resizeWindow(1220, 700)
+        resizeWindow(1220, 715)
     
     def page0(self):
         
@@ -91,17 +91,17 @@ class UI():
         self.screenCaptureVariable = tk.StringVar()
         self.screenCaptureVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == "ScreenCapture"])
         
-        self.pluginList = tk.Listbox(self.root, width=20, height=31, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.pluginList = tk.Listbox(self.root, width=20, height=30, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.pluginList.grid(row=2, column=0, padx=10, pady=2)
         # Bind double click
         self.pluginList.bind('<Double-Button>', lambda x: self.switchPluginState(self.pluginList.curselection()[0], self.pluginList))
         
-        self.laneDetectionList = tk.Listbox(self.root, width=20, height=31, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.laneDetectionList = tk.Listbox(self.root, width=20, height=30, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.laneDetectionList.grid(row=2, column=1, padx=10, pady=2)
         # Bind double click
         self.laneDetectionList.bind('<Double-Button>', lambda x: self.switchPluginState(self.laneDetectionList.curselection()[0], self.laneDetectionList))
         
-        self.screenCaptureList = tk.Listbox(self.root, width=20, height=31, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.screenCaptureList = tk.Listbox(self.root, width=20, height=30, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.screenCaptureList.grid(row=2, column=2, padx=10, pady=2)
         # Bind double click
         self.screenCaptureList.bind('<Double-Button>', lambda x: self.switchPluginState(self.screenCaptureList.curselection()[0], self.screenCaptureList))
