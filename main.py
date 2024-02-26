@@ -6,6 +6,7 @@ The main file that runs the programs loop.
 # not have been installed yet
 
 import src.settings as settings
+from src.logger import print
 
 try:
     if "DXCamScreenCapture" in settings.GetSettings("Plugins", "Enabled"):
@@ -62,7 +63,6 @@ else:
 
 import requests
 def UpdateChecker():
-    print("Checking for updates...")
     currentVer = variables.VERSION.split(".")
     githubUrl = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/"
     sourceForgeUrl = "https://sourceforge.net/p/eurotrucksimulator2-laneassist/code/ci/main/tree/"
@@ -91,15 +91,14 @@ def UpdateChecker():
     else:
         url = sourceForgeUrl
     
-    print(f"Current version: {'.'.join(currentVer)}")
-    print(f"Remote version: {'.'.join(remoteVer)}")
-    print(f"Update available: {update}")
     if update:
         if remote == "github":
             changelog = requests.get(url + "changelog.txt").text
         elif remote == "sourceforge":
             changelog = requests.get(url + "changelog.txt?format=raw").text
             
+        print(f"An update is available: {'.'.join(remoteVer)}")
+
         print(f"Changelog:\n{changelog}")
         from tkinter import messagebox
         if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
@@ -110,6 +109,8 @@ def UpdateChecker():
         else:
             variables.UPDATEAVAILABLE = remoteVer
             pass
+    else:
+        print(f"No update available, current version: {'.'.join(currentVer)}")
 
 try:
     devmode = settings.GetSettings("Dev", "disable_update_checker", False)
