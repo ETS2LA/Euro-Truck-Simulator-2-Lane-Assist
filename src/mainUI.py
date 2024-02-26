@@ -25,6 +25,8 @@ import plugins.ThemeSelector.main as themeSelector
 from tktooltip import ToolTip
 import src.server as server
 
+print_plugin_loaded_output = settings.GetSettings("Dev", "loaded_plugins_output", False)
+
 root = None
 """The root tk.Tk() window of the program."""
 
@@ -163,7 +165,8 @@ def switchSelectedPlugin(pluginName:str):
     
     pluginNotebook.select(pluginFrames.index(pluginFrame))
     
-    print("Loaded " + pluginName)
+    if print_plugin_loaded_output:
+        print("Loaded " + pluginName)
     
     settings.AddToList("User Interface", "OpenTabs", plugin.PluginInfo.name, exclusive=True)
     
