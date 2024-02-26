@@ -122,13 +122,10 @@ def Ping():
         if last_ping + 59 < time.time():
             url = 'https://crash.tumppi066.fi/ping'
             requests.get(url, timeout=1)
-            print("Ping!")
             with open(var.PATH + f'/last_ping.txt', 'w') as file:
                 file.seek(0)
                 file.truncate()
                 file.write(str(time.time()))
                 file.close()
-        else:
-            print("Last ping was less than 60 seconds ago.")
     except:
         pass
