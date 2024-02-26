@@ -536,7 +536,6 @@ def CreateRoot():
 
     # Bind F5 to drawButtons
     root.bind("<F5>", lambda e: Reload())
-    print("Initialized UI")
     
     # Bind movement of the window to save the position
     # root.bind("<Configure>", lambda e: savePosition(e))
