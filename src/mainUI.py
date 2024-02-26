@@ -565,7 +565,4 @@ def CreateRoot():
             except Exception as ex:
                 print(ex.args)
                 pass
-
-    print("Loaded previously open tabs")
-    
     root.update()
