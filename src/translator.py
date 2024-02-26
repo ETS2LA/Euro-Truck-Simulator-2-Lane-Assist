@@ -56,7 +56,6 @@ def LoadSettings():
 
     # Load Translation Cache settings
     enableCache = settings.GetSettings("User Interface", "EnableTranslationCache")
-    print(enableCache)
     cachePath = settings.GetSettings("User Interface", "TranslationCachePath")
     if enableCache == None:
         enableCache = True
