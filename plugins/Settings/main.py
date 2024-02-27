@@ -67,10 +67,9 @@ class UI():
             self.updateRate = helpers.MakeComboEntry(self.root, "UI Update Every x Frames", "User Interface", "updateRate", 1,0, value=4, labelwidth=25, width=25, autoplace=True)
             self.awareness = helpers.MakeComboEntry(self.root, "DPI mode (0/1/2)", "User Interface", "DPIAwareness", 2,0, value=0, labelwidth=25, width=25, autoplace=True)
             
-            self.printDebug = helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20, autoplace=True, callback=self.save)
-            self.hide_console = helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20, autoplace=True, callback=self.save)
+            helpers.MakeCheckButton(self.root, "Print Debug", "logger", "debug", 3,0, width=20, autoplace=True, callback=self.save)
+            helpers.MakeCheckButton(self.root, "Hide Console", "User Interface", "hide_console", 3,1, width=20, autoplace=True, callback=self.save)
             self.crashreport = helpers.MakeCheckButton(self.root, "Send Crash Data", "CrashReporter", "AllowCrashReports",4,0, width=20, autoplace=True, callback=self.show_crashreports_info)
-            self.hide_console = helpers.MakeCheckButton(self.root, "Opened Plugins Console Output", "Dev", "loaded_plugins_output", 4,1, width=20, autoplace=True, callback=self.save)
             
             helpers.MakeButton(self.root, "Reload", lambda: self.reload(), 7,0, padx=30, pady=10, width=20, autoplace=True)
             helpers.MakeButton(self.root, "Open Installer Menu", lambda: self.open_menu(), 7,1, padx=30, pady=10, width=20, autoplace=True)
