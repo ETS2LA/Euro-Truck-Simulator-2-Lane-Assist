@@ -23,10 +23,13 @@ from PIL import Image, ImageTk
 import time
 import keyboard
 
+print_ui_events = settings.GetSettings("Dev", "print_ui_events", False)
+
 class UI():
     
     def findPlugins(self):
-        print("Importing plugins...")
+        if print_ui_events == True:
+            print("Importing plugins...")
         # loading = LoadingWindow("Importing plugins...")
         # Find plugins
         path = os.path.join(variables.PATH, "plugins")
@@ -41,7 +44,8 @@ class UI():
                         plugin = __import__(pluginPath, fromlist=["PluginInformation", "onDisable", "onEnable"])
                         if plugin.PluginInfo.type == "dynamic":
                             plugins.append(plugin)
-                            print("Found plugin: " + pluginPath)
+                            if print_ui_events == True:
+                                print("Found plugin: " + pluginPath)
                     except Exception as ex:
                         print(ex.args)
                         pass
