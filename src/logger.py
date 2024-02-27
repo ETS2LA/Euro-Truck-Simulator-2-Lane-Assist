@@ -119,6 +119,6 @@ def print(text:str, end:str=""):
         traceback.print_exc()
     
     
-    
-print("Logger initialized!")
+if settings.GetSettings("Dev", "print_ui_events", False) == True:
+    print("Logger initialized!")
         

@@ -562,7 +562,8 @@ def CreateRoot():
         
     if settings.GetSettings("User Interface", "OpenTabs") is not None and ReopenTabs:
         for tab in settings.GetSettings("User Interface", "OpenTabs"):
-            print("Loading " + tab)
+            if print_ui_events == True:
+                print("Loading " + tab)
             try:
                 if tab == "controls" or tab == "Changelog":
                     settings.RemoveFromList("User Interface", "OpenTabs", tab)
