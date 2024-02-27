@@ -28,7 +28,8 @@ from sys import platform
 import os
 
 if platform != "linux" or platform != "linux2":
-    print("This plugin only works on linux!")
+    if settings.GetSettings("Dev", "print_ui_events", False) == True:
+        print("This plugin only works on linux!")
 else:
     from evdev import UInput, ecodes, AbsInfo
 
