@@ -25,7 +25,7 @@ import plugins.ThemeSelector.main as themeSelector
 from tktooltip import ToolTip
 import src.server as server
 
-print_plugin_loaded_output = settings.GetSettings("Dev", "loaded_plugins_output", False)
+print_ui_events = settings.GetSettings("Dev", "print_ui_events", False)
 
 root = None
 """The root tk.Tk() window of the program."""
@@ -165,7 +165,7 @@ def switchSelectedPlugin(pluginName:str):
     
     pluginNotebook.select(pluginFrames.index(pluginFrame))
     
-    if print_plugin_loaded_output:
+    if print_ui_events == True:
         print("Loaded " + pluginName)
     
     settings.AddToList("User Interface", "OpenTabs", plugin.PluginInfo.name, exclusive=True)
@@ -533,12 +533,16 @@ def CreateRoot():
 
     # Bind CTRL Z to undo closing last tab
     root.bind("<Control-z>", lambda e: switchSelectedPlugin(f"plugins.{lastClosedTabName}.main"))
+    if print_ui_events == True:
+        print("Initialized UI")
 
     def Reload():
         variables.RELOAD = True
 
     # Bind F5 to drawButtons
     root.bind("<F5>", lambda e: Reload())
+    if print_ui_events == True:
+        print("Initialized UI")
     
     # Bind movement of the window to save the position
     # root.bind("<Configure>", lambda e: savePosition(e))
@@ -568,4 +572,8 @@ def CreateRoot():
             except Exception as ex:
                 print(ex.args)
                 pass
+
+    if print_ui_events == True:
+        print("Loaded previously open tabs")
+
     root.update()

@@ -97,6 +97,8 @@ def ColorTitleBar(root, override=False):
             returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(lightTitlebarColors[theme]) if themeType == "light" else c_int(darkTitlebarColors[theme])), sizeof(c_int))
         except:
             returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(0x313131)), sizeof(c_int))
+        if settings.GetSettings("Dev", "print_ui_events", False) == True:
+            print(f"Titlebar color change return code: {returnCode}")
     else:
         # Convert from str to int
         override = int(override, 16)
@@ -104,6 +106,8 @@ def ColorTitleBar(root, override=False):
         from ctypes import windll, c_int, byref, sizeof
         HWND = windll.user32.GetParent(mainUI.root.winfo_id())
         returnCode = windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int(override)), sizeof(c_int))
+        if settings.GetSettings("Dev", "print_ui_events", False) == True:
+            print(f"Titlebar color change return code: {returnCode}")
     
 
 def SwitchThemeType():
