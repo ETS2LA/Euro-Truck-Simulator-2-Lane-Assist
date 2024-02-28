@@ -139,7 +139,7 @@ def plugin(data):
             print(ex)
             
         desiredControl = oldDesiredControl * 0.9
-        
+
 
     try:
         testData = data["api"]

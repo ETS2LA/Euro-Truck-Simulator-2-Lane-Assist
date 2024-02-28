@@ -21,4 +21,5 @@ requests
 gitpython
 setuptools
 ultralytics
+PyQT5
 --upgrade --no-cache-dir gdown

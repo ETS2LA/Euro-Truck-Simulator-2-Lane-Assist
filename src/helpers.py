@@ -6,6 +6,8 @@ import src.translator as translator
 import webview
 import webbrowser
 from tktooltip import ToolTip
+# Import qt for matplotlib
+import PyQt5.Qt as Qt
 
 lastRow = 0
 lastParent = None
@@ -423,3 +425,123 @@ def RunIn(duration, function, *args, **kwargs):
     thread.daemon = True
     thread.start()
             
+            
+class PID:
+    """A simple PID controller.
+    
+    Usage:
+    ```python
+    pid = PID(0.2, 0.0, 0.0)
+    pid.SetPoint = 1.0
+    while True:
+        feedback = value
+        pid.update(feedback)
+        output = pid.output
+        time.sleep(0.01)
+        
+    # and auto tune
+    pid.autoTune(feedback)
+    ```
+    
+    Explanation of P, I, D:
+    - P: Proportional. The proportional term produces an output value that is proportional to the current error value.
+    - I: Integral. The integral term produces an output value that is proportional to both the magnitude of the error and the duration of the error.
+    - D: Derivative. The derivative term produces an output value that is proportional to the rate of change of the error.
+    """
+    def __init__(self, P=0.2, I=0.0, D=0.0, plot=False):
+        self.Kp = P
+        self.Ki = I
+        self.Kd = D
+        self.plot = plot
+        if self.plot:
+            self.createPlot()
+        self.current_time = time.time()
+        self.last_time = self.current_time
+        self.clear()
+        
+    def createPlot(self):
+        import matplotlib.pyplot as plt
+        self.plot_data = []
+        self.input_data = []
+        # Create one window and plot with 2 values for the plot and input
+        self.plot = plt
+        self.plot.ion()
+        self.plot.show()
+        # Show the window on top
+        self.plot.gcf().canvas.manager.window.setWindowFlags(Qt.Qt.WindowStaysOnTopHint)
+        
+    def clear(self):
+        self.SetPoint = 0.0
+        self.PTerm = 0.0
+        self.ITerm = 0.0
+        self.DTerm = 0.0
+        self.last_error = 0.0
+        self.int_error = 0.0
+        self.windup_guard = 20.0
+        self.output = 0.0
+        
+    def update(self, feedback_value, current_time=None):
+        if current_time is None:
+            current_time = time.time()
+        delta_time = current_time - self.last_time
+        delta_error = feedback_value - self.SetPoint
+        self.PTerm = self.Kp * delta_error
+        self.ITerm += delta_error * delta_time
+        if (self.ITerm < -self.windup_guard):
+            self.ITerm = -self.windup_guard
+        elif (self.ITerm > self.windup_guard):
+            self.ITerm = self.windup_guard
+        self.DTerm = 0.0
+        if delta_time > 0:
+            self.DTerm = delta_error / delta_time
+        self.last_time = current_time
+        self.last_error = feedback_value
+        self.output = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
+    
+        if self.plot:
+            self.plot_data.append(self.output)
+            self.input_data.append(feedback_value)
+            # Only have 200 values
+            if len(self.plot_data) > 200:
+                self.plot_data.pop(0)
+            if len(self.input_data) > 200:
+                self.input_data.pop(0)
+                
+            self.plot.clf()
+            self.plot.plot(self.plot_data)
+            self.plot.plot(self.input_data)
+            self.plot.pause(0.0001)
+        
+    def setKp(self, proportional_gain):
+        self.Kp = proportional_gain
+        
+    def setKi(self, integral_gain):
+        self.Ki = integral_gain
+        
+    def setKd(self, derivative_gain):
+        self.Kd = derivative_gain
+        
+    def setWindup(self, windup):
+        self.windup_guard = windup
+        
+    def autoTune(self, feedback_value, current_time=None):
+        if current_time is None:
+            current_time = time.time()
+        delta_time = current_time - self.last_time
+        delta_error = feedback_value - self.SetPoint
+        self.PTerm = self.Kp * delta_error
+        self.ITerm += delta_error * delta_time
+        if (self.ITerm < -self.windup_guard):
+            self.ITerm = -self.windup_guard
+        elif (self.ITerm > self.windup_guard):
+            self.ITerm = self.windup_guard
+        self.DTerm = 0.0
+        if delta_time > 0:
+            self.DTerm = delta_error / delta_time
+        self.last_time = current_time
+        self.last_error = feedback_value
+        self.output = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
+        self.Kp += self.PTerm
+        self.Ki += self.ITerm
+        self.Kd += self.DTerm
+        self.clear()

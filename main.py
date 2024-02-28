@@ -20,7 +20,7 @@ if settings.GetSettings("User Interface", "hide_console", False) == True:
 
 import os
 import pkg_resources
-listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep_translator", "babel"]
+listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep_translator", "babel", "PyQT5"]
 # Check all of them
 installed = [pkg.key for pkg in pkg_resources.working_set]
 requirementsset = set(listOfRequirementsAddedLater)
