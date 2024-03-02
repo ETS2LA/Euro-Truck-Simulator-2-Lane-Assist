@@ -304,7 +304,7 @@ def yolo_load_model():
         def yolo_loading_window_thread():
             global yolo_model_loaded
             global yolo_model_str
-            loading = LoadingWindow(text="TrafficLightDetection", grab=False)
+            loading = LoadingWindow(text="TrafficLightDetection", grab=False, height=83)
             loading_text = 0
             loading_textswitch = time.time() + 2
             while yolo_model_loaded == "loading...":
