@@ -31,7 +31,7 @@ This is a guide for installing the app manually. Manual installation doesn't use
 - And every app feature the installer has too (the versions are identical, and get pulled from the same repository).
 |||
 ‎
-### Step 1: Download python and git
+#### Step 1: Download python and git
 === Python
 - Go to the [Python website](https://www.python.org/downloads/) and download the latest version of Python 3.11 (as of writing this is [3.11.8](https://www.python.org/ftp/python/3.11.8/python-3.11.8-amd64.exe)).
 - Make sure to enable **Add python to Path** during the installation.
@@ -41,7 +41,7 @@ This is a guide for installing the app manually. Manual installation doesn't use
 - The settings can all be on default.
 ===
 ‎
-### Step 2: Download the app
+#### Step 2: Download the app
 ==- With Git (recommended)
 - Make a new folder for the app, preferably `C:\LaneAssist\` as that is the default location the installer uses.
 - Open a cmd or powershell in that folder.
@@ -61,7 +61,7 @@ If this part for some reason fails, try and restart your computer.
   - Or open a cmd or powershell and navigate to the folder with `cd C:\LaneAssist\app`.
 ===
 ‎
-### Step 3: Install the app
+#### Step 3: Install the app
 ==- With the custom `install.py` script.
 - Make sure you have a cmd or powershell open in the `C:\LaneAssist\app` folder.
 - Run the following command to install the app.
@@ -72,7 +72,7 @@ If this part for some reason fails, try and restart your computer.
   - `pip install -r requirements.txt`
 ===
 ‎
-### Step 4: Run the app
+#### Step 4: Run the app
 ==- With a shortcut we will create.
 - Create the `run.bat` file in the `C:\LaneAssist` folder.
 - Type the following into the file and save it.
@@ -90,5 +90,5 @@ pause
   - `python main.py`
 ===
 ‎
-### Troubleshooting
+#### Troubleshooting
 There are no known issues yet, if you find one, then please report it to me on [Discord](https://discord.gg/DpJpkNpqwD)
