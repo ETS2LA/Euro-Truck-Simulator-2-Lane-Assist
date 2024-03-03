@@ -23,3 +23,4 @@ setuptools
 ultralytics
 PyQt5
 gdown
+importlib_metadata
