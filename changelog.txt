@@ -1,1 +1,1 @@
-Fix vertical height when bottom fps counter or copyright notice is enabled.
+No longer stuck in first time setup if bettercam is not found.

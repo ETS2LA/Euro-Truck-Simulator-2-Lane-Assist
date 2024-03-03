@@ -224,7 +224,7 @@ class UI():
             if bettercam != None:
                 helpers.MakeButton(self.root, "Next", lambda: self.screenCaptureSetup(), 8,1)
             else:
-                helpers.MakeButton(self.root, "Next", lambda: self.laneDetectionFeatures(), 8,1)
+                helpers.MakeButton(self.root, "Next", lambda: self.soundSettings(), 8,1)
 
             self.root.pack()
             
@@ -263,7 +263,7 @@ class UI():
             if bettercam != None:
                 self.screenCaptureSetup()      
             else:
-                self.laneDetectionFeatures()
+                self.soundSettings()
         
         def screenCaptureSetup(self):
             self.root.destroy()
