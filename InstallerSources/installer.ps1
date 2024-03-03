@@ -34,11 +34,13 @@ git --version >nul 2>&1 || (
     echo git is now installed
 )
 
-python --version >nul 2>&1 || (
-    color 6 & echo Installing python, Please read and accept the windows smart screen prompt
-    winget install -e --id Python.Python.3.11
-    echo Python is now installed
-)
+set python_version=cmd /k "python --version"
+
+if not python_version (python --version >nul 2>&1 || (
+        color 6 & echo Installing python, Please read and accept the windows smart screen prompt
+        winget install -e --id Python.Python.3.11
+        echo Python is now installed
+    ))
 
 python --version >nul 2>&1 || (
     color 2 & echo Successfully install all requirements please re run installer.bat
