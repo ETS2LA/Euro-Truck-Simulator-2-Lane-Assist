@@ -19,18 +19,16 @@ if settings.GetSettings("User Interface", "hide_console", False) == True:
     console.HideConsole()
 
 import os
-import pkg_resources
-listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep_translator", "babel", "PyQT5"]
-# Check all of them
-installed = [pkg.key for pkg in pkg_resources.working_set]
+import importlib_metadata
+listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel", "PyQt5"]
+# Get list of installed modules using importlib
+installed = [i.name for i in importlib_metadata.distributions()]
 requirementsset = set(listOfRequirementsAddedLater)
 installedset = set(installed)
 missing = requirementsset - installedset
 
 if missing:
     for modules in missing:
-        if modules == "deep_translator": # For some reason this is always missing
-            continue
         print("installing" + " " + modules)
         os.system("pip install" + " " + modules)
 
@@ -39,16 +37,14 @@ import src.variables as variables # Stores all main variables for the program
 with open(variables.PATH + r"\requirements.txt") as f:
     requirements = f.read().splitlines()
 
-installed = [pkg.key for pkg in pkg_resources.working_set]
+installed = [i.name for i in importlib_metadata.distributions()]
 requirementsset = set(requirements)
 installedset = set(installed)
 missing = requirementsset - installedset
 
 if missing:
     for modules in missing:
-        if "deep_translator" in modules:
-            pass
-        elif "--upgrade --no-cache-dir gdown" in modules:
+        if "--upgrade --no-cache-dir gdown" in modules:
             pass
         elif "sv_ttk" in modules:
             pass
@@ -138,7 +134,6 @@ mainUI.CreateRoot()
 import src.loading as loading # And then create a loading window
 
 # Load the rest of the modules
-import sys
 import time
 import json
 from src.logger import print
