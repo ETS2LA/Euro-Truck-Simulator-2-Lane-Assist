@@ -19,7 +19,11 @@ if settings.GetSettings("User Interface", "hide_console", False) == True:
     console.HideConsole()
 
 import os
-import importlib_metadata
+try:
+    import importlib_metadata
+except:
+    os.system("pip install importlib_metadata")
+    import importlib_metadata
 listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel", "PyQt5"]
 # Get list of installed modules using importlib
 installed = [i.name for i in importlib_metadata.distributions()]
