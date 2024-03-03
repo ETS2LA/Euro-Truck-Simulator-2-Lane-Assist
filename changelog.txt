@@ -7,3 +7,5 @@ Changelog tab will now close automatically after closing window.
 The app will no longer try and reinstall pyqt5.
 .34 :
 Fix importlib_metadata not being found.
+.35 : 
+Add sys back.

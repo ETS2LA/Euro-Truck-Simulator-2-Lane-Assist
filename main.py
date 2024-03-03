@@ -133,6 +133,7 @@ if version not in acceptedVersions:
 
 # Load the UI framework
 import src.mainUI as mainUI
+import sys
 mainUI.CreateRoot()
 
 import src.loading as loading # And then create a loading window
