@@ -1,6 +1,6 @@
 ![](assets/markdownLogo.png)
 
-# ETS2LA ![](https://img.shields.io/badge/Major_Version-1.10-c65c15?style=for-the-badge)
+# ETS2LA
 Lane assist and plugin based interface program for SCS truck simulators.
 
 <img alt="SourceForge Downloads" src="https://img.shields.io/sourceforge/dt/eurotrucksimulator2-laneassist?style=for-the-badge&logo=Sourceforge&label=SourceForge%20Downloads">
