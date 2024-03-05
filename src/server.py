@@ -6,6 +6,7 @@ import os
 import src.settings as settings 
 from src.translator import Translate
 import src.variables as var
+import src.helpers as helpers
 from src.logger import print
 
 ALLOW_CRASH_REPORTS = settings.GetSettings("CrashReporter", "AllowCrashReports")
@@ -18,7 +19,8 @@ if ALLOW_CRASH_REPORTS == None:
         settings.CreateSettings("CrashReporter", "AllowCrashReports", True)
     else:
         settings.CreateSettings("CrashReporter", "AllowCrashReports", False)
-
+        ALLOW_CRASH_REPORTS = False
+        
 def SendCrashReport(type:str, message:str, additional=None):
     """Will send a crash report to the main application server. This will then be forwarded to the developers on discord.
 

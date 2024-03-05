@@ -297,6 +297,8 @@ def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
     if callback != None:
         callback()
         
+    helpers.ShowPopup("\nKeybind change successful.", "Controls", timeout=3)
+        
 def UnbindKeybind(name, updateUI=True):
     """Remove the binding of a keybind.
 

@@ -12,6 +12,7 @@ import src.mainUI as mainUI
 from src.logger import print
 import json
 import os
+import src.helpers as helpers
 
 def GetOSLanguage():
     """Will get the current OS language.

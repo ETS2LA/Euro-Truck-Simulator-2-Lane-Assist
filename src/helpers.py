@@ -348,6 +348,9 @@ def OpenWebView(title:str, urlOrFile:str, width:int=900, height:int=700):
         width (int, optional): Defaults to 900.
         height (int, optional): Defaults to 700.
     """
+    popup = ShowPopup("\nClose the webview to continue...", "Info", timeout=0.1)
+    popup.update(len(popups))
+    mainUI.root.update()
     webview.create_window(title, urlOrFile, width=width, height=height)
     webview.start()
 
@@ -358,6 +361,7 @@ def OpenInBrowser(url:str):
         url (str)
     """
     webbrowser.open(url)
+    ShowPopup("\nOpened browser", "Info", type="info", timeout=2)
 
 def ConvertCapitalizationToSpaces(text:str):
     """Standard way to convert capitalization to spaces.

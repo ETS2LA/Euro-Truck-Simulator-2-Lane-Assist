@@ -95,6 +95,7 @@ def updateSettings():
 
     lanechangingnavdetection = settings.GetSettings("NavigationDetectionV2", "lanechanging", True)
     
+    helpers.ShowPopup("\nLoaded settings...", "DefaultSteering", timeout=1.5)
     
 updateSettings()
 
