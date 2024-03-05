@@ -8,6 +8,8 @@ import webbrowser
 from tktooltip import ToolTip
 # Import qt for matplotlib
 import PyQt5.Qt as Qt
+import src.mainUI as mainUI
+import src.controls as controls
 
 lastRow = 0
 lastParent = None
@@ -408,23 +410,27 @@ def RunEvery(duration, function, *args, **kwargs):
     thread = threading.Thread(target=wrapper)
     thread.daemon = True
     thread.start()
-    
-def RunIn(duration, function, *args, **kwargs):
+
+runners = []
+def RunIn(duration, function, mainThread=False, *args, **kwargs):
     """Will run the given function after x seconds.
 
     Args:
         duration (float): Seconds to wait before running the function.
         function (lambda): The function to run.
+        mainThread (bool, optional): Whether to run the function in the main thread. WARNING: This is not accurate. The accuracy of the sleep depends on the main thread FPS. Defaults to False.
     """
-    def wrapper():
-        time.sleep(duration)
-        function(*args, **kwargs)
-        
-    import threading
-    thread = threading.Thread(target=wrapper)
-    thread.daemon = True
-    thread.start()
+    if not mainThread:
+        def wrapper():
+            time.sleep(duration)
+            function(*args, **kwargs)
             
+        import threading
+        thread = threading.Thread(target=wrapper)
+        thread.daemon = True
+        thread.start()
+    else:
+        runners.append([duration, function, time.time(), args, kwargs])
             
 class PID:
     """A simple PID controller.
@@ -545,3 +551,72 @@ class PID:
         self.Ki += self.ITerm
         self.Kd += self.DTerm
         self.clear()
+        
+popups = [] 
+def ShowPopup(text, title, type="info", translate=True, timeout=4):
+    """Will show a popup inside the app window.
+
+    Args:
+        text (str): What the popup says.
+        title (str): The title of the popup.
+        type (str, optional): Optional type, currently only info is implemented. Defaults to "info".
+        translate (bool, optional): Whether to translate the text and title or not. Defaults to True.
+        timeout (int, optional): Number of seconds to close the popup. If 0, timing is disabled and the popup will need to be manually closed. Defaults to 4.
+
+    Returns:
+        popup: The popup class.
+        
+    Popup class:
+        close(): Will close the popup.
+        update(index): Will update the popup. (note: this is usually run by the mainloop, you don't need to call this manually)
+        progressBar: The progressbar of the popup. Edit the settings and value of this to change the progress.
+        text: The text of the popup. Edit the settings of this to change the text.
+    """
+    global popups
+    root = mainUI.root
+    if translate:
+        text = translator.Translate(text)
+        title = translator.Translate(title)
+    
+    class popup(ttk.LabelFrame):
+        def __init__(self, parent, text, title, type, timeout):
+            super().__init__(parent, text=title, width=200, height=100)
+            self.pack_propagate(False)
+            self.grid_propagate(False)
+            self.initTime = time.time()
+            self.lastUpdateTime = time.time()
+            self.lastRely = 0.085 + (100*len(popups)/mainUI.root.winfo_height())
+            self.place(relx=0.5, rely=self.lastRely, anchor="center")
+            self.text = ttk.Label(self, text=text)
+            self.text.pack()
+            self.progressBar = ttk.Progressbar(self, mode="determinate", maximum=timeout, length=190)
+            self.progressBar.pack(side="bottom")
+            self.update(len(popups))
+            self.timeout = timeout
+            if timeout != 0:
+                RunIn(timeout, lambda: self.destroy(), mainThread=True)
+            
+        def update(self, index):
+            if not time.time() - self.lastUpdateTime > 0.1:
+                return
+            else:
+                self.lastUpdateTime = time.time()
+            # Update the progressbar
+            if self.timeout != 0:
+                timeSinceInit = time.time() - self.initTime
+                self.progressBar["value"] = timeSinceInit
+            
+            # Update the position based on the amount of popups
+            #self.place_forget()
+            rely = 0.085 + (100*index/mainUI.root.winfo_height())
+            if rely != self.lastRely:
+                self.place(relx=0.5, rely=rely, anchor="center")
+                self.lastRely = rely
+            
+            super().update()
+            
+        def close(self):
+            self.destroy()
+            
+    popups.append(popup(root, text, title, type, timeout))
+    return popups[-1]

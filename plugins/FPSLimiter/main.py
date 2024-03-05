@@ -56,9 +56,9 @@ def plugin(data):
         timeNeeded = 0
     
     # Sleep for the remaining time
-    sleepLenght = timeNeeded - executionTime
-    if sleepLenght > 0:
-        helpers.AccurateSleep(sleepLenght)
+    sleepLength = timeNeeded - executionTime
+    if sleepLength > 0:
+        helpers.AccurateSleep(sleepLength)
         
     return data
 
