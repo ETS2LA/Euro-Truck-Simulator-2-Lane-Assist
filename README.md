@@ -1,12 +1,21 @@
 ![](assets/markdownLogo.png)
 
-# ETS2LA
+# ETS2LA ![](https://img.shields.io/badge/Major_Version-1.10-c65c15?style=for-the-badge)
 Lane assist and plugin based interface program for SCS truck simulators.
 
-![](https://img.shields.io/sourceforge/dw/EuroTruckSimulator2-LaneAssist?style=for-the-badge&logo=sourceforge)
-![](https://img.shields.io/discord/1120719484982939790?style=for-the-badge&logo=discord)
-![](https://img.shields.io/github/commit-activity/m/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist?style=for-the-badge&logo=Github)
+<img alt="Source Forge Downloads" src="https://img.shields.io/sourceforge/dt/eurotrucksimulator2-laneassist?style=for-the-badge&logo=Sourceforge&label=SourceForge%20Downloads">
+<img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/total?style=for-the-badge&logo=Github&label=Github%20Downloads">
+<img alt="GitHub commits" src="https://img.shields.io/github/commit-activity/m/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist?style=for-the-badge&logo=Github">
+<img alt="GitHub stars" src="https://img.shields.io/github/stars/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist?style=for-the-badge&logo=github&label=Github%20Stars">
+<img alt="Discord" src="https://img.shields.io/discord/1120719484982939790?style=for-the-badge&logo=discord">
 
+<!-- Begin SF Tag -->
+<div class="sf-root" data-id="3718449" data-badge="oss-rising-star-white" data-metadata="achievement=oss-rising-star" style="width:125px">
+    <a href="https://sourceforge.net/projects/eurotrucksimulator2-laneassist/" target="_blank">Euro Truck Simulator 2 Lane Assist</a>
+</div>
+<script>(function () {var sc=document.createElement('script');sc.async=true;sc.src='https://b.sf-syn.com/badge_js?sf_id=3718449';var p=document.getElementsByTagName('script')[0];p.parentNode.insertBefore(sc, p);})();
+</script>
+<!-- End SF Tag -->
 
 ### Links
 
