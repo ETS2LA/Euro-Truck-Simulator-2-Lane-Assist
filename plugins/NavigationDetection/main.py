@@ -1132,10 +1132,32 @@ class UI():
             LoadSettings()
         
         def manual_setup(self):
-            subprocess.Popen([f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe", os.path.join(variables.PATH, "plugins/NavigationDetection", "manual_setup.py")], shell=True)
+            found_venv = True
+            if os.path.exists(f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe") == False:
+                print("\033[91m" + "Your installation is missing the venv. This is probably because you didn't install the app using the installer." + "\033[0m")
+                found_venv = False
+            if os.path.exists(f"{variables.PATH}plugins/NavigationDetection/manual_setup.py") == True:
+                if found_venv == True:
+                    subprocess.Popen([f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe", os.path.join(variables.PATH, "plugins/NavigationDetection", "manual_setup.py")], shell=True)
+                else:
+                    print("\033[91m" + "Running the code outside of the venv. You may need to install the requirements manually using this command in a terminal: " + "\033[0m" + "pip install tk numpy mouse opencv-python mss" + "\033[0m")
+                    subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "manual_setup.py")])
+            else:
+                print("\033[91m" + f"Your installation is missing the manual_setup.py. Download it manually from the GitHub and place it in this path: {variables.PATH}plugins\\NavigationDetection\\manual_setup.py" + "\033[0m")
 
         def automatic_setup(self):
-            subprocess.Popen([f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe", os.path.join(variables.PATH, "plugins/NavigationDetection", "automatic_setup.py")], shell=True)
+            found_venv = True
+            if os.path.exists(f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe") == False:
+                print("\033[91m" + "Your installation is missing the venv. This is probably because you didn't install the app using the installer." + "\033[0m")
+                found_venv = False
+            if os.path.exists(f"{variables.PATH}plugins/NavigationDetection/automatic_setup.py") == True:
+                if found_venv == True:
+                    subprocess.Popen([f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe", os.path.join(variables.PATH, "plugins/NavigationDetection", "automatic_setup.py")], shell=True)
+                else:
+                    print("\033[91m" + "Running the code outside of the venv. You may need to install the requirements manually using this command in a terminal: " + "\033[0m" + "pip install tk numpy requests mouse opencv-python mss torch" + "\033[0m")
+                    subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "automatic_setup.py")])
+            else:
+                print("\033[91m" + f"Your installation is missing the automatic_setup.py. Download it manually from the GitHub and place it in this path: {variables.PATH}plugins\\NavigationDetection\\automatic_setup.py" + "\033[0m")
 
         def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()
@@ -1143,4 +1165,4 @@ class UI():
     except Exception as ex:
         print(ex.args)
 
-# this comment is used to reload the app after finishing the setup - 1
+# this comment is used to reload the app after finishing the setup - 0
