@@ -1,2 +1,1 @@
-- (devs) Add support for popups
-- Fix importlib_metadata trying to install on each start.
+Added a warning to the missing venv folder in the NavigationDetection setup.
