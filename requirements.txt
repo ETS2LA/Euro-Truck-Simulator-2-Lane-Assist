@@ -24,4 +24,3 @@ ultralytics
 PyQt5
 gdown
 importlib-metadata
-test
