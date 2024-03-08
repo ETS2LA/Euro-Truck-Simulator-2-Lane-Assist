@@ -13,7 +13,7 @@ from tkinter import ttk
 import sv_ttk
 
 class LoadingWindow:
-    def __init__(self, text:str, master=None, progress:float=False, grab:bool=True, totalProgress:float=-1, height:int=80):
+    def __init__(self, text:str, master=None, progress:float=False, grab:bool=True, totalProgress:float=-1, height:int=80, width:int=300):
         """Will create a loading window with a progress bar and a text label.
 
         Args:
@@ -23,6 +23,7 @@ class LoadingWindow:
             grab (bool, optional): Whether to grab the window focus. Defaults to True.
             totalProgress (float, optional): Will display another loading bar with the total progress. Defaults to -1.
             height (int, optional): The height of the loading window. This can be used when there is a /n that pushes text down. Defaults to 80.
+            width (int, optional): The width of the loading window.
         """
         self.text = text
         self.progress = progress
@@ -37,7 +38,7 @@ class LoadingWindow:
             
         self.root.title(text)
         self.root.resizable(False, False)
-        self.root.geometry(f"300x{height}")
+        self.root.geometry(f"{width}x{height}")
         self.root.protocol("WM_DELETE_WINDOW", ignore)
         self.root.attributes("-topmost", True)
         if grab:
