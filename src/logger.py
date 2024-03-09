@@ -90,6 +90,10 @@ def print(text:str, end:str=""):
     
     # Make sure the file is not too big
     try:
+        if not os.path.exists("log.txt"):
+            with open("log.txt", "w") as f:
+                f.close()
+                
         size = os.path.getsize("log.txt")
         # 10MB
         if size > 10000000:
