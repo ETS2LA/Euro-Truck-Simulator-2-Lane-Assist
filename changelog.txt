@@ -1,1 +1,1 @@
-Added a warning to the missing venv folder in the NavigationDetection setup.
+Fixed the code to close the console.
