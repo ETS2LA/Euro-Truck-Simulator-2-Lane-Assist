@@ -7,6 +7,7 @@ date: 2024-2-18
 icon: stack
 tags: 
   - plugin
+  - lane detection
 ---
 # LSTRLaneDetection
 !!! danger Note:
