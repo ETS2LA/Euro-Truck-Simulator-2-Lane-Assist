@@ -181,7 +181,7 @@ def quit():
     """
     global root
     savePosition()
-    if helpers.AskOkCancel("Quit", "Do you want to quit?"):
+    if helpers.AskOkCancel("Quit", "Do you want to quit?", yesno=True):
         # Destroy the root window
         root.destroy()
         del root
@@ -469,6 +469,7 @@ def CreateRoot():
         buttonFrame.destroy()
     except:
         pass
+    
     buttonFrame = ttk.LabelFrame(root, text="Lane Assist", width=width-675, height=height)
     buttonFrame.pack_propagate(0)
     buttonFrame.grid_propagate(0)

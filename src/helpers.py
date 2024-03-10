@@ -709,7 +709,7 @@ def DimAppBackground():
     ColorTitleBar(mainUI.root, "0x141414")
     return label
 
-def AskOkCancel(title, text):
+def AskOkCancel(title, text, yesno=False):
     """Similar to the tkinter messagebox, but will show the messagebox inside the app window. In addition it will dim the app background with some magic.
 
     Args:
@@ -747,9 +747,9 @@ def AskOkCancel(title, text):
     # Create the buttons
     buttonFrame = ttk.Frame(frame)
     buttonFrame.pack()
-    okButton = ttk.Button(buttonFrame, text="Ok", command=lambda: Answer(True))
+    okButton = ttk.Button(buttonFrame, text="Ok" if not yesno else "Yes", command=lambda: Answer(True))
     okButton.pack(side="left", padx=10)
-    cancelButton = ttk.Button(buttonFrame, text="Cancel", command=lambda: Answer(False))
+    cancelButton = ttk.Button(buttonFrame, text="Cancel" if not yesno else "No", command=lambda: Answer(False))
     cancelButton.pack(side="right", padx=10)
     # Place the messagebox
     frame.place(relx=0.5, rely=0.5, anchor="center")
@@ -785,3 +785,107 @@ def RunInMainThread(function, *args, **kwargs):
         function (lambda): The function to run.
     """
     RunIn(0, function, mainThread=True, *args, **kwargs)
+    
+def Dialog(title, text, options, enterOption="", escapeOption=""):
+    """Will show a dialog with the options specified.
+
+    Args:
+        title (str): Dialog title.
+        text (str): Dialog text.
+        options ([str]): The options to choose from (str array).
+        enterOption (str, optional): The option to bind the Enter key to. Defaults to "".
+        escapeOption (str, optional): The option to bind the Escape and Backspace keys to. Defaults to "".
+    
+    Returns:
+        str: The option that was chosen.
+    """
+    global selection
+    
+    # Dim the app 
+    background = DimAppBackground()
+    # Create the messagebox
+    f = tk.Frame()
+    frame = ttk.LabelFrame(mainUI.root, labelwidget=f)
+    title = ttk.Label(frame, text=title, font=("Segoe UI", 12, "bold"))
+    title.pack()
+    text = ttk.Label(frame, text=text)
+    text.pack()
+    
+    selection = None
+    def Answer(answer):
+        global selection
+        frame.destroy()
+        background.destroy()
+        from plugins.ThemeSelector.main import ColorTitleBar
+        ColorTitleBar(mainUI.root, "0x313131")
+        selection = answer
+    
+    # Empty line
+    ttk.Label(frame, text="").pack()
+    ttk.Label(frame, text="").pack()
+    
+    # Create the buttons
+    buttonFrame = ttk.Frame(frame)
+    buttonFrame.pack()
+    for option in options:
+        button = ttk.Button(buttonFrame, text=option, command=lambda option=option: Answer(option))
+        button.pack(side="left", padx=10)
+    # Place the messagebox
+    frame.place(relx=0.5, rely=0.5, anchor="center")
+    # Bind enter
+    if enterOption != "":
+        mainUI.root.bind("<Return>", lambda e: Answer(enterOption))
+    # Bind escape and backspace
+    if escapeOption != "":
+        mainUI.root.bind("<Escape>", lambda e: Answer(escapeOption))
+        mainUI.root.bind("<BackSpace>", lambda e: Answer(escapeOption))
+    # Increase the width and height of the frame by 20 to make it fit better
+    try:
+        frame.update()
+        propagateSize = frame.winfo_width() + 20, frame.winfo_height() + 20
+        frame.pack_propagate(False)
+        frame.config(width=propagateSize[0], height=propagateSize[1])
+    except: # Closed before the frame was updated
+        return selection
+    # Get focus if we don't have it
+    if not mainUI.root.focus_get():
+        mainUI.root.focus_force()
+    
+    mainUI.root.update()
+    
+    while selection == None:
+        # Wait for the user to press a button
+        mainUI.root.update()
+        
+    return selection
+
+class FrameDialog():
+    """Will create a new dialog to display a frame inside.
+    
+    Args:
+        closeButtonText (str, optional): The text of the close button. Defaults to "Close".
+    
+    Usage:
+    ```python	
+    dialog = FrameDialog()
+    frame = ttk.Frame(dialog.frame)
+    dialog.close()
+    ```
+    """
+    
+    def close(self):
+        """Will close the dialog."""
+        self.frame.destroy()
+        self.background.destroy()
+        from plugins.ThemeSelector.main import ColorTitleBar
+        ColorTitleBar(mainUI.root, "0x313131")
+        del self
+        
+    def __init__(self) -> None:
+        # Dim the app
+        self.background = DimAppBackground()
+        # Create the frame
+        f = tk.Frame()
+        self.frame = ttk.LabelFrame(mainUI.root, labelwidget=f)
+        # Place the frame
+        self.frame.place(relx=0.5, rely=0.5, anchor="center")
