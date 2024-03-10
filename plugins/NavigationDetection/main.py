@@ -281,11 +281,13 @@ def plugin(data):
         valid_frame = False
         return data
     
-    if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < data["frameFull"].shape[1]) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < data["frameFull"].shape[0]):
-        valid_setup = True
+    if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None:
+        if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < data["frameFull"].shape[1]) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < data["frameFull"].shape[0]):
+            valid_setup = True
+        else:
+            valid_setup = False
     else:
         valid_setup = False
-        return data
     
     if valid_setup == False:
         print("NavigationDetection: Invalid frame or setup. Possible fix: Set the screen capture to your main monitor in your Screen Capture Plugin. Non-main monitor support coming soon.")
@@ -737,7 +739,7 @@ def plugin(data):
     
     map_detected = True
     
-    if map_topleft == None or map_bottomright == None or arrow_topleft == None or arrow_bottomright == None or arrow_percentage == None or map_topleft[0] > map_bottomright[0] or map_topleft[1] > map_bottomright[1] or arrow_topleft[0] > arrow_bottomright[0] or arrow_topleft[1] > arrow_bottomright[1]:
+    if valid_setup == False:
         if allow_playsound == True:
             sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
             allow_playsound = False
@@ -1012,19 +1014,17 @@ def plugin(data):
     return data
         
 
-# Plugins need to all also have the onEnable and onDisable functions
 def onEnable():
     pass
 
 def onDisable():
     pass
 
-# Plugins can also have UIs, this works the same as the panel example
+
 class UI():
-    try: # The panel is in a try loop so that the logger can log errors if they occur
-        
+    try:
         def __init__(self, master) -> None:
-            self.master = master # "master" is the mainUI window
+            self.master = master
             self.exampleFunction()
             resizeWindow(950,600)        
         
@@ -1033,7 +1033,7 @@ class UI():
             self.root.destroy()
             del self
         
-        def tabFocused(self): # Called when the tab is focused
+        def tabFocused(self):
             resizeWindow(950,600)
 
         def UpdateSettings(self):
@@ -1051,11 +1051,11 @@ class UI():
         def exampleFunction(self):
             
             try:
-                self.root.destroy() # Load the UI each time this plugin is called
+                self.root.destroy()
             except: pass
             
             self.root = tk.Canvas(self.master, width=950, height=600, border=0, highlightthickness=0)
-            self.root.grid_propagate(1) # Don't fit the canvast to the widgets
+            self.root.grid_propagate(1)
             self.root.pack_propagate(0)
             
             notebook = ttk.Notebook(self.root)
@@ -1159,7 +1159,7 @@ class UI():
             else:
                 print("\033[91m" + f"Your installation is missing the automatic_setup.py. Download it manually from the GitHub and place it in this path: {variables.PATH}plugins\\NavigationDetection\\automatic_setup.py" + "\033[0m")
 
-        def update(self, data): # When the panel is open this function is called each frame 
+        def update(self, data):
             self.root.update()
     
     except Exception as ex:
