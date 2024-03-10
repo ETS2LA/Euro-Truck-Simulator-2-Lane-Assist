@@ -301,33 +301,16 @@ def yolo_load_model():
                     print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
                 yolo_model_loaded = False
                 yolo_detection = False
-        def yolo_loading_window_thread():
-            global yolo_model_loaded
-            global yolo_model_str
-            loading = LoadingWindow(text="TrafficLightDetection", grab=False, height=83)
-            loading_text = 0
-            loading_textswitch = time.time() + 2
-            while yolo_model_loaded == "loading...":
-                if time.time() > loading_textswitch:
-                    loading_textswitch = time.time() + 2
-                    if loading_text == 0:
-                        loading_text = 1
-                    else:
-                        loading_text = 0
-                if loading_text == 1:
-                    loading.update(text=f"Loading the {yolo_model_str} model...\nThis may take a while...")
-                else:
-                    loading.update(text=f"Loading the {yolo_model_str} model...\nDO NOT CLOSE THE APP")
-            try:
-                loading.destroy()
-            except:
-                pass
+            helpers.RunInMainThread(lambda: loading.close())
+    
         import matplotlib
         matplotlib.use("Agg")
+
+        global loading
+        loading = helpers.ShowPopup(f"Loading the {yolo_model_str} model...\nThis may take a while...\n\nDO NOT CLOSE THE APP", "TrafficLightDetection", timeout=0, indeterminate=True, closeIfMainloopStopped=False)
+
         model_thread = threading.Thread(target=yolo_load_model_thread)
         model_thread.start()
-        loading_thread = threading.Thread(target=yolo_loading_window_thread)
-        loading_thread.start()
 
 
 def yolo_detection_function(yolo_detection_frame):

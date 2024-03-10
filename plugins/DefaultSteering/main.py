@@ -189,8 +189,12 @@ def plugin(data):
             
         
         try:
-            IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
-            IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            try:
+                IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
+                IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            except:
+                IndicatingLeft = False
+                IndicatingRight = False
             if IndicatingLeft == True or IndicatingRight == True:
                 if "NavigationDetection" in settings.GetSettings("Plugins", "Enabled"):
                     IndicatingLeft = False
@@ -273,8 +277,12 @@ def plugin(data):
     else:
         try:
             enabledTimer += 1
-            IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
-            IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            try:
+                IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
+                IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+            except:
+                IndicatingLeft = False
+                IndicatingRight = False
             if IndicatingLeft == True:
                 IndicatingLeft_original = True
             else:
