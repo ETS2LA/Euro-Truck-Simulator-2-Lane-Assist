@@ -726,10 +726,11 @@ def AskOkCancel(title, text, yesno=False):
     # Create the messagebox
     f = tk.Frame()
     frame = ttk.LabelFrame(mainUI.root, labelwidget=f)
+    ttk.Label(frame, text="", font=("Segoe UI", 10, "bold")).pack()
     title = ttk.Label(frame, text=title, font=("Segoe UI", 12, "bold"))
     title.pack()
     text = ttk.Label(frame, text=text)
-    text.pack()
+    text.pack(pady=0)
     
     selection = None
     def Answer(answer):
@@ -741,7 +742,6 @@ def AskOkCancel(title, text, yesno=False):
         selection = answer
     
     # Empty line
-    ttk.Label(frame, text="").pack()
     ttk.Label(frame, text="").pack()
     
     # Create the buttons

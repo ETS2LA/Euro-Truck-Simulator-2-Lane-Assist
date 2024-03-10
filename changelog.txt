@@ -1,1 +1,1 @@
-New custom confirmation window, looks real nice.
+Adjust spacing on dialogs.

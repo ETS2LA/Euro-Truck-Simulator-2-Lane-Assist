@@ -49,3 +49,6 @@ themes/*
 !themes/ExampleTheme
 !themes/ForestRed
 !themes/Forest
+
+# Ignore screenshot
+screenshot.png
