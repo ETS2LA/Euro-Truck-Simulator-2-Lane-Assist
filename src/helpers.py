@@ -10,6 +10,7 @@ from tktooltip import ToolTip
 import PyQt5.Qt as Qt
 import src.mainUI as mainUI
 import src.controls as controls
+import src.variables as variables
 
 lastRow = 0
 lastParent = None
@@ -557,7 +558,8 @@ class PID:
         self.clear()
         
 popups = [] 
-def ShowPopup(text, title, type="info", translate=True, timeout=4):
+timeoutlessPopups = []
+def ShowPopup(text, title, type="info", translate=True, timeout=4, indeterminate=False, closeIfMainloopStopped=False):
     """Will show a popup inside the app window.
 
     Args:
@@ -566,6 +568,8 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4):
         type (str, optional): Optional type, currently only info is implemented. Defaults to "info".
         translate (bool, optional): Whether to translate the text and title or not. Defaults to True.
         timeout (int, optional): Number of seconds to close the popup. If 0, timing is disabled and the popup will need to be manually closed. Defaults to 4.
+        indeterminate (bool, optional): Whether the progressbar should be indeterminate or not. Defaults to False.
+        closeIfMainloopStopped (bool, optional): Whether the popup should close if the mainloop is stopped. Defaults to False.
 
     Returns:
         popup: The popup class.
@@ -575,6 +579,7 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4):
         update(index): Will update the popup. (note: this is usually run by the mainloop, you don't need to call this manually)
         progressBar: The progressbar of the popup. Edit the settings and value of this to change the progress.
         text: The text of the popup. Edit the settings of this to change the text.
+        closed: Indicates whether the popup has been closed or not. Useful if you use closeIfMainloopStopped and keep a reference to the popup.
     """
     global popups
     root = mainUI.root
@@ -583,17 +588,26 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4):
         title = translator.Translate(title)
     
     class popup(ttk.LabelFrame):
-        def __init__(self, parent, text, title, type, timeout):
+        def __init__(self, parent, text, title, type, timeout, indeterminate, closeIfMainloopStopped):
             super().__init__(parent, text=title, width=200, height=100)
             self.pack_propagate(False)
             self.grid_propagate(False)
+            self.closed = False
             self.initTime = time.time()
             self.lastUpdateTime = time.time()
-            self.lastRely = 0.085 + (100*len(popups)/mainUI.root.winfo_height())
-            self.place(relx=0.5, rely=self.lastRely, anchor="center")
+            if timeout == 0: 
+                # Put the popup in the bottom right
+                self.lastRely = ((mainUI.root.winfo_height()-60))/mainUI.root.winfo_height()
+                self.place(relx=(mainUI.root.winfo_width()-110) / mainUI.root.winfo_width(), rely=self.lastRely, anchor="center")
+            else:
+                # Put the popup in the top center
+                self.lastRely = 0.085 + (100*len(popups)/mainUI.root.winfo_height())
+                self.place(relx=0.5, rely=self.lastRely, anchor="center")
             self.text = ttk.Label(self, text=text)
             self.text.pack()
-            self.progressBar = ttk.Progressbar(self, mode="determinate", maximum=timeout, length=190)
+            self.indeterminate = indeterminate
+            self.closeIfMainloopStopped = closeIfMainloopStopped
+            self.progressBar = ttk.Progressbar(self, mode="determinate", maximum=timeout if not indeterminate else 10, length=190)
             self.progressBar.pack(side="bottom")
             self.update(len(popups))
             self.timeout = timeout
@@ -609,18 +623,36 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4):
             if self.timeout != 0:
                 timeSinceInit = time.time() - self.initTime
                 self.progressBar["value"] = timeSinceInit
-            
+            # If the mode is indeterminate, then bounce the value between 0 and 10
+            if self.indeterminate:
+                self.progressBar["value"] = (self.progressBar["value"] + 0.5) % 10
             # Update the position based on the amount of popups
             #self.place_forget()
-            rely = 0.085 + (100*index/mainUI.root.winfo_height())
-            if rely != self.lastRely:
-                self.place(relx=0.5, rely=rely, anchor="center")
-                self.lastRely = rely
+            if self.timeout == 0:
+                rely = ((mainUI.root.winfo_height()-60) - (100*index/mainUI.root.winfo_height()))/mainUI.root.winfo_height()
+                if rely != self.lastRely:
+                    self.place(relx=(mainUI.root.winfo_width()-110) / mainUI.root.winfo_width(), rely=rely, anchor="center")
+                    self.lastRely = rely
+            else:    
+                rely = 0.085 + (100*index/mainUI.root.winfo_height())
+                if rely != self.lastRely:
+                    self.place(relx=0.5, rely=rely, anchor="center")
+                    self.lastRely = rely
+            
+            if closeIfMainloopStopped and not variables.ENABLELOOP:
+                self.close()
+                return
             
             super().update()
             
         def close(self):
             self.destroy()
-            
-    popups.append(popup(root, text, title, type, timeout))
+            self.closed = True
+    
+    if timeout == 0:
+        timeoutlessPopups.append(popup(root, text, title, type, timeout, indeterminate, closeIfMainloopStopped))
+        return timeoutlessPopups[-1]
+    else:
+        popups.append(popup(root, text, title, type, timeout, indeterminate, closeIfMainloopStopped))
+    
     return popups[-1]

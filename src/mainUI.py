@@ -294,7 +294,6 @@ def resizeWindow(newWidth:int, newHeight:int):
         newHeight (int)
     """
     global root
-    global root
     
     if settings.GetSettings("User Interface", "ScaleWindowBasedOnWindowsSetting", value=True):
         scaling = variables.WINDOWSCALING

@@ -442,9 +442,9 @@ class UI():
             
             try:
                 if not api.loading:
-                    api.checkAPI()
+                    api.checkAPI(dontClosePopup=True)
             except:
-                api.checkAPI()
+                api.checkAPI(dontClosePopup=True)
         
         def lastPage(self):
             self.root.destroy()
@@ -509,7 +509,10 @@ class UI():
                 pass
             
             try:
-                self.apiNextButton.config(state="normal", text="Next")
+                if self.apiNextButton.cget("text") == "Waiting for api...":
+                    api.checkAPI(dontClosePopup=True)
+                    if api.isConnected:
+                        self.apiNextButton.config(state="normal", text="Next")
             except:
                 pass
                 

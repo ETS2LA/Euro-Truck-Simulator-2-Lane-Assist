@@ -1,1 +1,2 @@
-Fixed the code to close the console.
+Move ETS2 API to new popup system.
+- Due to this it is now possible to use the app UI normally even while waiting for the connection.

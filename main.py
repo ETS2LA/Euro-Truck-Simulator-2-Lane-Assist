@@ -633,6 +633,7 @@ if __name__ == "__main__":
                     
                     helpers.runners.remove(runner)
                 
+            start = time.time()
             popupCount = 0
             for popup in helpers.popups:
                 try:
@@ -644,6 +645,23 @@ if __name__ == "__main__":
                     except:
                         pass
                     helpers.popups.remove(popup)
+                
+            popupCount = 0
+            for popup in helpers.timeoutlessPopups:
+                try:
+                    popup.update(popupCount)
+                    popupCount += 1
+                except:
+                    try:
+                        popup.destroy()
+                    except:
+                        pass
+                    import traceback
+                    traceback.print_exc()
+                    helpers.timeoutlessPopups.remove(popup)    
+                
+            end = time.time()
+            data["executionTimes"]["Popups"] = end - start
             
             if variables.ENABLELOOP != lastEnableValue:
                 lastEnableValue = variables.ENABLELOOP
