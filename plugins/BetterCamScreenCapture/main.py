@@ -93,14 +93,14 @@ def CreateCamera():
     
     # Check if these values would go over the screen edges
     if right > screenWidth and verifyWidthAndHeight:
-        if messagebox.askokcancel("Warning", "The width value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}".format(right)):
+        if helpers.AskOkCancel("Warning", "The width value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}".format(right)):
             verifyWidthAndHeight = False  
             settings.CreateSettings("bettercam", "verifyWidthAndHeight", False)
         else:
             right = screenWidth
     
     if bottom > screenHeight and verifyWidthAndHeight:
-        if messagebox.askokcancel("Warning", "The height value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}".format(bottom)):
+        if helpers.AskOkCancel("Warning", "The height value is too high.\nDo you want to disable this check?\nOtherwise it will be lowered to {}".format(bottom)):
             verifyWidthAndHeight = False  
             settings.CreateSettings("bettercam", "verifyWidthAndHeight", False)
         else:

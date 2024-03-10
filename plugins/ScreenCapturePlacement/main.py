@@ -44,12 +44,14 @@ def GetTitlebarHeight():
     # Calculate the height of the titlebar
     titlebarHeight = toplevel_y - root_y
 
-    # Print the height of the titlebar
     print(f"The height of the titlebar is {titlebarHeight} pixels")
-    
     # Destroy the window
-    root.destroy()
+    try:
+        root.destroy()
+    except:
+        pass
     
+    return titlebarHeight
 
 def CreateWindow(x,y,w,h):
     global root

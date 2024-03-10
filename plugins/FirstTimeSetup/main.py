@@ -112,9 +112,8 @@ class UI():
                     settings.AddToList("Plugins", "Enabled", ["LSTRDrawLanes"])
                     settings.AddToList("Plugins", "Enabled", ["LSTRLaneDetection"])
                 elif detectionmethod.get() == "ufld":
-                    ufldmessagebox = messagebox.askokcancel("Are you sure you want to use UFLD",
-                                            "UFLD requires a NVIDIA GPU 1060 TI or better, if you use UFLD without one you risk crashing your system. You are responsible for any damage while using UFLD.",
-                                            icon="warning")
+                    ufldmessagebox = helpers.AskOkCancel("Are you sure you want to use UFLD",
+                                            "UFLD requires a NVIDIA GPU 1060 TI or better, if you use UFLD without one you risk crashing your system. You are responsible for any damage while using UFLD.")
                     if ufldmessagebox == False:
                         return
                     print("UFLD Selected")

@@ -257,7 +257,7 @@ class UI():
         # Check for exclusivity
         if plugin.PluginInfo.exclusive != None:
             from tkinter import messagebox
-            if messagebox.askokcancel("Exclusive plugin", "This plugin is exclusive, enabling it will disable all other exclusive plugins of type '" + plugin.PluginInfo.exclusive + "'."):
+            if helpers.AskOkCancel("Exclusive plugin", "This plugin is exclusive, enabling it will disable all other exclusive plugins of type '" + plugin.PluginInfo.exclusive + "'."):
                 for otherPlugin in self.plugins:
                     if otherPlugin.PluginInfo.exclusive != None:
                         if otherPlugin.PluginInfo.exclusive == plugin.PluginInfo.exclusive:
@@ -266,7 +266,7 @@ class UI():
             
         if plugin.PluginInfo.requires != None:
             from tkinter import messagebox
-            if messagebox.askokcancel("Required plugins", "This plugin requires other plugins to work, enabling it will enable all required plugins.\n\n" + "\n".join(plugin.PluginInfo.requires) + "\n\nDo you want to continue?"):
+            if helpers.AskOkCancel("Required plugins", "This plugin requires other plugins to work, enabling it will enable all required plugins.\n\n" + "\n".join(plugin.PluginInfo.requires) + "\n\nDo you want to continue?"):
                 for otherPlugin in self.plugins:
                     if otherPlugin.PluginInfo.name in plugin.PluginInfo.requires:
                         settings.AddToList("Plugins", "Enabled", otherPlugin.PluginInfo.name)

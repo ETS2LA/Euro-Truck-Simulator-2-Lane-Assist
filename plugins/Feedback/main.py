@@ -43,14 +43,11 @@ class UI():
             if self.description.get("1.0", tk.END) == "\n" or self.description.get("1.0", tk.END) == "": return
             success = SendCrashReport("FEEDBACK, NOT A CRASH", self.description.get("1.0", tk.END), self.optional.get("1.0", tk.END))
             if success:
-                from tkinter import messagebox
-                messagebox.showinfo("Feedback", "Feedback sent successfully!")
+                helpers.ShowPopup("\nFeedback sent", "Feedback", timeout=2)
             else:
-                from tkinter import messagebox
-                messagebox.showerror("Feedback", "Seems like there was an issue. Please try again later.")
+                helpers.ShowPopup("\nThere was an error", "Feedback", timeout=2)
         
         def exampleFunction(self):
-            
             try:
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass

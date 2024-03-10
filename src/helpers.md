@@ -71,7 +71,11 @@ OpenInBrowser(url:str)
 ConvertCapitalizationToSpaces(text:str)
 
 # A more accurate sleep function, use this instead of time.sleep().
+# NOTE: THIS IS BLOCKING
 AccurateSleep(seconds:float)
+
+# Run the code in the main thread (next time the thread is run)
+RunInMainThread(func, *args, **kwargs)
 ```
 
 ## Example

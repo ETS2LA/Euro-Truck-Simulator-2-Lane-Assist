@@ -98,7 +98,7 @@ class UI():
 
         def show_crashreports_info(self):
             if self.crashreport.get():
-                CrashReportWindow = tk.messagebox.askokcancel("CrashReporter", "This will send anonymous crash report data to the developers.\nThis can help improve the app and fix any bugs that are found.\n This will send only the error that caused the app to crash.\n Your name and person info will be censored.\n\nDo you want to continue?", icon="warning") 
+                CrashReportWindow = helpers.AskOkCancel("CrashReporter", "This will send anonymous crash report data to the developers.\nThis can help improve the app and fix any bugs that are found.\n This will send only the error that caused the app to crash.\n Your name and person info will be censored.\n\nDo you want to continue?") 
                 if CrashReportWindow == True:
                     settings.CreateSettings("CrashReporter", "AllowCrashReports", True)
                 else: 

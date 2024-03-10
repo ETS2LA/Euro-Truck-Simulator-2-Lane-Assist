@@ -137,14 +137,14 @@ def switchSelectedPlugin(pluginName:str):
     plugin = __import__(pluginName, fromlist=["UI", "PluginInfo"])
 
     if plugin.PluginInfo.disablePlugins == True and (settings.GetSettings("Plugins", "Enabled") != []):
-        if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable all plugins. Do you want to continue?")):
+        if helpers.AskOkCancel("Plugins", Translate("The panel has asked to disable all plugins. Do you want to continue?")):
             settings.CreateSettings("Plugins", "Enabled", [])
             variables.UpdatePlugins()
         else: 
             return
         
     if plugin.PluginInfo.disableLoop == True and variables.ENABLELOOP == True:
-        if messagebox.askokcancel("Plugins", Translate("The panel has asked to disable the mainloop. Do you want to continue?")):
+        if helpers.AskOkCancel("Plugins", Translate("The panel has asked to disable the mainloop. Do you want to continue?")):
             variables.ToggleEnable()
             enableButton.config(text=(Translate("Disable") if variables.ENABLELOOP else Translate("Enable")))
         
@@ -181,7 +181,7 @@ def quit():
     """
     global root
     savePosition()
-    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+    if helpers.AskOkCancel("Quit", "Do you want to quit?"):
         # Destroy the root window
         root.destroy()
         del root
