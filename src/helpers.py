@@ -656,3 +656,11 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4, indeterminate
         popups.append(popup(root, text, title, type, timeout, indeterminate, closeIfMainloopStopped))
     
     return popups[-1]
+
+def RunInMainThread(function, *args, **kwargs):
+    """Will run the given function in the main thread.
+
+    Args:
+        function (lambda): The function to run.
+    """
+    RunIn(0, function, mainThread=True, *args, **kwargs)
