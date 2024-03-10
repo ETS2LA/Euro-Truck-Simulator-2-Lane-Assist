@@ -11,6 +11,7 @@ import PyQt5.Qt as Qt
 import src.mainUI as mainUI
 import src.controls as controls
 import src.variables as variables
+import win32gui
 
 lastRow = 0
 lastParent = None
@@ -656,6 +657,126 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4, indeterminate
         popups.append(popup(root, text, title, type, timeout, indeterminate, closeIfMainloopStopped))
     
     return popups[-1]
+
+def GetWindowPosition(hwnd):
+    rect = win32gui.GetWindowRect(hwnd)
+    x = rect[0]
+    y = rect[1]
+    w = rect[2] - x
+    h = rect[3] - y
+    return x, y, w, h
+
+import mss
+import mss.tools
+background = None
+def DimAppBackground():
+    """Will take a screenshot of the app and dim it for the background. NOTE: This will overlay the image on the root, so you can't use any other functions. Not recommended to use directly.
+    
+    Returns:
+        tk.Label: The label with the image, also available at helpers.background
+    """
+    global background
+    # Get the app location, and make an mss 
+    x,y,w,h = GetWindowPosition(mainUI.root.winfo_id())
+    with mss.mss() as sct:
+        # The screen part to capture
+        monitor = {"top": y, "left": x, "width": w, "height": h}
+        # Grab the data
+        sct_img = sct.grab(monitor)
+        # Save to a file
+        mss.tools.to_png(sct_img.rgb, sct_img.size, output="screenshot.png")
+    
+    # Open the image
+    from PIL import Image
+    img = Image.open("screenshot.png")
+    # Darken the image
+    img = img.point(lambda p: p * 0.4)
+    # Apply gaussian blur
+    from PIL import ImageFilter
+    img = img.filter(ImageFilter.GaussianBlur(2))
+    # Cut out the titlebar (Not needed with GetWindowPosition)
+    # from plugins.ScreenCapturePlacement.main import GetTitlebarHeight
+    # img = img.crop((0, GetTitlebarHeight(), width, height))
+    # Save the image
+    img.save("screenshot.png")
+    # Open the image with tkinter
+    background = tk.PhotoImage(file="screenshot.png")
+    # Place it on the root
+    label = tk.Label(mainUI.root, image=background)
+    label.place(x=0, y=0, relwidth=1, relheight=1)
+    # Color titlebar
+    from plugins.ThemeSelector.main import ColorTitleBar
+    ColorTitleBar(mainUI.root, "0x141414")
+    return label
+
+def AskOkCancel(title, text):
+    """Similar to the tkinter messagebox, but will show the messagebox inside the app window. In addition it will dim the app background with some magic.
+
+    Args:
+        title (str): Title of the messagebox.
+        text (str): Content of the messagebox.
+        
+    Returns:
+        bool: Whether the user pressed ok or cancel.
+    """
+    global selection
+    
+    # Dim the app 
+    background = DimAppBackground()
+    # Create the messagebox
+    f = tk.Frame()
+    frame = ttk.LabelFrame(mainUI.root, labelwidget=f)
+    title = ttk.Label(frame, text=title, font=("Segoe UI", 12, "bold"))
+    title.pack()
+    text = ttk.Label(frame, text=text)
+    text.pack()
+    
+    selection = None
+    def Answer(answer):
+        global selection
+        frame.destroy()
+        background.destroy()
+        from plugins.ThemeSelector.main import ColorTitleBar
+        ColorTitleBar(mainUI.root, "0x313131")
+        selection = answer
+    
+    # Empty line
+    ttk.Label(frame, text="").pack()
+    ttk.Label(frame, text="").pack()
+    
+    # Create the buttons
+    buttonFrame = ttk.Frame(frame)
+    buttonFrame.pack()
+    okButton = ttk.Button(buttonFrame, text="Ok", command=lambda: Answer(True))
+    okButton.pack(side="left", padx=10)
+    cancelButton = ttk.Button(buttonFrame, text="Cancel", command=lambda: Answer(False))
+    cancelButton.pack(side="right", padx=10)
+    # Place the messagebox
+    frame.place(relx=0.5, rely=0.5, anchor="center")
+    # Bind enter to ok
+    mainUI.root.bind("<Return>", lambda e: Answer(True))
+    # Bind escape and backspace to cancel
+    mainUI.root.bind("<Escape>", lambda e: Answer(False))
+    mainUI.root.bind("<BackSpace>", lambda e: Answer(False))
+    # Increase the width and height of the frame by 20 to make it fit better
+    try:
+        frame.update()
+        propagateSize = frame.winfo_width() + 20, frame.winfo_height() + 20
+        frame.pack_propagate(False)
+        frame.config(width=propagateSize[0], height=propagateSize[1])
+    except: # Closed before the frame was updated
+        return selection
+    # Get focus if we don't have it
+    if not mainUI.root.focus_get():
+        mainUI.root.focus_force()
+    
+    mainUI.root.update()
+    
+    while selection == None:
+        # Wait for the user to press a button
+        mainUI.root.update()
+        
+    return selection
 
 def RunInMainThread(function, *args, **kwargs):
     """Will run the given function in the main thread.
