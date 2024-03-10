@@ -459,11 +459,11 @@ def plugin(data):
     if show_symbols == True:
         try:
             frame = data["frame"]
-        except:
-            return data
-        try:
             width = frame.shape[1]
             height = frame.shape[0]
+            if frame is None: return data
+            if width == 0 or width == None: return data
+            if height == 0 or height == None: return data
         except:
             return data
         try:
