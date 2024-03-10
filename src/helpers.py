@@ -726,7 +726,7 @@ def AskOkCancel(title, text, yesno=False):
     # Create the messagebox
     f = tk.Frame()
     frame = ttk.LabelFrame(mainUI.root, labelwidget=f)
-    ttk.Label(frame, text="", font=("Segoe UI", 10, "bold")).pack()
+    ttk.Label(frame, text="", font=("Segoe UI", 6, "bold")).pack()
     title = ttk.Label(frame, text=title, font=("Segoe UI", 12, "bold"))
     title.pack()
     text = ttk.Label(frame, text=text)
@@ -806,6 +806,7 @@ def Dialog(title, text, options, enterOption="", escapeOption=""):
     # Create the messagebox
     f = tk.Frame()
     frame = ttk.LabelFrame(mainUI.root, labelwidget=f)
+    ttk.Label(frame, text="", font=("Segoe UI", 6, "bold")).pack()
     title = ttk.Label(frame, text=title, font=("Segoe UI", 12, "bold"))
     title.pack()
     text = ttk.Label(frame, text=text)
