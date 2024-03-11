@@ -1301,7 +1301,17 @@ class UI():
             helpers.MakeEmptyLine(generalFrame,9,0)
             helpers.MakeEmptyLine(generalFrame,10,0)
             helpers.MakeButton(generalFrame, "Give feedback, report a bug or suggest a new feature", lambda: switchSelectedPlugin("plugins.Feedback.main"), 12, 0, width=70, sticky="nw")
-            helpers.MakeButton(generalFrame, "Open Wiki", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi/plugins/trafficlightdetection"), 12, 1, width=32, sticky="nw")
+            helpers.MakeButton(generalFrame, "Open Wiki", lambda: OpenWiki(), 12, 1, width=32, sticky="nw")
+
+            def OpenWiki():
+                browser = helpers.Dialog("Wiki","In which brower should the wiki be opened?", ["In-app browser", "External browser"], "In-app browser", "External Browser")
+                if browser == "In-app browser":
+                    from src.mainUI import closeTabName
+                    from plugins.Wiki.main import LoadURL
+                    closeTabName("Wiki")
+                    LoadURL("https://wiki.tumppi066.fi/plugins/trafficlightdetection")
+                else:
+                    helpers.OpenInBrowser("https://wiki.tumppi066.fi/plugins/trafficlightdetection")
 
 
             helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=lambda:UpdateSettings())

@@ -1110,9 +1110,19 @@ class UI():
 
             helpers.MakeButton(generalFrame, "Give feedback, report a bug or suggest a new feature", lambda: switchSelectedPlugin("plugins.Feedback.main"), 12, 0, width=80, sticky="nw")
 
-            helpers.MakeButton(generalFrame, "Open Wiki", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi/plugins/navigationdetection"), 12, 1, width=23, sticky="nw")
+            helpers.MakeButton(generalFrame, "Open Wiki", lambda: OpenWiki(), 12, 1, width=23, sticky="nw")
 
-            
+            def OpenWiki():
+                browser = helpers.Dialog("Wiki","In which brower should the wiki be opened?", ["In-app browser", "External browser"], "In-app browser", "External Browser")
+                if browser == "In-app browser":
+                    from src.mainUI import closeTabName
+                    from plugins.Wiki.main import LoadURL
+                    closeTabName("Wiki")
+                    LoadURL("https://wiki.tumppi066.fi/plugins/navigationdetection")
+                else:
+                    helpers.OpenInBrowser("https://wiki.tumppi066.fi/plugins/navigationdetection")
+
+
             helpers.MakeLabel(setupFrame, "Choose a setup method:", 1, 0, font=("Robot", 12, "bold"), sticky="nw")
             
             helpers.MakeButton(setupFrame, "Automatic Setup", self.automatic_setup, 2, 0, sticky="nw")
