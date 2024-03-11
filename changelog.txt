@@ -1,1 +1,2 @@
-Adjust spacing on dialogs.
+Fix dialog translations.
+Add a note when translating.

@@ -13,6 +13,7 @@ from src.logger import print
 import json
 import os
 import src.helpers as helpers
+import time
 
 def GetOSLanguage():
     """Will get the current OS language.
@@ -211,6 +212,7 @@ def AddToCache(text:str, translation:str, language:str=None):
     json.dump(cache, file, indent=4)
     file.close()    
 
+translatePopup = None
 def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None):
     """Will translate a given text.
 
@@ -224,6 +226,7 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
     """
     global origin
     global dest
+    global translatePopup
     
     
     if originalLanguage == None:
@@ -245,7 +248,15 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
         return text
     
     def TranslateText(text):
+        global translatePopup
         try:
+            if translatePopup == None:
+                translatePopup = helpers.ShowPopup("\nPlease wait, translating...", "Translator", timeout=0.1, translate=False)
+            if translatePopup.closed or translatePopup.winfo_exists() == 0:
+                translatePopup = None
+                
+            mainUI.root.update()
+                
             if enableCache:
                 cache = CheckCache(text)
                 if cache != False:
@@ -268,6 +279,8 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
                 mainUI.UpdateTitle()
                 return translation
         except:
+            import traceback
+            print(traceback.format_exc())
             return text # Return the original text if the translation fails
     
     # Check if the text is an array of strings

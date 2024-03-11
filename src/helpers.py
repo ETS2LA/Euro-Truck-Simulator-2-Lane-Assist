@@ -709,17 +709,22 @@ def DimAppBackground():
     ColorTitleBar(mainUI.root, "0x141414")
     return label
 
-def AskOkCancel(title, text, yesno=False):
+def AskOkCancel(title, text, yesno=False, translate=True):
     """Similar to the tkinter messagebox, but will show the messagebox inside the app window. In addition it will dim the app background with some magic.
 
     Args:
         title (str): Title of the messagebox.
         text (str): Content of the messagebox.
+        translate (bool, optional): Whether to translate the text or not. Defaults to True.
         
     Returns:
         bool: Whether the user pressed ok or cancel.
     """
     global selection
+    
+    if translate:
+        title = translator.Translate(title)
+        text = translator.Translate(text)
     
     # Dim the app 
     background = DimAppBackground()
@@ -747,9 +752,14 @@ def AskOkCancel(title, text, yesno=False):
     # Create the buttons
     buttonFrame = ttk.Frame(frame)
     buttonFrame.pack()
-    okButton = ttk.Button(buttonFrame, text="Ok" if not yesno else "Yes", command=lambda: Answer(True))
+    okText = "Ok" if not yesno else "Yes"
+    cancelText = "Cancel" if not yesno else "No"
+    if translate:
+        okText = translator.Translate(okText)
+        cancelText = translator.Translate(cancelText)
+    okButton = ttk.Button(buttonFrame, text=okText, command=lambda: Answer(True))
     okButton.pack(side="left", padx=10)
-    cancelButton = ttk.Button(buttonFrame, text="Cancel" if not yesno else "No", command=lambda: Answer(False))
+    cancelButton = ttk.Button(buttonFrame, text=cancelText, command=lambda: Answer(False))
     cancelButton.pack(side="right", padx=10)
     # Place the messagebox
     frame.place(relx=0.5, rely=0.5, anchor="center")
@@ -786,7 +796,7 @@ def RunInMainThread(function, *args, **kwargs):
     """
     RunIn(0, function, mainThread=True, *args, **kwargs)
     
-def Dialog(title, text, options, enterOption="", escapeOption=""):
+def Dialog(title, text, options, enterOption="", escapeOption="", translate=True):
     """Will show a dialog with the options specified.
 
     Args:
@@ -795,11 +805,17 @@ def Dialog(title, text, options, enterOption="", escapeOption=""):
         options ([str]): The options to choose from (str array).
         enterOption (str, optional): The option to bind the Enter key to. Defaults to "".
         escapeOption (str, optional): The option to bind the Escape and Backspace keys to. Defaults to "".
+        translate (bool, optional): Whether to translate the text or not. Defaults to True.
     
     Returns:
         str: The option that was chosen.
     """
     global selection
+    
+    if translate:
+        title = translator.Translate(title)
+        text = translator.Translate(text)
+        options = [translator.Translate(option) for option in options]
     
     # Dim the app 
     background = DimAppBackground()
