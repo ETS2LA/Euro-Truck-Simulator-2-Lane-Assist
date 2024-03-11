@@ -613,8 +613,13 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4, indeterminate
             self.update(len(popups))
             self.timeout = timeout
             if timeout != 0:
-                RunIn(timeout, lambda: self.destroy(), mainThread=True)
-            
+                RunIn(timeout, lambda: self.close(), mainThread=True)
+            # Bind all the popup elemets to close when clicked on (right or left or middle)
+            for element in [self, self.text, self.progressBar]:
+                element.bind("<Button-1>", lambda e: self.close())
+                element.bind("<Button-2>", lambda e: self.close())
+                element.bind("<Button-3>", lambda e: self.close())
+    
         def update(self, index):
             if not time.time() - self.lastUpdateTime > 0.1:
                 return
@@ -626,7 +631,10 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4, indeterminate
                 self.progressBar["value"] = timeSinceInit
             # If the mode is indeterminate, then bounce the value between 0 and 10
             if self.indeterminate:
-                self.progressBar["value"] = (self.progressBar["value"] + 0.5) % 10
+                try:
+                    self.progressBar["value"] = (self.progressBar["value"] + 0.5) % 10
+                except:
+                    pass
             # Update the position based on the amount of popups
             #self.place_forget()
             if self.timeout == 0:

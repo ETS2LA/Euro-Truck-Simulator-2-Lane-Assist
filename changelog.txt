@@ -1,2 +1,2 @@
-Fix dialog translations.
-Add a note when translating.
+Removed debug printing.
+You can now close popups by clicking them with any (normal) mouse button.

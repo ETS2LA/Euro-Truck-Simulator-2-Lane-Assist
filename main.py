@@ -656,8 +656,6 @@ if __name__ == "__main__":
                         popup.destroy()
                     except:
                         pass
-                    import traceback
-                    traceback.print_exc()
                     helpers.timeoutlessPopups.remove(popup)    
                 
             end = time.time()
