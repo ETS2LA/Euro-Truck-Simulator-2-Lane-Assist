@@ -53,7 +53,7 @@ class UI():
             if os.path.exists(path):
                 os.remove(path)
                 from tkinter import messagebox
-                messagebox.showinfo("DeepTranslator", "Cache removed successfully.")
+                helpers.ShowSuccess("Cache removed successfully.")
         
         def exampleFunction(self):
             

@@ -61,66 +61,6 @@ if missing:
 else:
     pass
 
-import requests
-def UpdateChecker():
-    currentVer = variables.VERSION.split(".")
-    githubUrl = "https://raw.githubusercontent.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/main/"
-    sourceForgeUrl = "https://sourceforge.net/p/eurotrucksimulator2-laneassist/code/ci/main/tree/"
-    try:
-        remoteVer = requests.get(githubUrl + "version.txt").text.strip().split(".")
-        remote = "github"
-    except:
-        try:
-            remoteVer = requests.get(sourceForgeUrl + "version.txt?format=raw").text.strip().split(".")
-            remote = "sourceforge"
-        except:
-            print("Failed to check for updates")
-            print("Please check your internet connection and try again later")
-            return
-    if int(currentVer[0]) < int(remoteVer[0]):
-        update = True
-    elif int(currentVer[1]) < int(remoteVer[1]):
-        update = True
-    elif int(currentVer[2]) < int(remoteVer[2]):
-        update = True
-    else:
-        update = False
-    
-    if remote == "github":
-        url = githubUrl
-    else:
-        url = sourceForgeUrl
-    
-    if update:
-        if remote == "github":
-            changelog = requests.get(url + "changelog.txt").text
-        elif remote == "sourceforge":
-            changelog = requests.get(url + "changelog.txt?format=raw").text
-            
-        print(f"An update is available: {'.'.join(remoteVer)}")
-
-        print(f"Changelog:\n{changelog}")
-        from tkinter import messagebox
-        if messagebox.askokcancel("Updater", (f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}")):
-            os.system("git stash")
-            os.system("git pull")
-            if messagebox.askyesno("Updater", ("The update has been installed and the application needs to be restarted. Do you want to quit the app?")):
-                quit()
-        else:
-            variables.UPDATEAVAILABLE = remoteVer
-            pass
-    else:
-        print(f"No update available, current version: {'.'.join(currentVer)}")
-
-try:
-    devmode = settings.GetSettings("Dev", "disable_update_checker", False)
-    if devmode == False:
-        UpdateChecker()
-except Exception as ex:
-    # If the exception is for the quit command, then do that
-    if ex.args == ("quit",):
-        quit()
-
 # Check tkinter tcl version
 import tkinter as tk
 from tkinter import messagebox
@@ -288,7 +228,6 @@ pluginNames = GetListOfAllPluginAndPanelNames()
 
 def InstallPlugins():
     global startInstall
-    global loadingWindow
     
     list = settings.GetSettings("Plugins", "Installed")
     if list == None:
@@ -323,11 +262,6 @@ def InstallPlugins():
     
     import tkinter as tk
     from tkinter import ttk
-    
-    try:
-        loadingWindow.destroy()
-    except:
-        pass
     
     # Create a new tab for the installer
     installFrame = ttk.Frame(mainUI.pluginNotebook, width=600, height=520)
@@ -382,7 +316,6 @@ def InstallPlugins():
     
     mainUI.root.update()
     
-    loadingWindow = loading.LoadingWindow("Installing plugins...")
     
     index = 0
     import progress.bar as Bar
@@ -400,7 +333,6 @@ def InstallPlugins():
                 print(f"Warning. Failed to install '{name}' fully! The plugin might still work though.")
                 pass
             index += 1
-            loadingWindow.update(text=f"Installing '{name}'...")
             os.system("cls")
             progressBar.next()
     
@@ -549,7 +481,10 @@ def CheckForFileChanges():
                 break
         except:
             pass
-        
+      
+# Check for updates
+import src.updater as updater
+updater.UpdateChecker()  
 
 data = {}
 uiFrameTimer = 0

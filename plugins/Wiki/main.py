@@ -8,8 +8,8 @@ from plugins.plugin import PluginInformation
 from src.logger import print
 
 PluginInfo = PluginInformation(
-    name="SwitchLaneDetectionDevice", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
-    description="Will convert your ONNX version to the GPU one.",
+    name="Wiki", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
+    description="Will show the wiki.",
     version="0.1",
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
@@ -23,52 +23,63 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
-from src.loading import LoadingWindow
-import subprocess
+from tkwebview2.tkwebview2 import WebView2, have_runtime, install_runtime
+
+URL = "https://wiki.tumppi066.fi"
+RESET = True
+
+def LoadURL(url):
+    global URL
+    global RESET
+    URL = url
+    RESET = False
+    mainUI.switchSelectedPlugin("plugins.Wiki.main")
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
         
         def __init__(self, master) -> None:
+            global RESET
+            global URL
             self.master = master # "master" is the mainUI window
+            if RESET:
+                URL = "https://wiki.tumppi066.fi"
+                RESET = False
+            else:
+                RESET = True
             self.exampleFunction()
+            mainUI.resizeWindow(1336, 720)
         
         def destroy(self):
             self.done = True
             self.root.destroy()
             del self
 
-        def convertToGPU(self):
-            settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", "GPU")
-            helpers.ShowInfo("Please restart the program for the changes to take effect.", title="Restart required")
-
-        
-        def convertToCPU(self):
-            settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", "CPU")
-            helpers.ShowInfo("Please restart the program for the changes to take effect.", title="Restart required")
+        def tabFocused(self):
+            mainUI.resizeWindow(1336, 720)
         
         def exampleFunction(self):
-            
             try:
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
             
-            self.root = tk.Canvas(self.master, width=600, height=520, border=0, highlightthickness=0)
+            self.root = tk.Canvas(self.master, width=1336, height=720, border=0, highlightthickness=0)
             self.root.grid_propagate(0) # Don't fit the canvast to the widgets
             self.root.pack_propagate(0)
             
-            helpers.MakeButton(self.root, "Convert to GPU runtime.", lambda: self.convertToGPU(), 1,0, padx=30, pady=10, width=25)
-            helpers.MakeButton(self.root, "Convert to CPU runtime.", lambda: self.convertToCPU(), 1,1, padx=30, pady=10, width=25)
-            
-            import webbrowser
-            helpers.MakeButton(self.root, "Open Instructions to downloading NVIDIA files.", lambda: webbrowser.open("https://wiki.tumppi066.xyz/en/LaneAssist/Installation"), 2,0, padx=30, pady=10, width=60, columnspan=2)
+            if not have_runtime():#没有 (no) webview2 runtime
+                install_runtime()
+                
+            self.frame=WebView2(self.root,1336,720)
+            self.frame.pack()
+            self.frame.load_url(URL)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
         
         
         def update(self, data): # When the panel is open this function is called each frame 
-            self.root.update()
+            pass
     
     
     except Exception as ex:

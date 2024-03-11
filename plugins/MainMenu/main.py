@@ -84,13 +84,14 @@ class UI():
                 helpers.MakeLabel(self.root, "An update is available!", 0, 1, columnspan=2, fg="green", autoplace=True, tooltip=f"New version: {'.'.join(variables.UPDATEAVAILABLE)}\nRestart to update.")
             else: 
                 helpers.MakeEmptyLine(self.root, 0, 1, columnspan=2, autoplace=True, fontSize=3)
-                
+            
+            from plugins.Wiki.main import LoadURL
             helpers.MakeButton(self.root, "Panel Manager", lambda: mainUI.switchSelectedPlugin("plugins.PanelManager.main"), 0, 1, width=20, autoplace=True)
             helpers.MakeButton(self.root, "Plugin Manager", lambda: mainUI.switchSelectedPlugin("plugins.PluginManager.main"), 0, 2, width=20, autoplace=True)
             helpers.MakeButton(self.root, "First Time Setup", lambda: mainUI.switchSelectedPlugin("plugins.FirstTimeSetup.main"), 0, 1, width=20, style="Accent.TButton", autoplace=True)
             helpers.MakeButton(self.root, "LANGUAGE - 语言设置", lambda: mainUI.switchSelectedPlugin("plugins.DeepTranslator.main"), 0, 2, width=20, style="Accent.TButton", translate=False, autoplace=True)
-            helpers.MakeButton(self.root, "Video Tutorial ↗ ", lambda: helpers.OpenInBrowser("https://www.youtube.com/watch?v=0pic0rzjvik"), 0, 1, width=20, autoplace=True, tooltip="https://www.youtube.com/watch?v=0pic0rzjvik")
-            helpers.MakeButton(self.root, "ETS2LA Wiki ↗ ", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi"), 0, 2, width=20, autoplace=True, tooltip="https://wiki.tumppi066.fi/en/LaneAssist")
+            helpers.MakeButton(self.root, "Video Tutorial", lambda: LoadURL("https://www.youtube.com/watch?v=0pic0rzjvik"), 0, 1, width=20, autoplace=True, tooltip="https://www.youtube.com/watch?v=0pic0rzjvik")
+            helpers.MakeButton(self.root, "ETS2LA Wiki", lambda: LoadURL("https://wiki.tumppi066.fi"), 0, 2, width=20, autoplace=True, tooltip="https://wiki.tumppi066.fi/en/LaneAssist")
             helpers.MakeEmptyLine(self.root, 0, 1, columnspan=2, autoplace=True, fontSize=3)
             helpers.MakeLabel(self.root, "You can use F5 to refresh the UI and come back to this page.\n                    (as long as the app is disabled)", 0, 1, columnspan=2, autoplace=True)
             helpers.MakeLabel(self.root, "The top of the app has all your currently open tabs.\n They can be closed with the middle mouse button.\n        (or right mouse button if so configured)", 0, 1, columnspan=2, autoplace=True)

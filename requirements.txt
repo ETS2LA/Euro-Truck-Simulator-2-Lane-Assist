@@ -25,3 +25,4 @@ PyQt5
 gdown
 importlib-metadata
 pywin32
+tkwebview2

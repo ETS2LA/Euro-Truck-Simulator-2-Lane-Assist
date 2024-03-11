@@ -36,8 +36,7 @@ def ChangeTheme(theme, root, changedColor=False):
         return
     
     else:
-        from tkinter import messagebox
-        messagebox.showinfo("Theme", "The old default themes have been deprecated, please use / create a new theme for yourself to use.\nFor now we have selected the default ForestRed theme.")
+        helpers.ShowInfo("The old default themes have been deprecated, please use / create a new theme for yourself to use.\nFor now we have selected the default ForestRed theme.")
         settings.CreateSettings("User Interface", "ColorTheme", "ForestRed")
         ChangeThemeCustom(fr"themes\ForestRed\theme.tcl", root, "forest", name="ForestRed", titlebar="0x313131") # Support custom themes from mainUI
     

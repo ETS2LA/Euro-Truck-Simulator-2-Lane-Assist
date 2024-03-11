@@ -324,8 +324,7 @@ def changeTheme():
     """Would have changed the theme from dark / light to light / dark. Not currently in use.
     """
     print("Changing theme")
-    from tkinter import messagebox
-    messagebox.showinfo("Theme", Translate("Unfortunately with the change to new themes you can no longer change the mode on the fly.\nThis functionality might return in the future."))
+    helpers.ShowInfo(Translate("Unfortunately with the change to new themes you can no longer change the mode on the fly.\nThis functionality might return in the future."))
     # global themeButton
     # themeSelector.SwitchThemeType()
     # themeButton.config(text=Translate(settings.GetSettings("User Interface", "Theme")).capitalize() + " Mode")

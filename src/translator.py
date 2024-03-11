@@ -314,4 +314,4 @@ def CreateManualTranslationFile():
     json.dump(cache, file, indent=4)
     file.close()   
     
-    messagebox.showinfo("DeepTranslator", f"Manual translation file created in 'assets/manualTranslations/{origin}-{dest}.json'")
+    helpers.ShowInfo(f"Manual translation file created in 'assets/manualTranslations/{origin}-{dest}.json'", title="DeepTranslator")

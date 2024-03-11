@@ -415,9 +415,9 @@ class UI():
                         
                 from tkinter import messagebox
                 if successfullyInstalled != []:
-                    messagebox.showinfo("Success", "Successfully installed at least some plugin(s)!\nYou should start the game now to enable the SDK and continue on!\n\nInstalled to:\n" + "\n".join(successfullyInstalled))    
+                    helpers.ShowSuccess("Successfully installed at least some plugin(s)!\nYou should start the game now to enable the SDK and continue on!\n\nInstalled to:\n" + "\n".join(successfullyInstalled))    
                 else:
-                    messagebox.showerror("Error", "Failed to install the plugin(s)!\nAre you sure you set your path properly?")
+                    helpers.ShowFailure("Failed to install the plugin(s)!\nAre you sure you set your path properly?", title="Error")
                 
                 
             

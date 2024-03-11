@@ -23,6 +23,7 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
+from tkwebview2.tkwebview2 import WebView2, have_runtime, install_runtime
 
 CHANGE_LOG_SHOWN = False
 
@@ -32,25 +33,38 @@ class UI():
         def __init__(self, master) -> None:
             self.master = master # "master" is the mainUI window
             self.exampleFunction()
+            mainUI.resizeWindow(1220, 715)
         
         def destroy(self):
             self.done = True
             self.root.destroy()
             del self
 
+        def tabFocused(self):
+            mainUI.resizeWindow(1220, 715)
         
         def exampleFunction(self):
-            global CHANGE_LOG_SHOWN
+            try:
+                self.root.destroy() # Load the UI each time this plugin is called
+            except: pass
             
-            if CHANGE_LOG_SHOWN == False:
-                helpers.OpenWebView("Changelog", "https://wiki.tumppi066.fi/blog/", width=800, height=600)
-                CHANGE_LOG_SHOWN = True
+            self.root = tk.Canvas(self.master, width=1220, height=715, border=0, highlightthickness=0)
+            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
+            self.root.pack_propagate(0)
             
-            mainUI.closeTabName("Changelog")
+            if not have_runtime():#没有 (no) webview2 runtime
+                install_runtime()
+                
+            self.frame=WebView2(self.root,1220,715)
+            self.frame.pack()
+            self.frame.load_url('https://wiki.tumppi066.fi/blog')
+            
+            self.root.pack(anchor="center", expand=False)
+            self.root.update()
         
         
         def update(self, data): # When the panel is open this function is called each frame 
-            mainUI.closeTabName("Changelog")
+            pass
     
     
     except Exception as ex:

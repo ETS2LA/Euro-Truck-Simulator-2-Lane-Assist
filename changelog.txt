@@ -1,2 +1,2 @@
-Removed debug printing.
-You can now close popups by clicking them with any (normal) mouse button.
+Added more dialogs.
+All websites now open IN APP.

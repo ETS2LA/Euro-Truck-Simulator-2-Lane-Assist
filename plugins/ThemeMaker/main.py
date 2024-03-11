@@ -122,12 +122,10 @@ class UI():
             ColorTCLTheme()
             # Check that none of the values are empty
             if self.name.get() == "":
-                from tkinter import messagebox
-                messagebox.showerror("ThemeMaker", "Name can't be empty!")
+                helpers.ShowFailure("Name can't be empty!", title="Error")
                 return
             if self.author.get() == "":
-                from tkinter import messagebox
-                messagebox.showerror("ThemeMaker", "Author can't be empty!")
+                helpers.ShowFailure("Author can't be empty!", title="Error")
                 return
             if self.description.get() == "":
                 self.description.set("No description")
@@ -185,7 +183,7 @@ class UI():
             file.close()
             
             from tkinter import messagebox
-            messagebox.showinfo("ThemeMaker", "Theme saved!")    
+            helpers.ShowInfo("Theme saved!", title="Theme Maker")  
             
                 
             
