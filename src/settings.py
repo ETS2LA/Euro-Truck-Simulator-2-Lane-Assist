@@ -13,7 +13,7 @@ GetSettings(category, name, value=None)
 """
 import json
 from src.logger import print
-from src.variables import PATH
+from src.variables import PATH, FRAMECOUNTER
 import os
 
 currentProfile = ""
@@ -98,6 +98,7 @@ def UpdateSettings(category:str, name:str, data:any):
         name (str): Json setting name.
         data (_type_): Data to write.
     """
+    global currentFrameSettings, frameCounter
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -108,10 +109,16 @@ def UpdateSettings(category:str, name:str, data:any):
         with open(profile, "w") as f:
             f.truncate(0)
             json.dump(settings, f, indent=6)
+            
+        currentFrameSettings = settings
+        frameCounter = FRAMECOUNTER
+        
     except Exception as ex:
         pass
 
 # Get a specific setting
+currentFrameSettings = {}
+frameCounter = -1
 def GetSettings(category:str, name:str, value:any=None):
     """Will get a specific setting from the settings file.
 
@@ -123,11 +130,17 @@ def GetSettings(category:str, name:str, value:any=None):
     Returns:
         _type_: The data from the json file. (or the default value)
     """
+    global frameCounter, currentFrameSettings
     try:
-        profile = open(currentProfile, "r").readline().replace("\n", "")
-        EnsureFile(profile)
-        with open(profile, "r") as f:
-            settings = json.load(f)
+        if frameCounter != FRAMECOUNTER:
+            profile = open(currentProfile, "r").readline().replace("\n", "")
+            EnsureFile(profile)
+            with open(profile, "r") as f:
+                settings = json.load(f)
+                currentFrameSettings = settings
+            frameCounter = FRAMECOUNTER
+        else:
+            settings = currentFrameSettings
         
         if settings[category][name] == None:
             return value    
@@ -150,6 +163,7 @@ def CreateSettings(category:str, name:str, data:any):
         name (str): Json setting name.
         data (_type_): Data to write.
     """
+    global currentFrameSettings, frameCounter
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -168,6 +182,9 @@ def CreateSettings(category:str, name:str, data:any):
         with open(profile, "w") as f:
             f.truncate(0)
             json.dump(settings, f, indent=6)
+            
+        currentFrameSettings = settings
+        frameCounter = FRAMECOUNTER
     except Exception as ex:
         pass
         
@@ -180,6 +197,7 @@ def AddToList(category:str, name:str, data:any, exclusive:bool=False):
         data (str): Data to add to the list.
         exclusive (bool, optional): Whether to allow adding multiple instances of the same data. Defaults to False.
     """
+    global currentFrameSettings, frameCounter
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -226,6 +244,9 @@ def AddToList(category:str, name:str, data:any, exclusive:bool=False):
         with open(profile, "w") as f:
             f.truncate(0)
             json.dump(settings, f, indent=6)
+            
+        currentFrameSettings = settings
+        frameCounter = FRAMECOUNTER
     except Exception as ex:
         pass
         
@@ -238,6 +259,7 @@ def RemoveFromList(category:str, name:str, data:any):
         name (str): Json list name.
         data (_type_): Data to remove from the list.
     """
+    global currentFrameSettings, frameCounter
     try:
         profile = open(currentProfile, "r").readline().replace("\n", "")
         EnsureFile(profile)
@@ -255,6 +277,9 @@ def RemoveFromList(category:str, name:str, data:any):
         with open(profile, "w") as f:
             f.truncate(0)
             json.dump(settings, f, indent=6)
+            
+        currentFrameSettings = settings
+        frameCounter = FRAMECOUNTER
         
     except Exception as ex:
         pass

@@ -242,7 +242,7 @@ def drawButtons(refresh:bool=False):
     
 
 prevFrame = 100
-def update(data:dict):
+def update(data:dict, dontOpenMenu:bool=False):
     """Update the mainUI.
 
     Args:
@@ -566,6 +566,9 @@ def CreateRoot():
             try:
                 if tab == "controls" or tab == "Changelog":
                     settings.RemoveFromList("User Interface", "OpenTabs", tab)
+                    continue
+                elif tab == "MainMenu":
+                    helpers.RunInMainThread(lambda: switchSelectedPlugin(f"plugins.{tab}.main"))
                     continue
                 else:
                     switchSelectedPlugin(f"plugins.{tab}.main")

@@ -2,11 +2,46 @@
 The main file that runs the programs loop.
 '''
 
+# Uncomment for debugging (main function includes a count for how many startup took)
+# import sys
+# calls = 0
+# def trace(frame, event, arg):
+#     global calls
+#     if event == "call":
+#         filename = frame.f_code.co_filename
+#         if "Python" not in filename and "frozen" not in filename and "string" not in filename:
+#             lineno = frame.f_lineno
+#             # Here I'm printing the file and line number, 
+#             # but you can examine the frame, locals, etc too.
+#             print("%s @ %s" % (filename, lineno))
+#             calls += 1
+#     return trace
+# 
+# sys.settrace(trace)
+
 # This section is for modules that I've added later as they might 
 # not have been installed yet
-
 import src.settings as settings
 from src.logger import print
+
+# Check tkinter tcl version
+import tkinter as tk
+from tkinter import messagebox
+tcl = tk.Tcl()
+acceptedVersions = ["8.6.11", "8.6.12", "8.6.13"]
+version = str(tcl.call('info', 'patchlevel'))
+if version not in acceptedVersions:
+    messagebox.showwarning("Warning", f"Your tkinter version ({version} is not >= 8.6.11) is too old. Windows scaling will be broken with this version.")
+    print(f"Your tkinter version ({version} is not >= 8.6.11) is too old. Windows scaling will be broken with this version.")
+
+# Load the UI framework
+import src.mainUI as mainUI
+import sys
+mainUI.CreateRoot()
+import src.helpers as helpers
+splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+splash.updateProgress(text="Initializing...", step=1)
+mainUI.root.update()
 
 try:
     if "DXCamScreenCapture" in settings.GetSettings("Plugins", "Enabled"):
@@ -61,23 +96,6 @@ if missing:
 else:
     pass
 
-# Check tkinter tcl version
-import tkinter as tk
-from tkinter import messagebox
-tcl = tk.Tcl()
-acceptedVersions = ["8.6.11", "8.6.12", "8.6.13"]
-version = str(tcl.call('info', 'patchlevel'))
-if version not in acceptedVersions:
-    messagebox.showwarning("Warning", f"Your tkinter version ({version} is not >= 8.6.11) is too old. Windows scaling will be broken with this version.")
-    print(f"Your tkinter version ({version} is not >= 8.6.11) is too old. Windows scaling will be broken with this version.")
-
-# Load the UI framework
-import src.mainUI as mainUI
-import sys
-mainUI.CreateRoot()
-
-import src.loading as loading # And then create a loading window
-
 # Load the rest of the modules
 import time
 import json
@@ -89,7 +107,6 @@ import src.controls as controls
 import psutil
 import cv2
 import src.scsLogReader as LogReader
-import src.helpers as helpers
 from src.server import SendCrashReport, Ping
 
 helpers.RunEvery(60, lambda: Ping())
@@ -111,6 +128,18 @@ def FindPlugins(reloadFully=False):
     global panels
     global pluginObjects
     global pluginNames
+    global splash
+    
+    closeAfter = False
+    try:
+        if splash == None:
+            closeAfter = True
+            splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+            splash.updateProgress(text="Initializing...", step=1)
+    except:
+        closeAfter = True
+        splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+        splash.updateProgress(text="Initializing...", step=1)
     
     # Update the list of plugins and panels for the hash check
     pluginNames = GetListOfAllPluginAndPanelNames()
@@ -119,7 +148,12 @@ def FindPlugins(reloadFully=False):
     path = os.path.join(variables.PATH, "plugins")
     plugins = []
     panels = []
+    count = len(os.listdir(path))
+    index = 0
     for file in os.listdir(path):
+        splash.updateProgress(text=f"Loading plugins... {count-index} remaining.", step=2 + (index / count))
+        mainUI.root.update()
+        index += 1
         if os.path.isdir(os.path.join(path, file)):
             # Check for main.py
             if "main.py" in os.listdir(os.path.join(path, file)):
@@ -140,6 +174,10 @@ def FindPlugins(reloadFully=False):
     for plugin in plugins:
         pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo", "onEnable"]))
         pluginObjects[-1].onEnable()
+        
+    if closeAfter:
+        splash.close()
+        del splash
         
 def ReloadPluginCode():
     FindPlugins()
@@ -228,6 +266,7 @@ pluginNames = GetListOfAllPluginAndPanelNames()
 
 def InstallPlugins():
     global startInstall
+    global splash
     
     list = settings.GetSettings("Plugins", "Installed")
     if list == None:
@@ -259,6 +298,14 @@ def InstallPlugins():
     
     if installers == []:
         return
+    
+    wasSplash = False
+    try:
+        splash.close()
+        del splash
+        wasSplash = True
+    except:
+        pass
     
     import tkinter as tk
     from tkinter import ttk
@@ -344,20 +391,24 @@ def InstallPlugins():
     settings.RemoveFromList("Plugins", "OpenTabs", "Plugin Installer")
     variables.RELOADPLUGINS = True
     
+    if wasSplash:
+        splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+        splash.updateProgress(text="Initializing...", step=1)
+    
 InstallPlugins()    
 
 def CheckForONNXRuntimeChange():
     change = settings.GetSettings("SwitchLaneDetectionDevice", "switchTo")
     if change != None:
         if change == "GPU":
-            loadingWindow.update(text="Uninstalling ONNX...")
+            splash.updateProgress(text="Uninstalling ONNX...")
             os.system("pip uninstall onnxruntime -y")
-            loadingWindow.update(text="Installing ONNX GPU...")
+            splash.updateProgress(text="Installing ONNX GPU...")
             os.system("pip install onnxruntime-gpu")
         else:
-            loadingWindow.update(text="Uninstalling ONNX GPU...")
+            splash.updateProgress(text="Uninstalling ONNX GPU...")
             os.system("pip uninstall onnxruntime-gpu -y")
-            loadingWindow.update(text="Installing ONNX...")
+            splash.updateProgress(text="Installing ONNX...")
             os.system("pip install onnxruntime")
             
     settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", None)
@@ -384,18 +435,9 @@ timesLoaded = 0
 def LoadApplication():
     global mainUI
     global uiUpdateRate
-    global loadingWindow
     global timesLoaded
+    global splash
 
-    try:
-        loadingWindow = loading.LoadingWindow("Please wait initializing...")
-    except:
-        try:
-            loadingWindow.destroy()
-            loadingWindow = loading.LoadingWindow("Please wait initializing...")
-        except:
-            loadingWindow = loading.LoadingWindow("Please wait initializing...", grab=False)
-    
     if timesLoaded > 0:
         try:
             mainUI.DeleteRoot()
@@ -404,21 +446,32 @@ def LoadApplication():
             mainUI.CreateRoot()
         except:
             pass
+    
+    try:
+        if splash == None:
+            splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+            splash.updateProgress(text="Initializing...", step=1)
+    except:
+        pass
         
     timesLoaded += 1
         
-
     CheckForONNXRuntimeChange()
 
     # Check for new plugin installs
     InstallPlugins()
     
+    if splash == None:
+        splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+        splash.updateProgress(text="Initializing...", step=1)
+    
     # Load all plugins 
-    loadingWindow.update(text="Loading plugins...")
+    splash.updateProgress(text="Loading plugins...", step=2)
     GetEnabledPlugins()
     FindPlugins()
-    loadingWindow.update(text="Initializing plugins...")
+    splash.updateProgress(text="Initializing plugins...", step=3)
     RunOnEnable()
+    splash.updateProgress(text="Finishing...", step=4)
 
     logger.printDebug = settings.GetSettings("logger", "debug")
     if logger.printDebug == None:
@@ -436,8 +489,8 @@ def LoadApplication():
     mainUI.root.update()
     mainUI.drawButtons()
 
-    loadingWindow.destroy()
-    del loadingWindow
+    splash.close()
+    del splash
 
     uiUpdateRate = settings.GetSettings("User Interface", "updateRate")
     if uiUpdateRate == None: 
@@ -491,6 +544,7 @@ uiFrameTimer = 0
 pluginChangeTimer = time.time()
 lastEnableValue = False
 if __name__ == "__main__":
+    # print(f"Starting took {calls} calls.") # Uncomment for debugging along with the one at the top of the file
     while True:
         # Main Application Loop
         try:
@@ -629,6 +683,9 @@ if __name__ == "__main__":
                     cv2.destroyWindow('TruckStats')
                 except:
                     pass
+                
+                variables.FRAMECOUNTER += 1
+                
                 continue
             
             
@@ -675,6 +732,8 @@ if __name__ == "__main__":
                             f.write(f"{key}: {data[key]}\n")
                         except:
                             pass
+                        
+            variables.FRAMECOUNTER += 1
         
         except Exception as ex:
             try:

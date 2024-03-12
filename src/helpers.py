@@ -1124,3 +1124,28 @@ def ShowInfo(text, title="Info", translate=True):
         mainUI.root.update()
         
     return
+
+class SplashScreen(ttk.LabelFrame):
+    def __init__(self, parent, text="Loading...", totalSteps=10):
+        self.background = DimAppBackground()
+        f = tk.Frame()
+        super().__init__(parent, labelwidget=f)
+        self.place(relx=0.5, rely=0.5, anchor="center")
+        self.label = ttk.Label(self, text=text, font=("Segoe UI", 12, "bold"))
+        self.label.pack(pady=10, padx=10)
+        self.progress = ttk.Progressbar(self, mode="determinate", length=200, maximum=totalSteps)
+        self.progress.pack(pady=10, padx=10)
+        self.update()
+        
+    def updateProgress(self, step=-1, text="Loading..."):
+        if text != "":
+            self.label.config(text=text)
+        if step != -1:
+            self.progress["value"] = step
+        self.update_idletasks()
+        
+    def close(self):
+        from plugins.ThemeSelector.main import ColorTitleBar
+        ColorTitleBar(mainUI.root, "0x313131")
+        self.background.destroy()
+        self.destroy()

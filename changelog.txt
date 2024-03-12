@@ -1,2 +1,2 @@
-Added more dialogs.
-All websites now open IN APP.
+New loading screen.
+POSSIBLY BREAKING CHANGE, IF IT'S BROKEN SHOUT AT ME ON DISCORD!
