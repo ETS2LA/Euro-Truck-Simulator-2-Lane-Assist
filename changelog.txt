@@ -1,2 +1,1 @@
-New loading screen.
-POSSIBLY BREAKING CHANGE, IF IT'S BROKEN SHOUT AT ME ON DISCORD!
+Hotfix for new loading screen, fix updater.

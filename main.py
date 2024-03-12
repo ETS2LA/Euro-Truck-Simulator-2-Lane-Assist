@@ -461,7 +461,11 @@ def LoadApplication():
     # Check for new plugin installs
     InstallPlugins()
     
-    if splash == None:
+    try:
+        if splash == None:
+            splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+            splash.updateProgress(text="Initializing...", step=1)
+    except:
         splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
         splash.updateProgress(text="Initializing...", step=1)
     
