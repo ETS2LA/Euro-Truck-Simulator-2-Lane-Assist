@@ -588,7 +588,11 @@ def ShowPopup(text, title, type="info", translate=True, timeout=4, indeterminate
         closed: Indicates whether the popup has been closed or not. Useful if you use closeIfMainloopStopped and keep a reference to the popup.
     """
     global popups
-    root = mainUI.root
+    try:
+        root = mainUI.root
+    except:
+        print("Can't show popup, mainUI is not initialized.")
+        return 0
     if translate:
         text = translator.Translate(text)
         title = translator.Translate(title)
