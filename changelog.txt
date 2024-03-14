@@ -1,1 +1,2 @@
-Hotfix for new loading screen, fix updater.
+- Fixed PyWin32 Bing In requirements twice
+- Add MSS to requirements to fix startup issue
