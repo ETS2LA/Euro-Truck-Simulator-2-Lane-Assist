@@ -6,7 +6,7 @@ authors:
   - name: Glas42
     link: https://github.com/Glas42
     avatar: https://avatars.githubusercontent.com/u/145870870?v=4
-date: 2024-1-31
+date: 2024-3-15
 icon: stack
 tags:
   - plugin
@@ -117,8 +117,8 @@ This plugin will install the following python packages:
 Used for image processing, in this case we use it to detect contours, create masks and draw symbols.
 === numpy
 Used for image processing, in this case we use it to create masks.
-=== pyautogui
-Used for some calculations, in this case to get the screen size.
+=== mss
+Used to get the monitor resolution.
 === ctypes
 Used for detecting the output window.
 === math
