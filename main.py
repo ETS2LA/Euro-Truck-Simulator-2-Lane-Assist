@@ -461,21 +461,25 @@ def LoadApplication():
     # Check for new plugin installs
     InstallPlugins()
     
+    useSplash = True
     try:
         if splash == None:
             splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
             splash.updateProgress(text="Initializing...", step=1)
     except:
-        splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
-        splash.updateProgress(text="Initializing...", step=1)
+        try:
+            splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+            splash.updateProgress(text="Initializing...", step=1)
+        except:
+            useSplash = False
     
     # Load all plugins 
-    splash.updateProgress(text="Loading plugins...", step=2)
+    if useSplash: splash.updateProgress(text="Loading plugins...", step=2)
     GetEnabledPlugins()
     FindPlugins()
-    splash.updateProgress(text="Initializing plugins...", step=3)
+    if useSplash: splash.updateProgress(text="Initializing plugins...", step=3)
     RunOnEnable()
-    splash.updateProgress(text="Finishing...", step=4)
+    if useSplash: splash.updateProgress(text="Finishing...", step=4)
 
     logger.printDebug = settings.GetSettings("logger", "debug")
     if logger.printDebug == None:
@@ -493,8 +497,8 @@ def LoadApplication():
     mainUI.root.update()
     mainUI.drawButtons()
 
-    splash.close()
-    del splash
+    if useSplash: splash.close()
+    if useSplash: del splash
 
     uiUpdateRate = settings.GetSettings("User Interface", "updateRate")
     if uiUpdateRate == None: 
