@@ -41,6 +41,8 @@ WINDOWSCALING = ctypes.windll.shcore.GetScaleFactorForDevice(0)
 """The current scaling of windows."""
 FRAMECOUNTER = 0
 """The amount of frames that have passed since the program started."""
+WIKI_URL = "https://wiki.tumppi066.fi"
+"""The url that will show when the wiki panel is opened"""
 #endregion
 
 #region Var Set Functions
