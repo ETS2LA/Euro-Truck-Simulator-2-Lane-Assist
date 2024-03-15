@@ -31,7 +31,9 @@ Upsides:
 
 Downsides:
 - Whenever you get a notification in the route advisor, Navigation Detection won't work. This is due to the minimap being blocked. We are looking into solutions for this.
-- Icons and company names may mess lane detection up since Navigation Detection uses colors to search for lane lines. This can be fixed easily by installing the CleanRouteAdvisor mod.
+- Icons and company names may mess lane detection up since Navigation Detection uses colors to search for lane lines. This can be fixed easily by installing the CleanRouteAdvisor mod. You can find it [here.](https://steamcommunity.com/sharedfiles/filedetails/?id=3169871185)
+
+[Documentation](https://wiki.tumppi066.fi/plugins/navigationdetection/)
 === LSTR Lane Detection
 !!!warning This is an outdated version of lane detection, not reccomended.
 !!!
@@ -46,6 +48,8 @@ Downsides:
 - Does not turn on sharp turns (it can't see them)
 - Heavier on performance than Navigation Detection
 - It requires a more difficult setup
+
+[Documentation](https://wiki.tumppi066.fi/plugins/lstrlanedetection/)
 
 === UFLD (Ultra Fast Lane Detector) Lane Detection
 !!!warning This is an outdated version of lane detection, not reccomended.
