@@ -346,6 +346,15 @@ def MakeNotebook(parent, row:int, column:int, columnspan:int=1, rowspan:int=1, s
     
     return notebook
 
+def OpenWikiPage(url:str):
+    """Will open a specific page in the wiki with the URL extension.
+
+    Args:
+        url (str): The URL extension.
+    """
+    variables.WIKI_URL = "https://wiki.tumppi066.fi/" + url
+    mainUI.switchSelectedPlugin("plugins.Wiki.main")
+
 def OpenWebView(title:str, urlOrFile:str, width:int=900, height:int=700):
     """Will open a webview window with the given parameters.
 
