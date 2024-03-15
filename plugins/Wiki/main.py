@@ -25,13 +25,10 @@ import src.settings as settings
 import os
 from tkwebview2.tkwebview2 import WebView2, have_runtime, install_runtime
 
-URL = "https://wiki.tumppi066.fi"
 RESET = True
 
 def LoadURL(url):
-    global URL
     global RESET
-    URL = url
     RESET = False
     mainUI.switchSelectedPlugin("plugins.Wiki.main")
 
@@ -40,10 +37,9 @@ class UI():
         
         def __init__(self, master) -> None:
             global RESET
-            global URL
             self.master = master # "master" is the mainUI window
             if RESET:
-                URL = "https://wiki.tumppi066.fi"
+                variables.WIKI_URL = "https://wiki.tumppi066.fi"
                 RESET = False
             else:
                 RESET = True
@@ -72,7 +68,7 @@ class UI():
                 
             self.frame=WebView2(self.root,1336,720)
             self.frame.pack()
-            self.frame.load_url(URL)
+            self.frame.load_url(variables.WIKI_URL)
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()
