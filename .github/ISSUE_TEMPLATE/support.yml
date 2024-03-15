@@ -1,0 +1,39 @@
+name: Support
+description: Ask questions about the app and get support.
+title: "[Support]: "
+labels: ["Support"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill out this form to ask a question or get support about the app.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the issue or question in-depth, use any console logs or screenshots that you need. The more info, the easier it will be fore us to fix the issue.
+      placeholder: Description
+    validations:
+      required: true
+  - type: input
+    id: app_version
+    attributes:
+      label: App Version
+      description: What version of the app are you running?
+      placeholder: x.x.x
+    validations:
+      required: true
+  - type: input
+    id: py_version
+    attributes:
+      label: Python Version
+      description: What Python version are you running?
+      placeholder: Python x.x.x
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      description: By submitting this issue, you will create a public issue on the ETS2 Lane Assist GitHub page.
+      options:
+        - label: I accept
+          required: true
