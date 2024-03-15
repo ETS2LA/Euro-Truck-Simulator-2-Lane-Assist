@@ -72,5 +72,5 @@ With the release of 2.0 currently scheduled for Q2-Q3 of 2024, there will be a n
 For people who are interested, this is the current state (as of 3-14-24). Prefabs and roads have been extracted, lane assist with this data is not currently possible.
 [!embed](https://youtu.be/nOb0cKb9iC0)
 
-Updates are reguraly posted in the announcments channel of the [Discord](https://discord.com/channels/1120719484982939790/1120721331558817792). 
+Updates are regularly posted in the announcments channel of the [Discord](https://discord.com/channels/1120719484982939790/1120721331558817792). 
 If you specifically only want development updates, head to the #roles channel and get the "Development News" role. You will get pinged in the annoncments channel whenever there is a update for 2.0.
