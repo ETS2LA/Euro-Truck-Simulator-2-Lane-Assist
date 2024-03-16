@@ -57,7 +57,7 @@ import os
 try:
     import importlib_metadata
 except:
-    os.system("pip install importlib_metadata")
+    os.system("pip install importlib-metadata")
     import importlib_metadata
 listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel", "PyQt5"]
 # Get list of installed modules using importlib
