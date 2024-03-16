@@ -19,14 +19,40 @@ The main file that runs the programs loop.
 # 
 # sys.settrace(trace)
 
-# This section is for modules that I've added later as they might 
-# not have been installed yet
-import src.settings as settings
+import os
+import cv2
+import sys
+import time
+import hashlib
+import keyboard
+import importlib
+import traceback
+import tkinter as tk
+from tkinter import ttk
+import progress.bar as Bar
+import src.mainUI as mainUI
+import src.logger as logger
 from src.logger import print
+import src.updater as updater
+import src.console as console
+import src.helpers as helpers
+from tkinter import messagebox
+import src.controls as controls
+import src.settings as settings
+import src.variables as variables
+import src.translator as translator
+import src.scsLogReader as LogReader
+from src.server import SendCrashReport, Ping
+
+try:
+    import importlib_metadata
+except:
+    os.system("pip install importlib_metadata")
+    import importlib_metadata
+
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Check tkinter tcl version
-import tkinter as tk
-from tkinter import messagebox
 tcl = tk.Tcl()
 acceptedVersions = ["8.6.11", "8.6.12", "8.6.13"]
 version = str(tcl.call('info', 'patchlevel'))
@@ -35,10 +61,7 @@ if version not in acceptedVersions:
     print(f"Your tkinter version ({version} is not >= 8.6.11) is too old. Windows scaling will be broken with this version.")
 
 # Load the UI framework
-import src.mainUI as mainUI
-import sys
 mainUI.CreateRoot()
-import src.helpers as helpers
 splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
 splash.updateProgress(text="Initializing...", step=1)
 mainUI.root.update()
@@ -49,16 +72,9 @@ try:
         settings.AddToList("Plugins", "Enabled", "BetterCamScreenCapture")
 except: pass
 
-import src.console as console
 if settings.GetSettings("User Interface", "hide_console", False) == True:
     console.HideConsole()
 
-import os
-try:
-    import importlib_metadata
-except:
-    os.system("pip install importlib_metadata")
-    import importlib_metadata
 listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel", "PyQt5"]
 listOfRequirementsAddedLater = [i.replace("-", "_") for i in listOfRequirementsAddedLater]
 # Get list of installed modules using importlib
@@ -73,7 +89,6 @@ if missing:
         print("installing" + " " + modules)
         os.system("pip install" + " " + modules)
 
-import src.variables as variables # Stores all main variables for the program
 # Check that all requirements from requirements.txt are installed
 with open(variables.PATH + r"\requirements.txt") as f:
     requirements = f.read().splitlines()
@@ -100,19 +115,7 @@ if missing:
 else:
     pass
 
-# Load the rest of the modules
-import time
-import json
-from src.logger import print
-import src.logger as logger
-import traceback
-import src.translator as translator
-import src.controls as controls
-import psutil
-import cv2
-import src.scsLogReader as LogReader
-from src.server import SendCrashReport, Ping
-
+# Ping server
 helpers.RunEvery(60, lambda: Ping())
 
 logger.printDebug = settings.GetSettings("logger", "debug")
@@ -188,8 +191,6 @@ def ReloadPluginCode():
     FindPlugins()
     controls.WriteKeybindsVariable(keybinds)
     # Use the inbuilt python modules to reload the code of the plugins
-    import importlib
-    import progress.bar as Bar
     with Bar.PixelBar("Reloading plugins...", max=len(pluginObjects)) as progressBar:
         for plugin in pluginObjects:
             try:
@@ -226,9 +227,7 @@ def RunOnEnable():
         except Exception as ex:
             print(ex.args)
             pass
-        
-import concurrent.futures
-import threading
+
 def UpdatePlugins(dynamicOrder, data):
     for plugin in pluginObjects:
         try:
@@ -313,9 +312,6 @@ def InstallPlugins():
     except:
         pass
     
-    import tkinter as tk
-    from tkinter import ttk
-    
     # Create a new tab for the installer
     installFrame = ttk.Frame(mainUI.pluginNotebook, width=600, height=520)
     installFrame.pack(anchor=tk.CENTER, expand=True, fill=tk.BOTH)
@@ -371,7 +367,6 @@ def InstallPlugins():
     
     
     index = 0
-    import progress.bar as Bar
     with Bar.PixelBar("Installing plugins...", max=len(installers)) as progressBar:
         for installer, name in zip(installers, pluginNames):
             sys.stdout.write(f"\nInstalling '{name}'...\n")
@@ -519,7 +514,6 @@ def LoadApplication():
 
 LoadApplication()
 
-import hashlib
 lastChecksums = {}
 def CheckForFileChanges():
     """Will check the plugin main files for changes and reload them if they've changed."""
@@ -550,7 +544,6 @@ def CheckForFileChanges():
             pass
       
 # Check for updates
-import src.updater as updater
 updater.UpdateChecker()  
 
 data = {}
@@ -756,11 +749,8 @@ if __name__ == "__main__":
             except:
                 pass
             if ex.args != ('The main window has been closed.', 'If you closed the app this is normal.'):
-                import keyboard
                 # Press the F1 key to pause the game
                 keyboard.press_and_release("F1")
-                from tkinter import messagebox
-                import traceback
                 exc = traceback.format_exc()
                 traceback.print_exc()
                 # Get the user name
