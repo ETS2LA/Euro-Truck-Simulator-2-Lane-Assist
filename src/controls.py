@@ -71,7 +71,17 @@ def RegisterKeybind(name:str, callback=None, notBoundInfo:str="", description:st
                          "axisIndex": keybind["axisIndex"],
                          "shouldBeAxis": axis,
                          "notBoundInfo": notBoundInfo if notBoundInfo != keybind["notBoundInfo"] else keybind["notBoundInfo"]})
-        
+
+def ReadKeybindsVariable():
+    """Returns the KEYBINDS variable."""
+    global KEYBINDS
+    return KEYBINDS
+
+def WriteKeybindsVariable(value=[]):
+    """Overwrites the KEYBINDS variable."""
+    global KEYBINDS
+    KEYBINDS = value
+    
 def GetKeybindFromName(name):
     """Get a keybind from the settings file.
 

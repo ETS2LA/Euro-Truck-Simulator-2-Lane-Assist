@@ -180,7 +180,9 @@ def FindPlugins(reloadFully=False):
         del splash
         
 def ReloadPluginCode():
+    keybinds = controls.ReadKeybindsVariable()
     FindPlugins()
+    controls.WriteKeybindsVariable(keybinds)
     # Use the inbuilt python modules to reload the code of the plugins
     import importlib
     import progress.bar as Bar
