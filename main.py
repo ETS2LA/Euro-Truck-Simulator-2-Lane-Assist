@@ -19,6 +19,9 @@ The main file that runs the programs loop.
 # 
 # sys.settrace(trace)
 
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
 # This section is for modules that I've added later as they might 
 # not have been installed yet
 import src.settings as settings
