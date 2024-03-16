@@ -57,11 +57,13 @@ import os
 try:
     import importlib_metadata
 except:
-    os.system("pip install importlib-metadata")
+    os.system("pip install importlib_metadata")
     import importlib_metadata
 listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel", "PyQt5"]
+listOfRequirementsAddedLater = [i.replace("-", "_") for i in listOfRequirementsAddedLater]
 # Get list of installed modules using importlib
 installed = [i.name for i in importlib_metadata.distributions()]
+installed = [i.replace("-", "_") for i in installed]
 requirementsset = set(listOfRequirementsAddedLater)
 installedset = set(installed)
 missing = requirementsset - installedset
@@ -75,8 +77,10 @@ import src.variables as variables # Stores all main variables for the program
 # Check that all requirements from requirements.txt are installed
 with open(variables.PATH + r"\requirements.txt") as f:
     requirements = f.read().splitlines()
+    requirements = [i.replace("-", "_") for i in requirements]
 
 installed = [i.name for i in importlib_metadata.distributions()]
+installed = [i.replace("-", "_") for i in installed]
 requirementsset = set(requirements)
 installedset = set(installed)
 missing = requirementsset - installedset
