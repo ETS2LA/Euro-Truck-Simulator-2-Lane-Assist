@@ -113,11 +113,6 @@ def onEnable():
         API = scsTelemetry()
     
     data = API.update()
-    
-    print("Plugin version: " + str(data["scsValues"]["telemetryPluginRevision"]))
-    
-    if data["scsValues"]["telemetryPluginRevision"] < 2:
-            print("Plugin not installed")
 
 def onDisable():
     global popup
