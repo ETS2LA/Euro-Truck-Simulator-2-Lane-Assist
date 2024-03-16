@@ -567,6 +567,16 @@ def plugin(data):
         target_region[:symbol_resized.shape[0], :symbol_resized.shape[1]] = symbol_resized
 
     if allow_acceleration == False:
+        if show_symbols == False:
+            try:
+                frame = data["frame"]
+                width = frame.shape[1]
+                height = frame.shape[0]
+                if frame is None: return data
+                if width == 0 or width == None: return data
+                if height == 0 or height == None: return data
+            except:
+                return data
         current_text = "Acceleration"
         width_target_current_text = 0.2*width
         fontscale_current_text = 1
