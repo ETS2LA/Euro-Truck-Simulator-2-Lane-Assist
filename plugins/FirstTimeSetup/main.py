@@ -444,6 +444,9 @@ class UI():
                     api.checkAPI(dontClosePopup=True)
             except:
                 api.checkAPI(dontClosePopup=True)
+                
+            if api.isConnected:
+                self.apiNextButton.config(state="normal", text="Next")
         
         def lastPage(self):
             self.root.destroy()
@@ -508,7 +511,7 @@ class UI():
                 pass
             
             try:
-                if self.apiNextButton.cget("text") == "Waiting for api...":
+                if self.apiNextButton != None:
                     api.checkAPI(dontClosePopup=True)
                     if api.isConnected:
                         self.apiNextButton.config(state="normal", text="Next")

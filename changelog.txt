@@ -1,1 +1,1 @@
-Fixed repeating requirements installation after every restart.
+Fix first time setup not detecting the game even if the SDK is installed.
