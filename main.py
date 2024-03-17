@@ -20,6 +20,8 @@ The main file that runs the programs loop.
 # sys.settrace(trace)
 
 import os
+# hide pygame welcome message before importing pygame
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import cv2
 import sys
 import time
@@ -49,8 +51,6 @@ try:
 except:
     os.system("pip install importlib_metadata")
     import importlib_metadata
-
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Check tkinter tcl version
 tcl = tk.Tcl()
