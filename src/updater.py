@@ -50,9 +50,14 @@ def UpdateChecker():
         print(f"Changelog:\n{changelog}")
         from tkinter import messagebox
         if helpers.AskOkCancel("Updater", f"We have detected an update, do you want to install it?\nCurrent - {'.'.join(currentVer)}\nUpdated - {'.'.join(remoteVer)}\n\nChangelog:\n{changelog}"):
-            # Make a new cmd outside of the current venv and use it to run git pull in the app folder
-            import subprocess
-            subprocess.run('start cmd /k "cd .. & cd venv & cd Scripts & deactivate & cd .. & cd .. & cd app & git stash & git pull"', shell=True)
+            if variables.IN_VENV:
+                # Make a new cmd outside of the current venv and use it to run git pull in the app folder
+                import subprocess
+                subprocess.run('start cmd /k "cd .. & cd venv & cd Scripts & deactivate & cd .. & cd .. & cd app & git stash & git pull"', shell=True)
+            else:
+                os.chdir(variables.PATH)
+                os.system("git stash")
+                os.system("git pull")
             if helpers.AskOkCancel("Updater", "The update has been installed and the application needs to be restarted. Do you want to quit the app?", yesno=True):
                 quit()
             else:

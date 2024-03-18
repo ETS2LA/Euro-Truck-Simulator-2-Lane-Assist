@@ -137,16 +137,23 @@ def FindPlugins(reloadFully=False):
     global pluginNames
     global splash
     
-    closeAfter = False
     try:
-        if splash == None:
+        mainUI.root.update()
+        hasRoot = True
+    except:
+        hasRoot = False
+    
+    if hasRoot:
+        closeAfter = False
+        try:
+            if splash == None:
+                closeAfter = True
+                splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+                splash.updateProgress(text="Initializing...", step=1)
+        except:
             closeAfter = True
             splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
             splash.updateProgress(text="Initializing...", step=1)
-    except:
-        closeAfter = True
-        splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
-        splash.updateProgress(text="Initializing...", step=1)
     
     # Update the list of plugins and panels for the hash check
     pluginNames = GetListOfAllPluginAndPanelNames()
@@ -158,8 +165,9 @@ def FindPlugins(reloadFully=False):
     count = len(os.listdir(path))
     index = 0
     for file in os.listdir(path):
-        splash.updateProgress(text=f"Loading plugins... {count-index} remaining.", step=2 + (index / count))
-        mainUI.root.update()
+        if hasRoot:
+            splash.updateProgress(text=f"Loading plugins... {count-index} remaining.", step=2 + (index / count))
+            mainUI.root.update()
         index += 1
         if os.path.isdir(os.path.join(path, file)):
             # Check for main.py
@@ -182,7 +190,7 @@ def FindPlugins(reloadFully=False):
         pluginObjects.append(__import__("plugins." + plugin.name + ".main", fromlist=["plugin", "UI", "PluginInfo", "onEnable"]))
         pluginObjects[-1].onEnable()
         
-    if closeAfter:
+    if closeAfter and hasRoot:
         splash.close()
         del splash
         

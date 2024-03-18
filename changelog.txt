@@ -1,1 +1,3 @@
-Fix first time setup not detecting the game even if the SDK is installed.
+Fix error when loading plugins before initializing the mainUI.
+Fix updater when not running in a venv.
+NOTE: IF YOU DIDN'T INSTALL WITH THE INSTALLER, THEN RUN git pull IN THE APP DIRECTORY TO FIX THE UPDATER.
