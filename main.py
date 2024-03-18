@@ -143,8 +143,8 @@ def FindPlugins(reloadFully=False):
     except:
         hasRoot = False
     
+    closeAfter = False
     if hasRoot:
-        closeAfter = False
         try:
             if splash == None:
                 closeAfter = True
