@@ -25,16 +25,18 @@ import src.settings as settings
 import cv2
 import plugins.TruckSimAPI.main as api
 import webview
+import threading
 import src.controls as controls
-
 try:
     import bettercam
 except:
     bettercam = None
 
-pygame.display.init()
-pygame.joystick.init()
+def init_pygame():
+    pygame.display.init()
+    pygame.joystick.init()
 
+threading.Thread(target=init_pygame).start()
 
 class UI():
     
