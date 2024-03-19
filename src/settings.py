@@ -35,6 +35,18 @@ if open(currentProfile, "r").readline().replace("\n", "") == "":
         f.write("profiles/settings.json")
     print("Profile variable was empty, set it to settings.json")
 
+#Check for settings file in root folder
+SETPATH = str(os.path.abspath(os.path.join(PATH, os.pardir)))
+#check that settings.json exists
+if os.path.exists(os.path.join(SETPATH, "settings.json")):
+    #Remove import.json from profiles if it exist
+    if os.path.exists(os.path.join("profiles", "import.json")):
+        os.remove(os.path.join("profiles", "import.json"))
+    #Move SETPATH settings.json to profiles with the name inport.json
+    os.rename(os.path.join(SETPATH, "settings.json"), os.path.join("profiles", "import.json"))
+    with open(currentProfile, "w") as f:
+        f.write("profiles/import.json")
+
 def EnsureFile(file:str):
     """Will check if a file exists and create it if it doesn't.
 
