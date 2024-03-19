@@ -27,7 +27,7 @@ import os
 import numpy as np
 import cv2
 from PIL import ImageColor
-
+import traceback
 
 # Copied from LSTRLaneDetection/LSTRLaneDetection/lstr/lstr.py
 def draw_lanes(input_img, lane_points, lane_ids, color=(255,191,0), fillPoly=True, drawDots=False, drawLines=True):
@@ -79,7 +79,7 @@ def loadSettings():
 
 loadSettings()
 
-import traceback
+
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
