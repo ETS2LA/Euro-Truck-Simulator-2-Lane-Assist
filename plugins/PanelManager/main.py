@@ -30,6 +30,7 @@ class UI():
             #loading = LoadingWindow("Importing plugins...")
             path = os.path.join(variables.PATH, "plugins")
             plugins = []
+            print_ui_events = settings.GetSettings("Dev", "print_ui_events", False)
             for file in os.listdir(path):
                 if os.path.isdir(os.path.join(path, file)):
                     # Check for main.py
@@ -40,6 +41,8 @@ class UI():
                             plugin = __import__(pluginPath, fromlist=["PluginInformation"])
                             if plugin.PluginInfo.type == "static":
                                 plugins.append(plugin.PluginInfo)
+                                if print_ui_events == True:
+                                    print("Found panel: " + pluginPath)
                         except Exception as ex:
                             print(ex.args)
                             pass
