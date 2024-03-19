@@ -27,6 +27,7 @@ import struct
 import time
 from src.translator import Translate
 import src.controls as controls
+import mmap
 
 controls.RegisterKeybind("Test SDK button", notBoundInfo="This is intended for developers.", description="Will test the button selected in the SDK Controller UI.")
 
@@ -138,7 +139,6 @@ buttonNames = [
     "Hazards"
 ]
 
-import mmap
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
