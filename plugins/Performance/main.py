@@ -32,8 +32,6 @@ frames = []
 idleTime = []
 lastUpdateTime = time.time()
 updateRate = 0.25
-lastTheme = settings.GetSettings("User Interface", "Theme")
-if lastTheme == None: lastTheme = "dark"
 
 class UI():
     try: # The panel is in a try loop so that the logger can log errors if they occur
@@ -82,10 +80,10 @@ class UI():
             except: pass
             
             try:
-                background = "#313131" if settings.GetSettings("User Interface", "Theme") == "dark" else "#313131"
-                foreground = "#ffffff" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ffffff"
-                graphColor = "#51b7eb" if settings.GetSettings("User Interface", "Theme") == "dark" else "#51b7eb"
-                idleTimeColor = "#ff0000" if settings.GetSettings("User Interface", "Theme") == "dark" else "#ff0000"
+                background = "#313131"
+                foreground = "#ffffff"
+                graphColor = "#51b7eb" 
+                idleTimeColor = "#ff0000"
                 
                 # Make a frametime graph (also support blitting)
                 self.fig, self.ax = plt.subplots()
@@ -119,7 +117,6 @@ class UI():
             
             
         def main(self):
-            
             try:
                 self.root.destroy() # Load the UI each time this plugin is called
             except: pass
@@ -186,10 +183,6 @@ class UI():
                     
             except Exception as ex:
                 print(ex.args)
-    
-            if(lastTheme != settings.GetSettings("User Interface", "Theme")):
-                lastTheme = settings.GetSettings("User Interface", "Theme")
-                self.createGraph()
     
             self.root.update()
             
