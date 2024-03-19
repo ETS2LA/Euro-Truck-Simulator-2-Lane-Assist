@@ -40,7 +40,6 @@ class UI():
                             plugin = __import__(pluginPath, fromlist=["PluginInformation"])
                             if plugin.PluginInfo.type == "static":
                                 plugins.append(plugin.PluginInfo)
-                                print("Found panel: " + pluginPath)
                         except Exception as ex:
                             print(ex.args)
                             pass
