@@ -1,1 +1,1 @@
-Fix "cannot access local variable closeAfter"
+Fixed profile file not found on startup, (I made a screw up)
