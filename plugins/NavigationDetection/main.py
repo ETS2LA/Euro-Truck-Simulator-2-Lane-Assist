@@ -290,7 +290,7 @@ def plugin(data):
         valid_setup = False
     
     if valid_setup == False:
-        print("NavigationDetection: Invalid frame or setup. Possible fix: Set the screen capture to your main monitor in your Screen Capture Plugin. Non-main monitor support coming soon.")
+        print("NavigationDetection: Invalid frame or setup. Possible fix: Set the screen capture to your main monitor in your Screen Capture Plugin.")
         console.RestoreConsole()
 
     try:
