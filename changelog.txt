@@ -1,6 +1,2 @@
-1.10.53
-Fixed profile file not found on startup, (I made a screw up)
-
-1.10.54
-Added back the new settings file (Not broken this time (hopefully))!
-NOTE: This new file improves startup time by over 100ms!
+Reverted to the old src\settings.py because of bugs from the last updates.
+The NavigationDetection setup should work again.
