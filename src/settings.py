@@ -35,10 +35,6 @@ if open(currentProfile, "r").readline().replace("\n", "") == "":
         f.write("profiles/settings.json")
     print("Profile variable was empty, set it to settings.json")
 
-profile = open(currentProfile, "r").readline().replace("\n", "")
-settings = json.load(open(profile, "r"))
-settings_file = open(profile, "w")
-
 # Check for settings file in root folder
 SETPATH = str(os.path.abspath(os.path.join(PATH, os.pardir)))
 # Check that settings.json exists
@@ -57,10 +53,12 @@ def EnsureFile(file:str):
     Args:
         file (str): Filename.
     """
-    if os.path.exists(file):
-        return
-    with open(file, "w") as f:
-        f.truncate(0)
+    try:
+        with open(file, "r") as f:
+            pass
+    except:
+        with open(file, "w") as f:
+            f.write("{}")
 
 def ChangeProfile():
     """Will change the currently selected profile and reload the app.
@@ -81,7 +79,10 @@ def CreateProfile():
     """
     from tkinter import filedialog
     newFile = filedialog.asksaveasfile(initialdir=PATH+"\\profiles", initialfile="newProfile.json", title="Create a new profile", filetypes=(("JSON files", "*.json"), ("All files", "*.*")))
-    try: 
+    try:       
+        # Copy the current profile
+        profile = open(currentProfile, "r").readline().replace("\n", "")
+            
         with open(profile, "r") as f:
             data = json.load(f)
         
@@ -91,7 +92,10 @@ def CreateProfile():
         filePath = newFile.name
         
         newFile.close()
-
+            
+        # Change the current profile
+        # ChangeProfile(filePath)
+    
     except Exception as ex:
         print(ex.args)
         print("Failed to create profile")
@@ -108,8 +112,15 @@ def UpdateSettings(category:str, name:str, data:any):
     """
     global currentFrameSettings, frameCounter
     try:
+        profile = open(currentProfile, "r").readline().replace("\n", "")
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
+
         settings[category][name] = data
-        json.dump(settings, settings_file, indent=6)
+        with open(profile, "w") as f:
+            f.truncate(0)
+            json.dump(settings, f, indent=6)
             
         currentFrameSettings = settings
         frameCounter = FRAMECOUNTER
@@ -131,12 +142,22 @@ def GetSettings(category:str, name:str, value:any=None):
     Returns:
         _type_: The data from the json file. (or the default value)
     """
-        
+    global frameCounter, currentFrameSettings
     try:
+        if frameCounter != FRAMECOUNTER:
+            profile = open(currentProfile, "r").readline().replace("\n", "")
+            EnsureFile(profile)
+            with open(profile, "r") as f:
+                settings = json.load(f)
+                currentFrameSettings = settings
+            frameCounter = FRAMECOUNTER
+        else:
+            settings = currentFrameSettings
+        
         if settings[category][name] == None:
             return value    
-        else:
-            return settings[category][name]
+        
+        return settings[category][name]
     except Exception as ex:
         if value != None:
             CreateSettings(category, name, value)
@@ -156,6 +177,11 @@ def CreateSettings(category:str, name:str, data:any):
     """
     global currentFrameSettings, frameCounter
     try:
+        profile = open(currentProfile, "r").readline().replace("\n", "")
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
+
         # If the setting doesn't exist then create it 
         if not category in settings:
             settings[category] = {}
@@ -185,11 +211,15 @@ def AddToList(category:str, name:str, data:any, exclusive:bool=False):
     """
     global currentFrameSettings, frameCounter
     try:
+        profile = open(currentProfile, "r").readline().replace("\n", "")
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
+
         # If the setting doesn't exist then create it 
         if not category in settings:
             settings[category] = {}
             settings[category][name] = []
-
             # Check if the data is a list
             if isinstance(data, list):
                 for item in data:
@@ -243,6 +273,11 @@ def RemoveFromList(category:str, name:str, data:any):
     """
     global currentFrameSettings, frameCounter
     try:
+        profile = open(currentProfile, "r").readline().replace("\n", "")
+        EnsureFile(profile)
+        with open(profile, "r") as f:
+            settings = json.load(f)
+
         # If the setting doesn't exist then don't do anything 
         if not category in settings:
             return
