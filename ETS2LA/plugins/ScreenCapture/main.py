@@ -14,8 +14,11 @@ def plugin(runner):
     monitor = {
         "top": 0,
         "left": 0,
-        "width": 200,
-        "height": 200,
+        "width": 600,
+        "height": 400,
     }
-    img = cv2.cvtColor(np.array(mss.mss().grab(monitor)), cv2.COLOR_RGB2BGR)
-    return img
+    try:
+        img = mss.mss().grab(monitor)
+        return img
+    except:
+        pass

@@ -2,6 +2,7 @@ import rpyc
 from rpyc.utils.server import ThreadedServer
 import threading
 import logging
+import os
 
 class ETS2LAInternalService(rpyc.Service):
     def on_connect(self, conn):
@@ -27,11 +28,19 @@ class ETS2LAInternalService(rpyc.Service):
         except KeyError:
             return None
 
+    def exposed_send_fps(self, name, fps):
+        self.fps_datas[name] = fps
+        print(f"fps values: {self.fps_datas}", end="\r")
+
     plugin_datas = {}
+    fps_datas = {}
 
 
     
 def run():
+    # Remove the log file if it exists
+    if os.path.exists("ETS2LAInternalService.log"):
+        os.remove("ETS2LAInternalService.log")
     # Create a custom logger so that we can save the output to a file, but we don't want to print it to the console.
     logger = logging.Logger("ETS2LAInternalService")
     logger.setLevel(logging.DEBUG)

@@ -27,3 +27,5 @@ def SetupLogging():
     logging.getLogger().addHandler(file_handler)
     
     logging.info("Logger initialized.")
+    
+    return logging.getLogger()

@@ -1,8 +1,10 @@
-import cv2
+import PIL.Image as Image
 import numpy as np
 from ETS2LA.plugins.plugin import PluginInformation
 import rpyc
 import time
+import cv2
+import copy
 PluginInfo = PluginInformation(
     name="ShowImage",
     description="Will show the screen capture img.",
@@ -11,11 +13,12 @@ PluginInfo = PluginInformation(
 )
 
 def plugin(runner):
-    img = runner.GetData("ScreenCapture")
+    img = runner.GetData("ScreenCapture") # MSS image object
+    img = copy.deepcopy(img) # This is what makes it really slow...
     try:
-        img = np.array(img)
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        cv2.imshow("img", img)
+        cv2.imshow("img", np.array(img))
         cv2.waitKey(1)
     except:
+        #import traceback
+        #traceback.print_exc()
         pass
