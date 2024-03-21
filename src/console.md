@@ -4,7 +4,7 @@ authors:
     link: https://github.com/Glas42
     avatar: https://avatars.githubusercontent.com/u/145870870?v=4
 date: 2024-2-10
-icon: database
+icon: code-square
 ---
 
 !!!warning Warning
