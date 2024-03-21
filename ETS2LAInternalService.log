@@ -1,0 +1,44 @@
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 58851) with fd 752
+welcome ('127.0.0.1', 58851)
+goodbye ('127.0.0.1', 58851)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 58873) with fd 912
+welcome ('127.0.0.1', 58873)
+goodbye ('127.0.0.1', 58873)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 58933) with fd 928
+welcome ('127.0.0.1', 58933)
+goodbye ('127.0.0.1', 58933)
+client connection terminated abruptly
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\utils\server.py", line 183, in _authenticate_and_serve_client
+    self._serve_client(sock2, credentials)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\utils\server.py", line 204, in _serve_client
+    conn = self.service._connect(Channel(SocketStream(sock)), config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\service.py", line 106, in _connect
+    self.on_connect(conn)
+TypeError: ETS2LAInternalService.on_connect() missing 1 required positional argument: 'name'
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 58942) with fd 896
+welcome ('127.0.0.1', 58942)
+goodbye ('127.0.0.1', 58942)
+client connection terminated abruptly
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\utils\server.py", line 183, in _authenticate_and_serve_client
+    self._serve_client(sock2, credentials)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\utils\server.py", line 204, in _serve_client
+    conn = self.service._connect(Channel(SocketStream(sock)), config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\service.py", line 106, in _connect
+    self.on_connect(conn)
+TypeError: ETS2LAInternalService.on_connect() missing 1 required positional argument: 'name'
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 58979) with fd 872
+welcome ('127.0.0.1', 58979)
+goodbye ('127.0.0.1', 58979)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 58992) with fd 920
+welcome ('127.0.0.1', 58992)
+goodbye ('127.0.0.1', 58992)

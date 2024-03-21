@@ -1,0 +1,6 @@
+2024-03-21 14:14:33,849 - [32m[INF][0m - Logger initialized.
+2024-03-21 14:14:33,899 - [32m[INF][0m - Webserver started on http://localhost:37520
+2024-03-21 14:14:33,900 - [32m[INF][0m - Internal service started on port 37521
+2024-03-21 14:14:33,909 - [32m[INF][0m - ETS2LA backend has been started successfully.
+2024-03-21 14:14:34,054 - [32m[INF][0m - Connection established with Test
+2024-03-21 14:14:34,821 - [32m[INF][0m - Connection established with <rpyc.core.protocol.Connection 'conn1' object at 0x0000022F02EB3850>

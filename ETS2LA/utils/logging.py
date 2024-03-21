@@ -1,8 +1,9 @@
 import logging
 from ETS2LA.utils.colors import *
+import os
 
 def SetupLogging():
-    # Enable color printing on the console
+    # Print levels in color
     logging.addLevelName(logging.INFO, f"{DARK_GREEN}[INF]{END}")
     logging.addLevelName(logging.WARNING, f"{DARK_YELLOW}[WRN]{END}")
     logging.addLevelName(logging.ERROR, f"{DARK_RED}[ERR]{END}")
@@ -14,3 +15,15 @@ def SetupLogging():
                         level=logging.INFO,
                         datefmt=f'%H:%M:%S'
                         )
+    
+    # If the log file exists, delete it
+    if os.path.exists("ETS2LA.log"):
+        os.remove("ETS2LA.log")
+    
+    # Write the logs to a file
+    file_handler = logging.FileHandler("ETS2LA.log")
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    logging.getLogger().addHandler(file_handler)
+    
+    logging.info("Logger initialized.")
