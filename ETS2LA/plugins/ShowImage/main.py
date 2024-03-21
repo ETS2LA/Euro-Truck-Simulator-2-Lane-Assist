@@ -1,4 +1,3 @@
-import PIL.Image as Image
 import numpy as np
 from ETS2LA.plugins.plugin import PluginInformation
 import rpyc
