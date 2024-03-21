@@ -42,3 +42,2550 @@ server started on [0.0.0.0]:37521
 accepted ('127.0.0.1', 58992) with fd 920
 welcome ('127.0.0.1', 58992)
 goodbye ('127.0.0.1', 58992)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59275) with fd 980
+welcome ('127.0.0.1', 59275)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 889, in _handle_callattr
+    return self._handle_call(obj, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 863, in _handle_call
+    return obj(*args, **dict(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'Test'
+goodbye ('127.0.0.1', 59275)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59317) with fd 912
+welcome ('127.0.0.1', 59317)
+goodbye ('127.0.0.1', 59317)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59326) with fd 892
+welcome ('127.0.0.1', 59326)
+goodbye ('127.0.0.1', 59326)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59490) with fd 812
+welcome ('127.0.0.1', 59490)
+accepted ('127.0.0.1', 59491) with fd 940
+welcome ('127.0.0.1', 59491)
+goodbye ('127.0.0.1', 59491)
+goodbye ('127.0.0.1', 59490)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59541) with fd 920
+welcome ('127.0.0.1', 59541)
+accepted ('127.0.0.1', 59542) with fd 928
+welcome ('127.0.0.1', 59542)
+goodbye ('127.0.0.1', 59542)
+goodbye ('127.0.0.1', 59541)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59556) with fd 920
+welcome ('127.0.0.1', 59556)
+accepted ('127.0.0.1', 59557) with fd 928
+welcome ('127.0.0.1', 59557)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 368, in _dispatch_request
+    args = self._unbox(args)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in _unbox
+    return tuple(self._unbox(item) for item in value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in <genexpr>
+    return tuple(self._unbox(item) for item in value)
+                 ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in _unbox
+    return tuple(self._unbox(item) for item in value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in <genexpr>
+    return tuple(self._unbox(item) for item in value)
+                 ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 343, in _unbox
+    proxy = self._netref_factory(id_pack)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 357, in _netref_factory
+    cls_methods = self.sync_request(consts.HANDLE_INSPECT, id_pack)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 472, in serve
+    self._dispatch(data)  # Dispatch will unbox, invoke callbacks, etc.
+    ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 412, in _dispatch
+    self._dispatch_request(seq, args)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 383, in _dispatch_request
+    self._send(consts.MSG_REPLY, seq, self._box(res))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59556)
+goodbye ('127.0.0.1', 59557)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59565) with fd 892
+welcome ('127.0.0.1', 59565)
+accepted ('127.0.0.1', 59564) with fd 900
+welcome ('127.0.0.1', 59564)
+goodbye ('127.0.0.1', 59564)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59565)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59579) with fd 816
+welcome ('127.0.0.1', 59579)
+accepted ('127.0.0.1', 59580) with fd 940
+welcome ('127.0.0.1', 59580)
+goodbye ('127.0.0.1', 59579)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59580)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59623) with fd 900
+welcome ('127.0.0.1', 59623)
+accepted ('127.0.0.1', 59622) with fd 920
+welcome ('127.0.0.1', 59622)
+goodbye ('127.0.0.1', 59623)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59622)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59637) with fd 832
+welcome ('127.0.0.1', 59637)
+accepted ('127.0.0.1', 59638) with fd 920
+welcome ('127.0.0.1', 59638)
+goodbye ('127.0.0.1', 59638)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59637)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59686) with fd 672
+welcome ('127.0.0.1', 59686)
+accepted ('127.0.0.1', 59687) with fd 804
+welcome ('127.0.0.1', 59687)
+goodbye ('127.0.0.1', 59686)
+goodbye ('127.0.0.1', 59687)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59703) with fd 396
+welcome ('127.0.0.1', 59703)
+accepted ('127.0.0.1', 59704) with fd 852
+welcome ('127.0.0.1', 59704)
+goodbye ('127.0.0.1', 59703)
+goodbye ('127.0.0.1', 59704)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59718) with fd 892
+welcome ('127.0.0.1', 59718)
+accepted ('127.0.0.1', 59719) with fd 1016
+welcome ('127.0.0.1', 59719)
+goodbye ('127.0.0.1', 59719)
+goodbye ('127.0.0.1', 59718)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59732) with fd 924
+accepted ('127.0.0.1', 59733) with fd 940
+welcome ('127.0.0.1', 59732)
+welcome ('127.0.0.1', 59733)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 889, in _handle_callattr
+    return self._handle_call(obj, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 863, in _handle_call
+    return obj(*args, **dict(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 239, in __call__
+    return syncreq(_self, consts.HANDLE_CALL, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 111, in value
+    raise self._obj
+_get_exception_class.<locals>.Derived: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+
+========= Remote Traceback (1) =========
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 863, in _handle_call
+    return obj(*args, **dict(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+
+goodbye ('127.0.0.1', 59733)
+goodbye ('127.0.0.1', 59732)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59748) with fd 968
+welcome ('127.0.0.1', 59748)
+accepted ('127.0.0.1', 59749) with fd 856
+welcome ('127.0.0.1', 59749)
+goodbye ('127.0.0.1', 59748)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59749)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59763) with fd 880
+welcome ('127.0.0.1', 59763)
+accepted ('127.0.0.1', 59764) with fd 916
+welcome ('127.0.0.1', 59764)
+goodbye ('127.0.0.1', 59763)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59764)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59788) with fd 780
+accepted ('127.0.0.1', 59789) with fd 888
+welcome ('127.0.0.1', 59788)
+welcome ('127.0.0.1', 59789)
+goodbye ('127.0.0.1', 59788)
+goodbye ('127.0.0.1', 59789)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59819) with fd 960
+welcome ('127.0.0.1', 59819)
+accepted ('127.0.0.1', 59820) with fd 968
+welcome ('127.0.0.1', 59820)
+goodbye ('127.0.0.1', 59820)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59819)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59830) with fd 916
+welcome ('127.0.0.1', 59830)
+accepted ('127.0.0.1', 59831) with fd 816
+welcome ('127.0.0.1', 59831)
+goodbye ('127.0.0.1', 59830)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59831)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59878) with fd 636
+welcome ('127.0.0.1', 59878)
+accepted ('127.0.0.1', 59879) with fd 960
+welcome ('127.0.0.1', 59879)
+goodbye ('127.0.0.1', 59879)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 368, in _dispatch_request
+    args = self._unbox(args)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in _unbox
+    return tuple(self._unbox(item) for item in value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in <genexpr>
+    return tuple(self._unbox(item) for item in value)
+                 ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in _unbox
+    return tuple(self._unbox(item) for item in value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in <genexpr>
+    return tuple(self._unbox(item) for item in value)
+                 ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 343, in _unbox
+    proxy = self._netref_factory(id_pack)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 357, in _netref_factory
+    cls_methods = self.sync_request(consts.HANDLE_INSPECT, id_pack)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 472, in serve
+    self._dispatch(data)  # Dispatch will unbox, invoke callbacks, etc.
+    ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 412, in _dispatch
+    self._dispatch_request(seq, args)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 383, in _dispatch_request
+    self._send(consts.MSG_REPLY, seq, self._box(res))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59878)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59893) with fd 964
+welcome ('127.0.0.1', 59893)
+accepted ('127.0.0.1', 59892) with fd 972
+welcome ('127.0.0.1', 59892)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+goodbye ('127.0.0.1', 59892)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 789, in _check_attr
+    has_exposed = prefix and (hasattr(obj, prefix + name) or hasattr_static(obj, prefix + name))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 152, in __getattr__
+    return syncreq(self, consts.HANDLE_GETATTR, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59893)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59933) with fd 904
+welcome ('127.0.0.1', 59933)
+accepted ('127.0.0.1', 59932) with fd 928
+welcome ('127.0.0.1', 59932)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+goodbye ('127.0.0.1', 59932)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 789, in _check_attr
+    has_exposed = prefix and (hasattr(obj, prefix + name) or hasattr_static(obj, prefix + name))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 147, in __getattribute__
+    return syncreq(self, consts.HANDLE_GETATTR, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59933)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59942) with fd 680
+welcome ('127.0.0.1', 59942)
+accepted ('127.0.0.1', 59943) with fd 944
+welcome ('127.0.0.1', 59943)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+goodbye ('127.0.0.1', 59942)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 789, in _check_attr
+    has_exposed = prefix and (hasattr(obj, prefix + name) or hasattr_static(obj, prefix + name))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 147, in __getattribute__
+    return syncreq(self, consts.HANDLE_GETATTR, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 472, in serve
+    self._dispatch(data)  # Dispatch will unbox, invoke callbacks, etc.
+    ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 412, in _dispatch
+    self._dispatch_request(seq, args)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 383, in _dispatch_request
+    self._send(consts.MSG_REPLY, seq, self._box(res))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 59943)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 59985) with fd 928
+welcome ('127.0.0.1', 59985)
+accepted ('127.0.0.1', 59986) with fd 520
+welcome ('127.0.0.1', 59986)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 926, in _handle_pickle
+    raise ValueError("pickling is disabled")
+ValueError: pickling is disabled
+goodbye ('127.0.0.1', 59986)
+goodbye ('127.0.0.1', 59985)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60036) with fd 728
+welcome ('127.0.0.1', 60036)
+accepted ('127.0.0.1', 60037) with fd 820
+welcome ('127.0.0.1', 60037)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 926, in _handle_pickle
+    raise ValueError("pickling is disabled")
+ValueError: pickling is disabled
+goodbye ('127.0.0.1', 60037)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 368, in _dispatch_request
+    args = self._unbox(args)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in _unbox
+    return tuple(self._unbox(item) for item in value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in <genexpr>
+    return tuple(self._unbox(item) for item in value)
+                 ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in _unbox
+    return tuple(self._unbox(item) for item in value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in <genexpr>
+    return tuple(self._unbox(item) for item in value)
+                 ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 343, in _unbox
+    proxy = self._netref_factory(id_pack)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 357, in _netref_factory
+    cls_methods = self.sync_request(consts.HANDLE_INSPECT, id_pack)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 472, in serve
+    self._dispatch(data)  # Dispatch will unbox, invoke callbacks, etc.
+    ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 412, in _dispatch
+    self._dispatch_request(seq, args)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 383, in _dispatch_request
+    self._send(consts.MSG_REPLY, seq, self._box(res))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60036)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60076) with fd 356
+welcome ('127.0.0.1', 60076)
+accepted ('127.0.0.1', 60077) with fd 768
+welcome ('127.0.0.1', 60077)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 927, in _handle_pickle
+    return bytes(pickle.dumps(obj, proto))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 205, in __reduce_ex__
+    return pickle.loads, (syncreq(self, consts.HANDLE_PICKLE, proto),)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 111, in value
+    raise self._obj
+_get_exception_class.<locals>.Derived: pickling is disabled
+
+========= Remote Traceback (1) =========
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 926, in _handle_pickle
+    raise ValueError("pickling is disabled")
+ValueError: pickling is disabled
+
+goodbye ('127.0.0.1', 60077)
+goodbye ('127.0.0.1', 60076)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60110) with fd 912
+welcome ('127.0.0.1', 60110)
+accepted ('127.0.0.1', 60111) with fd 920
+welcome ('127.0.0.1', 60111)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 927, in _handle_pickle
+    return bytes(pickle.dumps(obj, proto))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 205, in __reduce_ex__
+    return pickle.loads, (syncreq(self, consts.HANDLE_PICKLE, proto),)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 111, in value
+    raise self._obj
+_get_exception_class.<locals>.Derived: pickling is disabled
+
+========= Remote Traceback (1) =========
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 926, in _handle_pickle
+    raise ValueError("pickling is disabled")
+ValueError: pickling is disabled
+
+goodbye ('127.0.0.1', 60111)
+goodbye ('127.0.0.1', 60110)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60144) with fd 924
+welcome ('127.0.0.1', 60144)
+accepted ('127.0.0.1', 60145) with fd 908
+welcome ('127.0.0.1', 60145)
+goodbye ('127.0.0.1', 60144)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60145)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60163) with fd 832
+welcome ('127.0.0.1', 60163)
+accepted ('127.0.0.1', 60164) with fd 836
+welcome ('127.0.0.1', 60164)
+goodbye ('127.0.0.1', 60163)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 927, in _handle_pickle
+    return bytes(pickle.dumps(obj, proto))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 205, in __reduce_ex__
+    return pickle.loads, (syncreq(self, consts.HANDLE_PICKLE, proto),)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60164)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60190) with fd 920
+welcome ('127.0.0.1', 60190)
+accepted ('127.0.0.1', 60191) with fd 928
+welcome ('127.0.0.1', 60191)
+goodbye ('127.0.0.1', 60190)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60191)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60221) with fd 852
+welcome ('127.0.0.1', 60221)
+accepted ('127.0.0.1', 60220) with fd 912
+welcome ('127.0.0.1', 60220)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 927, in _handle_pickle
+    return bytes(pickle.dumps(obj, proto))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 205, in __reduce_ex__
+    return pickle.loads, (syncreq(self, consts.HANDLE_PICKLE, proto),)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 472, in serve
+    self._dispatch(data)  # Dispatch will unbox, invoke callbacks, etc.
+    ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 412, in _dispatch
+    self._dispatch_request(seq, args)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 383, in _dispatch_request
+    self._send(consts.MSG_REPLY, seq, self._box(res))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60221)
+goodbye ('127.0.0.1', 60220)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60241) with fd 916
+welcome ('127.0.0.1', 60241)
+accepted ('127.0.0.1', 60242) with fd 932
+welcome ('127.0.0.1', 60242)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 368, in _dispatch_request
+    args = self._unbox(args)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in _unbox
+    return tuple(self._unbox(item) for item in value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in <genexpr>
+    return tuple(self._unbox(item) for item in value)
+                 ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in _unbox
+    return tuple(self._unbox(item) for item in value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 334, in <genexpr>
+    return tuple(self._unbox(item) for item in value)
+                 ^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 343, in _unbox
+    proxy = self._netref_factory(id_pack)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 357, in _netref_factory
+    cls_methods = self.sync_request(consts.HANDLE_INSPECT, id_pack)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 472, in serve
+    self._dispatch(data)  # Dispatch will unbox, invoke callbacks, etc.
+    ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 412, in _dispatch
+    self._dispatch_request(seq, args)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 383, in _dispatch_request
+    self._send(consts.MSG_REPLY, seq, self._box(res))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60242)
+goodbye ('127.0.0.1', 60241)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60251) with fd 916
+welcome ('127.0.0.1', 60251)
+accepted ('127.0.0.1', 60250) with fd 924
+welcome ('127.0.0.1', 60250)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+goodbye ('127.0.0.1', 60251)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60250)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60261) with fd 684
+welcome ('127.0.0.1', 60261)
+accepted ('127.0.0.1', 60262) with fd 744
+welcome ('127.0.0.1', 60262)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 879, in _handle_getattr
+    return self._access_attr(obj, name, (), "_rpyc_getattr", "allow_getattr", getattr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 806, in _access_attr
+    name = self._check_attr(obj, name, param)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 796, in _check_attr
+    raise AttributeError(f"cannot access {name!r}")
+AttributeError: cannot access 'tobytes'
+goodbye ('127.0.0.1', 60261)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60262)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60272) with fd 948
+welcome ('127.0.0.1', 60272)
+accepted ('127.0.0.1', 60273) with fd 976
+welcome ('127.0.0.1', 60273)
+goodbye ('127.0.0.1', 60272)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60273)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60281) with fd 952
+welcome ('127.0.0.1', 60281)
+accepted ('127.0.0.1', 60282) with fd 964
+welcome ('127.0.0.1', 60282)
+goodbye ('127.0.0.1', 60281)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60282)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60299) with fd 868
+welcome ('127.0.0.1', 60299)
+accepted ('127.0.0.1', 60300) with fd 936
+welcome ('127.0.0.1', 60300)
+goodbye ('127.0.0.1', 60299)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 927, in _handle_pickle
+    return bytes(pickle.dumps(obj, proto))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 205, in __reduce_ex__
+    return pickle.loads, (syncreq(self, consts.HANDLE_PICKLE, proto),)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60300)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60313) with fd 844
+welcome ('127.0.0.1', 60313)
+accepted ('127.0.0.1', 60314) with fd 820
+welcome ('127.0.0.1', 60314)
+goodbye ('127.0.0.1', 60313)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60314)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60340) with fd 972
+welcome ('127.0.0.1', 60340)
+accepted ('127.0.0.1', 60341) with fd 980
+welcome ('127.0.0.1', 60341)
+goodbye ('127.0.0.1', 60340)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60341)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60355) with fd 760
+welcome ('127.0.0.1', 60355)
+accepted ('127.0.0.1', 60356) with fd 924
+welcome ('127.0.0.1', 60356)
+goodbye ('127.0.0.1', 60355)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 927, in _handle_pickle
+    return bytes(pickle.dumps(obj, proto))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 205, in __reduce_ex__
+    return pickle.loads, (syncreq(self, consts.HANDLE_PICKLE, proto),)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60356)
+server started on [0.0.0.0]:37521
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60374) with fd 1040
+welcome ('127.0.0.1', 60374)
+accepted ('127.0.0.1', 60375) with fd 1048
+welcome ('127.0.0.1', 60375)
+goodbye ('127.0.0.1', 60374)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60375)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60387) with fd 836
+welcome ('127.0.0.1', 60387)
+accepted ('127.0.0.1', 60388) with fd 724
+welcome ('127.0.0.1', 60388)
+goodbye ('127.0.0.1', 60387)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 927, in _handle_pickle
+    return bytes(pickle.dumps(obj, proto))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 205, in __reduce_ex__
+    return pickle.loads, (syncreq(self, consts.HANDLE_PICKLE, proto),)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60388)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60402) with fd 784
+welcome ('127.0.0.1', 60402)
+accepted ('127.0.0.1', 60403) with fd 936
+welcome ('127.0.0.1', 60403)
+goodbye ('127.0.0.1', 60402)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 927, in _handle_pickle
+    return bytes(pickle.dumps(obj, proto))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 205, in __reduce_ex__
+    return pickle.loads, (syncreq(self, consts.HANDLE_PICKLE, proto),)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\netref.py", line 63, in syncreq
+    return conn.sync_request(handler, proxy, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60403)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60506) with fd 916
+welcome ('127.0.0.1', 60506)
+accepted ('127.0.0.1', 60507) with fd 924
+welcome ('127.0.0.1', 60507)
+goodbye ('127.0.0.1', 60506)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 741, in sync_request
+    _async_res = self.async_request(handler, *args, timeout=timeout)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 768, in async_request
+    self._async_request(handler, args, res)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 750, in _async_request
+    self._send(consts.MSG_REQUEST, seq, (handler, self._box(args)))
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 308, in _send
+    self._channel.send(data)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 78, in send
+    self.stream.write(header + data + self.FLUSHER)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 288, in write
+    count = self.sock.send(data[:self.MAX_IO_CHUNK])
+            ^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 96, in __getattr__
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60507)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60556) with fd 532
+welcome ('127.0.0.1', 60556)
+accepted ('127.0.0.1', 60557) with fd 592
+welcome ('127.0.0.1', 60557)
+goodbye ('127.0.0.1', 60557)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60556)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60576) with fd 720
+welcome ('127.0.0.1', 60576)
+accepted ('127.0.0.1', 60577) with fd 928
+welcome ('127.0.0.1', 60577)
+goodbye ('127.0.0.1', 60577)
+Exception caught
+Traceback (most recent call last):
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 369, in _dispatch_request
+    res = self._HANDLERS[handler](self, *args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 874, in _handle_inspect
+    return conn.sync_request(consts.HANDLE_INSPECT, id_pack)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 744, in sync_request
+    return _async_res.value
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 109, in value
+    self.wait()
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\async_.py", line 51, in wait
+    self._conn.serve(self._ttl, waiting=self._waiting)
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\protocol.py", line 464, in serve
+    data = self._channel.poll(timeout) and self._channel.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\channel.py", line 47, in poll
+    return self.stream.poll(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 45, in poll
+    p.register(self.fileno(), "r")
+               ^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 255, in fileno
+    return self.sock.fileno()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tuoma\AppData\Local\Programs\Python\Python311\Lib\site-packages\rpyc\core\stream.py", line 106, in fileno
+    raise EOFError("stream has been closed")
+EOFError: stream has been closed
+goodbye ('127.0.0.1', 60576)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60609) with fd 924
+welcome ('127.0.0.1', 60609)
+accepted ('127.0.0.1', 60610) with fd 932
+welcome ('127.0.0.1', 60610)
+goodbye ('127.0.0.1', 60609)
+goodbye ('127.0.0.1', 60610)
+server started on [0.0.0.0]:37521
+accepted ('127.0.0.1', 60623) with fd 868
+welcome ('127.0.0.1', 60623)
+accepted ('127.0.0.1', 60624) with fd 900
+welcome ('127.0.0.1', 60624)
+goodbye ('127.0.0.1', 60623)
+goodbye ('127.0.0.1', 60624)

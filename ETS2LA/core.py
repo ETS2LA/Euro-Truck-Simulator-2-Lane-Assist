@@ -9,7 +9,12 @@ SetupLogging()
 webserver.run()
 appserver.run()
 
-plugin = "Test"
+plugin = "ScreenCapture"
+# Run the plugin runner in a separate process
+p = multiprocessing.Process(target=PluginRunner, args=(plugin,))
+p.start()
+
+plugin = "ShowImage"
 # Run the plugin runner in a separate process
 p = multiprocessing.Process(target=PluginRunner, args=(plugin,))
 p.start()

@@ -6,5 +6,6 @@ PluginInfo = PluginInformation(
     author="Test"
 )
 
-def plugin():
+def plugin(runner):
+    print(runner.GetData("Test"))
     return "test"

@@ -1,6 +1,8 @@
-2024-03-21 14:14:33,849 - [32m[INF][0m - Logger initialized.
-2024-03-21 14:14:33,899 - [32m[INF][0m - Webserver started on http://localhost:37520
-2024-03-21 14:14:33,900 - [32m[INF][0m - Internal service started on port 37521
-2024-03-21 14:14:33,909 - [32m[INF][0m - ETS2LA backend has been started successfully.
-2024-03-21 14:14:34,054 - [32m[INF][0m - Connection established with Test
-2024-03-21 14:14:34,821 - [32m[INF][0m - Connection established with <rpyc.core.protocol.Connection 'conn1' object at 0x0000022F02EB3850>
+2024-03-21 14:54:29,524 - [32m[INF][0m - Logger initialized.
+2024-03-21 14:54:29,570 - [32m[INF][0m - Webserver started on http://localhost:37520
+2024-03-21 14:54:29,571 - [32m[INF][0m - Internal service started on port 37521
+2024-03-21 14:54:29,587 - [32m[INF][0m - ETS2LA backend has been started successfully.
+2024-03-21 14:54:29,854 - [32m[INF][0m - Connection established with ScreenCapture
+2024-03-21 14:54:29,854 - [32m[INF][0m - Connection established with ShowImage
+2024-03-21 14:54:33,637 - [32m[INF][0m - Connection established with <rpyc.core.protocol.Connection 'conn1' object at 0x0000027B86B344D0>
+2024-03-21 14:54:33,648 - [32m[INF][0m - Connection established with <rpyc.core.protocol.Connection 'conn2' object at 0x0000027B86B34F10>

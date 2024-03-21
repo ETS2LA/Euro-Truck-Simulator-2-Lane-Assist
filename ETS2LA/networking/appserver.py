@@ -19,16 +19,17 @@ class ETS2LAInternalService(rpyc.Service):
         logging.info("Connection established with %s", name)
 
     def exposed_push_data(self, name, data):
-        self.exposed_plugin_datas[name] = data
-        print(f"Pushed data from {name}: {data}")
+        self.plugin_datas[name] = data
+        
+    def exposed_get_data(self, pluginName):
+        try:
+            return self.plugin_datas[pluginName]
+        except KeyError:
+            return None
 
-    def exposed_get_answer(self): # this is an exposed method
-        return 42
+    plugin_datas = {}
 
-    exposed_plugin_datas = {}
 
-    def get_question(self):  # while this method is not exposed
-        return "what is the airspeed velocity of an unladen swallow?"
     
 def run():
     # Create a custom logger so that we can save the output to a file, but we don't want to print it to the console.
@@ -38,6 +39,9 @@ def run():
     handler.setLevel(logging.DEBUG)
     logger.addHandler(handler)
     
-    t = ThreadedServer(ETS2LAInternalService, port=37521, logger=logger)
+    # Enable pickling for numpy etc...
+    config = {'allow_pickle': True}
+
+    t = ThreadedServer(ETS2LAInternalService, port=37521, logger=logger, protocol_config=config)
     threading.Thread(target=t.start, daemon=True).start()
     logging.info("Internal service started on port 37521")
