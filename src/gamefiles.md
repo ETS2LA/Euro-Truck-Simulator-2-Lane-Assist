@@ -23,6 +23,8 @@ ReadProfileConfigFile(str)
 ReadGlobalControlsFile(str)
 """Reads the global config file of the selected game."""
 ReadGlobalConfigFile(str)
+"""Reads the game log of the selected game."""
+ReadGameLogFile(str)
 ```
 
 ## Description

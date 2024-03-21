@@ -286,3 +286,48 @@ def ReadGlobalConfigFile(game="automatic"):
         exc = traceback.format_exc()
         SendCrashReport("Error in gamefiles.py: ReadGlobalConfigFile", str(exc))
         print("Error in gamefiles.py: ReadGlobalConfigFile" + str(e))
+
+    
+def ReadGameLogFile(game="automatic"):
+    '''
+    Reads the game log of the selected game.
+    game: "automatic" or "ats" or "ets2"
+    '''
+    get_paths()
+    try:
+        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
+
+            if game == "automatic":
+                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                    if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
+                        game = "ets2"
+                    else:
+                        game = "ats"
+                elif ETS2_DOCUMENTS_FOUND == True:
+                    game = "ets2"
+                elif ATS_DOCUMENTS_FOUND == True:
+                    game = "ats"
+
+            if game == "ets2":
+                if os.path.exists(ETS2_DOCUMENTS_PATH + "/game.log.txt"):
+                    with open(f"{ETS2_DOCUMENTS_PATH}/game.log.txt", "r") as file:
+                        return file.read()
+                else:
+                    print(RED + "No game log file in documents found, unable to read file." + NORMAL)
+                    return None
+
+            if game == "ats":
+                if os.path.exists(ATS_DOCUMENTS_PATH + "/game.log.txt"):
+                    with open(f"{ATS_DOCUMENTS_PATH}/game.log.txt", "r") as file:
+                        return file.read()
+                else:
+                    print(RED + "No game log file in documents found, unable to read file." + NORMAL)
+                    return None
+
+        else:
+            print(RED + "No game in documents found, unable to read file." + NORMAL)
+            return None
+    except Exception as e:
+        exc = traceback.format_exc()
+        SendCrashReport("Error in gamefiles.py: ReadGameLogFile", str(exc))
+        print("Error in gamefiles.py: ReadGameLogFile" + str(e))
