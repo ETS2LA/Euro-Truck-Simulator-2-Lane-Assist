@@ -1,1 +1,0 @@
-"""The upcoming V2 version of the app. Should not be used yet!"""

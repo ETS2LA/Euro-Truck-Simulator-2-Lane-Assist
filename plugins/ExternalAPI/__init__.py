@@ -1,1 +1,0 @@
-"""Provides an external API for external applications to use."""

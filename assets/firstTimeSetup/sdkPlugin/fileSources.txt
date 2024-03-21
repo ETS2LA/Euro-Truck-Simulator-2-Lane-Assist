@@ -1,5 +1,0 @@
-input_semantical.dll - https://github.com/Tumppi066/scs-sdk-controller/tree/main
-Plugin I developed, will interface with the game to send input data with no virtual controller.
-
-scs-telemetry.dll - https://github.com/RenCloud/scs-sdk-plugin
-Plugin developed by RenCloud, provides data from the game to the app. (stuff like speed, location etc...)
