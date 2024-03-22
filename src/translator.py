@@ -252,7 +252,10 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
         try:
             if translatePopup == None:
                 translatePopup = helpers.ShowPopup("\nPlease wait, translating...", "Translator", timeout=0.1, translate=False)
-            if translatePopup.closed or translatePopup.winfo_exists() == 0:
+            try:
+                if translatePopup.closed or translatePopup.winfo_exists() == 0:
+                    translatePopup = None
+            except:
                 translatePopup = None
                 
             mainUI.root.update()
