@@ -66,8 +66,7 @@ class UI():
             helpers.MakeLabel(self.root, "If you have any other plugins installed, please configure them manually.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=3)
 
             helpers.MakeEmptyLine(self.root, 3,0, columnspan=3)
-            
-            # REMEMBER TO CHANGE BACK TO PAGE1
+        
             helpers.MakeButton(self.root, "Tutorial Video ↗", lambda: helpers.OpenInBrowser("https://www.youtube.com/watch?v=0pic0rzjvik"), 4,0, width=20)
             helpers.MakeButton(self.root, "Wiki ↗", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi/en/LaneAssist"), 4,1, width=20)
             helpers.MakeButton(self.root, "Next", lambda: self.detectionselection(), 4,2, width=20)
@@ -158,16 +157,6 @@ class UI():
             settings.CreateSettings("DefaultSteering", "gamepad", True)
             settings.CreateSettings("DefaultSteering", "gamepadSmoothness", 0.05)
 
-            # helpers.MakeLabel(self.root, "Gamepad", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            # helpers.MakeLabel(self.root, "Great! I'll automatically set all the necessary options for gamepad usage.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            # helpers.MakeLabel(self.root, "Just be aware that you will have to set the controller type to 'wheel' in the game.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)        
-            # helpers.MakeLabel(self.root, "Don't worry there will be instructions later! For now please select your controller from the list below.", 3,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-            # pygame.event.pump()
-            # 
-            # 
-            # helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 8,0)
-            # helpers.MakeButton(self.root, "Next", lambda: self.axisSetup(), 8,1)
-
             self.buttonSetup()
             
             
@@ -175,33 +164,7 @@ class UI():
             
             settings.CreateSettings("DefaultSteering", "gamepad", False)
             settings.CreateSettings("DefaultSteering", "gamepadsmoothness", 0.05)
-            # 
-            # from plugins.DefaultSteering.main import updateSettings
-            # updateSettings()
-            # 
-            # self.root.destroy()
-            # self.root = tk.Canvas(self.master)
-# 
-            # helpers.MakeLabel(self.root, "Wheel", 0,0, font=("Roboto", 20, "bold"), padx=30, pady=10, columnspan=2)
-            # helpers.MakeLabel(self.root, "Great! Using a wheel has the most straight forward setup process.", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)    
-            # helpers.MakeLabel(self.root, "Please select your wheel from the list below.", 2,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-# 
-            # pygame.event.pump()
-# 
-            # self.joysticks = pygame.joystick.get_count()
-            # self.joysticks = [pygame.joystick.Joystick(i) for i in range(self.joysticks)]
-            # 
-            # self.listVariable = tk.StringVar(self.root)
-            # self.listVariable.set([j.get_name() for j in self.joysticks])
-            # 
-            # self.list = tk.Listbox(self.root, width=70, height=4, listvariable=self.listVariable, selectmode="single")
-            # self.list.grid(row=3, column=0, columnspan=2, padx=30, pady=10)
-# 
-            # helpers.MakeLabel(self.root, "The list is scrollable, if you can't find your controller then go back and open the page again.", 4,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2)
-# 
-            # helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 5,0)
-            # helpers.MakeButton(self.root, "Next", lambda: self.axisSetup(), 5,1)
-
+            
             self.buttonSetup()
             
             
@@ -218,8 +181,6 @@ class UI():
             helpers.MakeLabel(self.root, "Please bind the following buttons", 1,0, font=("Segoe UI", 10), padx=30, pady=0, columnspan=2) 
 
             helpers.MakeButton(self.root, "Bind enable / disable key", lambda: controls.ChangeKeybind("Enable/Disable Steering", updateUI=False), 2, 0, columnspan=2, width=25, tooltip="This button will enable and disable the steering.")
-            # helpers.MakeButton(self.root, "Bind steer left key", lambda: controls.ChangeKeybind("Steer Left Key", updateUI=False), 3, 0)
-            # helpers.MakeButton(self.root, "Bind steer right key", lambda: controls.ChangeKeybind("Steer Right Key", updateUI=False), 4, 0)
 
             helpers.MakeButton(self.root, "Previous", lambda: self.page1(), 8,0)
             if bettercam != None:
@@ -252,12 +213,6 @@ class UI():
             self.root.update()
             
         def saveButtonSettings(self):
-            
-            # Save the button settings
-            # settings.CreateSettings("DefaultSteering", "leftIndicator", int(self.leftBlinkerCombo.get().split(" ")[1]))
-            # settings.CreateSettings("DefaultSteering", "rightIndicator", int(self.rightBlinkerCombo.get().split(" ")[1]))
-            # settings.CreateSettings("DefaultSteering", "enableDisable", int(self.enableDisableCombo.get().split(" ")[1]))
-            
             from plugins.DefaultSteering.main import updateSettings
             updateSettings()
             
