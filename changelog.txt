@@ -1,1 +1,2 @@
 Fixed a bug which crashed the app when using UFLDLaneDetection without the model.
+Fixed a bug that the NavigationDetection setup wont work properly with the MSSScreenCapture.
