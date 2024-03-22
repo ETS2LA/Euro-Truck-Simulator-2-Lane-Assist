@@ -66,7 +66,12 @@ def plugin(data):
     
     if laneDetector == None:
         try:
-            laneDetector = UltrafastLaneDetectorV2(model_path, model_type)
+            if os.path.exists(model_path):
+                laneDetector = UltrafastLaneDetectorV2(model_path, model_type)
+            else:
+                helpers.ShowFailure("Could not load the model file. Most likely it's missing.\nUFLD will now disable itself.", title="UFLD Error")
+                settings.RemoveFromList("Plugins", "Enabled", "UFLDLaneDetection")
+                variables.UpdatePlugins()
         except:
             helpers.ShowFailure("Could not load the model file. Most likely it's missing.\nUFLD will now disable itself.", title="UFLD Error")
             settings.RemoveFromList("Plugins", "Enabled", "UFLDLaneDetection")
