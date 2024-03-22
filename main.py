@@ -45,6 +45,7 @@ import src.variables as variables
 import src.translator as translator
 import src.scsLogReader as LogReader
 from src.server import SendCrashReport, Ping
+import plugins.MSSScreenCapture.main as MSSScreenCapture
 
 try:
     import importlib_metadata
@@ -226,6 +227,8 @@ def ReloadPluginCode():
     except Exception as ex:
         print(ex.args)
         pass
+    MSSScreenCapture.CreateCamera()
+    MSSScreenCapture.monitor = None
     print("Reloaded UI root code.")
 
 def RunOnEnable():

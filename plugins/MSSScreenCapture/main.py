@@ -58,7 +58,6 @@ def CreateCamera():
     if display == None:
         settings.CreateSettings("bettercam", "display", 0)
         display = 0
-    display += 1
 
     left, top = x, y
     right, bottom = left + width, top + height
@@ -76,6 +75,13 @@ def onDisable():
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
+    
+    try:
+        if monitor == None:
+            CreateCamera()
+    except:
+        CreateCamera()
+    
     try:
         # Capture full screen once
         frame = cv2.cvtColor(np.array(sct.grab(sct.monitors[(display + 1)])), cv2.COLOR_BGRA2BGR)
