@@ -4,6 +4,9 @@ import rpyc
 import time
 import cv2
 import copy
+import ctypes
+user32 = ctypes.windll.user32
+
 PluginInfo = PluginInformation(
     name="ShowImage",
     description="Will show the screen capture img.",
@@ -12,7 +15,7 @@ PluginInfo = PluginInformation(
 )
 
 cv2.namedWindow("img", cv2.WINDOW_NORMAL)
-cv2.resizeWindow("img", 1280, 720)
+cv2.resizeWindow("img", round(user32.GetSystemMetrics(0)*0.25), round(user32.GetSystemMetrics(1)*0.25))
 
 def plugin(runner):
     try:
