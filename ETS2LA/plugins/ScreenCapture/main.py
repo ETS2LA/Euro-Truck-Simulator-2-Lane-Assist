@@ -13,12 +13,7 @@ PluginInfo = PluginInformation(
     author="Tumppi066"
 )
 
-monitor = {
-    "top": 0,
-    "left": 0,
-    "width": user32.GetSystemMetrics(0),
-    "height": user32.GetSystemMetrics(1)
-}
+monitor = (0, 0, int(user32.GetSystemMetrics(0)), int(user32.GetSystemMetrics(1)))
 
 def CreateBettercam():
     global cam
