@@ -23,7 +23,6 @@ class PluginRunnerController():
             timeStart = time.time()
             data = self.queue.get()
             timeEnd = time.time()
-            print(f"Time taken to get data from queue: {timeEnd - timeStart}")
             if type(data) == type(None):
                 time.sleep(0.00001)
                 continue
