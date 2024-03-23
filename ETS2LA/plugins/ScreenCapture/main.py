@@ -4,7 +4,7 @@ import numpy as np
 from ETS2LA.plugins.plugin import PluginInformation
 import ctypes 
 
-user32 - ctypes.windll.user32
+user32 = ctypes.windll.user32
 
 PluginInfo = PluginInformation(
     name="ScreenCapture",
@@ -34,7 +34,7 @@ CreateBettercam()
 def plugin(runner):
     global cam
     try:
-        img = cam.get_latest_frame()
+        img = cam.grab(region=monitor)
         img = np.array(img)
         return img
     except:
