@@ -53,6 +53,9 @@ except:
     os.system("pip install importlib_metadata")
     import importlib_metadata
 
+if settings.GetSettings("User Interface", "hide_console", False) == True:
+    console.HideConsole()
+
 # Check tkinter tcl version
 tcl = tk.Tcl()
 acceptedVersions = ["8.6.11", "8.6.12", "8.6.13"]
@@ -72,9 +75,6 @@ try:
         settings.RemoveFromList("Plugins", "Enabled", "DXCamScreenCapture")
         settings.AddToList("Plugins", "Enabled", "BetterCamScreenCapture")
 except: pass
-
-if settings.GetSettings("User Interface", "hide_console", False) == True:
-    console.HideConsole()
 
 listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel", "PyQt5"]
 listOfRequirementsAddedLater = [i.replace("-", "_") for i in listOfRequirementsAddedLater]
