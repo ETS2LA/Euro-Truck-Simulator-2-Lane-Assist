@@ -245,7 +245,9 @@ class UI():
             self.enablePlugin(plugin)
     
     def disablePlugin(self, plugin):
-        settings.RemoveFromList("Plugins", "Enabled", plugin.PluginInfo.name)
+        for enabledPlugin in settings.GetSettings("Plugins", "Enabled"):
+            if enabledPlugin == plugin.PluginInfo.name:
+                settings.RemoveFromList("Plugins", "Enabled", plugin.PluginInfo.name)
         variables.UpdatePlugins()
         plugin.onDisable()
         try:
@@ -261,7 +263,9 @@ class UI():
                 for otherPlugin in self.plugins:
                     if otherPlugin.PluginInfo.exclusive != None:
                         if otherPlugin.PluginInfo.exclusive == plugin.PluginInfo.exclusive:
-                            settings.RemoveFromList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
+                            for enabledPlugin in settings.GetSettings("Plugins", "Enabled"):
+                                if enabledPlugin == otherPlugin.PluginInfo.name:
+                                    settings.RemoveFromList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
             else: return
             
         if plugin.PluginInfo.requires != None:
@@ -269,11 +273,12 @@ class UI():
             if helpers.AskOkCancel("Required plugins", "This plugin requires other plugins to work, enabling it will enable all required plugins.\n\n" + "\n".join(plugin.PluginInfo.requires) + "\n\nDo you want to continue?"):
                 for otherPlugin in self.plugins:
                     if otherPlugin.PluginInfo.name in plugin.PluginInfo.requires:
-                        settings.AddToList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
+                        if otherPlugin.PluginInfo.name not in settings.GetSettings("Plugins", "Enabled"):
+                            settings.AddToList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
             else:
                 return
-            
-        settings.AddToList("Plugins", "Enabled", plugin.PluginInfo.name)
+        if plugin.PluginInfo.name not in settings.GetSettings("Plugins", "Enabled"):
+            settings.AddToList("Plugins", "Enabled", plugin.PluginInfo.name)
         variables.UpdatePlugins()
         plugin.onEnable()
         self.page0()
