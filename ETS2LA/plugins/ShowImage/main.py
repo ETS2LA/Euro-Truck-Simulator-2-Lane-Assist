@@ -21,6 +21,8 @@ def plugin(runner):
         endTime = time.time()
         # print(f"GetData(['ScreenCapture']) time: {round((endTime - startTime)*1000,1)}ms")
         img = img[0]
+        if type(img) != np.ndarray:
+            return
         cv2.imshow("img", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         cv2.waitKey(1)
     except:
