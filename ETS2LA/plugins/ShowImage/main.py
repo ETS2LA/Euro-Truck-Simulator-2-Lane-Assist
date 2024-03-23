@@ -21,7 +21,7 @@ def plugin(runner):
     # print(f"GetData(['ScreenCapture']) time: {round((endTime - startTime)*1000,1)}ms")
     img = img[0]
     try:
-        cv2.imshow("img", img)
+        cv2.imshow("img", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         cv2.waitKey(1)
     except:
         pass
