@@ -35,5 +35,5 @@ def plugin(runner):
         return img
     except:
         import traceback
-        traceback.print_exc()
+        runner.logger.exception(traceback.format_exc())
         pass

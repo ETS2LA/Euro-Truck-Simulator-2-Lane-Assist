@@ -15,13 +15,15 @@ cv2.namedWindow("img", cv2.WINDOW_NORMAL)
 cv2.resizeWindow("img", 1280, 720)
 
 def plugin(runner):
-    startTime = time.time()
-    img = runner.GetData(["ScreenCapture"]) # MSS image object
-    endTime = time.time()
-    # print(f"GetData(['ScreenCapture']) time: {round((endTime - startTime)*1000,1)}ms")
-    img = img[0]
     try:
+        startTime = time.time()
+        img = runner.GetData(["ScreenCapture"]) # MSS image object
+        endTime = time.time()
+        # print(f"GetData(['ScreenCapture']) time: {round((endTime - startTime)*1000,1)}ms")
+        img = img[0]
         cv2.imshow("img", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         cv2.waitKey(1)
     except:
+        import traceback
+        runner.logger.exception(traceback.format_exc())
         pass
