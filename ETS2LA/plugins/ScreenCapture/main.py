@@ -2,6 +2,10 @@ import bettercam
 import cv2
 import numpy as np
 from ETS2LA.plugins.plugin import PluginInformation
+import ctypes 
+
+user32 - ctypes.windll.user32
+
 PluginInfo = PluginInformation(
     name="ScreenCapture",
     description="Will capture the screen with MSS, and return the data back to the app.",
@@ -12,8 +16,8 @@ PluginInfo = PluginInformation(
 monitor = {
     "top": 0,
     "left": 0,
-    "width": 1920,
-    "height": 1200,
+    "width": user32.GetSystemMetrics(0),
+    "height": user32.GetSystemMetrics(1)
 }
 
 def CreateBettercam():
