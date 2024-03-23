@@ -52,3 +52,6 @@ themes/*
 
 # Ignore screenshot
 screenshot.png
+
+# Ignore the logs
+logs

@@ -10,7 +10,6 @@ PluginInfo = PluginInformation(
 )
 
 def plugin(runner):
-    # Capture a 200x200 area in the middle of the monitor
     monitor = {
         "top": 0,
         "left": 0,
@@ -20,6 +19,7 @@ def plugin(runner):
     try:
         img = mss.mss().grab(monitor)
         img = np.array(img)
+        
         return img
     except:
         pass

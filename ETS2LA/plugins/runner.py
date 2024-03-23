@@ -3,10 +3,11 @@ import logging
 import os
 import importlib
 import multiprocessing
+from ETS2LA.utils.logging import *
 
 class PluginRunner():
-    def __init__(self, pluginName, logger:logging.Logger, queue:multiprocessing.Queue):
-        self.logger = logger
+    def __init__(self, pluginName, queue:multiprocessing.Queue):
+        self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"))
         self.q = queue
         self.enableTime = time.time()
         # Import the plugin
@@ -22,21 +23,38 @@ class PluginRunner():
         while True:
             startTime = time.time()
             data = self.plugin.plugin(self)
-            ioStartTime = time.time()
-            self.q.put_nowait({f"{self.plugin_name}": data})
+            self.q.put_nowait(data)
             endTime = time.time()
-            print(f"PluginRunner: {self.plugin_name} took {endTime - startTime} seconds to run, and {endTime - ioStartTime} seconds to put the data into the queue.")
             if endTime - self.timer > 1:
                 self.q.put_nowait({
                     f"frametimes": {
-                        f"{self.plugin_name}": 1 / (endTime - startTime)
+                        f"{self.plugin_name}": endTime - startTime
                         }
                     })
+                self.logger.info(f"PluginRunner: {self.plugin_name} is running at {1 / (endTime - startTime)} FPS")
                 self.timer = endTime
                 
-    def GetData(self, pluginName):
-        data = self.q.get(pluginName)
-        if data is not None:
-            return data
-        else:
-            return None
+    def GetData(self, plugins:list):
+        amount = len(plugins)
+        self.q.put({"get": plugins})
+        data = []
+        count = 0
+        while count != amount:
+            try:
+                queueData = self.q.get(timeout=1)    
+            except:
+                time.sleep(0.00000001)
+                continue
+            if type(queueData) == type(None):
+                data.append(None)
+                count += 1
+                continue
+            try:
+                if "get" in queueData or "frametimes" in queueData: 
+                    self.q.put(queueData)
+                    continue
+            except:
+                pass
+            data.append(queueData)
+            count += 1
+        return data

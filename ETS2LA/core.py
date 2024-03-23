@@ -1,35 +1,21 @@
 import time
 import ETS2LA.networking.webserver as webserver
-import ETS2LA.networking.appserver as appserver
-from ETS2LA.plugins.runner import PluginRunner
+import ETS2LA.networking.pluginNetworking as pluginNetworking
 from ETS2LA.utils.logging import *
 import multiprocessing
 
-logger = SetupLogging()
+logger = SetupGlobalLogging()
 webserver.run()
-appserver.run()
 
-queue = multiprocessing.Queue()
-
-plugin = "ScreenCapture"
-# Run the plugin runner in a separate process
-p = multiprocessing.Process(target=PluginRunner, args=(plugin, logger, queue, ), daemon=True)
-p.start()
-
-#plugin = "ShowImage"
-# Run the plugin runner in a separate process
-#p = multiprocessing.Process(target=PluginRunner, args=(plugin, logger, queue, ), daemon=True)
-#p.start()
+pluginNetworking.AddPluginRunner("ScreenCapture")
+pluginNetworking.AddPluginRunner("ShowImage")
 
 logging.info("ETS2LA backend has been started successfully.")
 while True:
-    data = queue.get()
-    if "frametimes" in data:
-        logging.info(data["frametimes"])
-    else:
-        import cv2
-        cv2.namedWindow("image", cv2.WINDOW_NORMAL)
-        cv2.resizeWindow("image", 1280, 720)
-        cv2.imshow("image", data["ScreenCapture"])
-        cv2.waitKey(1)
+    time.sleep(1)
+    fpsString = "Plugins are running at: \n"
+    for frameTime in pluginNetworking.frameTimes:
+        fpsString += f"{frameTime}: {1 / pluginNetworking.frameTimes[frameTime]:.2f} FPS\n"
+    logging.info(fpsString)
+    pass
     

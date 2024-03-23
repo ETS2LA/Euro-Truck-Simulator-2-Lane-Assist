@@ -11,13 +11,17 @@ PluginInfo = PluginInformation(
     author="Tumppi066"
 )
 
+cv2.namedWindow("img", cv2.WINDOW_NORMAL)
+cv2.resizeWindow("img", 1280, 720)
+
 def plugin(runner):
-    img = runner.GetData("ScreenCapture") # MSS image object
-    img = copy.deepcopy(img) # This is what makes it really slow...
+    startTime = time.time()
+    img = runner.GetData(["ScreenCapture"]) # MSS image object
+    endTime = time.time()
+    # print(f"GetData(['ScreenCapture']) time: {round((endTime - startTime)*1000,1)}ms")
+    img = img[0]
     try:
-        cv2.imshow("img", np.array(img))
+        cv2.imshow("img", img)
         cv2.waitKey(1)
     except:
-        #import traceback
-        #traceback.print_exc()
         pass
