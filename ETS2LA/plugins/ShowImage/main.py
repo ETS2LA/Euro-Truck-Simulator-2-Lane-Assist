@@ -15,7 +15,7 @@ PluginInfo = PluginInformation(
 )
 
 cv2.namedWindow("img", cv2.WINDOW_NORMAL)
-cv2.resizeWindow("img", round(user32.GetSystemMetrics(0)*0.25), round(user32.GetSystemMetrics(1)*0.25))
+cv2.resizeWindow("img", round(user32.GetSystemMetrics(0)*0.40), round(user32.GetSystemMetrics(1)*0.40))
 
 def plugin(runner):
     try:
