@@ -12,6 +12,7 @@ class PluginRunner():
         # Save the values to the class
         self.q = queue
         self.enableTime = time.time()
+        self.frametimes = []
         # Import the plugin
         module_name = "ETS2LA.plugins." + pluginName + ".main"
         self.plugin = importlib.import_module(module_name)
@@ -27,15 +28,19 @@ class PluginRunner():
             data = self.plugin.plugin(self)
             self.q.put_nowait(data)
             endTime = time.time()
+            self.frametimes.append(endTime - startTime)
             # Send the frametimes to the main thread once a second
             if endTime - self.timer > 1:
+                # Calculate the avg frametime
+                avgFrametime = sum(self.frametimes) / len(self.frametimes)
                 self.q.put_nowait({
                     f"frametimes": {
-                        f"{self.plugin_name}": endTime - startTime
+                        f"{self.plugin_name}": avgFrametime
                         }
                     })
-                self.logger.info(f"PluginRunner: {self.plugin_name} is running at {1 / (endTime - startTime)} FPS")
+                self.logger.info(f"PluginRunner: {self.plugin_name} is running at {round(1 / (avgFrametime),2)} FPS")
                 self.timer = endTime
+                self.frametimes = []
                 
     def GetData(self, plugins:list):
         amount = len(plugins)
