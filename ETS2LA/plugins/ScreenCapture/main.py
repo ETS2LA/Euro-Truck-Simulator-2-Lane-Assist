@@ -14,11 +14,12 @@ def plugin(runner):
     monitor = {
         "top": 0,
         "left": 0,
-        "width": 600,
-        "height": 400,
+        "width": 1920,
+        "height": 1200,
     }
     try:
         img = mss.mss().grab(monitor)
+        img = np.array(img)
         return img
     except:
         pass

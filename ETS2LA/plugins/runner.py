@@ -1,22 +1,19 @@
 import time
 import logging
-import rpyc
 import os
 import importlib
+import multiprocessing
 
 class PluginRunner():
-    def __init__(self, pluginName, logger):
+    def __init__(self, pluginName, logger:logging.Logger, queue:multiprocessing.Queue):
         self.logger = logger
+        self.q = queue
         self.enableTime = time.time()
         # Import the plugin
         module_name = "ETS2LA.plugins." + pluginName + ".main"
         self.plugin = importlib.import_module(module_name)
         self.plugin_name = self.plugin.PluginInfo.name
         self.logger.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
-        # Connect to the app server
-        rpyc.core.protocol.DEFAULT_CONFIG['allow_pickle'] = True # Enable pickling for numpy etc...
-        self.server = rpyc.connect("localhost", 37521)
-        self.server.root.exposed_announce(self.plugin_name)
         # Run the plugin
         self.run()
 
@@ -25,14 +22,20 @@ class PluginRunner():
         while True:
             startTime = time.time()
             data = self.plugin.plugin(self)
-            self.server.root.exposed_push_data(self.plugin_name, data)
+            ioStartTime = time.time()
+            self.q.put_nowait({f"{self.plugin_name}": data})
             endTime = time.time()
+            print(f"PluginRunner: {self.plugin_name} took {endTime - startTime} seconds to run, and {endTime - ioStartTime} seconds to put the data into the queue.")
             if endTime - self.timer > 1:
-                self.server.root.exposed_send_fps(self.plugin_name, 1 / (endTime - startTime))
+                self.q.put_nowait({
+                    f"frametimes": {
+                        f"{self.plugin_name}": 1 / (endTime - startTime)
+                        }
+                    })
                 self.timer = endTime
                 
     def GetData(self, pluginName):
-        data = self.server.root.exposed_get_data(pluginName)
+        data = self.q.get(pluginName)
         if data is not None:
             return data
         else:

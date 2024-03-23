@@ -1,6 +1,7 @@
-2024-03-21 15:49:42,164 - [32m[INF][0m - Logger initialized.
-2024-03-21 15:49:42,218 - [32m[INF][0m - Webserver started on http://localhost:37520
-2024-03-21 15:49:42,220 - [32m[INF][0m - Internal service started on port 37521
-2024-03-21 15:49:42,240 - [32m[INF][0m - ETS2LA backend has been started successfully.
-2024-03-21 15:49:42,557 - [32m[INF][0m - Connection established with ScreenCapture
-2024-03-21 15:49:42,575 - [32m[INF][0m - Connection established with ShowImage
+2024-03-23 12:04:25,296 - [32m[INF][0m - Logger initialized.
+2024-03-23 12:04:25,362 - [32m[INF][0m - Webserver started on http://localhost:37520
+2024-03-23 12:04:25,364 - [32m[INF][0m - Internal service started on port 37521
+2024-03-23 12:04:25,376 - [32m[INF][0m - ETS2LA backend has been started successfully.
+2024-03-23 12:04:26,685 - [32m[INF][0m - {'ScreenCapture': 29.97644368210406}
+2024-03-23 12:04:27,718 - [32m[INF][0m - {'ScreenCapture': 32.681445234885736}
+2024-03-23 12:04:28,723 - [32m[INF][0m - {'ScreenCapture': 29.781053408881125}
