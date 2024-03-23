@@ -2,16 +2,19 @@ import time
 import ETS2LA.networking.webserver as webserver
 import ETS2LA.networking.pluginNetworking as pluginNetworking
 from ETS2LA.utils.logging import *
-import multiprocessing
 
+# Initialize the backend
 logger = SetupGlobalLogging()
 webserver.run()
 
+# This is how we temporarily enable plugins
 pluginNetworking.AddPluginRunner("ScreenCapture")
 pluginNetworking.AddPluginRunner("ShowImage")
 
 logging.info("ETS2LA backend has been started successfully.")
+
 while True:
+    # Print the FPS values
     time.sleep(1)
     fpsString = "Plugins are running at: \n"
     for frameTime in pluginNetworking.frameTimes:

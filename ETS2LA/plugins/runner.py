@@ -7,7 +7,9 @@ from ETS2LA.utils.logging import *
 
 class PluginRunner():
     def __init__(self, pluginName, queue:multiprocessing.Queue):
+        # Initialize the logger
         self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"))
+        # Save the values to the class
         self.q = queue
         self.enableTime = time.time()
         # Import the plugin
@@ -20,11 +22,12 @@ class PluginRunner():
 
     def run(self):
         self.timer = time.time()
-        while True:
+        while True: # NOTE: This class is running in a seperate process, we can thus use an infinite loop!
             startTime = time.time()
             data = self.plugin.plugin(self)
             self.q.put_nowait(data)
             endTime = time.time()
+            # Send the frametimes to the main thread once a second
             if endTime - self.timer > 1:
                 self.q.put_nowait({
                     f"frametimes": {
@@ -36,11 +39,13 @@ class PluginRunner():
                 
     def GetData(self, plugins:list):
         amount = len(plugins)
+        # Send the get command to the main thread
         self.q.put({"get": plugins})
         data = []
         count = 0
-        while count != amount:
+        while count != amount: # Loop until we have all the data
             try:
+                # Wait until we get an answer.
                 queueData = self.q.get(timeout=1)    
             except:
                 time.sleep(0.00000001)
@@ -50,11 +55,15 @@ class PluginRunner():
                 count += 1
                 continue
             try:
+                # If the data we fetched was from this plugin, we can skip the loop.
                 if "get" in queueData or "frametimes" in queueData: 
                     self.q.put(queueData)
                     continue
             except:
                 pass
+            # Append the data to the list
             data.append(queueData)
             count += 1
+            
+        # Return all gathered data
         return data
