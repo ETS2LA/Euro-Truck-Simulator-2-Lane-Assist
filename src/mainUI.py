@@ -567,9 +567,6 @@ def CreateRoot():
                 if tab == "controls" or tab == "Changelog":
                     settings.RemoveFromList("User Interface", "OpenTabs", tab)
                     continue
-                elif tab == "MainMenu":
-                    helpers.RunInMainThread(lambda: switchSelectedPlugin(f"plugins.{tab}.main"))
-                    continue
                 else:
                     switchSelectedPlugin(f"plugins.{tab}.main")
             except Exception as ex:
