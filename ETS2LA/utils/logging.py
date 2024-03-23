@@ -16,6 +16,10 @@ def SetupGlobalLogging():
                         datefmt=f'%H:%M:%S'
                         )
     
+    
+    # If the file path doesn't exist, create it
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
     # If the log file exists, delete it
     if os.path.exists("ETS2LA.log"):
         os.remove("ETS2LA.log")

@@ -5,7 +5,7 @@ from ETS2LA.utils.logging import *
 
 # Initialize the backend
 logger = SetupGlobalLogging()
-webserver.run()
+webserver.run() # External webserver for the UI
 
 # This is how we temporarily enable plugins
 pluginNetworking.AddPluginRunner("ScreenCapture")
