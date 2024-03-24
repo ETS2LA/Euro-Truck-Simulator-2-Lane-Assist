@@ -2,6 +2,7 @@ import bettercam
 import cv2
 import numpy as np
 from ETS2LA.plugins.plugin import PluginInformation
+from ETS2LA.plugins.runner import PluginRunner
 import ctypes 
 
 user32 = ctypes.windll.user32
@@ -26,7 +27,7 @@ def CreateBettercam():
 
 CreateBettercam()
 
-def plugin(runner):
+def plugin(runner:PluginRunner):
     global cam
     try:
         img = cam.get_latest_frame()

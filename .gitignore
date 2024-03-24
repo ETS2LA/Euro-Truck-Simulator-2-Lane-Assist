@@ -55,3 +55,7 @@ screenshot.png
 
 # Ignore the logs
 logs
+
+# Ignore main branch files
+plugins/
+profiles/

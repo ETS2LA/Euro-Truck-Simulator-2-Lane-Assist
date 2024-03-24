@@ -1,5 +1,6 @@
 import numpy as np
 from ETS2LA.plugins.plugin import PluginInformation
+from ETS2LA.plugins.runner import PluginRunner
 import rpyc
 import time
 import cv2
@@ -17,7 +18,7 @@ PluginInfo = PluginInformation(
 cv2.namedWindow("img", cv2.WINDOW_NORMAL)
 cv2.resizeWindow("img", round(user32.GetSystemMetrics(0)*0.40), round(user32.GetSystemMetrics(1)*0.40))
 
-def plugin(runner):
+def plugin(runner:PluginRunner):
     try:
         startTime = time.time()
         img = runner.GetData(["ScreenCapture"]) # MSS image object

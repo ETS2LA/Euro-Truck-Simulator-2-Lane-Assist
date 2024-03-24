@@ -12,7 +12,9 @@ class PluginRunner():
         # Save the values to the class
         self.q = queue
         self.enableTime = time.time()
+        self.getTime = 0
         self.frametimes = []
+        self.executiontimes = []
         # Import the plugin
         module_name = "ETS2LA.plugins." + pluginName + ".main"
         self.plugin = importlib.import_module(module_name)
@@ -26,23 +28,33 @@ class PluginRunner():
         while True: # NOTE: This class is running in a seperate process, we can thus use an infinite loop!
             startTime = time.time()
             data = self.plugin.plugin(self)
-            self.q.put_nowait(data)
+            pluginExec = time.time()
+            self.q.put(data)
             endTime = time.time()
             self.frametimes.append(endTime - startTime)
+            self.executiontimes.append(pluginExec - startTime)
+            self.executiontimes[-1] -= self.getTime
+            self.getTime = 0
             # Send the frametimes to the main thread once a second
             if endTime - self.timer > 1:
                 # Calculate the avg frametime
                 avgFrametime = sum(self.frametimes) / len(self.frametimes)
-                self.q.put_nowait({
+                avgExecTime = sum(self.executiontimes) / len(self.executiontimes)
+                self.q.put({
                     f"frametimes": {
-                        f"{self.plugin_name}": avgFrametime
+                        f"{self.plugin_name}": {
+                            "frametime": avgFrametime,
+                            "executiontime": avgExecTime
+                        }
                         }
                     })
                 self.logger.info(f"PluginRunner: {self.plugin_name} is running at {round(1 / (avgFrametime),2)} FPS")
                 self.timer = endTime
                 self.frametimes = []
+                self.executiontimes = []
                 
     def GetData(self, plugins:list):
+        startTime = time.time()
         amount = len(plugins)
         # Send the get command to the main thread
         self.q.put({"get": plugins})
@@ -70,5 +82,7 @@ class PluginRunner():
             data.append(queueData)
             count += 1
             
+        endTime = time.time()
+        self.getTime += endTime - startTime
         # Return all gathered data
         return data
