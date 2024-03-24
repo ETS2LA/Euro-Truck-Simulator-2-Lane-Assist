@@ -31,6 +31,7 @@ def plugin(runner):
     try:
         img = cam.get_latest_frame()
         img = np.array(img)
+        img = img[monitor[1]:monitor[3], monitor[0]:monitor[2]]
         return img
     except:
         import traceback
