@@ -21,11 +21,23 @@ async function GetFrametimes() {
 }
 
 async function GetPlugins(): Promise<string[]> {
-    console.log("Getting plugins")
     const response = await fetch("http://localhost:37520/api/plugins")
     const data = await response.json()
-    console.log(data)
     return data
 }
 
-export { GetVersion, CloseBackend, GetFrametimes, GetPlugins }
+async function DisablePlugin(plugin: string) {
+    console.log("Disabling plugin")
+    const response = await fetch(`http://localhost:37520/api/plugins/${plugin}/disable`)
+    const data = await response.json()
+    console.log(data)
+}
+
+async function EnablePlugin(plugin: string) {
+    console.log("Enabling plugin")
+    const response = await fetch(`http://localhost:37520/api/plugins/${plugin}/enable`)
+    const data = await response.json()
+    console.log(data)
+}
+
+export { GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin }

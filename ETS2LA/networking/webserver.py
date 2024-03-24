@@ -6,6 +6,7 @@ import threading
 import logging
 import sys
 import os
+import json
 
 app = FastAPI()
 app.add_middleware(
@@ -31,9 +32,25 @@ def quitApp():
 
 @app.get("/api/plugins")
 def get_plugins():
-    # Return as json
-    plugins = backend.AVAILABLE_PLUGINS
-    return plugins
+    # Get data
+    plugins = backend.GetAvailablePlugins()
+    enabledPlugins = backend.GetEnabledPlugins()
+    # Create the json
+    returnData = {}
+    for plugin in plugins:
+        returnData[plugin] = {"enabled": False}
+        if plugin in enabledPlugins:
+            returnData[plugin]["enabled"] = True
+    
+    return returnData
+
+@app.get("/api/plugins/{plugin}/enable")
+def enable_plugin(plugin: str):
+    return backend.AddPluginRunner(plugin)
+
+@app.get("/api/plugins/{plugin}/disable")
+def disable_plugin(plugin: str):
+    return backend.RemovePluginRunner(plugin)
 
 def RunFrontend():
     # os.system("start msedge --app=http://localhost:3000")

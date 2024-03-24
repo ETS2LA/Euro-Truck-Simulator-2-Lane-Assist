@@ -10,9 +10,9 @@ webserver.run() # External webserver for the UI
 logging.info("Available CPU cores: " + str(os.cpu_count()))
 
 # This is how we temporarily enable plugins
-backend.AddPluginRunner("ScreenCapture")
-backend.AddPluginRunner("ShowImage")
-backend.AddPluginRunner("Test")
+# backend.AddPluginRunner("ScreenCapture")
+# backend.AddPluginRunner("ShowImage")
+# backend.AddPluginRunner("Test")
 
 logging.info("ETS2LA backend has been started successfully.")
 while True:

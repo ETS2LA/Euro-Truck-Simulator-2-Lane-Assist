@@ -17,11 +17,31 @@ import {
 
 import { useTheme } from "next-themes"
 import { Menu, Moon, Sun } from "lucide-react"
-import { GetVersion, CloseBackend, GetPlugins } from "@/app/server"
+import { GetVersion, CloseBackend, GetPlugins, DisablePlugin, EnablePlugin } from "@/app/server"
+import useSWR from "swr"
 
-export async function ETS2LAMenubar() {
+export function ETS2LAMenubar() {
     const { setTheme } = useTheme()
-    const plugins = await GetPlugins() // Array of plugin strings
+    const { data, error, isLoading } = useSWR("http://localhost:37520/api/plugins", GetPlugins)
+    if (isLoading) return <Menubar>Loading...</Menubar>
+    if (error) return <Menubar>Error loading plugins</Menubar>
+    const plugins:string[] = [];
+    console.log(data)
+    for (const key in data) {
+        console.log(key)
+        plugins.push(key)
+    }
+    // Get the first characters of the plugin strings
+    const pluginChars = plugins ? plugins.map((plugin) => plugin.charAt(0)) : [];
+    // Remove duplicates (without Set)
+    const uniqueChars:string[] = [];
+    for (const char of pluginChars) {
+        if (!uniqueChars.includes(char)) {
+            uniqueChars.push(char);
+        }
+    }
+    // Sort the unique characters alphabetically
+    uniqueChars.sort();
 return (
     <Menubar>
     <MenubarMenu>
@@ -46,17 +66,33 @@ return (
     <MenubarMenu>
         <MenubarTrigger>Plugins</MenubarTrigger>
         <MenubarContent>
-            {plugins.map((plugin) => (
-                <MenubarSub key={plugin}>
-                    <MenubarSubTrigger>{plugin}</MenubarSubTrigger>
-                    <MenubarSubContent>
-                        <MenubarItem>Enable</MenubarItem>
-                        <MenubarItem>Disable</MenubarItem>
-                        <MenubarSeparator />
-                        <MenubarItem>Load UI</MenubarItem>
-                    </MenubarSubContent>
-                </MenubarSub>
-            ))}
+            {uniqueChars.map((char, index) => (
+            <MenubarSub key={char}>
+                <MenubarSubTrigger>{char}</MenubarSubTrigger>
+                <MenubarSubContent>
+                {plugins ? plugins.map((plugin, i) => (
+                    plugin.charAt(0) === char && (
+                    <MenubarSub key={i}>
+                        <MenubarSubTrigger>{plugin}</MenubarSubTrigger>
+                        <MenubarSubContent>
+                            <MenubarItem>Settings</MenubarItem>
+                            <MenubarSeparator />
+                            {data[plugin]["enabled"] ? (
+                                <MenubarItem onClick={() => DisablePlugin(plugin)}>
+                                    Disable
+                                </MenubarItem>
+                            ) : (
+                                <MenubarItem onClick={() => EnablePlugin(plugin)}>
+                                    Enable
+                                </MenubarItem>
+                            )}
+                        </MenubarSubContent>
+                    </MenubarSub>
+                    )
+                )) : null}
+                </MenubarSubContent>
+            </MenubarSub>
+            ), plugins)}
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>

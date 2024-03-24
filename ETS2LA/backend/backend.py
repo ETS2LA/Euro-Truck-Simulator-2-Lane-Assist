@@ -56,7 +56,7 @@ runners = {}
 frameTimes = {}
 
 AVAILABLE_PLUGINS = []
-def RefreshPlugins():
+def GetAvailablePlugins():
     global AVAILABLE_PLUGINS
     import os
     # Get list of everything in the plugins folder
@@ -70,11 +70,24 @@ def RefreshPlugins():
     # Return
     return AVAILABLE_PLUGINS
 
+ENABLED_PLUGINS = []
+def GetEnabledPlugins():
+    global ENABLED_PLUGINS
+    for runner in runners:
+        ENABLED_PLUGINS.append(runner.pluginName)
+        
+    return ENABLED_PLUGINS
+    
 
 def AddPluginRunner(pluginName):
     # Run the plugin runner in a separate thread. This is done to avoid blocking the main thread.
     runner = threading.Thread(target=PluginRunnerController, args=(pluginName, ), daemon=True)
     runner.start()
 
+def RemovePluginRunner(pluginName):
+    # Stop the plugin runner
+    runners[pluginName].runner.terminate()
+    del runners[pluginName]
+
 # These are run on startup.
-RefreshPlugins()
+GetAvailablePlugins()
