@@ -7,5 +7,5 @@ PluginInfo = PluginInformation(
 )
 
 def plugin(runner):
-    print(runner.GetData("Test"))
+    data = runner.GetData(["Test"])
     return "test"

@@ -1,4 +1,5 @@
 import time
+import os
 import ETS2LA.networking.webserver as webserver
 import ETS2LA.backend.backend as backend
 from ETS2LA.utils.logging import *
@@ -6,13 +7,14 @@ from ETS2LA.utils.logging import *
 # Initialize the backend
 logger = SetupGlobalLogging()
 webserver.run() # External webserver for the UI
+logging.info("Available CPU cores: " + str(os.cpu_count()))
 
 # This is how we temporarily enable plugins
 backend.AddPluginRunner("ScreenCapture")
 backend.AddPluginRunner("ShowImage")
+backend.AddPluginRunner("Test")
 
 logging.info("ETS2LA backend has been started successfully.")
-
 while True:
     # Print the FPS values
     time.sleep(1)

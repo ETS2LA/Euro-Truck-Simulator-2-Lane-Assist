@@ -2,7 +2,8 @@ import multiprocessing
 from ETS2LA.plugins.runner import PluginRunner
 import threading
 import time
-
+import pickle
+import zlib
 class PluginRunnerController():
     runner = None
     pluginName = None
@@ -14,7 +15,7 @@ class PluginRunnerController():
         runners[pluginName] = self # So that we can access this runner later from the main thread or other runners.
         self.pluginName = pluginName
         # Make the queue (comms) and start the process.
-        self.queue = multiprocessing.Queue()
+        self.queue = multiprocessing.JoinableQueue()
         self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, self.queue, ), daemon=True)
         self.runner.start()
         self.run()
@@ -22,7 +23,12 @@ class PluginRunnerController():
     def run(self):
         global frameTimes
         while True:
-            data = self.queue.get() # Get the data returned from the plugin runner.
+            try: data = self.queue.get(timeout=0.5) # Get the data returned from the plugin runner.
+            except Exception as e: 
+                time.sleep(0.00001)
+                continue
+            
+            
             if type(data) == type(None): # If the data is None, then we just skip this iteration.
                 time.sleep(0.00001)
                 continue
