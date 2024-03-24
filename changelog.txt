@@ -1,1 +1,1 @@
-Fix errors with the app trying to open dialogs before the mainUI is initialized.
+Try and force the creation of mainUI.root to fix errors.

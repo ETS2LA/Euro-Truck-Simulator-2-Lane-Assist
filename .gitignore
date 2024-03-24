@@ -56,3 +56,4 @@ screenshot.png
 # Ignore rewrite folders
 logs/
 ETS2LA/
+frontend/
