@@ -15,9 +15,9 @@ This page is meant for `developers`
 ```python
 import src.gamefiles as gamefiles
 
-"""Reads the controls file of the selected game with the most recent usedprofile."""
+"""Reads the controls file of the selected game with the most recent used profile."""
 ReadProfileControlsFile(str)
-"""Reads the config_local file of the selected game with the most recent usedprofile."""
+"""Reads the config_local file of the selected game with the most recent used profile."""
 ReadProfileConfigFile(str)
 """Reads the global controls file of the selected game."""
 ReadGlobalControlsFile(str)
@@ -25,6 +25,10 @@ ReadGlobalControlsFile(str)
 ReadGlobalConfigFile(str)
 """Reads the game log of the selected game."""
 ReadGameLogFile(str)
+"""Returns the ID of the current profile of the selected game."""
+GetCurrentProfile(str)
+"""Returns a list of all profiles of the selected game."""
+GetAllProfiles(str)
 ```
 
 ## Description
