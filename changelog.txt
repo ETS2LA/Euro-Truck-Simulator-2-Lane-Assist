@@ -1,1 +1,1 @@
-Fixed some small UI bugs.
+Try and force the creation of mainUI.root to fix errors.

@@ -466,6 +466,11 @@ def LoadApplication():
     except:
         pass
         
+    try:
+        mainUI.root.update()
+    except:
+        mainUI.CreateRoot()
+        
     timesLoaded += 1
         
     CheckForONNXRuntimeChange()
