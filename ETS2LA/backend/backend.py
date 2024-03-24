@@ -55,7 +55,26 @@ class PluginRunnerController():
 runners = {}
 frameTimes = {}
 
+AVAILABLE_PLUGINS = []
+def RefreshPlugins():
+    global AVAILABLE_PLUGINS
+    import os
+    # Get list of everything in the plugins folder
+    plugins = os.listdir("ETS2LA/plugins")
+    # Check if it's a folder or a file.
+    for plugin in plugins:
+        if os.path.isdir(f"ETS2LA/plugins/{plugin}"):
+            AVAILABLE_PLUGINS.append(plugin)
+    # Remove the pycache folder.
+    AVAILABLE_PLUGINS.pop(AVAILABLE_PLUGINS.index("__pycache__"))
+    # Return
+    return AVAILABLE_PLUGINS
+
+
 def AddPluginRunner(pluginName):
     # Run the plugin runner in a separate thread. This is done to avoid blocking the main thread.
     runner = threading.Thread(target=PluginRunnerController, args=(pluginName, ), daemon=True)
     runner.start()
+
+# These are run on startup.
+RefreshPlugins()

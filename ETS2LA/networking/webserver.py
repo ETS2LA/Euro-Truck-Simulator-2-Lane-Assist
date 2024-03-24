@@ -5,6 +5,7 @@ import ETS2LA.backend.backend as backend
 import threading
 import logging
 import sys
+import os
 
 app = FastAPI()
 app.add_middleware(
@@ -28,7 +29,19 @@ def get_frametimes():
 def quitApp():
     return sys.exit()
 
+@app.get("/api/plugins")
+def get_plugins():
+    # Return as json
+    plugins = backend.AVAILABLE_PLUGINS
+    return plugins
+
+def RunFrontend():
+    # os.system("start msedge --app=http://localhost:3000")
+    os.system("cd frontend && npm run --silent dev")
+
 def run():
     import uvicorn
     threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": "0.0.0.0", "log_level": "critical"}, daemon=True).start()
     logging.info("Webserver started on http://localhost:37520")
+    threading.Thread(target=RunFrontend, daemon=True).start()
+    logging.info("Frontend started on http://localhost:3000")

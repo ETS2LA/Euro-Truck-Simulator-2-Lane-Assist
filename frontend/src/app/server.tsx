@@ -20,4 +20,12 @@ async function GetFrametimes() {
     return data
 }
 
-export { GetVersion, CloseBackend, GetFrametimes }
+async function GetPlugins(): Promise<string[]> {
+    console.log("Getting plugins")
+    const response = await fetch("http://localhost:37520/api/plugins")
+    const data = await response.json()
+    console.log(data)
+    return data
+}
+
+export { GetVersion, CloseBackend, GetFrametimes, GetPlugins }

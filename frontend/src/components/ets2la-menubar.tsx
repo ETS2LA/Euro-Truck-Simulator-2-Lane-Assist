@@ -16,11 +16,12 @@ import {
 } from "@/components/ui/menubar"
 
 import { useTheme } from "next-themes"
-import { Moon, Sun } from "lucide-react"
-import { GetVersion, CloseBackend } from "@/app/server"
+import { Menu, Moon, Sun } from "lucide-react"
+import { GetVersion, CloseBackend, GetPlugins } from "@/app/server"
 
-export function ETS2LAMenubar() {
+export async function ETS2LAMenubar() {
     const { setTheme } = useTheme()
+    const plugins = await GetPlugins() // Array of plugin strings
 return (
     <Menubar>
     <MenubarMenu>
@@ -40,6 +41,22 @@ return (
         <MenubarItem onClick={() => CloseBackend()}>
             Quit <MenubarShortcut>Win+P</MenubarShortcut>
         </MenubarItem>
+        </MenubarContent>
+    </MenubarMenu>
+    <MenubarMenu>
+        <MenubarTrigger>Plugins</MenubarTrigger>
+        <MenubarContent>
+            {plugins.map((plugin) => (
+                <MenubarSub key={plugin}>
+                    <MenubarSubTrigger>{plugin}</MenubarSubTrigger>
+                    <MenubarSubContent>
+                        <MenubarItem>Enable</MenubarItem>
+                        <MenubarItem>Disable</MenubarItem>
+                        <MenubarSeparator />
+                        <MenubarItem>Load UI</MenubarItem>
+                    </MenubarSubContent>
+                </MenubarSub>
+            ))}
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>

@@ -1,5 +1,4 @@
 """This file serves as the overseer to ETS2LA. It allows the app to restart itself without user input."""
-
 if __name__ == "__main__":
     # Import ETS2LA.core will import and run the app. Do that repeatedly in case of a crash.
     while True:
