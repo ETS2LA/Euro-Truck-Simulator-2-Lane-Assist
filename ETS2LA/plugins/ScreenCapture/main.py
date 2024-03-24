@@ -29,7 +29,7 @@ CreateBettercam()
 def plugin(runner):
     global cam
     try:
-        img = cam.grab(region=monitor)
+        img = cam.get_latest_frame()
         img = np.array(img)
         return img
     except:
