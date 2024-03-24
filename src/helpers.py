@@ -946,6 +946,13 @@ def ShowSuccess(text, title="Success", translate=True):
         title = translator.Translate(title)
         text = translator.Translate(text)
     
+    # Check if mainUI has root
+    try:
+        mainUI.root
+    except:
+        print("Can't show success, mainUI is not initialized. Success content: " + text)
+        return
+    
     # Dim the app 
     background = DimAppBackground()
     # Create the messagebox
@@ -1014,6 +1021,13 @@ def ShowFailure(text, title="Failure", translate=True):
     if translate:
         title = translator.Translate(title)
         text = translator.Translate(text)
+    
+    # Check if mainUI has root
+    try:
+        mainUI.root
+    except:
+        print("Can't show failure, mainUI is not initialized. Failure content: " + text)
+        return
     
     # Dim the app 
     background = DimAppBackground()
@@ -1084,6 +1098,13 @@ def ShowInfo(text, title="Info", translate=True):
     if translate:
         title = translator.Translate(title)
         text = translator.Translate(text)
+    
+    # Check if mainUI has root
+    try:
+        mainUI.root
+    except:
+        print("Can't show info, mainUI is not initialized. Info content: " + text)
+        return
     
     # Dim the app 
     background = DimAppBackground()

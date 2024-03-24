@@ -1,1 +1,1 @@
-Fixed some small UI bugs.
+Fix errors with the app trying to open dialogs before the mainUI is initialized.
