@@ -3,3 +3,4 @@ uvicorn
 rpyc
 mss
 zlib
+websockets

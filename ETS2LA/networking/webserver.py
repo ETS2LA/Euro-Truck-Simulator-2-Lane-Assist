@@ -34,7 +34,12 @@ def quitApp():
 def get_plugins():
     # Get data
     plugins = backend.GetAvailablePlugins()
-    enabledPlugins = backend.GetEnabledPlugins()
+    try:
+        enabledPlugins = backend.GetEnabledPlugins()
+    except:
+        import traceback
+        traceback.print_exc()
+        enabledPlugins = []
     # Create the json
     returnData = {}
     for plugin in plugins:
@@ -52,13 +57,23 @@ def enable_plugin(plugin: str):
 def disable_plugin(plugin: str):
     return backend.RemovePluginRunner(plugin)
 
+@app.get("/api/server/ip")
+def get_IP():
+    return IP
+
 def RunFrontend():
     # os.system("start msedge --app=http://localhost:3000")
-    os.system("cd frontend && npm run --silent dev")
+    os.system("cd frontend && npm run dev")
 
 def run():
+    global IP
     import uvicorn
-    threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": "0.0.0.0", "log_level": "critical"}, daemon=True).start()
-    logging.info("Webserver started on http://localhost:37520")
+    # Get current PC ip
+    import socket
+    IP = socket.gethostbyname(socket.gethostname())
+    hostname = "0.0.0.0"
+    # Start the webserver on the local IP
+    threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True).start()
+    logging.info(f"Webserver started on http://{IP}:37520 (& localhost:37520)")
     threading.Thread(target=RunFrontend, daemon=True).start()
     logging.info("Frontend started on http://localhost:3000")

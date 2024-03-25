@@ -2,10 +2,12 @@ import time
 import os
 import ETS2LA.networking.webserver as webserver
 import ETS2LA.backend.backend as backend
+import ETS2LA.frontend.immediate as immediate
 from ETS2LA.utils.logging import *
 
 # Initialize the backend
 logger = SetupGlobalLogging()
+immediate.run()
 webserver.run() # External webserver for the UI
 logging.info("Available CPU cores: " + str(os.cpu_count()))
 

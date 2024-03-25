@@ -19,14 +19,18 @@ import { useTheme } from "next-themes"
 import { Menu, Moon, Sun } from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, DisablePlugin, EnablePlugin } from "@/app/server"
 import useSWR from "swr"
+import {toast} from "sonner"
 
-export function ETS2LAMenubar() {
+export function ETS2LAMenubar({ip}: {ip: string}) {
     const { setTheme } = useTheme()
-    const { data, error, isLoading } = useSWR("http://localhost:37520/api/plugins", GetPlugins)
-    if (isLoading) return <Menubar>Loading...</Menubar>
-    if (error) return <Menubar>Error loading plugins</Menubar>
+    // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
+    const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 1000 })
+    if (isLoading) return <Menubar><p className="absolute right-6 font-semibold text-xs text-stone-400">Loading</p></Menubar>
+    if (error){
+        toast.error("Error fetching plugins from " + ip, {description: error.message})
+        return <Menubar><p className="absolute right-6 font-semibold text-xs text-stone-400">Error!</p></Menubar>
+    } 
     const plugins:string[] = [];
-    console.log(data)
     for (const key in data) {
         console.log(key)
         plugins.push(key)
@@ -47,20 +51,15 @@ return (
     <MenubarMenu>
         <MenubarTrigger>ETS2LA</MenubarTrigger>
         <MenubarContent>
-        <MenubarItem onClick={() => GetVersion()}>
-            Refresh <MenubarShortcut>Win+R</MenubarShortcut>
-        </MenubarItem>
-        <MenubarSeparator />
-        <MenubarSub>
-            <MenubarSubTrigger>Backend</MenubarSubTrigger>
-            <MenubarSubContent>
-            <MenubarItem>Restart</MenubarItem>
-            </MenubarSubContent>
-        </MenubarSub>
-        <MenubarSeparator />
-        <MenubarItem onClick={() => CloseBackend()}>
-            Quit <MenubarShortcut>Win+P</MenubarShortcut>
-        </MenubarItem>
+            <MenubarSub>
+                <MenubarSubTrigger>Backend</MenubarSubTrigger>
+                <MenubarSubContent>
+                <MenubarItem>Restart <MenubarShortcut>R</MenubarShortcut></MenubarItem>
+                <MenubarItem onClick={() => CloseBackend()}>
+                    Quit <MenubarShortcut>Q</MenubarShortcut>
+                </MenubarItem>
+                </MenubarSubContent>
+            </MenubarSub>
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>
@@ -75,17 +74,29 @@ return (
                     <MenubarSub key={i}>
                         <MenubarSubTrigger>{plugin}</MenubarSubTrigger>
                         <MenubarSubContent>
-                            <MenubarItem>Settings</MenubarItem>
-                            <MenubarSeparator />
                             {data[plugin]["enabled"] ? (
-                                <MenubarItem onClick={() => DisablePlugin(plugin)}>
+                                <MenubarItem onClick={() => {
+                                        toast.promise(DisablePlugin(plugin, ip=ip), {
+                                            loading: "Disabling " + plugin + "...",
+                                            success: "Plugin " + plugin + " disabled!",
+                                            error: "Error disabling " + plugin + "!"
+                                        })
+                                    }}>
                                     Disable
                                 </MenubarItem>
                             ) : (
-                                <MenubarItem onClick={() => EnablePlugin(plugin)}>
+                                <MenubarItem onClick={() => {
+                                        toast.promise(EnablePlugin(plugin, ip=ip), {
+                                            loading: "Enabling " + plugin + "...",
+                                            success: "Plugin " + plugin + " enabled!",
+                                            error: "Error enabling " + plugin + "!"
+                                        })
+                                    }}>
                                     Enable
                                 </MenubarItem>
                             )}
+                            <MenubarSeparator />
+                            <MenubarItem>Settings</MenubarItem>
                         </MenubarSubContent>
                     </MenubarSub>
                     )
@@ -104,6 +115,16 @@ return (
             <MenubarItem onClick={() => setTheme("system")}>System</MenubarItem>
         </MenubarContent>
     </MenubarMenu>
+    <MenubarMenu>
+        <MenubarTrigger>Help</MenubarTrigger>
+        <MenubarContent>
+            <MenubarItem onClick={() => window.open("https://wiki.tumppi066.fi", "_blank")}>Wiki<MenubarShortcut>W</MenubarShortcut></MenubarItem>
+            <MenubarItem onClick={() => window.open("https://discord.tumppi066.fi", "_blank")}>Discord<MenubarShortcut>D</MenubarShortcut></MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>Feedback<MenubarShortcut>F</MenubarShortcut></MenubarItem>
+        </MenubarContent>
+    </MenubarMenu>
+    <p className="absolute right-6 font-semibold text-xs text-stone-400">{plugins ? "Connected" : "Disconnected"}</p>
     </Menubar>
 )
 }

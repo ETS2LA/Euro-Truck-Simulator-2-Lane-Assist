@@ -29,7 +29,8 @@ class PluginRunner():
             startTime = time.time()
             data = self.plugin.plugin(self)
             pluginExec = time.time()
-            self.q.put(data)
+            if type(data) != type(None):
+                self.q.put(data)
             endTime = time.time()
             self.frametimes.append(endTime - startTime)
             self.executiontimes.append(pluginExec - startTime)
@@ -86,3 +87,12 @@ class PluginRunner():
         self.getTime += endTime - startTime
         # Return all gathered data
         return data
+    
+    def Notification(self, text:str, type:str="info"):
+        """Send a notification to the frontend.
+
+        Args:
+            text (str): Text to send.
+            type (str, optional): Defaults to "info". Available types are "info", "warning", "error" and "success".
+        """
+        self.q.put({"sonner": {"text": text, "type": type}})

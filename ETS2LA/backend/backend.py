@@ -1,4 +1,5 @@
 import multiprocessing
+import ETS2LA.frontend.immediate as immediate
 from ETS2LA.plugins.runner import PluginRunner
 import threading
 import time
@@ -28,7 +29,6 @@ class PluginRunnerController():
                 time.sleep(0.00001)
                 continue
             
-            
             if type(data) == type(None): # If the data is None, then we just skip this iteration.
                 time.sleep(0.00001)
                 continue
@@ -40,7 +40,6 @@ class PluginRunnerController():
             if "frametimes" in data: # Save the frame times
                 frametime = data["frametimes"]
                 frameTimes[self.pluginName] = frametime[self.pluginName]
-                
             elif "get" in data: # If the data is a get command, then we need to get the data from another plugin.
                 plugins = data["get"]
                 for plugin in plugins:
@@ -48,6 +47,10 @@ class PluginRunnerController():
                         self.queue.put(runners[plugin].lastData)
                     else:
                         self.queue.put(None)
+            elif "sonner" in data:
+                sonnerType = data["sonner"]["type"]
+                sonnerText = data["sonner"]["text"]
+                immediate.sonner(sonnerText, sonnerType)
             else:
                     self.lastData = data
         
@@ -73,8 +76,9 @@ def GetAvailablePlugins():
 ENABLED_PLUGINS = []
 def GetEnabledPlugins():
     global ENABLED_PLUGINS
+    ENABLED_PLUGINS = []
     for runner in runners:
-        ENABLED_PLUGINS.append(runner.pluginName)
+        ENABLED_PLUGINS.append(runner)
         
     return ENABLED_PLUGINS
     
@@ -87,7 +91,7 @@ def AddPluginRunner(pluginName):
 def RemovePluginRunner(pluginName):
     # Stop the plugin runner
     runners[pluginName].runner.terminate()
-    del runners[pluginName]
+    runners.pop(pluginName)
 
 # These are run on startup.
 GetAvailablePlugins()

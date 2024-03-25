@@ -1,9 +1,6 @@
 # Wiki is built by github actions, no need to have users download it constantly
 wiki/* 
 
-# NPM
-node_modules
-
 # Ignore gource files
 gource.mp4
 gource.txt
