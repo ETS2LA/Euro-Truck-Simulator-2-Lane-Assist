@@ -62,9 +62,12 @@ def get_IP():
     return IP
 
 def RunFrontend():
-    # os.system("start msedge --app=http://localhost:3000")
-    os.system("cd frontend && npm run dev")
-
+    def StartWebserver():
+        #os.system("cd frontend && npm run dev")
+        return
+    threading.Thread(target=StartWebserver, daemon=True).start()
+    os.system("start msedge --app=http://localhost:3000")
+    
 def run():
     global IP
     import uvicorn
