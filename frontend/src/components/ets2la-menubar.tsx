@@ -15,16 +15,18 @@ import {
     MenubarTrigger,
 } from "@/components/ui/menubar"
 import { Badge } from "./ui/badge"
-
+import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
 import { useTheme } from "next-themes"
 import { Menu, Moon, Sun } from "lucide-react"
-import { GetVersion, CloseBackend, GetPlugins, DisablePlugin, EnablePlugin } from "@/app/server"
+import { GetVersion, CloseBackend, GetPlugins, DisablePlugin, EnablePlugin } from "@/pages/server"
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la-immediate-server"
 
 export function ETS2LAMenubar({ip}: {ip: string}) {
     const { setTheme } = useTheme()
+    const { push } = useRouter()
     // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
     const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 1000 })
     if (isLoading) return <Menubar><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Menubar>
@@ -51,17 +53,21 @@ export function ETS2LAMenubar({ip}: {ip: string}) {
 return (
     <Menubar>
     <MenubarMenu>
-        <MenubarTrigger>ETS2LA</MenubarTrigger>
+        <MenubarTrigger className="font-bold">ETS2LA</MenubarTrigger>
         <MenubarContent>
+            <MenubarItem onClick={() => push("/")}>Main Menu</MenubarItem>
+            <MenubarSeparator />
             <MenubarSub>
-                <MenubarSubTrigger>Backend</MenubarSubTrigger>
-                <MenubarSubContent>
-                <MenubarItem>Restart <MenubarShortcut>R</MenubarShortcut></MenubarItem>
-                <MenubarItem onClick={() => CloseBackend()}>
-                    Quit <MenubarShortcut>Q</MenubarShortcut>
-                </MenubarItem>
+                    <MenubarSubTrigger>Backend</MenubarSubTrigger>
+                    <MenubarSubContent>
+                    <MenubarItem>Restart <MenubarShortcut>R</MenubarShortcut></MenubarItem>
+                    <MenubarItem onClick={() => CloseBackend()}>
+                        Quit <MenubarShortcut>Q</MenubarShortcut>
+                    </MenubarItem>
                 </MenubarSubContent>
             </MenubarSub>
+            <MenubarSeparator />
+            <MenubarItem>About ETS2LA</MenubarItem>
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>
@@ -98,7 +104,7 @@ return (
                                 </MenubarItem>
                             )}
                             <MenubarSeparator />
-                            <MenubarItem>Settings</MenubarItem>
+                            <MenubarItem onClick={() => push("/plugins/" + plugin)}>Settings</MenubarItem>
                         </MenubarSubContent>
                     </MenubarSub>
                     )
