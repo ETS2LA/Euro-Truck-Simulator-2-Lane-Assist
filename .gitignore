@@ -3,8 +3,6 @@ wiki/*
 
 # NPM
 node_modules
-package-lock.json
-package.json
 
 # Ignore gource files
 gource.mp4
