@@ -10,7 +10,6 @@ export default async function Home() {
   
   return (
     <main className="">
-        <ETS2LAImmediateServer ip={ip} />
         <ETS2LAMenubar ip={ip} />
     </main>
   );

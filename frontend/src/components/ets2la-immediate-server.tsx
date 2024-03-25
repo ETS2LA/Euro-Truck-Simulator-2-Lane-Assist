@@ -1,12 +1,13 @@
 "use client"
-import { use } from "react";
+import { useState } from "react";
 import {toast} from "sonner"
 import useSWR from "swr";
 import { GetIP } from "@/app/server";
+import { Badge } from "./ui/badge"
 
 let socket: WebSocket;
-
 export function ETS2LAImmediateServer({ip}: {ip: string}) {
+    const [connected, setConnected] = useState(false);
 
     // Listen for events from the backend
     if (!socket){
@@ -17,6 +18,7 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
     socket.addEventListener("open", function (event) {
         socket.send("Hello Server!");
         toast.success("Connected to the ETS2LA backend!")
+        setConnected(true);
     });
 
     // Listen for messages
@@ -40,6 +42,7 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
     // Connection closed
     socket.addEventListener("close", function (event) {
         toast.error("Disconnected from the ETS2LA backend!")
+        setConnected(false);
     });
 
     // Error
@@ -47,5 +50,5 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
         console.error("WebSocket error observed:", event);
     });
 
-    return null
+    return <Badge variant={connected ? "default" : "destructive"} className="absolute right-5">{connected ? "Connected" : "Disconnected, please refresh."}</Badge>
 }

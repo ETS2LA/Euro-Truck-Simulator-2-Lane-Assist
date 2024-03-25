@@ -14,21 +14,23 @@ import {
     MenubarSubTrigger,
     MenubarTrigger,
 } from "@/components/ui/menubar"
+import { Badge } from "./ui/badge"
 
 import { useTheme } from "next-themes"
 import { Menu, Moon, Sun } from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, DisablePlugin, EnablePlugin } from "@/app/server"
 import useSWR from "swr"
 import {toast} from "sonner"
+import { ETS2LAImmediateServer } from "./ets2la-immediate-server"
 
 export function ETS2LAMenubar({ip}: {ip: string}) {
     const { setTheme } = useTheme()
     // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
     const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 1000 })
-    if (isLoading) return <Menubar><p className="absolute right-6 font-semibold text-xs text-stone-400">Loading</p></Menubar>
+    if (isLoading) return <Menubar><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Menubar>
     if (error){
         toast.error("Error fetching plugins from " + ip, {description: error.message})
-        return <Menubar><p className="absolute right-6 font-semibold text-xs text-stone-400">Error!</p></Menubar>
+        return <Menubar><ETS2LAImmediateServer ip={ip} /><p className="absolute left-5 font-semibold text-xs text-stone-400">{error.message}</p></Menubar>
     } 
     const plugins:string[] = [];
     for (const key in data) {
@@ -124,7 +126,7 @@ return (
             <MenubarItem>Feedback<MenubarShortcut>F</MenubarShortcut></MenubarItem>
         </MenubarContent>
     </MenubarMenu>
-    <p className="absolute right-6 font-semibold text-xs text-stone-400">{plugins ? "Connected" : "Disconnected"}</p>
+    <ETS2LAImmediateServer ip={ip} />
     </Menubar>
 )
 }
