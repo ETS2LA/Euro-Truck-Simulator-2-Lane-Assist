@@ -1,22 +1,17 @@
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Card } from "@/components/ui/card"
 
 export default function TrafficLightDetection() {
     return (
-        <div>
-            <div style={{ position: 'absolute', top: '100px', left: '25px', transform: 'translate(0px, -50%)' }}>
+        <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto">
+            <div className="flex space-x-3 w-10">
                 <Switch />
+                <p className="w-[100px]">Something...</p>
             </div>
-            <div style={{ position: 'absolute', top: '100px', left: '75px', transform: 'translate(0px, -50%)' }}>
-                <label htmlFor="traffic-light-detection-switch">Something...</label>
-            </div>
-            <div style={{ position: 'absolute', top: '150px', left: '25px', transform: 'translate(0px, -50%)' }}>
-                <Button variant="default">Something...</Button>
-            </div>
-            <div style={{ position: 'absolute', top: '200px', left: '25px', transform: 'translate(0px, -50%)' }}>
-                <Input placeholder="Something..." />
-            </div>
-        </div>
+            <Button variant="default" className="w-[100px]">Something...</Button>
+            <Input className="w-[100px]" placeholder="Something..." />
+        </Card>
     )
 }
