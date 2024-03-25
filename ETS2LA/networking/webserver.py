@@ -63,10 +63,13 @@ def get_IP():
 
 def RunFrontend():
     def StartWebserver():
-        #os.system("cd frontend && npm run dev")
+        os.system("cd frontend && npm run dev")
+        return
+    def ShowWebserver():
+        #os.system("start msedge --app=http://localhost:3000")
         return
     threading.Thread(target=StartWebserver, daemon=True).start()
-    os.system("start msedge --app=http://localhost:3000")
+    threading.Thread(target=ShowWebserver, daemon=True).start()
     
 def run():
     global IP
