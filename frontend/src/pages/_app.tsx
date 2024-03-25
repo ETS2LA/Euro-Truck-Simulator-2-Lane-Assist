@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { ETS2LAMenubar } from "@/components/ets2la-menubar";
+import { ETS2LACommandMenu } from '@/components/ets2la-command-menu';
 import { GetIP } from "./server";
 import { Toaster } from "@/components/ui/sonner"
 import useSWR from 'swr';
@@ -28,9 +29,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
-      >
+    >
     <ETS2LAMenubar ip={ip} />
-    <Component {...pageProps} />
+    <div className='py-3'>
+      <Component {...pageProps} />
+    </div>
+    <ETS2LACommandMenu ip={ip} />
     <Toaster />
     </ThemeProvider>
   </>
