@@ -19,7 +19,7 @@ screenshot.png
 logs
 
 # Ignore main branch files
-plugins/
-profiles/
+/plugins/
+/profiles/
 
 **/__pycache__
