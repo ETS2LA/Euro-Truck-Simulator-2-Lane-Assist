@@ -23,7 +23,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   if (error) return <p>Error: {error.message}</p>
   let ip = data as string;
   return (
-  <>
+  <div className='overflow-hidden p-3'>
     <ThemeProvider
       attribute="class"
       defaultTheme="system"
@@ -37,6 +37,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <ETS2LACommandMenu ip={ip} />
     <Toaster />
     </ThemeProvider>
-  </>
+  </div>
   );
 }
