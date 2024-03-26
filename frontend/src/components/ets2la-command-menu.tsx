@@ -11,10 +11,12 @@ import {
     CommandSeparator,
     CommandShortcut,
 } from "@/components/ui/command"
+
 import * as React from "react"  
-import { GetPlugins } from "@/pages/server";
+import { GetPlugins, EnablePlugin, DisablePlugin } from "@/pages/server";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import { toast } from "sonner";
 
 export function ETS2LACommandMenu({ip}: {ip: string}) {
     const [open, setOpen] = React.useState(false)
@@ -25,11 +27,12 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
     let enabledPlugins:string[] = [];
     let disabledPlugins:string[] = [];
     if (open) {
+        console.log(data)
         if (isLoading) return null
         if (error) return null
         for (const key in data) {
             plugins.push(key)
-            if (data[key]) {
+            if (data[key]["enabled"] == false) {
                 disabledPlugins.push(key)
             } else {
                 enabledPlugins.push(key)
@@ -52,10 +55,15 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
         <CommandDialog open={open} onOpenChange={setOpen}>
             <CommandInput placeholder="Type a command or search..." />
             <CommandList>
-                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandEmpty>No results, please try again.</CommandEmpty>
+                <CommandGroup heading="Actions">
+                    <CommandItem onSelect={() => {push("/"); setOpen(false)}}>
+                        Return to the Main Menu
+                    </CommandItem>
+                </CommandGroup>
                 <CommandGroup heading="Settings">
                     {plugins.map((plugin) => (
-                        <CommandItem key={plugin} onClick={() => push("/plugins/" + plugin)}>
+                        <CommandItem key={plugin} onSelect={() => {push("/plugins/" + plugin); setOpen(false)}}>
                             Open {plugin} settings
                         </CommandItem>
                     ))}
@@ -64,7 +72,14 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
                 {disabledPlugins.length > 0 ? (
                     <CommandGroup heading="Enable plugins">
                         {disabledPlugins.map((plugin) => (
-                            <CommandItem key={plugin}>
+                            <CommandItem key={plugin} onSelect={() => {
+                                    setOpen(false)
+                                    toast.promise(EnablePlugin(plugin, ip=ip), {
+                                        loading: "Enabling " + plugin,
+                                        success: "Enabled " + plugin,
+                                        error: "Error enabling " + plugin
+                                    }) 
+                                }}>
                                 Enable {plugin}
                             </CommandItem>
                         ))}
@@ -74,7 +89,14 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
                 {enabledPlugins.length > 0 ? (
                     <CommandGroup heading="Disable plugins">
                         {enabledPlugins.map((plugin) => (
-                            <CommandItem key={plugin}>
+                            <CommandItem key={plugin} onSelect={() => {
+                                    setOpen(false)
+                                    toast.promise(DisablePlugin(plugin, ip=ip), {
+                                        loading: "Disabling " + plugin,
+                                        success: "Disabled " + plugin,
+                                        error: "Error disabling " + plugin
+                                    })
+                                }}>
                                 Disable {plugin}
                             </CommandItem>
                         ))}
