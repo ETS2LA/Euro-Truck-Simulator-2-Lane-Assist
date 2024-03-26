@@ -75,7 +75,7 @@ export default function TrafficLightDetection() {
             </div>
 
             <div style={{ position: 'absolute', top: '325px', left: '25px' }}>
-                <div style={{ position: 'relative', top: '22px', left: '0px' }} className="h-6 w-6 animate-spin rounded-full border-4 border-currentColor-500 border-t-transparent"></div>
+                <div style={{ position: 'relative', top: '22px', left: '0px', filter: 'invert(1)' }} className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-currentColor-500"></div>
                 <Label style={{ position: 'relative', top: '-2px', left: '32px', width: '800px', textAlign: 'left' }}>Loading...</Label>
             </div>
 
