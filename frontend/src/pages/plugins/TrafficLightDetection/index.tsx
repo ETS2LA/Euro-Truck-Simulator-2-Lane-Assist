@@ -64,14 +64,19 @@ export default function TrafficLightDetection() {
                     <SelectContent>
                         <SelectGroup>
                         <SelectLabel>Select a YOLO model</SelectLabel>
-                        <SelectItem value="apple">YOLOv5n</SelectItem>
-                        <SelectItem value="banana">YOLOv5s</SelectItem>
-                        <SelectItem value="grape">YOLOv5m</SelectItem>
-                        <SelectItem value="orange">YOLOv5l</SelectItem>
-                        <SelectItem value="pineapple">YOLOv5x</SelectItem>
+                        <SelectItem value="yolov5n">YOLOv5n</SelectItem>
+                        <SelectItem value="yolov5s">YOLOv5s</SelectItem>
+                        <SelectItem value="yolov5m">YOLOv5m</SelectItem>
+                        <SelectItem value="yolov5l">YOLOv5l</SelectItem>
+                        <SelectItem value="yolov5x">YOLOv5x</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
+            </div>
+
+            <div style={{ position: 'absolute', top: '325px', left: '25px' }}>
+                <div style={{ position: 'relative', top: '22px', left: '0px' }} className="h-6 w-6 animate-spin rounded-full border-4 border-currentColor-500 border-t-transparent"></div>
+                <Label style={{ position: 'relative', top: '-2px', left: '32px', width: '800px', textAlign: 'left' }}>Loading...</Label>
             </div>
 
         </Card>
