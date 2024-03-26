@@ -638,6 +638,9 @@ while True:
             aspect_ratio = results_frame_width / results_frame_height
             new_height = int(0.62 * frame_height)
             new_width = int(aspect_ratio * new_height)
+            if new_width > int(frame_width * 0.98):
+                new_width = int(frame_width * 0.98)
+                new_height = int(new_width / aspect_ratio)
             resultsframe = cv2.resize(resultsframe, (new_width, new_height))
             start_x = (frame_width - new_width) // 2
             start_y = round(frame_height - new_height - 0.02 * frame_height)

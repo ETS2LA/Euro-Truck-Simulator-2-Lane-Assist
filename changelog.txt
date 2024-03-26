@@ -1,1 +1,1 @@
-Try and force the creation of mainUI.root to fix errors.
+Fixed a bug which crashed the automatic setup of the NavigationDetection.
