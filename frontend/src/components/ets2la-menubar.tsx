@@ -73,6 +73,7 @@ return (
     <MenubarMenu>
         <MenubarTrigger>Plugins</MenubarTrigger>
         <MenubarContent>
+            <MenubarItem onClick={() => push("/plugins")}>Plugin Picker</MenubarItem>
             {uniqueChars.map((char, index) => (
             <MenubarSub key={char}>
                 <MenubarSubTrigger>{char}</MenubarSubTrigger>
@@ -82,7 +83,7 @@ return (
                     <MenubarSub key={i}>
                         <MenubarSubTrigger>{plugin}</MenubarSubTrigger>
                         <MenubarSubContent>
-                            {data[plugin]["enabled"] ? (
+                            {data ? (data as any)[plugin]["enabled"] ? (
                                 <MenubarItem onClick={() => {
                                         toast.promise(DisablePlugin(plugin, ip=ip), {
                                             loading: "Disabling " + plugin + "...",
@@ -102,7 +103,7 @@ return (
                                     }}>
                                     Enable
                                 </MenubarItem>
-                            )}
+                            ): null}
                             <MenubarSeparator />
                             <MenubarItem onClick={() => push("/plugins/" + plugin)}>Settings</MenubarItem>
                         </MenubarSubContent>
