@@ -1,8 +1,8 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardHeader } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
@@ -11,33 +11,69 @@ import { Slider } from "@/components/ui/slider"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
-export default function TrafficLightDetection() {
+import { GetSettingsJSON, SetSettingByKey } from "@/pages/settings"
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import useSWR from "swr";
+
+export default function TrafficLightDetection({ ip }: { ip: string }) {
+
+    const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
+
+    const [TestSwitch, setTestSwitch] = useState<boolean | undefined>(undefined);
+    const [TestCheckbox, setTestCheckbox] = useState<boolean | undefined>();
+
+    useEffect(() => {
+        if (data) {
+
+            if (data.TestSwitch !== undefined) { setTestSwitch(data.TestSwitch); } else { setTestSwitch(false); }
+            if (data.TestCheckbox !== undefined) { setTestCheckbox(data.TestCheckbox); } else { setTestCheckbox(false); }
+            
+        }
+    }, [data]);
+
+    if (isLoading) return <p>Loading...</p>
+    if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
+
+    const UpdateTestSwitch = async () => {
+        const newTestSwitch = !TestSwitch;
+        await toast.promise(SetSettingByKey("TrafficLightDetection", "TestSwitch", newTestSwitch, ip), {});
+        setTestCheckbox(newTestSwitch);
+    };
+
+    const UpdateTestCheckbox = async () => {
+        const newTestCheckbox = !TestCheckbox;
+        await toast.promise(SetSettingByKey("TrafficLightDetection", "TestCheckbox", newTestCheckbox, ip), {});
+        setTestSwitch(newTestCheckbox);
+    };
+
     return (
         <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto">
 
             <Popover>
                 <PopoverTrigger asChild>
                     <CardHeader style={{ position: 'absolute', top: '43px', left: '-6px', width: '240px' }}>
-                        <Button variant="secondary" style={{ fontSize: '15px', fontWeight: 'bold' }}>TrafficLightDetection</Button>
+                        <Button variant="secondary" style={{ fontWeight: 'bold' }}>TrafficLightDetection</Button>
                     </CardHeader>
                 </PopoverTrigger>
-                <PopoverContent style={{ position: 'relative', top: '-23px', left: '17px', height: '50px', width: '317px' }}>
-                    <h4 className="font-medium leading-none">This plugin was created by Glas42</h4>
-                    <Avatar style={{ position: 'absolute', top: '8px', right: '15px', width: '32px', height: '32px' }}>
+                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '50px', width: '192px' }}>
+                    <Label style={{ position: 'absolute', top: '15px', left: '10px', fontSize: '16px' }}>Created by Glas42</Label>
+                    <Avatar style={{ position: 'absolute', top: '8px', right: '10px', width: '32px', height: '32px' }}>
                         <AvatarImage src="https://avatars.githubusercontent.com/u/145870870?v=4"/>
                     </Avatar>
                 </PopoverContent>
             </Popover>
 
             <Tabs defaultValue="general" style={{ position: 'absolute', top: '47px', left: '215px', right: '14pt' }}>
-                <TabsList className="grid w-full grid-cols-5">
+                <TabsList className="grid w-full grid-cols-6">
+                    <TabsTrigger value="test">Test</TabsTrigger>
                     <TabsTrigger value="general">General</TabsTrigger>
                     <TabsTrigger value="screencapture">ScreenCapture</TabsTrigger>
                     <TabsTrigger value="outputwindow">OutputWindow</TabsTrigger>
                     <TabsTrigger value="trackerai">Tracker/AI</TabsTrigger>
                     <TabsTrigger value="advanced">Advanced</TabsTrigger>
                 </TabsList>
-                <TabsContent value="general">
+                <TabsContent value="test">
 
                 <div style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
 
@@ -50,15 +86,19 @@ export default function TrafficLightDetection() {
                         <Button variant="link">Link Button</Button>
                     </div>
 
+                    {TestSwitch !== undefined && (
                     <div style={{ position: 'absolute', top: '62px' }}>
-                        <Switch id="switch" />
+                        <Switch id="switch" checked={TestSwitch} onCheckedChange={UpdateTestSwitch} />
                         <Label htmlFor="switch" style={{ position: 'relative', top: '-2px', left: '5px', width: '800px', textAlign: 'left' }}>This is a label which is connected to the switch. (you can click on the label to change the switch state)</Label>
                     </div>
+                    )}
 
+                    {TestCheckbox !== undefined && (
                     <div style={{ position: 'absolute', top: '90px' }}>
-                        <Checkbox id="checkbox" />
+                        <Checkbox id="checkbox" checked={TestCheckbox} onCheckedChange={UpdateTestCheckbox} />
                         <Label htmlFor="checkbox" style={{ position: 'relative', top: '-2px', left: '5px', width: '800px', textAlign: 'left' }}>This is a label which is connected to the checkbox. (you can click on the label to change the checkbox state)</Label>
                     </div>
+                    )}
 
                     <div style={{ position: 'absolute', top: '120px', width: '200px' }}>
                         <RadioGroup defaultValue="option1">
@@ -109,6 +149,9 @@ export default function TrafficLightDetection() {
                     </div>
 
                 </div>
+
+                </TabsContent>
+                <TabsContent value="general">
 
                 </TabsContent>
                 <TabsContent value="screencapture">
