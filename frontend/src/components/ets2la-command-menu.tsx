@@ -34,7 +34,7 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
         if (error) return null
         for (const key in data) {
             plugins.push(key)
-            if (data[key]["enabled"] == false) {
+            if ((data as any)[key]["enabled"] == false) {
                 disabledPlugins.push(key)
             } else {
                 enabledPlugins.push(key)
