@@ -11,8 +11,10 @@ import useSWR from "swr"
 import { GetPlugins, EnablePlugin, DisablePlugin } from "../server"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import { useRouter } from "next/router"
 
 export default function Home({ ip }: { ip: string }) {
+    const { push } = useRouter()
     const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 1000 })
     if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Card>
     if (error){
@@ -26,7 +28,7 @@ export default function Home({ ip }: { ip: string }) {
         plugins.push(key)
     }
     return (
-        <Card className="grid grid-cols-3 gap-4 p-4 h-[calc(100vh-75px)] overflow-auto auto-rows-min">
+        <Card className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 h-[calc(100vh-75px)] overflow-auto auto-rows-min">
             {plugins.map((plugin) => (
                 <Card key={plugin} id={plugin} className="flex flex-col justify-between">
                     <CardHeader className="gap-2">
@@ -62,7 +64,7 @@ export default function Home({ ip }: { ip: string }) {
                                         error: "Error enabling " + plugin
                                     })
                             }}>Enable</Button>): null} 
-                            <Button variant={"outline"}>Open Interface</Button>
+                            <Button variant={"outline"} onClick={() => push(`/plugins/${plugin}`)}>Open Interface</Button>
                         </div>
                     </CardFooter>
                 </Card>
