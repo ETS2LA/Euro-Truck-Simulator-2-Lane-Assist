@@ -22,12 +22,14 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
     const [TestSwitch, setTestSwitch] = useState<boolean | undefined>(undefined);
     const [TestCheckbox, setTestCheckbox] = useState<boolean | undefined>(undefined);
+    const [TestInput, setTestInput] = useState<number | undefined>(undefined);
 
     useEffect(() => {
         if (data) {
 
             if (data.TestSwitch !== undefined) { setTestSwitch(data.TestSwitch); } else { setTestSwitch(false); }
             if (data.TestCheckbox !== undefined) { setTestCheckbox(data.TestCheckbox); } else { setTestCheckbox(false); }
+            if (data.TestInput !== undefined) { setTestInput(data.TestInput); } else { setTestInput(0); }
             
         }
     }, [data]);
@@ -53,6 +55,16 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setTestCheckbox(newTestCheckbox);
+    };
+
+    const UpdateTestInput = async () => {
+        let newTestInput = TestInput;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "TestInput", newTestInput, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newTestInput,
+            error: "Failed to save"
+        });
+        setTestInput(newTestInput);
     };
 
     return (
@@ -129,9 +141,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         <Slider defaultValue={[50]} min={0} max={100} step={1} />
                     </div>
 
+                    {TestInput !== undefined && (
                     <div style={{ position: 'absolute', top: '218px', width: '200px' }}>
-                        <Input placeholder="Input" />
+                        <Input placeholder="Input" value={TestInput} onChange={UpdateTestInput} />
                     </div>
+                    )}
 
                     <div style={{ position: 'absolute', top: '260px', width: '200px' }}>
                         <Select>
