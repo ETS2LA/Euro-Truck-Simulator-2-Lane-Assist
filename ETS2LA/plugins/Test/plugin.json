@@ -1,11 +1,11 @@
 {
-    "name": "ShowImage",
+    "name": "Test",
     "author": {
         "name": "Tumppi066",
         "url": "https://github.com/Tumppi066",
         "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
     },
-    "description": "Will show the final image on screen. The image is configured to always stay on top, so that it can be open when ETS2 is in windowed or borderless mode.",
+    "description": "Lorem ea enim tempor Lorem in ad duis nisi. Est velit cillum occaecat eiusmod eiusmod aliquip.",
     "version": "1.0",
     "image": "image.png",
     "dependencies": []

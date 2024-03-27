@@ -45,9 +45,9 @@ def get_plugins():
         traceback.print_exc()
         enabledPlugins = []
     # Create the json
-    returnData = {}
+    returnData = plugins.copy()
     for plugin in plugins:
-        returnData[plugin] = {"enabled": False}
+        returnData[plugin]["enabled"] = False
         if plugin in enabledPlugins:
             returnData[plugin]["enabled"] = True
     

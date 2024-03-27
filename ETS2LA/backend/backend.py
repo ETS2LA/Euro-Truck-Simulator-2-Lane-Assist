@@ -3,8 +3,8 @@ import ETS2LA.frontend.immediate as immediate
 from ETS2LA.plugins.runner import PluginRunner
 import threading
 import time
-import pickle
-import zlib
+import json
+
 class PluginRunnerController():
     runner = None
     pluginName = None
@@ -58,7 +58,7 @@ class PluginRunnerController():
 runners = {}
 frameTimes = {}
 
-AVAILABLE_PLUGINS = []
+AVAILABLE_PLUGINS = {}
 def GetAvailablePlugins():
     global AVAILABLE_PLUGINS
     import os
@@ -67,9 +67,24 @@ def GetAvailablePlugins():
     # Check if it's a folder or a file.
     for plugin in plugins:
         if os.path.isdir(f"ETS2LA/plugins/{plugin}"):
-            AVAILABLE_PLUGINS.append(plugin)
+            AVAILABLE_PLUGINS[plugin] = {}
     # Remove the pycache folder.
-    AVAILABLE_PLUGINS.pop(AVAILABLE_PLUGINS.index("__pycache__"))
+    AVAILABLE_PLUGINS.pop("__pycache__")
+    # Add the plugins.json file contents to AVAILABLE_PLUGINS[plugin][file]
+    for plugin in AVAILABLE_PLUGINS:
+        try:
+            with open(f"ETS2LA/plugins/{plugin}/plugin.json", "r") as f:
+                AVAILABLE_PLUGINS[plugin]["file"] = json.loads(f.read())
+        except:
+            AVAILABLE_PLUGINS[plugin]["file"] = {
+                "name": plugin,
+                "author": "Unknown",
+                "version": "Unknown",
+                "description": "No description provided.",
+                "image": "None",
+                "dependencies": "None"
+            }
+        
     # Return
     return AVAILABLE_PLUGINS
 
