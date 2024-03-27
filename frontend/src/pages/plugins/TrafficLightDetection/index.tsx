@@ -57,8 +57,8 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         setTestCheckbox(newTestCheckbox);
     };
 
-    const UpdateTestInput = async () => {
-        let newTestInput = TestInput;
+    const UpdateTestInput = async (e:any) => {
+        let newTestInput = parseInt((e.target as HTMLInputElement).value);
         toast.promise(SetSettingByKey("TrafficLightDetection", "TestInput", newTestInput, ip), {
             loading: "Saving...",
             success: "Set value to " + newTestInput,
@@ -143,7 +143,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
                     {TestInput !== undefined && (
                     <div style={{ position: 'absolute', top: '218px', width: '200px' }}>
-                        <Input placeholder="Input" value={TestInput} onChange={UpdateTestInput} />
+                        <Input placeholder={TestInput as unknown as string} onChangeCapture={(e) => UpdateTestInput(e)} />
                     </div>
                     )}
 
