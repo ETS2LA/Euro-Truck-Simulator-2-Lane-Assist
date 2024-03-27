@@ -2,6 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import ETS2LA.backend.backend as backend
+import ETS2LA.backend.settings as settings
 import threading
 import logging
 import sys
@@ -56,6 +57,18 @@ def enable_plugin(plugin: str):
 @app.get("/api/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
     return backend.RemovePluginRunner(plugin)
+
+@app.get("/api/plugins/{plugin}/settings/{key}/{value}")
+def set_plugin_setting(plugin: str, key: str, value: Union[str, int, float, bool]):
+    return settings.Set(plugin, key, value)
+
+@app.get("/api/plugins/{plugin}/settings/{key}")
+def get_plugin_setting(plugin: str, key: str):
+    return settings.Get(plugin, key)
+
+@app.get("/api/plugins/{plugin}/settings")
+def get_plugin_settings(plugin: str):
+    return settings.GetJSON(plugin)
 
 @app.get("/api/server/ip")
 def get_IP():

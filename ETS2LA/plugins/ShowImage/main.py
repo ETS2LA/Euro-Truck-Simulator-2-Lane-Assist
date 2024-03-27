@@ -1,6 +1,7 @@
 import numpy as np
 from ETS2LA.plugins.plugin import PluginInformation
 from ETS2LA.plugins.runner import PluginRunner
+import ETS2LA.backend.settings as settings
 import rpyc
 import time
 import cv2
@@ -14,6 +15,12 @@ PluginInfo = PluginInformation(
     version="1.0",
     author="Tumppi066"
 )
+
+def LoadSettings(json):
+    print(json)
+
+settings.Set("ShowImage", "enabled", True)
+settings.Listen("ShowImage", LoadSettings)
 
 cv2.namedWindow("img", cv2.WINDOW_NORMAL)
 cv2.resizeWindow("img", round(user32.GetSystemMetrics(0)*0.40), round(user32.GetSystemMetrics(1)*0.40))
