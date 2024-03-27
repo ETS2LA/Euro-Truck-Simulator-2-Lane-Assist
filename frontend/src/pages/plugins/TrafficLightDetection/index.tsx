@@ -21,7 +21,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
 
     const [TestSwitch, setTestSwitch] = useState<boolean | undefined>(undefined);
-    const [TestCheckbox, setTestCheckbox] = useState<boolean | undefined>();
+    const [TestCheckbox, setTestCheckbox] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
         if (data) {
