@@ -12,6 +12,7 @@ import {
     CommandShortcut,
 } from "@/components/ui/command"
 
+import { usePathname } from "next/navigation";
 import * as React from "react"  
 import { GetPlugins, EnablePlugin, DisablePlugin } from "@/pages/server";
 import useSWR from "swr";
@@ -23,6 +24,7 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
     const { push } = useRouter()
     const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 })
     
+    let path = usePathname();
     let plugins:string[] = [];
     let enabledPlugins:string[] = [];
     let disabledPlugins:string[] = [];
@@ -57,9 +59,11 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
             <CommandList>
                 <CommandEmpty>No results, please try again.</CommandEmpty>
                 <CommandGroup heading="Actions">
-                    <CommandItem onSelect={() => {push("/"); setOpen(false)}}>
-                        Return to the Main Menu
-                    </CommandItem>
+                    {path != "/" ? (
+                        <CommandItem onSelect={() => {push("/"); setOpen(false)}}>
+                            Return to the Main Menu
+                        </CommandItem>
+                    ): null}
                 </CommandGroup>
                 <CommandGroup heading="Settings">
                     {plugins.map((plugin) => (
