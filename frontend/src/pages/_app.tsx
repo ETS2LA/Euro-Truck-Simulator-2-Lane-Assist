@@ -23,21 +23,25 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   if (isLoading) return <p>Loading...</p>
   if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
   let ip = data as string;
+
+  // Add the ip to the pageProps
+  const newPageProps = { ...pageProps, ip };
+
   return (
-  <div className='overflow-hidden p-3'>
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-    <ETS2LAMenubar ip={ip} />
-    <div className='py-3'>
-      <Component {...pageProps} />
+    <div className='overflow-hidden p-3'>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <ETS2LAMenubar ip={ip} />
+        <div className='py-3'>
+          <Component {...newPageProps} />
+        </div>
+        <ETS2LACommandMenu ip={ip} />
+        <Toaster />
+      </ThemeProvider>
     </div>
-    <ETS2LACommandMenu ip={ip} />
-    <Toaster />
-    </ThemeProvider>
-  </div>
   );
 }
