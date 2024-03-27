@@ -1,0 +1,7 @@
+{
+    "name": "ShowImage",
+    "creator": "Tumppi066",
+    "description": "Will show the final image on screen. The image is configured to always stay on top, so that it can be open when ETS2 is in windowed or borderless mode.",
+    "version": "1.0",
+    "image": "image.png"
+}

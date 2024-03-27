@@ -66,7 +66,7 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
                     ): null}
                     {path != "/plugins" ? (
                         <CommandItem onSelect={() => {push("/plugins"); setOpen(false)}}>
-                            Enter the plugin manager
+                            Open Plugin Manager
                         </CommandItem>
                     ): null}
                 </CommandGroup>

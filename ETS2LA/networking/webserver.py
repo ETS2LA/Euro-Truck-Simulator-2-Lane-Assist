@@ -8,6 +8,9 @@ import logging
 import sys
 import os
 import json
+from typing import Any
+from fastapi import Body
+
 
 app = FastAPI()
 app.add_middleware(
@@ -58,9 +61,11 @@ def enable_plugin(plugin: str):
 def disable_plugin(plugin: str):
     return backend.RemovePluginRunner(plugin)
 
-@app.get("/api/plugins/{plugin}/settings/{key}/{value}")
-def set_plugin_setting(plugin: str, key: str, value: Union[str, int, float, bool]):
-    return settings.Set(plugin, key, value)
+@app.post("/api/plugins/{plugin}/settings/{key}/set")
+def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):
+    print(f"Setting {plugin} {key} to {value}")
+    success = settings.Set(plugin, key, value["value"])
+    return success
 
 @app.get("/api/plugins/{plugin}/settings/{key}")
 def get_plugin_setting(plugin: str, key: str):
