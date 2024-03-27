@@ -1,7 +1,9 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Card, CardHeader } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
@@ -13,11 +15,21 @@ export default function TrafficLightDetection() {
     return (
         <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto">
 
-            <CardHeader style={{ position: 'absolute', top: '47px', left: '0px' }}>
-                <CardTitle>TrafficLightDetection</CardTitle>
-            </CardHeader>
+            <Popover>
+                <PopoverTrigger asChild>
+                    <CardHeader style={{ position: 'absolute', top: '43px', left: '-6px', width: '240px' }}>
+                        <Button variant="secondary" style={{ fontSize: '15px', fontWeight: 'bold' }}>TrafficLightDetection</Button>
+                    </CardHeader>
+                </PopoverTrigger>
+                <PopoverContent style={{ position: 'relative', top: '-23px', left: '17px', height: '50px', width: '317px' }}>
+                    <h4 className="font-medium leading-none">This plugin was created by Glas42</h4>
+                    <Avatar style={{ position: 'absolute', top: '8px', right: '15px', width: '32px', height: '32px' }}>
+                        <AvatarImage src="https://avatars.githubusercontent.com/u/145870870?v=4"/>
+                    </Avatar>
+                </PopoverContent>
+            </Popover>
 
-            <Tabs defaultValue="general" style={{ position: 'absolute', top: '45px', left: '215px', right: '12pt' }}>
+            <Tabs defaultValue="general" style={{ position: 'absolute', top: '47px', left: '215px', right: '14pt' }}>
                 <TabsList className="grid w-full grid-cols-5">
                     <TabsTrigger value="general">General</TabsTrigger>
                     <TabsTrigger value="screencapture">ScreenCapture</TabsTrigger>
