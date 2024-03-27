@@ -44,7 +44,7 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
     
     React.useEffect(() => {
         const down = (e: KeyboardEvent) => {
-            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+            if (((e.key === "k" || e.key === "Enter") && (e.metaKey || e.ctrlKey)) || e.key === "F1" || e.key === "Escape") {
                 e.preventDefault()
                 setOpen((open) => !open)
             }
@@ -62,6 +62,11 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
                     {path != "/" ? (
                         <CommandItem onSelect={() => {push("/"); setOpen(false)}}>
                             Return to the Main Menu
+                        </CommandItem>
+                    ): null}
+                    {path != "/plugins" ? (
+                        <CommandItem onSelect={() => {push("/plugins"); setOpen(false)}}>
+                            Enter the plugin manager
                         </CommandItem>
                     ): null}
                 </CommandGroup>
