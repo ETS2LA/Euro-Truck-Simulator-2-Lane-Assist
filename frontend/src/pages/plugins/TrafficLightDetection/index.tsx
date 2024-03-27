@@ -36,15 +36,23 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
 
     const UpdateTestSwitch = async () => {
-        const newTestSwitch = !TestSwitch;
-        await toast.promise(SetSettingByKey("TrafficLightDetection", "TestSwitch", newTestSwitch, ip), {});
-        setTestCheckbox(newTestSwitch);
+        let newTestSwitch = !TestSwitch;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "TestSwitch", newTestSwitch, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newTestSwitch,
+            error: "Failed to save"
+        });
+        setTestSwitch(newTestSwitch);
     };
 
     const UpdateTestCheckbox = async () => {
-        const newTestCheckbox = !TestCheckbox;
-        await toast.promise(SetSettingByKey("TrafficLightDetection", "TestCheckbox", newTestCheckbox, ip), {});
-        setTestSwitch(newTestCheckbox);
+        let newTestCheckbox = !TestCheckbox;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "TestCheckbox", newTestCheckbox, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newTestCheckbox,
+            error: "Failed to save"
+        });
+        setTestCheckbox(newTestCheckbox);
     };
 
     return (
