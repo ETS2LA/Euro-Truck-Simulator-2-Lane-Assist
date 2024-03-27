@@ -28,7 +28,7 @@ export default function Home({ ip }: { ip: string }) {
         plugins.push(key)
     }
     return (
-        <Card className="grid grid-cols-3 gap-4 p-4 h-[calc(100vh-75px)] overflow-auto auto-rows-min">
+        <Card className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 h-[calc(100vh-75px)] overflow-auto auto-rows-min">
             {plugins.map((plugin) => (
                 <Card key={plugin} id={plugin} className="flex flex-col justify-between">
                     <CardHeader className="gap-2">
