@@ -20,24 +20,26 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
     const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
 
-    const [TestSwitch, setTestSwitch] = useState<boolean | undefined>(undefined);
-    const [TestCheckbox, setTestCheckbox] = useState<boolean | undefined>(undefined);
-    const [TestInput, setTestInput] = useState<number | undefined>(undefined);
-
     const [YellowLightDetection, setYellowLightDetection] = useState<boolean | undefined>(undefined);
     const [PerformanceMode, setPerformanceMode] = useState<boolean | undefined>(undefined);
     const [AdvancedSettings, setAdvancedSettings] = useState<boolean | undefined>(undefined);
+    const [FOV, setFOV] = useState<number | undefined>(undefined);
+
+    const [ConfirmDetectedTrafficLightswithAI, setConfirmDetectedTrafficLightswithAI] = useState<boolean | undefined>(undefined);
+    const [ShowUnconfirmedTrafficLights, setShowUnconfirmedTrafficLights] = useState<boolean | undefined>(undefined);
+    const [YOLOModel, setYOLOModel] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (data) {
 
-            if (data.TestSwitch !== undefined) { setTestSwitch(data.TestSwitch); } else { setTestSwitch(false); }
-            if (data.TestCheckbox !== undefined) { setTestCheckbox(data.TestCheckbox); } else { setTestCheckbox(false); }
-            if (data.TestInput !== undefined) { setTestInput(data.TestInput); } else { setTestInput(0); }
-
             if (data.YellowLightDetection !== undefined) { setYellowLightDetection(data.YellowLightDetection); } else { setYellowLightDetection(false); }
             if (data.PerformanceMode !== undefined) { setPerformanceMode(data.PerformanceMode); } else { setPerformanceMode(true); }
             if (data.AdvancedSettings !== undefined) { setAdvancedSettings(data.AdvancedSettings); } else { setAdvancedSettings(false); }
+            if (data.FOV !== undefined) { setFOV(data.FOV); } else { setFOV(80); }
+
+            if (data.ConfirmDetectedTrafficLightswithAI !== undefined) { setConfirmDetectedTrafficLightswithAI(data.ConfirmDetectedTrafficLightswithAI); } else { setConfirmDetectedTrafficLightswithAI(true); }
+            if (data.ShowUnconfirmedTrafficLights !== undefined) { setShowUnconfirmedTrafficLights(data.ShowUnconfirmedTrafficLights); } else { setShowUnconfirmedTrafficLights(false); }
+            if (data.YOLOModel !== undefined) { setYOLOModel(data.YOLOModel); } else { setYOLOModel("yolov5n"); }
             
         }
     }, [data]);
@@ -45,35 +47,6 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     if (isLoading) return <p>Loading...</p>
     if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
 
-    const UpdateTestSwitch = async () => {
-        let newTestSwitch = !TestSwitch;
-        toast.promise(SetSettingByKey("TrafficLightDetection", "TestSwitch", newTestSwitch, ip), {
-            loading: "Saving...",
-            success: "Set value to " + newTestSwitch,
-            error: "Failed to save"
-        });
-        setTestSwitch(newTestSwitch);
-    };
-
-    const UpdateTestCheckbox = async () => {
-        let newTestCheckbox = !TestCheckbox;
-        toast.promise(SetSettingByKey("TrafficLightDetection", "TestCheckbox", newTestCheckbox, ip), {
-            loading: "Saving...",
-            success: "Set value to " + newTestCheckbox,
-            error: "Failed to save"
-        });
-        setTestCheckbox(newTestCheckbox);
-    };
-
-    const UpdateTestInput = async (e:any) => {
-        let newTestInput = parseInt((e.target as HTMLInputElement).value);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "TestInput", newTestInput, ip), {
-            loading: "Saving...",
-            success: "Set value to " + newTestInput,
-            error: "Failed to save"
-        });
-        setTestInput(newTestInput);
-    };
 
     const UpdateYellowLightDetection = async () => {
         let newYellowLightDetection = !YellowLightDetection;
@@ -103,6 +76,50 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setAdvancedSettings(newAdvancedSettings);
+    };
+
+    const UpdateFOV = async (e:any) => {
+        let newFOV = parseInt((e.target as HTMLInputElement).value);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FOV", newFOV, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newFOV,
+            error: "Failed to save"
+        });
+        setFOV(newFOV);
+    };
+
+    const UpdateConfirmDetectedTrafficLightswithAI = async () => {
+        let newConfirmDetectedTrafficLightswithAI = !ConfirmDetectedTrafficLightswithAI;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ConfirmDetectedTrafficLightswithAI", newConfirmDetectedTrafficLightswithAI, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newConfirmDetectedTrafficLightswithAI,
+            error: "Failed to save"
+        });
+        setConfirmDetectedTrafficLightswithAI(newConfirmDetectedTrafficLightswithAI);
+    };
+
+    const UpdateShowUnconfirmedTrafficLights = async () => {
+        let newShowUnconfirmedTrafficLights = !ShowUnconfirmedTrafficLights;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ShowUnconfirmedTrafficLights", newShowUnconfirmedTrafficLights, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newShowUnconfirmedTrafficLights,
+            error: "Failed to save"
+        });
+        setShowUnconfirmedTrafficLights(newShowUnconfirmedTrafficLights);
+    };
+
+    const UpdateYOLOModel = async (e:any) => {
+        let allowedValues = ["yolov5n", "yolov5s", "yolov5m", "yolov5l", "yolov5x"];
+        let newYOLOModel = (e.target as HTMLInputElement).value;
+        if (!allowedValues.includes(newYOLOModel)) {
+            newYOLOModel = "yolov5n";
+        }
+        toast.promise(SetSettingByKey("TrafficLightDetection", "YOLOModel", newYOLOModel, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newYOLOModel,
+            error: "Failed to save"
+        });
+        setYOLOModel(newYOLOModel);
     };
 
     return (
@@ -144,19 +161,15 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             <Button variant="link">Link Button</Button>
                         </div>
 
-                        {TestSwitch !== undefined && (
                         <div style={{ position: 'absolute', top: '62px' }}>
-                            <Switch id="switch" checked={TestSwitch} onCheckedChange={UpdateTestSwitch} />
+                            <Switch id="switch" />
                             <Label htmlFor="switch" style={{ position: 'relative', top: '-2px', left: '5px', width: '800px', textAlign: 'left' }}>This is a label which is connected to the switch. (you can click on the label to change the switch state)</Label>
                         </div>
-                        )}
 
-                        {TestCheckbox !== undefined && (
                         <div style={{ position: 'absolute', top: '90px' }}>
-                            <Checkbox id="checkbox" checked={TestCheckbox} onCheckedChange={UpdateTestCheckbox} />
+                            <Checkbox id="checkbox" />
                             <Label htmlFor="checkbox" style={{ position: 'relative', top: '-2px', left: '5px', width: '800px', textAlign: 'left' }}>This is a label which is connected to the checkbox. (you can click on the label to change the checkbox state)</Label>
                         </div>
-                        )}
 
                         <div style={{ position: 'absolute', top: '120px', width: '200px' }}>
                             <RadioGroup defaultValue="option1">
@@ -179,11 +192,9 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             <Slider defaultValue={[50]} min={0} max={100} step={1} />
                         </div>
 
-                        {TestInput !== undefined && (
                         <div style={{ position: 'absolute', top: '218px', width: '200px' }}>
-                            <Input placeholder={TestInput as unknown as string} onChangeCapture={(e) => UpdateTestInput(e)} />
+                            <Input placeholder="Input" />
                         </div>
-                        )}
 
                         <div style={{ position: 'absolute', top: '260px', width: '200px' }}>
                             <Select>
@@ -214,10 +225,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 <TabsContent value="general">
 
                     <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
+
                         {YellowLightDetection !== undefined && (
-                        <div className="flex flex-row">
+                        <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
                             <Switch id="yellowlightdetection" checked={YellowLightDetection} onCheckedChange={UpdateYellowLightDetection} />
-                            <div className="flex flex-col items-start pl-3 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2">
                                 <Label htmlFor="yellowlightdetection" className="font-bold">
                                     Yellow Light Detection (not recommended)
                                 </Label>
@@ -229,9 +241,9 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         )}
 
                         {PerformanceMode !== undefined && (
-                        <div className="flex flex-row">
+                        <div className="flex flex-row" style={{ position: 'relative', top: '30px' }}>
                             <Switch id="performancemode" checked={PerformanceMode} onCheckedChange={UpdatePerformanceMode} />
-                            <div className="flex flex-col items-start pl-3 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2">
                                 <Label htmlFor="performancemode" className="font-bold">
                                     Performance Mode (recommended)
                                 </Label>
@@ -243,9 +255,9 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         )}
 
                         {AdvancedSettings !== undefined && (
-                        <div className="flex flex-row">
+                        <div className="flex flex-row" style={{ position: 'relative', top: '40px' }}>
                             <Switch id="advancedsettings" checked={AdvancedSettings} onCheckedChange={UpdateAdvancedSettings} />
-                            <div className="flex flex-col items-start pl-3 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2">
                                 <Label htmlFor="advancedsettings" className="font-bold">
                                     Advanced Settings
                                 </Label>
@@ -255,9 +267,25 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             </div>
                         </div>
                         )}
-                        <Button variant={'destructive'}>
-                            Reset Advanced Settings to Default
-                        </Button>
+                        <div className="flex flex-row" style={{ position: 'relative', top: '34px', left: '44px' }}>
+                            <Button variant={'destructive'}>
+                                Reset Advanced Settings to Default
+                            </Button>
+                        </div>
+
+                        {FOV !== undefined && (
+                        <div className="flex flex-row" style={{ position: 'relative', top: '46px' }}>
+                            <Input placeholder={FOV as unknown as string} onChangeCapture={(e) => UpdateFOV(e)} style={{ width: '50px', textAlign: 'center' }} />
+                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                <Label htmlFor="fov" className="font-bold">
+                                    FOV
+                                </Label>
+                                <Label htmlFor="fov">
+                                    You need to set the field of view for the position estimation to work. You can find the FOV in the game by pressing F4, then selecting "Adjust seats."
+                                </Label>    
+                            </div>
+                        </div>
+                        )}
 
                     </div>
 
@@ -269,6 +297,69 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
                 </TabsContent>
                 <TabsContent value="trackerai">
+
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
+
+                        {ConfirmDetectedTrafficLightswithAI !== undefined && (
+                        <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
+                            <Switch id="confirmdetectedtrafficlightswithai" checked={ConfirmDetectedTrafficLightswithAI} onCheckedChange={UpdateConfirmDetectedTrafficLightswithAI} />
+                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                <Label htmlFor="confirmdetectedtrafficlightswithai" className="font-bold">
+                                    Confirmed Detected Traffic Lights with AI
+                                </Label>
+                                <Label htmlFor="confirmdetectedtrafficlightswithai">
+                                    If enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection. This reduces false detections and increases accuracy.
+                                </Label>    
+                            </div>
+                        </div>
+                        )}
+
+                        {ShowUnconfirmedTrafficLights !== undefined && (
+                        <div className="flex flex-row" style={{ position: 'relative', top: '30px' }}>
+                            <Switch id="showunconfirmedtrafficlights" checked={ShowUnconfirmedTrafficLights} onCheckedChange={UpdateShowUnconfirmedTrafficLights} />
+                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                <Label htmlFor="showunconfirmedtrafficlights" className="font-bold">
+                                    Show Unconfirmed Traffic Lights
+                                </Label>
+                                <Label htmlFor="showunconfirmedtrafficlights">
+                                    If enabled, the app will show unconfirmed or wrongly detected traffic lights in gray in the output window.
+                                </Label>
+                            </div>
+                        </div>
+                        )}
+
+                        {YOLOModel !== undefined && (
+                        <div className="flex flex-row" style={{ position: 'relative', top: '40px', left: '-8px' }}>
+                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                <Label className="font-bold">
+                                    YOLO Model
+                                </Label>
+                                <Label>
+                                    Choose a YOLO model for the confirmation, YOLOv5n is the recommended model.
+                                </Label>
+                                <Select value={YOLOModel} onValueChange={(e) => UpdateYOLOModel(e)}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a YOLO model" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                        <SelectLabel>Select a YOLO model</SelectLabel>
+                                        <SelectItem value="yolov5n">YOLOv5n (fastest, lowest accuracy)</SelectItem>
+                                        <SelectItem value="yolov5s">YOLOv5s (fast, low accuracy)</SelectItem>
+                                        <SelectItem value="yolov5m">YOLOv5m (slow, medium accuracy)</SelectItem>
+                                        <SelectItem value="yolov5l">YOLOv5l (slow, high accuracy)</SelectItem>
+                                        <SelectItem value="yolov5x">YOLOv5x (slowest, highest accuracy)</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }}>
+                                    Delete all downloaded models and redownload the model you are currently using.<br />This could fix faulty model files and other issues.
+                                </Button>
+                            </div>
+                        </div>
+                        )}
+
+                    </div>
 
                 </TabsContent>
                 <TabsContent value="advanced">
