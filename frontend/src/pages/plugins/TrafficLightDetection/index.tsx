@@ -399,6 +399,43 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         setColorSettings_lgb(newColorSettings_lgb);
     };
 
+    const ResetColorsToDefault = async () => {
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urr", defaultColorSettings_urr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urr, error: "Failed to save"}); setColorSettings_urr(defaultColorSettings_urr);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urg", defaultColorSettings_urg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urg, error: "Failed to save"}); setColorSettings_urg(defaultColorSettings_urg);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urb", defaultColorSettings_urb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urb, error: "Failed to save"}); setColorSettings_urb(defaultColorSettings_urb);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrr", defaultColorSettings_lrr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrr, error: "Failed to save"}); setColorSettings_lrr(defaultColorSettings_lrr);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrg", defaultColorSettings_lrg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrg, error: "Failed to save"}); setColorSettings_lrg(defaultColorSettings_lrg);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrb", defaultColorSettings_lrb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrb, error: "Failed to save"}); setColorSettings_lrb(defaultColorSettings_lrb);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyr", defaultColorSettings_uyr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyr, error: "Failed to save"}); setColorSettings_uyr(defaultColorSettings_uyr);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyg", defaultColorSettings_uyg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyg, error: "Failed to save"}); setColorSettings_uyg(defaultColorSettings_uyg);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyb", defaultColorSettings_uyb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyb, error: "Failed to save"}); setColorSettings_uyb(defaultColorSettings_uyb);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyr", defaultColorSettings_lyr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyr, error: "Failed to save"}); setColorSettings_lyr(defaultColorSettings_lyr);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyg", defaultColorSettings_lyg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyg, error: "Failed to save"}); setColorSettings_lyg(defaultColorSettings_lyg);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyb", defaultColorSettings_lyb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyb, error: "Failed to save"}); setColorSettings_lyb(defaultColorSettings_lyb);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugr", defaultColorSettings_ugr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugr, error: "Failed to save"}); setColorSettings_ugr(defaultColorSettings_ugr);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugg", defaultColorSettings_ugg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugg, error: "Failed to save"}); setColorSettings_ugg(defaultColorSettings_ugg);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugb", defaultColorSettings_ugb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugb, error: "Failed to save"}); setColorSettings_ugb(defaultColorSettings_ugb);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgr", defaultColorSettings_lgr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgr, error: "Failed to save"}); setColorSettings_lgr(defaultColorSettings_lgr);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgg", defaultColorSettings_lgg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgg, error: "Failed to save"}); setColorSettings_lgg(defaultColorSettings_lgg);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgb", defaultColorSettings_lgb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgb, error: "Failed to save"}); setColorSettings_lgb(defaultColorSettings_lgb);
+    };
     
     return (
         <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto">
@@ -856,6 +893,12 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             
                             </div>
                             )}
+                            
+                            <div className="flex flex-row" style={{ position: 'relative', left: '3px', top: '-13px' }}>
+                                <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }} onClick={() => ResetColorsToDefault()}>
+                                    Reset all values to default.
+                                </Button>
+                            </div>
 
                         </div>
 
