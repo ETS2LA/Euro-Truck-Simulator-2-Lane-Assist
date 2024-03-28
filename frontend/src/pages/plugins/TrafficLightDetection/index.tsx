@@ -37,6 +37,8 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const defaultColorSettings_lgr = 0;
     const defaultColorSettings_lgg = 200;
     const defaultColorSettings_lgb = 0;
+    const defaultFiltersMinimalTrafficLightSize = 8;
+    const defaultFiltersMaximalTrafficLightSize = 300;
 
     const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
 
@@ -68,6 +70,12 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const [ColorSettings_lgg, setColorSettings_lgg] = useState<number | undefined>(undefined);
     const [ColorSettings_lgb, setColorSettings_lgb] = useState<number | undefined>(undefined);
 
+    const [FiltersContourSizeFilter, setFiltersContourSizeFilter] = useState<boolean | undefined>(undefined);
+    const [FiltersWidthHeightRatioFilter, setFiltersWidthHeightRatioFilter] = useState<boolean | undefined>(undefined);
+    const [FiltersPixelPercentageFilter, setFiltersPixelPercentageFilter] = useState<boolean | undefined>(undefined);
+    const [FiltersOtherLightsFilter, setFiltersOtherLightsFilter] = useState<boolean | undefined>(undefined);
+    const [FiltersMinimalTrafficLightSize, setFiltersMinimalTrafficLightSize] = useState<number | undefined>(undefined);
+    const [FiltersMaximalTrafficLightSize, setFiltersMaximalTrafficLightSize] = useState<number | undefined>(undefined);
 
     useEffect(() => {
         if (data) {
@@ -100,6 +108,13 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             if (data.ColorSettings_lgg !== undefined) { setColorSettings_lgg(data.ColorSettings_lgg); } else { setColorSettings_lgg(defaultColorSettings_lgg); }
             if (data.ColorSettings_lgb !== undefined) { setColorSettings_lgb(data.ColorSettings_lgb); } else { setColorSettings_lgb(defaultColorSettings_lgb); }
             
+            if (data.FiltersContourSizeFilter !== undefined) { setFiltersContourSizeFilter(data.FiltersContourSizeFilter); } else { setFiltersContourSizeFilter(true); }
+            if (data.FiltersWidthHeightRatioFilter !== undefined) { setFiltersWidthHeightRatioFilter(data.FiltersWidthHeightRatioFilter); } else { setFiltersWidthHeightRatioFilter(true); }
+            if (data.FiltersPixelPercentageFilter !== undefined) { setFiltersPixelPercentageFilter(data.FiltersPixelPercentageFilter); } else { setFiltersPixelPercentageFilter(true); }
+            if (data.FiltersOtherLightsFilter !== undefined) { setFiltersOtherLightsFilter(data.FiltersOtherLightsFilter); } else { setFiltersOtherLightsFilter(true); }
+            if (data.FiltersMinimalTrafficLightSize !== undefined) { setFiltersMinimalTrafficLightSize(data.FiltersMinimalTrafficLightSize); } else { setFiltersMinimalTrafficLightSize(defaultFiltersMinimalTrafficLightSize); }
+            if (data.FiltersMaximalTrafficLightSize !== undefined) { setFiltersMaximalTrafficLightSize(data.FiltersMaximalTrafficLightSize); } else { setFiltersMaximalTrafficLightSize(defaultFiltersMaximalTrafficLightSize); }
+        
         }
     }, [data]);
 
@@ -437,6 +452,84 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgb", defaultColorSettings_lgb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgb, error: "Failed to save"}); setColorSettings_lgb(defaultColorSettings_lgb);
     };
     
+    const UpdateFiltersContourSizeFilter = async () => {
+        let newFiltersContourSizeFilter = !FiltersContourSizeFilter;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersContourSizeFilter", newFiltersContourSizeFilter, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newFiltersContourSizeFilter,
+            error: "Failed to save"
+        });
+        setFiltersContourSizeFilter(newFiltersContourSizeFilter);
+    };
+
+    const UpdateFiltersWidthHeightRatioFilter = async () => {
+        let newFiltersWidthHeightRatioFilter = !FiltersWidthHeightRatioFilter;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersWidthHeightRatioFilter", newFiltersWidthHeightRatioFilter, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newFiltersWidthHeightRatioFilter,
+            error: "Failed to save"
+        });
+        setFiltersWidthHeightRatioFilter(newFiltersWidthHeightRatioFilter);
+    }
+
+    const UpdateFiltersPixelPercentageFilter = async () => {
+        let newFiltersPixelPercentageFilter = !FiltersPixelPercentageFilter;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelPercentageFilter", newFiltersPixelPercentageFilter, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newFiltersPixelPercentageFilter,
+            error: "Failed to save"
+        });
+        setFiltersPixelPercentageFilter(newFiltersPixelPercentageFilter);
+    }
+
+    const UpdateFiltersOtherLightsFilter = async () => {
+        let newFiltersOtherLightsFilter = !FiltersOtherLightsFilter;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersOtherLightsFilter", newFiltersOtherLightsFilter, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newFiltersOtherLightsFilter,
+            error: "Failed to save"
+        });
+        setFiltersOtherLightsFilter(newFiltersOtherLightsFilter);
+    }
+
+    const UpdateFiltersMinimalTrafficLightSize = async (e:any) => {
+        let newFiltersMinimalTrafficLightSize = parseInt((e.target as HTMLInputElement).value);
+        let valid = !isNaN(newFiltersMinimalTrafficLightSize);
+        if (valid) { if (newFiltersMinimalTrafficLightSize < 1) { newFiltersMinimalTrafficLightSize = 1; } if (newFiltersMinimalTrafficLightSize > 999) { newFiltersMinimalTrafficLightSize = 999; } }
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMinimalTrafficLightSize", valid ? newFiltersMinimalTrafficLightSize : defaultFiltersMinimalTrafficLightSize, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newFiltersMinimalTrafficLightSize,
+            error: "Failed to save"
+        });
+        setFiltersMinimalTrafficLightSize(newFiltersMinimalTrafficLightSize);
+    };
+
+    const UpdateFiltersMaximalTrafficLightSize = async (e:any) => {
+        let newFiltersMaximalTrafficLightSize = parseInt((e.target as HTMLInputElement).value);
+        let valid = !isNaN(newFiltersMaximalTrafficLightSize);
+        if (valid) { if (newFiltersMaximalTrafficLightSize < 1) { newFiltersMaximalTrafficLightSize = 1; } if (newFiltersMaximalTrafficLightSize > 999) { newFiltersMaximalTrafficLightSize = 999; } }
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMaximalTrafficLightSize", valid ? newFiltersMaximalTrafficLightSize : defaultFiltersMaximalTrafficLightSize, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newFiltersMaximalTrafficLightSize,
+            error: "Failed to save"
+        });
+        setFiltersMaximalTrafficLightSize(newFiltersMaximalTrafficLightSize);
+    }
+
+    const ResetFiltersToDefault = async () => {
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersContourSizeFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersContourSizeFilter(true);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersWidthHeightRatioFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersWidthHeightRatioFilter(true);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelPercentageFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersPixelPercentageFilter(true);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersOtherLightsFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersOtherLightsFilter(true);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMinimalTrafficLightSize", defaultFiltersMinimalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMinimalTrafficLightSize, error: "Failed to save"}); setFiltersMinimalTrafficLightSize(defaultFiltersMinimalTrafficLightSize);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMaximalTrafficLightSize", defaultFiltersMaximalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMaximalTrafficLightSize, error: "Failed to save"}); setFiltersMaximalTrafficLightSize(defaultFiltersMaximalTrafficLightSize);
+    }
+
     return (
         <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto">
 
@@ -590,7 +683,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
                         {FOV !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative', top: '46px' }}>
-                            <Input placeholder={String(defaultFOV)} id="fov" value={!isNaN(FOV) ? FOV : ''}  onChangeCapture={(e) => UpdateFOV(e)} style={{ width: '50px', textAlign: 'center' }} />
+                            <Input placeholder={String(defaultFOV)} id="fov" value={!isNaN(FOV) ? FOV : ''}  onChangeCapture={(e) => UpdateFOV(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
                             <div className="flex flex-col items-start pl-2 text-left gap-2">
                                 <Label htmlFor="fov" className="font-bold">
                                     FOV
@@ -667,7 +760,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
-                                <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }}>
+                                <Button variant={"destructive"} style={{ position: 'relative', top: '2px', height: '100%', textAlign: 'left' }}>
                                     Delete all downloaded models and redownload the model you are currently using.<br />This could fix faulty model files and other issues.
                                 </Button>
                             </div>
@@ -904,6 +997,89 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
                     </TabsContent>
                     <TabsContent value="filters">
+
+                        <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '0px', right: '12pt' }}>
+
+                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '-5px' }}>
+                                <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                    <Label>
+                                        You can enable or disable the filters the detection uses to detect traffic lights.<br />Don't forget to enable Advanced Settings in the General tab to use these settings.
+                                    </Label>
+                                </div>
+                            </div>
+
+                            {FiltersContourSizeFilter !== undefined && (
+                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                                <Switch id="filterscontoursizefilter" checked={FiltersContourSizeFilter} onCheckedChange={UpdateFiltersContourSizeFilter} />
+                                <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                    <Label htmlFor="filterscontoursizefilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
+                                        Contour Size Filter
+                                    </Label>
+                                </div>
+                            </div>
+                            )}
+
+                            {FiltersWidthHeightRatioFilter !== undefined && (
+                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                                <Switch id="filterswidthheightratiofilter" checked={FiltersWidthHeightRatioFilter} onCheckedChange={UpdateFiltersWidthHeightRatioFilter} />
+                                <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                    <Label htmlFor="filterswidthheightratiofilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
+                                        Width/Height Ratio Filter
+                                    </Label>
+                                </div>
+                            </div>
+                            )}
+
+                            {FiltersPixelPercentageFilter !== undefined && (
+                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                                <Switch id="filterspixelpercentagefilter" checked={FiltersPixelPercentageFilter} onCheckedChange={UpdateFiltersPixelPercentageFilter} />
+                                <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                    <Label htmlFor="filterspixelpercentagefilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
+                                        Pixel Percentage Filter
+                                    </Label>
+                                </div>
+                            </div>
+                            )}
+
+                            {FiltersOtherLightsFilter !== undefined && (
+                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                                <Switch id="filtersotherlightsfilter" checked={FiltersOtherLightsFilter} onCheckedChange={UpdateFiltersOtherLightsFilter} />
+                                <div className="flex flex-col items-start pl-2 text-left gap-2">
+                                    <Label htmlFor="filtersotherlightsfilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
+                                        Other Lights Filter
+                                    </Label>
+                                </div>
+                            </div>
+                            )}
+
+                            {FiltersMinimalTrafficLightSize !== undefined && (
+                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                                <Input placeholder={String(defaultFiltersMinimalTrafficLightSize)} id="filtersminimaltrafficlightsize" value={!isNaN(FiltersMinimalTrafficLightSize) ? FiltersMinimalTrafficLightSize : ''}  onChangeCapture={(e) => UpdateFiltersMinimalTrafficLightSize(e)} style={{ width: '50px', height: '26px', textAlign: 'center' }} />
+                                <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '7px' }}>
+                                    <Label htmlFor="filtersminimaltrafficlightsize" className="font-bold">
+                                        Minimal Traffic Light Size
+                                    </Label>   
+                                </div>
+                            </div>
+                            )}
+
+                            {FiltersMaximalTrafficLightSize !== undefined && (
+                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                                <Input placeholder={String(defaultFiltersMaximalTrafficLightSize)} id="filtersmaximaltrafficlightsize" value={!isNaN(FiltersMaximalTrafficLightSize) ? FiltersMaximalTrafficLightSize : ''}  onChangeCapture={(e) => UpdateFiltersMaximalTrafficLightSize(e)} style={{ width: '50px', height: '26px', textAlign: 'center' }} />
+                                <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '7px' }}>
+                                    <Label htmlFor="filtersmaximaltrafficlightsize" className="font-bold">
+                                        Maximal Traffic Light Size
+                                    </Label>   
+                                </div>
+                            </div>
+                            )}
+                            <div className="flex flex-row" style={{ position: 'relative', top: '42px', left: '3px' }}>
+                                <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }} onClick={() => ResetFiltersToDefault()}>
+                                    Reset all values to default.
+                                </Button>
+                            </div>
+
+                        </div>
 
                     </TabsContent>
                     </Tabs>
