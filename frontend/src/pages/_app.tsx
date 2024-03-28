@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { Badge } from '@/components/ui/badge';
 import useSWR from 'swr';
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -40,7 +41,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <Component {...newPageProps} />
         </div>
         <ETS2LACommandMenu ip={ip} />
-        <Toaster />
+        <Toaster position='bottom-center'/>
       </ThemeProvider>
     </div>
   );

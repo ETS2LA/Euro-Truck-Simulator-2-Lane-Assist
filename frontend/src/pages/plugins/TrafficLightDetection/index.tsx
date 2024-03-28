@@ -213,46 +213,51 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="general">
 
-                    <div style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
-
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
                         {YellowLightDetection !== undefined && (
-                        <div style={{ position: 'absolute', top: '30px' }}>
+                        <div className="flex flex-row">
                             <Switch id="yellowlightdetection" checked={YellowLightDetection} onCheckedChange={UpdateYellowLightDetection} />
-                            <Label htmlFor="yellowlightdetection" style={{ position: 'absolute', top: '4px', left: '40px', width: 'calc(100vw - 80px)', fontWeight: 'bold', textAlign: 'left' }}>
-                                Yellow Light Detection (not recommended)
-                            </Label>
-                            <Label htmlFor="yellowlightdetection" style={{ position: 'absolute', top: '24px', left: '40px', width: 'calc(100vw - 80px)', textAlign: 'left' }}>
-                                If enabled, the traffic light detection tries to detect yellow traffic lights, but it is not recommended because it causes more wrong detected traffic lights.
-                            </Label>
+                            <div className="flex flex-col items-start pl-3 text-left gap-2">
+                                <Label htmlFor="yellowlightdetection" className="font-bold">
+                                    Yellow Light Detection (not recommended)
+                                </Label>
+                                <Label htmlFor="yellowlightdetection">
+                                    If enabled, the traffic light detection tries to detect yellow traffic lights, but it is not recommended because it causes more wrong detected traffic lights.
+                                </Label>    
+                            </div>
                         </div>
                         )}
 
                         {PerformanceMode !== undefined && (
-                        <div style={{ position: 'absolute', top: '90px' }}>
+                        <div className="flex flex-row">
                             <Switch id="performancemode" checked={PerformanceMode} onCheckedChange={UpdatePerformanceMode} />
-                            <Label htmlFor="performancemode" style={{ position: 'absolute', top: '4px', left: '40px', width: 'calc(100vw - 80px)', fontWeight: 'bold', textAlign: 'left' }}>
-                                Performance Mode (recommended)
-                            </Label>
-                            <Label htmlFor="performancemode" style={{ position: 'absolute', top: '24px', left: '40px', width: 'calc(100vw - 80px)', textAlign: 'left' }}>
-                                If enabled, the traffic light detection only detects red traffic lights, which increases performance, but does not reduce detection accuracy.
-                            </Label>
+                            <div className="flex flex-col items-start pl-3 text-left gap-2">
+                                <Label htmlFor="performancemode" className="font-bold">
+                                    Performance Mode (recommended)
+                                </Label>
+                                <Label htmlFor="performancemode">
+                                    If enabled, the traffic light detection only detects red traffic lights, which increases performance, but does not reduce detection accuracy.
+                                </Label>    
+                            </div>
                         </div>
                         )}
 
                         {AdvancedSettings !== undefined && (
-                        <div style={{ position: 'absolute', top: '150px' }}>
+                        <div className="flex flex-row">
                             <Switch id="advancedsettings" checked={AdvancedSettings} onCheckedChange={UpdateAdvancedSettings} />
-                            <Label htmlFor="advancedsettings" style={{ position: 'absolute', top: '4px', left: '40px', width: 'calc(100vw - 80px)', fontWeight: 'bold', textAlign: 'left' }}>
-                                Advanced Settings
-                            </Label>
-                            <Label htmlFor="advancedsettings" style={{ position: 'absolute', top: '24px', left: '40px', width: 'calc(100vw - 80px)', textAlign: 'left' }}>
-                                If enabled, the traffic light detection uses the settings you set in the Advanced tab. (could have a bad impact on performance)
-                            </Label>
-                            <Button variant={'destructive'} style={{ position: 'absolute', top: '44px', left: '40px' }}>
-                                Reset Advanced Settings to Default
-                            </Button>
+                            <div className="flex flex-col items-start pl-3 text-left gap-2">
+                                <Label htmlFor="advancedsettings" className="font-bold">
+                                    Advanced Settings
+                                </Label>
+                                <Label htmlFor="advancedsettings">
+                                    If enabled, the traffic light detection uses the settings you set in the Advanced tab. (could have a bad impact on performance)
+                                </Label>    
+                            </div>
                         </div>
                         )}
+                        <Button variant={'destructive'}>
+                            Reset Advanced Settings to Default
+                        </Button>
 
                     </div>
 
