@@ -18,14 +18,15 @@ import { Badge } from "./ui/badge"
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 import { useTheme } from "next-themes"
-import { Menu, Moon, Sun } from "lucide-react"
+import { DiscordLogoIcon } from "@radix-ui/react-icons";
+import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp, MessageCircleHeart, HelpCircle } from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, DisablePlugin, EnablePlugin } from "@/pages/server"
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la-immediate-server"
 
 export function ETS2LAMenubar({ip}: {ip: string}) {
-    const { setTheme } = useTheme()
+    const { theme, setTheme } = useTheme()
     const { push } = useRouter()
     // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
     const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 1000 })
@@ -53,7 +54,11 @@ export function ETS2LAMenubar({ip}: {ip: string}) {
 return (
     <Menubar>
     <MenubarMenu>
-        <MenubarTrigger className="font-bold">ETS2LA</MenubarTrigger>
+        <MenubarTrigger className="font-bold">
+            <div className="flex flex-row gap-1.5 items-center">
+                ETS2LA    
+            </div>
+        </MenubarTrigger>
         <MenubarContent>
             <MenubarItem onClick={() => push("/")}>Main Menu</MenubarItem>
             <MenubarSeparator />
@@ -71,7 +76,11 @@ return (
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>
-        <MenubarTrigger>Plugins</MenubarTrigger>
+        <MenubarTrigger>
+            <div className="flex flex-row gap-1 items-center">
+                <Blocks className="w-4 h-4" />Plugins    
+            </div>
+        </MenubarTrigger>
         <MenubarContent>
             <MenubarItem onClick={() => push("/plugins")}>Plugin Picker</MenubarItem>
             {uniqueChars.map((char, index) => (
@@ -116,21 +125,56 @@ return (
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>
-        <MenubarTrigger>Theme</MenubarTrigger>
+        <MenubarTrigger>
+            <div className="flex flex-row gap-1 items-center">
+                 {theme === "light" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}Theme    
+            </div>
+        </MenubarTrigger>
         <MenubarContent>
-            <MenubarItem onClick={() => setTheme("light")}>Light</MenubarItem>
-            <MenubarItem onClick={() => setTheme("dark")}>Dark</MenubarItem>
+            <MenubarItem onClick={() => setTheme("light")}>
+                <div className="flex flex-row gap-2 items-center">
+                    <Sun className="w-4 h-4"/>Light    
+                </div>
+            </MenubarItem>
+            <MenubarItem onClick={() => setTheme("dark")}>
+                <div className="flex flex-row gap-2 items-center">
+                    <Moon className="w-4 h-4"/>Dark    
+                </div>
+            </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => setTheme("system")}>System</MenubarItem>
+            <MenubarItem onClick={() => setTheme("system")}>
+                <div className="flex flex-row gap-2 items-center">
+                    <SunMoon className="w-4 h-4"/>System    
+                </div>
+            </MenubarItem>
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>
-        <MenubarTrigger>Help</MenubarTrigger>
+        <MenubarTrigger>
+            <div className="flex flex-row gap-1 items-center">
+                <Info className="w-4 h-4" />Help    
+            </div>
+        </MenubarTrigger>
         <MenubarContent>
-            <MenubarItem onClick={() => window.open("https://wiki.tumppi066.fi", "_blank")}>Wiki<MenubarShortcut>W</MenubarShortcut></MenubarItem>
-            <MenubarItem onClick={() => window.open("https://discord.tumppi066.fi", "_blank")}>Discord<MenubarShortcut>D</MenubarShortcut></MenubarItem>
+            <MenubarItem onClick={() => window.open("https://wiki.tumppi066.fi", "_blank")}>
+                <div className="flex flex-row gap-2 items-center">
+                    <HelpCircle className="w-4 h-4"/>Wiki    
+                </div>
+                <MenubarShortcut>W</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem onClick={() => window.open("https://discord.tumppi066.fi", "_blank")}>
+                <div className="flex flex-row gap-2 items-center">
+                    <DiscordLogoIcon className="w-4 h-4"/>Discord    
+                </div>    
+                <MenubarShortcut>D</MenubarShortcut>
+            </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem>Feedback<MenubarShortcut>F</MenubarShortcut></MenubarItem>
+            <MenubarItem>
+                <div className="flex flex-row gap-2 items-center">
+                    <MessageCircleHeart className="w-4 h-4"/>Feedback    
+                </div>
+                <MenubarShortcut>F</MenubarShortcut>
+            </MenubarItem>
         </MenubarContent>
     </MenubarMenu>
     <ETS2LAImmediateServer ip={ip} />

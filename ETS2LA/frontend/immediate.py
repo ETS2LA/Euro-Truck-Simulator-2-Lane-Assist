@@ -15,10 +15,16 @@ async def server(websocket, path):
             # Wait for a message from the client
             await websocket.recv()
     except:
-        connected.remove(websocket)
+        try:
+            connected.remove(websocket)
+        except:
+            pass
     finally:
         # Unregister.
-        connected.remove(websocket)
+        try:
+            connected.remove(websocket)
+        except:
+            pass
 
 import json
 async def send_sonner(text, type):

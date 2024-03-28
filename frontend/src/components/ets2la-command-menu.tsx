@@ -19,6 +19,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
 
+
 export function ETS2LACommandMenu({ip}: {ip: string}) {
     const [open, setOpen] = React.useState(false)
     const { push } = useRouter()
@@ -73,7 +74,7 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
                 <CommandGroup heading="Settings">
                     {plugins.map((plugin) => (
                         <CommandItem key={plugin} onSelect={() => {push("/plugins/" + plugin); setOpen(false)}}>
-                            Open {plugin} settings
+                            Open {plugin} interface
                         </CommandItem>
                     ))}
                 </CommandGroup>
