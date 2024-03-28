@@ -19,7 +19,14 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 import { useTheme } from "next-themes"
 import { DiscordLogoIcon } from "@radix-ui/react-icons";
-import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp, MessageCircleHeart, HelpCircle } from "lucide-react"
+import { 
+    Blocks, 
+    Moon, Sun, 
+    Info, Bolt, 
+    SunMoon, 
+    CircleHelp, 
+    MessageCircleHeart, 
+    HelpCircle } from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, DisablePlugin, EnablePlugin } from "@/pages/server"
 import useSWR from "swr"
 import {toast} from "sonner"

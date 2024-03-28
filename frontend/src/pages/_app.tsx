@@ -8,6 +8,7 @@ import { ETS2LACommandMenu } from '@/components/ets2la-command-menu';
 import { GetIP } from "./server";
 import { Toaster } from "@/components/ui/sonner"
 import { Badge } from '@/components/ui/badge';
+import { Unplug, Ellipsis } from 'lucide-react';
 import useSWR from 'swr';
 
 
@@ -21,8 +22,12 @@ export const metadata: Metadata = {
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const { data, error, isLoading } = useSWR("ip", GetIP, { refreshInterval: 1000 });
-  if (isLoading) return <p>Loading...</p>
-  if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
+  if (isLoading) return <div className='p-4'>
+    <Badge variant={"outline"} className='gap-1'><Ellipsis className='w-5 h-5' /> Loading...</Badge>
+  </div>
+  if (error) return <div className='p-4'>
+    <Badge variant={"destructive"} className='gap-1'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
+  </div>
   let ip = data as string;
 
   // Add the ip to the pageProps

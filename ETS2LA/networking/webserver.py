@@ -44,12 +44,24 @@ def get_plugins():
         import traceback
         traceback.print_exc()
         enabledPlugins = []
+        
+    try:
+        frametimes = backend.frameTimes
+    except:
+        import traceback
+        traceback.print_exc()
+        frametimes = {}
+        
     # Create the json
     returnData = plugins.copy()
     for plugin in plugins:
         returnData[plugin]["enabled"] = False
         if plugin in enabledPlugins:
             returnData[plugin]["enabled"] = True
+        
+        returnData[plugin]["frametimes"] = 0
+        if plugin in frametimes:
+            returnData[plugin]["frametimes"] = frametimes[plugin]
     
     return returnData
 

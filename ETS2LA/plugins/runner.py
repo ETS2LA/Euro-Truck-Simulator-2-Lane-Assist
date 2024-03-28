@@ -37,7 +37,7 @@ class PluginRunner():
             self.executiontimes[-1] -= self.getTime
             self.getTime = 0
             # Send the frametimes to the main thread once a second
-            if endTime - self.timer > 1:
+            if endTime - self.timer > 0.5:
                 # Calculate the avg frametime
                 avgFrametime = sum(self.frametimes) / len(self.frametimes)
                 avgExecTime = sum(self.executiontimes) / len(self.executiontimes)

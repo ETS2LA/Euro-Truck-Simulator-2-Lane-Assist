@@ -8,3 +8,8 @@ PluginInfo = PluginInformation(
 
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
+import time
+
+def plugin(runner):
+    time.sleep(0.1) # Cap to 10fps to limit it from running at 7mil fps
+    pass

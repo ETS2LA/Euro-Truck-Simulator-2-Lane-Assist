@@ -29,11 +29,11 @@ import { GetPlugins, EnablePlugin, DisablePlugin } from "../server"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/router"
-import { HomeIcon } from "lucide-react"
+import { Gauge, LineChart } from "lucide-react"
 
 export default function Home({ ip }: { ip: string }) {
     const { push } = useRouter()
-    const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 1000 })
+    const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 500 })
     if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Card>
     if (error){
         toast.error("Error fetching plugins from " + ip, {description: error.message})
@@ -50,7 +50,7 @@ export default function Home({ ip }: { ip: string }) {
             <Card className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 h-[calc(100vh-75px)] overflow-auto auto-rows-min">
                 {plugins.map((plugin) => (
                     <Card key={plugin} id={plugin} className="flex flex-col justify-between">
-                        <CardHeader className="gap-2">
+                        <CardHeader className="gap-1">
                             <CardTitle>{data ? (data as any)[plugin]["file"]["name"] : plugin}</CardTitle>
                             <div className="flex items-center gap-1">
                                 {data ? (data as any)[plugin]["file"]["author"] != "Unknown" ? (
@@ -60,6 +60,12 @@ export default function Home({ ip }: { ip: string }) {
                                 ) : null : null}
                                 <p className="text-muted-foreground text-xs">{data ? (data as any)[plugin]["file"]["author"]["name"] : "Unknown"}</p>
                             </div>
+                            {data ? (data as any)[plugin]["enabled"] ? (
+                                <div className="flex flex-row gap-1 items-center">
+                                    <Gauge color="#888888" className="w-5 h-5"/>
+                                    <p className="text-muted-foreground text-xs">Plugin is running at {data ? Math.round(1/(data as any)[plugin]["frametimes"]["frametime"]) : "Unknown"} fps.</p>
+                                </div>
+                            ) : null : null}
                         </CardHeader>
                         <CardContent>
                             <CardDescription>
@@ -73,14 +79,16 @@ export default function Home({ ip }: { ip: string }) {
                                         toast.promise(DisablePlugin(plugin, ip), {
                                             loading: "Disabling " + plugin,
                                             success: "Disabled " + plugin,
-                                            error: "Error disabling " + plugin
+                                            error: "Error disabling " + plugin,
+                                            description: "The button may take a second to update."
                                         })
                                     }}>Disable</Button>) : (
                                     <Button onClick={() => {
                                         toast.promise(EnablePlugin(plugin, ip), {
                                             loading: "Enabling " + plugin,
                                             success: "Enabled " + plugin,
-                                            error: "Error enabling " + plugin
+                                            error: "Error enabling " + plugin,
+                                            description: "The button may take a second to update."
                                         })
                                 }}>Enable</Button>): null} 
                                 <Button variant={"outline"} onClick={() => push(`/plugins/${plugin}`)}>Open Interface</Button>
