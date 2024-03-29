@@ -89,7 +89,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
             if (data.ConfirmDetectedTrafficLightswithAI !== undefined) { setConfirmDetectedTrafficLightswithAI(data.ConfirmDetectedTrafficLightswithAI); } else { setConfirmDetectedTrafficLightswithAI(true); }
             if (data.ShowUnconfirmedTrafficLights !== undefined) { setShowUnconfirmedTrafficLights(data.ShowUnconfirmedTrafficLights); } else { setShowUnconfirmedTrafficLights(false); }
-            if (data.YOLOModel !== undefined) { setYOLOModel(data.YOLOModel); } else { setYOLOModel("yolov5n"); }
+            if (data.YOLOModel !== undefined) { setYOLOModel(data.YOLOModel); } else { setYOLOModel("YOLOv5n"); }
 
             if (data.ColorSettings_urr !== undefined) { setColorSettings_urr(data.ColorSettings_urr); } else { setColorSettings_urr(defaultColorSettings_urr); }
             if (data.ColorSettings_urg !== undefined) { setColorSettings_urg(data.ColorSettings_urg); } else { setColorSettings_urg(defaultColorSettings_urg); }
@@ -187,10 +187,9 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     };
 
     const UpdateYOLOModel = async (e:any) => {
-        let allowedValues = ["yolov5n", "yolov5s", "yolov5m", "yolov5l", "yolov5x"];
-        let newYOLOModel = (e.target as HTMLInputElement).value;
-        if (!allowedValues.includes(newYOLOModel)) {
-            newYOLOModel = "yolov5n";
+        let newYOLOModel = e;
+        if (!["YOLOv5n", "YOLOv5s", "YOLOv5m", "YOLOv5l", "YOLOv5x"].includes(newYOLOModel)) {
+            newYOLOModel = "YOLOv5n";
         }
         toast.promise(SetSettingByKey("TrafficLightDetection", "YOLOModel", newYOLOModel, ip), {
             loading: "Saving...",
@@ -761,18 +760,18 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                 <Label>
                                     Choose a YOLO model for the confirmation, YOLOv5n is the recommended model.
                                 </Label>
-                                <Select value={YOLOModel} onValueChange={(e) => UpdateYOLOModel(e)}>
+                                <Select value={ YOLOModel } onValueChange={(e) => UpdateYOLOModel(e)}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a YOLO model" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
                                         <SelectLabel>Select a YOLO model</SelectLabel>
-                                        <SelectItem value="yolov5n">YOLOv5n (fastest, lowest accuracy)</SelectItem>
-                                        <SelectItem value="yolov5s">YOLOv5s (fast, low accuracy)</SelectItem>
-                                        <SelectItem value="yolov5m">YOLOv5m (slow, medium accuracy)</SelectItem>
-                                        <SelectItem value="yolov5l">YOLOv5l (slow, high accuracy)</SelectItem>
-                                        <SelectItem value="yolov5x">YOLOv5x (slowest, highest accuracy)</SelectItem>
+                                        <SelectItem value="YOLOv5n">YOLOv5n (fastest, lowest accuracy)</SelectItem>
+                                        <SelectItem value="YOLOv5s">YOLOv5s (fast, low accuracy)</SelectItem>
+                                        <SelectItem value="YOLOv5m">YOLOv5m (slow, medium accuracy)</SelectItem>
+                                        <SelectItem value="YOLOv5l">YOLOv5l (slow, high accuracy)</SelectItem>
+                                        <SelectItem value="YOLOv5x">YOLOv5x (slowest, highest accuracy)</SelectItem>
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
