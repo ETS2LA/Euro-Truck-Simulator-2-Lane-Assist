@@ -433,14 +433,12 @@ def GetCurrentProfilePath(game="automatic"):
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
                         profiles.append((folder, os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}")))
-                print(profiles)
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
                 if most_recent_profile != None:
-                    print(most_recent_profile[0])
                     if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]):
                         path = ETS2_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
                         return path
