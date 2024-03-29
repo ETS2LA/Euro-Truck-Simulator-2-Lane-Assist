@@ -19,6 +19,8 @@ import useSWR from "swr";
 export default function TrafficLightDetection({ ip }: { ip: string }) {
 
     const defaultFOV = 80;
+    const defaultWindowScale = "0.5";
+    const defaultPositionEstimationWindowScale = "0.5";
     const defaultColorSettings_urr = 255;
     const defaultColorSettings_urg = 110;
     const defaultColorSettings_urb = 110;
@@ -48,6 +50,12 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const [PerformanceMode, setPerformanceMode] = useState<boolean | undefined>(undefined);
     const [AdvancedSettings, setAdvancedSettings] = useState<boolean | undefined>(undefined);
     const [FOV, setFOV] = useState<number | undefined>(undefined);
+
+    const [FinalWindow, setFinalWindow] = useState<boolean | undefined>(undefined);
+    const [GrayscaleWindow, setGrayscaleWindow] = useState<boolean | undefined>(undefined);
+    const [WindowScale, setWindowScale] = useState<string | undefined>(undefined);
+    const [PositionEstimationWindow, setPositionEstimationWindow] = useState<boolean | undefined>(undefined);
+    const [PositionEstimationWindowScale, setPositionEstimationWindowScale] = useState<string | undefined>(undefined);
 
     const [ConfirmDetectedTrafficLightswithAI, setConfirmDetectedTrafficLightswithAI] = useState<boolean | undefined>(undefined);
     const [ShowUnconfirmedTrafficLights, setShowUnconfirmedTrafficLights] = useState<boolean | undefined>(undefined);
@@ -86,6 +94,12 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             if (data.PerformanceMode !== undefined) { setPerformanceMode(data.PerformanceMode); } else { setPerformanceMode(true); }
             if (data.AdvancedSettings !== undefined) { setAdvancedSettings(data.AdvancedSettings); } else { setAdvancedSettings(false); }
             if (data.FOV !== undefined) { setFOV(data.FOV); } else { setFOV(defaultFOV); }
+
+            if (data.FinalWindow !== undefined) { setFinalWindow(data.FinalWindow); } else { setFinalWindow(true); }
+            if (data.GrayscaleWindow !== undefined) { setGrayscaleWindow(data.GrayscaleWindow); } else { setGrayscaleWindow(false); }
+            if (data.WindowScale !== undefined) { setWindowScale(data.WindowScale); } else { setWindowScale(defaultWindowScale); }
+            if (data.PositionEstimationWindow !== undefined) { setPositionEstimationWindow(data.PositionEstimationWindow); } else { setPositionEstimationWindow(false); }
+            if (data.PositionEstimationWindowScale !== undefined) { setPositionEstimationWindowScale(data.PositionEstimationWindowScale); } else { setPositionEstimationWindowScale(defaultPositionEstimationWindowScale); }
 
             if (data.ConfirmDetectedTrafficLightswithAI !== undefined) { setConfirmDetectedTrafficLightswithAI(data.ConfirmDetectedTrafficLightswithAI); } else { setConfirmDetectedTrafficLightswithAI(true); }
             if (data.ShowUnconfirmedTrafficLights !== undefined) { setShowUnconfirmedTrafficLights(data.ShowUnconfirmedTrafficLights); } else { setShowUnconfirmedTrafficLights(false); }
@@ -164,6 +178,60 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setFOV(newFOV);
+    };
+
+    const UpdateFinalWindow = async () => {
+        let newFinalWindow = !FinalWindow;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FinalWindow", newFinalWindow, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newFinalWindow,
+            error: "Failed to save"
+        });
+        setFinalWindow(newFinalWindow);
+    };
+
+    const UpdateGrayscaleWindow = async () => {
+        let newGrayscaleWindow = !GrayscaleWindow;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "GrayscaleWindow", newGrayscaleWindow, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newGrayscaleWindow,
+            error: "Failed to save"
+        });
+        setGrayscaleWindow(newGrayscaleWindow);
+    };
+
+    const UpdateWindowScale = async (e:any) => {
+        let newWindowScale = (e.target as HTMLInputElement).value;
+        let valid = !isNaN(parseFloat(newWindowScale));
+        if (valid) { if (parseFloat(newWindowScale) < 0.1) { newWindowScale = "0.1"; } if (parseFloat(newWindowScale) > 9.9) { newWindowScale = "9.9"; } }
+        toast.promise(SetSettingByKey("TrafficLightDetection", "WindowScale", valid ? parseFloat(newWindowScale) : defaultWindowScale, ip), {
+            loading: "Saving...",
+            success: "Set value to " + parseFloat(newWindowScale),
+            error: "Failed to save"
+        });
+        setWindowScale(newWindowScale);
+    };
+
+    const UpdatePositionEstimationWindow = async () => {
+        let newPositionEstimationWindow = !PositionEstimationWindow;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "PositionEstimationWindow", newPositionEstimationWindow, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newPositionEstimationWindow,
+            error: "Failed to save"
+        });
+        setPositionEstimationWindow(newPositionEstimationWindow);
+    };
+
+    const UpdatePositionEstimationWindowScale = async (e:any) => {
+        let newPositionEstimationWindowScale = (e.target as HTMLInputElement).value;
+        let valid = !isNaN(parseFloat(newPositionEstimationWindowScale));
+        if (valid) { if (parseFloat(newPositionEstimationWindowScale) < 0.1) { newPositionEstimationWindowScale = "0.1"; } if (parseFloat(newPositionEstimationWindowScale) > 9.9) { newPositionEstimationWindowScale = "9.9"; } }
+        toast.promise(SetSettingByKey("TrafficLightDetection", "PositionEstimationWindowScale", valid ? parseFloat(newPositionEstimationWindowScale) : defaultPositionEstimationWindowScale, ip), {
+            loading: "Saving...",
+            success: "Set value to " + parseFloat(newPositionEstimationWindowScale),
+            error: "Failed to save"
+        });
+        setPositionEstimationWindowScale(newPositionEstimationWindowScale);
     };
 
     const UpdateConfirmDetectedTrafficLightswithAI = async () => {
@@ -655,7 +723,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                 </Label>
                                 <Label htmlFor="yellowlightdetection">
                                     If enabled, the traffic light detection tries to detect yellow traffic lights, but it is not recommended because it causes more wrong detected traffic lights.
-                                </Label>    
+                                </Label>
                             </div>
                         </div>
                         )}
@@ -669,7 +737,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                 </Label>
                                 <Label htmlFor="performancemode">
                                     If enabled, the traffic light detection only detects red traffic lights, which increases performance, but does not reduce detection accuracy.
-                                </Label>    
+                                </Label>
                             </div>
                         </div>
                         )}
@@ -683,7 +751,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                 </Label>
                                 <Label htmlFor="advancedsettings">
                                     If enabled, the traffic light detection uses the settings you set in the Advanced tab. (could have a bad impact on performance)
-                                </Label>    
+                                </Label>
                             </div>
                         </div>
                         )}
@@ -705,7 +773,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                 </Label>
                                 <Label htmlFor="fov">
                                     You need to set the field of view for the position estimation to work. You can find the FOV in the game by pressing F4, then selecting "Adjust seats".
-                                </Label>    
+                                </Label>
                             </div>
                         </div>
                         )}
@@ -717,6 +785,80 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
                 </TabsContent>
                 <TabsContent value="outputwindow">
+
+                <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
+
+                    {FinalWindow !== undefined && (
+                    <div className="flex flex-row" style={{ position: 'relative', top: '20px' }}>
+                        <Switch id="finalwindow" checked={FinalWindow} onCheckedChange={UpdateFinalWindow} />
+                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
+                            <Label htmlFor="finalwindow" className="font-bold">
+                                Final Window
+                            </Label>
+                            <Label htmlFor="finalwindow">
+                                If enabled, the app creates a window with the result of the traffic light detection.
+                            </Label>
+                        </div>
+                    </div>
+                    )}
+
+                    {GrayscaleWindow !== undefined && (
+                    <div className="flex flex-row" style={{ position: 'relative', top: '30px' }}>
+                        <Switch id="grayscalewindow" checked={GrayscaleWindow} onCheckedChange={UpdateGrayscaleWindow} />
+                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
+                            <Label htmlFor="grayscalewindow" className="font-bold">
+                                Grayscale Window
+                            </Label>
+                            <Label htmlFor="grayscalewindow">
+                                If enabled, the app creates a window with the color masks combined in a grayscaled frame.
+                            </Label>
+                        </div>
+                    </div>
+                    )}
+
+                    {WindowScale !== undefined && (
+                    <div className="flex flex-row" style={{ position: 'relative', top: '40px' }}>
+                        <Input placeholder={String(defaultWindowScale)} id="windowscale" value={!isNaN(parseFloat(WindowScale)) ? WindowScale : ''}  onChangeCapture={(e) => UpdateWindowScale(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
+                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
+                            <Label htmlFor="windowscale" className="font-bold">
+                                Window Scale
+                            </Label>
+                            <Label htmlFor="windowscale">
+                                Sets the size of the output windows.
+                            </Label>
+                        </div>
+                    </div>
+                    )}
+
+                    {PositionEstimationWindow !== undefined && (
+                    <div className="flex flex-row" style={{ position: 'relative', top: '50px' }}>
+                        <Switch id="positionestimationwindow" checked={PositionEstimationWindow} onCheckedChange={UpdatePositionEstimationWindow} />
+                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
+                            <Label htmlFor="positionestimationwindow" className="font-bold">
+                                Position Estimation Window
+                            </Label>
+                            <Label htmlFor="positionestimationwindow">
+                                If enabled, the app creates a window which shows the estimated position of the traffic light.
+                            </Label>
+                        </div>
+                    </div>
+                    )}
+
+                    {PositionEstimationWindowScale !== undefined && (
+                    <div className="flex flex-row" style={{ position: 'relative', top: '60px' }}>
+                        <Input placeholder={String(defaultPositionEstimationWindowScale)} id="windowscale" value={!isNaN(parseFloat(PositionEstimationWindowScale)) ? PositionEstimationWindowScale : ''}  onChangeCapture={(e) => UpdatePositionEstimationWindowScale(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
+                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
+                            <Label htmlFor="windowscale" className="font-bold">
+                                Position Estimation Window Scale
+                            </Label>
+                            <Label htmlFor="windowscale">
+                                Sets the size of the position estimation window.
+                            </Label>
+                        </div>
+                    </div>
+                    )}
+
+                </div>
 
                 </TabsContent>
                 <TabsContent value="trackerai">
@@ -732,7 +874,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                 </Label>
                                 <Label htmlFor="confirmdetectedtrafficlightswithai">
                                     If enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection. This reduces false detections and increases accuracy.
-                                </Label>    
+                                </Label>
                             </div>
                         </div>
                         )}
