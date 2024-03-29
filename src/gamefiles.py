@@ -405,6 +405,85 @@ def GetCurrentProfile(game="automatic"):
         SendCrashReport("Error in gamefiles.py: GetCurrentProfile", str(exc))
         print("Error in gamefiles.py: GetCurrentProfile" + str(e))
 
+def GetCurrentProfilePath(game="automatic"):
+    '''
+    Returns the ID of the current profile of the selected game.
+    game: "automatic" or "ats" or "ets2"
+    '''
+    get_paths()
+    try:
+        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
+
+            if game == "automatic":
+                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                    if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
+                        game = "ets2"
+                    else:
+                        game = "ats"
+                elif ETS2_DOCUMENTS_FOUND == True:
+                    game = "ets2"
+                elif ATS_DOCUMENTS_FOUND == True:
+                    game = "ats"
+
+            if game == "ets2":
+                profiles = []
+                if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles"):
+                    for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/profiles"):
+                        profiles.append((folder, os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}")))
+                if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
+                    for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
+                        profiles.append((folder, os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                print(profiles)
+                if profiles != []:
+                    profiles.sort(key=lambda x: x[1], reverse=True)
+                    most_recent_profile = profiles[0]
+                else:
+                    most_recent_profile = None
+                if most_recent_profile != None:
+                    print(most_recent_profile[0])
+                    if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]):
+                        path = ETS2_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
+                        return path
+                    if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]):
+                        path = ETS2_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]
+                        return path
+                else:
+                    print(RED + "No profiles in documents found, unable to return path." + NORMAL)
+                    return None
+
+            if game == "ats":
+                profiles = []
+                if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles"):
+                    for folder in os.listdir(ATS_DOCUMENTS_PATH + "/profiles"):
+                        profiles.append((folder, os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/profiles/{folder}")))
+                if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles"):
+                    for folder in os.listdir(ATS_DOCUMENTS_PATH + "/steam_profiles"):
+                        profiles.append((folder, os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                if profiles != []:
+                    profiles.sort(key=lambda x: x[1], reverse=True)
+                    most_recent_profile = profiles[0]
+                else:
+                    most_recent_profile = None
+                if most_recent_profile != None:
+                    if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]):
+                        path = ATS_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
+                        return path
+                    if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]):
+                        path = ATS_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]
+                        return path
+                else:
+                    print(RED + "No profiles in documents found, unable to return ID." + NORMAL)
+                    return None
+
+        else:
+            print(RED + "No game in documents found, unable to return ID." + NORMAL)
+            return None
+    except Exception as e:
+        exc = traceback.format_exc()
+        SendCrashReport("Error in gamefiles.py: GetCurrentProfile", str(exc))
+        print("Error in gamefiles.py: GetCurrentProfile" + str(e))
+
+
 
 def GetAllProfiles(game="automatic"):
     '''
