@@ -57,6 +57,19 @@ def Get(plugin, key, default=None):
     except Exception as e:
         print(e)
         return None
+
+def CheckForExtraSymbol(plugin):
+    """Will check the settings file for an extra } (so }}) symbol at the end of the file and remove it if found.
+
+    Args:
+        plugin (str): Plugin name to check the settings file for.
+    """
+    with open("ETS2LA/plugins/" + plugin + "/settings.json", 'r') as f:
+        lines = f.readlines()
+        if lines[-1].strip() == "}":
+            lines[-1] = lines[-1].strip()
+            with open("ETS2LA/plugins/" + plugin + "/settings.json", 'w') as f:
+                f.write("\n".join(lines))
     
 def Set(plugin, key, value):
     """Will set the settings for the plugin and key provided.
@@ -80,6 +93,8 @@ def Set(plugin, key, value):
             data[key] = value
             with open("ETS2LA/plugins/" + plugin + "/settings.json", 'w') as f:
                 json.dump(data, f, indent=4)
+                
+            CheckForExtraSymbol(plugin)
                 
             return data[key]
                 
