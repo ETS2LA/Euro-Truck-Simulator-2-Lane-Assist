@@ -649,7 +649,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {YellowLightDetection !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
                             <Switch id="yellowlightdetection" checked={YellowLightDetection} onCheckedChange={UpdateYellowLightDetection} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
                                 <Label htmlFor="yellowlightdetection" className="font-bold">
                                     Yellow Light Detection (not recommended)
                                 </Label>
@@ -663,7 +663,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {PerformanceMode !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative', top: '30px' }}>
                             <Switch id="performancemode" checked={PerformanceMode} onCheckedChange={UpdatePerformanceMode} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
                                 <Label htmlFor="performancemode" className="font-bold">
                                     Performance Mode (recommended)
                                 </Label>
@@ -677,7 +677,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {AdvancedSettings !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative', top: '40px' }}>
                             <Switch id="advancedsettings" checked={AdvancedSettings} onCheckedChange={UpdateAdvancedSettings} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
                                 <Label htmlFor="advancedsettings" className="font-bold">
                                     Advanced Settings
                                 </Label>
@@ -687,7 +687,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             </div>
                         </div>
                         )}
-                        <div className="flex flex-row" style={{ position: 'relative', top: '34px', left: '44px' }}>
+                        <div className="flex flex-row" style={{ position: 'relative', top: '32px', left: '44px' }}>
                             <Button variant={'destructive'} onClick={() => ResetAdvancedSettingsToDefault()}>
                                 Reset Advanced Settings to Default
                             </Button>
@@ -699,12 +699,12 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {FOV !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative', top: '46px' }}>
                             <Input placeholder={String(defaultFOV)} id="fov" value={!isNaN(FOV) ? FOV : ''}  onChangeCapture={(e) => UpdateFOV(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
                                 <Label htmlFor="fov" className="font-bold">
                                     FOV
                                 </Label>
                                 <Label htmlFor="fov">
-                                    You need to set the field of view for the position estimation to work. You can find the FOV in the game by pressing F4, then selecting "Adjust seats."
+                                    You need to set the field of view for the position estimation to work. You can find the FOV in the game by pressing F4, then selecting "Adjust seats".
                                 </Label>    
                             </div>
                         </div>
@@ -726,7 +726,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {ConfirmDetectedTrafficLightswithAI !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
                             <Switch id="confirmdetectedtrafficlightswithai" checked={ConfirmDetectedTrafficLightswithAI} onCheckedChange={UpdateConfirmDetectedTrafficLightswithAI} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
                                 <Label htmlFor="confirmdetectedtrafficlightswithai" className="font-bold">
                                     Confirmed Detected Traffic Lights with AI
                                 </Label>
@@ -740,7 +740,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {ShowUnconfirmedTrafficLights !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative', top: '30px' }}>
                             <Switch id="showunconfirmedtrafficlights" checked={ShowUnconfirmedTrafficLights} onCheckedChange={UpdateShowUnconfirmedTrafficLights} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2">
+                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
                                 <Label htmlFor="showunconfirmedtrafficlights" className="font-bold">
                                     Show Unconfirmed Traffic Lights
                                 </Label>
@@ -752,7 +752,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         )}
 
                         {YOLOModel !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative', top: '40px', left: '-8px' }}>
+                        <div className="flex flex-row" style={{ position: 'relative', top: '38px', left: '-8px' }}>
                             <div className="flex flex-col items-start pl-2 text-left gap-2">
                                 <Label className="font-bold">
                                     YOLO Model
