@@ -12,16 +12,6 @@ from src.server import SendCrashReport
 RED = "\033[91m"
 NORMAL = "\033[0m"
 
-def get_alternative_document_path():
-    CSIDL_PERSONAL = 5       # My Documents
-    SHGFP_TYPE_CURRENT = 0   # Get current, not default value
-
-    buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
-    ctypes.windll.shell32.SHGetFolderPathW(None, CSIDL_PERSONAL, None, SHGFP_TYPE_CURRENT, buf)
-    path = f"{buf.value}"
-    path_out = path.replace('\\', '/')
-    return path_out
-
 def get_paths():
     global STEAM_PATH
     global ETS2_STEAM_PATH
@@ -62,28 +52,11 @@ def get_paths():
     if ETS2_DOCUMENTS_FOUND == True:
         ETS2_LAST_LOG_CHANGE = os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/game.log.txt")
     else:
-        buf = get_alternative_document_path()	
-
-        ETS2_DOCUMENTS_PATH = buf + "/Euro Truck Simulator 2"
-        ETS2_DOCUMENTS_FOUND_1 = os.path.exists(ETS2_DOCUMENTS_PATH)
-        if ETS2_DOCUMENTS_FOUND_1:
-              ETS2_LAST_LOG_CHANGE = os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/game.log.txt")
-              ETS2_DOCUMENTS_FOUND = True
-        else:	
-              ETS2_LAST_LOG_CHANGE = 0
+        ETS2_LAST_LOG_CHANGE = 0
     if ATS_DOCUMENTS_FOUND == True:
         ATS_LAST_LOG_CHANGE = os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/game.log.txt")
     else:
-
-        buf = get_alternative_document_path()	
-
-        ATS_DOCUMENTS_PATH = buf + "/American Truck Simulator"
-        ATS_DOCUMENTS_FOUND_1 = os.path.exists(ATS_DOCUMENTS_PATH)
-        if ATS_DOCUMENTS_FOUND_1:
-             ATS_LAST_LOG_CHANGE = os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/game.log.txt")
-             ATS_DOCUMENTS_FOUND = True
-        else:	
-             ATS_LAST_LOG_CHANGE = 0
+        ATS_LAST_LOG_CHANGE = 0
 
 
 def ReadProfileControlsFile(game="automatic"):
