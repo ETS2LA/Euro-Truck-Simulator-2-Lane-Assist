@@ -1,10 +1,10 @@
 '''
 Reades the files like configs or controls from the game files.
 '''
-
 import os
 import winreg
 import traceback
+import ctypes.wintypes
 from src.logger import print
 from src.server import SendCrashReport
 
@@ -17,7 +17,7 @@ def get_paths():
     global ATS_STEAM_PATH
     global ETS2_STEAM_FOUND
     global ATS_STEAM_FOUND
-    global USERNAME
+    global DOCUMENTS_PATH
     global ETS2_DOCUMENTS_PATH
     global ATS_DOCUMENTS_PATH
     global ETS2_DOCUMENTS_FOUND
@@ -28,16 +28,22 @@ def get_paths():
     try:
         STEAM_PATH = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\\Valve\\Steam"), "SteamPath")[0]
     except:
-        STEAM_PATH = r"c:/program files (x86)/steam"
+        STEAM_PATH = r"C:/program files (x86)/steam"
     ETS2_STEAM_PATH = STEAM_PATH+r"/steamapps/common/Euro Truck Simulator 2"
     ATS_STEAM_PATH = STEAM_PATH+r"/steamapps/common/American Truck Simulator"
+
+    CSIDL_PERSONAL = 5       # My Documents
+    SHGFP_TYPE_CURRENT = 0   # Get current, not default value
+    buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
+    ctypes.windll.shell32.SHGetFolderPathW(None, CSIDL_PERSONAL, None, SHGFP_TYPE_CURRENT, buf)
+    DOCUMENTS_PATH = f"{buf.value}"
+    DOCUMENTS_PATH = DOCUMENTS_PATH.replace('\\', '/')
 
     ETS2_STEAM_FOUND = os.path.exists(ETS2_STEAM_PATH)
     ATS_STEAM_FOUND = os.path.exists(ATS_STEAM_PATH)
 
-    USERNAME = os.getlogin()
-    ETS2_DOCUMENTS_PATH = "C:/Users/" + USERNAME + "/Documents/Euro Truck Simulator 2"
-    ATS_DOCUMENTS_PATH = "C:/Users/" + USERNAME + "/Documents/American Truck Simulator"
+    ETS2_DOCUMENTS_PATH = DOCUMENTS_PATH + "/Euro Truck Simulator 2"
+    ATS_DOCUMENTS_PATH = DOCUMENTS_PATH + "/American Truck Simulator"
 
     ETS2_DOCUMENTS_FOUND = os.path.exists(ETS2_DOCUMENTS_PATH)
     ATS_DOCUMENTS_FOUND = os.path.exists(ATS_DOCUMENTS_PATH)
