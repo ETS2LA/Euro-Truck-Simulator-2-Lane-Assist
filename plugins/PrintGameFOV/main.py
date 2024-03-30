@@ -64,24 +64,25 @@ def getpath():
          game_sii_path = None
      return game_sii_path
 
+try:
+     subprocess.call(["plugins/PrintGameFOV/SII_Decrypt.exe"] + [getpath()])
 
-current_directory = os.getcwd()
+     my_truck_result = find_string_in_file( getpath(), "my_truck:")
+     my_truck_string = my_truck_result[0]
+     my_truck_result_string = my_truck_string.replace("my_truck: ", "")
+     my_truck_result_string = my_truck_result_string.replace("\n", "")
 
-subprocess.call([current_directory + "\plugins\PrintGameFOV" + "\\SII_Decrypt.exe"] + [getpath()])
 
-my_truck_result = find_string_in_file( getpath(), "my_truck:")
-my_truck_string = my_truck_result[0]
-my_truck_result_string = my_truck_string.replace("my_truck: ", "")
-my_truck_result_string = my_truck_result_string.replace("\n", "")
+     vehicle_target = f"vehicle :{my_truck_result_string}"
+     fov_from_game = find_string_in_file( getpath(), "user_fov:", find_string_in_file( getpath(), vehicle_target)[1])
+     fov_from_game_result = fov_from_game[0].replace(" user_fov:", "")
+     fov_from_game_result = int(fov_from_game_result.replace("\n", ""))
+     fov_converted = fov_from_game_result + 65
 
-vehicle_target = f"vehicle :{my_truck_result_string}"
-fov_from_game = find_string_in_file( getpath(), "user_fov:", find_string_in_file( getpath(), vehicle_target)[1])
-fov_from_game_result = fov_from_game[0].replace(" user_fov:", "")
-fov_from_game_result = int(fov_from_game_result.replace("\n", ""))
-print(fov_from_game_result)
-fov_converted = fov_from_game_result + 65
-print(fov_converted)
-
+except Exception as ex:
+     print(ex.args)
+     pass
+     
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
