@@ -21,5 +21,5 @@ body:
       label: Confirmation
       description: By submitting this issue, you will create a public issue on the ETS2 Lane Assist GitHub page.
       options:
-        - label: I accept
+        - label: I understand that I am making a public GitHub Issue
           required: true
