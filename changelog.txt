@@ -1,2 +1,1 @@
-Hotfix in Default Steering to fix a bug
-Yep... That was meant to be an April fools joke. Very badly executed.
+Fix bettercam crashing if monitor is not found.

@@ -120,7 +120,11 @@ def CreateCamera():
     except: pass
     
     try:
-        camera = bettercam.create(output_color="BGR", output_idx=display, device_idx=device)
+        try:
+            camera = bettercam.create(output_color="BGR", output_idx=display, device_idx=device)
+        except IndexError:
+            camera = bettercam.create(output_color="BGR", output_idx=0, device_idx=device)
+            print(f"WARNING: The selected monitor (display {device}) was not found, using the first monitor instead.")
     except _ctypes.COMError as ex:
         from tkinter import messagebox
         if messagebox.askyesno("Error", Translate("bettercam failed to initialize. It is likely that your python is not running on the integrated graphics.\nDo you want to open the instructions on how to fix this?\n\nThe main loop will disable to prevent further errors.")):
