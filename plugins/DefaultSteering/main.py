@@ -32,7 +32,6 @@ import cv2
 import keyboard as kb
 from tkinter import messagebox
 import src.controls as controls
-import random
 
 controls.RegisterKeybind("Enable/Disable Steering", 
                          defaultButtonIndex="n", 
@@ -133,12 +132,6 @@ def plugin(data):
     global keyboardSensitivity
     global keyboardReturnSensitivity
     # global disableLaneAssistWhenIndicating
-
-    random_num = random.randint(0, 2000)
-    if random_num == 105:
-        print("APRIL FOOLS!!")
-        sensitivity = 1
-
 
     try:
         desiredControl = data["LaneDetection"]["difference"] * sensitivity + offset
