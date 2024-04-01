@@ -1,1 +1,1 @@
-Fixed a bug which crashed the automatic setup of the NavigationDetection.
+Hotfix in Default Steering to fix a bug
