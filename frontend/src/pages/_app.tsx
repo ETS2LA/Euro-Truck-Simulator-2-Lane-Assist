@@ -41,7 +41,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   if (isLoading) return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
     <div className='p-3'>
-    <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto">
+    <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
         <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-100px)]'>
           <h1>ETS2LA</h1>
@@ -54,7 +54,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   if (error) return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
     <div className='p-3'>
-    <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto">
+    <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
         <Badge variant={"destructive"} className='gap-1 rounded-b-none'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
         <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-100px)]'>
