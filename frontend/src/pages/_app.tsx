@@ -13,7 +13,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import useSWR from 'swr';
-
+import Loader from '@/components/ets2la-loader';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,7 +45,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <div className='flex flex-col space-y-5'>
         <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-100px)]'>
           <h1>ETS2LA</h1>
-          <p className='text-stone-700'>Now loading...</p>
+          <Loader className='w-5 h-5 animate-spin' />
         </div>
       </div>
     </Card>
