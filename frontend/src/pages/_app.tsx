@@ -19,16 +19,36 @@ export const metadata: Metadata = {
   description: "",
   icons: ["favicon.ico"],
 };
+import { useState, useRef } from 'react';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const { data, error, isLoading } = useSWR("ip", GetIP, { refreshInterval: 1000 });
+  const [inputValue, setInputValue] = useState('localhost');
+  const ipRef = useRef('localhost');
+
+  const handleIpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const { data, error, isLoading, mutate } = useSWR(ipRef.current, () => GetIP(ipRef.current));
+
+  const retry = () => {
+    ipRef.current = inputValue;
+    mutate(ipRef.current);
+  };
+
   if (isLoading) return <div className='p-4'>
     <Badge variant={"outline"} className='gap-1'><Ellipsis className='w-5 h-5' /> Loading...</Badge>
   </div>
+
   if (error) return <div className='p-4'>
     <Badge variant={"destructive"} className='gap-1'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
+    <input type="text" value={inputValue} onChange={handleIpChange} placeholder="Enter IP address" />
+    <button onClick={retry}>Retry</button>
   </div>
-  let ip = data as string;
+  
+  let ip = ipRef.current;
+
+  console.log(ip);
 
   // Add the ip to the pageProps
   const newPageProps = { ...pageProps, ip };

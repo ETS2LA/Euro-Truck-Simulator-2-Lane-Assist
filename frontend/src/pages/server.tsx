@@ -42,8 +42,8 @@ async function EnablePlugin(plugin: string, ip="localhost") {
     console.log(data)
 }
 
-async function GetIP(): Promise<string> {
-    const response = await fetch("http://localhost:37520/api/server/ip")
+async function GetIP(ip="localhost"): Promise<string> {
+    const response = await fetch(`http://${ip}:37520/api/server/ip`)
     const data = await response.json()
     return data
 }

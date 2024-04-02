@@ -1,14 +1,14 @@
 "use client"
 import { useState } from "react";
 import {toast} from "sonner"
-import useSWR from "swr";
-import { GetIP } from "@/app/server";
 import { Badge } from "./ui/badge"
 import { Plug, Unplug } from "lucide-react";
 
 let socket: WebSocket;
 export function ETS2LAImmediateServer({ip}: {ip: string}) {
     const [connected, setConnected] = useState(false);
+
+    if(ip == "") ip = "localhost";
 
     // Listen for events from the backend
     if (!socket){

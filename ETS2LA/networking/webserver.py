@@ -75,7 +75,6 @@ def disable_plugin(plugin: str):
 
 @app.post("/api/plugins/{plugin}/settings/{key}/set")
 def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):
-    print(f"Setting {plugin} {key} to {value}")
     success = settings.Set(plugin, key, value["value"])
     return success
 

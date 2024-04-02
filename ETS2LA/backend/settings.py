@@ -1,6 +1,44 @@
 import json
 import os
 import logging
+import time
+import random
+
+def WaitUntilLock(plugin):
+    """Will wait until the lock file is removed from the plugin folder.
+
+    Args:
+        plugin (str): Plugin name to wait for.
+    """
+    
+    # Wait until the lock file is removed
+    while True:
+        time.sleep(random.uniform(0, 0.2))
+        if not os.path.exists("ETS2LA/plugins/" + plugin + "/lock"):
+            break
+    
+def CreateLock(plugin):
+    """Will create a lock file in the plugin folder.
+
+    Args:
+        plugin (str): Plugin name to create the lock file for.
+    """
+    
+    # Create the lock file
+    with open("ETS2LA/plugins/" + plugin + "/lock", 'w') as f:
+        f.write("lock")
+        pass
+    
+def RemoveLock(plugin):
+    """Will remove the lock file from the plugin folder.
+
+    Args:
+        plugin (str): Plugin name to remove the lock file from.
+    """
+    
+    # Remove the lock file
+    if os.path.exists("ETS2LA/plugins/" + plugin + "/lock"):
+        os.remove("ETS2LA/plugins/" + plugin + "/lock")
 
 def GetJSON(plugin):
     """Will get the settings for the plugin provided as a JSON object.
@@ -58,19 +96,6 @@ def Get(plugin, key, default=None):
         print(e)
         return None
 
-def CheckForExtraSymbol(plugin):
-    """Will check the settings file for an extra } (so }}) symbol at the end of the file and remove it if found.
-
-    Args:
-        plugin (str): Plugin name to check the settings file for.
-    """
-    with open("ETS2LA/plugins/" + plugin + "/settings.json", 'r') as f:
-        lines = f.readlines()
-        if lines[-1].strip() == "}":
-            lines[-1] = lines[-1].strip()
-            with open("ETS2LA/plugins/" + plugin + "/settings.json", 'w') as f:
-                f.write("\n".join(lines))
-    
 def Set(plugin, key, value):
     """Will set the settings for the plugin and key provided.
 
@@ -83,6 +108,8 @@ def Set(plugin, key, value):
         any: The value of the key after setting it, None if failed.
     """
     # Check that the file exists
+    WaitUntilLock(plugin)
+    CreateLock(plugin)
     filename = "ETS2LA/plugins/" + plugin + "/settings.json"
     if not os.path.exists(filename):
         with open(filename, 'w') as f:
@@ -94,12 +121,12 @@ def Set(plugin, key, value):
             with open("ETS2LA/plugins/" + plugin + "/settings.json", 'w') as f:
                 json.dump(data, f, indent=4)
                 
-            CheckForExtraSymbol(plugin)
-                
+            RemoveLock(plugin)
             return data[key]
                 
     except Exception as e:
         print(e)
+        RemoveLock(plugin)
         return None
     
 def Listen(plugin, callback):
