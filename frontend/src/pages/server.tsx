@@ -1,4 +1,6 @@
+import { randomInt } from "crypto"
 import { toast } from "sonner"
+const sleep = (delay:number) => new Promise((resolve) => setTimeout(resolve, delay))
 
 // Communicate with the ETS2LA backend web server on 37520
 async function GetVersion() {
@@ -45,6 +47,7 @@ async function EnablePlugin(plugin: string, ip="localhost") {
 async function GetIP(ip="localhost"): Promise<string> {
     const response = await fetch(`http://${ip}:37520/api/server/ip`)
     const data = await response.json()
+    await sleep(Math.floor(Math.random() * 1000) + 1000)
     return data
 }
 

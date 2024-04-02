@@ -9,6 +9,9 @@ import { GetIP } from "./server";
 import { Toaster } from "@/components/ui/sonner"
 import { Badge } from '@/components/ui/badge';
 import { Unplug, Ellipsis } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import useSWR from 'swr';
 
 
@@ -22,29 +25,49 @@ export const metadata: Metadata = {
 import { useState, useRef } from 'react';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const [inputValue, setInputValue] = useState('localhost');
-  const ipRef = useRef('localhost');
+  const [inputValue, setInputValue] = useState("localhost");
+  const ipRef = useRef("localhost");
 
   const handleIpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
-  const { data, error, isLoading, mutate } = useSWR(ipRef.current, () => GetIP(ipRef.current));
+  const { data, error, isLoading, mutate } = useSWR(ipRef.current, () => GetIP(ipRef.current as string));
 
   const retry = () => {
     ipRef.current = inputValue;
     mutate(ipRef.current);
   };
 
-  if (isLoading) return <div className='p-4'>
-    <Badge variant={"outline"} className='gap-1'><Ellipsis className='w-5 h-5' /> Loading...</Badge>
+  if (isLoading) return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+  <div className='p-4'>
+  <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-32px)] overflow-auto">
+    <div className='flex flex-col space-y-5'>
+      <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-100px)]'>
+        <h1>ETS2LA</h1>
+        <p className='text-stone-700'>Now loading...</p>
+      </div>
+    </div>
+  </Card>
   </div>
+</ThemeProvider>
 
-  if (error) return <div className='p-4'>
-    <Badge variant={"destructive"} className='gap-1'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
-    <input type="text" value={inputValue} onChange={handleIpChange} placeholder="Enter IP address" />
-    <button onClick={retry}>Retry</button>
-  </div>
+  if (error) return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <div className='p-4'>
+    <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-32px)] overflow-auto">
+      <div className='flex flex-col space-y-5'>
+        <Badge variant={"destructive"} className='gap-1 rounded-b-none'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
+        <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-100px)]'>
+          <h1>ETS2LA</h1>
+          <div className="flex flex-col sm:flex-row w-full max-w-sm items-center space-y-2 sm:space-y-0 sm:space-x-2">
+            <Input type="text" onChange={handleIpChange} value={inputValue} placeholder="Local IP address of ETS2LA" className='w-[60vw] sm:w-full' />
+            <Button onClick={retry}>Connect</Button>
+          </div>
+        </div>
+      </div>
+    </Card>
+    </div>
+  </ThemeProvider>
   
   let ip = ipRef.current;
 
