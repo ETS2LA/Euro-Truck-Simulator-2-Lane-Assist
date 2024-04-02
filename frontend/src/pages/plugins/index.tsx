@@ -42,12 +42,15 @@ export default function Home({ ip }: { ip: string }) {
 
     const plugins:string[] = [];
     for (const key in data) {
-        console.log(key)
-        plugins.push(key)
+        // Check if the key is a number
+        if (isNaN(parseInt(key))){
+            console.log(key)
+            plugins.push(key)
+        }
     }
     return (
         <div className="flex space-x-3">
-            <Card className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 h-[calc(100vh-75px)] overflow-auto auto-rows-min">
+            <Card className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 h-[calc(100vh-75px)] overflow-auto auto-rows-min w-full">
                 {plugins.map((plugin) => (
                     <Card key={plugin} id={plugin} className="flex flex-col justify-between">
                         <CardHeader className="gap-1">
