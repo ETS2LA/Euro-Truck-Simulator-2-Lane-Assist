@@ -1,6 +1,7 @@
 import requests
 import src.variables as variables
 import src.settings as settings
+import src.console as console
 import src.helpers as helpers
 import os
 from src.logger import print
@@ -59,6 +60,12 @@ def UpdateChecker():
                 os.system("git stash")
                 os.system("git pull")
             if helpers.AskOkCancel("Updater", "The update has been installed and the application needs to be restarted. Do you want to quit the app?", yesno=True):
+                try:
+                    if settings.GetSettings("User Interface", "hide_console") == True:
+                        console.RestoreConsole()
+                        console.CloseConsole()
+                except:
+                    pass
                 quit()
             else:
                 variables.UPDATEAVAILABLE = remoteVer
