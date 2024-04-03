@@ -548,65 +548,37 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     }
 
     const ResetColorsToDefault = async () => {
-        setResetSymbol(true);
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urr", defaultColorSettings_urr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urr, error: "Failed to save"}); setColorSettings_urr(defaultColorSettings_urr);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urg", defaultColorSettings_urg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urg, error: "Failed to save"}); setColorSettings_urg(defaultColorSettings_urg);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urb", defaultColorSettings_urb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urb, error: "Failed to save"}); setColorSettings_urb(defaultColorSettings_urb);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrr", defaultColorSettings_lrr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrr, error: "Failed to save"}); setColorSettings_lrr(defaultColorSettings_lrr);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrg", defaultColorSettings_lrg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrg, error: "Failed to save"}); setColorSettings_lrg(defaultColorSettings_lrg);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrb", defaultColorSettings_lrb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrb, error: "Failed to save"}); setColorSettings_lrb(defaultColorSettings_lrb);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyr", defaultColorSettings_uyr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyr, error: "Failed to save"}); setColorSettings_uyr(defaultColorSettings_uyr);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyg", defaultColorSettings_uyg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyg, error: "Failed to save"}); setColorSettings_uyg(defaultColorSettings_uyg);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyb", defaultColorSettings_uyb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyb, error: "Failed to save"}); setColorSettings_uyb(defaultColorSettings_uyb);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyr", defaultColorSettings_lyr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyr, error: "Failed to save"}); setColorSettings_lyr(defaultColorSettings_lyr);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyg", defaultColorSettings_lyg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyg, error: "Failed to save"}); setColorSettings_lyg(defaultColorSettings_lyg);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyb", defaultColorSettings_lyb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyb, error: "Failed to save"}); setColorSettings_lyb(defaultColorSettings_lyb);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugr", defaultColorSettings_ugr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugr, error: "Failed to save"}); setColorSettings_ugr(defaultColorSettings_ugr);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugg", defaultColorSettings_ugg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugg, error: "Failed to save"}); setColorSettings_ugg(defaultColorSettings_ugg);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugb", defaultColorSettings_ugb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugb, error: "Failed to save"}); setColorSettings_ugb(defaultColorSettings_ugb);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgr", defaultColorSettings_lgr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgr, error: "Failed to save"}); setColorSettings_lgr(defaultColorSettings_lgr);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgg", defaultColorSettings_lgg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgg, error: "Failed to save"}); setColorSettings_lgg(defaultColorSettings_lgg);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgb", defaultColorSettings_lgb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgb, error: "Failed to save"}); setColorSettings_lgb(defaultColorSettings_lgb);
-        setResetSymbol(false);
     };
     
     const ResetFiltersToDefault = async () => {
-        setResetSymbol(true);
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersContourSizeFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersContourSizeFilter(true);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersWidthHeightRatioFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersWidthHeightRatioFilter(true);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelPercentageFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersPixelPercentageFilter(true);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersOtherLightsFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersOtherLightsFilter(true);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMinimalTrafficLightSize", defaultFiltersMinimalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMinimalTrafficLightSize, error: "Failed to save"}); setFiltersMinimalTrafficLightSize(defaultFiltersMinimalTrafficLightSize);
-         
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMaximalTrafficLightSize", defaultFiltersMaximalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMaximalTrafficLightSize, error: "Failed to save"}); setFiltersMaximalTrafficLightSize(defaultFiltersMaximalTrafficLightSize);
-        setResetSymbol(false);
     }
 
     const ResetAdvancedSettingsToDefault = async () => {
         await ResetColorsToDefault();
-        setResetSymbol(true);
-         
         await ResetFiltersToDefault();
     }
 
@@ -756,7 +728,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         </div>
                         )}
                         <div className="flex flex-row" style={{ position: 'relative', top: '32px', left: '44px' }}>
-                            <Button variant={'destructive'} onClick={() => ResetAdvancedSettingsToDefault()}>
+                            <Button variant={'destructive'} onClick={() => {setResetSymbol(true); setTimeout(() => {setResetSymbol(false);}, 1000); ResetAdvancedSettingsToDefault();}}>
                                 Reset Advanced Settings to Default
                             </Button>
                             {ResetSymbol && (
@@ -1145,7 +1117,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
                             
                             <div className="flex flex-row" style={{ position: 'relative', left: '3px', top: '-13px' }}>
-                                <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }} onClick={() => ResetColorsToDefault()}>
+                                <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }} onClick={() => {setResetSymbol(true); setTimeout(() => {setResetSymbol(false);}, 1000); ResetColorsToDefault();}}>
                                     Reset all values to default.
                                 </Button>
                                 {ResetSymbol && (
@@ -1234,7 +1206,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             </div>
                             )}
                             <div className="flex flex-row" style={{ position: 'relative', top: '42px', left: '3px' }}>
-                                <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }} onClick={() => ResetFiltersToDefault()}>
+                                <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }} onClick={() => {setResetSymbol(true); setTimeout(() => {setResetSymbol(false);}, 1000); ResetFiltersToDefault();}}>
                                     Reset all values to default.
                                 </Button>
                                 {ResetSymbol && (
