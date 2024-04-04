@@ -63,8 +63,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
         <Badge variant={"destructive"} className='gap-1 rounded-b-none'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
-        <div className='grid grid-cols-1 place-items-center space-y-3 justify-center h-[calc(100vh-180px)]'>
-          <h1>ETS2 Lane Assist</h1>
+        <div className='grid grid-cols-1 place-items-center justify-center h-[calc(100vh-180px)] gap-3'>
+          <div>
+            <h1>ETS2 Lane Assist</h1>
+          </div>
           <div className="grid grid-rows-2 grid-cols-1 space-y-1">
             <div className="flex gap-2 w-[45vw]">
               <Input type="text" onChange={handleIpChange} value={inputValue} placeholder="Local IP address of ETS2LA" className='w-3/4'/>
