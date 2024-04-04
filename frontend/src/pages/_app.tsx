@@ -27,54 +27,58 @@ import { useState, useRef } from 'react';
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [inputValue, setInputValue] = useState("localhost");
   const ipRef = useRef("localhost");
-  const port = 37520;
+
+  const [showButton, setShowButton] = useState(false);
 
   const handleIpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
-  };
-
-  const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+    setShowButton(event.target.value.length > 0);
   };
 
   const { data, error, isLoading, mutate } = useSWR(ipRef.current, () => GetIP(ipRef.current as string));
 
+  let status = "isLoading";
+
+  if (isLoading == true && error == false) {
+    status = "isLoading";
+    setShowButton(false);
+  }
+  if (error) {
+    status = "error";
+  }
+  if (isLoading == false && error == false) {
+    status = "";
+  }
+
   const retry = () => {
+    setShowButton(false);
     ipRef.current = inputValue;
     mutate(ipRef.current);
   };
 
-  if (isLoading) return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+  if (status == "isLoading") return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
     <div className='p-3'>
     <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
         <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-100px)]'>
-          <h1>Euro Truck Simulator 2 Lane Assist</h1>
-          <Loader className='w-8 h-8 animate-spin' />
-          <h3>Connecting to backend at {ipRef.current}:{port}...</h3>
+          <h1>ETS2LA</h1>
+          <Loader className='w-6 h-6 animate-spin' />
         </div>
       </div>
     </Card>
     </div>
   </ThemeProvider>
 
-  if (error) return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+  if (status == "error") return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
     <div className='p-3'>
     <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
         <Badge variant={"destructive"} className='gap-1 rounded-b-none'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
-        <div className='grid grid-cols-1 place-items-center justify-center h-[calc(100vh-180px)] gap-3'>
-          <div>
-            <h1>ETS2 Lane Assist</h1>
-          </div>
-          <div className="grid grid-rows-2 grid-cols-1 space-y-1">
-            <div className="flex gap-2 w-[45vw]">
-              <Input type="text" onChange={handleIpChange} value={inputValue} placeholder="Local IP address of ETS2LA" className='w-3/4'/>
-              <Input type="text" onChange={handlePortChange} value={port} placeholder="Port (Default: 37520)" className='w-1/4'/>
-            </div>
-            <div className='flex w-[45vw]'>
-              <Button onClick={retry} className='w-full'>Connect</Button>
-            </div>
+        <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-180px)]'>
+          <h1>ETS2LA</h1>
+          <div className="flex flex-col sm:flex-row w-full max-w-sm items-center space-y-2 sm:space-y-0 sm:space-x-2">
+            <Input type="text" onChange={handleIpChange} placeholder="Local IP address of ETS2LA" className='w-[60vw] sm:w-full' />
+            {showButton && <Button onClick={retry}>Connect</Button>}
           </div>
         </div>
       </div>
@@ -84,7 +88,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   
   let ip = ipRef.current;
 
-  console.log(ip + ":" + port);
+  console.log(ip);
 
   // Add the ip to the pageProps
   const newPageProps = { ...pageProps, ip };

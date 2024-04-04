@@ -48,8 +48,6 @@ async function GetIP(ip="localhost"): Promise<string> {
     const response = await fetch(`http://${ip}:37520/api/server/ip`)
     const data = await response.json()
     await sleep(Math.floor(Math.random() * 1000) + 1000)
-    // raise an error to test out the error handling
-    // throw 1
     return data
 }
 
