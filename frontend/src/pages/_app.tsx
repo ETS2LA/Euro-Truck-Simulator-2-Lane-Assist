@@ -22,13 +22,14 @@ export const metadata: Metadata = {
   description: "",
   icons: ["favicon.ico"],
 };
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [inputValue, setInputValue] = useState("localhost");
   const ipRef = useRef("localhost");
 
   const [showButton, setShowButton] = useState(false);
+  const [status, setStatus] = useState("loading");
 
   const handleIpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -37,18 +38,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   const { data, error, isLoading, mutate } = useSWR(ipRef.current, () => GetIP(ipRef.current as string));
 
-  let status = "isLoading";
-
-  if (isLoading == true && error == false) {
-    status = "isLoading";
-    setShowButton(false);
-  }
-  if (error) {
-    status = "error";
-  }
-  if (isLoading == false && error == false) {
-    status = "";
-  }
+  useEffect(() => {
+    if (isLoading && !error) {
+      setStatus("isLoading");
+      setShowButton(false);
+    } else if (!isLoading && error) {
+      setStatus("error");
+    } else if (!isLoading && !error) {
+      setStatus("success");
+    }
+  }, [isLoading, error]);
 
   const retry = () => {
     setShowButton(false);
