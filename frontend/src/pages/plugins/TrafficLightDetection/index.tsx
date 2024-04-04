@@ -684,7 +684,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="general">
 
-                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '2.5pt' }}>
 
                         {YellowLightDetection !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
@@ -758,7 +758,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="outputwindow">
 
-                <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
+                <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '2.5pt' }}>
 
                     {FinalWindow !== undefined && (
                     <div className="flex flex-row" style={{ position: 'relative', top: '20px' }}>
@@ -835,7 +835,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="trackerai">
 
-                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '2.5pt' }}>
 
                         {ConfirmDetectedTrafficLightswithAI !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
@@ -908,7 +908,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                     </TabsList>
                     <TabsContent value="colorsettings">
                         
-                        <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '0px', right: '12pt' }}>
+                        <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '0px', right: '2.5pt' }}>
 
                             <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '-5px' }}>
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
@@ -1130,7 +1130,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                     </TabsContent>
                     <TabsContent value="filters">
 
-                        <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '0px', right: '12pt' }}>
+                        <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '0px', right: '2.5pt' }}>
 
                             <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '-5px' }}>
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
