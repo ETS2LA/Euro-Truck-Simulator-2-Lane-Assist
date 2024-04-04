@@ -27,8 +27,13 @@ import { useState, useRef } from 'react';
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [inputValue, setInputValue] = useState("localhost");
   const ipRef = useRef("localhost");
+  const port = 37520;
 
   const handleIpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
@@ -44,8 +49,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
         <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-100px)]'>
-          <h1>ETS2LA</h1>
-          <Loader className='w-5 h-5 animate-spin' />
+          <h1>Euro Truck Simulator 2 Lane Assist</h1>
+          <Loader className='w-8 h-8 animate-spin' />
+          <h3>Connecting to backend at {ipRef.current}:{port}...</h3>
         </div>
       </div>
     </Card>
@@ -57,11 +63,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
         <Badge variant={"destructive"} className='gap-1 rounded-b-none'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
-        <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-180px)]'>
-          <h1>ETS2LA</h1>
-          <div className="flex flex-col sm:flex-row w-full max-w-sm items-center space-y-2 sm:space-y-0 sm:space-x-2">
-            <Input type="text" onChange={handleIpChange} value={inputValue} placeholder="Local IP address of ETS2LA" className='w-[60vw] sm:w-full' />
-            <Button onClick={retry}>Connect</Button>
+        <div className='grid grid-cols-1 place-items-center space-y-3 justify-center h-[calc(100vh-180px)]'>
+          <h1>ETS2 Lane Assist</h1>
+          <div className="grid grid-rows-2 grid-cols-1 space-y-1">
+            <div className="flex gap-2 w-[45vw]">
+              <Input type="text" onChange={handleIpChange} value={inputValue} placeholder="Local IP address of ETS2LA" className='w-3/4'/>
+              <Input type="text" onChange={handlePortChange} value={port} placeholder="Port (Default: 37520)" className='w-1/4'/>
+            </div>
+            <div className='flex w-[45vw]'>
+              <Button onClick={retry} className='w-full'>Connect</Button>
+            </div>
           </div>
         </div>
       </div>
@@ -71,7 +82,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   
   let ip = ipRef.current;
 
-  console.log(ip);
+  console.log(ip + ":" + port);
 
   // Add the ip to the pageProps
   const newPageProps = { ...pageProps, ip };
