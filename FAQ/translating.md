@@ -36,3 +36,6 @@ It's automatically populated with the Google Translate based translations, and a
 !!! Note
 The file might contain encoding issues (for example, **ä = \u00e4**), you can still replace them with the correct character. The app is also able to read the escaped characters.
 !!!
+!!! Note
+You obviously can't translate every single piece of text in the app. Especially the dynamic text that most popups have is not translatable. The app will translate these to your selected language using Google Translate automatically. There is thus technically no need to translate these manually, but if they contain mistakes these mistakes cannot be fixed.
+!!!
