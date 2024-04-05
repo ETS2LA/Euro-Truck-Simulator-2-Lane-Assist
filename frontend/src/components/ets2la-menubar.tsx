@@ -1,36 +1,22 @@
 "use client"
-import {
-    Menubar,
-    MenubarCheckboxItem,
-    MenubarContent,
-    MenubarItem,
-    MenubarMenu,
-    MenubarRadioGroup,
-    MenubarRadioItem,
-    MenubarSeparator,
-    MenubarShortcut,
-    MenubarSub,
-    MenubarSubContent,
-    MenubarSubTrigger,
-    MenubarTrigger,
-} from "@/components/ui/menubar"
+import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem,
+    MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator,
+    MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger,
+    MenubarTrigger } from "@/components/ui/menubar"
 import { Badge } from "./ui/badge"
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 import { useTheme } from "next-themes"
 import { DiscordLogoIcon } from "@radix-ui/react-icons";
-import { 
-    Blocks, 
-    Moon, Sun, 
-    Info, Bolt, 
-    SunMoon, 
-    CircleHelp, 
-    MessageCircleHeart, 
-    HelpCircle } from "lucide-react"
-import { GetVersion, CloseBackend, GetPlugins, DisablePlugin, EnablePlugin } from "@/pages/server"
+import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp, 
+    MessageCircleHeart, HelpCircle, Settings, 
+    Terminal, ListTodo, Users, TextSearch} from "lucide-react"
+import { GetVersion, CloseBackend, GetPlugins, 
+    DisablePlugin, EnablePlugin } from "@/pages/server"
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la-immediate-server"
+import { Button } from "@/components/ui/button"
 
 export function ETS2LAMenubar({ip}: {ip: string}) {
     const { theme, setTheme } = useTheme()
@@ -157,6 +143,13 @@ return (
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>
+        <div className="flex flex-row gap-1 items-center">
+            <Button variant="ghost">
+                <Settings className="w-4 h-4"/>Settings
+            </Button>
+        </div>
+    </MenubarMenu>
+    <MenubarMenu>
         <MenubarTrigger>
             <div className="flex flex-row gap-1 items-center">
                 <Info className="w-4 h-4" />Help    
@@ -181,6 +174,34 @@ return (
                     <MessageCircleHeart className="w-4 h-4"/>Feedback    
                 </div>
                 <MenubarShortcut>F</MenubarShortcut>
+            </MenubarItem>
+        </MenubarContent>
+    </MenubarMenu>
+    <MenubarMenu>
+        <MenubarTrigger>
+            <div className="flex flex-row gap-1 items-center">
+                <Terminal className="w-4 h-4" />Development  
+            </div>
+        </MenubarTrigger>
+        <MenubarContent>
+            <MenubarItem>
+                <div className="flex flex-row gap-2 items-center">
+                    <ListTodo className="w-4 h-4"/> Development Board    
+                </div>
+                <MenubarShortcut>D</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator/>
+            <MenubarItem>
+                <div className="flex flex-row gap-2 items-center">
+                    <Users className="w-4 h-4"/>Become a Developer 
+                </div>    
+                <MenubarShortcut>B</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+                <div className="flex flex-row gap-2 items-center">
+                    <TextSearch className="w-4 h-4"/>Development Wiki   
+                </div>
+                <MenubarShortcut>W</MenubarShortcut>
             </MenubarItem>
         </MenubarContent>
     </MenubarMenu>
