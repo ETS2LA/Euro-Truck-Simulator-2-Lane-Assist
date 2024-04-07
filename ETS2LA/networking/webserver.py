@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import ETS2LA.backend.backend as backend
 import ETS2LA.backend.settings as settings
 import threading
+import multiprocessing
 import logging
 import sys
 import os
@@ -91,10 +92,7 @@ def get_IP():
     return IP
 
 def RunFrontend():
-    def StartWebserver():
-        os.system("cd frontend && npm run dev")
-        return
-    threading.Thread(target=StartWebserver, daemon=True).start()
+    os.system("cd frontend && npm run dev")
     
 def run():
     global IP
@@ -106,5 +104,7 @@ def run():
     # Start the webserver on the local IP
     threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True).start()
     logging.info(f"Webserver started on http://{IP}:37520 (& localhost:37520)")
-    threading.Thread(target=RunFrontend, daemon=True).start()
+    # Start the frontend
+    p = multiprocessing.Process(target=RunFrontend, daemon=True)
+    p.start()
     logging.info("Frontend started on http://localhost:3000")

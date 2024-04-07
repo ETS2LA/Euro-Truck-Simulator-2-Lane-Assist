@@ -19,17 +19,9 @@ logging.info("Available CPU cores: " + str(os.cpu_count()))
 # backend.AddPluginRunner("Test")
 
 logging.info("ETS2LA backend has been started successfully.")
-while True:
-    time.sleep(1)
-    if not webpage.CheckIfWindowStillOpen():
-        logging.error("ETS2LA frontend has been closed.")
-        raise SystemExit
-    # Print the FPS values  
-    # fpsString = "Plugins are running at: \n"
-    # for frameTime in backend.frameTimes:
-    #     frametime = backend.frameTimes[frameTime]['frametime']*1000
-    #     execTime = backend.frameTimes[frameTime]['executiontime']*1000
-    #     fpsString += f"{frameTime}: {round(1 / (frametime/1000),2)} FPS\n (Execution time: {round(execTime,2)}ms / {round(frametime,2)}ms)\n"
-    # logging.info(fpsString)
-    # pass
+def run():
+    while True:
+        time.sleep(1)
+        if not webpage.CheckIfWindowStillOpen():
+            raise Exception("exit")
     
