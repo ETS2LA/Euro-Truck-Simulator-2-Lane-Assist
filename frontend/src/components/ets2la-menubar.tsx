@@ -12,7 +12,7 @@ import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp,
     MessageCircleHeart, HelpCircle, Settings, 
     Terminal, ListTodo, Users, TextSearch} from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, 
-    DisablePlugin, EnablePlugin } from "@/pages/server"
+    DisablePlugin, EnablePlugin, RestartBackend } from "@/pages/server"
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la-immediate-server"
@@ -58,7 +58,7 @@ return (
             <MenubarSub>
                     <MenubarSubTrigger>Backend</MenubarSubTrigger>
                     <MenubarSubContent>
-                    <MenubarItem>Restart <MenubarShortcut>R</MenubarShortcut></MenubarItem>
+                    <MenubarItem onClick={() => RestartBackend()}>Restart <MenubarShortcut>R</MenubarShortcut></MenubarItem>
                     <MenubarItem onClick={() => CloseBackend()}>
                         Quit <MenubarShortcut>Q</MenubarShortcut>
                     </MenubarItem>

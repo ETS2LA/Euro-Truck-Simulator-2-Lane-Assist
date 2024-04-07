@@ -11,7 +11,7 @@ import os
 import json
 from typing import Any
 from fastapi import Body
-
+import ETS2LA.variables as variables
 
 app = FastAPI()
 app.add_middleware(
@@ -33,7 +33,13 @@ def get_frametimes():
 
 @app.get("/api/quit")
 def quitApp():
-    return sys.exit()
+    variables.CLOSE = True
+    return {"status": "ok"}
+
+@app.get("/api/restart")
+def restartApp():
+    variables.RESTART = True
+    return {"status": "ok"}
 
 @app.get("/api/plugins")
 def get_plugins():

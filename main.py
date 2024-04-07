@@ -16,15 +16,21 @@ if __name__ == "__main__":
         except Exception as e:
             if e.args[0] == "exit":
                 os.system("taskkill /F /IM node.exe")
-                print("ETS2LA has been closed.")
+                print("\033[91m" + "ETS2LA has been closed." + "\033[0m")
                 sys.exit(0)
+
+            if e.args[0] == "restart":
+                os.system("taskkill /F /IM node.exe")
+                print("\033[93m" + "ETS2LA is restarting..." + "\033[0m")
+                continue
 
             import traceback
             if traceback.format_exc() == error:
                 print("ETS2LA has crashed with the same error. Send the above traceback to the developers.")
                 os.system("taskkill /F /IM node.exe")
                 input("Press enter to exit...")
-                break
+                print("\033[91m" + "ETS2LA has been closed." + "\033[0m")
+                sys.exit(0)
             
             print(f"ETS2LA has crashed with the following error:")
             traceback.print_exc()

@@ -7,14 +7,18 @@ async function GetVersion() {
     console.log("Getting version")
     const response = await fetch("http://localhost:37520/")
     const data = await response.json()
-    console.log(data)
 }
 
 async function CloseBackend() {
     console.log("Closing backend")
     const response = await fetch("http://localhost:37520/api/quit")
     const data = await response.json()
-    console.log(data)
+}
+
+async function RestartBackend() {
+    console.log("Restarting backend")
+    const response = await fetch("http://localhost:37520/api/restart")
+    const data = await response.json()
 }
 
 async function GetFrametimes() {
@@ -34,14 +38,12 @@ async function DisablePlugin(plugin: string, ip="localhost") {
     console.log("Disabling plugin")
     const response = await fetch("http://" + ip + `:37520/api/plugins/${plugin}/disable`)
     const data = await response.json()
-    console.log(data)
 }
 
 async function EnablePlugin(plugin: string, ip="localhost") {
     console.log("Enabling plugin")
     const response = await fetch("http://" + ip + `:37520/api/plugins/${plugin}/enable`)
     const data = await response.json()
-    console.log(data)
 }
 
 async function GetIP(ip="localhost"): Promise<string> {
@@ -51,4 +53,4 @@ async function GetIP(ip="localhost"): Promise<string> {
     return data
 }
 
-export { GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP }
+export { GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend }
