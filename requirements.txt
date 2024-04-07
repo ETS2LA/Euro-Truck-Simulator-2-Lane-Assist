@@ -3,4 +3,4 @@ uvicorn
 rpyc
 mss
 websockets
-webview
+pywebview
