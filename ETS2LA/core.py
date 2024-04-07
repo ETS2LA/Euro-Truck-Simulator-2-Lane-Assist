@@ -4,11 +4,13 @@ import ETS2LA.networking.webserver as webserver
 import ETS2LA.backend.backend as backend
 import ETS2LA.frontend.immediate as immediate
 from ETS2LA.utils.logging import *
+import ETS2LA.frontend.webpage as webpage
 
 # Initialize the backend
 logger = SetupGlobalLogging()
 immediate.run()
 webserver.run() # External webserver for the UI
+webpage.run() # Tkinter webview to the website.
 logging.info("Available CPU cores: " + str(os.cpu_count()))
 
 # This is how we temporarily enable plugins
@@ -19,7 +21,9 @@ logging.info("Available CPU cores: " + str(os.cpu_count()))
 logging.info("ETS2LA backend has been started successfully.")
 while True:
     time.sleep(1)
-    pass
+    if not webpage.CheckIfWindowStillOpen():
+        logging.error("ETS2LA frontend has been closed.")
+        raise SystemExit
     # Print the FPS values  
     # fpsString = "Plugins are running at: \n"
     # for frameTime in backend.frameTimes:

@@ -2,5 +2,5 @@ fastapi
 uvicorn
 rpyc
 mss
-zlib
 websockets
+webview

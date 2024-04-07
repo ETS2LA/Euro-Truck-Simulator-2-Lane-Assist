@@ -22,7 +22,10 @@ def SetupGlobalLogging():
         os.makedirs("logs")
     # If the log file exists, delete it
     if os.path.exists("logs/ETS2LA.log"):
-        os.remove("logs/ETS2LA.log")
+        try:
+            os.remove("logs/ETS2LA.log")
+        except:
+            logging.error("Could not delete the log file.")
     
     # Write the logs to a file
     file_handler = logging.FileHandler("logs/ETS2LA.log")
