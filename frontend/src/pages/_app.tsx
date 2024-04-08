@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import useSWR from 'swr';
 import Loader from '@/components/ets2la-loader';
+import Head from 'next/head';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -94,6 +95,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div className='overflow-hidden p-3'>
+      <Head>
+        <link rel="icon" href="https://wiki.tumppi066.fi/assets/favicon.ico" />
+      </Head>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"

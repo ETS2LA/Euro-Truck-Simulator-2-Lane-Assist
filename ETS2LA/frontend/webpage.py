@@ -50,9 +50,11 @@ def start_webpage():
                 <div class="spinner"></div>
             </div>
         </body>
-    </html>""", width=1280, height=720, resizable=True, zoomable=True, confirm_close=True)
+    </html>""", width=1280, height=720, 
+                resizable=True, zoomable=True, 
+                confirm_close=True, text_select=True
+                )
     webview.start(load_website, window)
-
     
 def run():
     p = multiprocessing.Process(target=start_webpage, daemon=True)
@@ -70,6 +72,8 @@ def run():
                 time.sleep(0.01)
                 hwnd = win32gui.FindWindow(None, 'ETS2LA')
                 returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x09090b)), sizeof(c_int))
+                import ETS2LA.frontend.webpageExtras.titleAndIcon as titleAndIcon
+                titleAndIcon.set_window_icon('ETS2LA/frontend/webpageExtras/favicon.ico')
                 if time.time() - sinceStart > 5:
                     break
             
