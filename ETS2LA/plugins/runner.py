@@ -3,14 +3,16 @@ import logging
 import os
 import importlib
 import multiprocessing
+import threading
 from ETS2LA.utils.logging import *
 
 class PluginRunner():
-    def __init__(self, pluginName, queue:multiprocessing.Queue):
+    def __init__(self, pluginName, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue):
         # Initialize the logger
         self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"))
         # Save the values to the class
         self.q = queue
+        self.fq = functionQueue
         self.enableTime = time.time()
         self.getTime = 0
         self.frametimes = []
@@ -23,8 +25,33 @@ class PluginRunner():
         # Run the plugin
         self.run()
 
+    def functionThread(self):
+        while True:
+            try:
+                data = self.fq.get(timeout=0.5)
+            except:
+                time.sleep(0.00001)
+                continue
+            if type(data) == type(None):
+                time.sleep(0.00001)
+                continue
+            if "function" in data:
+                function = data["function"]
+                args = data["args"]
+                kwargs = data["kwargs"]
+                # Call the function by that name in the plugin
+                try:
+                    function = getattr(self.plugin, function)
+                    data = function(*args, **kwargs)
+                    if type(data) != type(None):
+                        self.fq.put(data)
+                        
+                except Exception as e:
+                    self.logger.error(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")
+
     def run(self):
         self.timer = time.time()
+        threading.Thread(target=self.functionThread, daemon=True).start()
         while True: # NOTE: This class is running in a seperate process, we can thus use an infinite loop!
             startTime = time.time()
             data = self.plugin.plugin(self)

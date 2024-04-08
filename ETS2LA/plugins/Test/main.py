@@ -8,10 +8,14 @@ PluginInfo = PluginInformation(
     author="Test"
 )
 
+def SendNotification():
+    # pluginRunner.Notification("This is a test plugin!", "success")
+    return "This is a test plugin call!"
+
+pluginRunner = None
 lastTime = time.time()
 def plugin(runner:PluginRunner):
-    global lastTime
-    if time.time() - lastTime > 2:
-        lastTime = time.time()
-        runner.Notification("This is a test plugin!", "success")
-        print("Sent a sonner notification to the frontend!")
+    global pluginRunner
+    pluginRunner = runner
+    time.sleep(0.1)
+    return None

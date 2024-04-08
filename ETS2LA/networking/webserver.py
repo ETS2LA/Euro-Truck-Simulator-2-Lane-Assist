@@ -93,6 +93,19 @@ def get_plugin_setting(plugin: str, key: str):
 def get_plugin_settings(plugin: str):
     return settings.GetJSON(plugin)
 
+from pydantic import BaseModel
+class PluginCallData(BaseModel):
+    args: list
+    kwargs: dict
+
+@app.post("/api/plugins/{plugin}/call/{function}")
+def call_plugin_function(plugin: str, function: str, data: PluginCallData = None):
+    if data is None:
+        data = PluginCallData()
+    
+    return backend.CallPluginFunction(plugin, function, data.args, data.kwargs)
+
+
 @app.get("/api/server/ip")
 def get_IP():
     return IP
