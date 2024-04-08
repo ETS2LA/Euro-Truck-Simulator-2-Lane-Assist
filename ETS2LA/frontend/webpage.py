@@ -2,6 +2,7 @@ import webview
 import multiprocessing    
 import os
 import time
+import logging
 
 def start_webpage():
     def load_website(window:webview.Window):
@@ -56,18 +57,24 @@ def start_webpage():
 def run():
     p = multiprocessing.Process(target=start_webpage, daemon=True)
     p.start()
-    time.sleep(1)
     if os.name == 'nt':
         # We can use win32gui and ctypes to get the window handle
         import win32gui
         import ctypes
-        hwnd = win32gui.FindWindow(None, 'ETS2LA')
         
         def ColorTitleBar():
             from ctypes import windll, c_int, byref, sizeof
-            returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x09090b)), sizeof(c_int))
+            returnCode = 1
+            sinceStart = time.time()
+            while returnCode != 0:
+                time.sleep(0.01)
+                hwnd = win32gui.FindWindow(None, 'ETS2LA')
+                returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x09090b)), sizeof(c_int))
+                if time.time() - sinceStart > 5:
+                    break
             
         ColorTitleBar()
+        logging.info('ETS2LA UI opened.')
         
 def CheckIfWindowStillOpen():
     if os.name == 'nt':
