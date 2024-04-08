@@ -103,7 +103,12 @@ def call_plugin_function(plugin: str, function: str, data: PluginCallData = None
     if data is None:
         data = PluginCallData()
     
-    return backend.CallPluginFunction(plugin, function, data.args, data.kwargs)
+    returnData = backend.CallPluginFunction(plugin, function, data.args, data.kwargs)
+    if returnData == False or returnData == None:
+        # Return error 500 if the plugin function failed
+        raise Exception("Plugin function failed")
+    else:
+        return returnData
 
 
 @app.get("/api/server/ip")

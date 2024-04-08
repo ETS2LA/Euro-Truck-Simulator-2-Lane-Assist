@@ -46,7 +46,7 @@ def start_webpage():
         </style>
         <body>
             <div style="flex; justify-content: center; align-items: center;">
-                <p>ETS2LA frontend is starting...</p>
+                <p>Please wait while we initialize the user interface</p>
                 <div class="spinner"></div>
             </div>
         </body>
@@ -71,7 +71,7 @@ def run():
             while returnCode != 0:
                 time.sleep(0.01)
                 hwnd = win32gui.FindWindow(None, 'ETS2LA')
-                returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x09090b)), sizeof(c_int))
+                returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x0b0909)), sizeof(c_int))
                 import ETS2LA.frontend.webpageExtras.titleAndIcon as titleAndIcon
                 titleAndIcon.set_window_icon('ETS2LA/frontend/webpageExtras/favicon.ico')
                 if time.time() - sinceStart > 5:
