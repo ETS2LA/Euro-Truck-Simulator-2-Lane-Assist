@@ -269,7 +269,7 @@ def LoadAIModel():
                     AIModelLoaded = True
                 except Exception as e:
                     exc = traceback.format_exc()
-                    SendCrashReport("TrafficLightDetection - Loading YOLO Error.", str(exc))
+                    SendCrashReport("NavigationDetection - Loading AI Error.", str(exc))
                     console.RestoreConsole()
                     print("\033[91m" + f"Failed to load the AI model: " + "\033[0m" + str(e))
                     AIModelLoaded = False
@@ -280,14 +280,13 @@ def LoadAIModel():
 
 
 def CheckForAIModelUpdates():
+    if not os.path.exists("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel"):
+        os.makedirs("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel")
     def CheckForAIModelUpdatesThread():
         if len(os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel")) > 1:
             DeleteAllAIModels()
 
         url = "https://huggingface.co/Glas42/NavigationDetectionAI/tree/main/model"
-
-        if not os.path.exists("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel"):
-            os.makedirs("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel")
 
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -371,6 +370,8 @@ def CheckForAIModelUpdates():
 
 
 def DeleteAllAIModels():
+    if not os.path.exists("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel"):
+        os.makedirs("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel")
     try:
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
             os.remove(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", file))
@@ -380,6 +381,8 @@ def DeleteAllAIModels():
 
 
 def GetAIModelProperties():
+    if not os.path.exists("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel"):
+        os.makedirs("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel")
     try:
         AIModelProperties = None
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
@@ -1223,50 +1226,57 @@ def plugin(data):
         data["frame"] = frame
 
     else:
-
-        while AIModelUpdateThread.is_alive(): return data
-        while AIModelLoadThread.is_alive(): return data
-
         try:
-            frame = data["frame"]
-            width = frame.shape[1]
-            height = frame.shape[0]
-        except:
-            return data
 
-        if frame is None: return data
-        if width == 0 or width == None: return data
-        if height == 0 or height == None: return data
-        
-        if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
-            valid_frame = True
-        else:
-            valid_frame = False
-            return data
-        
-        cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
-        cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
-        lower_red = np.array([0, 0, 160])
-        upper_red = np.array([110, 110, 255])
-        frame_mask = cv2.inRange(frame, lower_red, upper_red)
-        frame_with_mask = cv2.bitwise_and(frame, frame, mask=frame_mask)
-        frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
-        AIFrame = preprocess_image(frame_mask)
-        
-        output = 0
+            while AIModelUpdateThread.is_alive(): return data
+            while AIModelLoadThread.is_alive(): return data
 
-        if DefaultSteering.enabled == True:
-            if AIModelLoaded == True:
-                with torch.no_grad():
-                    output = AIModel(AIFrame)
-                    output = output.item()
-        
-        output /= -30
-        
-        data["LaneDetection"] = {}
-        data["LaneDetection"]["difference"] = output
+            try:
+                frame = data["frame"]
+                width = frame.shape[1]
+                height = frame.shape[0]
+            except:
+                return data
 
-        data["frame"] = frame
+            if frame is None: return data
+            if width == 0 or width == None: return data
+            if height == 0 or height == None: return data
+            
+            if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
+                valid_frame = True
+            else:
+                valid_frame = False
+                return data
+            
+            cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
+            cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
+            lower_red = np.array([0, 0, 160])
+            upper_red = np.array([110, 110, 255])
+            frame_mask = cv2.inRange(frame, lower_red, upper_red)
+            frame_with_mask = cv2.bitwise_and(frame, frame, mask=frame_mask)
+            frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
+            AIFrame = preprocess_image(frame_mask)
+            
+            output = 0
+
+            if DefaultSteering.enabled == True:
+                if AIModelLoaded == True:
+                    with torch.no_grad():
+                        output = AIModel(AIFrame)
+                        output = output.item()
+            
+            output /= -30
+            
+            data["LaneDetection"] = {}
+            data["LaneDetection"]["difference"] = output
+
+            data["frame"] = frame
+
+        except Exception as e:
+            exc = traceback.format_exc()
+            SendCrashReport("NavigationDetection - Running AI Error.", str(exc))
+            console.RestoreConsole()
+            print("\033[91m" + f"NavigationDetection - Running AI Error: " + "\033[0m" + str(e))
 
     return data
         
