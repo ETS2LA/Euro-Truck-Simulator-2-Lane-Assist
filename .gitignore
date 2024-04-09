@@ -28,6 +28,7 @@ yolov5s.pt
 yolov5m.pt
 yolov5l.pt
 yolov5x.pt
+plugins/NavigationDetection/AIModel
 plugins/NavigationDetection/YOLOFiles
 plugins/NavigationDetection/YOLOv5_MapDetectionModel.pt
 plugins/TrafficLightDetection/YOLOFiles

@@ -1,1 +1,1 @@
-Fix bettercam crashing if monitor is not found.
+Fixed hardcoded paths in NavigationDetection.
