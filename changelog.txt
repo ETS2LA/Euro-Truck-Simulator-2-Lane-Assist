@@ -1,1 +1,1 @@
-Added NavigationDetectionAI.
+Fixed hardcoded paths in NavigationDetection.
