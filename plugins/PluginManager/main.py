@@ -127,7 +127,7 @@ class UI():
     
     def colorPlugins(self):
         
-        enabledPlugins = settings.GetSettings("Plugins", "Enabled")
+        enabledPlugins = settings.GetSettings("Plugins", "Enabled"), []
         if enabledPlugins == None:
             settings.CreateSettings("Plugins", "Enabled", [])
             enabledPlugins = []
@@ -207,7 +207,7 @@ class UI():
             helpers.MakeLabel(self.pluginInfoFrame, "Dependencies", 12,0, font=("Roboto", 12, "bold"), padx=10, pady=10, columnspan=2, sticky="w")
             helpers.MakeLabel(self.pluginInfoFrame, ", ".join(self.plugin.requires), 13,0, font=("Roboto", 8), padx=10, pady=2, columnspan=2, sticky="w")
 
-        if self.plugin.name in settings.GetSettings("Plugins", "Enabled"):
+        if self.plugin.name in settings.GetSettings("Plugins", "Enabled", []):
             helpers.MakeButton(self.pluginInfoFrame, "Disable plugin", lambda: self.disablePlugin(plugin), 14, 0, width=15, padx=8)
         else:
             helpers.MakeButton(self.pluginInfoFrame, "Enable plugin", lambda: self.enablePlugin(plugin), 14, 0, width=15, padx=8)
@@ -239,13 +239,13 @@ class UI():
         plugin = self.convertFromListToGlobalIndex(list, plugin)
         plugin = self.plugins[plugin]
         
-        if plugin.PluginInfo.name in settings.GetSettings("Plugins", "Enabled"):
+        if plugin.PluginInfo.name in settings.GetSettings("Plugins", "Enabled", []):
             self.disablePlugin(plugin)
         else:
             self.enablePlugin(plugin)
     
     def disablePlugin(self, plugin):
-        for enabledPlugin in settings.GetSettings("Plugins", "Enabled"):
+        for enabledPlugin in settings.GetSettings("Plugins", "Enabled", []):
             if enabledPlugin == plugin.PluginInfo.name:
                 settings.RemoveFromList("Plugins", "Enabled", plugin.PluginInfo.name)
         variables.UpdatePlugins()
@@ -263,7 +263,7 @@ class UI():
                 for otherPlugin in self.plugins:
                     if otherPlugin.PluginInfo.exclusive != None:
                         if otherPlugin.PluginInfo.exclusive == plugin.PluginInfo.exclusive:
-                            for enabledPlugin in settings.GetSettings("Plugins", "Enabled"):
+                            for enabledPlugin in settings.GetSettings("Plugins", "Enabled", []):
                                 if enabledPlugin == otherPlugin.PluginInfo.name:
                                     settings.RemoveFromList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
             else: return
@@ -273,11 +273,11 @@ class UI():
             if helpers.AskOkCancel("Required plugins", "This plugin requires other plugins to work, enabling it will enable all required plugins.\n\n" + "\n".join(plugin.PluginInfo.requires) + "\n\nDo you want to continue?"):
                 for otherPlugin in self.plugins:
                     if otherPlugin.PluginInfo.name in plugin.PluginInfo.requires:
-                        if otherPlugin.PluginInfo.name not in settings.GetSettings("Plugins", "Enabled"):
+                        if otherPlugin.PluginInfo.name not in settings.GetSettings("Plugins", "Enabled", []):
                             settings.AddToList("Plugins", "Enabled", otherPlugin.PluginInfo.name)
             else:
                 return
-        if plugin.PluginInfo.name not in settings.GetSettings("Plugins", "Enabled"):
+        if plugin.PluginInfo.name not in settings.GetSettings("Plugins", "Enabled", []):
             settings.AddToList("Plugins", "Enabled", plugin.PluginInfo.name)
         variables.UpdatePlugins()
         plugin.onEnable()
