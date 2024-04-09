@@ -126,12 +126,11 @@ class UI():
     
     
     def colorPlugins(self):
-        
-        enabledPlugins = settings.GetSettings("Plugins", "Enabled"), []
+        enabledPlugins = settings.GetSettings("Plugins", "Enabled")
         if enabledPlugins == None:
             settings.CreateSettings("Plugins", "Enabled", [])
             enabledPlugins = []
-            
+        
         # Set plugin colors
         colorTone = settings.GetSettings("User Interface", "Theme")
         if colorTone == None:
