@@ -1,1 +1,1 @@
-Fixed hardcoded paths in NavigationDetection.
+Removed NavigationDetection AI Data collector.
