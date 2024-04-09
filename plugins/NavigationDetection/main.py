@@ -280,8 +280,8 @@ def LoadAIModel():
 
 
 def CheckForAIModelUpdates():
-    if not os.path.exists("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel"):
-        os.makedirs("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel")
+    if not os.path.exists(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
+        os.makedirs(f"{variables.PATH}plugins/NavigationDetection/AIModel")
     def CheckForAIModelUpdatesThread():
         if len(os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel")) > 1:
             DeleteAllAIModels()
@@ -370,8 +370,8 @@ def CheckForAIModelUpdates():
 
 
 def DeleteAllAIModels():
-    if not os.path.exists("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel"):
-        os.makedirs("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel")
+    if not os.path.exists(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
+        os.makedirs(f"{variables.PATH}plugins/NavigationDetection/AIModel")
     try:
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
             os.remove(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", file))
@@ -381,8 +381,8 @@ def DeleteAllAIModels():
 
 
 def GetAIModelProperties():
-    if not os.path.exists("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel"):
-        os.makedirs("C:/LaneAssist-Dev-2/app/plugins/NavigationDetection/AIModel")
+    if not os.path.exists(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
+        os.makedirs(f"{variables.PATH}plugins/NavigationDetection/AIModel")
     try:
         AIModelProperties = None
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
