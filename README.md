@@ -10,6 +10,7 @@ Lane assist and plugin based interface program for SCS truck simulators.
 <img alt="Discord" src="https://img.shields.io/discord/1120719484982939790?style=for-the-badge&logo=discord">
 
 <img alt="SourceForge Rising Star" style="width:20%" src="https://sourceforge.net/cdn/syndication/badge_img/3718449/oss-rising-star-white?achievement=oss-rising-star&r=https://sourceforge.net/p/eurotrucksimulator2-laneassist/admin/files-sf/badges">
+<img alt="SourceForge Users Love Us" style="width:20%" src="https://sourceforge.net/cdn/syndication/badge_img/3718449/oss-users-love-us-white?&r=https://sourceforge.net/p/eurotrucksimulator2-laneassist/admin/files-sf/badges">
 
 ### Links
 
