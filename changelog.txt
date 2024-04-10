@@ -1,1 +1,1 @@
-Fix plugin manager not showing enabled plugins.
+Bump to 1.11.0. New installer available on gh and sourceforge.

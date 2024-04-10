@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-04-05T10.48.48Z",
+  "created": "2024-04-10T17.55.50Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -1311,6 +1311,9 @@
     },
     {
       "path": "blog\\v1.10.minor\\index.html"
+    },
+    {
+      "path": "blog\\v1.11.0\\index.html"
     },
     {
       "path": "blog\\v1.9.0\\index.html"
@@ -2752,15 +2755,13 @@
       "path": "index.html"
     },
     {
-      "path": "last_ping.txt",
-      "old": true
+      "path": "last_ping.txt"
     },
     {
       "path": "license"
     },
     {
-      "path": "log.txt",
-      "old": true
+      "path": "log.txt"
     },
     {
       "path": "Panels\\DataViewer\\index.html",
@@ -3417,6 +3418,9 @@
     },
     {
       "path": "robots.txt"
+    },
+    {
+      "path": "screenshot.png"
     },
     {
       "path": "sitemap.xml.gz"
