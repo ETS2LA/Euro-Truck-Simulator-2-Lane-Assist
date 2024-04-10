@@ -98,7 +98,7 @@ class UI():
 
         def show_crashreports_info(self):
             if self.crashreport.get():
-                CrashReportWindow = helpers.AskOkCancel("CrashReporter", "This will send anonymous crash report data to the developers.\nThis can help improve the app and fix any bugs that are found.\n This will send only the error that caused the app to crash.\n Your name and person info will be censored.\n\nDo you want to continue?") 
+                CrashReportWindow = helpers.AskOkCancel("CrashReporter", "Toggling this setting will send all crash data to the developers.\nNo personal information is sent, and all paths have the username censored.\nWe take all crash reports seriously and will try and fix all crashes ASAP.\n\nTIP: You can also use the Feedback page to send more detailed info.\n\nDo you want to enable the crash reporting?", yesno=True) 
                 if CrashReportWindow == True:
                     settings.CreateSettings("CrashReporter", "AllowCrashReports", True)
                 else: 
