@@ -280,6 +280,7 @@ def UpdateSettings():
     lower_yellow_advanced = np.array([lyr, lyg, lyb])
     upper_green_advanced = np.array([ugr, ugg, ugb])
     lower_green_advanced = np.array([lgr, lgg, lgb])
+UpdateSettings()
 
 
 def check_internet_connection(host="github.com", port=443, timeout=3):
@@ -1323,8 +1324,8 @@ class UI():
             helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance, but does not reduce detection accuracy.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Advanced Settings\n---------------------------\nIf enabled, the traffic light detection uses the settings you set in\nthe Advanced tab. (could have a bad impact on performance)", "TrafficLightDetection", "advancedmode", 6, 0, width=60, callback=lambda:UpdateSettings())
-            self.fov = helpers.MakeComboEntry(generalFrame, 'FOV (Field of View)\n----------------------------\nYou need to set the field of view for the position estimation to work.\nYou can find the FOV in the game by pressing F4, then selecting "Adjust seats".', "TrafficLightDetection", "fov", 7, 0, labelwidth=80, width=9)
-            helpers.MakeButton(generalFrame, "Save FOV", lambda: settings.CreateSettings("TrafficLightDetection", "fov", self.fov.get() if self.fov.get() > 0 else 1), 7, 1, width=9, sticky="e")
+            self.uifov = helpers.MakeComboEntry(generalFrame, 'FOV (Field of View)\n----------------------------\nYou need to set the field of view for the position estimation to work.\nYou can find the FOV in the game by pressing F4, then selecting "Adjust seats".', "TrafficLightDetection", "fov", 7, 0, labelwidth=80, width=9, isFloat=True)
+            helpers.MakeButton(generalFrame, "Save FOV", lambda: settings.CreateSettings("TrafficLightDetection", "fov", self.uifov.get() if self.uifov.get() > 0 else 1), 7, 1, width=9, sticky="e")
             helpers.MakeEmptyLine(generalFrame,9,0)
             helpers.MakeEmptyLine(generalFrame,10,0)
             helpers.MakeButton(generalFrame, "Give feedback, report a bug or suggest a new feature", lambda: switchSelectedPlugin("plugins.Feedback.main"), 12, 0, width=70, sticky="nw")
