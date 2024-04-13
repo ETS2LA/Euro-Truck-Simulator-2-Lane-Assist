@@ -1,1 +1,1 @@
-Updated the NavigationDetectionAI code handle the download of the model better.
+Fixed a bug in the NavigationDetection, which would spam us developers with errors when https://huggingface.co/ is not available.
