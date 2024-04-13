@@ -56,6 +56,10 @@ controls.RegisterKeybind("Lane change to the right",
 ############################################################################################################################
 def LoadSettings():
     global UseAI
+    global UseCUDA
+    global AIDevice
+    global LoadAILabel
+    global LoadAIProgress
 
     global map_topleft
     global map_bottomright
@@ -125,6 +129,10 @@ def LoadSettings():
         if UseAI == False and settings.GetSettings("NavigationDetection", "UseAI", False) == True:
             helpers.RunInMainThread(LoadAIModel)
     UseAI = settings.GetSettings("NavigationDetection", "UseAI", False)
+    UseCUDA = settings.GetSettings("NavigationDetection", "UseCUDA", False)
+    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
+    LoadAILabel = "Loading..."
+    LoadAIProgress = 0
 
     map_topleft = settings.GetSettings("NavigationDetection", "map_topleft", "unset")
     map_bottomright = settings.GetSettings("NavigationDetection", "map_bottomright", "unset")
@@ -242,166 +250,216 @@ def preprocess_image(image):
     return image_pil.unsqueeze(0).to(AIDevice)
 
 
-def LoadAIModel():
+def HandleCorruptedAIModel():
+    DeleteAllAIModels()
     CheckForAIModelUpdates()
-    def LoadAIModelThread():
-        global AIModel
-        global AIModelLoaded
-        global AIDevice
-        global IMG_WIDTH
-        global IMG_HEIGHT
-        while AIModelUpdateThread.is_alive(): pass
-        for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
-            if file.endswith(".pt"):
+    while AIModelUpdateThread.is_alive(): time.sleep(0.1)
+    time.sleep(0.5)
+    helpers.RunInMainThread(LoadAIModel)
+
+
+def LoadAIModel():
+    try:
+        def LoadAIModelThread():
+            try:
+                global LoadAILabel
+                global LoadAIProgress
+                global AIModel
+                global AIModelLoaded
+                global IMG_WIDTH
+                global IMG_HEIGHT
+
+                CheckForAIModelUpdates()
+                while AIModelUpdateThread.is_alive(): time.sleep(0.1)
+
+                LoadAIProgress = 0
+                LoadAILabel = "Loading the AI model..."
+
+                print("\033[92m" + f"Loading the AI model..." + "\033[0m")
+
+                IMG_WIDTH = GetAIModelProperties()[2][0]
+                IMG_HEIGHT = GetAIModelProperties()[2][1]
+
+                ModelFileCorrupted = False
+
                 try:
-                    print("\033[92m" + f"Loading the AI model..." + "\033[0m")
-
-                    IMG_WIDTH = GetAIModelProperties()[2][0]
-                    IMG_HEIGHT = GetAIModelProperties()[2][1]
-
-                    AIDevice = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
                     AIModel = Net().to(AIDevice)
-                    AIModel.load_state_dict(torch.load(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", file), map_location=AIDevice))
+                    AIModel.load_state_dict(torch.load(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", GetAIModelName()[0]), map_location=AIDevice))
                     AIModel.eval()
+                except:
+                    ModelFileCorrupted = True
 
+                if ModelFileCorrupted == False:
                     print("\033[92m" + f"Successfully loaded the AI model!" + "\033[0m")
                     AIModelLoaded = True
-                except Exception as e:
-                    exc = traceback.format_exc()
-                    SendCrashReport("NavigationDetection - Loading AI Error.", str(exc))
-                    console.RestoreConsole()
-                    print("\033[91m" + f"Failed to load the AI model: " + "\033[0m" + str(e))
+                    LoadAIProgress = 100
+                    LoadAILabel = "Successfully loaded the AI model!"
+                else:
+                    print("\033[91m" + f"Failed to load the AI model because the model file is corrupted." + "\033[0m")
                     AIModelLoaded = False
-    
-    global AIModelLoadThread
-    AIModelLoadThread = threading.Thread(target=LoadAIModelThread)
-    AIModelLoadThread.start()
+                    LoadAIProgress = 0
+                    LoadAILabel = "ERROR! Your AI model file is corrupted!"
+                    time.sleep(3)
+                    HandleCorruptedAIModel()
+            except Exception as e:
+                exc = traceback.format_exc()
+                SendCrashReport("NavigationDetection - Loading AI Error.", str(exc))
+                console.RestoreConsole()
+                print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
+                AIModelLoaded = False
+                LoadAIProgress = 0
+                LoadAILabel = "Failed to load the AI model!"
+
+        global AIModelLoadThread
+        AIModelLoadThread = threading.Thread(target=LoadAIModelThread)
+        AIModelLoadThread.start()
+
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("NavigationDetection - Error in function LoadAIModel.", str(exc))
+        print(f"NavigationDetection - Error in function LoadAIModel: {ex}")
+        console.RestoreConsole()
+        print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
 
 
 def CheckForAIModelUpdates():
-    if not os.path.exists(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
-        os.makedirs(f"{variables.PATH}plugins/NavigationDetection/AIModel")
-    def CheckForAIModelUpdatesThread():
-        if len(os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel")) > 1:
-            DeleteAllAIModels()
-
-        url = "https://huggingface.co/Glas42/NavigationDetectionAI/tree/main/model"
-
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
-
-        UpdateAIModel = False
-
-        for link in soup.find_all('a', href=True):
-            href = link['href']
-            if href.startswith('/Glas42/NavigationDetectionAI/blob/main/model'):
-                LatestAIModel = href.split("/")[-1]
-                break
-
-        for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
-            if file.endswith(".pt"):
-                CurrentAIModel = file
-                break
-        if len(os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel")) == 0:
-            CurrentAIModel = None
-
-        if LatestAIModel != CurrentAIModel:
-            UpdateAIModel = True
-
-            helpers.RunInMainThread(lambda: loading.close())
-            def newloading():
-                global loading
-                loading = helpers.ShowPopup(f"Downloading...\nThis may take a while...\n\nDO NOT CLOSE THE APP", "NavigationDetection", timeout=0, indeterminate=True, closeIfMainloopStopped=False)
-            helpers.RunInMainThread(newloading)
-
-        if UpdateAIModel == True:
+    try:
+        def CheckForAIModelUpdatesThread():
             try:
-                DeleteAllAIModels()
+                global LoadAILabel
+                global LoadAIProgress
 
-                response = requests.get(f"https://huggingface.co/Glas42/NavigationDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
-                last_progress = 0
-                with open(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
-                    total_size = int(response.headers.get('content-length', 0))
-                    downloaded_size = 0
-                    chunk_size = 1024
-                    for data in response.iter_content(chunk_size=chunk_size):
-                        downloaded_size += len(data)
-                        modelfile.write(data)
-                        progress = (downloaded_size / total_size) * 100
-                        if round(last_progress) < round(progress):
-                            progress_mb = downloaded_size / (1024 * 1024)
-                            total_size_mb = total_size / (1024 * 1024)
-                            last_progress = progress
+                LoadAIProgress = 0
+                LoadAILabel = "Checking for AI model updates..."
 
-                helpers.RunInMainThread(lambda: loading.close())
-                def newloading():
-                    global loading
-                    loading = helpers.ShowPopup(f"\nSuccessfully downloaded\nthe new AI Model.", "NavigationDetection", timeout=0, indeterminate=False, closeIfMainloopStopped=False)
-                helpers.RunInMainThread(newloading)
+                print("\033[92m" + f"Checking for AI model updates..." + "\033[0m")
+
+                url = "https://huggingface.co/Glas42/NavigationDetectionAI/tree/main/model"
+                response = requests.get(url)
+                soup = BeautifulSoup(response.content, 'html.parser')
+
+                for link in soup.find_all('a', href=True):
+                    href = link['href']
+                    if href.startswith('/Glas42/NavigationDetectionAI/blob/main/model'):
+                        LatestAIModel = href.split("/")[-1]
+                        break
+
+                CurrentAIModel = GetAIModelName()
+                if len(CurrentAIModel) == 0:
+                    CurrentAIModel = None
+                else:
+                    CurrentAIModel = CurrentAIModel[0]
+
+                if str(LatestAIModel) != str(CurrentAIModel):
+                    LoadAILabel = "Updating AI model..."
+                    print("\033[92m" + f"Updating AI model..." + "\033[0m")
+                    DeleteAllAIModels()
+                    response = requests.get(f"https://huggingface.co/Glas42/NavigationDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
+                    last_progress = 0
+                    with open(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
+                        total_size = int(response.headers.get('content-length', 0))
+                        downloaded_size = 0
+                        chunk_size = 1024
+                        for data in response.iter_content(chunk_size=chunk_size):
+                            downloaded_size += len(data)
+                            modelfile.write(data)
+                            progress = (downloaded_size / total_size) * 100
+                            if round(last_progress) < round(progress):
+                                progress_mb = downloaded_size / (1024 * 1024)
+                                total_size_mb = total_size / (1024 * 1024)
+                                LoadAIProgress = progress
+                                LoadAILabel = f"Downloading AI model: {round(progress)}%"
+                                last_progress = progress
+                    LoadAIProgress = 100
+                    LoadAILabel = "Successfully updated AI model!"
+                    print("\033[92m" + f"Successfully updated AI model!" + "\033[0m")
+                else:
+                    LoadAIProgress = 100
+                    LoadAILabel = "No AI model updates available!"
+                    print("\033[92m" + f"No AI model updates available!" + "\033[0m")
 
             except Exception as ex:
-                print(f"Error downloading the NavigationDetection AI Model: {ex}")
+                exc = traceback.format_exc()
+                SendCrashReport("NavigationDetection - Error in function CheckForAIModelUpdatesThread.", str(exc))
+                print(f"NavigationDetection - Error in function CheckForAIModelUpdatesThread: {ex}")
                 console.RestoreConsole()
+                print("\033[91m" + f"Failed to check for AI model updates or update the AI model." + "\033[0m")
+                LoadAIProgress = 0
+                LoadAILabel = "Failed to check for AI model updates or update the AI model."
 
-                helpers.RunInMainThread(lambda: loading.close())
-                def newloading():
-                    global loading
-                    loading = helpers.ShowPopup(f"Failed to download\nthe new AI Model.\nAsk a developer for help.", "NavigationDetection", timeout=0, indeterminate=False, closeIfMainloopStopped=False)
-                helpers.RunInMainThread(newloading)
+        global AIModelUpdateThread
+        AIModelUpdateThread = threading.Thread(target=CheckForAIModelUpdatesThread)
+        AIModelUpdateThread.start()
 
-        else:
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("NavigationDetection - Error in function CheckForAIModelUpdates.", str(exc))
+        print(f"NavigationDetection - Error in function CheckForAIModelUpdates: {ex}")
+        console.RestoreConsole()
+        print("\033[91m" + f"Failed to check for AI model updates or update the AI model." + "\033[0m")
 
-            helpers.RunInMainThread(lambda: loading.close())
-            def newloading():
-                global loading
-                loading = helpers.ShowPopup(f"\nNo new AI Model found.", "NavigationDetection", timeout=0, indeterminate=False, closeIfMainloopStopped=False)
-            helpers.RunInMainThread(newloading)
 
-        time.sleep(3)
-        helpers.RunInMainThread(lambda: loading.close())
+def ModelFolderExists():
+    try:
+        if os.path.exists(f"{variables.PATH}plugins/NavigationDetection/AIModel") == False:
+            os.makedirs(f"{variables.PATH}plugins/NavigationDetection/AIModel")
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("NavigationDetection - Error in function ModelFolderExists.", str(exc))
+        print(f"NavigationDetection - Error in function ModelFolderExists: {ex}")
+        console.RestoreConsole()
 
-    global loading
-    loading = helpers.ShowPopup(f"\nChecking for updates...", "NavigationDetection", timeout=0, indeterminate=False, closeIfMainloopStopped=False)
 
-    global AIModelUpdateThread
-    AIModelUpdateThread = threading.Thread(target=CheckForAIModelUpdatesThread)
-    AIModelUpdateThread.start()
+def GetAIModelName():
+    try:
+        ModelFolderExists()
+        AIModels = []
+        for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
+            if file.endswith(".pt"):
+                AIModels.append(file)
+        return AIModels
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("NavigationDetection - Error in function GetAIModelName.", str(exc))
+        print(f"NavigationDetection - Error in function GetAIModelName: {ex}")
+        console.RestoreConsole()
+        return []
 
 
 def DeleteAllAIModels():
-    if not os.path.exists(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
-        os.makedirs(f"{variables.PATH}plugins/NavigationDetection/AIModel")
     try:
+        ModelFolderExists()
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
-            os.remove(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", file))
+            if file.endswith(".pt"):
+                os.remove(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", file))
     except Exception as ex:
-        print(f"Error deleting all AI Models: {ex}")
+        exc = traceback.format_exc()
+        SendCrashReport("NavigationDetection - Error in function DeleteAllAIModels.", str(exc))
+        print(f"NavigationDetection - Error in function DeleteAllAIModels: {ex}")
         console.RestoreConsole()
 
 
 def GetAIModelProperties():
-    if not os.path.exists(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
-        os.makedirs(f"{variables.PATH}plugins/NavigationDetection/AIModel")
     try:
-        AIModelProperties = None
-        for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
-            if file.endswith(".pt"):
-                AIModelProperties = file
-                break
-        if AIModelProperties is not None:
-            modelProps = AIModelProperties.split('_')
-            epochs = int(modelProps[0].split('-')[1])
-            batchSize = int(modelProps[1].split('-')[1])
-            res = tuple(map(int, modelProps[2].split('-')[1].split('x')))
-            images = int(modelProps[3].split('-')[1])
-            trainingTime = modelProps[4].split('-')[1] + ":" + modelProps[4].split('-')[2] + ":" + modelProps[4].split('-')[3]
-            date = (modelProps[5].split('-')[1] + "-" + modelProps[5].split('-')[2] + "-" + modelProps[5].split('-')[3] + " " + modelProps[5].split('-')[4] + ":" + modelProps[5].split('-')[5] + ":" + modelProps[5].split('-')[6]).split('.')[0]
-            return (epochs, batchSize, res, images, trainingTime, date)
-        else:
+        ModelFolderExists()
+        if GetAIModelName() == []:
             return ("UNKNOWN", "UNKNOWN", ("UNKNOWN", "UNKNOWN"), "UNKNOWN", "UNKNOWN", "UNKNOWN")
-    except:
+        else:
+            ModelProperties = GetAIModelName()[0].split('_')
+            epochs = int(ModelProperties[0].split('-')[1])
+            batchSize = int(ModelProperties[1].split('-')[1])
+            res = tuple(map(int, ModelProperties[2].split('-')[1].split('x')))
+            images = int(ModelProperties[3].split('-')[1])
+            trainingTime = ModelProperties[4].split('-')[1] + ":" + ModelProperties[4].split('-')[2] + ":" + ModelProperties[4].split('-')[3]
+            date = (ModelProperties[5].split('-')[1] + "-" + ModelProperties[5].split('-')[2] + "-" + ModelProperties[5].split('-')[3] + " " + ModelProperties[5].split('-')[4] + ":" + ModelProperties[5].split('-')[5] + ":" + ModelProperties[5].split('-')[6]).split('.')[0]
+            return (epochs, batchSize, res, images, trainingTime, date)
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("NavigationDetection - Error in function GetAIModelProperties.", str(exc))
+        print(f"NavigationDetection - Error in function GetAIModelProperties: {ex}")
+        console.RestoreConsole()
         return ("UNKNOWN", "UNKNOWN", ("UNKNOWN", "UNKNOWN"), "UNKNOWN", "UNKNOWN", "UNKNOWN")
+
 
 if UseAI:
     helpers.RunInMainThread(LoadAIModel)
@@ -1294,12 +1352,12 @@ class UI():
             self.master = master
             self.exampleFunction()
             resizeWindow(950,600)        
-        
+
         def destroy(self):
             self.done = True
             self.root.destroy()
             del self
-        
+
         def tabFocused(self):
             resizeWindow(950,600)
 
@@ -1312,22 +1370,22 @@ class UI():
             settings.CreateSettings("NavigationDetection", "offset", self.UI_offsetSlider.get())
             settings.CreateSettings("NavigationDetection", "lanechanging_speed", self.UI_lanechanging_speedSlider.get())
             settings.CreateSettings("NavigationDetection", "lanechanging_width", self.UI_lanechanging_widthSlider.get())
-            
+
             LoadSettings()
-        
+
         def exampleFunction(self):
-            
+
             try:
                 self.root.destroy()
             except: pass
-            
+
             self.root = tk.Canvas(self.master, width=950, height=600, border=0, highlightthickness=0)
             self.root.grid_propagate(1)
             self.root.pack_propagate(0)
-            
+
             notebook = ttk.Notebook(self.root)
             notebook.pack(anchor="center", fill="both", expand=True)
-            
+
             generalFrame = ttk.Frame(notebook)
             generalFrame.pack()
             setupFrame = ttk.Frame(notebook)
@@ -1341,10 +1399,10 @@ class UI():
             notebook.add(setupFrame, text=Translate("Setup"))
             notebook.add(advancedFrame, text=Translate("Advanced"))
             notebook.add(navigationdetectionaiFrame, text=Translate("NavigationDetectionAI"))
-            
+
             self.root.pack(anchor="center", expand=False)
             self.root.update()
-            
+
             ############################################################################################################################
             # UI
             ############################################################################################################################
@@ -1357,23 +1415,23 @@ class UI():
             helpers.MakeEmptyLine(generalFrame, 3, 0)
 
             helpers.MakeCheckButton(generalFrame, "Left-hand traffic\n----------------------\nEnable this if you are driving in a country with left-hand traffic.", "NavigationDetection", "lefthand_traffic", 4, 0, width=80, callback=lambda: LoadSettings())
-            
+
             helpers.MakeEmptyLine(generalFrame, 5, 0)
-            
+
             helpers.MakeCheckButton(generalFrame, "Lane Changing\n---------------------\nIf enabled, you can change the lane you are driving on using the games indicators\nor the buttons you set in the Controls menu.", "NavigationDetection", "lanechanging_do_lane_changing", 6, 0, width=80, callback=lambda: LoadSettings())
-            
+
             self.UI_lanechanging_speedSlider = tk.Scale(generalFrame, from_=0.1, to=3, resolution=0.1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
             self.UI_lanechanging_speedSlider.set(settings.GetSettings("NavigationDetection", "lanechanging_speed"))
             self.UI_lanechanging_speedSlider.grid(row=7, column=0, padx=10, pady=0, columnspan=2)
             self.UI_lanechanging_speed = helpers.MakeComboEntry(generalFrame, "Lane Changing Speed", "NavigationDetection", "lanechanging_speed", 7, 0, labelwidth=18, width=8, isFloat=True, sticky="ne")
 
             helpers.MakeLabel(generalFrame, "╚> This slider sets the speed of the lane changing.", 8, 0, sticky="nw")
-            
+
             self.UI_lanechanging_widthSlider = tk.Scale(generalFrame, from_=1, to=30, resolution=0.1, orient=tk.HORIZONTAL, length=500, command=lambda x: self.UpdateSettings())
             self.UI_lanechanging_widthSlider.set(settings.GetSettings("NavigationDetection", "lanechanging_width"))
             self.UI_lanechanging_widthSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
             self.UI_lanechanging_width = helpers.MakeComboEntry(generalFrame, "Lane Width", "NavigationDetection", "lanechanging_width", 9, 0, labelwidth=18, width=8, isFloat=True, sticky="ne")
-            
+
             helpers.MakeLabel(generalFrame, "╚> This slider sets how much the truck needs to go left or right to change the lane.", 10, 0, sticky="nw")
 
             helpers.MakeEmptyLine(generalFrame, 11, 0)
@@ -1394,7 +1452,7 @@ class UI():
 
 
             helpers.MakeLabel(setupFrame, "Choose a setup method:", 1, 0, font=("Robot", 12, "bold"), sticky="nw")
-            
+
             helpers.MakeButton(setupFrame, "Automatic Setup", self.automatic_setup, 2, 0, sticky="nw")
 
             helpers.MakeLabel(setupFrame, "The automatic setup will search for the minimap on your screen using AI (YOLOv5), it needs to download some\nfiles the first time you run it. Make sure that the minimap is always visible and not blocked by other applications.", 3, 0, sticky="nw")
@@ -1407,31 +1465,38 @@ class UI():
 
 
             helpers.MakeCheckButton(advancedFrame, "Automatically change to lane 0 if a turn got detected and lane changing is enabled.\nNote: If disabled, you will be unable to change lanes when detecting a turn.", "NavigationDetection", "lanechanging_autolanezero", 2, 0, width=97, callback=lambda: LoadSettings())
-            
+
 
             helpers.MakeLabel(navigationdetectionaiFrame, "This feature is still in development.", 1, 0, font=("Robot", 14, "bold"), sticky="nw")
 
-            helpers.MakeCheckButton(navigationdetectionaiFrame, "Use NavigationDetectionAI instead of NavigationDetection", "NavigationDetection", "UseAI", 2, 0, width=97, callback=lambda: {LoadSettings(), self.exampleFunction()})
-            
-            if UseAI:
-                
-                helpers.MakeLabel(navigationdetectionaiFrame, "The PyTorch model was trained using driving data which has been collected by the developers.", 3, 0, sticky="nw")
+            helpers.MakeCheckButton(navigationdetectionaiFrame, "Use NavigationDetectionAI instead of NavigationDetection.", "NavigationDetection", "UseAI", 2, 0, width=97, callback=lambda: {LoadSettings(), self.exampleFunction()})
 
-                helpers.MakeEmptyLine(navigationdetectionaiFrame, 4, 0)
+            if UseAI:
+
+                helpers.MakeCheckButton(navigationdetectionaiFrame, f"Try to use your GPU with CUDA instead of your CPU to run the AI.\n(Currently using {str(AIDevice).upper()})", "NavigationDetection", "UseCUDA", 3, 0, width=97, callback=lambda: {LoadSettings(), self.exampleFunction()})
+
+                helpers.MakeLabel(navigationdetectionaiFrame, "The AI is based on PyTorch. You can see the training settings below.", 4, 0, sticky="nw")
+
+                helpers.MakeEmptyLine(navigationdetectionaiFrame, 5, 0)
 
                 model_properties = GetAIModelProperties()
 
-                helpers.MakeLabel(navigationdetectionaiFrame, "Model properties:", 5, 0, font=("Robot", 12, "bold"), sticky="nw")
+                helpers.MakeLabel(navigationdetectionaiFrame, "Model properties:", 6, 0, font=("Robot", 12, "bold"), sticky="nw")
             
-                helpers.MakeLabel(navigationdetectionaiFrame, f"Epochs: {model_properties[0]}\nBatch Size: {model_properties[1]}\nResolution: {model_properties[2][0]}x{model_properties[2][1]}\nImages/Data Points: {model_properties[3]}\nTraining Time: {model_properties[4]}\nTraining Date: {model_properties[5]}", 6, 0, sticky="nw")
+                helpers.MakeLabel(navigationdetectionaiFrame, f"Epochs: {model_properties[0]}\nBatch Size: {model_properties[1]}\nResolution: {model_properties[2][0]}x{model_properties[2][1]}\nImages/Data Points: {model_properties[3]}\nTraining Time: {model_properties[4]}\nTraining Date: {model_properties[5]}", 7, 0, sticky="nw")
 
-                helpers.MakeEmptyLine(navigationdetectionaiFrame, 7, 0)
+                helpers.MakeEmptyLine(navigationdetectionaiFrame, 8, 0)
 
-                helpers.MakeButton(navigationdetectionaiFrame, "Check for AI model updates", CheckForAIModelUpdates, 8, 0, width=30, sticky="nw")
+                self.progresslabel = helpers.MakeLabel(navigationdetectionaiFrame, "", 9, 0, sticky="nw")
+
+                self.progress = ttk.Progressbar(navigationdetectionaiFrame, orient="horizontal", length=238, mode="determinate")
+                self.progress.grid(row=10, column=0, sticky="nw", padx=5, pady=0)
+
+                helpers.MakeButton(navigationdetectionaiFrame, "Check for AI model updates", CheckForAIModelUpdates, 11, 0, width=30, sticky="nw")
 
         def save(self):
             LoadSettings()
-        
+
         def manual_setup(self):
             found_venv = True
             if os.path.exists(f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe") == False:
@@ -1461,8 +1526,10 @@ class UI():
                 print("\033[91m" + f"Your installation is missing the automatic_setup.py. Download it manually from the GitHub and place it in this path: {variables.PATH}plugins\\NavigationDetection\\automatic_setup.py" + "\033[0m")
 
         def update(self, data):
+            self.progresslabel.set(LoadAILabel)
+            self.progress["value"] = LoadAIProgress
             self.root.update()
-    
+
     except Exception as ex:
         print(ex.args)
 

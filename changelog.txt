@@ -1,1 +1,1 @@
-New Feature for the TrafficLightDetection: Position Estimation of the traffic lights.
+Updated the NavigationDetectionAI code handle the download of the model better.

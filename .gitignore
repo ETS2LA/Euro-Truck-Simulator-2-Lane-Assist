@@ -23,15 +23,19 @@ plugins/Map/GameData/*.json
 plugins/Map/Old
 anomalousFrames
 profiles/installer_config.cfg
-yolov5n.pt
-yolov5s.pt
-yolov5m.pt
-yolov5l.pt
-yolov5x.pt
-plugins/NavigationDetection/AIModel
-plugins/NavigationDetection/YOLOFiles
+
+# NavigationDetection
+plugins/NavigationDetection/AIModel/*
+!plugins/NavigationDetection/AIModel/index.md
+plugins/NavigationDetection/YOLOFiles/*
+!plugins/NavigationDetection/YOLOFiles/index.md
 plugins/NavigationDetection/YOLOv5_MapDetectionModel.pt
-plugins/TrafficLightDetection/YOLOFiles
+
+# TrafficLightDetection
+plugins/TrafficLightDetection/YOLOFiles/*
+!plugins/TrafficLightDetection/YOLOFiles/index.md
+plugins/TrafficLightDetection/YOLOModels/*
+!plugins/TrafficLightDetection/YOLOModels/index.md
 # Wiki is built by github actions, no need to have users download it constantly
 wiki/* 
 

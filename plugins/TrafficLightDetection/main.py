@@ -2,7 +2,7 @@ from plugins.plugin import PluginInformation
 PluginInfo = PluginInformation(
     name="TrafficLightDetection",
     description="Detects traffic lights with vision.",
-    version="0.5",
+    version="0.6",
     author="Glas42",
     url="https://github.com/Glas42/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic",
