@@ -1327,10 +1327,14 @@ def plugin(data):
             cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
             lower_red = np.array([0, 0, 160])
             upper_red = np.array([110, 110, 255])
-            frame_mask = cv2.inRange(frame, lower_red, upper_red)
-            frame_with_mask = cv2.bitwise_and(frame, frame, mask=frame_mask)
+            mask_red = cv2.inRange(frame, lower_red, upper_red)
+            lower_green = np.array([0, 200, 0])
+            upper_green = np.array([230, 255, 150])
+            mask_green = cv2.inRange(frame, lower_green, upper_green)
+            mask = cv2.bitwise_or(mask_red, mask_green)
+            frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
             frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
-            AIFrame = preprocess_image(frame_mask)
+            AIFrame = preprocess_image(mask)
             
             output = 0
 
