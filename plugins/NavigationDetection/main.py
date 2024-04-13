@@ -1526,8 +1526,9 @@ class UI():
                 print("\033[91m" + f"Your installation is missing the automatic_setup.py. Download it manually from the GitHub and place it in this path: {variables.PATH}plugins\\NavigationDetection\\automatic_setup.py" + "\033[0m")
 
         def update(self, data):
-            self.progresslabel.set(LoadAILabel)
-            self.progress["value"] = LoadAIProgress
+            if UseAI:
+                self.progresslabel.set(LoadAILabel)
+                self.progress["value"] = LoadAIProgress
             self.root.update()
 
     except Exception as ex:
