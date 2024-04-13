@@ -923,11 +923,10 @@ def plugin(data):
                 angle = (y1 - screen_height / 2) * (fov / screen_height) - head_rotation_degrees_y
                 trafficlight_y = head_y + (math.sin(head_rotation_degrees_y) * math.sqrt((truck_x - head_x)**2 + (truck_z - head_z)**2))
 
-                # ----------------------------------------- smooth position estimation -------------------------------------
-                #if previous_trafficlight_x != None and previous_trafficlight_y != None and previous_trafficlight_z != None:
-                #    trafficlight_x = previous_trafficlight_x + (trafficlight_x - previous_trafficlight_x) / 5
-                #    trafficlight_y = previous_trafficlight_y + (trafficlight_y - previous_trafficlight_y) / 5
-                #    trafficlight_z = previous_trafficlight_z + (trafficlight_z - previous_trafficlight_z) / 5
+                if previous_trafficlight_x != None and previous_trafficlight_y != None and previous_trafficlight_z != None:
+                    trafficlight_x = previous_trafficlight_x + (trafficlight_x - previous_trafficlight_x) / 5
+                    trafficlight_y = previous_trafficlight_y + (trafficlight_y - previous_trafficlight_y) / 5
+                    trafficlight_z = previous_trafficlight_z + (trafficlight_z - previous_trafficlight_z) / 5
                 
                 trafficlights[i] = (coord, ((trafficlight_x, trafficlight_y, trafficlight_z), (head_x, head_z, head_angle, head_rotation), (first_head_x, first_head_z, first_head_angle, first_head_rotation)), id, approved)
 

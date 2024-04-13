@@ -691,15 +691,15 @@ if __name__ == "__main__":
                 except:
                     pass
                 try:
+                    cv2.destroyWindow('Traffic Light Detection - Final')
+                except:
+                    pass
+                try:
                     cv2.destroyWindow('Traffic Light Detection - B/W')
                 except:
                     pass
                 try:
-                    cv2.destroyWindow('Traffic Light Detection - Red/Yellow/Green')
-                except:
-                    pass
-                try:
-                    cv2.destroyWindow('Traffic Light Detection - Final')
+                    cv2.destroyWindow('Traffic Light Detection - Position Estimation')
                 except:
                     pass
                 try:
