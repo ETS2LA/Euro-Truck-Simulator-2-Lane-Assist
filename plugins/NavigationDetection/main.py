@@ -272,6 +272,9 @@ def LoadAIModel():
                 CheckForAIModelUpdates()
                 while AIModelUpdateThread.is_alive(): time.sleep(0.1)
 
+                if GetAIModelName() == []:
+                    return
+
                 LoadAIProgress = 0
                 LoadAILabel = "Loading the AI model..."
 
@@ -329,54 +332,68 @@ def CheckForAIModelUpdates():
                 global LoadAILabel
                 global LoadAIProgress
 
-                LoadAIProgress = 0
-                LoadAILabel = "Checking for AI model updates..."
+                try:
+                    response = requests.get("https://huggingface.co/", timeout=3)
+                    response = response.status_code
+                except requests.exceptions.RequestException as ex:
+                    response = None
+                response = 0
+                if response == 200:
+                    LoadAIProgress = 0
+                    LoadAILabel = "Checking for AI model updates..."
 
-                print("\033[92m" + f"Checking for AI model updates..." + "\033[0m")
+                    print("\033[92m" + f"Checking for AI model updates..." + "\033[0m")
 
-                url = "https://huggingface.co/Glas42/NavigationDetectionAI/tree/main/model"
-                response = requests.get(url)
-                soup = BeautifulSoup(response.content, 'html.parser')
+                    url = "https://huggingface.co/Glas42/NavigationDetectionAI/tree/main/model"
+                    response = requests.get(url)
+                    soup = BeautifulSoup(response.content, 'html.parser')
 
-                for link in soup.find_all('a', href=True):
-                    href = link['href']
-                    if href.startswith('/Glas42/NavigationDetectionAI/blob/main/model'):
-                        LatestAIModel = href.split("/")[-1]
-                        break
+                    for link in soup.find_all('a', href=True):
+                        href = link['href']
+                        if href.startswith('/Glas42/NavigationDetectionAI/blob/main/model'):
+                            LatestAIModel = href.split("/")[-1]
+                            break
 
-                CurrentAIModel = GetAIModelName()
-                if len(CurrentAIModel) == 0:
-                    CurrentAIModel = None
+                    CurrentAIModel = GetAIModelName()
+                    if len(CurrentAIModel) == 0:
+                        CurrentAIModel = None
+                    else:
+                        CurrentAIModel = CurrentAIModel[0]
+
+                    if str(LatestAIModel) != str(CurrentAIModel):
+                        LoadAILabel = "Updating AI model..."
+                        print("\033[92m" + f"Updating AI model..." + "\033[0m")
+                        DeleteAllAIModels()
+                        response = requests.get(f"https://huggingface.co/Glas42/NavigationDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
+                        last_progress = 0
+                        with open(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
+                            total_size = int(response.headers.get('content-length', 0))
+                            downloaded_size = 0
+                            chunk_size = 1024
+                            for data in response.iter_content(chunk_size=chunk_size):
+                                downloaded_size += len(data)
+                                modelfile.write(data)
+                                progress = (downloaded_size / total_size) * 100
+                                if round(last_progress) < round(progress):
+                                    progress_mb = downloaded_size / (1024 * 1024)
+                                    total_size_mb = total_size / (1024 * 1024)
+                                    LoadAIProgress = progress
+                                    LoadAILabel = f"Downloading AI model: {round(progress)}%"
+                                    last_progress = progress
+                        LoadAIProgress = 100
+                        LoadAILabel = "Successfully updated AI model!"
+                        print("\033[92m" + f"Successfully updated AI model!" + "\033[0m")
+                    else:
+                        LoadAIProgress = 100
+                        LoadAILabel = "No AI model updates available!"
+                        print("\033[92m" + f"No AI model updates available!" + "\033[0m")
+
                 else:
-                    CurrentAIModel = CurrentAIModel[0]
 
-                if str(LatestAIModel) != str(CurrentAIModel):
-                    LoadAILabel = "Updating AI model..."
-                    print("\033[92m" + f"Updating AI model..." + "\033[0m")
-                    DeleteAllAIModels()
-                    response = requests.get(f"https://huggingface.co/Glas42/NavigationDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
-                    last_progress = 0
-                    with open(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
-                        total_size = int(response.headers.get('content-length', 0))
-                        downloaded_size = 0
-                        chunk_size = 1024
-                        for data in response.iter_content(chunk_size=chunk_size):
-                            downloaded_size += len(data)
-                            modelfile.write(data)
-                            progress = (downloaded_size / total_size) * 100
-                            if round(last_progress) < round(progress):
-                                progress_mb = downloaded_size / (1024 * 1024)
-                                total_size_mb = total_size / (1024 * 1024)
-                                LoadAIProgress = progress
-                                LoadAILabel = f"Downloading AI model: {round(progress)}%"
-                                last_progress = progress
-                    LoadAIProgress = 100
-                    LoadAILabel = "Successfully updated AI model!"
-                    print("\033[92m" + f"Successfully updated AI model!" + "\033[0m")
-                else:
-                    LoadAIProgress = 100
-                    LoadAILabel = "No AI model updates available!"
-                    print("\033[92m" + f"No AI model updates available!" + "\033[0m")
+                    console.RestoreConsole()
+                    print("\033[91m" + f"Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for AI model updates." + "\033[0m")
+                    LoadAIProgress = 0
+                    LoadAILabel = "Connection to https://huggingface.co/ is\nmost likely not available in your country.\nUnable to check for AI model updates."
 
             except Exception as ex:
                 exc = traceback.format_exc()
