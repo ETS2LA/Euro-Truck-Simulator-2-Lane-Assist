@@ -337,7 +337,7 @@ def CheckForAIModelUpdates():
                     response = response.status_code
                 except requests.exceptions.RequestException as ex:
                     response = None
-                response = 0
+
                 if response == 200:
                     LoadAIProgress = 0
                     LoadAILabel = "Checking for AI model updates..."

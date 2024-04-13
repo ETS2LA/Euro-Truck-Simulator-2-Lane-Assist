@@ -1,1 +1,2 @@
-Fixed a bug in the NavigationDetection, which would spam us developers with errors when https://huggingface.co/ is not available.
+1.11.4 Fixed a bug in the NavigationDetection, which would spam us developers with errors when https://huggingface.co/ is not available.
+1.11.5 Removed code which simulated that https://huggingface.co/ is not available.
