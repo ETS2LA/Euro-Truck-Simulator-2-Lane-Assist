@@ -1492,7 +1492,12 @@ class UI():
                 self.progress = ttk.Progressbar(navigationdetectionaiFrame, orient="horizontal", length=238, mode="determinate")
                 self.progress.grid(row=10, column=0, sticky="nw", padx=5, pady=0)
 
-                helpers.MakeButton(navigationdetectionaiFrame, "Check for AI model updates", CheckForAIModelUpdates, 11, 0, width=30, sticky="nw")
+                def UIButtonCheckForModelUpdates():
+                    CheckForAIModelUpdates()
+                    while AIModelUpdateThread.is_alive(): time.sleep(0.1)
+                    LoadAIModel()
+
+                helpers.MakeButton(navigationdetectionaiFrame, "Check for AI model updates", UIButtonCheckForModelUpdates, 11, 0, width=30, sticky="nw")
 
         def save(self):
             LoadSettings()
