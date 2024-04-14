@@ -6,13 +6,6 @@ import src.translator as translator
 import webview
 import webbrowser
 from tktooltip import ToolTip
-# Import qt for matplotlib
-try:
-    import PyQt5.Qt as Qt
-except:
-    import os
-    os.system("pip install PyQt5") # Install PyQt5 if it's not installed
-    import PyQt5.Qt as Qt
 import src.mainUI as mainUI
 import src.controls as controls
 import src.variables as variables
@@ -493,8 +486,6 @@ class PID:
         self.plot = plt
         self.plot.ion()
         self.plot.show()
-        # Show the window on top
-        self.plot.gcf().canvas.manager.window.setWindowFlags(Qt.Qt.WindowStaysOnTopHint)
         
     def clear(self):
         self.SetPoint = 0.0

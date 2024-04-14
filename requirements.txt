@@ -21,7 +21,6 @@ Babel
 gdown
 mouse
 numpy
-PyQt5
 scipy
 torch
 wheel

@@ -91,7 +91,7 @@ try:
         settings.AddToList("Plugins", "Enabled", "BetterCamScreenCapture")
 except: pass
 
-listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel", "PyQt5"]
+listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel"]
 listOfRequirementsAddedLater = [i.replace("-", "_") for i in listOfRequirementsAddedLater]
 # Get list of installed modules using importlib
 installed = [i.name for i in importlib_metadata.distributions()]
