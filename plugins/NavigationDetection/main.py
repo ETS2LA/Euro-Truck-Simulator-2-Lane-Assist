@@ -1316,9 +1316,12 @@ def plugin(data):
 
     else:
         try:
-
-            while AIModelUpdateThread.is_alive(): return data
-            while AIModelLoadThread.is_alive(): return data
+            
+            try:
+                while AIModelUpdateThread.is_alive(): return data
+                while AIModelLoadThread.is_alive(): return data
+            except:
+                return data
 
             try:
                 frame = data["frame"]
