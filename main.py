@@ -22,6 +22,7 @@ The main file that runs the programs loop.
 
 # Change from tkwebview2 to our custom version
 import os
+import sys
 try:
     import tkwebview2
     try:
@@ -33,7 +34,7 @@ try:
         print(" -- Restarting -- ")
         from tkinter import messagebox
         messagebox.showinfo("Info", "tkwebview2 was updated. Please restart the application.")
-        exit()
+        sys.exit()
 except: 
     pass
     
