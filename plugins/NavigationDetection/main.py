@@ -239,6 +239,8 @@ class Net(nn.Module):
 
 
 def preprocess_image(image):
+    global IMG_WIDTH
+    global IMG_HEIGHT
     try:
         transform = transforms.Compose([
             transforms.ToPILImage(),
