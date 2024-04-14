@@ -25,19 +25,16 @@ import os
 import sys
 try:
     import tkwebview2
-    try:
-        tkwebview2.version
-    except AttributeError:
-        print(" -- Changing tkwebview2 version -- ")
-        os.system("pip uninstall -y tkwebview2")
-        os.system("pip install git+https://github.com/Tumppi066/tkwebview2.git")
-        print(" -- Restarting -- ")
-        from tkinter import messagebox
-        messagebox.showinfo("Info", "tkwebview2 was updated. Please restart the application.")
-        sys.exit()
-except: 
-    pass
-    
+    tkwebview2.version
+except:
+    print(" -- Changing tkwebview2 version -- ")
+    os.system("pip uninstall -y tkwebview2")
+    os.system("pip install git+https://github.com/Tumppi066/tkwebview2.git")
+    print(" -- Restarting -- ")
+    from tkinter import messagebox
+    messagebox.showinfo("Info", "tkwebview2 was updated. Please restart the application.")
+    sys.exit()    
+
 # hide pygame welcome message before importing pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import cv2
