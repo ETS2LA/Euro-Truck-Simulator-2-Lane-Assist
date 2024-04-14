@@ -239,14 +239,26 @@ class Net(nn.Module):
 
 
 def preprocess_image(image):
-    transform = transforms.Compose([
-        transforms.ToPILImage(),
-        transforms.Resize((IMG_HEIGHT, IMG_WIDTH)),
-        transforms.Grayscale(),
-        transforms.Lambda(lambda x: x.point(lambda p: p > 128 and 255)),
-        transforms.ToTensor()
-    ])
-    image_pil = transform(image)
+    try:
+        transform = transforms.Compose([
+            transforms.ToPILImage(),
+            transforms.Resize((IMG_HEIGHT, IMG_WIDTH)),
+            transforms.Grayscale(),
+            transforms.Lambda(lambda x: x.point(lambda p: p > 128 and 255)),
+            transforms.ToTensor()
+        ])
+        image_pil = transform(image)
+    except:
+        IMG_WIDTH = GetAIModelProperties()[2][0]
+        IMG_HEIGHT = GetAIModelProperties()[2][1]
+        transform = transforms.Compose([
+            transforms.ToPILImage(),
+            transforms.Resize((IMG_HEIGHT, IMG_WIDTH)),
+            transforms.Grayscale(),
+            transforms.Lambda(lambda x: x.point(lambda p: p > 128 and 255)),
+            transforms.ToTensor()
+        ])
+        image_pil = transform(image)
     return image_pil.unsqueeze(0).to(AIDevice)
 
 
