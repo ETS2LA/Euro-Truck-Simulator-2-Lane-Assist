@@ -256,7 +256,7 @@ def UpdatePlugins(dynamicOrder, data):
                 data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
                         
         except Exception as ex:
-            print(ex.args + f"[{plugin.PluginInfo.name}]")
+            print(ex.args[0] + f"[{plugin.PluginInfo.name}]")
             pass
     return data
 

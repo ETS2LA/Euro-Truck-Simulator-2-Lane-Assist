@@ -306,6 +306,7 @@ class UI():
             self.ets2APIsetup()
         
         def ets2APIsetup(self):
+            #MARK: API Setup
             self.root.destroy()
             self.root = tk.Canvas(self.master)
             self.waitForAPI = True
@@ -376,7 +377,6 @@ class UI():
                 else:
                     helpers.ShowFailure("Failed to install the plugin(s)!\nAre you sure you set your path properly?", title="Error")
                 
-                
             
             # Display the automatic installation buttons if the directories were found
             if self.scsGames != []:
@@ -395,15 +395,6 @@ class UI():
         
             self.root.pack()
             self.root.update()
-            
-            try:
-                if not api.loading:
-                    api.checkAPI(dontClosePopup=True)
-            except:
-                api.checkAPI(dontClosePopup=True)
-                
-            if api.isConnected:
-                self.apiNextButton.config(state="normal", text="Next")
         
         def lastPage(self):
             self.root.destroy()
@@ -443,6 +434,7 @@ class UI():
             self.root.update()
         
         def update(self, data):
+            #MARK: Update function
             self.root.update()
             pygame.event.pump()
             try:
@@ -473,8 +465,9 @@ class UI():
                     if api.isConnected:
                         self.apiNextButton.config(state="normal", text="Next")
             except:
+                #import traceback
+                #traceback.print_exc()
                 pass
-                
                 
             
     except Exception as ex:

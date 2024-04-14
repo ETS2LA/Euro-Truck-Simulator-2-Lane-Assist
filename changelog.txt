@@ -1,3 +1,4 @@
-Version 1.11.6 Updated default SDK dll to new one developed by mimi89999.
-Version 1.11.7 Fixed some bugs in the NavigationDetectionAI code.
-Version 1.11.8 Hopefully fixed a bug in the NavigationDetectionAI code.
+Fix first time setup not detecting the API.
+Fix main.py crashing when a plugin crashes.
+Fixed popups soft locking the app.
+Prevent First Time Setup from opening automatically after a restart.

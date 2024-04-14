@@ -564,7 +564,7 @@ def CreateRoot():
             if print_ui_events == True:
                 print("Loading " + tab)
             try:
-                if tab == "controls" or tab == "Changelog":
+                if tab == "controls" or tab == "Changelog" or tab == "FirstTimeSetup":
                     settings.RemoveFromList("User Interface", "OpenTabs", tab)
                     continue
                 else:
