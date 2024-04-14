@@ -23,7 +23,8 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 import os
-from tkwebview2.tkwebview2 import WebView2, have_runtime, install_runtime
+from tkwebview2 import WebView2, have_runtime, install_runtime
+from tempfile import gettempdir
 
 CHANGE_LOG_SHOWN = False
 
@@ -54,8 +55,10 @@ class UI():
             
             if not have_runtime():#没有 (no) webview2 runtime
                 install_runtime()
-                
-            self.frame=WebView2(self.root,1220,715)
+            
+            tempdir = gettempdir()
+            tempdir = os.path.join(tempdir, "ets2la-web-cache")
+            self.frame=WebView2(self.root,1220,715, cache=tempdir)
             self.frame.pack()
             self.frame.load_url('https://wiki.tumppi066.fi/blog')
             
