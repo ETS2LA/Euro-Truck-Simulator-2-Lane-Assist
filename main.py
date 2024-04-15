@@ -23,17 +23,28 @@ The main file that runs the programs loop.
 # Change from tkwebview2 to our custom version
 import os
 import sys
-try:
-    import tkwebview2
-    tkwebview2.version
-except:
-    print(" -- Changing tkwebview2 version -- ")
-    os.system("pip uninstall -y tkwebview2")
-    os.system("pip install git+https://github.com/Tumppi066/tkwebview2.git")
-    print(" -- Restarting -- ")
-    from tkinter import messagebox
-    messagebox.showinfo("Info", "tkwebview2 was updated. Please restart the application.")
-    sys.exit()    
+import threading
+doRestart = False
+def CheckTkWebview2InstallVersion():
+    global doRestart
+    try:
+        import tkwebview2
+        ver = tkwebview2.version
+        del tkwebview2
+    except:
+        print(" -- Changing tkwebview2 version -- ")
+        os.system("pip uninstall -y tkwebview2")
+        os.system("pip install git+https://github.com/Tumppi066/tkwebview2.git")
+        print(" -- Restarting -- ")
+        from tkinter import messagebox
+        messagebox.showinfo("Info", "tkwebview2 was updated. Please restart the application.")
+        doRestart = True  
+        
+thread = threading.Thread(target=CheckTkWebview2InstallVersion)
+thread.start()
+thread.join()
+if doRestart:
+    sys.exit()
 
 # hide pygame welcome message before importing pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"

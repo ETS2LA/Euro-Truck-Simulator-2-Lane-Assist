@@ -1,7 +1,1 @@
-1.11.9
-Fix first time setup not detecting the API.
-Fix main.py crashing when a plugin crashes.
-Fixed popups soft locking the app.
-Prevent First Time Setup from opening automatically after a restart.
-1.11.10
-Fix changelog and wiki pages by making a custom tkwebview2 version.
+Fix Bettercam Screencapture not showing in the plugin manager.
