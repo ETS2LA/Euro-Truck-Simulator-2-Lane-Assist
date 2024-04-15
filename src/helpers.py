@@ -6,13 +6,6 @@ import src.translator as translator
 import webview
 import webbrowser
 from tktooltip import ToolTip
-# Import qt for matplotlib
-try:
-    import PyQt5.Qt as Qt
-except:
-    import os
-    os.system("pip install PyQt5") # Install PyQt5 if it's not installed
-    import PyQt5.Qt as Qt
 import src.mainUI as mainUI
 import src.controls as controls
 import src.variables as variables
@@ -493,8 +486,6 @@ class PID:
         self.plot = plt
         self.plot.ion()
         self.plot.show()
-        # Show the window on top
-        self.plot.gcf().canvas.manager.window.setWindowFlags(Qt.Qt.WindowStaysOnTopHint)
         
     def clear(self):
         self.SetPoint = 0.0
@@ -942,6 +933,7 @@ def ShowSuccess(text, title="Success", translate=True):
         title (str, optional): The title of the success message. Defaults to "Success".
         translate (bool, optional): Whether to translate the text and title or not. Defaults to True.
     """
+    global selection
     if translate:
         title = translator.Translate(title)
         text = translator.Translate(text)
@@ -967,11 +959,11 @@ def ShowSuccess(text, title="Success", translate=True):
     selection = None
     def Answer(answer):
         global selection
+        selection = answer
         frame.destroy()
         background.destroy()
         from plugins.ThemeSelector.main import ColorTitleBar
         ColorTitleBar(mainUI.root, "0x313131")
-        selection = answer
     
     # Empty line
     ttk.Label(frame, text="").pack()
@@ -1006,7 +998,7 @@ def ShowSuccess(text, title="Success", translate=True):
     
     while selection == None:
         # Wait for the user to press a button
-        mainUI.root.update()
+        frame.update()
         
     return
 
@@ -1018,6 +1010,7 @@ def ShowFailure(text, title="Failure", translate=True):
         title (str, optional): The title of the failure message. Defaults to "Failure".
         translate (bool, optional): Whether to translate the text and title or not. Defaults to True.
     """
+    global selection
     if translate:
         title = translator.Translate(title)
         text = translator.Translate(text)
@@ -1095,6 +1088,7 @@ def ShowInfo(text, title="Info", translate=True):
         title (str, optional): The title of the info message. Defaults to "Info".
         translate (bool, optional): Whether to translate the text and title or not. Defaults to True.
     """
+    global selection
     if translate:
         title = translator.Translate(title)
         text = translator.Translate(text)

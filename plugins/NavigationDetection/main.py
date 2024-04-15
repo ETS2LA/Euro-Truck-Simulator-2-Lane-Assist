@@ -239,28 +239,14 @@ class Net(nn.Module):
 
 
 def preprocess_image(image):
-    global IMG_WIDTH
-    global IMG_HEIGHT
-    try:
-        transform = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize((IMG_HEIGHT, IMG_WIDTH)),
-            transforms.Grayscale(),
-            transforms.Lambda(lambda x: x.point(lambda p: p > 128 and 255)),
-            transforms.ToTensor()
-        ])
-        image_pil = transform(image)
-    except:
-        IMG_WIDTH = GetAIModelProperties()[2][0]
-        IMG_HEIGHT = GetAIModelProperties()[2][1]
-        transform = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize((IMG_HEIGHT, IMG_WIDTH)),
-            transforms.Grayscale(),
-            transforms.Lambda(lambda x: x.point(lambda p: p > 128 and 255)),
-            transforms.ToTensor()
-        ])
-        image_pil = transform(image)
+    transform = transforms.Compose([
+        transforms.ToPILImage(),
+        transforms.Resize((IMG_HEIGHT, IMG_WIDTH)),
+        transforms.Grayscale(),
+        transforms.Lambda(lambda x: x.point(lambda p: p > 128 and 255)),
+        transforms.ToTensor()
+    ])
+    image_pil = transform(image)
     return image_pil.unsqueeze(0).to(AIDevice)
 
 
@@ -1316,9 +1302,14 @@ def plugin(data):
 
     else:
         try:
+            global IMG_WIDTH
+            global IMG_HEIGHT
 
-            while AIModelUpdateThread.is_alive(): return data
-            while AIModelLoadThread.is_alive(): return data
+            try:
+                while AIModelUpdateThread.is_alive(): return data
+                while AIModelLoadThread.is_alive(): return data
+            except:
+                return data
 
             try:
                 frame = data["frame"]
@@ -1348,7 +1339,17 @@ def plugin(data):
             mask = cv2.bitwise_or(mask_red, mask_green)
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
             frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
-            AIFrame = preprocess_image(mask)
+
+            try:
+                AIFrame = preprocess_image(mask)
+            except:
+                IMG_WIDTH = GetAIModelProperties()[2][0]
+                IMG_HEIGHT = GetAIModelProperties()[2][1]
+                if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
+                    print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
+                    console.RestoreConsole()
+                    return data
+                AIFrame = preprocess_image(mask)
             
             output = 0
 

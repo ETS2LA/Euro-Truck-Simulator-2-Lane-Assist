@@ -19,7 +19,41 @@ The main file that runs the programs loop.
 # 
 # sys.settrace(trace)
 
+
+# Change from tkwebview2 to our custom version
 import os
+import sys
+import threading
+doRestart = False
+def CheckTkWebview2InstallVersion():
+    global doRestart
+    def ChangeVer():
+        global doRestart
+        print(" -- Changing tkwebview2 version -- ")
+        os.system("pip uninstall -y tkwebview2")
+        os.system("pip install git+https://github.com/Tumppi066/tkwebview2.git")
+        print(" -- Restarting -- ")
+        input("Press enter to exit the app, please restart after...")
+        doRestart = True  
+        
+    try:
+        try:
+            import pkg_resources
+        except ImportError:
+            os.system("pip install pkg_resources")
+        ver = pkg_resources.get_distribution('tkwebview2').version
+        if ver != "0.1":
+            ChangeVer()
+    except:
+        ChangeVer()
+        
+        
+thread = threading.Thread(target=CheckTkWebview2InstallVersion)
+thread.start()
+thread.join()
+if doRestart:
+    sys.exit()
+
 # hide pygame welcome message before importing pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import cv2
@@ -76,7 +110,7 @@ try:
         settings.AddToList("Plugins", "Enabled", "BetterCamScreenCapture")
 except: pass
 
-listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel", "PyQt5"]
+listOfRequirementsAddedLater = ["colorama", "bettercam", "matplotlib", "pywebview", "vdf", "deep-translator", "Babel"]
 listOfRequirementsAddedLater = [i.replace("-", "_") for i in listOfRequirementsAddedLater]
 # Get list of installed modules using importlib
 installed = [i.name for i in importlib_metadata.distributions()]
@@ -256,7 +290,7 @@ def UpdatePlugins(dynamicOrder, data):
                 data["executionTimes"][plugin.PluginInfo.name] = endTime - startTime
                         
         except Exception as ex:
-            print(ex.args + f"[{plugin.PluginInfo.name}]")
+            print(ex.args[0] + f"[{plugin.PluginInfo.name}]")
             pass
     return data
 
