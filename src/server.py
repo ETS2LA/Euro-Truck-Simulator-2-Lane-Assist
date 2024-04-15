@@ -106,28 +106,11 @@ def GetUserCount():
 def Ping():
     """Will send a ping to the server, doesn't send any data."""
     try:
-        if os.path.exists(var.PATH + f'/last_ping.txt'):
-            with open(var.PATH + f'/last_ping.txt', 'r') as file:
-                file_content = file.read().strip()
-                if file_content != "":
-                    last_ping = float(file_content)
-                else:
-                    last_ping = 0
-                file.close()
-        else:
-            with open(var.PATH + f'/last_ping.txt', 'w') as file:
-                file.seek(0)
-                file.truncate()
-                file.write(str(0))
-                file.close()
-            last_ping = 0
-        if last_ping + 59 < time.time():
+        last_ping = float(settings.GetSettings("User Interface", "last_ping", 0))
+        current_time = time.time()
+        if last_ping + 59 < current_time:
             url = 'https://crash.tumppi066.fi/ping'
             requests.get(url, timeout=1)
-            with open(var.PATH + f'/last_ping.txt', 'w') as file:
-                file.seek(0)
-                file.truncate()
-                file.write(str(time.time()))
-                file.close()
+            settings.CreateSettings("User Interface", "last_ping", str(current_time))
     except:
         pass
