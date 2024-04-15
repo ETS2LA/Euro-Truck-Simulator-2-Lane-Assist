@@ -1348,6 +1348,7 @@ def plugin(data):
                 if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
                     print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
                     console.RestoreConsole()
+                    return data
                 AIFrame = preprocess_image(mask)
             
             output = 0
