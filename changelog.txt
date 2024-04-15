@@ -1,1 +1,1 @@
-Fix Bettercam Screencapture not showing in the plugin manager.
+Fix tkwebview version changer.

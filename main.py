@@ -27,18 +27,26 @@ import threading
 doRestart = False
 def CheckTkWebview2InstallVersion():
     global doRestart
-    try:
-        import tkwebview2
-        ver = tkwebview2.version
-        del tkwebview2
-    except:
+    def ChangeVer():
+        global doRestart
         print(" -- Changing tkwebview2 version -- ")
         os.system("pip uninstall -y tkwebview2")
         os.system("pip install git+https://github.com/Tumppi066/tkwebview2.git")
         print(" -- Restarting -- ")
-        from tkinter import messagebox
-        messagebox.showinfo("Info", "tkwebview2 was updated. Please restart the application.")
+        input("Press enter to exit the app, please restart after...")
         doRestart = True  
+        
+    try:
+        try:
+            import pkg_resources
+        except ImportError:
+            os.system("pip install pkg_resources")
+        ver = pkg_resources.get_distribution('tkwebview2').version
+        if ver != "0.1":
+            ChangeVer()
+    except:
+        ChangeVer()
+        
         
 thread = threading.Thread(target=CheckTkWebview2InstallVersion)
 thread.start()
