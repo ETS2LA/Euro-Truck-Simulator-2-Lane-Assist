@@ -17,30 +17,44 @@ import { toast } from "sonner";
 import useSWR from "swr";
 
 export default function Home({ ip }: { ip: string }) {
+
+    const defaultWindowScale = "1.0";
+
     const {data, error, isLoading} = useSWR("ShowImage", () => GetSettingsJSON("ShowImage", ip));
-    const [enabled, setEnabled] = useState<boolean | undefined>(undefined);
+
+    const [ResetSymbolSaveWindowPosition, setResetSymbolSaveWindowPosition] = useState<boolean>(false);
+    const [ResetSymbolResetWindow, setResetSymbolResetWindow] = useState<boolean>(false);
+    const [WindowScale, setWindowScale] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (data) {
-            if (data.enabled !== undefined) {
-                setEnabled(data.enabled);
-            } else {
-                setEnabled(false);
-            }
+
+            if (data.WindowScale !== undefined) { setWindowScale(data.WindowScale); } else { setWindowScale(defaultWindowScale); }
+
         }
     }, [data]);
 
     if (isLoading) return <p>Loading...</p>
     if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
 
-    const handleCheckboxChange = async () => {
-        const newValue = !enabled;
-        await toast.promise(SetSettingByKey("ShowImage", "enabled", newValue, ip), {
+    const SaveWindowPosition = async () => {
+
+    };
+
+    const ResetWindow = async () => {
+        
+    };
+
+    const UpdateWindowScale = async (e:any) => {
+        let newWindowScale = (e.target as HTMLInputElement).value;
+        let valid = !isNaN(parseFloat(newWindowScale));
+        if (valid) { if (parseFloat(newWindowScale) < 0.1) { newWindowScale = "0.1"; } if (parseFloat(newWindowScale) > 5.0) { newWindowScale = "5.0"; } }
+        toast.promise(SetSettingByKey("ShowImage", "WindowScale", valid ? parseFloat(newWindowScale) : defaultWindowScale, ip), {
             loading: "Saving...",
-            success: "Set value to " + newValue,
+            success: "Set value to " + parseFloat(newWindowScale),
             error: "Failed to save"
         });
-        setEnabled(newValue);
+        setWindowScale(newWindowScale);
     };
 
     return (
@@ -66,9 +80,42 @@ export default function Home({ ip }: { ip: string }) {
                 </TabsList>
                 <TabsContent value="general">
 
+                    <div style={{ position: 'absolute', left: '-227px', right: '12pt' }}>
 
-                    {/* code */}
+                        <div className="flex flex-row" style={{ position: 'relative', top: '26px', left: '0px' }}>
+                            <Label>
+                                The settings below will only take effect when the plugin is currently running.
+                            </Label>
+                        </div>
 
+                        <div className="flex flex-row" style={{ position: 'relative', top: '35px', left: '0px' }}>
+                            <Button variant={'outline'} onClick={() => {setResetSymbolSaveWindowPosition(true); setTimeout(() => {setResetSymbolSaveWindowPosition(false);}, 1000); SaveWindowPosition();}}>
+                                Save window position
+                            </Button>
+                            {ResetSymbolSaveWindowPosition && (
+                                <div style={{ position: 'relative', top: '6px', left: '5px' }} className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
+                            )}
+                        </div>
+
+                        <div className="flex flex-row" style={{ position: 'relative', top: '43px', left: '0px' }}>
+                            <Button variant={'outline'} onClick={() => {setResetSymbolResetWindow(true); setTimeout(() => {setResetSymbolResetWindow(false);}, 1000); ResetWindow();}}>
+                                Set to window to default aspect ratio, apply scale and save position
+                            </Button>
+                            {ResetSymbolResetWindow && (
+                                <div style={{ position: 'relative', top: '6px', left: '5px' }} className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
+                            )}
+                        </div>
+                        
+                        {WindowScale !== undefined && (
+                        <div className="flex flex-row" style={{ position: 'relative', top: '51px', left: '0px' }}>
+                            <Input placeholder={String(defaultWindowScale)} id="windowscale" value={!isNaN(parseFloat(WindowScale)) ? WindowScale : ''}  onChangeCapture={(e) => UpdateWindowScale(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
+                            <Label htmlFor="windowscale" style={{ position: 'relative', top: '6px', left: '8px' }}>
+                                Window Scale
+                            </Label>
+                        </div>
+                        )}
+
+                    </div>
 
                 </TabsContent>
             </Tabs>
