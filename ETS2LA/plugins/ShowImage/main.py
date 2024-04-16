@@ -7,7 +7,6 @@ import time
 import cv2
 import copy
 import ctypes
-user32 = ctypes.windll.user32
 
 PluginInfo = PluginInformation(
     name="ShowImage",
@@ -22,19 +21,27 @@ def LoadSettings(json):
 settings.Set("ShowImage", "enabled", True)
 settings.Listen("ShowImage", LoadSettings)
 
-cv2.namedWindow("img", cv2.WINDOW_NORMAL)
-cv2.resizeWindow("img", round(user32.GetSystemMetrics(0)*0.40), round(user32.GetSystemMetrics(1)*0.40))
+cv2.namedWindow("Lane Assist", cv2.WINDOW_NORMAL)
+cv2.setWindowProperty("Lane Assist", cv2.WND_PROP_TOPMOST, 1)
+cv2.resizeWindow("Lane Assist", settings.Get("ScreenCapture", "width", 420), settings.Get("ScreenCapture", "height", 220))
 
 def plugin(runner:PluginRunner):
     try:
-        startTime = time.time()
-        img = runner.GetData(["ScreenCapture"]) # MSS image object
-        endTime = time.time()
-        # print(f"GetData(['ScreenCapture']) time: {round((endTime - startTime)*1000,1)}ms")
+        try:
+            _, _, window_width, window_height = cv2.getWindowImageRect("Lane Assist")
+        except:
+            window_width = settings.Get("ScreenCapture", "width", 420)
+            window_height = settings.Get("ScreenCapture", "height", 220)
+            cv2.namedWindow("Lane Assist", cv2.WINDOW_NORMAL)
+            cv2.setWindowProperty("Lane Assist", cv2.WND_PROP_TOPMOST, 1)
+            cv2.resizeWindow("Lane Assist", window_width, window_height)
+
+        img = runner.GetData(["ScreenCapture"])
         img = img[0]
         if type(img) != np.ndarray:
             return
-        cv2.imshow("img", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+
+        cv2.imshow("Lane Assist", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         cv2.waitKey(1)
     except:
         import traceback
