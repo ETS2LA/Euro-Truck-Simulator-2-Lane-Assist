@@ -92,9 +92,12 @@ class UI():
                 console.HideConsole()
 
         def open_menu(self):
-            import subprocess
             import os
-            subprocess.Popen(os.path.dirname(os.path.dirname(variables.PATH)) + "\menu.bat")
+            if os.path.exists(os.path.dirname(os.path.dirname(variables.PATH)) + "\menu.bat"):
+                import subprocess
+                subprocess.Popen(os.path.dirname(os.path.dirname(variables.PATH)) + "\menu.bat")
+            else:
+                helpers.Dialog("Information","The menu.bat file could not be found.\nNote: Only available for app installations before version 1.11.0.", ["Exit"], "Exit")
 
         def show_crashreports_info(self):
             if self.crashreport.get():
