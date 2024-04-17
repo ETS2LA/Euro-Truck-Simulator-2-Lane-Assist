@@ -920,8 +920,8 @@ def plugin(data):
 
                 trafficlight_x, trafficlight_z = position_C
                 
-                angle = (y1 - screen_height / 2) * (fov / screen_height) - head_rotation_degrees_y
-                trafficlight_y = head_y + (math.sin(head_rotation_degrees_y) * math.sqrt((truck_x - head_x)**2 + (truck_z - head_z)**2))
+                angle = (y1 - screen_height / 2) * ((fov / screen_width) * (screen_height / screen_width)) + head_rotation_degrees_y
+                trafficlight_y = head_y + (math.sin(angle) / math.sqrt((trafficlight_x - head_x)**2 + (trafficlight_z - head_z)**2))
 
                 if previous_trafficlight_x != None and previous_trafficlight_y != None and previous_trafficlight_z != None:
                     trafficlight_x = previous_trafficlight_x + (trafficlight_x - previous_trafficlight_x) / 5
