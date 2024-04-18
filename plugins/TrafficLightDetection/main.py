@@ -406,7 +406,7 @@ def plugin(data):
         point_y = head_offset_y
         point_z = head_offset_z
         head_x = point_x * math.cos(truck_rotation_radians_x) - point_z * math.sin(truck_rotation_radians_x) + truck_x
-        head_y = point_y * math.cos(head_rotation_degrees_y) - point_y * math.sin(head_rotation_degrees_y) + truck_y
+        head_y = point_y * math.cos(math.radians(head_rotation_degrees_y)) - point_z * math.sin(math.radians(head_rotation_degrees_y)) + truck_y
         head_z = point_x * math.sin(truck_rotation_radians_x) + point_z * math.cos(truck_rotation_radians_x) + truck_z
     except:
         truck_x = 0
