@@ -14,6 +14,8 @@ GetSettings(category, name, value=None)
 import json
 from src.logger import print
 from src.variables import PATH, FRAMECOUNTER
+import src.mainUI
+import src.helpers as helpers
 import os
 
 currentProfile = ""
@@ -55,10 +57,19 @@ def EnsureFile(file:str):
     """
     try:
         with open(file, "r") as f:
+            # Check if the file is valid json
+            try:
+                json.load(f)
+            except:
+                helpers.ShowFailure("\nJSON settings file corrupted, pressing OK will reset your settings and restart the app.\nPlease remember to redo the first time setup.", "Corrupted settings file")
+                with open(file, "w") as ff:
+                    ff.write("{}")
+                src.mainUI.quit()
             pass
     except:
         with open(file, "w") as f:
             f.write("{}")
+            
 
 def ChangeProfile():
     """Will change the currently selected profile and reload the app.

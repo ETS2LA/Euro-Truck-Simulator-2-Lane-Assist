@@ -1,1 +1,1 @@
-Fix tkwebview version changer.
+Add native detection of corrupted settings files.
