@@ -80,7 +80,7 @@ def updateSettings():
     global keyboardSensitivity
     global keyboardReturnSensitivity
         
-    maximumControl = verifySetting("DefaultSteering", "maximumControl", 0.2)
+    maximumControl = verifySetting("DefaultSteering", "maximumControl", 1.0)
     controlSmoothness = verifySetting("DefaultSteering", "smoothness", 4)
     sensitivity = verifySetting("DefaultSteering", "sensitivity", 0.4)
     offset = verifySetting("DefaultSteering", "offset", 0)

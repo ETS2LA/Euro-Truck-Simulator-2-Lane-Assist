@@ -1,1 +1,1 @@
-Add native detection of corrupted settings files.
+Set default steering maximum control to 1.0 on new installs.
