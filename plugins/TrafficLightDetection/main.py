@@ -921,7 +921,8 @@ def plugin(data):
                 trafficlight_x, trafficlight_z = position_C
                 
                 angle = (y1 - screen_height / 2) * ((fov / screen_width) * (screen_height / screen_width)) + head_rotation_degrees_y
-                trafficlight_y = head_y + (math.sin(angle) / math.sqrt((trafficlight_x - head_x)**2 + (trafficlight_z - head_z)**2))
+                distance = math.sqrt((trafficlight_x - head_x)**2 + (trafficlight_z - head_z)**2)
+                trafficlight_y = head_y + (math.sin(angle) / distance if distance != 0 else 0.0001)
 
                 if previous_trafficlight_x != None and previous_trafficlight_y != None and previous_trafficlight_z != None:
                     trafficlight_x = previous_trafficlight_x + (trafficlight_x - previous_trafficlight_x) / 5
@@ -1067,7 +1068,7 @@ def plugin(data):
                         color = (0, 255, 255)
                     elif state == "Green":
                         color = (0, 255, 0)
-                    cv2.circle(positionestimation_frame, (x, y - round(positionestimation_frame_height * 0.179)), round(positionestimation_frame_height/100), color, -1)
+                    cv2.circle(positionestimation_frame, (int(x), int(y - round(positionestimation_frame_height * 0.179))), round(positionestimation_frame_height/100), color, -1)
 
         except Exception as e:
             exc = traceback.format_exc()
