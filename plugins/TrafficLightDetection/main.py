@@ -25,6 +25,7 @@ import tkinter as tk
 import numpy as np
 import threading
 import traceback
+import win32gui
 import socket
 import ctypes
 import math
@@ -47,6 +48,8 @@ lower_yellow = np.array([200, 170, 50])
 upper_yellow = np.array([255, 240, 170])
 
 yolo_model_loaded = False
+
+last_GetGamePosition = 0, 0, 0, screen_width, screen_height
 
 def UpdateSettings():
     global min_rect_size
@@ -350,6 +353,40 @@ def yolo_detection_function(yolo_detection_frame):
             if (int(box['xmin']) < round(yolo_detection_frame.shape[1] / 2) < int(box['xmax'])) and (int(box['ymin']) < round(yolo_detection_frame.shape[0] / 2) < int(box['ymax'])):
                 trafficlight = True
     return trafficlight
+
+
+def GetGamePosition():
+    global last_GetGamePosition
+    if last_GetGamePosition[0] + 3 < time.time():
+        hwnd = None
+        top_windows = []
+        win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+        for hwnd, window_text in top_windows:
+            if "Truck Simulator" in window_text and "Discord" not in window_text:
+                rect = win32gui.GetClientRect(hwnd)
+                tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                break
+        last_GetGamePosition = time.time(), window[0], window[1], window[2], window[3]
+        return window[0], window[1], window[2], window[3]
+    else:
+        return last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
+
+
+def ConvertToAngle(x, y):
+
+    window_x, window_y, window_width, window_height = GetGamePosition()
+
+    real_hfov = (4 / 3) * math.atan((math.tan(math.radians(fov / 2)) * (window_width / window_height)) / 1.333) * (360 / math.pi)
+    real_vfov = math.atan(math.tan(math.radians(real_hfov / 2)) / (window_width / window_height)) * (360 / math.pi)
+
+    angle_x = (x - window_width / 2) * (real_hfov / window_width)
+    angle_y = (window_height / 2 - y) * (real_vfov / window_height)
+
+    print(f"angle_x: {angle_x}, angle_y: {angle_y}")
+
+    return angle_x, angle_y
 
 
 def plugin(data):
@@ -842,7 +879,7 @@ def plugin(data):
                     for k, (coord, position, id, approved) in enumerate(trafficlights):
                         if coord == last_coordinates[i]:
                             exists_in_trafficlights = True
-                            angle = ((x1 + nearestpoint[0]) - screen_width / 2) * (fov / screen_width)
+                            angle = ConvertToAngle(nearestpoint[0], nearestpoint[1])[0]
                             saved_position = (position[0], (head_x, head_z, angle, head_rotation_degrees_x), position[2])
                             saved_id = id
                             saved_approved = approved
@@ -852,7 +889,7 @@ def plugin(data):
                         trafficlights.append((nearestpoint, saved_position, saved_id, saved_approved))
                     else:
                         new_id = generate_new_id()
-                        angle = ((x1 + nearestpoint[0]) - screen_width / 2) * (fov / screen_width)
+                        angle = ConvertToAngle(nearestpoint[0], nearestpoint[1])[0]
                         if yolo_detection == True:
                             x, y, w, h, state = nearestpoint
                             x1_confirmation = round(x - w*6)
@@ -892,6 +929,7 @@ def plugin(data):
 
     try:
         for i, (coord, ((previous_trafficlight_x, previous_trafficlight_y, previous_trafficlight_z), (head_x, head_z, head_angle, head_rotation), (first_head_x, first_head_z, first_head_angle, first_head_rotation)), id, approved) in enumerate(trafficlights):
+            x, y, w, h, state = coord
 
             angle_offset = first_head_rotation - head_rotation
 
@@ -919,8 +957,8 @@ def plugin(data):
                 position_C = (position_A[0] + position_C_x * direction_unit_AB[0] - position_C_y * direction_unit_perpendicular_ab[0], position_A[1] + position_C_x * direction_unit_AB[1] - position_C_y * direction_unit_perpendicular_ab[1])
 
                 trafficlight_x, trafficlight_z = position_C
-                
-                angle = (y1 - screen_height / 2) * ((fov / screen_width) * (screen_height / screen_width)) + head_rotation_degrees_y
+
+                angle = ConvertToAngle(x, y)[1]
                 distance = math.sqrt((trafficlight_x - head_x)**2 + (trafficlight_z - head_z)**2)
                 trafficlight_y = head_y + (math.sin(angle) / distance if distance != 0 else 0.0001)
 
