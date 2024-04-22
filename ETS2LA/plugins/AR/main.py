@@ -1,0 +1,395 @@
+from ETS2LA.plugins.plugin import PluginInformation
+PluginInfo = PluginInformation(
+    name="AR",
+    description="in development",
+    version="1.0",
+    author="Glas42, Tumppi066"
+)
+
+from ETS2LA.plugins.runner import PluginRunner
+import ETS2LA.backend.variables as variables
+import ETS2LA.backend.settings as settings
+
+import dearpygui.dearpygui as dpg
+from ctypes import c_int
+import win32con
+import win32gui
+import ctypes
+import math
+import time
+import mss
+
+
+drawlist = None
+sct = mss.mss()
+dwm = ctypes.windll.dwmapi
+
+
+def LoadSettings():
+    global screen_width
+    global screen_height
+    global window_width
+    global window_height
+
+    global fov
+    global window
+    global last_window_position
+
+    monitor = settings.GetSettings("bettercam", "display", 0)
+    monitor = sct.monitors[(monitor + 1)]
+    screen_width = monitor["width"]
+    screen_height = monitor["height"]
+    window_width = screen_width
+    window_height = screen_height
+
+    fov = settings.GetSettings("AR", "FOV", 80)
+    window = (0, 0, screen_width, screen_height)
+    last_window_position = (0, 0, 0, screen_width, screen_height)
+
+
+class MARGINS(ctypes.Structure):
+    _fields_ = [("cxLeftWidth", c_int),
+                ("cxRightWidth", c_int),
+                ("cyTopHeight", c_int),
+                ("cyBottomHeight", c_int)
+               ]
+
+class Line:
+    start: tuple
+    end: tuple
+    color: tuple
+    thickness: int
+    def __init__(self, start, end, color=[255, 255, 255, 255], thickness=1):
+        self.start = start
+        self.end = end
+        self.color = color
+        self.thickness = thickness
+
+class Circle:
+    x: int
+    y: int
+    radius: int
+    fill: tuple
+    color: tuple
+    thickness: int
+    def __init__(self, x, y, radius, fill=[0, 0, 0, 0], color=[255, 255, 255, 255], thickness=1):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.fill = fill
+        self.color = color
+        self.thickness = thickness
+        
+class Box:
+    x: int
+    y: int
+    width: int
+    height: int
+    fill: tuple
+    color: tuple
+    thickness: int
+    def __init__(self, x, y, width, height, fill=[0, 0, 0, 0], color=[255, 255, 255, 255], thickness=1):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height 
+        self.fill = fill
+        self.color = color
+        self.thickness = thickness
+        
+class Polygon:
+    points: list
+    fill: tuple
+    color: tuple
+    thickness: int
+    closed: bool
+    def __init__(self, points, fill=[0, 0, 0, 0], color=[255, 255, 255, 255], thickness=1, closed=False):
+        self.points = points
+        self.fill = fill
+        self.color = color
+        self.thickness = thickness
+        self.closed = closed
+        if closed:
+            self.points.append(points[0])
+
+
+def initialize():
+    global window
+
+    hwnd = win32gui.FindWindow(None, "ETS2LA - AR/Overlay")
+    if hwnd:
+        return
+    try:
+
+        hwnd = None
+        top_windows = []
+        win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+        for hwnd, window_text in top_windows:
+            if "Truck Simulator" in window_text and "Discord" not in window_text: # the overlay could open over the discord because of the ets2la discord name :xdd:
+                rect = win32gui.GetClientRect(hwnd)
+                tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                break
+
+        dpg.create_context()
+        dpg.create_viewport(title='ETS2LA - AR/Overlay', always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=window[0], y_pos=window[1], width=window[2], height=window[3])
+        dpg.set_viewport_always_top(True)
+        dpg.setup_dearpygui()
+        dpg.show_viewport()
+
+        hwnd = win32gui.FindWindow(None, "ETS2LA - AR/Overlay")
+
+        margins = MARGINS(-1, -1,-1, -1)
+        dwm.DwmExtendFrameIntoClientArea(hwnd, margins)
+        win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT)
+    except:
+        import traceback
+        print(traceback.format_exc())
+
+
+def close():
+    dpg.stop_dearpygui()
+    dpg.destroy_context()
+    hwnd = win32gui.FindWindow(None, "ETS2LA - AR/Overlay")
+    if hwnd:
+        win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+
+
+def resize():
+    close()
+    initialize()
+
+
+def draw(data):
+    global drawlist
+    lines = data["overlay"]["lines"]
+    circles = data["overlay"]["circles"]
+    boxes = data["overlay"]["boxes"]
+    polygons = data["overlay"]["polygons"]
+
+    dpg.delete_item(drawlist)
+
+    with dpg.viewport_drawlist(label="draw") as drawlist:
+
+        for line in lines:
+            if line.start[0] == None or line.start[1] == None or line.end[0] == None or line.end[1] == None:
+                continue
+            dpg.draw_line([line.start[0], line.start[1]], [line.end[0], line.end[1]], color=line.color, thickness=line.thickness)
+
+        for circle in circles:
+            if circle.x == None or circle.y == None or circle.radius == None:
+                continue
+            dpg.draw_circle([circle.x, circle.y], circle.radius, fill=circle.fill, color=circle.color, thickness=circle.thickness)
+    
+        for box in boxes:
+            dpg.draw_rectangle([box.x, box.y], [box.x + box.width, box.y + box.height], fill=box.fill, color=box.color, thickness=box.thickness)
+
+        for polygon in polygons:
+            for point in polygon.points:
+                if point[0] == None or point[1] == None:
+                    polygon.points.remove(point)
+            if len(polygon.points) <= 2 if polygon.closed else len(polygon.points) <= 1:
+                continue
+            dpg.draw_polygon(polygon.points, fill=polygon.fill, color=polygon.color, thickness=polygon.thickness)
+    
+    dpg.render_dearpygui_frame()
+
+
+def ConvertToScreenCoordinate(x:float, y:float, z:float):
+
+    head_yaw = head_rotation_degrees_x
+    head_pitch = head_rotation_degrees_y
+    head_roll = head_rotation_degrees_z
+
+    rel_x = x - head_x
+    rel_y = y - head_y
+    rel_z = z - head_z
+
+    cos_yaw = math.cos(math.radians(-head_yaw))
+    sin_yaw = math.sin(math.radians(-head_yaw))
+    new_x = rel_x * cos_yaw + rel_z * sin_yaw
+    new_z = rel_z * cos_yaw - rel_x * sin_yaw
+
+    cos_pitch = math.cos(math.radians(-head_pitch))
+    sin_pitch = math.sin(math.radians(-head_pitch))
+    new_y = rel_y * cos_pitch - new_z * sin_pitch
+    final_z = new_z * cos_pitch + rel_y * sin_pitch
+
+    cos_roll = math.cos(math.radians(head_roll))
+    sin_roll = math.sin(math.radians(head_roll))
+    final_x = new_x * cos_roll - new_y * sin_roll
+    final_y = new_y * cos_roll + new_x * sin_roll
+
+    if final_z >= 0:
+        return None, None, None
+
+    fov_rad = math.radians(fov)
+    window_distance = (window_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
+
+    screen_x = (final_x / final_z) * window_distance + window_width / 2
+    screen_y = (final_y / final_z) * window_distance * (3 / 4) + window_height / 2
+
+    screen_x = window_width - screen_x
+
+    distance = math.sqrt((rel_x ** 2) + (rel_y ** 2) + (rel_z ** 2))
+
+    return screen_x, screen_y, distance
+
+
+def plugin(runner):
+    global window
+    global window_width
+    global window_height
+    global last_window_position
+
+    global head_x
+    global head_y
+    global head_z
+    global head_rotation_degrees_x
+    global head_rotation_degrees_y
+    global head_rotation_degrees_z
+
+
+    current_time = time.time()
+    if last_window_position[0] + 1 < current_time:
+        hwnd = None
+        top_windows = []
+        win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+        for hwnd, window_text in top_windows:
+            if "Truck Simulator" in window_text and "Discord" not in window_text: # the overlay could open over the discord because of the ets2la discord name :xdd:
+                rect = win32gui.GetClientRect(hwnd)
+                tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                window_width = window[2]
+                window_height = window[3]
+                break
+        if window[0] != last_window_position[1] or window[1] != last_window_position[2] or window[2] != last_window_position[3] or window[3] != last_window_position[4]:
+            pass
+            #resize()
+        last_window_position = (current_time, window[0], window[1], window[2], window[3])
+
+
+    try:
+        truck_x = data["api"]["truckPlacement"]["coordinateX"]
+        truck_y = data["api"]["truckPlacement"]["coordinateY"]
+        truck_z = data["api"]["truckPlacement"]["coordinateZ"]
+        truck_rotation_x = data["api"]["truckPlacement"]["rotationX"]
+        truck_rotation_y = data["api"]["truckPlacement"]["rotationY"]
+        truck_rotation_z = data["api"]["truckPlacement"]["rotationZ"]
+
+        cabin_offset_x = data["api"]["headPlacement"]["cabinOffsetX"] + data["api"]["configVector"]["cabinPositionX"]
+        cabin_offset_y = data["api"]["headPlacement"]["cabinOffsetY"] + data["api"]["configVector"]["cabinPositionY"]
+        cabin_offset_z = data["api"]["headPlacement"]["cabinOffsetZ"] + data["api"]["configVector"]["cabinPositionZ"]
+        cabin_offset_rotation_x = data["api"]["headPlacement"]["cabinOffsetrotationX"]
+        cabin_offset_rotation_y = data["api"]["headPlacement"]["cabinOffsetrotationY"]
+        cabin_offset_rotation_z = data["api"]["headPlacement"]["cabinOffsetrotationZ"]
+
+        head_offset_x = data["api"]["headPlacement"]["headOffsetX"] + data["api"]["configVector"]["headPositionX"] + cabin_offset_x
+        head_offset_y = data["api"]["headPlacement"]["headOffsetY"] + data["api"]["configVector"]["headPositionY"] + cabin_offset_y
+        head_offset_z = data["api"]["headPlacement"]["headOffsetZ"] + data["api"]["configVector"]["headPositionZ"] + cabin_offset_z
+        head_offset_rotation_x = data["api"]["headPlacement"]["headOffsetrotationX"]
+        head_offset_rotation_y = data["api"]["headPlacement"]["headOffsetrotationY"]
+        head_offset_rotation_z = data["api"]["headPlacement"]["headOffsetrotationZ"]
+        
+        truck_rotation_degrees_x = truck_rotation_x * 360
+        truck_rotation_radians_x = -math.radians(truck_rotation_degrees_x)
+
+        head_rotation_degrees_x = (truck_rotation_x + cabin_offset_rotation_x + head_offset_rotation_x) * 360
+        while head_rotation_degrees_x > 360:
+            head_rotation_degrees_x = head_rotation_degrees_x - 360
+
+        head_rotation_degrees_y = (truck_rotation_y + cabin_offset_rotation_y + head_offset_rotation_y) * 360
+
+        head_rotation_degrees_z = (truck_rotation_z + cabin_offset_rotation_z + head_offset_rotation_z) * 360
+
+        point_x = head_offset_x
+        point_y = head_offset_y
+        point_z = head_offset_z
+        head_x = point_x * math.cos(truck_rotation_radians_x) - point_z * math.sin(truck_rotation_radians_x) + truck_x
+        head_y = point_y * math.cos(math.radians(head_rotation_degrees_y)) - point_z * math.sin(math.radians(head_rotation_degrees_y)) + truck_y
+        head_z = point_x * math.sin(truck_rotation_radians_x) + point_z * math.cos(truck_rotation_radians_x) + truck_z
+
+    except:
+
+        truck_x = 0
+        truck_y = 0
+        truck_z = 0
+        truck_rotation_x = 0
+        truck_rotation_y = 0
+        truck_rotation_z = 0
+
+        cabin_offset_x = 0
+        cabin_offset_y = 0
+        cabin_offset_z = 0
+        cabin_offset_rotation_x = 0
+        cabin_offset_rotation_y = 0
+        cabin_offset_rotation_z = 0
+
+        head_offset_x = 0
+        head_offset_y = 0
+        head_offset_z = 0
+        head_offset_rotation_x = 0
+        head_offset_rotation_y = 0
+        head_offset_rotation_z = 0
+
+        truck_rotation_degrees_x = 0
+        truck_rotation_radians_x = 0
+
+        head_rotation_degrees_x = 0
+        head_rotation_degrees_y = 0
+        head_rotation_degrees_z = 0
+
+        head_x = 0
+        head_y = 0
+        head_z = 0
+
+
+    x1, y1, d1 = ConvertToScreenCoordinate(x=10448.742, y=35.324, z=-10132.315)
+
+    x2, y2, d2 = ConvertToScreenCoordinate(x=10453.237, y=36.324, z=-10130.404)
+
+    x3, y3, d3 = ConvertToScreenCoordinate(x=10453.237, y=34.324, z=-10130.404)
+    
+
+    try:
+        data["overlay"]
+    except:
+        data["overlay"] = {}
+        data["overlay"]["lines"] = []
+        data["overlay"]["circles"] = []
+        data["overlay"]["boxes"] = []
+        data["overlay"]["polygons"] = []
+    
+    alpha_zones = [
+        (0, 10, 0),
+        (10, 30, lambda x: int((x - 10) / 20 * 255)),
+        (30, 130, 255),
+        (130, 150, lambda x: 255 - int((x - 130) / 20 * 255)),
+        (150, float('inf'), 0)
+    ]
+
+    def calculate_alpha(avg_d):
+        for zone in alpha_zones:
+            if avg_d < zone[1]:
+                if callable(zone[2]):
+                    return zone[2](avg_d)
+                else:
+                    return zone[2]
+        return 0
+
+    if d1 != None and d2 != None and d3 != None:
+        avg_d = (d1 + d2 + d3) / 3
+    else:
+        avg_d = 0
+    alpha = calculate_alpha(avg_d)
+
+
+    data["overlay"]["polygons"].append(Polygon([[x1, y1], [x2, y2], [x3, y3]], fill=[255, 255, 255, int(alpha * 0.5)], color=[255, 255, 255, int(alpha)], closed=True))
+
+
+    draw(data)
+    
+
+    return data

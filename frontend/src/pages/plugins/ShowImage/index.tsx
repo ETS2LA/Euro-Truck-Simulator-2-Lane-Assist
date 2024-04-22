@@ -4,6 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardHeader } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
@@ -66,9 +67,11 @@ export default function Home({ ip }: { ip: string }) {
                         <Button variant="secondary" style={{ fontWeight: 'bold' }}>ShowImage</Button>
                     </CardHeader>
                 </PopoverTrigger>
-                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '50px', width: '225px' }}>
-                    <Label style={{ position: 'absolute', top: '15px', left: '10px', fontSize: '16px' }}>Created by Tumppi066</Label>
-                    <Avatar style={{ position: 'absolute', top: '8px', right: '10px', width: '32px', height: '32px' }}>
+                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '91px', width: '225px' }}>
+                    <Label style={{ position: 'absolute', top: '12px', left: '10px', fontSize: '16px' }}>Created by</Label>
+                    <Separator style={{ position: 'absolute', top: '40px', left: "0px" }}/>
+                    <Label style={{ position: 'absolute', top: '57px', left: '46px', fontSize: '16px' }}>Tumppi066</Label>
+                    <Avatar style={{ position: 'absolute', top: '49px', left: '8px', width: '32px', height: '32px' }}>
                         <AvatarImage src="https://avatars.githubusercontent.com/u/83072683?v=4"/>
                     </Avatar>
                 </PopoverContent>

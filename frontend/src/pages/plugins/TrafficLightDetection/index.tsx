@@ -4,6 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardHeader } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
@@ -587,104 +588,31 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
             <Popover>
                 <PopoverTrigger asChild>
-                    <CardHeader style={{ position: 'absolute', top: '43px', left: '-6px', width: '240px' }}>
+                    <CardHeader style={{ position: 'absolute', top: '43px', left: '-6px', width: '273px' }}>
                         <Button variant="secondary" style={{ fontWeight: 'bold' }}>TrafficLightDetection</Button>
                     </CardHeader>
                 </PopoverTrigger>
-                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '50px', width: '192px' }}>
-                    <Label style={{ position: 'absolute', top: '15px', left: '10px', fontSize: '16px' }}>Created by Glas42</Label>
-                    <Avatar style={{ position: 'absolute', top: '8px', right: '10px', width: '32px', height: '32px' }}>
+                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '91px', width: '225px' }}>
+                    <Label style={{ position: 'absolute', top: '12px', left: '10px', fontSize: '16px' }}>Created by</Label>
+                    <Separator style={{ position: 'absolute', top: '40px', left: "0px" }}/>
+                    <Label style={{ position: 'absolute', top: '57px', left: '46px', fontSize: '16px' }}>Glas42</Label>
+                    <Avatar style={{ position: 'absolute', top: '49px', left: '8px', width: '32px', height: '32px' }}>
                         <AvatarImage src="https://avatars.githubusercontent.com/u/145870870?v=4"/>
                     </Avatar>
                 </PopoverContent>
             </Popover>
 
-            <Tabs defaultValue="general" style={{ position: 'absolute', top: '47px', left: '215px', right: '13.5pt' }}>
-                <TabsList className="grid w-full grid-cols-6">
-                    <TabsTrigger value="test">Test</TabsTrigger>
+            <Tabs defaultValue="general" style={{ position: 'absolute', top: '47px', left: '248px', right: '13.5pt' }}>
+                <TabsList className="grid w-full grid-cols-5">
                     <TabsTrigger value="general">General</TabsTrigger>
                     <TabsTrigger value="screencapture">ScreenCapture</TabsTrigger>
                     <TabsTrigger value="outputwindow">OutputWindow</TabsTrigger>
                     <TabsTrigger value="trackerai">Tracker/AI</TabsTrigger>
                     <TabsTrigger value="advanced">Advanced</TabsTrigger>
                 </TabsList>
-                <TabsContent value="test">
-
-                    <div style={{ position: 'absolute', left: '-194px', right: '12pt' }}>
-
-                        <div style={{ position: 'absolute', top: '15px' }}>
-                            <Button>Primary Button</Button>
-                            <Button variant='secondary' style={{ marginLeft: '10px' }}>Secondary Button</Button>
-                            <Button variant='destructive' style={{ marginLeft: '10px' }}>Destructive Button</Button>
-                            <Button variant="outline" style={{ marginLeft: '10px' }}>Outline Button</Button>
-                            <Button variant="ghost" style={{ marginLeft: '10px' }}>Ghost Button</Button>
-                            <Button variant="link">Link Button</Button>
-                        </div>
-
-                        <div style={{ position: 'absolute', top: '62px' }}>
-                            <Switch id="switch" />
-                            <Label htmlFor="switch" style={{ position: 'relative', top: '-2px', left: '5px', width: '800px', textAlign: 'left' }}>This is a label which is connected to the switch. (you can click on the label to change the switch state)</Label>
-                        </div>
-
-                        <div style={{ position: 'absolute', top: '90px' }}>
-                            <Checkbox id="checkbox" />
-                            <Label htmlFor="checkbox" style={{ position: 'relative', top: '-2px', left: '5px', width: '800px', textAlign: 'left' }}>This is a label which is connected to the checkbox. (you can click on the label to change the checkbox state)</Label>
-                        </div>
-
-                        <div style={{ position: 'absolute', top: '120px', width: '200px' }}>
-                            <RadioGroup defaultValue="option1">
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="option1" id="r1"/>
-                                    <Label htmlFor="r1">Option 1</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="option2" id="r2"/>
-                                    <Label htmlFor="r2">Option 2</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="option3" id="r3"/>
-                                    <Label htmlFor="r3">Option 3</Label>
-                                </div>
-                            </RadioGroup>
-                        </div>
-
-                        <div style={{ position: 'absolute', top: '200px', width: '200px' }}>
-                            <Slider defaultValue={[50]} min={0} max={100} step={1} />
-                        </div>
-
-                        <div style={{ position: 'absolute', top: '218px', width: '200px' }}>
-                            <Input placeholder="Input" />
-                        </div>
-
-                        <div style={{ position: 'absolute', top: '260px', width: '200px' }}>
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a YOLO model" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                    <SelectLabel>Select a YOLO model</SelectLabel>
-                                    <SelectItem value="yolov5n">YOLOv5n</SelectItem>
-                                    <SelectItem value="yolov5s">YOLOv5s</SelectItem>
-                                    <SelectItem value="yolov5m">YOLOv5m</SelectItem>
-                                    <SelectItem value="yolov5l">YOLOv5l</SelectItem>
-                                    <SelectItem value="yolov5x">YOLOv5x</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </div>
-
-                        <div style={{ position: 'absolute', top: '285px' }}>
-                            <div style={{ position: 'relative', top: '22px', left: '0px' }} className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
-                            <Label style={{ position: 'relative', top: '-2px', left: '32px', width: '800px', textAlign: 'left' }}>Loading...</Label>
-                        </div>
-
-                    </div>
-
-                </TabsContent>
                 <TabsContent value="general">
 
-                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '2.5pt' }}>
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
 
                         {YellowLightDetection !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
@@ -758,7 +686,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="outputwindow">
 
-                <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '2.5pt' }}>
+                <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
 
                     {FinalWindow !== undefined && (
                     <div className="flex flex-row" style={{ position: 'relative', top: '20px' }}>
@@ -835,7 +763,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="trackerai">
 
-                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-194px', right: '2.5pt' }}>
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
 
                         {ConfirmDetectedTrafficLightswithAI !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
@@ -901,7 +829,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="advanced">
 
-                    <Tabs defaultValue="colorsettings" style={{ position: 'absolute', top: '42px', left: '-197px', right: '0pt' }}>
+                    <Tabs defaultValue="colorsettings" style={{ position: 'absolute', top: '42px', left: '-230px', right: '0pt' }}>
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="colorsettings">ColorSettings</TabsTrigger>
                         <TabsTrigger value="filters">Filters</TabsTrigger>
