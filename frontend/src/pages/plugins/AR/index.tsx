@@ -73,13 +73,13 @@ export default function AR({ ip }: { ip: string }) {
                 </PopoverContent>
             </Popover>
 
-            <Tabs defaultValue="general" style={{ position: 'absolute', top: '47px', left: '248px', right: '3pt' }}>
+            <Tabs defaultValue="general" style={{ position: 'absolute', top: '47px', left: '248px', right: '13.5pt' }}>
                 <TabsList className="grid w-full grid-cols-1">
                     <TabsTrigger value="general">General</TabsTrigger>
                 </TabsList>
                 <TabsContent value="general">
 
-                    <div style={{ position: 'absolute', left: '-227px', right: '12pt' }}>
+                    <div style={{ position: 'absolute', left: '-227px', right: '2pt' }}>
                         
                         {FOV !== undefined && (
                         <div className="flex flex-row" style={{ position: 'relative', top: '28px' }}>

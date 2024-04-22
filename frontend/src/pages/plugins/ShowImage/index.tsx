@@ -83,7 +83,7 @@ export default function Home({ ip }: { ip: string }) {
                 </TabsList>
                 <TabsContent value="general">
 
-                    <div style={{ position: 'absolute', left: '-227px', right: '12pt' }}>
+                    <div style={{ position: 'absolute', left: '-227px', right: '2pt' }}>
 
                         <div className="flex flex-row" style={{ position: 'relative', top: '26px', left: '0px' }}>
                             <Label>
