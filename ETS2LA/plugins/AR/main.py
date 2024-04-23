@@ -7,7 +7,6 @@ PluginInfo = PluginInformation(
 )
 
 from ETS2LA.plugins.runner import PluginRunner
-import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
 
 import dearpygui.dearpygui as dpg
@@ -25,7 +24,10 @@ sct = mss.mss()
 dwm = ctypes.windll.dwmapi
 runner:PluginRunner = None
 
-def LoadSettings():
+
+def Initialize():
+    global TruckSimAPI
+
     global screen_width
     global screen_height
     global window_width
@@ -34,15 +36,17 @@ def LoadSettings():
     global fov
     global window
     global last_window_position
+    
+    TruckSimAPI = runner.modules.TruckSimAPI
 
-    monitor = settings.GetSettings("bettercam", "display", 0)
+    monitor = settings.Get("ScreenCapture", "display", 0)
     monitor = sct.monitors[(monitor + 1)]
     screen_width = monitor["width"]
     screen_height = monitor["height"]
     window_width = screen_width
     window_height = screen_height
 
-    fov = settings.GetSettings("AR", "FOV", 80)
+    fov = settings.Get("AR", "FOV", 80)
     window = (0, 0, screen_width, screen_height)
     last_window_position = (0, 0, 0, screen_width, screen_height)
 
@@ -238,6 +242,11 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
 
 
 def plugin():
+
+    data = TruckSimAPI.run()
+    print(data)
+
+    return
     global window
     global window_width
     global window_height

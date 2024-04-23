@@ -14,5 +14,6 @@
     "description": "in development",
     "version": "1.0",
     "image": "image.png",
-    "dependencies": []
+    "dependencies": [],
+    "modules": ["TruckSimAPI"]
 }
