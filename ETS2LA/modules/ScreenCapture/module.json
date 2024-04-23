@@ -5,8 +5,7 @@
         "url": "https://github.com/Tumppi066",
         "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
     },
-    "description": "Provides a screencapture of your display to other plugins that need it. Uses the extremely fast DirectX based bettercam module.",
+    "description": "Provides a screencapture of your display to other plugins that need it. Uses the extremely fast DirectX based bettercam module. Otherwise falls back to the MSS mode on systems that don't support DirectX or run linux.",
     "version": "1.0",
-    "image": "image.png",
     "dependencies": []
 }

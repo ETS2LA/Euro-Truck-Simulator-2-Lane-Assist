@@ -5,11 +5,13 @@ import importlib
 import multiprocessing
 import threading
 from ETS2LA.utils.logging import *
-
+import json
+from types import SimpleNamespace
 class PluginRunner():
     def __init__(self, pluginName, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue):
         # Initialize the logger
         self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"))
+        
         # Save the values to the class
         self.q = queue
         self.fq = functionQueue
@@ -17,12 +19,28 @@ class PluginRunner():
         self.getTime = 0
         self.frametimes = []
         self.executiontimes = []
+        
         # Import the plugin
-        module_name = "ETS2LA.plugins." + pluginName + ".main"
-        self.plugin = importlib.import_module(module_name)
+        plugin_path = "ETS2LA.plugins." + pluginName + ".main"
+        self.plugin = importlib.import_module(plugin_path)
         self.plugin_name = self.plugin.PluginInfo.name
-        self.logger.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
+        self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
+        
+        # Load modules
+        self.modules = {}
+        for module in self.plugin_data["modules"]:
+            module_path = "ETS2LA.modules." + module + ".main"
+            try:
+                module = importlib.import_module(module_path)
+                self.logger.info(f"PluginRunner: Loaded module {module}")
+            except:
+                self.logger.error(f"PluginRunner: Could not load module {module}")
+                continue
+            self.modules[module.PluginInfo.name] = module
+        self.modules = SimpleNamespace(**self.modules)
+        
         # Run the plugin
+        self.logger.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
         self.run()
 
     def functionThread(self):

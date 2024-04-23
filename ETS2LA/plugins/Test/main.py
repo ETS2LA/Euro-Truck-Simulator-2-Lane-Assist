@@ -8,14 +8,8 @@ PluginInfo = PluginInformation(
     author="Test"
 )
 
-def SendNotification():
-    # pluginRunner.Notification("This is a test plugin!", "success")
-    return "This is a test plugin call!"
-
 pluginRunner = None
 lastTime = time.time()
 def plugin(runner:PluginRunner):
-    global pluginRunner
-    pluginRunner = runner
-    time.sleep(0.1)
-    return None
+    image = runner.modules.ScreenCapture.run(runner)
+    runner.modules.ShowImage.run(runner, image)
