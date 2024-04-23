@@ -20,7 +20,8 @@ def start_webpage():
             }
             p {
                 color: #333;
-                font-family: roboto;
+                font-size: 16px;
+                font-family: sans-serif;
             }
         
         @keyframes spinner {
