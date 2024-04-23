@@ -14,6 +14,10 @@ runner:PluginRunner = None
 lastTime = time.time()
 
 def Initialize():
+    global ScreenCapture
+    global ShowImage
+    ScreenCapture = runner.modules.ScreenCapture
+    ShowImage = runner.modules.ShowImage
     # Will run when the plugin is first loaded
     screen = screeninfo.get_monitors()[0]
     if os.name == "nt":
@@ -26,5 +30,5 @@ def Initialize():
     print(monitor)
 
 def plugin():
-    img, fullImage = runner.modules.ScreenCapture.run()
-    runner.modules.ShowImage.run(img)
+    img, fullImage = ScreenCapture.run()
+    ShowImage.run(img)

@@ -1,10 +1,16 @@
 {
     "name": "AR (Augmented Reality)",
-    "author": {
-        "name": "Glas42, Tumppi066",
-        "url": ["https://github.com/Glas42", "https://github.com/Tumppi066"],
-        "avatar": ["https://avatars.githubusercontent.com/u/145870870?v=4", "https://avatars.githubusercontent.com/u/83072683?v=4"]
+    "authors": [
+    {
+        "name": "Glas42",
+        "url": "https://github.com/Glas42",
+        "avatar": "https://avatars.githubusercontent.com/u/145870870?v=4"
     },
+    {
+        "name": "Tumppi066",
+        "url": "https://github.com/Tumppi066",
+        "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
+    }],
     "description": "in development",
     "version": "1.0",
     "image": "image.png",

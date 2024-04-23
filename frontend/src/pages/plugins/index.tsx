@@ -55,14 +55,18 @@ export default function Home({ ip }: { ip: string }) {
                     <Card key={plugin} id={plugin} className="flex flex-col justify-between">
                         <CardHeader className="gap-1">
                             <CardTitle>{data ? (data as any)[plugin]["file"]["name"] : plugin}</CardTitle>
-                            <div className="flex items-center gap-1">
-                                {data ? (data as any)[plugin]["file"]["author"] != "Unknown" ? (
-                                    <Avatar className="w-5 h-5">
-                                        <AvatarImage src={data ? (data as any)[plugin]["file"]["author"]["avatar"] : ""} />
-                                    </Avatar>
-                                ) : null : null}
-                                <p className="text-muted-foreground text-xs">{data ? (data as any)[plugin]["file"]["author"]["name"] : "Unknown"}</p>
-                            </div>
+                                <div className="flex gap-2">
+                                    {data && (data as any)[plugin]["file"]["authors"] && (data as any)[plugin]["file"]["authors"].length > 0 ? (
+                                        (data as any)[plugin]["file"]["authors"].map((author: any, index: number) => (
+                                            <div className="flex items-center gap-1">
+                                                <Avatar className="w-5 h-5">
+                                                    <AvatarImage src={author["avatar"] || ""} />
+                                                </Avatar>
+                                                <a className="text-muted-foreground text-xs" href={author["url" || "https://wiki.tumppi066.fi"]} target="_blank">{author["name"] || "Unknown"}</a>
+                                            </div>
+                                        ))
+                                    ) : null}
+                                </div>
                             {data ? (data as any)[plugin]["enabled"] ? (
                                 <div className="flex flex-row gap-1 items-center">
                                     <Gauge color="#888888" className="w-5 h-5"/>

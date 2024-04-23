@@ -81,7 +81,7 @@ def GetAvailablePlugins():
         except:
             AVAILABLE_PLUGINS[plugin]["file"] = {
                 "name": plugin,
-                "author": "Unknown",
+                "authors": "Unknown",
                 "version": "Unknown",
                 "description": "No description provided.",
                 "image": "None",
