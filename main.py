@@ -15,19 +15,28 @@ if __name__ == "__main__":
                 print("ETS2LA has started successfully.")
         except Exception as e:
             if e.args[0] == "exit":
-                os.system("taskkill /F /IM node.exe")
+                if os.name == "nt":
+                    os.system("taskkill /F /IM node.exe")
+                else:
+                    os.system("pkill -f node")
                 print("\033[91m" + "ETS2LA has been closed." + "\033[0m")
                 sys.exit(0)
 
             if e.args[0] == "restart":
-                os.system("taskkill /F /IM node.exe")
+                if os.name == "nt":
+                    os.system("taskkill /F /IM node.exe")
+                else:
+                    os.system("pkill -f node")
                 print("\033[93m" + "ETS2LA is restarting..." + "\033[0m")
                 continue
 
             import traceback
             if traceback.format_exc() == error:
                 print("ETS2LA has crashed with the same error. Send the above traceback to the developers.")
-                os.system("taskkill /F /IM node.exe")
+                if os.name == "nt":
+                    os.system("taskkill /F /IM node.exe")
+                else:
+                    os.system("pkill -f node")
                 input("Press enter to exit...")
                 print("\033[91m" + "ETS2LA has been closed." + "\033[0m")
                 sys.exit(0)
@@ -36,5 +45,8 @@ if __name__ == "__main__":
             traceback.print_exc()
             error = traceback.format_exc()
             print("\nAttempting to restart...")
-            os.system("taskkill /F /IM node.exe")
+            if os.name == "nt":
+                    os.system("taskkill /F /IM node.exe")
+            else:
+                os.system("pkill -f node")
             continue
