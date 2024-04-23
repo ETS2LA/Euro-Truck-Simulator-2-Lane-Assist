@@ -56,7 +56,7 @@ export default function Home({ ip }: { ip: string }) {
                         <CardHeader className="gap-1">
                             <CardTitle>{data ? (data as any)[plugin]["file"]["name"] : plugin}</CardTitle>
                                 <div className="flex gap-2">
-                                    {data && (data as any)[plugin]["file"]["authors"] && (data as any)[plugin]["file"]["authors"].length > 0 ? (
+                                    {data && (data as any)[plugin]["file"]["authors"] && typeof (data as any)[plugin]["file"]["authors"] == typeof [{}] ? (
                                         (data as any)[plugin]["file"]["authors"].map((author: any, index: number) => (
                                             <div className="flex items-center gap-1">
                                                 <Avatar className="w-5 h-5">
