@@ -25,6 +25,7 @@ class PluginRunner():
         self.plugin = importlib.import_module(plugin_path)
         self.plugin_name = self.plugin.PluginInfo.name
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
+        self.plugin.runner = self
         
         # Load modules
         self.modules = {}
@@ -32,12 +33,29 @@ class PluginRunner():
             module_path = "ETS2LA.modules." + module + ".main"
             try:
                 module = importlib.import_module(module_path)
+                module.runner = self
                 self.logger.info(f"PluginRunner: Loaded module {module}")
-            except:
-                self.logger.error(f"PluginRunner: Could not load module {module}")
+            except Exception as e:
+                self.logger.error(f"PluginRunner: Could not load module {module} with error: {e}")
                 continue
             self.modules[module.PluginInfo.name] = module
-        self.modules = SimpleNamespace(**self.modules)
+            
+        # Run module and plugin initializers
+        for module in self.modules:
+            try:
+                self.modules[module].Initialize()
+            except Exception as e:
+                self.logger.error(f"PluginRunner: Error while running Initialize() for {module} with error {e}")
+                continue
+        
+        self.modulesDict = self.modules
+        self.modules = SimpleNamespace(**self.modules) # Will convert it to a namespace to make runner.modules.ModuleName possible
+        
+        try:
+            self.plugin.Initialize()
+        except Exception as e:
+            self.logger.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
+            
         
         # Run the plugin
         self.logger.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
@@ -70,9 +88,9 @@ class PluginRunner():
     def run(self):
         self.timer = time.time()
         threading.Thread(target=self.functionThread, daemon=True).start()
-        while True: # NOTE: This class is running in a seperate process, we can thus use an infinite loop!
+        while True: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
             startTime = time.time()
-            data = self.plugin.plugin(self)
+            data = self.plugin.plugin()
             pluginExec = time.time()
             if type(data) != type(None):
                 self.q.put(data)

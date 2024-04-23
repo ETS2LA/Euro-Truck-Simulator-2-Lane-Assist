@@ -11,7 +11,9 @@ PluginInfo = PluginInformation(
     author="Tumppi066"
 )
 
-def run(runner:PluginRunner, img: np.ndarray = None):
+runner:PluginRunner = None
+
+def run(img: np.ndarray = None):
     try:
         if type(img) != np.ndarray:
             return

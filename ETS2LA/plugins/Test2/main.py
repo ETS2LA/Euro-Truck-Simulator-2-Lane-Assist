@@ -5,7 +5,7 @@ import screeninfo
 import os
 
 PluginInfo = PluginInformation(
-    name="Test",
+    name="Test2",
     description="Test plugin",
     version="0.1",
     author="Test"
