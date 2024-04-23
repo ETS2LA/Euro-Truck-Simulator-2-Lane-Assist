@@ -37,6 +37,8 @@ import os
 sct = mss.mss()
 monitor = settings.GetSettings("bettercam", "display", 0)
 monitor = sct.monitors[(monitor + 1)]
+screen_x = monitor["left"]
+screen_y = monitor["top"]
 screen_width = monitor["width"]
 screen_height = monitor["height"]
 
@@ -49,7 +51,7 @@ upper_yellow = np.array([255, 240, 170])
 
 yolo_model_loaded = False
 
-last_GetGamePosition = 0, 0, 0, screen_width, screen_height
+last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 def UpdateSettings():
     global min_rect_size
@@ -360,6 +362,7 @@ def GetGamePosition():
     if last_GetGamePosition[0] + 3 < time.time():
         hwnd = None
         top_windows = []
+        window = last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
         win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
         for hwnd, window_text in top_windows:
             if "Truck Simulator" in window_text and "Discord" not in window_text:
