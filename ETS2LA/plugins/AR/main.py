@@ -23,7 +23,7 @@ import mss
 drawlist = None
 sct = mss.mss()
 dwm = ctypes.windll.dwmapi
-
+runner:PluginRunner = None
 
 def LoadSettings():
     global screen_width
@@ -237,7 +237,7 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
     return screen_x, screen_y, distance
 
 
-def plugin(runner):
+def plugin():
     global window
     global window_width
     global window_height

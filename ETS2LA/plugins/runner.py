@@ -29,6 +29,8 @@ class PluginRunner():
         
         # Load modules
         self.modules = {}
+        if "modules" not in self.plugin_data:
+            self.plugin_data["modules"] = []
         for module in self.plugin_data["modules"]:
             module_path = "ETS2LA.modules." + module + ".main"
             try:
