@@ -30,7 +30,7 @@ export default function VersionHistory({ip}: {ip: string}) {
                             <p className="flex gap-3"><p className="text-stone-600">{index+1}. </p> {commit.author}</p>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <div className="text-sm text-gray-500 text-center">{commit.message}</div>
+                                <div className="text-sm text-stone-500 text-start pl-3 pr-2">{commit.message}</div>
                             </AccordionContent>
                         </AccordionItem>
                     )
