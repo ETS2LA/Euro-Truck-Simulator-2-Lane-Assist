@@ -53,6 +53,10 @@ This is a guide for installing the app manually. Manual installation doesn't use
 !!! Note
 If this part for some reason fails, try and restart your computer.
 !!!
+!!! Warning Warning
+If you live in China, or another country [that has banned github](https://en.wikipedia.org/wiki/Censorship_of_GitHub), then please replace the git clone command with the following:
+`git clone https://tumppi066@git.code.sf.net/p/eurotrucksimulator2-laneassist/code app` 
+!!!
 ==- Without Git 
 - Go to the [app repository](https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist) and click the green `Code` button and select `Download ZIP`.
 - Extract the zip file to `C:\LaneAssist\app`.
