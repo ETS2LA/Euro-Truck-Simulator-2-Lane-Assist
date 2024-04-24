@@ -50,6 +50,8 @@ def Initialize():
     window = (0, 0, screen_width, screen_height)
     last_window_position = (0, 0, 0, screen_width, screen_height)
 
+    initialize()
+
 
 class MARGINS(ctypes.Structure):
     _fields_ = [("cxLeftWidth", c_int),
@@ -177,25 +179,21 @@ def draw(data):
     with dpg.viewport_drawlist(label="draw") as drawlist:
 
         for line in lines:
-            if line.start[0] == None or line.start[1] == None or line.end[0] == None or line.end[1] == None:
-                continue
-            dpg.draw_line([line.start[0], line.start[1]], [line.end[0], line.end[1]], color=line.color, thickness=line.thickness)
+            if None not in line.start and None not in line.end:
+                dpg.draw_line([line.start[0], line.start[1]], [line.end[0], line.end[1]], color=line.color, thickness=line.thickness)
 
         for circle in circles:
-            if circle.x == None or circle.y == None or circle.radius == None:
-                continue
-            dpg.draw_circle([circle.x, circle.y], circle.radius, fill=circle.fill, color=circle.color, thickness=circle.thickness)
+            if None not in [circle.x, circle.y, circle.radius]:
+                dpg.draw_circle([circle.x, circle.y], circle.radius, fill=circle.fill, color=circle.color, thickness=circle.thickness)
     
         for box in boxes:
-            dpg.draw_rectangle([box.x, box.y], [box.x + box.width, box.y + box.height], fill=box.fill, color=box.color, thickness=box.thickness)
+            if None not in [box.x, box.y, box.width, box.height]:
+                dpg.draw_rectangle([box.x, box.y], [box.x + box.width, box.y + box.height], fill=box.fill, color=box.color, thickness=box.thickness)
 
         for polygon in polygons:
-            for point in polygon.points:
-                if point[0] == None or point[1] == None:
-                    polygon.points.remove(point)
-            if len(polygon.points) <= 2 if polygon.closed else len(polygon.points) <= 1:
-                continue
-            dpg.draw_polygon(polygon.points, fill=polygon.fill, color=polygon.color, thickness=polygon.thickness)
+            valid_points = [(x, y) for x, y in polygon.points if None not in [x, y]]
+            if len(valid_points) >= 3 if polygon.closed else len(valid_points) >= 2:
+                dpg.draw_polygon(valid_points, fill=polygon.fill, color=polygon.color, thickness=polygon.thickness)
     
     dpg.render_dearpygui_frame()
 
@@ -244,9 +242,10 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
 def plugin():
 
     data = TruckSimAPI.run()
-    print(data)
+    if data == "not connected":
+        time.sleep(0.1)
+        return
 
-    return
     global window
     global window_width
     global window_height
@@ -281,26 +280,26 @@ def plugin():
 
 
     try:
-        truck_x = data["api"]["truckPlacement"]["coordinateX"]
-        truck_y = data["api"]["truckPlacement"]["coordinateY"]
-        truck_z = data["api"]["truckPlacement"]["coordinateZ"]
-        truck_rotation_x = data["api"]["truckPlacement"]["rotationX"]
-        truck_rotation_y = data["api"]["truckPlacement"]["rotationY"]
-        truck_rotation_z = data["api"]["truckPlacement"]["rotationZ"]
+        truck_x = data["truckPlacement"]["coordinateX"]
+        truck_y = data["truckPlacement"]["coordinateY"]
+        truck_z = data["truckPlacement"]["coordinateZ"]
+        truck_rotation_x = data["truckPlacement"]["rotationX"]
+        truck_rotation_y = data["truckPlacement"]["rotationY"]
+        truck_rotation_z = data["truckPlacement"]["rotationZ"]
 
-        cabin_offset_x = data["api"]["headPlacement"]["cabinOffsetX"] + data["api"]["configVector"]["cabinPositionX"]
-        cabin_offset_y = data["api"]["headPlacement"]["cabinOffsetY"] + data["api"]["configVector"]["cabinPositionY"]
-        cabin_offset_z = data["api"]["headPlacement"]["cabinOffsetZ"] + data["api"]["configVector"]["cabinPositionZ"]
-        cabin_offset_rotation_x = data["api"]["headPlacement"]["cabinOffsetrotationX"]
-        cabin_offset_rotation_y = data["api"]["headPlacement"]["cabinOffsetrotationY"]
-        cabin_offset_rotation_z = data["api"]["headPlacement"]["cabinOffsetrotationZ"]
+        cabin_offset_x = data["headPlacement"]["cabinOffsetX"] + data["configVector"]["cabinPositionX"]
+        cabin_offset_y = data["headPlacement"]["cabinOffsetY"] + data["configVector"]["cabinPositionY"]
+        cabin_offset_z = data["headPlacement"]["cabinOffsetZ"] + data["configVector"]["cabinPositionZ"]
+        cabin_offset_rotation_x = data["headPlacement"]["cabinOffsetrotationX"]
+        cabin_offset_rotation_y = data["headPlacement"]["cabinOffsetrotationY"]
+        cabin_offset_rotation_z = data["headPlacement"]["cabinOffsetrotationZ"]
 
-        head_offset_x = data["api"]["headPlacement"]["headOffsetX"] + data["api"]["configVector"]["headPositionX"] + cabin_offset_x
-        head_offset_y = data["api"]["headPlacement"]["headOffsetY"] + data["api"]["configVector"]["headPositionY"] + cabin_offset_y
-        head_offset_z = data["api"]["headPlacement"]["headOffsetZ"] + data["api"]["configVector"]["headPositionZ"] + cabin_offset_z
-        head_offset_rotation_x = data["api"]["headPlacement"]["headOffsetrotationX"]
-        head_offset_rotation_y = data["api"]["headPlacement"]["headOffsetrotationY"]
-        head_offset_rotation_z = data["api"]["headPlacement"]["headOffsetrotationZ"]
+        head_offset_x = data["headPlacement"]["headOffsetX"] + data["configVector"]["headPositionX"] + cabin_offset_x
+        head_offset_y = data["headPlacement"]["headOffsetY"] + data["configVector"]["headPositionY"] + cabin_offset_y
+        head_offset_z = data["headPlacement"]["headOffsetZ"] + data["configVector"]["headPositionZ"] + cabin_offset_z
+        head_offset_rotation_x = data["headPlacement"]["headOffsetrotationX"]
+        head_offset_rotation_y = data["headPlacement"]["headOffsetrotationY"]
+        head_offset_rotation_z = data["headPlacement"]["headOffsetrotationZ"]
         
         truck_rotation_degrees_x = truck_rotation_x * 360
         truck_rotation_radians_x = -math.radians(truck_rotation_degrees_x)
