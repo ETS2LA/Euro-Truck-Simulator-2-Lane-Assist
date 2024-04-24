@@ -1,26 +1,6 @@
-# Wiki is built by github actions, no need to have users download it constantly
-wiki/* 
-
-# Ignore gource files
-gource.mp4
-gource.txt
-output
-
-# Ignore themes
-themes/*
-!themes/ExampleTheme
-!themes/ForestRed
-!themes/Forest
-
-# Ignore screenshot
-screenshot.png
-
 # Ignore the logs
 logs
 
-# Ignore main branch files
-/plugins/
-/profiles/
-
+# Ignore the python cache and settings
 **/__pycache__
 **/settings.json

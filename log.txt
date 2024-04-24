@@ -1,8 +1,0 @@
-[0.000] [src\logger.py]	- Logger initialized!
-[85.860] [src\updater.py]	- No update available, current version: 1.10.59
-[85.967] [main.py]	- Reloading plugins...
-[86.638] [main.py]	- Reloading UI root code...
-[87.006] [main.py]	- Reloaded UI root code.
-[87.145] [main.py]	- ('can\'t invoke "destroy" command: application has been destroyed',)
-[87.147] [src\mainUI.py]	- Invalid slave specification 
-[88.473] [main.py]	- ('can\'t invoke "destroy" command: application has been destroyed',)
