@@ -20,8 +20,12 @@ runner:PluginRunner = None
 def Initialize():
     global TruckSimAPI
 
+    global screen_x
+    global screen_y
     global screen_width
     global screen_height
+    global window_x
+    global window_y
     global window_width
     global window_height
 
@@ -33,14 +37,18 @@ def Initialize():
 
     monitor = settings.Get("ScreenCapture", "display", 0)
     monitor = sct.monitors[(monitor + 1)]
+    screen_x = monitor["left"]
+    screen_y = monitor["top"]
     screen_width = monitor["width"]
     screen_height = monitor["height"]
+    window_x = screen_x
+    window_y = screen_y
     window_width = screen_width
     window_height = screen_height
 
     fov = settings.Get("AR", "FOV", 80)
-    window = (0, 0, screen_width, screen_height)
-    last_window_position = (0, 0, 0, screen_width, screen_height)
+    window = (screen_x, screen_y, screen_width, screen_height)
+    last_window_position = (0, screen_x, screen_y, screen_width, screen_height)
 
     initialize()
 
@@ -113,6 +121,10 @@ class Polygon:
 
 def initialize():
     global window
+    global window_x
+    global window_y
+    global window_width
+    global window_height
 
     hwnd = win32gui.FindWindow(None, "ETS2LA - AR/Overlay")
     if hwnd:
@@ -123,15 +135,19 @@ def initialize():
         top_windows = []
         win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
         for hwnd, window_text in top_windows:
-            if "Truck Simulator" in window_text and "Discord" not in window_text: # the overlay could open over the discord because of the ets2la discord name :xdd:
+            if "Truck Simulator" in window_text and "Discord" not in window_text:
                 rect = win32gui.GetClientRect(hwnd)
                 tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
                 br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
                 window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                window_x = window[0]
+                window_y = window[1]
+                window_width = window[2]
+                window_height = window[3]
                 break
 
         dpg.create_context()
-        dpg.create_viewport(title='ETS2LA - AR/Overlay', always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=window[0], y_pos=window[1], width=window[2], height=window[3])
+        dpg.create_viewport(title='ETS2LA - AR/Overlay', always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=window[0], y_pos=window[1], width=window[2], height=window[3], small_icon="frontend\\src\\assets\\favicon.ico", large_icon="frontend\\src\\assets\\favicon.ico")
         dpg.set_viewport_always_top(True)
         dpg.setup_dearpygui()
         dpg.show_viewport()
@@ -147,16 +163,18 @@ def initialize():
 
 
 def close():
+    return
     dpg.stop_dearpygui()
     dpg.destroy_context()
     hwnd = win32gui.FindWindow(None, "ETS2LA - AR/Overlay")
-    if hwnd:
+    if hwnd is not None:
         win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
 
 
 def resize():
-    close()
-    initialize()
+    dpg.set_viewport_pos([window_x, window_y])
+    dpg.set_viewport_width(window_width)
+    dpg.set_viewport_height(window_height)
 
 
 def draw(data):
@@ -166,7 +184,8 @@ def draw(data):
     boxes = data["overlay"]["boxes"]
     polygons = data["overlay"]["polygons"]
 
-    dpg.delete_item(drawlist)
+    if drawlist is not None:
+        dpg.delete_item(drawlist)
 
     with dpg.viewport_drawlist(label="draw") as drawlist:
 
@@ -233,12 +252,20 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
 
 def plugin():
 
-    data = TruckSimAPI.run()
-    if data == "not connected":
+    data = {}
+    data["api"] = TruckSimAPI.run()
+    if data["api"] == "not connected" or data["api"]["pause"] == True:
+        global drawlist
+        if drawlist is not None:
+            dpg.delete_item(drawlist)
+            drawlist = None
+        dpg.render_dearpygui_frame()
         time.sleep(0.1)
         return
 
     global window
+    global window_x
+    global window_y
     global window_width
     global window_height
     global last_window_position
@@ -252,46 +279,47 @@ def plugin():
 
 
     current_time = time.time()
-    if last_window_position[0] + 1 < current_time:
+    if last_window_position[0] + 3 < current_time:
         hwnd = None
         top_windows = []
         win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
         for hwnd, window_text in top_windows:
-            if "Truck Simulator" in window_text and "Discord" not in window_text: # the overlay could open over the discord because of the ets2la discord name :xdd:
+            if "Truck Simulator" in window_text and "Discord" not in window_text:
                 rect = win32gui.GetClientRect(hwnd)
                 tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
                 br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
                 window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                window_x = window[0]
+                window_y = window[1]
                 window_width = window[2]
                 window_height = window[3]
                 break
         if window[0] != last_window_position[1] or window[1] != last_window_position[2] or window[2] != last_window_position[3] or window[3] != last_window_position[4]:
-            pass
-            #resize()
+            resize()
         last_window_position = (current_time, window[0], window[1], window[2], window[3])
 
 
     try:
-        truck_x = data["truckPlacement"]["coordinateX"]
-        truck_y = data["truckPlacement"]["coordinateY"]
-        truck_z = data["truckPlacement"]["coordinateZ"]
-        truck_rotation_x = data["truckPlacement"]["rotationX"]
-        truck_rotation_y = data["truckPlacement"]["rotationY"]
-        truck_rotation_z = data["truckPlacement"]["rotationZ"]
+        truck_x = data["api"]["truckPlacement"]["coordinateX"]
+        truck_y = data["api"]["truckPlacement"]["coordinateY"]
+        truck_z = data["api"]["truckPlacement"]["coordinateZ"]
+        truck_rotation_x = data["api"]["truckPlacement"]["rotationX"]
+        truck_rotation_y = data["api"]["truckPlacement"]["rotationY"]
+        truck_rotation_z = data["api"]["truckPlacement"]["rotationZ"]
 
-        cabin_offset_x = data["headPlacement"]["cabinOffsetX"] + data["configVector"]["cabinPositionX"]
-        cabin_offset_y = data["headPlacement"]["cabinOffsetY"] + data["configVector"]["cabinPositionY"]
-        cabin_offset_z = data["headPlacement"]["cabinOffsetZ"] + data["configVector"]["cabinPositionZ"]
-        cabin_offset_rotation_x = data["headPlacement"]["cabinOffsetrotationX"]
-        cabin_offset_rotation_y = data["headPlacement"]["cabinOffsetrotationY"]
-        cabin_offset_rotation_z = data["headPlacement"]["cabinOffsetrotationZ"]
+        cabin_offset_x = data["api"]["headPlacement"]["cabinOffsetX"] + data["api"]["configVector"]["cabinPositionX"]
+        cabin_offset_y = data["api"]["headPlacement"]["cabinOffsetY"] + data["api"]["configVector"]["cabinPositionY"]
+        cabin_offset_z = data["api"]["headPlacement"]["cabinOffsetZ"] + data["api"]["configVector"]["cabinPositionZ"]
+        cabin_offset_rotation_x = data["api"]["headPlacement"]["cabinOffsetrotationX"]
+        cabin_offset_rotation_y = data["api"]["headPlacement"]["cabinOffsetrotationY"]
+        cabin_offset_rotation_z = data["api"]["headPlacement"]["cabinOffsetrotationZ"]
 
-        head_offset_x = data["headPlacement"]["headOffsetX"] + data["configVector"]["headPositionX"] + cabin_offset_x
-        head_offset_y = data["headPlacement"]["headOffsetY"] + data["configVector"]["headPositionY"] + cabin_offset_y
-        head_offset_z = data["headPlacement"]["headOffsetZ"] + data["configVector"]["headPositionZ"] + cabin_offset_z
-        head_offset_rotation_x = data["headPlacement"]["headOffsetrotationX"]
-        head_offset_rotation_y = data["headPlacement"]["headOffsetrotationY"]
-        head_offset_rotation_z = data["headPlacement"]["headOffsetrotationZ"]
+        head_offset_x = data["api"]["headPlacement"]["headOffsetX"] + data["api"]["configVector"]["headPositionX"] + cabin_offset_x
+        head_offset_y = data["api"]["headPlacement"]["headOffsetY"] + data["api"]["configVector"]["headPositionY"] + cabin_offset_y
+        head_offset_z = data["api"]["headPlacement"]["headOffsetZ"] + data["api"]["configVector"]["headPositionZ"] + cabin_offset_z
+        head_offset_rotation_x = data["api"]["headPlacement"]["headOffsetrotationX"]
+        head_offset_rotation_y = data["api"]["headPlacement"]["headOffsetrotationY"]
+        head_offset_rotation_z = data["api"]["headPlacement"]["headOffsetrotationZ"]
         
         truck_rotation_degrees_x = truck_rotation_x * 360
         truck_rotation_radians_x = -math.radians(truck_rotation_degrees_x)
