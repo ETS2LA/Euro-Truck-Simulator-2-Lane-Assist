@@ -20,7 +20,7 @@ export default function VersionHistory({ip}: {ip: string}) {
 
     return (
         <ScrollArea className="h-full pt-3 text-end">
-            <h4 className="pb-3 pl-3 font-medium flex gap-1">Commit History</h4>
+            <h4 className="pb-3 pl-3 font-medium flex gap-1">Commit History <p className="text-xs text-stone-600">(Updates)</p></h4>
             <Separator />
             <Accordion type="single" collapsible>
                 {commits.map((commit: any, index: number) => {
@@ -29,8 +29,9 @@ export default function VersionHistory({ip}: {ip: string}) {
                             <AccordionTrigger className="pl-3 pr-2">
                             <p className="flex gap-3"><p className="text-stone-600">{index+1}. </p> {commit.author}</p>
                             </AccordionTrigger>
-                            <AccordionContent>
+                            <AccordionContent className="gap-y-2 flex flex-col">
                                 <div className="text-sm text-stone-500 text-start pl-3 pr-2">{commit.message}</div>
+                                <div className="text-xs text-stone-500 text-start pl-3 pr-2">on {new Date(commit.time * 1000).toLocaleDateString()} - {new Date(commit.time * 1000).toTimeString().split(" ")[0]}</div>
                             </AccordionContent>
                         </AccordionItem>
                     )
