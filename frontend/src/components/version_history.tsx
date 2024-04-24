@@ -20,7 +20,7 @@ export default function VersionHistory({ip}: {ip: string}) {
 
     return (
         <ScrollArea className="h-full pt-3 text-end">
-            <h4 className="pb-3 pl-3 font-medium flex gap-1">Commit History <p className="text-xs text-stone-600">(Updates)</p></h4>
+            <h4 className="pb-3 pl-3 font-medium flex gap-1">Commit History <p className="text-xs text-stone-600">(updates)</p></h4>
             <Separator />
             <Accordion type="single" collapsible>
                 {commits.map((commit: any, index: number) => {
