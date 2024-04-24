@@ -1,5 +1,6 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
+import ETS2LA.variables as variables
 
 import dearpygui.dearpygui as dpg
 from ctypes import c_int
@@ -126,7 +127,7 @@ def initialize():
     global window_width
     global window_height
 
-    hwnd = win32gui.FindWindow(None, "ETS2LA - AR/Overlay")
+    hwnd = win32gui.FindWindow(None, f'ETS2LA - AR/Overlay - Tumppi066 & Contributors © All rights reserved {variables.YEAR}')
     if hwnd:
         return
     try:
@@ -147,12 +148,12 @@ def initialize():
                 break
 
         dpg.create_context()
-        dpg.create_viewport(title='ETS2LA - AR/Overlay', always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=window[0], y_pos=window[1], width=window[2], height=window[3], small_icon="frontend\\src\\assets\\favicon.ico", large_icon="frontend\\src\\assets\\favicon.ico")
+        dpg.create_viewport(title=f'ETS2LA - AR/Overlay - Tumppi066 & Contributors © All rights reserved {variables.YEAR}', always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=window[0], y_pos=window[1], width=window[2], height=window[3], small_icon="frontend\\src\\assets\\favicon.ico", large_icon="frontend\\src\\assets\\favicon.ico")
         dpg.set_viewport_always_top(True)
         dpg.setup_dearpygui()
         dpg.show_viewport()
 
-        hwnd = win32gui.FindWindow(None, "ETS2LA - AR/Overlay")
+        hwnd = win32gui.FindWindow(None, f'ETS2LA - AR/Overlay - Tumppi066 & Contributors © All rights reserved {variables.YEAR}')
 
         margins = MARGINS(-1, -1,-1, -1)
         dwm.DwmExtendFrameIntoClientArea(hwnd, margins)
@@ -160,15 +161,6 @@ def initialize():
     except:
         import traceback
         print(traceback.format_exc())
-
-
-def close():
-    return
-    dpg.stop_dearpygui()
-    dpg.destroy_context()
-    hwnd = win32gui.FindWindow(None, "ETS2LA - AR/Overlay")
-    if hwnd is not None:
-        win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
 
 
 def resize():
