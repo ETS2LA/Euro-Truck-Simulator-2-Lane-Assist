@@ -16,7 +16,7 @@ class PluginRunner():
         self.q = queue
         self.fq = functionQueue
         self.enableTime = time.time()
-        self.getTime = 0
+        self.getQueueProcessingTime = 0
         self.frametimes = []
         self.executiontimes = []
         
@@ -101,8 +101,8 @@ class PluginRunner():
             endTime = time.time()
             self.frametimes.append(endTime - startTime)
             self.executiontimes.append(pluginExec - startTime)
-            self.executiontimes[-1] -= self.getTime
-            self.getTime = 0
+            self.executiontimes[-1] -= self.getQueueProcessingTime
+            self.getQueueProcessingTime = 0
             # Send the frametimes to the main thread once a second
             if endTime - self.timer > 0.5:
                 # Calculate the avg frametime
@@ -151,7 +151,7 @@ class PluginRunner():
             count += 1
             
         endTime = time.time()
-        self.getTime += endTime - startTime
+        self.getQueueProcessingTime += endTime - startTime
         # Return all gathered data
         return data
     

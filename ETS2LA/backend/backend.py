@@ -134,5 +134,18 @@ def RemovePluginRunner(pluginName):
     runners[pluginName].runner.terminate()
     runners.pop(pluginName)
 
+def GetGitHistory():
+    # Get the git history as json
+    import git
+    repo = git.Repo(search_parent_directories=True)
+    commits = []
+    for commit in repo.iter_commits():
+        commits.append({
+            "author": commit.author.name,
+            "message": commit.message,
+            "time": commit.committed_date
+        })
+    return commits
+
 # These are run on startup.
 GetAvailablePlugins()

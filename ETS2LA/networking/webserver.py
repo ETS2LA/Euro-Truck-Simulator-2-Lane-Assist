@@ -93,6 +93,10 @@ def get_plugin_setting(plugin: str, key: str):
 def get_plugin_settings(plugin: str):
     return settings.GetJSON(plugin)
 
+@app.get("/api/git/history")
+def get_git_history():
+    return backend.GetGitHistory()
+
 from pydantic import BaseModel
 class PluginCallData(BaseModel):
     args: list

@@ -1,3 +1,4 @@
+import { time } from "console"
 import { randomInt } from "crypto"
 import { toast } from "sonner"
 const sleep = (delay:number) => new Promise((resolve) => setTimeout(resolve, delay))
@@ -65,4 +66,16 @@ async function PluginFunctionCall(plugin:string, method:string, args:any, kwargs
     return data
 }
 
-export { GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall }
+async function GetGitHistory(ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/git/history`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+export { GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory }

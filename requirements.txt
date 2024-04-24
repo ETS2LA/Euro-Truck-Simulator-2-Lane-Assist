@@ -4,3 +4,4 @@ rpyc
 mss
 websockets
 pywebview
+git

@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
-import { ETS2LAMenubar } from "@/components/ets2la-menubar";
-import { ETS2LACommandMenu } from '@/components/ets2la-command-menu';
+import { ETS2LAMenubar } from "@/components/ets2la_menubar";
+import { ETS2LACommandMenu } from '@/components/ets2la_command_menu';
 import { GetIP } from "./server";
 import { Toaster } from "@/components/ui/sonner"
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +13,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import useSWR from 'swr';
-import Loader from '@/components/ets2la-loader';
+import Loader from '@/components/ets2la_loader';
 import Head from 'next/head';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -105,7 +105,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         disableTransitionOnChange
       >
         <ETS2LAMenubar ip={ip} />
-        <div className='py-3'>
+        <div className='py-3 h-full'>
           <Component {...newPageProps} />
         </div>
         <ETS2LACommandMenu ip={ip} />
