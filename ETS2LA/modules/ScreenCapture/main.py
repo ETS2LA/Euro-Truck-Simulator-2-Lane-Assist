@@ -1,15 +1,7 @@
 import cv2
 import numpy as np
-from ETS2LA.plugins.plugin import PluginInformation
 from ETS2LA.plugins.runner import PluginRunner
 import os
-
-PluginInfo = PluginInformation(
-    name="ScreenCapture",
-    description="Will capture the screen with MSS, and return the data back to the app.",
-    version="1.0",
-    author="Tumppi066"
-)
 
 runner:PluginRunner = None
 

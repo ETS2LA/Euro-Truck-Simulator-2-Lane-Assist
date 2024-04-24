@@ -21,10 +21,11 @@ class PluginRunner():
         self.executiontimes = []
         
         # Import the plugin
+        self.plugin_path_name = pluginName
         plugin_path = "ETS2LA.plugins." + pluginName + ".main"
         self.plugin = importlib.import_module(plugin_path)
-        self.plugin_name = self.plugin.PluginInfo.name
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
+        self.plugin_name = self.plugin_data["name"]
         self.plugin.runner = self
         
         # Load modules
@@ -33,6 +34,7 @@ class PluginRunner():
             self.plugin_data["modules"] = []
         for module in self.plugin_data["modules"]:
             module_path = "ETS2LA.modules." + module + ".main"
+            moduleName = module
             try:
                 module = importlib.import_module(module_path)
                 module.runner = self
@@ -40,7 +42,7 @@ class PluginRunner():
             except Exception as e:
                 self.logger.error(f"PluginRunner: Could not load module {module} with error: {e}")
                 continue
-            self.modules[module.PluginInfo.name] = module
+            self.modules[moduleName] = module
             
         # Run module and plugin initializers
         for module in self.modules:
@@ -108,13 +110,13 @@ class PluginRunner():
                 avgExecTime = sum(self.executiontimes) / len(self.executiontimes)
                 self.q.put({
                     f"frametimes": {
-                        f"{self.plugin_name}": {
+                        f"{self.plugin_path_name}": {
                             "frametime": avgFrametime,
                             "executiontime": avgExecTime
                         }
                         }
                     })
-                self.logger.info(f"PluginRunner: {self.plugin_name} is running at {round(1 / (avgFrametime),2)} FPS")
+                self.logger.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime),2)} FPS")
                 self.timer = endTime
                 self.frametimes = []
                 self.executiontimes = []

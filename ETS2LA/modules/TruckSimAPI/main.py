@@ -1,19 +1,6 @@
-
-
-from ETS2LA.plugins.plugin import PluginInformation
 #from src.logger import print
 import logging
 print = logging.info
-
-PluginInfo = PluginInformation(
-    name="TruckSimAPI", # This needs to match the folder name under plugins (this would mean plugins\Plugin\main.py)
-    description="API for the app to communicate with ETS2 and ATS.",
-    version="0.1",
-    author="Tumppi066",
-    url="https://github.com/ETS2LA",
-    type="dynamic", # = Panel
-    dynamicOrder="before image capture" # Will run the plugin before anything else in the mainloop (data will be empty)
-)
 
 import tkinter as tk
 from tkinter import ttk

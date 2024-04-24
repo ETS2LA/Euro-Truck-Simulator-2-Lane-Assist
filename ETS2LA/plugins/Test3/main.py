@@ -1,13 +1,6 @@
-from ETS2LA.plugins.plugin import PluginInformation
 from ETS2LA.plugins.runner import PluginRunner
 import time
 
-PluginInfo = PluginInformation(
-    name="Test3",
-    description="Test plugin",
-    version="0.1",
-    author="Test"
-)
 runner:PluginRunner = None
 lastTime = time.time()
 

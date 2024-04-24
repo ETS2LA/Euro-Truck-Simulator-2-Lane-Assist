@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The name of the plugin."
+        },
+        "authors": {
+            "type": "array",
+            "description": "The authors of the plugin.",
+            "items": {
+                "name": "string",
+                "url": "string",
+                "avatar": "string"
+            }
+        },
+        "description": {
+            "type": "string",
+            "description": "The description of the plugin."
+        },
+        "version": {
+            "type": "string",
+            "description": "The version of the plugin."
+        },
+        "dependencies": {
+            "type": "array",
+            "description": "The dependencies of the plugin.",
+            "items": {
+                "name": "string"
+            }
+        },
+        "modules": {
+            "type": "array",
+            "description": "List of modules the plugin runner will load.",
+            "items": {
+                "name": ["ScreenCapture", "SDKController", "ShowImage", "TruckSimAPI"]
+            }
+        },
+        "compatible": {
+            "type": "array",
+            "description": "List of compatible operating systems.",
+            "items": {
+                "name": ["Windows", "Linux", "MacOS"]
+            }
+        }
+    }
+}

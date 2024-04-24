@@ -3,5 +3,13 @@
     "python.analysis.diagnosticSeverityOverrides": {
         "reportMissingModuleSource": "none",
         "reportShadowedImports": "none"
-    }
+    },
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "**/plugin.json"
+            ],
+            "url": "/ETS2LA/plugins/schema.json"
+        }
+    ]
 }

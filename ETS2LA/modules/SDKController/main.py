@@ -1,15 +1,7 @@
 import cv2
 import numpy as np
-from ETS2LA.plugins.plugin import PluginInformation
 from ETS2LA.plugins.runner import PluginRunner
 import os
-
-PluginInfo = PluginInformation(
-    name="SDKController",
-    description="SDK Interface that allows for game controls",
-    version="1.0",
-    author="Tumppi066"
-)
 
 runner:PluginRunner = None
 

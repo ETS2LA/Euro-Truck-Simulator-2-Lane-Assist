@@ -1,11 +1,3 @@
-from ETS2LA.plugins.plugin import PluginInformation
-PluginInfo = PluginInformation(
-    name="AR",
-    description="in development",
-    version="1.0",
-    author="Glas42, Tumppi066"
-)
-
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 
