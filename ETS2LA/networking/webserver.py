@@ -13,7 +13,11 @@ from typing import Any
 from fastapi import Body
 import ETS2LA.variables as variables
 
-app = FastAPI()
+app = FastAPI(
+    title="ETS2LA",
+    description="Backend API for the ETS2 Lane Assist app",
+    version="1.0.0"
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
