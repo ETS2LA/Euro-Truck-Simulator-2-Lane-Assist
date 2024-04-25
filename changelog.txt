@@ -1,1 +1,1 @@
-Set default steering maximum control to 1.0 on new installs.
+Add check for Python 3.12 or over.

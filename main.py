@@ -19,10 +19,17 @@ The main file that runs the programs loop.
 # 
 # sys.settrace(trace)
 
+# Check if the user is using python 3.12 or over
+import sys
+if sys.version_info[0] == 3 and sys.version_info[1] >= 12:
+    print(f"Python 3.12 or over detected ({sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}). This version is not supported yet. Please use Python 3.11 or lower.")
+    print("\n! To uninstall Python 3.12.x go to the windows apps and features page and search for python. ! ")
+    print("\nYou can download python 3.11.8 from this link: https://www.python.org/downloads/release/python-3118/ -> Scroll Down -> Windows installer (64-bit)")
+    input("\nPress enter to exit the app...")
+    sys.exit()
 
 # Change from tkwebview2 to our custom version
 import os
-import sys
 import threading
 doRestart = False
 def CheckTkWebview2InstallVersion():
