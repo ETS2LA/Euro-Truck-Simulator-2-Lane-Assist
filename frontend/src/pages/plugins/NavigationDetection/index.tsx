@@ -43,13 +43,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
 
     const UpdateLaneOffset = async (e:any) => {
-        let newLaneOffset;
-        try {
-            newLaneOffset = (e.target as HTMLInputElement).value;
-        }
-        catch (error) {
-            newLaneOffset = e
-        }
+        let newLaneOffset = e;
         if (newLaneOffset.includes("-")) { if (newLaneOffset.length >= 5) { return; } } else if (newLaneOffset.length >= 4) { return; }
         let valid = !isNaN(parseFloat(newLaneOffset));
         if (LaneOffset === "-0" && newLaneOffset === "-" ) {newLaneOffset = ""; }
@@ -116,7 +110,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {LaneOffset !== undefined && (
                         <div>
                             <div className="flex flex-row items-center text-left gap-2 pt-2">
-                                <Input placeholder={String(defaultLaneOffset)} id="laneoffset" value={!isNaN(parseFloat(LaneOffset)) ? LaneOffset : ''}  onChangeCapture={(e) => UpdateLaneOffset(e)} style={{ width: '75px', textAlign: 'center' }}/>
+                                <Input placeholder={String(defaultLaneOffset)} id="laneoffset" value={!isNaN(parseFloat(LaneOffset)) ? LaneOffset : ''}  onChangeCapture={(e) => UpdateLaneOffset((e.target as HTMLInputElement).value)} style={{ width: '75px', textAlign: 'center' }}/>
                                 <Label htmlFor="laneoffset">
                                     <span className="font-bold">Lane Offset</span><br />
                                     If the default lane offset is not correct, you can adjust it here.
