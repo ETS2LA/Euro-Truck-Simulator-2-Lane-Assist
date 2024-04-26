@@ -5,6 +5,7 @@ import { SkeletonCard } from "./skeleton_card"
 import { GetGitHistory } from "@/pages/server"
 import { Accordion } from "./ui/accordion"
 import { AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 export default function VersionHistory({ip}: {ip: string}) {
     const { data, isLoading, error } = useSWR("api/git/history", () => GetGitHistory(ip))
@@ -18,6 +19,10 @@ export default function VersionHistory({ip}: {ip: string}) {
     // Limit data to the first 100 commits
     let commits = data.slice(0, 100);    
 
+    const getImage = (url: string) => {
+        return url
+    }
+
     return (
         <ScrollArea className="h-full pt-3 text-end">
             <h4 className="pb-3 pl-3 font-medium flex gap-1">Commit History <p className="text-xs text-stone-600">(updates)</p></h4>
@@ -27,6 +32,10 @@ export default function VersionHistory({ip}: {ip: string}) {
                     return (
                         <AccordionItem value={commit}>
                             <AccordionTrigger className="pl-3 pr-2">
+                            <Avatar>
+                                <AvatarImage src={getImage(commit.picture)}/>
+                                <AvatarFallback>Avatar</AvatarFallback>
+                            </Avatar>
                             <p className="flex gap-3"><p className="text-stone-600">{index+1}. </p> {commit.author}</p>
                             </AccordionTrigger>
                             <AccordionContent className="gap-y-2 flex flex-col">
