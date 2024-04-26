@@ -4,6 +4,10 @@ from ETS2LA.plugins.runner import PluginRunner
 import threading
 import time
 import json
+import requests
+
+global commits_save
+commits_save = []
 
 class PluginRunnerController():
     def __init__(self, pluginName):
@@ -135,17 +139,57 @@ def RemovePluginRunner(pluginName):
     runners.pop(pluginName)
 
 def GetGitHistory():
-    # Get the git history as json
-    import git
-    repo = git.Repo(search_parent_directories=True)
-    commits = []
-    for commit in repo.iter_commits():
-        commits.append({
-            "author": commit.author.name,
-            "message": commit.message,
-            "time": commit.committed_date
-        })
-    return commits
+    global commits_save
+    try:
+        # If the git history has already been retrieved, then return that instead of searching again
+        if commits_save == []:
+            # Vars
+            api_requests = 0
+            counter = 0
+            commits = []
+            authors = {}
+
+            # Get the git history as json
+            import git
+            repo = git.Repo(search_parent_directories=True)
+            
+            for commit in repo.iter_commits():
+                counter += 1
+                if not commit.author.name in authors:
+                    if commit.author.name == "DylDev": # Hardcded because of usernames
+                        url = f"https://api.github.com/users/DylDevs"
+                    else:
+                        url = f"https://api.github.com/users/{commit.author.name}"
+                    # Get the avatar url from the GitHub API
+                    response = requests.get(url, timeout=4)
+                    api_requests += 1
+                    if response.status_code == 200:
+                        data = response.json()
+                        avatar_url = data["avatar_url"]
+                        authors[commit.author.name] = avatar_url
+                    else:
+                        authors[commit.author.name] = "https://github.com/favicon.ico"
+                else:
+                    pass
+                
+                # Add the commit to the list
+                commits.append({
+                    "author": commit.author.name,
+                    "message": commit.message,
+                    "time": commit.committed_date,
+                    "picture": authors[commit.author.name]
+                })
+                if counter >= 100:
+                    break
+
+            commits_save = commits
+            return commits
+        else:
+            return commits_save
+    except:
+        import traceback
+        traceback.print_exc()
+        return []
 
 # These are run on startup.
 GetAvailablePlugins()
