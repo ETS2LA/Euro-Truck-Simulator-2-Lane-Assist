@@ -31,16 +31,19 @@ export default function VersionHistory({ip}: {ip: string}) {
                 {commits.map((commit: any, index: number) => {
                     return (
                         <AccordionItem value={commit}>
-                            <AccordionTrigger className="pl-3 pr-2">
-                            <Avatar>
-                                <AvatarImage src={getImage(commit.picture)}/>
-                                <AvatarFallback>Avatar</AvatarFallback>
-                            </Avatar>
-                            <p className="flex gap-3"><p className="text-stone-600">{index+1}. </p> {commit.author}</p>
+                            <AccordionTrigger className="pl-3 pr-3" style={{ textDecoration: 'none' }}>
+                            <div className="flex items-center gap-2">
+                                <Avatar style={{ width: '30px', height: '30px' }}>
+                                    <AvatarImage src={getImage(commit.picture)}/>
+                                    <AvatarFallback>Avatar</AvatarFallback>
+                                </Avatar>
+                                <p className="text-stone-600">{index+1}.</p>
+                                {commit.author}
+                            </div>
                             </AccordionTrigger>
                             <AccordionContent className="gap-y-2 flex flex-col">
                                 <div className="text-sm text-stone-500 text-start pl-3 pr-2">{commit.message}</div>
-                                <div className="text-xs text-stone-500 text-start pl-3 pr-2">on {new Date(commit.time * 1000).toLocaleDateString()} - {new Date(commit.time * 1000).toTimeString().split(" ")[0]}</div>
+                                <div className="text-xs text-stone-500 text-start pl-3 pr-2">{new Date(commit.time * 1000).toLocaleDateString()} - {new Date(commit.time * 1000).toTimeString().split(" ")[0]}</div>
                             </AccordionContent>
                         </AccordionItem>
                     )
