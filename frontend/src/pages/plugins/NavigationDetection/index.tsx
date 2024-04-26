@@ -50,9 +50,10 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         catch (error) {
             newLaneOffset = e
         }
+        if (newLaneOffset.includes("-")) { if (newLaneOffset.length >= 5) { return; } } else if (newLaneOffset.length >= 4) { return; }
         let valid = !isNaN(parseFloat(newLaneOffset));
         if (LaneOffset === "-0" && newLaneOffset === "-" ) {newLaneOffset = ""; }
-        if (LaneOffset === "-0" && newLaneOffset !== "-") {newLaneOffset = newLaneOffset.replace("-0", "-");}
+        if (LaneOffset === "-0" && newLaneOffset !== "-" && !newLaneOffset.includes(".")) {newLaneOffset = newLaneOffset.replace("-0", "-");}
         if (newLaneOffset === "-") { newLaneOffset += "0"; }
         if (valid) { if (parseFloat(newLaneOffset) < -15) { newLaneOffset = "-15"; } if (parseFloat(newLaneOffset) > 15) { newLaneOffset = "15"; } }
         toast.promise(SetSettingByKey("NavigationDetection", "LaneOffset", valid ? parseFloat(newLaneOffset) : defaultLaneOffset, ip), {
