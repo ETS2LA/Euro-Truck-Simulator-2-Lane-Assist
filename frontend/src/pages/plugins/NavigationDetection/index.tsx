@@ -18,13 +18,13 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-export default function TrafficLightDetection({ ip }: { ip: string }) {
+export default function NavigationDetection({ ip }: { ip: string }) {
 
     const defaultLaneOffset = "0";
     const defaultLaneChangeSpeed = "1";
     const defaultLaneChangeWidth = "10";
 
-    const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
+    const {data, error, isLoading} = useSWR("NavigationDetection", () => GetSettingsJSON("NavigationDetection", ip));
 
     const [LaneOffset, setLaneOffset] = useState<string | undefined>(undefined);
     const[LeftHandTraffic, setLeftHandTraffic] = useState<boolean | undefined>(undefined);
