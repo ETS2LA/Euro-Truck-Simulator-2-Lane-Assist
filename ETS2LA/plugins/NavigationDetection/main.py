@@ -1342,10 +1342,8 @@ def plugin(data):
 
 def manual_setup():
     print("the could would try to launch the manual setup now...")
-    return
-    subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "manual_setup.py")])
+    #subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "manual_setup.py")])
 
 def automatic_setup():
     print("the could would try to launch the automatic setup now...")
-    return
-    subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "automatic_setup.py")])
+    #subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "automatic_setup.py")])
