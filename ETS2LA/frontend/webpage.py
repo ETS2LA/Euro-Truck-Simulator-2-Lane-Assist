@@ -9,7 +9,7 @@ def start_webpage():
     def load_website(window:webview.Window):
         time.sleep(2)
         window.load_url('http://localhost:3000')
-    window = webview.create_window(f'ETS2LA - Tumppi066 & Contributors © All rights reserved {variables.YEAR}', html="""
+    window = webview.create_window(f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}', html="""
     <html>
         <style>
             body {
@@ -72,7 +72,7 @@ def run():
             sinceStart = time.time()
             while returnCode != 0:
                 time.sleep(0.01)
-                hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © All rights reserved {variables.YEAR}')
+                hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
                 returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x0b0909)), sizeof(c_int))
                 import ETS2LA.frontend.webpageExtras.titleAndIcon as titleAndIcon
                 titleAndIcon.set_window_icon('ETS2LA/frontend/webpageExtras/favicon.ico')
@@ -85,7 +85,7 @@ def run():
 def CheckIfWindowStillOpen():
     if os.name == 'nt':
         import win32gui
-        hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © All rights reserved {variables.YEAR}')
+        hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
         if hwnd == 0:
             return False
         else:
