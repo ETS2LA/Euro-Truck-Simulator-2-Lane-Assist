@@ -10,20 +10,24 @@ import VersionHistory from "@/components/version_history"
 
 export default function Home({ip} : {ip: string}) {
     return (
-        <div className="w-full h-[calc(100vh-75px)]">
-            <ResizablePanelGroup direction="horizontal" className="border rounded-lg overflow-auto text-center">
+        <div className="w-full h-[calc(100vh-72px)]">
+            <ResizablePanelGroup direction="horizontal" className="overflow-auto text-center">
                 <ResizablePanel defaultSize={20}>
-                    <PluginList ip={ip} />
-                </ResizablePanel>
-                <ResizableHandle />
-                <ResizablePanel defaultSize={60} className="content-center">
-                    <div>
-                        <p className="text-stone-600">You can open the command palette with the escape key.</p>
+                    <div className="border rounded-lg h-full">
+                        <PluginList ip={ip} />
                     </div>
                 </ResizablePanel>
-                <ResizableHandle />
+                <ResizableHandle className="bg-transparent" />
+                <ResizablePanel defaultSize={60} className="content-center">
+                    <div>
+                        <p className="text-stone-700">You can open the command palette with the escape key.</p>
+                    </div>
+                </ResizablePanel>
+                <ResizableHandle className="bg-transparent"/>
                 <ResizablePanel defaultSize={20}>
-                    <VersionHistory ip={ip} />
+                    <div className="border rounded-lg h-full">
+                        <VersionHistory ip={ip} />
+                    </div>
                 </ResizablePanel>
             </ResizablePanelGroup>
         </div>
