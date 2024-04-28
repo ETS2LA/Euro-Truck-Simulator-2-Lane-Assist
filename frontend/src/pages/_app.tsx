@@ -15,6 +15,21 @@ import { Button } from '@/components/ui/button';
 import useSWR from 'swr';
 import Loader from '@/components/ets2la_loader';
 import Head from 'next/head';
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -54,6 +69,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     setShowButton(false);
     ipRef.current = inputValue;
     mutate(ipRef.current);
+  };
+
+  const reloadPage = () => {
+    window.location.reload();
   };
 
   if (status == "isLoading") return <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -105,8 +124,26 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         disableTransitionOnChange
       >
         <ETS2LAMenubar ip={ip} />
-        <div className='py-3 h-full'>
-          <Component {...newPageProps} />
+        <div className=''>
+          <ContextMenu>
+            <ContextMenuTrigger className="py-3 h-full">
+              <Component {...newPageProps} />
+            </ContextMenuTrigger>
+            <ContextMenuContent className="w-64">
+              <ContextMenuItem disabled>
+                Back
+                <ContextMenuShortcut>TBD</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem disabled>
+                  Forward
+                <ContextMenuShortcut>TBD</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem onClick={reloadPage}>
+                  Reload
+                  <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+              </ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
         </div>
         <ETS2LACommandMenu ip={ip} />
         <Toaster position='bottom-center'/>
