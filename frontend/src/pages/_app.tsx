@@ -30,6 +30,8 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import { useRouter } from 'next/navigation';
+import { useRouter as routerUseRouter } from 'next/router';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -64,6 +66,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       setStatus("success");
     }
   }, [isLoading, error]);
+
+  const router = useRouter();
 
   const retry = () => {
     setShowButton(false);
@@ -130,13 +134,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               <Component {...newPageProps} />
             </ContextMenuTrigger>
             <ContextMenuContent className="w-64">
-              <ContextMenuItem disabled>
+              <ContextMenuItem onClick={router.back}>
                 Back
-                <ContextMenuShortcut>TBD</ContextMenuShortcut>
+                <ContextMenuShortcut>⌘B</ContextMenuShortcut>
               </ContextMenuItem>
-              <ContextMenuItem disabled>
+              <ContextMenuItem onClick={router.forward}>
                   Forward
-                <ContextMenuShortcut>TBD</ContextMenuShortcut>
+                <ContextMenuShortcut>⌘F</ContextMenuShortcut>
               </ContextMenuItem>
               <ContextMenuItem onClick={reloadPage}>
                   Reload
