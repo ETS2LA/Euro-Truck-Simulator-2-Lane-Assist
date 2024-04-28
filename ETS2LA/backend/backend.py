@@ -145,7 +145,6 @@ def GetGitHistory():
         if commits_save == []:
             # Vars
             api_requests = 0
-            counter = 0
             commits = []
             authors = {}
 
@@ -154,7 +153,6 @@ def GetGitHistory():
             repo = git.Repo(search_parent_directories=True)
             
             for commit in repo.iter_commits():
-                counter += 1
                 if not commit.author.name in authors:
                     if commit.author.name == "DylDev": # Hardcded because of usernames
                         url = f"https://api.github.com/users/DylDevs"
@@ -179,8 +177,6 @@ def GetGitHistory():
                     "time": commit.committed_date,
                     "picture": authors[commit.author.name]
                 })
-                if counter >= 100:
-                    break
 
             commits_save = commits
             return commits
