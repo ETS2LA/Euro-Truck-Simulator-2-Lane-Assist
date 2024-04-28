@@ -161,6 +161,8 @@ def GetGitHistory():
                     # Get the avatar url from the GitHub API
                     response = requests.get(url, timeout=4)
                     api_requests += 1
+                    print(response.status_code)
+                    print(f"API Requests: {api_requests}")
                     if response.status_code == 200:
                         data = response.json()
                         avatar_url = data["avatar_url"]

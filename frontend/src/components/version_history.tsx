@@ -49,14 +49,14 @@ export default function VersionHistory({ip}: {ip: string}) {
                     return (
                         <AccordionItem value={commit} className="w-full">
                             <AccordionTrigger className="pl-3 pr-3 decoration-transparent">
-                            <div className="flex items-center gap-2 w-full">
+                            <div className="flex items-center gap-3 w-full">
                                 <Avatar className="w-7 h-7">
                                     <AvatarImage src={getImage(commit.picture)}/>
                                     <AvatarFallback>Avatar</AvatarFallback>
                                 </Avatar>
                                 {commit.author}
                             </div>
-                            <p className="text-stone-600 pr-2">{count-index}.</p>
+                            <p className="text-stone-600 pr-2">{count-index}</p>
                             </AccordionTrigger>
                             <AccordionContent className="gap-y-2 flex flex-col">
                                 <div className="text-sm text-stone-500 text-start pl-3 pr-2">{commit.message}</div>
