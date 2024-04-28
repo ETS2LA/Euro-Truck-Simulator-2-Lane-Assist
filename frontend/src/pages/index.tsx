@@ -21,6 +21,7 @@ import {
     ContextMenuSubTrigger,
     ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import { toast } from "sonner"
   
 
 export default function Home({ip} : {ip: string}) {
@@ -39,7 +40,7 @@ export default function Home({ip} : {ip: string}) {
                             Right Click
                         </ContextMenuTrigger>
                         <ContextMenuContent className="w-64">
-                            <ContextMenuItem inset>
+                            <ContextMenuItem onClick={() => toast.info("Not yet implemented.")}>
                                 User interface guide
                             </ContextMenuItem>
                         </ContextMenuContent>
