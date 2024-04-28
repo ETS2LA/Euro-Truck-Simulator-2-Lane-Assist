@@ -124,9 +124,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         disableTransitionOnChange
       >
         <ETS2LAMenubar ip={ip} />
-        <div className=''>
+        <div className='py-3 '>
           <ContextMenu>
-            <ContextMenuTrigger className="py-3 h-full">
+            <ContextMenuTrigger className="h-full">
               <Component {...newPageProps} />
             </ContextMenuTrigger>
             <ContextMenuContent className="w-64">
