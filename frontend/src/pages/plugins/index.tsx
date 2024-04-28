@@ -33,7 +33,7 @@ import { Gauge, LineChart } from "lucide-react"
 
 export default function Home({ ip }: { ip: string }) {
     const { push } = useRouter()
-    const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 500 })
+    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
     if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Card>
     if (error){
         toast.error("Error fetching plugins from " + ip, {description: error.message})

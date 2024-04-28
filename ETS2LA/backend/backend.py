@@ -153,32 +153,38 @@ def GetGitHistory():
             repo = git.Repo(search_parent_directories=True)
             
             for commit in repo.iter_commits():
-                if not commit.author.name in authors:
-                    if commit.author.name == "DylDev": # Hardcded because of usernames
-                        url = f"https://api.github.com/users/DylDevs"
-                    else:
-                        url = f"https://api.github.com/users/{commit.author.name}"
-                    # Get the avatar url from the GitHub API
-                    response = requests.get(url, timeout=4)
-                    api_requests += 1
-                    print(response.status_code)
-                    print(f"API Requests: {api_requests}")
-                    if response.status_code == 200:
-                        data = response.json()
-                        avatar_url = data["avatar_url"]
-                        authors[commit.author.name] = avatar_url
-                    else:
-                        authors[commit.author.name] = "https://github.com/favicon.ico"
-                else:
-                    pass
-                
                 # Add the commit to the list
                 commits.append({
                     "author": commit.author.name,
                     "message": commit.message,
-                    "time": commit.committed_date,
-                    "picture": authors[commit.author.name]
+                    "time": commit.committed_date
                 })
+            
+            count = len(commits)
+            index = 0
+            for commit in commits:
+                if index <= 100: # Only get images for the first 100 commits
+                    if not commit["author"] in authors:
+                        if commit["author"] == "DylDev": # Hardcded because of usernames
+                            url = f"https://api.github.com/users/DylDevs"
+                        else:
+                            print(commit["author"])
+                            url = f"https://api.github.com/users/{commit['author']}"
+                        # Get the avatar url from the GitHub API
+                        response = requests.get(url, timeout=4)
+                        api_requests += 1
+                        if response.status_code == 200:
+                            data = response.json()
+                            avatar_url = data["avatar_url"]
+                            authors[commit["author"]] = avatar_url
+                        else:
+                            authors[commit["author"]] = "https://github.com/favicon.ico"
+                    else:
+                        pass
+                    
+                    commit["picture"] = authors[commit["author"]]
+                
+                index += 1
 
             commits_save = commits
             return commits

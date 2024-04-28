@@ -32,7 +32,7 @@ export default function PluginList({ ip }: { ip: string }) {
             <Accordion type="single" collapsible>
                 {Object.keys(data as any).map((plugin, index) => (
                     <AccordionItem value={plugin}>
-                        <AccordionTrigger className="pl-3 pr-2">
+                        <AccordionTrigger className="pl-3 pr-2 decoration-transparent">
                             <p className="flex gap-3"><p className="text-stone-600">{index+1}. </p> {plugin}</p>
                         </AccordionTrigger>
                         <AccordionContent className="pl-2 flex gap-2 w-full pr-2">

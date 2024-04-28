@@ -22,7 +22,7 @@ export function ETS2LAMenubar({ip}: {ip: string}) {
     const { theme, setTheme } = useTheme()
     const { push } = useRouter()
     // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
-    const { data, error, isLoading } = useSWR(ip, () => GetPlugins(ip), { refreshInterval: 1000 })
+    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 })
     if (isLoading) return <Menubar><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Menubar>
     if (error){
         toast.error("Error fetching plugins from " + ip, {description: error.message})

@@ -8,7 +8,7 @@ import { AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordio
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 export default function VersionHistory({ip}: {ip: string}) {
-    const { data, isLoading, error } = useSWR("api/git/history", () => GetGitHistory(ip))
+    const { data, isLoading, error } = useSWR("history", () => GetGitHistory(ip))
     if (isLoading) return <div className="p-2 flex flex-col space-y-4">
         <div className="h-7 flex flex-col pt-2">
             <h4 className="pb-3 pl-1 font-medium flex gap-1">Commit History <p className="text-xs text-stone-600">(loading...)</p></h4>
@@ -49,14 +49,14 @@ export default function VersionHistory({ip}: {ip: string}) {
                     return (
                         <AccordionItem value={commit} className="w-full">
                             <AccordionTrigger className="pl-3 pr-3 decoration-transparent">
-                            <div className="flex items-center gap-3 w-full">
-                                <Avatar className="w-7 h-7">
-                                    <AvatarImage src={getImage(commit.picture)}/>
-                                    <AvatarFallback>Avatar</AvatarFallback>
-                                </Avatar>
-                                {commit.author}
-                            </div>
-                            <p className="text-stone-600 pr-2">{count-index}</p>
+                                <div className="flex items-center gap-3 w-full">
+                                    <Avatar className="w-7 h-7">
+                                        <AvatarImage src={getImage(commit.picture)}/>
+                                        <AvatarFallback>Avatar</AvatarFallback>
+                                    </Avatar>
+                                    {commit.author}
+                                </div>
+                                <p className="text-stone-600 pr-2">{count-index}</p>
                             </AccordionTrigger>
                             <AccordionContent className="gap-y-2 flex flex-col">
                                 <div className="text-sm text-stone-500 text-start pl-3 pr-2">{commit.message}</div>
