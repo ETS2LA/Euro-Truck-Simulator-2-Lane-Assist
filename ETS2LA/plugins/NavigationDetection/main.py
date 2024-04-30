@@ -1,7 +1,9 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
+#import ETS2LA.src.controls as controls
+import ETS2LA.src.console as console
 import ETS2LA.variables as variables
-import ETS2LA.controls as controls
+import ETS2LA.src.sounds as sounds
 
 import numpy as np
 import subprocess
@@ -21,13 +23,17 @@ import torch
 
 runner:PluginRunner = None
 
-controls.RegisterKeybind("Lane change to the left",
-                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
-                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
+#controls.RegisterKeybind("Lane change to the left",
+#                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+#                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
 
-controls.RegisterKeybind("Lane change to the right",
-                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
-                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
+#controls.RegisterKeybind("Lane change to the right",
+#                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+#                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
+
+
+def SendCrashReport(): # REMOVE THIS LATER
+    return
 
 
 ############################################################################################################################    
@@ -886,22 +892,26 @@ def plugin():
             indicator_changed_by_code = False
         
         try:
-            if controls.GetKeybindFromName("Lane change to the left")['buttonIndex'] != -1:
-                controls_left_set = True
-                controls_left = controls.GetKeybindValue("Lane change to the left")
-            else:
-                controls_left_set = False
-                controls_left = False
+            #if controls.GetKeybindFromName("Lane change to the left")['buttonIndex'] != -1:
+            #    controls_left_set = True
+            #    controls_left = controls.GetKeybindValue("Lane change to the left")
+            #else:
+            #    controls_left_set = False
+            #    controls_left = False
+            controls_left_set = False # REMOVE THIS LATER
+            controls_left = False # REMOVE THIS LATER
         except:
             controls_left_set = False
             controls_left = False
         try:
-            if controls.GetKeybindFromName("Lane change to the right")['buttonIndex'] != -1:
-                controls_right_set = True
-                controls_right = controls.GetKeybindValue("Lane change to the right")
-            else:
-                controls_right_set = False
-                controls_right = False
+            #if controls.GetKeybindFromName("Lane change to the right")['buttonIndex'] != -1:
+            #    controls_right_set = True
+            #    controls_right = controls.GetKeybindValue("Lane change to the right")
+            #else:
+            #    controls_right_set = False
+            #    controls_right = False
+            controls_right_set = False # REMOVE THIS LATER
+            controls_right = False # REMOVE THIS LATER
         except:
             controls_right_set = False
             controls_right = False
@@ -995,25 +1005,25 @@ def plugin():
                 allow_playsound = False
                 allow_playsound_timer = current_time
 
-            else if do_blocked == True:
+            elif do_blocked == True:
                 correction = 0
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
 
-            elif do_zoom == True and allow_do_zoom == True:
+            elif do_zoom == True:
                 correction = 0
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
 
-            else if width_lane == 0:
+            elif width_lane == 0:
                 correction = 0
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
 
-            else if current_time - 1 > allow_playsound_timer:
+            elif current_time - 1 > allow_playsound_timer:
                 allow_playsound_timer = current_time
                 allow_playsound = True
 
@@ -1046,7 +1056,6 @@ def plugin():
             data["LaneDetection"]["difference"] = correction/30
         data["NavigationDetection"] = {}
         data["NavigationDetection"]["lanedetected"] = lane_detected
-        data["NavigationDetection"]["mapdetected"] = map_detected
         data["NavigationDetection"]["turnincoming"] = turnincoming_detected
         data["NavigationDetection"]["curve"] = curve
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
