@@ -1,0 +1,10 @@
+{
+    "ToggleSteering": {
+        "description": "",
+        "deviceGUID": 1,
+        "buttonIndex": "n",
+        "axisIndex": -1,
+        "shouldBeAxis": false,
+        "notBoundInfo": ""
+    }
+}

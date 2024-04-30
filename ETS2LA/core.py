@@ -6,12 +6,16 @@ import ETS2LA.frontend.immediate as immediate
 from ETS2LA.utils.logging import *
 import ETS2LA.frontend.webpage as webpage
 import ETS2LA.variables as variables
+import ETS2LA.backend.events as events
+import ETS2LA.backend.controls as controls
 
 # Initialize the backend
 logger = SetupGlobalLogging()
 immediate.run() # Websockets server for immediate data
 webserver.run() # External webserver for the UI
 webpage.run() # Tkinter webview to the website.
+events.run() # Event handlers
+controls.run() # Control handlers
 logging.info("Available CPU cores: " + str(os.cpu_count()))
 
 

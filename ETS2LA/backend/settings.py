@@ -4,6 +4,33 @@ import logging
 import time
 import random
 
+def GetFilename(plugin):
+    if "/" in plugin or "\\" in plugin:
+        filename = plugin
+    else: 
+        filename = "ETS2LA/plugins/" + plugin + "/settings.json"
+    
+    return filename
+
+def CreateIfNotExists(plugin):
+    """Will check if the settings file exists for the plugin provided.
+
+    Args:
+        plugin (str): Plugin name to check for.
+
+    Returns:
+        bool: True if the file exists, False otherwise.
+    """
+    
+    # Check if the file exists
+    filename = GetFilename(plugin)
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    if not os.path.exists(filename):
+        with open(filename, 'w') as f:
+            json.dump({}, f, indent=4)
+            return False
+    return True
+
 def WaitUntilLock(plugin):
     """Will wait until the lock file is removed from the plugin folder.
 
@@ -12,9 +39,10 @@ def WaitUntilLock(plugin):
     """
     
     # Wait until the lock file is removed
+    filename = GetFilename(plugin).split(".json")[0] + ".lock"
     while True:
         time.sleep(random.uniform(0, 0.2))
-        if not os.path.exists("ETS2LA/plugins/" + plugin + "/lock"):
+        if not os.path.exists(filename):
             break
     
 def CreateLock(plugin):
@@ -25,7 +53,9 @@ def CreateLock(plugin):
     """
     
     # Create the lock file
-    with open("ETS2LA/plugins/" + plugin + "/lock", 'w') as f:
+    filename = GetFilename(plugin).split(".json")[0] + ".lock"
+        
+    with open(filename, 'w') as f:
         f.write("lock")
         pass
     
@@ -37,10 +67,12 @@ def RemoveLock(plugin):
     """
     
     # Remove the lock file
-    if os.path.exists("ETS2LA/plugins/" + plugin + "/lock"):
-        os.remove("ETS2LA/plugins/" + plugin + "/lock")
+    filename = GetFilename(plugin).split(".json")[0] + ".lock"
+        
+    if os.path.exists(filename):
+        os.remove(filename)
 
-def GetJSON(plugin):
+def GetJSON(plugin, filename=None):
     """Will get the settings for the plugin provided as a JSON object.
 
     Args:
@@ -51,11 +83,8 @@ def GetJSON(plugin):
     """
     
     # Check that the file exists
-    filename = "ETS2LA/plugins/" + plugin + "/settings.json"
-    if not os.path.exists(filename):
-        with open(filename, 'w') as f:
-            json.dump({}, f, indent=4)
-            return {}
+    filename = GetFilename(plugin)
+    CreateIfNotExists(plugin)
     
     try:
         with open(filename) as f:
@@ -78,11 +107,8 @@ def Get(plugin, key, default=None):
     """
     
     # Check that the file exists
-    filename = "ETS2LA/plugins/" + plugin + "/settings.json"
-    if not os.path.exists(filename):
-        with open(filename, 'w') as f:
-            json.dump({}, f, indent=4)
-            return default
+    filename = GetFilename(plugin)
+    CreateIfNotExists(plugin)
     
     try:
         with open(filename) as f:
@@ -110,15 +136,14 @@ def Set(plugin, key, value):
     # Check that the file exists
     WaitUntilLock(plugin)
     CreateLock(plugin)
-    filename = "ETS2LA/plugins/" + plugin + "/settings.json"
-    if not os.path.exists(filename):
-        with open(filename, 'w') as f:
-            json.dump({}, f, indent=4)
+    
+    filename = GetFilename(plugin)
+    CreateIfNotExists(plugin)
     try:
-        with open("ETS2LA/plugins/" + plugin + "/settings.json") as f:
+        with open(filename) as f:
             data = json.load(f)
             data[key] = value
-            with open("ETS2LA/plugins/" + plugin + "/settings.json", 'w') as f:
+            with open(filename, 'w') as f:
                 json.dump(data, f, indent=4)
                 
             RemoveLock(plugin)
@@ -156,6 +181,6 @@ def Listen(plugin, callback):
                         logging.error("Callback function call unsuccessful.")
                 
     import threading
-    t = threading.Thread(target=listen, args=("ETS2LA/plugins/" + plugin + "/settings.json", callback))
+    t = threading.Thread(target=listen, args=(GetFilename(plugin), callback))
     t.daemon = True
     t.start()

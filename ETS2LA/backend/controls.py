@@ -11,29 +11,19 @@ GetKeybindValue(name)
 """
 import tkinter as tk
 from tkinter import ttk
-import src.helpers as helpers
-import src.mainUI as mainUI
-import src.variables as variables
-import src.settings as settings
 import os
-from plugins.plugin import PluginInformation
 import math
 import pygame
 import keyboard
 from tktooltip import ToolTip
-from src.logger import print
-
-PluginInfo = PluginInformation(
-    name="controls", # This needs to match the folder name under plugins (this would mean plugins\Panel\main.py)
-    description="Provides a way to manage inputs unified for all plugins.",
-    version="0.1",
-    author="Tumppi066",
-    url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
-    type="static" # = Panel
-)
+import ETS2LA.backend.settings as settings
+from ETS2LA.frontend.immediate import send_sonner
+import time
+import logging
 
 KEYBOARD_GUID = 1
 KEYBINDS = []
+SETTINGS_FILENAME = "ETS2LA/backend/settings/controls.json"
 def RegisterKeybind(name:str, callback=None, notBoundInfo:str="", description:str="", axis:bool=False, defaultButtonIndex:int=-1, defaultAxisIndex:int=-1):
     """Will register a keybind to the input manager. This is necessary to use the keybind.
 
@@ -91,7 +81,7 @@ def GetKeybindFromName(name):
     Returns:
         dict: Keybind data.
     """
-    keybind = settings.GetSettings("Input", name)
+    keybind = settings.Get(SETTINGS_FILENAME, name)
     return keybind
 
 def SaveKeybind(name, description="", deviceGUID=-1, buttonIndex=-1, axisIndex=-1, shouldBeAxis=False, notBoundInfo=""):
@@ -105,12 +95,13 @@ def SaveKeybind(name, description="", deviceGUID=-1, buttonIndex=-1, axisIndex=-
         axisIndex (int, optional): Axis index. If -1 axis will not be considered. Defaults to -1.
         notBoundInfo (str, optional): Info to show when the keybind is not bound. Defaults to "".
     """
-    settings.CreateSettings("Input", name, {"description": description, "deviceGUID": deviceGUID, "buttonIndex": buttonIndex, "axisIndex": axisIndex, "shouldBeAxis": shouldBeAxis, "notBoundInfo": notBoundInfo})    
+    settings.Set(SETTINGS_FILENAME, name, {"description": description, "deviceGUID": deviceGUID, "buttonIndex": buttonIndex, "axisIndex": axisIndex, "shouldBeAxis": shouldBeAxis, "notBoundInfo": notBoundInfo})    
 
 pygame.init()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-def plugin(data):
+wasPressing = []
+def plugin():
     """Handles calling back the keybinds. Should not be called directly.
 
     Args:
@@ -119,30 +110,38 @@ def plugin(data):
     Returns:
         dict: Data dictionary to main.py
     """
-    pygame.event.pump()
-    for keybind in KEYBINDS:
-        if keybind["callback"] != None:
-            if keybind["deviceGUID"] == KEYBOARD_GUID:
-                try:
-                    if keyboard.is_pressed(keybind["buttonIndex"]):
-                        keybind["callback"]()
-                except:
-                    pass
-            else:
-                for joystick in joysticks:
+    global wasPressing
+    while True:
+        pygame.event.pump()
+        for keybind in KEYBINDS:
+            if keybind["callback"] != None:
+                if keybind["deviceGUID"] == KEYBOARD_GUID:
                     try:
-                        if joystick.get_guid() == keybind["deviceGUID"]:
-                            if keybind["buttonIndex"] != -1:
-                                if joystick.get_button(keybind["buttonIndex"]):
-                                    keybind["callback"]()
-                            elif keybind["axisIndex"] != -1:
-                                if abs(joystick.get_axis(keybind["axisIndex"])) > 0.4:
-                                    keybind["callback"]()
+                        if keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] not in wasPressing:
+                            try:
+                                keybind["callback"]()
+                            except:
+                                import traceback
+                                traceback.print_exc()
+                            wasPressing.append(keybind["name"])
+                        elif not keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] in wasPressing:
+                            wasPressing.remove(keybind["name"])
                     except:
                         pass
-            pass
-    
-    return data
+                else:
+                    for joystick in joysticks:
+                        try:
+                            if joystick.get_guid() == keybind["deviceGUID"]:
+                                if keybind["buttonIndex"] != -1:
+                                    if joystick.get_button(keybind["buttonIndex"]):
+                                        keybind["callback"]()
+                                elif keybind["axisIndex"] != -1:
+                                    if abs(joystick.get_axis(keybind["axisIndex"])) > 0.4:
+                                        keybind["callback"]()
+                        except:
+                            pass
+                pass
+
 
 def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
     """Will run the keybind change window code.
@@ -158,10 +157,9 @@ def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
     
     print("Changing keybind " + name)
     # Make a new window to get the keybind on
-    window = tk.Toplevel()
+    window = tk.Tk()
     window.title("Change keybind")
-    mainUIPos = mainUI.root.winfo_x(), mainUI.root.winfo_y()
-    window.geometry(f"300x200+{mainUIPos[0] + 100}+{mainUIPos[1] + 100}")
+    window.geometry(f"300x200")
     window.resizable(False, False)
     window.grab_set()
     window.focus_set()
@@ -283,7 +281,6 @@ def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
         if not foundAxis and keybindToChange["shouldBeAxis"]:
             axisSlider.set(0)
 
-        mainUI.root.update()
         window.update()
         foundAxis = False
         
@@ -300,14 +297,12 @@ def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
 
         print(f"Saved keybind {name}")
 
-    if updateUI:
-        mainUI.closeTabName("controls")
-        mainUI.switchSelectedPlugin("src.controls")
         
     if callback != None:
         callback()
         
-    helpers.ShowPopup("\nKeybind change successful.", "Controls", timeout=3)
+    
+    send_sonner("\nKeybind change successful.", "success", timeout=3)
         
 def UnbindKeybind(name, updateUI=True):
     """Remove the binding of a keybind.
@@ -325,9 +320,6 @@ def UnbindKeybind(name, updateUI=True):
                                                                                                  "axisIndex": -1,
                                                                                                  "shouldBeAxis": next((item for item in KEYBINDS if item["name"] == name), None)["shouldBeAxis"],
                                                                                                  "notBoundInfo": next((item for item in KEYBINDS if item["name"] == name), None)["notBoundInfo"]}
-    if updateUI:
-        mainUI.closeTabName("controls")
-        mainUI.switchSelectedPlugin("src.controls")
 
 
 def GetKeybindValue(name:str):
@@ -371,109 +363,7 @@ def GetKeybindValue(name:str):
     
     return False
 
-class UI():
-    try: # The panel is in a try loop so that the logger can log errors if they occur
-        
-        def __init__(self, master) -> None:
-            self.master = master # "master" is the mainUI window
-            # Check if the KEYBINDS list is empty. If so, then don't load the UI
-            self.loadUI()
-        
-        def destroy(self):
-            self.done = True
-            self.root.destroy()
-            del self
-
-        
-        def loadUI(self):
-            
-            try:
-                self.root.destroy() # Load the UI each time this plugin is called
-            except: pass
-            
-            self.root = tk.Canvas(self.master, width=700, height=600, border=0, highlightthickness=0)
-            self.root.grid_propagate(0) # Don't fit the canvast to the widgets
-            self.root.pack_propagate(0)
-            
-            self.controlsNotebook = ttk.Notebook(self.root, width=700, height=600)
-            
-            keybindCount = len(KEYBINDS)
-            pages = []
-            for i in range(math.ceil(keybindCount/6)):
-                pages.append(ttk.Frame(self.controlsNotebook))
-                self.controlsNotebook.add(pages[i], text="Page " + str(i+1))
-                self.controlsNotebook.pack(anchor="center", expand=False)
-                
-            i = 0
-            page = 0
-            
-            pygame.init()
-            pygame.joystick.init()
-            joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-            
-            for i in range(keybindCount):
-                keybind = KEYBINDS[i]
-                frame = ttk.LabelFrame(pages[page], text="Keybind  -  " + keybind["name"], width=700)
-                
-                # Make labels for the keybind information
-                if keybind["deviceGUID"] != -1:
-                    noDevice = True
-                    
-                    if keybind["deviceGUID"] == KEYBOARD_GUID:
-                        label = helpers.MakeLabel(frame, "Device: Keyboard", 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
-                        ToolTip(label, msg="GUID: " + str(KEYBOARD_GUID) + "\nThis is the keyboard connected to the computer.")
-                        noDevice = False
-                        
-                    for joystick in joysticks:
-                        if joystick.get_guid() == keybind["deviceGUID"]:
-                            label = helpers.MakeLabel(frame, "Device: " + joystick.get_name(), 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"], tooltip=f"GUID: {str(joystick.get_guid())}")
-                            ToolTip(label, msg=f"GUID: {str(joystick.get_guid())}")
-                            noDevice = False
-                            break
-                        
-                    if noDevice:
-                        label = helpers.MakeLabel(frame, "Device: Missing", 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"], fg="yellow")
-                        ToolTip(label, msg="The device that was used to bind this keybind is not connected to the computer.\nGUID: " + str(keybind["deviceGUID"]))
-                        
-                if keybind["buttonIndex"] != -1:
-                    if type(keybind["buttonIndex"]) == type(""):
-                        helpers.MakeLabel(frame, "Key: " + keybind["buttonIndex"], 1, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
-                    else:
-                        helpers.MakeLabel(frame, "Button index: " + str(keybind["buttonIndex"]), 1, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
-                elif keybind["axisIndex"] != -1:
-                    helpers.MakeLabel(frame, "Axis index: " + str(keybind["axisIndex"]), 1, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
-                
-                if keybind["deviceGUID"] == -1:
-                    helpers.MakeLabel(frame, "Not bound", 0, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"], fg="red")
-                    if keybind["notBoundInfo"] != "":
-                        helpers.MakeLabel(frame, keybind["notBoundInfo"], 1, 2, sticky="w", padx=10, pady=0, font=["Segoe UI", 10, "bold"])
-                
-                button = helpers.MakeButton(frame, "Change" if not keybind["deviceGUID"] == -1 else "Bind", lambda i=i: ChangeKeybind(KEYBINDS[i]["name"]), 0, 0, sticky="e", rowspan=3)
-                
-                if keybind["description"] != "":
-                    ToolTip(button, msg=keybind["description"])
-                
-                helpers.MakeButton(frame, "Remove", lambda i=i: UnbindKeybind(KEYBINDS[i]["name"]), 0, 1, sticky="e", rowspan=3, state="disabled" if keybind["deviceGUID"] == -1 else "!disabled")
-                
-                frame.pack(anchor="w", fill="x", expand=False)
-                i += 1
-                if i % 6 == 0:
-                    page += 1
-                    i = 0
-            
-            for i in range(len(pages)):
-                self.controlsNotebook.tab(i, text="Page " + str(i+1))
-                
-            
-            
-            self.controlsNotebook.pack(anchor="center", expand=False)
-            self.root.pack(anchor="center", expand=False)
-            self.root.update()
-        
-        
-        def update(self, data): # When the panel is open this function is called each frame 
-            self.root.update()
-    
-    
-    except Exception as ex:
-        print(ex.args)
+import threading
+def run():
+    threading.Thread(target=plugin, daemon=True, ).start()
+    logging.info("Controls listener started.")

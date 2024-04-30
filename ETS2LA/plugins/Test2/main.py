@@ -12,6 +12,9 @@ def Initialize():
     global DS, SI
     DS = runner.modules.Steering
     SI = runner.modules.ShowImage
+    
+def ToggleSteering(state:bool, *args, **kwargs):
+    print("Steering is now " + str(state))
 
 def plugin():
     # sine wave

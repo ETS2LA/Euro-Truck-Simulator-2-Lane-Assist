@@ -8,13 +8,14 @@ from ETS2LA.utils.logging import *
 import json
 from types import SimpleNamespace
 class PluginRunner():
-    def __init__(self, pluginName, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue):
+    def __init__(self, pluginName, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue, eventQueue:multiprocessing.Queue):
         # Initialize the logger
         self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"))
         
         # Save the values to the class
         self.q = queue
         self.fq = functionQueue
+        self.eq = eventQueue
         self.enableTime = time.time()
         self.getQueueProcessingTime = 0
         self.frametimes = []
@@ -89,9 +90,38 @@ class PluginRunner():
                 except Exception as e:
                     self.logger.error(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")
 
+    def eventThread(self):
+        while True:
+            try:
+                data = self.eq.get(timeout=0.5)
+            except:
+                time.sleep(0.00001)
+                continue
+            if type(data) == type(None):
+                time.sleep(0.00001)
+                continue
+            if "event" in data:
+                event = data["event"]
+                args = data["args"]
+                kwargs = data["kwargs"]
+                
+                if type(args) != type([]):
+                    args = [args]
+                if type(kwargs) != type({}):
+                    kwargs = {}
+                
+                # Call the function by that name in the plugin
+                try:
+                    event = getattr(self.plugin, event)
+                    event(*args, **kwargs)
+                        
+                except Exception as e:
+                    self.logger.error(f"PluginRunner: Error while calling event {event} in {self.plugin_name}: {e}")
+
     def run(self):
         self.timer = time.time()
         threading.Thread(target=self.functionThread, daemon=True).start()
+        threading.Thread(target=self.eventThread, daemon=True).start()
         while True: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
             startTime = time.time()
             data = self.plugin.plugin()

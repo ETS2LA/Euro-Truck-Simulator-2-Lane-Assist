@@ -18,7 +18,8 @@ class PluginRunnerController():
         # Make the queue (comms) and start the process.
         self.queue = multiprocessing.JoinableQueue()
         self.functionQueue = multiprocessing.JoinableQueue()
-        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, self.queue, self.functionQueue, ), daemon=True)
+        self.eventQueue = multiprocessing.JoinableQueue()
+        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, self.queue, self.functionQueue, self.eventQueue), daemon=True)
         self.runner.start()
         self.run()
         
@@ -127,6 +128,15 @@ def CallPluginFunction(plugin, function, args, kwargs):
         import traceback
         traceback.print_exc()
         return False
+    
+def CallEvent(event, args, kwargs):
+    for runner in runners:
+        try:
+            runners[runner].eventQueue.put({"event": event, "args": args, "kwargs": kwargs})
+        except:
+            import traceback
+            traceback.print_exc()
+            pass
 
 def AddPluginRunner(pluginName):
     # Run the plugin runner in a separate thread. This is done to avoid blocking the main thread.
