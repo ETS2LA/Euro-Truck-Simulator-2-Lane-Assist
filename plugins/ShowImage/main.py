@@ -26,7 +26,8 @@ import src.mainUI as mainUI
 import src.variables as variables
 import src.settings as settings
 from src.translator import Translate
-import os
+from ctypes import windll, byref, sizeof, c_int
+import win32gui, win32con
 import cv2
 
 def onEnable():
@@ -35,15 +36,31 @@ def onEnable():
 def onDisable():
     pass
 
+def initializeWindow():
+    cv2.namedWindow("Lane Assist", cv2.WINDOW_NORMAL)
+    cv2.setWindowProperty("Lane Assist", cv2.WND_PROP_TOPMOST, 1)
+
+    hwnd = win32gui.FindWindow(None, "Lane Assist")
+    windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
+
+    icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
+    hicon = win32gui.LoadImage(None, f"{variables.PATH}assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
+
+    win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
+    win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
+
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
 def plugin(data):
     try:
         frame = data["frame"]
-        cv2.namedWindow("Lane Assist", cv2.WINDOW_NORMAL)
-        # Make it on top
-        cv2.setWindowProperty("Lane Assist", cv2.WND_PROP_TOPMOST, 1)
+
+        try:
+            cv2.getWindowImageRect("Lane Assist")
+        except:
+            initializeWindow()
+
         cv2.imshow("Lane Assist", frame)
         return data
     

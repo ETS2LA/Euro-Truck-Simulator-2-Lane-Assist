@@ -29,12 +29,14 @@ from src.translator import Translate
 from tkinter import messagebox
 import os
 
-import cv2
+from ctypes import windll, byref, sizeof, c_int
+import win32gui, win32con
 import numpy as np
 import pyautogui
 import ctypes
 import mouse
 import time
+import cv2
 
 def LoadSettings():
     global name_window
@@ -997,13 +999,23 @@ def plugin(data):
                 thickness_current_text = 1
             current_text_color = text_color
             cv2.putText(frame, current_text, (round(0.5*width_frame-width_original_text/2), round(0.5*height_frame+height_original_text/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, text_color, thickness_current_text)
-            
 
-    cv2.namedWindow(name_window, cv2.WINDOW_NORMAL)
+
     cv2.imshow(name_window, frame)
+
     if resize_frame == True:
+        cv2.namedWindow(name_window, cv2.WINDOW_NORMAL)
         cv2.resizeWindow(name_window, width_frame, height_frame)
         cv2.setWindowProperty(name_window, cv2.WND_PROP_TOPMOST, 1)
+
+        hwnd = win32gui.FindWindow(None, name_window)
+        windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
+
+        icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
+        hicon = win32gui.LoadImage(None, f"{variables.PATH}assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
+
+        win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
+        win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
 
     return data
 
