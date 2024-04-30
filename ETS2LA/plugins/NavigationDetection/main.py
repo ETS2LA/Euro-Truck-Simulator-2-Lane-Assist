@@ -1,8 +1,8 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 import ETS2LA.variables as variables
+import ETS2LA.controls as controls
 
-import plugins.DefaultSteering.main as DefaultSteering
 import numpy as np
 import subprocess
 import ctypes
@@ -19,10 +19,25 @@ import requests
 import torch
 
 
+runner:PluginRunner = None
+
+controls.RegisterKeybind("Lane change to the left",
+                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
+
+controls.RegisterKeybind("Lane change to the right",
+                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
+
+
 ############################################################################################################################    
 # Settings
 ############################################################################################################################
 def Initialize():
+    global TruckSimAPI
+    global ScreenCapture
+    global DefaultSteering
+
     global UseAI
     global UseCUDA
     global AIDevice
@@ -41,7 +56,6 @@ def Initialize():
 
     global offset
 
-    global trafficlightdetection_is_enabled
     global lefthand_traffic
 
     global fuel_update_timer
@@ -89,15 +103,18 @@ def Initialize():
     global lanechanging_do_lane_changing
     global lanechanging_speed
     global lanechanging_width
-    global lanechanging_autolanezero
     global lanechanging_current_lane
     global lanechanging_final_offset
+    
+    TruckSimAPI = runner.modules.TruckSimAPI
+    ScreenCapture = runner.modules.ScreenCapture
+    DefaultSteering = runner.modules.DefaultSteering
 
     if 'UseAI' in globals():
-        if UseAI == False and settings.Get("NavigationDetection", "UseAI", False) == True:
+        if UseAI == False and settings.Get("NavigationDetection", "NavigationDetectionAI", False) == True:
             LoadAIModel()
-    UseAI = settings.Get("NavigationDetection", "UseAI", False)
-    UseCUDA = settings.Get("NavigationDetection", "UseCUDA", False)
+    UseAI = settings.Get("NavigationDetection", "NavigationDetectionAI", False)
+    UseCUDA = settings.Get("NavigationDetection", "TryCUDA", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
     LoadAILabel = "Loading..."
     LoadAIProgress = 0
@@ -126,14 +143,9 @@ def Initialize():
         navigationsymbol_x = 0
         navigationsymbol_y = 0
 
-    offset = settings.Get("NavigationDetection", "offset", 0)
+    offset = settings.Get("NavigationDetection", "LaneOffset", 0)
 
-    if "TrafficLightDetection" in settings.Get("Plugins", "Enabled", []):
-        trafficlightdetection_is_enabled = True
-    else:
-        trafficlightdetection_is_enabled = False
-
-    lefthand_traffic = settings.Get("NavigationDetection", "lefthand_traffic", False)
+    lefthand_traffic = settings.Get("NavigationDetection", "LeftHandTraffic", False)
 
     fuel_update_timer = 0
     fuel_total = 0
@@ -177,10 +189,9 @@ def Initialize():
     indicator_enable_right = False
     indicator_changed_by_code = True
 
-    lanechanging_do_lane_changing = settings.Get("NavigationDetection", "lanechanging_do_lane_changing", True)
-    lanechanging_speed = settings.Get("NavigationDetection", "lanechanging_speed", 1)
-    lanechanging_width = settings.Get("NavigationDetection", "lanechanging_width", 10)
-    lanechanging_autolanezero = settings.Get("NavigationDetection", "lanechanging_autolanezero", True)
+    lanechanging_do_lane_changing = settings.Get("NavigationDetection", "LaneChanging", True)
+    lanechanging_speed = settings.Get("NavigationDetection", "LaneChangeSpeed", 1)
+    lanechanging_width = settings.Get("NavigationDetection", "LaneChangeWidth", 10)
     lanechanging_current_lane = 0
     lanechanging_final_offset = 0
 
@@ -222,7 +233,7 @@ def HandleCorruptedAIModel():
     CheckForAIModelUpdates()
     while AIModelUpdateThread.is_alive(): time.sleep(0.1)
     time.sleep(0.5)
-    helpers.RunInMainThread(LoadAIModel)
+    LoadAIModel()
 
 
 def LoadAIModel():
@@ -445,14 +456,18 @@ def GetAIModelProperties():
         return ("UNKNOWN", "UNKNOWN", ("UNKNOWN", "UNKNOWN"), "UNKNOWN", "UNKNOWN", "UNKNOWN")
 
 
-if UseAI:
-    helpers.RunInMainThread(LoadAIModel)
-
-
 ############################################################################################################################
 # Code
 ############################################################################################################################
-def plugin(data):
+def plugin():
+    
+    data = {}
+    data["api"] = TruckSimAPI.run()
+    if data["api"] == "not connected" or data["api"]["pause"] == True:
+        time.sleep(0.1)
+        return
+    data["frame"] = ScreenCapture.run()
+
     if UseAI == False:
         global map_topleft
         global map_bottomright
@@ -466,7 +481,6 @@ def plugin(data):
 
         global offset
 
-        global trafficlightdetection_is_enabled
         global lefthand_traffic
 
         global fuel_update_timer
@@ -514,7 +528,6 @@ def plugin(data):
         global lanechanging_do_lane_changing
         global lanechanging_speed
         global lanechanging_width
-        global lanechanging_autolanezero
         global lanechanging_current_lane
         global lanechanging_final_offset
         
@@ -525,17 +538,17 @@ def plugin(data):
             width = frame.shape[1]
             height = frame.shape[0]
         except:
-            return data
+            return
 
-        if frame is None: return data
-        if width == 0 or width == None: return data
-        if height == 0 or height == None: return data
+        if frame is None: return
+        if width == 0 or width == None: return
+        if height == 0 or height == None: return
         
         if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
             valid_frame = True
         else:
             valid_frame = False
-            return data
+            return
         
         if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None:
             if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < data["frameFull"].shape[1]) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < data["frameFull"].shape[0]):
@@ -579,17 +592,6 @@ def plugin(data):
         except:
             indicator_left = False
             indicator_right = False
-
-        if trafficlightdetection_is_enabled == True:
-            try:
-                trafficlight = data["TrafficLightDetection"]["simple"]
-            except:
-                trafficlight = None
-                if "TrafficLightDetection" not in settings.Get("Plugins", "Enabled", []):
-                    trafficlightdetection_is_enabled = False
-                    trafficlight = "Off"
-        else:
-            trafficlight = "Off"
 
         f5_key_state = ctypes.windll.user32.GetAsyncKeyState(0x74)
         f5_pressed = f5_key_state & 0x8000 != 0
@@ -843,8 +845,7 @@ def plugin(data):
 
         if turnincoming_detected == True:
             turnincoming_last_detected = current_time
-            if lanechanging_autolanezero == True:
-                lanechanging_current_lane = 0
+            lanechanging_current_lane = 0
         
         if DefaultSteering.enabled == True:
             enabled = True
@@ -987,248 +988,34 @@ def plugin(data):
             turnincoming_detected = False
             turnincoming_direction = None
 
-        allow_trafficlight_symbol = True
-        allow_no_lane_detected = True
-        allow_do_blocked = True
-        allow_do_zoom = True
-        show_turn_line = True
-        
-        map_detected = True
-        
-        if valid_setup == False:
-            if allow_playsound == True:
+        if allow_playsound == True:
+            if valid_setup == False:
+                correction = 0
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
-            frame = cv2.GaussianBlur(frame, (9, 9), 0)
-            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            xofinfo = round(width/2)
-            yofinfo = round(height/3.5)
-            sizeofinfo = round(height/5)
-            infothickness = round(height/50)
-            if infothickness < 1:
-                infothickness = 1
-            cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-            cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-            cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
-
-            sizeoftext = round(height/200)
-            textthickness = round(height/100)
-            text_size, _ = cv2.getTextSize("Do the", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Do the", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-            text_size, _ = cv2.getTextSize("Setup", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Setup", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-
-            correction = 0
-            map_detected = False
-            allow_trafficlight_symbol = False
-            allow_no_lane_detected = False
-            allow_do_blocked = False
-            allow_do_zoom = False
-            show_turn_line = False
-
-        if do_blocked == True and allow_do_blocked == True:
-            if allow_playsound == True:
+            else if do_blocked == True:
+                correction = 0
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
-            frame = cv2.GaussianBlur(frame, (9, 9), 0)
-            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            xofinfo = round(width/2)
-            yofinfo = round(height/3.5)
-            sizeofinfo = round(height/5)
-            infothickness = round(height/50)
-            if infothickness < 1:
-                infothickness = 1
-            cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-            cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-            cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
-
-            sizeoftext = round(height/200)
-            textthickness = round(height/100)
-            text_size, _ = cv2.getTextSize("Minimap vision", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Minimap vision", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-            text_size, _ = cv2.getTextSize("blocked", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "blocked", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-
-            correction = 0
-            map_detected = False
-            allow_trafficlight_symbol = False
-            allow_no_lane_detected = False
-            allow_do_blocked = False
-            allow_do_zoom = False
-            show_turn_line = False
-
-        elif do_zoom == True and allow_do_zoom == True:
-            if allow_playsound == True:
+            elif do_zoom == True and allow_do_zoom == True:
+                correction = 0
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
-            frame = cv2.GaussianBlur(frame, (9, 9), 0)
-            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            xofinfo = round(width/2)
-            yofinfo = round(height/3.5)
-            sizeofinfo = round(height/5)
-            infothickness = round(height/50)
-            if infothickness < 1:
-                infothickness = 1
-            cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-            cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-            cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
-
-            sizeoftext = round(height/200)
-            textthickness = round(height/100)
-            text_size, _ = cv2.getTextSize("Zoom Minimap in", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Zoom Minimap in", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*1.7)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-            
-            correction = 0
-            map_detected = False
-            allow_trafficlight_symbol = False
-            allow_no_lane_detected = False
-            allow_do_blocked = False
-            allow_do_zoom = False
-            show_turn_line = False
-
-        if width_lane == 0 and allow_no_lane_detected == True:
-            if allow_playsound == True:
+            else if width_lane == 0:
+                correction = 0
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
-            frame = cv2.GaussianBlur(frame, (9, 9), 0)
-            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            xofinfo = round(width/2)
-            yofinfo = round(height/3.5)
-            sizeofinfo = round(height/5)
-            infothickness = round(height/50)
-            if infothickness < 1:
-                infothickness = 1
-            cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-            cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-            cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
-
-            sizeoftext = round(height/200)
-            textthickness = round(height/100)
-            text_size, _ = cv2.getTextSize("No Lane", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "No Lane", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-            text_size, _ = cv2.getTextSize("Detected", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Detected", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-
-            correction = 0
-            map_detected = False
-            allow_trafficlight_symbol = False
-            allow_no_lane_detected = False
-            allow_do_blocked = False
-            allow_do_zoom = False
-            show_turn_line = False
-
-        showing_traffic_light_symbol = False
-        if trafficlightdetection_is_enabled == True and allow_trafficlight_symbol == True:
-            if trafficlight == "Red":
-                traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] - traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 0, 255), -1, cv2.LINE_AA)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 255), traffic_light_symbol[2])
-                showing_traffic_light_symbol = True
-            if trafficlight == "Yellow":
-                traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1]), traffic_light_symbol[2], (0, 255, 255), -1, cv2.LINE_AA)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 255), traffic_light_symbol[2])
-                showing_traffic_light_symbol = True
-            if trafficlight == "Green":
-                traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] + traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 255, 0), -1, cv2.LINE_AA)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 0), traffic_light_symbol[2])
-                showing_traffic_light_symbol = True
-        
-        if allow_trafficlight_symbol == True:
-            if width_lane != 0:
-                cv2.line(frame, (round(left_x_lane + lanechanging_final_offset - offset), left_y_lane), (round(right_x_lane + lanechanging_final_offset - offset), right_y_lane),  (255, 255, 255), 2)
-            if width_turn != 0 and showing_traffic_light_symbol == False and show_turn_line == True:
-                cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (255, 255, 255), 2)
-        
-        if lanechanging_do_lane_changing == True or fuel_percentage < 15:
-            current_text = "Enabled"
-            width_target_current_text = width/4
-            fontscale_current_text = 1
-            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-            width_current_text, height_current_text = textsize_current_text
-            max_count_current_text = 3
-            while width_current_text != width_target_current_text:
-                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                width_current_text, height_current_text = textsize_current_text
-                max_count_current_text -= 1
-                if max_count_current_text <= 0:
-                    break
-            width_enabled_text, height_enabled_text = width_current_text, height_current_text
-
-        if lanechanging_do_lane_changing == True:
-            current_text = f"Lane: {lanechanging_current_lane}"
-            width_target_current_text = width/4
-            fontscale_current_text = 1
-            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-            width_current_text, height_current_text = textsize_current_text
-            max_count_current_text = 3
-            while width_current_text != width_target_current_text:
-                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                width_current_text, height_current_text = textsize_current_text
-                max_count_current_text -= 1
-                if max_count_current_text <= 0:
-                    break
-            width_lane_text, height_lane_text = width_current_text, height_current_text
-            thickness_current_text = round(fontscale_current_text*2)
-            if thickness_current_text <= 0:
-                thickness_current_text = 1
-            if turnincoming_detected == True:
-                current_color = (150, 150, 150)
-            else:
-                current_color = (200, 200, 200)
-            cv2.putText(frame, f"Lane: {lanechanging_current_lane}", (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, current_color, thickness_current_text)
-        
-        if fuel_percentage < 15:
-            current_text = "Refuel!"
-            width_target_current_text = width/4
-            fontscale_current_text = 1
-            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-            width_current_text, height_current_text = textsize_current_text
-            max_count_current_text = 3
-            while width_current_text != width_target_current_text:
-                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                width_current_text, height_current_text = textsize_current_text
-                max_count_current_text -= 1
-                if max_count_current_text <= 0:
-                    break
-            thickness_current_text = round(fontscale_current_text*2)
-            if thickness_current_text <= 0:
-                thickness_current_text = 1
-            if lanechanging_do_lane_changing == True:
-                cv2.putText(frame, current_text, (round(0.01*width), round(0.10*height+height_current_text+height_enabled_text+height_lane_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
-            else:
-                cv2.putText(frame, current_text, (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
-            
-        if current_time - 1 > allow_playsound_timer and allow_trafficlight_symbol == True and allow_no_lane_detected == True and allow_do_zoom == True and show_turn_line == True:
-            allow_playsound = True
+            else if current_time - 1 > allow_playsound_timer:
+                allow_playsound_timer = current_time
+                allow_playsound = True
 
         indicator_last_left = indicator_left
         indicator_last_right = indicator_right
@@ -1251,7 +1038,7 @@ def plugin(data):
         else:
             lane_detected = True
 
-        if speed > -0.5:
+        if speed > -0.25:
             data["LaneDetection"] = {}
             data["LaneDetection"]["difference"] = -correction/30
         else:
@@ -1264,8 +1051,6 @@ def plugin(data):
         data["NavigationDetection"]["curve"] = curve
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
         data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
-        
-        data["frame"] = frame
 
     else:
         try:
@@ -1273,27 +1058,27 @@ def plugin(data):
             global IMG_HEIGHT
 
             try:
-                while AIModelUpdateThread.is_alive(): return data
-                while AIModelLoadThread.is_alive(): return data
+                while AIModelUpdateThread.is_alive(): return
+                while AIModelLoadThread.is_alive(): return
             except:
-                return data
+                return
 
             try:
                 frame = data["frame"]
                 width = frame.shape[1]
                 height = frame.shape[0]
             except:
-                return data
+                return
 
-            if frame is None: return data
-            if width == 0 or width == None: return data
-            if height == 0 or height == None: return data
+            if frame is None: return
+            if width == 0 or width == None: return
+            if height == 0 or height == None: return
             
             if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
                 valid_frame = True
             else:
                 valid_frame = False
-                return data
+                return
             
             cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
             cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
@@ -1304,26 +1089,24 @@ def plugin(data):
             upper_green = np.array([230, 255, 150])
             mask_green = cv2.inRange(frame, lower_green, upper_green)
             mask = cv2.bitwise_or(mask_red, mask_green)
-            frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
-            frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
 
             try:
-                AIFrame = preprocess_image(mask)
+                frame = preprocess_image(mask)
             except:
                 IMG_WIDTH = GetAIModelProperties()[2][0]
                 IMG_HEIGHT = GetAIModelProperties()[2][1]
                 if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
                     print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
                     console.RestoreConsole()
-                    return data
-                AIFrame = preprocess_image(mask)
+                    return
+                frame = preprocess_image(mask)
             
             output = 0
 
             if DefaultSteering.enabled == True:
                 if AIModelLoaded == True:
                     with torch.no_grad():
-                        output = AIModel(AIFrame)
+                        output = AIModel(frame)
                         output = output.item()
             
             output /= -30
@@ -1331,19 +1114,19 @@ def plugin(data):
             data["LaneDetection"] = {}
             data["LaneDetection"]["difference"] = output
 
-            data["frame"] = frame
-
         except Exception as e:
             exc = traceback.format_exc()
             SendCrashReport("NavigationDetection - Running AI Error.", str(exc))
             console.RestoreConsole()
             print("\033[91m" + f"NavigationDetection - Running AI Error: " + "\033[0m" + str(e))
-
+        
 
 def manual_setup():
-    print("the could would try to launch the manual setup now...")
-    #subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "manual_setup.py")])
+    print("the code would try to launch the manual setup now...")
+    return
+    subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "manual_setup.py")])
 
 def automatic_setup():
-    print("the could would try to launch the automatic setup now...")
-    #subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "automatic_setup.py")])
+    print("the code would try to launch the automatic setup now...")
+    return
+    subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "automatic_setup.py")])

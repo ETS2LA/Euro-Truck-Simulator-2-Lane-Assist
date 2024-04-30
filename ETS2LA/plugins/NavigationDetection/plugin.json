@@ -7,6 +7,6 @@
     }],
     "description": "Uses the in-game route advisor to follow the selected route.",
     "version": "3.1",
-    "dependencies": ["DefaultSteering", "ScreenCapture"],
-    "modules": ["TruckSimAPI", "SDKController"]
+    "dependencies": ["ScreenCapture"],
+    "modules": ["TruckSimAPI", "SDKController", "DefaultSteering"]
 }
