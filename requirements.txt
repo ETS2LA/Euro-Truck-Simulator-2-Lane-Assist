@@ -5,3 +5,4 @@ mss
 websockets
 pywebview
 git
+tkinter-tooltip
