@@ -3,7 +3,7 @@ import ETS2LA.backend.settings as settings
 #import ETS2LA.src.controls as controls
 import ETS2LA.src.console as console
 import ETS2LA.variables as variables
-import ETS2LA.src.sounds as sounds
+import ETS2LA.backend.sounds as sounds
 
 import numpy as np
 import subprocess

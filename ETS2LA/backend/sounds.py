@@ -2,7 +2,7 @@
 
 Usage:
 ```python
-import src.sounds as sounds
+import backend.sounds as sounds
 sounds.PlaysoundFromLocalPath("assets/sounds/...") # Will play the sound.
 ```"""
 from ETS2LA.variables import PATH
