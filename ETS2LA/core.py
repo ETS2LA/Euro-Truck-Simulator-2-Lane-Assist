@@ -22,7 +22,12 @@ logging.info("Available CPU cores: " + str(os.cpu_count()))
 logging.info("ETS2LA backend has been started successfully.")
 def run():
     while True:
-        time.sleep(1)
+        time.sleep(0.01)
+        
+        for func in webserver.mainThreadQueue:
+            func[0](*func[1], **func[2])
+            webserver.mainThreadQueue.remove(func)
+        
         if not webpage.CheckIfWindowStillOpen():
             raise Exception("exit")
         if variables.CLOSE:

@@ -54,7 +54,7 @@ def start_webpage():
         </body>
     </html>""", width=1280, height=720, 
                 resizable=True, zoomable=True, 
-                confirm_close=True, text_select=True
+                confirm_close=False, text_select=True
                 )
     webview.start(load_website, window)
     

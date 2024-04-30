@@ -12,6 +12,9 @@ import json
 from typing import Any
 from fastapi import Body
 import ETS2LA.variables as variables
+import ETS2LA.backend.controls as controls
+
+mainThreadQueue = []
 
 app = FastAPI(
     title="ETS2LA",
@@ -25,7 +28,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
 
 @app.get("/")
 def read_root():
@@ -95,7 +97,15 @@ def get_plugin_setting(plugin: str, key: str):
 
 @app.get("/api/plugins/{plugin}/settings")
 def get_plugin_settings(plugin: str):
+    print(plugin)
     return settings.GetJSON(plugin)
+
+@app.post("/api/controls/{control}/change")
+def change_control(control: str):
+    mainThreadQueue.append([controls.ChangeKeybind, [control], {}])
+    while [controls.ChangeKeybind, [control], {}] in mainThreadQueue:
+        pass
+    return {"status": "ok"}
 
 @app.get("/api/git/history")
 def get_git_history():
