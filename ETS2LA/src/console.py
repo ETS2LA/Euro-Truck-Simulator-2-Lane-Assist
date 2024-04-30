@@ -1,8 +1,8 @@
 import ETS2LA.variables as variables
-import ctypes
 
 if variables.OS == "nt":
     import win32gui, win32con, win32console
+    import ctypes
 
 def RestoreConsole():
     """This will restore the console window."""

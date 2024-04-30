@@ -16,7 +16,7 @@ OS = os.name
 """The users operating system. Windows = 'nt'"""
 
 CONSOLEHWND = None
-"""The handle of the console window."""
+"""The handle of the console window. The console.py will set the handle when hiding the console is enabled."""
 
 CONSOLENAME = None
-"""The name/title of the console window."""
+"""The name/title of the console window. The console.py will set the name when hiding the console is enabled."""
