@@ -149,7 +149,7 @@ return (
             </div>
         </MenubarTrigger>
         <MenubarContent>
-            <MenubarItem>WIP</MenubarItem>
+            <MenubarItem onClick={() => push("/settings/controls")}>Controls</MenubarItem>
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>

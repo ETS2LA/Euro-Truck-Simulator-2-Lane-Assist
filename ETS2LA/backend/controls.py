@@ -143,7 +143,7 @@ def plugin():
                 pass
 
 
-def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
+def ChangeKeybind(name:str, callback=None):
     """Will run the keybind change window code.
 
     Args:
@@ -166,9 +166,17 @@ def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
     keybindToChange = KEYBINDS[KEYBINDS.index(next((item for item in KEYBINDS if item["name"] == name), None))]
     if keybindToChange == None:
         print("Keybind not found")
+        try:
+            window.destroy()
+        except:
+            pass
         return
     
-    
+    # Try to grab focus
+    try:
+        window.attributes("-topmost", True)
+    except:
+        pass
     
     # Slider for the axis
     if keybindToChange["shouldBeAxis"]:
@@ -300,9 +308,6 @@ def ChangeKeybind(name:str, updateUI:bool=True, callback=None):
         
     if callback != None:
         callback()
-        
-    
-    send_sonner("\nKeybind change successful.", "success", timeout=3)
         
 def UnbindKeybind(name, updateUI=True):
     """Remove the binding of a keybind.
