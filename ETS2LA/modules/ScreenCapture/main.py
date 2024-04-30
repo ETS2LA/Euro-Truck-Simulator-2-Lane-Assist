@@ -24,13 +24,21 @@ if os.name == "nt":
 
     CreateBettercam()
 
-    def run():
+    def run(imgtype:str = "both"):
+        """imgtype: "both", "cropped", "full" """
         global cam
         try:
             img = cam.get_latest_frame()
             img = np.array(img)
             croppedImg = img[monitor[1]:monitor[3], monitor[0]:monitor[2]]
-            return croppedImg, img
+            if imgtype == "both":
+                return croppedImg, img
+            elif imgtype == "cropped":
+                return croppedImg
+            elif imgtype == "full":
+                return img
+            else:
+                return croppedImg, img
         except:
             import traceback
             runner.logger.exception(traceback.format_exc())

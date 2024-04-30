@@ -472,7 +472,7 @@ def plugin():
     if data["api"] == "not connected" or data["api"]["pause"] == True:
         time.sleep(0.1)
         return
-    data["frame"] = ScreenCapture.run()
+    data["frame"] = ScreenCapture.run(imgtype="cropped")
 
     if UseAI == False:
         global map_topleft
