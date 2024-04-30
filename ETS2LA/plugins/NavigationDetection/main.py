@@ -1,9 +1,9 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
-#import ETS2LA.src.controls as controls
-import ETS2LA.src.console as console
-import ETS2LA.variables as variables
+import ETS2LA.backend.controls as controls
+import ETS2LA.backend.console as console
 import ETS2LA.backend.sounds as sounds
+import ETS2LA.variables as variables
 
 import numpy as np
 import subprocess
@@ -23,13 +23,13 @@ import torch
 
 runner:PluginRunner = None
 
-#controls.RegisterKeybind("Lane change to the left",
-#                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
-#                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
+controls.RegisterKeybind("Lane change to the left",
+                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
 
-#controls.RegisterKeybind("Lane change to the right",
-#                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
-#                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
+controls.RegisterKeybind("Lane change to the right",
+                         notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+                         description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
 
 
 def SendCrashReport(): # REMOVE THIS LATER
@@ -40,6 +40,7 @@ def SendCrashReport(): # REMOVE THIS LATER
 # Settings
 ############################################################################################################################
 def Initialize():
+    global ShowImage
     global TruckSimAPI
     global ScreenCapture
     global DefaultSteering
@@ -112,6 +113,7 @@ def Initialize():
     global lanechanging_current_lane
     global lanechanging_final_offset
     
+    ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
     DefaultSteering = runner.modules.DefaultSteering
@@ -466,7 +468,7 @@ def GetAIModelProperties():
 # Code
 ############################################################################################################################
 def plugin():
-    
+
     data = {}
     data["api"] = TruckSimAPI.run()
     if data["api"] == "not connected" or data["api"]["pause"] == True:
@@ -892,26 +894,22 @@ def plugin():
             indicator_changed_by_code = False
         
         try:
-            #if controls.GetKeybindFromName("Lane change to the left")['buttonIndex'] != -1:
-            #    controls_left_set = True
-            #    controls_left = controls.GetKeybindValue("Lane change to the left")
-            #else:
-            #    controls_left_set = False
-            #    controls_left = False
-            controls_left_set = False # REMOVE THIS LATER
-            controls_left = False # REMOVE THIS LATER
+            if controls.GetKeybindFromName("Lane change to the left")['buttonIndex'] != -1:
+                controls_left_set = True
+                controls_left = controls.GetKeybindValue("Lane change to the left")
+            else:
+                controls_left_set = False
+                controls_left = False
         except:
             controls_left_set = False
             controls_left = False
         try:
-            #if controls.GetKeybindFromName("Lane change to the right")['buttonIndex'] != -1:
-            #    controls_right_set = True
-            #    controls_right = controls.GetKeybindValue("Lane change to the right")
-            #else:
-            #    controls_right_set = False
-            #    controls_right = False
-            controls_right_set = False # REMOVE THIS LATER
-            controls_right = False # REMOVE THIS LATER
+            if controls.GetKeybindFromName("Lane change to the right")['buttonIndex'] != -1:
+                controls_right_set = True
+                controls_right = controls.GetKeybindValue("Lane change to the right")
+            else:
+                controls_right_set = False
+                controls_right = False
         except:
             controls_right_set = False
             controls_right = False
@@ -1060,6 +1058,8 @@ def plugin():
         data["NavigationDetection"]["curve"] = curve
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
         data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
+        
+        return data["NavigationDetection"]
 
     else:
         try:
