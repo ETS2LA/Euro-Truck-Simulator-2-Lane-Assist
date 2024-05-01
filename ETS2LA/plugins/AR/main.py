@@ -51,7 +51,7 @@ def Initialize():
     window = (screen_x, screen_y, screen_width, screen_height)
     last_window_position = (0, screen_x, screen_y, screen_width, screen_height)
 
-    initialize()
+    InitializeWindow()
 
 
 class MARGINS(ctypes.Structure):
@@ -120,18 +120,14 @@ class Polygon:
             self.points.append(points[0])
 
 
-def initialize():
+def InitializeWindow():
     global window
     global window_x
     global window_y
     global window_width
     global window_height
 
-    hwnd = win32gui.FindWindow(None, f'ETS2LA - AR/Overlay - Tumppi066 & Contributors © All rights reserved {variables.YEAR}')
-    if hwnd:
-        return
     try:
-
         hwnd = None
         top_windows = []
         win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
@@ -148,12 +144,12 @@ def initialize():
                 break
 
         dpg.create_context()
-        dpg.create_viewport(title=f'ETS2LA - AR/Overlay - Tumppi066 & Contributors © All rights reserved {variables.YEAR}', always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=window[0], y_pos=window[1], width=window[2], height=window[3], small_icon="frontend\\src\\assets\\favicon.ico", large_icon="frontend\\src\\assets\\favicon.ico")
+        dpg.create_viewport(title=f'ETS2LA - AR/Overlay', always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=window[0], y_pos=window[1], width=window[2], height=window[3], small_icon="frontend\\src\\assets\\favicon.ico", large_icon="frontend\\src\\assets\\favicon.ico")
         dpg.set_viewport_always_top(True)
         dpg.setup_dearpygui()
         dpg.show_viewport()
 
-        hwnd = win32gui.FindWindow(None, f'ETS2LA - AR/Overlay - Tumppi066 & Contributors © All rights reserved {variables.YEAR}')
+        hwnd = win32gui.FindWindow(None, f'ETS2LA - AR/Overlay')
 
         margins = MARGINS(-1, -1,-1, -1)
         dwm.DwmExtendFrameIntoClientArea(hwnd, margins)
