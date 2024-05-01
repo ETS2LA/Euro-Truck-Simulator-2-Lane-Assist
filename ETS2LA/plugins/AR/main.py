@@ -229,7 +229,7 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
     window_distance = (window_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
 
     screen_x = (final_x / final_z) * window_distance + window_width / 2
-    screen_y = (final_y / final_z) * window_distance * (3 / 4) + window_height / 2
+    screen_y = (final_y / final_z) * window_distance + window_height / 2
 
     screen_x = window_width - screen_x
 
@@ -406,6 +406,3 @@ def plugin():
 
 
     draw(data)
-    
-
-    return data
