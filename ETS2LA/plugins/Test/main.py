@@ -1,7 +1,6 @@
 from ETS2LA.plugins.runner import PluginRunner
 import time
-import screeninfo
-import os
+import ETS2LA.backend.settings as settings
 
 runner:PluginRunner = None
 lastTime = time.time()
@@ -11,17 +10,14 @@ def Initialize():
     global ShowImage
     ScreenCapture = runner.modules.ScreenCapture
     ShowImage = runner.modules.ShowImage
-    # Will run when the plugin is first loaded
-    screen = screeninfo.get_monitors()[0]
-    if os.name == "nt":
-        monitor = (0, 0, screen.width/2, screen.height/2)
-        monitor = (int(screen.width/2-monitor[2]/2), int(screen.height/2-monitor[3]/2), int(screen.width/2+monitor[2]/2), int(screen.height/2+monitor[3]/2))
-    else:
-        monitor = {"top": 0, "left": 0, "width": screen.width/2, "height": screen.height/2}
-        monitor = {"top": int(screen.height/2-monitor["height"]/2), "left": int(screen.width/2-monitor["width"]/2), "width": int(screen.width/2), "height": int(screen.height/2)}
-    runner.modules.ScreenCapture.monitor = monitor
-    print(monitor)
+
+    # main display = 0, x1 < x2, y1 < y2
+    ScreenCapture.CreateCam(CamSetupDisplay = 1) # sets the display for both mss and bettercam and creates the cam for bettercam
+    ScreenCapture.monitor_x1 = 100
+    ScreenCapture.monitor_y1 = 100
+    ScreenCapture.monitor_x2 = 400
+    ScreenCapture.monitor_y2 = 400
 
 def plugin():
-    img, fullImage = ScreenCapture.run()
+    img = ScreenCapture.run(imgtype="cropped")
     ShowImage.run(img)

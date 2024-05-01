@@ -178,7 +178,6 @@ def GetGitHistory():
                         if commit["author"] == "DylDev": # Hardcded because of usernames
                             url = f"https://api.github.com/users/DylDevs"
                         else:
-                            print(commit["author"])
                             url = f"https://api.github.com/users/{commit['author']}"
                         # Get the avatar url from the GitHub API
                         response = requests.get(url, timeout=4)

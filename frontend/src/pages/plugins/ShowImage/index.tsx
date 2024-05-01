@@ -39,7 +39,7 @@ export default function Home({ ip }: { ip: string }) {
     if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
 
     const SaveWindowPosition = async () => {
-
+        
     };
 
     const ResetWindow = async () => {

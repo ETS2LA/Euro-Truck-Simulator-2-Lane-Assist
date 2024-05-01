@@ -3,6 +3,7 @@ if __name__ == "__main__":
     import sys
     import traceback
     import os
+    os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # hide pygame welcome message before importing pygame module in any script
     # Import ETS2LA.core will import and run the app. Do that repeatedly in case of a crash.
     while True:
         try:

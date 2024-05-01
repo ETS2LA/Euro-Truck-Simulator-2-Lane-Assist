@@ -1,61 +1,84 @@
-import cv2
-import numpy as np
 from ETS2LA.plugins.runner import PluginRunner
-import os
+import ETS2LA.backend.settings as settings
+import ETS2LA.variables as variables
+
+import numpy as np
+import cv2
+import mss
+
 
 runner:PluginRunner = None
 
-if os.name == "nt":
-    import ctypes 
-    import bettercam
+sct = mss.mss()
+display = settings.Get("ScreenCapture", "display", 0)
+monitor = sct.monitors[(display + 1)]
+monitor_x1 = monitor["left"]
+monitor_y1 = monitor["top"]
+monitor_x2 = monitor["width"]
+monitor_y2 = monitor["height"]
 
-    user32 = ctypes.windll.user32
 
-    monitor = (0, 0, int(user32.GetSystemMetrics(0)), int(user32.GetSystemMetrics(1)))
-
-    def CreateBettercam():
+def CreateCam(CamSetupDisplay:int = display):
+    if variables.OS == "nt":
+        import bettercam
         global cam
         try:
-            cam.close()
+            cam.stop()
             del cam
-        except: pass
-        cam = bettercam.create()
+        except:
+            pass
+        cam = bettercam.create(output_idx=CamSetupDisplay)
         cam.start()
+    else:
+        global display
+        display = CamSetupDisplay
+CreateCam()
 
-    CreateBettercam()
 
+if variables.OS == "nt":
     def run(imgtype:str = "both"):
         """imgtype: "both", "cropped", "full" """
         global cam
         try:
             img = cam.get_latest_frame()
             img = np.array(img)
-            croppedImg = img[monitor[1]:monitor[3], monitor[0]:monitor[2]]
+            # return the requestet image, only crop when needed
             if imgtype == "both":
+                croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
                 return croppedImg, img
             elif imgtype == "cropped":
+                croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
                 return croppedImg
             elif imgtype == "full":
                 return img
             else:
+                croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
                 return croppedImg, img
         except:
             import traceback
             runner.logger.exception(traceback.format_exc())
             pass
-    
+
 else:
-    import mss
 
-    monitor = {"top": 0, "left": 0, "width": 1920, "height": 1080}
-
-    def run():
+    def run(imgtype:str = "both"):
+        """imgtype: "both", "cropped", "full" """
         try:
-            with mss.mss() as sct:
-                # Capture the entire screen and then crop to the monitor size
-                fullMonitor = sct.monitors[1]
-                img = np.array(sct.grab(fullMonitor))
-                croppedImg = img[monitor["top"]:monitor["top"]+monitor["height"], monitor["left"]:monitor["left"]+monitor["width"]]
+            # Capture the entire screen
+            fullMonitor = sct.monitors[(display + 1)]
+            img = np.array(sct.grab(fullMonitor))
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            # return the requestet image, only crop when needed
+            if imgtype == "both":
+                croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                return croppedImg, img
+            elif imgtype == "cropped":
+                croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                return croppedImg
+            elif imgtype == "full":
+                return img
+            else:
+                croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
                 return croppedImg, img
         except:
             import traceback
