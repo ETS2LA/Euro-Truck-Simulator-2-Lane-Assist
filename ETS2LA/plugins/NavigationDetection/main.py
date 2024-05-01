@@ -40,10 +40,10 @@ def SendCrashReport(): # REMOVE THIS LATER
 # Settings
 ############################################################################################################################
 def Initialize():
+    global Steering
     global ShowImage
     global TruckSimAPI
     global ScreenCapture
-    global DefaultSteering
 
     global UseAI
     global UseCUDA
@@ -61,8 +61,8 @@ def Initialize():
     global navigationsymbol_x
     global navigationsymbol_y
 
+    global enabled
     global offset
-
     global lefthand_traffic
 
     global fuel_update_timer
@@ -112,11 +112,11 @@ def Initialize():
     global lanechanging_width
     global lanechanging_current_lane
     global lanechanging_final_offset
-    
+
+    Steering = runner.modules.Steering
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
-    DefaultSteering = runner.modules.DefaultSteering
 
     if 'UseAI' in globals():
         if UseAI == False and settings.Get("NavigationDetection", "NavigationDetectionAI", False) == True:
@@ -151,8 +151,8 @@ def Initialize():
         navigationsymbol_x = 0
         navigationsymbol_y = 0
 
+    enabled = True
     offset = settings.Get("NavigationDetection", "LaneOffset", 0)
-
     lefthand_traffic = settings.Get("NavigationDetection", "LeftHandTraffic", False)
 
     fuel_update_timer = 0
@@ -476,6 +476,7 @@ def plugin():
         return
     data["frame"] = ScreenCapture.run(imgtype="cropped")
 
+    global enabled
     if UseAI == False:
         global map_topleft
         global map_bottomright
@@ -488,7 +489,6 @@ def plugin():
         global navigationsymbol_y
 
         global offset
-
         global lefthand_traffic
 
         global fuel_update_timer
@@ -854,11 +854,7 @@ def plugin():
         if turnincoming_detected == True:
             turnincoming_last_detected = current_time
             lanechanging_current_lane = 0
-        
-        if DefaultSteering.enabled == True:
-            enabled = True
-        else:
-            enabled = False
+
         try:
             data["sdk"]
         except:
@@ -1059,6 +1055,11 @@ def plugin():
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
         data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
         
+        print(correction)
+        
+        Steering.run(value=correction)
+        ShowImage.run(frame)
+        
         return data["NavigationDetection"]
 
     else:
@@ -1112,7 +1113,7 @@ def plugin():
             
             output = 0
 
-            if DefaultSteering.enabled == True:
+            if enabled == True:
                 if AIModelLoaded == True:
                     with torch.no_grad():
                         output = AIModel(frame)
