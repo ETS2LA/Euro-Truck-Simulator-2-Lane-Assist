@@ -112,6 +112,7 @@ def plugin():
     """
     global wasPressing
     while True:
+        time.sleep(0.001)
         pygame.event.pump()
         for keybind in KEYBINDS:
             if keybind["callback"] != None:

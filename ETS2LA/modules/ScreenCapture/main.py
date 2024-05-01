@@ -1,7 +1,7 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 import ETS2LA.variables as variables
-
+import os
 import numpy as np
 import cv2
 import mss
@@ -20,10 +20,10 @@ monitor_y2 = monitor["height"]
 
 def CreateCam(CamSetupDisplay:int = display):
     if variables.OS == "nt":
-        import bettercam
         global cam
+        import bettercam
         try:
-            cam.stop()
+            cam.close() # stop the old instance of cam
             del cam
         except:
             pass
@@ -32,8 +32,8 @@ def CreateCam(CamSetupDisplay:int = display):
     else:
         global display
         display = CamSetupDisplay
+        
 CreateCam()
-
 
 if variables.OS == "nt":
     def run(imgtype:str = "both"):
@@ -60,7 +60,6 @@ if variables.OS == "nt":
             pass
 
 else:
-
     def run(imgtype:str = "both"):
         """imgtype: "both", "cropped", "full" """
         try:
