@@ -8,14 +8,15 @@ from ETS2LA.utils.logging import *
 import json
 from types import SimpleNamespace
 class PluginRunner():
-    def __init__(self, pluginName, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue, eventQueue:multiprocessing.Queue):
+    def __init__(self, pluginName, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue, eventQueue:multiprocessing.Queue, immediateQueue:multiprocessing.Queue):
         # Initialize the logger
-        self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"))
+        self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), level=logging.WARNING)
         
         # Save the values to the class
         self.q = queue
         self.fq = functionQueue
         self.eq = eventQueue
+        self.iq = immediateQueue
         self.enableTime = time.time()
         self.getQueueProcessingTime = 0
         self.frametimes = []
@@ -185,11 +186,11 @@ class PluginRunner():
         # Return all gathered data
         return data
     
-    def Notification(self, text:str, type:str="info"):
+    def sonner(self, text:str, type:str="info", promise:str=""):
         """Send a notification to the frontend.
 
         Args:
             text (str): Text to send.
             type (str, optional): Defaults to "info". Available types are "info", "warning", "error" and "success".
         """
-        self.q.put({"sonner": {"text": text, "type": type}})
+        self.iq.put({"sonner": {"text": text, "type": type, "promise": promise}})

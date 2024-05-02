@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgl61gioj7na2"]
+
+[ext_resource type="Script" path="res://API.gd" id="1_10poy"]
+[ext_resource type="Script" path="res://Camera.gd" id="2_vyyol"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iw70g"]
+
+[sub_resource type="Sky" id="Sky_bx3ue"]
+sky_material = SubResource("ProceduralSkyMaterial_iw70g")
+
+[sub_resource type="Environment" id="Environment_i50ai"]
+background_mode = 2
+sky = SubResource("Sky_bx3ue")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DataLoader" type="Node" parent="."]
+script = ExtResource("1_10poy")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+environment = SubResource("Environment_i50ai")
+script = ExtResource("2_vyyol")

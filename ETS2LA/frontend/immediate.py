@@ -27,21 +27,22 @@ async def server(websocket, path):
             pass
 
 import json
-async def send_sonner(text, type):
+async def send_sonner(text, type, sonnerPromise):
     global connected
-    message_dict = {"text": text, "type": type}
+    message_dict = {"text": text, "type": type, "promise": sonnerPromise}
     message = json.dumps(message_dict)
     tasks = [asyncio.create_task(ws.send(message)) for ws in connected]
-    await asyncio.wait(tasks)
+    if tasks:  # Check if tasks list is not empty
+        await asyncio.wait(tasks)
     
-def sonner(text, type="info"):
+def sonner(text, type="info", sonnerPromise=""):
     """Send a sonner notification to the frontend.
 
     Args:
         text (str): Text to send.
-        type (str, optional): Notification type. Defaults to "info". Available types are "info", "warning", "error" and "success".
+        type (str, optional): Notification type. Defaults to "info". Available types are "info", "warning", "error", "success" and "promise".
     """
-    asyncio.run(send_sonner(text, type))
+    asyncio.run(send_sonner(text, type, sonnerPromise))
 
 async def start():
     wsServer = websockets.serve(server, "0.0.0.0", 37521)

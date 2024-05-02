@@ -5,6 +5,7 @@ import threading
 import time
 import json
 import requests
+import sys
 
 global commits_save
 commits_save = []
@@ -19,12 +20,31 @@ class PluginRunnerController():
         self.queue = multiprocessing.JoinableQueue()
         self.functionQueue = multiprocessing.JoinableQueue()
         self.eventQueue = multiprocessing.JoinableQueue()
-        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, self.queue, self.functionQueue, self.eventQueue), daemon=True)
+        self.immediateQueue = multiprocessing.JoinableQueue()
+        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, self.queue, self.functionQueue, self.eventQueue, self.immediateQueue), daemon=True)
         self.runner.start()
         self.run()
+    
+    def immediateQueueThread(self):
+        while True:
+            try: data = self.immediateQueue.get(timeout=0.5) # Get the data returned from the plugin runner.
+            except Exception as e: 
+                time.sleep(0.00001)
+                continue
+            
+            if type(data) == type(None): # If the data is None, then we just skip this iteration.
+                time.sleep(0.00001)
+                continue
+        
+            if "sonner" in data:
+                sonnerType = data["sonner"]["type"]
+                sonnerText = data["sonner"]["text"]
+                sonnerPromise = data["sonner"]["promise"]
+                immediate.sonner(sonnerText, sonnerType, sonnerPromise)
         
     def run(self):
         global frameTimes
+        threading.Thread(target=self.immediateQueueThread, daemon=True).start()
         while True:
             try: data = self.queue.get(timeout=0.5) # Get the data returned from the plugin runner.
             except Exception as e: 
@@ -55,10 +75,6 @@ class PluginRunnerController():
                         self.queue.put(runners[plugin].lastData)
                     else:
                         self.queue.put(None)
-            elif "sonner" in data:
-                sonnerType = data["sonner"]["type"]
-                sonnerText = data["sonner"]["text"]
-                immediate.sonner(sonnerText, sonnerType)
             else:
                     self.lastData = data
         

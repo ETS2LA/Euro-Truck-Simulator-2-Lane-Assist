@@ -11,5 +11,14 @@
             ],
             "url": "/ETS2LA/plugins/schema.json"
         }
+    ],
+    "cSpell.words": [
+        "canvast",
+        "columnspan",
+        "highlightthickness",
+        "imshow",
+        "padx",
+        "pady",
+        "sonner"
     ]
 }
