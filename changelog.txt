@@ -1,1 +1,1 @@
-All output windows now have colored title bars and icons on windows 11.
+Fixed multiple division by zero issues in the TrafficLightDetection.
