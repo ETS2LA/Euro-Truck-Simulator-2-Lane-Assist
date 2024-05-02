@@ -75,13 +75,5 @@ def checkAPI(dontClosePopup=False):
         isConnected = True
 
 
-# Plugins need to all also have the onEnable and onDisable functions
-def onEnable():
-    global API
-    if API == None:
-        API = scsTelemetry()
-    
-    data = API.update()
-
-def onDisable():
-    pass
+def Initialize():
+    pass # Do nothing

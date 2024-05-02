@@ -12,6 +12,8 @@ import cv2
 import mss
 import os
 
+runner:PluginRunner = None
+
 sct = mss.mss()
 monitor = settings.Get("ScreenCapture", "display", 0)
 monitor = sct.monitors[(monitor + 1)]
@@ -311,7 +313,7 @@ def yolo_load_model():
         import matplotlib
         matplotlib.use("Agg")
 
-        model_thread = threading.Thread(target=yolo_load_model_thread)
+        model_thread = threading.Thread(target=yolo_load_model_thread, daemon=True)
         model_thread.start()
 
 
@@ -331,7 +333,7 @@ def yolo_detection_function(yolo_detection_frame):
     return trafficlight
 
 
-def plugin(runner):
+def plugin():
     global coordinates
     global trafficlights
     global reset_window

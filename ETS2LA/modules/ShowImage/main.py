@@ -11,6 +11,15 @@ overlays = {}
 LAST_WIDTH = 1280
 LAST_HEIGHT = 720
 
+def LoadSettings():
+    data = settings.GetJSON(runner.plugin_path.split(".")[-2])
+    try:
+        data = data["ShowImage"]
+    except:
+        pass # Load defaults...
+    pass # Load settings...
+    
+
 def InitializeWindow(windowName, img):
     cv2.namedWindow(windowName, cv2.WINDOW_NORMAL)
     cv2.setWindowProperty(windowName, cv2.WND_PROP_TOPMOST, 1)
@@ -24,6 +33,9 @@ def InitializeWindow(windowName, img):
         hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
         win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
         win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
+
+def Initialize():
+    pass # Do nothing
 
 def run(img: np.ndarray = None, windowName:str = "Lane Assist"):
     global LAST_WIDTH, LAST_HEIGHT

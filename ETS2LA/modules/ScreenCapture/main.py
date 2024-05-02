@@ -33,7 +33,8 @@ def CreateCam(CamSetupDisplay:int = display):
         global display
         display = CamSetupDisplay
         
-CreateCam()
+def Initialize():
+    CreateCam()
 
 if variables.OS == "nt":
     def run(imgtype:str = "both"):

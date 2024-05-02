@@ -18,6 +18,8 @@ from typing import Dict
 # been declared to be an official part of the Python language spec.
 assert sys.version_info >= (3, 7)
 
+def Initialize():
+    pass # Do nothing
 
 class SCSController:
     MEM_NAME = r"Local\SCSControls"

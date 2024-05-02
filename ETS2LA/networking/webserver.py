@@ -91,6 +91,14 @@ def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):
     success = settings.Set(plugin, key, value["value"])
     return success
 
+@app.post("/api/plugins/{plugin}/settings/set")
+def set_plugin_settings(plugin: str, data: dict = Body(...)):
+    keys = data["keys"]
+    setting = data["setting"]
+    success = settings.Set(plugin, keys, setting)
+    return success
+    
+
 @app.get("/api/plugins/{plugin}/settings/{key}")
 def get_plugin_setting(plugin: str, key: str):
     return settings.Get(plugin, key)

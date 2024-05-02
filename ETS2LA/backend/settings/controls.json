@@ -6,5 +6,21 @@
         "axisIndex": -1,
         "shouldBeAxis": false,
         "notBoundInfo": ""
+    },
+    "Lane change to the left": {
+        "description": "Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+        "deviceGUID": -1,
+        "buttonIndex": -1,
+        "axisIndex": -1,
+        "shouldBeAxis": false,
+        "notBoundInfo": "Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection."
+    },
+    "Lane change to the right": {
+        "description": "Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
+        "deviceGUID": -1,
+        "buttonIndex": -1,
+        "axisIndex": -1,
+        "shouldBeAxis": false,
+        "notBoundInfo": "Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection."
     }
 }

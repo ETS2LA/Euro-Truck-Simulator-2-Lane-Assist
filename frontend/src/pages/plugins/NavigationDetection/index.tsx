@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import ShowImage from "@/pages/modules/ShowImage"
 
 import { GetSettingsJSON, SetSettingByKey } from "@/pages/settings"
 import { useEffect, useState } from "react";
@@ -152,10 +153,11 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             </Popover>
 
             <Tabs defaultValue="general" style={{ position: 'absolute', top: '47px', left: '248px', right: '13.5pt' }}>
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="grid w-full grid-cols-4">
                     <TabsTrigger value="general">General</TabsTrigger>
                     <TabsTrigger value="setup">Setup</TabsTrigger>
                     <TabsTrigger value="navigationdetectionai">NavigationDetectionAI</TabsTrigger>
+                    <TabsTrigger value="showimage">Show Image</TabsTrigger>
                 </TabsList>
                 <TabsContent value="general">
 
@@ -280,6 +282,11 @@ export default function NavigationDetection({ ip }: { ip: string }) {
 
                     </div>
 
+                </TabsContent>
+                <TabsContent value="showimage" className="h-full">
+                    <div style={{ position: 'absolute', left: '-227px', right: '2.5pt'}}>
+                        <ShowImage ip={ip} plugin="NavigationDetection" />
+                    </div>
                 </TabsContent>
 
             </Tabs>

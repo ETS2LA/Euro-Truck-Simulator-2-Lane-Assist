@@ -122,6 +122,18 @@ def Get(plugin, key, default=None):
         print(e)
         return None
 
+from functools import reduce
+from operator import getitem
+# https://stackoverflow.com/a/70377616
+def set_nested_item(dataDict, mapList, val):
+    """Set item in nested dictionary"""
+    current_dict = dataDict
+    for key in mapList[:-1]:
+        current_dict = current_dict.setdefault(key, {})
+    current_dict[mapList[-1]] = val
+    return dataDict
+            
+
 def Set(plugin, key, value):
     """Will set the settings for the plugin and key provided.
 
@@ -140,17 +152,28 @@ def Set(plugin, key, value):
     filename = GetFilename(plugin)
     CreateIfNotExists(plugin)
     try:
-        with open(filename) as f:
-            data = json.load(f)
-            data[key] = value
-            with open(filename, 'w') as f:
-                json.dump(data, f, indent=4)
-                
-            RemoveLock(plugin)
-            return data[key]
+        if type(key) != list:
+            with open(filename) as f:
+                data = json.load(f)
+                data[key] = value
+                with open(filename, 'w') as f:
+                    json.dump(data, f, indent=4)
+                    
+                RemoveLock(plugin)
+                return data[key]
+        else:
+            with open(filename) as f:
+                data = json.load(f)
+                data = set_nested_item(data, key, value)
+                with open(filename, 'w') as f:
+                    json.dump(data, f, indent=4)
+                    
+                RemoveLock(plugin)
+                return "success"
                 
     except Exception as e:
-        print(e)
+        import traceback
+        traceback.print_exc()
         RemoveLock(plugin)
         return None
     

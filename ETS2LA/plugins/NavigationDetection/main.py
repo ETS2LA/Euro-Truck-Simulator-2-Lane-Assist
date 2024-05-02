@@ -300,7 +300,7 @@ def LoadAIModel():
                 LoadAILabel = "Failed to load the AI model!"
 
         global AIModelLoadThread
-        AIModelLoadThread = threading.Thread(target=LoadAIModelThread)
+        AIModelLoadThread = threading.Thread(target=LoadAIModelThread, daemon=True)
         AIModelLoadThread.start()
 
     except Exception as ex:
@@ -391,7 +391,7 @@ def CheckForAIModelUpdates():
                 LoadAILabel = "Failed to check for AI model updates or update the AI model."
 
         global AIModelUpdateThread
-        AIModelUpdateThread = threading.Thread(target=CheckForAIModelUpdatesThread)
+        AIModelUpdateThread = threading.Thread(target=CheckForAIModelUpdatesThread, daemon=True)
         AIModelUpdateThread.start()
 
     except Exception as ex:
