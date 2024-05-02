@@ -58,25 +58,25 @@ def plugin():
     
     
     if nodes.nodes == []:
-        runner.sonner("Loading the map data...", type="promise")
+        runner.sonner("Loading node data... (1/4)", type="promise")
         nodes.LoadNodes()
         
         
     if roads.roads == []:
-        runner.sonner("Loaded nodes, loading roads...", type="promise", promise="Loading the map data...")
-        roads.limitToCount = 10000
+        runner.sonner("Loaded nodes, loading roads... (2/4)", type="promise", promise="Loading node data... (1/4)")
+        # roads.limitToCount = 10000
         roads.LoadRoads()
         
         
     if prefabs.prefabs == []:
-        runner.sonner("Loaded roads, loading prefabs...", type="promise", promise="Loaded nodes, loading roads...")
-        prefabs.limitToCount = 500
+        runner.sonner("Loaded roads, loading prefabs... (3/4)", type="promise", promise="Loaded nodes, loading roads... (2/4)")
+        #prefabs.limitToCount = 500
         prefabs.LoadPrefabs()
         
     if prefabItems.prefabItems == []:
-        runner.sonner("Loaded prefabs, loading prefab items...", type="promise", promise="Loaded roads, loading prefabs...")
+        runner.sonner("Loaded prefabs, loading prefab items... (4/4)", type="promise", promise="Loaded roads, loading prefabs... (3/4)")
         prefabItems.LoadPrefabItems()
-        runner.sonner("Loaded prefab items, starting the plugin...", "success", promise="Loaded prefabs, loading prefab items...")
+        runner.sonner("Loaded prefab items, starting the plugin...", "success", promise="Loaded prefabs, loading prefab items... (4/4)")
         
     
     data = {
