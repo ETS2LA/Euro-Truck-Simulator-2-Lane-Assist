@@ -57,9 +57,10 @@ export default function ShowImage({ ip, plugin }: { ip: string, plugin: string})
     };
 
     const UpdateWindowScale = async (e:any) => {
-        let newWindowScale = (e.target as HTMLInputElement).value;
+        let newWindowScale = String(e).replace(/\./g, ".");
+        if (newWindowScale.includes(".") && newWindowScale.substring(newWindowScale.indexOf(".") + 1).length > 1) { return; }
         let valid = !isNaN(parseFloat(newWindowScale));
-        if (valid) { if (parseFloat(newWindowScale) < 0.1) { newWindowScale = "0.1"; } if (parseFloat(newWindowScale) > 5.0) { newWindowScale = "5.0"; } }
+        if (valid) { if (parseFloat(newWindowScale) < 0.1) { newWindowScale = "0.1"; } if (parseFloat(newWindowScale) > 5) { newWindowScale = "5"; } }
         toast.promise(SetSettingByKeys(plugin, ["ShowImage", "WindowScale"], valid ? parseFloat(newWindowScale) : defaultWindowScale, ip), {
             loading: "Saving...",
             success: "Set value to " + parseFloat(newWindowScale),
@@ -69,68 +70,73 @@ export default function ShowImage({ ip, plugin }: { ip: string, plugin: string})
     };
 
     return (
-        <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-126px)] overflow-auto">
-            <div className="flex">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <CardHeader>
-                            <Button variant="secondary">ShowImage<p className="pl-2 text-xs text-stone-500">{plugin}</p></Button>
-                        </CardHeader>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <Label >Created by</Label>
-                        <Separator/>
-                        <Label>Tumppi066</Label>
-                        <Avatar>
-                            <AvatarImage src="https://avatars.githubusercontent.com/u/83072683?v=4"/>
-                        </Avatar>
-                    </PopoverContent>
-                </Popover>
+        <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-129px)] overflow-auto" style={{ position: 'relative', left: '-3px', top: '-3px' }}>
+            
+            <Popover>
+                <PopoverTrigger asChild>
+                    <CardHeader style={{ position: 'absolute', top: '-19px', left: '-19px', width: '273px' }}>
+                        <Button variant="secondary">ShowImage<p className="pl-2 text-xs text-stone-500">{plugin}</p></Button>
+                    </CardHeader>
+                </PopoverTrigger>
+                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '91px', width: '225px' }}>
+                    <Label style={{ position: 'absolute', top: '12px', left: '10px', fontSize: '16px' }}>Created by</Label>
+                    <Separator style={{ position: 'absolute', top: '40px', left: "0px" }}/>
+                    <Label style={{ position: 'absolute', top: '57px', left: '46px', fontSize: '16px' }}>Tumppi066</Label>
+                    <Avatar style={{ position: 'absolute', top: '49px', left: '8px', width: '32px', height: '32px' }}>
+                        <AvatarImage src="https://avatars.githubusercontent.com/u/83072683?v=4"/>
+                    </Avatar>
+                </PopoverContent>
+            </Popover>
 
-                <Tabs defaultValue="general" className="w-full pt-6 pr-5">
-                    <TabsList className="grid w-full grid-cols-1">
-                        <TabsTrigger value="general">General</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="general" className="pt-6" style={{position: 'relative', left: '-250px'}}>
-                        <div className="flex flex-col p-2 gap-y-4">
-                            <div className="flex flex-row">
-                                <Label>
-                                    The settings below will only take effect when the plugin is currently running.
-                                </Label>
-                            </div>
+            <Tabs defaultValue="general" style={{ position: 'absolute', top: '-15px', left: '235px', right: '3pt' }}>
+                <TabsList className="grid w-full grid-cols-1">
+                    <TabsTrigger value="general">General</TabsTrigger>
+                </TabsList>
+                <TabsContent value="general">
+                    
+                    <div className="flex flex-col gap-3 justify-start pt-2" style={{ position: 'absolute', top: '50px', left: '-227px', right: '2.5pt', textAlign: 'left' }}>
 
-                            <div className="flex flex-row">
-                                <Button variant={'outline'} onClick={() => {setResetSymbolSaveWindowPosition(true); setTimeout(() => {setResetSymbolSaveWindowPosition(false);}, 1000); SaveWindowPosition();}}>
-                                    Save window position
-                                </Button>
-                                {ResetSymbolSaveWindowPosition && (
-                                    <div className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
-                                )}
-                            </div>
-
-                            <div className="flex flex-row">
-                                <Button variant={'outline'} onClick={() => {setResetSymbolResetWindow(true); setTimeout(() => {setResetSymbolResetWindow(false);}, 1000); ResetWindow();}}>
-                                    Set to window to default aspect ratio, apply scale and save position
-                                </Button>
-                                {ResetSymbolResetWindow && (
-                                    <div className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
-                                )}
-                            </div>
-                            
-                            {WindowScale !== undefined && (
-                            <div className="flex flex-row gap-2 items-center">
-                                <Input className="w-20" placeholder={String(defaultWindowScale)} id="windowscale" value={!isNaN(parseFloat(WindowScale)) ? WindowScale : ''}  onChangeCapture={(e) => UpdateWindowScale(e)} />
-                                <Label htmlFor="windowscale">
-                                    Window Scale
-                                </Label>
-                            </div>
-                            )}
-
+                        <div className="flex flex-row">
+                            <Label>
+                                The settings below will only take effect when the plugin is currently running.
+                            </Label>
                         </div>
 
-                    </TabsContent>
-                </Tabs>
-            </div>
+                        <div className="flex flex-row">
+                            <Button variant={'outline'} onClick={() => {setResetSymbolSaveWindowPosition(true); setTimeout(() => {setResetSymbolSaveWindowPosition(false);}, 1000); SaveWindowPosition();}}>
+                                Save window position
+                            </Button>
+                            {ResetSymbolSaveWindowPosition && (
+                                <div className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
+                            )}
+                        </div>
+
+                        <div className="flex flex-row">
+                            <Button variant={'outline'} onClick={() => {setResetSymbolResetWindow(true); setTimeout(() => {setResetSymbolResetWindow(false);}, 1000); ResetWindow();}}>
+                                Set to window to default aspect ratio, apply scale and save position
+                            </Button>
+                            {ResetSymbolResetWindow && (
+                                <div className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
+                            )}
+                        </div>
+                        
+                        {WindowScale !== undefined && (
+                        <div>
+                            <div className="flex flex-row items-center text-left gap-2">
+                            <Input placeholder={String(defaultWindowScale)} id="windowscale" type="number" step="0.1" value={!isNaN(parseFloat(WindowScale)) ? WindowScale : ''}  onChangeCapture={(e) => UpdateWindowScale((e.target as HTMLInputElement).value)} style={{ width: '75px' }}/>
+                                <Label htmlFor="windowscale">
+                                    <span className="font-bold">Window Scale</span><br />
+                                    Sets the scale of the window to the given value.
+                                </Label>
+                            </div>
+                        </div>
+                        )}
+
+                    </div>
+
+                </TabsContent>
+            </Tabs>
+
         </Card>
     )
 }

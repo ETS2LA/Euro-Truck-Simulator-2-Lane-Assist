@@ -284,7 +284,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
 
                 </TabsContent>
                 <TabsContent value="showimage" className="h-full">
-                    <div style={{ position: 'absolute', left: '-227px', right: '2.5pt'}}>
+                    <div style={{ position: 'absolute', left: '-227px', right: '-2.5pt'}}>
                         <ShowImage ip={ip} plugin="NavigationDetection" />
                     </div>
                 </TabsContent>
