@@ -173,7 +173,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const UpdateFOV = async (e:any) => {
         let newFOV = parseInt((e.target as HTMLInputElement).value);
         let valid = !isNaN(newFOV);
-        if (valid) { if (newFOV < 0) { newFOV = 0; } if (newFOV > 999) { newFOV = 999; } }
+        if (valid) { if (newFOV < 1) { newFOV = 1; } if (newFOV > 999) { newFOV = 999; } }
         toast.promise(SetSettingByKey("TrafficLightDetection", "FOV", valid ? newFOV : defaultFOV, ip), {
             loading: "Saving...",
             success: "Set value to " + newFOV,

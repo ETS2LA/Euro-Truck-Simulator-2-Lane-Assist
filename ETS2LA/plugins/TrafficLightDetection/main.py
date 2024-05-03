@@ -537,7 +537,7 @@ def plugin():
                 mask_green = cv2.inRange(frame, lower_green, upper_green)
                 filtered_frame_colored = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
                 filtered_frame_bw = cv2.cvtColor(filtered_frame_colored, cv2.COLOR_BGR2GRAY)
-                final_frame = frame
+                final_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 contours, _ = cv2.findContours(filtered_frame_bw, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 for contour in contours:
                     x, y, w, h = cv2.boundingRect(contour)
@@ -588,7 +588,7 @@ def plugin():
                 combined_mask = cv2.bitwise_or(mask_red, cv2.bitwise_or(mask_green, mask_yellow))
                 filtered_frame_colored = cv2.bitwise_and(frame, frame, mask=combined_mask)
                 filtered_frame_bw = cv2.cvtColor(filtered_frame_colored, cv2.COLOR_BGR2GRAY)
-                final_frame = frame
+                final_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 contours, _ = cv2.findContours(filtered_frame_bw, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 for contour in contours:
                     x, y, w, h = cv2.boundingRect(contour)
@@ -645,7 +645,7 @@ def plugin():
             # True: performancemode --- False: advancedmode
             mask_red = cv2.inRange(frame, lower_red, upper_red)
             filtered_frame_bw = mask_red.copy()
-            final_frame = frame
+            final_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             for contour in contours:
                 x, y, w, h = cv2.boundingRect(contour)
@@ -682,7 +682,7 @@ def plugin():
                 mask_green = cv2.inRange(frame, lower_green_advanced, upper_green_advanced)
                 filtered_frame_colored = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
                 filtered_frame_bw = cv2.cvtColor(filtered_frame_colored, cv2.COLOR_BGR2GRAY)
-                final_frame = frame
+                final_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 contours, _ = cv2.findContours(filtered_frame_bw, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 for contour in contours:
                     x, y, w, h = cv2.boundingRect(contour)
@@ -757,7 +757,7 @@ def plugin():
                 combined_mask = cv2.bitwise_or(mask_red, cv2.bitwise_or(mask_green, mask_yellow))
                 filtered_frame_colored = cv2.bitwise_and(frame, frame, mask=combined_mask)
                 filtered_frame_bw = cv2.cvtColor(filtered_frame_colored, cv2.COLOR_BGR2GRAY)
-                final_frame = frame
+                final_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 contours, _ = cv2.findContours(filtered_frame_bw, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 for contour in contours:
                     x, y, w, h = cv2.boundingRect(contour)
@@ -838,7 +838,7 @@ def plugin():
             # True: advancedmode, performancemode --- False:     
             mask_red = cv2.inRange(frame, lower_red_advanced, upper_red_advanced)
             filtered_frame_bw = mask_red.copy()
-            final_frame = frame
+            final_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             for contour in contours:
                 x, y, w, h = cv2.boundingRect(contour)
@@ -1215,7 +1215,6 @@ def plugin():
                 hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
-        final_frame = cv2.cvtColor(final_frame, cv2.COLOR_BGR2RGB)
         cv2.imshow('Traffic Light Detection - Final', final_frame)
     if grayscalewindow == True:
         window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - B/W')
