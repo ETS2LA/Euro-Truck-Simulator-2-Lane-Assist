@@ -25,7 +25,11 @@ class PluginRunner():
         # Import the plugin
         self.plugin_path_name = pluginName
         plugin_path = "ETS2LA.plugins." + pluginName + ".main"
-        self.plugin = importlib.import_module(plugin_path)
+        try:
+            self.plugin = importlib.import_module(plugin_path)
+        except Exception as e:
+            self.logger.error(f"PluginRunner: Could not import plugin {plugin_path} with error: {e}")
+            return
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
         self.plugin_name = self.plugin_data["name"]
         self.plugin.runner = self
