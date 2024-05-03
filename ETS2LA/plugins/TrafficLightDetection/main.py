@@ -154,6 +154,10 @@ def Initialize():
     yolo_detection = settings.Get("TrafficLightDetection", "ConfirmDetectedTrafficLightswithAI", True)
     yolo_showunconfirmed = settings.Get("TrafficLightDetection", "ShowUnconfirmedTrafficLights", True)
     yolo_model_str = settings.Get("TrafficLightDetection", "YOLOModel", "YOLOv5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
+    
+    if yolo_detection == True:
+        if yolo_model_loaded == False:
+            yolo_load_model()
 
     coordinates = []
     trafficlights = []
@@ -316,7 +320,7 @@ def yolo_load_model():
                 print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
                 import torch
                 torch.hub.set_dir(f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOFiles")
-                yolo_model = torch.hub.load("ultralytics/yolov5:master", 'custom', f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOModels\\{yolo_model_str}")
+                yolo_model = torch.hub.load("ultralytics/yolov5:master", 'custom', f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOModels\\{yolo_model_str.lower()}")
                 print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
                 yolo_model_loaded = True
             except Exception as e:
@@ -329,10 +333,10 @@ def yolo_load_model():
                     print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
                 yolo_model_loaded = False
                 yolo_detection = False
-            runner.sonner("Success", type="success", promise=f"Loading the {yolo_model_str} model... This may take a while...")
-    
-        import matplotlib
-        matplotlib.use("Agg")
+            runner.sonner(f"Successfully loaded the {yolo_model_str} model!", type="success", promise=f"Loading the {yolo_model_str} model... This may take a while...")
+
+        #import matplotlib
+        #matplotlib.use("Agg") # this mathplotlib thing fixed a problem in ETS2LA v1.x.x, i dont know if i will need it again, just leave it here
 
         runner.sonner(f"Loading the {yolo_model_str} model... This may take a while...", type="promise")
 
