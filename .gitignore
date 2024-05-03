@@ -4,3 +4,7 @@ logs
 # Ignore the python cache and settings
 **/__pycache__
 **/settings.json
+
+# traffic light detection yolo files
+/ETS2LA/plugins/TrafficLightDetection/YOLOFiles
+/ETS2LA/plugins/TrafficLightDetection/YOLOModels

@@ -6,6 +6,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
+import { PluginFunctionCall } from "@/pages/server"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
@@ -264,6 +265,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             loading: "Saving...",
             success: "Set value to " + newYOLOModel,
             error: "Failed to save"
+        });
+        toast.promise(PluginFunctionCall("TrafficLightDetection", "save_and_load_model()", [], {}), {
+            loading: "Loading...",
+            success: "Success",
+            error: "Error"
         });
         setYOLOModel(newYOLOModel);
     };
@@ -817,7 +823,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
-                                <Button variant={"destructive"} style={{ position: 'relative', top: '2px', height: '100%', textAlign: 'left' }}>
+                                <Button variant={"destructive"} style={{ position: 'relative', top: '2px', height: '100%', textAlign: 'left' }} onClick={() => {toast.promise(PluginFunctionCall("TrafficLightDetection", "delete_and_redownload_model", [], {}), { loading: "Loading...", success: "Success", error: "Error" });}}>
                                     Delete all downloaded models and redownload the model you are currently using.<br />This could fix faulty model files and other issues.
                                 </Button>
                             </div>
