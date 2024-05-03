@@ -33,7 +33,7 @@ def Initialize():
 
 def plugin():
     startTime = time.time()
-    cropped, image = SC.run()
+    cropped = SC.run(imgtype = "cropped")
     # Lower the resolution to a 1/4
     cropped = cv2.resize(cropped, (0,0), fx=RESOLUTION_SCALE, fy=RESOLUTION_SCALE)
     # prepare image for the model
