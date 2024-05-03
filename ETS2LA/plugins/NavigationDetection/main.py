@@ -484,9 +484,6 @@ def plugin():
 
     data = {}
     data["api"] = TruckSimAPI.run()
-    if data["api"] == "not connected" or data["api"]["pause"] == True:
-        time.sleep(0.1)
-        return
     data["frame"] = ScreenCapture.run(imgtype="cropped")
 
     global enabled
@@ -593,20 +590,6 @@ def plugin():
             gamepaused = False
             speed = 0
 
-        if current_time > fuel_update_timer + 5:
-            fuel_update_timer = current_time
-            try:
-                fuel_total = data["api"]["configFloat"]["fuelCapacity"]
-                fuel_current = data["api"]["truckFloat"]["fuel"]
-                if fuel_total != 0:
-                    fuel_percentage = (fuel_current/fuel_total)*100
-                else:
-                    fuel_percentage = 100
-            except:
-                fuel_total = 0
-                fuel_current = 0
-                fuel_percentage = 100
-
         try:
             indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
             indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
@@ -690,7 +673,6 @@ def plugin():
         
         y_coordinate_of_lane = round(navigationsymbol_y / 1.3)
         y_coordinate_of_turn = round(navigationsymbol_y / 4) 
-        automatic_x_offset = round(width/2-navigationsymbol_y)
 
         def GetArrayOfLaneEdges(y_coordinate_of_detection, tilt, x_offset, y_offset):
             detectingLane = False

@@ -1,6 +1,6 @@
 {
     "ToggleSteering": {
-        "description": "",
+        "description": "Enable or disable the steering with this key.",
         "deviceGUID": 1,
         "buttonIndex": "n",
         "axisIndex": -1,
