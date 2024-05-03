@@ -388,8 +388,6 @@ def ConvertToAngle(x, y):
     angle_x = (x - window_width / 2) * (real_hfov / window_width)
     angle_y = (window_height / 2 - y) * (real_vfov / window_height)
 
-    print(f"angle_x: {angle_x}, angle_y: {angle_y}")
-
     return angle_x, angle_y
 
 

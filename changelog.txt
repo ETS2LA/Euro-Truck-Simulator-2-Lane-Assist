@@ -1,1 +1,1 @@
-Fixed multiple division by zero issues in the TrafficLightDetection.
+Removed a print command in the TrafficLightDetection code which had been spammed.
