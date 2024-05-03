@@ -23,6 +23,9 @@ def LoadSettings():
 def InitializeWindow(windowName, img):
     cv2.namedWindow(windowName, cv2.WINDOW_NORMAL)
     cv2.setWindowProperty(windowName, cv2.WND_PROP_TOPMOST, 1)
+    # Get the width and height
+    width, height = LAST_WIDTH, LAST_HEIGHT
+    cv2.resizeWindow(windowName, width, height)
 
     if variables.OS == "nt":
         import win32gui, win32con

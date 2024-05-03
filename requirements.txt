@@ -6,3 +6,5 @@ websockets
 pywebview
 git
 tkinter-tooltip
+transformers
+pillow

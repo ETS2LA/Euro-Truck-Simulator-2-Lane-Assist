@@ -1,0 +1,11 @@
+{
+    "name": "Depth Prediction",
+    "authors": [{
+        "name": "Tumppi066",
+        "url": "https://github.com/Tumppi066",
+        "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
+    }],
+    "description": "Provides depth prediction for object avoidance, please note that this plugin may only work on NVIDIA graphics cards, due to the sheer performance requirements.",
+    "version": "1.0",
+    "modules": ["ScreenCapture", "ShowImage"]
+}
