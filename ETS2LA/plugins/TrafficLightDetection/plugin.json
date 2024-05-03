@@ -7,5 +7,6 @@
     }],
     "description": "Detects traffic lights using computer vision and can display them in an output window. It communicates with the CruiseControl plugin to stop the truck at red traffic lights.",
     "version": "0.7",
-    "dependencies": []
+    "dependencies": [],
+    "modules": ["TruckSimAPI", "ScreenCapture"]
 }

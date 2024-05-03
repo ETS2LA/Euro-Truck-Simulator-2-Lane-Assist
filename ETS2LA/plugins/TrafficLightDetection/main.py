@@ -1,22 +1,31 @@
 from ETS2LA.plugins.runner import PluginRunner
-import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
+import ETS2LA.backend.console as console
+import ETS2LA.variables as variables
 
+if variables.OS == "nt":
+    from ctypes import windll, byref, sizeof, c_int
+    import win32gui, win32con
 import numpy as np
 import threading
 import traceback
 import socket
 import ctypes
 import math
+import time
 import cv2
 import mss
 import os
 
+def SendCrashReport(): return # REMOVE THIS LATER
+
+
 runner:PluginRunner = None
 
 sct = mss.mss()
-monitor = settings.Get("ScreenCapture", "display", 0)
-monitor = sct.monitors[(monitor + 1)]
+monitor = sct.monitors[(settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)]
+screen_x = monitor["left"]
+screen_y = monitor["top"]
 screen_width = monitor["width"]
 screen_height = monitor["height"]
 
@@ -29,7 +38,13 @@ upper_yellow = np.array([255, 240, 170])
 
 yolo_model_loaded = False
 
-def LoadSettings():
+last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
+
+
+def Initialize():
+    global TruckSimAPI
+    global ScreenCapture
+
     global min_rect_size
     global max_rect_size
     global width_height_ratio
@@ -93,15 +108,18 @@ def LoadSettings():
     global upper_green_advanced
     global lower_yellow_advanced
     global upper_yellow_advanced
-    
-    finalwindow = settings.Get("TrafficLightDetection", "finalwindow", True)
-    grayscalewindow = settings.Get("TrafficLightDetection", "grayscalewindow", False)
-    positionestimationwindow = settings.Get("TrafficLightDetection", "positionestimationwindow", False)
-    detectyellowlight = settings.Get("TrafficLightDetection", "detectyellowlight", False)
-    performancemode = settings.Get("TrafficLightDetection", "performancemode", True)
-    advancedmode = settings.Get("TrafficLightDetection", "advancedmode", False)
-    windowscale = float(settings.Get("TrafficLightDetection", "scale", 0.5))
-    posestwindowscale = float(settings.Get("TrafficLightDetection", "posestscale", 0.5))
+
+    TruckSimAPI = runner.modules.TruckSimAPI
+    ScreenCapture = runner.modules.ScreenCapture
+
+    finalwindow = settings.Get("TrafficLightDetection", "FinalWindow", True)
+    grayscalewindow = settings.Get("TrafficLightDetection", "GrayscaleWindow", False)
+    positionestimationwindow = settings.Get("TrafficLightDetection", "PositionEstimationWindow", False)
+    detectyellowlight = settings.Get("TrafficLightDetection", "YellowLightDetection", False)
+    performancemode = settings.Get("TrafficLightDetection", "PerformanceMode", True)
+    advancedmode = settings.Get("TrafficLightDetection", "AdvancedSettings", False)
+    windowscale = float(settings.Get("TrafficLightDetection", "WindowScale", 0.5))
+    posestwindowscale = float(settings.Get("TrafficLightDetection", "PositionEstimationWindowScale", 0.5))
     x1 = settings.Get("TrafficLightDetection", "x1ofsc", 0)
     y1 = settings.Get("TrafficLightDetection", "y1ofsc", 0)
     x2 = settings.Get("TrafficLightDetection", "x2ofsc", screen_width-1)
@@ -121,44 +139,43 @@ def LoadSettings():
     windowwidth = x2-x1
     windowheight = y2-y1
 
-    rectsizefilter = settings.Get("TrafficLightDetection", "rectsizefilter", True)
-    widthheightratiofilter = settings.Get("TrafficLightDetection", "widthheightratiofilter", True)
-    pixelpercentagefilter = settings.Get("TrafficLightDetection", "pixelpercentagefilter", True)
-    otherlightsofffilter = settings.Get("TrafficLightDetection", "otherlightsofffilter", True)
+    rectsizefilter = settings.Get("TrafficLightDetection", "FiltersMinimalTrafficLightSize", True)
+    widthheightratiofilter = settings.Get("TrafficLightDetection", "FiltersWidthHeightRatioFilter", True)
+    pixelpercentagefilter = settings.Get("TrafficLightDetection", "FiltersPixelPercentageFilter", True)
+    otherlightsofffilter = settings.Get("TrafficLightDetection", "FiltersOtherLightsFilter", True)
 
-    yolo_detection = settings.Get("TrafficLightDetection", "yolo_detection", True)
-    yolo_showunconfirmed = settings.Get("TrafficLightDetection", "yolo_showunconfirmed", True)
-    yolo_model_str = settings.Get("TrafficLightDetection", "yolo_model", "yolov5n")
+    yolo_detection = settings.Get("TrafficLightDetection", "ConfirmDetectedTrafficLightswithAI", True)
+    yolo_showunconfirmed = settings.Get("TrafficLightDetection", "ShowUnconfirmedTrafficLights", True)
+    yolo_model_str = settings.Get("TrafficLightDetection", "yolo_model", "YOLOv5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
 
     coordinates = []
     trafficlights = []
 
     if positionestimationwindow == True:
-        if os.path.exists(variables.PATH + "assets/TrafficLightDetection/topview.png") and os.path.exists(variables.PATH + "assets/TrafficLightDetection/sideview.png"):
+        if os.path.exists(variables.PATH + "assets/TrafficLightDetection/topview.png"):
             positionestimation_topview = cv2.imread(variables.PATH + "assets/TrafficLightDetection/topview.png")
+        if os.path.exists(variables.PATH + "assets/TrafficLightDetection/sideview.png"):
             positionestimation_sideview = cv2.imread(variables.PATH + "assets/TrafficLightDetection/sideview.png")
-            positionestimation_default_frame = np.zeros((round(((screen_width-1)/2.5)*posestwindowscale), round((screen_width-1)*posestwindowscale), 3), np.uint8)
-            pixel_per_meter = 25
-            posest_zoom = (positionestimation_default_frame.shape[1] / 300) * pixel_per_meter
-            temp = positionestimation_topview.copy()
-            posest_x1 = 0.24 * positionestimation_default_frame.shape[1] - posest_zoom / 2
-            posest_y1 = positionestimation_default_frame.shape[0] - posest_zoom * (temp.shape[0] / temp.shape[1])
-            posest_x2 = 0.24 * positionestimation_default_frame.shape[1] + posest_zoom / 2
-            posest_y2 = positionestimation_default_frame.shape[0]
-            temp = cv2.resize(temp, ((round(posest_x2) - round(posest_x1)), (round(posest_y2) - round(posest_y1))))
-            positionestimation_default_frame[round(posest_y1):round(posest_y2), round(posest_x1):round(posest_x2)] = temp
-            temp = positionestimation_sideview.copy()
-            posest_x1 = positionestimation_default_frame.shape[1] - posest_zoom
-            posest_y1 = 0.7 * positionestimation_default_frame.shape[0] - posest_zoom * (temp.shape[0] / temp.shape[1]) * 0.5
-            posest_x2 = positionestimation_default_frame.shape[1]
-            posest_y2 = 0.7 * positionestimation_default_frame.shape[0] + posest_zoom * (temp.shape[0] / temp.shape[1]) * 0.5
-            temp = cv2.resize(temp, ((round(posest_x2) - round(posest_x1)), (round(posest_y2) - round(posest_y1))))
-            positionestimation_default_frame[round(posest_y1):round(posest_y2), round(posest_x1):round(posest_x2)] = temp
-            cv2.line(positionestimation_default_frame, (round(positionestimation_default_frame.shape[1]/2), round(0.05*positionestimation_default_frame.shape[0])), (round(positionestimation_default_frame.shape[1]/2), round(0.95*positionestimation_default_frame.shape[0])), (50, 50, 50), round(positionestimation_default_frame.shape[1]/500) if round(positionestimation_default_frame.shape[1]/500) > 1 else 1)
-        else:
-            positionestimationwindow = False
+        positionestimation_default_frame = np.zeros((round(((screen_width-1)/2.5)*posestwindowscale), round((screen_width-1)*posestwindowscale), 3), np.uint8)
+        pixel_per_meter = 25
+        posest_zoom = (positionestimation_default_frame.shape[1] / 300) * pixel_per_meter
+        temp = positionestimation_topview.copy()
+        posest_x1 = 0.24 * positionestimation_default_frame.shape[1] - posest_zoom / 2
+        posest_y1 = positionestimation_default_frame.shape[0] - posest_zoom * (temp.shape[0] / temp.shape[1])
+        posest_x2 = 0.24 * positionestimation_default_frame.shape[1] + posest_zoom / 2
+        posest_y2 = positionestimation_default_frame.shape[0]
+        temp = cv2.resize(temp, ((round(posest_x2) - round(posest_x1)), (round(posest_y2) - round(posest_y1))))
+        positionestimation_default_frame[round(posest_y1):round(posest_y2), round(posest_x1):round(posest_x2)] = temp
+        temp = positionestimation_sideview.copy()
+        posest_x1 = positionestimation_default_frame.shape[1] - posest_zoom
+        posest_y1 = 0.7 * positionestimation_default_frame.shape[0] - posest_zoom * (temp.shape[0] / temp.shape[1]) * 0.5
+        posest_x2 = positionestimation_default_frame.shape[1]
+        posest_y2 = 0.7 * positionestimation_default_frame.shape[0] + posest_zoom * (temp.shape[0] / temp.shape[1]) * 0.5
+        temp = cv2.resize(temp, ((round(posest_x2) - round(posest_x1)), (round(posest_y2) - round(posest_y1))))
+        positionestimation_default_frame[round(posest_y1):round(posest_y2), round(posest_x1):round(posest_x2)] = temp
+        cv2.line(positionestimation_default_frame, (round(positionestimation_default_frame.shape[1]/2), round(0.05*positionestimation_default_frame.shape[0])), (round(positionestimation_default_frame.shape[1]/2), round(0.95*positionestimation_default_frame.shape[0])), (50, 50, 50), round(positionestimation_default_frame.shape[1]/500) if round(positionestimation_default_frame.shape[1]/500) > 1 else 1)
 
-    fov = settings.Get("TrafficLightDetection", "fov", 80)
+    fov = settings.Get("TrafficLightDetection", "FOV", 80)
 
     reset_window = True
 
@@ -166,8 +183,8 @@ def LoadSettings():
         min_rect_size = screen_width / 240
         max_rect_size = screen_width / 10
     else:
-        min_rect_size = settings.Get("TrafficLightDetection", "minrectsize", round(screen_width / 240))
-        max_rect_size = settings.Get("TrafficLightDetection", "maxrectsize", round(screen_width / 10))
+        min_rect_size = settings.Get("TrafficLightDetection", "FiltersMinimalTrafficLightSize", 8)
+        max_rect_size = settings.Get("TrafficLightDetection", "FiltersMaximalTrafficLightSize", round(screen_height / 4))
 
     width_height_ratio = 0.2
     circlepercent = 0.785
@@ -183,77 +200,77 @@ def LoadSettings():
     else:
         anywindowopen = False
 
-    urr = settings.Get("TrafficLightDetection", "upperred_r")
+    urr = settings.Get("TrafficLightDetection", "ColorSettings_urr")
     if urr == None or not isinstance(urr, int) or not (0 <= urr <= 255):
-        settings.Set("TrafficLightDetection", "upperred_r", 255)
+        settings.Set("TrafficLightDetection", "ColorSettings_urr", 255)
         urr = 255
-    urg = settings.Get("TrafficLightDetection", "upperred_g")
+    urg = settings.Get("TrafficLightDetection", "ColorSettings_urg")
     if urg == None or not isinstance(urg, int) or not (0 <= urg <= 255):
-        settings.Set("TrafficLightDetection", "upperred_g", 110)
+        settings.Set("TrafficLightDetection", "ColorSettings_urg", 110)
         urg = 110
-    urb = settings.Get("TrafficLightDetection", "upperred_b")
+    urb = settings.Get("TrafficLightDetection", "ColorSettings_urb")
     if urb == None or not isinstance(urb, int) or not (0 <= urb <= 255):
-        settings.Set("TrafficLightDetection", "upperred_b", 110)
+        settings.Set("TrafficLightDetection", "ColorSettings_urb", 110)
         urb = 110
-    lrr = settings.Get("TrafficLightDetection", "lowerred_r")
+    lrr = settings.Get("TrafficLightDetection", "ColorSettings_lrr")
     if lrr == None or not isinstance(lrr, int) or not (0 <= lrr <= 255):
-        settings.Set("TrafficLightDetection", "lowerred_r", 200)
+        settings.Set("TrafficLightDetection", "ColorSettings_lrr", 200)
         lrr = 200
-    lrg = settings.Get("TrafficLightDetection", "lowerred_g")
+    lrg = settings.Get("TrafficLightDetection", "ColorSettings_lrg")
     if lrg == None or not isinstance(lrg, int) or not (0 <= lrg <= 255):
-        settings.Set("TrafficLightDetection", "lowerred_g", 0)
+        settings.Set("TrafficLightDetection", "ColorSettings_lrg", 0)
         lrg = 0
-    lrb = settings.Get("TrafficLightDetection", "lowerred_b")
+    lrb = settings.Get("TrafficLightDetection", "ColorSettings_lrb")
     if lrb == None or not isinstance(lrb, int) or not (0 <= lrb <= 255):
-        settings.Set("TrafficLightDetection", "lowerred_b", 0)
+        settings.Set("TrafficLightDetection", "ColorSettings_lrb", 0)
         lrb = 0
-    uyr = settings.Get("TrafficLightDetection", "upperyellow_r")
+    uyr = settings.Get("TrafficLightDetection", "ColorSettings_uyr")
     if uyr == None or not isinstance(uyr, int) or not (0 <= uyr <= 255):
-        settings.Set("TrafficLightDetection", "upperyellow_r", 255)
+        settings.Set("TrafficLightDetection", "ColorSettings_uyr", 255)
         uyr = 255
-    uyg = settings.Get("TrafficLightDetection", "upperyellow_g")
+    uyg = settings.Get("TrafficLightDetection", "ColorSettings_uyg")
     if uyg == None or not isinstance(uyg, int) or not (0 <= uyg <= 255):
-        settings.Set("TrafficLightDetection", "upperyellow_g", 240)
+        settings.Set("TrafficLightDetection", "ColorSettings_uyg", 240)
         uyg = 240
-    uyb = settings.Get("TrafficLightDetection", "upperyellow_b")
+    uyb = settings.Get("TrafficLightDetection", "ColorSettings_uyb")
     if uyb == None or not isinstance(uyb, int) or not (0 <= uyb <= 255):
-        settings.Set("TrafficLightDetection", "upperyellow_b", 170)
+        settings.Set("TrafficLightDetection", "ColorSettings_uyb", 170)
         uyb = 170
-    lyr = settings.Get("TrafficLightDetection", "loweryellow_r")
+    lyr = settings.Get("TrafficLightDetection", "ColorSettings_lyr")
     if lyr == None or not isinstance(lyr, int) or not (0 <= lyr <= 255):
-        settings.Set("TrafficLightDetection", "loweryellow_r", 200)
+        settings.Set("TrafficLightDetection", "ColorSettings_lyr", 200)
         lyr = 200
-    lyg = settings.Get("TrafficLightDetection", "loweryellow_g")
+    lyg = settings.Get("TrafficLightDetection", "ColorSettings_lyg")
     if lyg == None or not isinstance(lyg, int) or not (0 <= lyg <= 255):
-        settings.Set("TrafficLightDetection", "loweryellow_g", 170)
+        settings.Set("TrafficLightDetection", "ColorSettings_lyg", 170)
         lyg = 170
-    lyb = settings.Get("TrafficLightDetection", "loweryellow_b")
+    lyb = settings.Get("TrafficLightDetection", "ColorSettings_lyb")
     if lyb == None or not isinstance(lyb, int) or not (0 <= lyb <= 255):
-        settings.Set("TrafficLightDetection", "loweryellow_b", 50)
+        settings.Set("TrafficLightDetection", "ColorSettings_lyb", 50)
         lyb = 50
-    ugr = settings.Get("TrafficLightDetection", "uppergreen_r")
+    ugr = settings.Get("TrafficLightDetection", "ColorSettings_ugr")
     if ugr == None or not isinstance(ugr, int) or not (0 <= ugr <= 255):
-        settings.Set("TrafficLightDetection", "uppergreen_r", 150)
+        settings.Set("TrafficLightDetection", "ColorSettings_ugr", 150)
         ugr = 150
-    ugg = settings.Get("TrafficLightDetection", "uppergreen_g")
+    ugg = settings.Get("TrafficLightDetection", "ColorSettings_ugg")
     if ugg == None or not isinstance(ugg, int) or not (0 <= ugg <= 255):
-        settings.Set("TrafficLightDetection", "uppergreen_g", 255)
+        settings.Set("TrafficLightDetection", "ColorSettings_ugg", 255)
         ugg = 255
-    ugb = settings.Get("TrafficLightDetection", "uppergreen_b")
+    ugb = settings.Get("TrafficLightDetection", "ColorSettings_ugb")
     if ugb == None or not isinstance(ugb, int) or not (0 <= ugb <= 255):
-        settings.Set("TrafficLightDetection", "uppergreen_b", 230)
+        settings.Set("TrafficLightDetection", "ColorSettings_ugb", 230)
         ugb = 230
-    lgr = settings.Get("TrafficLightDetection", "lowergreen_r")
+    lgr = settings.Get("TrafficLightDetection", "ColorSettings_lgr")
     if lgr == None or not isinstance(lgr, int) or not (0 <= lgr <= 255):
-        settings.Set("TrafficLightDetection", "lowergreen_r", 0)
+        settings.Set("TrafficLightDetection", "ColorSettings_lgr", 0)
         lgr = 0
-    lgg = settings.Get("TrafficLightDetection", "lowergreen_g")
+    lgg = settings.Get("TrafficLightDetection", "ColorSettings_lgg")
     if lgg == None or not isinstance(lgg, int) or not (0 <= lgg <= 255):
-        settings.Set("TrafficLightDetection", "lowergreen_g", 200)
+        settings.Set("TrafficLightDetection", "ColorSettings_lgg", 200)
         lgg = 200
-    lgb = settings.Get("TrafficLightDetection", "lowergreen_b")
+    lgb = settings.Get("TrafficLightDetection", "ColorSettings_lgb")
     if lgb == None or not isinstance(lgb, int) or not (0 <= lgb <= 255):
-        settings.Set("TrafficLightDetection", "lowergreen_b", 0)
+        settings.Set("TrafficLightDetection", "ColorSettings_lgb", 0)
         lgb = 0
 
     upper_red_advanced = np.array([urr, urg, urb])
@@ -262,10 +279,6 @@ def LoadSettings():
     lower_yellow_advanced = np.array([lyr, lyg, lyb])
     upper_green_advanced = np.array([ugr, ugg, ugb])
     lower_green_advanced = np.array([lgr, lgg, lgb])
-
-
-settings.Set("TrafficLightDetection", "enabled", True)
-settings.Listen("TrafficLightDetection", LoadSettings)
 
 
 def check_internet_connection(host="github.com", port=443, timeout=3):
@@ -282,9 +295,9 @@ def yolo_load_model():
     global yolo_detection
     global yolo_showunconfirmed
     global yolo_model_str
-    yolo_detection = settings.Get("TrafficLightDetection", "yolo_detection", True)
-    yolo_showunconfirmed = settings.Get("TrafficLightDetection", "yolo_showunconfirmed", True)
-    yolo_model_str = settings.Get("TrafficLightDetection", "yolo_model", "yolov5n")
+    yolo_detection = settings.Get("TrafficLightDetection", "ConfirmDetectedTrafficLightswithAI", True)
+    yolo_showunconfirmed = settings.Get("TrafficLightDetection", "ShowUnconfirmedTrafficLights", True)
+    yolo_model_str = settings.Get("TrafficLightDetection", "YOLOModel", "YOLOv5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
     if yolo_model_loaded == False:
         yolo_model_loaded = "loading..."
         yolo_model = None
@@ -309,11 +322,15 @@ def yolo_load_model():
                     print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
                 yolo_model_loaded = False
                 yolo_detection = False
+            helpers.RunInMainThread(lambda: loading.close())
     
         import matplotlib
         matplotlib.use("Agg")
 
-        model_thread = threading.Thread(target=yolo_load_model_thread, daemon=True)
+        global loading
+        loading = helpers.ShowPopup(f"Loading the {yolo_model_str} model...\nThis may take a while...\n\nDO NOT CLOSE THE APP", "TrafficLightDetection", timeout=0, indeterminate=True, closeIfMainloopStopped=False)
+
+        model_thread = threading.Thread(target=yolo_load_model_thread)
         model_thread.start()
 
 
@@ -333,19 +350,57 @@ def yolo_detection_function(yolo_detection_frame):
     return trafficlight
 
 
+def GetGamePosition():
+    global last_GetGamePosition
+    if variables.OS == "nt":
+        if last_GetGamePosition[0] + 3 < time.time():
+            hwnd = None
+            top_windows = []
+            window = last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
+            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+            for hwnd, window_text in top_windows:
+                if "Truck Simulator" in window_text and "Discord" not in window_text:
+                    rect = win32gui.GetClientRect(hwnd)
+                    tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                    br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                    window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                    break
+            last_GetGamePosition = time.time(), window[0], window[1], window[2], window[3]
+            return window[0], window[1], window[2], window[3]
+        else:
+            return last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
+    else:
+        return screen_x, screen_y, screen_x + screen_width, screen_y + screen_height
+
+def ConvertToAngle(x, y):
+
+    window_x, window_y, window_width, window_height = GetGamePosition()
+
+    real_hfov = (4 / 3) * math.atan((math.tan(math.radians(fov / 2)) * (window_width / window_height)) / 1.333) * (360 / math.pi)
+    real_vfov = math.atan(math.tan(math.radians(real_hfov / 2)) / (window_width / window_height)) * (360 / math.pi)
+
+    angle_x = (x - window_width / 2) * (real_hfov / window_width)
+    angle_y = (window_height / 2 - y) * (real_vfov / window_height)
+
+    print(f"angle_x: {angle_x}, angle_y: {angle_y}")
+
+    return angle_x, angle_y
+
+
 def plugin():
     global coordinates
     global trafficlights
     global reset_window
     
-    try:
-        frameFull = data["frameFull"]
-        if x1 < x2 and y1 < y2:
-            frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
-        else:
-            frame = frameFull[0:round(screen_height/1.5), 0:screen_width]
-    except:
-        return data
+    data = {}
+    data["api"] = TruckSimAPI.run()
+    data["frameFull"] = ScreenCapture.run(imgtype="full")
+
+    frameFull = data["frameFull"]
+    if x1 < x2 and y1 < y2:
+        frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
+    else:
+        frame = frameFull[0:round(screen_height/1.5), 0:screen_width]
     
     if frame is None: return data
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -387,7 +442,7 @@ def plugin():
         point_y = head_offset_y
         point_z = head_offset_z
         head_x = point_x * math.cos(truck_rotation_radians_x) - point_z * math.sin(truck_rotation_radians_x) + truck_x
-        head_y = point_y * math.cos(head_rotation_degrees_y) - point_y * math.sin(head_rotation_degrees_y) + truck_y
+        head_y = point_y * math.cos(math.radians(head_rotation_degrees_y)) - point_z * math.sin(math.radians(head_rotation_degrees_y)) + truck_y
         head_z = point_x * math.sin(truck_rotation_radians_x) + point_z * math.cos(truck_rotation_radians_x) + truck_z
     except:
         truck_x = 0
@@ -823,7 +878,7 @@ def plugin():
                     for k, (coord, position, id, approved) in enumerate(trafficlights):
                         if coord == last_coordinates[i]:
                             exists_in_trafficlights = True
-                            angle = ((x1 + nearestpoint[0]) - screen_width / 2) * (fov / screen_width)
+                            angle = ConvertToAngle(nearestpoint[0], nearestpoint[1])[0]
                             saved_position = (position[0], (head_x, head_z, angle, head_rotation_degrees_x), position[2])
                             saved_id = id
                             saved_approved = approved
@@ -833,7 +888,7 @@ def plugin():
                         trafficlights.append((nearestpoint, saved_position, saved_id, saved_approved))
                     else:
                         new_id = generate_new_id()
-                        angle = ((x1 + nearestpoint[0]) - screen_width / 2) * (fov / screen_width)
+                        angle = ConvertToAngle(nearestpoint[0], nearestpoint[1])[0]
                         if yolo_detection == True:
                             x, y, w, h, state = nearestpoint
                             x1_confirmation = round(x - w*6)
@@ -872,6 +927,7 @@ def plugin():
 
     try:
         for i, (coord, ((previous_trafficlight_x, previous_trafficlight_y, previous_trafficlight_z), (head_x, head_z, head_angle, head_rotation), (first_head_x, first_head_z, first_head_angle, first_head_rotation)), id, approved) in enumerate(trafficlights):
+            x, y, w, h, state = coord
 
             angle_offset = first_head_rotation - head_rotation
 
@@ -888,20 +944,27 @@ def plugin():
                 angle_B_rad = math.radians(angle_B)
                 angle_C_rad = math.pi - angle_A_rad - angle_B_rad
                 distance_AB = math.sqrt((position_B[0] - position_A[0]) ** 2 + (position_B[1] - position_A[1]) ** 2)
-                length_A = distance_AB * math.sin(angle_A_rad) / math.sin(angle_C_rad)
-                length_B = distance_AB * math.sin(angle_B_rad) / math.sin(angle_C_rad)
+                if math.sin(angle_C_rad) != 0:
+                    length_A = distance_AB * math.sin(angle_A_rad) / math.sin(angle_C_rad)
+                    length_B = distance_AB * math.sin(angle_B_rad) / math.sin(angle_C_rad)
+                else:
+                    length_A = distance_AB
+                    length_B = distance_AB
                 position_C_x = length_B * math.cos(angle_A_rad)
                 position_C_y = length_B * math.sin(angle_A_rad)
                 direction_AB = (position_B[0] - position_A[0], position_B[1] - position_A[1])
                 length_AB = math.sqrt(direction_AB[0] ** 2 + direction_AB[1] ** 2)
+                if length_AB == 0:
+                    length_AB = 0.0001
                 direction_unit_AB = (direction_AB[0] / length_AB, direction_AB[1] / length_AB)
                 direction_unit_perpendicular_ab = (-direction_unit_AB[1], direction_unit_AB[0])
                 position_C = (position_A[0] + position_C_x * direction_unit_AB[0] - position_C_y * direction_unit_perpendicular_ab[0], position_A[1] + position_C_x * direction_unit_AB[1] - position_C_y * direction_unit_perpendicular_ab[1])
 
                 trafficlight_x, trafficlight_z = position_C
-                
-                angle = (y1 - screen_height / 2) * (fov / screen_height) - head_rotation_degrees_y
-                trafficlight_y = head_y + (math.sin(head_rotation_degrees_y) * math.sqrt((truck_x - head_x)**2 + (truck_z - head_z)**2))
+
+                angle = ConvertToAngle(x, y)[1]
+                distance = math.sqrt((trafficlight_x - head_x)**2 + (trafficlight_z - head_z)**2)
+                trafficlight_y = head_y + (math.sin(angle) / distance if distance != 0 else 0.0001)
 
                 if previous_trafficlight_x != None and previous_trafficlight_y != None and previous_trafficlight_z != None:
                     trafficlight_x = previous_trafficlight_x + (trafficlight_x - previous_trafficlight_x) / 5
@@ -1047,7 +1110,8 @@ def plugin():
                         color = (0, 255, 255)
                     elif state == "Green":
                         color = (0, 255, 0)
-                    cv2.circle(positionestimation_frame, (x, y - round(positionestimation_frame_height * 0.179)), round(positionestimation_frame_height/100), color, -1)
+                    if -5 < int(x) < positionestimation_frame_width + 5 and -5 < int(y - round(positionestimation_frame_height * 0.179)) < positionestimation_frame_height + 5:
+                        cv2.circle(positionestimation_frame, (int(x), int(y - round(positionestimation_frame_height * 0.179))), round(positionestimation_frame_height/100), color, -1)
 
         except Exception as e:
             exc = traceback.format_exc()
@@ -1101,6 +1165,13 @@ def plugin():
             cv2.namedWindow('Traffic Light Detection - Final', cv2.WINDOW_NORMAL)
             cv2.resizeWindow('Traffic Light Detection - Final', round(windowwidth*windowscale), round(windowheight*windowscale))
             cv2.setWindowProperty('Traffic Light Detection - Final', cv2.WND_PROP_TOPMOST, 1)
+            if os.name == 'nt':
+                hwnd = win32gui.FindWindow(None, 'Traffic Light Detection - Final')
+                windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x2F2F2F)), sizeof(c_int))
+                icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
+                hicon = win32gui.LoadImage(None, f"{variables.PATH}assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
+                win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
+                win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
         cv2.imshow('Traffic Light Detection - Final', final_frame)
     if grayscalewindow == True:
         window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - B/W')
@@ -1108,6 +1179,13 @@ def plugin():
             cv2.namedWindow('Traffic Light Detection - B/W', cv2.WINDOW_NORMAL)
             cv2.resizeWindow('Traffic Light Detection - B/W', round(windowwidth*windowscale), round(windowheight*windowscale))
             cv2.setWindowProperty('Traffic Light Detection - B/W', cv2.WND_PROP_TOPMOST, 1)
+            if variables.OS == "nt":
+                hwnd = win32gui.FindWindow(None, 'Traffic Light Detection - B/W')
+                windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
+                icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
+                hicon = win32gui.LoadImage(None, f"{variables.PATH}assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
+                win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
+                win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
         cv2.imshow('Traffic Light Detection - B/W', filtered_frame_bw)
     if positionestimationwindow == True:
         window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Position Estimation')
@@ -1115,7 +1193,56 @@ def plugin():
             cv2.namedWindow('Traffic Light Detection - Position Estimation', cv2.WINDOW_NORMAL)
             cv2.resizeWindow('Traffic Light Detection - Position Estimation', positionestimation_frame.shape[1], positionestimation_frame.shape[0])
             cv2.setWindowProperty('Traffic Light Detection - Position Estimation', cv2.WND_PROP_TOPMOST, 1)
+            if variables.OS == "nt":
+                hwnd = win32gui.FindWindow(None, 'Traffic Light Detection - Position Estimation')
+                windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
+                icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
+                hicon = win32gui.LoadImage(None, f"{variables.PATH}assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
+                win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
+                win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
         cv2.imshow('Traffic Light Detection - Position Estimation', positionestimation_frame)
+    if anywindowopen == True:
+        cv2.waitKey(1)
     if reset_window == True:
         reset_window = False
-    return data
+
+
+def save_and_load_model():
+    global last_model_load_press
+    global yolo_model_loaded
+    if time.time() > last_model_load_press + 1:
+        last_model_load_press = time.time()
+        if yolo_model_loaded != "loading...":
+            yolo_model_loaded = False
+            yolo_load_model()
+            Initialize()
+        else:
+            messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
+    else:
+        messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
+
+
+def delete_and_redownload_model():
+    global last_model_load_press
+    global yolo_model_loaded
+    if time.time() > last_model_load_press + 1:
+        last_model_load_press = time.time()
+        if yolo_model_loaded != "loading...":
+            try:
+                yolomodels_path = f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOModels"
+                for filename in os.listdir(yolomodels_path):
+                    file_path = os.path.join(yolomodels_path, filename)
+                    if os.path.isfile(file_path) and filename.lower() != 'index.md':
+                        os.remove(file_path)
+            except Exception as e:
+                messagebox.showwarning("TrafficLightDetection", f"The code encountered an error while deleting the model files. Please try again.")
+                exc = traceback.format_exc()
+                SendCrashReport("TrafficLightDetection - Model Delete Error.", str(exc))
+                print("TrafficLightDetection - Model Delete Error: " + str(e))
+            yolo_model_loaded = False
+            yolo_load_model()
+            Initialize()
+        else:
+            messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
+    else:
+        messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
