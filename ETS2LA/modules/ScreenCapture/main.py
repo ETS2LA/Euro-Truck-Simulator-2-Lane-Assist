@@ -23,7 +23,18 @@ def CreateCam(CamSetupDisplay:int = display):
         global cam
         import bettercam
         try:
-            cam.close() # stop the old instance of cam
+            cam.stop() # stop the old instance of cam
+        except:
+            pass
+        try:
+            cam.close() # close the old instance of cam
+        except:
+            pass
+        try:
+            cam.release() # release the old instance of cam
+        except:
+            pass
+        try:
             del cam
         except:
             pass
