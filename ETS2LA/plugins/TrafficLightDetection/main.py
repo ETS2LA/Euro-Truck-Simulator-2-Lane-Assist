@@ -136,12 +136,12 @@ def Initialize():
             y1 = y2-1
         else:
             y2 = y1+1
-        
-    ScreenCapture.CreateCam(CamSetupDisplay = 0)
-    ScreenCapture.monitor_x1 = x1
-    ScreenCapture.monitor_y1 = y1
-    ScreenCapture.monitor_x2 = x2
-    ScreenCapture.monitor_y2 = y2
+
+    ScreenCapture.CreateCam(CamSetupDisplay = 0) # NEEDS TO BE CODED (settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)
+    ScreenCapture.monitor_x1 = screen_x
+    ScreenCapture.monitor_y1 = screen_y
+    ScreenCapture.monitor_x2 = screen_x + screen_width
+    ScreenCapture.monitor_y2 = screen_y + screen_height
 
     windowwidth = x2-x1
     windowheight = y2-y1
@@ -163,10 +163,10 @@ def Initialize():
     trafficlights = []
 
     if positionestimationwindow == True:
-        if os.path.exists(variables.PATH + "assets/TrafficLightDetection/topview.png"):
-            positionestimation_topview = cv2.imread(variables.PATH + "assets/TrafficLightDetection/topview.png")
-        if os.path.exists(variables.PATH + "assets/TrafficLightDetection/sideview.png"):
-            positionestimation_sideview = cv2.imread(variables.PATH + "assets/TrafficLightDetection/sideview.png")
+        if os.path.exists(variables.PATH + "ETS2LA/assets/TrafficLightDetection/topview.png"):
+            positionestimation_topview = cv2.imread(variables.PATH + "ETS2LA/assets/TrafficLightDetection/topview.png")
+        if os.path.exists(variables.PATH + "ETS2LA/assets/TrafficLightDetection/sideview.png"):
+            positionestimation_sideview = cv2.imread(variables.PATH + "ETS2LA/assets/TrafficLightDetection/sideview.png")
         positionestimation_default_frame = np.zeros((round(((screen_width-1)/2.5)*posestwindowscale), round((screen_width-1)*posestwindowscale), 3), np.uint8)
         pixel_per_meter = 25
         posest_zoom = (positionestimation_default_frame.shape[1] / 300) * pixel_per_meter
@@ -433,8 +433,6 @@ def ConvertToAngle(x, y):
     angle_x = (x - window_width / 2) * (real_hfov / window_width)
     angle_y = (window_height / 2 - y) * (real_vfov / window_height)
 
-    print(f"angle_x: {angle_x}, angle_y: {angle_y}")
-
     return angle_x, angle_y
 
 
@@ -445,9 +443,9 @@ def plugin():
     
     data = {}
     data["api"] = TruckSimAPI.run()
-    data["frame"], data["frameFull"] = ScreenCapture.run(imgtype="both")
-    
-    frame = data["frame"]
+    data["frameFull"] = ScreenCapture.run(imgtype="full")
+
+    frame = data["frameFull"][y1:y1+(y2-y1), x1:x1+(x2-x1)]
     frameFull = data["frameFull"]
     if frame is None: return data
 
@@ -1217,6 +1215,7 @@ def plugin():
                 hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
+        final_frame = cv2.cvtColor(final_frame, cv2.COLOR_BGR2RGB)
         cv2.imshow('Traffic Light Detection - Final', final_frame)
     if grayscalewindow == True:
         window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - B/W')
