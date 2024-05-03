@@ -19,7 +19,7 @@ monitor_y2 = monitor["height"]
 
 
 def CreateCam(CamSetupDisplay:int = display):
-    if variables.OS != "nt":
+    if variables.OS == "nt":
         global cam
         import bettercam
         try:
@@ -36,7 +36,7 @@ def CreateCam(CamSetupDisplay:int = display):
 def Initialize():
     CreateCam()
 
-if variables.OS != "nt":
+if variables.OS == "nt":
     def run(imgtype:str = "both"):
         """imgtype: "both", "cropped", "full" """
         global cam
