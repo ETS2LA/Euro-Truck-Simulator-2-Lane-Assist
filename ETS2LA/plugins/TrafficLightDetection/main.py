@@ -17,13 +17,13 @@ import cv2
 import mss
 import os
 
-def SendCrashReport(): return # REMOVE THIS LATER
+def SendCrashReport(arg1="", arg2=""): return # REMOVE THIS LATER
 
 
 runner:PluginRunner = None
 
 sct = mss.mss()
-monitor = sct.monitors[(settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)]
+monitor = sct.monitors[1] # FIX THIS LATER (settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)
 screen_x = monitor["left"]
 screen_y = monitor["top"]
 screen_width = monitor["width"]
@@ -36,6 +36,7 @@ upper_green = np.array([150, 255, 230])
 lower_yellow = np.array([200, 170, 50])
 upper_yellow = np.array([255, 240, 170])
 
+yolo_model = None
 yolo_model_loaded = False
 
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
@@ -135,6 +136,12 @@ def Initialize():
             y1 = y2-1
         else:
             y2 = y1+1
+        
+    ScreenCapture.CreateCam(CamSetupDisplay = 0)
+    ScreenCapture.monitor_x1 = x1
+    ScreenCapture.monitor_y1 = y1
+    ScreenCapture.monitor_x2 = x2
+    ScreenCapture.monitor_y2 = y2
 
     windowwidth = x2-x1
     windowheight = y2-y1
@@ -146,7 +153,7 @@ def Initialize():
 
     yolo_detection = settings.Get("TrafficLightDetection", "ConfirmDetectedTrafficLightswithAI", True)
     yolo_showunconfirmed = settings.Get("TrafficLightDetection", "ShowUnconfirmedTrafficLights", True)
-    yolo_model_str = settings.Get("TrafficLightDetection", "yolo_model", "YOLOv5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
+    yolo_model_str = settings.Get("TrafficLightDetection", "YOLOModel", "YOLOv5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
 
     coordinates = []
     trafficlights = []
@@ -308,8 +315,8 @@ def yolo_load_model():
             try:
                 print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
                 import torch
-                torch.hub.set_dir(f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOFiles")
-                yolo_model = torch.hub.load("ultralytics/yolov5:master", 'custom', f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOModels\\{yolo_model_str}")
+                torch.hub.set_dir(f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOFiles")
+                yolo_model = torch.hub.load("ultralytics/yolov5:master", 'custom', f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOModels\\{yolo_model_str}")
                 print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
                 yolo_model_loaded = True
             except Exception as e:
@@ -322,16 +329,56 @@ def yolo_load_model():
                     print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
                 yolo_model_loaded = False
                 yolo_detection = False
-            helpers.RunInMainThread(lambda: loading.close())
+            runner.sonner("Success", type="success", promise=f"Loading the {yolo_model_str} model... This may take a while...")
     
         import matplotlib
         matplotlib.use("Agg")
 
-        global loading
-        loading = helpers.ShowPopup(f"Loading the {yolo_model_str} model...\nThis may take a while...\n\nDO NOT CLOSE THE APP", "TrafficLightDetection", timeout=0, indeterminate=True, closeIfMainloopStopped=False)
+        runner.sonner(f"Loading the {yolo_model_str} model... This may take a while...", type="promise")
 
         model_thread = threading.Thread(target=yolo_load_model_thread)
         model_thread.start()
+
+
+def save_and_load_model():
+    global last_model_load_press
+    global yolo_model_loaded
+    if time.time() > last_model_load_press + 1:
+        last_model_load_press = time.time()
+        if yolo_model_loaded != "loading...":
+            yolo_model_loaded = False
+            yolo_load_model()
+            Initialize()
+        else:
+            runner.sonner("The code is still loading a different model. Please try again when the other model has finished loading.")
+    else:
+        runner.sonner("The code is still loading a different model. Please try again when the other model has finished loading.")
+
+
+def delete_and_redownload_model():
+    global last_model_load_press
+    global yolo_model_loaded
+    if time.time() > last_model_load_press + 1:
+        last_model_load_press = time.time()
+        if yolo_model_loaded != "loading...":
+            try:
+                yolomodels_path = f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOModels"
+                for filename in os.listdir(yolomodels_path):
+                    file_path = os.path.join(yolomodels_path, filename)
+                    if os.path.isfile(file_path) and filename.lower() != 'index.md':
+                        os.remove(file_path)
+            except Exception as e:
+                runner.sonner("The code encountered an error while deleting the model files. Please try again.")
+                exc = traceback.format_exc()
+                SendCrashReport("TrafficLightDetection - Model Delete Error.", str(exc))
+                print("TrafficLightDetection - Model Delete Error: " + str(e))
+            yolo_model_loaded = False
+            yolo_load_model()
+            Initialize()
+        else:
+            runner.sonner("The code is still loading a model. Please try again when the model has finished loading.")
+    else:
+        runner.sonner("The code is still loading a model. Please try again when the model has finished loading.")
 
 
 def yolo_detection_function(yolo_detection_frame):
@@ -394,17 +441,11 @@ def plugin():
     
     data = {}
     data["api"] = TruckSimAPI.run()
-    data["frameFull"] = ScreenCapture.run(imgtype="full")
-
-    frameFull = data["frameFull"]
-    if x1 < x2 and y1 < y2:
-        frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
-    else:
-        frame = frameFull[0:round(screen_height/1.5), 0:screen_width]
+    data["frame"], data["frameFull"] = ScreenCapture.run(imgtype="both")
     
+    frame = data["frame"]
+    frameFull = data["frameFull"]
     if frame is None: return data
-    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
 
     try:
         truck_x = data["api"]["truckPlacement"]["coordinateX"]
@@ -490,8 +531,8 @@ def plugin():
         if performancemode == False:
             if detectyellowlight == False:
                 # True: --- False: advancedmode, performancemode, detectyellowlight
-                mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
-                mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+                mask_green = cv2.inRange(frame, lower_green, upper_green)
                 filtered_frame_colored = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
                 filtered_frame_bw = cv2.cvtColor(filtered_frame_colored, cv2.COLOR_BGR2GRAY)
                 final_frame = frame
@@ -525,11 +566,11 @@ def plugin():
                                     centery1 = round(y + h / 2)+h
                                     centery2 = round(y + h / 2)+h*2
                                 try:
-                                    centery1_color = rgb_frame[centery1, centerx]
+                                    centery1_color = frame[centery1, centerx]
                                 except:
                                     centery1_color = (0,0,0)
                                 try:
-                                    centery2_color = rgb_frame[centery2, centerx]
+                                    centery2_color = frame[centery2, centerx]
                                 except:
                                     centery2_color = (0,0,0)
                                 r_centery1, g_centery1, b_centery1 = centery1_color
@@ -539,9 +580,9 @@ def plugin():
 
             else:
                 # True: detectyellowlight --- False: advancedmode, performancemode
-                mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
-                mask_green = cv2.inRange(rgb_frame, lower_green, upper_green)
-                mask_yellow = cv2.inRange(rgb_frame, lower_yellow, upper_yellow)
+                mask_red = cv2.inRange(frame, lower_red, upper_red)
+                mask_green = cv2.inRange(frame, lower_green, upper_green)
+                mask_yellow = cv2.inRange(frame, lower_yellow, upper_yellow)
                 combined_mask = cv2.bitwise_or(mask_red, cv2.bitwise_or(mask_green, mask_yellow))
                 filtered_frame_colored = cv2.bitwise_and(frame, frame, mask=combined_mask)
                 filtered_frame_bw = cv2.cvtColor(filtered_frame_colored, cv2.COLOR_BGR2GRAY)
@@ -586,11 +627,11 @@ def plugin():
                                     centery1 = round(y + h / 2)+h
                                     centery2 = round(y + h / 2)+h*2
                                 try:
-                                    centery1_color = rgb_frame[centery1, centerx]
+                                    centery1_color = frame[centery1, centerx]
                                 except:
                                     centery1_color = (0,0,0)
                                 try:
-                                    centery2_color = rgb_frame[centery2, centerx]
+                                    centery2_color = frame[centery2, centerx]
                                 except:
                                     centery2_color = (0,0,0)
                                 r_centery1, g_centery1, b_centery1 = centery1_color
@@ -600,7 +641,7 @@ def plugin():
                 
         else:
             # True: performancemode --- False: advancedmode
-            mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
+            mask_red = cv2.inRange(frame, lower_red, upper_red)
             filtered_frame_bw = mask_red.copy()
             final_frame = frame
             contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -618,11 +659,11 @@ def plugin():
                             centery1 = round(y + h / 2)+h
                             centery2 = round(y + h / 2)+h*2
                             try:
-                                centery1_color = rgb_frame[centery1, centerx]
+                                centery1_color = frame[centery1, centerx]
                             except:
                                 centery1_color = (0,0,0)
                             try:
-                                centery2_color = rgb_frame[centery2, centerx]
+                                centery2_color = frame[centery2, centerx]
                             except:
                                 centery2_color = (0,0,0)
                             r_centery1, g_centery1, b_centery1 = centery1_color
@@ -635,8 +676,8 @@ def plugin():
         if performancemode == False:
             if detectyellowlight == False:
                 # True: advancedmode --- False: performancemode, detectyellowlight
-                mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
-                mask_green = cv2.inRange(rgb_frame, lower_green_advanced, upper_green_advanced)
+                mask_red = cv2.inRange(frame, lower_red_advanced, upper_red_advanced)
+                mask_green = cv2.inRange(frame, lower_green_advanced, upper_green_advanced)
                 filtered_frame_colored = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
                 filtered_frame_bw = cv2.cvtColor(filtered_frame_colored, cv2.COLOR_BGR2GRAY)
                 final_frame = frame
@@ -688,11 +729,11 @@ def plugin():
                                     centery1 = round(y + h / 2)+h
                                     centery2 = round(y + h / 2)+h*2
                                 try:
-                                    centery1_color = rgb_frame[centery1, centerx]
+                                    centery1_color = frame[centery1, centerx]
                                 except:
                                     centery1_color = (0,0,0)
                                 try:
-                                    centery2_color = rgb_frame[centery2, centerx]
+                                    centery2_color = frame[centery2, centerx]
                                 except:
                                     centery2_color = (0,0,0)
                                 r_centery1, g_centery1, b_centery1 = centery1_color
@@ -708,9 +749,9 @@ def plugin():
 
             else:
                 # True: advancedmode, detectyellowlight --- False: performancemode
-                mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
-                mask_green = cv2.inRange(rgb_frame, lower_green_advanced, upper_green_advanced)
-                mask_yellow = cv2.inRange(rgb_frame, lower_yellow_advanced, upper_yellow_advanced)
+                mask_red = cv2.inRange(frame, lower_red_advanced, upper_red_advanced)
+                mask_green = cv2.inRange(frame, lower_green_advanced, upper_green_advanced)
+                mask_yellow = cv2.inRange(frame, lower_yellow_advanced, upper_yellow_advanced)
                 combined_mask = cv2.bitwise_or(mask_red, cv2.bitwise_or(mask_green, mask_yellow))
                 filtered_frame_colored = cv2.bitwise_and(frame, frame, mask=combined_mask)
                 filtered_frame_bw = cv2.cvtColor(filtered_frame_colored, cv2.COLOR_BGR2GRAY)
@@ -773,11 +814,11 @@ def plugin():
                                     centery1 = round(y + h / 2)+h
                                     centery2 = round(y + h / 2)+h*2
                                 try:
-                                    centery1_color = rgb_frame[centery1, centerx]
+                                    centery1_color = frame[centery1, centerx]
                                 except:
                                     centery1_color = (0,0,0)
                                 try:
-                                    centery2_color = rgb_frame[centery2, centerx]
+                                    centery2_color = frame[centery2, centerx]
                                 except:
                                     centery2_color = (0,0,0)
                                 r_centery1, g_centery1, b_centery1 = centery1_color
@@ -793,7 +834,7 @@ def plugin():
                     
         else:
             # True: advancedmode, performancemode --- False:     
-            mask_red = cv2.inRange(rgb_frame, lower_red_advanced, upper_red_advanced)
+            mask_red = cv2.inRange(frame, lower_red_advanced, upper_red_advanced)
             filtered_frame_bw = mask_red.copy()
             final_frame = frame
             contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -829,11 +870,11 @@ def plugin():
                             centery1 = round(y + h / 2)+h
                             centery2 = round(y + h / 2)+h*2
                             try:
-                                centery1_color = rgb_frame[centery1, centerx]
+                                centery1_color = frame[centery1, centerx]
                             except:
                                 centery1_color = (0,0,0)
                             try:
-                                centery2_color = rgb_frame[centery2, centerx]
+                                centery2_color = frame[centery2, centerx]
                             except:
                                 centery2_color = (0,0,0)
                             r_centery1, g_centery1, b_centery1 = centery1_color
@@ -1169,7 +1210,7 @@ def plugin():
                 hwnd = win32gui.FindWindow(None, 'Traffic Light Detection - Final')
                 windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x2F2F2F)), sizeof(c_int))
                 icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-                hicon = win32gui.LoadImage(None, f"{variables.PATH}assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
+                hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
         cv2.imshow('Traffic Light Detection - Final', final_frame)
@@ -1183,7 +1224,7 @@ def plugin():
                 hwnd = win32gui.FindWindow(None, 'Traffic Light Detection - B/W')
                 windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
                 icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-                hicon = win32gui.LoadImage(None, f"{variables.PATH}assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
+                hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
         cv2.imshow('Traffic Light Detection - B/W', filtered_frame_bw)
@@ -1197,7 +1238,7 @@ def plugin():
                 hwnd = win32gui.FindWindow(None, 'Traffic Light Detection - Position Estimation')
                 windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
                 icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-                hicon = win32gui.LoadImage(None, f"{variables.PATH}assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
+                hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
         cv2.imshow('Traffic Light Detection - Position Estimation', positionestimation_frame)
@@ -1205,44 +1246,3 @@ def plugin():
         cv2.waitKey(1)
     if reset_window == True:
         reset_window = False
-
-
-def save_and_load_model():
-    global last_model_load_press
-    global yolo_model_loaded
-    if time.time() > last_model_load_press + 1:
-        last_model_load_press = time.time()
-        if yolo_model_loaded != "loading...":
-            yolo_model_loaded = False
-            yolo_load_model()
-            Initialize()
-        else:
-            messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
-    else:
-        messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
-
-
-def delete_and_redownload_model():
-    global last_model_load_press
-    global yolo_model_loaded
-    if time.time() > last_model_load_press + 1:
-        last_model_load_press = time.time()
-        if yolo_model_loaded != "loading...":
-            try:
-                yolomodels_path = f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOModels"
-                for filename in os.listdir(yolomodels_path):
-                    file_path = os.path.join(yolomodels_path, filename)
-                    if os.path.isfile(file_path) and filename.lower() != 'index.md':
-                        os.remove(file_path)
-            except Exception as e:
-                messagebox.showwarning("TrafficLightDetection", f"The code encountered an error while deleting the model files. Please try again.")
-                exc = traceback.format_exc()
-                SendCrashReport("TrafficLightDetection - Model Delete Error.", str(exc))
-                print("TrafficLightDetection - Model Delete Error: " + str(e))
-            yolo_model_loaded = False
-            yolo_load_model()
-            Initialize()
-        else:
-            messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
-    else:
-        messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
