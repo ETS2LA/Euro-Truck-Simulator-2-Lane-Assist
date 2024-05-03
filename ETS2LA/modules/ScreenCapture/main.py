@@ -58,8 +58,10 @@ if variables.OS == "nt":
         except:
             import traceback
             runner.logger.exception(traceback.format_exc())
-            pass
-
+            try:
+                return (None, None) if imgtype != "cropped" or imgtype != "full" else None
+            except:
+                pass
 else:
     def run(imgtype:str = "both"):
         """imgtype: "both", "cropped", "full" """
@@ -83,4 +85,7 @@ else:
         except:
             import traceback
             runner.logger.exception(traceback.format_exc())
-            pass
+            try:
+                return (None, None) if imgtype != "cropped" or imgtype != "full" else None
+            except:
+                pass
