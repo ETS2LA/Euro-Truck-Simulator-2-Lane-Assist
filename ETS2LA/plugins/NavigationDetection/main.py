@@ -10,6 +10,7 @@ import subprocess
 import ctypes
 import time
 import cv2
+import mss
 import os
 
 from torchvision import transforms
@@ -22,6 +23,13 @@ import torch
 
 
 runner:PluginRunner = None
+
+sct = mss.mss()
+monitor = sct.monitors[(settings.Get("NavigationDetection", ["ScreenCapture", "display"], 0) + 1)]
+screen_x = monitor["left"]
+screen_y = monitor["top"]
+screen_width = monitor["width"]
+screen_height = monitor["height"]
 
 controls.RegisterKeybind("Lane change to the left",
                          notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
@@ -147,6 +155,11 @@ def Initialize():
     if arrow_topleft != None and arrow_bottomright != None and map_topleft != None and map_bottomright != None:
         navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
         navigationsymbol_y = round((arrow_topleft[1] + arrow_bottomright[1]) / 2 - map_topleft[1])
+        ScreenCapture.CreateCam(CamSetupDisplay = settings.Get("NavigationDetection", ["ScreenCapture", "display"], 0))
+        ScreenCapture.monitor_x1 = map_topleft[0]
+        ScreenCapture.monitor_y1 = map_topleft[1]
+        ScreenCapture.monitor_x2 = map_bottomright[0]
+        ScreenCapture.monitor_y2 = map_bottomright[1]
     else:
         navigationsymbol_x = 0
         navigationsymbol_y = 0
@@ -559,7 +572,7 @@ def plugin():
             return
         
         if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None:
-            if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < data["frameFull"].shape[1]) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < data["frameFull"].shape[0]):
+            if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < screen_width) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < screen_height):
                 valid_setup = True
             else:
                 valid_setup = False
@@ -567,7 +580,7 @@ def plugin():
             valid_setup = False
         
         if valid_setup == False:
-            print("NavigationDetection: Invalid frame or setup. Possible fix: Set the screen capture to your main monitor in your Screen Capture Plugin.")
+            print("NavigationDetection: Invalid frame or setup.")
             console.RestoreConsole()
 
         try:
@@ -1054,12 +1067,10 @@ def plugin():
         data["NavigationDetection"]["curve"] = curve
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
         data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
-        
-        print(correction)
-        
-        Steering.run(value=correction)
+
+        Steering.run(value=correction, sendToGame=False)
         ShowImage.run(frame)
-        
+
         return data["NavigationDetection"]
 
     else:
