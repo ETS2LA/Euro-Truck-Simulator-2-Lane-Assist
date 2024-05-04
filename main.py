@@ -14,12 +14,16 @@ def CloseNode():
         os.system("pkill -f node > /dev/null 2>&1")
     
 def ClearLogFiles():
+    if not os.path.exists(LOG_FILE_FOLDER):
+        os.makedirs(LOG_FILE_FOLDER)
     for file in os.listdir(LOG_FILE_FOLDER):
         if file.endswith(".log"):
             os.remove(os.path.join(LOG_FILE_FOLDER, file))
             
 def CountErrorsAndWarnings():
     print("\nErrors and warnings in the log files:")
+    if not os.path.exists(LOG_FILE_FOLDER):
+        os.makedirs(LOG_FILE_FOLDER)
     for file in os.listdir(LOG_FILE_FOLDER):
         if file.endswith(".log"):
             with open(os.path.join(LOG_FILE_FOLDER, file), "r") as f:
