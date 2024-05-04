@@ -340,7 +340,7 @@ def yolo_load_model():
 
         runner.sonner(f"Loading the {yolo_model_str} model... This may take a while...", type="promise")
 
-        model_thread = threading.Thread(target=yolo_load_model_thread)
+        model_thread = threading.Thread(target=yolo_load_model_thread, daemon=True)
         model_thread.start()
 
 
