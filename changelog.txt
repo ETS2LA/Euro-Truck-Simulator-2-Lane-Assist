@@ -1,1 +1,1 @@
-Removed a print command in the TrafficLightDetection code which had been spammed.
+Change wiki install page to the new youtube video.
