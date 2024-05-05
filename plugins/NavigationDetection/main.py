@@ -1575,4 +1575,4 @@ class UI():
     except Exception as ex:
         print(ex.args)
 
-# this comment is used to reload the app after finishing the setup - 1
+# this comment is used to reload the app after finishing the setup - 0

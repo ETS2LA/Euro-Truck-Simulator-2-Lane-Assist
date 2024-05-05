@@ -388,8 +388,6 @@ def ConvertToAngle(x, y):
     angle_x = (x - window_width / 2) * (real_hfov / window_width)
     angle_y = (window_height / 2 - y) * (real_vfov / window_height)
 
-    print(f"angle_x: {angle_x}, angle_y: {angle_y}")
-
     return angle_x, angle_y
 
 
@@ -950,12 +948,18 @@ def plugin(data):
                 angle_B_rad = math.radians(angle_B)
                 angle_C_rad = math.pi - angle_A_rad - angle_B_rad
                 distance_AB = math.sqrt((position_B[0] - position_A[0]) ** 2 + (position_B[1] - position_A[1]) ** 2)
-                length_A = distance_AB * math.sin(angle_A_rad) / math.sin(angle_C_rad)
-                length_B = distance_AB * math.sin(angle_B_rad) / math.sin(angle_C_rad)
+                if math.sin(angle_C_rad) != 0:
+                    length_A = distance_AB * math.sin(angle_A_rad) / math.sin(angle_C_rad)
+                    length_B = distance_AB * math.sin(angle_B_rad) / math.sin(angle_C_rad)
+                else:
+                    length_A = distance_AB
+                    length_B = distance_AB
                 position_C_x = length_B * math.cos(angle_A_rad)
                 position_C_y = length_B * math.sin(angle_A_rad)
                 direction_AB = (position_B[0] - position_A[0], position_B[1] - position_A[1])
                 length_AB = math.sqrt(direction_AB[0] ** 2 + direction_AB[1] ** 2)
+                if length_AB == 0:
+                    length_AB = 0.0001
                 direction_unit_AB = (direction_AB[0] / length_AB, direction_AB[1] / length_AB)
                 direction_unit_perpendicular_ab = (-direction_unit_AB[1], direction_unit_AB[0])
                 position_C = (position_A[0] + position_C_x * direction_unit_AB[0] - position_C_y * direction_unit_perpendicular_ab[0], position_A[1] + position_C_x * direction_unit_AB[1] - position_C_y * direction_unit_perpendicular_ab[1])
@@ -1110,7 +1114,8 @@ def plugin(data):
                         color = (0, 255, 255)
                     elif state == "Green":
                         color = (0, 255, 0)
-                    cv2.circle(positionestimation_frame, (int(x), int(y - round(positionestimation_frame_height * 0.179))), round(positionestimation_frame_height/100), color, -1)
+                    if -5 < int(x) < positionestimation_frame_width + 5 and -5 < int(y - round(positionestimation_frame_height * 0.179)) < positionestimation_frame_height + 5:
+                        cv2.circle(positionestimation_frame, (int(x), int(y - round(positionestimation_frame_height * 0.179))), round(positionestimation_frame_height/100), color, -1)
 
         except Exception as e:
             exc = traceback.format_exc()

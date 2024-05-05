@@ -1,1 +1,1 @@
-All output windows now have colored title bars and icons on windows 11.
+Removed a print command in the TrafficLightDetection code which had been spammed.
