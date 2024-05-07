@@ -50,7 +50,7 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 				toast.success("Logged in")
 				onLogin(token)
 			} else {
-				toast.error("Failed to login")
+				toast.error("Password for" + username + " is incorrect")
 			}
 		}
 	}	
@@ -111,7 +111,7 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 						<Input
 							id="email"
 							type="text"
-							placeholder="Tumppi066"
+							placeholder="Username"
 							required
 							onChange={onUsernameChange}
 						/>
