@@ -6,23 +6,93 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import {
-Accordion,
-AccordionContent,
-AccordionItem,
-AccordionTrigger,
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
 } from "@/components/ui/accordion"
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { toast } from "sonner"
+import useSWR from "swr"
+import { mutate } from "swr"
+import { CheckUsernameAvailability, Register, Login } from "@/pages/account"
+import { useState } from "react"
+import { set } from "date-fns"
 
 export function Authentication({ onLogin } : { onLogin: (token:string) => void }) {
+	const [username, setUsername] = useState("")
+	const [usernameAvailable, setUsernameAvailable] = useState(false)
+	const [password, setPassword] = useState("")
+	const [passwordRepeat, setPasswordRepeat] = useState("")
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	const handleGuestLogin = () => {
 		toast.success("Logged in as a guest")
 		onLogin("guest")
 	}
 
+	const handleLogin = async () => {
+		if (usernameAvailable) {
+			setIsDialogOpen(true)
+		} else {
+			const token = await Login(username, password)
+			if (token) {
+				toast.success("Logged in")
+				onLogin(token)
+			} else {
+				toast.error("Failed to login")
+			}
+		}
+	}	
+
+	const handleDialogClose = async (confirmed: boolean) => {
+		setIsDialogOpen(false)
+		if (confirmed) {
+			if (password !== passwordRepeat) {
+				toast.error("Passwords do not match")
+				return
+			}
+			const token = await Register(username, password)
+			if (token) {
+				toast.success("Account created")
+				onLogin(token)
+			} else {
+				toast.error("Failed to create account")
+			}
+		}
+	}
+
+	const onUsernameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const username = e.target.value
+		setUsername(username)
+		if (await CheckUsernameAvailability(username)) {
+			setUsernameAvailable(true)
+		} else {
+			setUsernameAvailable(false)
+		}
+	}
+
+	const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value)
+	}
+
+	const onPasswordRepeatChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPasswordRepeat(e.target.value)
+	}
+
 	return (
 	<div className="w-full lg:grid lg:grid-cols-2 h-full">
-		<div className="flex items-center justify-center h-[calc(100vh-75px)]">
+		<div  className="flex items-center justify-center h-[calc(100vh-75px)]">
 			<div className="mx-auto grid w-[350px] gap-6">
 				<div className="grid gap-2 text-center">
 					<h1 className="text-3xl font-bold">Login</h1>
@@ -32,37 +102,62 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 				</div>
 				<div className="grid gap-4">
 					<div className="grid gap-2">
-						<Label htmlFor="email">Username</Label>
+						<div className="flex items-center">
+							<Label htmlFor="email">Username</Label>
+							<p className="ml-auto inline-block text-sm text-zinc-500">
+								{usernameAvailable ? "Username available" : "Account found"}
+							</p>
+						</div>
 						<Input
 							id="email"
 							type="text"
 							placeholder="Tumppi066"
 							required
+							onChange={onUsernameChange}
 						/>
 					</div>
 					<div className="grid gap-2">
 						<div className="flex items-center">
 							<Label htmlFor="password">Password</Label>
-							<p
-								className="ml-auto inline-block text-sm text-zinc-500"
-							>
-								Please come up with a new one.
-							</p>
 						</div>
-						<Input id="password" type="password" placeholder="•••••••••••••" required />
+						<Input id="password" type="password" placeholder="Password" required onChange={onPasswordChange} />
+						{usernameAvailable ? (
+							<Input id="passwordRepeat" type="password" placeholder="Repeat password" required onChange={onPasswordRepeatChange} />
+						) : null}
 					</div>
-					<Button type="submit" className="w-full">
-					Login
-					</Button>
-					<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
-						Use a Guest account
-					</Button>
+					{usernameAvailable ? (
+						<>
+							<AlertDialog>
+								<AlertDialogTrigger>
+									<Button type="submit" className="w-full" onClick={handleLogin}>
+										{usernameAvailable ? "Create Account" : "Login"}
+									</Button>
+								</AlertDialogTrigger>
+								<AlertDialogContent>
+									<AlertDialogHeader>
+										<AlertDialogTitle>Confirm</AlertDialogTitle>
+										<AlertDialogDescription>
+											This will create a new account.
+										</AlertDialogDescription>
+									</AlertDialogHeader>
+									<AlertDialogFooter>
+										<AlertDialogCancel onClick={() => handleDialogClose(false)}>Cancel</AlertDialogCancel>
+										<AlertDialogAction onClick={() => handleDialogClose(true)}>Continue</AlertDialogAction>
+									</AlertDialogFooter>
+								</AlertDialogContent>
+							</AlertDialog>
+							<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
+								Use a Guest account
+							</Button>
+						</>
+					) : (
+						<Button type="submit" className="w-full" onClick={handleLogin}>
+							{usernameAvailable ? "Create Account" : "Login"}
+						</Button>
+					)}
 				</div>
 				<div className="mt-4 text-center text-sm">
-					Don&apos;t have an account?{" "}
-					<Link href="#" className="underline">
-						Sign up
-					</Link>
+					<p className="text-muted-foreground">Don't have an account? Just type in your desired username and password and we will create one for you.</p>
 				</div>
 			</div>
 		</div>

@@ -151,6 +151,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         disableTransitionOnChange
       >
         <ETS2LAMenubar ip={ip} onLogout={() =>{
+          localStorage.setItem('token', token);
           setToken("")
           SetToken("")
         }} />

@@ -7,7 +7,7 @@ import ETS2LA.variables as variables
 
 def start_webpage():
     def load_website(window:webview.Window):
-        time.sleep(2)
+        time.sleep(3)
         window.load_url('http://localhost:3000')
     window = webview.create_window(f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}', html="""
     <html>
