@@ -50,7 +50,7 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 				toast.success("Logged in")
 				onLogin(token)
 			} else {
-				toast.error("Password for" + username + " is incorrect")
+				toast.error("Password for " + username + " is incorrect")
 			}
 		}
 	}	
@@ -76,6 +76,8 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 		const username = e.target.value
 		setUsername(username)
 		if (await CheckUsernameAvailability(username)) {
+			setUsernameAvailable(true)
+		} else if (username === "Username") {
 			setUsernameAvailable(true)
 		} else {
 			setUsernameAvailable(false)
