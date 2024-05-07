@@ -3,6 +3,7 @@ import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem,
     MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator,
     MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger,
     MenubarTrigger } from "@/components/ui/menubar"
+import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge"
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
@@ -76,6 +77,7 @@ return (
             <MenubarItem>About ETS2LA</MenubarItem>
         </MenubarContent>
     </MenubarMenu>
+    <Separator orientation="vertical" className="m-1" />
     <MenubarMenu>
         <MenubarTrigger>
             <div className="flex flex-row gap-1 items-center">
@@ -195,7 +197,7 @@ return (
             </div>
         </MenubarTrigger>
         <MenubarContent>
-            <MenubarItem>
+            <MenubarItem onClick={() => push("/development") }>
                 <div className="flex flex-row gap-2 items-center">
                     <ListTodo className="w-4 h-4"/> Development Board    
                 </div>
