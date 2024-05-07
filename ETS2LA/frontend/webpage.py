@@ -56,7 +56,10 @@ def start_webpage():
                 resizable=True, zoomable=True, 
                 confirm_close=False, text_select=True
                 )
-    webview.start(load_website, window)
+    webview.start(load_website, 
+                  window,
+                  private_mode=False # Save cookies, local storage and cache
+                  )
     
 def run():
     p = multiprocessing.Process(target=start_webpage, daemon=True)

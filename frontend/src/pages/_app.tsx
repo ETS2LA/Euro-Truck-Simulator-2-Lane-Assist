@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/context-menu"
 import { useRouter } from 'next/navigation';
 import { useRouter as routerUseRouter } from 'next/router';
+import { token, setToken } from './server';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,6 +42,9 @@ export const metadata: Metadata = {
   icons: ["favicon.ico"],
 };
 import { useState, useRef, useEffect } from 'react';
+import LoginPage from '@/components/ets2la_login';
+import { Authentication } from '@/components/ets2la_authentication';
+import { toast } from 'sonner';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [inputValue, setInputValue] = useState("localhost");
@@ -48,6 +52,25 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   const [showButton, setShowButton] = useState(false);
   const [status, setStatus] = useState("loading");
+
+  const [Token, SetToken] = useState("");
+  // Try and get the token from local storage
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setToken(token);
+      SetToken(token);
+      toast.success("Welcome back!", {duration: 1000});
+    }
+  }, []);
+
+  // Save the token to local storage whenever it changes
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('token', token);
+      SetToken(token);
+    }
+  }, [token]);
 
   const handleIpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -116,6 +139,51 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   // Add the ip to the pageProps
   const newPageProps = { ...pageProps, ip };
 
+  if(Token == "") {
+    return <div className='overflow-hidden p-3'>
+      <Head>
+        <link rel="icon" href="https://wiki.tumppi066.fi/assets/favicon.ico" />
+      </Head>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <ETS2LAMenubar ip={ip} onLogout={() =>{
+          setToken("")
+          SetToken("")
+        }} />
+        <div className='py-3 '>
+          <ContextMenu>
+            <ContextMenuTrigger className="h-full">
+              <Authentication onLogin={(gotToken) => {
+                SetToken(gotToken)
+                setToken(gotToken)
+                }} />
+            </ContextMenuTrigger>
+            <ContextMenuContent className="w-64">
+              <ContextMenuItem onClick={router.back}>
+                Back
+                <ContextMenuShortcut>⌘B</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem onClick={router.forward}>
+                  Forward
+                <ContextMenuShortcut>⌘F</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem onClick={reloadPage}>
+                  Reload
+                  <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+              </ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
+        </div>
+        <ETS2LACommandMenu ip={ip} />
+        <Toaster position='bottom-center'/>
+      </ThemeProvider>
+    </div>
+  }
+
   return (
     <div className='overflow-hidden p-3'>
       <Head>
@@ -127,7 +195,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         enableSystem
         disableTransitionOnChange
       >
-        <ETS2LAMenubar ip={ip} />
+        <ETS2LAMenubar ip={ip} onLogout={() =>{
+          SetToken("")
+          setToken("")
+        }} />
         <div className='py-3 '>
           <ContextMenu>
             <ContextMenuTrigger className="h-full">

@@ -3,6 +3,12 @@ import { randomInt } from "crypto"
 import { toast } from "sonner"
 const sleep = (delay:number) => new Promise((resolve) => setTimeout(resolve, delay))
 
+let token = '';
+
+async function setToken(newToken: string){
+    token = newToken;
+}
+
 // Communicate with the ETS2LA backend web server on 37520
 async function GetVersion() {
     console.log("Getting version")
@@ -78,4 +84,4 @@ async function GetGitHistory(ip="localhost") {
     return data
 }
 
-export { GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory }
+export { GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }

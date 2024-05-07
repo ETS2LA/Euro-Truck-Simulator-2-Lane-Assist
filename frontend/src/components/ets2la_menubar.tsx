@@ -18,7 +18,7 @@ import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la_immediate_server"
 import { Button } from "@/components/ui/button"
 
-export function ETS2LAMenubar({ip}: {ip: string}) {
+export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}) {
     const { theme, setTheme } = useTheme()
     const { push } = useRouter()
     // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
@@ -62,6 +62,14 @@ return (
                     <MenubarItem onClick={() => CloseBackend()}>
                         Quit <MenubarShortcut>Q</MenubarShortcut>
                     </MenubarItem>
+                </MenubarSubContent>
+            </MenubarSub>
+            <MenubarSeparator />
+            <MenubarSub>
+                <MenubarSubTrigger>Account</MenubarSubTrigger>
+                <MenubarSubContent>
+                    <MenubarItem onClick={() => onLogout()}>Logout</MenubarItem>
+                    <MenubarItem>Settings</MenubarItem>
                 </MenubarSubContent>
             </MenubarSub>
             <MenubarSeparator />

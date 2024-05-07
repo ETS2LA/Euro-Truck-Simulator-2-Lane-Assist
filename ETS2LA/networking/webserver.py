@@ -15,6 +15,7 @@ import ETS2LA.variables as variables
 import ETS2LA.backend.controls as controls
 
 mainThreadQueue = []
+sessionToken = ""
 
 app = FastAPI(
     title="ETS2LA",
