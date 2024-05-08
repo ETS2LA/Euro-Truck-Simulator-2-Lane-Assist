@@ -134,7 +134,10 @@ def CallPluginFunction(plugin, function, args, kwargs):
             # Wait for the answer
             startTime = time.time()
             while time.time() - startTime < timeout:
-                data = runners[plugin].functionQueue.get()
+                try: data = runners[plugin].functionQueue.get()
+                except: 
+                    logging.error(f"Plugin {plugin} crashed while running function {function}, please check it's logs.")
+                    return False
                 if data == {"function": function, "args": args, "kwargs": kwargs}:
                     runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
                     time.sleep(0.01)
