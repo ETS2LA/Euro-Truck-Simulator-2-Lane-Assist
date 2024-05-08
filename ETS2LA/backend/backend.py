@@ -148,13 +148,17 @@ def CallPluginFunction(plugin, function, args, kwargs):
             logging.info(f"Plugin {plugin} is not enabled. Enabling temporarily to run the function.")
             AddPluginRunner(plugin, temporary=True) # Add a temp runner to load the code
             time.sleep(0.5)
+            runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
             # Wait for the answer
             startTime = time.time()
             while time.time() - startTime < timeout:
                 if plugin in runners:
-                    runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
-                    data = runners[plugin].functionQueue.get()
+                    try: data = runners[plugin].functionQueue.get()
+                    except:
+                        logging.error(f"Plugin {plugin} crashed while running function {function}, please check it's logs.")
+                        return False
                     if data == {"function": function, "args": args, "kwargs": kwargs}:
+                        runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
                         time.sleep(0.01)
                     else:            
                         RemovePluginRunner(plugin)
