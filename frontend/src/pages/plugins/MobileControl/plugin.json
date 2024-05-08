@@ -1,0 +1,12 @@
+{
+    "name": "MobileControl",
+    "author": {
+        "name": "DylDev",
+        "url": "https://github.com/DylDevs",
+        "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
+    },
+    "description": "Allows you to control game and app functions from your phone or other device.",
+    "version": "1.0",
+    "image": "image.png",
+    "dependencies": ["TruckSimAPI", "SDKController"]
+}

@@ -198,15 +198,20 @@ def GetGitHistory():
                         # Get the avatar url from the GitHub API
                         try:
                             response = requests.get(url, timeout=6)
+                            success = True
                         except:
-                            print("Github API request was unsuccessful. (Timed out)")
+                            success = False
+                            print(f"Github API request was unsuccessful for author: {commit["author"]}. (Timed out)")
                             continue
-                        
-                        api_requests += 1
-                        if response.status_code == 200:
-                            data = response.json()
-                            avatar_url = data["avatar_url"]
-                            authors[commit["author"]] = avatar_url
+
+                        if success:
+                            api_requests += 1
+                            if response.status_code == 200:
+                                data = response.json()
+                                avatar_url = data["avatar_url"]
+                                authors[commit["author"]] = avatar_url
+                            else:
+                                authors[commit["author"]] = "https://github.com/favicon.ico"
                         else:
                             authors[commit["author"]] = "https://github.com/favicon.ico"
                     else:
