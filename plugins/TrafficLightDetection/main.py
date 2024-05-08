@@ -382,6 +382,9 @@ def ConvertToAngle(x, y):
 
     window_x, window_y, window_width, window_height = GetGamePosition()
 
+    if window_x == 0 and window_y == 0:
+        return 0, 0
+
     real_hfov = (4 / 3) * math.atan((math.tan(math.radians(fov / 2)) * (window_width / window_height)) / 1.333) * (360 / math.pi)
     real_vfov = math.atan(math.tan(math.radians(real_hfov / 2)) / (window_width / window_height)) * (360 / math.pi)
 
