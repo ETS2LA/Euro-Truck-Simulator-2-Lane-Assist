@@ -155,6 +155,7 @@ def CallPluginFunction(plugin, function, args, kwargs):
                 if plugin in runners:
                     try: data = runners[plugin].functionQueue.get()
                     except:
+                        RemovePluginRunner(plugin)
                         logging.error(f"Plugin {plugin} crashed while running function {function}, please check it's logs.")
                         return False
                     if data == {"function": function, "args": args, "kwargs": kwargs}:
