@@ -196,7 +196,12 @@ def GetGitHistory():
                         else:
                             url = f"https://api.github.com/users/{commit['author']}"
                         # Get the avatar url from the GitHub API
-                        response = requests.get(url, timeout=4)
+                        try:
+                            response = requests.get(url, timeout=6)
+                        except:
+                            print("Github API request was unsuccessful. (Timed out)")
+                            continue
+                        
                         api_requests += 1
                         if response.status_code == 200:
                             data = response.json()
