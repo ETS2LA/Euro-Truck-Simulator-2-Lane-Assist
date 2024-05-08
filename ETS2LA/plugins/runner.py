@@ -66,7 +66,10 @@ class PluginRunner():
         self.modules = SimpleNamespace(**self.modules) # Will convert it to a namespace to make runner.modules.ModuleName possible
         
         try:
-            self.plugin.Initialize()
+            if not self.temporary:
+                self.plugin.Initialize()
+            else:
+                self.logger.info(f"PluginRunner: Plugin {self.plugin_name} is temporary, skipping Initialize(), please call it in the function manually if necessary.")
         except Exception as e:
             self.logger.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
             
