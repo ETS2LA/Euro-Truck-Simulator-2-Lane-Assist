@@ -29,8 +29,10 @@ class PluginRunner():
         try:
             self.plugin = importlib.import_module(plugin_path)
         except Exception as e:
-            self.logger.error(f"PluginRunner: Could not import plugin {plugin_path} with error: {e}")
-            logging.error(f"Could not import plugin {plugin_path} with error: {e}")
+            import traceback
+            trace = traceback.format_exc()
+            self.logger.error(f"PluginRunner: Could not import plugin {plugin_path} with trace: n{trace}")
+            logging.error(f"Could not import plugin {plugin_path}, check the logs for more information. ({e})")
             return
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
         self.plugin_name = self.plugin_data["name"]
@@ -91,8 +93,7 @@ class PluginRunner():
                 try:
                     function = getattr(self.plugin, function)
                     data = function(*args, **kwargs)
-                    if type(data) != type(None):
-                        self.fq.put(data)
+                    self.fq.put(data)
                         
                 except Exception as e:
                     self.logger.error(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")

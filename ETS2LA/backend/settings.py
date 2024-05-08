@@ -111,13 +111,30 @@ def Get(plugin, key, default=None):
     CreateIfNotExists(plugin)
     
     try:
-        with open(filename) as f:
-            data = json.load(f)
-            if key in data:
-                return data[key]
-            else:
-                return Set(plugin, key, default)
-            
+        if type(key) != list:
+            with open(filename) as f:
+                data = json.load(f)
+                if key in data:
+                    return data[key]
+                else:
+                    return Set(plugin, key, default)
+        else:
+            with open(filename) as f:
+                data = json.load(f)
+                try:
+                    for k in key:
+                        data = data[key]
+                except:
+                    try:
+                        success = Set(plugin, key, default)
+                        if success == "success":
+                            return default
+                        else:
+                            return None
+                    except:
+                        return None
+                return data
+                
     except Exception as e:
         print(e)
         return None

@@ -155,13 +155,13 @@ def CallPluginFunction(plugin, function, args, kwargs):
                         time.sleep(0.01)
                     else:            
                         RemovePluginRunner(plugin)
-                        logging.info(f"Plugin {plugin} removed after running function.")
+                        logging.info(f"Plugin {plugin} removed after running function and returning data.")
                         return data
                 else:
                     time.sleep(0.01)
             
             RemovePluginRunner(plugin)
-            logging.info(f"Plugin {plugin} removed after running function.")
+            logging.info(f"Plugin {plugin} removed after running function and hitting timeout.")
             return True
     except:
         import traceback
