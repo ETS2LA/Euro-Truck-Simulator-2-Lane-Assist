@@ -201,7 +201,7 @@ def GetGitHistory():
                             success = True
                         except:
                             success = False
-                            print(f"Github API request was unsuccessful for author: {commit["author"]}. (Timed out)")
+                            print(f"Github API request was unsuccessful for author: {commit['author']}. (Timed out)")
                             continue
 
                         if success:
