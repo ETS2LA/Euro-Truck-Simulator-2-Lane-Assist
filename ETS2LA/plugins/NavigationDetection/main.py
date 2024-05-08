@@ -217,6 +217,23 @@ def Initialize():
     lanechanging_final_offset = 0
 
 
+def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_height=100):
+    fontscale = 1
+    textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+    width_current_text, height_current_text = textsize
+    max_count_current_text = 3
+    while width_current_text != text_width or height_current_text > max_text_height:
+        fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
+        textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+        max_count_current_text -= 1
+        if max_count_current_text <= 0:
+            break
+    thickness = round(fontscale * 2)
+    if thickness <= 0:
+        thickness = 1
+    return text, fontscale, thickness, textsize[0], textsize[1]
+
+
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -610,8 +627,8 @@ def plugin():
 
         if check_map == True:
             if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None and map_topleft[0] < map_bottomright[0] and map_topleft[1] < map_bottomright[1] and arrow_topleft[0] < arrow_bottomright[0] and arrow_topleft[1] < arrow_bottomright[1]:
-                lower_blue = np.array([121, 68, 0])
-                upper_blue = np.array([250, 184, 109])
+                lower_blue = np.array([0, 68, 121])
+                upper_blue = np.array([109, 184, 250])
                 mask_blue = cv2.inRange(frame[arrow_topleft[1] - map_topleft[1]:arrow_bottomright[1] - map_bottomright[1], arrow_topleft[0] - map_topleft[0]:arrow_bottomright[0] - map_bottomright[0]], lower_blue, upper_blue)
                 arrow_height, arrow_width = mask_blue.shape[:2]
                 pixel_ratio = round(cv2.countNonZero(mask_blue) / (arrow_width * arrow_height), 3)
@@ -634,7 +651,7 @@ def plugin():
                 check_map_timer = current_time
             
             lower_green = np.array([0, 200, 0])
-            upper_green = np.array([230, 255, 150])
+            upper_green = np.array([150, 255, 230])
             mask_green = cv2.inRange(frame, lower_green, upper_green)
             if cv2.countNonZero(mask_green) > 0:
                 mod_enabled = False
@@ -642,10 +659,10 @@ def plugin():
                 mod_enabled = True
 
         if mod_enabled == False:
-            lower_red = np.array([0, 0, 160])
-            upper_red = np.array([110, 110, 255])
+            lower_red = np.array([160, 0, 0])
+            upper_red = np.array([255, 110, 110])
             lower_green = np.array([0, 200, 0])
-            upper_green = np.array([230, 255, 150])
+            upper_green = np.array([150, 255, 230])
             white_limit = 1
 
             mask_red = cv2.inRange(frame, lower_red, upper_red)
@@ -653,8 +670,8 @@ def plugin():
 
             frame_with_mask = cv2.bitwise_or(cv2.bitwise_and(frame, frame, mask=mask_red), cv2.bitwise_and(frame, frame, mask=mask_green))
         else:
-            lower_red = np.array([0, 0, 160])
-            upper_red = np.array([110, 110, 255])
+            lower_red = np.array([160, 0, 0])
+            upper_red = np.array([255, 110, 110])
             white_limit = 1
 
             mask_red = cv2.inRange(frame, lower_red, upper_red)
@@ -759,6 +776,9 @@ def plugin():
             left_x_turn = 0
             right_x_turn = 0
 
+        cv2.line(frame, (left_x_lane, left_y_lane), (right_x_lane, right_y_lane), (255, 255, 255), 2)
+        cv2.line(frame, (left_x_turn, y_coordinate_of_turn), (right_x_turn, y_coordinate_of_turn), (255, 255, 255), 2)
+
         width_lane = right_x_lane - left_x_lane
         width_turn = right_x_turn - left_x_turn
 
@@ -804,7 +824,7 @@ def plugin():
                     break
         
         if approve_lower_y_left != 0 and approve_lower_y_right != 0:
-            current_color = (0, 0, 255)
+            current_color = (255, 0, 0)
         else:
             current_color = (0, 255, 0)
         if approve_lower_y_left != 0:
@@ -1020,6 +1040,19 @@ def plugin():
         indicator_last_right = indicator_right
         controls_last_left = controls_left
         controls_last_right = controls_right
+        
+        correction /= -30
+
+        #frame = cv2.GaussianBlur(frame, (9, 9), 0)
+        #frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
+        #
+        #cv2.circle(frame, (round(width / 2), round(height * 0.30)), round(height * 0.25), (255, 128, 0), round(height * 0.02) if round(height * 0.02) > 1 else 1)
+        #cv2.line(frame, (round(width / 2), round(height * 0.30)), (round(width / 2), round(height * 0.30 + height * 0.25 - height * 0.1)), (255, 128, 0), round(height * 0.03) if round(height * 0.03) > 2 else 2)
+        #cv2.line(frame, (round(width / 2), round(height * 0.30 - height * 0.25 / 2)), (round(width / 2), round(height * 0.30 - height * 0.25 / 2)), (255, 128, 0), round(height * 0.03) if round(height * 0.03) > 2 else 2)
+        #
+        #text, fontscale, thickness, text_width, text_height = get_text_size(text="No Lane Detected", width=width, height=height, text_width=width/1.5, max_text_height=height/2)
+        #cv2.putText(frame, text, (round(width / 2 - text_width / 2), round(height * 0.8 - text_height / 2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
+
 
         if speed > 63:
             correction *= 63/speed
@@ -1085,11 +1118,11 @@ def plugin():
             
             cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
             cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
-            lower_red = np.array([0, 0, 160])
-            upper_red = np.array([110, 110, 255])
+            lower_red = np.array([160, 0, 0])
+            upper_red = np.array([255, 110, 110])
             mask_red = cv2.inRange(frame, lower_red, upper_red)
             lower_green = np.array([0, 200, 0])
-            upper_green = np.array([230, 255, 150])
+            upper_green = np.array([150, 255, 230])
             mask_green = cv2.inRange(frame, lower_green, upper_green)
             mask = cv2.bitwise_or(mask_red, mask_green)
 
