@@ -8,7 +8,7 @@ from ETS2LA.utils.logging import *
 import json
 from types import SimpleNamespace
 class PluginRunner():
-    def __init__(self, pluginName, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue, eventQueue:multiprocessing.Queue, immediateQueue:multiprocessing.Queue):
+    def __init__(self, pluginName, temporary, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue, eventQueue:multiprocessing.Queue, immediateQueue:multiprocessing.Queue):
         # Initialize the logger
         self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), level=logging.WARNING)
         
@@ -21,6 +21,7 @@ class PluginRunner():
         self.getQueueProcessingTime = 0
         self.frametimes = []
         self.executiontimes = []
+        self.temporary = temporary
         
         # Import the plugin
         self.plugin_path_name = pluginName
@@ -128,7 +129,7 @@ class PluginRunner():
         self.timer = time.time()
         threading.Thread(target=self.functionThread, daemon=True).start()
         threading.Thread(target=self.eventThread, daemon=True).start()
-        while True: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
+        while True and not self.temporary: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
             startTime = time.time()
             data = self.plugin.plugin()
             pluginExec = time.time()

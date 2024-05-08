@@ -6,12 +6,13 @@ import time
 import json
 import requests
 import sys
+import logging
 
 global commits_save
 commits_save = []
 
 class PluginRunnerController():
-    def __init__(self, pluginName):
+    def __init__(self, pluginName, temporary=False):
         # Initialize the plugin runner
         global runners
         runners[pluginName] = self # So that we can access this runner later from the main thread or other runners.
@@ -21,7 +22,7 @@ class PluginRunnerController():
         self.functionQueue = multiprocessing.JoinableQueue()
         self.eventQueue = multiprocessing.JoinableQueue()
         self.immediateQueue = multiprocessing.JoinableQueue()
-        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, self.queue, self.functionQueue, self.eventQueue, self.immediateQueue), daemon=True)
+        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.functionQueue, self.eventQueue, self.immediateQueue, ), daemon=True)
         self.runner.start()
         self.run()
     
@@ -122,24 +123,46 @@ def GetEnabledPlugins():
     return ENABLED_PLUGINS
     
 def CallPluginFunction(plugin, function, args, kwargs):
+    if "timeout" in kwargs:
+        timeout = kwargs["timeout"]
+        kwargs.pop("timeout")
+    else:
+        timeout = 5
     try:
         if plugin in runners:
             runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
             # Wait for the answer
             startTime = time.time()
-            while time.time() - startTime < 5:
+            while time.time() - startTime < timeout:
                 data = runners[plugin].functionQueue.get()
                 if data == {"function": function, "args": args, "kwargs": kwargs}:
-                    print("Waiting for answer...")
                     runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
                     time.sleep(0.01)
                 else:
-                    print("Got answer!")
                     return data
-            print("Failed to get an answer.")
             return True
         else:
-            return False
+            logging.info(f"Plugin {plugin} is not enabled. Enabling temporarily to run the function.")
+            AddPluginRunner(plugin, temporary=True) # Add a temp runner to load the code
+            time.sleep(0.5)
+            # Wait for the answer
+            startTime = time.time()
+            while time.time() - startTime < timeout:
+                if plugin in runners:
+                    runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
+                    data = runners[plugin].functionQueue.get()
+                    if data == {"function": function, "args": args, "kwargs": kwargs}:
+                        time.sleep(0.01)
+                    else:            
+                        RemovePluginRunner(plugin)
+                        logging.info(f"Plugin {plugin} removed after running function.")
+                        return data
+                else:
+                    time.sleep(0.01)
+            
+            RemovePluginRunner(plugin)
+            logging.info(f"Plugin {plugin} removed after running function.")
+            return True
     except:
         import traceback
         traceback.print_exc()
@@ -154,9 +177,9 @@ def CallEvent(event, args, kwargs):
             traceback.print_exc()
             pass
 
-def AddPluginRunner(pluginName):
+def AddPluginRunner(pluginName, temporary=False):
     # Run the plugin runner in a separate thread. This is done to avoid blocking the main thread.
-    runner = threading.Thread(target=PluginRunnerController, args=(pluginName, ), daemon=True)
+    runner = threading.Thread(target=PluginRunnerController, args=(pluginName, temporary, ), daemon=True)
     runner.start()
 
 def RemovePluginRunner(pluginName):
