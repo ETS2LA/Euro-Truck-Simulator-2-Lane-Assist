@@ -23,7 +23,7 @@ def SendCrashReport(arg1="", arg2=""): return # REMOVE THIS LATER
 runner:PluginRunner = None
 
 sct = mss.mss()
-monitor = sct.monitors[1] # FIX THIS LATER (settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)
+monitor = sct.monitors[(settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)]
 screen_x = monitor["left"]
 screen_y = monitor["top"]
 screen_width = monitor["width"]
@@ -137,7 +137,7 @@ def Initialize():
         else:
             y2 = y1+1
 
-    ScreenCapture.CreateCam(CamSetupDisplay = 0) # NEEDS TO BE CODED (settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)
+    ScreenCapture.CreateCam(CamSetupDisplay = (settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1))
     ScreenCapture.monitor_x1 = screen_x
     ScreenCapture.monitor_y1 = screen_y
     ScreenCapture.monitor_x2 = screen_x + screen_width
@@ -290,6 +290,16 @@ def Initialize():
     lower_yellow_advanced = np.array([lyr, lyg, lyb])
     upper_green_advanced = np.array([ugr, ugg, ugb])
     lower_green_advanced = np.array([lgr, lgg, lgb])
+
+
+def get_screen():
+    sct = mss.mss()
+    monitor = sct.monitors[(settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)]
+    screen_x = monitor["left"]
+    screen_y = monitor["top"]
+    screen_width = monitor["width"]
+    screen_height = monitor["height"]
+    return screen_x, screen_y, screen_width, screen_height
 
 
 def check_internet_connection(host="github.com", port=443, timeout=3):
