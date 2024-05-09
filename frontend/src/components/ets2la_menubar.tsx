@@ -87,7 +87,7 @@ return (
         <MenubarContent>
             <MenubarItem onClick={() => push("/plugins")}>Plugin Picker</MenubarItem>
             {uniqueChars.map((char, index) => (
-            <MenubarSub key={char}>
+                <MenubarSub key={char}>
                 <MenubarSubTrigger>{char}</MenubarSubTrigger>
                 <MenubarSubContent>
                 {plugins ? plugins.map((plugin, i) => (
@@ -107,9 +107,9 @@ return (
                                 </MenubarItem>
                             ) : (
                                 <MenubarItem onClick={() => {
-                                        toast.promise(EnablePlugin(plugin, ip=ip), {
-                                            loading: "Enabling " + plugin + "...",
-                                            success: "Plugin " + plugin + " enabled!",
+                                    toast.promise(EnablePlugin(plugin, ip=ip), {
+                                        loading: "Enabling " + plugin + "...",
+                                        success: "Plugin " + plugin + " enabled!",
                                             error: "Error enabling " + plugin + "!"
                                         })
                                     }}>
@@ -125,6 +125,8 @@ return (
                 </MenubarSubContent>
             </MenubarSub>
             ), plugins)}
+            <MenubarSeparator />
+            <MenubarItem onClick={() => push("/performance")}>Performance</MenubarItem>
         </MenubarContent>
     </MenubarMenu>
     <MenubarMenu>

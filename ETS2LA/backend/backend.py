@@ -27,11 +27,7 @@ class PluginRunnerController():
         self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.functionQueue, self.eventQueue, self.immediateQueue, ), daemon=True)
         self.runner.start()
         self.process = self.runner.pid
-        self.process_info = {
-            "cpu": 0,
-            "mem": 0,
-            "disk": 0
-        }
+        self.process_info = []
         self.run()
     
     def immediateQueueThread(self):
@@ -60,27 +56,33 @@ class PluginRunnerController():
                 size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
                 size += sum([os.path.getsize(os.path.join(root, name)) for name in dirs])
             
-            self.process_info["disk"] = size
             logging.info(f"Plugin {self.pluginName} has a disk usage of {size} bytes.")
         except:
             import traceback
             traceback.print_exc()
-            self.process_info["disk"] = 0
+            size = 0
             
         while True:
             try:
-                self.process_info["cpu"] = process.cpu_percent(interval=0.1) / psutil.cpu_count()
-                self.process_info["mem"] = process.memory_percent()
-                time.sleep(0.1)
-                logging.debug(f"Plugin {self.pluginName} CPU: {self.process_info['cpu']} MEM: {self.process_info['mem']}")
+                data = {
+                    "cpu": 0,
+                    "mem": 0,
+                    "disk": size
+                }
+                data["cpu"] = process.cpu_percent(interval=0.5) / psutil.cpu_count()
+                data["mem"] = process.memory_percent()
+                self.process_info.append(data)
+                if len(self.process_info) > 240: # 2 minutes of 0.5 intervals
+                    self.process_info.pop(0)
             except:
-                time.sleep(0.1)
+                time.sleep(0.5)
                 continue
         
     def run(self):
         global frameTimes
         threading.Thread(target=self.immediateQueueThread, daemon=True).start()
         threading.Thread(target=self.monitor, daemon=True).start()
+        lastFrameTime = time.time()
         while True:
             try: data = self.queue.get(timeout=0.5) # Get the data returned from the plugin runner.
             except Exception as e: 
@@ -106,8 +108,9 @@ class PluginRunnerController():
                 if self.pluginName not in frameTimes:
                     frameTimes[self.pluginName] = []
                 frameTimes[self.pluginName].append(frametime[self.pluginName])
-                if len(frameTimes[self.pluginName]) > 120: # 60 seconds of 0.5 intervals
+                if len(frameTimes[self.pluginName]) > 240: # 120 seconds of 0.5 intervals
                     frameTimes[self.pluginName].pop(0)
+                lastFrameTime = time.time()
                     
             elif "get" in data: # If the data is a get command, then we need to get the data from another plugin.
                 plugins = data["get"]
@@ -303,6 +306,37 @@ def GetGitHistory():
     except:
         import traceback
         traceback.print_exc()
+        return []
+
+def GetPerformance():
+    try:
+        array = []
+        for runner in runners:
+            try:
+                runnerData = {
+                    "name": runner,
+                    "data": []
+                }
+                count = 0
+                for data in runners[runner].process_info:
+                    try:
+                        currentProcessData = {
+                            "name": runners[runner].pluginName,
+                            "data": data
+                        }
+                        currentProcessData["data"]["frametime"] = frameTimes[runners[runner].pluginName][count]["frametime"] + frameTimes[runners[runner].pluginName][count]["executiontime"]
+                        runnerData["data"].append(currentProcessData)
+                        count += 1
+                    except:
+                        count += 1
+                        pass
+                        
+                    
+                array.append(runnerData)
+            except:
+                pass
+        return array
+    except:
         return []
 
 # These are run on startup.

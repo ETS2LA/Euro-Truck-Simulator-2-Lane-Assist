@@ -10,27 +10,27 @@ async function setToken(newToken: string){
 }
 
 // Communicate with the ETS2LA backend web server on 37520
-async function GetVersion() {
+async function GetVersion(ip="localhost") {
     console.log("Getting version")
-    const response = await fetch("http://localhost:37520/")
+    const response = await fetch("http://" + ip + ":37520/")
     const data = await response.json()
 }
 
-async function CloseBackend() {
+async function CloseBackend(ip="localhost") {
     console.log("Closing backend")
-    const response = await fetch("http://localhost:37520/api/quit")
+    const response = await fetch("http://" + ip + ":37520/api/quit")
     const data = await response.json()
 }
 
-async function RestartBackend() {
+async function RestartBackend(ip="localhost") {
     console.log("Restarting backend")
-    const response = await fetch("http://localhost:37520/api/restart")
+    const response = await fetch("http://" + ip + ":37520/api/restart")
     const data = await response.json()
 }
 
-async function GetFrametimes() {
+async function GetFrametimes(ip="localhost") {
     console.log("Getting frametimes")
-    const response = await fetch("http://localhost:37520/api/frametimes")
+    const response = await fetch("http://" + ip + ":37520/api/frametimes")
     const data = await response.json()
     return data
 }
@@ -84,4 +84,15 @@ async function GetGitHistory(ip="localhost") {
     return data
 }
 
-export { GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }
+async function GetPerformance(ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/plugins/performance`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+export { GetPerformance, GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }
