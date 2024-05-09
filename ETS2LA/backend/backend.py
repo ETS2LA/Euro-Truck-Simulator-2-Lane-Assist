@@ -7,6 +7,8 @@ import json
 import requests
 import sys
 import logging
+import psutil
+import os
 
 global commits_save
 commits_save = []
@@ -24,6 +26,12 @@ class PluginRunnerController():
         self.immediateQueue = multiprocessing.JoinableQueue()
         self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.functionQueue, self.eventQueue, self.immediateQueue, ), daemon=True)
         self.runner.start()
+        self.process = self.runner.pid
+        self.process_info = {
+            "cpu": 0,
+            "mem": 0,
+            "disk": 0
+        }
         self.run()
     
     def immediateQueueThread(self):
@@ -43,9 +51,36 @@ class PluginRunnerController():
                 sonnerPromise = data["sonner"]["promise"]
                 immediate.sonner(sonnerText, sonnerType, sonnerPromise)
         
+    def monitor(self):
+        process = psutil.Process(self.process)
+        # Get the plugin folder size
+        try:
+            size = 0
+            for root, dirs, files in os.walk(f"ETS2LA/plugins/{self.pluginName}"):
+                size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
+                size += sum([os.path.getsize(os.path.join(root, name)) for name in dirs])
+            
+            self.process_info["disk"] = size
+            logging.info(f"Plugin {self.pluginName} has a disk usage of {size} bytes.")
+        except:
+            import traceback
+            traceback.print_exc()
+            self.process_info["disk"] = 0
+            
+        while True:
+            try:
+                self.process_info["cpu"] = process.cpu_percent(interval=0.1) / psutil.cpu_count()
+                self.process_info["mem"] = process.memory_percent()
+                time.sleep(0.1)
+                logging.debug(f"Plugin {self.pluginName} CPU: {self.process_info['cpu']} MEM: {self.process_info['mem']}")
+            except:
+                time.sleep(0.1)
+                continue
+        
     def run(self):
         global frameTimes
         threading.Thread(target=self.immediateQueueThread, daemon=True).start()
+        threading.Thread(target=self.monitor, daemon=True).start()
         while True:
             try: data = self.queue.get(timeout=0.5) # Get the data returned from the plugin runner.
             except Exception as e: 
@@ -68,7 +103,12 @@ class PluginRunnerController():
             
             if "frametimes" in data: # Save the frame times
                 frametime = data["frametimes"]
-                frameTimes[self.pluginName] = frametime[self.pluginName]
+                if self.pluginName not in frameTimes:
+                    frameTimes[self.pluginName] = []
+                frameTimes[self.pluginName].append(frametime[self.pluginName])
+                if len(frameTimes[self.pluginName]) > 120: # 60 seconds of 0.5 intervals
+                    frameTimes[self.pluginName].pop(0)
+                    
             elif "get" in data: # If the data is a get command, then we need to get the data from another plugin.
                 plugins = data["get"]
                 for plugin in plugins:

@@ -12,6 +12,7 @@ pywin32
 fastapi
 uvicorn
 pillow
+psutil
 pygame
 torch
 numpy

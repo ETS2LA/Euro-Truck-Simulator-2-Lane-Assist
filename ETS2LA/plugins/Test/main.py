@@ -11,7 +11,7 @@ def Initialize():
     ScreenCapture = runner.modules.ScreenCapture
     ShowImage = runner.modules.ShowImage
     # main display = 0, x1 < x2, y1 < y2
-    ScreenCapture.CreateCam(CamSetupDisplay = 1) # sets the display for both mss and bettercam and creates the cam for bettercam
+    ScreenCapture.CreateCam(CamSetupDisplay = 0) # sets the display for both mss and bettercam and creates the cam for bettercam
     ScreenCapture.monitor_x1 = 100
     ScreenCapture.monitor_y1 = 100
     ScreenCapture.monitor_x2 = 400
