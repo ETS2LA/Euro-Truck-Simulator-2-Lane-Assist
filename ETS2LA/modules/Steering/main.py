@@ -61,22 +61,6 @@ def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_h
         thickness = 1
     return text, fontscale, thickness, textsize[0], textsize[1]
 
-def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_height=100):
-    fontscale = 1
-    textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
-    width_current_text, height_current_text = textsize
-    max_count_current_text = 3
-    while width_current_text != text_width or height_current_text > max_text_height:
-        fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
-        textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
-        max_count_current_text -= 1
-        if max_count_current_text <= 0:
-            break
-    thickness = round(fontscale * 2)
-    if thickness <= 0:
-        thickness = 1
-    return text, fontscale, thickness, textsize[0], textsize[1]
-
 def CalculateSteeringAngle():
     global steeringValues
     
@@ -111,12 +95,11 @@ def DrawSteeringLine(ShowImage, value, angle, drawText:bool = True):
     cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + (currentDesired if abs(currentDesired) < 1 else (1 if currentDesired > 0 else -1)) * (w/2 - w/divider)), int(h - h/10)), (0, 100, 255), 2, cv2.LINE_AA)
     
     if drawText:
-        text, fontscale, thickness, text_width, text_height = get_text_size(f"{actualSteering:.2f}", width=w, height=h, text_width=w, max_text_height=h/20)
         # Draw the current value as text at the end of the green line
+        text, fontscale, thickness, text_width, text_height = get_text_size(f"{actualSteering:.2f}", width=w, height=h, text_width=w, max_text_height=h/20)
         cv2.putText(output_img, f"{text}", (int(w/2 + actualSteering * (w/2 - w/divider) - text_width/2), int(h - h/10 - text_height * 0.7)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 178, 70), thickness, cv2.LINE_AA)
-
-        text, fontscale, thickness, text_width, text_height = get_text_size(f"{currentDesired:.2f}", width=w, height=h, text_width=w, max_text_height=h/20)
         # Draw the desired value as text at the end of the red line
+        text, fontscale, thickness, text_width, text_height = get_text_size(f"{currentDesired:.2f}", width=w, height=h, text_width=w, max_text_height=h/20)
         cv2.putText(output_img, f"{text}", (int(w/2 + (currentDesired if abs(currentDesired) < 1 else (1 if currentDesired > 0 else -1)) * (w/2 - w/divider) - text_width/2), int(h - h/10 + text_height * 1.7)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 70, 178), thickness, cv2.LINE_AA)
 
     ShowImage.overlays["SteeringLine"] = output_img

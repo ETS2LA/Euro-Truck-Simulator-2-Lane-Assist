@@ -21,7 +21,7 @@ import useSWR from "swr";
 export default function TrafficLightDetection({ ip }: { ip: string }) {
 
     const screen_x = toast.promise(PluginFunctionCall("TrafficLightDetection", "get_screen", [], {}), { loading: "Loading...", success: "Success", error: "Error" });
-    console.log(screen_x)
+    console.log("tld plugin return value: ", screen_x)
 
     const defaultFOV = 80;
     const defaultWindowScale = "0.5";
