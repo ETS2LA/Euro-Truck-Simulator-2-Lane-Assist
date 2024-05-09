@@ -127,9 +127,9 @@ def Initialize():
     ScreenCapture = runner.modules.ScreenCapture
 
     Steering.OFFSET = 0
-    Steering.SENSITIVITY = 0.65
     Steering.SMOOTH_TIME = 0.3
     Steering.IGNORE_SMOOTH = True
+    Steering.SENSITIVITY = 0.65
 
     if 'UseAI' in globals():
         if UseAI == False and settings.Get("NavigationDetection", "NavigationDetectionAI", False) == True:
