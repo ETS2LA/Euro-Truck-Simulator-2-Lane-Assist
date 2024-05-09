@@ -1083,7 +1083,7 @@ def plugin():
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
         data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
 
-        Steering.run(value=correction, sendToGame=False)
+        Steering.run(value=correction, sendToGame=True)
         ShowImage.run(frame)
 
         return data["NavigationDetection"]
