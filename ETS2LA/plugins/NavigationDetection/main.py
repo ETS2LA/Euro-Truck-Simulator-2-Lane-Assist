@@ -43,6 +43,9 @@ controls.RegisterKeybind("Lane change to the right",
 def SendCrashReport(): # REMOVE THIS LATER
     return
 
+def ToggleSteering(state:bool, *args, **kwargs):
+    global enabled
+    enabled = state
 
 ############################################################################################################################    
 # Settings
@@ -1089,7 +1092,7 @@ def plugin():
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
         data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
 
-        Steering.run(value=correction)
+        Steering.run(value=correction, sendToGame=enabled)
         ShowImage.run(frame)
 
         return data["NavigationDetection"]

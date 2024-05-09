@@ -148,6 +148,8 @@ def run(value:float = None, sendToGame:bool = True, drawLine:bool = True, drawTe
     if sendToGame and SDK is not None:
         # Check that angle is not None
         SDK.steering = float(angle)
+    if not sendToGame and SDK is not None:
+        SDK.steering = float(0)
         
     # Draw the steering line
     if drawLine:

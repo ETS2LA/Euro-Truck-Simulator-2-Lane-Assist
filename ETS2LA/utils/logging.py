@@ -41,7 +41,7 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
     # Remove the default handler
     logging.getLogger().handlers = []
     logging.getLogger().addHandler(logging.NullHandler())
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.INFO)
     
     # Print levels in color
     logging.addLevelName(logging.DEBUG, f"{DARK_GREY}[DBG]{END}")
