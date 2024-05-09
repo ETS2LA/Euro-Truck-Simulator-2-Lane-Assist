@@ -122,10 +122,13 @@ def Initialize():
     global lanechanging_final_offset
 
     Steering = runner.modules.Steering
-    Steering.SENSITIVITY = 0.2
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
+
+    Steering.OFFSET = 0
+    Steering.SENSITIVITY = 0.65
+    Steering.SMOOTH_TIME = 0.3
 
     if 'UseAI' in globals():
         if UseAI == False and settings.Get("NavigationDetection", "NavigationDetectionAI", False) == True:
@@ -233,6 +236,18 @@ def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_h
     if thickness <= 0:
         thickness = 1
     return text, fontscale, thickness, textsize[0], textsize[1]
+
+
+def show_info(text="info text", frame=None, width=100, height=100):
+    frame = cv2.GaussianBlur(frame, (9, 9), 0)
+    frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
+
+    cv2.circle(frame, (round(width / 2), round(height * 0.30)), round(height * 0.25), (255, 128, 0), round(height * 0.02) if round(height * 0.02) > 1 else 1)
+    cv2.line(frame, (round(width / 2), round(height * 0.30)), (round(width / 2), round(height * 0.30 + height * 0.25 - height * 0.1)), (255, 128, 0), round(height * 0.03) if round(height * 0.03) > 2 else 2)
+    cv2.line(frame, (round(width / 2), round(height * 0.30 - height * 0.25 / 2)), (round(width / 2), round(height * 0.30 - height * 0.25 / 2)), (255, 128, 0), round(height * 0.03) if round(height * 0.03) > 2 else 2)
+
+    text, fontscale, thickness, text_width, text_height = get_text_size(text=text, width=width, height=height, text_width=width/1.5, max_text_height=height/2)
+    cv2.putText(frame, text, (round(width / 2 - text_width / 2), round(height * 0.8 - text_height / 2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
 
 
 class Net(nn.Module):
@@ -777,8 +792,8 @@ def plugin():
             left_x_turn = 0
             right_x_turn = 0
 
-        cv2.line(frame, (left_x_lane, left_y_lane), (right_x_lane, right_y_lane), (255, 255, 255), 2)
-        cv2.line(frame, (left_x_turn, y_coordinate_of_turn), (right_x_turn, y_coordinate_of_turn), (255, 255, 255), 2)
+        cv2.line(frame, (left_x_lane, left_y_lane), (right_x_lane, right_y_lane), (255, 255, 255), 2) if left_x_lane != 0 and right_x_lane != 0 else None
+        cv2.line(frame, (left_x_turn, y_coordinate_of_turn), (right_x_turn, y_coordinate_of_turn), (255, 255, 255), 2) if left_x_turn != 0 and right_x_turn != 0 else None
 
         width_lane = right_x_lane - left_x_lane
         width_turn = right_x_turn - left_x_turn
@@ -1043,17 +1058,6 @@ def plugin():
         controls_last_right = controls_right
         
         correction /= -30
-
-        #frame = cv2.GaussianBlur(frame, (9, 9), 0)
-        #frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
-        #
-        #cv2.circle(frame, (round(width / 2), round(height * 0.30)), round(height * 0.25), (255, 128, 0), round(height * 0.02) if round(height * 0.02) > 1 else 1)
-        #cv2.line(frame, (round(width / 2), round(height * 0.30)), (round(width / 2), round(height * 0.30 + height * 0.25 - height * 0.1)), (255, 128, 0), round(height * 0.03) if round(height * 0.03) > 2 else 2)
-        #cv2.line(frame, (round(width / 2), round(height * 0.30 - height * 0.25 / 2)), (round(width / 2), round(height * 0.30 - height * 0.25 / 2)), (255, 128, 0), round(height * 0.03) if round(height * 0.03) > 2 else 2)
-        #
-        #text, fontscale, thickness, text_width, text_height = get_text_size(text="No Lane Detected", width=width, height=height, text_width=width/1.5, max_text_height=height/2)
-        #cv2.putText(frame, text, (round(width / 2 - text_width / 2), round(height * 0.8 - text_height / 2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
-
 
         if speed > 63:
             correction *= 63/speed
