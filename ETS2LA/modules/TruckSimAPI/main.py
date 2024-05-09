@@ -56,6 +56,7 @@ def run():
         lastX = x
         
     except: pass
+    
 
     return data 
 
