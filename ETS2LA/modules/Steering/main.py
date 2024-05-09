@@ -107,8 +107,6 @@ def DrawSteeringLine(ShowImage, value, angle, drawText:bool = True):
     cv2.line(output_img, (int(w/divider), int(h - h/10)), (int(w/divider*(divider-1)), int(h - h/10)), (100, 100, 100), 6, cv2.LINE_AA)
     # Then draw a light green line to indicate the actual steering
     cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + actualSteering * (w/2 - w/divider)), int(h - h/10)), (0, 255, 100), 6, cv2.LINE_AA)
-    # Draw the current value as text at the end of the green line
-    #cv2.putText(output_img, f"{actualSteering:.2f}", (int(w/2 + actualSteering * (w/2 - w/divider)), int(h - h/10 - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 178, 70), 1, cv2.LINE_AA)
     # Then draw a light red line to indicate the desired steering
     cv2.line(output_img, (int(w/2), int(h - h/10)), (int(w/2 + (currentDesired if abs(currentDesired) < 1 else (1 if currentDesired > 0 else -1)) * (w/2 - w/divider)), int(h - h/10)), (0, 100, 255), 2, cv2.LINE_AA)
     
