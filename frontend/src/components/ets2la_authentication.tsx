@@ -28,6 +28,7 @@ import { mutate } from "swr"
 import { CheckUsernameAvailability, Register, Login } from "@/pages/account"
 import { useState } from "react"
 import { set } from "date-fns"
+import { CircleCheckBig, LogIn } from "lucide-react"
 
 export function Authentication({ onLogin } : { onLogin: (token:string) => void }) {
 	const [username, setUsername] = useState("")
@@ -97,17 +98,21 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 		<div  className="flex items-center justify-center h-[calc(100vh-75px)]">
 			<div className="mx-auto grid w-[350px] gap-6">
 				<div className="grid gap-2 text-center">
-					<h1 className="text-3xl font-bold">Login</h1>
+					<h1 className="text-3xl font-bold">{usernameAvailable ? "Signup" : "Login"}</h1>
 					<p className="text-balance text-muted-foreground">
-						Enter your credentials to login to your account
+						Please login or sign up to access the application.
 					</p>
 				</div>
 				<div className="grid gap-4">
 					<div className="grid gap-2">
 						<div className="flex items-center">
 							<Label htmlFor="email">Username</Label>
-							<p className="ml-auto inline-block text-sm text-zinc-500">
-								{usernameAvailable ? "Username available" : "Account found"}
+							<p className="ml-auto text-sm flex gap-1 items-center text-zinc-500">
+								{usernameAvailable ? (
+									<CircleCheckBig className="w-4 h-4" />
+								) : (
+									<LogIn className="w-4 h-4" />
+								)}
 							</p>
 						</div>
 						<Input
@@ -123,16 +128,14 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 							<Label htmlFor="password">Password</Label>
 						</div>
 						<Input id="password" type="password" placeholder="Password" required onChange={onPasswordChange} />
-						{usernameAvailable ? (
-							<Input id="passwordRepeat" type="password" placeholder="Repeat password" required onChange={onPasswordRepeatChange} />
-						) : null}
+						<Input id="passwordRepeat" type="password" placeholder="Repeat password" required onChange={onPasswordRepeatChange} disabled={!usernameAvailable} />
 					</div>
 					{usernameAvailable ? (
 						<>
 							<AlertDialog>
 								<AlertDialogTrigger>
 									<Button type="submit" className="w-full" onClick={handleLogin}>
-										{usernameAvailable ? "Create Account" : "Login"}
+										Login
 									</Button>
 								</AlertDialogTrigger>
 								<AlertDialogContent>
@@ -148,15 +151,15 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 									</AlertDialogFooter>
 								</AlertDialogContent>
 							</AlertDialog>
-							<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
-								Use a Guest account
-							</Button>
 						</>
 					) : (
 						<Button type="submit" className="w-full" onClick={handleLogin}>
 							{usernameAvailable ? "Create Account" : "Login"}
 						</Button>
 					)}
+					<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
+						Use a Guest account
+					</Button>
 				</div>
 				<div className="mt-4 text-center text-sm">
 					<p className="text-muted-foreground">Don't have an account? Just type in your desired username and password and we will create one for you.</p>
@@ -209,6 +212,13 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 								<li>• ETS2 API data (see <a href="https://github.com/RenCloud/scs-sdk-plugin?tab=readme-ov-file#telemetry-fields-and-the-c-object" target="_blank" className="underline"> the github repo</a>)</li>
 							</ul>
 							<p className="pt-2">None of the data we collect can be traced back to you. The server doesn't log IPs, ETS2 usernames etc...</p>
+						</AccordionContent>
+					</AccordionItem>
+					<AccordionItem value="item-6">
+						<AccordionTrigger className="w-[400px]">How are my login details stored on my device?</AccordionTrigger>
+						<AccordionContent>
+							<p>The app doesn't actually store your login details on device. In fact nowhere in the pipeline is your password stored as plain text. Instead the server provides your device with a login token.</p>
+							<p className="pt-1">This token is then stored in your browser's local storage. It is important to note that, even though this does protect your password, if someone get's hold of said token, they can log into your account.</p>
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>

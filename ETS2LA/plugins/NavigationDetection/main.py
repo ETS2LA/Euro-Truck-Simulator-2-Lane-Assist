@@ -122,6 +122,7 @@ def Initialize():
     global lanechanging_final_offset
 
     Steering = runner.modules.Steering
+    Steering.SENSITIVITY = 0.2
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
@@ -1083,7 +1084,7 @@ def plugin():
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
         data["NavigationDetection"]["laneoffsetpercent"] = lanechanging_progress
 
-        Steering.run(value=correction, sendToGame=False)
+        Steering.run(value=correction)
         ShowImage.run(frame)
 
         return data["NavigationDetection"]

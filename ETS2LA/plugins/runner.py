@@ -10,8 +10,9 @@ from types import SimpleNamespace
 class PluginRunner():
     def __init__(self, pluginName, temporary, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue, eventQueue:multiprocessing.Queue, immediateQueue:multiprocessing.Queue):
         # Initialize the logger
-        self.logger = CreateNewLogger(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), level=logging.WARNING)
-        
+        SetupProcessLogging(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), console_level=logging.WARNING)
+        logging.info(f"PluginRunner: Starting plugin {pluginName}")
+        self.logger = logging.getLogger()
         # Save the values to the class
         self.q = queue
         self.fq = functionQueue
@@ -28,10 +29,11 @@ class PluginRunner():
         plugin_path = "ETS2LA.plugins." + pluginName + ".main"
         try:
             self.plugin = importlib.import_module(plugin_path)
+            logging.info(f"PluginRunner: Imported plugin {plugin_path}")
         except Exception as e:
             import traceback
             trace = traceback.format_exc()
-            self.logger.error(f"PluginRunner: Could not import plugin {plugin_path} with trace: n{trace}")
+            logging.error(f"PluginRunner: Could not import plugin {plugin_path} with trace: n{trace}")
             logging.error(f"Could not import plugin {plugin_path}, check the logs for more information. ({e})")
             return
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
@@ -48,34 +50,34 @@ class PluginRunner():
             try:
                 module = importlib.import_module(module_path)
                 module.runner = self
-                self.logger.info(f"PluginRunner: Loaded module {module}")
+                logging.info(f"PluginRunner: Loaded module {module}")
             except Exception as e:
-                self.logger.error(f"PluginRunner: Could not load module {module} with error: {e}")
+                logging.error(f"PluginRunner: Could not load module {module} with error: {e}")
                 continue
             self.modules[moduleName] = module
             
-        # Run module and plugin initializers
-        for module in self.modules:
-            try:
-                self.modules[module].Initialize()
-            except Exception as e:
-                self.logger.error(f"PluginRunner: Error while running Initialize() for {module} with error {e}")
-                continue
-        
         self.modulesDict = self.modules
         self.modules = SimpleNamespace(**self.modules) # Will convert it to a namespace to make runner.modules.ModuleName possible
+        
+        # Run module and plugin initializers
+        for module in self.modulesDict:
+            try:
+                self.modulesDict[module].Initialize()
+            except Exception as e:
+                logging.error(f"PluginRunner: Error while running Initialize() for {module} with error {e}")
+                continue
         
         try:
             if not self.temporary:
                 self.plugin.Initialize()
             else:
-                self.logger.info(f"PluginRunner: Plugin {self.plugin_name} is temporary, skipping Initialize(), please call it in the function manually if necessary.")
+                logging.info(f"PluginRunner: Plugin {self.plugin_name} is temporary, skipping Initialize(), please call it in the function manually if necessary.")
         except Exception as e:
-            self.logger.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
+            logging.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
             
         
         # Run the plugin
-        self.logger.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
+        logging.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
         self.run()
 
     def functionThread(self):
@@ -99,7 +101,7 @@ class PluginRunner():
                     self.fq.put(data)
                         
                 except Exception as e:
-                    self.logger.error(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")
+                    logging.error(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")
 
     def eventThread(self):
         while True:
@@ -127,7 +129,7 @@ class PluginRunner():
                     event(*args, **kwargs)
                         
                 except Exception as e:
-                    self.logger.error(f"PluginRunner: Error while calling event {event} in {self.plugin_name}: {e}")
+                    logging.info(f"PluginRunner: Error while calling event {event} in {self.plugin_name}: {e}")
 
     def run(self):
         self.timer = time.time()
@@ -157,7 +159,7 @@ class PluginRunner():
                         }
                         }
                     })
-                self.logger.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime),2)} FPS")
+                logging.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime),2)} FPS")
                 self.timer = endTime
                 self.frametimes = []
                 self.executiontimes = []

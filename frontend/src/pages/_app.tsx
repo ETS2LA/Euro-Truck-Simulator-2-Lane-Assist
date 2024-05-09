@@ -42,7 +42,6 @@ export const metadata: Metadata = {
   icons: ["favicon.ico"],
 };
 import { useState, useRef, useEffect } from 'react';
-import LoginPage from '@/components/ets2la_login';
 import { Authentication } from '@/components/ets2la_authentication';
 import { toast } from 'sonner';
 
@@ -197,6 +196,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         disableTransitionOnChange
       >
         <ETS2LAMenubar ip={ip} onLogout={() =>{
+          toast.success("Logged out")
+          localStorage.setItem('token', "");
           SetToken("")
           setToken("")
         }} />

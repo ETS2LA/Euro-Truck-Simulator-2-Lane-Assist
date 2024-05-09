@@ -23,7 +23,13 @@ class SteeringValue:
 steeringValues = []
 
 def Initialize():
-    pass
+    global SDK
+    # Check if the SDK module is available
+    try:
+        SDK = runner.modules.SDKController.SCSController()
+    except:
+        SDK = None
+        logging.warning("SDK module not available, please add it to the plugin.json file.")
 
 def CalculateSteeringAngle():
     global steeringValues
@@ -57,20 +63,12 @@ def DrawSteeringLine(ShowImage, value, angle):
     ShowImage.overlays["SteeringLine"] = output_img
 
 def run(value:float = None, sendToGame:bool = True, drawLine:bool = True):
+    global SDK
     # Add the newest value to the list
     if value is not None:
         steeringValues.append(SteeringValue(value, time.time()))
     else:
         steeringValues.append(SteeringValue(0, time.time())) # Slowly return to 0 naturally
-        
-    SDK = None
-    if sendToGame:
-        # Check if the SDK module is available
-        try:
-            SDK = runner.modules.SDKController
-        except:
-            logging.warning("SDK module not available, please add it to the plugin.json file or disable the sendToGame parameter.")
-            return "SDK module not available, please add it to the plugin.json file or disable the sendToGame parameter."
     
     # Remove all values that are older than SMOOTH_TIME
     while steeringValues[0].IsOlderThan(time.time() - SMOOTH_TIME):
@@ -81,7 +79,8 @@ def run(value:float = None, sendToGame:bool = True, drawLine:bool = True):
     
     # Send the angle to the game
     if sendToGame and SDK is not None:
-        SDK.steering = angle
+        # Check that angle is not None
+        SDK.steering = float(angle)
         
     # Draw the steering line
     if drawLine:

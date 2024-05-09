@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from ETS2LA.plugins.runner import PluginRunner
 import os
+import logging
 
 runner:PluginRunner = None
 
@@ -99,6 +100,7 @@ class SCSController:
             raise RuntimeError(f"{system} is not supported")
 
         self._initialized = True
+        logging.info("SCSController initialized")
 
     def close(self):
         self._shm_buff.close()

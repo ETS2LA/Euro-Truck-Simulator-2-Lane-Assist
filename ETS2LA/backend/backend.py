@@ -186,11 +186,15 @@ def CallEvent(event, args, kwargs):
             pass
 
 def AddPluginRunner(pluginName, temporary=False):
+    if pluginName in runners:
+        return
     # Run the plugin runner in a separate thread. This is done to avoid blocking the main thread.
     runner = threading.Thread(target=PluginRunnerController, args=(pluginName, temporary, ), daemon=True)
     runner.start()
 
 def RemovePluginRunner(pluginName):
+    if not pluginName in runners:
+        return
     # Stop the plugin runner
     runners[pluginName].runner.terminate()
     runners.pop(pluginName)

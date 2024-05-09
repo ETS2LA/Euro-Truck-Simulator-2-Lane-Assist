@@ -37,9 +37,27 @@ def SetupGlobalLogging():
     
     return logging.getLogger()
 
-def CreateNewLogger(name, level=logging.INFO, filepath=""):
-    logger = logging.getLogger(name)
-    logger.setLevel(level)
+def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
+    # Remove the default handler
+    logging.getLogger().handlers = []
+    logging.getLogger().addHandler(logging.NullHandler())
+    logging.getLogger().setLevel(logging.DEBUG)
+    
+    # Print levels in color
+    logging.addLevelName(logging.DEBUG, f"{DARK_GREY}[DBG]{END}")
+    logging.addLevelName(logging.INFO, f"{DARK_GREEN}[INF]{END}")
+    logging.addLevelName(logging.WARNING, f"{DARK_YELLOW}[WRN]{END}")
+    logging.addLevelName(logging.ERROR, f"{DARK_RED}[ERR]{END}")
+    logging.addLevelName(logging.CRITICAL, f"{RED}[CRT]{END}")
+
+    # Set up logging
+    logging.basicConfig(format=
+                        f'{DARK_GREY}[%(asctime)s]{END} %(levelname)s {DARK_GREY}%(filename)s{END} \t %(message)s', 
+                        level=logging.DEBUG,
+                        datefmt=f'%H:%M:%S'
+                        )
+    
+    # Create a file handler
     if filepath != "":
         if not filepath.endswith(".log"):
             filepath += f"{name}.log"
@@ -54,5 +72,12 @@ def CreateNewLogger(name, level=logging.INFO, filepath=""):
         file_handler = logging.FileHandler(filepath)
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-        logger.addHandler(file_handler)
-    return logger
+        logging.getLogger().addHandler(file_handler)
+        
+    # Create a console handler with a higher log level
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(console_level)
+    console_handler.setFormatter(logging.Formatter(f'{DARK_GREY}[%(asctime)s]{END} %(levelname)s {DARK_GREY}%(filename)s{END} \t %(message)s', datefmt=f'%H:%M:%S'))
+    logging.getLogger().addHandler(console_handler)
+        
+    return logging.getLogger()
