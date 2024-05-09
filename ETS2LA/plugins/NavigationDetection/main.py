@@ -122,10 +122,13 @@ def Initialize():
     global lanechanging_final_offset
 
     Steering = runner.modules.Steering
-    Steering.SENSITIVITY = 0.2
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
+
+    Steering.OFFSET = 0
+    Steering.SENSITIVITY = 0.65
+    Steering.SMOOTH_TIME = 0.3
 
     if 'UseAI' in globals():
         if UseAI == False and settings.Get("NavigationDetection", "NavigationDetectionAI", False) == True:
