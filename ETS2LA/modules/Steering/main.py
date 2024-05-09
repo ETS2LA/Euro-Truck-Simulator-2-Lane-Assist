@@ -8,9 +8,14 @@ import logging
 runner:PluginRunner = None
 
 SMOOTH_TIME = 0.1 # seconds
+"""How many seconds to smooth the steering over."""
 OFFSET = 0
+"""Offset to add to the steering angle."""
 SENSITIVITY = 1
+"""Overall sensitivity"""
 MAX_ANGLE = 1
+"""Maximum absolute angle"""
+
 
 class SteeringValue:
     def __init__(self, value:float, timestamp:float):
@@ -34,8 +39,8 @@ def Initialize():
 def CalculateSteeringAngle():
     global steeringValues
     
-    # Calculate the average value
-    average = np.mean([x.value for x in steeringValues])
+    weights = np.arange(len(steeringValues)) + 1
+    average = np.average([value.value for value in steeringValues], weights=weights)
     
     # Calculate the angle
     angle = average * SENSITIVITY + OFFSET
