@@ -36,7 +36,7 @@ import { X } from "lucide-react"
 export default function Home({ ip }: { ip: string }) {
     const [ selected, setSelected ] = useState("")
     const { push } = useRouter()
-    const { data, error, isLoading } = useSWR("performance", () => GetPerformance(ip), { refreshInterval: 500 })
+    const { data, error, isLoading } = useSWR("performance", () => GetPerformance(ip), { refreshInterval: 500, revalidateOnFocus: false })
     if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Card>
     if (error){
         toast.error("Error fetching plugins from " + ip, {description: error.message})
@@ -95,17 +95,17 @@ export default function Home({ ip }: { ip: string }) {
                     {selected != "" && selected in data && (
                         <ResponsiveContainer>
                             <LineChart
-                                data={downsample(data[selected]["data"], 5)}
+                                data={downsample(data[selected]["data"], 10)}
                                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                             >
                                 <Tooltip itemStyle={{background: "transparent"}} contentStyle={{background: "transparent", border: "none"}} />
                                 <Legend />
                                 <YAxis domain={[0, 100]} width={18} ticks={[0, 50, 100]} axisLine={false} tickSize={0} />
                                 <YAxis width={18} orientation="right" yAxisId="right" axisLine={false} tickSize={4} />
-                                <XAxis axisLine={false} ticks={[0, data[selected]["data"].length]}/>
-                                <Line type="monotone" dataKey="cpu" stroke="#8884d8" dot={false} isAnimationActive={true} name="cpu" />
-                                <Line type="monotone" dataKey="mem" stroke="#82ca9d" dot={false} isAnimationActive={true} name="mem" />
-                                <Line type="monotone" dataKey="fps" stroke="#ff0000" dot={false} isAnimationActive={true} name="fps" yAxisId="right" />
+                                <XAxis axisLine={false} ticks={[0,230]} />
+                                <Line type="monotone" dataKey="cpu" stroke="#8884d8" dot={false} isAnimationActive={true} name="cpu" animationEasing="ease-in-out" animationDuration={0}/>
+                                <Line type="monotone" dataKey="mem" stroke="#82ca9d" dot={false} isAnimationActive={true} name="mem" animationEasing="ease-in-out" animationDuration={0}/>
+                                <Line type="monotone" dataKey="fps" stroke="#ff0000" dot={false} isAnimationActive={true} name="fps" yAxisId="right" animationEasing="ease-in-out" animationDuration={0} />
                             </LineChart>
                         </ResponsiveContainer>
                     )}
