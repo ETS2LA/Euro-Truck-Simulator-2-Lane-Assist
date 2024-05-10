@@ -114,7 +114,7 @@ def run(value:float = None, sendToGame:bool = True, drawLine:bool = True, drawTe
     else:
         steeringValues.append(SteeringValue(0, time.time())) # Slowly return to 0 naturally
     
-    if API is not None:
+    if API is not None and data is not "not connected":
         data = API.run()
         gameSteering = -data["truckFloat"]["gameSteer"]
         gameDifference = value - gameSteering
