@@ -114,11 +114,16 @@ def run(value:float = None, sendToGame:bool = True, drawLine:bool = True, drawTe
     else:
         steeringValues.append(SteeringValue(0, time.time())) # Slowly return to 0 naturally
     
-    if API is not None and data is not "not connected":
+    if API is not None:
         data = API.run()
-        gameSteering = -data["truckFloat"]["gameSteer"]
-        gameDifference = value - gameSteering
-        gameDifference = gameDifference * 10
+        if data != "not connected" and data != "error checking API status":
+            gameSteering = -data["truckFloat"]["gameSteer"]
+            gameDifference = value - gameSteering
+            gameDifference = gameDifference * 10
+        else:
+            gameDifference = 0
+    else:    
+        gameDifference = 0
     
     # Remove all values that are older than SMOOTH_TIME
     while steeringValues[0].IsOlderThan(time.time() - SMOOTH_TIME):

@@ -70,7 +70,7 @@ export default function Home({ ip }: { ip: string }) {
                             {data ? (data as any)[plugin]["enabled"] ? (
                                 <div className="flex flex-row gap-1 items-center">
                                     <Gauge color="#888888" className="w-5 h-5"/>
-                                    <p className="text-muted-foreground text-xs">Plugin is running at {data ? Math.round(1/(data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1]["frametime"]) : "Unknown"} fps.</p>
+                                    <p className="text-muted-foreground text-xs">Plugin is running at {data ? (data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1] ? Math.round(1/(data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1]["frametime"]) : "Unknown" : "Unknown"} fps.</p>
                                 </div>
                             ) : null : null}
                         </CardHeader>
