@@ -7,6 +7,7 @@ setuptools
 websockets
 pywebview
 gitpython
+dearpygui
 requests
 pywin32
 fastapi

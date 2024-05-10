@@ -19,11 +19,11 @@ import useSWR from "swr";
 
 export default function AR({ ip }: { ip: string }) {
 
-    const defaultFOV = 80;
+    const defaultFOV = "80";
 
     const {data, error, isLoading} = useSWR("AR", () => GetSettingsJSON("AR", ip));
 
-    const [FOV, setFOV] = useState<number | undefined>(undefined);
+    const [FOV, setFOV] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (data) {
@@ -37,12 +37,13 @@ export default function AR({ ip }: { ip: string }) {
     if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
 
     const UpdateFOV = async (e:any) => {
-        let newFOV = parseInt((e.target as HTMLInputElement).value);
-        let valid = !isNaN(newFOV);
-        if (valid) { if (newFOV < 0) { newFOV = 0; } if (newFOV > 999) { newFOV = 999; } }
-        toast.promise(SetSettingByKey("AR", "FOV", valid ? newFOV : defaultFOV, ip), {
+        let newFOV = String(e).replace(/\./g, ".");
+        if (newFOV.includes(".") && newFOV.substring(newFOV.indexOf(".") + 1).length > 1) { return; }
+        let valid = !isNaN(parseFloat(newFOV));
+        if (valid) { if (parseFloat(newFOV) < 10) { newFOV = "10"; } if (parseFloat(newFOV) > 180) { newFOV = "180"; } }
+        toast.promise(SetSettingByKey("AR", "FOV", valid ? parseFloat(newFOV) : parseFloat(defaultFOV), ip), {
             loading: "Saving...",
-            success: "Set value to " + newFOV,
+            success: "Set value to " + parseFloat(newFOV),
             error: "Failed to save"
         });
         setFOV(newFOV);
@@ -79,16 +80,14 @@ export default function AR({ ip }: { ip: string }) {
                 </TabsList>
                 <TabsContent value="general">
 
-                    <div style={{ position: 'absolute', left: '-227px', right: '2pt' }}>
-                        
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
+
                         {FOV !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative', top: '28px' }}>
-                            <Input placeholder={String(defaultFOV)} id="fov" value={!isNaN(FOV) ? FOV : ''}  onChangeCapture={(e) => UpdateFOV(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                                <Label htmlFor="fov" className="font-bold">
-                                    FOV
-                                </Label>
+                        <div>
+                            <div className="flex flex-row items-center text-left gap-2 pt-2">
+                            <Input placeholder={String(defaultFOV)} id="fov" type="number" step="1" value={!isNaN(parseFloat(FOV)) ? FOV : ''}  onChangeCapture={(e) => UpdateFOV((e.target as HTMLInputElement).value)} style={{ width: '75px' }}/>
                                 <Label htmlFor="fov">
+                                    <span className="font-bold">FOV</span><br />
                                     You need to set the field of view for the AR. You can find the FOV in the game by pressing F4, then selecting "Adjust seats".
                                 </Label>
                             </div>
