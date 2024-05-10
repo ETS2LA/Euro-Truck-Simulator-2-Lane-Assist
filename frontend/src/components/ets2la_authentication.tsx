@@ -36,6 +36,13 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 	const [password, setPassword] = useState("")
 	const [passwordRepeat, setPasswordRepeat] = useState("")
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [passwordState, setPasswordState] = useState({
+		uppercase: false,
+		lowercase: false,
+		length: 0,
+		eightCharsOrGreater: false,
+	});
+
 
 	const handleGuestLogin = () => {
 		toast.success("Logged in as a guest")
@@ -63,6 +70,10 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 				toast.error("Passwords do not match")
 				return
 			}
+			if (!passwordState.uppercase || !passwordState.lowercase || !passwordState.eightCharsOrGreater) {
+				toast.error("Password doesn't meet the requirements")
+				return
+			}
 			const token = await Register(username, password)
 			if (token) {
 				toast.success("Account created")
@@ -86,11 +97,32 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 	}
 
 	const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value)
+		const newPassword = e.target.value; // -> created const not to use 'e.target.value' two times
+		setPassword(newPassword)
+		
+		// set the new password state
+		setPasswordState(getPasswordStrength(newPassword))
 	}
 
 	const onPasswordRepeatChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPasswordRepeat(e.target.value)
+	}
+
+	function getPasswordStrength(password: string) {
+		// Define regular expressions for different criteria
+		const lowercaseRegex = /[a-z]/; // all lowercase chars
+		const uppercaseRegex = /[A-Z]/; // all uppercase chars
+		
+		// Define passwordMeter to check which symbols/chars are in the password
+		const passwordMeter = {
+			uppercase: Boolean(password.match(uppercaseRegex)),
+			lowercase: Boolean(password.match(lowercaseRegex)),
+			length: password.length,
+			eightCharsOrGreater: password.length >= 8,
+		  }
+		
+		  // return it
+		return passwordMeter
 	}
 
 	return (
@@ -160,6 +192,25 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 					<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
 						Use a Guest account
 					</Button>
+					<Accordion type="single" collapsible className="place-self-center">
+						<AccordionItem value="item-1">
+							<AccordionTrigger className="w-[400px]">Password Status [Requirements]</AccordionTrigger>
+							<AccordionContent>
+								<p style={{fontSize: '0.9em', color: passwordState.uppercase ? 'green' : 'red'}}> {'Uppercase Character\n'} </p>
+								<p style={{fontSize: '0.9em', color: passwordState.lowercase ? 'green' : 'red'}}> {'Lowercase Character\n'} </p>
+								<p style={{fontSize: '0.9em', color: passwordState.eightCharsOrGreater ? 'green' : 'red'}}> {'Characters [' + passwordState.length + '/8]'} </p>
+
+								<p style={{color: 'green'}}> 
+									{
+										passwordState.uppercase && 
+										passwordState.lowercase &&
+										passwordState.eightCharsOrGreater && 
+										( <p>All password requirements meet! You're all set!</p> )
+									}
+								</p>
+							</AccordionContent>
+						</AccordionItem>
+					</Accordion>
 				</div>
 				<div className="mt-4 text-center text-sm">
 					<p className="text-muted-foreground">Don't have an account? Just type in your desired username and password and we will create one for you.</p>
