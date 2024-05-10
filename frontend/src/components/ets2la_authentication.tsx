@@ -108,6 +108,13 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 		setPasswordRepeat(e.target.value)
 	}
 
+	function passwordsMatch() {
+		if (passwordRepeat === "" || password === "") {
+			return true;
+		}
+		return password === passwordRepeat;
+	}
+
 	function getPasswordStrength(password: string) {
 		// Define regular expressions for different criteria
 		const lowercaseRegex = /[a-z]/; // all lowercase chars
@@ -159,8 +166,12 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 						<div className="flex items-center">
 							<Label htmlFor="password">Password</Label>
 						</div>
-						<Input id="password" type="password" placeholder="Password" required onChange={onPasswordChange} />
-						<Input id="passwordRepeat" type="password" placeholder="Repeat password" required onChange={onPasswordRepeatChange} disabled={!usernameAvailable} />
+						<div className="flex gap-2">
+							<Input id="password" type="password" placeholder="Password" required onChange={onPasswordChange} />
+							<Input id="passwordRepeat" type="password" placeholder="Repeat password" required onChange={onPasswordRepeatChange} disabled={!usernameAvailable}
+								className={passwordsMatch() ? "" : "border-red-700 focus:border-2"}
+							/>
+						</div>
 					</div>
 					{usernameAvailable ? (
 						<>
@@ -192,22 +203,20 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 					<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
 						Use a Guest account
 					</Button>
-					<Accordion type="single" collapsible className="place-self-center">
+					<Accordion type="single" collapsible className="w-[350px] place-self-center" value={usernameAvailable ? passwordState.uppercase && passwordState.lowercase && passwordState.eightCharsOrGreater ? "" : "item-1" : ""}>
 						<AccordionItem value="item-1">
-							<AccordionTrigger className="w-[400px]">Password Status [Requirements]</AccordionTrigger>
-							<AccordionContent>
-								<p style={{fontSize: '0.9em', color: passwordState.uppercase ? 'green' : 'red'}}> {'Uppercase Character\n'} </p>
-								<p style={{fontSize: '0.9em', color: passwordState.lowercase ? 'green' : 'red'}}> {'Lowercase Character\n'} </p>
-								<p style={{fontSize: '0.9em', color: passwordState.eightCharsOrGreater ? 'green' : 'red'}}> {'Characters [' + passwordState.length + '/8]'} </p>
+							<AccordionTrigger className="w-[400px]"><p
+								className={!usernameAvailable ? "text-zinc-500" : passwordState.uppercase && passwordState.lowercase && passwordState.eightCharsOrGreater ? "text-green-400" : "text-red-400"}
+								>Password Requirements</p></AccordionTrigger>
+							<AccordionContent className="flex justify-between pr-0 w-full p-4 pt-0">
+								<p style={{fontSize: '0.9em'}}
+									className={passwordState.uppercase ? "text-green-400" : "text-red-400"}> {'Uppercase'} </p>
+								<p style={{fontSize: '0.9em'}}
+									className={passwordState.lowercase ? "text-green-400" : "text-red-400"}> {'Lowercase'} </p>
+								<p style={{fontSize: '0.9em'}}
+									className={passwordState.eightCharsOrGreater ? "text-green-400" : "text-red-400"}> {'Characters [' + passwordState.length + '/8]'} </p>
 
-								<p style={{color: 'green'}}> 
-									{
-										passwordState.uppercase && 
-										passwordState.lowercase &&
-										passwordState.eightCharsOrGreater && 
-										( <p>All password requirements meet! You're all set!</p> )
-									}
-								</p>
+								
 							</AccordionContent>
 						</AccordionItem>
 					</Accordion>
