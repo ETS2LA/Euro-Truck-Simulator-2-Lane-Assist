@@ -20,10 +20,10 @@ import useSWR from "swr";
 
 export default function TrafficLightDetection({ ip }: { ip: string }) {
 
-    const screen_x = toast.promise(PluginFunctionCall("TrafficLightDetection", "get_screen", [], {}), { loading: "Loading...", success: "Success", error: "Error" });
-    console.log("tld plugin return value: ", screen_x)
+    {/*const screen_x = toast.promise(PluginFunctionCall("TrafficLightDetection", "get_screen", [], {}), { loading: "Loading...", success: "Success", error: "Error" });
+    console.log("tld plugin return value: ", screen_x)*/}
 
-    const defaultFOV = 80;
+    const defaultFOV = "80";
     const defaultWindowScale = "0.5";
     const defaultPositionEstimationWindowScale = "0.5";
     const defaultColorSettings_urr = 255;
@@ -174,12 +174,13 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     };
 
     const UpdateFOV = async (e:any) => {
-        let newFOV = parseInt((e.target as HTMLInputElement).value);
-        let valid = !isNaN(newFOV);
-        if (valid) { if (newFOV < 1) { newFOV = 1; } if (newFOV > 999) { newFOV = 999; } }
-        toast.promise(SetSettingByKey("TrafficLightDetection", "FOV", valid ? newFOV : defaultFOV, ip), {
+        let newFOV = String(e).replace(/\./g, ".");
+        if (newFOV.includes(".") && newFOV.substring(newFOV.indexOf(".") + 1).length > 1) { return; }
+        let valid = !isNaN(parseFloat(newFOV));
+        if (valid) { if (parseFloat(newFOV) < 10) { newFOV = "10"; } if (parseFloat(newFOV) > 180) { newFOV = "180"; } }
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FOV", valid ? parseFloat(newFOV) : parseFloat(defaultFOV), ip), {
             loading: "Saving...",
-            success: "Set value to " + newFOV,
+            success: "Set value to " + parseFloat(newFOV),
             error: "Failed to save"
         });
         setFOV(newFOV);
@@ -206,10 +207,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     };
 
     const UpdateWindowScale = async (e:any) => {
-        let newWindowScale = (e.target as HTMLInputElement).value;
+        let newWindowScale = String(e).replace(/\./g, ".");
+        if (newWindowScale.includes(".") && newWindowScale.substring(newWindowScale.indexOf(".") + 1).length > 2) { return; }
         let valid = !isNaN(parseFloat(newWindowScale));
-        if (valid) { if (parseFloat(newWindowScale) < 0.1) { newWindowScale = "0.1"; } if (parseFloat(newWindowScale) > 9.9) { newWindowScale = "9.9"; } }
-        toast.promise(SetSettingByKey("TrafficLightDetection", "WindowScale", valid ? parseFloat(newWindowScale) : defaultWindowScale, ip), {
+        if (valid) { if (parseFloat(newWindowScale) < 0.1) { newWindowScale = "0.1"; } if (parseFloat(newWindowScale) > 9.99) { newWindowScale = "9.99"; } }
+        toast.promise(SetSettingByKey("TrafficLightDetection", "WindowScale", valid ? parseFloat(newWindowScale) : parseFloat(defaultWindowScale), ip), {
             loading: "Saving...",
             success: "Set value to " + parseFloat(newWindowScale),
             error: "Failed to save"
@@ -621,66 +623,52 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsList>
                 <TabsContent value="general">
 
-                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', top: '46px', left: '-227px', right: '2.5pt' }}>
 
                         {YellowLightDetection !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
                             <Switch id="yellowlightdetection" checked={YellowLightDetection} onCheckedChange={UpdateYellowLightDetection} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                                <Label htmlFor="yellowlightdetection" className="font-bold">
-                                    Yellow Light Detection (not recommended)
-                                </Label>
-                                <Label htmlFor="yellowlightdetection">
-                                    If enabled, the traffic light detection tries to detect yellow traffic lights, but it is not recommended because it causes more wrong detected traffic lights.
-                                </Label>
-                            </div>
+                            <Label htmlFor="yellowlightdetection">
+                                <span className="font-bold">Yellow Light Detection (not recommended)</span><br />
+                                If enabled, the traffic light detection tries to detect yellow traffic lights, but it is not recommended because it causes more wrong detected traffic lights.
+                            </Label>
                         </div>
                         )}
 
                         {PerformanceMode !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative', top: '30px' }}>
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
                             <Switch id="performancemode" checked={PerformanceMode} onCheckedChange={UpdatePerformanceMode} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                                <Label htmlFor="performancemode" className="font-bold">
-                                    Performance Mode (recommended)
-                                </Label>
-                                <Label htmlFor="performancemode">
-                                    If enabled, the traffic light detection only detects red traffic lights, which increases performance, but does not reduce detection accuracy.
-                                </Label>
-                            </div>
+                            <Label htmlFor="performancemode">
+                                <span className="font-bold">Performance Mode</span><br />
+                                If enabled, the traffic light detection only detects red traffic lights, which increases performance, but does not reduce detection accuracy.
+                            </Label>
                         </div>
                         )}
 
                         {AdvancedSettings !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative', top: '40px' }}>
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
                             <Switch id="advancedsettings" checked={AdvancedSettings} onCheckedChange={UpdateAdvancedSettings} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                                <Label htmlFor="advancedsettings" className="font-bold">
-                                    Advanced Settings
-                                </Label>
-                                <Label htmlFor="advancedsettings">
-                                    If enabled, the traffic light detection uses the settings you set in the Advanced tab. (could have a bad impact on performance)
-                                </Label>
-                            </div>
+                            <Label htmlFor="advancedsettings">
+                                <span className="font-bold">Advanced Settings</span><br />
+                                If enabled, the traffic light detection uses the settings you set in the Advanced tab. (could have a bad impact on performance)
+                            </Label>
                         </div>
                         )}
-                        <div className="flex flex-row" style={{ position: 'relative', top: '32px', left: '44px' }}>
+                        <div className="flex flex-row items-center text-left gap-2 pt-0" style={{ position: 'relative', top: '-10px' }}>
                             <Button variant={'destructive'} onClick={() => {setResetSymbol(true); setTimeout(() => {setResetSymbol(false);}, 1000); ResetAdvancedSettingsToDefault();}}>
                                 Reset Advanced Settings to Default
                             </Button>
                             {ResetSymbol && (
-                                <div style={{ position: 'relative', top: '6px', left: '5px' }} className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
+                                <div style={{ position: 'relative', top: '0px', left: '0px' }} className="h-6 w-6 animate-spin rounded-full border-4 border-t-transparent border-primary"></div>
                             )}
                         </div>
 
                         {FOV !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative', top: '46px' }}>
-                            <Input placeholder={String(defaultFOV)} id="fov" value={!isNaN(FOV) ? FOV : ''}  onChangeCapture={(e) => UpdateFOV(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                                <Label htmlFor="fov" className="font-bold">
-                                    FOV
-                                </Label>
+                        <div>
+                            <div className="flex flex-row items-center text-left gap-2 pt-2" style={{ position: 'relative', top: '-6px' }}>
+                            <Input placeholder={String(defaultFOV)} id="fov" type="number" step="1" value={!isNaN(parseFloat(FOV)) ? FOV : ''}  onChangeCapture={(e) => UpdateFOV((e.target as HTMLInputElement).value)} style={{ width: '75px' }}/>
                                 <Label htmlFor="fov">
+                                    <span className="font-bold">FOV</span><br />
                                     You need to set the field of view for the position estimation to work. You can find the FOV in the game by pressing F4, then selecting "Adjust seats".
                                 </Label>
                             </div>
@@ -695,44 +683,34 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="outputwindow">
 
-                <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
+                <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', top: '46px', left: '-227px', right: '2.5pt' }}>
 
                     {FinalWindow !== undefined && (
-                    <div className="flex flex-row" style={{ position: 'relative', top: '20px' }}>
+                    <div className="flex flex-row items-center text-left gap-2 pt-2">
                         <Switch id="finalwindow" checked={FinalWindow} onCheckedChange={UpdateFinalWindow} />
-                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                            <Label htmlFor="finalwindow" className="font-bold">
-                                Final Window
-                            </Label>
-                            <Label htmlFor="finalwindow">
-                                If enabled, the app creates a window with the result of the traffic light detection.
-                            </Label>
-                        </div>
+                        <Label htmlFor="finalwindow">
+                            <span className="font-bold">Final Window</span><br />
+                            If enabled, the app creates a window with the result of the traffic light detection.
+                        </Label>
                     </div>
                     )}
 
                     {GrayscaleWindow !== undefined && (
-                    <div className="flex flex-row" style={{ position: 'relative', top: '30px' }}>
+                    <div className="flex flex-row items-center text-left gap-2 pt-2">
                         <Switch id="grayscalewindow" checked={GrayscaleWindow} onCheckedChange={UpdateGrayscaleWindow} />
-                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                            <Label htmlFor="grayscalewindow" className="font-bold">
-                                Grayscale Window
-                            </Label>
-                            <Label htmlFor="grayscalewindow">
-                                If enabled, the app creates a window with the color masks combined in a grayscaled frame.
-                            </Label>
-                        </div>
+                        <Label htmlFor="grayscalewindow">
+                            <span className="font-bold">Grayscale Window</span><br />
+                            If enabled, the app creates a window with the color masks combined in a grayscaled frame.
+                        </Label>
                     </div>
                     )}
 
                     {WindowScale !== undefined && (
-                    <div className="flex flex-row" style={{ position: 'relative', top: '40px' }}>
-                        <Input placeholder={String(defaultWindowScale)} id="windowscale" value={!isNaN(parseFloat(WindowScale)) ? WindowScale : ''}  onChangeCapture={(e) => UpdateWindowScale(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
-                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                            <Label htmlFor="windowscale" className="font-bold">
-                                Window Scale
-                            </Label>
+                    <div>
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
+                        <Input placeholder={String(defaultWindowScale)} id="windowscale" type="number" step="0.01" value={!isNaN(parseFloat(WindowScale)) ? WindowScale : ''}  onChangeCapture={(e) => UpdateWindowScale((e.target as HTMLInputElement).value)} style={{ width: '75px' }}/>
                             <Label htmlFor="windowscale">
+                                <span className="font-bold">Window Scale</span><br />
                                 Sets the size of the output windows.
                             </Label>
                         </div>
@@ -740,27 +718,21 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                     )}
 
                     {PositionEstimationWindow !== undefined && (
-                    <div className="flex flex-row" style={{ position: 'relative', top: '50px' }}>
+                    <div className="flex flex-row items-center text-left gap-2 pt-2">
                         <Switch id="positionestimationwindow" checked={PositionEstimationWindow} onCheckedChange={UpdatePositionEstimationWindow} />
-                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                            <Label htmlFor="positionestimationwindow" className="font-bold">
-                                Position Estimation Window
-                            </Label>
-                            <Label htmlFor="positionestimationwindow">
-                                If enabled, the app creates a window which shows the estimated position of the traffic light.
-                            </Label>
-                        </div>
+                        <Label htmlFor="positionestimationwindow">
+                            <span className="font-bold">Position Estimation Window</span><br />
+                            If enabled, the app creates a window which shows the estimated position of the traffic light.
+                        </Label>
                     </div>
                     )}
 
                     {PositionEstimationWindowScale !== undefined && (
-                    <div className="flex flex-row" style={{ position: 'relative', top: '60px' }}>
-                        <Input placeholder={String(defaultPositionEstimationWindowScale)} id="windowscale" value={!isNaN(parseFloat(PositionEstimationWindowScale)) ? PositionEstimationWindowScale : ''}  onChangeCapture={(e) => UpdatePositionEstimationWindowScale(e)} style={{ height: '26px', width: '50px', textAlign: 'center' }} />
-                        <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                            <Label htmlFor="windowscale" className="font-bold">
-                                Position Estimation Window Scale
-                            </Label>
-                            <Label htmlFor="windowscale">
+                    <div>
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
+                        <Input placeholder={String(defaultPositionEstimationWindowScale)} id="positionestimationwindowscale" type="number" step="0.01" value={!isNaN(parseFloat(PositionEstimationWindowScale)) ? PositionEstimationWindowScale : ''}  onChangeCapture={(e) => UpdatePositionEstimationWindowScale((e.target as HTMLInputElement).value)} style={{ width: '75px' }}/>
+                            <Label htmlFor="positionestimationwindowscale">
+                                <span className="font-bold">Position Estimation Window Scale</span><br />
                                 Sets the size of the position estimation window.
                             </Label>
                         </div>
@@ -772,38 +744,30 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                 </TabsContent>
                 <TabsContent value="trackerai">
 
-                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
+                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', top: '46px', left: '-227px', right: '2.5pt' }}>
 
                         {ConfirmDetectedTrafficLightswithAI !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative',top: '20px' }}>
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
                             <Switch id="confirmdetectedtrafficlightswithai" checked={ConfirmDetectedTrafficLightswithAI} onCheckedChange={UpdateConfirmDetectedTrafficLightswithAI} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                                <Label htmlFor="confirmdetectedtrafficlightswithai" className="font-bold">
-                                    Confirmed Detected Traffic Lights with AI
-                                </Label>
-                                <Label htmlFor="confirmdetectedtrafficlightswithai">
-                                    If enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection. This reduces false detections and increases accuracy.
-                                </Label>
-                            </div>
+                            <Label htmlFor="confirmdetectedtrafficlightswithai">
+                                <span className="font-bold">Confirmed Detected Traffic Lights with AI</span><br />
+                                If enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection. This reduces false detections and increases accuracy.
+                            </Label>
                         </div>
                         )}
 
                         {ShowUnconfirmedTrafficLights !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative', top: '30px' }}>
+                            <div className="flex flex-row items-center text-left gap-2 pt-2">
                             <Switch id="showunconfirmedtrafficlights" checked={ShowUnconfirmedTrafficLights} onCheckedChange={UpdateShowUnconfirmedTrafficLights} />
-                            <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '-2px' }}>
-                                <Label htmlFor="showunconfirmedtrafficlights" className="font-bold">
-                                    Show Unconfirmed Traffic Lights
-                                </Label>
-                                <Label htmlFor="showunconfirmedtrafficlights">
-                                    If enabled, the app will show unconfirmed or wrongly detected traffic lights in gray in the output window.
-                                </Label>
-                            </div>
+                            <Label htmlFor="showunconfirmedtrafficlights">
+                                <span className="font-bold">Show Unconfirmed Traffic Lights</span><br />
+                                If enabled, the app will show unconfirmed or wrongly detected traffic lights in gray in the output window.
+                            </Label>
                         </div>
                         )}
 
                         {YOLOModel !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative', top: '38px', left: '-8px' }}>
+                        <div className="flex flex-row" style={{ position: 'relative', top: '8px', left: '-8px' }}>
                             <div className="flex flex-col items-start pl-2 text-left gap-2">
                                 <Label className="font-bold">
                                     YOLO Model
@@ -847,7 +811,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         
                         <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '0px', right: '2.5pt' }}>
 
-                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '-5px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '10px', left: '-5px' }}>
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label>
                                         You can set your own RGB color thresholds for the detection of traffic lights here.<br />Don't forget to enable Advanced Settings in the General tab to use your own color thresholds.
@@ -856,7 +820,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             </div>
 
                             {ColorSettings_urr !== undefined && ColorSettings_urg !== undefined && ColorSettings_urb !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '27px', left: '-5px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '25px', left: '-5px' }}>
                                 
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label style={{ position: 'relative' }}>
@@ -889,7 +853,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {ColorSettings_lrr !== undefined && ColorSettings_lrg !== undefined && ColorSettings_lrb !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '17px', left: '-5px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '15px', left: '-5px' }}>
                                 
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label style={{ position: 'relative' }}>
@@ -922,7 +886,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {ColorSettings_uyr !== undefined && ColorSettings_uyg !== undefined && ColorSettings_uyb !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '13px', left: '-5px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '11px', left: '-5px' }}>
                                 
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label style={{ position: 'relative' }}>
@@ -955,7 +919,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {ColorSettings_lyr !== undefined && ColorSettings_lyg !== undefined && ColorSettings_lyb !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '3px', left: '-5px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '1px', left: '-5px' }}>
                                 
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label style={{ position: 'relative' }}>
@@ -988,7 +952,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {ColorSettings_ugr !== undefined && ColorSettings_ugg !== undefined && ColorSettings_ugb !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '-1px', left: '-5px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '-3px', left: '-5px' }}>
                                 
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label style={{ position: 'relative' }}>
@@ -1021,7 +985,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {ColorSettings_lgr !== undefined && ColorSettings_lgg !== undefined && ColorSettings_lgb !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '-11px', left: '-5px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '-13px', left: '-5px' }}>
                                 
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label style={{ position: 'relative' }}>
@@ -1053,7 +1017,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             </div>
                             )}
                             
-                            <div className="flex flex-row" style={{ position: 'relative', left: '3px', top: '-13px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', left: '3px', top: '-14px' }}>
                                 <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }} onClick={() => {setResetSymbol(true); setTimeout(() => {setResetSymbol(false);}, 1000); ResetColorsToDefault();}}>
                                     Reset all values to default.
                                 </Button>
@@ -1069,7 +1033,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
                         <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '0px', right: '2.5pt' }}>
 
-                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '-5px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '10px', left: '-5px' }}>
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label>
                                         You can enable or disable the filters the detection uses to detect traffic lights.<br />Don't forget to enable Advanced Settings in the General tab to use these settings.
@@ -1078,7 +1042,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             </div>
 
                             {FiltersContourSizeFilter !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '3px' }}>
                                 <Switch id="filterscontoursizefilter" checked={FiltersContourSizeFilter} onCheckedChange={UpdateFiltersContourSizeFilter} />
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label htmlFor="filterscontoursizefilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
@@ -1089,7 +1053,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {FiltersWidthHeightRatioFilter !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '3px' }}>
                                 <Switch id="filterswidthheightratiofilter" checked={FiltersWidthHeightRatioFilter} onCheckedChange={UpdateFiltersWidthHeightRatioFilter} />
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label htmlFor="filterswidthheightratiofilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
@@ -1100,7 +1064,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {FiltersPixelPercentageFilter !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '3px' }}>
                                 <Switch id="filterspixelpercentagefilter" checked={FiltersPixelPercentageFilter} onCheckedChange={UpdateFiltersPixelPercentageFilter} />
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label htmlFor="filterspixelpercentagefilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
@@ -1111,7 +1075,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {FiltersOtherLightsFilter !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '3px' }}>
                                 <Switch id="filtersotherlightsfilter" checked={FiltersOtherLightsFilter} onCheckedChange={UpdateFiltersOtherLightsFilter} />
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
                                     <Label htmlFor="filtersotherlightsfilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
@@ -1122,7 +1086,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {FiltersMinimalTrafficLightSize !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '3px' }}>
                                 <Input placeholder={String(defaultFiltersMinimalTrafficLightSize)} id="filtersminimaltrafficlightsize" value={!isNaN(FiltersMinimalTrafficLightSize) ? FiltersMinimalTrafficLightSize : ''}  onChangeCapture={(e) => UpdateFiltersMinimalTrafficLightSize(e)} style={{ width: '50px', height: '26px', textAlign: 'center' }} />
                                 <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '7px' }}>
                                     <Label htmlFor="filtersminimaltrafficlightsize" className="font-bold">
@@ -1133,7 +1097,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             )}
 
                             {FiltersMaximalTrafficLightSize !== undefined && (
-                            <div className="flex flex-row" style={{ position: 'relative', top: '30px', left: '3px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '3px' }}>
                                 <Input placeholder={String(defaultFiltersMaximalTrafficLightSize)} id="filtersmaximaltrafficlightsize" value={!isNaN(FiltersMaximalTrafficLightSize) ? FiltersMaximalTrafficLightSize : ''}  onChangeCapture={(e) => UpdateFiltersMaximalTrafficLightSize(e)} style={{ width: '50px', height: '26px', textAlign: 'center' }} />
                                 <div className="flex flex-col items-start pl-2 text-left gap-2" style={{ position: 'relative', top: '7px' }}>
                                     <Label htmlFor="filtersmaximaltrafficlightsize" className="font-bold">
@@ -1142,7 +1106,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                                 </div>
                             </div>
                             )}
-                            <div className="flex flex-row" style={{ position: 'relative', top: '42px', left: '3px' }}>
+                            <div className="flex flex-row" style={{ position: 'relative', top: '32px', left: '3px' }}>
                                 <Button variant={"destructive"} style={{ height: '100%', textAlign: 'left' }} onClick={() => {setResetSymbol(true); setTimeout(() => {setResetSymbol(false);}, 1000); ResetFiltersToDefault();}}>
                                     Reset all values to default.
                                 </Button>
