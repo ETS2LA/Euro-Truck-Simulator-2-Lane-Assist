@@ -57,7 +57,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const [YellowLightDetection, setYellowLightDetection] = useState<boolean | undefined>(undefined);
     const [PerformanceMode, setPerformanceMode] = useState<boolean | undefined>(undefined);
     const [AdvancedSettings, setAdvancedSettings] = useState<boolean | undefined>(undefined);
-    const [FOV, setFOV] = useState<number | undefined>(undefined);
+    const [FOV, setFOV] = useState<string | undefined>(undefined);
 
     const [FinalWindow, setFinalWindow] = useState<boolean | undefined>(undefined);
     const [GrayscaleWindow, setGrayscaleWindow] = useState<boolean | undefined>(undefined);
@@ -669,7 +669,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {FOV !== undefined && (
                         <div>
                             <div className="flex flex-row items-center text-left gap-2 pt-2" style={{ position: 'relative', top: '-6px' }}>
-                            <Input placeholder={String(defaultFOV)} id="fov" type="number" step="1" value={!isNaN(parseFloat(FOV)) ? FOV : ''}  onChangeCapture={(e) => UpdateFOV((e.target as HTMLInputElement).value)} style={{ width: '75px' }}/>
+                            <Input placeholder={String(defaultFOV)} id="fov" type="number" step="1" value={!isNaN(parseFloat(FOV)) ? FOV : ''}  onChange={(e) => UpdateFOV((e.target as HTMLInputElement).value)} style={{ width: '75px' }}/>
                                 <Label htmlFor="fov">
                                     <span className="font-bold">FOV</span><br />
                                     You need to set the field of view for the position estimation to work. You can find the FOV in the game by pressing F4, then selecting "Adjust seats".
