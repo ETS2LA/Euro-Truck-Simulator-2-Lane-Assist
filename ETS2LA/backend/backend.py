@@ -1,4 +1,5 @@
 import multiprocessing
+import multiprocessing.connection
 import ETS2LA.frontend.immediate as immediate
 from ETS2LA.plugins.runner import PluginRunner
 import threading
@@ -24,7 +25,8 @@ class PluginRunnerController():
         self.functionQueue = multiprocessing.JoinableQueue()
         self.eventQueue = multiprocessing.JoinableQueue()
         self.immediateQueue = multiprocessing.JoinableQueue()
-        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.functionQueue, self.eventQueue, self.immediateQueue, ), daemon=True)
+        self.returnPipe, pluginReturnPipe = multiprocessing.Pipe()
+        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.functionQueue, pluginReturnPipe, self.eventQueue, self.immediateQueue, ), daemon=True)
         self.runner.start()
         self.process = self.runner.pid
         self.process_info = []
@@ -171,52 +173,70 @@ def CallPluginFunction(plugin, function, args, kwargs):
         kwargs.pop("timeout")
     else:
         timeout = 5
+        
+    def WaitQueue():
+        runners[plugin].functionQueue.join()
+        
     try:
         if plugin in runners:
             runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
-            # Wait for the answer
-            startTime = time.time()
-            while time.time() - startTime < timeout:
-                try: data = runners[plugin].functionQueue.get()
-                except: 
-                    logging.error(f"Plugin {plugin} crashed while running function {function}, please check it's logs.")
-                    return False
-                if data == {"function": function, "args": args, "kwargs": kwargs}:
-                    runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
-                    time.sleep(0.01)
-                else:
-                    return data
-            return True
+            
+            # Create a separate thread to call join()
+            t = threading.Thread(target=WaitQueue, daemon=True)
+            t.start()
+            t.join(timeout=timeout)  
+            
+            # Check if the thread is still alive (i.e., if the join() method timed out)
+            if t.is_alive():
+                logging.info(f"Plugin {plugin} took too long to respond.")
+                del t # Delete the thread
+                return False
+            
+            if runners[plugin].returnPipe.poll(timeout=5):
+                data = runners[plugin].returnPipe.recv()
+            else:
+                logging.info(f"Plugin {plugin} completed with no data.")
+                data = True
+            return data
         else:
             logging.info(f"Plugin {plugin} is not enabled. Enabling temporarily to run the function.")
             AddPluginRunner(plugin, temporary=True) # Add a temp runner to load the code
-            time.sleep(0.5)
-            runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
-            # Wait for the answer
             startTime = time.time()
-            while time.time() - startTime < timeout:
-                if plugin in runners:
-                    try: data = runners[plugin].functionQueue.get()
-                    except:
+            while True:
+                try:
+                    runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
+                    break
+                except:
+                    if startTime - time.time() > timeout:
                         RemovePluginRunner(plugin)
-                        logging.error(f"Plugin {plugin} crashed while running function {function}, please check it's logs.")
+                        logging.info(f"Plugin {plugin} is taking too long to start or was called multiple times.")
                         return False
-                    if data == {"function": function, "args": args, "kwargs": kwargs}:
-                        runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
-                        time.sleep(0.01)
-                    else:            
-                        RemovePluginRunner(plugin)
-                        logging.info(f"Plugin {plugin} removed after running function and returning data.")
-                        return data
-                else:
-                    time.sleep(0.01)
+                    
+            # Create a separate thread to call join()
+            t = threading.Thread(target=WaitQueue, daemon=True)
+            t.start()
+            t.join(timeout=timeout)  
             
-            RemovePluginRunner(plugin)
-            logging.info(f"Plugin {plugin} removed after running function and hitting timeout.")
-            return True
+            # Check if the thread is still alive (i.e., if the join() method timed out)
+            if t.is_alive():
+                RemovePluginRunner(plugin)
+                logging.info(f"Plugin {plugin} took too long to respond.")
+                del t # Delete the thread
+                return False
+            
+            if runners[plugin].returnPipe.poll(timeout=5):
+                data = runners[plugin].returnPipe.recv()
+            else:
+                logging.info(f"Plugin {plugin} completed with no data.")
+                data = True
+            try: RemovePluginRunner(plugin)
+            except: pass
+            logging.info(f"Plugin {plugin} has been removed after returning data successfully.")
+            return data
     except:
         import traceback
         traceback.print_exc()
+        RemovePluginRunner(plugin)
         return False
     
 def CallEvent(event, args, kwargs):

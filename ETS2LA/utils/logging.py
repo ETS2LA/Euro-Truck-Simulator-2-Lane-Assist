@@ -41,7 +41,7 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
     # Remove the default handler
     logging.getLogger().handlers = []
     logging.getLogger().addHandler(logging.NullHandler())
-    logging.getLogger().setLevel(logging.INFO)
+    logging.getLogger().setLevel(logging.DEBUG)
     
     # Print levels in color
     logging.addLevelName(logging.DEBUG, f"{DARK_GREY}[DBG]{END}")
@@ -70,7 +70,7 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
             os.remove(filepath)
         # Write the logs to a file
         file_handler = logging.FileHandler(filepath)
-        file_handler.setLevel(logging.DEBUG)
+        file_handler.setLevel(logging.INFO)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         logging.getLogger().addHandler(file_handler)
         

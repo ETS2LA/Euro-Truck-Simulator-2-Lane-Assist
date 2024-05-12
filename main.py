@@ -28,8 +28,8 @@ def CountErrorsAndWarnings():
         if file.endswith(".log"):
             with open(os.path.join(LOG_FILE_FOLDER, file), "r") as f:
                 content = f.read()
-                errors = content.count("ERROR")
-                warnings = content.count("WARNING")
+                errors = content.count("ERR")
+                warnings = content.count("WRN")
                 if errors != 0 or warnings != 0:
                     print()
                     print(f"{DARK_GRAY}┌─── {file}{NORMAL}")

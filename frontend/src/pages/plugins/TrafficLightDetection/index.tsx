@@ -20,9 +20,6 @@ import useSWR from "swr";
 
 export default function TrafficLightDetection({ ip }: { ip: string }) {
 
-    {/*const screen_x = toast.promise(PluginFunctionCall("TrafficLightDetection", "get_screen", [], {}), { loading: "Loading...", success: "Success", error: "Error" });
-    console.log("tld plugin return value: ", screen_x)*/}
-
     const defaultFOV = "80";
     const defaultWindowScale = "0.5";
     const defaultPositionEstimationWindowScale = "0.5";
@@ -48,6 +45,12 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const defaultFiltersMaximalTrafficLightSize = 300;
 
     const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
+    const {data: data2, error: error2, isLoading: isLoading2} = useSWR("TrafficLightDetection.get_screen", () => PluginFunctionCall("TrafficLightDetection", "get_screen", [], {}));
+    if(!isLoading2 && data2) {
+        console.log(data2);
+    } else {
+        console.log("No data returned from get_screen");
+    }
 
     const [ResetSymbol, setResetSymbol] = useState<boolean>(false);
 

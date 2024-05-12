@@ -3,12 +3,13 @@ import logging
 import os
 import importlib
 import multiprocessing
+from multiprocessing.connection import Connection
 import threading
 from ETS2LA.utils.logging import *
 import json
 from types import SimpleNamespace
 class PluginRunner():
-    def __init__(self, pluginName, temporary, queue:multiprocessing.Queue, functionQueue:multiprocessing.Queue, eventQueue:multiprocessing.Queue, immediateQueue:multiprocessing.Queue):
+    def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
         # Initialize the logger
         SetupProcessLogging(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), console_level=logging.WARNING)
         logging.info(f"PluginRunner: Starting plugin {pluginName}")
@@ -16,6 +17,7 @@ class PluginRunner():
         # Save the values to the class
         self.q = queue
         self.fq = functionQueue
+        self.frp = returnPipe
         self.eq = eventQueue
         self.iq = immediateQueue
         self.enableTime = time.time()
@@ -90,7 +92,7 @@ class PluginRunner():
             if type(data) == type(None):
                 time.sleep(0.00001)
                 continue
-            if "function" in data:
+            else:
                 function = data["function"]
                 args = data["args"]
                 kwargs = data["kwargs"]
@@ -98,8 +100,9 @@ class PluginRunner():
                 try:
                     function = getattr(self.plugin, function)
                     data = function(*args, **kwargs)
-                    self.fq.put(data)
-                        
+                    logging.info(f"PluginRunner: Called function {function} in {self.plugin_name} with data {data}")
+                    self.frp.send(data)
+                    self.fq.task_done()
                 except Exception as e:
                     logging.error(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")
 
@@ -134,8 +137,8 @@ class PluginRunner():
     def run(self):
         self.timer = time.time()
         threading.Thread(target=self.functionThread, daemon=True).start()
-        threading.Thread(target=self.eventThread, daemon=True).start()
         while True and not self.temporary: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
+            threading.Thread(target=self.eventThread, daemon=True).start()
             startTime = time.time()
             data = self.plugin.plugin()
             pluginExec = time.time()

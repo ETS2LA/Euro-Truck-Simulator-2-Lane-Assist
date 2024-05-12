@@ -12,9 +12,10 @@ import { toast } from "sonner"
 
 export default function Home() {
     return (
-        <Card className="flex flex-col content-center text-center pt-5 space-y-4 pb-0 h-[calc(100vh-75px)] overflow-auto">
+        <iframe src="https://kanboard.tumppi066.fi/public/board/f91d8a06534f358e3ba459f5c36bd622e0d5bda01de20eba38f64c96d9cc" className="h-[calc(100vh-72px)] w-full rounded-xl shadow-inner shadow-black"/>
+        /*<Card className="flex flex-col content-center text-center pt-5 space-y-4 pb-0 h-[calc(100vh-72px)] overflow-auto">
             <h1>ETS2LA Developemt Home</h1>
-            <Card className="flex flex-col content-center text-center pb-10 mx-10 my-10 h-[calc(100vh-75px)] overflow-auto">
+            <Card className="flex flex-col content-center text-center pb-10 mx-10 my-10 h-[calc(100vh-72px)] overflow-auto">
                 <Tabs defaultValue="Development Updates" className="w-full">
                     <TabsList className="w-full">
                         <TabsTrigger value="Developer Dashboard">Developer Dashboard</TabsTrigger>
@@ -45,6 +46,7 @@ export default function Home() {
                 </Tabs>
             </Card>
         </Card>
+        */
     )
 }
 

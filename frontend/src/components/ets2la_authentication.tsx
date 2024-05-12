@@ -138,7 +138,7 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 
 	return (
 	<div className="w-full lg:grid lg:grid-cols-2 h-full">
-		<div  className="flex items-center justify-center h-[calc(100vh-75px)]">
+		<div  className="flex items-center justify-center h-[calc(100vh-72px)]">
 			<div className="mx-auto grid w-[350px] gap-6">
 				<div className="grid gap-2 text-center">
 					<h1 className="text-3xl font-bold">{usernameAvailable ? "Signup" : "Login"}</h1>

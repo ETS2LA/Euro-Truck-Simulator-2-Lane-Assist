@@ -293,8 +293,6 @@ def Initialize():
 
 
 def get_screen():
-    sct = mss.mss()
-    monitor = sct.monitors[(settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)]
     screen_x = monitor["left"]
     screen_y = monitor["top"]
     screen_width = monitor["width"]

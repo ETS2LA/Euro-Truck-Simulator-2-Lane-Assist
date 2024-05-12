@@ -109,7 +109,6 @@ def Get(plugin, key, default=None):
     # Check that the file exists
     filename = GetFilename(plugin)
     CreateIfNotExists(plugin)
-    
     try:
         if type(key) != list:
             with open(filename) as f:
@@ -123,8 +122,9 @@ def Get(plugin, key, default=None):
                 data = json.load(f)
                 try:
                     for k in key:
-                        data = data[key]
-                except:
+                        data = data[k]
+                    return data
+                except Exception as e:
                     try:
                         success = Set(plugin, key, default)
                         if success == "success":
@@ -133,10 +133,10 @@ def Get(plugin, key, default=None):
                             return None
                     except:
                         return None
-                return data
-                
+                return None
+        
     except Exception as e:
-        print(e)
+        logging.error(e)
         return None
 
 from functools import reduce
