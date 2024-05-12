@@ -109,6 +109,11 @@ export default function Home({ ip }: { ip: string }) {
                             </LineChart>
                         </ResponsiveContainer>
                     )}
+                    {Object.keys(data).length == 0 && (
+                        <div className="flex flex-col items-center justify-center h-full">
+                            <p className="text-zinc-700">There is no data to display. Try enabling a plugin.</p>
+                        </div>
+                    )}
                 </ResizablePanel>
             </ResizablePanelGroup>
         </div>
