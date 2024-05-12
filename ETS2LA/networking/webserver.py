@@ -110,7 +110,6 @@ def get_plugin_setting(plugin: str, key: str):
 
 @app.get("/api/plugins/{plugin}/settings")
 def get_plugin_settings(plugin: str):
-    print(plugin)
     return settings.GetJSON(plugin)
 
 @app.post("/api/controls/{control}/change")

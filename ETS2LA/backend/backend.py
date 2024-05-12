@@ -58,7 +58,7 @@ class PluginRunnerController():
                 size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
                 size += sum([os.path.getsize(os.path.join(root, name)) for name in dirs])
             
-            logging.info(f"Plugin {self.pluginName} has a disk usage of {size} bytes.")
+            # logging.info(f"Plugin {self.pluginName} has a disk usage of {size} bytes.")
         except:
             import traceback
             traceback.print_exc()
@@ -188,14 +188,14 @@ def CallPluginFunction(plugin, function, args, kwargs):
             
             # Check if the thread is still alive (i.e., if the join() method timed out)
             if t.is_alive():
-                logging.info(f"Plugin {plugin} took too long to respond.")
+                logging.info(f"Plugin {plugin} function call took too long to respond.")
                 del t # Delete the thread
                 return False
             
             if runners[plugin].returnPipe.poll(timeout=5):
                 data = runners[plugin].returnPipe.recv()
             else:
-                logging.info(f"Plugin {plugin} completed with no data.")
+                logging.info(f"Plugin {plugin} function call completed with no data.")
                 data = True
             return data
         else:
@@ -209,7 +209,7 @@ def CallPluginFunction(plugin, function, args, kwargs):
                 except:
                     if startTime - time.time() > timeout:
                         RemovePluginRunner(plugin)
-                        logging.info(f"Plugin {plugin} is taking too long to start or was called multiple times.")
+                        logging.info(f"> Failed to start")
                         return False
                     
             # Create a separate thread to call join()
@@ -220,18 +220,18 @@ def CallPluginFunction(plugin, function, args, kwargs):
             # Check if the thread is still alive (i.e., if the join() method timed out)
             if t.is_alive():
                 RemovePluginRunner(plugin)
-                logging.info(f"Plugin {plugin} took too long to respond.")
+                logging.info(f"> Timeout")
                 del t # Delete the thread
                 return False
             
             if runners[plugin].returnPipe.poll(timeout=5):
                 data = runners[plugin].returnPipe.recv()
             else:
-                logging.info(f"Plugin {plugin} completed with no data.")
+                logging.info(f"> Success, but no data")
                 data = True
             try: RemovePluginRunner(plugin)
             except: pass
-            logging.info(f"Plugin {plugin} has been removed after returning data successfully.")
+            logging.info(f"> Success")
             return data
     except:
         import traceback
