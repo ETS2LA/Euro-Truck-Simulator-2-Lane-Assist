@@ -141,6 +141,14 @@ def call_plugin_function(plugin: str, function: str, data: PluginCallData = None
     else:
         return returnData
 
+@app.get("/api/ui/theme/{theme}")
+def set_theme(theme: str):
+    try:
+        from ETS2LA.frontend.webpageExtras.titleAndIcon import color_title_bar
+        color_title_bar(theme)
+        return True
+    except:
+        return False
 
 @app.get("/api/server/ip")
 def get_IP():

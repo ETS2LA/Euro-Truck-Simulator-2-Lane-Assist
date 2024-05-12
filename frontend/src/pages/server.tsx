@@ -95,4 +95,15 @@ async function GetPerformance(ip="localhost") {
     return data
 }
 
-export { GetPerformance, GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }
+async function ColorTitleBar(ip="localhost", theme="dark") {
+    const response = await fetch(`http://${ip}:37520/api/ui/theme/${theme}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+export { ColorTitleBar, GetPerformance, GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }

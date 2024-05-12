@@ -13,7 +13,7 @@ import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp,
     MessageCircleHeart, HelpCircle, Settings, 
     Terminal, ListTodo, Users, TextSearch} from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, 
-    DisablePlugin, EnablePlugin, RestartBackend } from "@/pages/server"
+    DisablePlugin, EnablePlugin, RestartBackend, ColorTitleBar } from "@/pages/server"
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la_immediate_server"
@@ -45,6 +45,15 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
     }
     // Sort the unique characters alphabetically
     uniqueChars.sort();
+
+    const SetThemeColor = (theme: string) => {
+        setTheme(theme)
+        toast.promise(ColorTitleBar(ip, theme), {
+            loading: "Setting theme to " + theme + "...",
+            success: "Theme set to " + theme + "!",
+            error: "Error setting theme to " + theme + "!"
+        })
+    }
 return (
     <Menubar>
     <MenubarMenu>
@@ -136,20 +145,14 @@ return (
             </div>
         </MenubarTrigger>
         <MenubarContent>
-            <MenubarItem onClick={() => setTheme("light")}>
+            <MenubarItem onClick={() => SetThemeColor("light")}>
                 <div className="flex flex-row gap-2 items-center">
                     <Sun className="w-4 h-4"/>Light    
                 </div>
             </MenubarItem>
-            <MenubarItem onClick={() => setTheme("dark")}>
+            <MenubarItem onClick={() => SetThemeColor("dark")}>
                 <div className="flex flex-row gap-2 items-center">
                     <Moon className="w-4 h-4"/>Dark    
-                </div>
-            </MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem onClick={() => setTheme("system")}>
-                <div className="flex flex-row gap-2 items-center">
-                    <SunMoon className="w-4 h-4"/>System    
                 </div>
             </MenubarItem>
         </MenubarContent>
