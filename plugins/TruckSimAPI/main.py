@@ -113,6 +113,10 @@ def onEnable():
         API = scsTelemetry()
     
     data = API.update()
+    #try:
+    #    settings.CreateSettings("Game", "Version", f"{data["scsValues"]["versionMajor"]}.{data["scsValues"]["versionMinor"]}")
+    #except:
+    #    pass
 
 def onDisable():
     global popup

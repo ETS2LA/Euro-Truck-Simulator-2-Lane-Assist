@@ -725,8 +725,8 @@ while True:
             CreateSettings("NavigationDetection", "arrow_bottomright", (arrow_x2, arrow_y2))
 
             frame = temp_screenshot[arrow_y1:arrow_y2, arrow_x1:arrow_x2]
-            lower_blue = np.array([180, 100, 0])
-            upper_blue = np.array([255, 200, 50])
+            lower_blue = np.array([120, 65, 0])
+            upper_blue = np.array([255, 200, 110])
             mask_blue = cv2.inRange(frame, lower_blue, upper_blue)
             arrow_height, arrow_width = mask_blue.shape[:2]
             pixel_ratio = round(cv2.countNonZero(mask_blue) / (arrow_width * arrow_height), 3)

@@ -1,1 +1,1 @@
-Update the NavigationDetection code to work with the new 1.50 version of the game.
+Quick fix to make the NavigationDetection code work with all versions of the game.
