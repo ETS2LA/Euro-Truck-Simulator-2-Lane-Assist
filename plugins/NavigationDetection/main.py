@@ -218,6 +218,23 @@ def LoadSettings():
 LoadSettings()
 
 
+def get_text_size(text="NONE", text_width=100, max_text_height=100):
+    fontscale = 1
+    textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+    width_current_text, height_current_text = textsize
+    max_count_current_text = 3
+    while width_current_text != text_width or height_current_text > max_text_height:
+        fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
+        textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+        max_count_current_text -= 1
+        if max_count_current_text <= 0:
+            break
+    thickness = round(fontscale * 2)
+    if thickness <= 0:
+        thickness = 1
+    return text, fontscale, thickness, textsize[0], textsize[1]
+
+
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -637,8 +654,8 @@ def plugin(data):
 
         if check_map == True:
             if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None and map_topleft[0] < map_bottomright[0] and map_topleft[1] < map_bottomright[1] and arrow_topleft[0] < arrow_bottomright[0] and arrow_topleft[1] < arrow_bottomright[1]:
-                lower_blue = np.array([121, 68, 0])
-                upper_blue = np.array([250, 184, 109])
+                lower_blue = np.array([180, 100, 0])
+                upper_blue = np.array([255, 200, 50])
                 mask_blue = cv2.inRange(frame[arrow_topleft[1] - map_topleft[1]:arrow_bottomright[1] - map_bottomright[1], arrow_topleft[0] - map_topleft[0]:arrow_bottomright[0] - map_bottomright[0]], lower_blue, upper_blue)
                 arrow_height, arrow_width = mask_blue.shape[:2]
                 pixel_ratio = round(cv2.countNonZero(mask_blue) / (arrow_width * arrow_height), 3)
@@ -1020,14 +1037,9 @@ def plugin(data):
             turnincoming_detected = False
             turnincoming_direction = None
 
-        allow_trafficlight_symbol = True
-        allow_no_lane_detected = True
-        allow_do_blocked = True
-        allow_do_zoom = True
-        show_turn_line = True
-        
         map_detected = True
-        
+        showing_traffic_light_symbol = False
+
         if valid_setup == False:
             if allow_playsound == True:
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
@@ -1036,34 +1048,17 @@ def plugin(data):
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
             frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            xofinfo = round(width/2)
-            yofinfo = round(height/3.5)
-            sizeofinfo = round(height/5)
-            infothickness = round(height/50)
-            if infothickness < 1:
-                infothickness = 1
-            cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-            cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-            cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (0, 128, 255), height//50, cv2.LINE_AA)
+            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (0, 128, 255), height//35, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (0, 128, 255), -1, cv2.LINE_AA)
 
-            sizeoftext = round(height/200)
-            textthickness = round(height/100)
-            text_size, _ = cv2.getTextSize("Do the", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Do the", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-            text_size, _ = cv2.getTextSize("Setup", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Setup", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+            text, fontscale, thickness, text_width, text_height = get_text_size(text="Do the Setup", text_width=width/1.1, max_text_height=height/10)
+            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 128, 255), thickness, cv2.LINE_AA)
 
             correction = 0
             map_detected = False
-            allow_trafficlight_symbol = False
-            allow_no_lane_detected = False
-            allow_do_blocked = False
-            allow_do_zoom = False
-            show_turn_line = False
 
-        if do_blocked == True and allow_do_blocked == True:
+        elif do_blocked == True:
             if allow_playsound == True:
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
@@ -1071,34 +1066,17 @@ def plugin(data):
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
             frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            xofinfo = round(width/2)
-            yofinfo = round(height/3.5)
-            sizeofinfo = round(height/5)
-            infothickness = round(height/50)
-            if infothickness < 1:
-                infothickness = 1
-            cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-            cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-            cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (0, 128, 255), height//50, cv2.LINE_AA)
+            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (0, 128, 255), height//35, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (0, 128, 255), -1, cv2.LINE_AA)
 
-            sizeoftext = round(height/200)
-            textthickness = round(height/100)
-            text_size, _ = cv2.getTextSize("Minimap vision", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Minimap vision", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-            text_size, _ = cv2.getTextSize("blocked", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "blocked", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+            text, fontscale, thickness, text_width, text_height = get_text_size(text="Minimap covered", text_width=width/1.1, max_text_height=height/10)
+            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 128, 255), thickness, cv2.LINE_AA)
 
             correction = 0
             map_detected = False
-            allow_trafficlight_symbol = False
-            allow_no_lane_detected = False
-            allow_do_blocked = False
-            allow_do_zoom = False
-            show_turn_line = False
 
-        elif do_zoom == True and allow_do_zoom == True:
+        elif do_zoom == True:
             if allow_playsound == True:
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
@@ -1106,31 +1084,17 @@ def plugin(data):
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
             frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            xofinfo = round(width/2)
-            yofinfo = round(height/3.5)
-            sizeofinfo = round(height/5)
-            infothickness = round(height/50)
-            if infothickness < 1:
-                infothickness = 1
-            cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-            cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-            cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (0, 128, 255), height//50, cv2.LINE_AA)
+            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (0, 128, 255), height//35, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (0, 128, 255), -1, cv2.LINE_AA)
 
-            sizeoftext = round(height/200)
-            textthickness = round(height/100)
-            text_size, _ = cv2.getTextSize("Zoom Minimap in", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Zoom Minimap in", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*1.7)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-            
+            text, fontscale, thickness, text_width, text_height = get_text_size(text="Zoom Minimap in", text_width=width/1.1, max_text_height=height/10)
+            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 128, 255), thickness, cv2.LINE_AA)
+
             correction = 0
             map_detected = False
-            allow_trafficlight_symbol = False
-            allow_no_lane_detected = False
-            allow_do_blocked = False
-            allow_do_zoom = False
-            show_turn_line = False
 
-        if width_lane == 0 and allow_no_lane_detected == True:
+        elif width_lane == 0:
             if allow_playsound == True:
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
@@ -1138,64 +1102,50 @@ def plugin(data):
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
             frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            xofinfo = round(width/2)
-            yofinfo = round(height/3.5)
-            sizeofinfo = round(height/5)
-            infothickness = round(height/50)
-            if infothickness < 1:
-                infothickness = 1
-            cv2.circle(frame, (xofinfo,yofinfo), sizeofinfo, (0,127,255), infothickness, cv2.LINE_AA)
-            cv2.line(frame, (xofinfo,round(yofinfo+sizeofinfo/2)), (xofinfo,round(yofinfo-sizeofinfo/10)), (0,127,255), infothickness*2, cv2.LINE_AA)
-            cv2.circle(frame, (xofinfo,round(yofinfo-sizeofinfo/2)), round(infothickness*1.3), (0,127,255), -1, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (0, 128, 255), height//50, cv2.LINE_AA)
+            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (0, 128, 255), height//35, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (0, 128, 255), -1, cv2.LINE_AA)
 
-            sizeoftext = round(height/200)
-            textthickness = round(height/100)
-            text_size, _ = cv2.getTextSize("No Lane", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "No Lane", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
-            text_size, _ = cv2.getTextSize("Detected", cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, textthickness)
-            text_width, text_height = text_size
-            cv2.putText(frame, "Detected", (round(width/2-text_width/2), round(yofinfo+sizeofinfo*1.3+text_height*2.4)), cv2.FONT_HERSHEY_SIMPLEX, sizeoftext, (0,127,255), textthickness, cv2.LINE_AA)
+            text, fontscale, thickness, text_width, text_height = get_text_size(text="No Lane Detected", text_width=width/1.1, max_text_height=height/10)
+            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 128, 255), thickness, cv2.LINE_AA)
 
             correction = 0
             map_detected = False
-            allow_trafficlight_symbol = False
-            allow_no_lane_detected = False
-            allow_do_blocked = False
-            allow_do_zoom = False
-            show_turn_line = False
 
-        showing_traffic_light_symbol = False
-        if trafficlightdetection_is_enabled == True and allow_trafficlight_symbol == True:
-            if trafficlight == "Red":
-                traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] - traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 0, 255), -1, cv2.LINE_AA)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 255), traffic_light_symbol[2])
-                showing_traffic_light_symbol = True
-            if trafficlight == "Yellow":
-                traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1]), traffic_light_symbol[2], (0, 255, 255), -1, cv2.LINE_AA)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 255), traffic_light_symbol[2])
-                showing_traffic_light_symbol = True
-            if trafficlight == "Green":
-                traffic_light_symbol = round(width/2), round(height/5), round(width/75)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
-                cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] + traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 255, 0), -1, cv2.LINE_AA)
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
-                cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 0), traffic_light_symbol[2])
-                showing_traffic_light_symbol = True
-        
-        if allow_trafficlight_symbol == True:
+        else:
+
+            if current_time - 1 > allow_playsound_timer:
+                allow_playsound = True
+
+            if trafficlightdetection_is_enabled == True:
+                if trafficlight == "Red":
+                    traffic_light_symbol = round(width/2), round(height/5), round(width/75)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
+                    cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] - traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 0, 255), -1, cv2.LINE_AA)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 255), traffic_light_symbol[2])
+                    showing_traffic_light_symbol = True
+                if trafficlight == "Yellow":
+                    traffic_light_symbol = round(width/2), round(height/5), round(width/75)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
+                    cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1]), traffic_light_symbol[2], (0, 255, 255), -1, cv2.LINE_AA)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 255), traffic_light_symbol[2])
+                    showing_traffic_light_symbol = True
+                if trafficlight == "Green":
+                    traffic_light_symbol = round(width/2), round(height/5), round(width/75)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 0, 0), -1)
+                    cv2.circle(frame, (traffic_light_symbol[0], traffic_light_symbol[1] + traffic_light_symbol[2] * 2), traffic_light_symbol[2], (0, 255, 0), -1, cv2.LINE_AA)
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2]), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2]), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2], traffic_light_symbol[1] - traffic_light_symbol[2] * 3), (traffic_light_symbol[0] + traffic_light_symbol[2], traffic_light_symbol[1] + traffic_light_symbol[2] * 3), (150, 150, 150), round(traffic_light_symbol[2]/10))
+                    cv2.rectangle(frame, (traffic_light_symbol[0] - traffic_light_symbol[2] * 2, traffic_light_symbol[1] - traffic_light_symbol[2] * 4), (traffic_light_symbol[0] + traffic_light_symbol[2] * 2, traffic_light_symbol[1] + traffic_light_symbol[2] * 4), (0, 255, 0), traffic_light_symbol[2])
+                    showing_traffic_light_symbol = True
+
             if width_lane != 0:
                 cv2.line(frame, (round(left_x_lane + lanechanging_final_offset - offset), left_y_lane), (round(right_x_lane + lanechanging_final_offset - offset), right_y_lane),  (255, 255, 255), 2)
-            if width_turn != 0 and showing_traffic_light_symbol == False and show_turn_line == True:
+            if width_turn != 0 and showing_traffic_light_symbol == False:
                 cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (255, 255, 255), 2)
         
         if lanechanging_do_lane_changing == True or fuel_percentage < 15:
@@ -1259,9 +1209,6 @@ def plugin(data):
                 cv2.putText(frame, current_text, (round(0.01*width), round(0.10*height+height_current_text+height_enabled_text+height_lane_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
             else:
                 cv2.putText(frame, current_text, (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (0, 0, 255), thickness_current_text)
-            
-        if current_time - 1 > allow_playsound_timer and allow_trafficlight_symbol == True and allow_no_lane_detected == True and allow_do_zoom == True and show_turn_line == True:
-            allow_playsound = True
 
         indicator_last_left = indicator_left
         indicator_last_right = indicator_right
@@ -1575,4 +1522,4 @@ class UI():
     except Exception as ex:
         print(ex.args)
 
-# this comment is used to reload the app after finishing the setup - 0
+# this comment is used to reload the app after finishing the setup - 1

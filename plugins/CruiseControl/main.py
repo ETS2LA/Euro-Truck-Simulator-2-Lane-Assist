@@ -409,8 +409,8 @@ def plugin(data):
                 hwnd_active = ctypes.windll.user32.GetForegroundWindow()
                 if hwnd_active == hwnd_ets2 or hwnd_active == hwnd_ats or hwnd_active == hwnd_ets2_multiplayer or hwnd_active == hwnd_ats_multiplayer:
                     if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None and map_topleft[0] < map_bottomright[0] and map_topleft[1] < map_bottomright[1] and arrow_topleft[0] < arrow_bottomright[0] and arrow_topleft[1] < arrow_bottomright[1]:
-                        lower_blue = np.array([121, 68, 0])
-                        upper_blue = np.array([250, 184, 109])
+                        lower_blue = np.array([180, 100, 0])
+                        upper_blue = np.array([255, 200, 50])
                         mask_blue = cv2.inRange(frame[arrow_topleft[1] - map_topleft[1]:arrow_bottomright[1] - map_bottomright[1], arrow_topleft[0] - map_topleft[0]:arrow_bottomright[0] - map_bottomright[0]], lower_blue, upper_blue)
                         arrow_height, arrow_width = mask_blue.shape[:2]
                         pixel_ratio = round(cv2.countNonZero(mask_blue) / (arrow_width * arrow_height), 3)

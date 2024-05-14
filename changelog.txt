@@ -1,1 +1,1 @@
-Fixed a bug in the TrafficLightDetection code.
+Update the NavigationDetection code to work with the new 1.50 version of the game.
