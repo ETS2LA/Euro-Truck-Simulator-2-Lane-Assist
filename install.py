@@ -6,6 +6,11 @@ if __name__ == "__main__":
     import sys
     import importlib.util
 
+    RED = "\033[91m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RESET = "\033[0m"
+
     # Get the path to the requirements.txt file
     requirementsPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "requirements.txt")
     file = open(requirementsPath, "r")
@@ -20,10 +25,12 @@ if __name__ == "__main__":
             print(f"Installing {requirement}...")
             try:
                 os.system(f"pip install {requirement}")
-                print(f"SUCCESS: Installed {requirement}")
+                print(f"{GREEN}SUCCESS: Installed {requirement}{RESET}")
             except:
-                print(f"ERROR: Failed to install {requirement}")
-                print("The plugin might still work, but this is usually not good.")
+                import traceback
+                traceback.print_exc()
+                print(f"{RED}ERROR: Failed to install {requirement}")
+                print(f"{YELLOW}The app might still work, but this is usually not good.{RESET}")
 
     # Get the path to the plugins folder
     pluginsPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plugins")
@@ -42,7 +49,9 @@ if __name__ == "__main__":
             print(f"Running install script for {plugin}")
             try:
                 install.install()
-                print(f"SUCCESS: Ran install script for {plugin}")
+                print(f"{GREEN}SUCCESS: Ran install script for {plugin}{RESET}")
             except:
-                print(f"ERROR: Failed to run install script for {plugin}")
-                print("The plugin might still work, but this is usually not good.")
+                import traceback
+                traceback.print_exc()
+                print(f"{RED}ERROR: Failed to run install script for {plugin}")
+                print(f"{YELLOW}The plugin might still work, but this is usually not good.{RESET}")
