@@ -3,7 +3,6 @@ from tkinter import ttk
 import tkinter as tk
 import src.settings as settings
 import src.translator as translator
-import webview
 import webbrowser
 from tktooltip import ToolTip
 import src.mainUI as mainUI
@@ -348,20 +347,6 @@ def OpenWikiPage(url:str):
     variables.WIKI_URL = "https://wiki.tumppi066.fi/" + url
     mainUI.switchSelectedPlugin("plugins.Wiki.main")
 
-def OpenWebView(title:str, urlOrFile:str, width:int=900, height:int=700):
-    """Will open a webview window with the given parameters.
-
-    Args:
-        title (str): The window title.
-        urlOrFile (str): A URL / File path.
-        width (int, optional): Defaults to 900.
-        height (int, optional): Defaults to 700.
-    """
-    popup = ShowPopup("\nClose the webview to continue...", "Info", timeout=0.1)
-    popup.update(len(popups))
-    mainUI.root.update()
-    webview.create_window(title, urlOrFile, width=width, height=height)
-    webview.start()
 
 def OpenInBrowser(url:str):
     """Will open the given URL in the default browser.
