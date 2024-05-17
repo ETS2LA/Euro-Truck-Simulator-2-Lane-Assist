@@ -135,9 +135,9 @@ def Initialize():
     Steering.SENSITIVITY = 0.65
 
     if 'UseAI' in globals():
-        if UseAI == False and settings.Get("NavigationDetection", "NavigationDetectionAI", False) == True:
+        if UseAI == False and settings.Get("NavigationDetection", "UseNavigationDetectionAI", False) == True:
             LoadAIModel()
-    UseAI = settings.Get("NavigationDetection", "NavigationDetectionAI", False)
+    UseAI = settings.Get("NavigationDetection", "UseNavigationDetectionAI", False)
     UseCUDA = settings.Get("NavigationDetection", "TryCUDA", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
     LoadAILabel = "Loading..."
@@ -1199,6 +1199,8 @@ def plugin():
 
         if speed > 63:
             correction *= 63/speed
+        elif speed < -0.25:
+            correction *= -1
 
         if turnincoming_detected == False and width_turn != 0 and width_turn < width_lane:
             curve = (center_x_lane - center_x_turn)/30
@@ -1213,12 +1215,6 @@ def plugin():
         else:
             lane_detected = True
 
-        if speed > -0.25:
-            data["LaneDetection"] = {}
-            data["LaneDetection"]["difference"] = -correction/30
-        else:
-            data["LaneDetection"] = {}
-            data["LaneDetection"]["difference"] = correction/30
         data["NavigationDetection"] = {}
         data["NavigationDetection"]["lanedetected"] = lane_detected
         data["NavigationDetection"]["turnincoming"] = turnincoming_detected
@@ -1237,61 +1233,62 @@ def plugin():
             global IMG_HEIGHT
 
             try:
-                while AIModelUpdateThread.is_alive(): return
-                while AIModelLoadThread.is_alive(): return
+                while AIModelUpdateThread.is_alive(): return data
+                while AIModelLoadThread.is_alive(): return data
             except:
-                return
+                return data
 
             try:
                 frame = data["frame"]
                 width = frame.shape[1]
                 height = frame.shape[0]
             except:
-                return
+                return data
 
-            if frame is None: return
-            if width == 0 or width == None: return
-            if height == 0 or height == None: return
-            
+            if frame is None: return data
+            if width == 0 or width == None: return data
+            if height == 0 or height == None: return data
+
             if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
                 valid_frame = True
             else:
                 valid_frame = False
-                return
-            
-            cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)),(0, 0, 0), -1)
-            cv2.rectangle(frame, (frame.shape[1], 0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)),(0, 0, 0), -1)
-            lower_red = np.array([160, 0, 0])
-            upper_red = np.array([255, 110, 110])
+                return data
+
+            cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
+            cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
+            lower_red = np.array([0, 0, 160])
+            upper_red = np.array([110, 110, 255])
             mask_red = cv2.inRange(frame, lower_red, upper_red)
             lower_green = np.array([0, 200, 0])
-            upper_green = np.array([150, 255, 230])
+            upper_green = np.array([230, 255, 150])
             mask_green = cv2.inRange(frame, lower_green, upper_green)
             mask = cv2.bitwise_or(mask_red, mask_green)
+            frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
+            frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
 
             try:
-                frame = preprocess_image(mask)
+                AIFrame = preprocess_image(mask)
             except:
                 IMG_WIDTH = GetAIModelProperties()[2][0]
                 IMG_HEIGHT = GetAIModelProperties()[2][1]
                 if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
                     print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
                     console.RestoreConsole()
-                    return
-                frame = preprocess_image(mask)
-            
+                    return data
+                AIFrame = preprocess_image(mask)
+
             output = 0
 
-            if enabled == True:
-                if AIModelLoaded == True:
-                    with torch.no_grad():
-                        output = AIModel(frame)
-                        output = output.item()
-            
+            if AIModelLoaded == True:
+                with torch.no_grad():
+                    output = AIModel(AIFrame)
+                    output = output.item()
+
             output /= -30
-            
-            data["LaneDetection"] = {}
-            data["LaneDetection"]["difference"] = output
+
+            Steering.run(value=correction, sendToGame=enabled)
+            ShowImage.run(frame)
 
         except Exception as e:
             exc = traceback.format_exc()
