@@ -78,7 +78,9 @@ if __name__ == "__main__":
                     os.system("update.bat")
                 else:
                     os.system("sh update.sh")
-                print(GREEN + "ETS2LA needs to be restarted to finish the update." + NORMAL)
+                print(GREEN + "ETS2LA will now restart to update itself..." + NORMAL)
+                # Open a new terminal window to run the updated version of ETS2LA
+                os.system("start python main.py")
                 sys.exit(0)
             
             print(f"ETS2LA has crashed with the following error:")
