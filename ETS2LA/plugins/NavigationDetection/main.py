@@ -1233,27 +1233,27 @@ def plugin():
             global IMG_HEIGHT
 
             try:
-                while AIModelUpdateThread.is_alive(): return data
-                while AIModelLoadThread.is_alive(): return data
+                while AIModelUpdateThread.is_alive(): return
+                while AIModelLoadThread.is_alive(): return
             except:
-                return data
+                return
 
             try:
                 frame = data["frame"]
                 width = frame.shape[1]
                 height = frame.shape[0]
             except:
-                return data
+                return
 
-            if frame is None: return data
-            if width == 0 or width == None: return data
-            if height == 0 or height == None: return data
+            if frame is None: return
+            if width == 0 or width == None: return
+            if height == 0 or height == None: return
 
             if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
                 valid_frame = True
             else:
                 valid_frame = False
-                return data
+                return
 
             cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
             cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
@@ -1275,7 +1275,7 @@ def plugin():
                 if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
                     print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
                     console.RestoreConsole()
-                    return data
+                    return
                 AIFrame = preprocess_image(mask)
 
             output = 0
