@@ -66,6 +66,16 @@ if __name__ == "__main__":
                 print(RED + "ETS2LA is restarting..." + NORMAL)
                 continue
             
+            if e.args[0] == "Update":
+                CloseNode()
+                print(YELLOW + "ETS2LA is updating..." + NORMAL)
+                # Run the update.bat / sh script
+                if os.name == "nt":
+                    os.system("update.bat")
+                else:
+                    os.system("sh update.sh")
+                continue
+            
             print(f"ETS2LA has crashed with the following error:")
             traceback.print_exc()
             error = traceback.format_exc()
