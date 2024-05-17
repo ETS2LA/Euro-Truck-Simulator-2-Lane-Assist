@@ -613,8 +613,8 @@ def plugin():
             return
 
         if frame is None: return
-        if width == 0 or width == None: return
-        if height == 0 or height == None: return
+        if width <= 0 or width == None: return
+        if height <= 0 or height == None: return
         
         if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
             valid_frame = True
@@ -1217,6 +1217,7 @@ def plugin():
 
         data["NavigationDetection"] = {}
         data["NavigationDetection"]["lanedetected"] = lane_detected
+        data["NavigationDetection"]["mapdetected"] = map_detected
         data["NavigationDetection"]["turnincoming"] = turnincoming_detected
         data["NavigationDetection"]["curve"] = curve
         data["NavigationDetection"]["lane"] = lanechanging_current_lane
