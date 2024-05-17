@@ -40,7 +40,7 @@ controls.RegisterKeybind("Lane change to the right",
                          description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
 
 
-def SendCrashReport(): # REMOVE THIS LATER
+def SendCrashReport(arg1="", arg2=""): # REMOVE THIS LATER
     return
 
 def ToggleSteering(state:bool, *args, **kwargs):
@@ -131,12 +131,14 @@ def Initialize():
 
     Steering.OFFSET = 0
     Steering.SMOOTH_TIME = 0.3
-    Steering.IGNORE_SMOOTH = True
+    Steering.IGNORE_SMOOTH = False
     Steering.SENSITIVITY = 0.65
 
     if 'UseAI' in globals():
         if UseAI == False and settings.Get("NavigationDetection", "UseNavigationDetectionAI", False) == True:
             LoadAIModel()
+    elif settings.Get("NavigationDetection", "UseNavigationDetectionAI", False) == True:
+        LoadAIModel()
     UseAI = settings.Get("NavigationDetection", "UseNavigationDetectionAI", False)
     UseCUDA = settings.Get("NavigationDetection", "TryCUDA", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
@@ -223,6 +225,14 @@ def Initialize():
     lanechanging_width = settings.Get("NavigationDetection", "LaneChangeWidth", 10)
     lanechanging_current_lane = 0
     lanechanging_final_offset = 0
+
+
+def manual_setup():
+    subprocess.Popen(["python", os.path.join(variables.PATH, "ETS2LA", "plugins", "NavigationDetection", "manual_setup.py")])
+
+
+def automatic_setup():
+    subprocess.Popen(["python", os.path.join(variables.PATH, "ETS2LA", "plugins", "NavigationDetection", "automatic_setup.py")])
 
 
 def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_height=100):
@@ -812,6 +822,11 @@ def plugin():
         if left_x_turn + lanechanging_final_offset == width:
             left_x_turn = 0
             right_x_turn = 0
+ 
+        left_x_lane = int(left_x_lane)
+        right_x_lane = int(right_x_lane)
+        left_x_turn = int(left_x_turn)
+        right_x_turn = int(right_x_turn)
 
         cv2.line(frame, (left_x_lane, left_y_lane), (right_x_lane, right_y_lane), (255, 255, 255), 2) if left_x_lane != 0 and right_x_lane != 0 else None
         cv2.line(frame, (left_x_turn, y_coordinate_of_turn), (right_x_turn, y_coordinate_of_turn), (255, 255, 255), 2) if left_x_turn != 0 and right_x_turn != 0 else None
@@ -1229,15 +1244,13 @@ def plugin():
         return data["NavigationDetection"]
 
     else:
+
         try:
             global IMG_WIDTH
             global IMG_HEIGHT
 
-            try:
-                while AIModelUpdateThread.is_alive(): return
-                while AIModelLoadThread.is_alive(): return
-            except:
-                return
+            while AIModelUpdateThread.is_alive(): return
+            while AIModelLoadThread.is_alive(): return
 
             try:
                 frame = data["frame"]
@@ -1247,8 +1260,8 @@ def plugin():
                 return
 
             if frame is None: return
-            if width == 0 or width == None: return
-            if height == 0 or height == None: return
+            if width <= 0 or width == None: return
+            if height <= 0 or height == None: return
 
             if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
                 valid_frame = True
@@ -1258,11 +1271,11 @@ def plugin():
 
             cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
             cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
-            lower_red = np.array([0, 0, 160])
-            upper_red = np.array([110, 110, 255])
+            lower_red = np.array([160, 0, 0])
+            upper_red = np.array([255, 110, 110])
             mask_red = cv2.inRange(frame, lower_red, upper_red)
             lower_green = np.array([0, 200, 0])
-            upper_green = np.array([230, 255, 150])
+            upper_green = np.array([150, 255, 230])
             mask_green = cv2.inRange(frame, lower_green, upper_green)
             mask = cv2.bitwise_or(mask_red, mask_green)
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
@@ -1288,7 +1301,7 @@ def plugin():
 
             output /= -30
 
-            Steering.run(value=correction, sendToGame=enabled)
+            Steering.run(value=output, sendToGame=enabled)
             ShowImage.run(frame)
 
         except Exception as e:
@@ -1296,10 +1309,3 @@ def plugin():
             SendCrashReport("NavigationDetection - Running AI Error.", str(exc))
             console.RestoreConsole()
             print("\033[91m" + f"NavigationDetection - Running AI Error: " + "\033[0m" + str(e))
-        
-
-def manual_setup():
-    subprocess.Popen(["python", os.path.join(variables.PATH, "ETS2LA", "plugins", "NavigationDetection", "manual_setup.py")])
-
-def automatic_setup():
-    subprocess.Popen(["python", os.path.join(variables.PATH, "ETS2LA", "plugins", "NavigationDetection", "automatic_setup.py")])
