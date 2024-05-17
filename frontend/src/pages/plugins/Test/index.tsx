@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import useSWR from "swr";
 import {toast} from "sonner";
 import {useEffect, useState} from "react";
-import { PluginFunctionCall } from "@/pages/server";
+import { PluginFunctionCall } from "@/pages/backend";
 
 export default function Home({ ip }: { ip: string }) {
 

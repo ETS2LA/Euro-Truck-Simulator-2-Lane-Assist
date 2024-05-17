@@ -1,5 +1,5 @@
 import { ScrollArea } from "./ui/scroll-area"
-import { GetPlugins } from "@/pages/server"
+import { GetPlugins } from "@/pages/backend"
 import useSWR from "swr"
 import { useRouter } from "next/router"
 import { SkeletonCard } from "./skeleton_card"
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/accordion"
 import { Separator } from "./ui/separator"
 import { Button } from "./ui/button"
-import { EnablePlugin, DisablePlugin } from "@/pages/server"
+import { EnablePlugin, DisablePlugin } from "@/pages/backend"
 import { toast } from "sonner"
 import { Badge } from "./ui/badge"
 

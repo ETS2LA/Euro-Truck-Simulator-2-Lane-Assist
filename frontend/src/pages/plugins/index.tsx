@@ -25,7 +25,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 import { toast } from "sonner"
 import useSWR from "swr"
-import { GetPlugins, EnablePlugin, DisablePlugin } from "../server"
+import { GetPlugins, EnablePlugin, DisablePlugin } from "../backend"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/router"

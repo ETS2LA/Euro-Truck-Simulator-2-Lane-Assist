@@ -8,6 +8,7 @@ websockets
 pywebview
 gitpython
 dearpygui
+keyboard
 requests
 pywin32
 fastapi

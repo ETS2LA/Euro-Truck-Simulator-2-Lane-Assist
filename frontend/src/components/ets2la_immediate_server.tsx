@@ -4,7 +4,7 @@ import { useState } from "react";
 import {toast} from "sonner"
 import { Badge } from "./ui/badge"
 import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff } from "lucide-react";
-import { CheckForUpdate, Update } from "@/pages/server";
+import { CheckForUpdate, Update } from "@/pages/backend";
 import useSWR from "swr";
 
 let socket: WebSocket;

@@ -14,7 +14,7 @@ import {
 
 import { usePathname } from "next/navigation";
 import * as React from "react"  
-import { GetPlugins, EnablePlugin, DisablePlugin } from "@/pages/server";
+import { GetPlugins, EnablePlugin, DisablePlugin } from "@/pages/backend";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { toast } from "sonner";

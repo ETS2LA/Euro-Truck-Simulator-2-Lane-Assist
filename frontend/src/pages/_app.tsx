@@ -5,7 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { ETS2LAMenubar } from "@/components/ets2la_menubar";
 import { ETS2LACommandMenu } from '@/components/ets2la_command_menu';
-import { GetIP } from "./server";
+import { GetIP } from "./backend";
 import { Toaster } from "@/components/ui/sonner"
 import { Badge } from '@/components/ui/badge';
 import { Unplug, Ellipsis } from 'lucide-react';
@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/context-menu"
 import { useRouter } from 'next/navigation';
 import { useRouter as routerUseRouter } from 'next/router';
-import { token, setToken } from './server';
+import { token, setToken } from './backend';
 
 const inter = Inter({ subsets: ["latin"] });
 

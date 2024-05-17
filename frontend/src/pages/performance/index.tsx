@@ -18,7 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 import { toast } from "sonner"
 import useSWR from "swr"
-import { GetFrametimes, GetPerformance } from "../server"
+import { GetFrametimes, GetPerformance } from "../backend"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/router"

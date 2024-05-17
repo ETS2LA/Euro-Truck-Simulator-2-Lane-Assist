@@ -1,4 +1,4 @@
-import { token } from "./server";
+import { token } from "./backend";
 
 export async function CheckUsernameAvailability(username:string) {
     let response = await fetch("https://api.tumppi066.fi/account/username/check", {

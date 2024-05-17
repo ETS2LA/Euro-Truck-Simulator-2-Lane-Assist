@@ -13,7 +13,7 @@ import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp,
     MessageCircleHeart, HelpCircle, Settings, 
     Terminal, ListTodo, Users, TextSearch} from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, 
-    DisablePlugin, EnablePlugin, RestartBackend, ColorTitleBar } from "@/pages/server"
+    DisablePlugin, EnablePlugin, RestartBackend, ColorTitleBar } from "@/pages/backend"
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la_immediate_server"
@@ -187,7 +187,7 @@ return (
                 <MenubarShortcut>D</MenubarShortcut>
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem>
+            <MenubarItem onClick={() => push("/feedback")}>
                 <div className="flex flex-row gap-2 items-center">
                     <MessageCircleHeart className="w-4 h-4"/>Feedback    
                 </div>
