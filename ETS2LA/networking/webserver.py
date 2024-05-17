@@ -13,6 +13,7 @@ from typing import Any
 from fastapi import Body
 import ETS2LA.variables as variables
 import ETS2LA.backend.controls as controls
+import ETS2LA.backend.git as git
 
 mainThreadQueue = []
 sessionToken = ""
@@ -103,6 +104,13 @@ def set_plugin_settings(plugin: str, data: dict = Body(...)):
     success = settings.Set(plugin, keys, setting)
     return success
     
+@app.get("/api/check/updates")
+def check_updates():
+    return git.CheckForUpdate()
+
+@app.get("/api/update")
+def update():
+    return None
 
 @app.get("/api/plugins/{plugin}/settings/{key}")
 def get_plugin_setting(plugin: str, key: str):

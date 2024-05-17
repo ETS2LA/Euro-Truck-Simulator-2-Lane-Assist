@@ -3,10 +3,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 import {toast} from "sonner"
 import { Badge } from "./ui/badge"
-import { Plug, Unplug } from "lucide-react";
+import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff } from "lucide-react";
+import { CheckForUpdate, Update } from "@/pages/server";
+import useSWR from "swr";
 
 let socket: WebSocket;
 export function ETS2LAImmediateServer({ip}: {ip: string}) {
+    const { data, error, isLoading } = useSWR("updates", () => CheckForUpdate(ip), { refreshInterval: 60000 }) // Check for updates every minute
     const [connected, setConnected] = useState(false);
     const [promiseMessages, setPromiseMessages] = useState<string[]>([]);
     let lastMessage:any = null;
@@ -110,7 +113,11 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
         };
     }, [promiseMessages]); // Dependency array to run the effect when the promise messages change
 
-    return <div className="absolute right-[17px] top-[17px]">
+    return <div className="absolute right-[17px] top-[17px] gap-2 flex">
+        { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />Error: {error.message}</Badge> }
+        { isLoading && <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>Checking for updates...</Badge> || 
+            <Badge variant={data ? "default" : "secondary"} className="gap-1 pl-1 rounded-sm">{data ? <ArrowDownToLine className="w-5 h-5" /> : <Check className="w-5 h-5" />}{data ? "Update available" : "No updates available"}</Badge>
+        }
         <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? "Connected" : "Disconnected, please refresh."}</Badge>
     </div>
 }

@@ -16,6 +16,19 @@ async function GetVersion(ip="localhost") {
     const data = await response.json()
 }
 
+async function CheckForUpdate(ip="localhost") {
+    console.log("Checking for update")
+    const response = await fetch("http://" + ip + ":37520/api/check/updates")
+    const data = await response.json()
+    return data
+}
+
+async function Update(ip="localhost") {
+    console.log("Updating")
+    const response = await fetch("http://" + ip + ":37520/api/update")
+    const data = await response.json()
+}
+
 async function CloseBackend(ip="localhost") {
     console.log("Closing backend")
     const response = await fetch("http://" + ip + ":37520/api/quit")
@@ -106,4 +119,4 @@ async function ColorTitleBar(ip="localhost", theme="dark") {
     return data
 }
 
-export { ColorTitleBar, GetPerformance, GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }
+export { CheckForUpdate, Update, ColorTitleBar, GetPerformance, GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }
