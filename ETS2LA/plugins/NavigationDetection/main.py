@@ -361,6 +361,23 @@ def LoadAIModel():
         print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
 
 
+def get_text_size(text="NONE", text_width=100, max_text_height=100):
+    fontscale = 1
+    textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+    width_current_text, height_current_text = textsize
+    max_count_current_text = 3
+    while width_current_text != text_width or height_current_text > max_text_height:
+        fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
+        textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+        max_count_current_text -= 1
+        if max_count_current_text <= 0:
+            break
+    thickness = round(fontscale * 2)
+    if thickness <= 0:
+        thickness = 1
+    return text, fontscale, thickness, textsize[0], textsize[1]
+
+
 def CheckForAIModelUpdates():
     try:
         def CheckForAIModelUpdatesThread():
@@ -647,8 +664,8 @@ def plugin():
 
         if check_map == True:
             if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None and map_topleft[0] < map_bottomright[0] and map_topleft[1] < map_bottomright[1] and arrow_topleft[0] < arrow_bottomright[0] and arrow_topleft[1] < arrow_bottomright[1]:
-                lower_blue = np.array([0, 68, 121])
-                upper_blue = np.array([109, 184, 250])
+                lower_blue = np.array([0, 65, 120])
+                upper_blue = np.array([110, 200, 255])
                 mask_blue = cv2.inRange(frame[arrow_topleft[1] - map_topleft[1]:arrow_bottomright[1] - map_bottomright[1], arrow_topleft[0] - map_topleft[0]:arrow_bottomright[0] - map_bottomright[0]], lower_blue, upper_blue)
                 arrow_height, arrow_width = mask_blue.shape[:2]
                 pixel_ratio = round(cv2.countNonZero(mask_blue) / (arrow_width * arrow_height), 3)
@@ -698,8 +715,8 @@ def plugin():
 
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask_red)
 
-        cv2.rectangle(frame_with_mask, (0,0), (round(width/6),round(height/3)),(0,0,0),-1)
-        cv2.rectangle(frame_with_mask, (width,0), (round(width-width/6),round(height/3)),(0,0,0),-1)
+        cv2.rectangle(frame_with_mask, (0, 0), (round(width/6), round(height/3)),(0, 0, 0), -1)
+        cv2.rectangle(frame_with_mask, (width, 0), (round(width-width/6), round(height/3)),(0, 0, 0), -1)
 
         frame_gray = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
         frame_gray_unblurred = frame_gray.copy()
@@ -1027,34 +1044,151 @@ def plugin():
             turnincoming_detected = False
             turnincoming_direction = None
 
-        if allow_playsound == True:
-            if valid_setup == False:
-                correction = 0
+        map_detected = True
+
+        if valid_setup == False:
+            if allow_playsound == True:
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
+            frame = cv2.GaussianBlur(frame, (9, 9), 0)
+            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            elif do_blocked == True:
-                correction = 0
+            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (255, 128, 0), height//50, cv2.LINE_AA)
+            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (255, 128, 0), height//35, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (255, 128, 0), -1, cv2.LINE_AA)
+
+            text, fontscale, thickness, text_width, text_height = get_text_size(text="Do the Setup", text_width=width/1.1, max_text_height=height/10)
+            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
+
+            correction = 0
+            map_detected = False
+
+        elif do_blocked == True:
+            if allow_playsound == True:
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
+            frame = cv2.GaussianBlur(frame, (9, 9), 0)
+            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            elif do_zoom == True:
-                correction = 0
+            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (255, 128, 0), height//50, cv2.LINE_AA)
+            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (255, 128, 0), height//35, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (255, 128, 0), -1, cv2.LINE_AA)
+
+            text, fontscale, thickness, text_width, text_height = get_text_size(text="Minimap covered", text_width=width/1.1, max_text_height=height/10)
+            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
+
+            correction = 0
+            map_detected = False
+
+        elif do_zoom == True:
+            if allow_playsound == True:
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
+            frame = cv2.GaussianBlur(frame, (9, 9), 0)
+            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            elif width_lane == 0:
-                correction = 0
+            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (255, 128, 0), height//50, cv2.LINE_AA)
+            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (255, 128, 0), height//35, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (255, 128, 0), -1, cv2.LINE_AA)
+
+            text, fontscale, thickness, text_width, text_height = get_text_size(text="Zoom Minimap in", text_width=width/1.1, max_text_height=height/10)
+            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
+
+            correction = 0
+            map_detected = False
+
+        elif width_lane == 0:
+            if allow_playsound == True:
                 sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
+            frame = cv2.GaussianBlur(frame, (9, 9), 0)
+            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
 
-            elif current_time - 1 > allow_playsound_timer:
-                allow_playsound_timer = current_time
+            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (255, 128, 0), height//50, cv2.LINE_AA)
+            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (255, 128, 0), height//35, cv2.LINE_AA)
+            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (255, 128, 0), -1, cv2.LINE_AA)
+
+            text, fontscale, thickness, text_width, text_height = get_text_size(text="No Lane Detected", text_width=width/1.1, max_text_height=height/10)
+            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
+
+            correction = 0
+            map_detected = False
+
+        else:
+
+            if current_time - 1 > allow_playsound_timer:
                 allow_playsound = True
+
+            if width_lane != 0:
+                cv2.line(frame, (round(left_x_lane + lanechanging_final_offset - offset), left_y_lane), (round(right_x_lane + lanechanging_final_offset - offset), right_y_lane),  (255, 255, 255), 2)
+            if width_turn != 0:
+                cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (255, 255, 255), 2)
+        
+        if lanechanging_do_lane_changing == True or fuel_percentage < 15:
+            current_text = "Enabled"
+            width_target_current_text = width/4
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text <= 0:
+                    break
+            width_enabled_text, height_enabled_text = width_current_text, height_current_text
+
+        if lanechanging_do_lane_changing == True:
+            current_text = f"Lane: {lanechanging_current_lane}"
+            width_target_current_text = width/4
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text <= 0:
+                    break
+            width_lane_text, height_lane_text = width_current_text, height_current_text
+            thickness_current_text = round(fontscale_current_text*2)
+            if thickness_current_text <= 0:
+                thickness_current_text = 1
+            if turnincoming_detected == True:
+                current_color = (150, 150, 150)
+            else:
+                current_color = (200, 200, 200)
+            cv2.putText(frame, f"Lane: {lanechanging_current_lane}", (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, current_color, thickness_current_text)
+        
+        if fuel_percentage < 15:
+            current_text = "Refuel!"
+            width_target_current_text = width/4
+            fontscale_current_text = 1
+            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+            width_current_text, height_current_text = textsize_current_text
+            max_count_current_text = 3
+            while width_current_text != width_target_current_text:
+                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
+                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
+                width_current_text, height_current_text = textsize_current_text
+                max_count_current_text -= 1
+                if max_count_current_text <= 0:
+                    break
+            thickness_current_text = round(fontscale_current_text*2)
+            if thickness_current_text <= 0:
+                thickness_current_text = 1
+            if lanechanging_do_lane_changing == True:
+                cv2.putText(frame, current_text, (round(0.01*width), round(0.10*height+height_current_text+height_enabled_text+height_lane_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 0, 0), thickness_current_text)
+            else:
+                cv2.putText(frame, current_text, (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 0, 0), thickness_current_text)
 
         indicator_last_left = indicator_left
         indicator_last_right = indicator_right
@@ -1125,8 +1259,8 @@ def plugin():
                 valid_frame = False
                 return
             
-            cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
-            cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
+            cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)),(0, 0, 0), -1)
+            cv2.rectangle(frame, (frame.shape[1], 0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)),(0, 0, 0), -1)
             lower_red = np.array([160, 0, 0])
             upper_red = np.array([255, 110, 110])
             mask_red = cv2.inRange(frame, lower_red, upper_red)
@@ -1167,11 +1301,7 @@ def plugin():
         
 
 def manual_setup():
-    print("the code would try to launch the manual setup now...")
-    return
-    subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "manual_setup.py")])
+    subprocess.Popen(["python", os.path.join(variables.PATH, "ETS2LA", "plugins", "NavigationDetection", "manual_setup.py")])
 
 def automatic_setup():
-    print("the code would try to launch the automatic setup now...")
-    return
-    subprocess.Popen(["python", os.path.join(variables.PATH, "plugins", "NavigationDetection", "automatic_setup.py")])
+    subprocess.Popen(["python", os.path.join(variables.PATH, "ETS2LA", "plugins", "NavigationDetection", "automatic_setup.py")])
