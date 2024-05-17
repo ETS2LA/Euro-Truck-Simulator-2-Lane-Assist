@@ -5,6 +5,11 @@ logs
 **/__pycache__
 **/settings.json
 
-# traffic light detection yolo files
+# Ignore the TrafficLightDetection YOLO files
 /ETS2LA/plugins/TrafficLightDetection/YOLOFiles
 /ETS2LA/plugins/TrafficLightDetection/YOLOModels
+
+# Ignore the NavigationDetection YOLO and AI files
+/ETS2LA/plugins/NavigationDetection/AIModel
+/ETS2LA/plugins/NavigationDetection/YOLOFiles
+/ETS2LA/plugins/NavigationDetection/YOLOv5_MapDetectionModel.pt

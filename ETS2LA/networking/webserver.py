@@ -111,6 +111,7 @@ def check_updates():
 @app.get("/api/update")
 def update():
     mainThreadQueue.append([git.Update, [], {}])
+    return True
 
 @app.get("/api/plugins/{plugin}/settings/{key}")
 def get_plugin_setting(plugin: str, key: str):
