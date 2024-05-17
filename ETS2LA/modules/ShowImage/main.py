@@ -51,7 +51,10 @@ def run(img: np.ndarray = None, windowName:str = "Lane Assist"):
 
         # Add overlays
         for overlay in overlays:
-            img = cv2.addWeighted(img, 1, overlays[overlay], 1, 0)
+            try:
+                img = cv2.addWeighted(img, 1, overlays[overlay], 1, 0)
+            except:
+                runner.logger.debug("Failed to add overlay: " + overlay)
             
         try:
             cv2.getWindowImageRect(windowName)

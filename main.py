@@ -66,6 +66,7 @@ if __name__ == "__main__":
 
             if e.args[0] == "restart":
                 CloseNode()
+                CountErrorsAndWarnings()
                 print(RED + "ETS2LA is restarting..." + NORMAL)
                 continue
             
