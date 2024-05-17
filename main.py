@@ -55,6 +55,7 @@ if __name__ == "__main__":
     # Import ETS2LA.core will import and run the app. Do that repeatedly in case of a crash.
     while True:
         try:
+            xdx
             import ETS2LA.core as ETS2LA
             ETS2LA.run()
             print("ETS2LA has started successfully!")
@@ -86,6 +87,10 @@ if __name__ == "__main__":
             print(f"ETS2LA has crashed with the following error:")
             traceback.print_exc()
             error = traceback.format_exc()
+            try:
+                import ETS2LA.backend.globalServer as globalServer
+                globalServer.SendCrashReport("overseer", error)
+            except: pass
             print("Send the above traceback to the developers.")
             CloseNode()
             CountErrorsAndWarnings()
