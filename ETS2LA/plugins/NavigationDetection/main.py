@@ -46,6 +46,7 @@ def SendCrashReport(arg1="", arg2=""): # REMOVE THIS LATER
 def ToggleSteering(state:bool, *args, **kwargs):
     global enabled
     enabled = state
+    sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
 
 ############################################################################################################################    
 # Settings
@@ -1068,7 +1069,7 @@ def plugin():
 
         if valid_setup == False:
             if allow_playsound == True:
-                sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
+                sounds.PlaysoundFromLocalPath("ETS2LA/assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
@@ -1086,7 +1087,7 @@ def plugin():
 
         elif do_blocked == True:
             if allow_playsound == True:
-                sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
+                sounds.PlaysoundFromLocalPath("ETS2LA/assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
@@ -1104,7 +1105,7 @@ def plugin():
 
         elif do_zoom == True:
             if allow_playsound == True:
-                sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
+                sounds.PlaysoundFromLocalPath("ETS2LA/assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
@@ -1122,7 +1123,7 @@ def plugin():
 
         elif width_lane == 0:
             if allow_playsound == True:
-                sounds.PlaysoundFromLocalPath("assets/sounds/info.mp3")
+                sounds.PlaysoundFromLocalPath("ETS2LA/assets/sounds/info.mp3")
                 allow_playsound = False
                 allow_playsound_timer = current_time
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
@@ -1194,8 +1195,8 @@ def plugin():
 
         Steering.run(value=correction, sendToGame=enabled)
         ShowImage.run(frame)
-        SDKController.lblinker = intended_left_indicator_state
-        SDKController.rlinker = intended_right_indicator_state
+        SDKController.lblinker = bool(intended_left_indicator_state)
+        SDKController.rblinker = bool(intended_right_indicator_state)
 
         return data["NavigationDetection"]
 
