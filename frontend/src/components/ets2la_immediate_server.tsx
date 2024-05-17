@@ -117,7 +117,7 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
         { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />Error: {error.message}</Badge> }
         { isLoading && <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>Checking for updates...</Badge> || 
             data && <Badge variant="default" className="gap-1 pl-1 rounded-sm cursor-pointer" onClick={() => toast.promise(Update())}><ArrowDownToLine className="w-5 h-5" />Update available</Badge> ||
-            <Badge variant="secondary" className="gap-1 pl-1 rounded-sm"><Check className="w-5 h-5" />No updates available</Badge>
+            <Badge variant="secondary" className="gap-1 pl-1 rounded-sm" onClick={() => toast.promise(Update())}><Check className="w-5 h-5" />No updates available</Badge>
         }
         <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? "Connected" : "Disconnected, please refresh."}</Badge>
     </div>

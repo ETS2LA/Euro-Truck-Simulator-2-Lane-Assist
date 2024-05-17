@@ -1,5 +1,8 @@
 """This file serves as the overseer to ETS2LA. It allows the app to restart itself without user input."""
+import multiprocessing
+
 LOG_FILE_FOLDER = "logs"    
+GREEN = "\033[92m"
 RED = "\033[91m"
 YELLOW = "\033[93m"
 BLUE = "\033[94m"
@@ -52,8 +55,8 @@ if __name__ == "__main__":
     # Import ETS2LA.core will import and run the app. Do that repeatedly in case of a crash.
     while True:
         try:
-            import ETS2LA.core
-            ETS2LA.core.run()
+            import ETS2LA.core as ETS2LA
+            ETS2LA.run()
             print("ETS2LA has started successfully!")
         except Exception as e:
             if e.args[0] == "exit":
@@ -74,7 +77,8 @@ if __name__ == "__main__":
                     os.system("update.bat")
                 else:
                     os.system("sh update.sh")
-                continue
+                print(GREEN + "ETS2LA needs to be restarted to finish the update." + NORMAL)
+                sys.exit(0)
             
             print(f"ETS2LA has crashed with the following error:")
             traceback.print_exc()

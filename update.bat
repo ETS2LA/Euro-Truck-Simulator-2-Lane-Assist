@@ -1,5 +1,7 @@
+@echo off
 git pull
+pip install -r requirements.txt
 cd frontend
 npm install
-cd ..
-pip install -r requirements.txt
+echo "Update complete"
+pause

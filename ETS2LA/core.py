@@ -34,3 +34,6 @@ def run():
             raise Exception("exit")
         if variables.RESTART:
             raise Exception("restart")
+
+if __name__ == "__main__":
+    run()
