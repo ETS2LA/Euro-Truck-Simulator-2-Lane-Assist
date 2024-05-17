@@ -17,6 +17,8 @@ MAX_ANGLE = 1
 """Maximum absolute angle"""
 IGNORE_SMOOTH = True
 """USE THIS WHEN USING GAMEPAD MODE"""
+IGNORE_GAME = True
+"""Use this to ignore the game steering."""
 
 
 class SteeringValue:
@@ -114,7 +116,7 @@ def run(value:float = None, sendToGame:bool = True, drawLine:bool = True, drawTe
     else:
         steeringValues.append(SteeringValue(0, time.time())) # Slowly return to 0 naturally
     
-    if API is not None:
+    if API is not None and not IGNORE_GAME:
         data = API.run()
         if data != "not connected" and data != "error checking API status":
             gameSteering = -data["truckFloat"]["gameSteer"]

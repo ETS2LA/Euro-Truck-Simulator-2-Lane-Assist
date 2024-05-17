@@ -131,7 +131,7 @@ def Initialize():
 
     Steering.OFFSET = 0
     Steering.SMOOTH_TIME = 0.3
-    Steering.IGNORE_SMOOTH = True
+    Steering.IGNORE_SMOOTH = False
     Steering.SENSITIVITY = 0.65
 
     if 'UseAI' in globals():
