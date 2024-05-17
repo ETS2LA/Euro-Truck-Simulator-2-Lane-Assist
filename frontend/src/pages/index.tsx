@@ -22,9 +22,11 @@ import {
     ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 import { toast } from "sonner"
+import { useRouter } from "next/router"
   
 
 export default function Home({ip} : {ip: string}) {
+    const push = useRouter().push;
     return (
         <div className="w-full h-[calc(100vh-72px)]">
             <ResizablePanelGroup direction="horizontal" className="overflow-auto text-center gap-1.5">
@@ -42,6 +44,9 @@ export default function Home({ip} : {ip: string}) {
                         <ContextMenuContent className="w-64">
                             <ContextMenuItem onClick={() => toast.info("Not yet implemented.")}>
                                 User interface guide
+                            </ContextMenuItem>
+                            <ContextMenuItem onClick={() => push("/feedback")}>
+                                Send Feedback
                             </ContextMenuItem>
                         </ContextMenuContent>
                     </ContextMenu>
