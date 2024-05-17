@@ -115,7 +115,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
 
     const UpdateUseNavigationDetectionAI = async () => {
         let newUseNavigationDetectionAI = !UseNavigationDetectionAI;
-        toast.promise(SetSettingByKey("NavigationDetection", "NavigationDetectionAI", newUseNavigationDetectionAI, ip), {
+        toast.promise(SetSettingByKey("NavigationDetection", "UseNavigationDetectionAI", newUseNavigationDetectionAI, ip), {
             loading: "Saving...",
             success: "Set value to " + newUseNavigationDetectionAI,
             error: "Failed to save"
