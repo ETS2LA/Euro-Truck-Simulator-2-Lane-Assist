@@ -21,7 +21,7 @@ def SendCrashReport(type:str, message:str, additional=None):
     try:
         additional = {
             "version": "V2.0.0",
-            "os": variables.os,
+            "os": variables.OS,
             "language": "not implemented",
             "custom": additional
         }
