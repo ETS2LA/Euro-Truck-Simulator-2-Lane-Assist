@@ -8,6 +8,7 @@ import ETS2LA.frontend.webpage as webpage
 import ETS2LA.variables as variables
 import ETS2LA.backend.events as events
 import ETS2LA.backend.controls as controls
+import ETS2LA.backend.globalServer as globalServer
 
 # Initialize the backend
 logger = SetupGlobalLogging()
@@ -20,7 +21,10 @@ logging.info("Available CPU cores: " + str(os.cpu_count()))
 
 
 logging.info("ETS2LA backend has been started successfully.")
+
+lastPingTime = 0
 def run():
+    global lastPingTime
     while True:
         time.sleep(0.01)
         
@@ -34,6 +38,14 @@ def run():
             raise Exception("exit")
         if variables.RESTART:
             raise Exception("restart")
+        
+        if lastPingTime + 60 < time.time():
+            lastPingTime = time.time()
+            try:
+                globalServer.Ping()
+            except:
+                logging.debug("Could not ping the server.")
+                pass
 
 if __name__ == "__main__":
     run()

@@ -86,6 +86,10 @@ if __name__ == "__main__":
             print(f"ETS2LA has crashed with the following error:")
             traceback.print_exc()
             error = traceback.format_exc()
+            try:
+                import ETS2LA.backend.globalServer as globalServer
+                globalServer.SendCrashReport("overseer", str(error))
+            except: pass
             print("Send the above traceback to the developers.")
             CloseNode()
             CountErrorsAndWarnings()
