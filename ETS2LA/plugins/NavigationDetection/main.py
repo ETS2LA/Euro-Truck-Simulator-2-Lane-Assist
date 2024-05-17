@@ -54,6 +54,7 @@ def Initialize():
     global Steering
     global ShowImage
     global TruckSimAPI
+    global SDKController
     global ScreenCapture
 
     global UseAI
@@ -127,10 +128,11 @@ def Initialize():
     Steering = runner.modules.Steering
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
+    SDKController = runner.modules.SDKController
     ScreenCapture = runner.modules.ScreenCapture
 
     Steering.OFFSET = 0
-    Steering.SMOOTH_TIME = 0.3
+    Steering.SMOOTH_TIME = 0.5
     Steering.IGNORE_SMOOTH = False
     Steering.SENSITIVITY = 0.65
 
@@ -661,6 +663,9 @@ def plugin():
             indicator_left = False
             indicator_right = False
 
+        intended_left_indicator_state = False
+        intended_right_indicator_state = False
+
         f5_key_state = ctypes.windll.user32.GetAsyncKeyState(0x74)
         f5_pressed = f5_key_state & 0x8000 != 0
         
@@ -936,19 +941,19 @@ def plugin():
         if current_time - 1 > indicator_right_response_timer:
             indicator_right_wait_for_response = False
         if turnincoming_direction == "Left" and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
-            data["sdk"]["LeftBlinker"] = True
+            intended_left_indicator_state = True
             indicator_left_wait_for_response = True
             indicator_left_response_timer = current_time
         if turnincoming_direction == "Right" and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
-            data["sdk"]["RightBlinker"] = True
+            intended_left_indicator_state = True
             indicator_right_wait_for_response = True
             indicator_right_response_timer = current_time
         if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
-            data["sdk"]["LeftBlinker"] = True
+            intended_left_indicator_state = True
             indicator_left_wait_for_response = True
             indicator_left_response_timer = current_time
         if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
-            data["sdk"]["RightBlinker"] = True
+            intended_left_indicator_state = True
             indicator_right_wait_for_response = True
             indicator_right_response_timer = current_time
         if turnincoming_detected == True:
@@ -1000,14 +1005,14 @@ def plugin():
                         indicator_enable_right = True
 
         if indicator_enable_left == True and indicator_left == False and indicator_left_wait_for_response == False and enabled == True:
-            data["sdk"]["LeftBlinker"] = True
+            intended_left_indicator_state = True
             indicator_changed_by_code = True
             indicator_left_wait_for_response = True
             indicator_left_response_timer = current_time
         elif indicator_left == True and indicator_left_wait_for_response == False:
             indicator_enable_left = False
         if indicator_enable_right == True and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
-            data["sdk"]["RightBlinker"] = True
+            intended_right_indicator_state = True
             indicator_changed_by_code = True
             indicator_right_wait_for_response = True
             indicator_right_response_timer = current_time
@@ -1025,20 +1030,20 @@ def plugin():
         lanechanging_progress = lanechanging_final_offset/lanechanging_width
         
         if lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_left_set == False:
-            data["sdk"]["LeftBlinker"] = True
+            intended_left_indicator_state = True
             indicator_left_wait_for_response = True
             indicator_left_response_timer = current_time
         elif lanechanging_progress == lanechanging_current_lane and indicator_left == True and indicator_left_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_left_set == True:
-            data["sdk"]["LeftBlinker"] = True
+            intended_left_indicator_state = True
             indicator_left_wait_for_response = True
             indicator_left_response_timer = current_time
 
         if lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_right_set == False:
-            data["sdk"]["RightBlinker"] = True
+            intended_right_indicator_state = True
             indicator_right_wait_for_response = True
             indicator_right_response_timer = current_time
         elif lanechanging_progress == lanechanging_current_lane and indicator_right == True and indicator_right_wait_for_response == False and indicator_changed_by_code == False and lanechanging_do_lane_changing == True and enabled == True and controls_right_set == True:
-            data["sdk"]["RightBlinker"] = True
+            intended_right_indicator_state = True
             indicator_right_wait_for_response = True
             indicator_right_response_timer = current_time
 
@@ -1053,9 +1058,9 @@ def plugin():
         else:
             correction = 0
             if turnincoming_direction == "Left" and enabled == True:
-                data["sdk"]["LeftBlinker"] = False
+                intended_left_indicator_state = False
             if turnincoming_direction == "Right" and enabled == True:
-                data["sdk"]["RightBlinker"] = False
+                intended_right_indicator_state = False
             turnincoming_detected = False
             turnincoming_direction = None
 
@@ -1143,67 +1148,16 @@ def plugin():
             if width_turn != 0:
                 cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (255, 255, 255), 2)
         
-        if lanechanging_do_lane_changing == True or fuel_percentage < 15:
-            current_text = "Enabled"
-            width_target_current_text = width/4
-            fontscale_current_text = 1
-            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-            width_current_text, height_current_text = textsize_current_text
-            max_count_current_text = 3
-            while width_current_text != width_target_current_text:
-                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                width_current_text, height_current_text = textsize_current_text
-                max_count_current_text -= 1
-                if max_count_current_text <= 0:
-                    break
-            width_enabled_text, height_enabled_text = width_current_text, height_current_text
+        text, fontscale, thickness, text_width_enabled, text_height_enabled = get_text_size(text="Enabled" if enabled else "Disabled", text_width=width/1.1, max_text_height=height/11)
+        cv2.putText(frame, text, (5, 5 + text_height_enabled), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 255, 0) if enabled else (255, 0, 0), thickness, cv2.LINE_AA)
 
         if lanechanging_do_lane_changing == True:
-            current_text = f"Lane: {lanechanging_current_lane}"
-            width_target_current_text = width/4
-            fontscale_current_text = 1
-            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-            width_current_text, height_current_text = textsize_current_text
-            max_count_current_text = 3
-            while width_current_text != width_target_current_text:
-                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                width_current_text, height_current_text = textsize_current_text
-                max_count_current_text -= 1
-                if max_count_current_text <= 0:
-                    break
-            width_lane_text, height_lane_text = width_current_text, height_current_text
-            thickness_current_text = round(fontscale_current_text*2)
-            if thickness_current_text <= 0:
-                thickness_current_text = 1
-            if turnincoming_detected == True:
-                current_color = (150, 150, 150)
-            else:
-                current_color = (200, 200, 200)
-            cv2.putText(frame, f"Lane: {lanechanging_current_lane}", (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, current_color, thickness_current_text)
-        
+            text, fontscale, thickness, text_width_lane, text_height_lane = get_text_size(text=f"Lane: {lanechanging_current_lane}", text_width=text_width_enabled, max_text_height=height)
+            cv2.putText(frame, text, (5, 15 + text_height_enabled + text_height_lane), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (150, 150, 150) if turnincoming_detected else (200, 200, 200), thickness, cv2.LINE_AA)
+
         if fuel_percentage < 15:
-            current_text = "Refuel!"
-            width_target_current_text = width/4
-            fontscale_current_text = 1
-            textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-            width_current_text, height_current_text = textsize_current_text
-            max_count_current_text = 3
-            while width_current_text != width_target_current_text:
-                fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                width_current_text, height_current_text = textsize_current_text
-                max_count_current_text -= 1
-                if max_count_current_text <= 0:
-                    break
-            thickness_current_text = round(fontscale_current_text*2)
-            if thickness_current_text <= 0:
-                thickness_current_text = 1
-            if lanechanging_do_lane_changing == True:
-                cv2.putText(frame, current_text, (round(0.01*width), round(0.10*height+height_current_text+height_enabled_text+height_lane_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 0, 0), thickness_current_text)
-            else:
-                cv2.putText(frame, current_text, (round(0.01*width), round(0.07*height+height_current_text+height_enabled_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 0, 0), thickness_current_text)
+            text, fontscale, thickness, text_width_refuel, text_height_refuel = get_text_size(text="Refuel!", text_width=text_width_enabled, max_text_height=height)
+            cv2.putText(frame, text, (5, (25 if lanechanging_do_lane_changing == True else 15) + text_height_enabled + text_height_refuel + (text_height_lane if lanechanging_do_lane_changing == True else 0)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 0, 0), thickness, cv2.LINE_AA)
 
         indicator_last_left = indicator_left
         indicator_last_right = indicator_right
@@ -1240,6 +1194,8 @@ def plugin():
 
         Steering.run(value=correction, sendToGame=enabled)
         ShowImage.run(frame)
+        SDKController.lblinker = intended_left_indicator_state
+        SDKController.rlinker = intended_right_indicator_state
 
         return data["NavigationDetection"]
 
