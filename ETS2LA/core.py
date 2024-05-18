@@ -17,8 +17,6 @@ webserver.run() # External webserver for the UI
 webpage.run() # Tkinter webview to the website.
 events.run() # Event handlers
 controls.run() # Control handlers
-logging.info("Available CPU cores: " + str(os.cpu_count()))
-
 
 logging.info("ETS2LA backend has been started successfully.")
 

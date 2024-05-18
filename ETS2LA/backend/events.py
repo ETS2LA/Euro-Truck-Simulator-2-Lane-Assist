@@ -16,4 +16,3 @@ class ToggleSteering():
 # Start monitoring
 def run():
     ToggleSteering()
-    logging.info("Event handlers loaded.")

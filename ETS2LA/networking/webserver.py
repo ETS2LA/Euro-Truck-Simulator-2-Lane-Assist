@@ -1,19 +1,24 @@
-from typing import Union
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from ETS2LA.frontend.webpageExtras.titleAndIcon import color_title_bar
 import ETS2LA.backend.backend as backend
 import ETS2LA.backend.settings as settings
-import threading
+import ETS2LA.backend.controls as controls
+import ETS2LA.variables as variables
+import ETS2LA.backend.git as git
+
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
+from fastapi import Body
+from typing import Union
+from typing import Any
 import multiprocessing
+import traceback
+import threading
 import logging
+import uvicorn
+import socket
+import json
 import sys
 import os
-import json
-from typing import Any
-from fastapi import Body
-import ETS2LA.variables as variables
-import ETS2LA.backend.controls as controls
-import ETS2LA.backend.git as git
 
 mainThreadQueue = []
 sessionToken = ""
@@ -56,14 +61,12 @@ def get_plugins():
     try:
         enabledPlugins = backend.GetEnabledPlugins()
     except:
-        import traceback
         traceback.print_exc()
         enabledPlugins = []
         
     try:
         frametimes = backend.frameTimes
     except:
-        import traceback
         traceback.print_exc()
         frametimes = {}
         
@@ -151,7 +154,6 @@ def call_plugin_function(plugin: str, function: str, data: PluginCallData = None
 @app.get("/api/ui/theme/{theme}")
 def set_theme(theme: str):
     try:
-        from ETS2LA.frontend.webpageExtras.titleAndIcon import color_title_bar
         color_title_bar(theme)
         return True
     except:
@@ -166,9 +168,6 @@ def RunFrontend():
     
 def run():
     global IP
-    import uvicorn
-    # Get current PC ip
-    import socket
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     IP = s.getsockname()[0]
