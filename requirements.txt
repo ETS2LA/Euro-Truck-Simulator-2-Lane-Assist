@@ -8,6 +8,7 @@ websockets
 pywebview
 gitpython
 dearpygui
+bettercam
 keyboard
 requests
 pywin32
@@ -18,8 +19,7 @@ psutil
 pygame
 torch
 numpy
+mouse
 scipy
 rpyc
 mss
-mouse
-bettercam
