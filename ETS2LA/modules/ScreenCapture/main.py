@@ -16,7 +16,7 @@ monitor_x1 = monitor["left"]
 monitor_y1 = monitor["top"]
 monitor_x2 = monitor["width"]
 monitor_y2 = monitor["height"]
-
+cam = None
 
 def CreateCam(CamSetupDisplay:int = display):
     if variables.OS == "nt":
@@ -52,6 +52,8 @@ if variables.OS == "nt":
         """imgtype: "both", "cropped", "full" """
         global cam
         try:
+            if cam == None:
+                CreateCam()
             img = cam.get_latest_frame()
             img = np.array(img)
             # return the requestet image, only crop when needed
