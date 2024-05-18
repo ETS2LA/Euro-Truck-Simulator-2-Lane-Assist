@@ -169,7 +169,10 @@ def run():
     import uvicorn
     # Get current PC ip
     import socket
-    IP = socket.gethostbyname(socket.gethostname())
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    IP = s.getsockname()[0]
+    s.close()
     hostname = "0.0.0.0"
     # Start the webserver on the local IP
     threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True).start()
@@ -177,4 +180,4 @@ def run():
     # Start the frontend
     p = multiprocessing.Process(target=RunFrontend, daemon=True)
     p.start()
-    logging.info("Frontend started on http://localhost:3000")
+    logging.info(f"Frontend started on http://{IP}:3000 (& http://localhost:3000")
