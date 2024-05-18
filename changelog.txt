@@ -1,1 +1,1 @@
-Quick fix to make the NavigationDetection code work with all versions of the game.
+Update the wiki link when bettercam fails to initialize.

@@ -129,7 +129,7 @@ def CreateCamera():
         from tkinter import messagebox
         if messagebox.askyesno("Error", Translate("bettercam failed to initialize. It is likely that your python is not running on the integrated graphics.\nDo you want to open the instructions on how to fix this?\n\nThe main loop will disable to prevent further errors.")):
             import webbrowser
-            webbrowser.open("https://wiki.tumppi066.fi/en/LaneAssist/CommonIssues#the-specified-device-interface-or-feature-level-is-not-supported-on-this-system")
+            webbrowser.open("https://github.com/SerpentAI/D3DShot/wiki/Installation-Note:-Laptops")
         
         variables.ENABLELOOP = False
 
