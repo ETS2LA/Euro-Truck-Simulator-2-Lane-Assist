@@ -21,3 +21,5 @@ numpy
 scipy
 rpyc
 mss
+mouse
+bettercam
