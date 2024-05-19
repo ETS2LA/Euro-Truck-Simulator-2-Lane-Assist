@@ -886,16 +886,6 @@ while True:
 
         Set_Format1("arrow_percentage", pixel_ratio)
 
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "main.py"), "r+") as file:
-            content = file.read()
-            file.seek(0)
-            if "# this comment is used to reload the app after finishing the setup - 0" in content:
-                content = content.replace("# this comment is used to reload the app after finishing the setup - 0", "# this comment is used to reload the app after finishing the setup - 1")
-            else:
-                content = content.replace("# this comment is used to reload the app after finishing the setup - 1", "# this comment is used to reload the app after finishing the setup - 0")
-            file.write(content)
-            file.truncate()
-
         try:
             cv2.destroyWindow(window_name)
         except:

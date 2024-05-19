@@ -771,10 +771,10 @@ while True:
 
             Set_Format2("ScreenCapture", "display", monitor - 1)
             
-            Set_Format1("NavigationDetection", "map_topleft", (map_x1, map_y1))
-            Set_Format1("NavigationDetection", "map_bottomright", (map_x2, map_y2))
-            Set_Format1("NavigationDetection", "arrow_topleft", (arrow_x1, arrow_y1))
-            Set_Format1("NavigationDetection", "arrow_bottomright", (arrow_x2, arrow_y2))
+            Set_Format1("map_topleft", (map_x1, map_y1))
+            Set_Format1("map_bottomright", (map_x2, map_y2))
+            Set_Format1("arrow_topleft", (arrow_x1, arrow_y1))
+            Set_Format1("arrow_bottomright", (arrow_x2, arrow_y2))
 
             frame = temp_screenshot[arrow_y1:arrow_y2, arrow_x1:arrow_x2]
             lower_blue = np.array([120, 65, 0])
@@ -783,17 +783,7 @@ while True:
             arrow_height, arrow_width = mask_blue.shape[:2]
             pixel_ratio = round(cv2.countNonZero(mask_blue) / (arrow_width * arrow_height), 3)
 
-            Set_Format1("NavigationDetection", "arrow_percentage", pixel_ratio)
-
-            with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "main.py"), "r+") as file:
-                content = file.read()
-                file.seek(0)
-                if "# this comment is used to reload the app after finishing the setup - 0" in content:
-                    content = content.replace("# this comment is used to reload the app after finishing the setup - 0", "# this comment is used to reload the app after finishing the setup - 1")
-                else:
-                    content = content.replace("# this comment is used to reload the app after finishing the setup - 1", "# this comment is used to reload the app after finishing the setup - 0")
-                file.write(content)
-                file.truncate()
+            Set_Format1("arrow_percentage", pixel_ratio)
 
             try:
                 cv2.destroyWindow(window_name)
