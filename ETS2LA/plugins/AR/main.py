@@ -393,7 +393,10 @@ def plugin():
     alpha = calculate_alpha(avg_d)
 
     try:
-        data["overlay"] = runner.GetData(["tags.ar"])[0]
+        arData = runner.GetData(["tags.ar"])[0]
+        if arData == None:
+            raise Exception("No AR data")
+        data["overlay"] = arData
         for line in data["overlay"]["lines"]:
             line.start = ConvertToScreenCoordinate(line.start[0], truck_y, line.start[1])
             line.end = ConvertToScreenCoordinate(line.end[0], truck_y, line.end[1])
