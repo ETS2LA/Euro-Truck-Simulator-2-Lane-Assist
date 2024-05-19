@@ -4,6 +4,8 @@ import { Popover, PopoverContent,
     PopoverTrigger } from "@/components/ui/popover"
 import { Tabs, TabsList, TabsTrigger, 
     TabsContent } from "@/components/ui/tabs"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, 
+    DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -20,6 +22,10 @@ import { useState } from "react";
 export default function MicrocontrollerControl({ ip }: { ip: string }) {
     const {data, error, isLoading} = useSWR("MicrocontrollerControl", () => GetSettingsJSON("MicrocontrollerControl", ip));
     
+    // Setup Variables
+    const [setup_page, setSetupPage] = useState(0); // 0: Introduction 1: Board, 2: Ard Board Gen, 3. Pi Board Gen
+    const [setup_open, setSetupOpen] = useState(false);
+
     return (
         <Card className="flex flex-col items-center text-center space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto relative">
             <div className="flex flex-row w-[calc(100vw-44px)] gap-3 m-2">
@@ -56,7 +62,24 @@ export default function MicrocontrollerControl({ ip }: { ip: string }) {
                     <TabsContent value="setup">
                         <CardContent>
                             <div className="flex flex-col justify-start pt-2 self-start -ml-56 md:-ml-68">
-                                <h3>Setup</h3>
+                                <div className="flex flex-row items-start justify-start text-left">
+                                    <div className="ml-3 mt-2 font-bold">
+                                        <p>In order to receive and send data to and from the microcntroller, we need to know how to communicate with it.</p>
+                                        <p>This setup will guide you through the process of setting up your microcontroller.</p>
+                                        <p>Please note that this will only work if you have an Arduino or Raspberry Pi board</p>
+                                        <p>If you would like to request another board please let us know through the feedback section.</p>
+                                        <div className="pt-3">
+                                            <Button onClick={() => setSetupOpen(true)}>Launch Setup</Button>
+                                        </div>
+                                    </div>
+                                    <Dialog open={setup_open} onOpenChange={setSetupOpen}>
+                                        <DialogContent className="min-w-[600px]">
+                                            {setup_page == 0 && <Page0 />}
+                                            {setup_page == 1 && <Page1 />}
+                                            {setup_page == 2 && <Page2 />}
+                                        </DialogContent>
+                                    </Dialog>
+                                </div> 
                             </div>
                         </CardContent>
                     </TabsContent>
@@ -71,41 +94,59 @@ export default function MicrocontrollerControl({ ip }: { ip: string }) {
             </div>
         </Card>
     );
-}
 
 
+    // Setup Pages
 
-
-
-/*
-    Page Example
-
-    const [page, setPage] = useState(1);
-
-    function Page1() {
-        return (       
-            <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto">
-                <p className="text-3xl font-bold">Page 1</p>
-                <Button>Back</Button>
-                <Button onClick={() => setPage(2)}>Continue</Button>
-            </Card>
+    function Page0() {
+        return (
+            <div>
+                <h1 className="font-bold">Welcome!</h1>
+                <p className="text-md font-semibold mt-4">This wizard will guide you through setting up your microcontroller for use with ETS2LA.
+                A series of questions will be asked to guide you through the process.
+                Please keep in mind that this only works with an Arduino or Raspberry Pi.
+                If you would like to request another board please let us know through the feedback section.</p>
+                <div className="flex flex-row mt-6 space-x-3">
+                    <Button onClick={() => setSetupOpen(false)}>Cancel</Button>
+                    <Button onClick={() => setSetupPage(1)}>Next</Button>
+                </div>
+            </div>
         )
     }
-
+    function Page1() {
+        const [boardType, setBoardType] = useState("arduino");
+        return (
+            <div>
+                <h1 className="font-bold">Board Type</h1>
+                <p className="text-md font-semibold mt-4">Here you should select the type of microcntroller that you would like to use.
+                Choose from the options below and select continue.</p>
+                <RadioGroup value={boardType} onValueChange={setBoardType}>
+                    <div className="flex flex-col mt-4">
+                        <div className="flex flex-row space-x-3">
+                            <RadioGroupItem value={"arduino"} className="mt-1">Arduino</RadioGroupItem>
+                            <p>Arduino</p>
+                        </div>
+                        <div className="flex flex-row space-x-3">
+                            <RadioGroupItem value={"raspberry"} className="mt-1">Raspberry Pi</RadioGroupItem>
+                            <p>Raspberry Pi</p>
+                        </div>
+                    </div>
+                </RadioGroup>
+                <div className="flex flex-row mt-6 space-x-3">
+                    <Button onClick={() => setSetupPage(0)}>Back</Button>
+                    <Button onClick={() => {if (boardType === "arduino") {setSetupPage(2);} else if (boardType === "raspberry") { setSetupPage(3); }}}>Next</Button>
+                </div>
+            </div>
+        )
+    }
+    
     function Page2() {
         return (
-            <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto">
-                <p className="text-3xl font-bold">Page 2</p>
-                <Button onClick={() => setPage(1)}>Back</Button>
-                <Button>Continue</Button>
-            </Card>
+            <div>
+                <h1>Page 2</h1>
+                <Button onClick={() => setSetupPage(1)}>Back</Button>
+                <Button onClick={() => setSetupPage(2)}>Next</Button>
+            </div>
         )
     }
-
-    return (
-        <div>
-            {page === 1 && <Page1 />}
-            {page === 2 && <Page2 />}
-        </div>
-    )
-*/
+}
