@@ -1,7 +1,7 @@
 import json
 import logging
 print = logging.info
-from ETS2LA.variables import *
+from ETS2LA.backend.variables import *
 from ETS2LA.backend.settings import *
 import sys
 
@@ -21,7 +21,7 @@ class Node:
     
 nodes = []
 optimizedNodes = {}
-nodeFileName = PATH + "/ETS2LA/plugins/Map/GameData/nodes.json"
+nodeFileName = PATH + "ETS2LA/plugins/Map/GameData/nodes.json"
 
 def LoadNodes():
     global nodes

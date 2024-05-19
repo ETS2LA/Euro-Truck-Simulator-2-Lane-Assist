@@ -1,7 +1,7 @@
 import json
 import logging
 print = logging.info
-from ETS2LA.variables import *
+from ETS2LA.backend.variables import *
 from ETS2LA.backend.settings import *
 import sys
 import GameData.nodes as nodes
@@ -45,7 +45,7 @@ class Navigation:
 prefabItems = []
 optimizedPrefabItems = {}
 
-prefabItemsFileName = PATH + "/ETS2LA/plugins/Map/GameData/prefab_items.json"
+prefabItemsFileName = PATH + "ETS2LA/plugins/Map/GameData/prefab_items.json"
 
 itemsMinX = 0
 itemsMaxX = 0

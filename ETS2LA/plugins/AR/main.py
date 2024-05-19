@@ -241,7 +241,6 @@ def plugin():
 
     data = {}
     data["api"] = TruckSimAPI.run(VirtualTelemetry_instead_of_notConnected=False)
-    #print(data["api"])
     if data["api"] == "not connected" or data["api"]["pause"] == True:
         global drawlist
         if drawlist is not None:
@@ -249,7 +248,6 @@ def plugin():
             drawlist = None
         dpg.render_dearpygui_frame()
         time.sleep(0.1)
-        print("returned")
         return
 
     global window

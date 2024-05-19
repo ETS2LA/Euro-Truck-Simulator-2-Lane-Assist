@@ -5,7 +5,7 @@ Usage:
 import backend.sounds as sounds
 sounds.PlaysoundFromLocalPath("assets/sounds/...") # Will play the sound.
 ```"""
-from ETS2LA.variables import PATH
+from ETS2LA.backend.variables import PATH
 
 try:
     import pygame
