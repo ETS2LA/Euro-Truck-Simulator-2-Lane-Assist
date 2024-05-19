@@ -14,7 +14,4 @@ def Initialize():
     pass
 
 def plugin():
-    print("Hi")
-
-def printhi():
-    print("Hi")
+    pass
