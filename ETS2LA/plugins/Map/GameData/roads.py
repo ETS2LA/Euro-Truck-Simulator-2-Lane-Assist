@@ -378,6 +378,7 @@ def CalculateParallelCurves(road):
         roadSizeLeft = lanesLeft * LANE_WIDTH
         roadSizeRight = lanesRight * LANE_WIDTH
           
+          
         #if road.RoadLook.shoulderSpaceLeft != 0:
         #    roadSizeLeft += road.RoadLook.shoulderSpaceLeft
         #if road.RoadLook.shoulderSpaceRight != 0:
@@ -389,6 +390,9 @@ def CalculateParallelCurves(road):
             laneWidth = totalRoadWidth / (lanesRight + lanesLeft)
         except:
             laneWidth = totalRoadWidth
+            
+        offset = road.RoadLook.offset
+        additionalOffset = 0
 
         # Calculate the points for each lane
         newPoints = []
@@ -430,14 +434,7 @@ def CalculateParallelCurves(road):
                 if laneOffset == 0:
                     continue
                 
-                if lanesRight > 0:
-                    #laneOffset -= road.RoadLook.offset / 2
-                    if road.Type != "Prefab":
-                        laneOffset += laneWidth
-                    else:
-                        laneOffset += laneWidth - (laneWidth / 3)
-                else:
-                    laneOffset += laneWidth
+                laneOffset += laneWidth
                 
                 newPoints.append([])
                 offsetVector = laneOffset * normalVector
@@ -448,8 +445,8 @@ def CalculateParallelCurves(road):
                     newPoint = np.array([x, y]) + offsetVector.T + LANE_WIDTH / (2+(lanesLeft-1)) * normalVector.T
 
                 # Apply the offset to the road (how much space is in the middle, between the two sides of the road)
-                offsetVector = road.RoadLook.offset * normalVector
-                newPoint = newPoint + offsetVector.T
+                #offsetVector = road.RoadLook.offset * normalVector
+                #newPoint = newPoint + offsetVector.T
                 
                 newPoints[counter].append(newPoint.tolist())
                 counter += 1
@@ -459,14 +456,7 @@ def CalculateParallelCurves(road):
                 if laneOffset == 0:
                     continue
                 
-                if lanesLeft > 0:
-                    #laneOffset += road.RoadLook.offset / 2
-                    if road.Type != "Prefab":
-                        laneOffset -= laneWidth
-                    else:
-                        laneOffset -= laneWidth - (laneWidth / 3)
-                else: 
-                    laneOffset -= laneWidth
+                laneOffset -= laneWidth
                 
                 
                 newPoints.append([])
@@ -478,8 +468,8 @@ def CalculateParallelCurves(road):
                     newPoint = np.array([x, y]) + offsetVector.T + LANE_WIDTH / (2+(lanesRight-1)) * normalVector.T
             
                 # Apply the offset to the road (how much space is in the middle, between the two sides of the road)
-                offsetVector = road.RoadLook.offset * normalVector
-                newPoint = newPoint + offsetVector.T
+                #offsetVector = road.RoadLook.offset * normalVector
+                #newPoint = newPoint + offsetVector.T
                 
                 newPoints[counter].append(newPoint.tolist())
                 counter += 1
@@ -488,8 +478,30 @@ def CalculateParallelCurves(road):
 
 
         # Apply the middle offset to the lanes.
-        sys.stdout.write(newPoints)
-        input()
+        # For each lane, calculate the middle point between the two sides of the road
+        # Then for each other point, offset the point from the middle by offset to the direction of the vector from the middle point to the lane point
+        if newPoints != []:
+            # Both sides of the road
+            if lanesLeft > 0 and lanesRight > 0:
+                for i in range(ROAD_QUALITY): # Loop through each point
+                    points = []
+                    for lane in newPoints:
+                        if lane == []:
+                            continue
+                        points.append(lane[i])
+                    middleX = sum([point[0] for point in points]) / len(points)
+                    middleY = sum([point[1] for point in points]) / len(points)
+                    middlePoint = np.array([middleX, middleY])
+                    for lane in newPoints:
+                        if lane == []:
+                            continue
+                        lanePoint = np.array([lane[i][0], lane[i][1]])
+                        vector = lanePoint - middlePoint
+                        vector = vector / np.linalg.norm(vector)
+                        offset = (road.RoadLook.offset + additionalOffset) / 2 * -vector # We divide by 2 since we want to offset the point from the middle and there are two sides to the road
+                        lane[i] = (lanePoint - offset).tolist()
+            
+            
 
         # Calculate a new bounding box for the road using these points
         boundingBox = [999999, 999999, -999999, -999999]
@@ -520,4 +532,6 @@ def CalculateParallelCurves(road):
         return boundingBox, newPoints, laneWidth
         
     except:
-        return False
+        #import traceback
+        #traceback.print_exc()
+        return [], [], 0

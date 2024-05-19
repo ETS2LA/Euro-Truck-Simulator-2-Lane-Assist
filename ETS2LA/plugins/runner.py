@@ -141,8 +141,8 @@ class PluginRunner():
     def run(self):
         self.timer = time.time()
         threading.Thread(target=self.functionThread, daemon=True).start()
+        threading.Thread(target=self.eventThread, daemon=True).start()
         while True and not self.temporary: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
-            threading.Thread(target=self.eventThread, daemon=True).start()
             startTime = time.time()
             data = self.plugin.plugin()
             pluginExec = time.time()
