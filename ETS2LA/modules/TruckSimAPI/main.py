@@ -1,5 +1,5 @@
 import logging
-print = logging.info
+#print = logging.info
 
 import math
 from ETS2LA.modules.TruckSimAPI.api import scsTelemetry
@@ -18,6 +18,8 @@ def run(VirtualTelemetry_instead_of_notConnected=True):
     try:
         API = scsTelemetry()
         data = API.update()
+        if data["sdkActive"] == False:
+            return "not connected"
     except:
         if VirtualTelemetry_instead_of_notConnected == False:
             return "not connected"
