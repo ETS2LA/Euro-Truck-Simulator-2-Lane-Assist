@@ -118,7 +118,10 @@ class PluginRunnerController():
                 for plugin in plugins:
                     if "tags." in plugin:
                         tag = plugin.split("tags.")[1]
-                        self.queue.put(globalData[tag])
+                        try:
+                            self.queue.put(globalData[tag])
+                        except:
+                            self.queue.put(None)
                     
                     if plugin in runners:
                         self.queue.put(runners[plugin].lastData)
