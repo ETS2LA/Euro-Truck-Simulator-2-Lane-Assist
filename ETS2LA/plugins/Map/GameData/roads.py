@@ -487,6 +487,10 @@ def CalculateParallelCurves(road):
             pointCounter += 1
 
 
+        # Apply the middle offset to the lanes.
+        sys.stdout.write(newPoints)
+        input()
+
         # Calculate a new bounding box for the road using these points
         boundingBox = [999999, 999999, -999999, -999999]
         for lane in newPoints:

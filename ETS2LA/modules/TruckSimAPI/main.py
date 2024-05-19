@@ -7,7 +7,7 @@ lastX = 0
 lastY = 0
 isConnected = False
 
-def run(VirtualTelemetry_instead_of_notConnected=True):
+def run(Fallback=True):
     global API
     global lastX
     global lastY
@@ -16,9 +16,13 @@ def run(VirtualTelemetry_instead_of_notConnected=True):
         API = scsTelemetry()
         data = API.update()
         if data["sdkActive"] == False:
-            return "not connected"
+            if Fallback == False:
+                return "not connected"
+            else:
+                API = virtualTelemetry()
+                data = API.update()
     except:
-        if VirtualTelemetry_instead_of_notConnected == False:
+        if Fallback == False:
             return "not connected"
         else:
             API = virtualTelemetry()

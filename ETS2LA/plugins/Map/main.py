@@ -21,6 +21,7 @@ from typing import List
 from GameData import roads, nodes, prefabs, prefabItems
 from Visualize import visualize
 from ETS2LA.plugins.runner import PluginRunner
+import sys
 
 import cv2
 from PIL import Image
@@ -71,6 +72,8 @@ def plugin():
         "api": API.run(),
     }
     
+    sys.stdout.write(f"Data = {data}\n")
+    
     # Bind the mouse scroll wheel to zoom
     if mouse.is_pressed("scroll_up"):
         ZOOM += 1
@@ -115,11 +118,11 @@ def plugin():
         
     if roads.roads == []:
         toast(LOAD_ROADS_MSG, type="promise", promise=LOAD_NODES_MSG)
-        # roads.limitToCount = 10000
+        roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFABS_MSG, type="promise", promise=LOAD_ROADS_MSG)
-        # prefabs.limitToCount = 500
+        prefabs.limitToCount = 500
         prefabs.LoadPrefabs() 
     if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFAB_ITEMS_MSG, type="promise", promise=LOAD_PREFABS_MSG)
