@@ -1,6 +1,5 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
-import ETS2LA.variables as variables
 
 import dearpygui.dearpygui as dpg
 from ctypes import c_int
@@ -171,8 +170,6 @@ def draw(data):
     circles = data["overlay"]["circles"]
     boxes = data["overlay"]["boxes"]
     polygons = data["overlay"]["polygons"]
-    
-    print(f"Drawing {len(lines)} lines, {len(circles)} circles, {len(boxes)} boxes, {len(polygons)} polygons")
 
     if drawlist is not None:
         dpg.delete_item(drawlist)
@@ -241,8 +238,10 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
 
 
 def plugin():
+
     data = {}
     data["api"] = TruckSimAPI.run(VirtualTelemetry_instead_of_notConnected=False)
+    #print(data["api"])
     if data["api"] == "not connected" or data["api"]["pause"] == True:
         global drawlist
         if drawlist is not None:
@@ -250,6 +249,7 @@ def plugin():
             drawlist = None
         dpg.render_dearpygui_frame()
         time.sleep(0.1)
+        print("returned")
         return
 
     global window
@@ -394,24 +394,21 @@ def plugin():
 
     try:
         arData = runner.GetData(["tags.ar"])[0]
-        if arData == None:
-            raise Exception("No AR data")
-        data["overlay"] = arData
+        if arData != None:
+            data["overlay"] = arData
         for line in data["overlay"]["lines"]:
             line.start = ConvertToScreenCoordinate(line.start[0], truck_y, line.start[1])
             line.end = ConvertToScreenCoordinate(line.end[0], truck_y, line.end[1])
-        # print(data["overlay"])
     except:
-        import traceback
-        print(traceback.format_exc())
         data["overlay"] = {}
         data["overlay"]["lines"] = []
         data["overlay"]["circles"] = []
         data["overlay"]["boxes"] = []
         data["overlay"]["polygons"] = []
 
+    data["overlay"]["polygons"].append(Polygon([[x1, y1], [x2, y2], [x3, y3]], fill=[255, 255, 255, int(alpha * 0.5)], color=[255, 255, 255, int(alpha)], closed=True))
+
     try:
-        data["overlay"]["polygons"].append(Polygon([[x1, y1], [x2, y2], [x3, y3]], fill=[255, 255, 255, int(alpha * 0.5)], color=[255, 255, 255, int(alpha)], closed=True))
         draw(data)
     except:
         pass
