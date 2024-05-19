@@ -166,7 +166,7 @@ class PluginRunner():
                         }
                         }
                     })
-                logging.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime),2)} FPS")
+                logging.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime if avgFrametime != 0 else 0.001),2)} FPS")
                 self.timer = endTime
                 self.frametimes = []
                 self.executiontimes = []

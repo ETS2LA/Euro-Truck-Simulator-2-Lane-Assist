@@ -5,6 +5,7 @@ transformers
 ultralytics
 setuptools
 websockets
+screeninfo
 pywebview
 gitpython
 dearpygui
