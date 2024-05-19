@@ -4,11 +4,10 @@ print = logging.info
 from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
 import sys
-import ETS2LA.plugins.Map.GameData.nodes as nodes
+import GameData.nodes as nodes
 import math
-import ETS2LA.plugins.Map.GameData.prefabs as prefabs
-import ETS2LA.plugins.Map.GameData.roads as roads
-
+import GameData.prefabs as prefabs
+import GameData.roads as roads
 import math
 class PrefabItem:
     Uid = 0
@@ -31,6 +30,7 @@ class PrefabItem:
     IsSecret = False
     CurvePoints = [[]]
     EndPoints = []
+    BoundingBox = []
     
 class NavigationItem2:
     Uid = 0
@@ -191,11 +191,32 @@ def LoadPrefabItems():
         for nav in prefabItem.Navigation:
             for item in nav.Item2:
                 if item.Type == "Road":
-                    road = roads.GetRoadByUid(item.Uid)
+                    try:
+                        road = roads.GetRoadByUid(item.Uid)
+                    except:
+                        road = None
+                        
                     if road != None:
                         road.ConnectedPrefabItems.append(prefabItem.Uid)
                         # print(f"Added prefab item {prefabItem.Uid} to road {road.Uid}")
         
+        
+        # Calculate the bounding box of the prefab item
+        minX = 1000000
+        maxX = -1000000
+        minZ = 1000000
+        maxZ = -1000000
+        for node in prefabItem.Nodes:
+            if node.X < minX:
+                minX = node.X
+            if node.X > maxX:
+                maxX = node.X
+            if node.Z < minZ:
+                minZ = node.Z
+            if node.Z > maxZ:
+                maxZ = node.Z
+        
+        prefabItem.BoundingBox = [minX, maxX, minZ, maxZ]
         
         
         count += 1

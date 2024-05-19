@@ -3,12 +3,9 @@ import logging
 print = logging.info
 from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
-
-
 import sys
-import ETS2LA.plugins.Map.GameData.nodes as nodes
+import GameData.nodes as nodes
 import math
-
 
 class Prefab:
     FilePath = ""
@@ -211,7 +208,7 @@ def LoadPrefabs():
                 "stateProgress": count/len(prefabs) * 100,
                 "totalProgress": 55 + count/len(prefabs) * 20
             }
-    
+
     sys.stdout.write(f"\rOptimized {count} prefabs.\nRemoved {removedCurves} curves.\nNow optimizing array...\n")
     
     # Use the first 3 numbers of the prefab token to optimize the array

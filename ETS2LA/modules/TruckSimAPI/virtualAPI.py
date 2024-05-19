@@ -1,7 +1,6 @@
 import mmap
 import struct
-import logging
-print = logging.info
+import keyboard
 
 # https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
 
@@ -12,15 +11,16 @@ stringSize = 64
 wheelSize = 14
 substanceSize = 25
 
+virtualX = 3700
+virtualZ = 8500
 
-import time
 
 class scsTelemetry:
     
     # VARIABLE READING
     
     def readGame(self, offset):
-        int = struct.unpack('i', self.mm[offset:offset+4])[0]
+        int = 3
         if int == 1:
             return "ETS2", offset+4
         elif int == 2:
@@ -112,9 +112,11 @@ class scsTelemetry:
             # START OF FIFTH ZONE -> Offset 872
             
             data["comDouble"] = {}
-            data["comDouble"]["worldX"], offset = self.readDouble(offset)
+            data["comDouble"]["worldX"] = virtualX   # Duisburg
+            offset += 8
             data["comDouble"]["worldY"], offset = self.readDouble(offset)
-            data["comDouble"]["worldZ"], offset = self.readDouble(offset)
+            data["comDouble"]["worldZ"] = virtualZ
+            offset += 8
             data["comDouble"]["rotationX"], offset = self.readDouble(offset)
             data["comDouble"]["rotationY"], offset = self.readDouble(offset)
             data["comDouble"]["rotationZ"], offset = self.readDouble(offset)
@@ -146,72 +148,60 @@ class scsTelemetry:
     
     def readBool(self, offset, count=1):
         if count == 1:
-            bool = struct.unpack('?', self.mm[offset:offset+1])[0]
+            bool = False
             return bool, offset+1
         else:
             bools = []
             for i in range(count):
-                bools.append(struct.unpack('?', self.mm[offset+i:offset+i+1])[0])
+                bools.append(False)
             return bools, offset+count
             
     
     def readInt(self, offset, count=1):
         if count == 1:
-            int = struct.unpack('i', self.mm[offset:offset+4])[0]
+            int = 0
             return int, offset+4
         else:
             ints = []
             for i in range(count):
-                ints.append(struct.unpack('i', self.mm[offset+i*4:offset+i*4+4])[0])
+                ints.append(0)
             return ints, offset+count*4
     
     def readFloat(self, offset, count=1):
         if count == 1:
-            float = struct.unpack('f', self.mm[offset:offset+4])[0]
+            float = 1.111
             return float, offset+4
         else:
             floats = []
             for i in range(count):
-                floats.append(struct.unpack('f', self.mm[offset+i*4:offset+i*4+4])[0])
+                floats.append(1.111)
             return floats, offset+count*4
     
     def readLong(self, offset, count=1):
         if count == 1:
-            long = struct.unpack('q', self.mm[offset:offset+8])[0]
+            long = 1
         return long, offset+8
     
     def readLongLong(self, offset, count=1):
         if count == 1:
-            longlong = struct.unpack('Q', self.mm[offset:offset+8])[0]
+            longlong = 1
         return longlong, offset+8
     
     def readChar(self, offset, count):
-        char = ""
-        newChar = ""
+        char = " "
         for i in range(count):
-            try:
-                newChar = struct.unpack('s', self.mm[offset+i:offset+i+1])[0].decode("utf-8")
-            except:
-                newChar == "\u0000"
-                
-            if newChar == "\u0000":
-                char += ""
-            else:
-                char += newChar 
-            
-        
-        char.replace(r"\u0000", "")
+            char += " "
         
         return char, offset+count
     
     def readDouble(self, offset, count=1):
         if count == 1:
-            double = struct.unpack('d', self.mm[offset:offset+8])[0]
+            double = 1
             return double, offset+8
         else:
             doubles = []
             for i in range(count):
-                doubles.append(struct.unpack('d', self.mm[offset+i*8:offset+i*8+8])[0])
+                doubles.append(1)
             return doubles, offset+count*8
     
     def readStringArray(self, offset, count, stringSize):
@@ -221,10 +211,19 @@ class scsTelemetry:
         return strings, offset+count*stringSize
     
     def update(self, trailerData=False):
-        self.mm = mmap.mmap(0, mmapSize, mmapName)
-        
+        global virtualX, virtualZ
         data = {}
         offset = 0
+        
+        # Use the arrowkeys to move the virtual truck
+        if keyboard.is_pressed("up"):
+            virtualZ -= 10
+        if keyboard.is_pressed("down"):
+            virtualZ += 10
+        if keyboard.is_pressed("left"):
+            virtualX -= 10
+        if keyboard.is_pressed("right"):
+            virtualX += 10
         
         # ALL COMMENTS EXTRACTED FROM https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
         try:
@@ -493,9 +492,11 @@ class scsTelemetry:
             # START OF ZONE 8 -> Offset 2200
             
             data["truckPlacement"] = {}
-            data["truckPlacement"]["coordinateX"], offset = self.readDouble(offset)
+            data["truckPlacement"]["coordinateX"] = virtualX    # Duisburg
+            offset = offset + 8
             data["truckPlacement"]["coordinateY"], offset = self.readDouble(offset)
-            data["truckPlacement"]["coordinateZ"], offset = self.readDouble(offset)
+            data["truckPlacement"]["coordinateZ"] = virtualZ    # Duisburg
+            offset = offset + 8
             data["truckPlacement"]["rotationX"], offset = self.readDouble(offset)
             data["truckPlacement"]["rotationY"], offset = self.readDouble(offset)
             data["truckPlacement"]["rotationZ"], offset = self.readDouble(offset)
@@ -603,8 +604,6 @@ class scsTelemetry:
                 print("Current offset : " + offset)
             except:
                 pass
-        
-        self.mm.close()
         
         return data
            

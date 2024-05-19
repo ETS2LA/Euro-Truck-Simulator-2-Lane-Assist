@@ -1,4 +1,3 @@
-#from src.logger import print
 import logging
 print = logging.info
 
@@ -8,6 +7,7 @@ import time
 import os
 import math
 from ETS2LA.modules.TruckSimAPI.api import scsTelemetry
+from ETS2LA.modules.TruckSimAPI.virtualAPI import scsTelemetry as virtualTelemetry
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -23,9 +23,7 @@ def run():
     global lastY
     
     try:
-        checkAPI()
-        if not isConnected:
-            return "not connected"
+        checkAPI()        
     except:
         print("Error checking API status")
         import traceback
@@ -75,6 +73,8 @@ def checkAPI(dontClosePopup=False):
     elif isConnected == False:
         isConnected = True
 
+    if not isConnected:
+        API = virtualTelemetry()
 
 def Initialize():
     pass # Do nothing

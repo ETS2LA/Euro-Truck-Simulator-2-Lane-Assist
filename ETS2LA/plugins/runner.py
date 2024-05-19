@@ -8,6 +8,7 @@ import threading
 from ETS2LA.utils.logging import *
 import json
 from types import SimpleNamespace
+import sys
 class PluginRunner():
     def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
         # Initialize the logger
@@ -25,6 +26,9 @@ class PluginRunner():
         self.frametimes = []
         self.executiontimes = []
         self.temporary = temporary
+        
+        # Add the plugin filepath to path (so that the plugin can import modules from the plugin folder)
+        sys.path.append(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName))
         
         # Import the plugin
         self.plugin_path_name = pluginName

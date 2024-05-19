@@ -20,3 +20,5 @@ CONSOLEHWND = None
 
 CONSOLENAME = None
 """The name/title of the console window. The console.py will set the name when hiding the console is enabled."""
+
+PATH = os.path.dirname(os.path.dirname(__file__))
