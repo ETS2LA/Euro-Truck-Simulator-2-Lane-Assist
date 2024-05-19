@@ -1,10 +1,6 @@
 import logging
 print = logging.info
 
-import tkinter as tk
-from tkinter import ttk
-import time
-import os
 import math
 from ETS2LA.modules.TruckSimAPI.api import scsTelemetry
 from ETS2LA.modules.TruckSimAPI.virtualAPI import scsTelemetry as virtualTelemetry
@@ -17,13 +13,15 @@ lastX = 0
 lastY = 0
 isConnected = False
 popup = None
-def run():
+def run(returnVirtualTelemetryInstead=True):
     global API
     global lastX
     global lastY
     
     try:
-        checkAPI()        
+        checkAPI(returnVirtualTelemetryInstead=returnVirtualTelemetryInstead)
+        if isConnected == False and returnVirtualTelemetryInstead == False:
+            return "not connected"
     except:
         print("Error checking API status")
         import traceback
@@ -58,7 +56,7 @@ def run():
 
     return data 
 
-def checkAPI(dontClosePopup=False):
+def checkAPI(returnVirtualTelemetryInstead=True):
     global API
     global isConnected
     global popup
@@ -73,7 +71,7 @@ def checkAPI(dontClosePopup=False):
     elif isConnected == False:
         isConnected = True
 
-    if not isConnected:
+    if isConnected == False and returnVirtualTelemetryInstead == True:
         API = virtualTelemetry()
 
 def Initialize():
