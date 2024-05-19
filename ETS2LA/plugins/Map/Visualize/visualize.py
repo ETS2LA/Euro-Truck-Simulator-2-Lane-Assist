@@ -7,6 +7,7 @@ import json
 import time
 import logging
 print = logging.info
+import sys
 
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 
@@ -84,6 +85,7 @@ def VisualizeRoads(data, img=None, zoom=2):
                 road.BoundingBox = boundingBox
                 roads.SetRoadParallelData(road, parallelPoints, laneWidth, boundingBox)
                 calcCount += 1
+                sys.stdout.write(f"Calculated parallel points for {calcCount} roads\n")
             
             if road.ParallelPoints == [[(0, 0), (0, 0)], [(0, 0), (0, 0)]]:
                 continue
@@ -117,7 +119,7 @@ def VisualizeRoads(data, img=None, zoom=2):
     cv2.putText(img, f"Roads: {len(areaRoads)}, Tile: {str(tileCoords)}, Loading: {str(int(skipped))}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
     # Return the image    
-    return img
+    return img, areaRoads
 
 
 def VisualizePrefabs(data, img=None, zoom=2):

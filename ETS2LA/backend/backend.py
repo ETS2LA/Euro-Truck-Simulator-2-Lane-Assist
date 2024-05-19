@@ -83,6 +83,7 @@ class PluginRunnerController():
         
     def run(self):
         global frameTimes
+        global globalData
         threading.Thread(target=self.immediateQueueThread, daemon=True).start()
         threading.Thread(target=self.monitor, daemon=True).start()
         lastFrameTime = time.time()
@@ -102,9 +103,6 @@ class PluginRunnerController():
                 time.sleep(0.01)
                 continue
             
-            if type(data) != dict: # If the data is not a dictionary, we can assume it's return data, instead of a command.
-                self.lastData = data
-                continue
             
             if "frametimes" in data: # Save the frame times
                 frametime = data["frametimes"]
@@ -118,16 +116,31 @@ class PluginRunnerController():
             elif "get" in data: # If the data is a get command, then we need to get the data from another plugin.
                 plugins = data["get"]
                 for plugin in plugins:
+                    if "tags." in plugin:
+                        tag = plugin.split("tags.")[1]
+                        self.queue.put(globalData[tag])
+                    
                     if plugin in runners:
                         self.queue.put(runners[plugin].lastData)
                     else:
                         self.queue.put(None)
-            else:
+                        
+            else: # If the data is not a dictionary, we can assume it's return data, instead of a command.
+                if type(data) == tuple:
+                    normData = data[0]
+                    tags = data[1]
+                    self.lastData = normData
+                    globalData.update(tags) # TODO: This is a temporary solution. We need to find a better way to handle this.
+                    
+                else:
                     self.lastData = data
+                
+                continue
         
         
 runners = {}
 frameTimes = {}
+globalData = {}
 
 AVAILABLE_PLUGINS = {}
 def GetAvailablePlugins():

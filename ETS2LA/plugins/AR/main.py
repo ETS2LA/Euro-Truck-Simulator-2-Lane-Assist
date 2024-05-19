@@ -171,6 +171,8 @@ def draw(data):
     circles = data["overlay"]["circles"]
     boxes = data["overlay"]["boxes"]
     polygons = data["overlay"]["polygons"]
+    
+    print(f"Drawing {len(lines)} lines, {len(circles)} circles, {len(boxes)} boxes, {len(polygons)} polygons")
 
     if drawlist is not None:
         dpg.delete_item(drawlist)
@@ -239,7 +241,6 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
 
 
 def plugin():
-
     data = {}
     data["api"] = TruckSimAPI.run(returnVirtualTelemetryInstead=False)
     if data["api"] == "not connected" or data["api"]["pause"] == True:
@@ -368,16 +369,6 @@ def plugin():
 
     x3, y3, d3 = ConvertToScreenCoordinate(x=10453.237, y=34.324, z=-10130.404)
     
-
-    try:
-        data["overlay"]
-    except:
-        data["overlay"] = {}
-        data["overlay"]["lines"] = []
-        data["overlay"]["circles"] = []
-        data["overlay"]["boxes"] = []
-        data["overlay"]["polygons"] = []
-    
     alpha_zones = [
         (0, 10, 0),
         (10, 30, lambda x: int((x - 10) / 20 * 255)),
@@ -401,8 +392,23 @@ def plugin():
         avg_d = 0
     alpha = calculate_alpha(avg_d)
 
+    try:
+        data["overlay"] = runner.GetData(["tags.ar"])[0]
+        for line in data["overlay"]["lines"]:
+            line.start = ConvertToScreenCoordinate(line.start[0], truck_y, line.start[1])
+            line.end = ConvertToScreenCoordinate(line.end[0], truck_y, line.end[1])
+        # print(data["overlay"])
+    except:
+        import traceback
+        print(traceback.format_exc())
+        data["overlay"] = {}
+        data["overlay"]["lines"] = []
+        data["overlay"]["circles"] = []
+        data["overlay"]["boxes"] = []
+        data["overlay"]["polygons"] = []
 
-    data["overlay"]["polygons"].append(Polygon([[x1, y1], [x2, y2], [x3, y3]], fill=[255, 255, 255, int(alpha * 0.5)], color=[255, 255, 255, int(alpha)], closed=True))
-
-
-    draw(data)
+    try:
+        data["overlay"]["polygons"].append(Polygon([[x1, y1], [x2, y2], [x3, y3]], fill=[255, 255, 255, int(alpha * 0.5)], color=[255, 255, 255, int(alpha)], closed=True))
+        draw(data)
+    except:
+        pass

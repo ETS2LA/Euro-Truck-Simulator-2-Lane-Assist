@@ -172,6 +172,14 @@ class PluginRunner():
                 self.executiontimes = []
                 
     def GetData(self, plugins:list):
+        """Get data from a list of plugins or the global shared data.
+
+        Args:
+            plugins (list): String list of plugin names to get data from.
+
+        Returns:
+            dict: data
+        """
         startTime = time.time()
         amount = len(plugins)
         # Send the get command to the main thread

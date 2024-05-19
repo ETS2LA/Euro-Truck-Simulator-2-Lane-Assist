@@ -515,7 +515,5 @@ def CalculateParallelCurves(road):
             
         return boundingBox, newPoints, laneWidth
         
-    except Exception as ex:
-        import traceback
-        traceback.print_exc()
+    except:
         return False

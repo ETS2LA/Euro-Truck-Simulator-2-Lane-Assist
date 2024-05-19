@@ -17,7 +17,7 @@ import random
 import time
 import keyboard
 import mouse
-
+from typing import List
 from GameData import roads, nodes, prefabs, prefabItems
 from Visualize import visualize
 from ETS2LA.plugins.runner import PluginRunner
@@ -26,7 +26,13 @@ import cv2
 from PIL import Image
 
 USE_INTERNAL_VISUALIZATION = True
-USE_EXTERNAL_VISUALIZATION = False
+USE_EXTERNAL_VISUALIZATION = True
+
+try:
+    from ETS2LA.plugins.AR.main import Line, Circle, Box, Polygon
+except:
+    USE_EXTERNAL_VISUALIZATION = False # Force external off
+
 ZOOM = 2 # How many pixels per meter
 VISUALIZE_PREFABS = True
 
@@ -45,6 +51,12 @@ def Initialize():
     SI = runner.modules.ShowImage
     toast = runner.sonner
     pass
+
+def GetDistanceFromTruck(x, z, data):
+    truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    
+    return ((truckX - x) ** 2 + (truckZ - z) ** 2) ** 0.5
 
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
@@ -102,11 +114,11 @@ def plugin():
         
     if roads.roads == []:
         toast(LOAD_ROADS_MSG, type="promise", promise=LOAD_NODES_MSG)
-        roads.limitToCount = 10000
+        # roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFABS_MSG, type="promise", promise=LOAD_ROADS_MSG)
-        prefabs.limitToCount = 500
+        # prefabs.limitToCount = 500
         prefabs.LoadPrefabs() 
     if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFAB_ITEMS_MSG, type="promise", promise=LOAD_PREFABS_MSG)
@@ -114,9 +126,9 @@ def plugin():
         toast("Loading complete!", type="success", promise=LOAD_PREFAB_ITEMS_MSG)
     
     
-    
+    visRoads = []
     if USE_INTERNAL_VISUALIZATION:
-        img = visualize.VisualizeRoads(data, zoom=ZOOM)
+        img, visRoads = visualize.VisualizeRoads(data, zoom=ZOOM)
         if VISUALIZE_PREFABS:
             img = visualize.VisualizePrefabs(data, img=img, zoom=ZOOM)
             
@@ -135,27 +147,47 @@ def plugin():
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = -data["api"]["truckPlacement"]["coordinateZ"]
         
-        areaRoads = []
-        areaRoads = roads.GetRoadsInTileByCoordinates(x, y)
-        tileCoords = roads.GetTileCoordinates(x, y)
-        
-        # Also get the roads in the surrounding tiles
-        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y)
-        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y)
-        areaRoads += roads.GetRoadsInTileByCoordinates(x, y + 1000)
-        areaRoads += roads.GetRoadsInTileByCoordinates(x, y - 1000)
-        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y + 1000)
-        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y - 1000)
-        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y + 1000)
-        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y - 1000)
+        areaRoads = visRoads
         
         # Save the data for the API to send to the external visualization
-        data["GPS"] = {}
-        data["GPS"]["roads"] = areaRoads
-        data["GPS"]["x"] = x
-        data["GPS"]["y"] = y
-        data["GPS"]["tileCoordsX"] = tileCoords[0]
-        data["GPS"]["tileCoordsY"] = tileCoords[1]
-    
-    return data # Plugins need to ALWAYS return the data
+        arData = {
+            "lines": [],
+            "circles": [],
+            "boxes": [],
+            "polygons": [],
+        }
+        
+        # Convert each road to a line
+        for road in areaRoads:
+            try:
+                # print(road.ParallelPoints)
+                if road.ParallelPoints == []:
+                    continue
+                
+                if road.ParallelPoints == [[(0, 0), (0, 0)], [(0, 0), (0, 0)]]:
+                    continue
+                
+                for lane in road.ParallelPoints: # lane is a list of multiple points forming the curve of the lane
+                    startPoint = None
+                    index = 0
+                    for point in lane: # point is {x, y}
+                        if startPoint == None:
+                            startPoint = point
+                            index += 1
+                            continue
+                        if index == 1:
+                            if GetDistanceFromTruck(startPoint[0], startPoint[1], data) < 100 or GetDistanceFromTruck(point[0], point[1], data) < 100:
+                                arData['lines'].append(Line((startPoint[0], startPoint[1]), (point[0], point[1]), color=[255, 255, 255, 255], thickness=5))
+                        else:
+                            if GetDistanceFromTruck(startPoint[0], startPoint[1], data) < 100 or GetDistanceFromTruck(point[0], point[1], data) < 100:
+                                arData['lines'].append(Line((lane[index - 1][0], lane[index - 1][1]), (point[0], point[1]), color=[255, 255, 255, 255], thickness=5))
+                        index += 1
+            except:
+                import traceback
+                traceback.print_exc()
+                continue
+      
+    return data, {
+        "ar": arData,
+    }
 
