@@ -242,7 +242,7 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
 
 def plugin():
     data = {}
-    data["api"] = TruckSimAPI.run(returnVirtualTelemetryInstead=False)
+    data["api"] = TruckSimAPI.run(VirtualTelemetry_instead_of_notConnected=False)
     if data["api"] == "not connected" or data["api"]["pause"] == True:
         global drawlist
         if drawlist is not None:
