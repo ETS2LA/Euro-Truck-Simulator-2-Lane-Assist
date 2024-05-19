@@ -189,7 +189,7 @@ def VisualizePrefabs(data, img=None, zoom=2):
     cv2.putText(img, f"Prefabs: {len(areaItems)}, Tile: {str(prefabTileCoords)}", (10, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
     cv2.putText(img, f"Curves: {curveCount}", (10, 140), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
     
-    return img
+    return img, areaItems
 
 def RotateAroundCenter(point, center, angle):
     """Rotate a point around a center point.

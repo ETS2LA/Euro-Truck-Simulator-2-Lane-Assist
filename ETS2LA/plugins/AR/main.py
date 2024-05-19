@@ -171,8 +171,6 @@ def draw(data):
     circles = data["overlay"]["circles"]
     boxes = data["overlay"]["boxes"]
     polygons = data["overlay"]["polygons"]
-    
-    print(f"Drawing {len(lines)} lines, {len(circles)} circles, {len(boxes)} boxes, {len(polygons)} polygons")
 
     if drawlist is not None:
         dpg.delete_item(drawlist)
@@ -398,12 +396,14 @@ def plugin():
             raise Exception("No AR data")
         data["overlay"] = arData
         for line in data["overlay"]["lines"]:
+            startDistance = math.sqrt((line.start[0] - truck_x) ** 2 + (line.start[1] - truck_z) ** 2)
+            endDistance = math.sqrt((line.end[0] - truck_x) ** 2 + (line.end[1] - truck_z) ** 2)
+            distance = (startDistance + endDistance) / 2
             line.start = ConvertToScreenCoordinate(line.start[0], truck_y, line.start[1])
             line.end = ConvertToScreenCoordinate(line.end[0], truck_y, line.end[1])
-        # print(data["overlay"])
-    except:
-        import traceback
-        print(traceback.format_exc())
+            alpha = int(calculate_alpha(distance))
+            line.color[3] = alpha
+    except Exception as e:
         data["overlay"] = {}
         data["overlay"]["lines"] = []
         data["overlay"]["circles"] = []

@@ -27,6 +27,7 @@ from PIL import Image
 
 USE_INTERNAL_VISUALIZATION = True
 USE_EXTERNAL_VISUALIZATION = True
+EXTERNAL_RENDER_DISTANCE = 200 # How far to render in meters
 
 try:
     from ETS2LA.plugins.AR.main import Line, Circle, Box, Polygon
@@ -127,10 +128,11 @@ def plugin():
     
     
     visRoads = []
+    visPrefabs = []
     if USE_INTERNAL_VISUALIZATION:
         img, visRoads = visualize.VisualizeRoads(data, zoom=ZOOM)
         if VISUALIZE_PREFABS:
-            img = visualize.VisualizePrefabs(data, img=img, zoom=ZOOM)
+            img, visPrefabs = visualize.VisualizePrefabs(data, img=img, zoom=ZOOM)
             
         img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
 
@@ -176,15 +178,27 @@ def plugin():
                             index += 1
                             continue
                         if index == 1:
-                            if GetDistanceFromTruck(startPoint[0], startPoint[1], data) < 100 or GetDistanceFromTruck(point[0], point[1], data) < 100:
+                            if GetDistanceFromTruck(startPoint[0], startPoint[1], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_RENDER_DISTANCE:
                                 arData['lines'].append(Line((startPoint[0], startPoint[1]), (point[0], point[1]), color=[255, 255, 255, 255], thickness=5))
                         else:
-                            if GetDistanceFromTruck(startPoint[0], startPoint[1], data) < 100 or GetDistanceFromTruck(point[0], point[1], data) < 100:
+                            if GetDistanceFromTruck(startPoint[0], startPoint[1], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_RENDER_DISTANCE:
                                 arData['lines'].append(Line((lane[index - 1][0], lane[index - 1][1]), (point[0], point[1]), color=[255, 255, 255, 255], thickness=5))
                         index += 1
             except:
                 import traceback
                 traceback.print_exc()
+                continue
+            
+        for prefab in visPrefabs:
+            try:
+                if prefab.Prefab.ValidRoad:
+                    # Draw the curves
+                    for curve in prefab.NavigationLanes:
+                        startXY = (curve[0], curve[1])
+                        endXY = (curve[2], curve[3])
+                        if GetDistanceFromTruck(startXY[0], startXY[1], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(endXY[0], endXY[1], data) < EXTERNAL_RENDER_DISTANCE:
+                            arData['lines'].append(Line(startXY, endXY, color=[255, 255, 255, 255], thickness=5))
+            except:
                 continue
       
     return data, {
