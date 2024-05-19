@@ -1,1 +1,1 @@
-Update the wiki link when bettercam fails to initialize.
+Added a PyTorch import protection for NavigationDetection.

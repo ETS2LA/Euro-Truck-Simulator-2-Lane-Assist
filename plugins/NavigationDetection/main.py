@@ -28,18 +28,26 @@ import tkinter as tk
 import plugins.DefaultSteering.main as DefaultSteering
 import numpy as np
 import subprocess
+import traceback
 import ctypes
 import time
 import cv2
 import os
 
-from torchvision import transforms
-from bs4 import BeautifulSoup
-import torch.nn as nn
-import threading
-import traceback
-import requests
-import torch
+try:
+    from torchvision import transforms
+    from bs4 import BeautifulSoup
+    import torch.nn as nn
+    import threading
+    import requests
+    import torch
+    TorchAvailable = True
+except:
+    TorchAvailable = False
+    exc = traceback.format_exc()
+    SendCrashReport("NavigationDetection - PyTorch import error.", str(exc))
+    print("\033[91m" + f"NavigationDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
+    console.RestoreConsole()
 
 
 controls.RegisterKeybind("Lane change to the left",
@@ -127,7 +135,11 @@ def LoadSettings():
 
     if 'UseAI' in globals():
         if UseAI == False and settings.GetSettings("NavigationDetection", "UseAI", False) == True:
-            helpers.RunInMainThread(LoadAIModel)
+            if TorchAvailable == True:
+                helpers.RunInMainThread(LoadAIModel)
+            else:
+                print("NavigationDetectionAI not available due to missing dependencies.")
+                console.RestoreConsole()
     UseAI = settings.GetSettings("NavigationDetection", "UseAI", False)
     UseCUDA = settings.GetSettings("NavigationDetection", "UseCUDA", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
@@ -272,7 +284,11 @@ def HandleCorruptedAIModel():
     CheckForAIModelUpdates()
     while AIModelUpdateThread.is_alive(): time.sleep(0.1)
     time.sleep(0.5)
-    helpers.RunInMainThread(LoadAIModel)
+    if TorchAvailable == True:
+        helpers.RunInMainThread(LoadAIModel)
+    else:
+        print("NavigationDetectionAI not available due to missing dependencies.")
+        console.RestoreConsole()
 
 
 def LoadAIModel():
@@ -496,7 +512,11 @@ def GetAIModelProperties():
 
 
 if UseAI:
-    helpers.RunInMainThread(LoadAIModel)
+    if TorchAvailable == True:
+        helpers.RunInMainThread(LoadAIModel)
+    else:
+        print("NavigationDetectionAI not available due to missing dependencies.")
+        console.RestoreConsole()
 
 
 ############################################################################################################################
@@ -1478,7 +1498,11 @@ class UI():
                 def UIButtonCheckForModelUpdates():
                     CheckForAIModelUpdates()
                     while AIModelUpdateThread.is_alive(): time.sleep(0.1)
-                    LoadAIModel()
+                    if TorchAvailable == True:
+                        LoadAIModel()
+                    else:
+                        print("NavigationDetectionAI not available due to missing dependencies.")
+                        console.RestoreConsole()
 
                 helpers.MakeButton(navigationdetectionaiFrame, "Check for AI model updates", UIButtonCheckForModelUpdates, 11, 0, width=30, sticky="nw")
 
