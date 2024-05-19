@@ -11,7 +11,7 @@ import sys
 
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 
-def VisualizeRoads(data, img=None, zoom=2):
+def VisualizeRoads(data, closeRoads, img=None, zoom=2):
     """Will draw the roads onto the image.
     data: The game data
     img: The image to draw the roads on
@@ -24,19 +24,8 @@ def VisualizeRoads(data, img=None, zoom=2):
     startTime = time.time()
     
     # Get the roads in the current area
-    areaRoads = []
-    areaRoads = roads.GetRoadsInTileByCoordinates(x, y)
+    areaRoads = closeRoads
     tileCoords = roads.GetTileCoordinates(x, y)
-    
-    # Also get the roads in the surrounding tiles
-    areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x, y + 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x, y - 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y + 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y - 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y + 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y - 1000)
     
     # Make a blank image of size 1000x1000 (1km x 1km on default zoom of 1)
     if img is None:
@@ -90,11 +79,15 @@ def VisualizeRoads(data, img=None, zoom=2):
             if road.ParallelPoints == [[(0, 0), (0, 0)], [(0, 0), (0, 0)]]:
                 continue
             
+            truckXY = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
+            firstPoint = []
+            laneCountLeft = len(road.RoadLook.lanesLeft)
+            laneCountRight = len(road.RoadLook.lanesRight)
+            laneCount = 0
             for lane in road.ParallelPoints:
                 newPoints = []
                 for point in lane:
                     xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
-                    truckXY = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
                     xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
                     # Apply zoom to the local coordinates
                     zoomedX = xy[0] * zoom
@@ -106,23 +99,50 @@ def VisualizeRoads(data, img=None, zoom=2):
                     if pointX < 0 or pointX > 1000 or pointY < 0 or pointY > 1000:
                         continue
                     newPoints.append((pointX, pointY))
+                    if firstPoint == []:
+                        firstPoint = (pointX, pointY)
             
-                cv2.polylines(img, np.int32([newPoints]), False, (150, 150, 150), (2 + (zoom - 1)), cv2.LINE_AA)
+                if laneCount < laneCountLeft:
+                    cv2.polylines(img, np.int32([newPoints]), False, (150, 175, 150), (2 + (zoom - 1)), cv2.LINE_AA)
+                else:
+                    cv2.polylines(img, np.int32([newPoints]), False, (175, 150, 150), (2 + (zoom - 1)), cv2.LINE_AA)
+                
+                laneCount += 1
+            
+            try:
+                cv2.putText(img, f"Offset: {road.RoadLook.offset}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
+            except: pass
+            # Draw the original road
+            try:
+                newPoints = []
+                for point in road.Points:
+                    xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
+                    xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
+                    # Apply zoom to the local coordinates
+                    zoomedX = xy[0] * zoom
+                    zoomedY = xy[1] * zoom
+                    # Offset the zoomed coordinates by the truck's position to "move" the camera
+                    pointX = int(zoomedX + size//2)
+                    pointY = int(zoomedY + size//2)
+                    newPoints.append((pointX, pointY))
+                cv2.polylines(img, np.int32([newPoints]), False, (0, 0, 255), (1 + (zoom - 1)), cv2.LINE_AA)
+            except:
+                pass
             
             road = None
         
         except:
-            #import traceback
-            #traceback.print_exc()
+            import traceback
+            traceback.print_exc()
             pass
         
     cv2.putText(img, f"Roads: {len(areaRoads)}, Tile: {str(tileCoords)}, Loading: {str(int(skipped))}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
     # Return the image    
-    return img, areaRoads
+    return img
 
 
-def VisualizePrefabs(data, img=None, zoom=2):
+def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2):
     """Will draw the prefabs onto the image.
 
     Args:
@@ -138,20 +158,9 @@ def VisualizePrefabs(data, img=None, zoom=2):
     y = data["api"]["truckPlacement"]["coordinateZ"]
     
     # Get the roads in the current area
-    areaItems = []
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x, y)
+    areaItems = closePrefabItems
     tileCoords = roads.GetTileCoordinates(x, y)
     prefabTileCoords = prefabItems.GetTileCoordinates(x, y)
-    
-    # Also get the roads in the surrounding tiles
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x, y + 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x, y - 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y + 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y - 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y + 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y - 1000)
     
     # Make a blank image of size 1000x1000 (1km x 1km on default zoom)
     if img is None:
@@ -189,7 +198,7 @@ def VisualizePrefabs(data, img=None, zoom=2):
     cv2.putText(img, f"Prefabs: {len(areaItems)}, Tile: {str(prefabTileCoords)}", (10, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
     cv2.putText(img, f"Curves: {curveCount}", (10, 140), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
     
-    return img, areaItems
+    return img
 
 def RotateAroundCenter(point, center, angle):
     """Rotate a point around a center point.

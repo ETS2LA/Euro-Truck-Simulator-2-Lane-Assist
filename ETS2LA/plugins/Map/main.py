@@ -19,6 +19,7 @@ import keyboard
 import mouse
 from typing import List
 from GameData import roads, nodes, prefabs, prefabItems
+import Compute.compute as compute
 from Visualize import visualize
 from ETS2LA.plugins.runner import PluginRunner
 import sys
@@ -26,7 +27,7 @@ import sys
 import cv2
 from PIL import Image
 
-USE_INTERNAL_VISUALIZATION = True
+USE_INTERNAL_VISUALIZATION = False
 USE_EXTERNAL_VISUALIZATION = True
 EXTERNAL_RENDER_DISTANCE = 200 # How far to render in meters
 
@@ -72,8 +73,6 @@ def plugin():
         "api": API.run(),
     }
     
-    sys.stdout.write(f"Data = {data}\n")
-    
     # Bind the mouse scroll wheel to zoom
     if mouse.is_pressed("scroll_up"):
         ZOOM += 1
@@ -118,11 +117,11 @@ def plugin():
         
     if roads.roads == []:
         toast(LOAD_ROADS_MSG, type="promise", promise=LOAD_NODES_MSG)
-        roads.limitToCount = 10000
+        # roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFABS_MSG, type="promise", promise=LOAD_ROADS_MSG)
-        prefabs.limitToCount = 500
+        # prefabs.limitToCount = 500
         prefabs.LoadPrefabs() 
     if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFAB_ITEMS_MSG, type="promise", promise=LOAD_PREFABS_MSG)
@@ -130,12 +129,13 @@ def plugin():
         toast("Loading complete!", type="success", promise=LOAD_PREFAB_ITEMS_MSG)
     
     
-    visRoads = []
-    visPrefabs = []
+    visRoads = compute.GetRoads(data)
+    compute.CalculateParallelPointsForRoads(visRoads) # Will slowly populate the lanes over a few frames
+    visPrefabs = compute.GetPrefabs(data)
     if USE_INTERNAL_VISUALIZATION:
-        img, visRoads = visualize.VisualizeRoads(data, zoom=ZOOM)
+        img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM)
         if VISUALIZE_PREFABS:
-            img, visPrefabs = visualize.VisualizePrefabs(data, img=img, zoom=ZOOM)
+            img = visualize.VisualizePrefabs(data, visPrefabs, img=img, zoom=ZOOM)
             
         img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
 
