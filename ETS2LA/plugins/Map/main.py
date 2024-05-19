@@ -10,7 +10,7 @@ print = logging.info
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-import ETS2LA.variables as variables
+import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
 import os
 import random
@@ -95,7 +95,7 @@ def plugin():
         
         
     # Check if the GameData folder has it's json files
-    filesInGameData = os.listdir(variables.PATH + "/ETS2LA/plugins/Map/GameData")
+    filesInGameData = os.listdir(variables.PATH + "ETS2LA/plugins/Map/GameData")
     hasJson = False
     for file in filesInGameData:
         if file.endswith(".json"):

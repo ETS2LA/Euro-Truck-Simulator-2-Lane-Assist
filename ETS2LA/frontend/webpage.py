@@ -3,7 +3,7 @@ import multiprocessing
 import os
 import time
 import logging
-import ETS2LA.variables as variables
+import ETS2LA.backend.variables as variables
 
 def start_webpage():
     def load_website(window:webview.Window):

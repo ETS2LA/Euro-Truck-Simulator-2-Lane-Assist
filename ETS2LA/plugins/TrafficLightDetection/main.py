@@ -1,7 +1,7 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.console as console
-import ETS2LA.variables as variables
+import ETS2LA.backend.variables as variables
 
 if variables.OS == "nt":
     from ctypes import windll, byref, sizeof, c_int

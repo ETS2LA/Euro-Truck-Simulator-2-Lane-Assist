@@ -1,6 +1,3 @@
-import logging
-#print = logging.info
-
 import math
 from ETS2LA.modules.TruckSimAPI.api import scsTelemetry
 from ETS2LA.modules.TruckSimAPI.virtualAPI import scsTelemetry as virtualTelemetry

@@ -5,7 +5,7 @@ import ETS2LA.backend.backend as backend
 import ETS2LA.frontend.immediate as immediate
 from ETS2LA.utils.logging import *
 import ETS2LA.frontend.webpage as webpage
-import ETS2LA.variables as variables
+import ETS2LA.backend.variables as variables
 import ETS2LA.backend.events as events
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.globalServer as globalServer

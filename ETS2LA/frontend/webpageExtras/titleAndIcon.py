@@ -1,7 +1,7 @@
 # https://stackoverflow.com/a/76060844
 import win32gui
 import win32con
-import ETS2LA.variables as variables
+import ETS2LA.backend.variables as variables
 import os
 
 def set_window_icon(image_path):
