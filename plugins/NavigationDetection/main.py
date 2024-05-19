@@ -523,7 +523,7 @@ if UseAI:
 # Code
 ############################################################################################################################
 def plugin(data):
-    if UseAI == False:
+    if UseAI == False or TorchAvailable == False:
         global map_topleft
         global map_bottomright
         global arrow_topleft
