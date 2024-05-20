@@ -216,8 +216,12 @@ def LoadPrefabItems():
             if node.Z > maxZ:
                 maxZ = node.Z
         
-        prefabItem.BoundingBox = [minX, maxX, minZ, maxZ]
-        
+        # Add 5m of padding
+        # minX -= 5
+        # maxX += 5
+        # minZ -= 5
+        # maxZ += 5
+        prefabItem.BoundingBox = [[minX, minZ], [maxX, maxZ]]
         
         count += 1
         if count % 500 == 0:

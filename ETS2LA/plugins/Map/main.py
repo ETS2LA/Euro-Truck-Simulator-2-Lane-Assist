@@ -22,6 +22,7 @@ from GameData import roads, nodes, prefabs, prefabItems
 import Compute.compute as compute
 from Visualize import visualize
 from ETS2LA.plugins.runner import PluginRunner
+from ETS2LA.backend.sounds import sounds
 import sys
 
 import cv2
@@ -43,15 +44,27 @@ LOAD_NODES_MSG = "Loading nodes... (1/4)"
 LOAD_ROADS_MSG = "Loading roads... (2/4)"
 LOAD_PREFABS_MSG = "Loading prefabs... (3/4)"
 LOAD_PREFAB_ITEMS_MSG = "Loading prefab items... (4/4)"
+ENABLED = True
 
 runner:PluginRunner = None
+
+def ToggleSteering(state:bool, *args, **kwargs):
+    global ENABLED
+    ENABLED = state
+    sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
 
 def Initialize():
     global API
     global SI
+    global Steering
     global toast
     API = runner.modules.TruckSimAPI
     SI = runner.modules.ShowImage
+    Steering = runner.modules.Steering
+    Steering.OFFSET = 0
+    Steering.SMOOTH_TIME = 0.0
+    Steering.IGNORE_SMOOTH = False
+    Steering.SENSITIVITY = 0.65
     toast = runner.sonner
     pass
 
@@ -117,11 +130,11 @@ def plugin():
         
     if roads.roads == []:
         toast(LOAD_ROADS_MSG, type="promise", promise=LOAD_NODES_MSG)
-        roads.limitToCount = 10000
+        #roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFABS_MSG, type="promise", promise=LOAD_ROADS_MSG)
-        prefabs.limitToCount = 500
+        #prefabs.limitToCount = 500
         prefabs.LoadPrefabs() 
     if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFAB_ITEMS_MSG, type="promise", promise=LOAD_PREFABS_MSG)
@@ -131,26 +144,26 @@ def plugin():
     
     visRoads = compute.GetRoads(data)
     compute.CalculateParallelPointsForRoads(visRoads) # Will slowly populate the lanes over a few frames
+    closestItem, closestLane, distance, closestType = compute.GetClosestRoadOrPrefabAndLane(data)
+    print(f"Closest item: {closestItem}, closest lane: {closestLane}, distance: {distance}, type: {closestType}")
+    Steering.run(value=distance, sendToGame=ENABLED)
     visPrefabs = compute.GetPrefabs(data)
     if USE_INTERNAL_VISUALIZATION:
-        img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM)
+        img = visualize.VisualizeRoads(data, visRoads, closestLane, closestItem, zoom=ZOOM)
         if VISUALIZE_PREFABS:
-            img = visualize.VisualizePrefabs(data, visPrefabs, img=img, zoom=ZOOM)
+            img = visualize.VisualizePrefabs(data, visPrefabs, closestLane, closestItem, img=img, zoom=ZOOM)
             
         img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
 
         img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
         
-        cv2.namedWindow("Roads", cv2.WINDOW_NORMAL)
-        # Make it stay on top
-        cv2.setWindowProperty("Roads", cv2.WND_PROP_TOPMOST, 1)
-        cv2.imshow("Roads", img)
-        # cv2.resizeWindow("Roads", 1000, 1000)
-        cv2.waitKey(1)
+        # Convert to BGR
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        SI.run(img)
     
     if USE_EXTERNAL_VISUALIZATION:
         x = data["api"]["truckPlacement"]["coordinateX"]
-        y = -data["api"]["truckPlacement"]["coordinateZ"]
+        y = data["api"]["truckPlacement"]["coordinateY"]
         
         areaRoads = visRoads
         
@@ -175,35 +188,49 @@ def plugin():
                 for lane in road.ParallelPoints: # lane is a list of multiple points forming the curve of the lane
                     startPoint = None
                     index = 0
+                    if road == closestItem:
+                        color = [0, 255, 0, 255]
+                        if lane == closestLane:
+                            color = [0, 0, 255, 255]
+                    else:
+                        color = [255, 255, 255, 255]
                     for point in lane: # point is {x, y}
                         if startPoint == None:
                             startPoint = point
                             index += 1
                             continue
                         if index == 1:
-                            if GetDistanceFromTruck(startPoint[0], startPoint[1], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_RENDER_DISTANCE:
-                                arData['lines'].append(Line((startPoint[0], startPoint[1]), (point[0], point[1]), color=[255, 255, 255, 255], thickness=5))
+                            if GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_RENDER_DISTANCE:
+                                arData['lines'].append(Line((startPoint[0], y, startPoint[1]), (point[0], y, point[1]), color=color, thickness=5))
                         else:
-                            if GetDistanceFromTruck(startPoint[0], startPoint[1], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_RENDER_DISTANCE:
-                                arData['lines'].append(Line((lane[index - 1][0], lane[index - 1][1]), (point[0], point[1]), color=[255, 255, 255, 255], thickness=5))
+                            if GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_RENDER_DISTANCE:
+                                arData['lines'].append(Line((lane[index - 1][0], y, lane[index - 1][1]), (point[0], y, point[1]), color=color, thickness=5))
                         index += 1
             except:
                 import traceback
                 traceback.print_exc()
                 continue
-            
+          
         for prefab in visPrefabs:
             try:
-                if prefab.Prefab.ValidRoad:
-                    # Draw the curves
-                    for curve in prefab.NavigationLanes:
-                        startXY = (curve[0], curve[1])
-                        endXY = (curve[2], curve[3])
-                        if GetDistanceFromTruck(startXY[0], startXY[1], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(endXY[0], endXY[1], data) < EXTERNAL_RENDER_DISTANCE:
-                            arData['lines'].append(Line(startXY, endXY, color=[255, 255, 255, 255], thickness=5))
+                # Draw the curves
+                for curve in prefab.NavigationLanes:
+                    if curve == closestLane:
+                        color = [0, 0, 255, 255]
+                    else:
+                        color = [255, 255, 255, 255]
+                    startXY = (curve[0], y, curve[1])
+                    endXY = (curve[2], y, curve[3])
+                    if GetDistanceFromTruck(startXY[0], startXY[1], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(endXY[0], endXY[1], data) < EXTERNAL_RENDER_DISTANCE:
+                        arData['lines'].append(Line(startXY, endXY, color=color, thickness=5))
+                        logging.info(f"Drawing curve from {startXY} to {endXY}")
+                        sys.stdout.write(f"\rDrawing curve from {startXY} to {endXY}\r")
+                        sys.stdout.flush()
             except:
+                #import traceback
+                #traceback.print_exc()
                 continue
-      
+
     return data, {
         "ar": arData,
     }

@@ -237,8 +237,9 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
     return screen_x, screen_y, distance
 
 
+lastOverlayData = None
 def plugin():
-
+    global lastOverlayData
     data = {}
     data["api"] = TruckSimAPI.run(Fallback=False)
     if data["api"] == "not connected" or data["api"]["pause"] == True:
@@ -394,20 +395,29 @@ def plugin():
         arData = runner.GetData(["tags.ar"])[0]
         if arData != None:
             data["overlay"] = arData
+            # print(data)
         for line in data["overlay"]["lines"]:
-            startDistance = math.sqrt((line.start[0] - truck_x) ** 2 + (line.start[1] - truck_z) ** 2)
-            endDistance = math.sqrt((line.end[0] - truck_x) ** 2 + (line.end[1] - truck_z) ** 2)
-            distance = (startDistance + endDistance) / 2
-            line.start = ConvertToScreenCoordinate(line.start[0], truck_y, line.start[1])
-            line.end = ConvertToScreenCoordinate(line.end[0], truck_y, line.end[1])
-            alpha = int(calculate_alpha(distance))
-            line.color[3] = alpha
+            try:
+                startDistance = math.sqrt((line.start[0] - truck_x) ** 2 + (line.start[2] - truck_z) ** 2)
+                endDistance = math.sqrt((line.end[0] - truck_x) ** 2 + (line.end[2] - truck_z) ** 2)
+                distance = (startDistance + endDistance) / 2
+                line.start = ConvertToScreenCoordinate(line.start[0], line.start[1], line.start[2])
+                line.end = ConvertToScreenCoordinate(line.end[0], line.end[1], line.end[2])
+                #alpha = int(calculate_alpha(distance))
+                #line.color[3] = alpha
+            except:
+                data["overlay"]["lines"].remove(line)
+                continue
+        lastOverlayData = data["overlay"]
     except Exception as e:
-        data["overlay"] = {}
-        data["overlay"]["lines"] = []
-        data["overlay"]["circles"] = []
-        data["overlay"]["boxes"] = []
-        data["overlay"]["polygons"] = []
+        if lastOverlayData != None:
+            data["overlay"] = lastOverlayData
+        else:
+            data["overlay"] = {}
+            data["overlay"]["lines"] = []
+            data["overlay"]["circles"] = []
+            data["overlay"]["boxes"] = []
+            data["overlay"]["polygons"] = []
 
     data["overlay"]["polygons"].append(Polygon([[x1, y1], [x2, y2], [x3, y3]], fill=[255, 255, 255, int(alpha * 0.5)], color=[255, 255, 255, int(alpha)], closed=True))
 

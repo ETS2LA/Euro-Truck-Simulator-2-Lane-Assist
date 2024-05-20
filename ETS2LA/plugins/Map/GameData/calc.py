@@ -12,7 +12,7 @@ def normalize(v):
     return v / norm
 
 # Function to calculate lane boundaries
-def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=0):
+def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=999):
     lanes = {'left': [[] for _ in range(num_left_lanes)], 
              'right': [[] for _ in range(num_right_lanes)]}
     
@@ -45,10 +45,21 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_
             point1 += middle_offset
             point2 += middle_offset
         
+        # Offset to keep the lanes centered
+        elif num_left_lanes > num_right_lanes:
+            middle_offset = perp_vector * lane_width * (num_left_lanes + 1 - num_right_lanes) / 2
+            point1 -= middle_offset
+            point2 -= middle_offset
+        elif num_right_lanes > num_left_lanes:
+            middle_offset = -perp_vector * lane_width * (num_right_lanes + 1 - num_left_lanes) / 2
+            point1 -= middle_offset
+            point2 -= middle_offset
+            
+        
         # Calculate the lane points for each lane on the left side
         for lane in range(num_left_lanes):
-            if custom_offset == 0:
-                offset = perp_vector * (lane_width * (lane + 1) + custom_offset / 2)
+            if custom_offset == 999 or (num_left_lanes == 1 and num_right_lanes == 0):
+                offset = perp_vector * (lane_width * (lane + 1))
             else:
                 offset = perp_vector * (lane_width * (lane) + custom_offset / 2)
             
@@ -60,8 +71,8 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_
         
         # Calculate the lane points for each lane on the right side
         for lane in range(num_right_lanes):
-            if custom_offset == 0:
-                offset = perp_vector * (lane_width * (lane + 1) + custom_offset / 2)
+            if custom_offset == 999 or (num_left_lanes == 0 and num_right_lanes == 1):
+                offset = perp_vector * (lane_width * (lane + 1))
             else:
                 offset = perp_vector * (lane_width * (lane) + custom_offset / 2)
             right_point1 = point1 - offset

@@ -128,8 +128,12 @@ def run(value:float = None, sendToGame:bool = True, drawLine:bool = True, drawTe
         gameDifference = 0
     
     # Remove all values that are older than SMOOTH_TIME
-    while steeringValues[0].IsOlderThan(time.time() - SMOOTH_TIME):
-        steeringValues.pop(0)
+    if SMOOTH_TIME > 0:
+        while steeringValues[0].IsOlderThan(time.time() - SMOOTH_TIME):
+            steeringValues.pop(0)
+    else:
+        while len(steeringValues) > 1:
+            steeringValues.pop(0)
         
     # Calculate the steering angle
     angle = CalculateSteeringAngle()

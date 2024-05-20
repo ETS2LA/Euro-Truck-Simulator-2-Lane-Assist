@@ -7,7 +7,7 @@ import sys
 import GameData.nodes as nodes
 import math
 
-ROAD_QUALITY = 12
+ROAD_QUALITY = 36
 
 class Road():
     Uid = 0
@@ -21,6 +21,7 @@ class Road():
     Type = 0
     X = 0
     Z = 0
+    YValues = []
     Hidden = False
     Flags = 0
     Navigation = None
@@ -33,6 +34,7 @@ class Road():
     BoundingBox = []
 
 class RoadLook():
+    name = ""
     offset = 0.0
     lanesLeft = []
     lanesRight = []
@@ -97,6 +99,7 @@ def RoadToJson(road):
     roadJson["IsSecret"] = road.IsSecret
     
     roadJson["RoadLook"] = {}
+    roadJson["RoadLook"]["Name"] = road.RoadLook.name
     roadJson["RoadLook"]["Offset"] = road.RoadLook.offset
     roadJson["RoadLook"]["LanesLeft"] = road.RoadLook.lanesLeft
     roadJson["RoadLook"]["LanesRight"] = road.RoadLook.lanesRight
@@ -121,8 +124,10 @@ def CreatePointsForRoad(road):
     newPoints = []
 
     sx = road.StartNode.X
+    sy = road.StartNode.Y
     sz = road.StartNode.Z
     ex = road.EndNode.X
+    ey = road.EndNode.Y
     ez = road.EndNode.Z
 
     radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
@@ -137,6 +142,9 @@ def CreatePointsForRoad(road):
         x = Hermite(s, sx, ex, tanSx, tanEx)
         z = Hermite(s, sz, ez, tanSz, tanEz)
         newPoints.append((x, z))
+        # Lerp the Y value between sy and ey
+        y = sy + (ey - sy) * s
+        road.YValues.append(y) # Add the Y value to the road but not to the points as they are 2D
 
     road.Points = newPoints
     
@@ -187,6 +195,7 @@ def LoadRoads():
     
         roadObj.RoadLook = RoadLook()
         
+        roadObj.RoadLook.name = road["RoadLook"]["Name"]
         roadObj.RoadLook.offset = road["RoadLook"]["Offset"]
         roadObj.RoadLook.lanesLeft = road["RoadLook"]["LanesLeft"]
         roadObj.RoadLook.lanesRight = road["RoadLook"]["LanesRight"]
@@ -228,8 +237,7 @@ def LoadRoads():
             }
     
     sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
-    
-    
+
     # Make an optimized array for the roads. Do this by splitting the map into 1km / 1km areas and then adding the roads to the correct area
     data = {
         "state": f"Optimizing array...",
@@ -369,27 +377,43 @@ def SetRoadPoints(road, points):
 import GameData.calc as calc
 offsetData = { # Array of manual corrections to the offsets
     5.75: 5.75,
+    999: 0,
+    0.0: 4.5
+}
+offsetPerName = {
+    "\"ger road 1 tmpl\"": 4.5,
+    "\"invis road\"" : 4.5,
+    "\"balt road 1 tmpl\"" : 4.5,
+    "\"*Road 1 scan temp\"" : 4.5,
 }
 def CalculateParallelCurves(road):
     try:
         if road.RoadLook.offset in offsetData: 
             custom_offset = offsetData[road.RoadLook.offset]
-        else: custom_offset = 0
+        else: custom_offset = 999
+        if road.RoadLook.name in offsetPerName:
+            custom_offset = offsetPerName[road.RoadLook.name]
+
         lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset)
         newPoints = lanes['left'] + lanes['right']
         
-        boundingBox = [999999, 999999, -999999, -999999]
+        boundingBox = [[999999, 999999], [-999999, -999999]]
         for lane in newPoints:
             for point in lane:
-                if point[0] < boundingBox[0]:
-                    boundingBox[0] = point[0]
-                if point[1] < boundingBox[1]:
-                    boundingBox[1] = point[1]
-                if point[0] > boundingBox[2]:
-                    boundingBox[2] = point[0]
-                if point[1] > boundingBox[3]:
-                    boundingBox[3] = point[1]
-                    
+                if point[0] < boundingBox[0][0]:
+                    boundingBox[0][0] = point[0]
+                if point[0] > boundingBox[1][0]:
+                    boundingBox[1][0] = point[0]
+                if point[1] < boundingBox[0][1]:
+                    boundingBox[0][1] = point[1]
+                if point[1] > boundingBox[1][1]:
+                    boundingBox[1][1] = point[1]
+        # Add 5m of padding
+        boundingBox[0][0] -= 5
+        boundingBox[0][1] -= 5
+        boundingBox[1][0] += 5
+        boundingBox[1][1] += 5            
+        
         return boundingBox, newPoints, 4.5
     
     except:
