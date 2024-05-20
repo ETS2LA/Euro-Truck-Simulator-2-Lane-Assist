@@ -36,8 +36,8 @@ class RoadLook():
     offset = 0.0
     lanesLeft = []
     lanesRight = []
-    shoulderSpaceLeft = 999
-    shoulderSpaceRight = 999
+    shoulderSpaceLeft = 0
+    shoulderSpaceRight = 0
     roadSizeLeft = 999
     roadSizeRight = 999
     token = 0
@@ -366,144 +366,18 @@ def SetRoadPoints(road, points):
         if arrayRoad.Uid == road.Uid:
             arrayRoad.Points = points
 
+import GameData.calc as calc
+offsetData = { # Array of manual corrections to the offsets
+    5.75: 5.75,
+}
 def CalculateParallelCurves(road):
-    import numpy as np
     try:
-        points = road.Points
-        lanesLeft = len(road.RoadLook.lanesLeft)
-        lanesRight = len(road.RoadLook.lanesRight)
+        if road.RoadLook.offset in offsetData: 
+            custom_offset = offsetData[road.RoadLook.offset]
+        else: custom_offset = 0
+        lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset)
+        newPoints = lanes['left'] + lanes['right']
         
-        LANE_WIDTH = 4.5
-
-        roadSizeLeft = lanesLeft * LANE_WIDTH
-        roadSizeRight = lanesRight * LANE_WIDTH
-          
-          
-        #if road.RoadLook.shoulderSpaceLeft != 0:
-        #    roadSizeLeft += road.RoadLook.shoulderSpaceLeft
-        #if road.RoadLook.shoulderSpaceRight != 0:
-        #    roadSizeRight += road.RoadLook.shoulderSpaceRight
-
-        # Calculate lane width
-        totalRoadWidth = roadSizeRight + roadSizeLeft # + road.RoadLook.offset
-        try:
-            laneWidth = totalRoadWidth / (lanesRight + lanesLeft)
-        except:
-            laneWidth = totalRoadWidth
-            
-        offset = road.RoadLook.offset
-        additionalOffset = 0
-
-        # Calculate the points for each lane
-        newPoints = []
-
-        pointCounter = 0
-        for point in points:
-            try:
-                x = point[0]
-                y = point[1]
-            except:
-                newPoints.append([])
-                continue
-
-            # Calculate the tangent vector at the point
-            tangentVector = np.array([0, 0])
-            if pointCounter < len(points) - 1:
-                xPoints = np.array([points[pointCounter][0], points[pointCounter + 1][0]])
-                yPoints = np.array([points[pointCounter][1], points[pointCounter + 1][1]])
-                tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
-            else:
-                xPoints = np.array([points[pointCounter - 1][0], points[pointCounter][0]])
-                yPoints = np.array([points[pointCounter - 1][1], points[pointCounter][1]])
-                tangentVector = np.array([xPoints[1] - xPoints[0], yPoints[1] - yPoints[0]])
-                
-
-            # Calculate the normal vector (perpendicular to the tangent)
-            normalVector = np.array([-tangentVector[1], tangentVector[0]])
-
-            # Normalize the normal vector
-            normalVector /= np.linalg.norm(normalVector, axis=0)
-
-            # Calculate the offset for each lane
-            laneOffsetsLeft = np.arange(-lanesLeft - 1, -1) * laneWidth
-            laneOffsetsRight = np.arange(1, lanesRight + 1) * laneWidth
-            
-            # Calculate the new points for each lane
-            counter = 0
-            for laneOffset in laneOffsetsLeft:
-                if laneOffset == 0:
-                    continue
-                
-                laneOffset += laneWidth
-                
-                newPoints.append([])
-                offsetVector = laneOffset * normalVector
-
-                if lanesLeft >= 1 and lanesRight == 0:
-                    newPoint = np.array([x, y]) + offsetVector.T - LANE_WIDTH * (0.5 * lanesLeft) * normalVector.T
-                else:
-                    newPoint = np.array([x, y]) + offsetVector.T + LANE_WIDTH / (2+(lanesLeft-1)) * normalVector.T
-
-                # Apply the offset to the road (how much space is in the middle, between the two sides of the road)
-                #offsetVector = road.RoadLook.offset * normalVector
-                #newPoint = newPoint + offsetVector.T
-                
-                newPoints[counter].append(newPoint.tolist())
-                counter += 1
-
-            for laneOffset in laneOffsetsRight:
-                
-                if laneOffset == 0:
-                    continue
-                
-                laneOffset -= laneWidth
-                
-                
-                newPoints.append([])
-                offsetVector = laneOffset * normalVector
-
-                if lanesRight >= 1 and lanesLeft == 0:
-                    newPoint= np.array([x, y]) + offsetVector.T - LANE_WIDTH * (0.5 * lanesRight) * normalVector.T
-                else:
-                    newPoint = np.array([x, y]) + offsetVector.T + LANE_WIDTH / (2+(lanesRight-1)) * normalVector.T
-            
-                # Apply the offset to the road (how much space is in the middle, between the two sides of the road)
-                #offsetVector = road.RoadLook.offset * normalVector
-                #newPoint = newPoint + offsetVector.T
-                
-                newPoints[counter].append(newPoint.tolist())
-                counter += 1
-
-            pointCounter += 1
-
-
-        # Apply the middle offset to the lanes.
-        # For each lane, calculate the middle point between the two sides of the road
-        # Then for each other point, offset the point from the middle by offset to the direction of the vector from the middle point to the lane point
-        if newPoints != []:
-            # Both sides of the road
-            if lanesLeft > 0 and lanesRight > 0:
-                for i in range(ROAD_QUALITY): # Loop through each point
-                    points = []
-                    for lane in newPoints:
-                        if lane == []:
-                            continue
-                        points.append(lane[i])
-                    middleX = sum([point[0] for point in points]) / len(points)
-                    middleY = sum([point[1] for point in points]) / len(points)
-                    middlePoint = np.array([middleX, middleY])
-                    for lane in newPoints:
-                        if lane == []:
-                            continue
-                        lanePoint = np.array([lane[i][0], lane[i][1]])
-                        vector = lanePoint - middlePoint
-                        vector = vector / np.linalg.norm(vector)
-                        offset = (road.RoadLook.offset + additionalOffset) / 2 * -vector # We divide by 2 since we want to offset the point from the middle and there are two sides to the road
-                        lane[i] = (lanePoint - offset).tolist()
-            
-            
-
-        # Calculate a new bounding box for the road using these points
         boundingBox = [999999, 999999, -999999, -999999]
         for lane in newPoints:
             for point in lane:
@@ -515,23 +389,8 @@ def CalculateParallelCurves(road):
                     boundingBox[2] = point[0]
                 if point[1] > boundingBox[3]:
                     boundingBox[3] = point[1]
-        
-        # Print all the relevant info if newPoints = [], since that means something went wrong
-        if newPoints == []:
-            print(f"Road {road.Uid} has no newPoints")
-            print(f"lanesLeft: {lanesLeft}")
-            print(f"lanesRight: {lanesRight}")
-            print(f"roadSizeLeft: {roadSizeLeft}")
-            print(f"roadSizeRight: {roadSizeRight}")
-            print(f"laneWidth: {laneWidth}")
-            print(f"road.RoadLook.offset: {road.RoadLook.offset}")
-            print(f"road.RoadLook.shoulderSpaceLeft: {road.RoadLook.shoulderSpaceLeft}")
-            print(f"road.RoadLook.shoulderSpaceRight: {road.RoadLook.shoulderSpaceRight}")
-            print(f"pointCounter: {pointCounter}")
-            
-        return boundingBox, newPoints, laneWidth
-        
+                    
+        return boundingBox, newPoints, 4.5
+    
     except:
-        #import traceback
-        #traceback.print_exc()
         return [], [], 0

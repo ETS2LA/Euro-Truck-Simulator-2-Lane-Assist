@@ -27,7 +27,7 @@ import sys
 import cv2
 from PIL import Image
 
-USE_INTERNAL_VISUALIZATION = False
+USE_INTERNAL_VISUALIZATION = True
 USE_EXTERNAL_VISUALIZATION = True
 EXTERNAL_RENDER_DISTANCE = 200 # How far to render in meters
 
@@ -117,11 +117,11 @@ def plugin():
         
     if roads.roads == []:
         toast(LOAD_ROADS_MSG, type="promise", promise=LOAD_NODES_MSG)
-        # roads.limitToCount = 10000
+        roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFABS_MSG, type="promise", promise=LOAD_ROADS_MSG)
-        # prefabs.limitToCount = 500
+        prefabs.limitToCount = 500
         prefabs.LoadPrefabs() 
     if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
         toast(LOAD_PREFAB_ITEMS_MSG, type="promise", promise=LOAD_PREFABS_MSG)
