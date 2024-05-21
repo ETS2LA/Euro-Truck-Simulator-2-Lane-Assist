@@ -11,7 +11,7 @@ import sys
 
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 
-def VisualizeRoads(data, closeRoads, closestLane, closestItem, img=None, zoom=2):
+def VisualizeRoads(data, closeRoads, img=None, zoom=2):
     """Will draw the roads onto the image.
     data: The game data
     img: The image to draw the roads on
@@ -102,50 +102,53 @@ def VisualizeRoads(data, closeRoads, closestLane, closestItem, img=None, zoom=2)
                     if firstPoint == []:
                         firstPoint = (pointX, pointY)
             
-                if road == closestItem and road.ParallelPoints[laneCount] == closestLane:
-                        cv2.polylines(img, np.int32([newPoints]), False, (0, 255, 0), (2 + (zoom - 1)), cv2.LINE_AA)
-                elif laneCount < laneCountLeft:
-                    cv2.polylines(img, np.int32([newPoints]), False, (150, 175, 150), (2 + (zoom - 1)), cv2.LINE_AA)
-                else:
-                    cv2.polylines(img, np.int32([newPoints]), False, (175, 150, 150), (2 + (zoom - 1)), cv2.LINE_AA)
+                color = (150,175,150) if laneCount < laneCountLeft else (175,150,150)
+                if road in data["map"]["inBoundingBox"]:
+                    color = (0, 150, 0)
+                if lane in data["map"]["closestLanes"]:
+                    color = (0, 255, 0)
+                if lane == data["map"]["closestLane"]:
+                    color = (0, 0, 255)
+            
+                cv2.polylines(img, np.int32([newPoints]), False, color, (2 + (zoom - 1)), cv2.LINE_AA)
                 
                 laneCount += 1
             
             # Convert the bounding box to local coordinates
-            boundingBox = road.BoundingBox
-            newBoundingBox = []
-            for point in boundingBox:
-                xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
-                xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
-                # Apply zoom to the local coordinates
-                zoomedX = xy[0] * zoom
-                zoomedY = xy[1] * zoom
-                # Offset the zoomed coordinates by the truck's position to "move" the camera
-                pointX = int(zoomedX + size//2)
-                pointY = int(zoomedY + size//2)
-                newBoundingBox.append((pointX, pointY))
-            cv2.rectangle(img, newBoundingBox[0], newBoundingBox[1], (0, 150, 0), 2)
+            # boundingBox = road.BoundingBox
+            # newBoundingBox = []
+            # for point in boundingBox:
+            #     xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
+            #     xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
+            #     # Apply zoom to the local coordinates
+            #     zoomedX = xy[0] * zoom
+            #     zoomedY = xy[1] * zoom
+            #     # Offset the zoomed coordinates by the truck's position to "move" the camera
+            #     pointX = int(zoomedX + size//2)
+            #     pointY = int(zoomedY + size//2)
+            #     newBoundingBox.append((pointX, pointY))
+            # cv2.rectangle(img, newBoundingBox[0], newBoundingBox[1], (0, 150, 0), 2)
                 
             
-            try:
-                cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-            except: pass
+            # try:
+            #     cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
+            # except: pass
             # Draw the original road
-            try:
-                newPoints = []
-                for point in road.Points:
-                    xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
-                    xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
-                    # Apply zoom to the local coordinates
-                    zoomedX = xy[0] * zoom
-                    zoomedY = xy[1] * zoom
-                    # Offset the zoomed coordinates by the truck's position to "move" the camera
-                    pointX = int(zoomedX + size//2)
-                    pointY = int(zoomedY + size//2)
-                    newPoints.append((pointX, pointY))
-                cv2.polylines(img, np.int32([newPoints]), False, (0, 0, 255), (1 + (zoom - 1)), cv2.LINE_AA)
-            except:
-                pass
+            # try:
+            #     newPoints = []
+            #     for point in road.Points:
+            #         xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
+            #         xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
+            #         # Apply zoom to the local coordinates
+            #         zoomedX = xy[0] * zoom
+            #         zoomedY = xy[1] * zoom
+            #         # Offset the zoomed coordinates by the truck's position to "move" the camera
+            #         pointX = int(zoomedX + size//2)
+            #         pointY = int(zoomedY + size//2)
+            #         newPoints.append((pointX, pointY))
+            #     cv2.polylines(img, np.int32([newPoints]), False, (0, 0, 255), (1 + (zoom - 1)), cv2.LINE_AA)
+            # except:
+            #     pass
             
             road = None
         
@@ -163,7 +166,7 @@ def VisualizeRoads(data, closeRoads, closestLane, closestItem, img=None, zoom=2)
     return img
 
 
-def VisualizePrefabs(data, closePrefabItems, closestLane, closestItem, img=None, zoom=2):
+def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2):
     """Will draw the prefabs onto the image.
 
     Args:
@@ -212,10 +215,15 @@ def VisualizePrefabs(data, closePrefabItems, closestLane, closestItem, img=None,
                 endX = int(zoomedEndX + size//2)
                 endY = int(zoomedEndY + size//2)
                 
-                if item == closestItem and curve == closestLane:
-                    cv2.line(img, (startX, startY), (endX, endY), (0, 255, 0), 1 + (zoom - 1))
-                else:
-                    cv2.line(img, (startX, startY), (endX, endY), (100, 100, 100), 1 + (zoom - 1))
+                color = (100, 100, 100)
+                if item in data["map"]["inBoundingBox"]:
+                    color = (0, 100, 0)
+                if curve in data["map"]["closestLanes"]:
+                    color = (0, 255, 0)
+                if curve == data["map"]["closestLane"]:
+                    color = (0, 0, 255)
+                
+                cv2.line(img, (startX, startY), (endX, endY), color, 2 + (zoom - 1))
         except: 
             #import traceback
             #traceback.print_exc()
@@ -271,6 +279,10 @@ def VisualizeTruck(data, img=None, zoom=2):
     
     # Get the truck wheel positions
     truckWheelPoints = [[i for i in data["api"]["configVector"]["truckWheelPositionX"]], [i for i in data["api"]["configVector"]["truckWheelPositionZ"]]]
+    if truckWheelPoints == [[], []]:
+        # Draw a circle in the middle
+        cv2.circle(img, (size//2, size//2), 2, (255, 0, 0), -1, cv2.LINE_AA)
+        return img
     maxX = 0
     maxY = 0
     minX = 10000

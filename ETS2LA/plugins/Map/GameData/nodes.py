@@ -25,12 +25,31 @@ nodes = []
 optimizedNodes = {}
 nodeFileName = PATH + "ETS2LA/plugins/Map/GameData/nodes.json"
 
+from functools import reduce
+from operator import getitem
+# https://stackoverflow.com/a/70377616
+def set_nested_item(dataDict, mapList, val):
+    """Set item in nested dictionary"""
+    current_dict = dataDict
+    for key in mapList[:-1]:
+        current_dict = current_dict.setdefault(key, {})
+    current_dict[mapList[-1]] = val
+    return dataDict
+
+def get_nested_item(dataDict, mapList):
+    """Get item in nested dictionary"""
+    for k in mapList:
+        dataDict = dataDict[k]
+    return dataDict
+
 def LoadNodes():
     global nodes
     global optimizedNodes
     
     jsonData = json.load(open(nodeFileName))
     jsonLength = len(jsonData)
+    
+    sys.stdout.write(f"\nLoading {jsonLength} nodes...\n")
     
     count = 0
     for node in jsonData:
@@ -61,29 +80,19 @@ def LoadNodes():
         count += 1
         
         if count % int(jsonLength/10) == 0:
-            sys.stdout.write(f"\rLoaded {count} nodes.\r")
-            data = {
-                "state": f"Parsing Nodes... {round(count/jsonLength * 100)}%",
-                "stateProgress": count/jsonLength * 100,
-                "totalProgress": count/jsonLength * 25
-            }
+            sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)...\r")
             
+    sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)... done!\n")
     
-    sys.stdout.write(f"Loaded {count} nodes.\nOptimizing array...\n")      
-    
-    # Populate the optimized nodes dict by getting the first 3 numbers of the node Uid
-    data = {
-        "state": f"Optimizing array...",
-        "stateProgress": 100,
-        "totalProgress": 25
-    }
+    sys.stdout.write(f" > Optimizing node dictionary...\r")      
     
     for node in nodes:
-        firstTwo = str(node.Uid)[:3]
-        if firstTwo not in optimizedNodes:
-            optimizedNodes[firstTwo] = []
-        
-        optimizedNodes[firstTwo].append(node)
+        # Split the node Uid into parts of 3
+        uidParts = [str(node.Uid)[i:i+3] for i in range(0, len(str(node.Uid)), 3)]
+        # Build the optimizedNodes dictionary
+        set_nested_item(optimizedNodes, uidParts, node)
+    
+    sys.stdout.write(f" > Optimizing node dictionary... done!\n")
     
     print(f"Node parsing done!")
     
@@ -94,12 +103,17 @@ def GetNodeByUid(uid):
     if uid == None:
         return None
     
-    firstThree = str(uid)[:3]
-    if firstThree in optimizedNodes:
-        for node in optimizedNodes[firstThree]:
+    uidParts = [str(uid)[i:i+3] for i in range(0, len(str(uid)), 3)]
+    try:
+        node = get_nested_item(optimizedNodes, uidParts)
+        if node != None:
+            return node
+        sys.stdout.write(f" > Node not found in optimizedNodes, searching in nodes...\n")
+        for node in nodes:
             if node.Uid == uid:
                 return node
-    else:
+    except:
+        sys.stdout.write(f" > Node not found in optimizedNodes, searching in nodes...\n")
         for node in nodes:
             if node.Uid == uid:
                 return node

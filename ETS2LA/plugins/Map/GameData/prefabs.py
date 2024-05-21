@@ -82,6 +82,8 @@ def LoadPrefabs():
     jsonData = json.load(open(prefabFileName))
     jsonLength = len(jsonData)
     
+    sys.stdout.write(f"\nLoading {jsonLength} prefabs...\n")
+    
     count = 0
     for prefab in jsonData:
         
@@ -172,57 +174,46 @@ def LoadPrefabs():
         
         count += 1
         if count % int(jsonLength/100) == 0:
-            sys.stdout.write(f"\rLoaded {count} prefabs.\r")
-            data = {
-                "state": f"Parsing prefabs... {round(count/jsonLength * 100)}%",
-                "stateProgress": count/jsonLength * 100,
-                "totalProgress": 50 + count/jsonLength * 5
-            }
+            sys.stdout.write(f"\r > {count} ({round(count/jsonLength*100)}%)...")
            
         if limitToCount != 0 and count >= limitToCount:
             break 
     
-    sys.stdout.write(f"\rLoaded {count} prefabs.\nNow optimizing prefabs...")  
+    sys.stdout.write(f"\r > {count} ({round(count/jsonLength*100)}%)... done!\n")
     
-    
-    count = 0
-    removedCurves = 0
-    for prefab in prefabs:
-        neededCurves = []
-        for navigationRoute in prefab.NavigationRoutes:
-            for curveId in navigationRoute.CurveIds:
-                if curveId not in neededCurves:
-                    neededCurves.append(curveId)
-        
-        newCurves = []
-        for curve in prefab.PrefabCurves:
-            if curve.id not in neededCurves:
-                prefab.PrefabCurves.remove(curve)
-                removedCurves += 1
-                
-        count += 1
-        if count % 50 == 0:
-            sys.stdout.write(f"\rOptimized {count} prefabs.\r")
-            data = {
-                "state": f"Optimizing prefabs... {round(count/len(prefabs) * 100)}%",
-                "stateProgress": count/len(prefabs) * 100,
-                "totalProgress": 55 + count/len(prefabs) * 20
-            }
+    # # Not needed anymore?
+    # sys.stdout.write(f" > Optimizing prefabs...\n")
+    # 
+    # count = 0
+    # removedCurves = 0
+    # prefabCount = len(prefabs)
+    # prefabOptimizeStartTime = time.time()
+    # for prefab in prefabs:
+    #     neededCurves = set()
+    #     for navigationRoute in prefab.NavigationRoutes:
+    #         neededCurves.update(navigationRoute.CurveIds)
+    #     
+    #     prefab.PrefabCurves = [curve for curve in prefab.PrefabCurves if curve.id in neededCurves]
+    #     removedCurves += len(prefab.PrefabCurves)
+    # 
+    #     count += 1
+    #     if count % 50 == 0:
+    #         prefabsLeft = prefabCount - count
+    #         timeLeft = (time.time() - prefabOptimizeStartTime) / count * prefabsLeft
+    #         sys.stdout.write(f"  > {count} ({round(count/prefabCount*100)}%)... eta: {round(timeLeft, 1)}s   \r")
+    #         
+    # sys.stdout.write(f"  > {count} ({round(count/prefabCount*100)}%)... done!                    \n")
+    # sys.stdout.write(f"   > Removed {removedCurves} curves.\n")
 
-    sys.stdout.write(f"\rOptimized {count} prefabs.\nRemoved {removedCurves} curves.\nNow optimizing array...\n")
-    
-    # Use the first 3 numbers of the prefab token to optimize the array
-    data = {
-        "state": f"Optimizing array...",
-        "stateProgress": 100,
-        "totalProgress": 75
-    }
+    sys.stdout.write(f" > Optimizing prefab array...\r")
     
     for prefab in prefabs:
         token = str(prefab.Token)[:3]
         if token not in optimizedPrefabs:
             optimizedPrefabs[token] = []
         optimizedPrefabs[token].append(prefab)
+    
+    sys.stdout.write(f" > Optimizing prefab array... done!\n")
     
     print("Prefab parsing done!")
         

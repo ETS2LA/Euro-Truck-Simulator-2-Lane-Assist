@@ -215,15 +215,19 @@ class scsTelemetry:
         data = {}
         offset = 0
         
+        speed = 5
+        if keyboard.is_pressed("shift"):
+            speed = 15
+        
         # Use the arrowkeys to move the virtual truck
         if keyboard.is_pressed("up"):
-            virtualZ -= 10
+            virtualZ -= speed
         if keyboard.is_pressed("down"):
-            virtualZ += 10
+            virtualZ += speed
         if keyboard.is_pressed("left"):
-            virtualX -= 10
+            virtualX -= speed
         if keyboard.is_pressed("right"):
-            virtualX += 10
+            virtualX += speed
         
         # ALL COMMENTS EXTRACTED FROM https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
         try:

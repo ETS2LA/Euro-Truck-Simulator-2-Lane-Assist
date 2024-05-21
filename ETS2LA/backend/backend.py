@@ -86,9 +86,9 @@ class PluginRunnerController():
         global globalData
         threading.Thread(target=self.immediateQueueThread, daemon=True).start()
         threading.Thread(target=self.monitor, daemon=True).start()
-        lastFrameTime = time.time()
         while True:
-            try: data = self.queue.get(timeout=0.5) # Get the data returned from the plugin runner.
+            try: 
+                data = self.queue.get() # Get the data returned from the plugin runner.
             except Exception as e: 
                 time.sleep(0.00001)
                 continue
@@ -97,36 +97,37 @@ class PluginRunnerController():
                 time.sleep(0.00001)
                 continue
             
-            if "function" in data:
-                # Send the data back to wait for the answer.
-                self.queue.put(self.lastData)
-                time.sleep(0.01)
-                continue
-            
-            
-            if "frametimes" in data: # Save the frame times
-                frametime = data["frametimes"]
-                if self.pluginName not in frameTimes:
-                    frameTimes[self.pluginName] = []
-                frameTimes[self.pluginName].append(frametime[self.pluginName])
-                if len(frameTimes[self.pluginName]) > 240: # 120 seconds of 0.5 intervals
-                    frameTimes[self.pluginName].pop(0)
-                lastFrameTime = time.time()
-                    
-            elif "get" in data: # If the data is a get command, then we need to get the data from another plugin.
-                plugins = data["get"]
-                for plugin in plugins:
-                    if "tags." in plugin:
-                        tag = plugin.split("tags.")[1]
-                        try:
-                            self.queue.put(globalData[tag])
-                        except:
+            if type(data) == dict:
+                if "function" in data:
+                    # Send the data back to wait for the answer.
+                    self.queue.put(self.lastData)
+                    time.sleep(0.01)
+                    continue
+                
+                if "frametimes" in data: # Save the frame times
+                    frametime = data["frametimes"]
+                    if self.pluginName not in frameTimes:
+                        frameTimes[self.pluginName] = []
+                    frameTimes[self.pluginName].append(frametime[self.pluginName])
+                    if len(frameTimes[self.pluginName]) > 240: # 120 seconds of 0.5 intervals
+                        frameTimes[self.pluginName].pop(0)
+                        
+                elif "get" in data: # If the data is a get command, then we need to get the data from another plugin.
+                    plugins = data["get"]
+                    for plugin in plugins:
+                        if "tags." in plugin:
+                            tag = plugin.split("tags.")[1]
+                            try:
+                                self.queue.put(globalData[tag])
+                            except:
+                                self.queue.put(None)
+                        
+                        if plugin in runners:
+                            self.queue.put(runners[plugin].lastData)
+                        else:
                             self.queue.put(None)
-                    
-                    if plugin in runners:
-                        self.queue.put(runners[plugin].lastData)
-                    else:
-                        self.queue.put(None)
+                else:
+                    self.lastData = data
                         
             else: # If the data is not a dictionary, we can assume it's return data, instead of a command.
                 if type(data) == tuple:
@@ -134,7 +135,6 @@ class PluginRunnerController():
                     tags = data[1]
                     self.lastData = normData
                     globalData.update(tags) # TODO: This is a temporary solution. We need to find a better way to handle this.
-                    
                 else:
                     self.lastData = data
                 

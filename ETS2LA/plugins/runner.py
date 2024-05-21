@@ -146,8 +146,8 @@ class PluginRunner():
             startTime = time.time()
             data = self.plugin.plugin()
             pluginExec = time.time()
-            if type(data) != type(None):
-                self.q.put(data)
+            if data != None:
+                self.q.put(data, block=True)
             endTime = time.time()
             self.frametimes.append(endTime - startTime)
             self.executiontimes.append(pluginExec - startTime)

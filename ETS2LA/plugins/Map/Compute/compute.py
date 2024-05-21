@@ -122,7 +122,8 @@ def FindClosestLane(x, y, item):
         if type(item) == Road:
             lanes = item.ParallelPoints
         elif type(item) == PrefabItem:
-            lanes = item.CurvePoints
+            lanes = [[(lane[0], lane[1]), (lane[2], lane[3])] for lane in item.NavigationLanes]
+        
         closestLane = None
         closestLaneDistance = 999
         # First get the players percentage of each lane
@@ -214,7 +215,10 @@ def FindClosestLane(x, y, item):
                 closestLane = pointsLanes[i]
                 closestLaneDistance = distance
                 closestPointDistanceToCenter = math.sqrt((point[0] - center[0])**2 + (point[1] - center[1])**2)
-            
+           
+        if type(item) == PrefabItem:
+            # Convert the closest lane back to the original format
+            closestLane = (closestLane[0][0], closestLane[0][1], closestLane[1][0], closestLane[1][1])
         
         # Find which index the lane is in
         if item != None:
@@ -236,13 +240,16 @@ def FindClosestLane(x, y, item):
             # Get the truck distance to the center of the interpolated points
             distance = math.sqrt((center[0] - x)**2 + (center[1] - y)**2)
             
+            negate = False
             if distance > closestPointDistanceToCenter:
-                closestLaneDistance = -closestLaneDistance
+                negate = True
                     
-            return closestLane, index, item, closestLaneDistance
+            return closestLane, negate, item, closestLaneDistance
         else:
             return closestLane
     except:
+        import traceback
+        traceback.print_exc()
         return None, None, None, 999
     
 def GetClosestRoadOrPrefabAndLane(data):
@@ -260,13 +267,31 @@ def GetClosestRoadOrPrefabAndLane(data):
             
     closestItem = None
     closestLane = None
+    closestLanes = []
     closestDistance = sys.maxsize
+    closestNegate = False
     for item in inBoundingBox:
-        closestLane, index, item, distance = FindClosestLane(x, y, item)
+        lane, negate, item, distance = FindClosestLane(x, y, item)
+        closestLanes.append(lane)
         if distance < closestDistance:
             closestItem = item
-            closestLane = closestLane
+            closestLane = lane
             closestDistance = distance
+            closestNegate = negate
             
+    if closestNegate: closestDistance = -closestDistance
+    if closestDistance == sys.maxsize: closestDistance = 0
     closestType = type(closestItem)
-    return closestItem, closestLane, closestDistance, closestType
+    
+    data = { 
+        "map": {
+            "closestItem": closestItem,
+            "closestLane": closestLane,
+            "closestDistance": closestDistance,
+            "closestType": closestType,
+            "inBoundingBox": inBoundingBox,
+            "closestLanes": closestLanes
+        }
+    }
+    
+    return data

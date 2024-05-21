@@ -166,12 +166,9 @@ def LoadRoads():
         nodes.LoadNodes()
     
     jsonData = json.load(open(roadFileName))
+    roadsInJson = len(jsonData)
     
-    data = {
-        "state": f"Loading roads...",
-        "stateProgress": 100,
-        "totalProgress": 25
-    }
+    sys.stdout.write(f"\nLoading {len(jsonData)} roads...\n")
     
     count = 0
     for road in jsonData:
@@ -212,14 +209,20 @@ def LoadRoads():
         roads.append(roadObj)
         count += 1
     
+        if count % 1000 == 0:
+            sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)...\r")
+    
         if limitToCount != 0 and count >= limitToCount:
             break
     
-    sys.stdout.write(f"Loaded roads : {count}\nNow matching roads to nodes...\n")
+    sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)... done!\n")
+    sys.stdout.write(f" > Matching roads to nodes...\n")
     
     # Match the nodes to the roads
     count = 0
     noLocationData = 0
+    roadsCount = len(roads)
+    matchStartTime = time.time()
     for road in roads:
         road.StartNode = nodes.GetNodeByUid(road.StartNodeUid)
         road.EndNode = nodes.GetNodeByUid(road.EndNodeUid)
@@ -229,22 +232,15 @@ def LoadRoads():
         
         count += 1
         if count % 1000 == 0:
-            sys.stdout.write(f"Matched roads : {count}\r")
-            data = {
-                "state": f"Matching roads to nodes... {round(count/len(roads) * 100)}%",
-                "stateProgress": count/len(roads) * 100,
-                "totalProgress": 25 + (count/len(roads) * 25)
-            }
+            roadsLeft = roadsCount - count
+            timeLeft = (time.time() - matchStartTime) / count * roadsLeft
+            sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... eta: {round(timeLeft, 1)}s    \r")
     
-    sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
+    # sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
+    sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... done!                   \n")
+    sys.stdout.write(f"   > Invalid location data : {noLocationData}\n")
 
-    # Make an optimized array for the roads. Do this by splitting the map into 1km / 1km areas and then adding the roads to the correct area
-    data = {
-        "state": f"Optimizing array...",
-        "stateProgress": 100,
-        "totalProgress": 50
-    }
-    
+    sys.stdout.write(f" > Optimizing road array...\r")
     for road in roads:
         if road.StartNode.X > roadsMaxX:
             roadsMaxX = road.StartNode.X
@@ -288,6 +284,7 @@ def LoadRoads():
         
         optimizedRoads[x][z].append(road)
         
+    sys.stdout.write(f" > Optimizing road array... done!\n")
     print(f"Roads optimized to {areaCountX}x{areaCountZ} areas")
         
     # Optimize roads by the three first numbers of the UID
