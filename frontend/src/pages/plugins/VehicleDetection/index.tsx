@@ -6,7 +6,7 @@ import { Tabs, TabsList, TabsTrigger,
     TabsContent } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, 
     DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator";
@@ -68,8 +68,23 @@ export default function VehicleDetection({ ip }: { ip: string }) {
                     </TabsContent>
                     <TabsContent value="advanced">
                         <CardContent>
-                            <div className="flex flex-col justify-start pt-2 self-start -ml-56 md:-ml-68">
-
+                            <div className="flex flex-col justify-start pt-2 self-start -ml-40 md:-ml-68">
+                                <Tabs className="w-full">
+                                    <TabsList defaultValue="detection" className="grid grid-cols-2 w-full">
+                                        <TabsTrigger value="detection">Detection</TabsTrigger>
+                                        <TabsTrigger value="colors">Colors</TabsTrigger>
+                                    </TabsList>
+                                    <TabsContent value="detection">
+                                        <Badge variant={"destructive"}>
+                                            You shouldnt not mess with these settings unless you know what you are doing. 
+                                            These settings can be used to fine tune Vehicle Detection for your PC. 
+                                            If used inccorectly, it can have negative impacts. 
+                                            Normally, default settings are best.</Badge>
+                                    </TabsContent>
+                                    <TabsContent value="colors">
+                                        <p>Colors</p>
+                                    </TabsContent>
+                                </Tabs>
                             </div>
                         </CardContent>
                     </TabsContent>
