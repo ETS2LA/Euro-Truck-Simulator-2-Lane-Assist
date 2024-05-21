@@ -8,9 +8,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter,
     DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button"
+import { Slider } from "@/components/ui/slider"
 import { toast } from "sonner";
 
 import { GetSettingsJSON } from "@/pages/settings"
@@ -31,7 +32,7 @@ export default function VehicleDetection({ ip }: { ip: string }) {
             <div className="flex flex-row w-[calc(100vw-44px)] gap-3 m-2">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="secondary" className="font-bold w-42">
+                        <Button variant="secondary" className="font-bold w-52">
                             Vehicle Detection
                         </Button>
                     </PopoverTrigger>
@@ -80,9 +81,18 @@ export default function VehicleDetection({ ip }: { ip: string }) {
                                             These settings can be used to fine tune Vehicle Detection for your PC. 
                                             If used inccorectly, it can have negative impacts. 
                                             Normally, default settings are best.</Badge>
+                                            <div className="grid-flow-col">
+                                                <p>Model Confidence Limit</p>
+                                                <Slider defaultValue={[0.70]} max={1} step={0.01}></Slider>                         
+                                            </div>
                                     </TabsContent>
                                     <TabsContent value="colors">
-                                        <p>Colors</p>
+                                        <div className="grid grid-cols-3 grid-rows-3">
+                                            <div className="flex flex-row">
+                                                <p>Car R</p>
+                                                <Input placeholder="Car Red Value"></Input>
+                                            </div>
+                                        </div>
                                     </TabsContent>
                                 </Tabs>
                             </div>
