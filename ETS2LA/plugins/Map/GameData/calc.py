@@ -31,6 +31,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_
         
         # Adjust the middle point if there are no lanes on one side
         if num_left_lanes == 0:
+            custom_offset = 999
             # Middle point is the edge of the right lanes
             middle_offset = -perp_vector * lane_width * num_right_lanes / 2
             if num_right_lanes % 2 == 0:
@@ -38,6 +39,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_
             point1 -= middle_offset
             point2 -= middle_offset
         elif num_right_lanes == 0:
+            custom_offset = 999
             # Middle point is the edge of the left lanes
             middle_offset = perp_vector * lane_width * num_left_lanes / 2
             if num_right_lanes % 2 == 0:

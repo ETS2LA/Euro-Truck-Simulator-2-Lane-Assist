@@ -40,10 +40,8 @@ except:
 ZOOM = 2 # How many pixels per meter
 VISUALIZE_PREFABS = True
 
-LOAD_NODES_MSG = "Loading nodes... (1/4)"
-LOAD_ROADS_MSG = "Loading roads... (2/4)"
-LOAD_PREFABS_MSG = "Loading prefabs... (3/4)"
-LOAD_PREFAB_ITEMS_MSG = "Loading prefab items... (4/4)"
+LOAD_MSG = "Navigation data is loading..."
+COMPLETE_MSG = "Navigation data loaded!"
 ENABLED = True
 
 runner:PluginRunner = None
@@ -125,33 +123,30 @@ def plugin():
     
     startPlugin = ""
     if nodes.nodes == []:
-        toast(LOAD_NODES_MSG, type="promise")
+        toast(LOAD_MSG, type="promise")
         nodes.LoadNodes()
         
     if roads.roads == []:
-        toast(LOAD_ROADS_MSG, type="promise", promise=LOAD_NODES_MSG)
         #roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == [] and VISUALIZE_PREFABS:
-        toast(LOAD_PREFABS_MSG, type="promise", promise=LOAD_ROADS_MSG)
         #prefabs.limitToCount = 500
         prefabs.LoadPrefabs() 
     if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
-        toast(LOAD_PREFAB_ITEMS_MSG, type="promise", promise=LOAD_PREFABS_MSG)
         prefabItems.LoadPrefabItems()
-        toast("Loading complete!", type="success", promise=LOAD_PREFAB_ITEMS_MSG)
+        toast(COMPLETE_MSG, type="success", promise=LOAD_MSG)
     
     
     visRoads = compute.GetRoads(data)
     compute.CalculateParallelPointsForRoads(visRoads) # Will slowly populate the lanes over a few frames
-    closestItem, closestLane, distance, closestType = compute.GetClosestRoadOrPrefabAndLane(data)
-    print(f"Closest item: {closestItem}, closest lane: {closestLane}, distance: {distance}, type: {closestType}")
-    Steering.run(value=distance, sendToGame=ENABLED)
+    computeData = compute.GetClosestRoadOrPrefabAndLane(data)
+    data.update(computeData)
+    Steering.run(value=data["map"]["closestDistance"], sendToGame=ENABLED)
     visPrefabs = compute.GetPrefabs(data)
     if USE_INTERNAL_VISUALIZATION:
-        img = visualize.VisualizeRoads(data, visRoads, closestLane, closestItem, zoom=ZOOM)
+        img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM)
         if VISUALIZE_PREFABS:
-            img = visualize.VisualizePrefabs(data, visPrefabs, closestLane, closestItem, img=img, zoom=ZOOM)
+            img = visualize.VisualizePrefabs(data, visPrefabs, img=img, zoom=ZOOM)
             
         img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
 
@@ -188,9 +183,9 @@ def plugin():
                 for lane in road.ParallelPoints: # lane is a list of multiple points forming the curve of the lane
                     startPoint = None
                     index = 0
-                    if road == closestItem:
+                    if road == data["map"]["closestItem"]:
                         color = [0, 255, 0, 255]
-                        if lane == closestLane:
+                        if lane == data["map"]["closestLane"]:
                             color = [0, 0, 255, 255]
                     else:
                         color = [255, 255, 255, 255]
@@ -215,23 +210,20 @@ def plugin():
             try:
                 # Draw the curves
                 for curve in prefab.NavigationLanes:
-                    if curve == closestLane:
+                    if curve == data["map"]["closestLane"]:
                         color = [0, 0, 255, 255]
                     else:
                         color = [255, 255, 255, 255]
                     startXY = (curve[0], y, curve[1])
                     endXY = (curve[2], y, curve[3])
-                    if GetDistanceFromTruck(startXY[0], startXY[1], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(endXY[0], endXY[1], data) < EXTERNAL_RENDER_DISTANCE:
+                    if GetDistanceFromTruck(startXY[0], startXY[2], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(endXY[0], endXY[2], data) < EXTERNAL_RENDER_DISTANCE:
                         arData['lines'].append(Line(startXY, endXY, color=color, thickness=5))
-                        logging.info(f"Drawing curve from {startXY} to {endXY}")
-                        sys.stdout.write(f"\rDrawing curve from {startXY} to {endXY}\r")
-                        sys.stdout.flush()
             except:
-                #import traceback
-                #traceback.print_exc()
+                import traceback
+                traceback.print_exc()
                 continue
-
-    return data, {
-        "ar": arData,
+    
+    return None, {
+        "ar": arData
     }
 

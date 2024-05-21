@@ -395,7 +395,6 @@ def plugin():
         arData = runner.GetData(["tags.ar"])[0]
         if arData != None:
             data["overlay"] = arData
-            # print(data)
         for line in data["overlay"]["lines"]:
             try:
                 startDistance = math.sqrt((line.start[0] - truck_x) ** 2 + (line.start[2] - truck_z) ** 2)

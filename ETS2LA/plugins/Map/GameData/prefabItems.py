@@ -71,6 +71,8 @@ def LoadPrefabItems():
     jsonData = json.load(open(prefabItemsFileName))
     jsonLength = len(jsonData)
     
+    sys.stdout.write(f"\nLoading {jsonLength} prefab items...\n")
+    
     count = 0
     for item in jsonData:
         item = jsonData[item]
@@ -121,35 +123,33 @@ def LoadPrefabItems():
         count += 1
         
         if count % int(jsonLength/100) == 0:
-            sys.stdout.write(f"\rLoaded {count} prefab items.\r")
-            data = {
-                "state": f"Loading prefab items... {round(count/jsonLength * 100)}%",
-                "stateProgress": count/jsonLength * 100,
-                "totalProgress": 75 + count/jsonLength * 5
-            }
+            sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)...\r")
     
-    sys.stdout.write(f"Loaded {len(prefabItems)} prefab items.\nNow matching prefab items...\n")
+    sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)... done!\n")
     count = 0
     
     
     # TODO: FIX THIS CODE
     # Original C# code in TsMapRenderer.cs -> lines 393-417
     
-    
+    prefabItemCount = len(prefabItems)
+    sys.stdout.write(f" > Matching prefabs and prefab items...\n")
+    prefabItemMatchStartTime = time.time()
     for prefabItem in prefabItems:
         prefabItem.Prefab = prefabs.GetPrefabByToken(prefabItem.Prefab)
         
         if prefabItem.Prefab == None:
-            # print(f"Prefab item {prefabItem.Uid} has no prefab!")
+            # sys.stdout.write(f"Prefab item {prefabItem.Uid} has no prefab!")
             pass 
         
-        try:
-            if not prefabItem.Prefab.ValidRoad:
-                prefabItems.remove(prefabItem)
-                continue
-        except:
-            prefabItems.remove(prefabItem)
-            continue
+        # try:
+        #     if not prefabItem.Prefab.ValidRoad:
+        #         # sys.stdout.write(f"Prefab item {prefabItem.Uid} has an invalid prefab!")
+        #         prefabItems.remove(prefabItem)
+        #         continue
+        # except:
+        #     prefabItems.remove(prefabItem)
+        #     continue
         
         prefabItem.StartNode = nodes.GetNodeByUid(prefabItem.StartNodeUid)
         prefabItem.EndNode = nodes.GetNodeByUid(prefabItem.EndNodeUid)
@@ -217,28 +217,21 @@ def LoadPrefabItems():
                 maxZ = node.Z
         
         # Add 5m of padding
-        # minX -= 5
-        # maxX += 5
-        # minZ -= 5
-        # maxZ += 5
+        minX -= 5
+        maxX += 5
+        minZ -= 5
+        maxZ += 5
         prefabItem.BoundingBox = [[minX, minZ], [maxX, maxZ]]
         
         count += 1
         if count % 500 == 0:
-            data = {
-                "state": f"Matching prefabs and prefab items... {round(count/len(prefabItems) * 100)}%",
-                "stateProgress": count/len(prefabItems) * 100,
-                "totalProgress": 80 + count/len(prefabItems) * 20
-            }
-            sys.stdout.write(f"Matched prefab items : {count}\r")
+            itemsLeft = prefabItemCount - count
+            timeLeft = (time.time() - prefabItemMatchStartTime) / count * itemsLeft
+            sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... {round(timeLeft)}s left...   \r")
     
-    sys.stdout.write(f"Matched prefab items : {count}\nNow optimizing prefab items...\n")
+    sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... done!              \n")
     
-    data = {
-        "state": f"Optimizing array... {round(count/len(prefabItems) * 100)}%",
-        "stateProgress": 100,
-        "totalProgress": 100
-    }
+    sys.stdout.write(f" > Optimizing prefab items...\r")
     
     for item in prefabItems:
         if item.X < itemsMinX:
@@ -266,6 +259,8 @@ def LoadPrefabItems():
             optimizedPrefabItems[x][z] = []
             
         optimizedPrefabItems[x][z].append(item)
+    
+    sys.stdout.write(f" > Optimizing prefab items... done!\n\n")
     
     print("Prefab Items parsing done!")
     
