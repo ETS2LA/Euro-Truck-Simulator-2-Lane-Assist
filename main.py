@@ -1,6 +1,14 @@
 """This file serves as the overseer to ETS2LA. It allows the app to restart itself without user input."""
-import multiprocessing
 
+import ETS2LA.backend.globalServer as globalServer
+import sys
+import traceback
+import os
+
+# Remove the PyGame promopt on startup
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # hide pygame welcome message before importing pygame module in any script
+
+# Variables
 LOG_FILE_FOLDER = "logs"    
 GREEN = "\033[92m"
 RED = "\033[91m"
@@ -10,7 +18,7 @@ DARK_GRAY = "\033[90m"
 NORMAL = "\033[0m"
 
 def CloseNode():
-    # Check if node is currently running
+    # Close NodeJS to stop the frontend
     if os.name == "nt":
         os.system("taskkill /F /IM node.exe > nul 2>&1")
     else:
@@ -44,11 +52,7 @@ def CountErrorsAndWarnings():
                     print(f"{DARK_GRAY}└───{NORMAL}")
 
 if __name__ == "__main__":
-    import sys
-    import traceback
-    import os
-    os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # hide pygame welcome message before importing pygame module in any script
-    
+    # Make sure NodeJS isn't already running and clear logs
     CloseNode()
     ClearLogFiles()
     
@@ -87,8 +91,7 @@ if __name__ == "__main__":
             traceback.print_exc()
             error = traceback.format_exc()
             try:
-                import ETS2LA.backend.globalServer as globalServer
-                globalServer.SendCrashReport("overseer", str(error))
+                globalServer.SendCrashReport("ETS2LA 2.0 - Overseer", str(error))
             except: pass
             print("Send the above traceback to the developers.")
             CloseNode()
