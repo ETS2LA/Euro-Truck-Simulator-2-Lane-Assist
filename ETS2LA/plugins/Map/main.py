@@ -57,12 +57,13 @@ def Initialize():
     global Steering
     global toast
     API = runner.modules.TruckSimAPI
+    API.TRAILER = True
     SI = runner.modules.ShowImage
     Steering = runner.modules.Steering
     Steering.OFFSET = 0
     Steering.SMOOTH_TIME = 0.0
     Steering.IGNORE_SMOOTH = False
-    Steering.SENSITIVITY = 0.65
+    Steering.SENSITIVITY = 1
     toast = runner.sonner
     pass
 
@@ -80,9 +81,12 @@ def plugin():
     global framesSinceChange
     global ZOOM
     
+    
     data = {
         "api": API.run(),
     }
+    
+    drawText = []
     
     # Bind the mouse scroll wheel to zoom
     if mouse.is_pressed("scroll_up"):
@@ -143,6 +147,10 @@ def plugin():
     data.update(computeData)
     Steering.run(value=data["map"]["closestDistance"], sendToGame=ENABLED)
     visPrefabs = compute.GetPrefabs(data)
+    
+    if compute.calculatingPrefabs: drawText.append("Loading prefabs...")
+    if compute.calculatingRoads: drawText.append("Loading roads...")
+    
     if USE_INTERNAL_VISUALIZATION:
         img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM)
         if VISUALIZE_PREFABS:
@@ -151,6 +159,11 @@ def plugin():
         img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
 
         img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
+        
+        count = 0
+        for text in drawText:
+            cv2.putText(img, drawText, (10, 190+40*count), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+            count += 1
         
         # Convert to BGR
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
@@ -184,11 +197,11 @@ def plugin():
                     startPoint = None
                     index = 0
                     if road == data["map"]["closestItem"]:
-                        color = [0, 255, 0, 255]
+                        color = [0, 255, 0, 100]
                         if lane == data["map"]["closestLane"]:
                             color = [0, 0, 255, 255]
                     else:
-                        color = [255, 255, 255, 255]
+                        color = [255, 255, 255, 50]
                     for point in lane: # point is {x, y}
                         if startPoint == None:
                             startPoint = point
@@ -212,8 +225,10 @@ def plugin():
                 for curve in prefab.NavigationLanes:
                     if curve == data["map"]["closestLane"]:
                         color = [0, 0, 255, 255]
+                    if prefab == data["map"]["closestItem"]:
+                        color = [0, 255, 0, 100]
                     else:
-                        color = [255, 255, 255, 255]
+                        color = [255, 255, 255, 50]
                     startXY = (curve[0], y, curve[1])
                     endXY = (curve[2], y, curve[3])
                     if GetDistanceFromTruck(startXY[0], startXY[2], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(endXY[0], endXY[2], data) < EXTERNAL_RENDER_DISTANCE:

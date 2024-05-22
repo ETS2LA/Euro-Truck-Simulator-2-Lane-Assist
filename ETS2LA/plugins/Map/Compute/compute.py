@@ -5,76 +5,102 @@ from GameData.prefabItems import PrefabItem
 import sys
 import logging
 import math
+import time
+import threading
 
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 
-lastCoords = None
+calculatingPrefabs = False
+calculatingRoads = False
+lastRoadCoords = None
+lastPrefabCoords = None
 closeRoads = []
 closePrefabs = []
 def GetRoads(data):
-    global lastCoords, closeRoads
+    global lastRoadCoords, closeRoads
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
     y = data["api"]["truckPlacement"]["coordinateZ"]
 
     tileCoords = roads.GetTileCoordinates(x, y)
     
-    if tileCoords != lastCoords or lastCoords == None or closeRoads == []:
-        lastCoords = tileCoords
+    def GetRoadThread(x, y):
+        global closeRoads, calculatingRoads
+        # Get the roads in the current area
+        areaRoads = []
+        areaRoads += roads.GetRoadsInTileByCoordinates(x, y)
+        
+        # Also get the roads in the surrounding tiles
+        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y)
+        time.sleep(0.01)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y)
+        time.sleep(0.01)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x, y + 1000)
+        time.sleep(0.01)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x, y - 1000)
+        time.sleep(0.01)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y + 1000)
+        time.sleep(0.01)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y - 1000)
+        time.sleep(0.01)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y + 1000)
+        time.sleep(0.01)
+        areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y - 1000)
+        
+        closeRoads = areaRoads
+        calculatingRoads = False
+        
+        print(f"Found {len(closeRoads)} roads")
+        
+    if tileCoords != lastRoadCoords or lastRoadCoords == None or closeRoads == [] and calculatingRoads == False:
+        threading.Thread(target=GetRoadThread, args=(x, y)).start()
+        lastRoadCoords = tileCoords
+        return closeRoads
     else:
         return closeRoads
-    
-    # Get the roads in the current area
-    areaRoads = []
-    areaRoads = roads.GetRoadsInTileByCoordinates(x, y)
-    
-    # Also get the roads in the surrounding tiles
-    areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x, y + 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x, y - 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y + 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y - 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y + 1000)
-    areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y - 1000)
-    
-    closeRoads = areaRoads
-    print(f"Found {len(closeRoads)} roads")
-    
-    return closeRoads
 
 def GetPrefabs(data):
-    global lastCoords, closePrefabs
+    global lastPrefabCoords, closePrefabs, calculatingPrefabs
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
     y = data["api"]["truckPlacement"]["coordinateZ"]
     
-    tileCoords = roads.GetTileCoordinates(x, y)
+    tileCoords = prefabItems.GetTileCoordinates(x, y)
     
-    if tileCoords != lastCoords or lastCoords == None or closePrefabs == []:
-        lastCoords = tileCoords
+    def GetPrefabThread(x, y):
+        global closePrefabs, calculatingPrefabs
+        # Get the roads in the current area
+        areaItems = []
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x, y)
+        
+        # Also get the roads in the surrounding tiles
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y)
+        time.sleep(0.01) # Relieve CPU
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y)
+        time.sleep(0.01) # Relieve CPU
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x, y + 1000)
+        time.sleep(0.01) # Relieve CPU
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x, y - 1000)
+        time.sleep(0.01) # Relieve CPU
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y + 1000)
+        time.sleep(0.01) # Relieve CPU
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y - 1000)
+        time.sleep(0.01) # Relieve CPU
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y + 1000)
+        time.sleep(0.01) # Relieve CPU
+        areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y - 1000)
+        
+        closePrefabs = areaItems
+        calculatingPrefabs = False
+        
+        print(f"Found {len(closePrefabs)} prefabs")
+    
+    if tileCoords != lastPrefabCoords or lastPrefabCoords == None or closePrefabs == [] and calculatingPrefabs == False:
+        threading.Thread(target=GetPrefabThread, args=(x, y)).start()
+        lastPrefabCoords = tileCoords
+        return closePrefabs
     else:
         return closePrefabs
-    
-    # Get the roads in the current area
-    areaItems = []
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x, y)
-    
-    # Also get the roads in the surrounding tiles
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x, y + 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x, y - 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y + 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y - 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y + 1000)
-    areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y - 1000)
-    
-    closePrefabs = areaItems
-    
-    print(f"Found {len(closePrefabs)} prefabs")
-    
-    return closePrefabs
 
 def CalculateParallelPointsForRoads(areaRoads):
     calcCount = 0
@@ -117,7 +143,7 @@ def GetDistanceToRoad(road, x, y):
     except:
         return sys.maxsize
     
-def FindClosestLane(x, y, item):
+def FindClosestLane(x, y, item, data):
     try:
         if type(item) == Road:
             lanes = item.ParallelPoints
@@ -197,24 +223,14 @@ def FindClosestLane(x, y, item):
             except:
                 continue
         
-        # Get the center of the interpolated points
-        center = [0, 0]
-        for i in range(len(interpolatedPoints)):
-            center[0] += interpolatedPoints[i][0]
-            center[1] += interpolatedPoints[i][1]
-        
-        center[0] = center[0] / len(interpolatedPoints)
-        center[1] = center[1] / len(interpolatedPoints)
-        
-        closestPointDistanceToCenter = 999
-        
+        closestPoint = None
         for i in range(len(interpolatedPoints)):
             point = interpolatedPoints[i]
             distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
             if distance < closestLaneDistance:
                 closestLane = pointsLanes[i]
+                closestPoint = point
                 closestLaneDistance = distance
-                closestPointDistanceToCenter = math.sqrt((point[0] - center[0])**2 + (point[1] - center[1])**2)
            
         if type(item) == PrefabItem:
             # Convert the closest lane back to the original format
@@ -236,21 +252,40 @@ def FindClosestLane(x, y, item):
                         index = counter
                         break
                     counter += 1
-                    
-            # Get the truck distance to the center of the interpolated points
-            distance = math.sqrt((center[0] - x)**2 + (center[1] - y)**2)
             
             negate = False
-            if distance > closestPointDistanceToCenter:
+            if not CheckIfPointIsToTheRight(data, closestPoint):
                 negate = True
                     
             return closestLane, negate, item, closestLaneDistance
         else:
             return closestLane
     except:
-        import traceback
-        traceback.print_exc()
-        return None, None, None, 999
+        return None, None, None, sys.maxsize
+    
+def CheckIfPointIsToTheRight(data, point):
+    """Will check if the point is to the right or left of the truck."""
+    x, y = data["api"]["truckPlacement"]["coordinateX"], data["api"]["truckPlacement"]["coordinateZ"]
+    # From -1 to 1
+    rotationX = data["api"]["truckPlacement"]["rotationX"]
+    # Convert to radians
+    angle = rotationX * 360
+    if angle < 0:
+        angle = 360 + angle
+    angle = -math.radians(angle)
+    # Calculate the vector from the truck to the point
+    vector = [point[0] - x, point[1] - y]
+    # Calculate the vector from the truck forward
+    forward = [math.cos(angle), math.sin(angle)]
+    # Calculate the dot product
+    dot = vector[0] * forward[0] + vector[1] * forward[1]
+    # If the dot product is positive, the point is to the right
+    if dot > 0:
+        return True
+    return False
+
+    
+    
     
 def GetClosestRoadOrPrefabAndLane(data):
     x, y = data["api"]["truckPlacement"]["coordinateX"], data["api"]["truckPlacement"]["coordinateZ"]
@@ -271,7 +306,7 @@ def GetClosestRoadOrPrefabAndLane(data):
     closestDistance = sys.maxsize
     closestNegate = False
     for item in inBoundingBox:
-        lane, negate, item, distance = FindClosestLane(x, y, item)
+        lane, negate, item, distance = FindClosestLane(x, y, item, data)
         closestLanes.append(lane)
         if distance < closestDistance:
             closestItem = item

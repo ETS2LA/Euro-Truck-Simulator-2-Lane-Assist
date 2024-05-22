@@ -402,8 +402,8 @@ def plugin():
                 distance = (startDistance + endDistance) / 2
                 line.start = ConvertToScreenCoordinate(line.start[0], line.start[1], line.start[2])
                 line.end = ConvertToScreenCoordinate(line.end[0], line.end[1], line.end[2])
-                #alpha = int(calculate_alpha(distance))
-                #line.color[3] = alpha
+                # alpha = int(calculate_alpha(distance))
+                # line.color[3] = alpha
             except:
                 data["overlay"]["lines"].remove(line)
                 continue

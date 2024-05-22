@@ -3,6 +3,7 @@ from ETS2LA.modules.TruckSimAPI.api import scsTelemetry
 from ETS2LA.modules.TruckSimAPI.virtualAPI import scsTelemetry as virtualTelemetry
 
 API = None
+TRAILER = False
 lastX = 0
 lastY = 0
 isConnected = False
@@ -14,19 +15,19 @@ def run(Fallback=True):
 
     try:
         API = scsTelemetry()
-        data = API.update()
+        data = API.update(trailerData=TRAILER)
         if data["sdkActive"] == False:
             if Fallback == False:
                 return "not connected"
             else:
                 API = virtualTelemetry()
-                data = API.update()
+                data = API.update(trailerData=TRAILER)
     except:
         if Fallback == False:
             return "not connected"
         else:
             API = virtualTelemetry()
-            data = API.update()
+            data = API.update(trailerData=TRAILER)
 
     # Calculate the current driving angle based on this and last frames coordinates
     try:

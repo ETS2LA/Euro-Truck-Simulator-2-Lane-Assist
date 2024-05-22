@@ -34,7 +34,7 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2):
         img = np.zeros((size, size, 3), np.uint8)
     
     # Show the x and y coordinates
-    cv2.putText(img, f"X: {round(x)} Y: {round(y)} Z: {round(z,1)}", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+    cv2.putText(img, f"X: {round(x)} Y: {round(y)} Z: {round(z,1)}", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
     # Draw the roads on the image, 1m is 1px in the image
     # roads have their start and end positions in the global coordinate system so we need to convert them to local coordinates with roads.GetLocalCoordinateInTile()
@@ -130,9 +130,10 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2):
             # cv2.rectangle(img, newBoundingBox[0], newBoundingBox[1], (0, 150, 0), 2)
                 
             
-            # try:
-            #     cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-            # except: pass
+            try:
+                cv2.putText(img, f"Offset: {road.RoadLook.offset}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1] + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+            except: pass
             # Draw the original road
             # try:
             #     newPoints = []
@@ -160,7 +161,7 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2):
     if calcCount > 0:
         sys.stdout.write(f"Calculated parallel points for {calcCount} roads\n")
         
-    cv2.putText(img, f"Roads: {len(areaRoads)}, Tile: {str(tileCoords)}, Loading: {str(int(skipped))}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+    cv2.putText(img, f"Roads: {len(areaRoads)}, Tile: {str(tileCoords)}, Loading: {str(int(skipped))}", (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
     # Return the image    
     return img
@@ -229,8 +230,8 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2):
             #traceback.print_exc()
             pass
 
-    cv2.putText(img, f"Prefabs: {len(areaItems)}, Tile: {str(prefabTileCoords)}", (10, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
-    cv2.putText(img, f"Curves: {curveCount}", (10, 140), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+    cv2.putText(img, f"Prefabs: {len(areaItems)}, Tile: {str(prefabTileCoords)}", (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+    cv2.putText(img, f"Curves: {curveCount}", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
     
     return img
 

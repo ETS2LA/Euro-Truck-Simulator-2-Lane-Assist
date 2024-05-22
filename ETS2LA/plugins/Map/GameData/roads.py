@@ -373,8 +373,7 @@ def SetRoadPoints(road, points):
 
 import GameData.calc as calc
 offsetData = { # Array of manual corrections to the offsets
-    5.75: 5.75,
-    999: 0,
+    999: 4.5,
     0.0: 4.5
 }
 offsetPerName = {
@@ -385,11 +384,22 @@ offsetPerName = {
 }
 def CalculateParallelCurves(road):
     try:
+        # Fix 999 and 0.0 offsets
         if road.RoadLook.offset in offsetData: 
             custom_offset = offsetData[road.RoadLook.offset]
-        else: custom_offset = 999
-        if road.RoadLook.name in offsetPerName:
-            custom_offset = offsetPerName[road.RoadLook.name]
+        else: 
+            # All the different custom rules that I've come up with
+            # Motorways use the offset as an addition... it's added to the existing 4.5m offset... we also have to add both sides of shoulders
+            if "traffic_lane.road.motorway" in road.RoadLook.lanesLeft or "traffic_lane.road.motorway" in road.RoadLook.lanesRight:
+                custom_offset = 4.5 + road.RoadLook.offset
+                custom_offset += road.RoadLook.shoulderSpaceLeft / 2 + road.RoadLook.shoulderSpaceRight / 2
+                
+            # Assume that the offset is actually correct
+            else:
+                custom_offset = road.RoadLook.offset
+        
+        # if road.RoadLook.name in offsetPerName:
+        #     custom_offset = offsetPerName[road.RoadLook.name]
 
         lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset)
         newPoints = lanes['left'] + lanes['right']
