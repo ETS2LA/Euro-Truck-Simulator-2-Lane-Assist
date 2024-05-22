@@ -247,36 +247,14 @@ def get_text_size(text="NONE", text_width=100, max_text_height=100):
     return text, fontscale, thickness, textsize[0], textsize[1]
 
 
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(1, 16, kernel_size=3, stride=1, padding=1)
-        self.pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
-        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1)
-        self.conv3 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
-        self.fc1 = nn.Linear(64 * 27 * 52, 64)
-        self.fc2 = nn.Linear(64, 1)
-
-    def forward(self, x):
-        x = self.pool(torch.relu(self.conv1(x)))
-        x = self.pool(torch.relu(self.conv2(x)))
-        x = self.pool(torch.relu(self.conv3(x)))
-        x = x.view(-1, 64 * 27 * 52)
-        x = torch.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
-
-
 def preprocess_image(image):
+    image = np.array(image)
+    image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
+    image = np.array(image, dtype=np.float32) / 255.0
     transform = transforms.Compose([
-        transforms.ToPILImage(),
-        transforms.Resize((IMG_HEIGHT, IMG_WIDTH)),
-        transforms.Grayscale(),
-        transforms.Lambda(lambda x: x.point(lambda p: p > 128 and 255)),
-        transforms.ToTensor()
+        transforms.ToTensor(),
     ])
-    image_pil = transform(image)
-    return image_pil.unsqueeze(0).to(AIDevice)
+    return transform(image).unsqueeze(0).to(AIDevice)
 
 
 def HandleCorruptedAIModel():
@@ -313,14 +291,13 @@ def LoadAIModel():
 
                 print("\033[92m" + f"Loading the AI model..." + "\033[0m")
 
-                IMG_WIDTH = GetAIModelProperties()[2][0]
-                IMG_HEIGHT = GetAIModelProperties()[2][1]
+                IMG_WIDTH = GetAIModelProperties()[2]
+                IMG_HEIGHT = GetAIModelProperties()[3]
 
                 ModelFileCorrupted = False
 
                 try:
-                    AIModel = Net().to(AIDevice)
-                    AIModel.load_state_dict(torch.load(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", GetAIModelName()[0]), map_location=AIDevice))
+                    AIModel = torch.jit.load(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", GetAIModelName()), map_location=AIDevice)
                     AIModel.eval()
                 except:
                     ModelFileCorrupted = True
@@ -388,10 +365,8 @@ def CheckForAIModelUpdates():
                             break
 
                     CurrentAIModel = GetAIModelName()
-                    if len(CurrentAIModel) == 0:
+                    if CurrentAIModel == "UNKNOWN":
                         CurrentAIModel = None
-                    else:
-                        CurrentAIModel = CurrentAIModel[0]
 
                     if str(LatestAIModel) != str(CurrentAIModel):
                         LoadAILabel = "Updating AI model..."
@@ -463,17 +438,15 @@ def ModelFolderExists():
 def GetAIModelName():
     try:
         ModelFolderExists()
-        AIModels = []
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
             if file.endswith(".pt"):
-                AIModels.append(file)
-        return AIModels
+                return file
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function GetAIModelName.", str(exc))
         print(f"NavigationDetection - Error in function GetAIModelName: {ex}")
         console.RestoreConsole()
-        return []
+        return "UNKNOWN"
 
 
 def DeleteAllAIModels():
@@ -492,23 +465,24 @@ def DeleteAllAIModels():
 def GetAIModelProperties():
     try:
         ModelFolderExists()
-        if GetAIModelName() == []:
-            return ("UNKNOWN", "UNKNOWN", ("UNKNOWN", "UNKNOWN"), "UNKNOWN", "UNKNOWN", "UNKNOWN")
+        if GetAIModelName() == "UNKNOWN":
+            return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
         else:
-            ModelProperties = GetAIModelName()[0].split('_')
-            epochs = int(ModelProperties[0].split('-')[1])
-            batchSize = int(ModelProperties[1].split('-')[1])
-            res = tuple(map(int, ModelProperties[2].split('-')[1].split('x')))
-            images = int(ModelProperties[3].split('-')[1])
-            trainingTime = ModelProperties[4].split('-')[1] + ":" + ModelProperties[4].split('-')[2] + ":" + ModelProperties[4].split('-')[3]
-            date = (ModelProperties[5].split('-')[1] + "-" + ModelProperties[5].split('-')[2] + "-" + ModelProperties[5].split('-')[3] + " " + ModelProperties[5].split('-')[4] + ":" + ModelProperties[5].split('-')[5] + ":" + ModelProperties[5].split('-')[6]).split('.')[0]
-            return (epochs, batchSize, res, images, trainingTime, date)
+            string = str(GetAIModelName())
+            epochs = int(string.split("EPOCHS-")[1].split("_")[0])
+            batch = int(string.split("BATCH-")[1].split("_")[0])
+            img_width = int(string.split("IMG_WIDTH-")[1].split("_")[0])
+            img_height = int(string.split("IMG_HEIGHT-")[1].split("_")[0])
+            img_count = int(string.split("IMG_COUNT-")[1].split("_")[0])
+            training_time = string.split("TIME-")[1].split("_")[0]
+            training_date = string.split("DATE-")[1].split(".")[0]
+            return (epochs, batch, img_width, img_height, img_count, training_time, training_date)
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function GetAIModelProperties.", str(exc))
         print(f"NavigationDetection - Error in function GetAIModelProperties: {ex}")
         console.RestoreConsole()
-        return ("UNKNOWN", "UNKNOWN", ("UNKNOWN", "UNKNOWN"), "UNKNOWN", "UNKNOWN", "UNKNOWN")
+        return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
 
 
 if UseAI:
@@ -523,6 +497,15 @@ if UseAI:
 # Code
 ############################################################################################################################
 def plugin(data):
+    global indicator_last_left
+    global indicator_last_right
+    global indicator_left_wait_for_response
+    global indicator_right_wait_for_response
+    global indicator_left_response_timer
+    global indicator_right_response_timer
+
+    current_time = time.time()
+
     if UseAI == False or TorchAvailable == False:
         global map_topleft
         global map_bottomright
@@ -571,12 +554,6 @@ def plugin(data):
         global turnincoming_direction
         global turnincoming_last_detected
 
-        global indicator_last_left
-        global indicator_last_right
-        global indicator_left_wait_for_response
-        global indicator_right_wait_for_response
-        global indicator_left_response_timer
-        global indicator_right_response_timer
         global indicator_enable_left
         global indicator_enable_right
         global indicator_changed_by_code
@@ -587,9 +564,7 @@ def plugin(data):
         global lanechanging_autolanezero
         global lanechanging_current_lane
         global lanechanging_final_offset
-        
-        current_time = time.time()
-        
+
         try:
             frame = data["frame"]
             width = frame.shape[1]
@@ -1295,41 +1270,77 @@ def plugin(data):
                 valid_frame = False
                 return data
             
-            cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
-            cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
+            cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
+            cv2.rectangle(frame, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             lower_red = np.array([0, 0, 160])
             upper_red = np.array([110, 110, 255])
-            mask_red = cv2.inRange(frame, lower_red, upper_red)
-            lower_green = np.array([0, 200, 0])
-            upper_green = np.array([230, 255, 150])
-            mask_green = cv2.inRange(frame, lower_green, upper_green)
-            mask = cv2.bitwise_or(mask_red, mask_green)
+            mask = cv2.inRange(frame, lower_red, upper_red)
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
             frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
 
             try:
                 AIFrame = preprocess_image(mask)
             except:
-                IMG_WIDTH = GetAIModelProperties()[2][0]
-                IMG_HEIGHT = GetAIModelProperties()[2][1]
+                IMG_WIDTH = GetAIModelProperties()[2]
+                IMG_HEIGHT = GetAIModelProperties()[3]
                 if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
                     print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
                     console.RestoreConsole()
                     return data
                 AIFrame = preprocess_image(mask)
-            
-            output = 0
+
+            output = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
             if DefaultSteering.enabled == True:
                 if AIModelLoaded == True:
                     with torch.no_grad():
                         output = AIModel(AIFrame)
-                        output = output.item()
-            
-            output /= -30
-            
+                        output = output.tolist()
+
+            steering = float(output[0][0]) / -30
+            left_indicator = bool(float(output[0][1]) > 0.15)
+            right_indicator = bool(float(output[0][2]) > 0.15)
+
+            try:
+                indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
+                indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
+            except:
+                indicator_left = False
+                indicator_right = False
+
+            try:
+                data["sdk"]
+            except:
+                data["sdk"] = {}
+
+            if left_indicator != indicator_left:
+                data["sdk"]["LeftBlinker"] = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+            if right_indicator != indicator_right:
+                data["sdk"]["RightBlinker"] = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+
+            if indicator_left != indicator_last_left:
+                indicator_left_wait_for_response = False
+            if indicator_right != indicator_last_right:
+                indicator_right_wait_for_response = False
+            if current_time - 1 > indicator_left_response_timer:
+                indicator_left_wait_for_response = False
+            if current_time - 1 > indicator_right_response_timer:
+                indicator_right_wait_for_response = False
+            indicator_last_left = left_indicator
+            indicator_last_right = right_indicator
+
             data["LaneDetection"] = {}
-            data["LaneDetection"]["difference"] = output
+            data["LaneDetection"]["difference"] = steering
+
+            data["NavigationDetection"] = {}
+            if left_indicator == True or right_indicator == True:
+                data["NavigationDetection"]["turnincoming"] = True
+            else:
+                data["NavigationDetection"]["turnincoming"] = False
 
             data["frame"] = frame
 
@@ -1340,7 +1351,7 @@ def plugin(data):
             print("\033[91m" + f"NavigationDetection - Running AI Error: " + "\033[0m" + str(e))
 
     return data
-        
+
 
 def onEnable():
     pass
@@ -1486,7 +1497,7 @@ class UI():
 
                 helpers.MakeLabel(navigationdetectionaiFrame, "Model properties:", 6, 0, font=("Robot", 12, "bold"), sticky="nw")
             
-                helpers.MakeLabel(navigationdetectionaiFrame, f"Epochs: {model_properties[0]}\nBatch Size: {model_properties[1]}\nResolution: {model_properties[2][0]}x{model_properties[2][1]}\nImages/Data Points: {model_properties[3]}\nTraining Time: {model_properties[4]}\nTraining Date: {model_properties[5]}", 7, 0, sticky="nw")
+                helpers.MakeLabel(navigationdetectionaiFrame, f"Epochs: {model_properties[0]}\nBatch Size: {model_properties[1]}\nImage Width: {model_properties[2]}\nImage Height: {model_properties[3]}\nImages/Data Points: {model_properties[4]}\nTraining Time: {model_properties[5]}\nTraining Date: {model_properties[6]}", 7, 0, sticky="nw")
 
                 helpers.MakeEmptyLine(navigationdetectionaiFrame, 8, 0)
 
