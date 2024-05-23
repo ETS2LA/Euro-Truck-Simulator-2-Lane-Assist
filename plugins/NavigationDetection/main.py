@@ -441,6 +441,7 @@ def GetAIModelName():
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
             if file.endswith(".pt"):
                 return file
+        return "UNKNOWN"
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function GetAIModelName.", str(exc))
@@ -469,14 +470,17 @@ def GetAIModelProperties():
             return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
         else:
             string = str(GetAIModelName())
-            epochs = int(string.split("EPOCHS-")[1].split("_")[0])
-            batch = int(string.split("BATCH-")[1].split("_")[0])
-            img_width = int(string.split("IMG_WIDTH-")[1].split("_")[0])
-            img_height = int(string.split("IMG_HEIGHT-")[1].split("_")[0])
-            img_count = int(string.split("IMG_COUNT-")[1].split("_")[0])
-            training_time = string.split("TIME-")[1].split("_")[0]
-            training_date = string.split("DATE-")[1].split(".")[0]
-            return (epochs, batch, img_width, img_height, img_count, training_time, training_date)
+            if string != "UNKNOWN":
+                epochs = int(string.split("EPOCHS-")[1].split("_")[0])
+                batch = int(string.split("BATCH-")[1].split("_")[0])
+                img_width = int(string.split("IMG_WIDTH-")[1].split("_")[0])
+                img_height = int(string.split("IMG_HEIGHT-")[1].split("_")[0])
+                img_count = int(string.split("IMG_COUNT-")[1].split("_")[0])
+                training_time = string.split("TIME-")[1].split("_")[0]
+                training_date = string.split("DATE-")[1].split(".")[0]
+                return (epochs, batch, img_width, img_height, img_count, training_time, training_date)
+            else:
+                return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function GetAIModelProperties.", str(exc))
