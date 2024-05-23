@@ -1,1 +1,1 @@
-Updated the NavigationDetection code to work with the new AI model.
+Updated the NavigationDetectionAI UI.

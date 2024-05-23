@@ -1484,26 +1484,26 @@ class UI():
 
             helpers.MakeCheckButton(advancedFrame, "Automatically change to lane 0 if a turn got detected and lane changing is enabled.\nNote: If disabled, you will be unable to change lanes when detecting a turn.", "NavigationDetection", "lanechanging_autolanezero", 2, 0, width=97, callback=lambda: LoadSettings())
 
+            helpers.MakeLabel(navigationdetectionaiFrame, "NavigationDetectionAI", 1, 0, font=("Robot", 14, "bold"), sticky="nw")
 
-            helpers.MakeLabel(navigationdetectionaiFrame, "This feature is still in development.", 1, 0, font=("Robot", 14, "bold"), sticky="nw")
+            helpers.MakeLabel(navigationdetectionaiFrame, "A PyTorch AI which drives the truck using images of the route advisor.", 2, 0, sticky="nw")
 
-            helpers.MakeCheckButton(navigationdetectionaiFrame, "Use NavigationDetectionAI instead of NavigationDetection.", "NavigationDetection", "UseAI", 2, 0, width=97, callback=lambda: {LoadSettings(), self.exampleFunction()})
+            helpers.MakeCheckButton(navigationdetectionaiFrame, "Use NavigationDetectionAI instead of NavigationDetection.", "NavigationDetection", "UseAI", 3, 0, width=97, callback=lambda: {LoadSettings(), self.exampleFunction()})
 
             if UseAI:
 
-                helpers.MakeCheckButton(navigationdetectionaiFrame, f"Try to use your GPU with CUDA instead of your CPU to run the AI.\n(Currently using {str(AIDevice).upper()})", "NavigationDetection", "UseCUDA", 3, 0, width=97, callback=lambda: {LoadSettings(), self.exampleFunction()})
+                helpers.MakeCheckButton(navigationdetectionaiFrame, f"Try to use your GPU with CUDA instead of your CPU to run the AI.\n(Currently using {str(AIDevice).upper()})", "NavigationDetection", "UseCUDA", 4, 0, width=97, callback=lambda: {LoadSettings(), self.exampleFunction()})
 
-                helpers.MakeLabel(navigationdetectionaiFrame, "The AI is based on PyTorch. You can see the training settings below.", 4, 0, sticky="nw")
+                def InstallCUDAPopup():
+                    helpers.Dialog("Warning: CUDA is only available for NVIDIA GPUs!", f"1. Check on https://wikipedia.org/wiki/CUDA#GPUs_supported which CUDA version your GPU supports.\n2. Go to https://pytorch.org/ and copy the download command for the corresponding CUDA version which is compatible with your GPU.\n    (Select Stable, Windows, Pip, Python and the CUDA version you need)\n3. Open your file explorer and go to {os.path.dirname(os.path.dirname(variables.PATH))} and run the activate.bat\n4. Run this command in the terminal which opened after running the activate.bat: 'pip uninstall torch torchvision torchaudio'\n5. After the previous command finished, run the command you copied from the PyTorch website and wait for the installation to finish.\n6. Restart the app and the app should automatically detect CUDA as available and use your GPU for the AI.", ["Exit"], "Exit")
 
-                helpers.MakeEmptyLine(navigationdetectionaiFrame, 5, 0)
+                helpers.MakeButton(navigationdetectionaiFrame, "Install CUDA for GPU support", InstallCUDAPopup, 5, 0, width=30, sticky="nw")
 
                 model_properties = GetAIModelProperties()
 
                 helpers.MakeLabel(navigationdetectionaiFrame, "Model properties:", 6, 0, font=("Robot", 12, "bold"), sticky="nw")
             
                 helpers.MakeLabel(navigationdetectionaiFrame, f"Epochs: {model_properties[0]}\nBatch Size: {model_properties[1]}\nImage Width: {model_properties[2]}\nImage Height: {model_properties[3]}\nImages/Data Points: {model_properties[4]}\nTraining Time: {model_properties[5]}\nTraining Date: {model_properties[6]}", 7, 0, sticky="nw")
-
-                helpers.MakeEmptyLine(navigationdetectionaiFrame, 8, 0)
 
                 self.progresslabel = helpers.MakeLabel(navigationdetectionaiFrame, "", 9, 0, sticky="nw")
 
