@@ -98,6 +98,7 @@ export default function MicrocontrollerControl({ ip }: { ip: string }) {
 
     // Setup Pages
 
+    // Welcome
     function Page0() {
         return (
             <div>
@@ -113,6 +114,8 @@ export default function MicrocontrollerControl({ ip }: { ip: string }) {
             </div>
         )
     }
+
+    // Board
     function Page1() {
         const [boardType, setBoardType] = useState("arduino");
         return (
@@ -123,11 +126,11 @@ export default function MicrocontrollerControl({ ip }: { ip: string }) {
                 <RadioGroup value={boardType} onValueChange={setBoardType}>
                     <div className="flex flex-col mt-4">
                         <div className="flex flex-row space-x-3">
-                            <RadioGroupItem value={"arduino"} className="mt-1">Arduino</RadioGroupItem>
+                            <RadioGroupItem value={"arduino"} className="mt-1"></RadioGroupItem>
                             <p>Arduino</p>
                         </div>
                         <div className="flex flex-row space-x-3">
-                            <RadioGroupItem value={"raspberry"} className="mt-1">Raspberry Pi</RadioGroupItem>
+                            <RadioGroupItem value={"raspberry"} className="mt-1"></RadioGroupItem>
                             <p>Raspberry Pi</p>
                         </div>
                     </div>
@@ -140,13 +143,62 @@ export default function MicrocontrollerControl({ ip }: { ip: string }) {
         )
     }
     
+    // Arduino Wifi
     function Page2() {
+        const [wifiEnabled, setWifiEnabled] = useState("No");
         return (
             <div>
-                <h1>Page 2</h1>
-                <Button onClick={() => setSetupPage(1)}>Back</Button>
-                <Button onClick={() => setSetupPage(2)}>Next</Button>
+                <h1 className="font-bold">Wi-Fi Capabilities</h1>
+                <p className="text-md font-semibold mt-4">Now that we hae verified that you have an Arduino, we need to get into more detail.
+                Please select whether your Arduino is WIFI enabled or not.</p>
+                <RadioGroup value={wifiEnabled} onValueChange={setWifiEnabled}>
+                    <div className="flex flex-col mt-4">
+                        <div className="flex flex-row space-x-3">
+                            <RadioGroupItem value={"yes"} className="mt-1"></RadioGroupItem>
+                            <p>My Arduino is Wi-Fi enabled.</p>
+                        </div>
+                        <div className="flex flex-row space-x-3">
+                            <RadioGroupItem value={"no"} className="mt-1"></RadioGroupItem>
+                            <p>My Arduino is not Wi-Fi enabled.</p>
+                        </div>
+                    </div>
+                </RadioGroup>
+                <div className="flex flex-row mt-6 space-x-3">
+                    <Button onClick={() => setSetupPage(1)}>Back</Button>
+                    <Button onClick={() => {if (wifiEnabled === "yes") {setSetupPage(2);} else if (wifiEnabled === "no") { setSetupPage(3); }}}>Next</Button>
+                </div>
             </div>
+        )
+    }
+
+    // Raspberry Wifi
+    function Page3() {
+        const [wifiEnabled, setWifiEnabled] = useState("No");
+        return (
+            <div>
+                <h1 className="font-bold">What Model?</h1>
+                <p className="text-md font-semibold mt-4">Now that we hae verified that you have an Raspberry Pi, we need to get into more detail.
+                Please select the model of your Raspberry Pi.</p>
+                <Select>
+                    <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a fruit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                        <SelectLabel>Fruits</SelectLabel>
+                        <SelectItem value="apple">Apple</SelectItem>
+                        <SelectItem value="banana">Banana</SelectItem>
+                        <SelectItem value="blueberry">Blueberry</SelectItem>
+                        <SelectItem value="grapes">Grapes</SelectItem>
+                        <SelectItem value="pineapple">Pineapple</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                    </Select>
+                <div className="flex flex-row mt-6 space-x-3">
+                    <Button onClick={() => setSetupPage(1)}>Back</Button>
+                    <Button onClick={() => {if (wifiEnabled === "yes") {setSetupPage(2);} else if (wifiEnabled === "no") { setSetupPage(3); }}}>Next</Button>
+                </div>
+            </div> 
         )
     }
 }
