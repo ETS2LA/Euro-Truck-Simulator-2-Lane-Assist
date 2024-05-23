@@ -7,19 +7,29 @@ import ETS2LA.backend.variables as variables
 
 import numpy as np
 import subprocess
+import traceback
 import ctypes
 import time
 import cv2
 import mss
 import os
 
-from torchvision import transforms
-from bs4 import BeautifulSoup
-import torch.nn as nn
-import threading
-import traceback
-import requests
-import torch
+def SendCrashReport(arg1="", arg2=""): # REMOVE THIS LATER
+    return
+
+try:
+    from torchvision import transforms
+    from bs4 import BeautifulSoup
+    import threading
+    import requests
+    import torch
+    TorchAvailable = True
+except:
+    TorchAvailable = False
+    exc = traceback.format_exc()
+    SendCrashReport("NavigationDetection - PyTorch import error.", str(exc))
+    print("\033[91m" + f"NavigationDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
+    console.RestoreConsole()
 
 
 runner:PluginRunner = None
@@ -39,9 +49,6 @@ controls.RegisterKeybind("Lane change to the right",
                          notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
                          description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
 
-
-def SendCrashReport(arg1="", arg2=""): # REMOVE THIS LATER
-    return
 
 def ToggleSteering(state:bool, *args, **kwargs):
     global enabled
@@ -238,7 +245,7 @@ def automatic_setup():
     subprocess.Popen(["python", os.path.join(variables.PATH, "ETS2LA", "plugins", "NavigationDetection", "automatic_setup.py")])
 
 
-def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_height=100):
+def get_text_size(text="NONE", text_width=100, max_text_height=100):
     fontscale = 1
     textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
     width_current_text, height_current_text = textsize
@@ -255,48 +262,14 @@ def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_h
     return text, fontscale, thickness, textsize[0], textsize[1]
 
 
-def show_info(text="info text", frame=None, width=100, height=100):
-    frame = cv2.GaussianBlur(frame, (9, 9), 0)
-    frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
-
-    cv2.circle(frame, (round(width / 2), round(height * 0.30)), round(height * 0.25), (255, 128, 0), round(height * 0.02) if round(height * 0.02) > 1 else 1)
-    cv2.line(frame, (round(width / 2), round(height * 0.30)), (round(width / 2), round(height * 0.30 + height * 0.25 - height * 0.1)), (255, 128, 0), round(height * 0.03) if round(height * 0.03) > 2 else 2)
-    cv2.line(frame, (round(width / 2), round(height * 0.30 - height * 0.25 / 2)), (round(width / 2), round(height * 0.30 - height * 0.25 / 2)), (255, 128, 0), round(height * 0.03) if round(height * 0.03) > 2 else 2)
-
-    text, fontscale, thickness, text_width, text_height = get_text_size(text=text, width=width, height=height, text_width=width/1.5, max_text_height=height/2)
-    cv2.putText(frame, text, (round(width / 2 - text_width / 2), round(height * 0.8 - text_height / 2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
-
-
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(1, 16, kernel_size=3, stride=1, padding=1)
-        self.pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
-        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1)
-        self.conv3 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
-        self.fc1 = nn.Linear(64 * 27 * 52, 64)
-        self.fc2 = nn.Linear(64, 1)
-
-    def forward(self, x):
-        x = self.pool(torch.relu(self.conv1(x)))
-        x = self.pool(torch.relu(self.conv2(x)))
-        x = self.pool(torch.relu(self.conv3(x)))
-        x = x.view(-1, 64 * 27 * 52)
-        x = torch.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
-
-
 def preprocess_image(image):
+    image = np.array(image)
+    image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
+    image = np.array(image, dtype=np.float32) / 255.0
     transform = transforms.Compose([
-        transforms.ToPILImage(),
-        transforms.Resize((IMG_HEIGHT, IMG_WIDTH)),
-        transforms.Grayscale(),
-        transforms.Lambda(lambda x: x.point(lambda p: p > 128 and 255)),
-        transforms.ToTensor()
+        transforms.ToTensor(),
     ])
-    image_pil = transform(image)
-    return image_pil.unsqueeze(0).to(AIDevice)
+    return transform(image).unsqueeze(0).to(AIDevice)
 
 
 def HandleCorruptedAIModel():
@@ -304,7 +277,11 @@ def HandleCorruptedAIModel():
     CheckForAIModelUpdates()
     while AIModelUpdateThread.is_alive(): time.sleep(0.1)
     time.sleep(0.5)
-    LoadAIModel()
+    if TorchAvailable == True:
+        LoadAIModel()
+    else:
+        print("NavigationDetectionAI not available due to missing dependencies.")
+        console.RestoreConsole()
 
 
 def LoadAIModel():
@@ -329,14 +306,13 @@ def LoadAIModel():
 
                 print("\033[92m" + f"Loading the AI model..." + "\033[0m")
 
-                IMG_WIDTH = GetAIModelProperties()[2][0]
-                IMG_HEIGHT = GetAIModelProperties()[2][1]
+                IMG_WIDTH = GetAIModelProperties()[2]
+                IMG_HEIGHT = GetAIModelProperties()[3]
 
                 ModelFileCorrupted = False
 
                 try:
-                    AIModel = Net().to(AIDevice)
-                    AIModel.load_state_dict(torch.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel", GetAIModelName()[0]), map_location=AIDevice))
+                    AIModel = torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel", GetAIModelName()), map_location=AIDevice)
                     AIModel.eval()
                 except:
                     ModelFileCorrupted = True
@@ -374,23 +350,6 @@ def LoadAIModel():
         print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
 
 
-def get_text_size(text="NONE", text_width=100, max_text_height=100):
-    fontscale = 1
-    textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
-    width_current_text, height_current_text = textsize
-    max_count_current_text = 3
-    while width_current_text != text_width or height_current_text > max_text_height:
-        fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
-        textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
-        max_count_current_text -= 1
-        if max_count_current_text <= 0:
-            break
-    thickness = round(fontscale * 2)
-    if thickness <= 0:
-        thickness = 1
-    return text, fontscale, thickness, textsize[0], textsize[1]
-
-
 def CheckForAIModelUpdates():
     try:
         def CheckForAIModelUpdatesThread():
@@ -421,10 +380,8 @@ def CheckForAIModelUpdates():
                             break
 
                     CurrentAIModel = GetAIModelName()
-                    if len(CurrentAIModel) == 0:
+                    if CurrentAIModel == "UNKNOWN":
                         CurrentAIModel = None
-                    else:
-                        CurrentAIModel = CurrentAIModel[0]
 
                     if str(LatestAIModel) != str(CurrentAIModel):
                         LoadAILabel = "Updating AI model..."
@@ -496,17 +453,16 @@ def ModelFolderExists():
 def GetAIModelName():
     try:
         ModelFolderExists()
-        AIModels = []
         for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel"):
             if file.endswith(".pt"):
-                AIModels.append(file)
-        return AIModels
+                return file
+        return "UNKNOWN"
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function GetAIModelName.", str(exc))
         print(f"NavigationDetection - Error in function GetAIModelName: {ex}")
         console.RestoreConsole()
-        return []
+        return "UNKNOWN"
 
 
 def DeleteAllAIModels():
@@ -525,23 +481,27 @@ def DeleteAllAIModels():
 def GetAIModelProperties():
     try:
         ModelFolderExists()
-        if GetAIModelName() == []:
-            return ("UNKNOWN", "UNKNOWN", ("UNKNOWN", "UNKNOWN"), "UNKNOWN", "UNKNOWN", "UNKNOWN")
+        if GetAIModelName() == "UNKNOWN":
+            return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
         else:
-            ModelProperties = GetAIModelName()[0].split('_')
-            epochs = int(ModelProperties[0].split('-')[1])
-            batchSize = int(ModelProperties[1].split('-')[1])
-            res = tuple(map(int, ModelProperties[2].split('-')[1].split('x')))
-            images = int(ModelProperties[3].split('-')[1])
-            trainingTime = ModelProperties[4].split('-')[1] + ":" + ModelProperties[4].split('-')[2] + ":" + ModelProperties[4].split('-')[3]
-            date = (ModelProperties[5].split('-')[1] + "-" + ModelProperties[5].split('-')[2] + "-" + ModelProperties[5].split('-')[3] + " " + ModelProperties[5].split('-')[4] + ":" + ModelProperties[5].split('-')[5] + ":" + ModelProperties[5].split('-')[6]).split('.')[0]
-            return (epochs, batchSize, res, images, trainingTime, date)
+            string = str(GetAIModelName())
+            if string != "UNKNOWN":
+                epochs = int(string.split("EPOCHS-")[1].split("_")[0])
+                batch = int(string.split("BATCH-")[1].split("_")[0])
+                img_width = int(string.split("IMG_WIDTH-")[1].split("_")[0])
+                img_height = int(string.split("IMG_HEIGHT-")[1].split("_")[0])
+                img_count = int(string.split("IMG_COUNT-")[1].split("_")[0])
+                training_time = string.split("TIME-")[1].split("_")[0]
+                training_date = string.split("DATE-")[1].split(".")[0]
+                return (epochs, batch, img_width, img_height, img_count, training_time, training_date)
+            else:
+                return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function GetAIModelProperties.", str(exc))
         print(f"NavigationDetection - Error in function GetAIModelProperties: {ex}")
         console.RestoreConsole()
-        return ("UNKNOWN", "UNKNOWN", ("UNKNOWN", "UNKNOWN"), "UNKNOWN", "UNKNOWN", "UNKNOWN")
+        return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
 
 
 ############################################################################################################################
@@ -554,7 +514,16 @@ def plugin():
     data["frame"] = ScreenCapture.run(imgtype="cropped")
 
     global enabled
-    if UseAI == False:
+    global indicator_last_left
+    global indicator_last_right
+    global indicator_left_wait_for_response
+    global indicator_right_wait_for_response
+    global indicator_left_response_timer
+    global indicator_right_response_timer
+
+    current_time = time.time()
+
+    if UseAI == False or TorchAvailable == False:
         global map_topleft
         global map_bottomright
         global arrow_topleft
@@ -600,12 +569,6 @@ def plugin():
         global turnincoming_direction
         global turnincoming_last_detected
 
-        global indicator_last_left
-        global indicator_last_right
-        global indicator_left_wait_for_response
-        global indicator_right_wait_for_response
-        global indicator_left_response_timer
-        global indicator_right_response_timer
         global indicator_enable_left
         global indicator_enable_right
         global indicator_changed_by_code
@@ -615,9 +578,7 @@ def plugin():
         global lanechanging_width
         global lanechanging_current_lane
         global lanechanging_final_offset
-        
-        current_time = time.time()
-        
+
         try:
             frame = data["frame"]
             width = frame.shape[1]
@@ -657,6 +618,20 @@ def plugin():
             gamepaused = False
             speed = 0
 
+        if current_time > fuel_update_timer + 5:
+            fuel_update_timer = current_time
+            try:
+                fuel_total = data["api"]["configFloat"]["fuelCapacity"]
+                fuel_current = data["api"]["truckFloat"]["fuel"]
+                if fuel_total != 0:
+                    fuel_percentage = (fuel_current/fuel_total)*100
+                else:
+                    fuel_percentage = 100
+            except:
+                fuel_total = 0
+                fuel_current = 0
+                fuel_percentage = 100
+
         try:
             indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
             indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
@@ -669,7 +644,7 @@ def plugin():
 
         f5_key_state = ctypes.windll.user32.GetAsyncKeyState(0x74)
         f5_pressed = f5_key_state & 0x8000 != 0
-        
+
         if f5_pressed == True or do_blocked == True or do_zoom == True:
             check_map_timer = current_time
         
@@ -731,8 +706,8 @@ def plugin():
 
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask_red)
 
-        cv2.rectangle(frame_with_mask, (0, 0), (round(width/6), round(height/3)),(0, 0, 0), -1)
-        cv2.rectangle(frame_with_mask, (width, 0), (round(width-width/6), round(height/3)),(0, 0, 0), -1)
+        cv2.rectangle(frame_with_mask, (0,0), (round(width/6),round(height/3)),(0,0,0),-1)
+        cv2.rectangle(frame_with_mask, (width,0), (round(width-width/6),round(height/3)),(0,0,0),-1)
 
         frame_gray = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
         frame_gray_unblurred = frame_gray.copy()
@@ -743,6 +718,7 @@ def plugin():
         
         y_coordinate_of_lane = round(navigationsymbol_y / 1.3)
         y_coordinate_of_turn = round(navigationsymbol_y / 4) 
+        automatic_x_offset = round(width/2-navigationsymbol_y)
 
         def GetArrayOfLaneEdges(y_coordinate_of_detection, tilt, x_offset, y_offset):
             detectingLane = False
@@ -828,14 +804,6 @@ def plugin():
         if left_x_turn + lanechanging_final_offset == width:
             left_x_turn = 0
             right_x_turn = 0
- 
-        left_x_lane = int(left_x_lane)
-        right_x_lane = int(right_x_lane)
-        left_x_turn = int(left_x_turn)
-        right_x_turn = int(right_x_turn)
-
-        cv2.line(frame, (left_x_lane, left_y_lane), (right_x_lane, right_y_lane), (255, 255, 255), 2) if left_x_lane != 0 and right_x_lane != 0 else None
-        cv2.line(frame, (left_x_turn, y_coordinate_of_turn), (right_x_turn, y_coordinate_of_turn), (255, 255, 255), 2) if left_x_turn != 0 and right_x_turn != 0 else None
 
         width_lane = right_x_lane - left_x_lane
         width_turn = right_x_turn - left_x_turn
@@ -946,7 +914,7 @@ def plugin():
             indicator_left_wait_for_response = True
             indicator_left_response_timer = current_time
         if turnincoming_direction == "Right" and indicator_right == False and indicator_right_wait_for_response == False and enabled == True:
-            intended_left_indicator_state = True
+            intended_right_indicator_state = True
             indicator_right_wait_for_response = True
             indicator_right_response_timer = current_time
         if turnincoming_direction == None and indicator_left == True and indicator_left_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
@@ -954,7 +922,7 @@ def plugin():
             indicator_left_wait_for_response = True
             indicator_left_response_timer = current_time
         if turnincoming_direction == None and indicator_right == True and indicator_right_wait_for_response == False and current_time - 2 > turnincoming_last_detected and indicator_changed_by_code == True and enabled == True:
-            intended_left_indicator_state = True
+            intended_right_indicator_state = True
             indicator_right_wait_for_response = True
             indicator_right_response_timer = current_time
         if turnincoming_detected == True:
@@ -1148,7 +1116,7 @@ def plugin():
                 cv2.line(frame, (round(left_x_lane + lanechanging_final_offset - offset), left_y_lane), (round(right_x_lane + lanechanging_final_offset - offset), right_y_lane),  (255, 255, 255), 2)
             if width_turn != 0:
                 cv2.line(frame, (round(left_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (round(right_x_turn + lanechanging_final_offset - offset), y_coordinate_of_turn), (255, 255, 255), 2)
-        
+
         text, fontscale, thickness, text_width_enabled, text_height_enabled = get_text_size(text="Enabled" if enabled else "Disabled", text_width=width/1.1, max_text_height=height/11)
         cv2.putText(frame, text, (5, 5 + text_height_enabled), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 255, 0) if enabled else (255, 0, 0), thickness, cv2.LINE_AA)
 
@@ -1164,7 +1132,7 @@ def plugin():
         indicator_last_right = indicator_right
         controls_last_left = controls_left
         controls_last_right = controls_right
-        
+
         correction /= -30
 
         if speed > 63:
@@ -1206,8 +1174,11 @@ def plugin():
             global IMG_WIDTH
             global IMG_HEIGHT
 
-            while AIModelUpdateThread.is_alive(): return
-            while AIModelLoadThread.is_alive(): return
+            try:
+                while AIModelUpdateThread.is_alive(): return
+                while AIModelLoadThread.is_alive(): return
+            except:
+                return
 
             try:
                 frame = data["frame"]
@@ -1226,40 +1197,86 @@ def plugin():
                 valid_frame = False
                 return
 
-            cv2.rectangle(frame, (0,0), (round(frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
-            cv2.rectangle(frame, (frame.shape[1],0), (round(frame.shape[1]-frame.shape[1]/6),round(frame.shape[0]/3)),(0,0,0),-1)
+            cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
+            cv2.rectangle(frame, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             lower_red = np.array([160, 0, 0])
             upper_red = np.array([255, 110, 110])
-            mask_red = cv2.inRange(frame, lower_red, upper_red)
-            lower_green = np.array([0, 200, 0])
-            upper_green = np.array([150, 255, 230])
-            mask_green = cv2.inRange(frame, lower_green, upper_green)
-            mask = cv2.bitwise_or(mask_red, mask_green)
+            mask = cv2.inRange(frame, lower_red, upper_red)
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
             frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
 
             try:
                 AIFrame = preprocess_image(mask)
             except:
-                IMG_WIDTH = GetAIModelProperties()[2][0]
-                IMG_HEIGHT = GetAIModelProperties()[2][1]
+                IMG_WIDTH = GetAIModelProperties()[2]
+                IMG_HEIGHT = GetAIModelProperties()[3]
                 if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
                     print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
                     console.RestoreConsole()
                     return
                 AIFrame = preprocess_image(mask)
 
-            output = 0
+            output = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
-            if AIModelLoaded == True:
-                with torch.no_grad():
-                    output = AIModel(AIFrame)
-                    output = output.item()
+            if enabled == True:
+                if AIModelLoaded == True:
+                    with torch.no_grad():
+                        output = AIModel(AIFrame)
+                        output = output.tolist()
 
-            output /= -30
+            steering = float(output[0][0]) / -30
+            left_indicator = bool(float(output[0][1]) > 0.15)
+            right_indicator = bool(float(output[0][2]) > 0.15)
 
-            Steering.run(value=output, sendToGame=enabled)
+            try:
+                indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
+                indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
+            except:
+                indicator_left = False
+                indicator_right = False
+
+            try:
+                data["sdk"]
+            except:
+                data["sdk"] = {}
+
+            if left_indicator != indicator_left:
+                intended_left_indicator_state = True
+                indicator_left_wait_for_response = True
+                indicator_left_response_timer = current_time
+            if right_indicator != indicator_right:
+                intended_right_indicator_state = True
+                indicator_right_wait_for_response = True
+                indicator_right_response_timer = current_time
+
+            if indicator_left != indicator_last_left:
+                indicator_left_wait_for_response = False
+            if indicator_right != indicator_last_right:
+                indicator_right_wait_for_response = False
+            if current_time - 1 > indicator_left_response_timer:
+                indicator_left_wait_for_response = False
+            if current_time - 1 > indicator_right_response_timer:
+                indicator_right_wait_for_response = False
+            indicator_last_left = left_indicator
+            indicator_last_right = right_indicator
+
+            data["NavigationDetection"] = {}
+            if left_indicator == True or right_indicator == True:
+                data["NavigationDetection"]["turnincoming"] = True
+            else:
+                data["NavigationDetection"]["turnincoming"] = False
+
+            frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+
+            text, fontscale, thickness, text_width_enabled, text_height_enabled = get_text_size(text="Enabled" if enabled else "Disabled", text_width=width/1.1, max_text_height=height/11)
+            cv2.putText(frame, text, (5, 5 + text_height_enabled), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 255, 0) if enabled else (255, 0, 0), thickness, cv2.LINE_AA)
+
+            Steering.run(value=steering, sendToGame=enabled)
             ShowImage.run(frame)
+            SDKController.lblinker = bool(indicator_last_left)
+            SDKController.rblinker = bool(indicator_last_right)
+
+            return data["NavigationDetection"]
 
         except Exception as e:
             exc = traceback.format_exc()
