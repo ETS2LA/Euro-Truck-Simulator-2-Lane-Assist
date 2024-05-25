@@ -155,7 +155,10 @@ def LoadPrefabItems():
         prefabItem.EndNode = nodes.GetNodeByUid(prefabItem.EndNodeUid)
         
         originNode = prefabItem.Nodes[0]
-        mapPointOrigin = prefabItem.Prefab.PrefabNodes[prefabItem.Origin]
+        try:
+            mapPointOrigin = prefabItem.Prefab.PrefabNodes[prefabItem.Origin]
+        except:
+            pass
         
         # rot = originNode.Rotation - math.pi - math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2
         

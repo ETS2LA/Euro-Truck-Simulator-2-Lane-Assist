@@ -48,10 +48,15 @@ class PluginRunner():
         
         # Load modules
         self.modules = {}
+        self.moduleHashes = {}
         if "modules" not in self.plugin_data:
             self.plugin_data["modules"] = []
         for module in self.plugin_data["modules"]:
             module_path = "ETS2LA.modules." + module + ".main"
+            # Calculate the hash of the module
+            with open(os.path.join(os.getcwd(), "ETS2LA", "modules", module, "main.py"), "r") as f:
+                moduleHash = hash(f.read())
+            self.moduleHashes[module] = moduleHash
             moduleName = module
             try:
                 module = importlib.import_module(module_path)
@@ -85,6 +90,62 @@ class PluginRunner():
         # Run the plugin
         logging.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
         self.run()
+
+    def moduleChangeListener(self):
+        # Listen for changes, and update the modules as required
+        while True:
+            for module in self.moduleHashes:
+                with open(os.path.join(os.getcwd(), "ETS2LA", "modules", module, "main.py"), "r") as f:
+                    moduleHash = hash(f.read())
+                if moduleHash != self.moduleHashes[module]:
+                    logging.warning(f"PluginRunner: Module {module} has changed, reloading it.")
+                    module_path = "ETS2LA.modules." + module + ".main"
+                    moduleName = module
+                    oldModule = self.modulesDict[moduleName]
+                    try:
+                        module = importlib.import_module(module_path)
+                        module.runner = self
+                        self.modulesDict[moduleName] = module
+                        logging.info(f"PluginRunner: Loaded module {moduleName}")
+                    except Exception as e:
+                        logging.error(f"PluginRunner: Could not load module {module_path} with error: {e}")
+                        continue
+                    
+                    self.modules = SimpleNamespace(**self.modulesDict)
+                    self.moduleHashes[moduleName] = moduleHash
+                    try:
+                        self.modulesDict[moduleName].Initialize()
+                        logging.info(f"PluginRunner: Reinitialized {moduleName}")
+                    except Exception as e:
+                        logging.error(f"PluginRunner: Error while running Initialize() for {module_path} with error {e}")
+                        continue
+                    
+                    logging.warning(f"PluginRunner: Module {module_path} reloaded")
+                    
+                    # Reinitialize all plugins and modules to update the references
+                    try:
+                        for module in self.modulesDict:
+                            self.modulesDict[module].Initialize()
+                            logging.info(f"PluginRunner: Reinitialized {module}")
+                    except Exception as e:
+                        logging.error(f"PluginRunner: Error while running Initialize() for {module} with error {e}")
+                        continue
+                    
+                    try:
+                        self.plugin.Initialize()
+                        logging.info(f"PluginRunner: Reinitialized {self.plugin_name}")
+                    except Exception as e:
+                        logging.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
+                        continue
+                    
+                    # Remove the old module
+                    try:
+                        del oldModule
+                    except:
+                        logging.error(f"PluginRunner: Could not delete old module {oldModule}")
+                    
+            
+            time.sleep(1)
 
     def functionThread(self):
         while True:
@@ -142,6 +203,7 @@ class PluginRunner():
         self.timer = time.time()
         threading.Thread(target=self.functionThread, daemon=True).start()
         threading.Thread(target=self.eventThread, daemon=True).start()
+        threading.Thread(target=self.moduleChangeListener, daemon=True).start()
         while True and not self.temporary: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
             startTime = time.time()
             data = self.plugin.plugin()

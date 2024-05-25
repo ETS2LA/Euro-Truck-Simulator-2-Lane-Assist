@@ -447,3 +447,27 @@ def VisualizeTrafficLights(data, img=None, zoom=2):
             pass
     
     return img
+
+def VisualizePoint(data, point, img=None, zoom=2):
+    if img is None:
+        size = 1000
+        img = np.zeros((size, size, 3), np.uint8)
+    else:
+        size = img.shape[0]
+        
+    x = data["api"]["truckPlacement"]["coordinateX"]
+    y = data["api"]["truckPlacement"]["coordinateZ"]
+    tileCoords = roads.GetTileCoordinates(x, y)
+    truckXY = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
+    try:
+        xy = roads.GetLocalCoordinateInTile(point[0], point[2], tileCoords[0], tileCoords[1])
+        xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
+        zoomedX = xy[0] * zoom
+        zoomedY = xy[1] * zoom
+        pointX = int(zoomedX + size//2)
+        pointY = int(zoomedY + size//2)
+        cv2.circle(img, (pointX, pointY), 5, (0, 255, 0), -1, cv2.LINE_AA)
+    except:
+        pass
+    
+    return img

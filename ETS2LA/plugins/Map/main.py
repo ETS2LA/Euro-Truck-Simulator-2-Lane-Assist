@@ -56,6 +56,7 @@ def Initialize():
     global SI
     global Steering
     global toast
+    global RAYCASTING
     API = runner.modules.TruckSimAPI
     API.TRAILER = True
     SI = runner.modules.ShowImage
@@ -65,6 +66,7 @@ def Initialize():
     Steering.IGNORE_SMOOTH = False
     Steering.SENSITIVITY = 1
     toast = runner.sonner
+    RAYCASTING = runner.modules.Raycasting
     pass
 
 def GetDistanceFromTruck(x, z, data):
@@ -131,10 +133,10 @@ def plugin():
         nodes.LoadNodes()
         
     if roads.roads == []:
-        #roads.limitToCount = 10000
+        roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == [] and VISUALIZE_PREFABS:
-        #prefabs.limitToCount = 500
+        prefabs.limitToCount = 500
         prefabs.LoadPrefabs() 
     if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
         prefabItems.LoadPrefabItems()
@@ -159,6 +161,11 @@ def plugin():
         img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
 
         img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
+        
+        point, distance = RAYCASTING.run()
+        sys.stdout.write(f"\r{point}, {distance}                                ")  
+        img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM)
+        
         
         count = 0
         for text in drawText:
