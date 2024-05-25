@@ -133,10 +133,10 @@ def plugin():
         nodes.LoadNodes()
         
     if roads.roads == []:
-        roads.limitToCount = 10000
+        #roads.limitToCount = 10000
         roads.LoadRoads()
     if prefabs.prefabs == [] and VISUALIZE_PREFABS:
-        prefabs.limitToCount = 500
+        #prefabs.limitToCount = 500
         prefabs.LoadPrefabs() 
     if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
         prefabItems.LoadPrefabItems()
