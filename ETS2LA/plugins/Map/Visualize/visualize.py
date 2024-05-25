@@ -448,7 +448,7 @@ def VisualizeTrafficLights(data, img=None, zoom=2):
     
     return img
 
-def VisualizePoint(data, point, img=None, zoom=2):
+def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0)):
     if img is None:
         size = 1000
         img = np.zeros((size, size, 3), np.uint8)
@@ -466,7 +466,7 @@ def VisualizePoint(data, point, img=None, zoom=2):
         zoomedY = xy[1] * zoom
         pointX = int(zoomedX + size//2)
         pointY = int(zoomedY + size//2)
-        cv2.circle(img, (pointX, pointY), 5, (0, 255, 0), -1, cv2.LINE_AA)
+        cv2.circle(img, (pointX, pointY), 5, color, -1, cv2.LINE_AA)
     except:
         pass
     

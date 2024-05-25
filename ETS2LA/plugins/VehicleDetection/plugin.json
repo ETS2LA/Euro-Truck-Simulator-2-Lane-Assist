@@ -8,6 +8,6 @@
     "description": "Detects vehicles in ETS2 using YOLO and 2D Lidar.",
     "version": "1.0",
     "dependencies": [],
-    "modules": ["TruckSimAPI", "Steering", "ShowImage", "ScreenCapture"],
+    "modules": ["TruckSimAPI", "Steering", "ShowImage", "ScreenCapture", "Raycasting"],
     "compatible": ["Windows", "Linux", "MacOS"]
 }

@@ -251,9 +251,11 @@ class PluginRunner():
         while count != amount: # Loop until we have all the data
             try:
                 # Wait until we get an answer.
-                queueData = self.q.get(timeout=1)    
+                queueData = self.q.get(timeout=0.1)    
             except:
                 time.sleep(0.00000001)
+                data.append(None)
+                count += 1
                 continue
             if type(queueData) == type(None):
                 data.append(None)

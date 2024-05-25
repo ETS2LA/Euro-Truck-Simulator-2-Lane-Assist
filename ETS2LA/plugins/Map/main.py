@@ -24,6 +24,7 @@ from Visualize import visualize
 from ETS2LA.plugins.runner import PluginRunner
 from ETS2LA.backend.sounds import sounds
 import sys
+import numpy as np
 
 import cv2
 from PIL import Image
@@ -42,14 +43,15 @@ VISUALIZE_PREFABS = True
 
 LOAD_MSG = "Navigation data is loading..."
 COMPLETE_MSG = "Navigation data loaded!"
-ENABLED = True
+ENABLED = False
+LOAD_DATA = False
 
 runner:PluginRunner = None
 
-def ToggleSteering(state:bool, *args, **kwargs):
-    global ENABLED
-    ENABLED = state
-    sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
+# def ToggleSteering(state:bool, *args, **kwargs):
+#     global ENABLED
+#     ENABLED = state
+#     sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
 
 def Initialize():
     global API
@@ -83,10 +85,11 @@ def plugin():
     global framesSinceChange
     global ZOOM
     
-    
     data = {
         "api": API.run(),
+        "vehicles": runner.GetData(["tags.vehicles"])[0] # Get the cars
     }
+    
     
     drawText = []
     
@@ -128,55 +131,60 @@ def plugin():
         return data
     
     startPlugin = ""
-    if nodes.nodes == []:
-        toast(LOAD_MSG, type="promise")
-        nodes.LoadNodes()
-        
-    if roads.roads == []:
-        #roads.limitToCount = 10000
-        roads.LoadRoads()
-    if prefabs.prefabs == [] and VISUALIZE_PREFABS:
-        #prefabs.limitToCount = 500
-        prefabs.LoadPrefabs() 
-    if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
-        prefabItems.LoadPrefabItems()
-        toast(COMPLETE_MSG, type="success", promise=LOAD_MSG)
+    if LOAD_DATA:
+        if nodes.nodes == []:
+            toast(LOAD_MSG, type="promise")
+            nodes.LoadNodes()
+            
+        if roads.roads == []:
+            #roads.limitToCount = 10000
+            roads.LoadRoads()
+        if prefabs.prefabs == [] and VISUALIZE_PREFABS:
+            #prefabs.limitToCount = 500
+            prefabs.LoadPrefabs() 
+        if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
+            prefabItems.LoadPrefabItems()
+            toast(COMPLETE_MSG, type="success", promise=LOAD_MSG)
     
-    
-    visRoads = compute.GetRoads(data)
-    compute.CalculateParallelPointsForRoads(visRoads) # Will slowly populate the lanes over a few frames
-    computeData = compute.GetClosestRoadOrPrefabAndLane(data)
-    data.update(computeData)
-    Steering.run(value=data["map"]["closestDistance"], sendToGame=ENABLED)
-    visPrefabs = compute.GetPrefabs(data)
+    if LOAD_DATA:
+        visRoads = compute.GetRoads(data)
+        compute.CalculateParallelPointsForRoads(visRoads) # Will slowly populate the lanes over a few frames
+        computeData = compute.GetClosestRoadOrPrefabAndLane(data)
+        data.update(computeData)
+        Steering.run(value=data["map"]["closestDistance"], sendToGame=ENABLED)
+        visPrefabs = compute.GetPrefabs(data)
     
     if compute.calculatingPrefabs: drawText.append("Loading prefabs...")
     if compute.calculatingRoads: drawText.append("Loading roads...")
     
     if USE_INTERNAL_VISUALIZATION:
-        img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM)
-        if VISUALIZE_PREFABS:
-            img = visualize.VisualizePrefabs(data, visPrefabs, img=img, zoom=ZOOM)
+        if LOAD_DATA:
+            img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM)
+            if VISUALIZE_PREFABS:
+                img = visualize.VisualizePrefabs(data, visPrefabs, img=img, zoom=ZOOM)
+        else:
+            img = np.zeros((1000, 1000, 3), np.uint8)  
             
         img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
 
         img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
         
-        point, distance = RAYCASTING.run()
-        sys.stdout.write(f"\r{point}, {distance}                                ")  
-        img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM)
-        
+        if data["vehicles"] != None:
+            for point in data["vehicles"]:
+                img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM)
         
         count = 0
         for text in drawText:
-            cv2.putText(img, drawText, (10, 190+40*count), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(img, text, (10, 190+40*count), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
             count += 1
         
         # Convert to BGR
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         SI.run(img)
+        
     
-    if USE_EXTERNAL_VISUALIZATION:
+    arData = {}
+    if USE_EXTERNAL_VISUALIZATION and LOAD_DATA:
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = data["api"]["truckPlacement"]["coordinateY"]
         
@@ -244,6 +252,29 @@ def plugin():
                 import traceback
                 traceback.print_exc()
                 continue
+
+    if USE_EXTERNAL_VISUALIZATION:
+        x = data["api"]["truckPlacement"]["coordinateX"]
+        y = data["api"]["truckPlacement"]["coordinateY"]
+        arData = {
+            "lines": [],
+            "circles": [],
+            "boxes": [],
+            "polygons": [],
+        }
+        # Add the cars to the external visualization as a line from the start point to y + 1
+        if data["vehicles"] != None:
+            for point in data["vehicles"]:
+                try:
+                    startXY = (point[0], y, point[2])
+                    endXY = (point[0], y + 1, point[2])
+                    arData['lines'].append(Line(startXY, endXY, color=[255, 0, 0, 255], thickness=5))
+                except:
+                    continue
+                
+
+    if arData == {}:
+        return
     
     return None, {
         "ar": arData

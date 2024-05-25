@@ -38,8 +38,9 @@ def GetScreenPointAngle(x, y, headRotation):
     # Add the head rotation to the angles to get the final angles
     horizontalAngle -= headRotation[0]
     verticalAngle -= headRotation[1]
-    
-    return (horizontalAngle, verticalAngle)
+
+    # TODO: WTF does this magic number mean
+    return (horizontalAngle * 1 , verticalAngle)
     
 
 def GetCollisionPointWithGround(horizontalAngle, verticalAngle):
@@ -47,7 +48,7 @@ def GetCollisionPointWithGround(horizontalAngle, verticalAngle):
         # Calculate the horizontal distance to the point
         horizontal_distance = CAMERA_HEIGHT / math.tan(math.radians(verticalAngle))
         # Calculate the x and z coordinates of the point
-        x = horizontal_distance * math.sin(math.radians(horizontalAngle))
+        x = horizontal_distance * math.sin(math.radians(-horizontalAngle))
         z = horizontal_distance * math.cos(math.radians(horizontalAngle))
         y = 0
     except:
@@ -106,9 +107,13 @@ def GetValuesFromAPI():
         truck_rotation_radians_x = -math.radians(truck_rotation_degrees_x)
         
         truck_rotation_degrees_y = truck_rotation_y * 360
+        if truck_rotation_degrees_y < 0:
+            truck_rotation_degrees_y = 360 + truck_rotation_degrees_y
         truck_rotation_radians_y = -math.radians(truck_rotation_degrees_y)
         
         truck_rotation_degrees_z = truck_rotation_z * 360
+        if truck_rotation_degrees_z < 0:
+            truck_rotation_degrees_z = 360 + truck_rotation_degrees_z
         truck_rotation_radians_z = -math.radians(truck_rotation_degrees_z)
 
         head_rotation_degrees_x = (truck_rotation_x + cabin_offset_rotation_x + head_offset_rotation_x) * 360
@@ -172,11 +177,12 @@ def GetValuesFromAPI():
     # Return the values
     return (head_x, head_y, head_z), (head_rotation_x, head_rotation_y, head_rotation_z), (truck_x, truck_y, truck_z), (truck_rotation_radians_x, truck_rotation_radians_y, truck_rotation_radians_z)
 
-def run():
+def run(x=None, y=None):
     # Get values from the API
     headPos, headRotation, truckPos, truckRotation = GetValuesFromAPI()
     # Get the mouse position
-    x, y = mouse.get_position()
+    if x == None and y == None:
+        x, y = mouse.get_position()
     # Calculate the angle of the ray
     horizontal, vertical = GetScreenPointAngle(x, y, headRotation)
     # Get the position of the collision point 
