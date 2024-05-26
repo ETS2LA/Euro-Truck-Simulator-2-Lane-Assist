@@ -37,6 +37,7 @@ def init_pygame():
     pygame.joystick.init()
 
 threading.Thread(target=init_pygame).start()
+wiki_link = "https://wiki.tumppi066.fi/"
 
 class UI():
     
@@ -67,8 +68,8 @@ class UI():
 
             helpers.MakeEmptyLine(self.root, 3,0, columnspan=3)
         
-            helpers.MakeButton(self.root, "Tutorial Video ↗", lambda: helpers.OpenInBrowser("https://www.youtube.com/watch?v=0pic0rzjvik"), 4,0, width=20)
-            helpers.MakeButton(self.root, "Wiki ↗", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi/en/LaneAssist"), 4,1, width=20)
+            helpers.MakeButton(self.root, "Tutorial Video ↗", lambda: helpers.OpenInBrowser("https://www.youtube.com/watch?v=HMEzgTm0OWs&t=47s"), 4,0, width=20)
+            helpers.MakeButton(self.root, "Wiki ↗", lambda: helpers.OpenInBrowser(wiki_link), 4,1, width=20)
             helpers.MakeButton(self.root, "Next", lambda: self.detectionselection(), 4,2, width=20)
 
             helpers.MakeEmptyLine(self.root, 5,0, columnspan=3)
@@ -90,7 +91,7 @@ class UI():
         def detectionselection(self):
             settings.CreateSettings("Plugins", "Enabled", ["TruckersMPLock"])
             def openwiki():
-                    webview.create_window("Lane Assist Wiki", "https://wiki.tumppi066.fi/en/LaneAssist/DetectionTypes")
+                    webview.create_window("Lane Assist Wiki", "https://wiki.tumppi066.fi/faq/lanedetectiontypes")
                     webview.start()
             self.root.destroy()
             del self.root
