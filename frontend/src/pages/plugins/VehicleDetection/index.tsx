@@ -16,16 +16,30 @@ import { toast } from "sonner";
 
 import { GetSettingsJSON } from "@/pages/settings"
 import { PluginFunctionCall } from "@/pages/backend";
+import { SkeletonCard } from "@/components/skeleton_card"
 
 import useSWR from "swr";
 import { useState } from "react";
 
 export default function VehicleDetection({ ip }: { ip: string }) {
     const {data, error, isLoading} = useSWR("VehicleDetection", () => GetSettingsJSON("VehicleDetection", ip));
-    
+
     // Setup Variables
+
+    // Setup Page
     const [setup_page, setSetupPage] = useState(0);
     const [setup_open, setSetupOpen] = useState(false);
+
+    // Component Variables and Functions
+
+    // Model Confidence Slider
+    const [modelConfSlider, setModelConfSlider] = useState<number>(0.70);
+    const handleSliderChange = (value: number[]) => {
+        if (value.length > 0) {
+            setModelConfSlider(value[0]);
+            console.log("Model Confidence Slider Value was changed to: " + value[0] + "Nothing has been affected as this has not been added yet.");
+        }
+    };
 
     return (
         <Card className="flex flex-col items-center text-center space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto relative">
@@ -83,7 +97,7 @@ export default function VehicleDetection({ ip }: { ip: string }) {
                                             Normally, default settings are best.</Badge>
                                             <div className="grid-flow-col">
                                                 <p>Model Confidence Limit</p>
-                                                <Slider defaultValue={[0.70]} max={1} step={0.01}></Slider>                         
+                                                <Slider defaultValue={[modelConfSlider]} max={1} step={0.01} onValueChange={handleSliderChange}></Slider>                         
                                             </div>
                                     </TabsContent>
                                     <TabsContent value="colors">
