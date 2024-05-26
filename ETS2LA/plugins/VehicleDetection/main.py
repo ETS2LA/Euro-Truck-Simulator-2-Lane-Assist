@@ -117,11 +117,14 @@ def plugin():
     for line in carPoints:
         points = []
         distances = []
+        relativePoints = []
         for point in line:
-            coordinates, distance = Raycast.run(x=point[0], y=point[1])
-            points.append(coordinates)
-            distances.append(distance)
-        carCoordinates.append((points, distances))
+            coords = Raycast.run(x=point[0], y=point[1])
+            points.append(coords["point"])
+            distances.append(coords["distance"])
+            relativePoints.append(coords["relativePoint"])
+            
+        carCoordinates.append((points, distances, relativePoints))
 
     fps = round(1 / (time.time() - start_time))
     start_time = time.time()
@@ -132,8 +135,8 @@ def plugin():
     
     # {
     #   "vehicles": [
-    #       ([(x1, y1, z1), (x2, y2, z2)], [distance1, distance2]),
-    #       ([(x1, y1, z1), (x2, y2, z2)], [distance1, distance2]), 
+    #       ([(x1, y1, z1), (x2, y2, z2)], [distance1, distance2], [(relative_x1, relative_y1, relative_z1), (relative_x2, relative_y2, relative_z2)]),
+    #       ([(x1, y1, z1), (x2, y2, z2)], [distance1, distance2], [(relative_x1, relative_y1, relative_z1), (relative_x2, relative_y2, relative_z2)]),
     #       ...    
     # }
     

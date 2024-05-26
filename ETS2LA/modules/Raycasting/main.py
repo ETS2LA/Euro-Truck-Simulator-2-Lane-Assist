@@ -193,8 +193,16 @@ def run(x=None, y=None):
     # Distance to the point
     distance = math.sqrt(point[0] ** 2 + point[1] ** 2 + point[2] ** 2)
     # Add the truck position back to the point
+    relativePoint = (point[0], point[1], point[2])
     point = (point[0] + truckPos[0], point[1] + truckPos[1], point[2] + truckPos[2])
     # Rotate the point around the truck to match the truck rotation
     new_x, new_z = RotateAroundCenter((point[0], point[2]), (truckPos[0], truckPos[2]), truckRotation[0] + math.pi)
+    # Rotate the relative point around 0 to match the truck rotation
+    relativePoint = RotateAroundCenter((relativePoint[0], relativePoint[2]), (0, 0), truckRotation[0] + math.pi)
     # Return the values
-    return (new_x, point[1], new_z), distance
+    data = {
+        "point": (new_x, point[1], new_z),
+        "distance": distance,
+        "relativePoint": (relativePoint[0], point[1], relativePoint[1])
+    }
+    return data

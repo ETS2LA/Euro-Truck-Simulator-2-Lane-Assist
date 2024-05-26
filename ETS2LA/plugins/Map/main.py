@@ -34,7 +34,7 @@ USE_EXTERNAL_VISUALIZATION = True
 EXTERNAL_RENDER_DISTANCE = 200 # How far to render in meters
 
 try:
-    from ETS2LA.plugins.AR.main import Line, Circle, Box, Polygon
+    from ETS2LA.plugins.AR.main import Line, Circle, Box, Polygon, Text
 except:
     USE_EXTERNAL_VISUALIZATION = False # Force external off
 
@@ -170,18 +170,22 @@ def plugin():
         img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
         
         if data["vehicles"] != None:
+            x, z = data["api"]["truckPlacement"]["coordinateX"], data["api"]["truckPlacement"]["coordinateZ"]
             for line in data["vehicles"]:
                 if line == None: continue
                 try:
-                    points = line[0]
-                    leftPoint = points[0]
-                    rightPoint = points[1]
+                    relativePoints = line[2]
+                    leftPoint = relativePoints[0]
+                    rightPoint = relativePoints[1]
                     middlePoint = ((leftPoint[0] + rightPoint[0]) / 2, (leftPoint[1] + rightPoint[1]) / 2, (leftPoint[2] + rightPoint[2]) / 2)
+                    # Add the truck location to the middle point
+                    middlePoint = (middlePoint[0] + x, middlePoint[1], middlePoint[2] + z)
                     distances = line[1]
                     leftDistance = distances[0]
                     rightDistance = distances[1]
                     middleDistance = (leftDistance + rightDistance) / 2
-                    
+                    #sys.stdout.write(f"\r{middlePoint}")
+                    #sys.stdout.flush()
                     img = visualize.VisualizePoint(data, middlePoint, img=img, zoom=ZOOM, distance=middleDistance)
                 except:
                     continue
@@ -209,6 +213,7 @@ def plugin():
             "circles": [],
             "boxes": [],
             "polygons": [],
+            "texts": [],
         }
         
         # Convert each road to a line
@@ -269,25 +274,38 @@ def plugin():
     if USE_EXTERNAL_VISUALIZATION:
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = data["api"]["truckPlacement"]["coordinateY"]
+        z = data["api"]["truckPlacement"]["coordinateZ"]
         arData = {
             "lines": [],
             "circles": [],
             "boxes": [],
             "polygons": [],
+            "texts": [],
         }
         # Add the cars to the external visualization as a line from the start point to y + 1
         if data["vehicles"] != None:
             for line in data["vehicles"]:
                 if line == None: continue
                 try:
-                    points = line[0]
+                    points = line[2]
                     leftPoint = points[0]
                     rightPoint = points[1]
-                    
-                    arData['lines'].append(Line((leftPoint[0], y, leftPoint[2]), (rightPoint[0], y, rightPoint[2]), color=[255, 0, 0, 255], thickness=5))
+                    middlePoint = ((leftPoint[0] + rightPoint[0]) / 2, (leftPoint[1] + rightPoint[1]) / 2, (leftPoint[2] + rightPoint[2]) / 2)
+                    # Add the truck location to the points
+                    leftPoint = (leftPoint[0] + x, leftPoint[1], leftPoint[2] + z)
+                    rightPoint = (rightPoint[0] + x, rightPoint[1], rightPoint[2] + z)
+                    middlePoint = (middlePoint[0] + x, middlePoint[1], middlePoint[2] + z)
+                    # Get the distance
+                    distances = line[1]
+                    leftDistance = distances[0]
+                    rightDistance = distances[1]
+                    middleDistance = (leftDistance + rightDistance) / 2
+                    # Add the lines
+                    arData['lines'].append(Line((leftPoint[0], y, leftPoint[2]), (rightPoint[0], y, rightPoint[2]), color=[0, 255, 0, 100], thickness=2))
+                    # Add the text
+                    arData['texts'].append(Text(f"{round(middleDistance, 1)}m", (middlePoint[0], y, middlePoint[2]), color=[0, 255, 0, 255], size=15))
                 except:
                     continue
-                
 
     if arData == {}:
         return
