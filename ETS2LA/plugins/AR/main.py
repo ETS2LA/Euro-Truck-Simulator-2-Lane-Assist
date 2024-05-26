@@ -77,11 +77,13 @@ class Text:
     text: str
     color: tuple
     size: int
-    def __init__(self, text, position, color=[255, 255, 255, 255], size=10):
+    offset: tuple
+    def __init__(self, text, position, color=[255, 255, 255, 255], size=10, offset=(0,0)):
         self.position = position
         self.text = text
         self.color = color
         self.size = size
+        self.offset = offset
 
 class Circle:
     x: int
@@ -208,7 +210,7 @@ def draw(data):
                 
         for text in data["overlay"]["texts"]:
             if None not in text.position:
-                dpg.draw_text(text.position, text.text, color=text.color, size=text.size)
+                dpg.draw_text(text.position + text.offset, text.text, color=text.color, size=text.size)
     
     dpg.render_dearpygui_frame()
 

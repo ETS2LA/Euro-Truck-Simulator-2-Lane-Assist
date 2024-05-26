@@ -37,10 +37,12 @@ pathlib.PosixPath = pathlib.WindowsPath
 model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
 model.conf = 0.75
 
-capture_x = 0
+capture_x = 2000
 capture_y = 0
-capture_width = pyautogui.size()[0]
-capture_height = pyautogui.size()[1]
+lowerHeight = 300 # Helps with coding
+lowerWidth = 2500 # Helps with coding
+capture_width = pyautogui.size()[0] - lowerWidth
+capture_height = pyautogui.size()[1] - lowerHeight
 
 cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
 cv2.resizeWindow('Vehicle Detection', 660, 240)
@@ -95,21 +97,28 @@ def plugin():
         label = box['name']
         score = box['confidence']
         x, y, w, h = int(box['xmin']), int(box['ymin']), int(box['xmax'] - box['xmin']), int(box['ymax'] - box['ymin'])
+        # Add the offset to the x and y coordinates
+        x += capture_x
+        y += capture_y
+        
         if label in ['car']:
             bottomLeftPoint = (x, y + h)
             bottomRightPoint = (x + w, y + h)
+            
             carPoints.append((bottomLeftPoint, bottomRightPoint))
             cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 0, 255))
         if label in ['truck']:
             bottomLeftPoint = (x, y + h)
             bottomRightPoint = (x + w, y + h)
+            
             carPoints.append((bottomLeftPoint, bottomRightPoint))
             cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(255, 0, 0))
         if label in ['bus']:
             bottomLeftPoint = (x, y + h)
             bottomRightPoint = (x + w, y + h)
+            
             carPoints.append((bottomLeftPoint, bottomRightPoint))
             cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 255, 0))

@@ -4,7 +4,7 @@ import mouse
 import screeninfo
 from ETS2LA.plugins.runner import PluginRunner
 
-FOV = 80 # Vertical fov in degrees
+FOV = 77 # Vertical fov in degrees
 CAMERA_HEIGHT = 1.5 # Height of the camera in meters
 WHEEL_OFFSET = 0.5 # Wheel size to offset the camera in meters
 
@@ -32,9 +32,9 @@ def GetScreenPointAngle(x, y, headRotation):
         
     # Calculate the horizontal fov
     vFOVrad = FOV * math.pi / 180
-    hFOVrad = 2 * math.atan(math.tan(vFOVrad / 2) * (screen_width / screen_height))
+    hFOVrad = 2 * math.atan(math.tan(vFOVrad / 2) * (screen_width / screen_height)) * ((screen_width / screen_height) / 2)
     hFOVdeg = hFOVrad * 180 / math.pi
-    # print(hFOVdeg)
+    print(hFOVdeg)
     # Calculate the horizontal angle
     horizontalAngle = (x_percentage - 0.5) * hFOVdeg
     
