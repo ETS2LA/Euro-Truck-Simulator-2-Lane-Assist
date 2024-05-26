@@ -31,9 +31,12 @@ def GetScreenPointAngle(x, y, headRotation):
         verticalAngle = (y_percentage - 0.5) * FOV
         
     # Calculate the horizontal fov
-    horizontal_fov = FOV * (screen_width / screen_height)
+    vFOVrad = FOV * math.pi / 180
+    hFOVrad = 2 * math.atan(math.tan(vFOVrad / 2) * (screen_width / screen_height))
+    hFOVdeg = hFOVrad * 180 / math.pi
+    # print(hFOVdeg)
     # Calculate the horizontal angle
-    horizontalAngle = (x_percentage - 0.5) * horizontal_fov
+    horizontalAngle = (x_percentage - 0.5) * hFOVdeg
     
     # Add the head rotation to the angles to get the final angles
     horizontalAngle -= headRotation[0]

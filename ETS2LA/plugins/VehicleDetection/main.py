@@ -36,10 +36,10 @@ pathlib.PosixPath = pathlib.WindowsPath
 model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
 model.conf = 0.65
 
-capture_x = 465
-capture_y = 190
-capture_width = 685
-capture_height = 280
+capture_x = 0
+capture_y = 0
+capture_width = 2560
+capture_height = 1440
 
 cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
 cv2.resizeWindow('Vehicle Detection', 660, 240)
@@ -95,25 +95,33 @@ def plugin():
         score = box['confidence']
         x, y, w, h = int(box['xmin']), int(box['ymin']), int(box['xmax'] - box['xmin']), int(box['ymax'] - box['ymin'])
         if label in ['car']:
-            bottomMiddlePoint = (x + w // 2, y + h)
-            carPoints.append(bottomMiddlePoint)
-            cv2.circle(frame, bottomMiddlePoint, 5, (255, 0, 0), -1)
-            place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 0, 255))
+            bottomLeftPoint = (x, y + h)
+            bottomRightPoint = (x + w, y + h)
+            carPoints.append((bottomLeftPoint, bottomRightPoint))
+            cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+            #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 0, 255))
         if label in ['truck']:
-            bottomMiddlePoint = (x + w // 2, y + h)
-            carPoints.append(bottomMiddlePoint)
-            cv2.circle(frame, bottomMiddlePoint, 5, (0, 0, 255), -1)
-            place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(255, 0, 0))
+            bottomLeftPoint = (x, y + h)
+            bottomRightPoint = (x + w, y + h)
+            carPoints.append((bottomLeftPoint, bottomRightPoint))
+            cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+            #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(255, 0, 0))
         if label in ['bus']:
-            bottomMiddlePoint = (x + w // 2, y + h)
-            carPoints.append(bottomMiddlePoint)
-            cv2.circle(frame, bottomMiddlePoint, 5, (0, 255, 0), -1)
-            place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 255, 0))
+            bottomLeftPoint = (x, y + h)
+            bottomRightPoint = (x + w, y + h)
+            carPoints.append((bottomLeftPoint, bottomRightPoint))
+            cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+            #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 255, 0))
 
     carCoordinates = []
-    for point in carPoints:
-        coordinates, distance = Raycast.run(x=point[0], y=point[1])
-        carCoordinates.append(coordinates)
+    for line in carPoints:
+        points = []
+        distances = []
+        for point in line:
+            coordinates, distance = Raycast.run(x=point[0], y=point[1])
+            points.append(coordinates)
+            distances.append(distance)
+        carCoordinates.append((points, distances))
 
     fps = round(1 / (time.time() - start_time))
     start_time = time.time()
@@ -121,6 +129,13 @@ def plugin():
     cv2.putText(frame, f"FPS: {fps}", (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)         
     cv2.imshow('Vehicle Detection', frame)
     cv2.waitKey(1)
+    
+    # {
+    #   "vehicles": [
+    #       ([(x1, y1, z1), (x2, y2, z2)], [distance1, distance2]),
+    #       ([(x1, y1, z1), (x2, y2, z2)], [distance1, distance2]), 
+    #       ...    
+    # }
     
     return None, {
         "vehicles": carCoordinates,

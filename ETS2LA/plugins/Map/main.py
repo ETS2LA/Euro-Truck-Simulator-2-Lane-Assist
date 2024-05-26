@@ -170,8 +170,21 @@ def plugin():
         img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
         
         if data["vehicles"] != None:
-            for point in data["vehicles"]:
-                img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM)
+            for line in data["vehicles"]:
+                if line == None: continue
+                try:
+                    points = line[0]
+                    leftPoint = points[0]
+                    rightPoint = points[1]
+                    middlePoint = ((leftPoint[0] + rightPoint[0]) / 2, (leftPoint[1] + rightPoint[1]) / 2, (leftPoint[2] + rightPoint[2]) / 2)
+                    distances = line[1]
+                    leftDistance = distances[0]
+                    rightDistance = distances[1]
+                    middleDistance = (leftDistance + rightDistance) / 2
+                    
+                    img = visualize.VisualizePoint(data, middlePoint, img=img, zoom=ZOOM, distance=middleDistance)
+                except:
+                    continue
         
         count = 0
         for text in drawText:
@@ -264,11 +277,14 @@ def plugin():
         }
         # Add the cars to the external visualization as a line from the start point to y + 1
         if data["vehicles"] != None:
-            for point in data["vehicles"]:
+            for line in data["vehicles"]:
+                if line == None: continue
                 try:
-                    startXY = (point[0], y, point[2])
-                    endXY = (point[0], y + 1, point[2])
-                    arData['lines'].append(Line(startXY, endXY, color=[255, 0, 0, 255], thickness=5))
+                    points = line[0]
+                    leftPoint = points[0]
+                    rightPoint = points[1]
+                    
+                    arData['lines'].append(Line((leftPoint[0], y, leftPoint[2]), (rightPoint[0], y, rightPoint[2]), color=[255, 0, 0, 255], thickness=5))
                 except:
                     continue
                 
