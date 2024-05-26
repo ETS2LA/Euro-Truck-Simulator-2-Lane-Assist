@@ -10,6 +10,7 @@ import time
 import cv2
 import os
 import pathlib
+import pyautogui
 
 runner:PluginRunner = None
 
@@ -34,12 +35,12 @@ temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
 model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
-model.conf = 0.65
+model.conf = 0.75
 
 capture_x = 0
 capture_y = 0
-capture_width = 2560
-capture_height = 1440
+capture_width = pyautogui.size()[0]
+capture_height = pyautogui.size()[1]
 
 cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
 cv2.resizeWindow('Vehicle Detection', 660, 240)
