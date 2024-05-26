@@ -9,6 +9,7 @@ import ctypes
 import math
 import time
 import mss
+import sys
 
 
 drawlist = None
@@ -70,6 +71,17 @@ class Line:
         self.end = end
         self.color = color
         self.thickness = thickness
+        
+class Text:
+    position: tuple
+    text: str
+    color: tuple
+    size: int
+    def __init__(self, text, position, color=[255, 255, 255, 255], size=10):
+        self.position = position
+        self.text = text
+        self.color = color
+        self.size = size
 
 class Circle:
     x: int
@@ -170,6 +182,7 @@ def draw(data):
     circles = data["overlay"]["circles"]
     boxes = data["overlay"]["boxes"]
     polygons = data["overlay"]["polygons"]
+    text = data["overlay"]["texts"]
 
     if drawlist is not None:
         dpg.delete_item(drawlist)
@@ -192,6 +205,10 @@ def draw(data):
             valid_points = [(x, y) for x, y in polygon.points if None not in [x, y]]
             if len(valid_points) >= 3 if polygon.closed else len(valid_points) >= 2:
                 dpg.draw_polygon(valid_points, fill=polygon.fill, color=polygon.color, thickness=polygon.thickness)
+                
+        for text in data["overlay"]["texts"]:
+            if None not in text.position:
+                dpg.draw_text(text.position, text.text, color=text.color, size=text.size)
     
     dpg.render_dearpygui_frame()
 
@@ -409,6 +426,13 @@ def plugin():
             except:
                 data["overlay"]["lines"].remove(line)
                 continue
+        for text in data["overlay"]["texts"]:
+            try:
+                text.position = ConvertToScreenCoordinate(text.position[0], text.position[1], text.position[2])
+            except:
+                data["overlay"]["texts"].remove(text)
+                continue
+            
         lastOverlayData = data["overlay"]
     except Exception as e:
         if lastOverlayData != None:
@@ -419,10 +443,13 @@ def plugin():
             data["overlay"]["circles"] = []
             data["overlay"]["boxes"] = []
             data["overlay"]["polygons"] = []
+            data["overlay"]["texts"] = []
 
     data["overlay"]["polygons"].append(Polygon([[x1, y1], [x2, y2], [x3, y3]], fill=[255, 255, 255, int(alpha * 0.5)], color=[255, 255, 255, int(alpha)], closed=True))
 
     try:
         draw(data)
     except:
+        import traceback    
+        print(traceback.format_exc())
         pass

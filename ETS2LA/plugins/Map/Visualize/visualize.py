@@ -325,12 +325,12 @@ def VisualizeTruck(data, img=None, zoom=2):
         rotatedPoints.append(RotateAroundCenter(point, center, angle))
             
     # Draw the truck (can't use rectangle because it doesn't support rotation)
-    cv2.line(img, rotatedPoints[0], rotatedPoints[2], (0, 255, 0), 1)
-    cv2.line(img, rotatedPoints[2], rotatedPoints[1], (0, 255, 0), 1)
-    cv2.line(img, rotatedPoints[1], rotatedPoints[3], (0, 255, 0), 1)
-    cv2.line(img, rotatedPoints[3], rotatedPoints[0], (0, 255, 0), 1)
+    cv2.line(img, rotatedPoints[0], rotatedPoints[2], (0, 255, 0), 1, cv2.LINE_AA)
+    cv2.line(img, rotatedPoints[2], rotatedPoints[1], (0, 255, 0), 1, cv2.LINE_AA)
+    cv2.line(img, rotatedPoints[1], rotatedPoints[3], (0, 255, 0), 1, cv2.LINE_AA)
+    cv2.line(img, rotatedPoints[3], rotatedPoints[0], (0, 255, 0), 1, cv2.LINE_AA)
     # Diagonal  
-    cv2.line(img, rotatedPoints[0], rotatedPoints[1], (0, 255, 0), 1)
+    cv2.line(img, rotatedPoints[0], rotatedPoints[1], (0, 255, 0), 1, cv2.LINE_AA)
     
      
     # Draw the trailers
@@ -388,12 +388,12 @@ def VisualizeTruck(data, img=None, zoom=2):
             rotatedPoints.append(RotateAroundCenter(point, trailerCenter, angle))
         
         # Draw the trailer (can't use rectangle because it doesn't support rotation)
-        cv2.line(img, rotatedPoints[0], rotatedPoints[2], (0, 255, 0), 1)
-        cv2.line(img, rotatedPoints[2], rotatedPoints[1], (0, 255, 0), 1)
-        cv2.line(img, rotatedPoints[1], rotatedPoints[3], (0, 255, 0), 1)
-        cv2.line(img, rotatedPoints[3], rotatedPoints[0], (0, 255, 0), 1)
+        cv2.line(img, rotatedPoints[0], rotatedPoints[2], (0, 255, 0), 1, cv2.LINE_AA)
+        cv2.line(img, rotatedPoints[2], rotatedPoints[1], (0, 255, 0), 1, cv2.LINE_AA)
+        cv2.line(img, rotatedPoints[1], rotatedPoints[3], (0, 255, 0), 1, cv2.LINE_AA)
+        cv2.line(img, rotatedPoints[3], rotatedPoints[0], (0, 255, 0), 1, cv2.LINE_AA)
         # Diagonal in the opposite dir as the truck
-        cv2.line(img, rotatedPoints[2], rotatedPoints[3], (0, 255, 0), 1)
+        cv2.line(img, rotatedPoints[2], rotatedPoints[3], (0, 255, 0), 1, cv2.LINE_AA)
         
     return img
 
@@ -470,7 +470,7 @@ def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0):
         
         if distance != 0:
             # Draw a line and text from the truck to the point
-            cv2.line(img, (size//2, size//2), (pointX, pointY), (100,100,100), 1)
+            cv2.line(img, (size//2, size//2), (pointX, pointY), (100,100,100), 1, cv2.LINE_AA)
             cv2.putText(img, f"{round(distance, 1)}m", (pointX, pointY), cv2.FONT_HERSHEY_DUPLEX, 0.5, (100,100,100), 1, cv2.LINE_AA)
         
     except:
