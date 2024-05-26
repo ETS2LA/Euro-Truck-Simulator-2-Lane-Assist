@@ -1,1 +1,2 @@
-It's now possible to switch to the next TruckStats tab using a keyboard shortcut.
+- It's now possible to switch to the next TruckStats tab using a keyboard shortcut.
+- Fixed the wiki link in FirstTimeSetup not working.
