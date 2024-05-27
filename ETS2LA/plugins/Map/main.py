@@ -171,18 +171,18 @@ def plugin():
         
         if data["vehicles"] != None:
             x, z = data["api"]["truckPlacement"]["coordinateX"], data["api"]["truckPlacement"]["coordinateZ"]
-            for line in data["vehicles"]:
-                if line == None: continue
+            for vehicle in data["vehicles"]:
+                if vehicle == None: continue
                 try:
-                    relativePoints = line[2]
-                    leftPoint = relativePoints[0]
-                    rightPoint = relativePoints[1]
+                    #sys.stdout.write(f"{vehicle}\n")
+                    #sys.stdout.flush()
+                    leftPoint = vehicle.raycasts[0].relativePoint
+                    rightPoint = vehicle.raycasts[1].relativePoint
                     middlePoint = ((leftPoint[0] + rightPoint[0]) / 2, (leftPoint[1] + rightPoint[1]) / 2, (leftPoint[2] + rightPoint[2]) / 2)
                     # Add the truck location to the middle point
                     middlePoint = (middlePoint[0] + x, middlePoint[1], middlePoint[2] + z)
-                    distances = line[1]
-                    leftDistance = distances[0]
-                    rightDistance = distances[1]
+                    leftDistance = vehicle.raycasts[0].distance
+                    rightDistance = vehicle.raycasts[1].distance
                     middleDistance = (leftDistance + rightDistance) / 2
                     #sys.stdout.write(f"\r{middlePoint}")
                     #sys.stdout.flush()
@@ -284,21 +284,19 @@ def plugin():
         }
         # Add the cars to the external visualization as a line from the start point to y + 1
         if data["vehicles"] != None:
-            for line in data["vehicles"]:
-                if line == None: continue
+            for vehicle in data["vehicles"]:
+                if vehicle == None: continue
                 try:
-                    points = line[2]
-                    leftPoint = points[0]
-                    rightPoint = points[1]
+                    leftPoint = vehicle.raycasts[0].relativePoint
+                    rightPoint = vehicle.raycasts[1].relativePoint
                     middlePoint = ((leftPoint[0] + rightPoint[0]) / 2, (leftPoint[1] + rightPoint[1]) / 2, (leftPoint[2] + rightPoint[2]) / 2)
                     # Add the truck location to the points
                     leftPoint = (leftPoint[0] + x, leftPoint[1], leftPoint[2] + z)
                     rightPoint = (rightPoint[0] + x, rightPoint[1], rightPoint[2] + z)
                     middlePoint = (middlePoint[0] + x, middlePoint[1], middlePoint[2] + z)
                     # Get the distance
-                    distances = line[1]
-                    leftDistance = distances[0]
-                    rightDistance = distances[1]
+                    leftDistance = vehicle.raycasts[0].distance
+                    rightDistance = vehicle.raycasts[1].distance
                     middleDistance = (leftDistance + rightDistance) / 2
                     # Add the lines
                     arData['lines'].append(Line((leftPoint[0], y, leftPoint[2]), (rightPoint[0], y, rightPoint[2]), color=[0, 255, 0, 100], thickness=2))

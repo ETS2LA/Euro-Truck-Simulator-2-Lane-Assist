@@ -2,17 +2,17 @@ from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
-import pyautogui
-import bettercam
-import torch
-import numpy as np
 import time
 import cv2
-import os
-import pathlib
-import pyautogui
 
 runner:PluginRunner = None
+
+class Vehicle:
+    raycasts: list
+    vehicleType: str
+    def __init__(self, raycasts, vehicleType):
+        self.raycasts = raycasts
+        self.vehicleType = vehicleType
 
 def SendCrashReport(): # REMOVE THIS LATER
     return
@@ -22,31 +22,40 @@ def Initialize():
     global TruckSimAPI
     global ScreenCapture
     global Raycast
+    global capture_y, capture_x, capture_width, capture_height, model, MODEL_PATH, frame, temp
+
+    import pyautogui
+    import bettercam
+    import torch
+    import numpy as np
+    import os
+    import pathlib
+    import pyautogui
 
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
     Raycast = runner.modules.Raycasting
 
-MODEL_NAME = "5-25-24_1.pt"
-MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
+    MODEL_NAME = "5-25-24_1.pt"
+    MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
 
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+    temp = pathlib.PosixPath
+    pathlib.PosixPath = pathlib.WindowsPath
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
-model.conf = 0.75
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
+    model.conf = 0.75
 
-capture_x = 2000
-capture_y = 0
-lowerHeight = 300 # Helps with coding
-lowerWidth = 2500 # Helps with coding
-capture_width = pyautogui.size()[0] - lowerWidth
-capture_height = pyautogui.size()[1] - lowerHeight
+    capture_x = 2000
+    capture_y = 0
+    lowerHeight = 300 # Helps with coding
+    lowerWidth = 3500 # Helps with coding
+    capture_width = pyautogui.size()[0] - lowerWidth
+    capture_height = pyautogui.size()[1] - lowerHeight
 
-cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
-cv2.resizeWindow('Vehicle Detection', 660, 240)
-cv2.setWindowProperty('Vehicle Detection', cv2.WND_PROP_TOPMOST, 1)
+    cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
+    cv2.resizeWindow('Vehicle Detection', int(capture_width/3), int(capture_height/3))
+    cv2.setWindowProperty('Vehicle Detection', cv2.WND_PROP_TOPMOST, 1)
 
 def get_text_size(text="NONE", text_width=100, max_text_height=100):
     fontscale = 1
@@ -98,43 +107,41 @@ def plugin():
         score = box['confidence']
         x, y, w, h = int(box['xmin']), int(box['ymin']), int(box['xmax'] - box['xmin']), int(box['ymax'] - box['ymin'])
         # Add the offset to the x and y coordinates
-        x += capture_x
-        y += capture_y
+        xr = x + capture_x
+        yr = y + capture_y
         
         if label in ['car']:
-            bottomLeftPoint = (x, y + h)
-            bottomRightPoint = (x + w, y + h)
+            bottomLeftPoint = (xr, yr + h)
+            bottomRightPoint = (xr + w, yr + h)
             
-            carPoints.append((bottomLeftPoint, bottomRightPoint))
+            carPoints.append((bottomLeftPoint, bottomRightPoint, "car"))
             cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 0, 255))
         if label in ['truck']:
-            bottomLeftPoint = (x, y + h)
-            bottomRightPoint = (x + w, y + h)
+            bottomLeftPoint = (xr, yr + h)
+            bottomRightPoint = (xr + w, yr + h)
             
-            carPoints.append((bottomLeftPoint, bottomRightPoint))
+            carPoints.append((bottomLeftPoint, bottomRightPoint, "truck"))
             cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(255, 0, 0))
         if label in ['bus']:
-            bottomLeftPoint = (x, y + h)
-            bottomRightPoint = (x + w, y + h)
+            bottomLeftPoint = (xr, yr + h)
+            bottomRightPoint = (xr + w, yr + h)
             
-            carPoints.append((bottomLeftPoint, bottomRightPoint))
+            carPoints.append((bottomLeftPoint, bottomRightPoint, "bus"))
             cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 255, 0))
 
-    carCoordinates = []
+    vehicles = []
     for line in carPoints:
-        points = []
-        distances = []
-        relativePoints = []
+        raycasts = []
         for point in line:
-            coords = Raycast.run(x=point[0], y=point[1])
-            points.append(coords["point"])
-            distances.append(coords["distance"])
-            relativePoints.append(coords["relativePoint"])
-            
-        carCoordinates.append((points, distances, relativePoints))
+            if type(point) == str: # Skip the vehicle type
+                continue
+            raycast = Raycast.run(x=point[0], y=point[1])
+            raycasts.append(raycast)
+        vehicles.append(Vehicle(raycasts, line[2]))
+        
 
     fps = round(1 / (time.time() - start_time))
     start_time = time.time()
@@ -145,11 +152,13 @@ def plugin():
     
     # {
     #   "vehicles": [
-    #       ([(x1, y1, z1), (x2, y2, z2)], [distance1, distance2], [(relative_x1, relative_y1, relative_z1), (relative_x2, relative_y2, relative_z2)]),
-    #       ([(x1, y1, z1), (x2, y2, z2)], [distance1, distance2], [(relative_x1, relative_y1, relative_z1), (relative_x2, relative_y2, relative_z2)]),
-    #       ...    
+    #       Vehicle: [
+    #           raycasts: Raycasting.RaycastResponse[]
+    #           vehicleType: str
+    #       ]
+    #   ]  
     # }
     
     return None, {
-        "vehicles": carCoordinates,
+        "vehicles": vehicles,
     }

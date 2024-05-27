@@ -10,6 +10,15 @@ WHEEL_OFFSET = 0.5 # Wheel size to offset the camera in meters
 
 runner:PluginRunner = None
 
+class RaycastResponse:
+    point: tuple
+    distance: tuple
+    relativePoint: tuple
+    def __init__(self, point, distance, relativePoint):
+        self.point = point
+        self.distance = distance
+        self.relativePoint = relativePoint
+
 def Initialize():
     global API
     API = runner.modules.TruckSimAPI
@@ -20,8 +29,8 @@ def GetScreenPointAngle(x, y, headRotation):
     screen_width = screen.width
     screen_height = screen.height
     # Get the percentage of the screen the mouse is at
-    x_percentage = x / screen_width
-    y_percentage = y / screen_height
+    x_percentage = int(x) / int(screen_width)
+    y_percentage = int(y) / int(screen_height)
     # Check if the mouse is at the top or bottom of the screen
     if y_percentage < 0.5:
         # Calculate the angle
@@ -34,7 +43,7 @@ def GetScreenPointAngle(x, y, headRotation):
     vFOVrad = FOV * math.pi / 180
     hFOVrad = 2 * math.atan(math.tan(vFOVrad / 2) * (screen_width / screen_height)) * ((screen_width / screen_height) / 2)
     hFOVdeg = hFOVrad * 180 / math.pi
-    print(hFOVdeg)
+    # print(hFOVdeg)
     # Calculate the horizontal angle
     horizontalAngle = (x_percentage - 0.5) * hFOVdeg
     
@@ -200,9 +209,4 @@ def run(x=None, y=None):
     # Rotate the relative point around 0 to match the truck rotation
     relativePoint = RotateAroundCenter((relativePoint[0], relativePoint[2]), (0, 0), truckRotation[0] + math.pi)
     # Return the values
-    data = {
-        "point": (new_x, point[1], new_z),
-        "distance": distance,
-        "relativePoint": (relativePoint[0], point[1], relativePoint[1])
-    }
-    return data
+    return RaycastResponse((new_x, point[1], new_z), distance, (relativePoint[0], CAMERA_HEIGHT, relativePoint[1]))
