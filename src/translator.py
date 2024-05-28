@@ -258,28 +258,36 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
             except:
                 translatePopup = None
                 
-            mainUI.root.update()
+            try:
+                mainUI.root.update()
+                hasUI = True
+            except:
+                hasUI = False
                 
             if enableCache:
                 cache = CheckCache(text)
                 if cache != False:
                     return cache
                 else:
+                    if hasUI:
+                        mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
+                        mainUI.UpdateTitle(extraText="TRANSLATING...")
+                        mainUI.root.update()
+
+                    translation = translator.translate(text, max_chars=20000)
+                    AddToCache(text, translation)
+                    
+                    if hasUI: mainUI.UpdateTitle()
+                    return translation
+            else:
+                if hasUI:
                     mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
                     mainUI.UpdateTitle(extraText="TRANSLATING...")
                     mainUI.root.update()
 
-                    translation = translator.translate(text, max_chars=20000)
-                    AddToCache(text, translation)
-                    mainUI.UpdateTitle()
-                    return translation
-            else:
-                mainUI.fps.set(f"TRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING\tTRANSLATING")
-                mainUI.UpdateTitle(extraText="TRANSLATING...")
-                mainUI.root.update()
-
                 translation = translator.translate(text)
-                mainUI.UpdateTitle()
+                
+                if hasUI: mainUI.UpdateTitle()
                 return translation
         except:
             import traceback
