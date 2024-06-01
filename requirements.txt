@@ -1,6 +1,8 @@
+torchvision==0.17.2
 tkinter-tooltip
 beautifulsoup4
 opencv-python
+torch==2.2.2
 transformers
 ultralytics
 setuptools
@@ -18,7 +20,6 @@ uvicorn
 pillow
 psutil
 pygame
-torch
 numpy
 mouse
 scipy
