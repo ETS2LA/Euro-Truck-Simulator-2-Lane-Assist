@@ -1,7 +1,7 @@
 ![](assets/markdownLogo.png)
 
 # ETS2LA
-Lane assist and plugin based interface program for SCS truck simulators.
+Lane assist and plugin based interface program for Euro truck simulator 2.
 
 <img alt="SourceForge Downloads" src="https://img.shields.io/sourceforge/dt/eurotrucksimulator2-laneassist?style=for-the-badge&logo=Sourceforge&label=SourceForge%20Downloads">
 <img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/total?style=for-the-badge&logo=Github&label=Github%20Downloads">
