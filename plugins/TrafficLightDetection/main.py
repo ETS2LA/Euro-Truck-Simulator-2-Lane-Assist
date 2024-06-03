@@ -23,12 +23,15 @@ from tkinter import ttk
 import tkinter as tk
 
 from ctypes import windll, byref, sizeof, c_int
+from PIL import Image, ImageTk
 import win32gui, win32con
 import numpy as np
 import threading
 import traceback
+import requests
 import socket
 import ctypes
+import base64
 import math
 import time
 import cv2
@@ -54,7 +57,45 @@ yolo_model_loaded = False
 
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
+
+traffic_light_sendimage_thread = None
+tumppi_available = "unknown"
+last_tumppi_check = 0
+last_traffic_light_image = 0
+def CheckTumppi():
+    try:
+        headers = {
+            "Content-Type": "application/json"
+        }
+        r = requests.get("https://api.tumppi066.fi/heartbeat", headers=headers)
+        return True
+    except:
+        return False
+def SendImage(image):
+    global tumppi_available
+    if last_tumppi_check + 180 < time.time():
+        tumppi_available = CheckTumppi()
+    if tumppi_available == "unknown":
+        tumppi_available = CheckTumppi()
+    if tumppi_available == True:
+        try:
+            encoded_string = base64.b64encode(cv2.imencode('.png', image)[1]).decode()
+            url = "https://api.tumppi066.fi/image/save"
+            headers = {
+                'Content-Type': 'application/json'
+            }
+            data = {
+                "image": encoded_string,
+                "category": "tld_images"
+            }
+            response = requests.post(url, headers=headers, json=data)
+        except:
+            tumppi_available = CheckTumppi()
+
+
 def UpdateSettings():
+    global send_traffic_light_images
+
     global min_rect_size
     global max_rect_size
     global width_height_ratio
@@ -118,7 +159,9 @@ def UpdateSettings():
     global upper_green_advanced
     global lower_yellow_advanced
     global upper_yellow_advanced
-    
+
+    send_traffic_light_images = settings.GetSettings("TrafficLightDetection", "send_traffic_light_images", False)
+
     finalwindow = settings.GetSettings("TrafficLightDetection", "finalwindow", True)
     grayscalewindow = settings.GetSettings("TrafficLightDetection", "grayscalewindow", False)
     positionestimationwindow = settings.GetSettings("TrafficLightDetection", "positionestimationwindow", False)
@@ -398,6 +441,8 @@ def plugin(data):
     global coordinates
     global trafficlights
     global reset_window
+    global last_traffic_light_image
+    global traffic_light_sendimage_thread
     
     try:
         frameFull = data["frameFull"]
@@ -852,6 +897,46 @@ def plugin(data):
                                 istrue = True
                             if istrue == True:
                                 coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+
+
+    if send_traffic_light_images == True:
+        try:
+            try:
+                if traffic_light_sendimage_thread is not None:
+                    if traffic_light_sendimage_thread.is_alive():
+                        last_traffic_light_image = time.time()
+            except:
+                pass
+            if last_traffic_light_image + 0.5 < time.time() and len(coordinates) > 0:
+                for x, y, w, h, state in coordinates:
+                    tld_y1 = int(y1+y-h*4)
+                    if tld_y1 < 0:
+                        tld_y1 = 0
+                    elif tld_y1 > frameFull.shape[0]:
+                        tld_y1 = frameFull.shape[0]
+                    tld_y2 = int(y1+y+h*4)
+                    if tld_y2 < 0:
+                        tld_y2 = 0
+                    elif tld_y2 > frameFull.shape[0]:
+                        tld_y2 = frameFull.shape[0]
+                    tld_x1 = int(x1+x-w*2.5)
+                    if tld_x1 < 0:
+                        tld_x1 = 0
+                    elif tld_x1 > frameFull.shape[1]:
+                        tld_x1 = frameFull.shape[1]
+                    tld_x2 = int(x1+x+w*2.5)
+                    if tld_x2 < 0:
+                        tld_x2 = 0
+                    elif tld_x2 > frameFull.shape[1]:
+                        tld_x2 = frameFull.shape[1]
+                    traffic_light_image = frameFull[tld_y1:tld_y2, tld_x1:tld_x2]
+                    traffic_light_image = cv2.cvtColor(traffic_light_image, cv2.COLOR_BGR2GRAY)
+                    threading.Thread(target=SendImage, args=(traffic_light_image,)).start()
+                last_traffic_light_image = time.time()
+        except Exception as e:
+            exc = traceback.format_exc()
+            SendCrashReport("TrafficLightDetection - TrafficLightDetectionAI data collection error.", str(exc))
+            print("TrafficLightDetection - TrafficLightDetectionAI data collection error: " + str(exc))
 
 
     try:
@@ -1312,7 +1397,9 @@ class UI():
             
             notebook = ttk.Notebook(self.root)
             notebook.pack(anchor="center", fill="both", expand=True)
-            
+
+            tld_datasetFrame = ttk.Frame(notebook)
+            tld_datasetFrame.pack()
             generalFrame = ttk.Frame(notebook)
             generalFrame.pack()
             screencaptureFrame = ttk.Frame(notebook)
@@ -1344,6 +1431,11 @@ class UI():
             filtersFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(filtersFrame, "Filters", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
 
+            tld_datasetFrame.columnconfigure(0, weight=1)
+            tld_datasetFrame.columnconfigure(1, weight=1)
+            tld_datasetFrame.columnconfigure(2, weight=1)
+            helpers.MakeLabel(tld_datasetFrame, "Help us Developers", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
+
             generalFrame.columnconfigure(0, weight=1)
             generalFrame.columnconfigure(1, weight=1)
             generalFrame.columnconfigure(2, weight=1)
@@ -1370,6 +1462,7 @@ class UI():
             helpers.MakeLabel(advancedFrame, "Advanced", 0, 0, font=("Robot", 12, "bold"), columnspan=7)
             
 
+            notebook.add(tld_datasetFrame, text=Translate("Traffic Light Dataset"))
             notebook.add(generalFrame, text=Translate("General"))
             notebook.add(screencaptureFrame, text=Translate("ScreenCapture"))
             notebook.add(outputwindowFrame, text=Translate("OutputWindow"))
@@ -1388,6 +1481,32 @@ class UI():
             helpers.MakeEmptyLine(outputwindowFrame,5,0)
             helpers.MakeEmptyLine(outputwindowFrame,6,0)
             helpers.MakeCheckButton(outputwindowFrame, "Position Estimation Window\n----------------------------------\nIf enabled, the app creates a window which shows the estimated position of the traffic light.", "TrafficLightDetection", "positionestimationwindow", 7, 0, width=80, callback=lambda:UpdateSettings())
+
+            helpers.MakeLabel(tld_datasetFrame, "We need your help to automatically collect images of traffic lights for a future AI which will be able to\ndetect traffic lights.  The images and the model will be available for everyone at https://huggingface.co\n/Glas42/TrafficLightDetectionAI when we've collected enough images.", 1, 0)
+            helpers.MakeLabel(tld_datasetFrame, "Example images:", 2, 0)
+            example_image_paths = ["datasetexample_1.png", "datasetexample_2.png", "datasetexample_3.png"]
+            for i, image_path in enumerate(example_image_paths):
+                image_path = os.path.join(variables.PATH, "assets", "TrafficLightDetection", image_path)
+                image = cv2.imread(image_path)
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                image = Image.fromarray(image)
+                image = image.resize((200, 200), resample=Image.BILINEAR)
+                photo = ImageTk.PhotoImage(image)
+                image_label = tk.Label(tld_datasetFrame, image=photo)
+                image_label.grid(row=3, column=0, padx=10, pady=10, sticky="nw" if i == 0 else "n" if i == 1 else "ne")
+                image_label.image = photo
+            helpers.MakeEmptyLine(tld_datasetFrame, 4, 0)
+            helpers.MakeCheckButton(tld_datasetFrame, "Help collecting anonymous traffic light images", "TrafficLightDetection", "send_traffic_light_images", 5, 0, width=80, callback=lambda:UpdateSettings())
+            helpers.MakeButton(tld_datasetFrame, "Open Website", lambda: OpenWebsite(), 6, 0, width=100, sticky="nw")
+            def OpenWebsite():
+                browser = helpers.Dialog("Traffic Light Detection Dataset","In which brower should the website be opened?", ["In-app browser", "External browser"], "In-app browser", "External Browser")
+                if browser == "In-app browser":
+                    from src.mainUI import closeTabName
+                    from plugins.Wiki.main import LoadURL
+                    closeTabName("Wiki")
+                    LoadURL("https://huggingface.co/Glas42/TrafficLightDetectionAI")
+                else:
+                    helpers.OpenInBrowser("https://huggingface.co/Glas42/TrafficLightDetectionAI")
 
             helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance, but does not reduce detection accuracy.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=lambda:UpdateSettings())

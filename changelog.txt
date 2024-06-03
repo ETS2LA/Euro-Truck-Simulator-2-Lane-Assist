@@ -1,1 +1,1 @@
-- Fix translator crashing when UI has not yet been initialized.
+It's now possible to collect anonymous traffic light images for a new AI model.
