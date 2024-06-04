@@ -23,36 +23,37 @@ def Initialize():
     global API
     API = runner.modules.TruckSimAPI
 
+screen = screeninfo.get_monitors()[0]
 def GetScreenPointAngle(x, y, headRotation):
     # Get the screen size
-    screen = screeninfo.get_monitors()[0]
     screen_width = screen.width
     screen_height = screen.height
+    ratio = screen_width / screen_height
+
+    # Convert x and y to integers once
+    x = int(x)
+    y = int(y)
+
     # Get the percentage of the screen the mouse is at
-    x_percentage = int(x) / int(screen_width)
-    y_percentage = int(y) / int(screen_height)
+    x_percentage = x / screen_width
+    y_percentage = y / screen_height
+
     # Check if the mouse is at the top or bottom of the screen
-    if y_percentage < 0.5:
-        # Calculate the angle
-        verticalAngle = - (0.5 - y_percentage) * FOV
-    else:
-        # Calculate the angle
-        verticalAngle = (y_percentage - 0.5) * FOV
-        
+    verticalAngle = ((y_percentage - 0.5) * FOV) if y_percentage >= 0.5 else -((0.5 - y_percentage) * FOV)
+
     # Calculate the horizontal fov
     vFOVrad = FOV * math.pi / 180
-    hFOVrad = 2 * math.atan(math.tan(vFOVrad / 2) * (screen_width / screen_height)) * ((screen_width / screen_height) / 2)
+    hFOVrad = 2 * math.atan(math.tan(vFOVrad / 2) * ratio)
     hFOVdeg = hFOVrad * 180 / math.pi
-    # print(hFOVdeg)
+
     # Calculate the horizontal angle
     horizontalAngle = (x_percentage - 0.5) * hFOVdeg
-    
+
     # Add the head rotation to the angles to get the final angles
     horizontalAngle -= headRotation[0]
     verticalAngle -= headRotation[1]
 
-    # TODO: WTF does this magic number mean
-    return (horizontalAngle * 1 , verticalAngle)
+    return (horizontalAngle, verticalAngle)
     
 
 def GetCollisionPointWithGround(horizontalAngle, verticalAngle):
@@ -189,6 +190,7 @@ def GetValuesFromAPI():
     # Return the values
     return (head_x, head_y, head_z), (head_rotation_x, head_rotation_y, head_rotation_z), (truck_x, truck_y, truck_z), (truck_rotation_radians_x, truck_rotation_radians_y, truck_rotation_radians_z)
 
+import time
 def run(x=None, y=None):
     # Get values from the API
     headPos, headRotation, truckPos, truckRotation = GetValuesFromAPI()

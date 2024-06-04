@@ -34,7 +34,7 @@ USE_EXTERNAL_VISUALIZATION = True
 EXTERNAL_RENDER_DISTANCE = 200 # How far to render in meters
 
 try:
-    from ETS2LA.plugins.AR.main import Line, Circle, Box, Polygon, Text
+    from ETS2LA.plugins.AR.main import Line, Circle, Box, Polygon, Text, ScreenLine
 except:
     USE_EXTERNAL_VISUALIZATION = False # Force external off
 
@@ -281,27 +281,30 @@ def plugin():
             "boxes": [],
             "polygons": [],
             "texts": [],
+            "screenLines": [],
         }
         # Add the cars to the external visualization as a line from the start point to y + 1
         if data["vehicles"] != None:
             for vehicle in data["vehicles"]:
                 if vehicle == None: continue
                 try:
-                    leftPoint = vehicle.raycasts[0].relativePoint
-                    rightPoint = vehicle.raycasts[1].relativePoint
-                    middlePoint = ((leftPoint[0] + rightPoint[0]) / 2, (leftPoint[1] + rightPoint[1]) / 2, (leftPoint[2] + rightPoint[2]) / 2)
+                    leftPoint = vehicle.screenPoints[0]
+                    leftPoint = (leftPoint[0], leftPoint[1] + 5)
+                    rightPoint = vehicle.screenPoints[1]
+                    rightPoint = (rightPoint[0], rightPoint[1] + 5)
+                    middlePoint = ((leftPoint[0] + rightPoint[0]) / 2, (leftPoint[1] + rightPoint[1]) / 2)
                     # Add the truck location to the points
-                    leftPoint = (leftPoint[0] + x, leftPoint[1], leftPoint[2] + z)
-                    rightPoint = (rightPoint[0] + x, rightPoint[1], rightPoint[2] + z)
-                    middlePoint = (middlePoint[0] + x, middlePoint[1], middlePoint[2] + z)
+                    # leftPoint = (leftPoint[0] + x, leftPoint[1], leftPoint[2] + z)
+                    # rightPoint = (rightPoint[0] + x, rightPoint[1], rightPoint[2] + z)
+                    # middlePoint = (middlePoint[0] + x, middlePoint[1], middlePoint[2] + z)
                     # Get the distance
                     leftDistance = vehicle.raycasts[0].distance
                     rightDistance = vehicle.raycasts[1].distance
                     middleDistance = (leftDistance + rightDistance) / 2
                     # Add the lines
-                    arData['lines'].append(Line((leftPoint[0], y, leftPoint[2]), (rightPoint[0], y, rightPoint[2]), color=[0, 255, 0, 100], thickness=2))
+                    arData['screenLines'].append(ScreenLine((leftPoint[0], leftPoint[1]), (rightPoint[0], rightPoint[1]), color=[0, 255, 0, 100], thickness=2))
                     # Add the text
-                    arData['texts'].append(Text(f"{round(middleDistance, 1)}m", (middlePoint[0], y, middlePoint[2]), color=[0, 255, 0, 255], size=15))
+                    arData['texts'].append(Text(f"{round(middleDistance, 1)}m", (middlePoint[0], middlePoint[1]), color=[0, 255, 0, 255], size=15))
                 except:
                     continue
 

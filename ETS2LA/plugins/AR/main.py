@@ -72,6 +72,18 @@ class Line:
         self.color = color
         self.thickness = thickness
         
+class ScreenLine:
+    """Line that uses screen positions instead of 3D positions."""
+    start: tuple
+    end: tuple
+    color: tuple
+    thickness: int
+    def __init__(self, start, end, color=[255, 255, 255, 255], thickness=1):
+        self.start = start
+        self.end = end
+        self.color = color
+        self.thickness = thickness
+        
 class Text:
     position: tuple
     text: str
@@ -177,14 +189,20 @@ def resize():
     dpg.set_viewport_width(window_width)
     dpg.set_viewport_height(window_height)
 
+def tryDictGet(dictionary, key, default):
+    try:
+        return dictionary[key]
+    except:
+        return default
 
 def draw(data):
     global drawlist
-    lines = data["overlay"]["lines"]
-    circles = data["overlay"]["circles"]
-    boxes = data["overlay"]["boxes"]
-    polygons = data["overlay"]["polygons"]
-    text = data["overlay"]["texts"]
+    lines = tryDictGet(data["overlay"], "lines", [])
+    screenLines = tryDictGet(data["overlay"], "screenLines", [])
+    circles = tryDictGet(data["overlay"], "circles", [])
+    boxes = tryDictGet(data["overlay"], "boxes", [])
+    polygons = tryDictGet(data["overlay"], "polygons", [])
+    texts = tryDictGet(data["overlay"], "texts", [])
 
     if drawlist is not None:
         dpg.delete_item(drawlist)
@@ -192,6 +210,10 @@ def draw(data):
     with dpg.viewport_drawlist(label="draw") as drawlist:
 
         for line in lines:
+            if None not in line.start and None not in line.end:
+                dpg.draw_line([line.start[0], line.start[1]], [line.end[0], line.end[1]], color=line.color, thickness=line.thickness)
+
+        for line in screenLines:
             if None not in line.start and None not in line.end:
                 dpg.draw_line([line.start[0], line.start[1]], [line.end[0], line.end[1]], color=line.color, thickness=line.thickness)
 
@@ -261,7 +283,7 @@ def plugin():
     global lastOverlayData
     data = {}
     data["api"] = TruckSimAPI.run(Fallback=False)
-    if data["api"] == "not connected" or data["api"]["pause"] == True:
+    if data["api"] == "not connected": # or data["api"]["pause"] == True:
         global drawlist
         if drawlist is not None:
             dpg.delete_item(drawlist)
@@ -414,6 +436,7 @@ def plugin():
         arData = runner.GetData(["tags.ar"])[0]
         if arData != None:
             data["overlay"] = arData
+            
         else:
             raise Exception("No data")
         for line in data["overlay"]["lines"]:
@@ -430,7 +453,8 @@ def plugin():
                 continue
         for text in data["overlay"]["texts"]:
             try:
-                text.position = ConvertToScreenCoordinate(text.position[0], text.position[1], text.position[2])
+                if len(text.position) == 3:
+                    text.position = ConvertToScreenCoordinate(text.position[0], text.position[1], text.position[2])
             except:
                 data["overlay"]["texts"].remove(text)
                 continue
@@ -442,6 +466,7 @@ def plugin():
         else:
             data["overlay"] = {}
             data["overlay"]["lines"] = []
+            data["overlay"]["screenLines"] = []
             data["overlay"]["circles"] = []
             data["overlay"]["boxes"] = []
             data["overlay"]["polygons"] = []

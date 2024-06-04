@@ -10,9 +10,11 @@ YOLO_FPS = 2 # How many times per second the YOLO model should run
 
 class Vehicle:
     raycasts: list
+    screenPoints: list
     vehicleType: str
-    def __init__(self, raycasts, vehicleType):
+    def __init__(self, raycasts, screenPoints, vehicleType):
         self.raycasts = raycasts
+        self.screenPoints = screenPoints
         self.vehicleType = vehicleType
 
 def SendCrashReport(): # REMOVE THIS LATER
@@ -225,12 +227,15 @@ def plugin():
                     #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 255, 0))
             for line in carPoints:
                 raycasts = []
+                screenPoints = []
                 for point in line:
                     if type(point) == str: # Skip the vehicle type
                         continue
+                    raycastStart = time.time()
                     raycast = Raycast.run(x=point[0], y=point[1])
                     raycasts.append(raycast)
-                vehicles.append(Vehicle(raycasts, line[2]))
+                    screenPoints.append(point)
+                vehicles.append(Vehicle(raycasts, screenPoints, line[2]))
         except:
             pass
     visualTime = time.time() - visualTime
