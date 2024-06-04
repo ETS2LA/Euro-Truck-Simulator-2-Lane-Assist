@@ -1,6 +1,7 @@
 from ETS2LA.plugins.runner import PluginRunner
-import time
 import ETS2LA.backend.settings as settings
+import time
+import cv2
 
 runner:PluginRunner = None
 lastTime = time.time()
@@ -19,5 +20,10 @@ def Initialize():
 
 
 def plugin():
-    img = ScreenCapture.run(imgtype="cropped")
+    inputTime = time.time()
+    img = ScreenCapture.run(imgtype="full")
+    inputTime = time.time() - inputTime
+    
+    cv2.putText(img, f"Input: {inputTime*100:.2f}ms", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    
     ShowImage.run(img)

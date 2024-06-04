@@ -5,6 +5,7 @@ import os
 import numpy as np
 import cv2
 import mss
+import time
 
 
 runner:PluginRunner = None
@@ -21,6 +22,7 @@ cam = None
 def CreateCam(CamSetupDisplay:int = display):
     if variables.OS == "nt":
         global cam
+        print("ScreenCapture using bettercam")
         import bettercam
         try:
             cam.stop() # stop the old instance of cam
@@ -39,8 +41,9 @@ def CreateCam(CamSetupDisplay:int = display):
         except:
             pass
         cam = bettercam.create(output_idx=CamSetupDisplay)
-        cam.start()
+        #cam.start()
     else:
+        print("ScreenCapture using mss")
         global display
         display = CamSetupDisplay
         
@@ -54,18 +57,20 @@ if variables.OS == "nt":
         try:
             if cam == None:
                 CreateCam()
-            img = cam.get_latest_frame()
-            img = np.array(img)
+            #mg = np.array(img)
             # return the requestet image, only crop when needed
             if imgtype == "both":
+                img = cam.grab()
                 croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
                 return croppedImg, img
             elif imgtype == "cropped":
-                croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                croppedImg = cam.grab(region=(monitor_x1, monitor_y1, monitor_x2, monitor_y2))
                 return croppedImg
             elif imgtype == "full":
+                img = cam.grab()
                 return img
             else:
+                img = cam.grab()
                 croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
                 return croppedImg, img
         except:
