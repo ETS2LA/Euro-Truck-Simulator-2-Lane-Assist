@@ -31,10 +31,9 @@ plugins/NavigationDetection/YOLOFiles/*
 plugins/NavigationDetection/YOLOv5_MapDetectionModel.pt
 
 # TrafficLightDetection
-plugins/TrafficLightDetection/YOLOFiles/*
-!plugins/TrafficLightDetection/YOLOFiles/index.md
-plugins/TrafficLightDetection/YOLOModels/*
-!plugins/TrafficLightDetection/YOLOModels/index.md
+plugins/TrafficLightDetection/AIModel/*
+!plugins/TrafficLightDetection/AIModel/index.md
+
 # Wiki is built by github actions, no need to have users download it constantly
 wiki/* 
 

@@ -1,1 +1,1 @@
-Bug fix in Navigation Detection to prevent spamming crash reports when the code is unable to delete the previous AI model.
+TrafficLightDetection now uses the classification AI model instead of the YOLO object detection. This means that the TrafficLightDetection will have less lag from now on.

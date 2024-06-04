@@ -38,6 +38,20 @@ import cv2
 import mss
 import os
 
+try:
+    from torchvision import transforms
+    from bs4 import BeautifulSoup
+    import torch.nn as nn
+    import requests
+    import torch
+    TorchAvailable = True
+except:
+    TorchAvailable = False
+    exc = traceback.format_exc()
+    SendCrashReport("TrafficLightDetection - PyTorch import error.", str(exc))
+    print("\033[91m" + f"TrafficLightDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
+    console.RestoreConsole()
+
 sct = mss.mss()
 monitor = settings.GetSettings("bettercam", "display", 0)
 monitor = sct.monitors[(monitor + 1)]
@@ -75,8 +89,10 @@ def SendImage(image):
     global tumppi_available
     if last_tumppi_check + 180 < time.time():
         tumppi_available = CheckTumppi()
+        last_tumppi_check = time.time()
     if tumppi_available == "unknown":
         tumppi_available = CheckTumppi()
+        last_tumppi_check = time.time()
     if tumppi_available == True:
         try:
             encoded_string = base64.b64encode(cv2.imencode('.png', image)[1]).decode()
@@ -91,10 +107,17 @@ def SendImage(image):
             response = requests.post(url, headers=headers, json=data)
         except:
             tumppi_available = CheckTumppi()
+            last_tumppi_check = time.time()
 
 
 def UpdateSettings():
     global send_traffic_light_images
+
+    global UseAI
+    global UseCUDA
+    global AIDevice
+    global LoadAILabel
+    global LoadAIProgress
 
     global min_rect_size
     global max_rect_size
@@ -112,11 +135,6 @@ def UpdateSettings():
     global advancedmode
     global windowscale
     global posestwindowscale
-    global yolo_detection
-    global yolo_showunconfirmed
-    global yolo_model_loaded
-    global yolo_model_str
-    global yolo_model
     global coordinates
     global trafficlights
     global windowwidth
@@ -160,6 +178,19 @@ def UpdateSettings():
     global lower_yellow_advanced
     global upper_yellow_advanced
 
+    if 'UseAI' in globals():
+        if UseAI == False and settings.GetSettings("TrafficLightDetection", "UseAI", False) == True:
+            if TorchAvailable == True:
+                helpers.RunInMainThread(LoadAIModel)
+            else:
+                print("TrafficLightDetectionAI not available due to missing dependencies.")
+                console.RestoreConsole()
+    UseAI = settings.GetSettings("TrafficLightDetection", "UseAI", False)
+    UseCUDA = settings.GetSettings("TrafficLightDetection", "UseCUDA", False)
+    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
+    LoadAILabel = "Loading..."
+    LoadAIProgress = 0
+
     send_traffic_light_images = settings.GetSettings("TrafficLightDetection", "send_traffic_light_images", False)
 
     finalwindow = settings.GetSettings("TrafficLightDetection", "finalwindow", True)
@@ -193,10 +224,6 @@ def UpdateSettings():
     widthheightratiofilter = settings.GetSettings("TrafficLightDetection", "widthheightratiofilter", True)
     pixelpercentagefilter = settings.GetSettings("TrafficLightDetection", "pixelpercentagefilter", True)
     otherlightsofffilter = settings.GetSettings("TrafficLightDetection", "otherlightsofffilter", True)
-
-    yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
-    yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
-    yolo_model_str = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
 
     coordinates = []
     trafficlights = []
@@ -332,73 +359,281 @@ def UpdateSettings():
 UpdateSettings()
 
 
-def check_internet_connection(host="github.com", port=443, timeout=3):
+def ClassifyImage(image):
+    global IMG_WIDTH
+    global IMG_HEIGHT
     try:
-        socket.create_connection((host, port), timeout=timeout)
-        return True
+        if AIModelUpdateThread.is_alive(): return True
+        if AIModelLoadThread.is_alive(): return True
     except:
-        return False
+        return True
+    try:
+        image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
+    except:
+        IMG_WIDTH = GetAIModelProperties()[2]
+        IMG_HEIGHT = GetAIModelProperties()[3]
+        if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
+            print(f"TrafficLightDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the TrafficLightDetectionAI.")
+            console.RestoreConsole()
+            return True
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+    ])
+    image = transform(image).unsqueeze(0).to(AIDevice)
+    with torch.no_grad():
+        output = np.array(AIModel(image)[0].tolist())
+    probabilities = np.exp(output - np.max(output)) / np.sum(np.exp(output - np.max(output)))
+    confidence = np.max(probabilities)
+    predicted_class = np.argmax(probabilities)
+    return True if predicted_class != 3 else False
 
 
-def yolo_load_model():
-    global yolo_model
-    global yolo_model_loaded
-    global yolo_detection
-    global yolo_showunconfirmed
-    global yolo_model_str
-    yolo_detection = settings.GetSettings("TrafficLightDetection", "yolo_detection", True)
-    yolo_showunconfirmed = settings.GetSettings("TrafficLightDetection", "yolo_showunconfirmed", True)
-    yolo_model_str = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
-    if yolo_model_loaded == False:
-        yolo_model_loaded = "loading..."
-        yolo_model = None
-        def yolo_load_model_thread():
-            global yolo_model
-            global yolo_model_loaded
-            global yolo_detection
+def HandleCorruptedAIModel():
+    DeleteAllAIModels()
+    CheckForAIModelUpdates()
+    while AIModelUpdateThread.is_alive(): time.sleep(0.1)
+    time.sleep(0.5)
+    if TorchAvailable == True:
+        helpers.RunInMainThread(LoadAIModel)
+    else:
+        print("TrafficLightDetectionAI not available due to missing dependencies.")
+        console.RestoreConsole()
+
+
+def LoadAIModel():
+    try:
+        def LoadAIModelThread():
             try:
-                print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
-                import torch
-                torch.hub.set_dir(f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOFiles")
-                yolo_model = torch.hub.load("ultralytics/yolov5:master", 'custom', f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOModels\\{yolo_model_str}")
-                print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
-                yolo_model_loaded = True
+                global LoadAILabel
+                global LoadAIProgress
+                global AIModel
+                global AIModelLoaded
+                global IMG_WIDTH
+                global IMG_HEIGHT
+
+                CheckForAIModelUpdates()
+                while AIModelUpdateThread.is_alive(): time.sleep(0.1)
+
+                if GetAIModelName() == []:
+                    return
+
+                LoadAIProgress = 0
+                LoadAILabel = "Loading the AI model..."
+
+                print("\033[92m" + f"Loading the AI model..." + "\033[0m")
+
+                IMG_WIDTH = GetAIModelProperties()[2]
+                IMG_HEIGHT = GetAIModelProperties()[3]
+
+                ModelFileCorrupted = False
+
+                try:
+                    AIModel = torch.jit.load(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", GetAIModelName()), map_location=AIDevice)
+                    AIModel.eval()
+                except:
+                    ModelFileCorrupted = True
+
+                if ModelFileCorrupted == False:
+                    print("\033[92m" + f"Successfully loaded the AI model!" + "\033[0m")
+                    AIModelLoaded = True
+                    LoadAIProgress = 100
+                    LoadAILabel = "Successfully loaded the AI model!"
+                else:
+                    print("\033[91m" + f"Failed to load the AI model because the model file is corrupted." + "\033[0m")
+                    AIModelLoaded = False
+                    LoadAIProgress = 0
+                    LoadAILabel = "ERROR! Your AI model file is corrupted!"
+                    time.sleep(3)
+                    HandleCorruptedAIModel()
             except Exception as e:
                 exc = traceback.format_exc()
-                SendCrashReport("TrafficLightDetection - Loading YOLO Error.", str(exc))
+                SendCrashReport("TrafficLightDetection - Loading AI Error.", str(exc))
                 console.RestoreConsole()
-                print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
-                internet_connection = check_internet_connection()
-                if internet_connection == False:
-                    print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
-                yolo_model_loaded = False
-                yolo_detection = False
-            helpers.RunInMainThread(lambda: loading.close())
-    
-        import matplotlib
-        matplotlib.use("Agg")
+                print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
+                AIModelLoaded = False
+                LoadAIProgress = 0
+                LoadAILabel = "Failed to load the AI model!"
 
-        global loading
-        loading = helpers.ShowPopup(f"Loading the {yolo_model_str} model...\nThis may take a while...\n\nDO NOT CLOSE THE APP", "TrafficLightDetection", timeout=0, indeterminate=True, closeIfMainloopStopped=False)
+        global AIModelLoadThread
+        AIModelLoadThread = threading.Thread(target=LoadAIModelThread)
+        AIModelLoadThread.start()
 
-        model_thread = threading.Thread(target=yolo_load_model_thread)
-        model_thread.start()
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function LoadAIModel.", str(exc))
+        print(f"TrafficLightDetection - Error in function LoadAIModel: {ex}")
+        console.RestoreConsole()
+        print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
 
 
-def yolo_detection_function(yolo_detection_frame):
-    trafficlight = False
-    if yolo_model is None or yolo_model_loaded == False:
-        if yolo_model_loaded != "loading...":
-            yolo_load_model()
+def CheckForAIModelUpdates():
+    try:
+        def CheckForAIModelUpdatesThread():
+            try:
+                global LoadAILabel
+                global LoadAIProgress
+
+                try:
+                    response = requests.get("https://huggingface.co/", timeout=3)
+                    response = response.status_code
+                except requests.exceptions.RequestException as ex:
+                    response = None
+
+                if response == 200:
+                    LoadAIProgress = 0
+                    LoadAILabel = "Checking for AI model updates..."
+
+                    print("\033[92m" + f"Checking for AI model updates..." + "\033[0m")
+
+                    url = "https://huggingface.co/Glas42/TrafficLightDetectionAI/tree/main/model"
+                    response = requests.get(url)
+                    soup = BeautifulSoup(response.content, 'html.parser')
+
+                    for link in soup.find_all('a', href=True):
+                        href = link['href']
+                        if href.startswith('/Glas42/TrafficLightDetectionAI/blob/main/model'):
+                            LatestAIModel = href.split("/")[-1]
+                            break
+
+                    CurrentAIModel = GetAIModelName()
+                    if CurrentAIModel == "UNKNOWN":
+                        CurrentAIModel = None
+
+                    if str(LatestAIModel) != str(CurrentAIModel):
+                        LoadAILabel = "Updating AI model..."
+                        print("\033[92m" + f"Updating AI model..." + "\033[0m")
+                        DeleteAllAIModels()
+                        response = requests.get(f"https://huggingface.co/Glas42/TrafficLightDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
+                        last_progress = 0
+                        with open(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
+                            total_size = int(response.headers.get('content-length', 0))
+                            downloaded_size = 0
+                            chunk_size = 1024
+                            for data in response.iter_content(chunk_size=chunk_size):
+                                downloaded_size += len(data)
+                                modelfile.write(data)
+                                progress = (downloaded_size / total_size) * 100
+                                if round(last_progress) < round(progress):
+                                    progress_mb = downloaded_size / (1024 * 1024)
+                                    total_size_mb = total_size / (1024 * 1024)
+                                    LoadAIProgress = progress
+                                    LoadAILabel = f"Downloading AI model: {round(progress)}%"
+                                    last_progress = progress
+                        LoadAIProgress = 100
+                        LoadAILabel = "Successfully updated AI model!"
+                        print("\033[92m" + f"Successfully updated AI model!" + "\033[0m")
+                    else:
+                        LoadAIProgress = 100
+                        LoadAILabel = "No AI model updates available!"
+                        print("\033[92m" + f"No AI model updates available!" + "\033[0m")
+
+                else:
+
+                    console.RestoreConsole()
+                    print("\033[91m" + f"Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for AI model updates." + "\033[0m")
+                    LoadAIProgress = 0
+                    LoadAILabel = "Connection to https://huggingface.co/ is\nmost likely not available in your country.\nUnable to check for AI model updates."
+
+            except Exception as ex:
+                exc = traceback.format_exc()
+                SendCrashReport("TrafficLightDetection - Error in function CheckForAIModelUpdatesThread.", str(exc))
+                print(f"TrafficLightDetection - Error in function CheckForAIModelUpdatesThread: {ex}")
+                console.RestoreConsole()
+                print("\033[91m" + f"Failed to check for AI model updates or update the AI model." + "\033[0m")
+                LoadAIProgress = 0
+                LoadAILabel = "Failed to check for AI model updates or update the AI model."
+
+        global AIModelUpdateThread
+        AIModelUpdateThread = threading.Thread(target=CheckForAIModelUpdatesThread)
+        AIModelUpdateThread.start()
+
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function CheckForAIModelUpdates.", str(exc))
+        print(f"TrafficLightDetection - Error in function CheckForAIModelUpdates: {ex}")
+        console.RestoreConsole()
+        print("\033[91m" + f"Failed to check for AI model updates or update the AI model." + "\033[0m")
+
+
+def ModelFolderExists():
+    try:
+        if os.path.exists(f"{variables.PATH}plugins/TrafficLightDetection/AIModel") == False:
+            os.makedirs(f"{variables.PATH}plugins/TrafficLightDetection/AIModel")
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function ModelFolderExists.", str(exc))
+        print(f"TrafficLightDetection - Error in function ModelFolderExists: {ex}")
+        console.RestoreConsole()
+
+
+def GetAIModelName():
+    try:
+        ModelFolderExists()
+        for file in os.listdir(f"{variables.PATH}plugins/TrafficLightDetection/AIModel"):
+            if file.endswith(".pt"):
+                return file
+        return "UNKNOWN"
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function GetAIModelName.", str(exc))
+        print(f"TrafficLightDetection - Error in function GetAIModelName: {ex}")
+        console.RestoreConsole()
+        return "UNKNOWN"
+
+
+def DeleteAllAIModels():
+    try:
+        ModelFolderExists()
+        for file in os.listdir(f"{variables.PATH}plugins/TrafficLightDetection/AIModel"):
+            if file.endswith(".pt"):
+                os.remove(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", file))
+    except PermissionError:
+        global TorchAvailable
+        TorchAvailable = False
+        settings.CreateSettings("TrafficLightDetection", "UseAI", False)
+        print(f"TrafficLightDetection - PermissionError in function DeleteAllAIModels: {ex}")
+        print("TrafficLightDetectionAI will be automatically disabled because the code cannot delete the AI model.")
+        console.RestoreConsole()
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function DeleteAllAIModels.", str(exc))
+        print(f"TrafficLightDetection - Error in function DeleteAllAIModels: {ex}")
+        console.RestoreConsole()
+
+
+def GetAIModelProperties():
+    try:
+        ModelFolderExists()
+        if GetAIModelName() == "UNKNOWN":
+            return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
         else:
-            return trafficlight
-    results = yolo_model(yolo_detection_frame)
-    boxes = results.pandas().xyxy[0]
-    for _, box in boxes.iterrows():
-        if box['name'] in ['traffic light']:
-            if (int(box['xmin']) < round(yolo_detection_frame.shape[1] / 2) < int(box['xmax'])) and (int(box['ymin']) < round(yolo_detection_frame.shape[0] / 2) < int(box['ymax'])):
-                trafficlight = True
-    return trafficlight
+            string = str(GetAIModelName())
+            if string != "UNKNOWN":
+                epochs = int(string.split("EPOCHS-")[1].split("_")[0])
+                batch = int(string.split("BATCH-")[1].split("_")[0])
+                img_width = int(string.split("IMG_WIDTH-")[1].split("_")[0])
+                img_height = int(string.split("IMG_HEIGHT-")[1].split("_")[0])
+                img_count = int(string.split("IMG_COUNT-")[1].split("_")[0])
+                training_time = string.split("TIME-")[1].split("_")[0]
+                training_date = string.split("DATE-")[1].split(".")[0]
+                return (epochs, batch, img_width, img_height, img_count, training_time, training_date)
+            else:
+                return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function GetAIModelProperties.", str(exc))
+        print(f"TrafficLightDetection - Error in function GetAIModelProperties: {ex}")
+        console.RestoreConsole()
+        return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
+
+
+if UseAI:
+    if TorchAvailable == True:
+        helpers.RunInMainThread(LoadAIModel)
+    else:
+        print("TrafficLightDetectionAI not available due to missing dependencies.")
+        console.RestoreConsole()
 
 
 def GetGamePosition():
@@ -980,22 +1215,30 @@ def plugin(data):
                     else:
                         new_id = generate_new_id()
                         angle = ConvertToAngle(nearestpoint[0], nearestpoint[1])[0]
-                        if yolo_detection == True:
+                        if UseAI == True:
                             x, y, w, h, state = nearestpoint
-                            x1_confirmation = round(x - w*6)
-                            y1_confirmation = round(y - w*7)
-                            x2_confirmation = round(x + w*6)
-                            y2_confirmation = round(y + w*7)
-                            if x1_confirmation < 0:
-                                x1_confirmation = 0
-                            if y1_confirmation < 0:
-                                y1_confirmation = 0
-                            if x2_confirmation > screen_width - 1:
-                                x2_confirmation = screen_width - 1
-                            if y2_confirmation > screen_height - 1:
-                                y2_confirmation = screen_height - 1
-                            yolo_detection_frame = frameFull[y1+y1_confirmation:y1+y2_confirmation, x1+x1_confirmation:x1+x2_confirmation]
-                            approved = yolo_detection_function(yolo_detection_frame)
+                            y1_classification = int(y1+y-h*4)
+                            if y1_classification < 0:
+                                y1_classification = 0
+                            elif y1_classification > frameFull.shape[0]:
+                                y1_classification = frameFull.shape[0]
+                            y2_classification = int(y1+y+h*4)
+                            if y2_classification < 0:
+                                y2_classification = 0
+                            elif y2_classification > frameFull.shape[0]:
+                                y2_classification = frameFull.shape[0]
+                            x1_classification = int(x1+x-w*2.5)
+                            if x1_classification < 0:
+                                x1_classification = 0
+                            elif x1_classification > frameFull.shape[1]:
+                                x1_classification = frameFull.shape[1]
+                            x2_classification = int(x1+x+w*2.5)
+                            if x2_classification < 0:
+                                x2_classification = 0
+                            elif x2_classification > frameFull.shape[1]:
+                                x2_classification = frameFull.shape[1]
+                            image_classification = frameFull[y1_classification:y2_classification, x1_classification:x2_classification]
+                            approved = ClassifyImage(image_classification)
                         else:
                             approved = True
                         trafficlights.append((nearestpoint, ((None, None, None), (head_x, head_z, angle, head_rotation_degrees_x), (head_x, head_z, angle, head_rotation_degrees_x)), new_id, approved))
@@ -1095,10 +1338,7 @@ def plugin(data):
                 coord, position, id, approved = trafficlights[i]
                 x, y, w, h, state = coord
                 if grayscalewindow == True:
-                    if yolo_showunconfirmed == False and approved == True:
-                        cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
-                        cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
-                    elif yolo_showunconfirmed == True:
+                    if approved == True:
                         cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
                         cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
                 radius = round((w+h)/4)
@@ -1130,40 +1370,6 @@ def plugin(data):
                             cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
                     if state == "Green":
                         color = (0, 255, 0)
-                        cv2.circle(final_frame, (x,y+h), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y+h), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*0.5)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                        if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                elif approved == False and yolo_showunconfirmed == True:
-                    if state == "Red":
-                        color = (150, 150, 150)
-                        cv2.circle(final_frame, (x,y-h), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y-h), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                        if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                    if state == "Yellow":
-                        color = (150, 150, 150)
-                        cv2.circle(final_frame, (x,y), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                        if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                    if state == "Green":
-                        color = (150, 150, 150)
                         cv2.circle(final_frame, (x,y+h), radius, color, thickness)
                         cv2.circle(filtered_frame_bw, (x,y+h), radius, (255, 255, 255), thickness)
                         cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
@@ -1297,7 +1503,6 @@ def plugin(data):
 
 def onEnable():
     UpdateSettings()
-    yolo_load_model()
 
 def onDisable():
     pass
@@ -1462,7 +1667,7 @@ class UI():
             helpers.MakeLabel(advancedFrame, "Advanced", 0, 0, font=("Robot", 12, "bold"), columnspan=7)
             
 
-            notebook.add(tld_datasetFrame, text=Translate("Traffic Light Dataset"))
+            notebook.add(tld_datasetFrame, text=Translate("TrafficLightDataset"))
             notebook.add(generalFrame, text=Translate("General"))
             notebook.add(screencaptureFrame, text=Translate("ScreenCapture"))
             notebook.add(outputwindowFrame, text=Translate("OutputWindow"))
@@ -1534,36 +1739,26 @@ class UI():
             helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=lambda:UpdateSettings())
 
-            helpers.MakeCheckButton(trackeraiFrame, "Do Yolo Detection confirmation\n---------------------------------------------\nIf enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection.\nWhat this means: higher accuracy, but a small lag every time the detection detects a new traffic light.", "TrafficLightDetection", "yolo_detection", 1, 0, width=100, callback=lambda:UpdateSettings())
-            helpers.MakeCheckButton(trackeraiFrame, "Show unconfirmed traffic lights\n--------------------------------------------\nIf enabled, the app will show unconfirmed or wrongly detected traffic lights in gray in the output window.", "TrafficLightDetection", "yolo_showunconfirmed", 2, 0, width=100, callback=lambda:UpdateSettings())
-            helpers.MakeLabel(trackeraiFrame, "YOLOv5 Model:", 4, 0, sticky="nw", font=("Segoe UI", 12))
-            model_ui = tk.StringVar() 
-            previous_model_ui = settings.GetSettings("TrafficLightDetection", "yolo_model", "yolov5n")
-            if previous_model_ui == "yolov5n":
-                model_ui.set("yolov5n")
-            if previous_model_ui == "yolov5s":
-                model_ui.set("yolov5s")
-            if previous_model_ui == "yolov5m":
-                model_ui.set("yolov5m")
-            if previous_model_ui == "yolov5l":
-                model_ui.set("yolov5l")
-            if previous_model_ui == "yolov5x":
-                model_ui.set("yolov5x")
-            def model_selection():
-                self.model_ui = model_ui.get()
-            yolov5n = ttk.Radiobutton(trackeraiFrame, text="YOLOv5n (fastest, lowest accuracy) RECOMMENDED", variable=model_ui, value="yolov5n", command=model_selection)
-            yolov5n.grid(row=5, column=0, sticky="nw")
-            yolov5s = ttk.Radiobutton(trackeraiFrame, text="YOLOv5s (fast, low accuracy)", variable=model_ui, value="yolov5s", command=model_selection)
-            yolov5s.grid(row=6, column=0, sticky="nw")
-            yolov5m = ttk.Radiobutton(trackeraiFrame, text="YOLOv5m (slow, medium accuracy)", variable=model_ui, value="yolov5m", command=model_selection)
-            yolov5m.grid(row=7, column=0, sticky="nw")
-            yolov5l = ttk.Radiobutton(trackeraiFrame, text="YOLOv5l (slow, high accuracy)", variable=model_ui, value="yolov5l", command=model_selection)
-            yolov5l.grid(row=8, column=0, sticky="nw")
-            yolov5x = ttk.Radiobutton(trackeraiFrame, text="YOLOv5x (slowest, highest accuracy)", variable=model_ui, value="yolov5x", command=model_selection)
-            yolov5x.grid(row=9, column=0, sticky="nw")
-            model_selection()
-            helpers.MakeButton(trackeraiFrame, "Save and Load Model", self.save_and_load_model, 10, 0, width=100, sticky="nw")
-            helpers.MakeButton(trackeraiFrame, "Delete all downloaded models and redownload the model you are currently using.\nThis could fix faulty model files and other issues.", self.delete_and_redownload_model, 11, 0, width=100, sticky="nw")
+            helpers.MakeCheckButton(trackeraiFrame, "Use AI to confirm traffic lights\n-------------------------------------------\nIf enabled, the app will confirm the detected traffic lights to minimize false detections.", "TrafficLightDetection", "UseAI", 3, 0, width=97, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(trackeraiFrame, f"Try to use your GPU to run the AI\n-------------------------------------------------\nThis requires a NVIDIA GPU with CUDA installed. (Currently using {str(AIDevice).upper()})", "TrafficLightDetection", "UseCUDA", 4, 0, width=97, callback=lambda: {UpdateSettings(), self.exampleFunction()})
+            def InstallCUDAPopup():
+                helpers.Dialog("Warning: CUDA is only available for NVIDIA GPUs!", f"1. Check on https://wikipedia.org/wiki/CUDA#GPUs_supported which CUDA version your GPU supports.\n2. Go to https://pytorch.org/ and copy the download command for the corresponding CUDA version which is compatible with your GPU.\n    (Select Stable, Windows, Pip, Python and the CUDA version you need)\n3. Open your file explorer and go to {os.path.dirname(os.path.dirname(variables.PATH))} and run the activate.bat\n4. Run this command in the terminal which opened after running the activate.bat: 'pip uninstall torch torchvision torchaudio'\n5. After the previous command finished, run the command you copied from the PyTorch website and wait for the installation to finish.\n6. Restart the app and the app should automatically detect CUDA as available and use your GPU for the AI.", ["Exit"], "Exit")
+            helpers.MakeButton(trackeraiFrame, "Install CUDA for GPU support", InstallCUDAPopup, 5, 0, width=30, sticky="nw")
+            model_properties = GetAIModelProperties()
+            helpers.MakeLabel(trackeraiFrame, "Model properties:", 6, 0, font=("Robot", 12, "bold"), sticky="nw")
+            helpers.MakeLabel(trackeraiFrame, f"Epochs: {model_properties[0]}\nBatch Size: {model_properties[1]}\nImage Width: {model_properties[2]}\nImage Height: {model_properties[3]}\nImages/Data Points: {model_properties[4]}\nTraining Time: {model_properties[5]}\nTraining Date: {model_properties[6]}", 7, 0, sticky="nw")
+            self.progresslabel = helpers.MakeLabel(trackeraiFrame, "", 9, 0, sticky="nw")
+            self.progress = ttk.Progressbar(trackeraiFrame, orient="horizontal", length=238, mode="determinate")
+            self.progress.grid(row=10, column=0, sticky="nw", padx=5, pady=0)
+            def UIButtonCheckForModelUpdates():
+                CheckForAIModelUpdates()
+                while AIModelUpdateThread.is_alive(): time.sleep(0.1)
+                if TorchAvailable == True:
+                    LoadAIModel()
+                else:
+                    print("TrafficLightDetectionAI not available due to missing dependencies.")
+                    console.RestoreConsole()
+            helpers.MakeButton(trackeraiFrame, "Check for AI model updates", UIButtonCheckForModelUpdates, 11, 0, width=30, sticky="nw")
 
             helpers.MakeLabel(screencaptureFrame, "Simple Setup:", 1, 0, sticky="nw", font=("Segoe UI", 12))
             helpers.MakeButton(screencaptureFrame, "Screen Capture Setup", self.open_screencapture_setup, 2, 0, width=40, sticky="nw")
@@ -1900,51 +2095,14 @@ class UI():
             self.exampleFunction()
             UpdateSettings()
 
-        def save_and_load_model(self):
-            global last_model_load_press
-            global yolo_model_loaded
-            if time.time() > last_model_load_press + 1:
-                last_model_load_press = time.time()
-                if yolo_model_loaded != "loading...":
-                    yolo_model_loaded = False
-                    settings.CreateSettings("TrafficLightDetection", "yolo_model", self.model_ui)
-                    yolo_load_model()
-                    UpdateSettings()
-                else:
-                    messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
-            else:
-                messagebox.showwarning("TrafficLightDetection", f"The code is still loading a different model. Please try again when the other model has finished loading.")
-
-        def delete_and_redownload_model(self):
-            global last_model_load_press
-            global yolo_model_loaded
-            if time.time() > last_model_load_press + 1:
-                last_model_load_press = time.time()
-                if yolo_model_loaded != "loading...":
-                    try:
-                        yolomodels_path = f"{variables.PATH}plugins\\TrafficLightDetection\\YOLOModels"
-                        for filename in os.listdir(yolomodels_path):
-                            file_path = os.path.join(yolomodels_path, filename)
-                            if os.path.isfile(file_path) and filename.lower() != 'index.md':
-                                os.remove(file_path)
-                    except Exception as e:
-                        messagebox.showwarning("TrafficLightDetection", f"The code encountered an error while deleting the model files. Please try again.")
-                        exc = traceback.format_exc()
-                        SendCrashReport("TrafficLightDetection - Model Delete Error.", str(exc))
-                        print("TrafficLightDetection - Model Delete Error: " + str(e))
-                    yolo_model_loaded = False
-                    yolo_load_model()
-                    UpdateSettings()
-                else:
-                    messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
-            else:
-                messagebox.showwarning("TrafficLightDetection", f"The code is still loading a model. Please try again when the model has finished loading.")
-
         def open_screencapture_setup(self):
             import subprocess
             subprocess.Popen([f"{os.path.dirname(os.path.dirname(variables.PATH))}/venv/Scripts/python.exe", os.path.join(variables.PATH, "plugins/TrafficLightDetection", "screen_capture_setup.py")], shell=True)
 
         def update(self, data):
+            if UseAI:
+                self.progresslabel.set(LoadAILabel)
+                self.progress["value"] = LoadAIProgress
             self.root.update()
             
     except Exception as ex:
