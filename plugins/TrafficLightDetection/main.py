@@ -87,6 +87,7 @@ def CheckTumppi():
         return False
 def SendImage(image):
     global tumppi_available
+    global last_tumppi_check
     if last_tumppi_check + 180 < time.time():
         tumppi_available = CheckTumppi()
         last_tumppi_check = time.time()
