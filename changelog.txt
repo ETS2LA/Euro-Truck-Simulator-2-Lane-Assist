@@ -1,1 +1,1 @@
-It's now possible to collect anonymous traffic light images for a new AI model.
+Bug fix in Navigation Detection to prevent spamming crash reports when the code is unable to delete the previous AI model.

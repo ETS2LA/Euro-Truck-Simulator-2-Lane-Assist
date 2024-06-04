@@ -456,6 +456,13 @@ def DeleteAllAIModels():
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
             if file.endswith(".pt"):
                 os.remove(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", file))
+    except PermissionError:
+        global TorchAvailable
+        TorchAvailable = False
+        settings.CreateSettings("NavigationDetection", "UseAI", False)
+        print(f"NavigationDetection - PermissionError in function DeleteAllAIModels: {ex}")
+        print("NavigationDetectionAI will be automatically disabled because the code cannot delete the AI model.")
+        console.RestoreConsole()
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function DeleteAllAIModels.", str(exc))
