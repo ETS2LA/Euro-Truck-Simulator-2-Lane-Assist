@@ -11,14 +11,19 @@ def normalize(v):
        return v
     return v / norm
 
+def lerp(a, b, t):
+    return a + t * (b - a)
+
 # Function to calculate lane boundaries
-def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=999):
+def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=999, next_offset=999):
     lanes = {'left': [[] for _ in range(num_left_lanes)], 
              'right': [[] for _ in range(num_right_lanes)]}
     
-    for i in range(len(points) - 1):
+    pointCount = len(points)
+    for i in range(pointCount - 1):
         point1 = np.array(points[i])
         point2 = np.array(points[i + 1])
+        custom_offset = lerp(custom_offset, next_offset, i / (pointCount - 1))
         
         # Calculate the direction vector
         direction_vector = point2 - point1

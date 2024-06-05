@@ -44,6 +44,7 @@ class Navigation:
 
 prefabItems = []
 optimizedPrefabItems = {}
+uidOptimizedPrefabItems = {}
 
 prefabItemsFileName = PATH + "ETS2LA/plugins/Map/GameData/prefab_items.json"
 
@@ -262,6 +263,10 @@ def LoadPrefabItems():
             optimizedPrefabItems[x][z] = []
             
         optimizedPrefabItems[x][z].append(item)
+        
+    for item in prefabItems:
+        uidParts = [str(item.Uid)[i:i+3] for i in range(0, len(str(item.Uid)), 3)]
+        set_nested_item(uidOptimizedPrefabItems, uidParts, item)
     
     sys.stdout.write(f" > Optimizing prefab items... done!\n\n")
     
@@ -295,3 +300,20 @@ def GetTileCoordinates(x, y):
     z = math.floor((y - itemsMinZ) / 1000)
     
     return (x, z)
+
+def get_nested_item(dataDict, mapList):
+    """Get item in nested dictionary"""
+    for k in mapList:
+        dataDict = dataDict[k]
+    return dataDict
+
+def GetPrefabItemByUid(uid):
+    uidParts = [str(uid)[i:i+3] for i in range(0, len(str(uid)), 3)]
+    try:
+        item = get_nested_item(uidOptimizedPrefabItems, uidParts)
+        if item != None:
+            return item
+    except:
+        for item in prefabItems:
+            if item.Uid == uid:
+                return item

@@ -150,6 +150,30 @@ def CreatePointsForRoad(road):
     
     return newPoints
 
+def MatchRoadsToNodes(output=True):
+    # Match the nodes to the roads
+    count = 0
+    noLocationData = 0
+    roadsCount = len(roads)
+    matchStartTime = time.time()
+    for road in roads:
+        road.StartNode = nodes.GetNodeByUid(road.StartNodeUid)
+        road.EndNode = nodes.GetNodeByUid(road.EndNodeUid)
+        
+        if road.StartNode == None or road.EndNode == None:
+            noLocationData += 1
+        
+        count += 1
+        if count % 1000 == 0 and output:
+            roadsLeft = roadsCount - count
+            timeLeft = (time.time() - matchStartTime) / count * roadsLeft
+            sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... eta: {round(timeLeft, 1)}s    \r")
+    
+    if output:
+        # sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
+        sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... done!                   \n")
+        sys.stdout.write(f"   > Invalid location data : {noLocationData}\n")
+
 def LoadRoads():
     global roadsMaxX
     global roadsMaxZ
@@ -218,27 +242,7 @@ def LoadRoads():
     sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)... done!\n")
     sys.stdout.write(f" > Matching roads to nodes...\n")
     
-    # Match the nodes to the roads
-    count = 0
-    noLocationData = 0
-    roadsCount = len(roads)
-    matchStartTime = time.time()
-    for road in roads:
-        road.StartNode = nodes.GetNodeByUid(road.StartNodeUid)
-        road.EndNode = nodes.GetNodeByUid(road.EndNodeUid)
-        
-        if road.StartNode == None or road.EndNode == None:
-            noLocationData += 1
-        
-        count += 1
-        if count % 1000 == 0:
-            roadsLeft = roadsCount - count
-            timeLeft = (time.time() - matchStartTime) / count * roadsLeft
-            sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... eta: {round(timeLeft, 1)}s    \r")
-    
-    # sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
-    sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... done!                   \n")
-    sys.stdout.write(f"   > Invalid location data : {noLocationData}\n")
+    MatchRoadsToNodes()
 
     sys.stdout.write(f" > Optimizing road array...\r")
     for road in roads:
@@ -381,27 +385,41 @@ offsetPerName = {
     "\"invis road\"" : 4.5,
     "\"balt road 1 tmpl\"" : 4.5,
     "\"*Road 1 scan temp\"" : 4.5,
+    "\"Highway 2 lanes 2m offset\"" : 9,
 }
+
+def GetOffset(road):
+    # Fix 999 and 0.0 offsets
+    if road.RoadLook.offset in offsetData: 
+        custom_offset = offsetData[road.RoadLook.offset]
+    elif road.RoadLook.name in offsetPerName:
+        custom_offset = offsetPerName[road.RoadLook.name]
+    else: 
+        # All the different custom rules that I've come up with
+        # Motorways use the offset as an addition... it's added to the existing 4.5m offset... we also have to add both sides of shoulders
+        if "traffic_lane.road.motorway" in road.RoadLook.lanesLeft or "traffic_lane.road.motorway" in road.RoadLook.lanesRight:
+            custom_offset = 4.5 + road.RoadLook.offset
+            custom_offset += (road.RoadLook.shoulderSpaceLeft + road.RoadLook.shoulderSpaceRight) / 2 / 2
+            
+        # Assume that the offset is actually correct
+        else:
+            custom_offset = 4.5 + road.RoadLook.offset
+
+    return custom_offset
+
 def CalculateParallelCurves(road):
     try:
-        # Fix 999 and 0.0 offsets
-        if road.RoadLook.offset in offsetData: 
-            custom_offset = offsetData[road.RoadLook.offset]
-        else: 
-            # All the different custom rules that I've come up with
-            # Motorways use the offset as an addition... it's added to the existing 4.5m offset... we also have to add both sides of shoulders
-            if "traffic_lane.road.motorway" in road.RoadLook.lanesLeft or "traffic_lane.road.motorway" in road.RoadLook.lanesRight:
-                custom_offset = 4.5 + road.RoadLook.offset
-                custom_offset += road.RoadLook.shoulderSpaceLeft / 2 + road.RoadLook.shoulderSpaceRight / 2
-                
-            # Assume that the offset is actually correct
-            else:
-                custom_offset = road.RoadLook.offset
         
-        # if road.RoadLook.name in offsetPerName:
-        #     custom_offset = offsetPerName[road.RoadLook.name]
+        custom_offset = GetOffset(road)
 
-        lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset)
+        # Get the offset of the next road
+        try:
+            roadNext = road.EndNode.ForwardItem
+            custom_offset_next = GetOffset(roadNext)
+        except:
+            custom_offset_next = custom_offset
+
+        lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset, next_offset=custom_offset_next)
         newPoints = lanes['left'] + lanes['right']
         
         boundingBox = [[999999, 999999], [-999999, -999999]]
@@ -424,4 +442,6 @@ def CalculateParallelCurves(road):
         return boundingBox, newPoints, 4.5
     
     except:
+        import traceback
+        traceback.print_exc()
         return [], [], 0

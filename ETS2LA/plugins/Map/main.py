@@ -44,7 +44,7 @@ VISUALIZE_PREFABS = True
 LOAD_MSG = "Navigation data is loading..."
 COMPLETE_MSG = "Navigation data loaded!"
 ENABLED = False
-LOAD_DATA = False
+LOAD_DATA = True
 
 runner:PluginRunner = None
 
@@ -144,6 +144,10 @@ def plugin():
             prefabs.LoadPrefabs() 
         if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
             prefabItems.LoadPrefabItems()
+        
+        if nodes.itemsCalculated == False:
+            nodes.CalculateForwardAndBackwardItemsForNodes()
+            nodes.itemsCalculated = True
             toast(COMPLETE_MSG, type="success", promise=LOAD_MSG)
     
     if LOAD_DATA:
@@ -200,21 +204,21 @@ def plugin():
         SI.run(img)
         
     
-    arData = {}
+    # Save the data for the API to send to the external visualization
+    arData = {
+        "lines": [],
+        "circles": [],
+        "boxes": [],
+        "polygons": [],
+        "texts": [],
+        "screenLines": [],
+    }
     if USE_EXTERNAL_VISUALIZATION and LOAD_DATA:
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = data["api"]["truckPlacement"]["coordinateY"]
         
         areaRoads = visRoads
         
-        # Save the data for the API to send to the external visualization
-        arData = {
-            "lines": [],
-            "circles": [],
-            "boxes": [],
-            "polygons": [],
-            "texts": [],
-        }
         
         # Convert each road to a line
         for road in areaRoads:
@@ -275,14 +279,7 @@ def plugin():
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = data["api"]["truckPlacement"]["coordinateY"]
         z = data["api"]["truckPlacement"]["coordinateZ"]
-        arData = {
-            "lines": [],
-            "circles": [],
-            "boxes": [],
-            "polygons": [],
-            "texts": [],
-            "screenLines": [],
-        }
+    
         # Add the cars to the external visualization as a line from the start point to y + 1
         if data["vehicles"] != None:
             for vehicle in data["vehicles"]:

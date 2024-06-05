@@ -11,9 +11,10 @@ stringSize = 64
 wheelSize = 14
 substanceSize = 25
 
-virtualX = 1700
-virtualZ = 7580
-
+# virtualX = 1700
+# virtualZ = 7580
+virtualX = 22600
+virtualZ = -45480
 
 class scsTelemetry:
     

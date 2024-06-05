@@ -3,6 +3,7 @@ import logging
 print = logging.info
 from ETS2LA.backend.variables import *
 from ETS2LA.backend.settings import *
+from GameData import roads, prefabItems
 import sys
 
 class Item:
@@ -24,6 +25,7 @@ class Node:
 nodes = []
 optimizedNodes = {}
 nodeFileName = PATH + "ETS2LA/plugins/Map/GameData/nodes.json"
+itemsCalculated = False
 
 from functools import reduce
 from operator import getitem
@@ -97,7 +99,6 @@ def LoadNodes():
     print(f"Node parsing done!")
     
 def GetNodeByUid(uid):
-    
     if uid == 0:
         return None
     if uid == None:
@@ -119,3 +120,69 @@ def GetNodeByUid(uid):
                 return node
         
     return None
+
+def CalculateForwardAndBackwardItemsForNodes():
+    count = len(nodes)
+    sys.stdout.write(f"\nCalculating forward and backward items for nodes... (total {count})\n")
+    
+    for i, node in enumerate(nodes):
+        try:
+            uid = node.Uid
+        
+            if node.ForwardItem != None:
+                itemType = node.ForwardItem.Type
+                if itemType == "Road":
+                    item = roads.GetRoadByUid(node.ForwardItem.Uid)
+                    if item == None:
+                        sys.stdout.write(f" > Road not found for node {uid}!\n")
+                        continue
+                    node.ForwardItem = item
+                elif itemType == "Prefab":
+                    item = prefabItems.GetPrefabItemByUid(node.ForwardItem.Uid)
+                    if item == None:
+                        sys.stdout.write(f" > Prefab not found for node {uid}!\n")
+                        continue
+                    node.ForwardItem = item
+                elif itemType == "City":
+                    pass
+                elif itemType == "Ferry":
+                    pass
+                else:
+                    sys.stdout.write(f" > Unknown item type for node {uid}! ({itemType})\n")
+                    pass
+                
+            if node.BackwardItem != None:
+                itemType = node.BackwardItem.Type
+                if itemType == "Road":
+                    item = roads.GetRoadByUid(node.BackwardItem.Uid)
+                    if item == None:
+                        sys.stdout.write(f" > Road not found for node {uid}!\n")
+                        continue
+                    node.BackwardItem = item
+                elif itemType == "Prefab":
+                    item = prefabItems.GetPrefabItemByUid(node.BackwardItem.Uid)
+                    if item == None:
+                        sys.stdout.write(f"\n > Prefab not found for node {uid}!")
+                        continue
+                    node.BackwardItem = item
+                elif itemType == "City":
+                    pass
+                elif itemType == "Ferry":
+                    pass
+                else:
+                    sys.stdout.write(f"\n > Unknown item type for node {uid}! ({itemType})")
+                    continue
+                
+            # Save the node
+            uidParts = [str(uid)[i:i+3] for i in range(0, len(str(uid)), 3)]
+            set_nested_item(optimizedNodes, uidParts, node)
+            
+            if i % int(count/10) == 0:
+                sys.stdout.write(f" > {i} ({round(i/count*100)}%)...            \r")
+                sys.stdout.flush()
+        except:
+            sys.stdout.write(f" > Error at node {uid}!\n")
+            pass
+            
+    sys.stdout.write(f" > {i} ({round(i/count*100)}%)... done!                          \n\n")
+    roads.MatchRoadsToNodes(output=False)
