@@ -90,7 +90,11 @@ def SendImage(image):
 def plugin(data):
     global vd_data_collection, x1, y1, x2, y2, cooldown, last_capture
 
-    if vd_data_collection and last_capture + cooldown < time.time():
+    try:
+        data["api"]
+    except:
+        return data
+    if vd_data_collection and last_capture + cooldown < time.time() and data["api"]["sdkActive"] and data["api"]["pause"] == False:
         try:
             data["frameFull"]
         except:
