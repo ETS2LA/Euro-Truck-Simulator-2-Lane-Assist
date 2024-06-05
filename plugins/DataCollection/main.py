@@ -83,6 +83,7 @@ def SendImage(image):
                 "category": "vehicle_detection_images"
             }
             response = requests.post(url, headers=headers, json=data)
+            print("Vehicle Detection Data Collection - Image Saved!")
         except:
             server_available = CheckServer()
             last_server_check = time.time()
@@ -90,11 +91,7 @@ def SendImage(image):
 def plugin(data):
     global vd_data_collection, x1, y1, x2, y2, cooldown, last_capture
 
-    try:
-        data["api"]
-    except:
-        return data
-    if vd_data_collection and last_capture + cooldown < time.time() and data["api"]["sdkActive"] and data["api"]["pause"] == False:
+    if vd_data_collection and last_capture + cooldown < time.time():
         try:
             data["frameFull"]
         except:
