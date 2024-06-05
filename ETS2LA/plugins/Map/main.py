@@ -46,7 +46,7 @@ COMPLETE_MSG = "Navigation data loaded!"
 ENABLED = False
 LOAD_DATA = True
 
-SAVE_TILEMAP = False
+SAVE_TILEMAP = True
 ONLY_ZOOM_LEVELS = True
 TILEMAP_PATH = "ETS2LA/plugins/Map/Images/"
 TILE_RESOLUTION = 1000 # how many pixels per tile
@@ -270,10 +270,13 @@ def buildTileMap():
                 
                 # Show the image
                 if count % 10 == 0:
-                    percentage = (i * verticalTiles + j) / (horizontalTiles * verticalTiles) * 100 / 2
+                    percentage = (i * verticalTiles + j) / (horizontalTiles * verticalTiles) * 100 / (2 * (currentResolution + 1))
                     timeSince = time.time() - resolutionStartTime
-                    timeLeftForLevel = timeSince / percentage - timeSince
-                    cv2.putText(newImg, f"Resolution: {currentResolution + 1} ({2**(currentResolution+2)}/{2**(currentResolution+2)})", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    try:
+                        timeLeftForLevel = timeSince / percentage - timeSince
+                    except:
+                        timeLeftForLevel = 0
+                    cv2.putText(newImg, f"Resolution: {currentResolution + 1} ({2**(currentResolution+2)}x{2**(currentResolution+2)} original tiles)", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
                     cv2.putText(newImg, f"X: {i}, Z: {j}", (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
                     cv2.putText(newImg, f"Tiles: {horizontalTiles}x{verticalTiles}", (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
                     cv2.putText(newImg, f"Resolution progress: {round(percentage, 1)}% ({round(timeLeftForLevel)}s left)", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
