@@ -232,24 +232,20 @@ def buildTileMap():
             for j in range(verticalTiles):
                 j = int(j*2)
                 # Load the 4 images
-                try:
-                    img1 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i}_{j}.png")
-                except:
+                img1 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i}_{j}.png")
+                if img1 is None:
                     img1 = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
-                    
-                try:
-                    img2 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i+1}_{j}.png")
-                except:
+                
+                img2 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i+1}_{j}.png")
+                if img2 is None:
                     img2 = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
                 
-                try:
-                    img3 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i}_{j+1}.png")
-                except:
+                img3 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i}_{j+1}.png")
+                if img3 is None:
                     img3 = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
-                    
-                try:
-                    img4 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i+1}_{j+1}.png")
-                except:
+                
+                img4 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i+1}_{j+1}.png")
+                if img4 is None:
                     img4 = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
                     
                 # Resize the images
