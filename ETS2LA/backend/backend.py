@@ -56,9 +56,11 @@ class PluginRunnerController():
         try:
             size = 0
             for root, dirs, files in os.walk(f"ETS2LA/plugins/{self.pluginName}"):
-                size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
-                size += sum([os.path.getsize(os.path.join(root, name)) for name in dirs])
-            
+                try:
+                    size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
+                    size += sum([os.path.getsize(os.path.join(root, name)) for name in dirs])
+                except:
+                    pass 
             # logging.info(f"Plugin {self.pluginName} has a disk usage of {size} bytes.")
         except:
             import traceback

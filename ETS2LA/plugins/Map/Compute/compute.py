@@ -16,7 +16,7 @@ lastRoadCoords = None
 lastPrefabCoords = None
 closeRoads = []
 closePrefabs = []
-def GetRoads(data):
+def GetRoads(data, wait=False):
     global lastRoadCoords, closeRoads
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
@@ -24,7 +24,7 @@ def GetRoads(data):
 
     tileCoords = roads.GetTileCoordinates(x, y)
     
-    def GetRoadThread(x, y):
+    def GetRoadThread(x, y, noWait=False):
         global closeRoads, calculatingRoads
         # Get the roads in the current area
         areaRoads = []
@@ -32,34 +32,39 @@ def GetRoads(data):
         
         # Also get the roads in the surrounding tiles
         areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y)
-        time.sleep(0.01)
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y)
-        time.sleep(0.01)
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaRoads += roads.GetRoadsInTileByCoordinates(x, y + 1000)
-        time.sleep(0.01)
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaRoads += roads.GetRoadsInTileByCoordinates(x, y - 1000)
-        time.sleep(0.01)
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y + 1000)
-        time.sleep(0.01)
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaRoads += roads.GetRoadsInTileByCoordinates(x + 1000, y - 1000)
-        time.sleep(0.01)
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y + 1000)
-        time.sleep(0.01)
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaRoads += roads.GetRoadsInTileByCoordinates(x - 1000, y - 1000)
         
         closeRoads = areaRoads
         calculatingRoads = False
         
-        print(f"Found {len(closeRoads)} roads")
+        #print(f"Found {len(closeRoads)} roads")
         
     if tileCoords != lastRoadCoords or lastRoadCoords == None or closeRoads == [] and calculatingRoads == False:
-        threading.Thread(target=GetRoadThread, args=(x, y)).start()
+        tileThread = threading.Thread(target=GetRoadThread, args=(x, y), kwargs={"noWait": wait})
+        tileThread.start()
         lastRoadCoords = tileCoords
+        
+        if wait:
+            tileThread.join()
+        
         return closeRoads
     else:
         return closeRoads
 
-def GetPrefabs(data):
+def GetPrefabs(data, wait=False):
     global lastPrefabCoords, closePrefabs, calculatingPrefabs
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
@@ -67,7 +72,7 @@ def GetPrefabs(data):
     
     tileCoords = prefabItems.GetTileCoordinates(x, y)
     
-    def GetPrefabThread(x, y):
+    def GetPrefabThread(x, y, noWait=False):
         global closePrefabs, calculatingPrefabs
         # Get the roads in the current area
         areaItems = []
@@ -75,34 +80,39 @@ def GetPrefabs(data):
         
         # Also get the roads in the surrounding tiles
         areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y)
-        time.sleep(0.01) # Relieve CPU
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y)
-        time.sleep(0.01) # Relieve CPU
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaItems += prefabItems.GetItemsInTileByCoordinates(x, y + 1000)
-        time.sleep(0.01) # Relieve CPU
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaItems += prefabItems.GetItemsInTileByCoordinates(x, y - 1000)
-        time.sleep(0.01) # Relieve CPU
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y + 1000)
-        time.sleep(0.01) # Relieve CPU
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaItems += prefabItems.GetItemsInTileByCoordinates(x + 1000, y - 1000)
-        time.sleep(0.01) # Relieve CPU
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y + 1000)
-        time.sleep(0.01) # Relieve CPU
+        if not noWait: time.sleep(0.01) # Relieve CPU
         areaItems += prefabItems.GetItemsInTileByCoordinates(x - 1000, y - 1000)
         
         closePrefabs = areaItems
         calculatingPrefabs = False
         
-        print(f"Found {len(closePrefabs)} prefabs")
+        #print(f"Found {len(closePrefabs)} prefabs")
     
     if tileCoords != lastPrefabCoords or lastPrefabCoords == None or closePrefabs == [] and calculatingPrefabs == False:
-        threading.Thread(target=GetPrefabThread, args=(x, y)).start()
+        prefabThread = threading.Thread(target=GetPrefabThread, args=(x, y), kwargs={"noWait": wait})
+        prefabThread.start()
         lastPrefabCoords = tileCoords
+        
+        if wait:
+            prefabThread.join()
+        
         return closePrefabs
     else:
         return closePrefabs
 
-def CalculateParallelPointsForRoads(areaRoads):
+def CalculateParallelPointsForRoads(areaRoads, all=False):
     calcCount = 0
     for road in areaRoads:
         if road.Points == None:
@@ -112,8 +122,9 @@ def CalculateParallelPointsForRoads(areaRoads):
         
         # Check for parallel points
         if road.ParallelPoints == []:
-            if calcCount > LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME:
-                continue
+            if not all:
+                if calcCount > LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME:
+                    continue
             
             boundingBox, parallelPoints, laneWidth = roads.CalculateParallelCurves(road)
             if parallelPoints == [] or parallelPoints == None:

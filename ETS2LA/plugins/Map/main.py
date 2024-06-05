@@ -25,7 +25,7 @@ from ETS2LA.plugins.runner import PluginRunner
 from ETS2LA.backend.sounds import sounds
 import sys
 import numpy as np
-
+import json
 import cv2
 from PIL import Image
 
@@ -38,13 +38,18 @@ try:
 except:
     USE_EXTERNAL_VISUALIZATION = False # Force external off
 
-ZOOM = 2 # How many pixels per meter
+ZOOM = 1 # How many pixels per meter
 VISUALIZE_PREFABS = True
 
 LOAD_MSG = "Navigation data is loading..."
 COMPLETE_MSG = "Navigation data loaded!"
 ENABLED = False
 LOAD_DATA = True
+
+SAVE_TILEMAP = False
+ONLY_ZOOM_LEVELS = True
+TILEMAP_PATH = "ETS2LA/plugins/Map/Images/"
+TILE_RESOLUTION = 1000 # how many pixels per tile
 
 runner:PluginRunner = None
 
@@ -77,6 +82,210 @@ def GetDistanceFromTruck(x, z, data):
     
     return ((truckX - x) ** 2 + (truckZ - z) ** 2) ** 0.5
 
+import shutil
+def buildTileMap():
+    Initialize()
+    
+    # Create the filepath
+    if not os.path.exists(TILEMAP_PATH):
+        os.makedirs(TILEMAP_PATH, exist_ok=True)
+    
+    # Clear the folder
+    if ONLY_ZOOM_LEVELS:
+        logging.warning("ONLY_ZOOM_LEVELS is enabled, only the zoom levels will be cleared and regenerated.")
+    
+    logging.warning("Clearing tilemap folder...")
+    for file in os.listdir(TILEMAP_PATH):
+        if ONLY_ZOOM_LEVELS and file == "0":
+            continue
+        try:
+            os.remove(TILEMAP_PATH + file)
+        except:
+            shutil.rmtree(TILEMAP_PATH + file)
+    
+    # Create the zoom folders
+    for i in range(30):
+        os.makedirs(TILEMAP_PATH + f"{i}/", exist_ok=True)
+    
+    logging.warning("Loading data...")
+    
+    # Load the data...
+    nodes.LoadNodes()
+    
+    #roads.limitToCount = 10000
+    roads.LoadRoads()
+    
+    #prefabs.limitToCount = 500
+    prefabs.LoadPrefabs() 
+    prefabItems.LoadPrefabItems()
+    
+    nodes.CalculateForwardAndBackwardItemsForNodes()
+    nodes.itemsCalculated = True
+    
+    # Calculate bounds
+    minX = prefabItems.itemsMinX if prefabItems.itemsMinX < roads.roadsMinX else roads.roadsMinX
+    maxX = prefabItems.itemsMaxX if prefabItems.itemsMaxX > roads.roadsMaxX else roads.roadsMaxX
+    minZ = prefabItems.itemsMinZ if prefabItems.itemsMinZ < roads.roadsMinZ else roads.roadsMinZ
+    maxZ = prefabItems.itemsMaxZ if prefabItems.itemsMaxZ > roads.roadsMaxZ else roads.roadsMaxZ
+    
+    meterResolution = TILE_RESOLUTION / ZOOM
+    
+    # Get the amount of images needed to cover the area
+    width = maxX - minX
+    height = maxZ - minZ
+    widthTiles = width / meterResolution
+    heightTiles = height / meterResolution
+    
+    # Create a json file with the data
+    with open(TILEMAP_PATH + "data.json", "w") as file:
+        dictData = {
+            "minX": minX,
+            "maxX": maxX,
+            "minZ": minZ,
+            "maxZ": maxZ,
+            "meterResolution": meterResolution,
+            "widthTiles": widthTiles,
+            "heightTiles": heightTiles,
+            "firstTileX": minX + meterResolution,
+            "firstTileZ": minZ + meterResolution
+        }
+        json.dump(dictData, file, indent=4)
+    
+    data = {
+        "api": API.run()
+    }
+    
+    sys.stdout.write("\nBuilding tilemap...\n")
+    # Create the images
+    allStartTime = time.time()
+    lastStartTime = 0
+    lastEndTime = time.time()
+    counter = 0
+    if not ONLY_ZOOM_LEVELS:
+        for i in range(int(widthTiles)):
+            for j in range(int(heightTiles)):
+                startTime = time.time()
+                
+                x = minX + (i+1) * meterResolution
+                z = minZ + (j+1) * meterResolution
+                
+                data["api"]["truckPlacement"]["coordinateX"] = x
+                data["api"]["truckPlacement"]["coordinateZ"] = z
+                
+                visRoads = compute.GetRoads(data, wait=True)
+                compute.CalculateParallelPointsForRoads(visRoads, all=True)
+                visPrefabs = compute.GetPrefabs(data, wait=True)
+                
+                img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM, drawText=False)
+                img = visualize.VisualizePrefabs(data, visPrefabs, img=img, zoom=ZOOM, drawText=False)
+                
+                # Save the image
+                # img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                cv2.imwrite(f"{TILEMAP_PATH}0/{int(i)}_{int(j)}.png", img)
+                
+                percentage = (i * heightTiles + j) / (widthTiles * heightTiles) * 100
+                
+                if counter % 10 == 0:
+                    sys.stdout.write(f"\r > {round(percentage, 1)}% ({i}/{int(widthTiles)} : {j}/{int(heightTiles)})           ")
+                    sys.stdout.flush()
+                    
+                    cv2.putText(img, f"{round(percentage,1)}% I: {i}, J: {j}", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(img, f"X: {data['api']['truckPlacement']['coordinateX']}, Z: {data['api']['truckPlacement']['coordinateZ']}", (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(img, f"Roads: {len(visRoads)}, Prefabs: {len(visPrefabs)}", (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    
+                    try:
+                        timeSinceStart = time.time() - allStartTime
+                        percentage = (i * heightTiles + j) / (widthTiles * heightTiles)
+                        timeLeft = timeSinceStart / percentage - timeSinceStart
+                        msLastImage = (lastEndTime - lastStartTime) * 1000
+                        cv2.putText(img, f"Time left: {round(timeLeft, 1)}s, Last image: {round(msLastImage, 1)}ms", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    except:
+                        pass
+                    
+                    SI.run(img)
+                    
+                    counter = 0
+                
+                counter += 1
+                lastStartTime = startTime
+                lastEndTime = time.time()
+                
+    # Make the rest of the resolutions
+    # Basically we combine 4 images into 1, until there is only 1 image left
+    currentResolution = 0
+    horizontalTiles = int(widthTiles)
+    verticalTiles = int(heightTiles)
+    while horizontalTiles > 4 and verticalTiles > 4:
+        count = 0
+        # Create the folder
+        if not os.path.exists(TILEMAP_PATH + f"{currentResolution + 1}/"):
+            os.makedirs(TILEMAP_PATH + f"{currentResolution + 1}/")
+        
+        # Calculate the new amount of tiles
+        horizontalTiles = horizontalTiles // 2 if horizontalTiles % 2 == 0 else horizontalTiles // 2 + 1
+        verticalTiles = verticalTiles // 2 if verticalTiles % 2 == 0 else verticalTiles // 2 + 1
+        
+        # Combine the images
+        for i in range(horizontalTiles):
+            i = int(i*2)
+            for j in range(verticalTiles):
+                j = int(j*2)
+                # Load the 4 images
+                try:
+                    img1 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i}_{j}.png")
+                except:
+                    img1 = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
+                    
+                try:
+                    img2 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i+1}_{j}.png")
+                except:
+                    img2 = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
+                
+                try:
+                    img3 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i}_{j+1}.png")
+                except:
+                    img3 = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
+                    
+                try:
+                    img4 = cv2.imread(f"{TILEMAP_PATH}{currentResolution}/{i+1}_{j+1}.png")
+                except:
+                    img4 = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
+                    
+                # Resize the images
+                img1 = cv2.resize(img1, (TILE_RESOLUTION // 2, TILE_RESOLUTION // 2))
+                img2 = cv2.resize(img2, (TILE_RESOLUTION // 2, TILE_RESOLUTION // 2))
+                img3 = cv2.resize(img3, (TILE_RESOLUTION // 2, TILE_RESOLUTION // 2))
+                img4 = cv2.resize(img4, (TILE_RESOLUTION // 2, TILE_RESOLUTION // 2))
+                
+                # Combine the images
+                newImg = np.zeros((TILE_RESOLUTION, TILE_RESOLUTION, 3), np.uint8)
+                newImg[0:500, 0:500] = img1
+                newImg[500:1000, 0:500] = img3
+                newImg[0:500, 500:1000] = img2
+                newImg[500:1000, 500:1000] = img4
+                
+                # Save the image
+                cv2.imwrite(f"{TILEMAP_PATH}{currentResolution + 1}/{i/2}_{j/2}.png", newImg)
+                
+                # Show the image
+                if count % 10 == 0:
+                    percentage = (i * verticalTiles + j) / (horizontalTiles * verticalTiles) * 100 / 2
+                    cv2.putText(newImg, f"Resolution: {currentResolution + 1}", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(newImg, f"X: {i}, Z: {j}", (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(newImg, f"Tiles: {horizontalTiles}x{verticalTiles}", (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(newImg, f"Resolution progress: {round(percentage, 1)}%", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    SI.run(newImg)
+                    count = 0
+
+                count += 1
+        
+        
+        # Increase the resolution
+        currentResolution += 1
+
+    
+    return meterResolution
+
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
@@ -84,6 +293,11 @@ framesSinceChange = 0
 def plugin():
     global framesSinceChange
     global ZOOM
+    
+    if SAVE_TILEMAP:
+        buildTileMap()
+        exit()
+        return
     
     data = {
         "api": API.run(),
@@ -195,6 +409,7 @@ def plugin():
                     continue
         
         drawText.append(f"Steering enabled (default N)" if ENABLED else "Steering disabled (default N)")
+        drawText.append(f"Meters per image: {buildTileMap()}")
         
         count = 0
         for text in drawText:

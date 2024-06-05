@@ -11,7 +11,7 @@ import sys
 
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 
-def VisualizeRoads(data, closeRoads, img=None, zoom=2):
+def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
     """Will draw the roads onto the image.
     data: The game data
     img: The image to draw the roads on
@@ -20,7 +20,6 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2):
     x = data["api"]["truckPlacement"]["coordinateX"]
     y = data["api"]["truckPlacement"]["coordinateZ"]
     z = data["api"]["truckPlacement"]["coordinateY"]
-    
     
     startTime = time.time()
     
@@ -32,9 +31,12 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2):
     if img is None:
         size = 1000
         img = np.zeros((size, size, 3), np.uint8)
+    else:
+        size = img.shape[0]
     
     # Show the x and y coordinates
-    cv2.putText(img, f"X: {round(x)} Y: {round(y)} Z: {round(z,1)}", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+    if drawText:
+        cv2.putText(img, f"X: {round(x)} Y: {round(y)} Z: {round(z,1)}", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
     # Draw the roads on the image, 1m is 1px in the image
     # roads have their start and end positions in the global coordinate system so we need to convert them to local coordinates with roads.GetLocalCoordinateInTile()
@@ -103,13 +105,21 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2):
                         firstPoint = (pointX, pointY)
             
                 color = (150,175,150) if laneCount < laneCountLeft else (175,150,150)
-                if road in data["map"]["inBoundingBox"]:
-                    color = (0, 150, 0)
-                if lane in data["map"]["closestLanes"]:
-                    color = (0, 255, 0)
-                if lane == data["map"]["closestLane"]:
-                    color = (0, 0, 255)
+                
+                try:
+                    if road in data["map"]["inBoundingBox"]:
+                        color = (0, 150, 0)
+                    if lane in data["map"]["closestLanes"]:
+                        color = (0, 255, 0)
+                    if lane == data["map"]["closestLane"]:
+                        color = (0, 0, 255)
+                except:
+                    pass
             
+                #if points != [] or points != None:
+                #    sys.stdout.write(f"\nDrawing lane {laneCount} of {newPoints}\n")
+                #    sys.stdout.flush()
+                    
                 cv2.polylines(img, np.int32([newPoints]), False, color, (2 + (zoom - 1)), cv2.LINE_AA)
                 
                 laneCount += 1
@@ -131,8 +141,9 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2):
                 
             
             try:
-                cv2.putText(img, f"Offset: {road.RoadLook.offset}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
-                cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1] + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                if drawText:
+                    cv2.putText(img, f"Offset: {road.RoadLook.offset}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                    cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1] + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
             except: pass
             # Draw the original road
             # try:
@@ -161,13 +172,14 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2):
     if calcCount > 0:
         sys.stdout.write(f"Calculated parallel points for {calcCount} roads\n")
         
-    cv2.putText(img, f"Roads: {len(areaRoads)}, Tile: {str(tileCoords)}, Loading: {str(int(skipped))}", (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+    if drawText:
+        cv2.putText(img, f"Roads: {len(areaRoads)}, Tile: {str(tileCoords)}, Loading: {str(int(skipped))}", (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
     # Return the image    
     return img
 
 
-def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2):
+def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
     """Will draw the prefabs onto the image.
 
     Args:
@@ -217,12 +229,15 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2):
                 endY = int(zoomedEndY + size//2)
                 
                 color = (100, 100, 100)
-                if item in data["map"]["inBoundingBox"]:
-                    color = (0, 100, 0)
-                if curve in data["map"]["closestLanes"]:
-                    color = (0, 255, 0)
-                if curve == data["map"]["closestLane"]:
-                    color = (0, 0, 255)
+                try:
+                    if item in data["map"]["inBoundingBox"]:
+                        color = (0, 100, 0)
+                    if curve in data["map"]["closestLanes"]:
+                        color = (0, 255, 0)
+                    if curve == data["map"]["closestLane"]:
+                        color = (0, 0, 255)
+                except:
+                    pass
                 
                 cv2.line(img, (startX, startY), (endX, endY), color, 2 + (zoom - 1))
         except: 
@@ -230,8 +245,9 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2):
             #traceback.print_exc()
             pass
 
-    cv2.putText(img, f"Prefabs: {len(areaItems)}, Tile: {str(prefabTileCoords)}", (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
-    cv2.putText(img, f"Curves: {curveCount}", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+    if drawText:
+        cv2.putText(img, f"Prefabs: {len(areaItems)}, Tile: {str(prefabTileCoords)}", (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(img, f"Curves: {curveCount}", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
     
     return img
 
