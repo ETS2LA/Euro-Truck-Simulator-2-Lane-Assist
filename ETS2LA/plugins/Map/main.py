@@ -46,7 +46,7 @@ COMPLETE_MSG = "Navigation data loaded!"
 ENABLED = False
 LOAD_DATA = True
 
-SAVE_TILEMAP = True
+SAVE_TILEMAP = False
 ONLY_ZOOM_LEVELS = True
 TILEMAP_PATH = "ETS2LA/plugins/Map/Images/"
 TILE_RESOLUTION = 1000 # how many pixels per tile
