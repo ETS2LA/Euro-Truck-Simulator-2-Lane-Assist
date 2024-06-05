@@ -226,6 +226,7 @@ def buildTileMap():
         verticalTiles = verticalTiles // 2 if verticalTiles % 2 == 0 else verticalTiles // 2 + 1
         
         # Combine the images
+        resolutionStartTime = time.time()
         for i in range(horizontalTiles):
             i = int(i*2)
             for j in range(verticalTiles):
@@ -265,15 +266,17 @@ def buildTileMap():
                 newImg[500:1000, 500:1000] = img4
                 
                 # Save the image
-                cv2.imwrite(f"{TILEMAP_PATH}{currentResolution + 1}/{i/2}_{j/2}.png", newImg)
+                cv2.imwrite(f"{TILEMAP_PATH}{currentResolution + 1}/{int(i/2)}_{int(j/2)}.png", newImg)
                 
                 # Show the image
                 if count % 10 == 0:
                     percentage = (i * verticalTiles + j) / (horizontalTiles * verticalTiles) * 100 / 2
-                    cv2.putText(newImg, f"Resolution: {currentResolution + 1}", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    timeSince = time.time() - resolutionStartTime
+                    timeLeftForLevel = timeSince / percentage - timeSince
+                    cv2.putText(newImg, f"Resolution: {currentResolution + 1} ({2**(currentResolution+2)}/{2**(currentResolution+2)})", (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
                     cv2.putText(newImg, f"X: {i}, Z: {j}", (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
                     cv2.putText(newImg, f"Tiles: {horizontalTiles}x{verticalTiles}", (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
-                    cv2.putText(newImg, f"Resolution progress: {round(percentage, 1)}%", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(newImg, f"Resolution progress: {round(percentage, 1)}% ({round(timeLeftForLevel)}s left)", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
                     SI.run(newImg)
                     count = 0
 
@@ -409,7 +412,6 @@ def plugin():
                     continue
         
         drawText.append(f"Steering enabled (default N)" if ENABLED else "Steering disabled (default N)")
-        drawText.append(f"Meters per image: {buildTileMap()}")
         
         count = 0
         for text in drawText:
