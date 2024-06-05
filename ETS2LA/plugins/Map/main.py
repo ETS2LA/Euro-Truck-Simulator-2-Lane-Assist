@@ -48,10 +48,10 @@ LOAD_DATA = True
 
 runner:PluginRunner = None
 
-# def ToggleSteering(state:bool, *args, **kwargs):
-#     global ENABLED
-#     ENABLED = state
-#     sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
+def ToggleSteering(state:bool, *args, **kwargs):
+    global ENABLED
+    ENABLED = state
+    sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
 
 def Initialize():
     global API
@@ -193,6 +193,8 @@ def plugin():
                     img = visualize.VisualizePoint(data, middlePoint, img=img, zoom=ZOOM, distance=middleDistance)
                 except:
                     continue
+        
+        drawText.append(f"Steering enabled (default N)" if ENABLED else "Steering disabled (default N)")
         
         count = 0
         for text in drawText:

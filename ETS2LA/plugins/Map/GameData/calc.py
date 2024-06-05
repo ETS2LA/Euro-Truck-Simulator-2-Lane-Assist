@@ -15,15 +15,21 @@ def lerp(a, b, t):
     return a + t * (b - a)
 
 # Function to calculate lane boundaries
-def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=999, next_offset=999):
+def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=999, next_offset=999, side=0):
     lanes = {'left': [[] for _ in range(num_left_lanes)], 
              'right': [[] for _ in range(num_right_lanes)]}
     
+    #print(custom_offset)
+    base_custom_offset = custom_offset
     pointCount = len(points)
     for i in range(pointCount - 1):
         point1 = np.array(points[i])
         point2 = np.array(points[i + 1])
-        custom_offset = lerp(custom_offset, next_offset, i / (pointCount - 1))
+        if next_offset != base_custom_offset and next_offset != 999 and base_custom_offset != 999:
+            if side == 0:
+                custom_offset = lerp(base_custom_offset, next_offset, i / (pointCount - 1))
+            elif side == 1:
+                custom_offset = lerp(base_custom_offset, next_offset, 1 - i / (pointCount - 1))
         
         # Calculate the direction vector
         direction_vector = point2 - point1

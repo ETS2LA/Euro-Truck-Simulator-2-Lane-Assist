@@ -381,19 +381,25 @@ offsetData = { # Array of manual corrections to the offsets
     0.0: 4.5
 }
 offsetPerName = {
-    "\"ger road 1 tmpl\"": 4.5,
-    "\"invis road\"" : 4.5,
-    "\"balt road 1 tmpl\"" : 4.5,
-    "\"*Road 1 scan temp\"" : 4.5,
-    "\"Highway 2 lanes 2m offset\"" : 9,
+    "ger road 1 tmpl": 4.5,
+    "invis road" : 4.5,
+    "balt road 1 tmpl" : 4.5,
+    "*Road 1 scan temp" : 4.5,
+    "Highway 2 lanes 2m offset" : 9,
+    "balt road 2 narrow tmpl": 6.5,
+    "balt road 1 minim tmpl": 2.25,
+    "balt hw 2 lanes 5m offset tmpl": 14.5,
 }
 
 def GetOffset(road):
     # Fix 999 and 0.0 offsets
-    if road.RoadLook.offset in offsetData: 
+    name = road.RoadLook.name.replace("\"", "")
+    #print(f"Checking offset for {name}")
+    if name in offsetPerName:
+        custom_offset = offsetPerName[name]
+        #print(f"Found offset for {name}: {custom_offset}")
+    elif road.RoadLook.offset in offsetData: 
         custom_offset = offsetData[road.RoadLook.offset]
-    elif road.RoadLook.name in offsetPerName:
-        custom_offset = offsetPerName[road.RoadLook.name]
     else: 
         # All the different custom rules that I've come up with
         # Motorways use the offset as an addition... it's added to the existing 4.5m offset... we also have to add both sides of shoulders
@@ -418,8 +424,25 @@ def CalculateParallelCurves(road):
             custom_offset_next = GetOffset(roadNext)
         except:
             custom_offset_next = custom_offset
+            
+        # Get the offset of the last road
+        try:
+            roadPrev = road.StartNode.BackwardItem
+            custom_offset_prev = GetOffset(roadPrev)
+        except:
+            custom_offset_prev = custom_offset
+            
+        next_offset = custom_offset
+        side = 0
+        if custom_offset_next > custom_offset:
+            next_offset = custom_offset_next
+            side = 0
+            
+        elif custom_offset_prev > custom_offset:
+            next_offset = custom_offset_prev
+            side = 1
 
-        lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset, next_offset=custom_offset_next)
+        lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset, next_offset=next_offset, side=side)
         newPoints = lanes['left'] + lanes['right']
         
         boundingBox = [[999999, 999999], [-999999, -999999]]

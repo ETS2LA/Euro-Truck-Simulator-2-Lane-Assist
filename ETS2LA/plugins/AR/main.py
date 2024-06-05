@@ -410,11 +410,8 @@ def plugin():
     x3, y3, d3 = ConvertToScreenCoordinate(x=10453.237, y=34.324, z=-10130.404)
     
     alpha_zones = [
-        (0, 10, 0),
-        (10, 30, lambda x: int((x - 10) / 20 * 255)),
-        (30, 130, 255),
-        (130, 150, lambda x: 255 - int((x - 130) / 20 * 255)),
-        (150, float('inf'), 0)
+        (30, 10, 255),
+        (150, float('inf'), lambda x: 255 - int((x - 10) / 20 * 255))
     ]
 
     def calculate_alpha(avg_d):
@@ -443,11 +440,10 @@ def plugin():
             try:
                 startDistance = math.sqrt((line.start[0] - truck_x) ** 2 + (line.start[2] - truck_z) ** 2)
                 endDistance = math.sqrt((line.end[0] - truck_x) ** 2 + (line.end[2] - truck_z) ** 2)
-                distance = (startDistance + endDistance) / 2
                 line.start = ConvertToScreenCoordinate(line.start[0], line.start[1], line.start[2])
                 line.end = ConvertToScreenCoordinate(line.end[0], line.end[1], line.end[2])
-                # alpha = int(calculate_alpha(distance))
-                # line.color[3] = alpha
+                #alpha = int(calculate_alpha(startDistance))
+                #line.color[3] = alpha
             except:
                 data["overlay"]["lines"].remove(line)
                 continue

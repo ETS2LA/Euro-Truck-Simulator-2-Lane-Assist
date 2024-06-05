@@ -13,8 +13,10 @@ substanceSize = 25
 
 # virtualX = 1700
 # virtualZ = 7580
-virtualX = 22600
-virtualZ = -45480
+# virtualX = 22600
+# virtualZ = -45480
+virtualX = 44000
+virtualZ = -49200
 
 class scsTelemetry:
     

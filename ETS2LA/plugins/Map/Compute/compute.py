@@ -298,7 +298,7 @@ def GetClosestRoadOrPrefabAndLane(data):
         if CheckIfInBoundingBox(prefab.BoundingBox, x, y):
             inBoundingBox.append(prefab)
             
-    logging.info(f"Found {len(inBoundingBox)} items in bounding box")
+    #logging.info(f"Found {len(inBoundingBox)} items in bounding box")
             
     closestItem = None
     closestLane = None
