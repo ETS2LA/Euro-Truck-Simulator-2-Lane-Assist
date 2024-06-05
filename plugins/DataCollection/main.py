@@ -45,7 +45,7 @@ def Initialize():
     y1 = settings.GetSettings("TrafficLightDetection", "y1ofsc", 0)
     x2 = settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1)
     y2 = settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1)
-    cooldown = 4
+    cooldown = 5
     last_capture = time.time()
     last_server_check = time.time() + 180
     server_available = "unknown"
@@ -161,6 +161,9 @@ class UI():
                 image_label = tk.Label(vd_tab, image=photo)
                 image_label.grid(row=7, column=0 if i == 0 else 1, padx=10, pady=10)
                 image_label.image = photo
+            
+            ttk.Label(vd_tab, text="Disclaimer: Every 5 seconds, a screenshot will be taken at the coordinates you select for Traffic Light Detection.", font=("Robot", 10, "bold")).grid(row=8, column=0, columnspan=2, pady=2)
+            ttk.Label(vd_tab, text="This data is public and we are not rsponsible for any personal data leaks. Do not enable unless you are in game.", font=("Robot", 10, "bold")).grid(row=9, column=0, columnspan=2, pady=2)
 
             def CheckbuttonCallback():
                 if vd_data_collection_var.get() == True:
@@ -169,9 +172,9 @@ class UI():
                         mainUI.switchSelectedPlugin("plugins.TrafficLightDetection.main")
                     else:
                         pass
-
-            vd_data_collection_var = helpers.MakeCheckButton(vd_tab, "Enable Data Collection (Anonymous data will be sent to our server)", "DataCollection", "VD Data Collection", 8, 0, width=80, columnspan=2, callback=CheckbuttonCallback)
-            helpers.MakeButton(vd_tab, "View Collected Data", lambda: webbrowser.open("https://filebrowser.tumppi066.fi/share/Uw850Xow"), 9, 0, width=150, sticky="nw", columnspan=2)
+        
+            vd_data_collection_var = helpers.MakeCheckButton(vd_tab, "Enable Data Collection (Anonymous data will be sent to our server)", "DataCollection", "VD Data Collection", 10, 0, width=80, columnspan=2, callback=CheckbuttonCallback)
+            helpers.MakeButton(vd_tab, "View Collected Data", lambda: webbrowser.open("https://filebrowser.tumppi066.fi/share/Uw850Xow"), 11, 0, width=150, sticky="nw", columnspan=2)
             
             tl_tab = ttk.Frame(notebook)
             tl_tab.columnconfigure(0, weight=1)

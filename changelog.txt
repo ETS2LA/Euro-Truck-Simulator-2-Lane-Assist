@@ -1,1 +1,1 @@
-Stop the app installing torch on every startup.
+Added Data Collection plugin for AI Models
