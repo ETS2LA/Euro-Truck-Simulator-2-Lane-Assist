@@ -122,6 +122,7 @@ listOfRequirementsAddedLater = [i.replace("-", "_") for i in listOfRequirementsA
 # Get list of installed modules using importlib
 installed = [i.name for i in importlib_metadata.distributions()]
 installed = [i.replace("-", "_") for i in installed]
+installed = [i.split("==")[0] for i in installed]
 requirementsset = set(listOfRequirementsAddedLater)
 installedset = set(installed)
 missing = requirementsset - installedset
@@ -132,28 +133,39 @@ if missing:
         os.system("pip install" + " " + modules)
 
 # Check that all requirements from requirements.txt are installed
+versions = {}
 with open(variables.PATH + r"\requirements.txt") as f:
     requirements = f.read().splitlines()
     requirements = [i.replace("-", "_") for i in requirements]
+    for requirement in requirements:
+        if "==" in requirement:
+            name, version = requirement.split("==")
+            versions[name] = version
+            requirements[requirements.index(requirement)] = name
 
 installed = [i.name for i in importlib_metadata.distributions()]
 installed = [i.replace("-", "_") for i in installed]
+installed = [i.split("==")[0] for i in installed]
 requirementsset = set(requirements)
 installedset = set(installed)
 missing = requirementsset - installedset
 
 if missing:
-    for modules in missing:
-        if "--upgrade --no-cache-dir gdown" in modules:
+    for module in missing:
+        if "--upgrade --no-cache-dir gdown" in module:
             pass
-        elif "sv_ttk" in modules:
+        elif "sv_ttk" in module:
             pass
-        elif "playsound2" in modules:
+        elif "playsound2" in module:
             os.system("pip uninstall -y playsound")
             os.system("pip install playsound2")
         else:
-            print("installing" + " " + modules)
-            os.system("pip install" + " " + modules)
+            if module in versions:
+                print("installing" + " " + module + "==" + versions[module])
+                os.system("pip install" + " " + module + "==" + versions[module])
+            else:
+                print("installing" + " " + module)
+                os.system("pip install" + " " + module)
 else:
     pass
 

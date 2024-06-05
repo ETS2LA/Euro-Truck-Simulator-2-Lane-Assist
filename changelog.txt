@@ -1,2 +1,1 @@
-1.11.32 - TrafficLightDetection now uses the classification AI model instead of the YOLO object detection. This means that the TrafficLightDetection will have less lag from now on.
-1.11.33 - Fixed a but in the traffic light detection plugin.
+Stop the app installing torch on every startup.
