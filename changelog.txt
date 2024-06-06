@@ -1,1 +1,1 @@
-Added Data Collection plugin for AI Models
+The traffic light detection now saves the images in the rgb format with the coordinates of the traffic light on the image.

@@ -68,6 +68,7 @@ yolo_model_loaded = False
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 
+
 ##################################################################################################
 # Start: Code to send traffic light images to drive if enabled
 ##################################################################################################
@@ -111,6 +112,7 @@ def SendImage(image, x, y, w, h):
 ##################################################################################################
 # End: Code to send traffic light images to drive if enabled
 ##################################################################################################
+
 
 
 def UpdateSettings():
