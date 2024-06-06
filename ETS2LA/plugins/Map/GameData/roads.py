@@ -389,7 +389,9 @@ offsetData = { # Array of manual corrections to the offsets
     0.0: 4.5
 }
 offsetPerName = {
-    "Highway 2 lanes 2m offset" : 9,
+    "Highway 2 lanes 2m offset" : 8.5,
+    "Highway 2 lanes 1m offset" : 6.5,
+    "Highway 3 lanes 2m offset" : 8.5,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
 }
 offsetRules = {
@@ -399,6 +401,7 @@ offsetRules = {
     "**road 1 minim tmpl": 2.25,
     "**road 1 dirt minim tmpl": 2.25,
     "**road 1 minim village 1 tmpl": 2.25,
+    "**2 lanes 1m offset": 6.5,
 }
 
 def GetOffset(road):

@@ -24,8 +24,12 @@ substanceSize = 25
 # virtualZ = 47590
 
 # Italy
-virtualX = -3500
-virtualZ = 37535
+# virtualX = -3500
+# virtualZ = 37535
+
+# Balkans
+# virtualX = 30900
+# virtualZ = 25650
 
 # Sweden
 # virtualX = 22600
@@ -34,6 +38,10 @@ virtualZ = 37535
 # Baltics
 # virtualX = 44000
 # virtualZ = -49200
+
+# Working Set (not a specific location)
+virtualX = 36145
+virtualZ = 24695
 
 class scsTelemetry:
     
