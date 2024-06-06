@@ -703,7 +703,7 @@ def plugin(data):
     global traffic_light_sendimage_thread  # Code to send traffic light images to drive if enabled
 
     try:
-        frameFull = data["frameFull"]
+        frameFull = data["frameFull"].copy()
         if x1 < x2 and y1 < y2:
             frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
         else:
@@ -1175,7 +1175,7 @@ def plugin(data):
                         tld_x2 = 0
                     elif tld_x2 > frameFull.shape[1]:
                         tld_x2 = frameFull.shape[1]
-                    traffic_light_image = frameFull[tld_y1:tld_y2, tld_x1:tld_x2]
+                    traffic_light_image = frameFull[tld_y1:tld_y2, tld_x1:tld_x2].copy()
                     threading.Thread(target=SendImage, args=(traffic_light_image, round(x1 - tld_x1 + x), round(y1 - tld_y1 + y), w, h,)).start()
                 last_traffic_light_image = time.time()
         except Exception as e:
