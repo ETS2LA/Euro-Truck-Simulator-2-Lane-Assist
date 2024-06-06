@@ -1,12 +1,18 @@
-import json
-import logging
-print = logging.info
 from ETS2LA.backend.variables import *
 from ETS2LA.backend.settings import *
-import sys
 import GameData.nodes as nodes
+import logging
+import json
+import sys
 import math
 
+prefabFileName = PATH + "ETS2LA/plugins/Map/GameData/prefabs.json"
+optimizedPrefabs = {}
+print = logging.info
+limitToCount = 0
+prefabs = []
+
+# MARK: Classes
 class Prefab:
     FilePath = ""
     Token = 0
@@ -70,11 +76,7 @@ class PrefabNode:
     InputPoints = []
     OutputPoints = []
     
-prefabs = []
-optimizedPrefabs = {}
-prefabFileName = PATH + "ETS2LA/plugins/Map/GameData/prefabs.json"
-limitToCount = 0
-
+# MARK: Load Prefabs
 def LoadPrefabs():
     global prefabs
     global optimizedPrefabs
@@ -85,6 +87,7 @@ def LoadPrefabs():
     sys.stdout.write(f"\nLoading {jsonLength} prefabs...\n")
     
     count = 0
+    # MARK: >> Parse JSON
     for prefab in jsonData:
         
         prefab = jsonData[prefab]
@@ -180,33 +183,9 @@ def LoadPrefabs():
             break 
     
     sys.stdout.write(f"\r > {count} ({round(count/jsonLength*100)}%)... done!\n")
-    
-    # # Not needed anymore?
-    # sys.stdout.write(f" > Optimizing prefabs...\n")
-    # 
-    # count = 0
-    # removedCurves = 0
-    # prefabCount = len(prefabs)
-    # prefabOptimizeStartTime = time.time()
-    # for prefab in prefabs:
-    #     neededCurves = set()
-    #     for navigationRoute in prefab.NavigationRoutes:
-    #         neededCurves.update(navigationRoute.CurveIds)
-    #     
-    #     prefab.PrefabCurves = [curve for curve in prefab.PrefabCurves if curve.id in neededCurves]
-    #     removedCurves += len(prefab.PrefabCurves)
-    # 
-    #     count += 1
-    #     if count % 50 == 0:
-    #         prefabsLeft = prefabCount - count
-    #         timeLeft = (time.time() - prefabOptimizeStartTime) / count * prefabsLeft
-    #         sys.stdout.write(f"  > {count} ({round(count/prefabCount*100)}%)... eta: {round(timeLeft, 1)}s   \r")
-    #         
-    # sys.stdout.write(f"  > {count} ({round(count/prefabCount*100)}%)... done!                    \n")
-    # sys.stdout.write(f"   > Removed {removedCurves} curves.\n")
 
     sys.stdout.write(f" > Optimizing prefab array...\r")
-    
+    # MARK: >> Optimize
     for prefab in prefabs:
         token = str(prefab.Token)[:3]
         if token not in optimizedPrefabs:

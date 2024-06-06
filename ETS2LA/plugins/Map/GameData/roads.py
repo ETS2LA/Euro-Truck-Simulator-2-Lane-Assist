@@ -398,6 +398,7 @@ offsetPerName = {
     "balt road 1 minim tmpl": 2.25,
     "balt road 1 dirt minim tmpl": 2.25,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
+    "ger road1 hw 1m offset tmpl": 8.5,
 }
 
 def GetOffset(road):
@@ -410,19 +411,35 @@ def GetOffset(road):
     elif road.RoadLook.offset in offsetData: 
         custom_offset = offsetData[road.RoadLook.offset]
     else: 
+        # Check if the road name has the offset in it
+        if "m offset" in road.RoadLook.name:
+            roadOffset = road.RoadLook.name.split("m offset")[0]
+            roadOffset = float(roadOffset.split(" ")[-1])
+        else:
+            roadOffset = road.RoadLook.offset
+        
         # All the different custom rules that I've come up with
         # Motorways use the offset as an addition... it's added to the existing 4.5m offset... we also have to add both sides of shoulders
-        if "traffic_lane.road.motorway" in road.RoadLook.lanesLeft or "traffic_lane.road.motorway" in road.RoadLook.lanesRight:
-            custom_offset = 4.5 + road.RoadLook.offset
-            custom_offset += (road.RoadLook.shoulderSpaceLeft + road.RoadLook.shoulderSpaceRight) / 2 / 2
+        #if "traffic_lane.road.motorway" in road.RoadLook.lanesLeft or "traffic_lane.road.motorway" in road.RoadLook.lanesRight:
+        #    custom_offset = 4.5 + road.RoadLook.offset
+        #    custom_offset += (road.RoadLook.shoulderSpaceLeft + road.RoadLook.shoulderSpaceRight) / 2 / 2
+        
+        # If the name has "narrow" in it, then the offset is not added to 4.5
+        # These roads also need to include the shoulder space... for whatever reason
+        if "narrow" in road.RoadLook.name:
+            custom_offset = roadOffset
+            if road.RoadLook.shoulderSpaceLeft > 0: 
+                custom_offset += road.RoadLook.shoulderSpaceLeft / 2
+            if road.RoadLook.shoulderSpaceRight > 0:
+                custom_offset += road.RoadLook.shoulderSpaceRight / 2
         
         # If the name has "tmpl" in it, then the offset is doubled
         elif "tmpl" in road.RoadLook.name:
-            custom_offset = 4.5 + road.RoadLook.offset * 2
+            custom_offset = 4.5 + roadOffset * 2
         
         # Assume that the offset is actually correct
         else:
-            custom_offset = 4.5 + road.RoadLook.offset
+            custom_offset = 4.5 + roadOffset
 
     return custom_offset
 
