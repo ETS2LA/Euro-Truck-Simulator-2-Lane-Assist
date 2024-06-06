@@ -70,6 +70,7 @@ areaCountZ = 0
 
 limitToCount = 0
 
+# MARK: Road to JSON
 def RoadToJson(road):
     roadJson = {}
     
@@ -111,6 +112,7 @@ def RoadToJson(road):
     
     return roadJson
 
+# MARK: Point Calculations
 def Hermite(s, x, z, tanX, tanZ):
     h1 = 2 * math.pow(s, 3) - 3 * math.pow(s, 2) + 1
     h2 = -2 * math.pow(s, 3) + 3 * math.pow(s, 2)
@@ -150,6 +152,7 @@ def CreatePointsForRoad(road):
     
     return newPoints
 
+# MARK: Roads to Nodes
 def MatchRoadsToNodes(output=True):
     # Match the nodes to the roads
     count = 0
@@ -174,6 +177,7 @@ def MatchRoadsToNodes(output=True):
         sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... done!                   \n")
         sys.stdout.write(f"   > Invalid location data : {noLocationData}\n")
 
+# MARK: Road Loading
 def LoadRoads():
     global roadsMaxX
     global roadsMaxZ
@@ -195,6 +199,7 @@ def LoadRoads():
     sys.stdout.write(f"\nLoading {len(jsonData)} roads...\n")
     
     count = 0
+    # MARK: >> JSON Parse
     for road in jsonData:
         road = jsonData[road]
         
@@ -244,6 +249,7 @@ def LoadRoads():
     
     MatchRoadsToNodes()
 
+    # MARK: >> Optimize
     sys.stdout.write(f" > Optimizing road array...\r")
     for road in roads:
         if road.StartNode.X > roadsMaxX:
@@ -304,7 +310,7 @@ def LoadRoads():
         
     print("Road parsing done!")
 
-
+# MARK: Road Getters
 def GetRoadsInTileByCoordinates(x, z):
     # Convert the global coordinates to tile coordinates
     x = math.floor((x - roadsMinX) / 1000)
@@ -340,6 +346,7 @@ def GetRoadByUid(uid):
     
     return None
 
+# MARK: Road Setters
 def SetRoadParallelData(road, parallelPoints, laneWidth, boundingBox):
     # Find the road by the UID
     for arrayRoad in uidOptimizedRoads[int(str(road.Uid)[:3])]:
@@ -375,6 +382,7 @@ def SetRoadPoints(road, points):
         if arrayRoad.Uid == road.Uid:
             arrayRoad.Points = points
 
+# MARK: Offset
 import GameData.calc as calc
 offsetData = { # Array of manual corrections to the offsets
     999: 4.5,
@@ -388,6 +396,7 @@ offsetPerName = {
     "Highway 2 lanes 2m offset" : 9,
     "balt road 2 narrow tmpl": 6.5,
     "balt road 1 minim tmpl": 2.25,
+    "balt road 1 dirt minim tmpl": 2.25,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
 }
 
@@ -406,13 +415,18 @@ def GetOffset(road):
         if "traffic_lane.road.motorway" in road.RoadLook.lanesLeft or "traffic_lane.road.motorway" in road.RoadLook.lanesRight:
             custom_offset = 4.5 + road.RoadLook.offset
             custom_offset += (road.RoadLook.shoulderSpaceLeft + road.RoadLook.shoulderSpaceRight) / 2 / 2
-            
+        
+        # If the name has "tmpl" in it, then the offset is doubled
+        elif "tmpl" in road.RoadLook.name:
+            custom_offset = 4.5 + road.RoadLook.offset * 2
+        
         # Assume that the offset is actually correct
         else:
             custom_offset = 4.5 + road.RoadLook.offset
 
     return custom_offset
 
+# MARK: Parallel Curves
 def CalculateParallelCurves(road):
     try:
         

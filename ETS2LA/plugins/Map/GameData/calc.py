@@ -15,6 +15,7 @@ def lerp(a, b, t):
     return a + t * (b - a)
 
 # Function to calculate lane boundaries
+# MARK: Lanes
 def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=999, next_offset=999, side=0):
     lanes = {'left': [[] for _ in range(num_left_lanes)], 
              'right': [[] for _ in range(num_right_lanes)]}
