@@ -20,8 +20,12 @@ substanceSize = 25
 # virtualZ = 36200
 
 # S[pain]
-virtualX = -36945
-virtualZ = 47590
+# virtualX = -36945
+# virtualZ = 47590
+
+# Italy
+virtualX = -3500
+virtualZ = 37535
 
 # Sweden
 # virtualX = 22600

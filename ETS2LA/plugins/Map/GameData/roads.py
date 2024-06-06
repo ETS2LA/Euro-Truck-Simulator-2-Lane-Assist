@@ -391,9 +391,9 @@ offsetData = { # Array of manual corrections to the offsets
 offsetPerName = {
     "Highway 2 lanes 2m offset" : 9,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
-    "ger road1 hw 1m offset tmpl": 8.5
 }
 offsetRules = {
+    "**road1 hw 1m offset tmpl": 8.5,
     "**road 2 narrow tmpl": 6.5,
     "**road 2 city narrow tmpl": 6.5,
     "**road 1 minim tmpl": 2.25,
