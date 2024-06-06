@@ -16,6 +16,7 @@ lastRoadCoords = None
 lastPrefabCoords = None
 closeRoads = []
 closePrefabs = []
+# MARK: Get Roads
 def GetRoads(data, wait=False):
     global lastRoadCoords, closeRoads
     # Get the current X and Y position of the truck
@@ -64,6 +65,7 @@ def GetRoads(data, wait=False):
     else:
         return closeRoads
 
+# MARK: Get Prefabs
 def GetPrefabs(data, wait=False):
     global lastPrefabCoords, closePrefabs, calculatingPrefabs
     # Get the current X and Y position of the truck
@@ -112,6 +114,7 @@ def GetPrefabs(data, wait=False):
     else:
         return closePrefabs
 
+# MARK: Parallel Points
 def CalculateParallelPointsForRoads(areaRoads, all=False):
     calcCount = 0
     for road in areaRoads:
@@ -135,6 +138,7 @@ def CalculateParallelPointsForRoads(areaRoads, all=False):
             roads.SetRoadParallelData(road, parallelPoints, laneWidth, boundingBox)
             calcCount += 1
     
+# MARK: Bounds
 def CheckIfInBoundingBox(boundingBox, x, y):
     try:
         if x >= boundingBox[0][0] and x <= boundingBox[1][0] and y >= boundingBox[0][1] and y <= boundingBox[1][1]:
@@ -143,6 +147,7 @@ def CheckIfInBoundingBox(boundingBox, x, y):
     except:
         return False
     
+# MARK: Distance
 def GetDistanceToRoad(road, x, y):
     try:
         # Calculate the middle from the bounding box
@@ -153,7 +158,8 @@ def GetDistanceToRoad(road, x, y):
         return min(distanceEnd, distanceStart)
     except:
         return sys.maxsize
-    
+
+# MARK: Closest Lane
 def FindClosestLane(x, y, item, data):
     try:
         if type(item) == Road:
@@ -274,6 +280,7 @@ def FindClosestLane(x, y, item, data):
     except:
         return None, None, None, sys.maxsize
     
+# MARK: Point side
 def CheckIfPointIsToTheRight(data, point):
     """Will check if the point is to the right or left of the truck."""
     x, y = data["api"]["truckPlacement"]["coordinateX"], data["api"]["truckPlacement"]["coordinateZ"]
@@ -296,8 +303,7 @@ def CheckIfPointIsToTheRight(data, point):
     return False
 
     
-    
-    
+# MARK: Closest item
 def GetClosestRoadOrPrefabAndLane(data):
     x, y = data["api"]["truckPlacement"]["coordinateX"], data["api"]["truckPlacement"]["coordinateZ"]
     inBoundingBox = []

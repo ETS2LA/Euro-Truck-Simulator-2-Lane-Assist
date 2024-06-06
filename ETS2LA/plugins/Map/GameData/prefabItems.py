@@ -1,14 +1,32 @@
-import json
-import logging
-print = logging.info
 from ETS2LA.backend.variables import *
 from ETS2LA.backend.settings import *
-import sys
-import GameData.nodes as nodes
-import math
 import GameData.prefabs as prefabs
 import GameData.roads as roads
+import GameData.nodes as nodes
+import logging
+import json
 import math
+import sys
+
+uidOptimizedPrefabItems = {}
+optimizedPrefabItems = {}
+prefabItems = []
+
+print = logging.info
+
+prefabItemsFileName = PATH + "ETS2LA/plugins/Map/GameData/prefab_items.json"
+
+itemsMinX = 0
+itemsMaxX = 0
+itemsMinZ = 0
+itemsMaxZ = 0
+
+itemsTotalHeight = 0
+itemsTotalWidth = 0
+itemsAreaCountX = 0
+itemsAreaCountZ = 0
+
+# MARK: Classes
 class PrefabItem:
     Uid = 0
     StartNodeUid = 0
@@ -41,22 +59,7 @@ class Navigation:
     Item1 = 0
     Item2 = []
     
-
-prefabItems = []
-optimizedPrefabItems = {}
-uidOptimizedPrefabItems = {}
-
-prefabItemsFileName = PATH + "ETS2LA/plugins/Map/GameData/prefab_items.json"
-
-itemsMinX = 0
-itemsMaxX = 0
-itemsMinZ = 0
-itemsMaxZ = 0
-itemsTotalWidth = 0
-itemsTotalHeight = 0
-itemsAreaCountX = 0
-itemsAreaCountZ = 0
-
+# MARK: Load Items
 def LoadPrefabItems():
     global prefabItems
     global optimizedPrefabItems
@@ -73,7 +76,7 @@ def LoadPrefabItems():
     jsonLength = len(jsonData)
     
     sys.stdout.write(f"\nLoading {jsonLength} prefab items...\n")
-    
+    # MARK: >> Parse JSON
     count = 0
     for item in jsonData:
         item = jsonData[item]
@@ -132,6 +135,7 @@ def LoadPrefabItems():
     
     # TODO: FIX THIS CODE
     # Original C# code in TsMapRenderer.cs -> lines 393-417
+    # MARK: >> Match
     
     prefabItemCount = len(prefabItems)
     sys.stdout.write(f" > Matching prefabs and prefab items...\n")
@@ -162,6 +166,8 @@ def LoadPrefabItems():
             pass
         
         # rot = originNode.Rotation - math.pi - math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2
+        
+        # MARK: >>> Get curves
         
         prefabStartX = originNode.X - mapPointOrigin.X
         prefabStartZ = originNode.Z - mapPointOrigin.Z
@@ -205,6 +211,8 @@ def LoadPrefabItems():
                         # print(f"Added prefab item {prefabItem.Uid} to road {road.Uid}")
         
         
+        # MARK: >>> Bounds
+        
         # Calculate the bounding box of the prefab item
         minX = 1000000
         maxX = -1000000
@@ -236,7 +244,7 @@ def LoadPrefabItems():
     sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... done!              \n")
     
     sys.stdout.write(f" > Optimizing prefab items...\r")
-    
+    # MARK: >> Optimize
     for item in prefabItems:
         if item.X < itemsMinX:
             itemsMinX = item.X
@@ -272,7 +280,7 @@ def LoadPrefabItems():
     
     print("Prefab Items parsing done!")
     
-
+# MARK: Getters
 def GetItemsInTileByCoordinates(x, z):
     x = math.floor((x - itemsMinX) / 1000)
     z = math.floor((z - itemsMinZ) / 1000)

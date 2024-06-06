@@ -29,6 +29,8 @@ import json
 import cv2
 from PIL import Image
 
+# MARK: Variables
+
 USE_INTERNAL_VISUALIZATION = True
 USE_EXTERNAL_VISUALIZATION = True
 EXTERNAL_RENDER_DISTANCE = 200 # How far to render in meters
@@ -46,7 +48,7 @@ COMPLETE_MSG = "Navigation data loaded!"
 ENABLED = False
 LOAD_DATA = True
 
-SAVE_TILEMAP = True
+SAVE_TILEMAP = False
 ONLY_ZOOM_LEVELS = True
 TILEMAP_PATH = "ETS2LA/plugins/Map/Images/"
 TILE_RESOLUTION = 1000 # how many pixels per tile
@@ -58,6 +60,7 @@ def ToggleSteering(state:bool, *args, **kwargs):
     ENABLED = state
     sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
 
+# MARK: Initialize
 def Initialize():
     global API
     global SI
@@ -83,6 +86,7 @@ def GetDistanceFromTruck(x, z, data):
     return ((truckX - x) ** 2 + (truckZ - z) ** 2) ** 0.5
 
 import shutil
+# MARK: Tilemap
 def buildTileMap():
     Initialize()
     
@@ -137,6 +141,7 @@ def buildTileMap():
     heightTiles = height / meterResolution
     
     # Create a json file with the data
+    # MARK: >> JSON
     with open(TILEMAP_PATH + "data.json", "w") as file:
         dictData = {
             "minX": minX,
@@ -161,6 +166,7 @@ def buildTileMap():
     lastStartTime = 0
     lastEndTime = time.time()
     counter = 0
+    # MARK: >> Base Map
     if not ONLY_ZOOM_LEVELS:
         for i in range(int(widthTiles)):
             for j in range(int(heightTiles)):
@@ -212,6 +218,7 @@ def buildTileMap():
                 
     # Make the rest of the resolutions
     # Basically we combine 4 images into 1, until there is only 1 image left
+    # MARK: >> Resolutions
     currentResolution = 0
     horizontalTiles = int(widthTiles)
     verticalTiles = int(heightTiles)
@@ -291,6 +298,7 @@ def buildTileMap():
 # The main file runs the "plugin" function each time the plugin is called
 # The data variable contains the data from the mainloop, plugins can freely add and modify data as needed
 # The data from the last frame is contained under data["last"]
+# MARK: Plugin
 framesSinceChange = 0
 def plugin():
     global framesSinceChange
@@ -346,6 +354,7 @@ def plugin():
         variables.UpdatePlugins()
         return data
     
+    # MARK: >> Load Data
     startPlugin = ""
     if LOAD_DATA:
         if nodes.nodes == []:
@@ -366,6 +375,7 @@ def plugin():
             nodes.itemsCalculated = True
             toast(COMPLETE_MSG, type="success", promise=LOAD_MSG)
     
+    # MARK: >> Compute
     if LOAD_DATA:
         visRoads = compute.GetRoads(data)
         compute.CalculateParallelPointsForRoads(visRoads) # Will slowly populate the lanes over a few frames
@@ -377,6 +387,7 @@ def plugin():
     if compute.calculatingPrefabs: drawText.append("Loading prefabs...")
     if compute.calculatingRoads: drawText.append("Loading roads...")
     
+    # MARK: >> Internal Vis
     if USE_INTERNAL_VISUALIZATION:
         if LOAD_DATA:
             img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM)
@@ -431,6 +442,7 @@ def plugin():
         "texts": [],
         "screenLines": [],
     }
+    # MARK: >> External Vis
     if USE_EXTERNAL_VISUALIZATION and LOAD_DATA:
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = data["api"]["truckPlacement"]["coordinateY"]
@@ -493,6 +505,7 @@ def plugin():
                 traceback.print_exc()
                 continue
 
+    # MARK: >> External Cars
     if USE_EXTERNAL_VISUALIZATION:
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = data["api"]["truckPlacement"]["coordinateY"]
