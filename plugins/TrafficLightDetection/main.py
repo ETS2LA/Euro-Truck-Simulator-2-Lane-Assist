@@ -11,11 +11,9 @@ PluginInfo = PluginInformation(
 
 from src.mainUI import switchSelectedPlugin, resizeWindow
 from src.server import SendCrashReport
-from src.loading import LoadingWindow
 from src.translator import Translate
 import src.variables as variables
 import src.settings as settings
-from tkinter import messagebox
 import src.console as console
 import src.helpers as helpers
 from src.logger import print
@@ -29,7 +27,6 @@ import numpy as np
 import threading
 import traceback
 import requests
-import socket
 import ctypes
 import base64
 import math
@@ -41,7 +38,6 @@ import os
 try:
     from torchvision import transforms
     from bs4 import BeautifulSoup
-    import torch.nn as nn
     import requests
     import torch
     TorchAvailable = True
@@ -72,29 +68,31 @@ yolo_model_loaded = False
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 
-traffic_light_sendimage_thread = None
-tumppi_available = "unknown"
-last_tumppi_check = 0
+##################################################################################################
+# Start: Code to send traffic light images to drive if enabled
+##################################################################################################
 last_traffic_light_image = 0
-def CheckTumppi():
+last_drive_connection_check = 0
+traffic_light_sendimage_thread = None
+drive_connection_available = "unknown"
+last_drive_connection_check = 0
+def CheckConnectionToDrive():
     try:
         headers = {
             "Content-Type": "application/json"
         }
-        r = requests.get("https://api.tumppi066.fi/heartbeat", headers=headers)
+        requests.get("https://api.tumppi066.fi/heartbeat", headers=headers)
         return True
     except:
         return False
-def SendImage(image):
-    global tumppi_available
-    global last_tumppi_check
-    if last_tumppi_check + 180 < time.time():
-        tumppi_available = CheckTumppi()
-        last_tumppi_check = time.time()
-    if tumppi_available == "unknown":
-        tumppi_available = CheckTumppi()
-        last_tumppi_check = time.time()
-    if tumppi_available == True:
+def SendImage(image, x, y, w, h):
+    global drive_connection_available
+    global last_drive_connection_check
+    if drive_connection_available != True:
+        if last_drive_connection_check + 180 < time.time():
+            drive_connection_available = CheckConnectionToDrive()
+            last_drive_connection_check = time.time()
+    if drive_connection_available == True:
         try:
             encoded_string = base64.b64encode(cv2.imencode('.png', image)[1]).decode()
             url = "https://api.tumppi066.fi/image/save"
@@ -102,17 +100,21 @@ def SendImage(image):
                 'Content-Type': 'application/json'
             }
             data = {
+                "text": f"{x},{y},{w},{h}",
                 "image": encoded_string,
-                "category": "tld_images"
+                "category": "TrafficLightDetectionDataset",
             }
-            response = requests.post(url, headers=headers, json=data)
+            requests.post(url, headers=headers, json=data)
         except:
-            tumppi_available = CheckTumppi()
-            last_tumppi_check = time.time()
+            drive_connection_available = CheckConnectionToDrive()
+            last_drive_connection_check = time.time()
+##################################################################################################
+# End: Code to send traffic light images to drive if enabled
+##################################################################################################
 
 
 def UpdateSettings():
-    global send_traffic_light_images
+    global send_traffic_light_images  # Code to send traffic light images to drive if enabled
 
     global UseAI
     global UseCUDA
@@ -358,6 +360,23 @@ def UpdateSettings():
     upper_green_advanced = np.array([ugr, ugg, ugb])
     lower_green_advanced = np.array([lgr, lgg, lgb])
 UpdateSettings()
+
+
+def get_text_size(text="NONE", text_width=100, max_text_height=100):
+    fontscale = 1
+    textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+    width_current_text, height_current_text = textsize
+    max_count_current_text = 3
+    while width_current_text != text_width or height_current_text > max_text_height:
+        fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
+        textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+        max_count_current_text -= 1
+        if max_count_current_text <= 0:
+            break
+    thickness = round(fontscale * 2)
+    if thickness <= 0:
+        thickness = 1
+    return text, fontscale, thickness, textsize[0], textsize[1]
 
 
 def ClassifyImage(image):
@@ -677,9 +696,10 @@ def plugin(data):
     global coordinates
     global trafficlights
     global reset_window
-    global last_traffic_light_image
-    global traffic_light_sendimage_thread
-    
+
+    global last_traffic_light_image  # Code to send traffic light images to drive if enabled
+    global traffic_light_sendimage_thread  # Code to send traffic light images to drive if enabled
+
     try:
         frameFull = data["frameFull"]
         if x1 < x2 and y1 < y2:
@@ -688,7 +708,7 @@ def plugin(data):
             frame = frameFull[0:round(screen_height/1.5), 0:screen_width]
     except:
         return data
-    
+
     if frame is None: return data
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -795,34 +815,31 @@ def plugin(data):
                             if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                 if red_ratio > green_ratio:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
+                                    centery1 = round(offset)
+                                    centery2 = round(offset + h * 1.5)
                                 elif green_ratio > red_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)-h*2
+                                    offset = y - h
+                                    centery1 = round(offset - h * 1.5)
+                                    centery2 = round(offset)
                                 else:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
+                                    centery1 = round(offset)
+                                    centery2 = round(offset + h * 1.5)
                                 try:
-                                    centery1_color = rgb_frame[centery1, centerx]
+                                    centery1_color = rgb_frame[centery1, round(x + w / 2)]
                                 except:
-                                    centery1_color = (0,0,0)
+                                    centery1_color = (0, 0, 0)
                                 try:
-                                    centery2_color = rgb_frame[centery2, centerx]
+                                    centery2_color = rgb_frame[centery2, round(x + w / 2)]
                                 except:
-                                    centery2_color = (0,0,0)
+                                    centery2_color = (0, 0, 0)
                                 r_centery1, g_centery1, b_centery1 = centery1_color
                                 r_centery2, g_centery2, b_centery2 = centery2_color
                                 if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
-                                    coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                                    coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
             else:
                 # True: detectyellowlight --- False: advancedmode, performancemode
@@ -850,41 +867,37 @@ def plugin(data):
                                 yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
                                 if red_ratio > green_ratio and red_ratio > yellow_ratio:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
+                                    centery1 = round(offset)
+                                    centery2 = round(offset + h * 1.5)
                                 elif yellow_ratio > red_ratio and yellow_ratio > green_ratio:
                                     colorstr = "Yellow"
-                                    yoffset1 = y+h
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)+h
+                                    offset = y + h * 0.5
+                                    centery1 = round(offset - h * 1.5)
+                                    centery2 = round(offset + h * 1.5)
                                 elif green_ratio > red_ratio and green_ratio > yellow_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)-h*2
+                                    offset = y - h
+                                    centery1 = round(offset - h * 1.5)
+                                    centery2 = round(offset)
                                 else:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
+                                    centery1 = round(offset)
+                                    centery2 = round(offset + h * 1.5)
                                 try:
-                                    centery1_color = rgb_frame[centery1, centerx]
+                                    centery1_color = rgb_frame[centery1, round(x + w / 2)]
                                 except:
-                                    centery1_color = (0,0,0)
+                                    centery1_color = (0, 0, 0)
                                 try:
-                                    centery2_color = rgb_frame[centery2, centerx]
+                                    centery2_color = rgb_frame[centery2, round(x + w / 2)]
                                 except:
-                                    centery2_color = (0,0,0)
+                                    centery2_color = (0, 0, 0)
                                 r_centery1, g_centery1, b_centery1 = centery1_color
                                 r_centery2, g_centery2, b_centery2 = centery2_color
                                 if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
-                                    coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
-                
+                                    coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
+
         else:
             # True: performancemode --- False: advancedmode
             mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
@@ -900,22 +913,21 @@ def plugin(data):
                         red_ratio = red_pixel_count / total_pixels
                         if red_ratio < circleplusoffset and red_ratio > circleminusoffset:
                             colorstr = "Red"
-                            yoffset1 = y+h*2
-                            centerx = round(x + w / 2)
-                            centery1 = round(y + h / 2)+h
-                            centery2 = round(y + h / 2)+h*2
+                            offset = y + h * 2
+                            centery1 = round(offset)
+                            centery2 = round(offset + h * 1.5)
                             try:
-                                centery1_color = rgb_frame[centery1, centerx]
+                                centery1_color = rgb_frame[centery1, round(x + w / 2)]
                             except:
-                                centery1_color = (0,0,0)
+                                centery1_color = (0, 0, 0)
                             try:
-                                centery2_color = rgb_frame[centery2, centerx]
+                                centery2_color = rgb_frame[centery2, round(x + w / 2)]
                             except:
-                                centery2_color = (0,0,0)
+                                centery2_color = (0, 0, 0)
                             r_centery1, g_centery1, b_centery1 = centery1_color
                             r_centery2, g_centery2, b_centery2 = centery2_color
                             if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
-                                coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                                coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
     else:
 
@@ -958,30 +970,27 @@ def plugin(data):
                             if istrue == True:
                                 if red_ratio > green_ratio:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
+                                    centery1 = round(offset)
+                                    centery2 = round(offset + h * 1.5)
                                 elif green_ratio > red_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)-h*2
+                                    offset = y - h
+                                    centery1 = round(offset - h * 1.5)
+                                    centery2 = round(offset)
                                 else:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
+                                    centery1 = round(offset)
+                                    centery2 = round(offset + h * 1.5)
                                 try:
-                                    centery1_color = rgb_frame[centery1, centerx]
+                                    centery1_color = rgb_frame[centery1, round(x + w / 2)]
                                 except:
-                                    centery1_color = (0,0,0)
+                                    centery1_color = (0, 0, 0)
                                 try:
-                                    centery2_color = rgb_frame[centery2, centerx]
+                                    centery2_color = rgb_frame[centery2, round(x + w / 2)]
                                 except:
-                                    centery2_color = (0,0,0)
+                                    centery2_color = (0, 0, 0)
                                 r_centery1, g_centery1, b_centery1 = centery1_color
                                 r_centery2, g_centery2, b_centery2 = centery2_color
                                 istrue = False
@@ -991,7 +1000,7 @@ def plugin(data):
                                 else:
                                     istrue = True
                                 if istrue == True:
-                                    coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                                    coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
             else:
                 # True: advancedmode, detectyellowlight --- False: performancemode
@@ -1037,36 +1046,32 @@ def plugin(data):
                             if istrue == True:
                                 if red_ratio > green_ratio and red_ratio > yellow_ratio:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
+                                    centery1 = round(offset)
+                                    centery2 = round(offset + h * 1.5)
                                 elif yellow_ratio > red_ratio and yellow_ratio > green_ratio:
                                     colorstr = "Yellow"
-                                    yoffset1 = y+h
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)+h
+                                    offset = y + h * 0.5
+                                    centery1 = round(offset - h * 1.5)
+                                    centery2 = round(offset + h * 1.5)
                                 elif green_ratio > red_ratio and green_ratio > yellow_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)-h*2
+                                    offset = y - h
+                                    centery1 = round(offset - h * 1.5)
+                                    centery2 = round(offset)
                                 else:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
+                                    centery1 = round(offset)
+                                    centery2 = round(offset + h * 1.5)
                                 try:
-                                    centery1_color = rgb_frame[centery1, centerx]
+                                    centery1_color = rgb_frame[centery1, round(x + w / 2)]
                                 except:
-                                    centery1_color = (0,0,0)
+                                    centery1_color = (0, 0, 0)
                                 try:
-                                    centery2_color = rgb_frame[centery2, centerx]
+                                    centery2_color = rgb_frame[centery2, round(x + w / 2)]
                                 except:
-                                    centery2_color = (0,0,0)
+                                    centery2_color = (0, 0, 0)
                                 r_centery1, g_centery1, b_centery1 = centery1_color
                                 r_centery2, g_centery2, b_centery2 = centery2_color
                                 istrue = False
@@ -1076,7 +1081,7 @@ def plugin(data):
                                 else:
                                     istrue = True
                                 if istrue == True:
-                                    coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                                    coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
                     
         else:
             # True: advancedmode, performancemode --- False:     
@@ -1111,18 +1116,17 @@ def plugin(data):
                             istrue = True
                         if istrue == True:
                             colorstr = "Red"
-                            yoffset1 = y+h*2
-                            centerx = round(x + w / 2)
-                            centery1 = round(y + h / 2)+h
-                            centery2 = round(y + h / 2)+h*2
+                            offset = y + h * 2
+                            centery1 = round(offset)
+                            centery2 = round(offset + h * 1.5)
                             try:
-                                centery1_color = rgb_frame[centery1, centerx]
+                                centery1_color = rgb_frame[centery1, round(x + w / 2)]
                             except:
-                                centery1_color = (0,0,0)
+                                centery1_color = (0, 0, 0)
                             try:
-                                centery2_color = rgb_frame[centery2, centerx]
+                                centery2_color = rgb_frame[centery2, round(x + w / 2)]
                             except:
-                                centery2_color = (0,0,0)
+                                centery2_color = (0, 0, 0)
                             r_centery1, g_centery1, b_centery1 = centery1_color
                             r_centery2, g_centery2, b_centery2 = centery2_color
                             istrue = False
@@ -1132,9 +1136,13 @@ def plugin(data):
                             else:
                                 istrue = True
                             if istrue == True:
-                                coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                                coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
 
+
+    ##################################################################################################
+    # Start: Code to send traffic light images to drive if enabled
+    ##################################################################################################
     if send_traffic_light_images == True:
         try:
             try:
@@ -1145,34 +1153,37 @@ def plugin(data):
                 pass
             if last_traffic_light_image + 0.5 < time.time() and len(coordinates) > 0:
                 for x, y, w, h, state in coordinates:
-                    tld_y1 = int(y1+y-h*4)
+                    tld_y1 = round(y1 + y - h*4)
                     if tld_y1 < 0:
                         tld_y1 = 0
                     elif tld_y1 > frameFull.shape[0]:
                         tld_y1 = frameFull.shape[0]
-                    tld_y2 = int(y1+y+h*4)
+                    tld_y2 = round(y1 + y + h * 4)
                     if tld_y2 < 0:
                         tld_y2 = 0
                     elif tld_y2 > frameFull.shape[0]:
                         tld_y2 = frameFull.shape[0]
-                    tld_x1 = int(x1+x-w*2.5)
+                    tld_x1 = round(x1 + x - w * 2.5)
                     if tld_x1 < 0:
                         tld_x1 = 0
                     elif tld_x1 > frameFull.shape[1]:
                         tld_x1 = frameFull.shape[1]
-                    tld_x2 = int(x1+x+w*2.5)
+                    tld_x2 = round(x1 + x + w * 2.5)
                     if tld_x2 < 0:
                         tld_x2 = 0
                     elif tld_x2 > frameFull.shape[1]:
                         tld_x2 = frameFull.shape[1]
                     traffic_light_image = frameFull[tld_y1:tld_y2, tld_x1:tld_x2]
-                    traffic_light_image = cv2.cvtColor(traffic_light_image, cv2.COLOR_BGR2GRAY)
-                    threading.Thread(target=SendImage, args=(traffic_light_image,)).start()
+                    threading.Thread(target=SendImage, args=(traffic_light_image, round(x1 - tld_x1 + x), round(y1 - tld_y1 + y), w, h,)).start()
                 last_traffic_light_image = time.time()
         except Exception as e:
             exc = traceback.format_exc()
             SendCrashReport("TrafficLightDetection - TrafficLightDetectionAI data collection error.", str(exc))
             print("TrafficLightDetection - TrafficLightDetectionAI data collection error: " + str(exc))
+    ##################################################################################################
+    # end: Code to send traffic light images to drive if enabled
+    ##################################################################################################
+
 
 
     try:
@@ -1218,22 +1229,22 @@ def plugin(data):
                         angle = ConvertToAngle(nearestpoint[0], nearestpoint[1])[0]
                         if UseAI == True:
                             x, y, w, h, state = nearestpoint
-                            y1_classification = int(y1+y-h*4)
+                            y1_classification = round(y1+y-h*4)
                             if y1_classification < 0:
                                 y1_classification = 0
                             elif y1_classification > frameFull.shape[0]:
                                 y1_classification = frameFull.shape[0]
-                            y2_classification = int(y1+y+h*4)
+                            y2_classification = round(y1+y+h*4)
                             if y2_classification < 0:
                                 y2_classification = 0
                             elif y2_classification > frameFull.shape[0]:
                                 y2_classification = frameFull.shape[0]
-                            x1_classification = int(x1+x-w*2.5)
+                            x1_classification = round(x1+x-w*2.5)
                             if x1_classification < 0:
                                 x1_classification = 0
                             elif x1_classification > frameFull.shape[1]:
                                 x1_classification = frameFull.shape[1]
-                            x2_classification = int(x1+x+w*2.5)
+                            x2_classification = round(x1+x+w*2.5)
                             if x2_classification < 0:
                                 x2_classification = 0
                             elif x2_classification > frameFull.shape[1]:
@@ -1318,68 +1329,41 @@ def plugin(data):
     try:
         if anywindowopen == True:
             if grayscalewindow == True and len(trafficlights) > 0:
-                current_text = f"Traffic Lights:"
-                width_target_current_text = 0.15 * filtered_frame_bw.shape[1]
-                fontscale_current_text = 1
-                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                width_current_text, height_current_text = textsize_current_text
-                max_count_current_text = 3
-                while width_current_text != width_target_current_text:
-                    fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                    width_current_text, height_current_text = textsize_current_text
-                    max_count_current_text -= 1
-                    if max_count_current_text <= 0:
-                        break
-                thickness_current_text = round(fontscale_current_text*2)
-                if thickness_current_text <= 0:
-                    thickness_current_text = 1
-                cv2.putText(filtered_frame_bw, current_text, (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
+                text, text_fontscale, text_thickness, text_width, text_height = get_text_size(text="Objects in Tracker:", text_width=0.2 * filtered_frame_bw.shape[1], max_text_height=filtered_frame_bw.shape[0])
+                cv2.putText(filtered_frame_bw, text, (round(0.01 * filtered_frame_bw.shape[0]), round(0.01 * filtered_frame_bw.shape[0] + text_height)), cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, (255, 255, 255), text_thickness)
             for i in range(len(trafficlights)):
                 coord, position, id, approved = trafficlights[i]
                 x, y, w, h, state = coord
                 if grayscalewindow == True:
                     if approved == True:
-                        cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
-                        cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
-                radius = round((w+h)/4)
-                thickness = round((w+h)/30)
+                        cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01 * filtered_frame_bw.shape[0]), round(0.01 * filtered_frame_bw.shape[0] + text_height * (i+2) * 1.5)), cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, (255, 255, 255), text_thickness)
+                        cv2.line(filtered_frame_bw, (round(0.01 * filtered_frame_bw.shape[0] + cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, 1)[0][0]) + 10, round(0.01 * filtered_frame_bw.shape[0] + text_height * (i + 2) * 1.5 - text_height / 2)), ((x, round(y - h * 1.5)) if state == "Red" else (x, round(y + h * 1.5)) if state == "Green" else (x, y)), (150, 150, 150), text_thickness)
+                radius = round((w + h) / 4)
+                thickness = round((w + h) / 30)
                 if thickness < 1:
                     thickness = 1
                 if approved == True:
                     if state == "Red":
                         color = (0, 0, 255)
-                        cv2.circle(final_frame, (x,y-h), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y-h), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
+                        cv2.rectangle(final_frame, (round(x - w * 1.1), round(y - h * 2.5)), (round(x + w * 1.1), round(y + h * 2.5)), color, radius)
                         if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 2)), (round(x + w * 0.5), round(y - h)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 0.5)), (round(x + w * 0.5), round(y + h * 0.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x + w * 0.5), round(y + h * 2)), (round(x - w * 0.5), round(y + h)), (150, 150, 150), thickness)
                     if state == "Yellow":
                         color = (0, 255, 255)
-                        cv2.circle(final_frame, (x,y), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
+                        cv2.rectangle(final_frame, (round(x - w * 1.1), round(y - h * 2.5)), (round(x + w * 1.1), round(y + h * 2.5)), color, radius)
                         if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 2)), (round(x + w * 0.5), round(y - h)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 0.5)), (round(x + w * 0.5), round(y + h * 0.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x + w * 0.5), round(y + h * 2)), (round(x - w * 0.5), round(y + h)), (150, 150, 150), thickness)
                     if state == "Green":
                         color = (0, 255, 0)
-                        cv2.circle(final_frame, (x,y+h), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y+h), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*0.5)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
+                        cv2.rectangle(final_frame, (round(x - w * 1.1), round(y - h * 2.5)), (round(x + w * 1.1), round(y + h * 2.5)), color, radius)
                         if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 2)), (round(x + w * 0.5), round(y - h)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 0.5)), (round(x + w * 0.5), round(y + h * 0.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x + w * 0.5), round(y + h * 2)), (round(x - w * 0.5), round(y + h)), (150, 150, 150), thickness)
     except Exception as e:
         exc = traceback.format_exc()
         SendCrashReport("TrafficLightDetection - Draw Output Error.", str(exc))
@@ -1510,8 +1494,6 @@ def onDisable():
 
 
 class UI():
-    global last_model_load_press
-    last_model_load_press = 0
     try: 
         def __init__(self, master) -> None:
             self.master = master 
@@ -1604,8 +1586,8 @@ class UI():
             notebook = ttk.Notebook(self.root)
             notebook.pack(anchor="center", fill="both", expand=True)
 
-            tld_datasetFrame = ttk.Frame(notebook)
-            tld_datasetFrame.pack()
+            tld_datasetFrame = ttk.Frame(notebook)  # Code to send traffic light images to drive if enabled
+            tld_datasetFrame.pack()  # Code to send traffic light images to drive if enabled
             generalFrame = ttk.Frame(notebook)
             generalFrame.pack()
             screencaptureFrame = ttk.Frame(notebook)
@@ -1637,10 +1619,10 @@ class UI():
             filtersFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(filtersFrame, "Filters", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
 
-            tld_datasetFrame.columnconfigure(0, weight=1)
-            tld_datasetFrame.columnconfigure(1, weight=1)
-            tld_datasetFrame.columnconfigure(2, weight=1)
-            helpers.MakeLabel(tld_datasetFrame, "Help us Developers", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
+            tld_datasetFrame.columnconfigure(0, weight=1)  # Code to send traffic light images to drive if enabled
+            tld_datasetFrame.columnconfigure(1, weight=1)  # Code to send traffic light images to drive if enabled
+            tld_datasetFrame.columnconfigure(2, weight=1)  # Code to send traffic light images to drive if enabled
+            helpers.MakeLabel(tld_datasetFrame, "Help us Developers", 0, 0, font=("Robot", 12, "bold"), columnspan=3)  # Code to send traffic light images to drive if enabled
 
             generalFrame.columnconfigure(0, weight=1)
             generalFrame.columnconfigure(1, weight=1)
@@ -1668,7 +1650,7 @@ class UI():
             helpers.MakeLabel(advancedFrame, "Advanced", 0, 0, font=("Robot", 12, "bold"), columnspan=7)
             
 
-            notebook.add(tld_datasetFrame, text=Translate("TrafficLightDataset"))
+            notebook.add(tld_datasetFrame, text=Translate("TrafficLightDataset"))  # Code to send traffic light images to drive if enabled
             notebook.add(generalFrame, text=Translate("General"))
             notebook.add(screencaptureFrame, text=Translate("ScreenCapture"))
             notebook.add(outputwindowFrame, text=Translate("OutputWindow"))
@@ -1688,6 +1670,11 @@ class UI():
             helpers.MakeEmptyLine(outputwindowFrame,6,0)
             helpers.MakeCheckButton(outputwindowFrame, "Position Estimation Window\n----------------------------------\nIf enabled, the app creates a window which shows the estimated position of the traffic light.", "TrafficLightDetection", "positionestimationwindow", 7, 0, width=80, callback=lambda:UpdateSettings())
 
+
+
+            ##################################################################################################
+            # Start: Code to send traffic light images to drive if enabled
+            ##################################################################################################
             helpers.MakeLabel(tld_datasetFrame, "We need your help to automatically collect images of traffic lights for a future AI which will be able to\ndetect traffic lights.  The images and the model will be available for everyone at https://huggingface.co\n/Glas42/TrafficLightDetectionAI when we've collected enough images.", 1, 0)
             helpers.MakeLabel(tld_datasetFrame, "Example images:", 2, 0)
             example_image_paths = ["datasetexample_1.png", "datasetexample_2.png", "datasetexample_3.png"]
@@ -1713,6 +1700,11 @@ class UI():
                     LoadURL("https://huggingface.co/Glas42/TrafficLightDetectionAI")
                 else:
                     helpers.OpenInBrowser("https://huggingface.co/Glas42/TrafficLightDetectionAI")
+            ##################################################################################################
+            # End: Code to send traffic light images to drive if enabled
+            ##################################################################################################
+
+
 
             helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Performance Mode (recommended)\n---------------------------------------------------\nIf enabled, the traffic light detection only detects red traffic lights,\nwhich increases performance, but does not reduce detection accuracy.", "TrafficLightDetection", "performancemode", 5, 0, width=60, callback=lambda:UpdateSettings())

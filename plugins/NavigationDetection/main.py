@@ -37,7 +37,6 @@ import os
 try:
     from torchvision import transforms
     from bs4 import BeautifulSoup
-    import torch.nn as nn
     import threading
     import requests
     import torch
