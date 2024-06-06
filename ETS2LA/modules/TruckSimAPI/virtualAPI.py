@@ -11,10 +11,23 @@ stringSize = 64
 wheelSize = 14
 substanceSize = 25
 
-virtualX = 1710
-virtualZ = 7500
+# Germany
+# virtualX = 1710
+# virtualZ = 7500
+
+# France
+# virtualX = -27700
+# virtualZ = 36200
+
+# S[pain]
+virtualX = -36945
+virtualZ = 47590
+
+# Sweden
 # virtualX = 22600
 # virtualZ = -45480
+
+# Baltics
 # virtualX = 44000
 # virtualZ = -49200
 

@@ -389,26 +389,35 @@ offsetData = { # Array of manual corrections to the offsets
     0.0: 4.5
 }
 offsetPerName = {
-    "ger road 1 tmpl": 4.5,
-    "invis road" : 4.5,
-    "balt road 1 tmpl" : 4.5,
-    "*Road 1 scan temp" : 4.5,
     "Highway 2 lanes 2m offset" : 9,
-    "balt road 2 narrow tmpl": 6.5,
-    "balt road 1 minim tmpl": 2.25,
-    "balt road 1 dirt minim tmpl": 2.25,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
-    "ger road1 hw 1m offset tmpl": 8.5,
-    "ger road 2 narrow tmpl": 6.5,
+    "ger road1 hw 1m offset tmpl": 8.5
+}
+offsetRules = {
+    "**road 2 narrow tmpl": 6.5,
+    "**road 2 city narrow tmpl": 6.5,
+    "**road 1 minim tmpl": 2.25,
+    "**road 1 dirt minim tmpl": 2.25,
+    "**road 1 minim village 1 tmpl": 2.25,
 }
 
 def GetOffset(road):
     # Fix 999 and 0.0 offsets
     name = road.RoadLook.name.replace("\"", "")
+    
+    # Check the rules
+    rule_offset = 999
+    for rule in offsetRules:
+        rule = rule.replace("**", "")
+        if rule in name:
+            rule_offset = offsetRules["**" + rule]
+    
     #print(f"Checking offset for {name}")
     if name in offsetPerName:
         custom_offset = offsetPerName[name]
         #print(f"Found offset for {name}: {custom_offset}")
+    elif rule_offset != 999:
+        custom_offset = rule_offset
     elif road.RoadLook.offset in offsetData: 
         custom_offset = offsetData[road.RoadLook.offset]
     else: 
@@ -433,6 +442,11 @@ def GetOffset(road):
                 custom_offset += road.RoadLook.shoulderSpaceLeft / 2
             if road.RoadLook.shoulderSpaceRight > 0:
                 custom_offset += road.RoadLook.shoulderSpaceRight / 2
+        
+        # No offset means that the road only wants it's custom offset
+        # IBE > -36910 , 47585
+        elif "no offset" in road.RoadLook.name:
+            custom_offset = 4.5
         
         # If the name has "tmpl" in it, then the offset is doubled
         elif "tmpl" in road.RoadLook.name:
