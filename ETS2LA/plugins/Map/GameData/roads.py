@@ -399,6 +399,7 @@ offsetPerName = {
     "balt road 1 dirt minim tmpl": 2.25,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
     "ger road1 hw 1m offset tmpl": 8.5,
+    "ger road 2 narrow tmpl": 6.5,
 }
 
 def GetOffset(road):
@@ -418,7 +419,7 @@ def GetOffset(road):
         else:
             roadOffset = road.RoadLook.offset
         
-        # All the different custom rules that I've come up with
+        # NOTE: Superseded by the "tmpl" rule
         # Motorways use the offset as an addition... it's added to the existing 4.5m offset... we also have to add both sides of shoulders
         #if "traffic_lane.road.motorway" in road.RoadLook.lanesLeft or "traffic_lane.road.motorway" in road.RoadLook.lanesRight:
         #    custom_offset = 4.5 + road.RoadLook.offset
