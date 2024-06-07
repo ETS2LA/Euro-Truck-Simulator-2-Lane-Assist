@@ -74,7 +74,6 @@ last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 ##################################################################################################
 last_traffic_light_image = 0
 last_drive_connection_check = 0
-traffic_light_sendimage_thread = None
 drive_connection_available = "unknown"
 last_drive_connection_check = 0
 def CheckConnectionToDrive():
@@ -700,7 +699,6 @@ def plugin(data):
     global reset_window
 
     global last_traffic_light_image  # Code to send traffic light images to drive if enabled
-    global traffic_light_sendimage_thread  # Code to send traffic light images to drive if enabled
 
     try:
         frameFull = data["frameFull"].copy()
@@ -1147,12 +1145,6 @@ def plugin(data):
     ##################################################################################################
     if send_traffic_light_images == True:
         try:
-            try:
-                if traffic_light_sendimage_thread is not None:
-                    if traffic_light_sendimage_thread.is_alive():
-                        last_traffic_light_image = time.time()
-            except:
-                pass
             if last_traffic_light_image + 0.5 < time.time() and len(coordinates) > 0:
                 for x, y, w, h, state in coordinates:
                     tld_y1 = round(y1 + y - h*4)
@@ -1176,7 +1168,7 @@ def plugin(data):
                     elif tld_x2 > frameFull.shape[1]:
                         tld_x2 = frameFull.shape[1]
                     traffic_light_image = frameFull[tld_y1:tld_y2, tld_x1:tld_x2].copy()
-                    threading.Thread(target=SendImage, args=(traffic_light_image, round(x1 - tld_x1 + x), round(y1 - tld_y1 + y), w, h,)).start()
+                    threading.Thread(target=SendImage, args=(traffic_light_image, round(x1 - tld_x1 + x), round(y1 - tld_y1 + y), w, h,), daemon=True).start()
                 last_traffic_light_image = time.time()
         except Exception as e:
             exc = traceback.format_exc()

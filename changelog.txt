@@ -1,1 +1,1 @@
-The traffic light detection now saves the images in the rgb format with the coordinates of the traffic light on the image.
+Vehicle detection data collection is now running in a thread to minimize latency.

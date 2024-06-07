@@ -99,8 +99,8 @@ def plugin(data):
         
         fullframe = data["frameFull"]
         frame = fullframe.copy()[y1:y2, x1:x2]
-        
-        SendImage(frame)
+
+        threading.Thread(target=SendImage, args=(frame,), daemon=True).start()
         last_capture = time.time()
 
     return data
