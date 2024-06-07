@@ -49,12 +49,12 @@ def Initialize():
     model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.75
 
-    capture_x = 600
-    capture_y = 200
+    capture_x = 2000
+    capture_y = 300
     lowerHeight = 300 # Helps with coding
     lowerWidth = 3500 # Helps with coding
-    capture_width = 1020
-    capture_height = 480
+    capture_width = 1280
+    capture_height = 720
 
     cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('Vehicle Detection', int(capture_width/3), int(capture_height/3))
@@ -185,6 +185,7 @@ def plugin():
     
     #yolo_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     #yolo_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    yolo_frame = frame.copy()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     trackTime = time.time()
