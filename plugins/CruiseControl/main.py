@@ -36,7 +36,6 @@ import cv2
 import numpy as np
 import ctypes
 
-
 controls.RegisterKeybind("Pause/Resume Automatic Acceleration",
                          notBoundInfo="Bind this if you use the CruiseControl\nplugin with automatic acceleration.",
                          description="Bind this if you use the CruiseControl\nplugin with automatic acceleration.")
@@ -141,6 +140,7 @@ def UpdateSettings():
     cruisecontrol_emergency_set = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_set.png")
     cruisecontrol_emergency_unset = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_unset.png")
     cruisecontrol_emergency_slowed = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_slowed.png")
+
     auto_enable = settings.GetSettings("CruiseControl", "auto_enable", True)
     stop_trafficlight = settings.GetSettings("CruiseControl", "stop_trafficlight", True)
     trafficlight_accelerate = settings.GetSettings("CruiseControl", "trafficlight_accelerate", True)
@@ -358,7 +358,6 @@ def plugin(data):
 
             if speed != 0 and targetspeed != 0 and turnincoming and speed > 0:
                 turn_was_incoming = True
-                print("Test")
                 if speed < 30 and speed < targetspeed and wait_for_response == False and targetspeed != 0:
                     data["sdk"]["acceleration"] = acceleration_strength
                     data["sdk"]["brake"] = 0
@@ -368,13 +367,11 @@ def plugin(data):
             else:
                 if turn_was_incoming:
                     if speed == 0 or speed < 0:
-                        print("braking")
                         data["sdk"]["brake"] = 1
                         data["sdk"]["acceleration"] = 0
                         turn_was_incoming = False
                         data["sdk"]["brake"] = 0
                     else:
-                        print("Ignoring")
                         if speed < speedlimit and wait_for_response == False and speedlimit != 0:
                             data["sdk"]["acceleration"] = acceleration_strength
                         else:
@@ -539,7 +536,7 @@ def plugin(data):
                 indicator_left = False
                 indicator_right = False
             try:
-               turnincoming = data["NavigationDetection"]["turnincoming"]
+                turnincoming = data["NavigationDetection"]["turnincoming"]
             except:
                 turnincoming = False
             symbol = cruisecontrol_on_set.copy()
