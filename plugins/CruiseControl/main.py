@@ -36,6 +36,7 @@ import cv2
 import numpy as np
 import ctypes
 
+
 controls.RegisterKeybind("Pause/Resume Automatic Acceleration",
                          notBoundInfo="Bind this if you use the CruiseControl\nplugin with automatic acceleration.",
                          description="Bind this if you use the CruiseControl\nplugin with automatic acceleration.")
@@ -95,6 +96,8 @@ def UpdateSettings():
     global allow_acceleration
     global pauseresume_allow
     global last_park_brake
+    global turn_was_incoming
+    global brakes_switch
     
     if "TrafficLightDetection" in settings.GetSettings("Plugins", "Enabled", []):
         trafficlightdetectionisenabled = True
@@ -138,7 +141,6 @@ def UpdateSettings():
     cruisecontrol_emergency_set = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_set.png")
     cruisecontrol_emergency_unset = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_unset.png")
     cruisecontrol_emergency_slowed = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_slowed.png")
-
     auto_enable = settings.GetSettings("CruiseControl", "auto_enable", True)
     stop_trafficlight = settings.GetSettings("CruiseControl", "stop_trafficlight", True)
     trafficlight_accelerate = settings.GetSettings("CruiseControl", "trafficlight_accelerate", True)
@@ -150,6 +152,8 @@ def UpdateSettings():
     acceleration_strength /= 100
     brake_strength = settings.GetSettings("CruiseControl", "brake", 100)
     brake_strength /= 100
+    turn_was_incoming = False
+    brakes_switch = settings.GetSettings("CruiseControl", "brakes_switch", False)
 
     cruisespeed_turn = 30
     cruisespeed_trafficlight = 0
@@ -238,6 +242,8 @@ def plugin(data):
     global allow_acceleration
     global pauseresume_allow
     global last_park_brake
+    global turn_was_incoming
+    global brakes_switch
 
     current_time = time.time()
     park_brake_target = False
@@ -342,37 +348,96 @@ def plugin(data):
         data["sdk"]
     except:
         data["sdk"] = {}
+
     if gamepaused == False and DefaultSteering.enabled == True:
-        if speed > 30 and cruisecontrolspeed == 0 and auto_enable == True and wait_for_response == False and targetspeed != 0:
-            data["sdk"]["CruiseControl"] = True
-            wait_for_response = True
-            wait_for_response_timer = current_time
-            data["sdk"]["acceleration"] = 0
-            trafficlight_allow_acceleration = False
-        if cruisecontrolspeed != 0 and cruisecontrolspeed < targetspeed and wait_for_response == False and targetspeed != 0:
-            data["sdk"]["CruiseControlIncrease"] = True
-            wait_for_response = True
-            wait_for_response_timer = current_time
-        if cruisecontrolspeed != 0 and cruisecontrolspeed > targetspeed and wait_for_response == False and targetspeed != 0:
-            data["sdk"]["CruiseControlDecrease"] = True
-            wait_for_response = True
-            wait_for_response_timer = current_time
-        if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True and user_emergency_braking == False and do_lanedetected_stop == False:
-            data["sdk"]["acceleration"] = acceleration_strength
-            if user_throttle == acceleration_strength:
-                user_accelerating = False
-            data["sdk"]["brake"] = 0
-        if targetspeed == 0 and abs(speed) > 1 and user_accelerating == False:
-            data["sdk"]["acceleration"] = 0
-            data["sdk"]["brake"] = brake_strength
-            user_emergency_braking_timer = current_time
-        elif targetspeed == 0 and abs(speed) < 1 and user_accelerating == False:
-            park_brake_target = True
-        if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
-            data["sdk"]["acceleration"] = acceleration_strength
-            if user_throttle == acceleration_strength:
-                user_accelerating = False
-            data["sdk"]["brake"] = 0
+        if brakes_switch:
+            try:
+                turnincoming = data["NavigationDetection"]["turnincoming"]
+            except:
+                turnincoming = False
+
+            if speed != 0 and targetspeed != 0 and turnincoming and speed > 0:
+                turn_was_incoming = True
+                print("Test")
+                if speed < 30 and speed < targetspeed and wait_for_response == False and targetspeed != 0:
+                    data["sdk"]["acceleration"] = acceleration_strength
+                    data["sdk"]["brake"] = 0
+                elif speed != 0 and speed > 0 and speed > 30 and wait_for_response == False and targetspeed != 0:
+                    data["sdk"]["brake"] = brake_strength * 0.1
+                    data["sdk"]["acceleration"] = 0
+            else:
+                if turn_was_incoming:
+                    if speed == 0 or speed < 0:
+                        print("braking")
+                        data["sdk"]["brake"] = 1
+                        data["sdk"]["acceleration"] = 0
+                        turn_was_incoming = False
+                        data["sdk"]["brake"] = 0
+                    else:
+                        print("Ignoring")
+                        if speed < speedlimit and wait_for_response == False and speedlimit != 0:
+                            data["sdk"]["acceleration"] = acceleration_strength
+                        else:
+                            data["sdk"]["acceleration"] = 0
+                            turn_was_incoming = False
+                if speed < 30 and auto_accelerate == True and wait_for_response == False and targetspeed != 0:
+                    data["sdk"]["acceleration"] = acceleration_strength
+                    data["sdk"]["brake"] = 0
+                    trafficlight_allow_acceleration = False
+                if speed > 30 and speed < targetspeed and wait_for_response == False and targetspeed != 0:
+                    data["sdk"]["acceleration"] = acceleration_strength
+                    data["sdk"]["brake"] = 0
+                if speed != 0 and speed > 0 and speed > targetspeed and wait_for_response == False and targetspeed != 0:
+                    data["sdk"]["brake"] = brake_strength * 0.1
+                    data["sdk"]["acceleration"] = 0
+                if speed < 30 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True and user_emergency_braking == False and do_lanedetected_stop == False:
+                    print("NO")
+                    data["sdk"]["acceleration"] = acceleration_strength
+                    if user_throttle == acceleration_strength:
+                        user_accelerating = False
+                    data["sdk"]["brake"] = 0
+                if targetspeed == 0 and abs(speed) > 1 and user_accelerating == False:
+                    data["sdk"]["acceleration"] = 0
+                    data["sdk"]["brake"] = brake_strength
+                    user_emergency_braking_timer = current_time
+                elif targetspeed == 0 and abs(speed) < 1 and user_accelerating == False:
+                    park_brake_target = True
+                if speed < 30 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
+                    data["sdk"]["acceleration"] = acceleration_strength
+                    if user_throttle == acceleration_strength:
+                        user_accelerating = False
+                    data["sdk"]["brake"] = 0
+        else:
+            if speed > 30 and cruisecontrolspeed == 0 and auto_enable == True and wait_for_response == False and targetspeed != 0:
+                data["sdk"]["CruiseControl"] = True
+                wait_for_response = True
+                wait_for_response_timer = current_time
+                data["sdk"]["acceleration"] = 0
+                trafficlight_allow_acceleration = False
+            if cruisecontrolspeed != 0 and cruisecontrolspeed < targetspeed and wait_for_response == False and targetspeed != 0:
+                data["sdk"]["CruiseControlIncrease"] = True
+                wait_for_response = True
+                wait_for_response_timer = current_time
+            if cruisecontrolspeed != 0 and cruisecontrolspeed > targetspeed and wait_for_response == False and targetspeed != 0:
+                data["sdk"]["CruiseControlDecrease"] = True
+                wait_for_response = True
+                wait_for_response_timer = current_time
+            if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True and user_emergency_braking == False and do_lanedetected_stop == False:
+                data["sdk"]["acceleration"] = acceleration_strength
+                if user_throttle == acceleration_strength:
+                    user_accelerating = False
+                data["sdk"]["brake"] = 0
+            if targetspeed == 0 and abs(speed) > 1 and user_accelerating == False:
+                data["sdk"]["acceleration"] = 0
+                data["sdk"]["brake"] = brake_strength
+                user_emergency_braking_timer = current_time
+            elif targetspeed == 0 and abs(speed) < 1 and user_accelerating == False:
+                park_brake_target = True
+            if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
+                data["sdk"]["acceleration"] = acceleration_strength
+                if user_throttle == acceleration_strength:
+                    user_accelerating = False
+                data["sdk"]["brake"] = 0
     else:
         data["sdk"]["acceleration"] = 0
         data["sdk"]["brake"] = 0
@@ -457,114 +522,115 @@ def plugin(data):
             wait_for_response_park_brake_timer = current_time
 
     if show_symbols == True:
-        try:
-            frame = data["frame"]
-            width = frame.shape[1]
-            height = frame.shape[0]
-            if frame is None: return data
-            if width == 0 or width == None: return data
-            if height == 0 or height == None: return data
-        except:
-            return data
-        try:
-            indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
-            indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
-        except:
-            indicator_left = False
-            indicator_right = False
-        try:
-           turnincoming = data["NavigationDetection"]["turnincoming"]
-        except:
-            turnincoming = False
-        symbol = cruisecontrol_on_set.copy()
-        if cruisecontrolspeed != 0:
-            if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
-                symbol = cruisecontrol_on_set.copy()
+        if not brakes_switch:
+            try:
+                frame = data["frame"]
+                width = frame.shape[1]
+                height = frame.shape[0]
+                if frame is None: return data
+                if width == 0 or width == None: return data
+                if height == 0 or height == None: return data
+            except:
+                return data
+            try:
+                indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
+                indicator_right = data["api"]["truckBool"]["blinkerRightActive"]
+            except:
+                indicator_left = False
+                indicator_right = False
+            try:
+               turnincoming = data["NavigationDetection"]["turnincoming"]
+            except:
+                turnincoming = False
+            symbol = cruisecontrol_on_set.copy()
+            if cruisecontrolspeed != 0:
+                if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
+                    symbol = cruisecontrol_on_set.copy()
+                else:
+                    symbol = cruisecontrol_on_unset.copy()
+                if cruisecontrolspeed != targetspeed:
+                    symbol = cruisecontrol_on_unset.copy()
+                if turnincoming == True:
+                    symbol = cruisecontrol_on_slowed.copy()
+                if user_braking == True or user_accelerating == True:
+                    symbol = cruisecontrol_on_unset.copy()
             else:
-                symbol = cruisecontrol_on_unset.copy()
-            if cruisecontrolspeed != targetspeed:
-                symbol = cruisecontrol_on_unset.copy()
-            if turnincoming == True:
-                symbol = cruisecontrol_on_slowed.copy()
-            if user_braking == True or user_accelerating == True:
-                symbol = cruisecontrol_on_unset.copy()
-        else:
-            if cruisecontrolspeed == targetspeed:
-                if auto_accelerate == True and DefaultSteering.enabled == True:
+                if cruisecontrolspeed == targetspeed:
+                    if auto_accelerate == True and DefaultSteering.enabled == True:
+                        if turnincoming == True:
+                            symbol = cruisecontrol_off_slowed.copy()
+                        else:
+                            symbol = cruisecontrol_off_set.copy()
+                    elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
+                        if turnincoming == True:
+                            symbol = cruisecontrol_off_slowed.copy()
+                        else:
+                            symbol = cruisecontrol_off_set.copy()
+                    else:
+                        symbol = cruisecontrol_off_unset.copy()
+                elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
                     if turnincoming == True:
                         symbol = cruisecontrol_off_slowed.copy()
                     else:
                         symbol = cruisecontrol_off_set.copy()
-                elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
+                elif auto_accelerate == True and DefaultSteering.enabled == True:
                     if turnincoming == True:
                         symbol = cruisecontrol_off_slowed.copy()
                     else:
                         symbol = cruisecontrol_off_set.copy()
                 else:
                     symbol = cruisecontrol_off_unset.copy()
-            elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
-                if turnincoming == True:
-                    symbol = cruisecontrol_off_slowed.copy()
-                else:
-                    symbol = cruisecontrol_off_set.copy()
-            elif auto_accelerate == True and DefaultSteering.enabled == True:
-                if turnincoming == True:
-                    symbol = cruisecontrol_off_slowed.copy()
-                else:
-                    symbol = cruisecontrol_off_set.copy()
-            else:
-                symbol = cruisecontrol_off_unset.copy()
-            if user_braking == True or user_accelerating == True:
-                symbol = cruisecontrol_off_unset.copy()
-        
-        if user_emergency_braking == True or do_lanedetected_stop == True:
-            if cruisecontrolspeed != 0:
-                if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
-                    symbol = cruisecontrol_emergency_set.copy()
-                else:
-                    symbol = cruisecontrol_on_unset.copy()
-                if cruisecontrolspeed != targetspeed:
-                    symbol = cruisecontrol_emergency_unset.copy()
-                if turnincoming == True:
-                    symbol = cruisecontrol_emergency_slowed.copy()
                 if user_braking == True or user_accelerating == True:
-                    symbol = cruisecontrol_emergency_unset.copy()
-            else:
-                if cruisecontrolspeed == targetspeed:
-                    if auto_accelerate == True and DefaultSteering.enabled == True:
+                    symbol = cruisecontrol_off_unset.copy()
+
+            if user_emergency_braking == True or do_lanedetected_stop == True:
+                if cruisecontrolspeed != 0:
+                    if cruisecontrolspeed == targetspeed and DefaultSteering.enabled == True:
+                        symbol = cruisecontrol_emergency_set.copy()
+                    else:
+                        symbol = cruisecontrol_on_unset.copy()
+                    if cruisecontrolspeed != targetspeed:
+                        symbol = cruisecontrol_emergency_unset.copy()
+                    if turnincoming == True:
+                        symbol = cruisecontrol_emergency_slowed.copy()
+                    if user_braking == True or user_accelerating == True:
+                        symbol = cruisecontrol_emergency_unset.copy()
+                else:
+                    if cruisecontrolspeed == targetspeed:
+                        if auto_accelerate == True and DefaultSteering.enabled == True:
+                            if turnincoming == True:
+                                symbol = cruisecontrol_emergency_slowed.copy()
+                            else:
+                                symbol = cruisecontrol_emergency_set.copy()
+                        elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
+                            if turnincoming == True:
+                                symbol = cruisecontrol_emergency_slowed.copy()
+                            else:
+                                symbol = cruisecontrol_emergency_set.copy()
+                        else:
+                            symbol = cruisecontrol_emergency_unset.copy()
+                    elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
                         if turnincoming == True:
                             symbol = cruisecontrol_emergency_slowed.copy()
                         else:
                             symbol = cruisecontrol_emergency_set.copy()
-                    elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
+                    elif auto_accelerate == True and DefaultSteering.enabled == True:
                         if turnincoming == True:
                             symbol = cruisecontrol_emergency_slowed.copy()
                         else:
                             symbol = cruisecontrol_emergency_set.copy()
                     else:
                         symbol = cruisecontrol_emergency_unset.copy()
-                elif trafficlight_accelerate == True and trafficlight_allow_acceleration == True:
-                    if turnincoming == True:
-                        symbol = cruisecontrol_emergency_slowed.copy()
-                    else:
-                        symbol = cruisecontrol_emergency_set.copy()
-                elif auto_accelerate == True and DefaultSteering.enabled == True:
-                    if turnincoming == True:
-                        symbol = cruisecontrol_emergency_slowed.copy()
-                    else:
-                        symbol = cruisecontrol_emergency_set.copy()
-                else:
-                    symbol = cruisecontrol_emergency_unset.copy()
-                if user_braking == True or user_accelerating == True:
-                    symbol = cruisecontrol_emergency_unset.copy()
-        
-        symbol_resized = cv2.resize(symbol, (int(0.4 * height), int(0.234375 * height)))
-        target_region = frame[int(height/2.8 - 0.2 * height):int(height/2.8 + 0.034375 * height), width - int(0.4 * height):width]
-        if indicator_left or indicator_right:
+                    if user_braking == True or user_accelerating == True:
+                        symbol = cruisecontrol_emergency_unset.copy()
+
+            symbol_resized = cv2.resize(symbol, (int(0.4 * height), int(0.234375 * height)))
             target_region = frame[int(height/2.8 - 0.2 * height):int(height/2.8 + 0.034375 * height), width - int(0.4 * height):width]
-        else:
-            target_region = frame[int(height/4 - 0.2 * height):int(height/4 + 0.034375 * height), width - int(0.4 * height):width]
-        target_region[:symbol_resized.shape[0], :symbol_resized.shape[1]] = symbol_resized
+            if indicator_left or indicator_right:
+                target_region = frame[int(height/2.8 - 0.2 * height):int(height/2.8 + 0.034375 * height), width - int(0.4 * height):width]
+            else:
+                target_region = frame[int(height/4 - 0.2 * height):int(height/4 + 0.034375 * height), width - int(0.4 * height):width]
+            target_region[:symbol_resized.shape[0], :symbol_resized.shape[1]] = symbol_resized
 
     if allow_acceleration == False:
         if show_symbols == False:
@@ -685,20 +751,21 @@ class UI():
             helpers.MakeCheckButton(generalFrame, "Automatically accelerate when the red traffic light turns green.", "CruiseControl", "trafficlight_accelerate", 4, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Automatically accelerate to the target speed, even if your truck is standing still.\n(if you disable the steering or pause this feature, the truck will not accelerate to the target speed)", "CruiseControl", "auto_accelerate", 5, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Automatically enable the hazard light, when the user does a emergency stop.", "CruiseControl", "auto_hazard", 6, 0, width=90, callback=lambda: UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Automatically come to a stop and enable the hazard light if no lane is detected.", "CruiseControl", "auto_stop", 7, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatically come to a stop and enable the hazard light if no lane is detected. (Doesnt work with nav ai)", "CruiseControl", "auto_stop", 7, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Show Cruise Control symbol in the Lane Assist window. (ShowImage Plugin)", "CruiseControl", "show_symbols", 8, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Switch from in-game cruise control to manual acceleration and braking (BETA)", "CruiseControl", "brakes_switch", 9, 0, width=90, callback=lambda: UpdateSettings())
             
             self.accelerationSlider = tk.Scale(generalFrame, from_=0, to=100, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
             self.accelerationSlider.set(settings.GetSettings("CruiseControl", "acceleration", 50))
-            self.accelerationSlider.grid(row=9, column=0, padx=10, pady=0, columnspan=2)
-            self.acceleration = helpers.MakeComboEntry(generalFrame, "Acceleration\nstrength in %", "CruiseControl", "acceleration", 9, 0)
+            self.accelerationSlider.grid(row=10, column=0, padx=10, pady=0, columnspan=2)
+            self.acceleration = helpers.MakeComboEntry(generalFrame, "Acceleration\nstrength in %", "CruiseControl", "acceleration", 10, 0)
             
             self.brakeSlider = tk.Scale(generalFrame, from_=0, to=100, resolution=1, orient=tk.HORIZONTAL, length=480, command=lambda x: self.UpdateScaleValueFromSlider())
             self.brakeSlider.set(settings.GetSettings("CruiseControl", "brake", 100))
-            self.brakeSlider.grid(row=10, column=0, padx=10, pady=0, columnspan=2)
-            self.brake = helpers.MakeComboEntry(generalFrame, "Brake\nstrength in %", "CruiseControl", "brake", 10, 0)
+            self.brakeSlider.grid(row=12, column=0, padx=10, pady=0, columnspan=2)
+            self.brake = helpers.MakeComboEntry(generalFrame, "Brake\nstrength in %", "CruiseControl", "brake", 12, 0)
 
-            helpers.MakeLabel(generalFrame, "For the best experience, you need to go in the game settings under Gameplay and enable\nthe Adaptive cruise control to the highest possible distance and set the Emergency brake\nsystem to Full detection!", 11, 0, sticky="w")
+            #helpers.MakeLabel(generalFrame, "For the best experience, you need to go in the game settings under Gameplay and enable\nthe Adaptive cruise control to the highest possible distance and set the Emergency brake\nsystem to Full detection!", 11, 0, sticky="w")
 
         def update(self, data): # When the panel is open this function is called each frame 
             self.root.update()
