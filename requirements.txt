@@ -3,6 +3,7 @@ torchvision==0.17.2
 tkinter-tooltip
 beautifulsoup4
 opencv-python
+numpy==1.23.5
 torch==2.2.2
 transformers
 ultralytics
@@ -15,13 +16,13 @@ dearpygui
 bettercam
 keyboard
 requests
+ipython
 pywin32
 fastapi
 uvicorn
 pillow
 psutil
 pygame
-numpy
 mouse
 scipy
 rpyc
