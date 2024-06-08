@@ -488,6 +488,11 @@ def plugin():
           
         for prefab in visPrefabs:
             try:
+                try:
+                    originNode = prefab.Nodes[0]
+                    prefabY = originNode.Y
+                except:
+                    prefabY = y
                 # Draw the curves
                 for curve in prefab.NavigationLanes:
                     if curve == data["map"]["closestLane"]:
@@ -496,8 +501,8 @@ def plugin():
                         color = [0, 255, 0, 100]
                     else:
                         color = [255, 255, 255, 50]
-                    startXY = (curve[0], y, curve[1])
-                    endXY = (curve[2], y, curve[3])
+                    startXY = (curve[0], prefabY, curve[1])
+                    endXY = (curve[2], prefabY, curve[3])
                     if GetDistanceFromTruck(startXY[0], startXY[2], data) < EXTERNAL_RENDER_DISTANCE or GetDistanceFromTruck(endXY[0], endXY[2], data) < EXTERNAL_RENDER_DISTANCE:
                         arData['lines'].append(Line(startXY, endXY, color=color, thickness=5))
             except:

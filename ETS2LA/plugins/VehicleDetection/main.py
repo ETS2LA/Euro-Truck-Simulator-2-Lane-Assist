@@ -7,6 +7,7 @@ import cv2
 
 runner:PluginRunner = None
 YOLO_FPS = 2 # How many times per second the YOLO model should run
+MODEL_NAME = "5-25-24_1.pt"
 
 class Vehicle:
     raycasts: list
@@ -40,7 +41,6 @@ def Initialize():
     ScreenCapture = runner.modules.ScreenCapture
     Raycast = runner.modules.Raycasting
 
-    MODEL_NAME = "5-25-24_1.pt"
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
 
     temp = pathlib.PosixPath
