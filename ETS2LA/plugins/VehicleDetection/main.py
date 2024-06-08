@@ -70,8 +70,6 @@ def Initialize():
     cv2.resizeWindow('Vehicle Detection', int(capture_width/3), int(capture_height/3))
     cv2.setWindowProperty('Vehicle Detection', cv2.WND_PROP_TOPMOST, 1)
 
-    logging.INFO("Vehicle Detection initialized.")
-
 boxes = None
 cur_yolo_fps = 0
 frame = None
@@ -171,10 +169,7 @@ def plugin():
     if frame is None: 
         return None
     
-    if MODEL == "yolov7":
-        yolo_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    else:
-        yolo_frame = frame.copy()
+    yolo_frame = frame.copy()
 
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
