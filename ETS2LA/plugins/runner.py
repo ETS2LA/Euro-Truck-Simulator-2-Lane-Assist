@@ -75,7 +75,9 @@ class PluginRunner():
             try:
                 self.modulesDict[module].Initialize()
             except Exception as e:
-                logging.error(f"PluginRunner: Error while running Initialize() for {module} with error {e}")
+                import traceback
+                error = traceback.format_exc()
+                logging.error(f"PluginRunner: Error while running Initialize() for {module} with error {e}. Full traceback:\n{error}")
                 continue
         
         try:
@@ -84,7 +86,9 @@ class PluginRunner():
             else:
                 logging.info(f"PluginRunner: Plugin {self.plugin_name} is temporary, skipping Initialize(), please call it in the function manually if necessary.")
         except Exception as e:
-            logging.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
+            import traceback
+            error = traceback.format_exc()
+            logging.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}. Full traceback:\n{error}")
             
         
         # Run the plugin
