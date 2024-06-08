@@ -7,7 +7,11 @@ import cv2
 
 runner:PluginRunner = None
 YOLO_FPS = 2 # How many times per second the YOLO model should run
-MODEL_NAME = "5-25-24_1.pt"
+model = "yolov5" # Change this to "yolov7" or "yolov5"
+if model == "yolov7":
+    MODEL_NAME = "5-31-24_1_yolov7.pt"
+elif model == "yolov5":
+    MODEL_NAME = "5-25-24_1.pt"
 
 class Vehicle:
     raycasts: list
@@ -41,12 +45,17 @@ def Initialize():
     ScreenCapture = runner.modules.ScreenCapture
     Raycast = runner.modules.Raycasting
 
+    
+
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
 
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
 
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
+    if model == "yolov7":
+        model = torch.hub.load('WongKinYiu/yolov7', 'custom', MODEL_PATH, force_reload=True, trust_repo=True)
+    elif model == "yolov5":
+        model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.75
 
     capture_x = 2100
