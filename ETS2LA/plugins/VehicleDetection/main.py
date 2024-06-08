@@ -2,15 +2,21 @@ from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
+from ETS2LA.utils.logging import logging
 import time
 import cv2
+import torch
+import numpy as np
+import os
+import pathlib
+import pyautogui
 
 runner:PluginRunner = None
 YOLO_FPS = 2 # How many times per second the YOLO model should run
-MODEL = "yolov7" # Change this to "yolov7" or "yolov5"
-if MODEL == "yolov7":
+MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
+if MODEL_TYPE == "yolov7":
     MODEL_NAME = "5-31-24_1_yolov7.pt"
-elif MODEL == "yolov5":
+elif MODEL_TYPE == "yolov5":
     MODEL_NAME = "5-25-24_1.pt"
 
 class Vehicle:
@@ -30,15 +36,7 @@ def Initialize():
     global TruckSimAPI
     global ScreenCapture
     global Raycast
-    global capture_y, capture_x, capture_width, capture_height, model, MODEL_PATH, frame, temp
-
-    import pyautogui
-    import bettercam
-    import torch
-    import numpy as np
-    import os
-    import pathlib
-    import pyautogui
+    global capture_y, capture_x, capture_width, capture_height, model, frame, temp
 
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
@@ -50,9 +48,9 @@ def Initialize():
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
 
-    if model == "yolov7":
+    if MODEL_TYPE == "yolov7":
         model = torch.hub.load('WongKinYiu/yolov7', 'custom', MODEL_PATH, force_reload=True, trust_repo=True)
-    elif model == "yolov5":
+    elif MODEL_TYPE == "yolov5":
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.75
 
@@ -72,28 +70,7 @@ def Initialize():
     cv2.resizeWindow('Vehicle Detection', int(capture_width/3), int(capture_height/3))
     cv2.setWindowProperty('Vehicle Detection', cv2.WND_PROP_TOPMOST, 1)
 
-def get_text_size(text="NONE", text_width=100, max_text_height=100):
-    fontscale = 1
-    textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
-    width_current_text, height_current_text = textsize
-    max_count_current_text = 3
-    while width_current_text != text_width or height_current_text > max_text_height:
-        fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
-        textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
-        max_count_current_text -= 1
-        if max_count_current_text <= 0:
-            break
-    thickness = round(fontscale * 2)
-    if thickness <= 0:
-        thickness = 1
-    return text, fontscale, thickness, textsize[0], textsize[1]
-
-def place_results_text(text="NONE", x1=100, y1=100, x2=200, y2=200, width_scale=1, height_scale=1, color=(255, 255, 255)):
-    text, fontscale, thickness, width, height = get_text_size(text, round((x2-x1)*width_scale), round((y2-y1)*height_scale))
-    line_thickness = round((x2 - x1) / 50)
-    cv2.rectangle(frame, (x1, round(y1 - height * 2)), (x2, y2), color, line_thickness)
-    cv2.rectangle(frame, (x1, round(y1 - height * 2)), (x2, y1 + line_thickness), color, -1)
-    cv2.putText(frame, text, (x1 + round((x2 - x1) / 2 - width / 2), y1  - round(height * 0.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 255, 255), thickness, cv2.LINE_AA)
+    logging.INFO("Vehicle Detection initialized.")
 
 boxes = None
 cur_yolo_fps = 0
