@@ -45,8 +45,6 @@ def Initialize():
     ScreenCapture = runner.modules.ScreenCapture
     Raycast = runner.modules.Raycasting
 
-    
-
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
 
     temp = pathlib.PosixPath
@@ -58,12 +56,17 @@ def Initialize():
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.75
 
-    capture_x = 2100
-    capture_y = 300
-    lowerHeight = 300 # Helps with coding
-    lowerWidth = 3500 # Helps with coding
-    capture_width = 1280
-    capture_height = 720
+    screen_cap = "DylDev"
+    if screen_cap == "Tumppi":
+        capture_x = 2100
+        capture_y = 300
+        capture_width = 1280
+        capture_height = 720
+    elif screen_cap == "DylDev":
+        capture_x = 600
+        capture_y = 200
+        capture_width = 1020
+        capture_height = 480
 
     cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('Vehicle Detection', int(capture_width/3), int(capture_height/3))
@@ -176,7 +179,6 @@ start_time = time.time()
 def plugin():
     global frame, yolo_frame, fps, start_time, model, capture_x, capture_y, capture_width, capture_height
     
-    # capture_y:capture_y + capture_height, capture_x:capture_x + capture_width
     ScreenCapture.monitor_x1 = capture_x
     ScreenCapture.monitor_y1 = capture_y
     ScreenCapture.monitor_x2 = capture_x + capture_width
@@ -196,8 +198,7 @@ def plugin():
         yolo_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     else:
         yolo_frame = frame.copy()
-    #yolo_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    #yolo_frame = frame.copy()
+
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     trackTime = time.time()
@@ -220,24 +221,18 @@ def plugin():
                 if label in ['car']:
                     bottomLeftPoint = (xr, yr + h)
                     bottomRightPoint = (xr + w, yr + h)
-                    
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car"))
                     cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
-                    #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 0, 255))
                 if label in ['truck']:
                     bottomLeftPoint = (xr, yr + h)
                     bottomRightPoint = (xr + w, yr + h)
-                    
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck"))
                     cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
-                    #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(255, 0, 0))
                 if label in ['bus']:
                     bottomLeftPoint = (xr, yr + h)
                     bottomRightPoint = (xr + w, yr + h)
-                    
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus"))
                     cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
-                    #place_results_text(f"{label} {round(score, 2)} {round(w, 1)}", x1=x, y1=y, x2=x+w, y2=y+h, width_scale=0.9, height_scale=0.75, color=(0, 255, 0))
             for line in carPoints:
                 raycasts = []
                 screenPoints = []
@@ -263,15 +258,6 @@ def plugin():
     cv2.putText(frame, f"Input Time: {round(inputTime*1000, 2)}ms", (20, 220), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.imshow('Vehicle Detection', frame)
     cv2.waitKey(1)
-    
-    # {
-    #   "vehicles": [
-    #       Vehicle: [
-    #           raycasts: Raycasting.RaycastResponse[]
-    #           vehicleType: str
-    #       ]
-    #   ]  
-    # }
     
     return None, {
         "vehicles": vehicles,
