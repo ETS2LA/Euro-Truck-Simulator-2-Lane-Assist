@@ -7,10 +7,10 @@ import cv2
 
 runner:PluginRunner = None
 YOLO_FPS = 2 # How many times per second the YOLO model should run
-model = "yolov5" # Change this to "yolov7" or "yolov5"
-if model == "yolov7":
+MODEL = "yolov7" # Change this to "yolov7" or "yolov5"
+if MODEL == "yolov7":
     MODEL_NAME = "5-31-24_1_yolov7.pt"
-elif model == "yolov5":
+elif MODEL == "yolov5":
     MODEL_NAME = "5-25-24_1.pt"
 
 class Vehicle:
@@ -192,9 +192,12 @@ def plugin():
     if frame is None: 
         return None
     
-    #yolo_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    if MODEL == "yolov7":
+        yolo_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    else:
+        yolo_frame = frame.copy()
     #yolo_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    yolo_frame = frame.copy()
+    #yolo_frame = frame.copy()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     trackTime = time.time()
