@@ -144,6 +144,12 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
                 if drawText:
                     cv2.putText(img, f"Offset: {road.RoadLook.offset}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
                     cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1] + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                    startNode = road.StartNode
+                    endNode = road.EndNode
+                    cv2.putText(img, f"Start Node Height: {startNode.Y}", (firstPoint[0], firstPoint[1] + 40), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                    cv2.putText(img, f"End Node Height: {endNode.Y}", (firstPoint[0], firstPoint[1] + 60), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                    #yValues = road.YValues
+                    #cv2.putText(img, f"Y Values: {yValues}", (firstPoint[0], firstPoint[1] + 80), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
             except: pass
             # Draw the original road
             # try:

@@ -7,7 +7,8 @@ import sys
 import GameData.nodes as nodes
 import math
 
-ROAD_QUALITY = 36
+ROAD_QUALITY = 0.5 # Points per meter
+MIN_QUALITY = 2 # Need two points to make a line
 
 class Road():
     Uid = 0
@@ -125,12 +126,17 @@ def CreatePointsForRoad(road):
     # ts-map-lane-assist/TsMap/TsMapRenderer.cs -> 473 (after foreach(var road in _mapper.Roads))
     newPoints = []
 
+    road.YValues = [] # Clear the Y values
+
     sx = road.StartNode.X
     sy = road.StartNode.Y
     sz = road.StartNode.Z
     ex = road.EndNode.X
     ey = road.EndNode.Y
     ez = road.EndNode.Z
+    
+    # Get the length of the road
+    length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
 
     radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
 
@@ -139,8 +145,12 @@ def CreatePointsForRoad(road):
     tanSz = math.sin(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
     tanEz = math.sin(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
 
-    for i in range(ROAD_QUALITY):
-        s = i / (ROAD_QUALITY - 1)
+    neededPoints = int(length * ROAD_QUALITY)
+    if neededPoints < MIN_QUALITY:
+        neededPoints = MIN_QUALITY
+
+    for i in range(neededPoints):
+        s = i / (neededPoints - 1)
         x = Hermite(s, sx, ex, tanSx, tanEx)
         z = Hermite(s, sz, ez, tanSz, tanEz)
         newPoints.append((x, z))

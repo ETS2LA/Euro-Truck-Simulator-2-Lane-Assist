@@ -476,10 +476,10 @@ def plugin():
                             continue
                         if index == 1:
                             if GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_RENDER_DISTANCE:
-                                arData['lines'].append(Line((startPoint[0], y, startPoint[1]), (point[0], y, point[1]), color=color, thickness=5))
+                                arData['lines'].append(Line((startPoint[0], road.YValues[0], startPoint[1]), (point[0], road.YValues[1], point[1]), color=color, thickness=5))
                         else:
                             if GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_RENDER_DISTANCE:
-                                arData['lines'].append(Line((lane[index - 1][0], y, lane[index - 1][1]), (point[0], y, point[1]), color=color, thickness=5))
+                                arData['lines'].append(Line((lane[index - 1][0], road.YValues[index - 1], lane[index - 1][1]), (point[0], road.YValues[index], point[1]), color=color, thickness=5))
                         index += 1
             except:
                 import traceback
