@@ -393,6 +393,10 @@ def plugin():
             img = visualize.VisualizeRoads(data, visRoads, zoom=ZOOM)
             if VISUALIZE_PREFABS:
                 img = visualize.VisualizePrefabs(data, visPrefabs, img=img, zoom=ZOOM)
+            img = visualize.VisualizePoint(data, data["map"]["closestPoint"], img=img, zoom=ZOOM, pointSize=3)
+            allPoints = data["map"]["allPoints"]
+            for point in allPoints:
+                img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2)
         else:
             img = np.zeros((1000, 1000, 3), np.uint8)  
             

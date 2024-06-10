@@ -7,7 +7,7 @@ import sys
 import GameData.nodes as nodes
 import math
 
-ROAD_QUALITY = 0.5 # Points per meter
+ROAD_QUALITY = 0.25 # Points per meter
 MIN_QUALITY = 2 # Need two points to make a line
 
 class Road():
@@ -161,6 +161,94 @@ def CreatePointsForRoad(road):
     road.Points = newPoints
     
     return newPoints
+
+
+def CreatePointForRoad(road, s):
+    sx = road.StartNode.X
+    sy = road.StartNode.Y
+    sz = road.StartNode.Z
+    ex = road.EndNode.X
+    ey = road.EndNode.Y
+    ez = road.EndNode.Z
+    
+    # Get the length of the road
+    length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
+
+    radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+
+    tanSx = math.cos(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEx = math.cos(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+    tanSz = math.sin(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEz = math.sin(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+
+    x = Hermite(s, sx, ex, tanSx, tanEx)
+    z = Hermite(s, sz, ez, tanSz, tanEz)
+    
+    y = sy + (ey - sy) * s
+    return (x, y, z)
+
+# TODO: Make this make the lane points like the original road.
+# Otherwise it's going to be very much wrong.
+def CreatePointForLane(road, lane, s):
+    sx = lane[0][0]
+    try:
+        sy = lane[0][2]
+    except:
+        sy = 0
+    sz = lane[0][1]
+    ex = lane[-1][0]
+    try:
+        ey = lane[-1][2]
+    except:
+        ey = 0
+    ez = lane[-1][1]
+    
+    radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+
+    tanSx = math.cos(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEx = math.cos(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+    tanSz = math.sin(-(math.pi * 0.5 - road.StartNode.Rotation)) * radius
+    tanEz = math.sin(-(math.pi * 0.5 - road.EndNode.Rotation)) * radius
+
+    x = Hermite(s, sx, ex, tanSx, tanEx)
+    z = Hermite(s, sz, ez, tanSz, tanEz)
+    
+    y = sy + (ey - sy) * s
+    return (x, y, z)
+
+def FindClosestPointOnHermiteCurve(px, py, pz, road, lane=None):
+    def distance_to_point(s, lane=None):
+        # Use the existing function or directly implement the Hermite curve equation here
+        if lane == None:
+            x, y, z = CreatePointForRoad(road, s)
+        else:
+            x, y, z = CreatePointForLane(road, lane, s)
+            
+        return math.sqrt((x - px) ** 2 + (y - py) ** 2 + (z - pz) ** 2)
+    
+    # Initialize the search range for s
+    left, right = -0.1, 1.1
+    tolerance = 1e-5  # Adjust the tolerance for more or less precision
+    
+    # Binary search for the minimum distance
+    while right - left > tolerance:
+        s1 = left + (right - left) / 3
+        s2 = right - (right - left) / 3
+        
+        if distance_to_point(s1, lane=lane) < distance_to_point(s2, lane=lane):
+            right = s2
+        else:
+            left = s1
+    
+    # Compute the final point using the optimized s
+    s_optimized = (left + right) / 2
+    if lane == None:
+        closest_point = CreatePointForRoad(road, s_optimized)
+    else:
+        closest_point = CreatePointForLane(road, lane, s_optimized)
+    
+    return s_optimized, closest_point
+
 
 # MARK: Roads to Nodes
 def MatchRoadsToNodes(output=True):
@@ -407,6 +495,7 @@ offsetPerName = {
     "balt hw 2 lanes 5m offset tmpl": 14.5,
 }
 offsetRules = {
+    "***Road 2 city narrow": 6.5,
     "**road1 hw 1m offset tmpl": 8.5,
     "**road 2 narrow tmpl": 6.5,
     "**road 2 city narrow tmpl": 6.5,

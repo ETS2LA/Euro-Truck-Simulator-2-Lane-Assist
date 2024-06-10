@@ -1,14 +1,16 @@
-import GameData.roads as roads
-from GameData.roads import Road
-import GameData.prefabItems as prefabItems
 from GameData.prefabItems import PrefabItem
-import sys
+import GameData.prefabItems as prefabItems
+from GameData.roads import Road, GetOffset
+import GameData.roads as roads
+from GameData import calc
+import threading
 import logging
 import math
 import time
-import threading
+import sys
 
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
+SMOOTH_CURVES = True
 
 calculatingPrefabs = False
 calculatingRoads = False
@@ -160,12 +162,17 @@ def GetDistanceToRoad(road, x, y):
         return sys.maxsize
 
 # MARK: Closest Lane
-def FindClosestLane(x, y, item, data):
+def FindClosestLane(x, y, z, item, data, lanes=None):
     try:
-        if type(item) == Road:
+        if lanes != None:
+            lanes = lanes
+        elif type(item) == Road:
             lanes = item.ParallelPoints
         elif type(item) == PrefabItem:
             lanes = [[(lane[0], lane[1]), (lane[2], lane[3])] for lane in item.NavigationLanes]
+        
+        laneFirstPoints = [lane[0] for lane in lanes]
+        laneLastPoints = [lane[-1] for lane in lanes]
         
         closestLane = None
         closestLaneDistance = 999
@@ -196,48 +203,58 @@ def FindClosestLane(x, y, item, data):
             try:
                 if lane == []: continue
                 
-                # Get the two points closest to the player
-                firstPoint = None
-                firstPointDistance = 999999
-                secondPoint = None
-                secondPointDistance = 999999
-                for point in lane:
-                    try:
-                        distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
-                        if distance < firstPointDistance:
-                            secondPoint = firstPoint
-                            secondPointDistance = firstPointDistance
-                            firstPoint = point
-                            firstPointDistance = distance
-                        elif distance < secondPointDistance:
-                            secondPoint = point
-                            secondPointDistance = distance
-                    except:
+                if type(item) == PrefabItem or len(lanes) == 1:
+                    # Get the two points closest to the player
+                    firstPoint = None
+                    firstPointDistance = 999999
+                    secondPoint = None
+                    secondPointDistance = 999999
+                    for point in lane:
+                        try:
+                            distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
+                            if distance < firstPointDistance:
+                                secondPoint = firstPoint
+                                secondPointDistance = firstPointDistance
+                                firstPoint = point
+                                firstPointDistance = distance
+                            elif distance < secondPointDistance:
+                                secondPoint = point
+                                secondPointDistance = distance
+                        except:
+                            continue
+                    
+                    if firstPoint == None or secondPoint == None:
                         continue
-                
-                if firstPoint == None or secondPoint == None:
-                    continue
-                
-                # Get the percentage of the first point
-                startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
-                endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
-                sumDistance = startDistance + endDistance
-                firstPointPercentage = startDistance / sumDistance
-                
-                # Get the percentage of the second point
-                startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
-                endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
-                sumDistance = startDistance + endDistance
-                secondPointPercentage = startDistance / sumDistance
-                
-                # Interpolate the point
-                newPoint = [0, 0]
-                newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
-                newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
-                
-                interpolatedPoints.append(newPoint)
-                pointsLanes.append(lane)
+                    
+                    # Get the percentage of the first point
+                    startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+                    endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+                    sumDistance = startDistance + endDistance
+                    firstPointPercentage = startDistance / sumDistance
+                    
+                    # Get the percentage of the second point
+                    # startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+                    # endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+                    # sumDistance = startDistance + endDistance
+                    # secondPointPercentage = startDistance / sumDistance
+                    
+                    # Interpolate the point
+                    newPoint = [0, 0]
+                    newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
+                    newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
+                    
+                    interpolatedPoints.append(newPoint)
+                    pointsLanes.append(lane)
+                    
+                elif type(item) == Road:
+                    percentage, point = roads.FindClosestPointOnHermiteCurve(x, z, y, road=item, lane=lane)
+                    point = (point[0], point[2])
+                    interpolatedPoints.append(point)
+                    pointsLanes.append(lane)
+                    
             except:
+                import traceback
+                traceback.print_exc()
                 continue
         
         closestPoint = None
@@ -274,11 +291,11 @@ def FindClosestLane(x, y, item, data):
             if not CheckIfPointIsToTheRight(data, closestPoint):
                 negate = True
                     
-            return closestLane, negate, item, closestLaneDistance
+            return closestLane, negate, item, closestLaneDistance, closestPoint
         else:
             return closestLane
     except:
-        return None, None, None, sys.maxsize
+        return None, None, None, sys.maxsize, None
     
 # MARK: Point side
 def CheckIfPointIsToTheRight(data, point):
@@ -302,10 +319,65 @@ def CheckIfPointIsToTheRight(data, point):
         return True
     return False
 
+def RecalculateLanes(road, x, y ):
+    custom_offset = GetOffset(road)
+
+    # Get the offset of the next road
+    try:
+        roadNext = road.EndNode.ForwardItem
+        custom_offset_next = GetOffset(roadNext)
+    except:
+        custom_offset_next = custom_offset
+        
+    # Get the offset of the last road
+    try:
+        roadPrev = road.StartNode.BackwardItem
+        custom_offset_prev = GetOffset(roadPrev)
+    except:
+        custom_offset_prev = custom_offset
+        
+    next_offset = custom_offset
+    side = 0
+    if custom_offset_next > custom_offset:
+        next_offset = custom_offset_next
+        side = 0
+        
+    elif custom_offset_prev > custom_offset:
+        next_offset = custom_offset_prev
+        side = 1
+        
+        
+    # Calculate the percentage we are to the end of the road
+    startPoint = road.StartNode
+    endPoint = road.EndNode
+    distanceToEnd = math.sqrt((endPoint.X - x)**2 + (endPoint.Z - y)**2)
+    distanceToStart = math.sqrt((startPoint.X - x)**2 + (startPoint.Z - y)**2)
+    percentage = distanceToStart / (distanceToStart + distanceToEnd)
+    # Calculate a point on the road at the specified percentage
+    point = roads.CreatePointForRoad(road, percentage)
+    # Add the point to the road at the specific spot
+    existingPoints = road.Points
+    # Calculate the percentage of each point
+    counter = 0
+    for i in range(len(existingPoints)):
+        existingPoint = existingPoints[i]
+        distanceToEnd = math.sqrt((endPoint.X - existingPoint[0])**2 + (endPoint.Z - existingPoint[1])**2)
+        distanceToStart = math.sqrt((startPoint.X - existingPoint[0])**2 + (startPoint.Z - existingPoint[1])**2)
+        pointPercentage = distanceToStart / (distanceToStart + distanceToEnd)
+        if pointPercentage > percentage:
+            break
+        counter = i
+    # Insert the point
+    existingPoints.insert(counter, (point[0], point[2]))
+    
+    lanes = calc.calculate_lanes(existingPoints, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset, next_offset=next_offset, side=side)
+    newPoints = lanes['left'] + lanes['right']
+    return newPoints
+    
     
 # MARK: Closest item
 def GetClosestRoadOrPrefabAndLane(data):
-    x, y = data["api"]["truckPlacement"]["coordinateX"], data["api"]["truckPlacement"]["coordinateZ"]
+    x, y, z = data["api"]["truckPlacement"]["coordinateX"], data["api"]["truckPlacement"]["coordinateZ"], data["api"]["truckPlacement"]["coordinateY"]
     inBoundingBox = []
     for road in closeRoads:
         if CheckIfInBoundingBox(road.BoundingBox, x, y):
@@ -319,17 +391,25 @@ def GetClosestRoadOrPrefabAndLane(data):
             
     closestItem = None
     closestLane = None
+    closestPoint = None
+    allPoints = []
     closestLanes = []
     closestDistance = sys.maxsize
     closestNegate = False
     for item in inBoundingBox:
-        lane, negate, item, distance = FindClosestLane(x, y, item, data)
+        if SMOOTH_CURVES and type(item) == Road:
+            lanes = RecalculateLanes(item, x, y)
+        else:
+            lanes = None
+        lane, negate, item, distance, point = FindClosestLane(x, y, z, item, data, lanes=lanes)
         closestLanes.append(lane)
+        allPoints.append(point)
         if distance < closestDistance:
             closestItem = item
             closestLane = lane
             closestDistance = distance
             closestNegate = negate
+            closestPoint = point
             
     if closestNegate: closestDistance = -closestDistance
     if closestDistance == sys.maxsize: closestDistance = 0
@@ -339,10 +419,12 @@ def GetClosestRoadOrPrefabAndLane(data):
         "map": {
             "closestItem": closestItem,
             "closestLane": closestLane,
+            "closestPoint": closestPoint,
             "closestDistance": closestDistance,
             "closestType": closestType,
             "inBoundingBox": inBoundingBox,
-            "closestLanes": closestLanes
+            "closestLanes": closestLanes,
+            "allPoints": allPoints
         }
     }
     

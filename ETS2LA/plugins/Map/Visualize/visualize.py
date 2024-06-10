@@ -470,7 +470,7 @@ def VisualizeTrafficLights(data, img=None, zoom=2):
     
     return img
 
-def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0):
+def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0, pointSize=1):
     if img is None:
         size = 1000
         img = np.zeros((size, size, 3), np.uint8)
@@ -482,13 +482,16 @@ def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0):
     tileCoords = roads.GetTileCoordinates(x, y)
     truckXY = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
     try:
-        xy = roads.GetLocalCoordinateInTile(point[0], point[2], tileCoords[0], tileCoords[1])
+        try:
+            xy = roads.GetLocalCoordinateInTile(point[0], point[2], tileCoords[0], tileCoords[1])
+        except:
+            xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
         xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
         zoomedX = xy[0] * zoom
         zoomedY = xy[1] * zoom
         pointX = int(zoomedX + size//2)
         pointY = int(zoomedY + size//2)
-        cv2.circle(img, (pointX, pointY), 2, color, -1, cv2.LINE_AA)
+        cv2.circle(img, (pointX, pointY), 2 * pointSize, color, -1, cv2.LINE_AA)
         
         if distance != 0:
             # Draw a line and text from the truck to the point
