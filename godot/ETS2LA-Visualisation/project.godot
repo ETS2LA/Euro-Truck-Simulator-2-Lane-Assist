@@ -13,9 +13,11 @@ config_version=5
 config/name="ETS2LA Visualisation"
 run/main_scene="res://main_scene.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
+boot_splash/bg_color=Color(0.0352941, 0.0352941, 0.0431373, 1)
 config/icon="res://icon.svg"
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.0352941, 0.0352941, 0.0431373, 1)

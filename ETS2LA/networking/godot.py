@@ -9,11 +9,7 @@ def server(directory):
 
     class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         def end_headers(self):
-            self.send_header('Cross-Origin-Opener-Policy', 'same-origin')
-            self.send_header('Cross-Origin-Embedder-Policy', 'require-corp')
             self.send_header('Access-Control-Allow-Origin', '*')
-            self.send_header('Access-Control-Allow-Methods', 'GET')
-            self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
             super().end_headers()
 
         def do_OPTIONS(self):

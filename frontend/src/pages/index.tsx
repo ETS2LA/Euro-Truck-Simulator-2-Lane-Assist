@@ -39,8 +39,7 @@ export default function Home({ip} : {ip: string}) {
                 <ResizablePanel defaultSize={60} className="content-center rounded-md">
                     <iframe 
                         src={`http://127.0.0.1:60407/ETS2LA Visualisation.html`} 
-                        className="w-full h-full" 
-                        frameBorder="0" 
+                        className="w-full h-full border rounded-lg border-dashed border-neutral-700" 
                         title="Plugin" 
                     />
                 </ResizablePanel>

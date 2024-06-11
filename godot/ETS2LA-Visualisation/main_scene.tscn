@@ -1,3 +1,20 @@
 [gd_scene format=3 uid="uid://d36vvb6ivwdds"]
 
 [node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -173.0
+offset_top = -11.5
+offset_right = 173.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "We are making this visualization... hold tight!"
