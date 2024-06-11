@@ -1,10 +1,9 @@
-torchvision==0.17.2
 importlib-metadata
 deep-translator
 tkinter-tooltip
 opencv-python
-torch==2.2.2
 ultralytics
+torchvision
 matplotlib
 setuptools
 tkwebview2
@@ -25,4 +24,5 @@ mouse
 numpy
 scipy
 wheel
+torch
 mss
