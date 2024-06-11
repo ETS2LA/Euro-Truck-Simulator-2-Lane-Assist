@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=2 format=3 uid="uid://d36vvb6ivwdds"]
+
+[ext_resource type="Script" path="res://label_fps.gd" id="1_583x4"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -18,3 +20,4 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "We are making this visualization... hold tight!"
+script = ExtResource("1_583x4")
