@@ -36,20 +36,13 @@ export default function Home({ip} : {ip: string}) {
                     </div>
                 </ResizablePanel>
                 <ResizableHandle className="bg-transparent" />
-                <ResizablePanel defaultSize={60} className="content-center">
-                    <ContextMenu>
-                        <ContextMenuTrigger className="flex h-full w-full items-center justify-center rounded-md border border-dashed text-sm text-stone-600">
-                            Right Click
-                        </ContextMenuTrigger>
-                        <ContextMenuContent className="w-64">
-                            <ContextMenuItem onClick={() => toast.info("Not yet implemented.")}>
-                                User interface guide
-                            </ContextMenuItem>
-                            <ContextMenuItem onClick={() => push("/feedback")}>
-                                Send Feedback
-                            </ContextMenuItem>
-                        </ContextMenuContent>
-                    </ContextMenu>
+                <ResizablePanel defaultSize={60} className="content-center rounded-md">
+                    <iframe 
+                        src={`http://127.0.0.1:60407/ETS2LA Visualisation.html`} 
+                        className="w-full h-full" 
+                        frameBorder="0" 
+                        title="Plugin" 
+                    />
                 </ResizablePanel>
                 <ResizableHandle className="bg-transparent"/>
                 <ResizablePanel defaultSize={20}>

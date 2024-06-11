@@ -163,6 +163,16 @@ def set_theme(theme: str):
 def get_IP():
     return IP
 
+@app.get("/api/tags/data")
+def get_tags_data():
+    return backend.globalData
+
+@app.get("/api/tags/list")
+def get_tags_list():
+    data = backend.globalData
+    keys = list(data.keys())
+    return keys
+
 def RunFrontend():
     os.system("cd frontend && npm run dev")
     

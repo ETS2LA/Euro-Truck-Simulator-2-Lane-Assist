@@ -30,7 +30,6 @@ import cv2
 from PIL import Image
 
 # MARK: Variables
-
 USE_INTERNAL_VISUALIZATION = True
 USE_EXTERNAL_VISUALIZATION = True
 EXTERNAL_RENDER_DISTANCE = 200 # How far to render in meters
@@ -54,6 +53,7 @@ TILEMAP_PATH = "ETS2LA/plugins/Map/Images/"
 TILE_RESOLUTION = 1000 # how many pixels per tile
 
 runner:PluginRunner = None
+
 
 def ToggleSteering(state:bool, *args, **kwargs):
     global ENABLED
@@ -548,7 +548,22 @@ def plugin():
     if arData == {}:
         return
     
+    # Make the road data picklable
+    # Basically remove all the forward and backward items from the nodes (they point to other nodes -> recursion)
+    for road in visRoads:
+        for node in [road.StartNode, road.EndNode]:
+            try: node.ForwardItem = node.ForwardItem.Uid
+            except: node.ForwardItem = None
+            try: node.BackwardItem = node.BackwardItem.Uid
+            except: node.BackwardItem = None
+    
+    mapData = {
+        #"roads": visRoads,
+        #"prefabs": visPrefabs,
+    }
+    
     return None, {
-        "ar": arData
+        "ar": arData,
+        "map": mapData
     }
 
