@@ -1,12 +1,10 @@
 opencv-contrib-python
-torchvision==0.17.2
 tkinter-tooltip
 beautifulsoup4
 opencv-python
-numpy==1.23.5
-torch==2.2.2
 transformers
 ultralytics
+torchvision
 setuptools
 websockets
 screeninfo
@@ -25,5 +23,7 @@ psutil
 pygame
 mouse
 scipy
+numpy
+torch
 rpyc
 mss
