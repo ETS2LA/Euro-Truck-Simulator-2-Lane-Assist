@@ -1,8 +1,9 @@
-import os
-import http.server
-import socketserver
-import multiprocessing
 from http import HTTPStatus
+import multiprocessing
+import socketserver
+import http.server
+import logging
+import os
 
 def server(directory):
     PORT = 60407 # GODOT
@@ -21,7 +22,7 @@ def server(directory):
     os.chdir(directory)
 
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print(f"Godot serving at port {PORT}")
+        logging.info(f"Godot serving at port {PORT}")
         httpd.serve_forever()
 
 def run():

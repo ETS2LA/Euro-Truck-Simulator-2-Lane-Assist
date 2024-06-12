@@ -31,8 +31,8 @@ def run(Fallback=True):
 
     # Calculate the current driving angle based on this and last frames coordinates
     try:
-        x = data["truckPosition"]["coordinateX"]
-        y = data["truckPosition"]["coordinateZ"]
+        x = data["truckPlacement"]["coordinateX"]
+        y = data["truckPlacement"]["coordinateZ"]
         
         dx = x - lastX
         dy = y - lastY
