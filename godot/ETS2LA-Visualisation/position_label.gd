@@ -1,6 +1,7 @@
 extends Label
 
 var Sockets = null
+@onready var Truck = $/root/Node3D/Truck
 var averageResponseShowTime = Time.get_ticks_msec()
 var responseTimes = []
 var worstResponseTime = 0

@@ -38,12 +38,12 @@ export default function Home({ip} : {ip: string}) {
                 <ResizableHandle className="bg-transparent" />
                 <ResizablePanel defaultSize={60} className="content-center rounded-md">
                     <iframe 
-                        src={`http://127.0.0.1:60407/ETS2LA Visualisation.html`} 
+                        src={`http://localhost:60407/ETS2LA Visualisation.html`} 
                         className="w-full h-full" 
-                        title="Plugin" 
+                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                     />
                 </ResizablePanel>
-                <ResizableHandle className="bg-transparent"/>
+                <ResizableHandle className="bg-transparent" />
                 <ResizablePanel defaultSize={20}>
                     <div className="border rounded-lg h-full">
                         <VersionHistory ip={ip} />

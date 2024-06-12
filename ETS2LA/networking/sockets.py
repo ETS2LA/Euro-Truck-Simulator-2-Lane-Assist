@@ -17,6 +17,15 @@ async def server(websocket):
         send += "x:" + str(data["truckPlacement"]["coordinateX"]) + ","
         send += "y:" + str(data["truckPlacement"]["coordinateY"]) + ","
         send += "z:" + str(data["truckPlacement"]["coordinateZ"]) + ","
+        rotationX = data["truckPlacement"]["rotationX"] * 360
+        if rotationX < 0: rotationX += 360
+        send += "rx:" + str(rotationX) + ","
+        rotationY = data["truckPlacement"]["rotationY"] * 360
+        if rotationY < 0: rotationY += 360
+        send += "ry:" + str(rotationY) + ","
+        rotationZ = data["truckPlacement"]["rotationZ"] * 360
+        if rotationZ < 0: rotationZ += 360
+        send += "rz:" + str(rotationZ) + ","
         try:
             await websocket.send(send)
 
