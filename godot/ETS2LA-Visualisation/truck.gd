@@ -13,5 +13,5 @@ func _process(delta: float) -> void:
 	if data != {}:
 		var apiPosition = Vector3(float(data["x"]), float(data["y"]), float(data["z"]))
 		self.position = apiPosition
-		var apiRotation = Vector3(float(data["ry"]), float(data["rx"]), float(data["rz"]))
+		var apiRotation = Vector3(-float(data["ry"]), float(data["rx"]), float(data["rz"]))
 		self.rotation_degrees = apiRotation
