@@ -10,9 +10,7 @@ async def server(websocket):
     TruckSimAPI.Initialize()
     TruckSimAPI.TRAILER = True
     
-    while True:
-        data = TruckSimAPI.run()
-        # Get the data we need to send
+    def position(data):
         send = ""
         send += "x:" + str(data["truckPlacement"]["coordinateX"]) + ","
         send += "y:" + str(data["truckPlacement"]["coordinateY"]) + ","
@@ -25,9 +23,15 @@ async def server(websocket):
         rotationZ = data["truckPlacement"]["rotationZ"] * 360
         if rotationZ < 0: rotationZ += 360
         send += "rz:" + str(rotationZ) + ","
+        return send
+    
+    while True:
+        data = TruckSimAPI.run()
+        # Get the data we need to send
+        send = ""
+        send += position(data)
         try:
             await websocket.send(send)
-
             # Wait for acknowledgment from client
             ack = await websocket.recv()
         except:
