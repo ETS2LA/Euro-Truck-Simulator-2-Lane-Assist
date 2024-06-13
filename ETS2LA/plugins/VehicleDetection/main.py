@@ -63,7 +63,7 @@ def Initialize():
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.75
 
-    screen_cap = "1080p"
+    screen_cap = "1440p32:9"
     if screen_cap == "1440p32:9":
         capture_x = 2100
         capture_y = 300

@@ -33,6 +33,28 @@ class Road():
     ParallelPoints = []
     LaneWidth = 0
     BoundingBox = []
+    
+    def json(self):
+        return {
+            "Uid": self.Uid,
+            "StartNodeUid": self.StartNodeUid,
+            "EndNodeUid": self.EndNodeUid,
+            "Nodes": self.Nodes,
+            "BlockSize": self.BlockSize,
+            "Valid": self.Valid,
+            "Type": self.Type,
+            "X": self.X,
+            "Z": self.Z,
+            "YValues": self.YValues,
+            "Hidden": self.Hidden,
+            "Flags": self.Flags,
+            "Navigation": self.Navigation,
+            "RoadLook": self.RoadLook.json(),
+            "Points": self.Points,
+            "IsSecret": self.IsSecret,
+            "ParallelPoints": self.ParallelPoints,
+            "LaneWidth": self.LaneWidth,
+        }
 
 class RoadLook():
     name = ""
@@ -48,6 +70,23 @@ class RoadLook():
     isLocal = False
     isExpress = False
     isNoVehicles = False
+    
+    def json(self):
+        return {
+            "Name": self.name,
+            "Offset": self.offset,
+            "LanesLeft": self.lanesLeft,
+            "LanesRight": self.lanesRight,
+            "ShoulderSpaceLeft": self.shoulderSpaceLeft,
+            "ShoulderSpaceRight": self.shoulderSpaceRight,
+            "RoadSizeLeft": self.roadSizeLeft,
+            "RoadSizeRight": self.roadSizeRight,
+            "Token": self.token,
+            "IsHighway": self.isHighway,
+            "IsLocal": self.isLocal,
+            "IsExpress": self.isExpress,
+            "IsNoVehicles": self.isNoVehicles
+        }
 
 
 roads = []

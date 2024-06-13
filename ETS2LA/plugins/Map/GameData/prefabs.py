@@ -26,6 +26,20 @@ class Prefab:
     NavigationRoutes = []
     CalculatedLanePoints = []
     
+    def json(self):
+        return {
+            "FilePath": self.FilePath,
+            "Token": self.Token,
+            "Category": self.Category,
+            "ValidRoad": self.ValidRoad,
+            "PrefabNodes": [node.json() for node in self.PrefabNodes],
+            "SpawnPoints": self.SpawnPoints,
+            "MapPoints": [mapPoint.json() for mapPoint in self.MapPoints],
+            "TriggerPoints": self.TriggerPoints,
+            "PrefabCurves": [curve.json() for curve in self.PrefabCurves],
+            "NavigationRoutes": [route.json() for route in self.NavigationRoutes]
+        }
+    
     
 class PrefabCurve:
     id = 0
@@ -38,12 +52,34 @@ class PrefabCurve:
     nextLines = []
     prevLines = []
     
+    def json(self):
+        return {
+            "id": self.id,
+            "idNode": self.idNode,
+            "start_X": self.startX,
+            "start_Z": self.startZ,
+            "end_X": self.endX,
+            "end_Z": self.endZ,
+            "length": self.length,
+            "nextLines": self.nextLines,
+            "prevLines": self.prevLines
+        }
+    
 class NavigationRoute:
     Name = ""
     CurveIds = []
     Distance = 0
     StartNode = None
     EndNode = None
+    
+    def json(self):
+        return {
+            "Name": self.Name,
+            "CurveIds": self.CurveIds,
+            "Distance": self.Distance,
+            "StartNode": self.StartNode.json(),
+            "EndNode": self.EndNode.json()
+        }
     
 class NavigationRouteNode:
     id = 0
@@ -54,6 +90,18 @@ class NavigationRouteNode:
     LaneCount = 0
     InputPoints = []
     OutputPoints = []
+    
+    def json(self):
+        return {
+            "id": self.id,
+            "X": self.X,
+            "Z": self.Z,
+            "RotX": self.RotX,
+            "RotZ": self.RotZ,
+            "LaneCount": self.LaneCount,
+            "InputPoints": self.InputPoints,
+            "OutputPoints": self.OutputPoints
+        }
     
 class MapPoint:
     X = 0
@@ -66,6 +114,19 @@ class MapPoint:
     Neighbours = []
     ControlNodeIndex = 0
     
+    def json(self):
+        return {
+            "X": self.X,
+            "Z": self.Z,
+            "LaneOffset": self.LaneOffset,
+            "LaneCount": self.LaneCount,
+            "Hidden": self.Hidden,
+            "PrefabColorFlags": self.PrefabColorFlags,
+            "NeighbourCount": self.NeighbourCount,
+            "Neighbours": self.Neighbours,
+            "ControlNodeIndex": self.ControlNodeIndex
+        }
+    
 class PrefabNode:
     id = 0
     X = 0
@@ -75,6 +136,18 @@ class PrefabNode:
     LaneCount = 0
     InputPoints = []
     OutputPoints = []
+    
+    def json(self):
+        return {
+            "id": self.id,
+            "X": self.X,
+            "Z": self.Z,
+            "RotX": self.RotX,
+            "RotZ": self.RotZ,
+            "LaneCount": self.LaneCount,
+            "InputPoints": self.InputPoints,
+            "OutputPoints": self.OutputPoints
+        }
     
 # MARK: Load Prefabs
 def LoadPrefabs():

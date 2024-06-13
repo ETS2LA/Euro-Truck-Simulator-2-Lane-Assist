@@ -167,6 +167,12 @@ def get_IP():
 def get_tags_data():
     return backend.globalData
 
+class TagFetchData(BaseModel):
+    tag: str
+@app.post("/api/tags/data")
+def get_tag_data(data: TagFetchData):
+    return backend.globalData[data.tag]
+
 @app.get("/api/tags/list")
 def get_tags_list():
     data = backend.globalData

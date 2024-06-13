@@ -50,14 +50,52 @@ class PrefabItem:
     EndPoints = []
     BoundingBox = []
     
+    def json(self):
+        return {
+            "Uid": self.Uid,
+            "StartNodeUid": self.StartNodeUid,
+            "EndNodeUid": self.EndNodeUid,
+            "StartNode": self.StartNode.json() if self.StartNode != None else None,
+            "Nodes": [node.json() for node in self.Nodes],
+            "BlockSize": self.BlockSize,
+            "Valid": self.Valid,
+            "Type": self.Type,
+            "X": self.X,
+            "Z": self.Z,
+            "Hidden": self.Hidden,
+            "Flags": self.Flags,
+            "Navigation": [nav.json() for nav in self.Navigation],
+            "Origin": self.Origin,
+            "Padding": self.Padding,
+            "Prefab": self.Prefab.json() if self.Prefab != None else None,
+            "NavigationLanes": self.NavigationLanes,
+            "IsSecret": self.IsSecret,
+            "CurvePoints": self.CurvePoints,
+            "EndPoints": self.EndPoints,
+            "BoundingBox": self.BoundingBox
+        }
+    
 class NavigationItem2:
     Uid = 0
     Type = ""
+    
+    def json(self):
+        return {
+            "Uid": self.Uid,
+            "Type": self.Type
+        }
     
 class Navigation:
     NavId = 0
     Item1 = 0
     Item2 = []
+    
+    def json(self):
+        return {
+            "NavId": self.NavId,
+            "Item1": self.Item1,
+            "Item2": [item.json() for item in self.Item2]
+        }
     
 # MARK: Load Items
 def LoadPrefabItems():

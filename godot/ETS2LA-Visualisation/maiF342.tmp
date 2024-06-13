@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=13 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://sockets.gd" id="1_wt6xa"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://position_label.gd" id="4_ckaqj"]
 [ext_resource type="Script" path="res://truck.gd" id="5_k5niq"]
 [ext_resource type="Script" path="res://vehicles.gd" id="7_jhmr7"]
-[ext_resource type="Script" path="res://roads.gd" id="9_115pj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
 
@@ -59,12 +58,9 @@ label_settings = SubResource("LabelSettings_rgrby")
 script = ExtResource("4_ckaqj")
 
 [node name="Truck" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0122681, 0.806163, 2.77393)
-size = Vector3(1.43958, 1.61023, 6.54785)
 script = ExtResource("5_k5niq")
 
 [node name="TruckTracker" type="Node3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.799465, 0)
 script = ExtResource("2_6bj65")
 target = NodePath("../Truck")
 
@@ -80,13 +76,4 @@ transform = Transform3D(1, 0, 0, 0, -0.961262, 0.275637, 0, -0.275637, -0.961262
 [node name="Vehicles" type="Node" parent="."]
 script = ExtResource("7_jhmr7")
 
-[node name="Map" type="Node" parent="."]
-
-[node name="Roads" type="Node" parent="Map"]
-script = ExtResource("9_115pj")
-
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
-timeout = 1.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.53676, 0, 0)

@@ -39,6 +39,10 @@ def position(data):
     send += "rz:" + str(rotationZ) + ";"
     return send
 
+def speed(data):
+    send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
+    return send
+
 def vehicles(data):
     if data["vehicles"] is not None:
         newVehicles = []
@@ -81,6 +85,7 @@ def plugin():
     
     tempSend = ""
     tempSend += position(data)
+    tempSend += speed(data)
     tempSend += vehicles(data)
     
     send = tempSend

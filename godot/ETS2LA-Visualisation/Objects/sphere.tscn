@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bk47qofh82hjb"]
+
+[node name="Sphere" type="Node3D"]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]

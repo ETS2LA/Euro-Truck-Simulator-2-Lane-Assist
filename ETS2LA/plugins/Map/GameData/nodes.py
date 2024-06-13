@@ -9,6 +9,12 @@ import sys
 class Item:
     Uid = 0
     Type = ""
+    
+    def json(self):
+        return {
+            "Uid": self.Uid,
+            "Type": self.Type
+        }
 
 class Node:
     Uid = 0
@@ -21,6 +27,20 @@ class Node:
     Rotation = 0
     ForwardItem = None
     BackwardItem = None
+    
+    def json(self):
+        return {
+            "Uid": self.Uid,
+            "X": self.X,
+            "Y": self.Y,
+            "Z": self.Z,
+            "rX": self.rX,
+            "rY": self.rY,
+            "rZ": self.rZ,
+            "Rotation": self.Rotation,
+            "ForwardItem": self.ForwardItem.json() if self.ForwardItem != None else None,
+            "BackwardItem": self.BackwardItem.json() if self.BackwardItem != None else None
+        }
     
 nodes = []
 optimizedNodes = {}
