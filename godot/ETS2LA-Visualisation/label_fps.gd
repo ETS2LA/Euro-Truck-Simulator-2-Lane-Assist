@@ -9,4 +9,4 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var fps = Engine.get_frames_per_second()
-	self.text = "We are making this visualization... hold tight!\n(" + str(fps) + " fps)"
+	self.text = "THIS VISUALISATION IS VERY MUCH WIP!\n(" + str(fps) + " fps)"

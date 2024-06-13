@@ -5,6 +5,7 @@ extends Node
 
 @onready var MapData = $/root/Node3D/MapData
 @onready var Truck = $/root/Node3D/Truck
+
 var sphere = preload("res://Objects/sphere.tscn")
 var lastData = null
 
@@ -37,17 +38,72 @@ func CreateAndRenderMesh(vertices, x, z, mat):
 	meshInstance.mesh = mesh
 	meshInstance.position = Vector3(x, 0, z)
 	add_child(meshInstance)
+	
+func CreateForwardVectors(points):
+	var forwardVectors = []
+	for i in range(len(points)):
+		if i == len(points) - 1:
+			var curPoint = points[-1]
+			var lastPoint = points[len(points)-2]
+			var vector = lastPoint - curPoint
+			forwardVectors.append(vector)
+		else:
+			var curPoint = points[i]
+			var nextPoint = points[i+1]
+			var vector = curPoint - nextPoint
+			forwardVectors.append(vector)
+	
+	return forwardVectors
+	
+func CreateNormalVectors(forwardVectors):
+	var normalVectors = []
+	for i in range(len(forwardVectors)):
+		var fVector = forwardVectors[i]
+		fVector = Vector2(fVector.x, fVector.z)
+		fVector = fVector.rotated(deg_to_rad(90))
+		fVector = fVector.normalized()
+		normalVectors.append(fVector)
+		
+	return normalVectors
+	
+func CreateVerticesForPoint(point, normalVector):
+	var vertices = []
+	var rightMarkingVertices = []
+	var leftMarkingVertices = []
+	# Road
+	var leftPoint = point - Vector3((normalVector * 2.2)[0], 0, (normalVector * 2.2)[1])
+	var rightPoint = point + Vector3((normalVector * 2.2)[0], 0, (normalVector * 2.2)[1])
+	
+	vertices.push_back(leftPoint)
+	vertices.push_back(rightPoint)
+	
+	# Markings
+	leftPoint = point + Vector3((normalVector * 2.2)[0], 0, (normalVector * 2.2)[1])
+	rightPoint = point + Vector3((normalVector * 2.3)[0], 0, (normalVector * 2.3)[1])
+
+	rightMarkingVertices.push_back(leftPoint)
+	rightMarkingVertices.push_back(rightPoint)
+	
+	leftPoint = point - Vector3((normalVector * 2.3)[0], 0, (normalVector * 2.3)[1])
+	rightPoint = point - Vector3((normalVector * 2.2)[0], 0, (normalVector * 2.2)[1])
+
+	leftMarkingVertices.push_back(leftPoint)
+	leftMarkingVertices.push_back(rightPoint)
+	
+	return [vertices, leftMarkingVertices, rightMarkingVertices]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if MapData.MapData != null:
-		var data = MapData.MapData["roads"]
+		var data = MapData.MapData
 		if data != lastData:
+			var roadData = data["roads"]
+			
 			for n in self.get_children():
 				self.remove_child(n)
 				n.queue_free() 
 			
-			for road in data:
+			for road in roadData:
 				var yValues = road["YValues"]
 				var x = road["X"]
 				var z = road["Z"]
@@ -65,48 +121,67 @@ func _process(delta: float) -> void:
 						points.append(JsonPointToLocalCoords(point, x, yValues[counter], z))
 						counter += 1
 					
-					var forwardVectors = [] # These point towards the next point
-					for i in range(len(points)):
-						if i == len(points) - 1:
-							var curPoint = points[-1]
-							var lastPoint = points[len(points)-2]
-							var vector = lastPoint - curPoint
-							forwardVectors.append(vector)
-						else:
-							var curPoint = points[i]
-							var nextPoint = points[i+1]
-							var vector = curPoint - nextPoint
-							forwardVectors.append(vector)
-						
-					var normalVectors = [] # These point either straight right or left of the point
-					for i in range(len(forwardVectors)):
-						var fVector = forwardVectors[i]
-						fVector = Vector2(fVector.x, fVector.z)
-						fVector = fVector.rotated(deg_to_rad(90))
-						fVector = fVector.normalized()
-						normalVectors.append(fVector)
+					# These point towards the next point
+					var forwardVectors = CreateForwardVectors(points)
+					
+					# These point either straight right or left of the point
+					var normalVectors = CreateNormalVectors(forwardVectors)
+					
 						
 					# Create the vertices
 					for i in range(len(points)):
-						# Road
-						var leftPoint = points[i] - Vector3((normalVectors[i] * 2.2)[0], 0, (normalVectors[i] * 2.2)[1])
-						var rightPoint = points[i] + Vector3((normalVectors[i] * 2.2)[0], 0, (normalVectors[i] * 2.2)[1])
+						var allVertices = CreateVerticesForPoint(points[i], normalVectors[i])
+						vertices += allVertices[0]
+						leftMarkingVertices += allVertices[1]
+						rightMarkingVertices += allVertices[2]
 						
-						vertices.push_back(leftPoint)
-						vertices.push_back(rightPoint)
-						
-						# Markings
-						leftPoint = points[i] + Vector3((normalVectors[i] * 2.2)[0], 0, (normalVectors[i] * 2.2)[1])
-						rightPoint = points[i] + Vector3((normalVectors[i] * 2.3)[0], 0, (normalVectors[i] * 2.3)[1])
 				
-						rightMarkingVertices.push_back(leftPoint)
-						rightMarkingVertices.push_back(rightPoint)
+					# Render the meshes
+					CreateAndRenderMesh(vertices, x, z, roadMat)
+					CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat)
+					CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat)
+					
+			
+			var prefabData = []
+			for prefab in prefabData:
+				var x = prefab["X"]
+				var y = Truck.position.y - Truck.offset.y
+				var z = prefab["Z"]
+				var vertices = []
+				var rightMarkingVertices = []
+				var leftMarkingVertices = []
+				var lines = []
+				var counter = 0
+				for point in prefab["CurvePoints"]:
+					# Convert the JSON points to godot Vector3s
+					var p1 = Vector3(point[0], y, point[1])
+					var p2 = Vector3(point[2], y, point[3])
+					
+					p1.x -= x
+					p1.z -= z
+					
+					p2.x -= x
+					p2.z -= z
+					
+					lines.append([p1, p2])
+					
+					counter += 1
+					
+				for line in lines:
+					var points = line
+					var forwardVectors = CreateForwardVectors(points)
+					
+					# These point either straight right or left of the point
+					var normalVectors = CreateNormalVectors(forwardVectors)
+					
+					
+					# Create the vertices
+					for i in range(len(points)):
+						var allVertices = CreateVerticesForPoint(points[i], normalVectors[i])
+						vertices += allVertices[0]
+						leftMarkingVertices += allVertices[1]
+						rightMarkingVertices += allVertices[2]
 						
-						leftPoint = points[i] - Vector3((normalVectors[i] * 2.3)[0], 0, (normalVectors[i] * 2.3)[1])
-						rightPoint = points[i] - Vector3((normalVectors[i] * 2.2)[0], 0, (normalVectors[i] * 2.2)[1])
-				
-						leftMarkingVertices.push_back(leftPoint)
-						leftMarkingVertices.push_back(rightPoint)
 				
 					# Render the meshes
 					CreateAndRenderMesh(vertices, x, z, roadMat)

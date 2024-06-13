@@ -553,10 +553,25 @@ def plugin():
     dataRoads = []
     for road in visRoads:
         dataRoads.append(road.json())
+        
+    dataPrefabs = []
+    for prefab in visPrefabs:
+        prefab.Nodes = []
+        try:
+            prefab.StartNode.ForwardItem = None
+            prefab.StartNode.BackwardItem = None
+        except: pass
+        try:
+            prefab.EndNode.ForwardItem = None
+            prefab.EndNode.BackwardItem = None
+        except: pass
+        prefab.Navigation = []
+        prefab.Prefab = None
+        dataPrefabs.append(prefab.json())
     
     mapData = {
         "roads": dataRoads,
-        #"prefabs": visPrefabs,
+        "prefabs": dataPrefabs,
     }
     
     return None, {

@@ -32,6 +32,7 @@ class PrefabItem:
     StartNodeUid = 0
     EndNodeUid = 0
     StartNode = None
+    EndNode = None
     Nodes = []
     BlockSize = 0
     Valid = False

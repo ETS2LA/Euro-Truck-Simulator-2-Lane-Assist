@@ -26,7 +26,7 @@ func _process(delta):
 	if Time.get_ticks_msec() - connectingSince > connectRetryTime and state == 0:
 		Connect()
 	elif state == 0:
-		status = "Retrying connection in " + str(2000 - (Time.get_ticks_msec() - connectingSince)) + "ms\nPlease enable the Sockets plugin!"
+		status = "Please enable the Sockets plugin!\nRetrying connection in " + str(2000 - (Time.get_ticks_msec() - connectingSince)) + "ms"
 
 	
 	if state == WebSocketPeer.STATE_OPEN:

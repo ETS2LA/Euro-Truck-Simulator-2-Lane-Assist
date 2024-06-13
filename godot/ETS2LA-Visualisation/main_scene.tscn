@@ -1,16 +1,19 @@
-[gd_scene load_steps=16 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=18 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://sockets.gd" id="1_wt6xa"]
 [ext_resource type="Script" path="res://camera_follow.gd" id="2_6bj65"]
 [ext_resource type="Script" path="res://map_data.gd" id="2_et5o6"]
 [ext_resource type="Script" path="res://vsync_check_button.gd" id="2_fkubr"]
-[ext_resource type="Script" path="res://position_label.gd" id="4_ckaqj"]
+[ext_resource type="Script" path="res://sockets_label.gd" id="4_ckaqj"]
+[ext_resource type="Script" path="res://map_data_label.gd" id="4_x630f"]
 [ext_resource type="Script" path="res://truck.gd" id="5_k5niq"]
 [ext_resource type="Script" path="res://vehicles.gd" id="7_jhmr7"]
 [ext_resource type="Script" path="res://roads.gd" id="9_115pj"]
 [ext_resource type="Material" uid="uid://dmaxysuvanmss" path="res://Materials/road.tres" id="10_aeket"]
 [ext_resource type="Material" uid="uid://dvbqi3ppkgwc" path="res://Materials/markings.tres" id="11_7fqt1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j8g1s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
 
@@ -50,18 +53,29 @@ offset_top = 10.0
 offset_right = 356.0
 offset_bottom = 68.0
 
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Seems like my prefab code broke something...
+I have disabled prefabs on this build, they do work on a local .exe!"
+
 [node name="Disclaimer" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "We are making this visualization... hold tight!"
+text = "THIS VISUALISATION IS VERY MUCH WIP!"
 script = ExtResource("1_583x4")
 
+[node name="MapData" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_j8g1s")
+script = ExtResource("4_x630f")
+
 [node name="VsyncButton" type="CheckButton" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 button_pressed = true
 text = "vsync (only native app)"
 script = ExtResource("2_fkubr")
 
-[node name="Position" type="Label" parent="VBoxContainer"]
+[node name="Sockets" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_rgrby")
 script = ExtResource("4_ckaqj")
@@ -94,7 +108,7 @@ script = ExtResource("7_jhmr7")
 
 [node name="Map" type="Node" parent="."]
 
-[node name="Roads" type="Node" parent="Map"]
+[node name="RoadsAndPrefabs" type="Node" parent="Map"]
 script = ExtResource("9_115pj")
 roadMat = ExtResource("10_aeket")
 markingMat = ExtResource("11_7fqt1")
