@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=14 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://sockets.gd" id="1_wt6xa"]
@@ -9,8 +9,6 @@
 [ext_resource type="Script" path="res://truck.gd" id="5_k5niq"]
 [ext_resource type="Script" path="res://vehicles.gd" id="7_jhmr7"]
 [ext_resource type="Script" path="res://roads.gd" id="9_115pj"]
-[ext_resource type="Material" uid="uid://dmaxysuvanmss" path="res://Materials/road.tres" id="10_aeket"]
-[ext_resource type="Material" uid="uid://dvbqi3ppkgwc" path="res://Materials/markings.tres" id="11_7fqt1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
 
@@ -29,12 +27,6 @@ sky_material = SubResource("ProceduralSkyMaterial_7bgrn")
 [sub_resource type="Environment" id="Environment_2nolm"]
 background_mode = 2
 sky = SubResource("Sky_mdw6i")
-fog_enabled = true
-fog_mode = 1
-fog_light_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
-fog_density = 1.0
-fog_depth_begin = 20.0
-fog_depth_end = 150.0
 
 [node name="Node3D" type="Node3D"]
 
@@ -67,10 +59,9 @@ label_settings = SubResource("LabelSettings_rgrby")
 script = ExtResource("4_ckaqj")
 
 [node name="Truck" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.012, 1, 2.774)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0122681, 0.806163, 2.77393)
 size = Vector3(1.43958, 1.61023, 6.54785)
 script = ExtResource("5_k5niq")
-offset = Vector3(0, 0.8, 0)
 
 [node name="TruckTracker" type="Node3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.799465, 0)
@@ -78,13 +69,10 @@ script = ExtResource("2_6bj65")
 target = NodePath("../Truck")
 
 [node name="Camera3D" type="Camera3D" parent="TruckTracker"]
-transform = Transform3D(1, 0, 0, 0, 0.901833, 0.432086, 0, -0.432086, 0.901833, 0, 8, 13)
+transform = Transform3D(1, 0, 0, 0, 0.976296, 0.21644, 0, -0.21644, 0.976296, 0, 3, 5)
 environment = SubResource("Environment_2nolm")
-projection = 2
 current = true
-fov = 48.4
-size = 0.05
-far = 180.0
+fov = 80.1
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.961262, 0.275637, 0, -0.275637, -0.961262, 0, 1.58165, 0)
@@ -96,8 +84,6 @@ script = ExtResource("7_jhmr7")
 
 [node name="Roads" type="Node" parent="Map"]
 script = ExtResource("9_115pj")
-roadMat = ExtResource("10_aeket")
-markingMat = ExtResource("11_7fqt1")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 timeout = 1.0

@@ -145,9 +145,10 @@ class scsTelemetry:
             data["comDouble"]["worldY"], offset = self.readDouble(offset)
             data["comDouble"]["worldZ"] = virtualZ
             offset += 8
-            data["comDouble"]["rotationX"], offset = self.readDouble(offset)
-            data["comDouble"]["rotationY"], offset = self.readDouble(offset)
-            data["comDouble"]["rotationZ"], offset = self.readDouble(offset)
+            data["comDouble"]["rotationX"] = 0
+            data["comDouble"]["rotationY"] = 0
+            data["comDouble"]["rotationZ"] = 0
+            offset += 24
             
             # END OF FIFTH ZONE -> Offset 920
             
