@@ -9,6 +9,7 @@ setuptools
 websockets
 screeninfo
 pywebview
+pyautogui
 gitpython
 dearpygui
 bettercam
