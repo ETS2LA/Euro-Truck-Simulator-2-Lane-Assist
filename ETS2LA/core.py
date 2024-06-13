@@ -2,7 +2,6 @@ import ETS2LA.backend.globalServer as globalServer
 import ETS2LA.networking.webserver as webserver
 import ETS2LA.frontend.immediate as immediate
 import ETS2LA.backend.variables as variables
-import ETS2LA.networking.sockets as sockets
 import ETS2LA.backend.controls as controls
 import ETS2LA.frontend.webpage as webpage
 import ETS2LA.backend.backend as backend
@@ -16,7 +15,6 @@ import os
 logger = SetupGlobalLogging()
 immediate.run() # Websockets server for immediate data
 webserver.run() # External webserver for the UI
-sockets.run() # Websockets server for the visualisation
 godot.run() # Godot server for the visualisation
 webpage.run() # Tkinter webview to the website.
 events.run() # Event handlers

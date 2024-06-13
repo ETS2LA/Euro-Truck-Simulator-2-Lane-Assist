@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=14 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://sockets.gd" id="1_wt6xa"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://position_label.gd" id="4_ckaqj"]
 [ext_resource type="Script" path="res://truck.gd" id="5_k5niq"]
 [ext_resource type="Script" path="res://vehicles.gd" id="7_jhmr7"]
+[ext_resource type="PackedScene" uid="uid://csbntvn0jovyx" path="res://Objects/truck.tscn" id="8_4gi4n"]
+[ext_resource type="PackedScene" uid="uid://dr8t84av2gfh" path="res://Objects/car.tscn" id="9_nos8v"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
 
@@ -57,7 +59,7 @@ script = ExtResource("4_ckaqj")
 script = ExtResource("5_k5niq")
 
 [node name="Camera3D" type="Camera3D" parent="Truck" node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 0.976296, 0.21644, 0, -0.21644, 0.976296, 0, 1.7, 3)
+transform = Transform3D(-1, 1.89217e-08, -8.53505e-08, 0, 0.976296, 0.21644, 8.74228e-08, 0.21644, -0.976296, 0, 1.7, -3)
 environment = SubResource("Environment_2nolm")
 current = true
 fov = 80.1
@@ -70,3 +72,5 @@ transform = Transform3D(1, 0, 0, 0, -0.961262, 0.275637, 0, -0.275637, -0.961262
 
 [node name="Vehicles" type="Node" parent="."]
 script = ExtResource("7_jhmr7")
+truckScene = ExtResource("8_4gi4n")
+carScene = ExtResource("9_nos8v")

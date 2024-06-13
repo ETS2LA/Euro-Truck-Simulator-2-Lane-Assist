@@ -8,6 +8,7 @@ import cv2
 import torch
 import numpy as np
 import os
+import json
 import pathlib
 import pyautogui
 
@@ -27,6 +28,14 @@ class Vehicle:
         self.raycasts = raycasts
         self.screenPoints = screenPoints
         self.vehicleType = vehicleType
+    
+    def json(self):
+        return {
+            "raycasts": [raycast.json() for raycast in self.raycasts],
+            "screenPoints": self.screenPoints,
+            "vehicleType": self.vehicleType
+        }
+    
 
 def SendCrashReport(): # REMOVE THIS LATER
     return
@@ -54,13 +63,18 @@ def Initialize():
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.75
 
-    screen_cap = "DylDev"
-    if screen_cap == "Tumppi":
+    screen_cap = "1440p"
+    if screen_cap == "1440p32:9":
         capture_x = 2100
         capture_y = 300
         capture_width = 1280
         capture_height = 720
-    elif screen_cap == "DylDev":
+    elif screen_cap == "1440p":
+        capture_x = 700
+        capture_y = 300
+        capture_width = 1280
+        capture_height = 720
+    elif screen_cap == "1080p":
         capture_x = 600
         capture_y = 200
         capture_width = 1020

@@ -16,17 +16,22 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Sockets != null:
 		var textToAdd = ""
-		textToAdd += "Slowest data update took " + str(worstResponseTime) + "ms"
+		textToAdd += Sockets.status
+		if Sockets.status != "Connected":
+			self.label_settings.font_color = Color.RED
+		else:
+			self.label_settings.font_color = Color.WHITE
+			textToAdd += "\nSlowest data update took " + str(worstResponseTime) + "ms"
 		
-		responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
-		if Time.get_ticks_msec() - averageResponseShowTime > 1000: # once per second
-			worstResponseTime = responseTimes.max()
-			responseTimes = []
-			averageResponseShowTime = Time.get_ticks_msec()
-		
-		var socketData = Sockets.GetData()
-		for key in socketData:
-			textToAdd += "\n" + str(key) + ": " + str(socketData[key])
+			responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
+			if Time.get_ticks_msec() - averageResponseShowTime > 1000: # once per second
+				worstResponseTime = responseTimes.max()
+				responseTimes = []
+				averageResponseShowTime = Time.get_ticks_msec()
+			
+			var socketData = Sockets.GetData()
+			for key in socketData:
+				textToAdd += "\n" + str(key) + ": " + str(socketData[key])
 		
 		text = textToAdd
 	else:

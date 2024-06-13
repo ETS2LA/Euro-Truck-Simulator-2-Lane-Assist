@@ -45,7 +45,7 @@ VISUALIZE_PREFABS = True
 LOAD_MSG = "Navigation data is loading..."
 COMPLETE_MSG = "Navigation data loaded!"
 ENABLED = False
-LOAD_DATA = True
+LOAD_DATA = False
 
 SAVE_TILEMAP = False
 ONLY_ZOOM_LEVELS = True
@@ -550,12 +550,13 @@ def plugin():
     
     # Make the road data picklable
     # Basically remove all the forward and backward items from the nodes (they point to other nodes -> recursion)
-    for road in visRoads:
-        for node in [road.StartNode, road.EndNode]:
-            try: node.ForwardItem = node.ForwardItem.Uid
-            except: node.ForwardItem = None
-            try: node.BackwardItem = node.BackwardItem.Uid
-            except: node.BackwardItem = None
+    if LOAD_DATA:
+        for road in visRoads:
+            for node in [road.StartNode, road.EndNode]:
+                try: node.ForwardItem = node.ForwardItem.Uid
+                except: node.ForwardItem = None
+                try: node.BackwardItem = node.BackwardItem.Uid
+                except: node.BackwardItem = None
     
     mapData = {
         #"roads": visRoads,

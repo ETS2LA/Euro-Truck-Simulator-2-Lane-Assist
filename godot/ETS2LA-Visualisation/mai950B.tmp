@@ -57,7 +57,7 @@ script = ExtResource("4_ckaqj")
 script = ExtResource("5_k5niq")
 
 [node name="Camera3D" type="Camera3D" parent="Truck" node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 0.976296, 0.21644, 0, -0.21644, 0.976296, 0, 1.7, 3)
+transform = Transform3D(-1, 1.89217e-08, -8.53505e-08, 0, 0.976296, 0.21644, 8.74228e-08, 0.21644, -0.976296, 0, 1.7, -3)
 environment = SubResource("Environment_2nolm")
 current = true
 fov = 80.1
