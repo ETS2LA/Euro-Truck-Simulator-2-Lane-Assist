@@ -1,17 +1,29 @@
 extends Node
 
-@export var roadMat : StandardMaterial3D
-@export var markingMat : StandardMaterial3D
+@export var roadMat = preload("res://Materials/road.tres")
+@export var roadDarkMat = preload("res://Materials/roadDark.tres")
+@export var markingMat = preload("res://Materials/markings.tres")
+@export var markingsDarkMat = preload("res://Materials/markingsDark.tres")
+
+@export var markingWidth : float
 
 @onready var MapData = $/root/Node3D/MapData
 @onready var Truck = $/root/Node3D/Truck
+@onready var Variables = $/root/Node3D/Variables
 
 var sphere = preload("res://Objects/sphere.tscn")
 var lastData = null
 
+var reload = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Variables.ThemeChanged.connect(Reload)
 	pass # Replace with function body.
+
+func Reload():
+	MapData.send_request()
+	reload = true
 
 func JsonPointToLocalCoords(jsonPoint, x, y, z):
 	if x > jsonPoint[0]: jsonPoint[0] += x
@@ -71,21 +83,21 @@ func CreateVerticesForPoint(point, normalVector):
 	var rightMarkingVertices = []
 	var leftMarkingVertices = []
 	# Road
-	var leftPoint = point - Vector3((normalVector * 2.2)[0], 0, (normalVector * 2.2)[1])
-	var rightPoint = point + Vector3((normalVector * 2.2)[0], 0, (normalVector * 2.2)[1])
+	var leftPoint = point - Vector3((normalVector * (2.25 - markingWidth))[0], 0, (normalVector * (2.25 - markingWidth))[1])
+	var rightPoint = point + Vector3((normalVector * (2.25 - markingWidth))[0], 0, (normalVector * (2.25 - markingWidth))[1])
 	
 	vertices.push_back(leftPoint)
 	vertices.push_back(rightPoint)
 	
 	# Markings
-	leftPoint = point + Vector3((normalVector * 2.2)[0], 0, (normalVector * 2.2)[1])
-	rightPoint = point + Vector3((normalVector * 2.3)[0], 0, (normalVector * 2.3)[1])
+	leftPoint = point + Vector3((normalVector * 2.2)[0], 0, (normalVector * (2.25 - markingWidth))[1])
+	rightPoint = point + Vector3((normalVector * (2.25 + markingWidth))[0], 0, (normalVector * (2.25 + markingWidth))[1])
 
 	rightMarkingVertices.push_back(leftPoint)
 	rightMarkingVertices.push_back(rightPoint)
 	
-	leftPoint = point - Vector3((normalVector * 2.3)[0], 0, (normalVector * 2.3)[1])
-	rightPoint = point - Vector3((normalVector * 2.2)[0], 0, (normalVector * 2.2)[1])
+	leftPoint = point - Vector3((normalVector * (2.25 + markingWidth))[0], 0, (normalVector * (2.25 + markingWidth))[1])
+	rightPoint = point - Vector3((normalVector * (2.25 - markingWidth))[0], 0, (normalVector * (2.25 - markingWidth))[1])
 
 	leftMarkingVertices.push_back(leftPoint)
 	leftMarkingVertices.push_back(rightPoint)
@@ -96,7 +108,7 @@ func CreateVerticesForPoint(point, normalVector):
 func _process(delta: float) -> void:
 	if MapData.MapData != null:
 		var data = MapData.MapData
-		if data != lastData:
+		if data != lastData or reload:
 			var roadData = data["roads"]
 			
 			for n in self.get_children():
@@ -137,12 +149,13 @@ func _process(delta: float) -> void:
 						
 				
 					# Render the meshes
-					CreateAndRenderMesh(vertices, x, z, roadMat)
-					CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat)
-					CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat)
+					var dark = Variables.darkMode
+					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
+					CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+					CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					
 			
-			var prefabData = []
+			var prefabData = data["prefabs"]
 			for prefab in prefabData:
 				var x = prefab["X"]
 				var y = Truck.position.y - Truck.offset.y
@@ -156,6 +169,16 @@ func _process(delta: float) -> void:
 					# Convert the JSON points to godot Vector3s
 					var p1 = Vector3(point[0], y, point[1])
 					var p2 = Vector3(point[2], y, point[3])
+					
+					#if x > p1.x: p1.x -= x
+					#else: p1.x += x
+					#if z > p1.z: p1.z -= z
+					#else: p1.z += z
+					
+					#if x > p2.x: p2.x -= x
+					#else: p2.x += x
+					#if z > p2.z: p2.z -= z
+					#else: p2.z += z
 					
 					p1.x -= x
 					p1.z -= z
@@ -184,12 +207,14 @@ func _process(delta: float) -> void:
 						
 				
 					# Render the meshes
-					CreateAndRenderMesh(vertices, x, z, roadMat)
-					CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat)
-					CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat)
+					var dark = Variables.darkMode
+					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
+					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					
 				
 			lastData = data
+			reload = false
 				
 			
 		

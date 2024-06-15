@@ -4,9 +4,13 @@ extends Node
 @export var tag = "map"
 @export var updateRate = 20 # Seconds
 @onready var HTTPRequestObject = $/root/Node3D/HTTPRequest
+@onready var Notifications = $/root/Node3D/UI/Notifications
 
 var MapData = null
 var lastUpdateTime = null
+
+var loadedPrefabs = 0
+var loadedRoads = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,6 +21,7 @@ func send_request() -> void:
 	var json = JSON.stringify({
 		"tag": tag
 	})
+	Notifications.SendNotification("Getting new map data...", 2000)
 	HTTPRequestObject.request_completed.connect(parse_request)
 	print(json)
 	HTTPRequestObject.request(url, headers, HTTPClient.METHOD_POST, json)
@@ -25,6 +30,11 @@ func send_request() -> void:
 func parse_request(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
 	MapData = json
+	
+	loadedPrefabs = len(MapData["prefabs"])
+	loadedRoads = len(MapData["roads"])
+	
+	Notifications.SendNotification("Map data updated!", 2000)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

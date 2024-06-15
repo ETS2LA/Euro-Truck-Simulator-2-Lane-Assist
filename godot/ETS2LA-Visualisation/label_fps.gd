@@ -9,4 +9,11 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var fps = Engine.get_frames_per_second()
-	self.text = "THIS VISUALISATION IS VERY MUCH WIP!\n(" + str(fps) + " fps)"
+	self.text = str(fps)
+	
+	if fps > 50:
+		self.label_settings.font_color = Color.DARK_GREEN
+	elif fps > 30:
+		self.label_settings.font_color = Color.DARK_GOLDENROD
+	else:
+		self.label_settings.font_color = Color.DARK_RED

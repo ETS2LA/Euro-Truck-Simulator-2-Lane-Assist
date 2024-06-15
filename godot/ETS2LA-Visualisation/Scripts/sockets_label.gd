@@ -3,6 +3,7 @@ extends Label
 var Sockets = null
 @onready var Truck = $/root/Node3D/Truck
 @onready var TruckTracker = $/root/Node3D/TruckTracker
+@onready var Variables = $/root/Node3D/Variables
 var averageResponseShowTime = Time.get_ticks_msec()
 var responseTimes = []
 var worstResponseTime = 0
@@ -21,7 +22,10 @@ func _process(delta: float) -> void:
 		if Sockets.status != "Connected":
 			self.label_settings.font_color = Color.RED
 		else:
-			self.label_settings.font_color = Color.WHITE
+			if Variables.darkMode:
+				self.label_settings.font_color = Color8(255, 255, 255, 50)
+			else:
+				self.label_settings.font_color = Color8(0, 0, 0, 100)
 			textToAdd += "\nSlowest data update took " + str(worstResponseTime) + "ms"
 		
 			responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
@@ -34,8 +38,6 @@ func _process(delta: float) -> void:
 			for key in socketData:
 				textToAdd += "\n" + str(key) + ": " + str(socketData[key])
 				
-		textToAdd += "\n" + str(Truck.position) + " " + str(TruckTracker.position)
-		
 		text = textToAdd
 	else:
 		text = "Sockets not found"

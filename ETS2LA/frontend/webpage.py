@@ -1,9 +1,9 @@
-import webview
-import multiprocessing    
-import os
-import time
-import logging
 import ETS2LA.backend.variables as variables
+import multiprocessing    
+import logging
+import webview
+import time
+import os
 
 def start_webpage():
     def load_website(window:webview.Window):
@@ -58,7 +58,8 @@ def start_webpage():
                 )
     webview.start(load_website, 
                   window,
-                  private_mode=False # Save cookies, local storage and cache
+                  private_mode=False, # Save cookies, local storage and cache
+                  storage_path=variables.PATH + "/ETS2LA/frontend/web_cache"
                   )
     
 def run():

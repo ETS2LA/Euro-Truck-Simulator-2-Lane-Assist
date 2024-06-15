@@ -6,11 +6,13 @@ var connectRetryTime = 2000 # msec
 var connectingSince = Time.get_ticks_msec()
 var status = ""
 
+@onready var Notifications = $/root/Node3D/UI/Notifications
+
 func GetData():
 	return data
 
 func Connect():
-	print("Connecting to socket...")
+	Notifications.SendNotification("Connecting to socket...", 2000)
 	socket.connect_to_url("ws://localhost:37522")
 	connectingSince = Time.get_ticks_msec()
 	status = "Connecting"
@@ -30,6 +32,8 @@ func _process(delta):
 
 	
 	if state == WebSocketPeer.STATE_OPEN:
+		if status == "Connecting":
+			Notifications.SendNotification("Socket connected!", 2000)
 		status = "Connected"
 		var tempData = {}
 		while socket.get_available_packet_count():
@@ -79,6 +83,7 @@ func _process(delta):
 		pass
 		
 	elif state == WebSocketPeer.STATE_CLOSED:
+		Notifications.SendNotification("Socket lost connection!", 2000, Color.YELLOW)
 		var code = socket.get_close_code()
 		var reason = socket.get_close_reason()
 		print("WebSocket closed with code: %d, reason %s. Clean: %s" % [code, reason, code != -1])
