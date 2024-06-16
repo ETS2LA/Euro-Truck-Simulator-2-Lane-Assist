@@ -383,6 +383,9 @@ def plugin():
         data.update(computeData)
         Steering.run(value=data["map"]["closestDistance"], sendToGame=ENABLED)
         visPrefabs, updatedPrefabs = compute.GetPrefabs(data)
+    else:
+        updatedPrefabs = False
+        updatedRoads = False
     
     if compute.calculatingPrefabs: drawText.append("Loading prefabs...")
     if compute.calculatingRoads: drawText.append("Loading roads...")

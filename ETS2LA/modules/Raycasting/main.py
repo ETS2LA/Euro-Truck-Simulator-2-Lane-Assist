@@ -32,7 +32,6 @@ def GetScreenPointAngle(x, y, headRotation):
     screen_height = screen.height
     default_ratio = 16 / 9
     ratio = screen_width / screen_height
-    horizontal_multiplier =  ratio / default_ratio * 0.70
 
     # Convert x and y to integers once
     x = int(x)
@@ -47,11 +46,42 @@ def GetScreenPointAngle(x, y, headRotation):
 
     # Calculate the horizontal fov
     vFOVrad = FOV * math.pi / 180
-    hFOVrad = 2 * math.atan(math.tan(vFOVrad / 2) * ratio)
-    hFOVdeg = hFOVrad * 180 / math.pi
+    #hFOVrad = math.atan(math.tan(vFOVrad / 2) * ratio)
+    #hFOVdeg = hFOVrad * 180 / math.pi
 
     # Calculate the horizontal angle
-    horizontalAngle = (x_percentage - 0.5) * hFOVdeg * horizontal_multiplier
+    #horizontalAngle = (x_percentage - 0.5) * hFOVdeg
+    
+    # Calculate the horizontal angle
+    # Convert screen coordinates back to relative 3D space considering head rotation
+    fov_rad = math.radians(FOV)
+    window_distance = (screen_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
+
+    # Adjust x and y from screen to center-relative coordinates
+    center_x = x - screen_width / 2
+    center_y = y - screen_height / 2
+
+    # Reverse the screen projection
+    rel_x = center_x / window_distance
+    rel_y = center_y / window_distance
+
+    # Apply inverse head rotation transformations
+    cos_yaw = math.cos(math.radians(headRotation[0]))
+    sin_yaw = math.sin(math.radians(headRotation[0]))
+    cos_pitch = math.cos(math.radians(headRotation[1]))
+    sin_pitch = math.sin(math.radians(headRotation[1]))
+
+    # Correctly apply inverse pitch rotation first
+    temp_x_pitch = rel_x
+    temp_y_pitch = rel_y * cos_pitch - rel_y * sin_pitch
+
+    # Then apply inverse yaw rotation correctly
+    final_x = temp_x_pitch * cos_yaw - temp_y_pitch * sin_yaw
+    final_y = temp_y_pitch * cos_yaw + temp_x_pitch * sin_yaw
+
+    # Calculate angles based on adjusted coordinates
+    horizontalAngle = math.atan2(final_x, 1) * 180 / math.pi  # Corrected horizontal angle calculation
+    #verticalAngle = math.atan2(final_y, 1) * 180 / math.pi
 
     # Add the head rotation to the angles to get the final angles
     horizontalAngle -= headRotation[0]

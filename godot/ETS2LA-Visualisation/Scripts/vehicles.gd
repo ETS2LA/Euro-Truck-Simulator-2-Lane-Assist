@@ -32,6 +32,9 @@ func _process(delta: float) -> void:
 				var z = (z1 + z2) / 2
 				var distance = Vector3(x1, y1, z1).distance_to(Vector3(x2, y2, z2))
 				
+				if distance < 1:
+					distance = 1
+				
 				if type == "car":
 					var car = carScene.instantiate()
 					car.position = Vector3(x,y,z)

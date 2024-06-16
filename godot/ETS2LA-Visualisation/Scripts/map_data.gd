@@ -31,7 +31,7 @@ func parse_request(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
 	MapData = json
 	
-	if MapData != null:
+	if MapData != null and "prefabs" in MapData and "roads" in MapData:
 		loadedPrefabs = len(MapData["prefabs"])
 		loadedRoads = len(MapData["roads"])
 		Notifications.SendNotification("Map data updated!", 2000)

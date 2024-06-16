@@ -108,7 +108,7 @@ func CreateVerticesForPoint(point, normalVector):
 func _process(delta: float) -> void:
 	if MapData.MapData != null:
 		var data = MapData.MapData
-		if data != lastData or reload:
+		if data != lastData or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
 			
 			for n in self.get_children():

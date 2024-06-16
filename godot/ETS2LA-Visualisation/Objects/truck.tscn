@@ -1,5 +1,9 @@
-[gd_scene format=3 uid="uid://csbntvn0jovyx"]
+[gd_scene load_steps=2 format=3 uid="uid://csbntvn0jovyx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_snh8x"]
+albedo_color = Color(0, 1, 0, 1)
 
 [node name="Truck" type="Node3D"]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
+material = SubResource("StandardMaterial3D_snh8x")

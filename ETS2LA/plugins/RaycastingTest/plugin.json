@@ -1,5 +1,5 @@
 {
-    "name": "Test3",
+    "name": "Raycasting Test Plugin",
     "authors": [{
         "name": "Tumppi066",
         "url": "https://github.com/Tumppi066",
@@ -7,5 +7,5 @@
     }],
     "description": "Lorem ea enim tempor Lorem in ad duis nisi. Est velit cillum occaecat eiusmod eiusmod aliquip.",
     "version": "1.0",
-    "modules": ["SDKController"]
+    "modules": ["Raycasting", "TruckSimAPI"]
 }

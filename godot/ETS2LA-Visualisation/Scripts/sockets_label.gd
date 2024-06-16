@@ -36,7 +36,13 @@ func _process(delta: float) -> void:
 			
 			var socketData = Sockets.GetData()
 			for key in socketData:
-				textToAdd += "\n" + str(key) + ": " + str(socketData[key])
+				if "JSON" in key:
+					if socketData[key] == null or socketData[key].data == null:
+						textToAdd += "\n" + str(key) + ": unknown"
+					else:
+						textToAdd += "\n" + str(key) + ": " + str(len(socketData[key].data)) + " entries"
+				else:
+					textToAdd += "\n" + str(key) + ": " + str(socketData[key])
 				
 		text = textToAdd
 	else:
