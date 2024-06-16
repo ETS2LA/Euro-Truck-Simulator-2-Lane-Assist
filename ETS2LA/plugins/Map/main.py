@@ -377,12 +377,12 @@ def plugin():
     
     # MARK: >> Compute
     if LOAD_DATA:
-        visRoads = compute.GetRoads(data)
+        visRoads, updatedRoads = compute.GetRoads(data)
         compute.CalculateParallelPointsForRoads(visRoads) # Will slowly populate the lanes over a few frames
         computeData = compute.GetClosestRoadOrPrefabAndLane(data)
         data.update(computeData)
         Steering.run(value=data["map"]["closestDistance"], sendToGame=ENABLED)
-        visPrefabs = compute.GetPrefabs(data)
+        visPrefabs, updatedPrefabs = compute.GetPrefabs(data)
     
     if compute.calculatingPrefabs: drawText.append("Loading prefabs...")
     if compute.calculatingRoads: drawText.append("Loading roads...")
@@ -544,38 +544,52 @@ def plugin():
                     arData['texts'].append(Text(f"{round(middleDistance, 1)}m", (middlePoint[0], middlePoint[1]), color=[0, 255, 0, 255], size=15))
                 except:
                     continue
-
-    if arData == {}:
-        return
     
     # Make the road data picklable
     # Basically remove all the forward and backward items from the nodes (they point to other nodes -> recursion)
-    dataRoads = []
-    for road in visRoads:
-        dataRoads.append(road.json())
+    if updatedRoads or updatedPrefabs:
+        dataRoads = []
+        for road in visRoads:
+            dataRoads.append(road.json())
+            
+        dataPrefabs = []
+        for prefab in visPrefabs:
+            prefab.Nodes = []
+            try:
+                prefab.StartNode.ForwardItem = None
+                prefab.StartNode.BackwardItem = None
+            except: pass
+            try:
+                prefab.EndNode.ForwardItem = None
+                prefab.EndNode.BackwardItem = None
+            except: pass
+            prefab.Navigation = []
+            prefab.Prefab = None
+            dataPrefabs.append(prefab.json())
+    
+        mapData = {
+            "roads": dataRoads,
+            "prefabs": dataPrefabs,
+        }
         
-    dataPrefabs = []
-    for prefab in visPrefabs:
-        prefab.Nodes = []
-        try:
-            prefab.StartNode.ForwardItem = None
-            prefab.StartNode.BackwardItem = None
-        except: pass
-        try:
-            prefab.EndNode.ForwardItem = None
-            prefab.EndNode.BackwardItem = None
-        except: pass
-        prefab.Navigation = []
-        prefab.Prefab = None
-        dataPrefabs.append(prefab.json())
+        if arData == {}:
+            return None, {
+                "map": mapData
+            }
+        else:
+            return None, {
+                "map": mapData,
+                "ar": arData
+            }
     
-    mapData = {
-        "roads": dataRoads,
-        "prefabs": dataPrefabs,
-    }
-    
-    return None, {
-        "ar": arData,
-        "map": mapData
-    }
+    else:    
+        if arData == {}:
+            return None, {
+                "map": data
+            }
+        else:
+            return None, {
+                "map": data,
+                "ar": arData
+            }
 

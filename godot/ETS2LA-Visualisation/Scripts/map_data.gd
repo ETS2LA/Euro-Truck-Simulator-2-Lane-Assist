@@ -31,10 +31,12 @@ func parse_request(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
 	MapData = json
 	
-	loadedPrefabs = len(MapData["prefabs"])
-	loadedRoads = len(MapData["roads"])
-	
-	Notifications.SendNotification("Map data updated!", 2000)
+	if MapData != null:
+		loadedPrefabs = len(MapData["prefabs"])
+		loadedRoads = len(MapData["roads"])
+		Notifications.SendNotification("Map data updated!", 2000)
+	else:
+		Notifications.SendNotification("No map data retrieved!", 2000, Color.ORANGE)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

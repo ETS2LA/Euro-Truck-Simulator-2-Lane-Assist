@@ -12,6 +12,8 @@ import sys
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 SMOOTH_CURVES = True
 
+updatedRoads = False
+updatedPrefabs = False
 calculatingPrefabs = False
 calculatingRoads = False
 lastRoadCoords = None
@@ -20,7 +22,7 @@ closeRoads = []
 closePrefabs = []
 # MARK: Get Roads
 def GetRoads(data, wait=False):
-    global lastRoadCoords, closeRoads
+    global lastRoadCoords, closeRoads, updatedRoads
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
     y = data["api"]["truckPlacement"]["coordinateZ"]
@@ -28,7 +30,7 @@ def GetRoads(data, wait=False):
     tileCoords = roads.GetTileCoordinates(x, y)
     
     def GetRoadThread(x, y, noWait=False):
-        global closeRoads, calculatingRoads
+        global closeRoads, calculatingRoads, updatedRoads
         # Get the roads in the current area
         areaRoads = []
         areaRoads += roads.GetRoadsInTileByCoordinates(x, y)
@@ -52,6 +54,7 @@ def GetRoads(data, wait=False):
         
         closeRoads = areaRoads
         calculatingRoads = False
+        updatedRoads = True
         
         #print(f"Found {len(closeRoads)} roads")
         
@@ -63,13 +66,21 @@ def GetRoads(data, wait=False):
         if wait:
             tileThread.join()
         
-        return closeRoads
+        if updatedRoads:
+            updatedRoads = False
+            return closeRoads, True
+        else:
+            return closeRoads, False
     else:
-        return closeRoads
+        if updatedRoads:
+            updatedRoads = False
+            return closeRoads, True
+        else:
+            return closeRoads, False
 
 # MARK: Get Prefabs
 def GetPrefabs(data, wait=False):
-    global lastPrefabCoords, closePrefabs, calculatingPrefabs
+    global lastPrefabCoords, closePrefabs, calculatingPrefabs, updatedPrefabs
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
     y = data["api"]["truckPlacement"]["coordinateZ"]
@@ -77,7 +88,7 @@ def GetPrefabs(data, wait=False):
     tileCoords = prefabItems.GetTileCoordinates(x, y)
     
     def GetPrefabThread(x, y, noWait=False):
-        global closePrefabs, calculatingPrefabs
+        global closePrefabs, calculatingPrefabs, updatedPrefabs
         # Get the roads in the current area
         areaItems = []
         areaItems += prefabItems.GetItemsInTileByCoordinates(x, y)
@@ -101,6 +112,7 @@ def GetPrefabs(data, wait=False):
         
         closePrefabs = areaItems
         calculatingPrefabs = False
+        updatedPrefabs = True
         
         #print(f"Found {len(closePrefabs)} prefabs")
     
@@ -112,9 +124,15 @@ def GetPrefabs(data, wait=False):
         if wait:
             prefabThread.join()
         
-        return closePrefabs
+        if updatedPrefabs:
+            return closePrefabs, True
+        else:
+            return closePrefabs, False
     else:
-        return closePrefabs
+        if updatedPrefabs:
+            return closePrefabs, True
+        else:
+            return closePrefabs, False
 
 # MARK: Parallel Points
 def CalculateParallelPointsForRoads(areaRoads, all=False):

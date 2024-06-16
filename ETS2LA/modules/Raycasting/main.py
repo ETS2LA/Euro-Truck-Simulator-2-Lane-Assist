@@ -32,7 +32,7 @@ def GetScreenPointAngle(x, y, headRotation):
     screen_height = screen.height
     default_ratio = 16 / 9
     ratio = screen_width / screen_height
-    horizontal_multiplier = default_ratio / ratio
+    horizontal_multiplier =  ratio / default_ratio * 0.70
 
     # Convert x and y to integers once
     x = int(x)
@@ -91,8 +91,39 @@ def RotateAroundCenter(point, center, angle):
     newy = pointX * math.sin(angle) + pointY * math.cos(angle)
     return (newx + center[0], newy + center[1])
 
+
 def GetValuesFromAPI():
     global CAMERA_HEIGHT
+    global truck_x
+    global truck_y
+    global truck_z
+    global truck_rotation_x
+    global truck_rotation_y
+    global truck_rotation_z
+    global cabin_offset_x
+    global cabin_offset_y
+    global cabin_offset_z
+    global cabin_offset_rotation_x
+    global cabin_offset_rotation_y
+    global cabin_offset_rotation_z
+    global head_offset_x
+    global head_offset_y
+    global head_offset_z
+    global head_offset_rotation_x
+    global head_offset_rotation_y
+    global head_offset_rotation_z
+    global truck_rotation_degrees_x
+    global truck_rotation_degrees_y
+    global truck_rotation_degrees_z
+    global truck_rotation_radians_x
+    global truck_rotation_radians_y 
+    global truck_rotation_radians_z
+    global head_rotation_degrees_x
+    global head_rotation_degrees_y
+    global head_rotation_degrees_z
+    global head_x
+    global head_y
+    global head_z
     
     data = {}
     data["api"] = API.run()
@@ -172,7 +203,12 @@ def GetValuesFromAPI():
         head_offset_rotation_z = 0
 
         truck_rotation_degrees_x = 0
+        truck_rotation_degrees_y = 0
+        truck_rotation_degrees_z = 0
+        
         truck_rotation_radians_x = 0
+        truck_rotation_radians_y = 0
+        truck_rotation_radians_z = 0
 
         head_rotation_degrees_x = 0
         head_rotation_degrees_y = 0
@@ -216,3 +252,5 @@ def run(x=None, y=None):
     relativePoint = RotateAroundCenter((relativePoint[0], relativePoint[2]), (0, 0), truckRotation[0] + math.pi)
     # Return the values
     return RaycastResponse((new_x, point[1], new_z), distance, (relativePoint[0], CAMERA_HEIGHT, relativePoint[1]))
+
+    
