@@ -30,7 +30,9 @@ def GetScreenPointAngle(x, y, headRotation):
     # Get the screen size
     screen_width = screen.width
     screen_height = screen.height
+    default_ratio = 16 / 9
     ratio = screen_width / screen_height
+    horizontal_multiplier = default_ratio / ratio
 
     # Convert x and y to integers once
     x = int(x)
@@ -49,7 +51,7 @@ def GetScreenPointAngle(x, y, headRotation):
     hFOVdeg = hFOVrad * 180 / math.pi
 
     # Calculate the horizontal angle
-    horizontalAngle = (x_percentage - 0.5) * hFOVdeg * 2
+    horizontalAngle = (x_percentage - 0.5) * hFOVdeg * horizontal_multiplier
 
     # Add the head rotation to the angles to get the final angles
     horizontalAngle -= headRotation[0]
