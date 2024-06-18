@@ -1,1 +1,1 @@
-Vehicle detection data collection is now running in a thread to minimize latency.
+Added a script to hopefully fix the pytorch import error.

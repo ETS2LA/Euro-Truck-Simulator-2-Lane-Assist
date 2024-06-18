@@ -20,6 +20,7 @@ import src.settings as settings
 import src.controls as controls
 import src.console as console
 import src.helpers as helpers
+import src.pytorch as pytorch
 from src.logger import print
 import src.sounds as sounds
 from tkinter import ttk
@@ -46,6 +47,7 @@ except:
     exc = traceback.format_exc()
     SendCrashReport("NavigationDetection - PyTorch import error.", str(exc))
     print("\033[91m" + f"NavigationDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
+    pytorch.CheckPyTorch()
     console.RestoreConsole()
 
 

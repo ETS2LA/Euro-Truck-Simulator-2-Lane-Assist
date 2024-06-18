@@ -16,6 +16,7 @@ import src.variables as variables
 import src.settings as settings
 import src.console as console
 import src.helpers as helpers
+import src.pytorch as pytorch
 from src.logger import print
 from tkinter import ttk
 import tkinter as tk
@@ -46,6 +47,7 @@ except:
     exc = traceback.format_exc()
     SendCrashReport("TrafficLightDetection - PyTorch import error.", str(exc))
     print("\033[91m" + f"TrafficLightDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
+    pytorch.CheckPyTorch()
     console.RestoreConsole()
 
 sct = mss.mss()

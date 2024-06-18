@@ -4,6 +4,7 @@ tkinter-tooltip
 opencv-python
 ultralytics
 torchvision
+torchaudio
 matplotlib
 setuptools
 tkwebview2
