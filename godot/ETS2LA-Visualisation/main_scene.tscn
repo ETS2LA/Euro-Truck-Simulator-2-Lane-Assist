@@ -1,8 +1,8 @@
 [gd_scene load_steps=18 format=3 uid="uid://d36vvb6ivwdds"]
 
-[ext_resource type="Script" path="res://label_fps.gd" id="1_583x4"]
+[ext_resource type="Script" path="res://Scripts/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
-[ext_resource type="Script" path="res://variables.gd" id="1_xlmr0"]
+[ext_resource type="Script" path="res://Scripts/variables.gd" id="1_xlmr0"]
 [ext_resource type="Script" path="res://Scripts/camera_follow.gd" id="2_6bj65"]
 [ext_resource type="Script" path="res://Scripts/map_data.gd" id="2_et5o6"]
 [ext_resource type="Script" path="res://Scripts/dark_mode_button.gd" id="2_fkubr"]
@@ -13,7 +13,7 @@
 [ext_resource type="Environment" uid="uid://uher5ame32lt" path="res://Environments/default.tres" id="6_dvxwu"]
 [ext_resource type="Script" path="res://Scripts/vehicles.gd" id="7_jhmr7"]
 [ext_resource type="Script" path="res://Scripts/roads_and_prefabs.gd" id="9_115pj"]
-[ext_resource type="Script" path="res://notifications.gd" id="10_p5w2d"]
+[ext_resource type="Script" path="res://Scripts/notifications.gd" id="10_p5w2d"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_i61cv"]
 

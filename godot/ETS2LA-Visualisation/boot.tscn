@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2hi4ur81h2r4"]
+
+[ext_resource type="Script" path="res://Scripts/boot_menu_manager.gd" id="1_om56a"]
+[ext_resource type="Texture2D" uid="uid://fwg0u8xki47s" path="res://Assets/cog-dark.png" id="2_yofi7"]
+[ext_resource type="PackedScene" uid="uid://d36vvb6ivwdds" path="res://main_scene.tscn" id="3_a6bg0"]
+[ext_resource type="Texture2D" uid="uid://jjjgm06jd7cp" path="res://Assets/1992-1196-max.png" id="3_j6061"]
+
+[sub_resource type="Gradient" id="Gradient_3kjfm"]
+colors = PackedColorArray(0.141176, 0.141176, 0.141176, 1, 0.141176, 0.141176, 0.141176, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g8cs5"]
+gradient = SubResource("Gradient_3kjfm")
+
+[node name="Boot" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.3, 0.3)
+
+[node name="BootMenuManager" type="Node" parent="." node_paths=PackedStringArray("sprite")]
+script = ExtResource("1_om56a")
+images = Array[CompressedTexture2D]([ExtResource("2_yofi7"), ExtResource("3_j6061")])
+timePerImage = 3.0
+sprite = NodePath("../Image")
+modulateTime = 0.5
+nextScene = ExtResource("3_a6bg0")
+
+[node name="Background" type="Sprite2D" parent="."]
+scale = Vector2(200, 25000)
+texture = SubResource("GradientTexture1D_g8cs5")
+
+[node name="Image" type="Sprite2D" parent="."]
+texture = ExtResource("2_yofi7")

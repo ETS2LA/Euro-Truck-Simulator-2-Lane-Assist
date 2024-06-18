@@ -11,9 +11,10 @@ config_version=5
 [application]
 
 config/name="ETS2LA Visualisation"
-run/main_scene="res://main_scene.tscn"
+run/main_scene="res://boot.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-boot_splash/bg_color=Color(0.0352941, 0.0352941, 0.0431373, 1)
+boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
+boot_splash/image="ignore_this_warning_it_is_required_for_the_splash_screen_because_of_godot"
 config/icon="res://icon.svg"
 
 [input]
