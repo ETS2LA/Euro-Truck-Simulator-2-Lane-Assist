@@ -123,10 +123,10 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
         }
         <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? "Connected" : "Disconnected, please refresh."}</Badge>
         <div>
-            <Button variant={"ghost"} className="h-[26px] w-5 rounded-r-none group" onClick={() => MinimizeBackend()}>
+            <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => MinimizeBackend()}>
                 <Minimize2 className="w-4 h-4 overflow-visible" />
             </Button>
-            <Button variant={"ghost"} className="h-[26px] w-5 rounded-l-none group" onClick={() => CloseBackend()}>
+            <Button variant={"secondary"} className="h-[26px] w-5 rounded-l-none group" onClick={() => CloseBackend()}>
                 <X className="w-4 h-4 overflow-visible" />
             </Button>
         </div>
