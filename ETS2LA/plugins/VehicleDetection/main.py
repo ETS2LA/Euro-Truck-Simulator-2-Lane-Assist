@@ -3,14 +3,15 @@ import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 from ETS2LA.utils.logging import logging
+import numpy as np
+import screeninfo
+import pyautogui
+import pathlib
+import torch
+import json
 import time
 import cv2
-import torch
-import numpy as np
 import os
-import json
-import pathlib
-import pyautogui
 
 runner:PluginRunner = None
 YOLO_FPS = 2 # How many times per second the YOLO model should run
@@ -19,6 +20,7 @@ if MODEL_TYPE == "yolov7":
     MODEL_NAME = "5-31-24_1_yolov7.pt"
 elif MODEL_TYPE == "yolov5":
     MODEL_NAME = "5-25-24_1.pt"
+LOADING_TEXT = "Vehicle Detection loading model..."
 
 class Vehicle:
     raycasts: list
@@ -51,19 +53,19 @@ def Initialize():
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
     Raycast = runner.modules.Raycasting
+    
+    screen = screeninfo.get_monitors()[0]
+    
+    if screen.height >= 1440:
+        if screen.width >= 5120:
+            screen_cap = "1440p32:9"
+        else:
+            screen_cap = "1440p"
+    else:
+        screen_cap = "1080p"
 
-    MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
+    runner.sonner("Vehicle Detection using profile: " + screen_cap)
 
-    temp = pathlib.PosixPath
-    pathlib.PosixPath = pathlib.WindowsPath
-
-    if MODEL_TYPE == "yolov7":
-        model = torch.hub.load('WongKinYiu/yolov7', 'custom', MODEL_PATH, force_reload=True, trust_repo=True)
-    elif MODEL_TYPE == "yolov5":
-        model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
-    model.conf = 0.75
-
-    screen_cap = "1080p"
     if screen_cap == "1440p32:9":
         capture_x = 2100
         capture_y = 300
@@ -79,6 +81,24 @@ def Initialize():
         capture_y = 200
         capture_width = 1020
         capture_height = 480
+
+
+    temp = pathlib.PosixPath
+    pathlib.PosixPath = pathlib.WindowsPath
+
+    time.sleep(0.5) # Let the profile text show for a bit
+
+    runner.sonner(LOADING_TEXT, "promise")
+
+    MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
+    
+    if MODEL_TYPE == "yolov7":
+        model = torch.hub.load('WongKinYiu/yolov7', 'custom', MODEL_PATH, force_reload=True, trust_repo=True)
+    elif MODEL_TYPE == "yolov5":
+        model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
+    model.conf = 0.75
+
+    runner.sonner("Vehicle Detection model loaded", "success", promise=LOADING_TEXT)
 
     cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('Vehicle Detection', int(capture_width/3), int(capture_height/3))
