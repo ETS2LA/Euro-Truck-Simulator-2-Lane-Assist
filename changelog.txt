@@ -1,1 +1,1 @@
-Added a script to hopefully fix the pytorch import error.
+Fixed nav AI when no route detected. Small fixes to CC plugin.

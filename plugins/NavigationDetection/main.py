@@ -1281,7 +1281,9 @@ def plugin(data):
             else:
                 valid_frame = False
                 return data
-            
+
+            data["NavigationDetection"] = {}
+
             cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             cv2.rectangle(frame, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             lower_red = np.array([0, 0, 160])
@@ -1309,9 +1311,19 @@ def plugin(data):
                         output = AIModel(AIFrame)
                         output = output.tolist()
 
-            steering = float(output[0][0]) / -30
-            left_indicator = bool(float(output[0][1]) > 0.15)
-            right_indicator = bool(float(output[0][2]) > 0.15)
+            try:
+                if not np.any(mask):
+                    data["NavigationDetection"]["empty_frame"] = True
+                    steering = 0.0
+                    left_indicator = False
+                    right_indicator = False
+                else:
+                    data["NavigationDetection"]["empty_frame"] = False
+                    steering = float(output[0][0]) / -30
+                    left_indicator = bool(float(output[0][1]) > 0.15)
+                    right_indicator = bool(float(output[0][2]) > 0.15)
+            except Exception as e:
+                print(e)
 
             try:
                 indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
@@ -1348,7 +1360,6 @@ def plugin(data):
             data["LaneDetection"] = {}
             data["LaneDetection"]["difference"] = steering
 
-            data["NavigationDetection"] = {}
             if left_indicator == True or right_indicator == True:
                 data["NavigationDetection"]["turnincoming"] = True
             else:

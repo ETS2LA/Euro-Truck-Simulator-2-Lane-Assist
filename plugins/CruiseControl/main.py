@@ -141,7 +141,6 @@ def UpdateSettings():
     cruisecontrol_emergency_unset = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_unset.png")
     cruisecontrol_emergency_slowed = cv2.imread(variables.PATH + r"\assets\CruiseControl\cruisecontrol_emergency_slowed.png")
 
-    auto_enable = settings.GetSettings("CruiseControl", "auto_enable", True)
     stop_trafficlight = settings.GetSettings("CruiseControl", "stop_trafficlight", True)
     trafficlight_accelerate = settings.GetSettings("CruiseControl", "trafficlight_accelerate", True)
     auto_accelerate = settings.GetSettings("CruiseControl", "auto_accelerate", False)
@@ -154,6 +153,11 @@ def UpdateSettings():
     brake_strength /= 100
     turn_was_incoming = False
     brakes_switch = settings.GetSettings("CruiseControl", "brakes_switch", False)
+
+    if brakes_switch:
+        auto_enable = False
+    else:
+        auto_enable = settings.GetSettings("CruiseControl", "auto_enable", True)
 
     cruisespeed_turn = 30
     cruisespeed_trafficlight = 0
@@ -350,45 +354,82 @@ def plugin(data):
         data["sdk"] = {}
 
     if gamepaused == False and DefaultSteering.enabled == True:
-        if brakes_switch:
-            try:
-                turnincoming = data["NavigationDetection"]["turnincoming"]
-            except:
-                turnincoming = False
-
-            if speed != 0 and targetspeed != 0 and turnincoming and speed > 0:
-                turn_was_incoming = True
-                if speed < 30 and speed < targetspeed and wait_for_response == False and targetspeed != 0:
-                    data["sdk"]["acceleration"] = acceleration_strength
-                    data["sdk"]["brake"] = 0
-                elif speed != 0 and speed > 0 and speed > 30 and wait_for_response == False and targetspeed != 0:
-                    data["sdk"]["brake"] = brake_strength * 0.1
-                    data["sdk"]["acceleration"] = 0
-            else:
-                if turn_was_incoming:
-                    if speed == 0 or speed < 0:
-                        data["sdk"]["brake"] = 1
-                        data["sdk"]["acceleration"] = 0
-                        turn_was_incoming = False
+        try:
+            turnincoming = data["NavigationDetection"]["turnincoming"]
+            empty = data["NavigationDetection"]["empty_frame"]
+        except:
+            turnincoming = False
+            empty = False
+        if empty == True and auto_stop == True:
+            data["sdk"]["brake"] = 100
+            data["sdk"]["acceleration"] = 0
+            park_brake_target = True
+            data["sdk"]["brake"] = 0
+        else:
+            if brakes_switch:
+                if speed != 0 and targetspeed != 0 and turnincoming and speed > 0:
+                    turn_was_incoming = True
+                    if speed < 30 and speed < targetspeed and wait_for_response == False and targetspeed != 0:
+                        data["sdk"]["acceleration"] = acceleration_strength
                         data["sdk"]["brake"] = 0
-                    else:
-                        if speed < speedlimit and wait_for_response == False and speedlimit != 0:
-                            data["sdk"]["acceleration"] = acceleration_strength
-                        else:
+                    elif speed != 0 and speed > 0 and speed > 30 and wait_for_response == False and targetspeed != 0:
+                        data["sdk"]["brake"] = brake_strength * 0.1
+                        data["sdk"]["acceleration"] = 0
+                else:
+                    if turn_was_incoming:
+                        if speed == 0 or speed < 0:
+                            data["sdk"]["brake"] = 1
                             data["sdk"]["acceleration"] = 0
                             turn_was_incoming = False
-                if speed < 30 and auto_accelerate == True and wait_for_response == False and targetspeed != 0:
-                    data["sdk"]["acceleration"] = acceleration_strength
-                    data["sdk"]["brake"] = 0
-                    trafficlight_allow_acceleration = False
-                if speed > 30 and speed < targetspeed and wait_for_response == False and targetspeed != 0:
-                    data["sdk"]["acceleration"] = acceleration_strength
-                    data["sdk"]["brake"] = 0
-                if speed != 0 and speed > 0 and speed > targetspeed and wait_for_response == False and targetspeed != 0:
-                    data["sdk"]["brake"] = brake_strength * 0.1
+                            data["sdk"]["brake"] = 0
+                        else:
+                            if speed < speedlimit and wait_for_response == False and speedlimit != 0:
+                                data["sdk"]["acceleration"] = acceleration_strength
+                            else:
+                                data["sdk"]["acceleration"] = 0
+                                turn_was_incoming = False
+                    if speed < 30 and auto_accelerate == True and wait_for_response == False and targetspeed != 0:
+                        data["sdk"]["acceleration"] = acceleration_strength
+                        data["sdk"]["brake"] = 0
+                        trafficlight_allow_acceleration = False
+                    if speed > 30 and speed < targetspeed and wait_for_response == False and targetspeed != 0:
+                        data["sdk"]["acceleration"] = acceleration_strength
+                        data["sdk"]["brake"] = 0
+                    if speed != 0 and speed > 0 and speed > targetspeed and wait_for_response == False and targetspeed != 0:
+                        data["sdk"]["brake"] = brake_strength * 0.1
+                        data["sdk"]["acceleration"] = 0
+                    if speed < 30 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True and user_emergency_braking == False and do_lanedetected_stop == False:
+                        data["sdk"]["acceleration"] = acceleration_strength
+                        if user_throttle == acceleration_strength:
+                            user_accelerating = False
+                        data["sdk"]["brake"] = 0
+                    if targetspeed == 0 and abs(speed) > 1 and user_accelerating == False:
+                        data["sdk"]["acceleration"] = 0
+                        data["sdk"]["brake"] = brake_strength
+                        user_emergency_braking_timer = current_time
+                    elif targetspeed == 0 and abs(speed) < 1 and user_accelerating == False:
+                        park_brake_target = True
+                    if speed < 30 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
+                        data["sdk"]["acceleration"] = acceleration_strength
+                        if user_throttle == acceleration_strength:
+                            user_accelerating = False
+                        data["sdk"]["brake"] = 0
+            else:
+                if speed > 30 and cruisecontrolspeed == 0 and auto_enable == True and wait_for_response == False and targetspeed != 0:
+                    data["sdk"]["CruiseControl"] = True
+                    wait_for_response = True
+                    wait_for_response_timer = current_time
                     data["sdk"]["acceleration"] = 0
-                if speed < 30 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True and user_emergency_braking == False and do_lanedetected_stop == False:
-                    print("NO")
+                    trafficlight_allow_acceleration = False
+                if cruisecontrolspeed != 0 and cruisecontrolspeed < targetspeed and wait_for_response == False and targetspeed != 0:
+                    data["sdk"]["CruiseControlIncrease"] = True
+                    wait_for_response = True
+                    wait_for_response_timer = current_time
+                if cruisecontrolspeed != 0 and cruisecontrolspeed > targetspeed and wait_for_response == False and targetspeed != 0:
+                    data["sdk"]["CruiseControlDecrease"] = True
+                    wait_for_response = True
+                    wait_for_response_timer = current_time
+                if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True and user_emergency_braking == False and do_lanedetected_stop == False:
                     data["sdk"]["acceleration"] = acceleration_strength
                     if user_throttle == acceleration_strength:
                         user_accelerating = False
@@ -399,42 +440,11 @@ def plugin(data):
                     user_emergency_braking_timer = current_time
                 elif targetspeed == 0 and abs(speed) < 1 and user_accelerating == False:
                     park_brake_target = True
-                if speed < 30 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
+                if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
                     data["sdk"]["acceleration"] = acceleration_strength
                     if user_throttle == acceleration_strength:
                         user_accelerating = False
                     data["sdk"]["brake"] = 0
-        else:
-            if speed > 30 and cruisecontrolspeed == 0 and auto_enable == True and wait_for_response == False and targetspeed != 0:
-                data["sdk"]["CruiseControl"] = True
-                wait_for_response = True
-                wait_for_response_timer = current_time
-                data["sdk"]["acceleration"] = 0
-                trafficlight_allow_acceleration = False
-            if cruisecontrolspeed != 0 and cruisecontrolspeed < targetspeed and wait_for_response == False and targetspeed != 0:
-                data["sdk"]["CruiseControlIncrease"] = True
-                wait_for_response = True
-                wait_for_response_timer = current_time
-            if cruisecontrolspeed != 0 and cruisecontrolspeed > targetspeed and wait_for_response == False and targetspeed != 0:
-                data["sdk"]["CruiseControlDecrease"] = True
-                wait_for_response = True
-                wait_for_response_timer = current_time
-            if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and trafficlight_accelerate == True and trafficlight_allow_acceleration == True and user_emergency_braking == False and do_lanedetected_stop == False:
-                data["sdk"]["acceleration"] = acceleration_strength
-                if user_throttle == acceleration_strength:
-                    user_accelerating = False
-                data["sdk"]["brake"] = 0
-            if targetspeed == 0 and abs(speed) > 1 and user_accelerating == False:
-                data["sdk"]["acceleration"] = 0
-                data["sdk"]["brake"] = brake_strength
-                user_emergency_braking_timer = current_time
-            elif targetspeed == 0 and abs(speed) < 1 and user_accelerating == False:
-                park_brake_target = True
-            if speed < 30 and cruisecontrolspeed == 0 and targetspeed != 0 and auto_accelerate == True and user_emergency_braking == False and do_lanedetected_stop == False:
-                data["sdk"]["acceleration"] = acceleration_strength
-                if user_throttle == acceleration_strength:
-                    user_accelerating = False
-                data["sdk"]["brake"] = 0
     else:
         data["sdk"]["acceleration"] = 0
         data["sdk"]["brake"] = 0
@@ -748,7 +758,7 @@ class UI():
             helpers.MakeCheckButton(generalFrame, "Automatically accelerate when the red traffic light turns green.", "CruiseControl", "trafficlight_accelerate", 4, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Automatically accelerate to the target speed, even if your truck is standing still.\n(if you disable the steering or pause this feature, the truck will not accelerate to the target speed)", "CruiseControl", "auto_accelerate", 5, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Automatically enable the hazard light, when the user does a emergency stop.", "CruiseControl", "auto_hazard", 6, 0, width=90, callback=lambda: UpdateSettings())
-            helpers.MakeCheckButton(generalFrame, "Automatically come to a stop and enable the hazard light if no lane is detected. (Doesnt work with nav ai)", "CruiseControl", "auto_stop", 7, 0, width=90, callback=lambda: UpdateSettings())
+            helpers.MakeCheckButton(generalFrame, "Automatically come to a stop and enable the hazard light if no lane is detected. (Partially work with nav ai)", "CruiseControl", "auto_stop", 7, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Show Cruise Control symbol in the Lane Assist window. (ShowImage Plugin)", "CruiseControl", "show_symbols", 8, 0, width=90, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(generalFrame, "Switch from in-game cruise control to manual acceleration and braking (BETA)", "CruiseControl", "brakes_switch", 9, 0, width=90, callback=lambda: UpdateSettings())
             
