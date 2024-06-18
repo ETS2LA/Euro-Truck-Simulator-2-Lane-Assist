@@ -15,8 +15,12 @@ CLOSE = False
 RESTART = False
 """Whether the application should restart or not. Used to trigger the restart from code that is not the main thread."""
 
+MINIMIZE = False
+"""Whether the application should minimize or not. Used to trigger the minimize from code that is not the main thread."""
+
 CONSOLEHWND = None
 """The handle of the console window. The console.py will set the handle when hiding the console is enabled."""
 
 CONSOLENAME = None
 """The name/title of the console window. The console.py will set the name when hiding the console is enabled."""
+

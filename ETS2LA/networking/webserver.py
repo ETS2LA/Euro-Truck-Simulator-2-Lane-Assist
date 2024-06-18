@@ -1,8 +1,8 @@
 from ETS2LA.frontend.webpageExtras.titleAndIcon import color_title_bar
-import ETS2LA.backend.backend as backend
+import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
-import ETS2LA.backend.variables as variables
+import ETS2LA.backend.backend as backend
 import ETS2LA.backend.git as git
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -52,6 +52,11 @@ def quitApp():
 @app.get("/api/restart")
 def restartApp():
     variables.RESTART = True
+    return {"status": "ok"}
+
+@app.get("/api/minimize")
+def minimizeApp():
+    variables.MINIMIZE = True
     return {"status": "ok"}
 
 @app.get("/api/plugins")
@@ -178,6 +183,7 @@ def get_tags_list():
     data = backend.globalData
     keys = list(data.keys())
     return keys
+
 
 def RunFrontend():
     os.system("cd frontend && npm run dev")

@@ -41,6 +41,12 @@ async function RestartBackend(ip="localhost") {
     const data = await response.json()
 }
 
+async function MinimizeBackend(ip="localhost") {
+    console.log("Minimizing backend")
+    const response = await fetch("http://" + ip + ":37520/api/minimize")
+    const data = await response.json()
+}
+
 async function GetFrametimes(ip="localhost") {
     console.log("Getting frametimes")
     const response = await fetch("http://" + ip + ":37520/api/frametimes")
@@ -119,4 +125,4 @@ async function ColorTitleBar(ip="localhost", theme="dark") {
     return data
 }
 
-export { CheckForUpdate, Update, ColorTitleBar, GetPerformance, GetVersion, CloseBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }
+export { CheckForUpdate, Update, ColorTitleBar, GetPerformance, GetVersion, CloseBackend, MinimizeBackend, GetFrametimes, GetPlugins, DisablePlugin, EnablePlugin, GetIP, RestartBackend, PluginFunctionCall, GetGitHistory, token, setToken }

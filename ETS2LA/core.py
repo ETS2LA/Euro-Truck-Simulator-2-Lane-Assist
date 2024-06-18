@@ -16,7 +16,7 @@ logger = SetupGlobalLogging()
 immediate.run() # Websockets server for immediate data
 webserver.run() # External webserver for the UI
 godot.run() # Godot server for the visualisation
-webpage.run() # Tkinter webview to the website.
+webpage.run() # webview to the website.
 events.run() # Event handlers
 controls.run() # Control handlers
 
@@ -38,6 +38,9 @@ def run():
             raise Exception("exit")
         if variables.RESTART:
             raise Exception("restart")
+        if variables.MINIMIZE:
+            webpage.minimize_window()
+            variables.MINIMIZE = False
         
         if lastPingTime + 60 < time.time():
             lastPingTime = time.time()

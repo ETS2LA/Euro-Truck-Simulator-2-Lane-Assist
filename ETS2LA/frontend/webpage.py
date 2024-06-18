@@ -5,10 +5,25 @@ import webview
 import time
 import os
 
+def minimize_window():
+    if os.name == 'nt':
+        import win32gui
+        hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+        win32gui.ShowWindow(hwnd, 6)
+
 def start_webpage():
+    webview.settings = {
+        'ALLOW_DOWNLOADS': False,
+        'ALLOW_FILE_URLS': True,
+        'OPEN_EXTERNAL_LINKS_IN_BROWSER': True,
+        'OPEN_DEVTOOLS_IN_DEBUG': True
+    }
+    
     def load_website(window:webview.Window):
         time.sleep(3)
         window.load_url('http://localhost:3000')
+        
+        
     window = webview.create_window(f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}', html="""
     <html>
         <style>
@@ -46,7 +61,7 @@ def start_webpage():
         }
 
         </style>
-        <body>
+        <body class="pywebview-drag-region">
             <div style="flex; justify-content: center; align-items: center;">
                 <p>Please wait while we initialize the user interface</p>
                 <div class="spinner"></div>
@@ -54,7 +69,8 @@ def start_webpage():
         </body>
     </html>""", width=1280, height=720, 
                 resizable=True, zoomable=True, 
-                confirm_close=False, text_select=True
+                confirm_close=False, text_select=True,
+                frameless=True, easy_drag=False
                 )
     webview.start(load_website, 
                   window,

@@ -185,7 +185,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <div className='overflow-hidden p-3'>
+    <div className='overflow-hidden p-3 pywebview-drag-region'>
       <Head>
         <link rel="icon" href="https://wiki.tumppi066.fi/assets/favicon.ico" />
       </Head>
@@ -198,7 +198,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <ETS2LAMenubar ip={ip} onLogout={() =>{
           toast.success("Logged out")
           localStorage.setItem('token', "");
-          SetToken("")
+          SetToken("") // Having two setTokens
           setToken("")
         }} />
         <div className='py-3 '>
