@@ -23,9 +23,12 @@ import {
 } from "@/components/ui/context-menu"
 import { toast } from "sonner"
 import { useRouter } from "next/router"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
   
 
 export default function Home({ip} : {ip: string}) {
+    const [visualisation, setVisualisation] = useState(false);
     const push = useRouter().push;
     return (
         <div className="w-full h-[calc(100vh-72px)]">
@@ -37,11 +40,19 @@ export default function Home({ip} : {ip: string}) {
                 </ResizablePanel>
                 <ResizableHandle className="bg-transparent" />
                 <ResizablePanel defaultSize={60} className="content-center rounded-md">
-                    <iframe 
-                        src={`http://localhost:60407/ETS2LA Visualisation.html`} 
-                        className="w-full h-full" 
-                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                    />
+                    {visualisation && (
+                        <iframe 
+                            src={`http://localhost:60407/ETS2LA Visualisation.html`} 
+                            className="w-full h-full" 
+                            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                        />
+                    )
+                    ||
+                    <Card className="flex flex-col justify-center items-center w-full h-full border-dashed gap-4">
+                        <Button onClick={() => setVisualisation(true)} variant={"outline"} className="w-64">Start Visualisation</Button>
+                        <Button onClick={() => open("http://localhost:60407/ETS2LA Visualisation.html", "_blank")} variant={"outline"} className="w-64">Open in browser</Button>
+                    </Card>
+                    }
                 </ResizablePanel>
                 <ResizableHandle className="bg-transparent" />
                 <ResizablePanel defaultSize={20}>
