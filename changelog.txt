@@ -1,1 +1,1 @@
-Fixed nav AI when no route detected. Small fixes to CC plugin.
+Fixed problems with Navigation Detection AI, Default Steering and Cruise Control.

@@ -1275,14 +1275,22 @@ def plugin(data):
             if frame is None: return data
             if width == 0 or width == None: return data
             if height == 0 or height == None: return data
-            
+
             if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
                 valid_frame = True
             else:
                 valid_frame = False
                 return data
 
-            data["NavigationDetection"] = {}
+            try:
+                gamepaused = data["api"]["pause"]
+                if gamepaused == True:
+                    speed = 0
+                else:
+                    speed = round(data["api"]["truckFloat"]["speed"]*3.6, 2)
+            except:
+                gamepaused = False
+                speed = 0
 
             cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             cv2.rectangle(frame, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
@@ -1291,6 +1299,12 @@ def plugin(data):
             mask = cv2.inRange(frame, lower_red, upper_red)
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
             frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
+
+            if cv2.countNonZero(frame) / (frame.shape[0] * frame.shape[1]) > 0.03:
+                print(cv2.countNonZero(frame))
+                lane_detected = True
+            else:
+                lane_detected = False
 
             try:
                 AIFrame = preprocess_image(mask)
@@ -1305,25 +1319,20 @@ def plugin(data):
 
             output = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
-            if DefaultSteering.enabled == True:
+            if DefaultSteering.enabled == True and gamepaused == False:
                 if AIModelLoaded == True:
                     with torch.no_grad():
                         output = AIModel(AIFrame)
                         output = output.tolist()
 
-            try:
-                if not np.any(mask):
-                    data["NavigationDetection"]["empty_frame"] = True
-                    steering = 0.0
-                    left_indicator = False
-                    right_indicator = False
-                else:
-                    data["NavigationDetection"]["empty_frame"] = False
-                    steering = float(output[0][0]) / -30
-                    left_indicator = bool(float(output[0][1]) > 0.15)
-                    right_indicator = bool(float(output[0][2]) > 0.15)
-            except Exception as e:
-                print(e)
+            steering = float(output[0][0]) / -30
+            left_indicator = bool(float(output[0][1]) > 0.15)
+            right_indicator = bool(float(output[0][2]) > 0.15)
+
+            if lane_detected == False:
+                steering = 0
+                left_indicator = False
+                right_indicator = False
 
             try:
                 indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
@@ -1358,12 +1367,17 @@ def plugin(data):
             indicator_last_right = right_indicator
 
             data["LaneDetection"] = {}
-            data["LaneDetection"]["difference"] = steering
-
-            if left_indicator == True or right_indicator == True:
-                data["NavigationDetection"]["turnincoming"] = True
+            if speed > -0.5:
+                data["LaneDetection"] = {}
+                data["LaneDetection"]["difference"] = steering
             else:
-                data["NavigationDetection"]["turnincoming"] = False
+                data["LaneDetection"] = {}
+                data["LaneDetection"]["difference"] = -steering
+
+            data["NavigationDetection"] = {}
+            data["NavigationDetection"]["lanedetected"] = lane_detected
+            data["NavigationDetection"]["mapdetected"] = lane_detected
+            data["NavigationDetection"]["turnincoming"] = True if left_indicator == True and right_indicator == False else False
 
             data["frame"] = frame
 

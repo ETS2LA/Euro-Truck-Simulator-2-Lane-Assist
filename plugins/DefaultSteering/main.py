@@ -108,7 +108,7 @@ IndicatingLeft = False
 lastIndicatingRight = False
 lastIndicatingLeft = False
 enabled = True
-enabledTimer = 0
+last_enabled_keybind = False
 keyboardControlValue = 0
 def plugin(data):
     global desiredControl
@@ -126,7 +126,7 @@ def plugin(data):
     global gamepadSmoothness
     global lastFrame
     global enableDisable
-    global enabledTimer
+    global last_enabled_keybind
     global keyboard
     global keyboardControlValue
     global keyboardSensitivity
@@ -150,6 +150,8 @@ def plugin(data):
             apiAvailable = True
     except:
         apiAvailable = False
+
+    enabled_keybind = controls.GetKeybindValue("Enable/Disable Steering")
 
     data["controller"] = {}
 
@@ -200,17 +202,14 @@ def plugin(data):
                     IndicatingLeft = False
                     IndicatingRight = False
 
-            enabledTimer += 1 # Frames, this helps to prevent accidentally enabling disabling multiple times.
-            if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
+            if enabled_keybind == False and last_enabled_keybind == True:
                 if enabled == True:
                     enabled = False
                     print("Disabled")
-                    enabledTimer = 0
                     sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
                 else:
                     enabled = True
                     print("Enabled")
-                    enabledTimer = 0
                     sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
 
             try:
@@ -276,7 +275,6 @@ def plugin(data):
     # Controller based control
     else:
         try:
-            enabledTimer += 1
             try:
                 IndicatingLeft = data["api"]["truckBool"]["blinkerLeftActive"]
                 IndicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
@@ -296,16 +294,14 @@ def plugin(data):
                     IndicatingLeft = False
                     IndicatingRight = False
 
-            if(controls.GetKeybindValue("Enable/Disable Steering") and enabledTimer > 15):
+            if enabled_keybind == False and last_enabled_keybind == True:
                 if enabled == True:
                     enabled = False
                     print("Disabled")
-                    enabledTimer = 0
                     sounds.PlaysoundFromLocalPath("assets/sounds/end.mp3")
                 else:
                     enabled = True
                     print("Enabled")
-                    enabledTimer = 0
                     sounds.PlaysoundFromLocalPath("assets/sounds/start.mp3")
 
             try:
@@ -480,6 +476,8 @@ def plugin(data):
 
     except Exception as ex:
         pass
+
+    last_enabled_keybind = enabled_keybind
 
     try:
         if data["controller"]["leftstick"] == None:
