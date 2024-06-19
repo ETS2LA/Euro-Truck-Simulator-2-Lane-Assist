@@ -284,7 +284,7 @@ def LoadAIModel():
                 CheckForAIModelUpdates()
                 while AIModelUpdateThread.is_alive(): time.sleep(0.1)
 
-                if GetAIModelName() == []:
+                if GetAIModelName() == "UNKNOWN":
                     return
 
                 LoadAIProgress = 0
@@ -498,7 +498,7 @@ def GetAIModelProperties():
 
 
 if UseAI:
-    if TorchAvailable == True:
+    if TorchAvailable == True and settings.GetSettings("NavigationDetection", "UseAI", False) == True:
         helpers.RunInMainThread(LoadAIModel)
     else:
         print("NavigationDetectionAI not available due to missing dependencies.")

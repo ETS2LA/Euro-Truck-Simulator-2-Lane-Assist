@@ -383,33 +383,42 @@ def get_text_size(text="NONE", text_width=100, max_text_height=100):
 
 
 def ClassifyImage(image):
-    global IMG_WIDTH
-    global IMG_HEIGHT
     try:
         if AIModelUpdateThread.is_alive(): return True
         if AIModelLoadThread.is_alive(): return True
     except:
         return True
-    try:
-        image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
-    except:
-        IMG_WIDTH = GetAIModelProperties()[2]
-        IMG_HEIGHT = GetAIModelProperties()[3]
-        if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
-            print(f"TrafficLightDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the TrafficLightDetectionAI.")
-            console.RestoreConsole()
-            return True
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    transform = transforms.Compose([
-        transforms.ToTensor(),
-    ])
-    image = transform(image).unsqueeze(0).to(AIDevice)
+
+    image = np.array(image, dtype=np.float32)
+    if IMG_CHANNELS == 'Grayscale' or IMG_CHANNELS == 'Binarize':
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    if IMG_CHANNELS == 'RG':
+        image = np.stack((image[:, :, 0], image[:, :, 1]), axis=2)
+    elif IMG_CHANNELS == 'GB':
+        image = np.stack((image[:, :, 1], image[:, :, 2]), axis=2)
+    elif IMG_CHANNELS == 'RB':
+        image = np.stack((image[:, :, 0], image[:, :, 2]), axis=2)
+    elif IMG_CHANNELS == 'R':
+        image = image[:, :, 0]
+        image = np.expand_dims(image, axis=2)
+    elif IMG_CHANNELS == 'G':
+        image = image[:, :, 1]
+        image = np.expand_dims(image, axis=2)
+    elif IMG_CHANNELS == 'B':
+        image = image[:, :, 2]
+        image = np.expand_dims(image, axis=2)
+    image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
+    image = image / 255.0
+    if IMG_CHANNELS == 'Binarize':
+        image = cv2.threshold(image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
+
+    image = transforms.ToTensor()(image).unsqueeze(0).to(AIDevice)
     with torch.no_grad():
         output = np.array(AIModel(image)[0].tolist())
-    probabilities = np.exp(output - np.max(output)) / np.sum(np.exp(output - np.max(output)))
-    confidence = np.max(probabilities)
-    predicted_class = np.argmax(probabilities)
-    return True if predicted_class != 3 else False
+    obj_class = np.argmax(output)
+    return True if obj_class != 3 else False
 
 
 def HandleCorruptedAIModel():
@@ -432,13 +441,11 @@ def LoadAIModel():
                 global LoadAIProgress
                 global AIModel
                 global AIModelLoaded
-                global IMG_WIDTH
-                global IMG_HEIGHT
 
                 CheckForAIModelUpdates()
                 while AIModelUpdateThread.is_alive(): time.sleep(0.1)
 
-                if GetAIModelName() == []:
+                if GetAIModelName() == "UNKNOWN":
                     return
 
                 LoadAIProgress = 0
@@ -446,8 +453,7 @@ def LoadAIModel():
 
                 print("\033[92m" + f"Loading the AI model..." + "\033[0m")
 
-                IMG_WIDTH = GetAIModelProperties()[2]
-                IMG_HEIGHT = GetAIModelProperties()[3]
+                GetAIModelProperties()
 
                 ModelFileCorrupted = False
 
@@ -626,33 +632,54 @@ def DeleteAllAIModels():
 
 
 def GetAIModelProperties():
+    global MODEL_METADATA
+    global IMG_WIDTH
+    global IMG_HEIGHT
+    global IMG_CHANNELS
+    global MODEL_EPOCHS
+    global MODEL_BATCH_SIZE
+    global MODEL_IMAGE_COUNT
+    global MODEL_TRAINING_TIME
+    global MODEL_TRAINING_DATE
     try:
         ModelFolderExists()
-        if GetAIModelName() == "UNKNOWN":
-            return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
-        else:
-            string = str(GetAIModelName())
-            if string != "UNKNOWN":
-                epochs = int(string.split("EPOCHS-")[1].split("_")[0])
-                batch = int(string.split("BATCH-")[1].split("_")[0])
-                img_width = int(string.split("IMG_WIDTH-")[1].split("_")[0])
-                img_height = int(string.split("IMG_HEIGHT-")[1].split("_")[0])
-                img_count = int(string.split("IMG_COUNT-")[1].split("_")[0])
-                training_time = string.split("TIME-")[1].split("_")[0]
-                training_date = string.split("DATE-")[1].split(".")[0]
-                return (epochs, batch, img_width, img_height, img_count, training_time, training_date)
-            else:
-                return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
+        MODEL_METADATA = {"data": []}
+        IMG_WIDTH = "UNKNOWN"
+        IMG_HEIGHT = "UNKNOWN"
+        IMG_CHANNELS = "UNKNOWN"
+        MODEL_EPOCHS = "UNKNOWN"
+        MODEL_BATCH_SIZE = "UNKNOWN"
+        MODEL_IMAGE_COUNT = "UNKNOWN"
+        MODEL_TRAINING_TIME = "UNKNOWN"
+        MODEL_TRAINING_DATE = "UNKNOWN"
+        torch.jit.load(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
+        MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
+        for var in MODEL_METADATA:
+            if "image_width" in var:
+                IMG_WIDTH = int(var.split("#")[1])
+            if "image_height" in var:
+                IMG_HEIGHT = int(var.split("#")[1])
+            if "image_channels" in var:
+                IMG_CHANNELS = str(var.split("#")[1])
+            if "epochs" in var:
+                MODEL_EPOCHS = int(var.split("#")[1])
+            if "batch" in var:
+                MODEL_BATCH_SIZE = int(var.split("#")[1])
+            if "image_count" in var:
+                MODEL_IMAGE_COUNT = int(var.split("#")[1])
+            if "training_time" in var:
+                MODEL_TRAINING_TIME = var.split("#")[1]
+            if "training_date" in var:
+                MODEL_TRAINING_DATE = var.split("#")[1]
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("TrafficLightDetection - Error in function GetAIModelProperties.", str(exc))
         print(f"TrafficLightDetection - Error in function GetAIModelProperties: {ex}")
         console.RestoreConsole()
-        return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
 
 
 if UseAI:
-    if TorchAvailable == True:
+    if TorchAvailable == True and settings.GetSettings("TrafficLightDetection", "UseAI", False) == True:
         helpers.RunInMainThread(LoadAIModel)
     else:
         print("TrafficLightDetectionAI not available due to missing dependencies.")
@@ -1141,47 +1168,6 @@ def plugin(data):
                                 coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
 
-
-    ##################################################################################################
-    # Start: Code to send traffic light images to drive if enabled
-    ##################################################################################################
-    if send_traffic_light_images == True:
-        try:
-            if last_traffic_light_image + 0.5 < time.time() and len(coordinates) > 0:
-                for x, y, w, h, state in coordinates:
-                    tld_y1 = round(y1 + y - h*4)
-                    if tld_y1 < 0:
-                        tld_y1 = 0
-                    elif tld_y1 > frameFull.shape[0]:
-                        tld_y1 = frameFull.shape[0]
-                    tld_y2 = round(y1 + y + h * 4)
-                    if tld_y2 < 0:
-                        tld_y2 = 0
-                    elif tld_y2 > frameFull.shape[0]:
-                        tld_y2 = frameFull.shape[0]
-                    tld_x1 = round(x1 + x - w * 2.5)
-                    if tld_x1 < 0:
-                        tld_x1 = 0
-                    elif tld_x1 > frameFull.shape[1]:
-                        tld_x1 = frameFull.shape[1]
-                    tld_x2 = round(x1 + x + w * 2.5)
-                    if tld_x2 < 0:
-                        tld_x2 = 0
-                    elif tld_x2 > frameFull.shape[1]:
-                        tld_x2 = frameFull.shape[1]
-                    traffic_light_image = frameFull[tld_y1:tld_y2, tld_x1:tld_x2].copy()
-                    threading.Thread(target=SendImage, args=(traffic_light_image, round(x1 - tld_x1 + x), round(y1 - tld_y1 + y), w, h,), daemon=True).start()
-                last_traffic_light_image = time.time()
-        except Exception as e:
-            exc = traceback.format_exc()
-            SendCrashReport("TrafficLightDetection - TrafficLightDetectionAI data collection error.", str(exc))
-            print("TrafficLightDetection - TrafficLightDetectionAI data collection error: " + str(exc))
-    ##################################################################################################
-    # end: Code to send traffic light images to drive if enabled
-    ##################################################################################################
-
-
-
     try:
         # Tracking with IDs:
         def generate_new_id():
@@ -1249,6 +1235,45 @@ def plugin(data):
                             approved = ClassifyImage(image_classification)
                         else:
                             approved = True
+
+                        ##################################################################################################
+                        # Start: Code to send traffic light images to drive if enabled
+                        ##################################################################################################
+                        if send_traffic_light_images == True:
+                            try:
+                                if last_traffic_light_image + 0.5 < time.time() and len(coordinates) > 0:
+                                    for x, y, w, h, state in coordinates:
+                                        tld_y1 = round(y1 + y - h*4)
+                                        if tld_y1 < 0:
+                                            tld_y1 = 0
+                                        elif tld_y1 > frameFull.shape[0]:
+                                            tld_y1 = frameFull.shape[0]
+                                        tld_y2 = round(y1 + y + h * 4)
+                                        if tld_y2 < 0:
+                                            tld_y2 = 0
+                                        elif tld_y2 > frameFull.shape[0]:
+                                            tld_y2 = frameFull.shape[0]
+                                        tld_x1 = round(x1 + x - w * 2.5)
+                                        if tld_x1 < 0:
+                                            tld_x1 = 0
+                                        elif tld_x1 > frameFull.shape[1]:
+                                            tld_x1 = frameFull.shape[1]
+                                        tld_x2 = round(x1 + x + w * 2.5)
+                                        if tld_x2 < 0:
+                                            tld_x2 = 0
+                                        elif tld_x2 > frameFull.shape[1]:
+                                            tld_x2 = frameFull.shape[1]
+                                        traffic_light_image = frameFull[tld_y1:tld_y2, tld_x1:tld_x2].copy()
+                                        threading.Thread(target=SendImage, args=(traffic_light_image, round(x1 - tld_x1 + x), round(y1 - tld_y1 + y), w, h,), daemon=True).start()
+                                    last_traffic_light_image = time.time()
+                            except Exception as e:
+                                exc = traceback.format_exc()
+                                SendCrashReport("TrafficLightDetection - TrafficLightDetectionAI data collection error.", str(exc))
+                                print("TrafficLightDetection - TrafficLightDetectionAI data collection error: " + str(exc))
+                        ##################################################################################################
+                        # end: Code to send traffic light images to drive if enabled
+                        ##################################################################################################
+
                         trafficlights.append((nearestpoint, ((None, None, None), (head_x, head_z, angle, head_rotation_degrees_x), (head_x, head_z, angle, head_rotation_degrees_x)), new_id, approved))
 
         # Remove lost traffic lights from the list, the traffic light which has the highest distance to the nearest traffic light in the current frame gets removed
@@ -1733,9 +1758,9 @@ class UI():
             def InstallCUDAPopup():
                 helpers.Dialog("Warning: CUDA is only available for NVIDIA GPUs!", f"1. Check on https://wikipedia.org/wiki/CUDA#GPUs_supported which CUDA version your GPU supports.\n2. Go to https://pytorch.org/ and copy the download command for the corresponding CUDA version which is compatible with your GPU.\n    (Select Stable, Windows, Pip, Python and the CUDA version you need)\n3. Open your file explorer and go to {os.path.dirname(os.path.dirname(variables.PATH))} and run the activate.bat\n4. Run this command in the terminal which opened after running the activate.bat: 'pip uninstall torch torchvision torchaudio'\n5. After the previous command finished, run the command you copied from the PyTorch website and wait for the installation to finish.\n6. Restart the app and the app should automatically detect CUDA as available and use your GPU for the AI.", ["Exit"], "Exit")
             helpers.MakeButton(trackeraiFrame, "Install CUDA for GPU support", InstallCUDAPopup, 5, 0, width=30, sticky="nw")
-            model_properties = GetAIModelProperties()
+            GetAIModelProperties()
             helpers.MakeLabel(trackeraiFrame, "Model properties:", 6, 0, font=("Robot", 12, "bold"), sticky="nw")
-            helpers.MakeLabel(trackeraiFrame, f"Epochs: {model_properties[0]}\nBatch Size: {model_properties[1]}\nImage Width: {model_properties[2]}\nImage Height: {model_properties[3]}\nImages/Data Points: {model_properties[4]}\nTraining Time: {model_properties[5]}\nTraining Date: {model_properties[6]}", 7, 0, sticky="nw")
+            helpers.MakeLabel(trackeraiFrame, f"Epochs: {MODEL_EPOCHS}\nBatch Size: {MODEL_BATCH_SIZE}\nImage Width: {IMG_WIDTH}\nImage Height: {IMG_HEIGHT}\nImages/Data Points: {MODEL_IMAGE_COUNT}\nTraining Time: {MODEL_TRAINING_TIME}\nTraining Date: {MODEL_TRAINING_DATE}", 7, 0, sticky="nw")
             self.progresslabel = helpers.MakeLabel(trackeraiFrame, "", 9, 0, sticky="nw")
             self.progress = ttk.Progressbar(trackeraiFrame, orient="horizontal", length=238, mode="determinate")
             self.progress.grid(row=10, column=0, sticky="nw", padx=5, pady=0)

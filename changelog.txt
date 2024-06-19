@@ -1,1 +1,1 @@
-Fixed problems with Navigation Detection AI, Default Steering and Cruise Control.
+Changes in the traffic light detection to work with the new AI model.
