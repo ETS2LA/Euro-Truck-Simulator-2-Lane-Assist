@@ -643,6 +643,8 @@ def GetAIModelProperties():
     global MODEL_TRAINING_DATE
     try:
         ModelFolderExists()
+        if GetAIModelName() == "UNKNOWN":
+            return
         MODEL_METADATA = {"data": []}
         IMG_WIDTH = "UNKNOWN"
         IMG_HEIGHT = "UNKNOWN"
