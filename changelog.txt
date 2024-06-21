@@ -1,1 +1,1 @@
-Changes in the traffic light detection to work with the new AI model.
+Improvements in the TrafficLightDetection plugin.

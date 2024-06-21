@@ -1301,7 +1301,6 @@ def plugin(data):
             frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
 
             if cv2.countNonZero(frame) / (frame.shape[0] * frame.shape[1]) > 0.03:
-                print(cv2.countNonZero(frame))
                 lane_detected = True
             else:
                 lane_detected = False

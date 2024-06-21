@@ -158,7 +158,7 @@ def UpdateSettings():
     global rectsizefilter
     global widthheightratiofilter
     global pixelpercentagefilter
-    global otherlightsofffilter
+    global pixelblobshapefilter
     global urr
     global urg
     global urb
@@ -229,7 +229,7 @@ def UpdateSettings():
     rectsizefilter = settings.GetSettings("TrafficLightDetection", "rectsizefilter", True)
     widthheightratiofilter = settings.GetSettings("TrafficLightDetection", "widthheightratiofilter", True)
     pixelpercentagefilter = settings.GetSettings("TrafficLightDetection", "pixelpercentagefilter", True)
-    otherlightsofffilter = settings.GetSettings("TrafficLightDetection", "otherlightsofffilter", True)
+    pixelblobshapefilter = settings.GetSettings("TrafficLightDetection", "pixelblobshapefilter", True)
 
     coordinates = []
     trafficlights = []
@@ -837,7 +837,7 @@ def plugin(data):
                 for contour in contours:
                     x, y, w, h = cv2.boundingRect(contour)
                     if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
-                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                        if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                             red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
                             green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
                             total_pixels = w * h
@@ -847,29 +847,31 @@ def plugin(data):
                                 if red_ratio > green_ratio:
                                     colorstr = "Red"
                                     offset = y + h * 2
-                                    centery1 = round(offset)
-                                    centery2 = round(offset + h * 1.5)
                                 elif green_ratio > red_ratio:
                                     colorstr = "Green"
                                     offset = y - h
-                                    centery1 = round(offset - h * 1.5)
-                                    centery2 = round(offset)
                                 else:
                                     colorstr = "Red"
                                     offset = y + h * 2
-                                    centery1 = round(offset)
-                                    centery2 = round(offset + h * 1.5)
-                                try:
-                                    centery1_color = rgb_frame[centery1, round(x + w / 2)]
-                                except:
-                                    centery1_color = (0, 0, 0)
-                                try:
-                                    centery2_color = rgb_frame[centery2, round(x + w / 2)]
-                                except:
-                                    centery2_color = (0, 0, 0)
-                                r_centery1, g_centery1, b_centery1 = centery1_color
-                                r_centery2, g_centery2, b_centery2 = centery2_color
-                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                point_mask = []
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                as_expected = True
+                                for i in range(len(point_mask)):
+                                    point_x, point_y, expected = point_mask[i]
+                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = True if color != 0 else False
+                                    if color != 0 == expected:
+                                        as_expected = False
+                                        break
+                                if as_expected:
                                     coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
             else:
@@ -885,7 +887,7 @@ def plugin(data):
                 for contour in contours:
                     x, y, w, h = cv2.boundingRect(contour)
                     if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
-                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                        if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                             red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
                             green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
                             yellow_pixel_count = cv2.countNonZero(mask_yellow[y:y+h, x:x+w])
@@ -899,36 +901,35 @@ def plugin(data):
                                 if red_ratio > green_ratio and red_ratio > yellow_ratio:
                                     colorstr = "Red"
                                     offset = y + h * 2
-                                    centery1 = round(offset)
-                                    centery2 = round(offset + h * 1.5)
                                 elif yellow_ratio > red_ratio and yellow_ratio > green_ratio:
                                     colorstr = "Yellow"
                                     offset = y + h * 0.5
-                                    centery1 = round(offset - h * 1.5)
-                                    centery2 = round(offset + h * 1.5)
                                 elif green_ratio > red_ratio and green_ratio > yellow_ratio:
                                     colorstr = "Green"
                                     offset = y - h
-                                    centery1 = round(offset - h * 1.5)
-                                    centery2 = round(offset)
                                 else:
                                     colorstr = "Red"
                                     offset = y + h * 2
-                                    centery1 = round(offset)
-                                    centery2 = round(offset + h * 1.5)
-                                try:
-                                    centery1_color = rgb_frame[centery1, round(x + w / 2)]
-                                except:
-                                    centery1_color = (0, 0, 0)
-                                try:
-                                    centery2_color = rgb_frame[centery2, round(x + w / 2)]
-                                except:
-                                    centery2_color = (0, 0, 0)
-                                r_centery1, g_centery1, b_centery1 = centery1_color
-                                r_centery2, g_centery2, b_centery2 = centery2_color
-                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                point_mask = []
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                as_expected = True
+                                for i in range(len(point_mask)):
+                                    point_x, point_y, expected = point_mask[i]
+                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = True if color != 0 else False
+                                    if color != 0 == expected:
+                                        as_expected = False
+                                        break
+                                if as_expected:
                                     coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
-
         else:
             # True: performancemode --- False: advancedmode
             mask_red = cv2.inRange(rgb_frame, lower_red, upper_red)
@@ -938,26 +939,32 @@ def plugin(data):
             for contour in contours:
                 x, y, w, h = cv2.boundingRect(contour)
                 if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
-                    if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                    if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                         red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
                         total_pixels = w * h
                         red_ratio = red_pixel_count / total_pixels
                         if red_ratio < circleplusoffset and red_ratio > circleminusoffset:
                             colorstr = "Red"
                             offset = y + h * 2
-                            centery1 = round(offset)
-                            centery2 = round(offset + h * 1.5)
-                            try:
-                                centery1_color = rgb_frame[centery1, round(x + w / 2)]
-                            except:
-                                centery1_color = (0, 0, 0)
-                            try:
-                                centery2_color = rgb_frame[centery2, round(x + w / 2)]
-                            except:
-                                centery2_color = (0, 0, 0)
-                            r_centery1, g_centery1, b_centery1 = centery1_color
-                            r_centery2, g_centery2, b_centery2 = centery2_color
-                            if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                            point_mask = []
+                            point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                            point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                            point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                            point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                            point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                            point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                            point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                            point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                            point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                            as_expected = True
+                            for i in range(len(point_mask)):
+                                point_x, point_y, expected = point_mask[i]
+                                color = filtered_frame_bw[point_y, point_x]
+                                color = True if color != 0 else False
+                                if color != 0 == expected:
+                                    as_expected = False
+                                    break
+                            if as_expected:
                                 coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
     else:
@@ -982,7 +989,7 @@ def plugin(data):
                     if istrue == True:
                         istrue = False
                         if widthheightratiofilter == True:
-                            if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                            if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                                 istrue = True
                         else:
                             istrue = True
@@ -1002,31 +1009,33 @@ def plugin(data):
                                 if red_ratio > green_ratio:
                                     colorstr = "Red"
                                     offset = y + h * 2
-                                    centery1 = round(offset)
-                                    centery2 = round(offset + h * 1.5)
                                 elif green_ratio > red_ratio:
                                     colorstr = "Green"
                                     offset = y - h
-                                    centery1 = round(offset - h * 1.5)
-                                    centery2 = round(offset)
                                 else:
                                     colorstr = "Red"
                                     offset = y + h * 2
-                                    centery1 = round(offset)
-                                    centery2 = round(offset + h * 1.5)
-                                try:
-                                    centery1_color = rgb_frame[centery1, round(x + w / 2)]
-                                except:
-                                    centery1_color = (0, 0, 0)
-                                try:
-                                    centery2_color = rgb_frame[centery2, round(x + w / 2)]
-                                except:
-                                    centery2_color = (0, 0, 0)
-                                r_centery1, g_centery1, b_centery1 = centery1_color
-                                r_centery2, g_centery2, b_centery2 = centery2_color
                                 istrue = False
-                                if otherlightsofffilter == True:
-                                    if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                if pixelblobshapefilter == True:
+                                    point_mask = []
+                                    point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                    point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                    point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                    point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                    point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                    point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                    as_expected = True
+                                    for i in range(len(point_mask)):
+                                        point_x, point_y, expected = point_mask[i]
+                                        color = filtered_frame_bw[point_y, point_x]
+                                        color = True if color != 0 else False
+                                        if color != 0 == expected:
+                                            as_expected = False
+                                            break
+                                    if as_expected:
                                         istrue = True
                                 else:
                                     istrue = True
@@ -1054,7 +1063,7 @@ def plugin(data):
                     if istrue == True:
                         istrue = False
                         if widthheightratiofilter == True:
-                            if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                            if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                                 istrue = True
                         else:
                             istrue = True
@@ -1078,36 +1087,36 @@ def plugin(data):
                                 if red_ratio > green_ratio and red_ratio > yellow_ratio:
                                     colorstr = "Red"
                                     offset = y + h * 2
-                                    centery1 = round(offset)
-                                    centery2 = round(offset + h * 1.5)
                                 elif yellow_ratio > red_ratio and yellow_ratio > green_ratio:
                                     colorstr = "Yellow"
                                     offset = y + h * 0.5
-                                    centery1 = round(offset - h * 1.5)
-                                    centery2 = round(offset + h * 1.5)
                                 elif green_ratio > red_ratio and green_ratio > yellow_ratio:
                                     colorstr = "Green"
                                     offset = y - h
-                                    centery1 = round(offset - h * 1.5)
-                                    centery2 = round(offset)
                                 else:
                                     colorstr = "Red"
                                     offset = y + h * 2
-                                    centery1 = round(offset)
-                                    centery2 = round(offset + h * 1.5)
-                                try:
-                                    centery1_color = rgb_frame[centery1, round(x + w / 2)]
-                                except:
-                                    centery1_color = (0, 0, 0)
-                                try:
-                                    centery2_color = rgb_frame[centery2, round(x + w / 2)]
-                                except:
-                                    centery2_color = (0, 0, 0)
-                                r_centery1, g_centery1, b_centery1 = centery1_color
-                                r_centery2, g_centery2, b_centery2 = centery2_color
                                 istrue = False
-                                if otherlightsofffilter == True:
-                                    if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                if pixelblobshapefilter == True:
+                                    point_mask = []
+                                    point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                    point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                    point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                    point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                    point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                    point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                    as_expected = True
+                                    for i in range(len(point_mask)):
+                                        point_x, point_y, expected = point_mask[i]
+                                        color = filtered_frame_bw[point_y, point_x]
+                                        color = True if color != 0 else False
+                                        if color != 0 == expected:
+                                            as_expected = False
+                                            break
+                                    if as_expected:
                                         istrue = True
                                 else:
                                     istrue = True
@@ -1131,7 +1140,7 @@ def plugin(data):
                 if istrue == True:
                     istrue = False
                     if widthheightratiofilter == True:
-                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                        if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                             istrue = True
                     else:
                         istrue = True
@@ -1148,21 +1157,27 @@ def plugin(data):
                         if istrue == True:
                             colorstr = "Red"
                             offset = y + h * 2
-                            centery1 = round(offset)
-                            centery2 = round(offset + h * 1.5)
-                            try:
-                                centery1_color = rgb_frame[centery1, round(x + w / 2)]
-                            except:
-                                centery1_color = (0, 0, 0)
-                            try:
-                                centery2_color = rgb_frame[centery2, round(x + w / 2)]
-                            except:
-                                centery2_color = (0, 0, 0)
-                            r_centery1, g_centery1, b_centery1 = centery1_color
-                            r_centery2, g_centery2, b_centery2 = centery2_color
                             istrue = False
-                            if otherlightsofffilter == True:
-                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                            if pixelblobshapefilter == True:
+                                point_mask = []
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                as_expected = True
+                                for i in range(len(point_mask)):
+                                    point_x, point_y, expected = point_mask[i]
+                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = True if color != 0 else False
+                                    if color != 0 == expected:
+                                        as_expected = False
+                                        break
+                                if as_expected:
                                     istrue = True
                             else:
                                 istrue = True
@@ -1361,6 +1376,9 @@ def plugin(data):
                     if approved == True:
                         cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01 * filtered_frame_bw.shape[0]), round(0.01 * filtered_frame_bw.shape[0] + text_height * (i+2) * 1.5)), cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, (255, 255, 255), text_thickness)
                         cv2.line(filtered_frame_bw, (round(0.01 * filtered_frame_bw.shape[0] + cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, 1)[0][0]) + 10, round(0.01 * filtered_frame_bw.shape[0] + text_height * (i + 2) * 1.5 - text_height / 2)), ((x, round(y - h * 1.5)) if state == "Red" else (x, round(y + h * 1.5)) if state == "Green" else (x, y)), (150, 150, 150), text_thickness)
+                    else:
+                        cv2.putText(filtered_frame_bw, f"ID: {id}, Ignored by AI", (round(0.01 * filtered_frame_bw.shape[0]), round(0.01 * filtered_frame_bw.shape[0] + text_height * (i+2) * 1.5)), cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, (255, 255, 255), text_thickness)
+                        cv2.line(filtered_frame_bw, (round(0.01 * filtered_frame_bw.shape[0] + cv2.getTextSize(f"ID: {id}, Ignored by AI", cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, 1)[0][0]) + 10, round(0.01 * filtered_frame_bw.shape[0] + text_height * (i + 2) * 1.5 - text_height / 2)), ((x, round(y - h * 1.5)) if state == "Red" else (x, round(y + h * 1.5)) if state == "Green" else (x, y)), (150, 150, 150), text_thickness)
                 radius = round((w + h) / 4)
                 thickness = round((w + h) / 30)
                 if thickness < 1:
@@ -1753,7 +1771,7 @@ class UI():
             helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(filtersFrame, "Width Height Ratio Filter", "TrafficLightDetection", "widthheightratiofilter", 4, 0, width=60, callback=lambda:UpdateSettings())
             helpers.MakeCheckButton(filtersFrame, "Pixel Percentage Filter", "TrafficLightDetection", "pixelpercentagefilter", 5, 0, width=60, callback=lambda:UpdateSettings())
-            helpers.MakeCheckButton(filtersFrame, "Other Lights Filter", "TrafficLightDetection", "otherlightsofffilter", 6, 0, width=60, callback=lambda:UpdateSettings())
+            helpers.MakeCheckButton(filtersFrame, "Pixel Blob Shape Filter", "TrafficLightDetection", "pixelblobshapefilter", 6, 0, width=60, callback=lambda:UpdateSettings())
 
             helpers.MakeCheckButton(trackeraiFrame, "Use AI to confirm traffic lights\n-------------------------------------------\nIf enabled, the app will confirm the detected traffic lights to minimize false detections.", "TrafficLightDetection", "UseAI", 3, 0, width=97, callback=lambda: UpdateSettings())
             helpers.MakeCheckButton(trackeraiFrame, f"Try to use your GPU to run the AI\n-------------------------------------------------\nThis requires a NVIDIA GPU with CUDA installed. (Currently using {str(AIDevice).upper()})", "TrafficLightDetection", "UseCUDA", 4, 0, width=97, callback=lambda: {UpdateSettings(), self.exampleFunction()})
@@ -2052,7 +2070,7 @@ class UI():
             settings.CreateSettings("TrafficLightDetection", "rectsizefilter", True)
             settings.CreateSettings("TrafficLightDetection", "widthheightratiofilter", True)
             settings.CreateSettings("TrafficLightDetection", "pixelpercentagefilter", True)
-            settings.CreateSettings("TrafficLightDetection", "otherlightsofffilter", True)
+            settings.CreateSettings("TrafficLightDetection", "pixelblobshapefilter", True)
 
             settings.CreateSettings("TrafficLightDetection", "minrectsize", round(screen_width / 240))
             settings.CreateSettings("TrafficLightDetection", "maxrectsize", round(screen_width / 10))
@@ -2067,7 +2085,7 @@ class UI():
             settings.CreateSettings("TrafficLightDetection", "rectsizefilter", True)
             settings.CreateSettings("TrafficLightDetection", "widthheightratiofilter", True)
             settings.CreateSettings("TrafficLightDetection", "pixelpercentagefilter", True)
-            settings.CreateSettings("TrafficLightDetection", "otherlightsofffilter", True)
+            settings.CreateSettings("TrafficLightDetection", "pixelblobshapefilter", True)
 
             settings.CreateSettings("TrafficLightDetection", "minrectsize", round(screen_width / 240))
             settings.CreateSettings("TrafficLightDetection", "maxrectsize", round(screen_width / 10))
