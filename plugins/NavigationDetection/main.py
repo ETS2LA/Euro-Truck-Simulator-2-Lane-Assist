@@ -1340,28 +1340,29 @@ def plugin(data):
                 indicator_left = False
                 indicator_right = False
 
-            try:
-                data["sdk"]
-            except:
-                data["sdk"] = {}
+            if DefaultSteering.enabled == True and gamepaused == False:
+                try:
+                    data["sdk"]
+                except:
+                    data["sdk"] = {}
 
-            if left_indicator != indicator_left:
-                data["sdk"]["LeftBlinker"] = True
-                indicator_left_wait_for_response = True
-                indicator_left_response_timer = current_time
-            if right_indicator != indicator_right:
-                data["sdk"]["RightBlinker"] = True
-                indicator_right_wait_for_response = True
-                indicator_right_response_timer = current_time
+                if left_indicator != indicator_left:
+                    data["sdk"]["LeftBlinker"] = True
+                    indicator_left_wait_for_response = True
+                    indicator_left_response_timer = current_time
+                if right_indicator != indicator_right:
+                    data["sdk"]["RightBlinker"] = True
+                    indicator_right_wait_for_response = True
+                    indicator_right_response_timer = current_time
 
-            if indicator_left != indicator_last_left:
-                indicator_left_wait_for_response = False
-            if indicator_right != indicator_last_right:
-                indicator_right_wait_for_response = False
-            if current_time - 1 > indicator_left_response_timer:
-                indicator_left_wait_for_response = False
-            if current_time - 1 > indicator_right_response_timer:
-                indicator_right_wait_for_response = False
+                if indicator_left != indicator_last_left:
+                    indicator_left_wait_for_response = False
+                if indicator_right != indicator_last_right:
+                    indicator_right_wait_for_response = False
+                if current_time - 1 > indicator_left_response_timer:
+                    indicator_left_wait_for_response = False
+                if current_time - 1 > indicator_right_response_timer:
+                    indicator_right_wait_for_response = False
             indicator_last_left = left_indicator
             indicator_last_right = right_indicator
 

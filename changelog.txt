@@ -1,1 +1,1 @@
-Improvements in the TrafficLightDetection plugin.
+Fix for a problem with indicators when using NavigationDetectionAI.
