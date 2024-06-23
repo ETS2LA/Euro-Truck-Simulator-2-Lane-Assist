@@ -408,7 +408,12 @@ def InstallPlugins():
     listbox.config(justify=tk.CENTER)
     
     while not startInstall:
-        mainUI.root.update()
+        try:
+            mainUI.root.update()
+        except:
+            mainUI.CreateRoot()
+            mainUI.drawButtons()
+            mainUI.root.update()
     
     # Destroy all the widgets
     for child in installFrame.winfo_children():
@@ -428,7 +433,6 @@ def InstallPlugins():
     ttk.Label(installFrame, text="For more information check the console.").pack()
     
     mainUI.root.update()
-    
     
     index = 0
     with Bar.PixelBar("Installing plugins...", max=len(installers)) as progressBar:

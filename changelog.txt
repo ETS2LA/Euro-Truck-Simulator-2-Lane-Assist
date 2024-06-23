@@ -1,1 +1,1 @@
-Improvements in the TrafficLightDetection plugin.
+Try to fix mainUI root error on startup.
