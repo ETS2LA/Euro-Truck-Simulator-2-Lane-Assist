@@ -26,5 +26,6 @@ mouse
 scipy
 numpy
 torch
+rich
 rpyc
 mss

@@ -1,14 +1,15 @@
-import time
-import logging
-import os
-import importlib
-import multiprocessing
 from multiprocessing.connection import Connection
-import threading
-from ETS2LA.utils.logging import *
-import json
 from types import SimpleNamespace
+from ETS2LA.utils.logging import *
+from rich.console import Console
+import multiprocessing
+import threading
+import importlib
+import logging
+import time
+import json
 import sys
+import os
 class PluginRunner():
     def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
         # Initialize the logger
@@ -26,6 +27,7 @@ class PluginRunner():
         self.frametimes = []
         self.executiontimes = []
         self.temporary = temporary
+        self.console = Console()
         
         # Add the plugin filepath to path (so that the plugin can import modules from the plugin folder)
         sys.path.append(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName))
@@ -38,9 +40,9 @@ class PluginRunner():
             logging.info(f"PluginRunner: Imported plugin {plugin_path}")
         except Exception as e:
             import traceback
-            trace = traceback.format_exc()
-            logging.error(f"PluginRunner: Could not import plugin {plugin_path} with trace: n{trace}")
-            logging.error(f"Could not import plugin {plugin_path}, check the logs for more information. ({e})")
+            logging.error(f"PluginRunner: Could not import plugin {plugin_path} with trace:")
+            logging.info(traceback.format_exc())
+            self.console.print_exception()
             return
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
         self.plugin_name = self.plugin_data["name"]
@@ -76,8 +78,9 @@ class PluginRunner():
                 self.modulesDict[module].Initialize()
             except Exception as e:
                 import traceback
-                error = traceback.format_exc()
-                logging.error(f"PluginRunner: Error while running Initialize() for {module} with error {e}. Full traceback:\n{error}")
+                logging.error(f"PluginRunner: Error while running Initialize() for {module} with error '{e}'.")
+                logging.info(traceback.format_exc())
+                self.console.print_exception()
                 continue
         
         try:
@@ -88,7 +91,9 @@ class PluginRunner():
         except Exception as e:
             import traceback
             error = traceback.format_exc()
-            logging.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}. Full traceback:\n{error}")
+            logging.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}. Full traceback:")
+            logging.info(error)
+            self.console.print_exception()
             
         
         # Run the plugin
@@ -210,7 +215,15 @@ class PluginRunner():
         threading.Thread(target=self.moduleChangeListener, daemon=True).start()
         while True and not self.temporary: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
             startTime = time.time()
-            data = self.plugin.plugin()
+            try:
+                data = self.plugin.plugin()
+            except:
+                import traceback
+                logging.error(f"PluginRunner: Plugin {self.plugin_name} has crashed with the following error:")
+                logging.info(traceback.format_exc())
+                self.console.print_exception()
+                self.q.put(None)
+                return 
             pluginExec = time.time()
             if data != None:
                 self.q.put(data, block=True)

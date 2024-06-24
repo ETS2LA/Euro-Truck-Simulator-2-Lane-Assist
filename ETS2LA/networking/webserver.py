@@ -203,8 +203,8 @@ def run():
     hostname = "0.0.0.0"
     # Start the webserver on the local IP
     threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True).start()
-    logging.info(f"Webserver started on http://{IP}:37520 (& localhost:37520)")
+    logging.info(f"Webserver started on http://{IP}:37520 ( http://localhost:37520 )")
     # Start the frontend
     p = multiprocessing.Process(target=RunFrontend, daemon=True)
     p.start()
-    logging.info(f"Frontend started on http://{IP}:3000 (& http://localhost:3000")
+    logging.info(f"Frontend started on http://{IP}:3000 ( http://localhost:3000 )")

@@ -1,5 +1,6 @@
-import logging
+from rich.logging import RichHandler
 from ETS2LA.utils.colors import *
+import logging
 import os
 
 def SetupGlobalLogging():
@@ -11,9 +12,10 @@ def SetupGlobalLogging():
 
     # Set up logging
     logging.basicConfig(format=
-                        f'{DARK_GREY}[%(asctime)s]{END} %(levelname)s {DARK_GREY}%(filename)s{END} \t %(message)s', 
+                        f'[dim]%(filename)s[/dim] \t %(message)s', 
                         level=logging.INFO,
-                        datefmt=f'%H:%M:%S'
+                        datefmt=f'%H:%M:%S',
+                        handlers=[RichHandler(markup=True, rich_tracebacks=True, show_level=True)]
                         )
     
     

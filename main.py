@@ -1,8 +1,9 @@
 """This file serves as the overseer to ETS2LA. It allows the app to restart itself without user input."""
 
 import ETS2LA.backend.globalServer as globalServer
-import sys
 import traceback
+from rich.console import Console
+import sys
 import os
 
 # Remove the PyGame promopt on startup
@@ -16,6 +17,8 @@ YELLOW = "\033[93m"
 BLUE = "\033[94m"
 DARK_GRAY = "\033[90m"
 NORMAL = "\033[0m"
+
+console = Console()
 
 def CloseNode():
     # Close NodeJS to stop the frontend
@@ -61,7 +64,6 @@ if __name__ == "__main__":
         try:
             import ETS2LA.core as ETS2LA
             ETS2LA.run()
-            print("ETS2LA has started successfully!")
         except Exception as e:
             if e.args[0] == "exit":
                 CloseNode()
@@ -88,8 +90,8 @@ if __name__ == "__main__":
                 sys.exit(0)
             
             print(f"ETS2LA has crashed with the following error:")
-            traceback.print_exc()
             error = traceback.format_exc()
+            console.print_exception()
             try:
                 globalServer.SendCrashReport("ETS2LA 2.0 - Overseer", str(error))
             except: pass

@@ -7,6 +7,7 @@ import ETS2LA.frontend.webpage as webpage
 import ETS2LA.networking.godot as godot
 import ETS2LA.backend.events as events
 from ETS2LA.utils.logging import *
+import rich
 import time
 import os
 
@@ -26,7 +27,6 @@ def run():
     global lastPingTime
     while True:
         time.sleep(0.01)
-        
         for func in webserver.mainThreadQueue:
             func[0](*func[1], **func[2])
             webserver.mainThreadQueue.remove(func)
