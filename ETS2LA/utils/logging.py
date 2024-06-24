@@ -78,6 +78,5 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
         logging.getLogger().addHandler(file_handler)
         
     # Create a console handler with a higher log level
-    logging.getLogger().addHandler(RichHandler(markup=True, rich_tracebacks=True, show_level=True, level=console_level))
-        
+    logging.getLogger().addHandler(RichHandler(markup=True, rich_tracebacks=True, show_level=True, level=console_level, log_time_format="%H:%M:%S"))
     return logging.getLogger()
