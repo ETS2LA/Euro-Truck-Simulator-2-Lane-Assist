@@ -4,6 +4,7 @@ from ETS2LA.utils.logging import *
 from rich.console import Console
 import multiprocessing
 import threading
+import traceback
 import importlib
 import logging
 import time
@@ -39,10 +40,8 @@ class PluginRunner():
             self.plugin = importlib.import_module(plugin_path)
             logging.info(f"PluginRunner: Imported plugin {plugin_path}")
         except Exception as e:
-            import traceback
-            logging.error(f"PluginRunner: Could not import plugin {plugin_path} with trace:")
+            logging.exception(f"PluginRunner: Could not import plugin {plugin_path}")
             logging.info(traceback.format_exc())
-            self.console.print_exception()
             return
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
         self.plugin_name = self.plugin_data["name"]
@@ -65,7 +64,8 @@ class PluginRunner():
                 module.runner = self
                 logging.info(f"PluginRunner: Loaded module {module}")
             except Exception as e:
-                logging.error(f"PluginRunner: Could not load module {module} with error: {e}")
+                logging.exception(f"PluginRunner: Could not load module {module}")
+                logging.info(traceback.format_exc())
                 continue
             self.modules[moduleName] = module
             
@@ -77,10 +77,8 @@ class PluginRunner():
             try:
                 self.modulesDict[module].Initialize()
             except Exception as e:
-                import traceback
-                logging.error(f"PluginRunner: Error while running Initialize() for {module} with error '{e}'.")
+                logging.exception(f"PluginRunner: Error while running Initialize() for {module}")
                 logging.info(traceback.format_exc())
-                self.console.print_exception()
                 continue
         
         try:
@@ -89,11 +87,8 @@ class PluginRunner():
             else:
                 logging.info(f"PluginRunner: Plugin {self.plugin_name} is temporary, skipping Initialize(), please call it in the function manually if necessary.")
         except Exception as e:
-            import traceback
-            error = traceback.format_exc()
-            logging.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}. Full traceback:")
-            logging.info(error)
-            self.console.print_exception()
+            logging.exception(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}. Full traceback:")
+            logging.info(traceback.format_exc())
             
         
         # Run the plugin
@@ -117,7 +112,7 @@ class PluginRunner():
                         self.modulesDict[moduleName] = module
                         logging.info(f"PluginRunner: Loaded module {moduleName}")
                     except Exception as e:
-                        logging.error(f"PluginRunner: Could not load module {module_path} with error: {e}")
+                        logging.exception(f"PluginRunner: Could not load module {module_path} with error: {e}")
                         continue
                     
                     self.modules = SimpleNamespace(**self.modulesDict)
@@ -126,7 +121,7 @@ class PluginRunner():
                         self.modulesDict[moduleName].Initialize()
                         logging.info(f"PluginRunner: Reinitialized {moduleName}")
                     except Exception as e:
-                        logging.error(f"PluginRunner: Error while running Initialize() for {module_path} with error {e}")
+                        logging.exception(f"PluginRunner: Error while running Initialize() for {module_path} with error {e}")
                         continue
                     
                     logging.warning(f"PluginRunner: Module {module_path} reloaded")
@@ -137,21 +132,21 @@ class PluginRunner():
                             self.modulesDict[module].Initialize()
                             logging.info(f"PluginRunner: Reinitialized {module}")
                     except Exception as e:
-                        logging.error(f"PluginRunner: Error while running Initialize() for {module} with error {e}")
+                        logging.exception(f"PluginRunner: Error while running Initialize() for {module} with error {e}")
                         continue
                     
                     try:
                         self.plugin.Initialize()
                         logging.info(f"PluginRunner: Reinitialized {self.plugin_name}")
                     except Exception as e:
-                        logging.error(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
+                        logging.exception(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
                         continue
                     
                     # Remove the old module
                     try:
                         del oldModule
                     except:
-                        logging.error(f"PluginRunner: Could not delete old module {oldModule}")
+                        logging.exception(f"PluginRunner: Could not delete old module {oldModule}")
                     
             
             time.sleep(1)
@@ -178,7 +173,7 @@ class PluginRunner():
                     self.frp.send(data)
                     self.fq.task_done()
                 except Exception as e:
-                    logging.error(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")
+                    logging.exception(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")
 
     def eventThread(self):
         while True:
@@ -218,10 +213,8 @@ class PluginRunner():
             try:
                 data = self.plugin.plugin()
             except:
-                import traceback
-                logging.error(f"PluginRunner: Plugin {self.plugin_name} has crashed with the following error:")
+                logging.exception(f"PluginRunner: Plugin {self.plugin_name} has crashed with the following error:")
                 logging.info(traceback.format_exc())
-                self.console.print_exception()
                 self.q.put(None)
                 return 
             pluginExec = time.time()

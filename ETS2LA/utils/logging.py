@@ -54,9 +54,10 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
 
     # Set up logging
     logging.basicConfig(format=
-                        f'{DARK_GREY}[%(asctime)s]{END} %(levelname)s {DARK_GREY}%(filename)s{END} \t %(message)s', 
+                        f'[dim]%(filename)s[/dim] \t %(message)s',
                         level=logging.DEBUG,
-                        datefmt=f'%H:%M:%S'
+                        datefmt=f'%H:%M:%S',
+                        handlers=[RichHandler(markup=True, rich_tracebacks=True, show_level=True)]
                         )
     
     # Create a file handler
@@ -77,9 +78,6 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
         logging.getLogger().addHandler(file_handler)
         
     # Create a console handler with a higher log level
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(console_level)
-    console_handler.setFormatter(logging.Formatter(f'{DARK_GREY}[%(asctime)s]{END} %(levelname)s {DARK_GREY}%(filename)s{END} \t %(message)s', datefmt=f'%H:%M:%S'))
-    logging.getLogger().addHandler(console_handler)
+    logging.getLogger().addHandler(RichHandler(markup=True, rich_tracebacks=True, show_level=True, level=console_level))
         
     return logging.getLogger()
