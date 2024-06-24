@@ -73,6 +73,12 @@ class SCSController:
     accmode: bool = False
     showmirrors: bool = False
     flasher4way: bool = False
+    activate: bool = False
+    assistact1: bool = False
+    assistact2: bool = False
+    assistact3: bool = False
+    assistact4: bool = False
+    assistact5: bool = False
 
     def __init__(self):
         shm_size = 0
