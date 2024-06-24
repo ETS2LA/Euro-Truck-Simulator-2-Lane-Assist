@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/context-menu"
 import { useRouter } from 'next/navigation';
 import { useRouter as routerUseRouter } from 'next/router';
-import { token, setToken } from './backend';
+import { token, setToken, PlaySound } from './backend';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,6 +53,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const [status, setStatus] = useState("loading");
 
   const [Token, SetToken] = useState("");
+
+  useEffect(() => {
+    try {
+      PlaySound("localhost", "boot")
+    }
+    catch (e) {
+      console.log("Not running on the local machine")
+    }
+  }, [])
+
   // Try and get the token from local storage
   useEffect(() => {
     const token = localStorage.getItem('token');

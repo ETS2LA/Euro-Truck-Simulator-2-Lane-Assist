@@ -4,7 +4,6 @@ import ETS2LA.frontend.immediate as immediate
 import ETS2LA.backend.variables as variables
 import ETS2LA.backend.controls as controls
 import ETS2LA.frontend.webpage as webpage
-import ETS2LA.backend.backend as backend
 import ETS2LA.networking.godot as godot
 import ETS2LA.backend.events as events
 from ETS2LA.utils.logging import *
@@ -13,17 +12,14 @@ import os
 
 # Initialize the backend
 logger = SetupGlobalLogging()
-immediate.run() # Websockets server for immediate data
-webserver.run() # External webserver for the UI
-godot.run() # Godot server for the visualisation
-webpage.run() # webview to the website.
-events.run() # Event handlers
-controls.run() # Control handlers
+immediate.run()  # Websockets server for immediate data
+webserver.run()  # External webserver for the UI
+godot.run()      # Godot server for the visualisation
+webpage.run()    # Webview to the website.
+events.run()     # Event handlers
+controls.run()   # Control handlers
 
 logging.info("ETS2LA backend has been started successfully.")
-
-import ETS2LA.backend.sounds as sounds
-sounds.Play("boot")
 
 lastPingTime = 0
 def run():

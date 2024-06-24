@@ -3,6 +3,7 @@ import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
+import ETS2LA.backend.sounds as sounds
 import ETS2LA.backend.git as git
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -183,6 +184,11 @@ def get_tags_list():
     data = backend.globalData
     keys = list(data.keys())
     return keys
+
+@app.get("/api/sounds/play/{sound}")
+def play_sound(sound: str):
+    sounds.Play(sound)
+    return True
 
 
 def RunFrontend():
