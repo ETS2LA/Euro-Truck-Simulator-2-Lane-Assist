@@ -53,7 +53,7 @@ controls.RegisterKeybind("Lane change to the right",
 def ToggleSteering(state:bool, *args, **kwargs):
     global enabled
     enabled = state
-    sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
+    sounds.Play('start' if state else 'end')
 
 ############################################################################################################################    
 # Settings
@@ -1037,7 +1037,7 @@ def plugin():
 
         if valid_setup == False:
             if allow_playsound == True:
-                sounds.PlaysoundFromLocalPath("ETS2LA/assets/sounds/info.mp3")
+                sounds.Play("info")
                 allow_playsound = False
                 allow_playsound_timer = current_time
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
@@ -1055,7 +1055,7 @@ def plugin():
 
         elif do_blocked == True:
             if allow_playsound == True:
-                sounds.PlaysoundFromLocalPath("ETS2LA/assets/sounds/info.mp3")
+                sounds.Play("info")
                 allow_playsound = False
                 allow_playsound_timer = current_time
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
@@ -1073,7 +1073,7 @@ def plugin():
 
         elif do_zoom == True:
             if allow_playsound == True:
-                sounds.PlaysoundFromLocalPath("ETS2LA/assets/sounds/info.mp3")
+                sounds.Play("info")
                 allow_playsound = False
                 allow_playsound_timer = current_time
             frame = cv2.GaussianBlur(frame, (9, 9), 0)
@@ -1091,7 +1091,7 @@ def plugin():
 
         elif width_lane == 0:
             if allow_playsound == True:
-                sounds.PlaysoundFromLocalPath("ETS2LA/assets/sounds/info.mp3")
+                sounds.Play("info")
                 allow_playsound = False
                 allow_playsound_timer = current_time
             frame = cv2.GaussianBlur(frame, (9, 9), 0)

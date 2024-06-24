@@ -22,6 +22,9 @@ controls.run() # Control handlers
 
 logging.info("ETS2LA backend has been started successfully.")
 
+import ETS2LA.backend.sounds as sounds
+sounds.Play("boot")
+
 lastPingTime = 0
 def run():
     global lastPingTime

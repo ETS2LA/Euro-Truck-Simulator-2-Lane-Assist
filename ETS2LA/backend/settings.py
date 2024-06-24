@@ -7,6 +7,8 @@ import random
 def GetFilename(plugin):
     if "/" in plugin or "\\" in plugin:
         filename = plugin
+    elif plugin == "global":
+        filename = "ETS2LA/global.json"
     else: 
         filename = "ETS2LA/plugins/" + plugin + "/settings.json"
     
@@ -98,7 +100,7 @@ def Get(plugin, key, default=None):
     """Will get the settings for the plugin and key provided. If the key is not found, it will return the default value provided.
 
     Args:
-        plugin (str): Plugin name to get the settings from.
+        plugin (str): Plugin name to get the settings from. Alternatively, the full path to the settings file.
         key (str): The key to get the value from.
         default (any, optional): Default value if data has not yet been set. Defaults to None.
 
@@ -155,7 +157,7 @@ def Set(plugin, key, value):
     """Will set the settings for the plugin and key provided.
 
     Args:
-        plugin (str): Plugin name to set the settings for.
+        plugin (str): Plugin name to set the settings for. Alternatively, the full path to the settings file.
         key (str): Key of the value to set.
         value (any): Value to set the key to.
 

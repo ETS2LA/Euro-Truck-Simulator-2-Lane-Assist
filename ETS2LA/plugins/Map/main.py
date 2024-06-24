@@ -22,7 +22,7 @@ from GameData import roads, nodes, prefabs, prefabItems
 import Compute.compute as compute
 from Visualize import visualize
 from ETS2LA.plugins.runner import PluginRunner
-from ETS2LA.backend.sounds import sounds
+import ETS2LA.backend.sounds as sounds
 import sys
 import numpy as np
 import json
@@ -58,7 +58,7 @@ runner:PluginRunner = None
 def ToggleSteering(state:bool, *args, **kwargs):
     global ENABLED
     ENABLED = state
-    sounds.PlaysoundFromLocalPath(f"ETS2LA/assets/sounds/{('start' if state else 'end')}.mp3")
+    sounds.Play('start' if state else 'end')
 
 # MARK: Initialize
 def Initialize():

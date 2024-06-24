@@ -19,6 +19,9 @@
         "imshow",
         "padx",
         "pady",
-        "sonner"
+        "pygame",
+        "sonner",
+        "SOUNDPACK",
+        "SOUNDPACKS"
     ]
 }

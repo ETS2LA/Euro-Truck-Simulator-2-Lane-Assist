@@ -1,0 +1,13 @@
+{
+    "comment": "Create your soundpack in this folder, make sure it contains the sounds below in the accepted formats!",
+    "required_sounds": [
+        "start",
+        "end",
+        "warning",
+        "info",
+        "boot"
+    ],
+    "accepted_formats" : [
+        "mp3"
+    ]
+}
