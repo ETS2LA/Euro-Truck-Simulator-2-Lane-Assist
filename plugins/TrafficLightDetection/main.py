@@ -643,8 +643,6 @@ def GetAIModelProperties():
     global MODEL_TRAINING_DATE
     try:
         ModelFolderExists()
-        if GetAIModelName() == "UNKNOWN":
-            return
         MODEL_METADATA = {"data": []}
         IMG_WIDTH = "UNKNOWN"
         IMG_HEIGHT = "UNKNOWN"
@@ -654,6 +652,8 @@ def GetAIModelProperties():
         MODEL_IMAGE_COUNT = "UNKNOWN"
         MODEL_TRAINING_TIME = "UNKNOWN"
         MODEL_TRAINING_DATE = "UNKNOWN"
+        if GetAIModelName() == "UNKNOWN":
+            return
         torch.jit.load(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
         MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
         for var in MODEL_METADATA:

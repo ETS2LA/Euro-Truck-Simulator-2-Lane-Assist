@@ -1,1 +1,1 @@
-Try to fix mainUI root error on startup.
+Traffic light detection fix.
