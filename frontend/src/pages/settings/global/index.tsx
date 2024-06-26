@@ -74,6 +74,11 @@ export default function Home({ ip }: { ip: string }) {
         mutate("globals", {...data, [key]: value}, false) // Update the local state
     }
 
+    const handleBooleanChange = (key:string, value:boolean) => {
+        SetSettingByKey("global", key, value, ip)
+        mutate("globals", {...data, [key]: value}, false) // Update the local state
+    }
+
     return (
         <div className="flex space-x-3">
             <Card className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 h-[calc(100vh-72px)] overflow-auto auto-rows-min w-full">
@@ -90,7 +95,7 @@ export default function Home({ ip }: { ip: string }) {
                                         <Checkbox
                                             checked={data[key]}
                                             onClick={(e) => {
-                                                SetSettingByKey("global", key, !data[key], ip)
+                                                handleBooleanChange(key, !data[key])
                                             }}
                                             className="w-5 h-5"
                                         /> : types[keys.indexOf(key)] === "string" ? 
