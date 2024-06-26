@@ -12,10 +12,10 @@ def SetupGlobalLogging():
 
     # Set up logging
     logging.basicConfig(format=
-                        f'[dim]%(filename)s[/dim] \t %(message)s', 
+                        f'[dim][link file://%(pathname)s]%(filename)s[/link file://%(pathname)s][/dim]\t %(message)s', 
                         level=logging.INFO,
                         datefmt=f'%H:%M:%S',
-                        handlers=[RichHandler(markup=True, rich_tracebacks=True, show_level=True)]
+                        handlers=[RichHandler(markup=True, rich_tracebacks=True, show_level=True, show_path=False)]
                         )
     
     
@@ -54,7 +54,7 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
 
     # Set up logging
     logging.basicConfig(format=
-                        f'[dim]%(filename)s[/dim] \t %(message)s',
+                        f'[dim][link file://%(pathname)s]%(filename)s[/link file://%(pathname)s][/dim]\t %(message)s',
                         level=logging.DEBUG,
                         datefmt=f'%H:%M:%S',
                         handlers=[RichHandler(markup=True, rich_tracebacks=True, show_level=True)]
