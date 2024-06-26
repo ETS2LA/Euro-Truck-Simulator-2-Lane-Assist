@@ -39,7 +39,7 @@ def SetupGlobalLogging():
     
     return logging.getLogger()
 
-def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
+def SetupProcessLogging(name, console_level=logging.INFO, filepath="", use_fancy_traceback=True):
     # Remove the default handler
     logging.getLogger().handlers = []
     logging.getLogger().addHandler(logging.NullHandler())
@@ -57,7 +57,7 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
                         f'[dim][link file://%(pathname)s]%(filename)s[/link file://%(pathname)s][/dim]\t %(message)s',
                         level=logging.DEBUG,
                         datefmt=f'%H:%M:%S',
-                        handlers=[RichHandler(markup=True, rich_tracebacks=True, show_level=True)]
+                        handlers=[RichHandler(markup=True, rich_tracebacks=use_fancy_traceback, show_level=True)]
                         )
     
     # Create a file handler
