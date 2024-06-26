@@ -1,4 +1,5 @@
 from multiprocessing.connection import Connection
+import ETS2LA.backend.settings as settings
 from types import SimpleNamespace
 from ETS2LA.utils.logging import *
 from rich.console import Console
@@ -214,9 +215,12 @@ class PluginRunner():
                 data = self.plugin.plugin()
             except:
                 logging.exception(f"PluginRunner: Plugin {self.plugin_name} has crashed with the following error:")
-                logging.info(traceback.format_exc())
-                self.q.put(None)
-                return 
+                if settings.Get("global", "default_traceback_prints", False):
+                    traceback.print_exc()
+                else: 
+                    logging.info(traceback.format_exc())
+                    self.q.put(None)
+                return
             pluginExec = time.time()
             if data != None:
                 self.q.put(data, block=True)
