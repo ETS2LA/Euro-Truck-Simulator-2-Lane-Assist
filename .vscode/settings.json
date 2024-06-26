@@ -22,6 +22,9 @@
         "pygame",
         "sonner",
         "SOUNDPACK",
-        "SOUNDPACKS"
+        "SOUNDPACKS",
+        "visualisation",
+        "webserver",
+        "Websockets"
     ]
 }
