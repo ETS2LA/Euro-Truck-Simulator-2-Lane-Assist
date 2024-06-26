@@ -1,7 +1,8 @@
 from ETS2LA.plugins.runner import PluginRunner
+import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.console as console
-import ETS2LA.backend.variables as variables
+import ETS2LA.backend.pytorch as pytorch
 
 if variables.OS == "nt":
     from ctypes import windll, byref, sizeof, c_int
@@ -9,7 +10,6 @@ if variables.OS == "nt":
 import numpy as np
 import threading
 import traceback
-import socket
 import ctypes
 import math
 import time
@@ -19,8 +19,21 @@ import os
 
 def SendCrashReport(arg1="", arg2=""): return # REMOVE THIS LATER
 
-
 runner:PluginRunner = None
+
+try:
+    from torchvision import transforms
+    from bs4 import BeautifulSoup
+    import requests
+    import torch
+    TorchAvailable = True
+except:
+    TorchAvailable = False
+    exc = traceback.format_exc()
+    SendCrashReport("TrafficLightDetection - PyTorch import error.", str(exc))
+    print("\033[91m" + f"TrafficLightDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
+    pytorch.CheckPyTorch()
+    console.RestoreConsole()
 
 sct = mss.mss()
 monitor = sct.monitors[(settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)]
@@ -46,6 +59,12 @@ def Initialize():
     global TruckSimAPI
     global ScreenCapture
 
+    global UseAI
+    global UseCUDA
+    global AIDevice
+    global LoadAILabel
+    global LoadAIProgress
+
     global min_rect_size
     global max_rect_size
     global width_height_ratio
@@ -62,11 +81,6 @@ def Initialize():
     global advancedmode
     global windowscale
     global posestwindowscale
-    global yolo_detection
-    global yolo_showunconfirmed
-    global yolo_model_loaded
-    global yolo_model_str
-    global yolo_model
     global coordinates
     global trafficlights
     global windowwidth
@@ -84,7 +98,7 @@ def Initialize():
     global rectsizefilter
     global widthheightratiofilter
     global pixelpercentagefilter
-    global otherlightsofffilter
+    global pixelblobshapefilter
     global urr
     global urg
     global urb
@@ -112,6 +126,19 @@ def Initialize():
 
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
+
+    if 'UseAI' in globals():
+        if UseAI == False and settings.Get("TrafficLightDetection", "UseAI", False) == True:
+            if TorchAvailable == True:
+                LoadAIModel()
+            else:
+                print("TrafficLightDetectionAI not available due to missing dependencies.")
+                console.RestoreConsole()
+    UseAI = settings.Get("TrafficLightDetection", "UseAI", False)
+    UseCUDA = settings.Get("TrafficLightDetection", "UseCUDA", False)
+    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
+    LoadAILabel = "Loading..."
+    LoadAIProgress = 0
 
     finalwindow = settings.Get("TrafficLightDetection", "FinalWindow", True)
     grayscalewindow = settings.Get("TrafficLightDetection", "GrayscaleWindow", False)
@@ -149,15 +176,7 @@ def Initialize():
     rectsizefilter = settings.Get("TrafficLightDetection", "FiltersMinimalTrafficLightSize", True)
     widthheightratiofilter = settings.Get("TrafficLightDetection", "FiltersWidthHeightRatioFilter", True)
     pixelpercentagefilter = settings.Get("TrafficLightDetection", "FiltersPixelPercentageFilter", True)
-    otherlightsofffilter = settings.Get("TrafficLightDetection", "FiltersOtherLightsFilter", True)
-
-    yolo_detection = settings.Get("TrafficLightDetection", "ConfirmDetectedTrafficLightswithAI", True)
-    yolo_showunconfirmed = settings.Get("TrafficLightDetection", "ShowUnconfirmedTrafficLights", True)
-    yolo_model_str = settings.Get("TrafficLightDetection", "YOLOModel", "YOLOv5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
-    
-    if yolo_detection == True:
-        if yolo_model_loaded == False:
-            yolo_load_model()
+    pixelblobshapefilter = settings.Get("TrafficLightDetection", "FiltersPixelBlobShapeFilter", True)
 
     coordinates = []
     trafficlights = []
@@ -300,113 +319,319 @@ def get_screen():
     return screen_x, screen_y, screen_width, screen_height
 
 
-def check_internet_connection(host="github.com", port=443, timeout=3):
+def get_text_size(text="NONE", text_width=100, max_text_height=100):
+    fontscale = 1
+    textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+    width_current_text, height_current_text = textsize
+    max_count_current_text = 3
+    while width_current_text != text_width or height_current_text > max_text_height:
+        fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
+        textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
+        max_count_current_text -= 1
+        if max_count_current_text <= 0:
+            break
+    thickness = round(fontscale * 2)
+    if thickness <= 0:
+        thickness = 1
+    return text, fontscale, thickness, textsize[0], textsize[1]
+
+
+def ClassifyImage(image):
     try:
-        socket.create_connection((host, port), timeout=timeout)
-        return True
+        if AIModelUpdateThread.is_alive(): return True
+        if AIModelLoadThread.is_alive(): return True
     except:
-        return False
+        return True
+
+    image = np.array(image, dtype=np.float32)
+    if IMG_CHANNELS == 'Grayscale' or IMG_CHANNELS == 'Binarize':
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    if IMG_CHANNELS == 'RG':
+        image = np.stack((image[:, :, 0], image[:, :, 1]), axis=2)
+    elif IMG_CHANNELS == 'GB':
+        image = np.stack((image[:, :, 1], image[:, :, 2]), axis=2)
+    elif IMG_CHANNELS == 'RB':
+        image = np.stack((image[:, :, 0], image[:, :, 2]), axis=2)
+    elif IMG_CHANNELS == 'R':
+        image = image[:, :, 0]
+        image = np.expand_dims(image, axis=2)
+    elif IMG_CHANNELS == 'G':
+        image = image[:, :, 1]
+        image = np.expand_dims(image, axis=2)
+    elif IMG_CHANNELS == 'B':
+        image = image[:, :, 2]
+        image = np.expand_dims(image, axis=2)
+    image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
+    image = image / 255.0
+    if IMG_CHANNELS == 'Binarize':
+        image = cv2.threshold(image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
+
+    image = transforms.ToTensor()(image).unsqueeze(0).to(AIDevice)
+    with torch.no_grad():
+        output = np.array(AIModel(image)[0].tolist())
+    obj_class = np.argmax(output)
+    return True if obj_class != 3 else False
 
 
-def yolo_load_model():
-    global yolo_model
-    global yolo_model_loaded
-    global yolo_detection
-    global yolo_showunconfirmed
-    global yolo_model_str
-    yolo_detection = settings.Get("TrafficLightDetection", "ConfirmDetectedTrafficLightswithAI", True)
-    yolo_showunconfirmed = settings.Get("TrafficLightDetection", "ShowUnconfirmedTrafficLights", True)
-    yolo_model_str = settings.Get("TrafficLightDetection", "YOLOModel", "YOLOv5n") # 'yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x'
-    if yolo_model_loaded == False:
-        yolo_model_loaded = "loading..."
-        yolo_model = None
-        def yolo_load_model_thread():
-            global yolo_model
-            global yolo_model_loaded
-            global yolo_detection
+def HandleCorruptedAIModel():
+    DeleteAllAIModels()
+    CheckForAIModelUpdates()
+    while AIModelUpdateThread.is_alive(): time.sleep(0.1)
+    time.sleep(0.5)
+    if TorchAvailable == True:
+        LoadAIModel()
+    else:
+        print("TrafficLightDetectionAI not available due to missing dependencies.")
+        console.RestoreConsole()
+
+
+def LoadAIModel():
+    try:
+        def LoadAIModelThread():
             try:
-                print("\033[92m" + f"Loading the {yolo_model_str} model..." + "\033[0m")
-                import torch
-                torch.hub.set_dir(f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOFiles")
-                yolo_model = torch.hub.load("ultralytics/yolov5:master", 'custom', f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOModels\\{yolo_model_str.lower()}")
-                print("\033[92m" + f"Successfully loaded the {yolo_model_str} model!" + "\033[0m")
-                yolo_model_loaded = True
+                global LoadAILabel
+                global LoadAIProgress
+                global AIModel
+                global AIModelLoaded
+
+                CheckForAIModelUpdates()
+                while AIModelUpdateThread.is_alive(): time.sleep(0.1)
+
+                if GetAIModelName() == "UNKNOWN":
+                    return
+
+                LoadAIProgress = 0
+                LoadAILabel = "Loading the AI model..."
+
+                print("\033[92m" + f"Loading the AI model..." + "\033[0m")
+
+                GetAIModelProperties()
+
+                ModelFileCorrupted = False
+
+                try:
+                    AIModel = torch.jit.load(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", GetAIModelName()), map_location=AIDevice)
+                    AIModel.eval()
+                except:
+                    ModelFileCorrupted = True
+
+                if ModelFileCorrupted == False:
+                    print("\033[92m" + f"Successfully loaded the AI model!" + "\033[0m")
+                    AIModelLoaded = True
+                    LoadAIProgress = 100
+                    LoadAILabel = "Successfully loaded the AI model!"
+                else:
+                    print("\033[91m" + f"Failed to load the AI model because the model file is corrupted." + "\033[0m")
+                    AIModelLoaded = False
+                    LoadAIProgress = 0
+                    LoadAILabel = "ERROR! Your AI model file is corrupted!"
+                    time.sleep(3)
+                    HandleCorruptedAIModel()
             except Exception as e:
                 exc = traceback.format_exc()
-                SendCrashReport("TrafficLightDetection - Loading YOLO Error.", str(exc))
+                SendCrashReport("TrafficLightDetection - Loading AI Error.", str(exc))
                 console.RestoreConsole()
-                print("\033[91m" + f"Failed to load the {yolo_model_str} model: " + "\033[0m" + str(e))
-                internet_connection = check_internet_connection()
-                if internet_connection == False:
-                    print("\033[91m" + f"Possible reason: No internet connection" + "\033[0m")
-                yolo_model_loaded = False
-                yolo_detection = False
-            runner.sonner(f"Successfully loaded the {yolo_model_str} model!", type="success", promise=f"Loading the {yolo_model_str} model... This may take a while...")
+                print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
+                AIModelLoaded = False
+                LoadAIProgress = 0
+                LoadAILabel = "Failed to load the AI model!"
 
-        #import matplotlib
-        #matplotlib.use("Agg") # this mathplotlib thing fixed a problem in ETS2LA v1.x.x, i dont know if i will need it again, just leave it here
+        global AIModelLoadThread
+        AIModelLoadThread = threading.Thread(target=LoadAIModelThread)
+        AIModelLoadThread.start()
 
-        runner.sonner(f"Loading the {yolo_model_str} model... This may take a while...", type="promise")
-
-        model_thread = threading.Thread(target=yolo_load_model_thread, daemon=True)
-        model_thread.start()
-
-
-def save_and_load_model():
-    global last_model_load_press
-    global yolo_model_loaded
-    if time.time() > last_model_load_press + 1:
-        last_model_load_press = time.time()
-        if yolo_model_loaded != "loading...":
-            yolo_model_loaded = False
-            yolo_load_model()
-            Initialize()
-        else:
-            runner.sonner("The code is still loading a different model. Please try again when the other model has finished loading.")
-    else:
-        runner.sonner("The code is still loading a different model. Please try again when the other model has finished loading.")
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function LoadAIModel.", str(exc))
+        print(f"TrafficLightDetection - Error in function LoadAIModel: {ex}")
+        console.RestoreConsole()
+        print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
 
 
-def delete_and_redownload_model():
-    global last_model_load_press
-    global yolo_model_loaded
-    if time.time() > last_model_load_press + 1:
-        last_model_load_press = time.time()
-        if yolo_model_loaded != "loading...":
+def CheckForAIModelUpdates():
+    try:
+        def CheckForAIModelUpdatesThread():
             try:
-                yolomodels_path = f"{variables.PATH}ETS2LA\\plugins\\TrafficLightDetection\\YOLOModels"
-                for filename in os.listdir(yolomodels_path):
-                    file_path = os.path.join(yolomodels_path, filename)
-                    if os.path.isfile(file_path) and filename.lower() != 'index.md':
-                        os.remove(file_path)
-            except Exception as e:
-                runner.sonner("The code encountered an error while deleting the model files. Please try again.")
+                global LoadAILabel
+                global LoadAIProgress
+
+                try:
+                    response = requests.get("https://huggingface.co/", timeout=3)
+                    response = response.status_code
+                except requests.exceptions.RequestException as ex:
+                    response = None
+
+                if response == 200:
+                    LoadAIProgress = 0
+                    LoadAILabel = "Checking for AI model updates..."
+
+                    print("\033[92m" + f"Checking for AI model updates..." + "\033[0m")
+
+                    url = "https://huggingface.co/Glas42/TrafficLightDetectionAI/tree/main/model"
+                    response = requests.get(url)
+                    soup = BeautifulSoup(response.content, 'html.parser')
+
+                    for link in soup.find_all('a', href=True):
+                        href = link['href']
+                        if href.startswith('/Glas42/TrafficLightDetectionAI/blob/main/model'):
+                            LatestAIModel = href.split("/")[-1]
+                            break
+
+                    CurrentAIModel = GetAIModelName()
+                    if CurrentAIModel == "UNKNOWN":
+                        CurrentAIModel = None
+
+                    if str(LatestAIModel) != str(CurrentAIModel):
+                        LoadAILabel = "Updating AI model..."
+                        print("\033[92m" + f"Updating AI model..." + "\033[0m")
+                        DeleteAllAIModels()
+                        response = requests.get(f"https://huggingface.co/Glas42/TrafficLightDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
+                        last_progress = 0
+                        with open(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
+                            total_size = int(response.headers.get('content-length', 0))
+                            downloaded_size = 0
+                            chunk_size = 1024
+                            for data in response.iter_content(chunk_size=chunk_size):
+                                downloaded_size += len(data)
+                                modelfile.write(data)
+                                progress = (downloaded_size / total_size) * 100
+                                if round(last_progress) < round(progress):
+                                    progress_mb = downloaded_size / (1024 * 1024)
+                                    total_size_mb = total_size / (1024 * 1024)
+                                    LoadAIProgress = progress
+                                    LoadAILabel = f"Downloading AI model: {round(progress)}%"
+                                    last_progress = progress
+                        LoadAIProgress = 100
+                        LoadAILabel = "Successfully updated AI model!"
+                        print("\033[92m" + f"Successfully updated AI model!" + "\033[0m")
+                    else:
+                        LoadAIProgress = 100
+                        LoadAILabel = "No AI model updates available!"
+                        print("\033[92m" + f"No AI model updates available!" + "\033[0m")
+
+                else:
+
+                    console.RestoreConsole()
+                    print("\033[91m" + f"Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for AI model updates." + "\033[0m")
+                    LoadAIProgress = 0
+                    LoadAILabel = "Connection to https://huggingface.co/ is\nmost likely not available in your country.\nUnable to check for AI model updates."
+
+            except Exception as ex:
                 exc = traceback.format_exc()
-                SendCrashReport("TrafficLightDetection - Model Delete Error.", str(exc))
-                print("TrafficLightDetection - Model Delete Error: " + str(e))
-            yolo_model_loaded = False
-            yolo_load_model()
-            Initialize()
-        else:
-            runner.sonner("The code is still loading a model. Please try again when the model has finished loading.")
-    else:
-        runner.sonner("The code is still loading a model. Please try again when the model has finished loading.")
+                SendCrashReport("TrafficLightDetection - Error in function CheckForAIModelUpdatesThread.", str(exc))
+                print(f"TrafficLightDetection - Error in function CheckForAIModelUpdatesThread: {ex}")
+                console.RestoreConsole()
+                print("\033[91m" + f"Failed to check for AI model updates or update the AI model." + "\033[0m")
+                LoadAIProgress = 0
+                LoadAILabel = "Failed to check for AI model updates or update the AI model."
+
+        global AIModelUpdateThread
+        AIModelUpdateThread = threading.Thread(target=CheckForAIModelUpdatesThread)
+        AIModelUpdateThread.start()
+
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function CheckForAIModelUpdates.", str(exc))
+        print(f"TrafficLightDetection - Error in function CheckForAIModelUpdates: {ex}")
+        console.RestoreConsole()
+        print("\033[91m" + f"Failed to check for AI model updates or update the AI model." + "\033[0m")
 
 
-def yolo_detection_function(yolo_detection_frame):
-    trafficlight = False
-    if yolo_model is None or yolo_model_loaded == False:
-        if yolo_model_loaded != "loading...":
-            yolo_load_model()
-        else:
-            return trafficlight
-    results = yolo_model(yolo_detection_frame)
-    boxes = results.pandas().xyxy[0]
-    for _, box in boxes.iterrows():
-        if box['name'] in ['traffic light']:
-            if (int(box['xmin']) < round(yolo_detection_frame.shape[1] / 2) < int(box['xmax'])) and (int(box['ymin']) < round(yolo_detection_frame.shape[0] / 2) < int(box['ymax'])):
-                trafficlight = True
-    return trafficlight
+def ModelFolderExists():
+    try:
+        if os.path.exists(f"{variables.PATH}plugins/TrafficLightDetection/AIModel") == False:
+            os.makedirs(f"{variables.PATH}plugins/TrafficLightDetection/AIModel")
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function ModelFolderExists.", str(exc))
+        print(f"TrafficLightDetection - Error in function ModelFolderExists: {ex}")
+        console.RestoreConsole()
+
+
+def GetAIModelName():
+    try:
+        ModelFolderExists()
+        for file in os.listdir(f"{variables.PATH}plugins/TrafficLightDetection/AIModel"):
+            if file.endswith(".pt"):
+                return file
+        return "UNKNOWN"
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function GetAIModelName.", str(exc))
+        print(f"TrafficLightDetection - Error in function GetAIModelName: {ex}")
+        console.RestoreConsole()
+        return "UNKNOWN"
+
+
+def DeleteAllAIModels():
+    try:
+        ModelFolderExists()
+        for file in os.listdir(f"{variables.PATH}plugins/TrafficLightDetection/AIModel"):
+            if file.endswith(".pt"):
+                os.remove(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", file))
+    except PermissionError:
+        global TorchAvailable
+        TorchAvailable = False
+        settings.Set("TrafficLightDetection", "UseAI", False)
+        print(f"TrafficLightDetection - PermissionError in function DeleteAllAIModels: {ex}")
+        print("TrafficLightDetectionAI will be automatically disabled because the code cannot delete the AI model.")
+        console.RestoreConsole()
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function DeleteAllAIModels.", str(exc))
+        print(f"TrafficLightDetection - Error in function DeleteAllAIModels: {ex}")
+        console.RestoreConsole()
+
+
+def GetAIModelProperties():
+    global MODEL_METADATA
+    global IMG_WIDTH
+    global IMG_HEIGHT
+    global IMG_CHANNELS
+    global MODEL_EPOCHS
+    global MODEL_BATCH_SIZE
+    global MODEL_IMAGE_COUNT
+    global MODEL_TRAINING_TIME
+    global MODEL_TRAINING_DATE
+    try:
+        ModelFolderExists()
+        MODEL_METADATA = {"data": []}
+        IMG_WIDTH = "UNKNOWN"
+        IMG_HEIGHT = "UNKNOWN"
+        IMG_CHANNELS = "UNKNOWN"
+        MODEL_EPOCHS = "UNKNOWN"
+        MODEL_BATCH_SIZE = "UNKNOWN"
+        MODEL_IMAGE_COUNT = "UNKNOWN"
+        MODEL_TRAINING_TIME = "UNKNOWN"
+        MODEL_TRAINING_DATE = "UNKNOWN"
+        if GetAIModelName() == "UNKNOWN":
+            return
+        torch.jit.load(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
+        MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
+        for var in MODEL_METADATA:
+            if "image_width" in var:
+                IMG_WIDTH = int(var.split("#")[1])
+            if "image_height" in var:
+                IMG_HEIGHT = int(var.split("#")[1])
+            if "image_channels" in var:
+                IMG_CHANNELS = str(var.split("#")[1])
+            if "epochs" in var:
+                MODEL_EPOCHS = int(var.split("#")[1])
+            if "batch" in var:
+                MODEL_BATCH_SIZE = int(var.split("#")[1])
+            if "image_count" in var:
+                MODEL_IMAGE_COUNT = int(var.split("#")[1])
+            if "training_time" in var:
+                MODEL_TRAINING_TIME = var.split("#")[1]
+            if "training_date" in var:
+                MODEL_TRAINING_DATE = var.split("#")[1]
+    except Exception as ex:
+        exc = traceback.format_exc()
+        SendCrashReport("TrafficLightDetection - Error in function GetAIModelProperties.", str(exc))
+        print(f"TrafficLightDetection - Error in function GetAIModelProperties: {ex}")
+        console.RestoreConsole()
 
 
 def GetGamePosition():
@@ -448,14 +673,14 @@ def plugin():
     global coordinates
     global trafficlights
     global reset_window
-    
+
     data = {}
     data["api"] = TruckSimAPI.run()
     data["frameFull"] = ScreenCapture.run(imgtype="full")
 
-    frame = data["frameFull"][y1:y1+(y2-y1), x1:x1+(x2-x1)]
     frameFull = data["frameFull"]
-    if frame is None: return data
+    if frameFull is None: return data
+    frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
 
     try:
         truck_x = data["api"]["truckPlacement"]["coordinateX"]
@@ -550,7 +775,7 @@ def plugin():
                 for contour in contours:
                     x, y, w, h = cv2.boundingRect(contour)
                     if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
-                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                        if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                             red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
                             green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
                             total_pixels = w * h
@@ -559,36 +784,36 @@ def plugin():
                             if green_ratio < circleplusoffset and green_ratio > circleminusoffset and red_ratio < 0.1 or red_ratio < circleplusoffset and red_ratio > circleminusoffset and green_ratio < 0.1:
                                 if red_ratio > green_ratio:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
                                 elif green_ratio > red_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)-h*2
+                                    offset = y - h
                                 else:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
-                                try:
-                                    centery1_color = frame[centery1, centerx]
-                                except:
-                                    centery1_color = (0,0,0)
-                                try:
-                                    centery2_color = frame[centery2, centerx]
-                                except:
-                                    centery2_color = (0,0,0)
-                                r_centery1, g_centery1, b_centery1 = centery1_color
-                                r_centery2, g_centery2, b_centery2 = centery2_color
-                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
-                                    coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                                    offset = y + h * 2
+                                point_mask = []
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                as_expected = True
+                                for i in range(len(point_mask)):
+                                    point_x, point_y, expected = point_mask[i]
+                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = True if color != 0 else False
+                                    if color != 0 == expected:
+                                        as_expected = False
+                                        break
+                                if as_expected:
+                                    coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
             else:
+
                 # True: detectyellowlight --- False: advancedmode, performancemode
                 mask_red = cv2.inRange(frame, lower_red, upper_red)
                 mask_green = cv2.inRange(frame, lower_green, upper_green)
@@ -601,7 +826,7 @@ def plugin():
                 for contour in contours:
                     x, y, w, h = cv2.boundingRect(contour)
                     if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
-                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                        if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                             red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
                             green_pixel_count = cv2.countNonZero(mask_green[y:y+h, x:x+w])
                             yellow_pixel_count = cv2.countNonZero(mask_yellow[y:y+h, x:x+w])
@@ -614,42 +839,38 @@ def plugin():
                                 yellow_ratio < circleplusoffset and yellow_ratio > circleminusoffset and green_ratio < 0.1 and red_ratio < 0.1):
                                 if red_ratio > green_ratio and red_ratio > yellow_ratio:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
                                 elif yellow_ratio > red_ratio and yellow_ratio > green_ratio:
                                     colorstr = "Yellow"
-                                    yoffset1 = y+h
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)+h
+                                    offset = y + h * 0.5
                                 elif green_ratio > red_ratio and green_ratio > yellow_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)-h*2
+                                    offset = y - h
                                 else:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
-                                try:
-                                    centery1_color = frame[centery1, centerx]
-                                except:
-                                    centery1_color = (0,0,0)
-                                try:
-                                    centery2_color = frame[centery2, centerx]
-                                except:
-                                    centery2_color = (0,0,0)
-                                r_centery1, g_centery1, b_centery1 = centery1_color
-                                r_centery2, g_centery2, b_centery2 = centery2_color
-                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
-                                    coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
-                
+                                    offset = y + h * 2
+                                point_mask = []
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                as_expected = True
+                                for i in range(len(point_mask)):
+                                    point_x, point_y, expected = point_mask[i]
+                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = True if color != 0 else False
+                                    if color != 0 == expected:
+                                        as_expected = False
+                                        break
+                                if as_expected:
+                                    coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
         else:
+
             # True: performancemode --- False: advancedmode
             mask_red = cv2.inRange(frame, lower_red, upper_red)
             filtered_frame_bw = mask_red.copy()
@@ -658,28 +879,33 @@ def plugin():
             for contour in contours:
                 x, y, w, h = cv2.boundingRect(contour)
                 if min_rect_size < w and max_rect_size > w and min_rect_size < h and max_rect_size > h:
-                    if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                    if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                         red_pixel_count = cv2.countNonZero(mask_red[y:y+h, x:x+w])
                         total_pixels = w * h
                         red_ratio = red_pixel_count / total_pixels
                         if red_ratio < circleplusoffset and red_ratio > circleminusoffset:
                             colorstr = "Red"
-                            yoffset1 = y+h*2
-                            centerx = round(x + w / 2)
-                            centery1 = round(y + h / 2)+h
-                            centery2 = round(y + h / 2)+h*2
-                            try:
-                                centery1_color = frame[centery1, centerx]
-                            except:
-                                centery1_color = (0,0,0)
-                            try:
-                                centery2_color = frame[centery2, centerx]
-                            except:
-                                centery2_color = (0,0,0)
-                            r_centery1, g_centery1, b_centery1 = centery1_color
-                            r_centery2, g_centery2, b_centery2 = centery2_color
-                            if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
-                                coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                            offset = y + h * 2
+                            point_mask = []
+                            point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                            point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                            point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                            point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                            point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                            point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                            point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                            point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                            point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                            as_expected = True
+                            for i in range(len(point_mask)):
+                                point_x, point_y, expected = point_mask[i]
+                                color = filtered_frame_bw[point_y, point_x]
+                                color = True if color != 0 else False
+                                if color != 0 == expected:
+                                    as_expected = False
+                                    break
+                            if as_expected:
+                                coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
     else:
 
@@ -703,7 +929,7 @@ def plugin():
                     if istrue == True:
                         istrue = False
                         if widthheightratiofilter == True:
-                            if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                            if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                                 istrue = True
                         else:
                             istrue = True
@@ -722,42 +948,42 @@ def plugin():
                             if istrue == True:
                                 if red_ratio > green_ratio:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
                                 elif green_ratio > red_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)-h*2
+                                    offset = y - h
                                 else:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
-                                try:
-                                    centery1_color = frame[centery1, centerx]
-                                except:
-                                    centery1_color = (0,0,0)
-                                try:
-                                    centery2_color = frame[centery2, centerx]
-                                except:
-                                    centery2_color = (0,0,0)
-                                r_centery1, g_centery1, b_centery1 = centery1_color
-                                r_centery2, g_centery2, b_centery2 = centery2_color
+                                    offset = y + h * 2
                                 istrue = False
-                                if otherlightsofffilter == True:
-                                    if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                if pixelblobshapefilter == True:
+                                    point_mask = []
+                                    point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                    point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                    point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                    point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                    point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                    point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                    as_expected = True
+                                    for i in range(len(point_mask)):
+                                        point_x, point_y, expected = point_mask[i]
+                                        color = filtered_frame_bw[point_y, point_x]
+                                        color = True if color != 0 else False
+                                        if color != 0 == expected:
+                                            as_expected = False
+                                            break
+                                    if as_expected:
                                         istrue = True
                                 else:
                                     istrue = True
                                 if istrue == True:
-                                    coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                                    coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
             else:
+
                 # True: advancedmode, detectyellowlight --- False: performancemode
                 mask_red = cv2.inRange(frame, lower_red_advanced, upper_red_advanced)
                 mask_green = cv2.inRange(frame, lower_green_advanced, upper_green_advanced)
@@ -778,7 +1004,7 @@ def plugin():
                     if istrue == True:
                         istrue = False
                         if widthheightratiofilter == True:
-                            if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                            if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                                 istrue = True
                         else:
                             istrue = True
@@ -801,48 +1027,45 @@ def plugin():
                             if istrue == True:
                                 if red_ratio > green_ratio and red_ratio > yellow_ratio:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
+                                    offset = y + h * 2
                                 elif yellow_ratio > red_ratio and yellow_ratio > green_ratio:
                                     colorstr = "Yellow"
-                                    yoffset1 = y+h
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)+h
+                                    offset = y + h * 0.5
                                 elif green_ratio > red_ratio and green_ratio > yellow_ratio:
                                     colorstr = "Green"
-                                    yoffset1 = y
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)-h
-                                    centery2 = round(y + h / 2)-h*2
+                                    offset = y - h
                                 else:
                                     colorstr = "Red"
-                                    yoffset1 = y+h*2
-                                    centerx = round(x + w / 2)
-                                    centery1 = round(y + h / 2)+h
-                                    centery2 = round(y + h / 2)+h*2
-                                try:
-                                    centery1_color = frame[centery1, centerx]
-                                except:
-                                    centery1_color = (0,0,0)
-                                try:
-                                    centery2_color = frame[centery2, centerx]
-                                except:
-                                    centery2_color = (0,0,0)
-                                r_centery1, g_centery1, b_centery1 = centery1_color
-                                r_centery2, g_centery2, b_centery2 = centery2_color
+                                    offset = y + h * 2
                                 istrue = False
-                                if otherlightsofffilter == True:
-                                    if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                                if pixelblobshapefilter == True:
+                                    point_mask = []
+                                    point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                    point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                    point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                    point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                    point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                    point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                    point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                    as_expected = True
+                                    for i in range(len(point_mask)):
+                                        point_x, point_y, expected = point_mask[i]
+                                        color = filtered_frame_bw[point_y, point_x]
+                                        color = True if color != 0 else False
+                                        if color != 0 == expected:
+                                            as_expected = False
+                                            break
+                                    if as_expected:
                                         istrue = True
                                 else:
                                     istrue = True
                                 if istrue == True:
-                                    coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
-                    
+                                    coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
+
         else:
+
             # True: advancedmode, performancemode --- False:     
             mask_red = cv2.inRange(frame, lower_red_advanced, upper_red_advanced)
             filtered_frame_bw = mask_red.copy()
@@ -859,7 +1082,7 @@ def plugin():
                 if istrue == True:
                     istrue = False
                     if widthheightratiofilter == True:
-                        if w / h - 1 < width_height_ratio and w / h - 1 > -width_height_ratio:
+                        if w / h - 1 < width_height_ratio * 2 and w / h - 1 > -width_height_ratio:
                             istrue = True
                     else:
                         istrue = True
@@ -875,28 +1098,33 @@ def plugin():
                             istrue = True
                         if istrue == True:
                             colorstr = "Red"
-                            yoffset1 = y+h*2
-                            centerx = round(x + w / 2)
-                            centery1 = round(y + h / 2)+h
-                            centery2 = round(y + h / 2)+h*2
-                            try:
-                                centery1_color = frame[centery1, centerx]
-                            except:
-                                centery1_color = (0,0,0)
-                            try:
-                                centery2_color = frame[centery2, centerx]
-                            except:
-                                centery2_color = (0,0,0)
-                            r_centery1, g_centery1, b_centery1 = centery1_color
-                            r_centery2, g_centery2, b_centery2 = centery2_color
+                            offset = y + h * 2
                             istrue = False
-                            if otherlightsofffilter == True:
-                                if r_centery1 < 100 and g_centery1 < 100 and b_centery1 < 100 and r_centery2 < 100 and g_centery2 < 100 and b_centery2 < 100:
+                            if pixelblobshapefilter == True:
+                                point_mask = []
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.2), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.05), False))
+                                point_mask.append((round(x + w * 0.3), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.5), True))
+                                point_mask.append((round(x + w * 0.7), round(y + h * 0.6), True))
+                                point_mask.append((round(x + w * 0.05), round(y + h * 0.95), False))
+                                point_mask.append((round(x + w * 0.5), round(y + h * 0.8), True))
+                                point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
+                                as_expected = True
+                                for i in range(len(point_mask)):
+                                    point_x, point_y, expected = point_mask[i]
+                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = True if color != 0 else False
+                                    if color != 0 == expected:
+                                        as_expected = False
+                                        break
+                                if as_expected:
                                     istrue = True
                             else:
                                 istrue = True
                             if istrue == True:
-                                coordinates.append((round(x+w/2),round(yoffset1-h/2),w,h,colorstr))
+                                coordinates.append((round(x + w * 0.5), round(offset), w, h, colorstr))
 
 
     try:
@@ -940,22 +1168,30 @@ def plugin():
                     else:
                         new_id = generate_new_id()
                         angle = ConvertToAngle(nearestpoint[0], nearestpoint[1])[0]
-                        if yolo_detection == True:
+                        if UseAI == True:
                             x, y, w, h, state = nearestpoint
-                            x1_confirmation = round(x - w*6)
-                            y1_confirmation = round(y - w*7)
-                            x2_confirmation = round(x + w*6)
-                            y2_confirmation = round(y + w*7)
-                            if x1_confirmation < 0:
-                                x1_confirmation = 0
-                            if y1_confirmation < 0:
-                                y1_confirmation = 0
-                            if x2_confirmation > screen_width - 1:
-                                x2_confirmation = screen_width - 1
-                            if y2_confirmation > screen_height - 1:
-                                y2_confirmation = screen_height - 1
-                            yolo_detection_frame = frameFull[y1+y1_confirmation:y1+y2_confirmation, x1+x1_confirmation:x1+x2_confirmation]
-                            approved = yolo_detection_function(yolo_detection_frame)
+                            y1_classification = round(y1+y-h*4)
+                            if y1_classification < 0:
+                                y1_classification = 0
+                            elif y1_classification > frameFull.shape[0]:
+                                y1_classification = frameFull.shape[0]
+                            y2_classification = round(y1+y+h*4)
+                            if y2_classification < 0:
+                                y2_classification = 0
+                            elif y2_classification > frameFull.shape[0]:
+                                y2_classification = frameFull.shape[0]
+                            x1_classification = round(x1+x-w*2.5)
+                            if x1_classification < 0:
+                                x1_classification = 0
+                            elif x1_classification > frameFull.shape[1]:
+                                x1_classification = frameFull.shape[1]
+                            x2_classification = round(x1+x+w*2.5)
+                            if x2_classification < 0:
+                                x2_classification = 0
+                            elif x2_classification > frameFull.shape[1]:
+                                x2_classification = frameFull.shape[1]
+                            image_classification = frameFull[y1_classification:y2_classification, x1_classification:x2_classification]
+                            approved = ClassifyImage(image_classification)
                         else:
                             approved = True
                         trafficlights.append((nearestpoint, ((None, None, None), (head_x, head_z, angle, head_rotation_degrees_x), (head_x, head_z, angle, head_rotation_degrees_x)), new_id, approved))
@@ -1033,105 +1269,44 @@ def plugin():
     try:
         if anywindowopen == True:
             if grayscalewindow == True and len(trafficlights) > 0:
-                current_text = f"Traffic Lights:"
-                width_target_current_text = 0.15 * filtered_frame_bw.shape[1]
-                fontscale_current_text = 1
-                textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                width_current_text, height_current_text = textsize_current_text
-                max_count_current_text = 3
-                while width_current_text != width_target_current_text:
-                    fontscale_current_text *= width_target_current_text / width_current_text if width_current_text != 0 else 1
-                    textsize_current_text, _ = cv2.getTextSize(current_text, cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)
-                    width_current_text, height_current_text = textsize_current_text
-                    max_count_current_text -= 1
-                    if max_count_current_text <= 0:
-                        break
-                thickness_current_text = round(fontscale_current_text*2)
-                if thickness_current_text <= 0:
-                    thickness_current_text = 1
-                cv2.putText(filtered_frame_bw, current_text, (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
+                text, text_fontscale, text_thickness, text_width, text_height = get_text_size(text="Objects in Tracker:", text_width=0.2 * filtered_frame_bw.shape[1], max_text_height=filtered_frame_bw.shape[0])
+                cv2.putText(filtered_frame_bw, text, (round(0.01 * filtered_frame_bw.shape[0]), round(0.01 * filtered_frame_bw.shape[0] + text_height)), cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, (255, 255, 255), text_thickness)
             for i in range(len(trafficlights)):
                 coord, position, id, approved = trafficlights[i]
                 x, y, w, h, state = coord
                 if grayscalewindow == True:
-                    if yolo_showunconfirmed == False and approved == True:
-                        cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
-                        cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
-                    elif yolo_showunconfirmed == True:
-                        cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01*filtered_frame_bw.shape[0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5)), cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, (255, 255, 255), thickness_current_text)
-                        cv2.line(filtered_frame_bw, (round(0.01*filtered_frame_bw.shape[0]+cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, fontscale_current_text, 1)[0][0]), round(0.01*filtered_frame_bw.shape[0]+height_current_text*(i+2)*1.5-height_current_text/2)), (x, y - h) if state == "Red" else ((x, y + h) if state == "Green" else (x, y)), (255, 255, 255), thickness_current_text)
-                radius = round((w+h)/4)
-                thickness = round((w+h)/30)
+                    if approved == True:
+                        cv2.putText(filtered_frame_bw, f"ID: {id}, {state}", (round(0.01 * filtered_frame_bw.shape[0]), round(0.01 * filtered_frame_bw.shape[0] + text_height * (i+2) * 1.5)), cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, (255, 255, 255), text_thickness)
+                        cv2.line(filtered_frame_bw, (round(0.01 * filtered_frame_bw.shape[0] + cv2.getTextSize(f"ID: {id}, {state}", cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, 1)[0][0]) + 10, round(0.01 * filtered_frame_bw.shape[0] + text_height * (i + 2) * 1.5 - text_height / 2)), ((x, round(y - h * 1.5)) if state == "Red" else (x, round(y + h * 1.5)) if state == "Green" else (x, y)), (150, 150, 150), text_thickness)
+                    else:
+                        cv2.putText(filtered_frame_bw, f"ID: {id}, Ignored by AI", (round(0.01 * filtered_frame_bw.shape[0]), round(0.01 * filtered_frame_bw.shape[0] + text_height * (i+2) * 1.5)), cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, (255, 255, 255), text_thickness)
+                        cv2.line(filtered_frame_bw, (round(0.01 * filtered_frame_bw.shape[0] + cv2.getTextSize(f"ID: {id}, Ignored by AI", cv2.FONT_HERSHEY_SIMPLEX, text_fontscale, 1)[0][0]) + 10, round(0.01 * filtered_frame_bw.shape[0] + text_height * (i + 2) * 1.5 - text_height / 2)), ((x, round(y - h * 1.5)) if state == "Red" else (x, round(y + h * 1.5)) if state == "Green" else (x, y)), (150, 150, 150), text_thickness)
+                radius = round((w + h) / 4)
+                thickness = round((w + h) / 30)
                 if thickness < 1:
                     thickness = 1
                 if approved == True:
                     if state == "Red":
                         color = (0, 0, 255)
-                        cv2.circle(final_frame, (x,y-h), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y-h), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
+                        cv2.rectangle(final_frame, (round(x - w * 1.1), round(y - h * 2.5)), (round(x + w * 1.1), round(y + h * 2.5)), color, radius)
                         if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 2)), (round(x + w * 0.5), round(y - h)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 0.5)), (round(x + w * 0.5), round(y + h * 0.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x + w * 0.5), round(y + h * 2)), (round(x - w * 0.5), round(y + h)), (150, 150, 150), thickness)
                     if state == "Yellow":
                         color = (0, 255, 255)
-                        cv2.circle(final_frame, (x,y), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
+                        cv2.rectangle(final_frame, (round(x - w * 1.1), round(y - h * 2.5)), (round(x + w * 1.1), round(y + h * 2.5)), color, radius)
                         if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 2)), (round(x + w * 0.5), round(y - h)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 0.5)), (round(x + w * 0.5), round(y + h * 0.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x + w * 0.5), round(y + h * 2)), (round(x - w * 0.5), round(y + h)), (150, 150, 150), thickness)
                     if state == "Green":
                         color = (0, 255, 0)
-                        cv2.circle(final_frame, (x,y+h), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y+h), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*0.5)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
+                        cv2.rectangle(final_frame, (round(x - w * 1.1), round(y - h * 2.5)), (round(x + w * 1.1), round(y + h * 2.5)), color, radius)
                         if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                elif approved == False and yolo_showunconfirmed == True:
-                    if state == "Red":
-                        color = (150, 150, 150)
-                        cv2.circle(final_frame, (x,y-h), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y-h), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                        if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                    if state == "Yellow":
-                        color = (150, 150, 150)
-                        cv2.circle(final_frame, (x,y), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                        if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y-round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                    if state == "Green":
-                        color = (150, 150, 150)
-                        cv2.circle(final_frame, (x,y+h), radius, color, thickness)
-                        cv2.circle(filtered_frame_bw, (x,y+h), radius, (255, 255, 255), thickness)
-                        cv2.rectangle(final_frame, (x-w, y-h*2), (x+w, y+h*2), color, radius)
-                        if grayscalewindow == True:
-                            cv2.rectangle(filtered_frame_bw, (x-round(w/2), y+round(h*0.5)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
-                        if finalwindow == True:
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h*1.5)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y-round(h/2)), (x+round(w/2), y+round(h/2)), (150, 150, 150), thickness)
-                            cv2.rectangle(final_frame, (x-round(w/2), y+round(h/2)), (x+round(w/2), y+round(h*1.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 2)), (round(x + w * 0.5), round(y - h)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x - w * 0.5), round(y - h * 0.5)), (round(x + w * 0.5), round(y + h * 0.5)), (150, 150, 150), thickness)
+                            cv2.rectangle(final_frame, (round(x + w * 0.5), round(y + h * 2)), (round(x - w * 0.5), round(y + h)), (150, 150, 150), thickness)
     except Exception as e:
         exc = traceback.format_exc()
         SendCrashReport("TrafficLightDetection - Draw Output Error.", str(exc))
