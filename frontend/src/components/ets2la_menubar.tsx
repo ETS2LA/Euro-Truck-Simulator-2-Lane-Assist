@@ -204,6 +204,7 @@ return (
                 </div>
             </MenubarTrigger>
             <MenubarContent>
+                <MenubarItem onClick={() => push("/settings/global")}>Global</MenubarItem>
                 <MenubarItem onClick={() => push("/settings/controls")}>Controls</MenubarItem>
             </MenubarContent>
         </MenubarMenu>
