@@ -44,14 +44,19 @@ export default function Home({ ip }: { ip: string }) {
         return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="font-semibold text-xs text-red-400">{error.message}</p></Card>
     }
 
+    const keys:string[] = [];
+    for (const key in data) {
+        keys.push(key)
+    }
+
     return (
         <div className="flex space-x-3">
             <Card className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 h-[calc(100vh-72px)] overflow-auto auto-rows-min w-full">
-                {data.map((item:any, index:any) => {
+                {keys.map((key:any) => {
                     return (
-                        <Card key={index} className="flex flex-col">
+                        <Card key={key} className="flex flex-col w-10">
                             <CardHeader>
-                                <CardTitle>{item}</CardTitle>
+                                <CardTitle>{key}</CardTitle>
                             </CardHeader>
                             <CardContent>
                             </CardContent>

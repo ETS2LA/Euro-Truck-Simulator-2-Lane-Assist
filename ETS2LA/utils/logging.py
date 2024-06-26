@@ -1,5 +1,6 @@
 import ETS2LA.backend.settings as settings
 from rich.logging import RichHandler
+from rich.highlighter import NullHighlighter, Highlighter
 from ETS2LA.utils.colors import *
 import logging
 import os
@@ -42,6 +43,15 @@ def SetupGlobalLogging():
     
     return logging.getLogger()
 
+class CustomHighligher(Highlighter):
+    def highlight(self, text):
+        super().highlight(text)
+        plain = text.plain
+        defaultText, traceback = plain.split("Traceback (most recent call last):")
+        print(traceback.strip())
+        text.plain = defaultText
+        return text
+
 def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
     # Remove the default handler
     logging.getLogger().handlers = []
@@ -60,7 +70,7 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
                         f'[dim][link file://%(pathname)s]%(filename)s[/link file://%(pathname)s][/dim]\t %(message)s',
                         level=logging.DEBUG,
                         datefmt=f'%H:%M:%S',
-                        handlers=[RichHandler(markup=True, rich_tracebacks=USE_FANCY_TRACEBACK, show_level=True)]
+                        handlers=[RichHandler(markup=True, rich_tracebacks=USE_FANCY_TRACEBACK, show_level=True, highlighter=None if USE_FANCY_TRACEBACK else NullHighlighter())]
                         )
     
     # Create a file handler
@@ -80,6 +90,13 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         logging.getLogger().addHandler(file_handler)
         
+    # handler = logging.StreamHandler()
+    # handler.setLevel(console_level)
+    # handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    # logging.getLogger().addHandler(handler)
+        
     # Create a console handler with a higher log level
-    logging.getLogger().addHandler(RichHandler(markup=True, rich_tracebacks=USE_FANCY_TRACEBACK, show_level=True, level=console_level, log_time_format="%H:%M:%S"))
+    logging.getLogger().addHandler(RichHandler(markup=True, rich_tracebacks=USE_FANCY_TRACEBACK, 
+                                               show_level=True, level=console_level, log_time_format="%H:%M:%S", 
+                                               show_path=False, highlighter=None if USE_FANCY_TRACEBACK else CustomHighligher()))
     return logging.getLogger()
