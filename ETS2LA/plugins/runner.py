@@ -215,11 +215,8 @@ class PluginRunner():
                 data = self.plugin.plugin()
             except:
                 logging.exception(f"PluginRunner: Plugin {self.plugin_name} has crashed with the following error:")
-                if settings.Get("global", "default_traceback_prints", False):
-                    traceback.print_exc()
-                else: 
-                    logging.info(traceback.format_exc())
-                    self.q.put(None)
+                logging.info(traceback.format_exc())
+                self.q.put(None)
                 return
             pluginExec = time.time()
             if data != None:

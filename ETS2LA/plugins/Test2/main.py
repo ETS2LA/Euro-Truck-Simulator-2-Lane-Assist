@@ -25,7 +25,7 @@ def plugin():
     # black 720p image
     #img = np.zeros((720, 1280, 3), np.uint8)
     #SI.run(img=img, windowName="Lane Assist")
-
+    xdx
     if keyboard.is_pressed("1"):
         SDK.assistact1 = True
     else:

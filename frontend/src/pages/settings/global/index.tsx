@@ -38,7 +38,7 @@ export default function Home({ ip }: { ip: string }) {
 
     const {data, error, isLoading} = useSWR("globals", () => GetSettingsJSON("ETS2LA%5Cbackend%5Csettings%5Cglobals.json", ip));
 
-    if (!isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="font-semibold text-xs text-stone-400">Loading...</p></Card>
+    if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="font-semibold text-xs text-stone-400">Loading...</p></Card>
     if (error){
         toast.error("Error fetching settings from " + ip, {description: error.message})
         return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="font-semibold text-xs text-red-400">{error.message}</p></Card>
@@ -47,6 +47,20 @@ export default function Home({ ip }: { ip: string }) {
     return (
         <div className="flex space-x-3">
             <Card className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 h-[calc(100vh-72px)] overflow-auto auto-rows-min w-full">
+                {data.map((item:any, index:any) => {
+                    return (
+                        <Card key={index} className="flex flex-col">
+                            <CardHeader>
+                                <CardTitle>{item}</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                            </CardContent>
+                            <CardFooter>
+
+                            </CardFooter>
+                        </Card>
+                    )
+                })}
             </Card>
         </div>
     )
