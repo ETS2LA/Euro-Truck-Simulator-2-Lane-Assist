@@ -128,13 +128,19 @@ def Initialize():
     ScreenCapture = runner.modules.ScreenCapture
 
     if 'UseAI' in globals():
-        if UseAI == False and settings.Get("TrafficLightDetection", "UseAI", False) == True:
+        if UseAI == False and settings.Get("TrafficLightDetection", "UseAi", True) == True:
             if TorchAvailable == True:
                 LoadAIModel()
             else:
                 print("TrafficLightDetectionAI not available due to missing dependencies.")
                 console.RestoreConsole()
-    UseAI = settings.Get("TrafficLightDetection", "UseAI", False)
+    elif settings.Get("TrafficLightDetection", "UseAi", True) == True:
+        if TorchAvailable == True:
+            LoadAIModel()
+        else:
+            print("TrafficLightDetectionAI not available due to missing dependencies.")
+            console.RestoreConsole()
+    UseAI = settings.Get("TrafficLightDetection", "UseAi", True)
     UseCUDA = settings.Get("TrafficLightDetection", "UseCUDA", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
     LoadAILabel = "Loading..."
@@ -164,7 +170,7 @@ def Initialize():
         else:
             y2 = y1+1
 
-    ScreenCapture.CreateCam(CamSetupDisplay = (settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1))
+    ScreenCapture.CreateCam(CamSetupDisplay = (settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0)))
     ScreenCapture.monitor_x1 = screen_x
     ScreenCapture.monitor_y1 = screen_y
     ScreenCapture.monitor_x2 = screen_x + screen_width
@@ -412,7 +418,7 @@ def LoadAIModel():
                 ModelFileCorrupted = False
 
                 try:
-                    AIModel = torch.jit.load(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", GetAIModelName()), map_location=AIDevice)
+                    AIModel = torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", GetAIModelName()), map_location=AIDevice)
                     AIModel.eval()
                 except:
                     ModelFileCorrupted = True
@@ -489,7 +495,7 @@ def CheckForAIModelUpdates():
                         DeleteAllAIModels()
                         response = requests.get(f"https://huggingface.co/Glas42/TrafficLightDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
                         last_progress = 0
-                        with open(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
+                        with open(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
                             total_size = int(response.headers.get('content-length', 0))
                             downloaded_size = 0
                             chunk_size = 1024
@@ -541,8 +547,8 @@ def CheckForAIModelUpdates():
 
 def ModelFolderExists():
     try:
-        if os.path.exists(f"{variables.PATH}plugins/TrafficLightDetection/AIModel") == False:
-            os.makedirs(f"{variables.PATH}plugins/TrafficLightDetection/AIModel")
+        if os.path.exists(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel") == False:
+            os.makedirs(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel")
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("TrafficLightDetection - Error in function ModelFolderExists.", str(exc))
@@ -553,7 +559,7 @@ def ModelFolderExists():
 def GetAIModelName():
     try:
         ModelFolderExists()
-        for file in os.listdir(f"{variables.PATH}plugins/TrafficLightDetection/AIModel"):
+        for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel"):
             if file.endswith(".pt"):
                 return file
         return "UNKNOWN"
@@ -568,9 +574,9 @@ def GetAIModelName():
 def DeleteAllAIModels():
     try:
         ModelFolderExists()
-        for file in os.listdir(f"{variables.PATH}plugins/TrafficLightDetection/AIModel"):
+        for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel"):
             if file.endswith(".pt"):
-                os.remove(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", file))
+                os.remove(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", file))
     except PermissionError:
         global TorchAvailable
         TorchAvailable = False
@@ -608,7 +614,7 @@ def GetAIModelProperties():
         MODEL_TRAINING_DATE = "UNKNOWN"
         if GetAIModelName() == "UNKNOWN":
             return
-        torch.jit.load(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
+        torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
         MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
         for var in MODEL_METADATA:
             if "image_width" in var:

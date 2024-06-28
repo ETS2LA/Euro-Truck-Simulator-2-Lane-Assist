@@ -45,7 +45,7 @@ def CreateCam(CamSetupDisplay:int = display):
     else:
         print("ScreenCapture using mss")
         global display
-        display = CamSetupDisplay
+        display = CamSetupDisplay + 1
         
 def Initialize():
     CreateCam()
