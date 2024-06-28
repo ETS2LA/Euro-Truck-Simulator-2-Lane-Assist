@@ -1,5 +1,5 @@
 """
-This example is a part of the wiki page available here: https://wiki.tumppi066.fi/tutorials/plugincreation/
+This example is a part of the wiki page available here: https://wiki.ets2la.com/tutorials/plugincreation/
 """
 
 

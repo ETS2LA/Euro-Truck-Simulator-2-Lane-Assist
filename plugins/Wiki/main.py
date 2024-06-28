@@ -26,7 +26,7 @@ import os
 from tkwebview2 import WebView2, have_runtime, install_runtime
 from tempfile import gettempdir
 
-URL = "https://wiki.tumppi066.fi"
+URL = "https://wiki.ets2la.com"
 RESET = True
 
 def LoadURL(url):

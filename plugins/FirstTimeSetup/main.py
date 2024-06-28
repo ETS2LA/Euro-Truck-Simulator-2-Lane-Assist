@@ -37,7 +37,7 @@ def init_pygame():
     pygame.joystick.init()
 
 threading.Thread(target=init_pygame).start()
-wiki_link = "https://wiki.tumppi066.fi/"
+wiki_link = "https://wiki.ets2la.com/"
 
 class UI():
     
@@ -91,7 +91,7 @@ class UI():
         def detectionselection(self):
             settings.CreateSettings("Plugins", "Enabled", ["TruckersMPLock"])
             def openwiki():
-                    webview.create_window("Lane Assist Wiki", "https://wiki.tumppi066.fi/faq/lanedetectiontypes")
+                    webview.create_window("Lane Assist Wiki", "https://wiki.ets2la.com/faq/lanedetectiontypes")
                     webview.start()
             self.root.destroy()
             del self.root
@@ -391,7 +391,7 @@ class UI():
         
             helpers.MakeButton(self.root, "Previous", lambda: self.soundSettings(), 11,0)
             import webbrowser
-            helpers.MakeButton(self.root, "Open instructions", lambda: webbrowser.open("https://wiki.tumppi066.fi/en/LaneAssist/InGame"), 11,1)
+            helpers.MakeButton(self.root, "Open instructions", lambda: webbrowser.open("https://wiki.ets2la.com/en/LaneAssist/InGame"), 11,1)
             self.apiNextButton = helpers.MakeButton(self.root, "Waiting for api...", lambda: self.lastPage(), 11,2, state="disabled")
         
             self.root.pack()

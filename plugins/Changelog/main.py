@@ -60,7 +60,7 @@ class UI():
             tempdir = os.path.join(tempdir, "ets2la-web-cache")
             self.frame=WebView2(self.root,1220,715, cache=tempdir)
             self.frame.pack()
-            self.frame.load_url('https://wiki.tumppi066.fi/blog')
+            self.frame.load_url('https://wiki.ets2la.com/blog')
             
             self.root.pack(anchor="center", expand=False)
             self.root.update()

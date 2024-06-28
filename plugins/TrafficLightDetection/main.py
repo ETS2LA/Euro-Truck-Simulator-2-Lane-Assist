@@ -1763,9 +1763,9 @@ class UI():
                     from src.mainUI import closeTabName
                     from plugins.Wiki.main import LoadURL
                     closeTabName("Wiki")
-                    LoadURL("https://wiki.tumppi066.fi/plugins/trafficlightdetection")
+                    LoadURL("https://wiki.ets2la.com/plugins/trafficlightdetection")
                 else:
-                    helpers.OpenInBrowser("https://wiki.tumppi066.fi/plugins/trafficlightdetection")
+                    helpers.OpenInBrowser("https://wiki.ets2la.com/plugins/trafficlightdetection")
 
 
             helpers.MakeCheckButton(filtersFrame, "Rect Size Filter", "TrafficLightDetection", "rectsizefilter", 3, 0, width=60, callback=lambda:UpdateSettings())

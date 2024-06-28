@@ -21,7 +21,7 @@ output: wiki               # Custom path to the output directory
 # -----------------------------------------------------------------------------
 
 #url: example.com              # The base URL of your website
-url: wiki.tumppi066.fi         # Can also be a sub-domain
+url: wiki.ets2la.com         # Can also be a sub-domain
 #url: example.com/docs         # Can also include a sub-folder path
 #url: https://example.com/docs # Can also include a protocol
 
@@ -51,7 +51,7 @@ links:                        # Custom links to add to the top bar
     target: blank             # Custom target
                               # Use "blank" to open link in a new window
   - text: Developer Documentation
-    link: https://wiki.tumppi066.fi/docs/ # Link to an internal file
+    link: https://wiki.ets2la.com/docs/ # Link to an internal file
     icon: gear                # A custom icon name, :emoji:, <svg>, or
                               # a path to a file
     iconAlign: left           # Icon alignment, to the left or right

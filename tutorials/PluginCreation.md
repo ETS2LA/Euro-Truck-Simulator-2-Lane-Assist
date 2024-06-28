@@ -61,7 +61,7 @@ This is the class that contains information about the plugin. It is used by the 
 **The plugin example will contain almost everything you need.**
 
 !!! Note
-You can check the current state of the file [on the documentation page](https://wiki.tumppi066.fi/docs/plugins/plugin.html).
+You can check the current state of the file [on the documentation page](https://wiki.ets2la.com/docs/plugins/plugin.html).
 !!!
 
 ==- [!badge variant="dark" text="Required"] ‎ `plugin(data)`
@@ -189,7 +189,7 @@ It was put on the second page, but our keybind is indeed there. Now the user can
 
 !!! Note on keybinds.
 You can also get a float value from a controller. To do this add `axis=True` to the RegisterKeybind function. 
-For more info on the controls module, check out the [controls page](https://wiki.tumppi066.fi/docs/src/controls.html).
+For more info on the controls module, check out the [controls page](https://wiki.ets2la.com/docs/src/controls.html).
 !!!
 +++ Step 5
 #### Sending data to the game.
