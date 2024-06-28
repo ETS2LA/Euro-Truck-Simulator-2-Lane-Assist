@@ -82,7 +82,7 @@ class UI():
             helpers.MakeLabel(self.root, " ", 8,0, font=("Roboto", 10), padx=0, pady=10, columnspan=1, sticky="w")
             
             import webbrowser
-            helpers.MakeButton(self.root, "Wiki", lambda: webbrowser.open("https://wiki.tumppi066.fi/en/LaneAssist"), 13,0, padx=0, pady=10, columnspan=1, width=20, style="Accent.TButton", sticky="w")
+            helpers.MakeButton(self.root, "Wiki", lambda: webbrowser.open("https://wiki.ets2la.com/en/LaneAssist"), 13,0, padx=0, pady=10, columnspan=1, width=20, style="Accent.TButton", sticky="w")
             helpers.MakeButton(self.root, "Support me on Ko-fi", lambda: webbrowser.open("https://ko-fi.com/tumppi066"), 14,0, padx=0, pady=10, columnspan=1, width=20, sticky="w")
             
             self.root.pack(anchor="center", expand=False)

@@ -1497,9 +1497,9 @@ class UI():
                     from src.mainUI import closeTabName
                     from plugins.Wiki.main import LoadURL
                     closeTabName("Wiki")
-                    LoadURL("https://wiki.tumppi066.fi/plugins/navigationdetection")
+                    LoadURL("https://wiki.ets2la.com/plugins/navigationdetection")
                 else:
-                    helpers.OpenInBrowser("https://wiki.tumppi066.fi/plugins/navigationdetection")
+                    helpers.OpenInBrowser("https://wiki.ets2la.com/plugins/navigationdetection")
 
 
             helpers.MakeLabel(setupFrame, "Choose a setup method:", 1, 0, font=("Robot", 12, "bold"), sticky="nw")

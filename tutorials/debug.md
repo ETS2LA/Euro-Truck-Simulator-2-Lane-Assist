@@ -37,7 +37,7 @@ If you have an old installer, go to the directory where you have your app instal
 Simply run it like you would run.bat. When its done, a file called "debug.txt" will be created. Drag and drop this file into the Discord chat. This will allow your helper/developer to diagnose your app.
 
 ## Running Debug With a New Installer (With Support Bot)
-If you have a new installer and you have verified that the bot is operational, open the "menu.bat" file. Press the "Debug" button. This will open a window that shows you your debug information. Click the "Send Debug Data" option. once the debug is sent, click close oj the dialog. The debug information will be sent to your helper/developer in a private Discord channel. This data is not stored anywhere external. Find more info about how we use data [here](https://wiki.tumppi066.fi/faq/tracking/).
+If you have a new installer and you have verified that the bot is operational, open the "menu.bat" file. Press the "Debug" button. This will open a window that shows you your debug information. Click the "Send Debug Data" option. once the debug is sent, click close oj the dialog. The debug information will be sent to your helper/developer in a private Discord channel. This data is not stored anywhere external. Find more info about how we use data [here](https://wiki.ets2la.com/faq/tracking/).
 
 
 ## Running Debug With an New Installer (Without Support Bot)

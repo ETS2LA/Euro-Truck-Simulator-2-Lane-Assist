@@ -109,7 +109,7 @@ helpers.MakeButton(pluginFrames[0], "Plugin Manager", lambda: switchSelectedPlug
 helpers.MakeButton(pluginFrames[0], "First Time Setup", lambda: switchSelectedPlugin("plugins.FirstTimeSetup.main"), 0, 1, width=20, style="Accent.TButton", autoplace=True)
 helpers.MakeButton(pluginFrames[0], "LANGUAGE - 语言设置", lambda: switchSelectedPlugin("plugins.DeepTranslator.main"), 0, 2, width=20, style="Accent.TButton", translate=False, autoplace=True)
 helpers.MakeButton(pluginFrames[0], "Video Tutorial ↗ ", lambda: helpers.OpenInBrowser("https://www.youtube.com/watch?v=0pic0rzjvik"), 0, 1, width=20, autoplace=True, tooltip="https://www.youtube.com/watch?v=0pic0rzjvik")
-helpers.MakeButton(pluginFrames[0], "ETS2LA Wiki ↗ ", lambda: helpers.OpenInBrowser("https://wiki.tumppi066.fi/en/LaneAssist"), 0, 2, width=20, autoplace=True, tooltip="https://wiki.tumppi066.fi/en/LaneAssist")
+helpers.MakeButton(pluginFrames[0], "ETS2LA Wiki ↗ ", lambda: helpers.OpenInBrowser("https://wiki.ets2la.com/en/LaneAssist"), 0, 2, width=20, autoplace=True, tooltip="https://wiki.ets2la.com/en/LaneAssist")
 helpers.MakeEmptyLine(pluginFrames[0], 0, 1, columnspan=2, autoplace=True)
 helpers.MakeLabel(pluginFrames[0], "You can use F5 to refresh the UI and come back to this page.\n                    (as long as the app is disabled)", 0, 1, columnspan=2, autoplace=True)
 helpers.MakeLabel(pluginFrames[0], "The top of the app has all your currently open tabs.\n They can be closed with the middle mouse button.\n        (or right mouse button if so configured)", 0, 1, columnspan=2, autoplace=True)

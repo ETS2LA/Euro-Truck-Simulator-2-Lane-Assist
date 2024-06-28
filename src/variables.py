@@ -42,7 +42,7 @@ WINDOWSCALING = ctypes.windll.shcore.GetScaleFactorForDevice(0)
 """The current scaling of windows."""
 FRAMECOUNTER = 0
 """The amount of frames that have passed since the program started."""
-WIKI_URL = "https://wiki.tumppi066.fi"
+WIKI_URL = "https://wiki.ets2la.com"
 """The url that will show when the wiki panel is opened"""
 IN_VENV = sys.prefix != sys.base_prefix
 """Whether the program is running in a virtual environment or not."""
