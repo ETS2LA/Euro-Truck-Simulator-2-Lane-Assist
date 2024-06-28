@@ -60,11 +60,11 @@ export default function Home({ ip }: { ip: string }) {
                             <CardDescription className="flex flex-col gap-2">
                                 <div className="">
                                     <Badge className="rounded-r-none">Device: </Badge>
-                                    <Badge className="rounded-l-none" variant={"secondary"}>{data[control]["deviceGUID"] == "1" && "Keyboard" || data[control]["deviceGUID"]}</Badge>
+                                    <Badge className="rounded-l-none" variant={"secondary"}>{data[control]["deviceGUID"] == 1 && "Keyboard" || data[control]["deviceGUID"] == -1 && "Unbound" || data[control]["deviceGUID"]}</Badge>
                                 </div>
                                 <div>
                                     <Badge className="rounded-r-none">{data[control]["deviceGUID"] == "1" && "Key: " || "Button: "}</Badge>
-                                    <Badge className="rounded-l-none" variant={"secondary"}>{data[control]["buttonIndex"]}</Badge>
+                                    <Badge className="rounded-l-none" variant={"secondary"}>{data[control]["buttonIndex"] == -1 && "Unbound" || data[control]["buttonIndex"]}</Badge>
                                 </div>
                                 <p className="pt-3">{data[control]["description"] == "" && "No description provided" || data[control].description}</p>
                             </CardDescription>
