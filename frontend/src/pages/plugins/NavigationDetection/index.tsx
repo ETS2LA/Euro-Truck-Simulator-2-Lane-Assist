@@ -265,7 +265,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
                             <Switch id="usenavigationdetectionai" checked={UseNavigationDetectionAI} onCheckedChange={UpdateUseNavigationDetectionAI} />
                             <Label htmlFor="usenavigationdetectionai">
                                 <span className="font-bold">Use NavigationDetectionAI</span><br />
-                                If enabled, the app will an AI instead of the regular NavigationDetection.
+                                If enabled, the app will use an AI instead of the regular NavigationDetection.
                             </Label>
                         </div>
                         )}

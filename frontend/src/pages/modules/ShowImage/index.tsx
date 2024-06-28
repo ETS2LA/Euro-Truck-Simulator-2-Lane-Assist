@@ -70,7 +70,7 @@ export default function ShowImage({ ip, plugin }: { ip: string, plugin: string})
     };
 
     return (
-        <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-129px)] overflow-auto" style={{ position: 'relative', left: '-3px', top: '-3px' }}>
+        <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-129px)] overflow-auto" style={{ position: 'relative', left: '-3px', top: '-3px', height: 'calc(100vh - 126px)' }}>
             
             <Popover>
                 <PopoverTrigger asChild>
