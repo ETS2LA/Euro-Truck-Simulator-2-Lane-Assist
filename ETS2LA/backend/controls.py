@@ -62,6 +62,21 @@ def RegisterKeybind(name:str, callback=None, notBoundInfo:str="", description:st
                          "shouldBeAxis": axis,
                          "notBoundInfo": notBoundInfo if notBoundInfo != keybind["notBoundInfo"] else keybind["notBoundInfo"]})
 
+def UpdateKeybindsFromSettings():
+    """Will update the keybinds from the settings file."""
+    global KEYBINDS
+    keybinds = settings.GetJSON(SETTINGS_FILENAME)
+    KEYBINDS = []
+    for keybind in keybinds:
+        KEYBINDS.append({"name": keybind, 
+                         "callback": None, 
+                         "description": keybinds[keybind]["description"], 
+                         "deviceGUID": keybinds[keybind]["deviceGUID"], 
+                         "buttonIndex": keybinds[keybind]["buttonIndex"], 
+                         "axisIndex": keybinds[keybind]["axisIndex"],
+                         "shouldBeAxis": keybinds[keybind]["shouldBeAxis"],
+                         "notBoundInfo": keybinds[keybind]["notBoundInfo"]})
+
 def ReadKeybindsVariable():
     """Returns the KEYBINDS variable."""
     global KEYBINDS
@@ -157,6 +172,7 @@ def ChangeKeybind(name:str, callback=None):
     global currentbinding
     
     print("Changing keybind " + name)
+    UpdateKeybindsFromSettings() # Make sure we have the latest keybinds
     # Make a new window to get the keybind on
     window = tk.Tk()
     window.title("Change keybind")
