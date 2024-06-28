@@ -1377,7 +1377,7 @@ def plugin(data):
             data["NavigationDetection"] = {}
             data["NavigationDetection"]["lanedetected"] = lane_detected
             data["NavigationDetection"]["mapdetected"] = lane_detected
-            data["NavigationDetection"]["turnincoming"] = True if left_indicator == True and right_indicator == False else False
+            data["NavigationDetection"]["turnincoming"] = True if left_indicator == True or right_indicator == True else False
 
             data["frame"] = frame
 

@@ -1,1 +1,1 @@
-Traffic light detection fix.
+Fixed a but that NavigationDetectionAI would not slow down for right turns.
