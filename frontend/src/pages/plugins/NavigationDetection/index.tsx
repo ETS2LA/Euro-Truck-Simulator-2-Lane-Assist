@@ -236,7 +236,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
                     <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
 
                         <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Button variant="outline" id="launchautomaticsetup" onClick={() => {toast.promise(PluginFunctionCall("NavigationDetection", "automatic_setup", [], {}), { loading: "Loading...", success: "Success", error: "Error" });}}>
+                            <Button variant="outline" id="launchautomaticsetup" onClick={() => {toast.promise(PluginFunctionCall("NavigationDetection", "automatic_setup", [], {"timeout": 15}), { loading: "Loading...", success: "Success", error: "Error" });}}>
                                 Launch Automatic Setup
                             </Button>
                             <Label htmlFor="launchautomaticsetup">
@@ -245,7 +245,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
                         </div>
 
                         <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Button variant="outline" id="launchmanualsetup" onClick={() => {toast.promise(PluginFunctionCall("NavigationDetection", "manual_setup", [], {}), { loading: "Loading...", success: "Success", error: "Error" });}}>
+                            <Button variant="outline" id="launchmanualsetup" onClick={() => {toast.promise(PluginFunctionCall("NavigationDetection", "manual_setup", [], {"timeout": 15}), { loading: "Loading...", success: "Success", error: "Error" });}}>
                                 Launch Manual Setup
                             </Button>
                             <Label htmlFor="launchmanualsetup">
