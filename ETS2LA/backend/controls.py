@@ -326,13 +326,14 @@ def ChangeKeybind(name:str, callback=None):
     if callback != None:
         callback()
         
-def UnbindKeybind(name, updateUI=True):
+def UnbindKeybind(name):
     """Remove the binding of a keybind.
 
     Args:
         name (str): Keybind to remove (name).
         updateUI (bool, optional): Should the UI be updated (should be False if the function is called from other files). Defaults to True.
     """
+    UpdateKeybindsFromSettings() # Make sure we have the latest keybinds
     SaveKeybind(name, deviceGUID=-1, buttonIndex=-1, axisIndex=-1)
     KEYBINDS[KEYBINDS.index(next((item for item in KEYBINDS if item["name"] == name), None))] = {"name": name, 
                                                                                                  "callback": next((item for item in KEYBINDS if item["name"] == name), None)["callback"], 

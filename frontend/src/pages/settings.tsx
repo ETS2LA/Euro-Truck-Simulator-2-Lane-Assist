@@ -72,3 +72,22 @@ export async function TriggerControlChange(control:string, ip="localhost") {
         console.error("An error occurred while triggering the keybind change:", error);
     }
 }
+
+export async function UnbindControl(control:string, ip="localhost") {
+    try {
+        const response = await fetch(`http://${ip}:37520/api/controls/${control}/unbind`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("An error occurred while unbinding the keybind:", error);
+    }
+}

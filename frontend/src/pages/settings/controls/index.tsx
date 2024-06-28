@@ -26,7 +26,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "sonner"
 import useSWR from "swr"
 import { mutate } from "swr"
-import { GetSettingsJSON, TriggerControlChange } from "@/pages/settings"
+import { GetSettingsJSON, TriggerControlChange, UnbindControl } from "@/pages/settings"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/router"
@@ -75,12 +75,21 @@ export default function Home({ ip }: { ip: string }) {
                                     loading: "Changing keybind...",
                                     success: "Keybind changed successfully!",
                                     error: "Failed to change keybind.",
-                                    duration: 100,
+                                    duration: 1000,
                                     onAutoClose: () => mutate("controls"),
                                     onDismiss: () => mutate("controls")
                                 })
                             }}>Change</Button>
-                            <Button variant={"secondary"}>Unbind</Button>
+                            <Button variant={"secondary"} onClick={() => {
+                                toast.promise(UnbindControl(control, ip), {
+                                    loading: "Unbinding keybind...",
+                                    success: "Keybind unbound successfully!",
+                                    error: "Failed to unbind keybind.",
+                                    duration: 1000,
+                                    onAutoClose: () => mutate("controls"),
+                                    onDismiss: () => mutate("controls")
+                                })
+                            }}>Unbind</Button>
                         </CardFooter>
                     </Card>
                 ))}

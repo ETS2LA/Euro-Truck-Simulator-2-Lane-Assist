@@ -137,6 +137,13 @@ def change_control(control: str):
         pass
     return {"status": "ok"}
 
+@app.post("/api/controls/{control}/unbind")
+def unbind_control(control: str):
+    mainThreadQueue.append([controls.UnbindKeybind, [control], {}])
+    while [controls.UnbindKeybind, [control], {}] in mainThreadQueue:
+        pass
+    return {"status": "ok"}
+
 @app.get("/api/git/history")
 def get_git_history():
     return backend.GetGitHistory()
