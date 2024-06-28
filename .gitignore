@@ -5,6 +5,7 @@ logs
 **/__pycache__
 **/settings.json
 /ETS2LA/global.json
+/ETS2LA/backend/settings/*.json
 
 # Ignore the TrafficLightDetection YOLO files
 /ETS2LA/plugins/TrafficLightDetection/AIModel
