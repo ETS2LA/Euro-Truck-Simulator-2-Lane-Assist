@@ -1,7 +1,7 @@
 from ETS2LA.plugins.runner import PluginRunner
-import ETS2LA.backend.settings as settings
-import ETS2LA.backend.console as console
 import ETS2LA.backend.variables as variables
+import ETS2LA.backend.settings as settings
+import ETS2LA.backend.controls as controls
 
 if variables.OS == "nt":
     from ctypes import windll, byref, sizeof, c_int
@@ -14,6 +14,10 @@ import cv2
 import mss
 
 runner:PluginRunner = None
+
+controls.RegisterKeybind("Switch to next TruckStats tab",
+                         notBoundInfo="You can switch to the next tab with this keybind.",
+                         description="You can switch to the next tab with this keybind.")
 
 sct = mss.mss()
 monitor = sct.monitors[(settings.Get("TrafficLightDetection", ["ScreenCapture", "display"], 0) + 1)]
@@ -45,6 +49,9 @@ def Initialize():
     global settings_fuel_tab_color
     global settings_fuel_value_to_graph
     global settings_engine_value_to_graph
+
+    global switch_next_tab_pressed
+    global last_switch_next_tab_pressed
 
     global settings_allow_graphs
 
@@ -83,6 +90,9 @@ def Initialize():
     settings_fuel_tab_color = settings.Get("TruckStats", "show_in_green", True)
     settings_fuel_value_to_graph = settings.Get("TruckStats", "fuel_value_to_graph", "fuel_current")
     settings_engine_value_to_graph = settings.Get("TruckStats", "engine_value_to_graph", "rpm")
+
+    switch_next_tab_pressed = False
+    last_switch_next_tab_pressed = False
 
     settings_allow_graphs = True
 
@@ -183,6 +193,9 @@ def plugin():
     global settings_fuel_value_to_graph
     global settings_engine_value_to_graph
 
+    global switch_next_tab_pressed
+    global last_switch_next_tab_pressed
+
     global settings_allow_graphs
 
     global fuel_last_avg_consumption
@@ -256,6 +269,14 @@ def plugin():
         mouse_left_clicked = False
 
     current_time = time.time()
+
+    switch_next_tab_pressed = controls.GetKeybindValue("Switch to next TruckStats tab")
+    if switch_next_tab_pressed == True and last_switch_next_tab_pressed == False:
+        current_tab += 1
+        if current_tab > 5:
+            current_tab = 1
+        settings.Set("TruckStats", "current_tab", current_tab)
+    last_switch_next_tab_pressed = switch_next_tab_pressed
 
     try:
         fuel_total = data["api"]["configFloat"]["fuelCapacity"]
