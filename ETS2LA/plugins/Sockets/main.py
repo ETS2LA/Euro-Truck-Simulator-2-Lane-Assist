@@ -39,6 +39,10 @@ def position(data):
     send += "rz:" + str(rotationZ) + ";"
     return send
 
+def traffic_lights(data):
+    send = "JSONtrafficLights:" + json.dumps(data["trafficLights"]) + ";"
+    return send
+
 def speed(data):
     send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
     return send
@@ -82,11 +86,13 @@ def plugin():
     global send
     data = TruckSimAPI.run()
     data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
+    data["trafficLights"] = runner.GetData(["tags.trafficLights"])[0] # Get the traffic lights
     
     tempSend = ""
     tempSend += position(data)
     tempSend += speed(data)
     tempSend += vehicles(data)
+    tempSend += traffic_lights(data)
     
     send = tempSend
     

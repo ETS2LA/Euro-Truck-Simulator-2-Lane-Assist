@@ -1,7 +1,6 @@
-import asyncio
 import websockets
 import threading
-from multiprocessing import Manager
+import asyncio
 import logging
 
 connected = []
