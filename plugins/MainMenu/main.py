@@ -72,10 +72,12 @@ class UI():
             try:
                 updateTime = str(variables.LASTUPDATE).split(" ")
                 updateTime = updateTime[1:]
-                months = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "June": 6, "July": 7, "Aug": 8, "Sep": 9, "Oct":10, "Nov": 11, "Dec": 12}
+                months = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct":10, "Nov": 11, "Dec": 12}
                 updateTime[0] = months[updateTime[0]]
                 updateText = f"{updateTime[1]}.{updateTime[0]}.{updateTime[3]} - {updateTime[2]} "
             except:
+                import traceback
+                traceback.print_exc()
                 updateText = "-- Unknown --"
             
             helpers.MakeLabel(self.root, f"Released {updateText}", 0, 1, columnspan=2, pady=0, autoplace=True)

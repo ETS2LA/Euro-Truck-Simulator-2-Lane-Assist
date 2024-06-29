@@ -7,12 +7,17 @@ import hashlib
 ets2FilePath = "C:/Users/" + variables.USERNAME + "/Documents/Euro Truck Simulator 2/game.log.txt"
 currentFileHash = None
 currentLines = []
+hasShownCrackError = False
 
 def CheckForCrackedGame(data):
+    global hasShownCrackError
     crackIdentifier = "0000007E"
     for line in data["log"]:
         if crackIdentifier in line:
-            helpers.ShowFailure("\nThis is most likely because of a cracked game or DLCs.\nYou will have to buy the game / DLCs to continue!", "Error loading required DLLs")
+            if not hasShownCrackError:
+                helpers.ShowFailure("\nThis is almost certainly due to a cracked game or DLC. It might just be a broken DLL though.\nIf the app and game works then fine, but if you see this error we will not help with diagnosing the issue.", "DLL load error detected!")
+                print("Possible cracked game detected.")
+                hasShownCrackError = True
         
 
 def plugin(data):
