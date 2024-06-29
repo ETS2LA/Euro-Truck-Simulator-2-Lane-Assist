@@ -45,7 +45,7 @@ try:
 except:
     TorchAvailable = False
     exc = traceback.format_exc()
-    SendCrashReport("NavigationDetection - PyTorch import error.", str(exc))
+    #SendCrashReport("NavigationDetection - PyTorch import error.", str(exc))
     print("\033[91m" + f"NavigationDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
     pytorch.CheckPyTorch()
     console.RestoreConsole()

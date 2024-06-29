@@ -1,1 +1,1 @@
-Fixed a but that NavigationDetectionAI would not slow down for right turns.
+Temporary deactivation of crash reports of the type "PyTorch import error"
