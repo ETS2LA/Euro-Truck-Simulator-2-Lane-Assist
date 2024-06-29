@@ -1,1 +1,1 @@
-Temporary deactivation of crash reports of the type "PyTorch import error"
+Add check for a cracked game or DLCs, since the game will refuse to load DLLs in this case.

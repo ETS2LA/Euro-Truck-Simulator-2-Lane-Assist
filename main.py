@@ -616,6 +616,7 @@ def CheckForFileChanges():
         except:
             pass
       
+      
 # Check for updates
 updater.UpdateChecker()  
 
