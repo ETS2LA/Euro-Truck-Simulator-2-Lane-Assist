@@ -1,2 +1,2 @@
-1.11.50: Add check for a cracked game or DLCs, since the game will refuse to load DLLs in this case.
 1.11.51: Fix main menu update time display.
+1.11.52: Temporarily disabled vehicle detection data collection (Will be re-enabled in 1.11.53 in a different format).

@@ -91,6 +91,7 @@ def SendImage(image):
 def plugin(data):
     global vd_data_collection, x1, y1, x2, y2, cooldown, last_capture
 
+    '''
     if vd_data_collection and last_capture + cooldown < time.time():
         try:
             data["frameFull"]
@@ -102,6 +103,7 @@ def plugin(data):
 
         threading.Thread(target=SendImage, args=(frame,), daemon=True).start()
         last_capture = time.time()
+    '''
 
     return data
 
