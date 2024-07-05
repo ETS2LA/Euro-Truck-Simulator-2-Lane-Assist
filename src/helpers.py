@@ -9,6 +9,7 @@ import src.mainUI as mainUI
 import src.controls as controls
 import src.variables as variables
 import win32gui
+import pygetwindow as gw
 
 lastRow = 0
 lastParent = None
@@ -547,7 +548,21 @@ class PID:
         self.Ki += self.ITerm
         self.Kd += self.DTerm
         self.clear()
-        
+
+def GetGameWindowSize():
+    """Gets the size of the game window.
+
+    Returns:
+        tuple: (x1, y1, x2, y2) of the game window, or None if not found.
+    """
+    titles = gw.getAllTitles()
+    for title in titles:
+        if title == "Euro Truck Simulator 2" or title == "Euro Truck Simulator 2 - Multiplayer" or title == "American Truck Simulator" or title == "American Truck Simulator - Multiplayer":
+            window = gw.getWindowsWithTitle(title)[0]
+            window = window.topleft[0], window.topleft[1], window.bottomright[0], window.bottomright[1]
+            return window
+    return None
+
 popups = [] 
 timeoutlessPopups = []
 def ShowPopup(text, title, type="info", translate=True, timeout=4, indeterminate=False, closeIfMainloopStopped=False):
