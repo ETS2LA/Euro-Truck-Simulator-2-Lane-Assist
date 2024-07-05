@@ -34,21 +34,79 @@ import webbrowser
 import requests
 import threading
 import base64
-import pyautogui
+import subprocess
+import tqdm
+
+def OptInDialog():
+    '''
+    Dialog to opt in or out of data collection.
+    '''
+    selection = helpers.Dialog("Vehicle Detection Data Collection", "Hey there! It looks lie you have Vehicle Detection Data Collection enabled.\nWe have collected enough images through the windshield to train the main AI to detect objects.\nHowever, we need to train a model to detect vehicles in the mirrors to assist in lane changing.\nAll you need to do is press F2 in the game until both mirrors are shown at the top of your screen.\nIt is also higly recommended to turn up your mirror resolution and distance in the ETS2 Settings.\nIt would also help if you use the Borderless Gaming application, you can click the button below to get it.\nNOTE: This will take a screenshot of your screen where the mirrors are every 5 seconds.\nPlase stay in game while using this plugin to avoid leaking private data.\nWe aren't responsible if any of your personal data gets leaked (the images are public).\nThank you for your continued support, we really appreciate it and it helps us continue to develop ETS2LA!\n\nYou can opt out if you would not like to collect data or accept to start collecting.", options=["Opt Out", "Accept", "Accept and Install Borderless Gaming"])
+    if selection == "Opt Out":
+        settings.CreateSettings("VehicleDetectionDataCollection", "enabled", False)
+    else:
+        settings.CreateSettings("VehicleDetectionDataCollection", "enabled", True)
+        if "DataCollection" not in settings.GetSettings("Plugins", "Enabled"):
+            settings.AddToList("Plugins", "Enabled", "DataCollection")
+        
+        if selection == "Accept and Install Borderless Gaming":
+            print("Downloading Borderless Gaming...")
+            if os.path.exists(os.path.join(variables.PATH, "assets", "BorderlessGaming")) == False:
+                os.mkdir(os.path.join(variables.PATH, "assets", "BorderlessGaming"))
+                open(os.path.join(variables.PATH, "assets", "BorderlessGaming", "BorderlessGaming.exe"), 'a').close()
+            borderless_gaming_path = os.path.join(variables.PATH, "assets", "BorderlessGaming", "BorderlessGaming.exe")
+
+            response = requests.get("https://github.com/Codeusa/Borderless-Gaming/releases/download/9.5.6/BorderlessGaming9.5.6_admin_setup.exe", stream=True)
+            with open(borderless_gaming_path, 'wb') as file:
+                for data in response.iter_content(chunk_size=1024):
+                    if data:
+                        file.write(data)
+
+            helpers.ShowSuccess(text="Borderless Gaming was download successfully!\nYou should now follow the instructions in the dialog to complete installation.\nOnce the install is complete you should open the program and set ETS2 to borderless.\nThen press F2 to get the mirrors on screen.\nThank you for your support!", title="Borderless Gaming Downloaded!")
+            print(f"Borderless Gaming downloaded and saved to {borderless_gaming_path}")
+            subprocess.Popen(borderless_gaming_path)
+    settings.CreateSettings("VehicleDetectionDataCollection", "dialog_shown", True)
+
+def CalculateMirrorCoordinates(window):
+    '''
+    Calculates the mirror coordinates based on the game coordinates.
+
+    Args:
+        window (tuple): The game coordinates. (x1, y1, x2, y2)
+
+    Returns:
+        tuple: Both mirror coordinates. ((left_x1, left_y1, left_x2, left_y2), (right_x1, right_y1, right_x2, right_y2))
+    '''
+
+    left_top_left = round(window[0] + window[2] * 0.012), round(window[1] + window[3] * 0.095)
+    left_bottom_right = round(window[0] + window[2] * 0.152), round(window[1] + window[3] * 0.415)
+    right_top_left = window[0] + window[2] - left_bottom_right[0] - 1, left_top_left[1]
+    right_bottom_right = window[0] + window[2] - left_top_left[0] - 1, left_bottom_right[1]
+
+    return ((left_top_left[0], left_top_left[1], left_bottom_right[0], left_bottom_right[1]), (right_top_left[0], right_top_left[1], right_bottom_right[0], right_bottom_right[1]))
 
 def Initialize():
-    global vd_data_collection, x1, y1, x2, y2, cooldown, last_capture, server_available, last_server_check
-    vd_data_collection = settings.GetSettings("DataCollection", "VD Data Collection", False)
+    global vd_data_collection, cooldown, last_capture, server_available, last_server_check, last_game_coords, game_coords, mirror_coords
 
-    screen_width, screen_height = pyautogui.size()
-    x1 = settings.GetSettings("TrafficLightDetection", "x1ofsc", 0)
-    y1 = settings.GetSettings("TrafficLightDetection", "y1ofsc", 0)
-    x2 = settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1)
-    y2 = settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1)
+    vd_data_collection = settings.GetSettings("VehicleDetectionDataCollection", "enabled", True)
+    dialog_shown = settings.GetSettings("VehicleDetectionDataCollection", "dialog_shown", False)
+
+    #screen_width, screen_height = pyautogui.size()
+    #x1 = settings.GetSettings("TrafficLightDetection", "x1ofsc", 0)
+    #y1 = settings.GetSettings("TrafficLightDetection", "y1ofsc", 0)
+    #x2 = settings.GetSettings("TrafficLightDetection", "x2ofsc", screen_width-1)
+    #y2 = settings.GetSettings("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1)
+
     cooldown = 5
     last_capture = time.time()
     last_server_check = time.time() + 180
     server_available = "unknown"
+    game_coords = (0, 0, 0, 0)
+    last_game_coords = (1, 1, 1, 1)
+    mirror_coords = ((0, 0, 0, 0), (0, 0, 0, 0))
+
+    if vd_data_collection == True and dialog_shown == False:
+        OptInDialog()
 
 Initialize()
 
@@ -62,6 +120,7 @@ def CheckServer():
     except:
         return False
     
+'''
 def SendImage(image):
     global server_available
     global last_server_check
@@ -87,11 +146,47 @@ def SendImage(image):
         except:
             server_available = CheckServer()
             last_server_check = time.time()
+'''
+
+def SendMirrorImages(mirror1, mirror2):
+    global server_available
+    global last_server_check
+    if last_server_check + 180 < time.time():
+        server_available = CheckServer()
+        last_server_check = time.time()
+    if server_available == "unknown":
+        server_available = CheckServer()
+        last_server_check = time.time()
+    if server_available == True:
+        try:
+            encoded_string = base64.b64encode(cv2.imencode('.png', mirror1)[1]).decode()
+            url = "https://api.tumppi066.fi/image/save"
+            headers = {
+                'Content-Type': 'application/json'
+            }
+            data = {
+                "image": encoded_string,
+                "category": "vehicle_detection_images"
+            }
+            response = requests.post(url, headers=headers, json=data)
+            
+            encoded_string = base64.b64encode(cv2.imencode('.png', mirror2)[1]).decode()
+            data = {
+                "image": encoded_string,
+                "category": "vehicle_detection_images"
+            }
+            response = requests.post(url, headers=headers, json=data)
+            print("Vehicle Detection Data Collection - Image Saved!")
+        except:
+            server_available = CheckServer()
+            last_server_check = time.time()
 
 def plugin(data):
+    '''
+    FOR WINDSHIELD DATA COLLECTION
+
     global vd_data_collection, x1, y1, x2, y2, cooldown, last_capture
 
-    '''
     if vd_data_collection and last_capture + cooldown < time.time():
         try:
             data["frameFull"]
@@ -104,6 +199,26 @@ def plugin(data):
         threading.Thread(target=SendImage, args=(frame,), daemon=True).start()
         last_capture = time.time()
     '''
+
+    global vd_data_collection, cooldown, last_capture, mirror_coords, last_game_coords, game_coords
+
+    if vd_data_collection and last_capture + cooldown < time.time():
+        game_coords = helpers.GetGameWindowPosition()
+        if game_coords != last_game_coords:
+            mirror_coords = CalculateMirrorCoordinates(game_coords)
+        last_game_coords = game_coords
+        
+        try:
+            data["frameFull"]
+        except:
+            return data
+        
+        fullframe = data["frameFull"]
+        left_mirror = fullframe.copy()[mirror_coords[0][1]:mirror_coords[0][3], mirror_coords[0][0]:mirror_coords[0][2]]
+        right_mirror = fullframe.copy()[mirror_coords[1][1]:mirror_coords[1][3], mirror_coords[1][0]:mirror_coords[1][2]]
+
+        threading.Thread(target=SendMirrorImages, args=(left_mirror, right_mirror,), daemon=True).start()
+        last_capture = time.time()
 
     return data
 
@@ -147,10 +262,10 @@ class UI():
 
             ttk.Label(vd_tab, text="Vehicle Detection Data Collection", font=("Robot", 17, "bold")).grid(row=0, column=0, columnspan=2, pady=1)
             ttk.Label(vd_tab, text="", font=("Robot", 10, "bold")).grid(row=1, column=0, columnspan=2, pady=1)
-            ttk.Label(vd_tab, text="Everyone has been waiting for it! Vehicle Detection is almost here!", font=("Robot", 10, "bold")).grid(row=2, column=0, columnspan=2, pady=2)
-            ttk.Label(vd_tab, text="However, we still need some more data for the Vehicle Detection AI model.", font=("Robot", 10, "bold")).grid(row=3, column=0, columnspan=2, pady=2)
-            ttk.Label(vd_tab, text="You can help us out by enabling this option which will send anonymous data to our server.", font=("Robot", 10, "bold")).grid(row=4, column=0, columnspan=2, pady=2)
-            ttk.Label(vd_tab, text="This data will be used to train the AI model and nothing else.", font=("Robot", 10, "bold")).grid(row=5, column=0, columnspan=2, pady=2)
+            ttk.Label(vd_tab, text="Vehicle Detection will be a very important part of ETS2LA full self driving.", font=("Robot", 10, "bold")).grid(row=2, column=0, columnspan=2, pady=2)
+            ttk.Label(vd_tab, text="In order to make this model, we need to collect some training data for AI models", font=("Robot", 10, "bold")).grid(row=3, column=0, columnspan=2, pady=2)
+            ttk.Label(vd_tab, text="Currently we are collecting screenshots of mirrors.", font=("Robot", 10, "bold")).grid(row=4, column=0, columnspan=2, pady=2)
+            ttk.Label(vd_tab, text="NOTE: Before turning this on, make sure you go in game and hit F2 until both mirrors show up", font=("Robot", 10, "bold")).grid(row=5, column=0, columnspan=2, pady=2)
             ttk.Label(vd_tab, text="You can see an example of what data is collected below:", font=("Robot", 10, "bold")).grid(row=6, column=0, columnspan=2, pady=2)
 
             example_image_paths = ["1.png", "2.png"]
@@ -159,22 +274,18 @@ class UI():
                 image = cv2.imread(image_path)
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                 image = Image.fromarray(image)
-                image = image.resize((300, 150), resample=Image.BILINEAR)
+                image = image.resize((160, 250), resample=Image.BILINEAR)
                 photo = ImageTk.PhotoImage(image)
                 image_label = tk.Label(vd_tab, image=photo)
                 image_label.grid(row=7, column=0 if i == 0 else 1, padx=10, pady=10)
                 image_label.image = photo
             
-            ttk.Label(vd_tab, text="Disclaimer: Every 5 seconds, a screenshot will be taken at the coordinates you select for Traffic Light Detection.", font=("Robot", 10, "bold")).grid(row=8, column=0, columnspan=2, pady=2)
-            ttk.Label(vd_tab, text="This data is public and we are not rsponsible for any personal data leaks. Do not enable unless you are in game.", font=("Robot", 10, "bold")).grid(row=9, column=0, columnspan=2, pady=2)
+            ttk.Label(vd_tab, text="Disclaimer: Every 5 seconds, a screenshot will be taken at the mirror coordinates.", font=("Robot", 10, "bold")).grid(row=8, column=0, columnspan=2, pady=2)
+            ttk.Label(vd_tab, text="This data is public and we are not responsible for any personal data leaks. Do not enable unless you are in game.", font=("Robot", 10, "bold")).grid(row=9, column=0, columnspan=2, pady=2)
 
             def CheckbuttonCallback():
                 if vd_data_collection_var.get() == True:
-                    screen_cap_dialog = helpers.Dialog("Vehicle Detection Data Collection - Screen Capture", "In order to do Vehicle Detection Data Collection, you need to set a screen capture.\nFor simplicity, data collection uses your traffic light detection screen capture.\nJust go to the Traffic Light Detection plugin, and set your screen capture out of the windshield.", ["Cancel", "Set Screen Capture"])
-                    if screen_cap_dialog == "Set Screen Capture":
-                        mainUI.switchSelectedPlugin("plugins.TrafficLightDetection.main")
-                    else:
-                        pass
+                    OptInDialog()
         
             vd_data_collection_var = helpers.MakeCheckButton(vd_tab, "Enable Data Collection (Anonymous data will be sent to our server)", "DataCollection", "VD Data Collection", 10, 0, width=80, columnspan=2, callback=CheckbuttonCallback)
             helpers.MakeButton(vd_tab, "View Collected Data", lambda: webbrowser.open("https://filebrowser.tumppi066.fi/share/Uw850Xow"), 11, 0, width=150, sticky="nw", columnspan=2)
@@ -186,7 +297,7 @@ class UI():
 
             ttk.Label(tl_tab, text="Traffic Light Detection Data Collection", font=("Robot", 18, "bold")).grid(row=0, column=0, columnspan=3)
             ttk.Label(tl_tab, text="", font=("Robot", 10, "bold")).grid(row=1, column=0, columnspan=3, pady=1)
-            ttk.Label(tl_tab, text="Traffic light detection is undergoing some changes which will make it faster and better!", font=("Robot", 10, "bold")).grid(row=2, column=0, columnspan=3, pady=2)
+            ttk.Label(tl_tab, text="Traffic Light Detection is undergoing some changes which will make it faster and better!", font=("Robot", 10, "bold")).grid(row=2, column=0, columnspan=3, pady=2)
             ttk.Label(tl_tab, text="This includes an AI model that will detect traffic lights with very high accuracy.", font=("Robot", 10, "bold")).grid(row=3, column=0, columnspan=3, pady=2)
             ttk.Label(tl_tab, text="If you want to help collect some data for this model, head over to the TFLD plugin.", font=("Robot", 10, "bold")).grid(row=4, column=0, columnspan=3, pady=2)
             ttk.Label(tl_tab, text="Use this button to go to the Traffic Light Detection plugin", font=("Robot", 10, "bold")).grid(row=5, column=0, columnspan=3, pady=2)

@@ -549,8 +549,8 @@ class PID:
         self.Kd += self.DTerm
         self.clear()
 
-def GetGameWindowSize():
-    """Gets the size of the game window.
+def GetGameWindowPosition():
+    """Gets the position of the game window.
 
     Returns:
         tuple: (x1, y1, x2, y2) of the game window, or None if not found.
