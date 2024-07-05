@@ -228,7 +228,7 @@ def drawButtons(refresh:bool=False):
     helpers.MakeButton(buttonFrame, "Help/About", lambda: switchSelectedPlugin("plugins.About.main"), 6, 0, width=11, padx=9)
     helpers.MakeButton(buttonFrame, "Feedback", lambda: switchSelectedPlugin("plugins.Feedback.main"), 7, 0, width=11, padx=9)
     import webbrowser
-    helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/DpJpkNpqwD"), 8, 0, width=11, padx=9, style="Accent.TButton", translate=False)
+    helpers.MakeButton(buttonFrame, "Discord", lambda: webbrowser.open("https://discord.gg/ets2la"), 8, 0, width=11, padx=9, style="Accent.TButton", translate=False)
 
     # Draw the favorites
     helpers.MakeButton(customButtonFrame, "Add/Remove", lambda: addCurrentToFavorites(), 0, 0, width=11, padx=9, autoplace=True, style="Accent.TButton")
