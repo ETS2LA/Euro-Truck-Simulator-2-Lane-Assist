@@ -64,6 +64,7 @@ def SendImage(image):
             last_server_check = time.time()
 
 def plugin():
+    '''
     global x1, y1, x2, y2, cooldown, last_capture, ScreenCapture
     if last_capture + cooldown < time.time():
         ScreenCapture.monitor_x1 = x1
@@ -75,3 +76,5 @@ def plugin():
 
         threading.Thread(target=SendImage, args=(frame,), daemon=True).start()
         last_capture = time.time()
+    '''
+    pass
