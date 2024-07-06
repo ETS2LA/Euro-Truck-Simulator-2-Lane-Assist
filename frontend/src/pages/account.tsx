@@ -5,8 +5,8 @@ import { toast } from "sonner";
 
 export async function CheckConnection() {
     try {
-        let response = await fetch("https://api.tumppi066.fi/", {
-            method: "POST",
+        let response = await fetch("https://api.tumppi066.fi/heartbeat", {
+            method: "GET",
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -14,12 +14,12 @@ export async function CheckConnection() {
         if(response.ok) {
             return true
         }
-        throw new Error("Failed to connect to ETS2LA Backend Server")
+        throw new Error(response.statusText)
     } catch(error) {
-        toast.error("Failed to connect to ETS2LA Backend Server", 
+        toast.error(error, 
             {
                 description: "The server is most likely down, please use a guest account for now. We will notify you when the login system is back up and running!",  
-                duration: 10000
+                duration: 5000
             } 
         )
         return false
