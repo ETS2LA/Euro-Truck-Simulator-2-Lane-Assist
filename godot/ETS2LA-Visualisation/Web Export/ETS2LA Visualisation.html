@@ -97,7 +97,7 @@ body {
 
 		<script src="ETS2LA Visualisation.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"ETS2LA Visualisation","experimentalVK":false,"fileSizes":{"ETS2LA Visualisation.pck":4218416,"ETS2LA Visualisation.wasm":51403076},"focusCanvas":true,"gdextensionLibs":[]};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"ETS2LA Visualisation","experimentalVK":false,"fileSizes":{"ETS2LA Visualisation.pck":4218416,"ETS2LA Visualisation.wasm":76304906},"focusCanvas":true,"gdextensionLibs":[]};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
@@ -136,9 +136,14 @@ const engine = new Engine(GODOT_CONFIG);
 	}
 
 	function displayFailureNotice(err) {
-		const msg = err.message || err;
-		console.error(msg);
-		setStatusNotice(msg);
+		console.error(err);
+		if (err instanceof Error) {
+			setStatusNotice(err.message);
+		} else if (typeof err === 'string') {
+			setStatusNotice(err);
+		} else {
+			setStatusNotice('An unknown error occured');
+		}
 		setStatusMode('notice');
 		initializing = false;
 	}

@@ -1,15 +1,16 @@
 
 var Godot = (() => {
-  var _scriptDir = typeof document !== 'undefined' && document.currentScript ? document.currentScript.src : undefined;
+  var _scriptName = typeof document != 'undefined' ? document.currentScript?.src : undefined;
   
   return (
 function(moduleArg = {}) {
+  var moduleRtn;
 
 // include: shell.js
 // The Module object: Our interface to the outside world. We import
 // and export values on it. There are various ways Module can be used:
 // 1. Not defined. We create it here
-// 2. A function parameter, function(Module) { ..generated code.. }
+// 2. A function parameter, function(moduleArg) => Promise<Module>
 // 3. pre-run appended it, var Module = {}; ..generated code..
 // 4. External script tag defines var Module.
 // We need to check if Module already exists (e.g. case 3 above).
@@ -23,18 +24,33 @@ var Module = moduleArg;
 
 // Set up the promise that indicates the Module is initialized
 var readyPromiseResolve, readyPromiseReject;
-Module['ready'] = new Promise((resolve, reject) => {
+var readyPromise = new Promise((resolve, reject) => {
   readyPromiseResolve = resolve;
   readyPromiseReject = reject;
 });
 ["_memory","__Z14godot_web_mainiPPc","__emwebxr_on_input_event","__emwebxr_on_simple_event","___indirect_function_table","_main","onRuntimeInitialized"].forEach((prop) => {
-  if (!Object.getOwnPropertyDescriptor(Module['ready'], prop)) {
-    Object.defineProperty(Module['ready'], prop, {
+  if (!Object.getOwnPropertyDescriptor(readyPromise, prop)) {
+    Object.defineProperty(readyPromise, prop, {
       get: () => abort('You are getting ' + prop + ' on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js'),
       set: () => abort('You are setting ' + prop + ' on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js'),
     });
   }
 });
+
+// Determine the runtime environment we are in. You can customize this by
+// setting the ENVIRONMENT setting at compile time (see settings.js).
+
+// Attempt to auto-detect the environment
+var ENVIRONMENT_IS_WEB = typeof window == 'object';
+var ENVIRONMENT_IS_WORKER = typeof importScripts == 'function';
+// N.b. Electron.js environment is simultaneously a NODE-environment, but
+// also a web environment.
+var ENVIRONMENT_IS_NODE = typeof process == 'object' && typeof process.versions == 'object' && typeof process.versions.node == 'string';
+var ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIRONMENT_IS_WORKER;
+
+if (Module['ENVIRONMENT']) {
+  throw new Error('Module.ENVIRONMENT has been deprecated. To force the environment, use the ENVIRONMENT compile-time option (for example, -sENVIRONMENT=web or -sENVIRONMENT=node)');
+}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
@@ -52,21 +68,6 @@ var thisProgram = './this.program';
 var quit_ = (status, toThrow) => {
   throw toThrow;
 };
-
-// Determine the runtime environment we are in. You can customize this by
-// setting the ENVIRONMENT setting at compile time (see settings.js).
-
-// Attempt to auto-detect the environment
-var ENVIRONMENT_IS_WEB = typeof window == 'object';
-var ENVIRONMENT_IS_WORKER = typeof importScripts == 'function';
-// N.b. Electron.js environment is simultaneously a NODE-environment, but
-// also a web environment.
-var ENVIRONMENT_IS_NODE = typeof process == 'object' && typeof process.versions == 'object' && typeof process.versions.node == 'string';
-var ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIRONMENT_IS_WORKER;
-
-if (Module['ENVIRONMENT']) {
-  throw new Error('Module.ENVIRONMENT has been deprecated. To force the environment, use the ENVIRONMENT compile-time option (for example, -sENVIRONMENT=web or -sENVIRONMENT=node)');
-}
 
 // `/` should be present at the end if `scriptDirectory` is not empty
 var scriptDirectory = '';
@@ -86,70 +87,6 @@ if (ENVIRONMENT_IS_SHELL) {
 
   if ((typeof process == 'object' && typeof require === 'function') || typeof window == 'object' || typeof importScripts == 'function') throw new Error('not compiled for this environment (did you build to HTML and try to run it not on the web, or set ENVIRONMENT to something - like node - and run it someplace else - like on the web?)');
 
-  if (typeof read != 'undefined') {
-    read_ = read;
-  }
-
-  readBinary = (f) => {
-    if (typeof readbuffer == 'function') {
-      return new Uint8Array(readbuffer(f));
-    }
-    let data = read(f, 'binary');
-    assert(typeof data == 'object');
-    return data;
-  };
-
-  readAsync = (f, onload, onerror) => {
-    setTimeout(() => onload(readBinary(f)));
-  };
-
-  if (typeof clearTimeout == 'undefined') {
-    globalThis.clearTimeout = (id) => {};
-  }
-
-  if (typeof setTimeout == 'undefined') {
-    // spidermonkey lacks setTimeout but we use it above in readAsync.
-    globalThis.setTimeout = (f) => (typeof f == 'function') ? f() : abort();
-  }
-
-  if (typeof scriptArgs != 'undefined') {
-    arguments_ = scriptArgs;
-  } else if (typeof arguments != 'undefined') {
-    arguments_ = arguments;
-  }
-
-  if (typeof quit == 'function') {
-    quit_ = (status, toThrow) => {
-      // Unlike node which has process.exitCode, d8 has no such mechanism. So we
-      // have no way to set the exit code and then let the program exit with
-      // that code when it naturally stops running (say, when all setTimeouts
-      // have completed). For that reason, we must call `quit` - the only way to
-      // set the exit code - but quit also halts immediately.  To increase
-      // consistency with node (and the web) we schedule the actual quit call
-      // using a setTimeout to give the current stack and any exception handlers
-      // a chance to run.  This enables features such as addOnPostRun (which
-      // expected to be able to run code after main returns).
-      setTimeout(() => {
-        if (!(toThrow instanceof ExitStatus)) {
-          let toLog = toThrow;
-          if (toThrow && typeof toThrow == 'object' && toThrow.stack) {
-            toLog = [toThrow, toThrow.stack];
-          }
-          err(`exiting due to exception: ${toLog}`);
-        }
-        quit(status);
-      });
-      throw toThrow;
-    };
-  }
-
-  if (typeof print != 'undefined') {
-    // Prefer to use print/printErr where they exist, as they usually work better.
-    if (typeof console == 'undefined') console = /** @type{!Console} */({});
-    console.log = /** @type{!function(this:Console, ...*): undefined} */ (print);
-    console.warn = console.error = /** @type{!function(this:Console, ...*): undefined} */ (typeof printErr != 'undefined' ? printErr : print);
-  }
-
 } else
 
 // Note that this includes Node.js workers when relevant (pthreads is enabled).
@@ -163,8 +100,8 @@ if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
   }
   // When MODULARIZE, this JS may be executed later, after document.currentScript
   // is gone, so we saved it, and we use it here instead of any other info.
-  if (_scriptDir) {
-    scriptDirectory = _scriptDir;
+  if (_scriptName) {
+    scriptDirectory = _scriptName;
   }
   // blob urls look like blob:http://site.com/etc/etc and we cannot infer anything from them.
   // otherwise, slice off the final part of the url to find the script directory.
@@ -180,8 +117,6 @@ if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
 
   if (!(typeof window == 'object' || typeof importScripts == 'function')) throw new Error('not compiled for this environment (did you build to HTML and try to run it not on the web, or set ENVIRONMENT to something - like node - and run it someplace else - like on the web?)');
 
-  // Differentiate the Web Worker from the Node Worker case, as reading must
-  // be done differently.
   {
 // include: web_or_worker_shell_read.js
 read_ = (url) => {
@@ -202,20 +137,16 @@ read_ = (url) => {
   }
 
   readAsync = (url, onload, onerror) => {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'arraybuffer';
-    xhr.onload = () => {
-      if (xhr.status == 200 || (xhr.status == 0 && xhr.response)) { // file URLs can return 0
-        onload(xhr.response);
-        return;
+    assert(!isFileURI(url), "readAsync does not work with file:// URLs");
+    fetch(url, { credentials: 'same-origin' })
+    .then((response) => {
+      if (response.ok) {
+        return response.arrayBuffer();
       }
-      onerror();
-    };
-    xhr.onerror = onerror;
-    xhr.send(null);
-  }
-
+      return Promise.reject(new Error(response.status + ' : ' + response.url));
+    })
+    .then(onload, onerror)
+  };
 // end include: web_or_worker_shell_read.js
   }
 } else
@@ -229,7 +160,7 @@ var err = Module['printErr'] || console.error.bind(console);
 // Merge back in the overrides
 Object.assign(Module, moduleOverrides);
 // Free the object hierarchy contained in the overrides, this lets the GC
-// reclaim data used e.g. in memoryInitializerRequest, which is a large typed array.
+// reclaim data used.
 moduleOverrides = null;
 checkIncomingModuleAPI();
 
@@ -274,8 +205,8 @@ assert(!ENVIRONMENT_IS_NODE, 'node environment detected but not enabled at build
 
 assert(!ENVIRONMENT_IS_SHELL, 'shell environment detected but not enabled at build time.  Add `shell` to `-sENVIRONMENT` to enable.');
 
-
 // end include: shell.js
+
 // include: preamble.js
 // === Preamble library stuff ===
 
@@ -291,7 +222,7 @@ var wasmBinary;
 if (Module['wasmBinary']) wasmBinary = Module['wasmBinary'];legacyModuleProp('wasmBinary', 'wasmBinary');
 
 if (typeof WebAssembly != 'object') {
-  abort('no native wasm support detected');
+  err('no native wasm support detected');
 }
 
 // Wasm globals
@@ -351,6 +282,7 @@ var HEAP,
 /** @type {!Float64Array} */
   HEAPF64;
 
+// include: runtime_shared.js
 function updateMemoryViews() {
   var b = wasmMemory.buffer;
   Module['HEAP8'] = HEAP8 = new Int8Array(b);
@@ -364,7 +296,7 @@ function updateMemoryViews() {
   Module['HEAP64'] = HEAP64 = new BigInt64Array(b);
   Module['HEAPU64'] = HEAPU64 = new BigUint64Array(b);
 }
-
+// end include: runtime_shared.js
 assert(!Module['STACK_SIZE'], 'STACK_SIZE can no longer be set at runtime.  Use -sSTACK_SIZE at link time')
 
 assert(typeof Int32Array != 'undefined' && typeof Float64Array !== 'undefined' && Int32Array.prototype.subarray != undefined && Int32Array.prototype.set != undefined,
@@ -622,7 +554,7 @@ function abort(what) {
   // allows this in the wasm spec.
 
   // Suppress closure compiler warning here. Closure compiler's builtin extern
-  // defintion for WebAssembly.RuntimeError claims it takes no arguments even
+  // definition for WebAssembly.RuntimeError claims it takes no arguments even
   // though it can.
   // TODO(https://github.com/google/closure-compiler/pull/3913): Remove if/when upstream closure gets fixed.
   /** @suppress {checkTypes} */
@@ -653,23 +585,29 @@ var isDataURI = (filename) => filename.startsWith(dataURIPrefix);
  */
 var isFileURI = (filename) => filename.startsWith('file://');
 // end include: URIUtils.js
-function createExportWrapper(name) {
-  return function() {
+function createExportWrapper(name, nargs) {
+  return (...args) => {
     assert(runtimeInitialized, `native function \`${name}\` called before runtime initialization`);
     assert(!runtimeExited, `native function \`${name}\` called after runtime exit (use NO_EXIT_RUNTIME to keep it alive after main() exits)`);
     var f = wasmExports[name];
     assert(f, `exported native function \`${name}\` not found`);
-    return f.apply(null, arguments);
+    // Only assert for too many arguments. Too few can be valid since the missing arguments will be zero filled.
+    assert(args.length <= nargs, `native function \`${name}\` called with ${args.length} args but expects ${nargs}`);
+    return f(...args);
   };
 }
 
 // include: runtime_exceptions.js
 // end include: runtime_exceptions.js
+function findWasmBinary() {
+    var f = 'godot.web.template_debug.wasm32.nothreads.wasm';
+    if (!isDataURI(f)) {
+      return locateFile(f);
+    }
+    return f;
+}
+
 var wasmBinaryFile;
-  wasmBinaryFile = 'godot.web.template_debug.wasm32.nothreads.wasm';
-  if (!isDataURI(wasmBinaryFile)) {
-    wasmBinaryFile = locateFile(wasmBinaryFile);
-  }
 
 function getBinarySync(file) {
   if (file == wasmBinaryFile && wasmBinary) {
@@ -682,22 +620,18 @@ function getBinarySync(file) {
 }
 
 function getBinaryPromise(binaryFile) {
-  // If we don't have the binary yet, try to load it asynchronously.
-  // Fetch has some additional restrictions over XHR, like it can't be used on a file:// url.
-  // See https://github.com/github/fetch/pull/92#issuecomment-140665932
-  // Cordova or Electron apps are typically loaded from a file:// url.
-  // So use fetch if it is available and the url is not a file, otherwise fall back to XHR.
+  // If we don't have the binary yet, load it asynchronously using readAsync.
   if (!wasmBinary
-      && (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER)) {
-    if (typeof fetch == 'function'
-    ) {
-      return fetch(binaryFile, { credentials: 'same-origin' }).then((response) => {
-        if (!response['ok']) {
-          throw `failed to load wasm binary file at '${binaryFile}'`;
-        }
-        return response['arrayBuffer']();
-      }).catch(() => getBinarySync(binaryFile));
-    }
+      ) {
+    // Fetch the binary use readAsync
+    return new Promise((resolve, reject) => {
+      readAsync(binaryFile,
+        (response) => resolve(new Uint8Array(/** @type{!ArrayBuffer} */(response))),
+        (error) => {
+          try { resolve(getBinarySync(binaryFile)); }
+          catch (e) { reject(e); }
+        });
+    });
   }
 
   // Otherwise, getBinarySync should be able to get it synchronously
@@ -707,8 +641,6 @@ function getBinaryPromise(binaryFile) {
 function instantiateArrayBuffer(binaryFile, imports, receiver) {
   return getBinaryPromise(binaryFile).then((binary) => {
     return WebAssembly.instantiate(binary, imports);
-  }).then((instance) => {
-    return instance;
   }).then(receiver, (reason) => {
     err(`failed to asynchronously prepare wasm: ${reason}`);
 
@@ -747,14 +679,18 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
   return instantiateArrayBuffer(binaryFile, imports, callback);
 }
 
+function getWasmImports() {
+  // prepare imports
+  return {
+    'env': wasmImports,
+    'wasi_snapshot_preview1': wasmImports,
+  }
+}
+
 // Create the wasm instance.
 // Receives the wasm imports, returns the exports.
 function createWasm() {
-  // prepare imports
-  var info = {
-    'env': wasmImports,
-    'wasi_snapshot_preview1': wasmImports,
-  };
+  var info = getWasmImports();
   // Load the wasm module and create an instance of using native support in the JS engine.
   // handle a generated wasm instance, receiving its exports and
   // performing other necessary setup
@@ -767,10 +703,6 @@ function createWasm() {
     wasmMemory = wasmExports['memory'];
     
     assert(wasmMemory, 'memory not found in wasm exports');
-    // This assertion doesn't hold when emscripten is run in --post-link
-    // mode.
-    // TODO(sbc): Read INITIAL_MEMORY out of the wasm file in post-link mode.
-    //assert(wasmMemory.buffer.byteLength === 33554432);
     updateMemoryViews();
 
     wasmTable = wasmExports['__indirect_function_table'];
@@ -807,7 +739,6 @@ function createWasm() {
   // Also pthreads and wasm workers initialize the wasm instance through this
   // path.
   if (Module['instantiateWasm']) {
-
     try {
       return Module['instantiateWasm'](info, receiveInstance);
     } catch(e) {
@@ -817,18 +748,20 @@ function createWasm() {
     }
   }
 
+  if (!wasmBinaryFile) wasmBinaryFile = findWasmBinary();
+
   // If instantiation fails, reject the module ready promise.
   instantiateAsync(wasmBinary, wasmBinaryFile, info, receiveInstantiationResult).catch(readyPromiseReject);
   return {}; // no exports yet; we'll fill them in later
 }
 
 // include: runtime_debug.js
-function legacyModuleProp(prop, newName, incomming=true) {
+function legacyModuleProp(prop, newName, incoming=true) {
   if (!Object.getOwnPropertyDescriptor(Module, prop)) {
     Object.defineProperty(Module, prop, {
       configurable: true,
       get() {
-        let extra = incomming ? ' (the initial value can be provided on Module, but after startup the value is only looked for on a local variable of that name)' : '';
+        let extra = incoming ? ' (the initial value can be provided on Module, but after startup the value is only looked for on a local variable of that name)' : '';
         abort(`\`Module.${prop}\` has been replaced by \`${newName}\`` + extra);
 
       }
@@ -856,7 +789,7 @@ function isExportedByForceFilesystem(name) {
 }
 
 function missingGlobal(sym, msg) {
-  if (typeof globalThis !== 'undefined') {
+  if (typeof globalThis != 'undefined') {
     Object.defineProperty(globalThis, sym, {
       configurable: true,
       get() {
@@ -871,7 +804,7 @@ missingGlobal('buffer', 'Please use HEAP8.buffer or wasmMemory.buffer');
 missingGlobal('asm', 'Please use wasmExports instead');
 
 function missingLibrarySymbol(sym) {
-  if (typeof globalThis !== 'undefined' && !Object.getOwnPropertyDescriptor(globalThis, sym)) {
+  if (typeof globalThis != 'undefined' && !Object.getOwnPropertyDescriptor(globalThis, sym)) {
     Object.defineProperty(globalThis, sym, {
       configurable: true,
       get() {
@@ -894,7 +827,7 @@ function missingLibrarySymbol(sym) {
       }
     });
   }
-  // Any symbol that is not included from the JS libary is also (by definition)
+  // Any symbol that is not included from the JS library is also (by definition)
   // not exported on the Module object.
   unexportedRuntimeSymbol(sym);
 }
@@ -915,15 +848,15 @@ function unexportedRuntimeSymbol(sym) {
 }
 
 // Used by XXXXX_DEBUG settings to output debug messages.
-function dbg(text) {
+function dbg(...args) {
   // TODO(sbc): Make this configurable somehow.  Its not always convenient for
   // logging to show up as warnings.
-  console.warn.apply(console, arguments);
+  console.warn(...args);
 }
 // end include: runtime_debug.js
 // === Body ===
-
 // end include: preamble.js
+
 
   /** @constructor */
   function ExitStatus(status) {
@@ -947,8 +880,8 @@ function dbg(text) {
   function getValue(ptr, type = 'i8') {
     if (type.endsWith('*')) type = '*';
     switch (type) {
-      case 'i1': return HEAP8[((ptr)>>0)];
-      case 'i8': return HEAP8[((ptr)>>0)];
+      case 'i1': return HEAP8[ptr];
+      case 'i8': return HEAP8[ptr];
       case 'i16': return HEAP16[((ptr)>>1)];
       case 'i32': return HEAP32[((ptr)>>2)];
       case 'i64': return HEAP64[((ptr)>>3)];
@@ -977,8 +910,8 @@ function dbg(text) {
   function setValue(ptr, value, type = 'i8') {
     if (type.endsWith('*')) type = '*';
     switch (type) {
-      case 'i1': HEAP8[((ptr)>>0)] = value; break;
-      case 'i8': HEAP8[((ptr)>>0)] = value; break;
+      case 'i1': HEAP8[ptr] = value; break;
+      case 'i8': HEAP8[ptr] = value; break;
       case 'i16': HEAP16[((ptr)>>1)] = value; break;
       case 'i32': HEAP32[((ptr)>>2)] = value; break;
       case 'i64': HEAP64[((ptr)>>3)] = BigInt(value); break;
@@ -997,8 +930,86 @@ function dbg(text) {
       }
     };
 
+  var UTF8Decoder = typeof TextDecoder != 'undefined' ? new TextDecoder('utf8') : undefined;
+  
+    /**
+     * Given a pointer 'idx' to a null-terminated UTF8-encoded string in the given
+     * array that contains uint8 values, returns a copy of that string as a
+     * Javascript String object.
+     * heapOrArray is either a regular array, or a JavaScript typed array view.
+     * @param {number} idx
+     * @param {number=} maxBytesToRead
+     * @return {string}
+     */
+  var UTF8ArrayToString = (heapOrArray, idx, maxBytesToRead) => {
+      var endIdx = idx + maxBytesToRead;
+      var endPtr = idx;
+      // TextDecoder needs to know the byte length in advance, it doesn't stop on
+      // null terminator by itself.  Also, use the length info to avoid running tiny
+      // strings through TextDecoder, since .subarray() allocates garbage.
+      // (As a tiny code save trick, compare endPtr against endIdx using a negation,
+      // so that undefined means Infinity)
+      while (heapOrArray[endPtr] && !(endPtr >= endIdx)) ++endPtr;
+  
+      if (endPtr - idx > 16 && heapOrArray.buffer && UTF8Decoder) {
+        return UTF8Decoder.decode(heapOrArray.subarray(idx, endPtr));
+      }
+      var str = '';
+      // If building with TextDecoder, we have already computed the string length
+      // above, so test loop end condition against that
+      while (idx < endPtr) {
+        // For UTF8 byte structure, see:
+        // http://en.wikipedia.org/wiki/UTF-8#Description
+        // https://www.ietf.org/rfc/rfc2279.txt
+        // https://tools.ietf.org/html/rfc3629
+        var u0 = heapOrArray[idx++];
+        if (!(u0 & 0x80)) { str += String.fromCharCode(u0); continue; }
+        var u1 = heapOrArray[idx++] & 63;
+        if ((u0 & 0xE0) == 0xC0) { str += String.fromCharCode(((u0 & 31) << 6) | u1); continue; }
+        var u2 = heapOrArray[idx++] & 63;
+        if ((u0 & 0xF0) == 0xE0) {
+          u0 = ((u0 & 15) << 12) | (u1 << 6) | u2;
+        } else {
+          if ((u0 & 0xF8) != 0xF0) warnOnce('Invalid UTF-8 leading byte ' + ptrToString(u0) + ' encountered when deserializing a UTF-8 string in wasm memory to a JS string!');
+          u0 = ((u0 & 7) << 18) | (u1 << 12) | (u2 << 6) | (heapOrArray[idx++] & 63);
+        }
+  
+        if (u0 < 0x10000) {
+          str += String.fromCharCode(u0);
+        } else {
+          var ch = u0 - 0x10000;
+          str += String.fromCharCode(0xD800 | (ch >> 10), 0xDC00 | (ch & 0x3FF));
+        }
+      }
+      return str;
+    };
+  
+    /**
+     * Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the
+     * emscripten HEAP, returns a copy of that string as a Javascript String object.
+     *
+     * @param {number} ptr
+     * @param {number=} maxBytesToRead - An optional length that specifies the
+     *   maximum number of bytes to read. You can omit this parameter to scan the
+     *   string until the first 0 byte. If maxBytesToRead is passed, and the string
+     *   at [ptr, ptr+maxBytesToReadr[ contains a null byte in the middle, then the
+     *   string will cut short at that byte index (i.e. maxBytesToRead will not
+     *   produce a string of exact length [ptr, ptr+maxBytesToRead[) N.B. mixing
+     *   frequent uses of UTF8ToString() with and without maxBytesToRead may throw
+     *   JS JIT optimizations off, so it is worth to consider consistently using one
+     * @return {string}
+     */
+  var UTF8ToString = (ptr, maxBytesToRead) => {
+      assert(typeof ptr == 'number', `UTF8ToString expects a number (got ${typeof ptr})`);
+      return ptr ? UTF8ArrayToString(HEAPU8, ptr, maxBytesToRead) : '';
+    };
+  var ___assert_fail = (condition, filename, line, func) => {
+      abort(`Assertion failed: ${UTF8ToString(condition)}, at: ` + [filename ? UTF8ToString(filename) : 'unknown filename', line, func ? UTF8ToString(func) : 'unknown function']);
+    };
+
   var wasmTableMirror = [];
   
+  /** @type {WebAssembly.Table} */
   var wasmTable;
   var getWasmTableEntry = (funcPtr) => {
       var func = wasmTableMirror[funcPtr];
@@ -1076,10 +1087,7 @@ function dbg(text) {
         if (lastSlash === -1) return path;
         return path.substr(lastSlash+1);
       },
-  join:function() {
-        var paths = Array.prototype.slice.call(arguments);
-        return PATH.normalize(paths.join('/'));
-      },
+  join:(...paths) => PATH.normalize(paths.join('/')),
   join2:(l, r) => PATH.normalize(l + '/' + r),
   };
   
@@ -1099,11 +1107,11 @@ function dbg(text) {
   
   
   var PATH_FS = {
-  resolve:function() {
+  resolve:(...args) => {
         var resolvedPath = '',
           resolvedAbsolute = false;
-        for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-          var path = (i >= 0) ? arguments[i] : FS.cwd();
+        for (var i = args.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+          var path = (i >= 0) ? args[i] : FS.cwd();
           // Skip empty and invalid entries
           if (typeof path != 'string') {
             throw new TypeError('Arguments to path.resolve must be strings');
@@ -1153,59 +1161,6 @@ function dbg(text) {
   };
   
   
-  var UTF8Decoder = typeof TextDecoder != 'undefined' ? new TextDecoder('utf8') : undefined;
-  
-    /**
-     * Given a pointer 'idx' to a null-terminated UTF8-encoded string in the given
-     * array that contains uint8 values, returns a copy of that string as a
-     * Javascript String object.
-     * heapOrArray is either a regular array, or a JavaScript typed array view.
-     * @param {number} idx
-     * @param {number=} maxBytesToRead
-     * @return {string}
-     */
-  var UTF8ArrayToString = (heapOrArray, idx, maxBytesToRead) => {
-      var endIdx = idx + maxBytesToRead;
-      var endPtr = idx;
-      // TextDecoder needs to know the byte length in advance, it doesn't stop on
-      // null terminator by itself.  Also, use the length info to avoid running tiny
-      // strings through TextDecoder, since .subarray() allocates garbage.
-      // (As a tiny code save trick, compare endPtr against endIdx using a negation,
-      // so that undefined means Infinity)
-      while (heapOrArray[endPtr] && !(endPtr >= endIdx)) ++endPtr;
-  
-      if (endPtr - idx > 16 && heapOrArray.buffer && UTF8Decoder) {
-        return UTF8Decoder.decode(heapOrArray.subarray(idx, endPtr));
-      }
-      var str = '';
-      // If building with TextDecoder, we have already computed the string length
-      // above, so test loop end condition against that
-      while (idx < endPtr) {
-        // For UTF8 byte structure, see:
-        // http://en.wikipedia.org/wiki/UTF-8#Description
-        // https://www.ietf.org/rfc/rfc2279.txt
-        // https://tools.ietf.org/html/rfc3629
-        var u0 = heapOrArray[idx++];
-        if (!(u0 & 0x80)) { str += String.fromCharCode(u0); continue; }
-        var u1 = heapOrArray[idx++] & 63;
-        if ((u0 & 0xE0) == 0xC0) { str += String.fromCharCode(((u0 & 31) << 6) | u1); continue; }
-        var u2 = heapOrArray[idx++] & 63;
-        if ((u0 & 0xF0) == 0xE0) {
-          u0 = ((u0 & 15) << 12) | (u1 << 6) | u2;
-        } else {
-          if ((u0 & 0xF8) != 0xF0) warnOnce('Invalid UTF-8 leading byte ' + ptrToString(u0) + ' encountered when deserializing a UTF-8 string in wasm memory to a JS string!');
-          u0 = ((u0 & 7) << 18) | (u1 << 12) | (u2 << 6) | (heapOrArray[idx++] & 63);
-        }
-  
-        if (u0 < 0x10000) {
-          str += String.fromCharCode(u0);
-        } else {
-          var ch = u0 - 0x10000;
-          str += String.fromCharCode(0xD800 | (ch >> 10), 0xDC00 | (ch & 0x3FF));
-        }
-      }
-      return str;
-    };
   
   var FS_stdin_getChar_buffer = [];
   
@@ -1295,13 +1250,8 @@ function dbg(text) {
           if (result !== null) {
             result += '\n';
           }
-        } else if (typeof readline == 'function') {
-          // Command line.
-          result = readline();
-          if (result !== null) {
-            result += '\n';
-          }
-        }
+        } else
+        {}
         if (!result) {
           return null;
         }
@@ -1647,7 +1597,6 @@ function dbg(text) {
           old_node.name = new_name;
           new_dir.contents[new_name] = old_node;
           new_dir.timestamp = old_node.parent.timestamp;
-          old_node.parent = new_dir;
         },
   unlink(parent, name) {
           delete parent.contents[name];
@@ -1901,9 +1850,78 @@ function dbg(text) {
       },
   DB_VERSION:21,
   DB_STORE_NAME:"FILE_DATA",
-  mount:function(mount) {
-        // reuse all of the core MEMFS functionality
-        return MEMFS.mount.apply(null, arguments);
+  queuePersist:(mount) => {
+        function onPersistComplete() {
+          if (mount.idbPersistState === 'again') startPersist(); // If a new sync request has appeared in between, kick off a new sync
+          else mount.idbPersistState = 0; // Otherwise reset sync state back to idle to wait for a new sync later
+        }
+        function startPersist() {
+          mount.idbPersistState = 'idb'; // Mark that we are currently running a sync operation
+          IDBFS.syncfs(mount, /*populate:*/false, onPersistComplete);
+        }
+  
+        if (!mount.idbPersistState) {
+          // Programs typically write/copy/move multiple files in the in-memory
+          // filesystem within a single app frame, so when a filesystem sync
+          // command is triggered, do not start it immediately, but only after
+          // the current frame is finished. This way all the modified files
+          // inside the main loop tick will be batched up to the same sync.
+          mount.idbPersistState = setTimeout(startPersist, 0);
+        } else if (mount.idbPersistState === 'idb') {
+          // There is an active IndexedDB sync operation in-flight, but we now
+          // have accumulated more files to sync. We should therefore queue up
+          // a new sync after the current one finishes so that all writes
+          // will be properly persisted.
+          mount.idbPersistState = 'again';
+        }
+      },
+  mount:(mount) => {
+        // reuse core MEMFS functionality
+        var mnt = MEMFS.mount(mount);
+        // If the automatic IDBFS persistence option has been selected, then automatically persist
+        // all modifications to the filesystem as they occur.
+        if (mount?.opts?.autoPersist) {
+          mnt.idbPersistState = 0; // IndexedDB sync starts in idle state
+          var memfs_node_ops = mnt.node_ops;
+          mnt.node_ops = Object.assign({}, mnt.node_ops); // Clone node_ops to inject write tracking
+          mnt.node_ops.mknod = (parent, name, mode, dev) => {
+            var node = memfs_node_ops.mknod(parent, name, mode, dev);
+            // Propagate injected node_ops to the newly created child node
+            node.node_ops = mnt.node_ops;
+            // Remember for each IDBFS node which IDBFS mount point they came from so we know which mount to persist on modification.
+            node.idbfs_mount = mnt.mount;
+            // Remember original MEMFS stream_ops for this node
+            node.memfs_stream_ops = node.stream_ops;
+            // Clone stream_ops to inject write tracking
+            node.stream_ops = Object.assign({}, node.stream_ops);
+  
+            // Track all file writes
+            node.stream_ops.write = (stream, buffer, offset, length, position, canOwn) => {
+              // This file has been modified, we must persist IndexedDB when this file closes
+              stream.node.isModified = true;
+              return node.memfs_stream_ops.write(stream, buffer, offset, length, position, canOwn);
+            };
+  
+            // Persist IndexedDB on file close
+            node.stream_ops.close = (stream) => {
+              var n = stream.node;
+              if (n.isModified) {
+                IDBFS.queuePersist(n.idbfs_mount);
+                n.isModified = false;
+              }
+              if (n.memfs_stream_ops.close) return n.memfs_stream_ops.close(stream);
+            };
+  
+            return node;
+          };
+          // Also kick off persisting the filesystem on other operations that modify the filesystem.
+          mnt.node_ops.mkdir   = (...args) => (IDBFS.queuePersist(mnt.mount), memfs_node_ops.mkdir(...args));
+          mnt.node_ops.rmdir   = (...args) => (IDBFS.queuePersist(mnt.mount), memfs_node_ops.rmdir(...args));
+          mnt.node_ops.symlink = (...args) => (IDBFS.queuePersist(mnt.mount), memfs_node_ops.symlink(...args));
+          mnt.node_ops.unlink  = (...args) => (IDBFS.queuePersist(mnt.mount), memfs_node_ops.unlink(...args));
+          mnt.node_ops.rename  = (...args) => (IDBFS.queuePersist(mnt.mount), memfs_node_ops.rename(...args));
+        }
+        return mnt;
       },
   syncfs:(mount, populate, callback) => {
         IDBFS.getLocalSet(mount, (err, local) => {
@@ -1990,7 +2008,7 @@ function dbg(text) {
           }
   
           if (FS.isDir(stat.mode)) {
-            check.push.apply(check, FS.readdir(path).filter(isRealDir).map(toAbsolute(path)));
+            check.push(...FS.readdir(path).filter(isRealDir).map(toAbsolute(path)));
           }
   
           entries[path] = { 'timestamp': stat.mtime };
@@ -2151,8 +2169,9 @@ function dbg(text) {
           }
         };
   
-        transaction.onerror = (e) => {
-          done(this.error);
+        // transaction may abort if (for example) there is a QuotaExceededError
+        transaction.onerror = transaction.onabort = (e) => {
+          done(e.target.error);
           e.preventDefault();
         };
   
@@ -2455,7 +2474,7 @@ function dbg(text) {
         // we'll use the reliable test `err.name == "ErrnoError"` instead
         constructor(errno) {
           super(ERRNO_MESSAGES[errno]);
-          // TODO(sbc): Use the inline member delclaration syntax once we
+          // TODO(sbc): Use the inline member declaration syntax once we
           // support it in acorn and closure.
           this.name = 'ErrnoError';
           this.errno = errno;
@@ -2471,6 +2490,76 @@ function dbg(text) {
   },
   filesystems:null,
   syncFSRequests:0,
+  FSStream:class {
+        constructor() {
+          // TODO(https://github.com/emscripten-core/emscripten/issues/21414):
+          // Use inline field declarations.
+          this.shared = {};
+        }
+        get object() {
+          return this.node;
+        }
+        set object(val) {
+          this.node = val;
+        }
+        get isRead() {
+          return (this.flags & 2097155) !== 1;
+        }
+        get isWrite() {
+          return (this.flags & 2097155) !== 0;
+        }
+        get isAppend() {
+          return (this.flags & 1024);
+        }
+        get flags() {
+          return this.shared.flags;
+        }
+        set flags(val) {
+          this.shared.flags = val;
+        }
+        get position() {
+          return this.shared.position;
+        }
+        set position(val) {
+          this.shared.position = val;
+        }
+      },
+  FSNode:class {
+        constructor(parent, name, mode, rdev) {
+          if (!parent) {
+            parent = this;  // root node sets parent to itself
+          }
+          this.parent = parent;
+          this.mount = parent.mount;
+          this.mounted = null;
+          this.id = FS.nextInode++;
+          this.name = name;
+          this.mode = mode;
+          this.node_ops = {};
+          this.stream_ops = {};
+          this.rdev = rdev;
+          this.readMode = 292/*292*/ | 73/*73*/;
+          this.writeMode = 146/*146*/;
+        }
+        get read() {
+          return (this.mode & this.readMode) === this.readMode;
+        }
+        set read(val) {
+          val ? this.mode |= this.readMode : this.mode &= ~this.readMode;
+        }
+        get write() {
+          return (this.mode & this.writeMode) === this.writeMode;
+        }
+        set write(val) {
+          val ? this.mode |= this.writeMode : this.mode &= ~this.writeMode;
+        }
+        get isFolder() {
+          return FS.isDir(this.mode);
+        }
+        get isDevice() {
+          return FS.isChrdev(this.mode);
+        }
+      },
   lookupPath(path, opts = {}) {
         path = PATH_FS.resolve(path);
   
@@ -2716,44 +2805,7 @@ function dbg(text) {
       },
   getStream:(fd) => FS.streams[fd],
   createStream(stream, fd = -1) {
-        if (!FS.FSStream) {
-          FS.FSStream = /** @constructor */ function() {
-            this.shared = { };
-          };
-          FS.FSStream.prototype = {};
-          Object.defineProperties(FS.FSStream.prototype, {
-            object: {
-              /** @this {FS.FSStream} */
-              get() { return this.node; },
-              /** @this {FS.FSStream} */
-              set(val) { this.node = val; }
-            },
-            isRead: {
-              /** @this {FS.FSStream} */
-              get() { return (this.flags & 2097155) !== 1; }
-            },
-            isWrite: {
-              /** @this {FS.FSStream} */
-              get() { return (this.flags & 2097155) !== 0; }
-            },
-            isAppend: {
-              /** @this {FS.FSStream} */
-              get() { return (this.flags & 1024); }
-            },
-            flags: {
-              /** @this {FS.FSStream} */
-              get() { return this.shared.flags; },
-              /** @this {FS.FSStream} */
-              set(val) { this.shared.flags = val; },
-            },
-            position : {
-              /** @this {FS.FSStream} */
-              get() { return this.shared.position; },
-              /** @this {FS.FSStream} */
-              set(val) { this.shared.position = val; },
-            },
-          });
-        }
+  
         // clone it, so we can return an instance of FSStream
         stream = Object.assign(new FS.FSStream(), stream);
         if (fd == -1) {
@@ -2765,6 +2817,11 @@ function dbg(text) {
       },
   closeStream(fd) {
         FS.streams[fd] = null;
+      },
+  dupStream(origStream, fd = -1) {
+        var stream = FS.createStream(origStream, fd);
+        stream.stream_ops?.dup?.(stream);
+        return stream;
       },
   chrdev_stream_ops:{
   open(stream) {
@@ -2794,7 +2851,7 @@ function dbg(text) {
   
           mounts.push(m);
   
-          check.push.apply(check, m.mounts);
+          check.push(...m.mounts);
         }
   
         return mounts;
@@ -3007,7 +3064,7 @@ function dbg(text) {
         // parents must exist
         var lookup, old_dir, new_dir;
   
-        // let the errors from non existant directories percolate up
+        // let the errors from non existent directories percolate up
         lookup = FS.lookupPath(old_path, { parent: true });
         old_dir = lookup.node;
         lookup = FS.lookupPath(new_path, { parent: true });
@@ -3073,6 +3130,9 @@ function dbg(text) {
         // do the underlying fs rename
         try {
           old_dir.node_ops.rename(old_node, new_dir, new_name);
+          // update old node (we do this here to avoid each backend 
+          // needing to)
+          old_node.parent = new_dir;
         } catch (e) {
           throw e;
         } finally {
@@ -3250,8 +3310,8 @@ function dbg(text) {
           throw new FS.ErrnoError(44);
         }
         flags = typeof flags == 'string' ? FS_modeStringToFlags(flags) : flags;
-        mode = typeof mode == 'undefined' ? 438 /* 0666 */ : mode;
         if ((flags & 64)) {
+          mode = typeof mode == 'undefined' ? 438 /* 0666 */ : mode;
           mode = (mode & 4095) | 32768;
         } else {
           mode = 0;
@@ -3471,7 +3531,6 @@ function dbg(text) {
         }
         return stream.stream_ops.msync(stream, buffer, offset, length, mmapFlags);
       },
-  munmap:(stream) => 0,
   ioctl(stream, cmd, arg) {
         if (!stream.stream_ops.ioctl) {
           throw new FS.ErrnoError(59);
@@ -3818,107 +3877,103 @@ function dbg(text) {
         }
       },
   createLazyFile(parent, name, url, canRead, canWrite) {
-        // Lazy chunked Uint8Array (implements get and length from Uint8Array). Actual getting is abstracted away for eventual reuse.
-        /** @constructor */
-        function LazyUint8Array() {
-          this.lengthKnown = false;
-          this.chunks = []; // Loaded chunks. Index is the chunk number
-        }
-        LazyUint8Array.prototype.get = /** @this{Object} */ function LazyUint8Array_get(idx) {
-          if (idx > this.length-1 || idx < 0) {
-            return undefined;
+        // Lazy chunked Uint8Array (implements get and length from Uint8Array).
+        // Actual getting is abstracted away for eventual reuse.
+        class LazyUint8Array {
+          constructor() {
+            this.lengthKnown = false;
+            this.chunks = []; // Loaded chunks. Index is the chunk number
           }
-          var chunkOffset = idx % this.chunkSize;
-          var chunkNum = (idx / this.chunkSize)|0;
-          return this.getter(chunkNum)[chunkOffset];
-        };
-        LazyUint8Array.prototype.setDataGetter = function LazyUint8Array_setDataGetter(getter) {
-          this.getter = getter;
-        };
-        LazyUint8Array.prototype.cacheLength = function LazyUint8Array_cacheLength() {
-          // Find length
-          var xhr = new XMLHttpRequest();
-          xhr.open('HEAD', url, false);
-          xhr.send(null);
-          if (!(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304)) throw new Error("Couldn't load " + url + ". Status: " + xhr.status);
-          var datalength = Number(xhr.getResponseHeader("Content-length"));
-          var header;
-          var hasByteServing = (header = xhr.getResponseHeader("Accept-Ranges")) && header === "bytes";
-          var usesGzip = (header = xhr.getResponseHeader("Content-Encoding")) && header === "gzip";
-  
-          var chunkSize = 1024*1024; // Chunk size in bytes
-  
-          if (!hasByteServing) chunkSize = datalength;
-  
-          // Function to get a range from the remote URL.
-          var doXHR = (from, to) => {
-            if (from > to) throw new Error("invalid range (" + from + ", " + to + ") or no bytes requested!");
-            if (to > datalength-1) throw new Error("only " + datalength + " bytes available! programmer error!");
-  
-            // TODO: Use mozResponseArrayBuffer, responseStream, etc. if available.
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, false);
-            if (datalength !== chunkSize) xhr.setRequestHeader("Range", "bytes=" + from + "-" + to);
-  
-            // Some hints to the browser that we want binary data.
-            xhr.responseType = 'arraybuffer';
-            if (xhr.overrideMimeType) {
-              xhr.overrideMimeType('text/plain; charset=x-user-defined');
+          get(idx) {
+            if (idx > this.length-1 || idx < 0) {
+              return undefined;
             }
-  
+            var chunkOffset = idx % this.chunkSize;
+            var chunkNum = (idx / this.chunkSize)|0;
+            return this.getter(chunkNum)[chunkOffset];
+          }
+          setDataGetter(getter) {
+            this.getter = getter;
+          }
+          cacheLength() {
+            // Find length
+            var xhr = new XMLHttpRequest();
+            xhr.open('HEAD', url, false);
             xhr.send(null);
             if (!(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304)) throw new Error("Couldn't load " + url + ". Status: " + xhr.status);
-            if (xhr.response !== undefined) {
-              return new Uint8Array(/** @type{Array<number>} */(xhr.response || []));
-            }
-            return intArrayFromString(xhr.responseText || '', true);
-          };
-          var lazyArray = this;
-          lazyArray.setDataGetter((chunkNum) => {
-            var start = chunkNum * chunkSize;
-            var end = (chunkNum+1) * chunkSize - 1; // including this byte
-            end = Math.min(end, datalength-1); // if datalength-1 is selected, this is the last block
-            if (typeof lazyArray.chunks[chunkNum] == 'undefined') {
-              lazyArray.chunks[chunkNum] = doXHR(start, end);
-            }
-            if (typeof lazyArray.chunks[chunkNum] == 'undefined') throw new Error('doXHR failed!');
-            return lazyArray.chunks[chunkNum];
-          });
+            var datalength = Number(xhr.getResponseHeader("Content-length"));
+            var header;
+            var hasByteServing = (header = xhr.getResponseHeader("Accept-Ranges")) && header === "bytes";
+            var usesGzip = (header = xhr.getResponseHeader("Content-Encoding")) && header === "gzip";
   
-          if (usesGzip || !datalength) {
-            // if the server uses gzip or doesn't supply the length, we have to download the whole file to get the (uncompressed) length
-            chunkSize = datalength = 1; // this will force getter(0)/doXHR do download the whole file
-            datalength = this.getter(0).length;
-            chunkSize = datalength;
-            out("LazyFiles on gzip forces download of the whole file when length is accessed");
+            var chunkSize = 1024*1024; // Chunk size in bytes
+  
+            if (!hasByteServing) chunkSize = datalength;
+  
+            // Function to get a range from the remote URL.
+            var doXHR = (from, to) => {
+              if (from > to) throw new Error("invalid range (" + from + ", " + to + ") or no bytes requested!");
+              if (to > datalength-1) throw new Error("only " + datalength + " bytes available! programmer error!");
+  
+              // TODO: Use mozResponseArrayBuffer, responseStream, etc. if available.
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', url, false);
+              if (datalength !== chunkSize) xhr.setRequestHeader("Range", "bytes=" + from + "-" + to);
+  
+              // Some hints to the browser that we want binary data.
+              xhr.responseType = 'arraybuffer';
+              if (xhr.overrideMimeType) {
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
+              }
+  
+              xhr.send(null);
+              if (!(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304)) throw new Error("Couldn't load " + url + ". Status: " + xhr.status);
+              if (xhr.response !== undefined) {
+                return new Uint8Array(/** @type{Array<number>} */(xhr.response || []));
+              }
+              return intArrayFromString(xhr.responseText || '', true);
+            };
+            var lazyArray = this;
+            lazyArray.setDataGetter((chunkNum) => {
+              var start = chunkNum * chunkSize;
+              var end = (chunkNum+1) * chunkSize - 1; // including this byte
+              end = Math.min(end, datalength-1); // if datalength-1 is selected, this is the last block
+              if (typeof lazyArray.chunks[chunkNum] == 'undefined') {
+                lazyArray.chunks[chunkNum] = doXHR(start, end);
+              }
+              if (typeof lazyArray.chunks[chunkNum] == 'undefined') throw new Error('doXHR failed!');
+              return lazyArray.chunks[chunkNum];
+            });
+  
+            if (usesGzip || !datalength) {
+              // if the server uses gzip or doesn't supply the length, we have to download the whole file to get the (uncompressed) length
+              chunkSize = datalength = 1; // this will force getter(0)/doXHR do download the whole file
+              datalength = this.getter(0).length;
+              chunkSize = datalength;
+              out("LazyFiles on gzip forces download of the whole file when length is accessed");
+            }
+  
+            this._length = datalength;
+            this._chunkSize = chunkSize;
+            this.lengthKnown = true;
           }
+          get length() {
+            if (!this.lengthKnown) {
+              this.cacheLength();
+            }
+            return this._length;
+          }
+          get chunkSize() {
+            if (!this.lengthKnown) {
+              this.cacheLength();
+            }
+            return this._chunkSize;
+          }
+        }
   
-          this._length = datalength;
-          this._chunkSize = chunkSize;
-          this.lengthKnown = true;
-        };
         if (typeof XMLHttpRequest != 'undefined') {
           if (!ENVIRONMENT_IS_WORKER) throw 'Cannot do synchronous binary XHRs outside webworkers in modern browsers. Use --embed-file or --preload-file in emcc';
           var lazyArray = new LazyUint8Array();
-          Object.defineProperties(lazyArray, {
-            length: {
-              get: /** @this{Object} */ function() {
-                if (!this.lengthKnown) {
-                  this.cacheLength();
-                }
-                return this._length;
-              }
-            },
-            chunkSize: {
-              get: /** @this{Object} */ function() {
-                if (!this.lengthKnown) {
-                  this.cacheLength();
-                }
-                return this._chunkSize;
-              }
-            }
-          });
-  
           var properties = { isDevice: false, contents: lazyArray };
         } else {
           var properties = { isDevice: false, url: url };
@@ -3937,7 +3992,7 @@ function dbg(text) {
         // Add a function that defers querying the file size until it is asked the first time.
         Object.defineProperties(node, {
           usedBytes: {
-            get: /** @this {FSNode} */ function() { return this.contents.length; }
+            get: function() { return this.contents.length; }
           }
         });
         // override each stream op with one that tries to force load the lazy file first
@@ -3945,9 +4000,9 @@ function dbg(text) {
         var keys = Object.keys(node.stream_ops);
         keys.forEach((key) => {
           var fn = node.stream_ops[key];
-          stream_ops[key] = function forceLoadLazyFile() {
+          stream_ops[key] = (...args) => {
             FS.forceLoadFile(node);
-            return fn.apply(null, arguments);
+            return fn(...args);
           };
         });
         function writeChunks(stream, buffer, offset, length, position) {
@@ -4005,26 +4060,6 @@ function dbg(text) {
       },
   };
   
-  
-    /**
-     * Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the
-     * emscripten HEAP, returns a copy of that string as a Javascript String object.
-     *
-     * @param {number} ptr
-     * @param {number=} maxBytesToRead - An optional length that specifies the
-     *   maximum number of bytes to read. You can omit this parameter to scan the
-     *   string until the first 0 byte. If maxBytesToRead is passed, and the string
-     *   at [ptr, ptr+maxBytesToReadr[ contains a null byte in the middle, then the
-     *   string will cut short at that byte index (i.e. maxBytesToRead will not
-     *   produce a string of exact length [ptr, ptr+maxBytesToRead[) N.B. mixing
-     *   frequent uses of UTF8ToString() with and without maxBytesToRead may throw
-     *   JS JIT optimizations off, so it is worth to consider consistently using one
-     * @return {string}
-     */
-  var UTF8ToString = (ptr, maxBytesToRead) => {
-      assert(typeof ptr == 'number', `UTF8ToString expects a number (got ${typeof ptr})`);
-      return ptr ? UTF8ArrayToString(HEAPU8, ptr, maxBytesToRead) : '';
-    };
   var SYSCALLS = {
   DEFAULT_POLLMASK:5,
   calculateAt(dirfd, path, allowEmpty) {
@@ -4081,22 +4116,14 @@ function dbg(text) {
         var buffer = HEAPU8.slice(addr, addr + len);
         FS.msync(stream, buffer, offset, len, flags);
       },
-  varargs:undefined,
-  get() {
-        assert(SYSCALLS.varargs != undefined);
-        // the `+` prepended here is necessary to convince the JSCompiler that varargs is indeed a number.
-        var ret = HEAP32[((+SYSCALLS.varargs)>>2)];
-        SYSCALLS.varargs += 4;
-        return ret;
-      },
-  getp() { return SYSCALLS.get() },
-  getStr(ptr) {
-        var ret = UTF8ToString(ptr);
-        return ret;
-      },
   getStreamFromFD(fd) {
         var stream = FS.getStreamChecked(fd);
         return stream;
+      },
+  varargs:undefined,
+  getStr(ptr) {
+        var ret = UTF8ToString(ptr);
+        return ret;
       },
   };
   function ___syscall__newselect(nfds, readfds, writefds, exceptfds, timeout) {
@@ -5198,6 +5225,17 @@ function dbg(text) {
   }
   }
 
+  /** @suppress {duplicate } */
+  function syscallGetVarargI() {
+      assert(SYSCALLS.varargs != undefined);
+      // the `+` prepended here is necessary to convince the JSCompiler that varargs is indeed a number.
+      var ret = HEAP32[((+SYSCALLS.varargs)>>2)];
+      SYSCALLS.varargs += 4;
+      return ret;
+    }
+  var syscallGetVarargP = syscallGetVarargI;
+  
+  
   function ___syscall_fcntl64(fd, cmd, varargs) {
   SYSCALLS.varargs = varargs;
   try {
@@ -5205,7 +5243,7 @@ function dbg(text) {
       var stream = SYSCALLS.getStreamFromFD(fd);
       switch (cmd) {
         case 0: {
-          var arg = SYSCALLS.get();
+          var arg = syscallGetVarargI();
           if (arg < 0) {
             return -28;
           }
@@ -5213,7 +5251,7 @@ function dbg(text) {
             arg++;
           }
           var newStream;
-          newStream = FS.createStream(stream, arg);
+          newStream = FS.dupStream(stream, arg);
           return newStream.fd;
         }
         case 1:
@@ -5222,12 +5260,12 @@ function dbg(text) {
         case 3:
           return stream.flags;
         case 4: {
-          var arg = SYSCALLS.get();
+          var arg = syscallGetVarargI();
           stream.flags |= arg;
           return 0;
         }
         case 12: {
-          var arg = SYSCALLS.getp();
+          var arg = syscallGetVarargP();
           var offset = 0;
           // We're always unlocked.
           HEAP16[(((arg)+(offset))>>1)] = 2;
@@ -5260,7 +5298,7 @@ function dbg(text) {
   var MIN_INT53 = -9007199254740992;
   var bigintToI53Checked = (num) => (num < MIN_INT53 || num > MAX_INT53) ? NaN : Number(num);
   function ___syscall_ftruncate64(fd, length) {
-    length = bigintToI53Checked(length);;
+    length = bigintToI53Checked(length);
   
     
   try {
@@ -5333,7 +5371,7 @@ function dbg(text) {
         HEAP64[((dirp + pos)>>3)] = BigInt(id);
         HEAP64[(((dirp + pos)+(8))>>3)] = BigInt((idx + 1) * struct_size);
         HEAP16[(((dirp + pos)+(16))>>1)] = 280;
-        HEAP8[(((dirp + pos)+(18))>>0)] = type;
+        HEAP8[(dirp + pos)+(18)] = type;
         stringToUTF8(name, dirp + pos + 19, 256);
         pos += struct_size;
         idx += 1;
@@ -5383,6 +5421,7 @@ function dbg(text) {
   }
   }
 
+  
   function ___syscall_ioctl(fd, op, varargs) {
   SYSCALLS.varargs = varargs;
   try {
@@ -5397,13 +5436,13 @@ function dbg(text) {
           if (!stream.tty) return -59;
           if (stream.tty.ops.ioctl_tcgets) {
             var termios = stream.tty.ops.ioctl_tcgets(stream);
-            var argp = SYSCALLS.getp();
+            var argp = syscallGetVarargP();
             HEAP32[((argp)>>2)] = termios.c_iflag || 0;
             HEAP32[(((argp)+(4))>>2)] = termios.c_oflag || 0;
             HEAP32[(((argp)+(8))>>2)] = termios.c_cflag || 0;
             HEAP32[(((argp)+(12))>>2)] = termios.c_lflag || 0;
             for (var i = 0; i < 32; i++) {
-              HEAP8[(((argp + i)+(17))>>0)] = termios.c_cc[i] || 0;
+              HEAP8[(argp + i)+(17)] = termios.c_cc[i] || 0;
             }
             return 0;
           }
@@ -5420,14 +5459,14 @@ function dbg(text) {
         case 21508: {
           if (!stream.tty) return -59;
           if (stream.tty.ops.ioctl_tcsets) {
-            var argp = SYSCALLS.getp();
+            var argp = syscallGetVarargP();
             var c_iflag = HEAP32[((argp)>>2)];
             var c_oflag = HEAP32[(((argp)+(4))>>2)];
             var c_cflag = HEAP32[(((argp)+(8))>>2)];
             var c_lflag = HEAP32[(((argp)+(12))>>2)];
             var c_cc = []
             for (var i = 0; i < 32; i++) {
-              c_cc.push(HEAP8[(((argp + i)+(17))>>0)]);
+              c_cc.push(HEAP8[(argp + i)+(17)]);
             }
             return stream.tty.ops.ioctl_tcsets(stream.tty, op, { c_iflag, c_oflag, c_cflag, c_lflag, c_cc });
           }
@@ -5435,7 +5474,7 @@ function dbg(text) {
         }
         case 21519: {
           if (!stream.tty) return -59;
-          var argp = SYSCALLS.getp();
+          var argp = syscallGetVarargP();
           HEAP32[((argp)>>2)] = 0;
           return 0;
         }
@@ -5444,7 +5483,7 @@ function dbg(text) {
           return -28; // not supported
         }
         case 21531: {
-          var argp = SYSCALLS.getp();
+          var argp = syscallGetVarargP();
           return FS.ioctl(stream, op, argp);
         }
         case 21523: {
@@ -5453,7 +5492,7 @@ function dbg(text) {
           if (!stream.tty) return -59;
           if (stream.tty.ops.ioctl_tiocgwinsz) {
             var winsize = stream.tty.ops.ioctl_tiocgwinsz(stream.tty);
-            var argp = SYSCALLS.getp();
+            var argp = syscallGetVarargP();
             HEAP16[((argp)>>1)] = winsize[0];
             HEAP16[(((argp)+(2))>>1)] = winsize[1];
           }
@@ -5557,13 +5596,14 @@ function dbg(text) {
   }
   }
 
+  
   function ___syscall_openat(dirfd, path, flags, varargs) {
   SYSCALLS.varargs = varargs;
   try {
   
       path = SYSCALLS.getStr(path);
       path = SYSCALLS.calculateAt(dirfd, path);
-      var mode = varargs ? SYSCALLS.get() : 0;
+      var mode = varargs ? syscallGetVarargI() : 0;
       return FS.open(path, flags, mode).fd;
     } catch (e) {
     if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e;
@@ -5765,6 +5805,10 @@ function dbg(text) {
   }
   }
 
+  var __abort_js = () => {
+      abort('native code called abort()');
+    };
+
   var nowIsMonotonic = 1;
   var __emscripten_get_now_is_monotonic = () => nowIsMonotonic;
 
@@ -5773,12 +5817,8 @@ function dbg(text) {
       runtimeKeepaliveCounter = 0;
     };
 
-  var __emscripten_throw_longjmp = () => {
-      throw Infinity;
-    };
-
   function __gmtime_js(time, tmPtr) {
-    time = bigintToI53Checked(time);;
+    time = bigintToI53Checked(time);
   
     
       var date = new Date(time * 1000);
@@ -5809,7 +5849,7 @@ function dbg(text) {
     };
   
   function __localtime_js(time, tmPtr) {
-    time = bigintToI53Checked(time);;
+    time = bigintToI53Checked(time);
   
     
       var date = new Date(time*1000);
@@ -5835,14 +5875,7 @@ function dbg(text) {
   }
 
   
-  
-  var stringToNewUTF8 = (str) => {
-      var size = lengthBytesUTF8(str) + 1;
-      var ret = _malloc(size);
-      if (ret) stringToUTF8(str, ret, size);
-      return ret;
-    };
-  var __tzset_js = (timezone, daylight, tzname) => {
+  var __tzset_js = (timezone, daylight, std_name, dst_name) => {
       // TODO: Use (malleable) environment variables instead of system settings.
       var currentYear = new Date().getFullYear();
       var winter = new Date(currentYear, 0, 1);
@@ -5850,9 +5883,12 @@ function dbg(text) {
       var winterOffset = winter.getTimezoneOffset();
       var summerOffset = summer.getTimezoneOffset();
   
-      // Local standard timezone offset. Local standard time is not adjusted for daylight savings.
-      // This code uses the fact that getTimezoneOffset returns a greater value during Standard Time versus Daylight Saving Time (DST).
-      // Thus it determines the expected output during Standard Time, and it compares whether the output of the given date the same (Standard) or less (DST).
+      // Local standard timezone offset. Local standard time is not adjusted for
+      // daylight savings.  This code uses the fact that getTimezoneOffset returns
+      // a greater value during Standard Time versus Daylight Saving Time (DST).
+      // Thus it determines the expected output during Standard Time, and it
+      // compares whether the output of the given date the same (Standard) or less
+      // (DST).
       var stdTimezoneOffset = Math.max(winterOffset, summerOffset);
   
       // timezone is specified as seconds west of UTC ("The external variable
@@ -5864,26 +5900,21 @@ function dbg(text) {
   
       HEAP32[((daylight)>>2)] = Number(winterOffset != summerOffset);
   
-      function extractZone(date) {
-        var match = date.toTimeString().match(/\(([A-Za-z ]+)\)$/);
-        return match ? match[1] : "GMT";
-      };
+      var extractZone = (date) => date.toLocaleTimeString(undefined, {hour12:false, timeZoneName:'short'}).split(' ')[1];
       var winterName = extractZone(winter);
       var summerName = extractZone(summer);
-      var winterNamePtr = stringToNewUTF8(winterName);
-      var summerNamePtr = stringToNewUTF8(summerName);
+      assert(winterName);
+      assert(summerName);
+      assert(lengthBytesUTF8(winterName) <= 16, `timezone name truncated to fit in TZNAME_MAX (${winterName})`);
+      assert(lengthBytesUTF8(summerName) <= 16, `timezone name truncated to fit in TZNAME_MAX (${summerName})`);
       if (summerOffset < winterOffset) {
         // Northern hemisphere
-        HEAPU32[((tzname)>>2)] = winterNamePtr;
-        HEAPU32[(((tzname)+(4))>>2)] = summerNamePtr;
+        stringToUTF8(winterName, std_name, 17);
+        stringToUTF8(summerName, dst_name, 17);
       } else {
-        HEAPU32[((tzname)>>2)] = summerNamePtr;
-        HEAPU32[(((tzname)+(4))>>2)] = winterNamePtr;
+        stringToUTF8(winterName, dst_name, 17);
+        stringToUTF8(summerName, std_name, 17);
       }
-    };
-
-  var _abort = () => {
-      abort('native code called abort()');
     };
 
   
@@ -6004,7 +6035,7 @@ function dbg(text) {
       return !!(ctx.multiDrawWebgl = ctx.getExtension('WEBGL_multi_draw'));
     };
   
-  var getEmscriptenSupportedExtensions = function(ctx) {
+  var getEmscriptenSupportedExtensions = (ctx) => {
       // Restrict the list of advertised extensions to those that we actually
       // support.
       var supportedExtensions = [
@@ -6027,17 +6058,24 @@ function dbg(text) {
         'WEBGL_draw_buffers',
         // WebGL 2 extensions
         'EXT_color_buffer_float',
+        'EXT_conservative_depth',
         'EXT_disjoint_timer_query_webgl2',
         'EXT_texture_norm16',
+        'NV_shader_noperspective_interpolation',
         'WEBGL_clip_cull_distance',
         // WebGL 1 and WebGL 2 extensions
         'EXT_color_buffer_half_float',
+        'EXT_depth_clamp',
         'EXT_float_blend',
         'EXT_texture_compression_bptc',
         'EXT_texture_compression_rgtc',
         'EXT_texture_filter_anisotropic',
         'KHR_parallel_shader_compile',
         'OES_texture_float_linear',
+        'WEBGL_blend_func_extended',
+        'WEBGL_compressed_texture_astc',
+        'WEBGL_compressed_texture_etc',
+        'WEBGL_compressed_texture_etc1',
         'WEBGL_compressed_texture_s3tc',
         'WEBGL_compressed_texture_s3tc_srgb',
         'WEBGL_debug_renderer_info',
@@ -6071,7 +6109,8 @@ function dbg(text) {
   stringiCache:{
   },
   unpackAlignment:4,
-  recordError:function recordError(errorCode) {
+  unpackRowLength:0,
+  recordError:(errorCode) => {
         if (!GL.lastError) {
           GL.lastError = errorCode;
         }
@@ -6082,6 +6121,20 @@ function dbg(text) {
           table[i] = null;
         }
         return ret;
+      },
+  genObject:(n, buffers, createFunction, objectTable
+        ) => {
+        for (var i = 0; i < n; i++) {
+          var buffer = GLctx[createFunction]();
+          var id = buffer && GL.getNewId(objectTable);
+          if (buffer) {
+            buffer.name = id;
+            objectTable[id] = buffer;
+          } else {
+            GL.recordError(0x502 /* GL_INVALID_OPERATION */);
+          }
+          HEAP32[(((buffers)+(i*4))>>2)] = id;
+        }
       },
   getSource:(shader, count, string, length) => {
         var source = '';
@@ -6523,7 +6576,6 @@ function dbg(text) {
      */
   var setMainLoop = (browserIterationFunc, fps, simulateInfiniteLoop, arg, noSetTiming) => {
       assert(!Browser.mainLoop.func, 'emscripten_set_main_loop: there can only be one main loop function at once: call emscripten_cancel_main_loop to cancel the previous one before setting a new one with different parameters.');
-  
       Browser.mainLoop.func = browserIterationFunc;
       Browser.mainLoop.arg = arg;
   
@@ -6696,7 +6748,7 @@ function dbg(text) {
             var expected = Browser.mainLoop.expectedBlockers;
             if (remaining) {
               if (remaining < expected) {
-                Module['setStatus'](message + ' (' + (expected - remaining) + '/' + expected + ')');
+                Module['setStatus'](`{message} ({expected - remaining}/{expected})`);
               } else {
                 Module['setStatus'](message);
               }
@@ -6902,7 +6954,6 @@ function dbg(text) {
   
         if (setInModule) {
           if (!useWebGL) assert(typeof GLctx == 'undefined', 'cannot set in module if GLctx is used, but we are a non-GL context that would replace it');
-  
           Module.ctx = ctx;
           if (useWebGL) GL.makeContextCurrent(contextHandle);
           Module.useWebGL = useWebGL;
@@ -7145,16 +7196,9 @@ function dbg(text) {
             Browser.mouseMovementY = Browser.getMovementY(event);
           }
   
-          // check if SDL is available
-          if (typeof SDL != "undefined") {
-            Browser.mouseX = SDL.mouseX + Browser.mouseMovementX;
-            Browser.mouseY = SDL.mouseY + Browser.mouseMovementY;
-          } else {
-            // just add the mouse delta to the current absolut mouse position
-            // FIXME: ideally this should be clamped against the canvas size and zero
-            Browser.mouseX += Browser.mouseMovementX;
-            Browser.mouseY += Browser.mouseMovementY;
-          }
+          // add the mouse delta to the current absolute mouse position
+          Browser.mouseX += Browser.mouseMovementX;
+          Browser.mouseY += Browser.mouseMovementY;
         } else {
           if (event.type === 'touchstart' || event.type === 'touchend' || event.type === 'touchmove') {
             var touch = event.touch;
@@ -7350,13 +7394,6 @@ function dbg(text) {
       return false;
     };
 
-  
-  var withStackSave = (f) => {
-      var stack = stackSave();
-      var ret = f();
-      stackRestore(stack);
-      return ret;
-    };
   var JSEvents = {
   removeAllEventListeners() {
         while (JSEvents.eventHandlers.length) {
@@ -7424,7 +7461,7 @@ function dbg(text) {
           var call = JSEvents.deferredCalls[i];
           JSEvents.deferredCalls.splice(i, 1);
           --i;
-          call.targetFunction.apply(null, call.argsList);
+          call.targetFunction(...call.argsList);
         }
       },
   eventHandlers:[],
@@ -7500,6 +7537,7 @@ function dbg(text) {
       return cString > 2 ? UTF8ToString(cString) : cString;
     };
   
+  /** @type {Object} */
   var specialHTMLTargets = [0, typeof document != 'undefined' ? document : 0, typeof window != 'undefined' ? window : 0];
   /** @suppress {duplicate } */
   var findEventTarget = (target) => {
@@ -7527,14 +7565,14 @@ function dbg(text) {
 
   
   
-  var emscripten_webgl_power_preferences = ['default', 'low-power', 'high-performance'];
+  var webglPowerPreferences = ["default","low-power","high-performance"];
   
   
   
   /** @suppress {duplicate } */
   var _emscripten_webgl_do_create_context = (target, attributes) => {
       assert(attributes);
-      var a = attributes >> 2;
+      var a = ((attributes)>>2);
       var powerPreference = HEAP32[a + (24>>2)];
       var contextAttributes = {
         'alpha': !!HEAP32[a + (0>>2)],
@@ -7543,7 +7581,7 @@ function dbg(text) {
         'antialias': !!HEAP32[a + (12>>2)],
         'premultipliedAlpha': !!HEAP32[a + (16>>2)],
         'preserveDrawingBuffer': !!HEAP32[a + (20>>2)],
-        'powerPreference': emscripten_webgl_power_preferences[powerPreference],
+        'powerPreference': webglPowerPreferences[powerPreference],
         'failIfMajorPerformanceCaveat': !!HEAP32[a + (28>>2)],
         // The following are not predefined WebGL context attributes in the WebGL specification, so the property names can be minified by Closure.
         majorVersion: HEAP32[a + (32>>2)],
@@ -7649,10 +7687,10 @@ function dbg(text) {
   var stringToAscii = (str, buffer) => {
       for (var i = 0; i < str.length; ++i) {
         assert(str.charCodeAt(i) === (str.charCodeAt(i) & 0xff));
-        HEAP8[((buffer++)>>0)] = str.charCodeAt(i);
+        HEAP8[buffer++] = str.charCodeAt(i);
       }
       // Null-terminate the string
-      HEAP8[((buffer)>>0)] = 0;
+      HEAP8[buffer] = 0;
     };
   var _environ_get = (__environ, environ_buf) => {
       var bufSize = 0;
@@ -7702,7 +7740,7 @@ function dbg(text) {
                    FS.isLink(stream.mode) ? 7 :
                    4;
       }
-      HEAP8[((pbuf)>>0)] = type;
+      HEAP8[pbuf] = type;
       HEAP16[(((pbuf)+(2))>>1)] = flags;
       HEAP64[(((pbuf)+(8))>>3)] = BigInt(rightsBase);
       HEAP64[(((pbuf)+(16))>>3)] = BigInt(rightsInheriting);
@@ -7724,7 +7762,7 @@ function dbg(text) {
         if (curr < 0) return -1;
         ret += curr;
         if (curr < len) break; // nothing more to read
-        if (typeof offset !== 'undefined') {
+        if (typeof offset != 'undefined') {
           offset += curr;
         }
       }
@@ -7746,7 +7784,7 @@ function dbg(text) {
 
   
   function _fd_seek(fd, offset, whence, newOffset) {
-    offset = bigintToI53Checked(offset);;
+    offset = bigintToI53Checked(offset);
   
     
   try {
@@ -7774,7 +7812,7 @@ function dbg(text) {
         var curr = FS.write(stream, HEAP8, ptr, len, offset);
         if (curr < 0) return -1;
         ret += curr;
-        if (typeof offset !== 'undefined') {
+        if (typeof offset != 'undefined') {
           offset += curr;
         }
       }
@@ -8018,13 +8056,13 @@ function dbg(text) {
       return 0;
     };
 
-  function _glActiveTexture(x0) { GLctx.activeTexture(x0) }
+  var _glActiveTexture = (x0) => GLctx.activeTexture(x0);
 
   var _glAttachShader = (program, shader) => {
       GLctx.attachShader(GL.programs[program], GL.shaders[shader]);
     };
 
-  function _glBeginTransformFeedback(x0) { GLctx.beginTransformFeedback(x0) }
+  var _glBeginTransformFeedback = (x0) => GLctx.beginTransformFeedback(x0);
 
   var _glBindBuffer = (target, buffer) => {
   
@@ -8075,61 +8113,57 @@ function dbg(text) {
       GLctx.bindVertexArray(GL.vaos[vao]);
     };
 
-  function _glBlendColor(x0, x1, x2, x3) { GLctx.blendColor(x0, x1, x2, x3) }
+  var _glBlendColor = (x0, x1, x2, x3) => GLctx.blendColor(x0, x1, x2, x3);
 
-  function _glBlendEquation(x0) { GLctx.blendEquation(x0) }
+  var _glBlendEquation = (x0) => GLctx.blendEquation(x0);
 
-  function _glBlendFunc(x0, x1) { GLctx.blendFunc(x0, x1) }
+  var _glBlendFunc = (x0, x1) => GLctx.blendFunc(x0, x1);
 
-  function _glBlendFuncSeparate(x0, x1, x2, x3) { GLctx.blendFuncSeparate(x0, x1, x2, x3) }
+  var _glBlendFuncSeparate = (x0, x1, x2, x3) => GLctx.blendFuncSeparate(x0, x1, x2, x3);
 
-  function _glBlitFramebuffer(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9) { GLctx.blitFramebuffer(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9) }
+  var _glBlitFramebuffer = (x0, x1, x2, x3, x4, x5, x6, x7, x8, x9) => GLctx.blitFramebuffer(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
 
   var _glBufferData = (target, size, data, usage) => {
   
       if (GL.currentContext.version >= 2) {
-        // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-        // those always when possible.  If size is zero, WebGL would interpret
-        // uploading the whole input arraybuffer (starting from given offset),
-        // which would not make sense in WebAssembly, so avoid uploading if size
-        // is zero. However we must still call bufferData to establish a backing
-        // storage of zero bytes.
+        // If size is zero, WebGL would interpret uploading the whole input
+        // arraybuffer (starting from given offset), which would not make sense in
+        // WebAssembly, so avoid uploading if size is zero. However we must still
+        // call bufferData to establish a backing storage of zero bytes.
         if (data && size) {
           GLctx.bufferData(target, HEAPU8, usage, data, size);
         } else {
           GLctx.bufferData(target, size, usage);
         }
-      } else {
-        // N.b. here first form specifies a heap subarray, second form an integer
-        // size, so the ?: code here is polymorphic. It is advised to avoid
-        // randomly mixing both uses in calling code, to avoid any potential JS
-        // engine JIT issues.
-        GLctx.bufferData(target, data ? HEAPU8.subarray(data, data+size) : size, usage);
+        return;
       }
+      // N.b. here first form specifies a heap subarray, second form an integer
+      // size, so the ?: code here is polymorphic. It is advised to avoid
+      // randomly mixing both uses in calling code, to avoid any potential JS
+      // engine JIT issues.
+      GLctx.bufferData(target, data ? HEAPU8.subarray(data, data+size) : size, usage);
     };
 
   var _glBufferSubData = (target, offset, size, data) => {
       if (GL.currentContext.version >= 2) {
-        // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-        // those always when possible.
         size && GLctx.bufferSubData(target, offset, HEAPU8, data, size);
         return;
       }
       GLctx.bufferSubData(target, offset, HEAPU8.subarray(data, data+size));
     };
 
-  function _glCheckFramebufferStatus(x0) { return GLctx.checkFramebufferStatus(x0) }
+  var _glCheckFramebufferStatus = (x0) => GLctx.checkFramebufferStatus(x0);
 
-  function _glClear(x0) { GLctx.clear(x0) }
+  var _glClear = (x0) => GLctx.clear(x0);
 
   var _glClearBufferfv = (buffer, drawbuffer, value) => {
   
-      GLctx.clearBufferfv(buffer, drawbuffer, HEAPF32, value>>2);
+      GLctx.clearBufferfv(buffer, drawbuffer, HEAPF32, ((value)>>2));
     };
 
-  function _glClearColor(x0, x1, x2, x3) { GLctx.clearColor(x0, x1, x2, x3) }
+  var _glClearColor = (x0, x1, x2, x3) => GLctx.clearColor(x0, x1, x2, x3);
 
-  function _glClearDepthf(x0) { GLctx.clearDepth(x0) }
+  var _glClearDepthf = (x0) => GLctx.clearDepth(x0);
 
   var _glColorMask = (red, green, blue, alpha) => {
       GLctx.colorMask(!!red, !!green, !!blue, !!alpha);
@@ -8141,16 +8175,14 @@ function dbg(text) {
 
   var _glCompressedTexImage2D = (target, level, internalFormat, width, height, border, imageSize, data) => {
       if (GL.currentContext.version >= 2) {
-        // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-        // those always when possible.
         if (GLctx.currentPixelUnpackBufferBinding || !imageSize) {
           GLctx.compressedTexImage2D(target, level, internalFormat, width, height, border, imageSize, data);
-        } else {
-          GLctx.compressedTexImage2D(target, level, internalFormat, width, height, border, HEAPU8, data, imageSize);
+          return;
         }
+        GLctx.compressedTexImage2D(target, level, internalFormat, width, height, border, HEAPU8, data, imageSize);
         return;
       }
-      GLctx.compressedTexImage2D(target, level, internalFormat, width, height, border, data ? HEAPU8.subarray((data), (data+imageSize)) : null);
+      GLctx.compressedTexImage2D(target, level, internalFormat, width, height, border, data ? HEAPU8.subarray((data), data+imageSize) : null);
     };
 
   var _glCompressedTexImage3D = (target, level, internalFormat, width, height, depth, border, imageSize, data) => {
@@ -8169,7 +8201,7 @@ function dbg(text) {
       }
     };
 
-  function _glCopyBufferSubData(x0, x1, x2, x3, x4) { GLctx.copyBufferSubData(x0, x1, x2, x3, x4) }
+  var _glCopyBufferSubData = (x0, x1, x2, x3, x4) => GLctx.copyBufferSubData(x0, x1, x2, x3, x4);
 
   var _glCreateProgram = () => {
       var id = GL.getNewId(GL.programs);
@@ -8191,7 +8223,7 @@ function dbg(text) {
       return id;
     };
 
-  function _glCullFace(x0) { GLctx.cullFace(x0) }
+  var _glCullFace = (x0) => GLctx.cullFace(x0);
 
   var _glDeleteBuffers = (n, buffers) => {
       for (var i = 0; i < n; i++) {
@@ -8303,13 +8335,13 @@ function dbg(text) {
       }
     };
 
-  function _glDepthFunc(x0) { GLctx.depthFunc(x0) }
+  var _glDepthFunc = (x0) => GLctx.depthFunc(x0);
 
   var _glDepthMask = (flag) => {
       GLctx.depthMask(!!flag);
     };
 
-  function _glDisable(x0) { GLctx.disable(x0) }
+  var _glDisable = (x0) => GLctx.disable(x0);
 
   var _glDisableVertexAttribArray = (index) => {
       GLctx.disableVertexAttribArray(index);
@@ -8347,13 +8379,13 @@ function dbg(text) {
       GLctx.drawElementsInstanced(mode, count, type, indices, primcount);
     };
 
-  function _glEnable(x0) { GLctx.enable(x0) }
+  var _glEnable = (x0) => GLctx.enable(x0);
 
   var _glEnableVertexAttribArray = (index) => {
       GLctx.enableVertexAttribArray(index);
     };
 
-  function _glEndTransformFeedback() { GLctx.endTransformFeedback() }
+  var _glEndTransformFeedback = () => GLctx.endTransformFeedback();
 
   var _glFenceSync = (condition, flags) => {
       var sync = GLctx.fenceSync(condition, flags);
@@ -8366,7 +8398,7 @@ function dbg(text) {
       return 0; // Failed to create a sync object
     };
 
-  function _glFinish() { GLctx.finish() }
+  var _glFinish = () => GLctx.finish();
 
   var _glFramebufferRenderbuffer = (target, attachment, renderbuffertarget, renderbuffer) => {
       GLctx.framebufferRenderbuffer(target, attachment, renderbuffertarget,
@@ -8382,58 +8414,39 @@ function dbg(text) {
       GLctx.framebufferTextureLayer(target, attachment, GL.textures[texture], level, layer);
     };
 
-  function _glFrontFace(x0) { GLctx.frontFace(x0) }
+  var _glFrontFace = (x0) => GLctx.frontFace(x0);
 
-  var __glGenObject = (n, buffers, createFunction, objectTable
-      ) => {
-      for (var i = 0; i < n; i++) {
-        var buffer = GLctx[createFunction]();
-        var id = buffer && GL.getNewId(objectTable);
-        if (buffer) {
-          buffer.name = id;
-          objectTable[id] = buffer;
-        } else {
-          GL.recordError(0x502 /* GL_INVALID_OPERATION */);
-        }
-        HEAP32[(((buffers)+(i*4))>>2)] = id;
-      }
-    };
-  
   var _glGenBuffers = (n, buffers) => {
-      __glGenObject(n, buffers, 'createBuffer', GL.buffers
+      GL.genObject(n, buffers, 'createBuffer', GL.buffers
         );
     };
 
-  
   var _glGenFramebuffers = (n, ids) => {
-      __glGenObject(n, ids, 'createFramebuffer', GL.framebuffers
+      GL.genObject(n, ids, 'createFramebuffer', GL.framebuffers
         );
     };
 
   var _glGenQueries = (n, ids) => {
-      __glGenObject(n, ids, 'createQuery', GL.queries
+      GL.genObject(n, ids, 'createQuery', GL.queries
         );
     };
 
-  
   var _glGenRenderbuffers = (n, renderbuffers) => {
-      __glGenObject(n, renderbuffers, 'createRenderbuffer', GL.renderbuffers
+      GL.genObject(n, renderbuffers, 'createRenderbuffer', GL.renderbuffers
         );
     };
 
-  
   var _glGenTextures = (n, textures) => {
-      __glGenObject(n, textures, 'createTexture', GL.textures
+      GL.genObject(n, textures, 'createTexture', GL.textures
         );
     };
 
-  
-  function _glGenVertexArrays(n, arrays) {
-      __glGenObject(n, arrays, 'createVertexArray', GL.vaos
+  var _glGenVertexArrays = (n, arrays) => {
+      GL.genObject(n, arrays, 'createVertexArray', GL.vaos
         );
-    }
+    };
 
-  function _glGenerateMipmap(x0) { GLctx.generateMipmap(x0) }
+  var _glGenerateMipmap = (x0) => GLctx.generateMipmap(x0);
 
   var readI53FromI64 = (ptr) => {
       return HEAPU32[((ptr)>>2)] + HEAP32[(((ptr)+(4))>>2)] * 4294967296;
@@ -8564,7 +8577,7 @@ function dbg(text) {
                 switch (type) {
                   case 0: HEAP32[(((p)+(i*4))>>2)] = result[i]; break;
                   case 2: HEAPF32[(((p)+(i*4))>>2)] = result[i]; break;
-                  case 4: HEAP8[(((p)+(i))>>0)] = result[i] ? 1 : 0; break;
+                  case 4: HEAP8[(p)+(i)] = result[i] ? 1 : 0; break;
                 }
               }
               return;
@@ -8589,7 +8602,7 @@ function dbg(text) {
         case 1: writeI53ToI64(p, ret); break;
         case 0: HEAP32[((p)>>2)] = ret; break;
         case 2:   HEAPF32[((p)>>2)] = ret; break;
-        case 4: HEAP8[((p)>>0)] = ret ? 1 : 0; break;
+        case 4: HEAP8[p] = ret ? 1 : 0; break;
       }
     };
   
@@ -8691,6 +8704,14 @@ function dbg(text) {
       }
     };
 
+  
+  
+  var stringToNewUTF8 = (str) => {
+      var size = lengthBytesUTF8(str) + 1;
+      var ret = _malloc(size);
+      if (ret) stringToUTF8(str, ret, size);
+      return ret;
+    };
   
   
   var _glGetString = (name_) => {
@@ -8899,20 +8920,22 @@ function dbg(text) {
     };
 
   var _glPixelStorei = (pname, param) => {
-      if (pname == 0xCF5 /* GL_UNPACK_ALIGNMENT */) {
+      if (pname == 3317) {
         GL.unpackAlignment = param;
+      } else if (pname == 3314) {
+        GL.unpackRowLength = param;
       }
       GLctx.pixelStorei(pname, param);
     };
 
-  function _glReadBuffer(x0) { GLctx.readBuffer(x0) }
+  var _glReadBuffer = (x0) => GLctx.readBuffer(x0);
 
-  var computeUnpackAlignedImageSize = (width, height, sizePerPixel, alignment) => {
+  var computeUnpackAlignedImageSize = (width, height, sizePerPixel) => {
       function roundedToNextMultipleOf(x, y) {
         return (x + y - 1) & -y;
       }
-      var plainRowSize = width * sizePerPixel;
-      var alignedRowSize = roundedToNextMultipleOf(plainRowSize, alignment);
+      var plainRowSize = (GL.unpackRowLength || width) * sizePerPixel;
+      var alignedRowSize = roundedToNextMultipleOf(plainRowSize, GL.unpackAlignment);
       return height * alignedRowSize;
     };
   
@@ -8967,29 +8990,27 @@ function dbg(text) {
       return HEAPU16;
     };
   
-  var heapAccessShiftForWebGLHeap = (heap) => 31 - Math.clz32(heap.BYTES_PER_ELEMENT);
+  var toTypedArrayIndex = (pointer, heap) =>
+      pointer >>> (31 - Math.clz32(heap.BYTES_PER_ELEMENT));
   
   var emscriptenWebGLGetTexPixelData = (type, format, width, height, pixels, internalFormat) => {
       var heap = heapObjectForWebGLType(type);
-      var shift = heapAccessShiftForWebGLHeap(heap);
-      var byteSize = 1<<shift;
-      var sizePerPixel = colorChannelsInGlTextureFormat(format) * byteSize;
-      var bytes = computeUnpackAlignedImageSize(width, height, sizePerPixel, GL.unpackAlignment);
-      return heap.subarray(pixels >> shift, pixels + bytes >> shift);
+      var sizePerPixel = colorChannelsInGlTextureFormat(format) * heap.BYTES_PER_ELEMENT;
+      var bytes = computeUnpackAlignedImageSize(width, height, sizePerPixel);
+      return heap.subarray(toTypedArrayIndex(pixels, heap), toTypedArrayIndex(pixels + bytes, heap));
     };
   
   
   
   var _glReadPixels = (x, y, width, height, format, type, pixels) => {
       if (GL.currentContext.version >= 2) {
-        // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-        // those always when possible.
         if (GLctx.currentPixelPackBufferBinding) {
           GLctx.readPixels(x, y, width, height, format, type, pixels);
-        } else {
-          var heap = heapObjectForWebGLType(type);
-          GLctx.readPixels(x, y, width, height, format, type, heap, pixels >> heapAccessShiftForWebGLHeap(heap));
+          return;
         }
+        var heap = heapObjectForWebGLType(type);
+        var target = toTypedArrayIndex(pixels, heap);
+        GLctx.readPixels(x, y, width, height, format, type, heap, target);
         return;
       }
       var pixelData = emscriptenWebGLGetTexPixelData(type, format, width, height, pixels, format);
@@ -9000,11 +9021,11 @@ function dbg(text) {
       GLctx.readPixels(x, y, width, height, format, type, pixelData);
     };
 
-  function _glRenderbufferStorage(x0, x1, x2, x3) { GLctx.renderbufferStorage(x0, x1, x2, x3) }
+  var _glRenderbufferStorage = (x0, x1, x2, x3) => GLctx.renderbufferStorage(x0, x1, x2, x3);
 
-  function _glRenderbufferStorageMultisample(x0, x1, x2, x3, x4) { GLctx.renderbufferStorageMultisample(x0, x1, x2, x3, x4) }
+  var _glRenderbufferStorageMultisample = (x0, x1, x2, x3, x4) => GLctx.renderbufferStorageMultisample(x0, x1, x2, x3, x4);
 
-  function _glScissor(x0, x1, x2, x3) { GLctx.scissor(x0, x1, x2, x3) }
+  var _glScissor = (x0, x1, x2, x3) => GLctx.scissor(x0, x1, x2, x3);
 
   var _glShaderSource = (shader, count, string, length) => {
       var source = GL.getSource(shader, count, string, length);
@@ -9017,19 +9038,19 @@ function dbg(text) {
   
   var _glTexImage2D = (target, level, internalFormat, width, height, border, format, type, pixels) => {
       if (GL.currentContext.version >= 2) {
-        // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-        // those always when possible.
         if (GLctx.currentPixelUnpackBufferBinding) {
           GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, pixels);
-        } else if (pixels) {
-          var heap = heapObjectForWebGLType(type);
-          GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, heap, pixels >> heapAccessShiftForWebGLHeap(heap));
-        } else {
-          GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, null);
+          return;
         }
-        return;
+        if (pixels) {
+          var heap = heapObjectForWebGLType(type);
+          var index = toTypedArrayIndex(pixels, heap);
+          GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, heap, index);
+          return;
+        }
       }
-      GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, pixels ? emscriptenWebGLGetTexPixelData(type, format, width, height, pixels, internalFormat) : null);
+      var pixelData = pixels ? emscriptenWebGLGetTexPixelData(type, format, width, height, pixels, internalFormat) : null;
+      GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, pixelData);
     };
 
   
@@ -9038,17 +9059,17 @@ function dbg(text) {
         GLctx.texImage3D(target, level, internalFormat, width, height, depth, border, format, type, pixels);
       } else if (pixels) {
         var heap = heapObjectForWebGLType(type);
-        GLctx.texImage3D(target, level, internalFormat, width, height, depth, border, format, type, heap, pixels >> heapAccessShiftForWebGLHeap(heap));
+        GLctx.texImage3D(target, level, internalFormat, width, height, depth, border, format, type, heap, toTypedArrayIndex(pixels, heap));
       } else {
         GLctx.texImage3D(target, level, internalFormat, width, height, depth, border, format, type, null);
       }
     };
 
-  function _glTexParameterf(x0, x1, x2) { GLctx.texParameterf(x0, x1, x2) }
+  var _glTexParameterf = (x0, x1, x2) => GLctx.texParameterf(x0, x1, x2);
 
-  function _glTexParameteri(x0, x1, x2) { GLctx.texParameteri(x0, x1, x2) }
+  var _glTexParameteri = (x0, x1, x2) => GLctx.texParameteri(x0, x1, x2);
 
-  function _glTexStorage2D(x0, x1, x2, x3, x4) { GLctx.texStorage2D(x0, x1, x2, x3, x4) }
+  var _glTexStorage2D = (x0, x1, x2, x3, x4) => GLctx.texStorage2D(x0, x1, x2, x3, x4);
 
   
   var _glTexSubImage3D = (target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels) => {
@@ -9056,7 +9077,7 @@ function dbg(text) {
         GLctx.texSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels);
       } else if (pixels) {
         var heap = heapObjectForWebGLType(type);
-        GLctx.texSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, heap, pixels >> heapAccessShiftForWebGLHeap(heap));
+        GLctx.texSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, heap, toTypedArrayIndex(pixels, heap));
       } else {
         GLctx.texSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, null);
       }
@@ -9104,20 +9125,20 @@ function dbg(text) {
   
   var _glUniform1iv = (location, count, value) => {
   
-      if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        count && GLctx.uniform1iv(webglGetUniformLocation(location), HEAP32, value>>2, count);
+      if (GL.currentContext.version >= 2) {
+        count && GLctx.uniform1iv(webglGetUniformLocation(location), HEAP32, ((value)>>2), count);
         return;
       }
   
       if (count <= 288) {
         // avoid allocation when uploading few enough uniforms
-        var view = miniTempWebGLIntBuffers[count-1];
+        var view = miniTempWebGLIntBuffers[count];
         for (var i = 0; i < count; ++i) {
           view[i] = HEAP32[(((value)+(4*i))>>2)];
         }
       } else
       {
-        var view = HEAP32.subarray((value)>>2, (value+count*4)>>2);
+        var view = HEAP32.subarray((((value)>>2)), ((value+count*4)>>2));
       }
       GLctx.uniform1iv(webglGetUniformLocation(location), view);
     };
@@ -9127,7 +9148,7 @@ function dbg(text) {
     };
 
   var _glUniform1uiv = (location, count, value) => {
-      count && GLctx.uniform1uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count);
+      count && GLctx.uniform1uiv(webglGetUniformLocation(location), HEAPU32, ((value)>>2), count);
     };
 
   
@@ -9140,23 +9161,21 @@ function dbg(text) {
   
   var _glUniform2fv = (location, count, value) => {
   
-      // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-      // those always when possible.
       if (GL.currentContext.version >= 2) {
-        count && GLctx.uniform2fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*2);
+        count && GLctx.uniform2fv(webglGetUniformLocation(location), HEAPF32, ((value)>>2), count*2);
         return;
       }
   
       if (count <= 144) {
         // avoid allocation when uploading few enough uniforms
-        var view = miniTempWebGLFloatBuffers[2*count-1];
+        var view = miniTempWebGLFloatBuffers[2*count];
         for (var i = 0; i < 2*count; i += 2) {
           view[i] = HEAPF32[(((value)+(4*i))>>2)];
           view[i+1] = HEAPF32[(((value)+(4*i+4))>>2)];
         }
       } else
       {
-        var view = HEAPF32.subarray((value)>>2, (value+count*8)>>2);
+        var view = HEAPF32.subarray((((value)>>2)), ((value+count*8)>>2));
       }
       GLctx.uniform2fv(webglGetUniformLocation(location), view);
     };
@@ -9165,21 +9184,21 @@ function dbg(text) {
   
   var _glUniform2iv = (location, count, value) => {
   
-      if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        count && GLctx.uniform2iv(webglGetUniformLocation(location), HEAP32, value>>2, count*2);
+      if (GL.currentContext.version >= 2) {
+        count && GLctx.uniform2iv(webglGetUniformLocation(location), HEAP32, ((value)>>2), count*2);
         return;
       }
   
       if (count <= 144) {
         // avoid allocation when uploading few enough uniforms
-        var view = miniTempWebGLIntBuffers[2*count-1];
+        var view = miniTempWebGLIntBuffers[2*count];
         for (var i = 0; i < 2*count; i += 2) {
           view[i] = HEAP32[(((value)+(4*i))>>2)];
           view[i+1] = HEAP32[(((value)+(4*i+4))>>2)];
         }
       } else
       {
-        var view = HEAP32.subarray((value)>>2, (value+count*8)>>2);
+        var view = HEAP32.subarray((((value)>>2)), ((value+count*8)>>2));
       }
       GLctx.uniform2iv(webglGetUniformLocation(location), view);
     };
@@ -9188,16 +9207,14 @@ function dbg(text) {
   
   var _glUniform3fv = (location, count, value) => {
   
-      // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-      // those always when possible.
       if (GL.currentContext.version >= 2) {
-        count && GLctx.uniform3fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*3);
+        count && GLctx.uniform3fv(webglGetUniformLocation(location), HEAPF32, ((value)>>2), count*3);
         return;
       }
   
       if (count <= 96) {
         // avoid allocation when uploading few enough uniforms
-        var view = miniTempWebGLFloatBuffers[3*count-1];
+        var view = miniTempWebGLFloatBuffers[3*count];
         for (var i = 0; i < 3*count; i += 3) {
           view[i] = HEAPF32[(((value)+(4*i))>>2)];
           view[i+1] = HEAPF32[(((value)+(4*i+4))>>2)];
@@ -9205,7 +9222,7 @@ function dbg(text) {
         }
       } else
       {
-        var view = HEAPF32.subarray((value)>>2, (value+count*12)>>2);
+        var view = HEAPF32.subarray((((value)>>2)), ((value+count*12)>>2));
       }
       GLctx.uniform3fv(webglGetUniformLocation(location), view);
     };
@@ -9219,19 +9236,17 @@ function dbg(text) {
   
   var _glUniform4fv = (location, count, value) => {
   
-      // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-      // those always when possible.
       if (GL.currentContext.version >= 2) {
-        count && GLctx.uniform4fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*4);
+        count && GLctx.uniform4fv(webglGetUniformLocation(location), HEAPF32, ((value)>>2), count*4);
         return;
       }
   
       if (count <= 72) {
         // avoid allocation when uploading few enough uniforms
-        var view = miniTempWebGLFloatBuffers[4*count-1];
+        var view = miniTempWebGLFloatBuffers[4*count];
         // hoist the heap out of the loop for size and for pthreads+growth.
         var heap = HEAPF32;
-        value >>= 2;
+        value = ((value)>>2);
         for (var i = 0; i < 4 * count; i += 4) {
           var dst = value + i;
           view[i] = heap[dst];
@@ -9241,7 +9256,7 @@ function dbg(text) {
         }
       } else
       {
-        var view = HEAPF32.subarray((value)>>2, (value+count*16)>>2);
+        var view = HEAPF32.subarray((((value)>>2)), ((value+count*16)>>2));
       }
       GLctx.uniform4fv(webglGetUniformLocation(location), view);
     };
@@ -9256,16 +9271,14 @@ function dbg(text) {
   
   var _glUniformMatrix3fv = (location, count, transpose, value) => {
   
-      // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-      // those always when possible.
       if (GL.currentContext.version >= 2) {
-        count && GLctx.uniformMatrix3fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*9);
+        count && GLctx.uniformMatrix3fv(webglGetUniformLocation(location), !!transpose, HEAPF32, ((value)>>2), count*9);
         return;
       }
   
       if (count <= 32) {
         // avoid allocation when uploading few enough uniforms
-        var view = miniTempWebGLFloatBuffers[9*count-1];
+        var view = miniTempWebGLFloatBuffers[9*count];
         for (var i = 0; i < 9*count; i += 9) {
           view[i] = HEAPF32[(((value)+(4*i))>>2)];
           view[i+1] = HEAPF32[(((value)+(4*i+4))>>2)];
@@ -9279,7 +9292,7 @@ function dbg(text) {
         }
       } else
       {
-        var view = HEAPF32.subarray((value)>>2, (value+count*36)>>2);
+        var view = HEAPF32.subarray((((value)>>2)), ((value+count*36)>>2));
       }
       GLctx.uniformMatrix3fv(webglGetUniformLocation(location), !!transpose, view);
     };
@@ -9288,19 +9301,17 @@ function dbg(text) {
   
   var _glUniformMatrix4fv = (location, count, transpose, value) => {
   
-      // WebGL 2 provides new garbage-free entry points to call to WebGL. Use
-      // those always when possible.
       if (GL.currentContext.version >= 2) {
-        count && GLctx.uniformMatrix4fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*16);
+        count && GLctx.uniformMatrix4fv(webglGetUniformLocation(location), !!transpose, HEAPF32, ((value)>>2), count*16);
         return;
       }
   
       if (count <= 18) {
         // avoid allocation when uploading few enough uniforms
-        var view = miniTempWebGLFloatBuffers[16*count-1];
+        var view = miniTempWebGLFloatBuffers[16*count];
         // hoist the heap out of the loop for size and for pthreads+growth.
         var heap = HEAPF32;
-        value >>= 2;
+        value = ((value)>>2);
         for (var i = 0; i < 16 * count; i += 16) {
           var dst = value + i;
           view[i] = heap[dst];
@@ -9322,7 +9333,7 @@ function dbg(text) {
         }
       } else
       {
-        var view = HEAPF32.subarray((value)>>2, (value+count*64)>>2);
+        var view = HEAPF32.subarray((((value)>>2)), ((value+count*64)>>2));
       }
       GLctx.uniformMatrix4fv(webglGetUniformLocation(location), !!transpose, view);
     };
@@ -9335,13 +9346,13 @@ function dbg(text) {
       GLctx.currentProgram = program;
     };
 
-  function _glVertexAttrib4f(x0, x1, x2, x3, x4) { GLctx.vertexAttrib4f(x0, x1, x2, x3, x4) }
+  var _glVertexAttrib4f = (x0, x1, x2, x3, x4) => GLctx.vertexAttrib4f(x0, x1, x2, x3, x4);
 
   var _glVertexAttribDivisor = (index, divisor) => {
       GLctx.vertexAttribDivisor(index, divisor);
     };
 
-  function _glVertexAttribI4ui(x0, x1, x2, x3, x4) { GLctx.vertexAttribI4ui(x0, x1, x2, x3, x4) }
+  var _glVertexAttribI4ui = (x0, x1, x2, x3, x4) => GLctx.vertexAttribI4ui(x0, x1, x2, x3, x4);
 
   var _glVertexAttribIPointer = (index, size, type, stride, ptr) => {
       GLctx.vertexAttribIPointer(index, size, type, stride, ptr);
@@ -9351,7 +9362,7 @@ function dbg(text) {
       GLctx.vertexAttribPointer(index, size, type, !!normalized, stride, ptr);
     };
 
-  function _glViewport(x0, x1, x2, x3) { GLctx.viewport(x0, x1, x2, x3) }
+  var _glViewport = (x0, x1, x2, x3) => GLctx.viewport(x0, x1, x2, x3);
 
   
   var GodotRuntime = {
@@ -9597,14 +9608,939 @@ function dbg(text) {
   };
   
   var GodotAudio = {
+  MAX_VOLUME_CHANNELS:8,
+  GodotChannel:{
+  CHANNEL_L:0,
+  CHANNEL_R:1,
+  CHANNEL_C:3,
+  CHANNEL_LFE:4,
+  CHANNEL_RL:5,
+  CHANNEL_RR:6,
+  CHANNEL_SL:7,
+  CHANNEL_SR:8,
+  },
+  WebChannel:{
+  CHANNEL_L:0,
+  CHANNEL_R:1,
+  CHANNEL_SL:2,
+  CHANNEL_SR:3,
+  CHANNEL_C:4,
+  CHANNEL_LFE:5,
+  },
+  samples:null,
+  Sample:class Sample {
+  	/**
+  	 * Returns a `Sample`.
+  	 * @param {string} id Id of the `Sample` to get.
+  	 * @returns {Sample}
+  	 * @throws {ReferenceError} When no `Sample` is found
+  	 */
+  	static getSample(id) {
+  		if (!GodotAudio.samples.has(id)) {
+  			throw new ReferenceError(`Could not find sample "${id}"`);
+  		}
+  		return GodotAudio.samples.get(id);
+  	}
+  
+  	/**
+  	 * Returns a `Sample` or `null`, if it doesn't exist.
+  	 * @param {string} id Id of the `Sample` to get.
+  	 * @returns {Sample?}
+  	 */
+  	static getSampleOrNull(id) {
+  		return GodotAudio.samples.get(id) ?? null;
+  	}
+  
+  	/**
+  	 * Creates a `Sample` based on the params. Will register it to the
+  	 * `GodotAudio.samples` registry.
+  	 * @param {SampleParams} params Base params
+  	 * @param {SampleOptions} [options={}] Optional params
+  	 * @returns {Sample}
+  	 */
+  	static create(params, options = {}) {
+  		const sample = new GodotAudio.Sample(params, options);
+  		GodotAudio.samples.set(params.id, sample);
+  		return sample;
+  	}
+  
+  	/**
+  	 * Deletes a `Sample` based on the id.
+  	 * @param {string} id `Sample` id to delete
+  	 * @returns {void}
+  	 */
+  	static delete(id) {
+  		GodotAudio.samples.delete(id);
+  	}
+  
+  	/**
+  	 * `Sample` constructor.
+  	 * @param {SampleParams} params Base params
+  	 * @param {SampleOptions} [options={}] Optional params
+  	 * @constructor
+  	 */
+  	constructor(params, options = {}) {
+  		/** @type {string} */
+  		this.id = params.id;
+  		/** @type {AudioBuffer} */
+  		this._audioBuffer = null;
+  		/** @type {number} */
+  		this.numberOfChannels = options.numberOfChannels ?? 2;
+  		/** @type {number} */
+  		this.sampleRate = options.sampleRate ?? 44100;
+  		/** @type {LoopMode} */
+  		this.loopMode = options.loopMode ?? 'disabled';
+  		/** @type {number} */
+  		this.loopBegin = options.loopBegin ?? 0;
+  		/** @type {number} */
+  		this.loopEnd = options.loopEnd ?? 0;
+  
+  		this.setAudioBuffer(params.audioBuffer);
+  	}
+  
+  	/**
+  	 * Gets the audio buffer of the sample.
+  	 * @returns {AudioBuffer}
+  	 */
+  	getAudioBuffer() {
+  		return this._duplicateAudioBuffer();
+  	}
+  
+  	/**
+  	 * Sets the audio buffer of the sample.
+  	 * @param {AudioBuffer} val The audio buffer to set.
+  	 * @returns {void}
+  	 */
+  	setAudioBuffer(val) {
+  		this._audioBuffer = val;
+  	}
+  
+  	/**
+  	 * Clears the current sample.
+  	 * @returns {void}
+  	 */
+  	clear() {
+  		this.audioBuffer = null;
+  		GodotAudio.Sample.delete(this.id);
+  	}
+  
+  	/**
+  	 * Returns a duplicate of the stored audio buffer.
+  	 * @returns {AudioBuffer}
+  	 */
+  	_duplicateAudioBuffer() {
+  		if (this._audioBuffer == null) {
+  			throw new Error('couldn\'t duplicate a null audioBuffer');
+  		}
+  		/** @type {Float32Array[]} */
+  		const channels = new Array(this._audioBuffer.numberOfChannels);
+  		for (let i = 0; i < this._audioBuffer.numberOfChannels; i++) {
+  			const channel = new Float32Array(this._audioBuffer.getChannelData(i));
+  			channels[i] = channel;
+  		}
+  		const buffer = GodotAudio.ctx.createBuffer(
+  			this.numberOfChannels,
+  			this._audioBuffer.length,
+  			this._audioBuffer.sampleRate
+  		);
+  		for (let i = 0; i < channels.length; i++) {
+  			buffer.copyToChannel(channels[i], i, 0);
+  		}
+  		return buffer;
+  	}
+  },
+  SampleNodeBus:class SampleNodeBus {
+  	/**
+  	 * Creates a new `SampleNodeBus`.
+  	 * @param {Bus} bus The bus related to the new `SampleNodeBus`.
+  	 * @returns {SampleNodeBus}
+  	 */
+  	static create(bus) {
+  		return new GodotAudio.SampleNodeBus(bus);
+  	}
+  
+  	/**
+  	 * `SampleNodeBus` constructor.
+  	 * @param {Bus} bus The bus related to the new `SampleNodeBus`.
+  	 * @constructor
+  	 */
+  	constructor(bus) {
+  		const NUMBER_OF_WEB_CHANNELS = 6;
+  
+  		/** @type {Bus} */
+  		this._bus = bus;
+  
+  		/** @type {ChannelSplitterNode} */
+  		this._channelSplitter = GodotAudio.ctx.createChannelSplitter(NUMBER_OF_WEB_CHANNELS);
+  		/** @type {GainNode} */
+  		this._l = GodotAudio.ctx.createGain();
+  		/** @type {GainNode} */
+  		this._r = GodotAudio.ctx.createGain();
+  		/** @type {GainNode} */
+  		this._sl = GodotAudio.ctx.createGain();
+  		/** @type {GainNode} */
+  		this._sr = GodotAudio.ctx.createGain();
+  		/** @type {GainNode} */
+  		this._c = GodotAudio.ctx.createGain();
+  		/** @type {GainNode} */
+  		this._lfe = GodotAudio.ctx.createGain();
+  		/** @type {ChannelMergerNode} */
+  		this._channelMerger = GodotAudio.ctx.createChannelMerger(NUMBER_OF_WEB_CHANNELS);
+  
+  		this._channelSplitter
+  			.connect(this._l, GodotAudio.WebChannel.CHANNEL_L)
+  			.connect(
+  				this._channelMerger,
+  				GodotAudio.WebChannel.CHANNEL_L,
+  				GodotAudio.WebChannel.CHANNEL_L
+  			);
+  		this._channelSplitter
+  			.connect(this._r, GodotAudio.WebChannel.CHANNEL_R)
+  			.connect(
+  				this._channelMerger,
+  				GodotAudio.WebChannel.CHANNEL_L,
+  				GodotAudio.WebChannel.CHANNEL_R
+  			);
+  		this._channelSplitter
+  			.connect(this._sl, GodotAudio.WebChannel.CHANNEL_SL)
+  			.connect(
+  				this._channelMerger,
+  				GodotAudio.WebChannel.CHANNEL_L,
+  				GodotAudio.WebChannel.CHANNEL_SL
+  			);
+  		this._channelSplitter
+  			.connect(this._sr, GodotAudio.WebChannel.CHANNEL_SR)
+  			.connect(
+  				this._channelMerger,
+  				GodotAudio.WebChannel.CHANNEL_L,
+  				GodotAudio.WebChannel.CHANNEL_SR
+  			);
+  		this._channelSplitter
+  			.connect(this._c, GodotAudio.WebChannel.CHANNEL_C)
+  			.connect(
+  				this._channelMerger,
+  				GodotAudio.WebChannel.CHANNEL_L,
+  				GodotAudio.WebChannel.CHANNEL_C
+  			);
+  		this._channelSplitter
+  			.connect(this._lfe, GodotAudio.WebChannel.CHANNEL_L)
+  			.connect(
+  				this._channelMerger,
+  				GodotAudio.WebChannel.CHANNEL_L,
+  				GodotAudio.WebChannel.CHANNEL_LFE
+  			);
+  
+  		this._channelMerger.connect(this._bus.getInputNode());
+  	}
+  
+  	/**
+  	 * Returns the input node.
+  	 * @returns {AudioNode}
+  	 */
+  	getInputNode() {
+  		return this._channelSplitter;
+  	}
+  
+  	/**
+  	 * Returns the output node.
+  	 * @returns {AudioNode}
+  	 */
+  	getOutputNode() {
+  		return this._channelMerger;
+  	}
+  
+  	/**
+  	 * Sets the volume for each (split) channel.
+  	 * @param {Float32Array} volume Volume array from the engine for each channel.
+  	 * @returns {void}
+  	 */
+  	setVolume(volume) {
+  		if (volume.length !== GodotAudio.MAX_VOLUME_CHANNELS) {
+  			throw new Error(
+  				`Volume length isn't "${GodotAudio.MAX_VOLUME_CHANNELS}", is ${volume.length} instead`
+  			);
+  		}
+  		this._l.gain.value = volume[GodotAudio.GodotChannel.CHANNEL_L] ?? 0;
+  		this._r.gain.value = volume[GodotAudio.GodotChannel.CHANNEL_R] ?? 0;
+  		this._sl.gain.value = volume[GodotAudio.GodotChannel.CHANNEL_SL] ?? 0;
+  		this._sr.gain.value = volume[GodotAudio.GodotChannel.CHANNEL_SR] ?? 0;
+  		this._c.gain.value = volume[GodotAudio.GodotChannel.CHANNEL_C] ?? 0;
+  		this._lfe.gain.value = volume[GodotAudio.GodotChannel.CHANNEL_LFE] ?? 0;
+  	}
+  
+  	/**
+  	 * Clears the current `SampleNodeBus` instance.
+  	 * @returns {void}
+  	 */
+  	clear() {
+  		this._bus = null;
+  		this._channelSplitter.disconnect();
+  		this._channelSplitter = null;
+  		this._l.disconnect();
+  		this._l = null;
+  		this._r.disconnect();
+  		this._r = null;
+  		this._sl.disconnect();
+  		this._sl = null;
+  		this._sr.disconnect();
+  		this._sr = null;
+  		this._c.disconnect();
+  		this._c = null;
+  		this._lfe.disconnect();
+  		this._lfe = null;
+  		this._channelMerger.disconnect();
+  		this._channelMerger = null;
+  	}
+  },
+  sampleNodes:null,
+  SampleNode:class SampleNode {
+  	/**
+  	 * Returns a `SampleNode`.
+  	 * @param {string} id Id of the `SampleNode`.
+  	 * @returns {SampleNode}
+  	 * @throws {ReferenceError} When no `SampleNode` is not found
+  	 */
+  	static getSampleNode(id) {
+  		if (!GodotAudio.sampleNodes.has(id)) {
+  			throw new ReferenceError(`Could not find sample node "${id}"`);
+  		}
+  		return GodotAudio.sampleNodes.get(id);
+  	}
+  
+  	/**
+  	 * Returns a `SampleNode`, returns null if not found.
+  	 * @param {string} id Id of the SampleNode.
+  	 * @returns {SampleNode?}
+  	 */
+  	static getSampleNodeOrNull(id) {
+  		return GodotAudio.sampleNodes.get(id) ?? null;
+  	}
+  
+  	/**
+  	 * Stops a `SampleNode` by id.
+  	 * @param {string} id Id of the `SampleNode` to stop.
+  	 * @returns {void}
+  	 */
+  	static stopSampleNode(id) {
+  		const sampleNode = GodotAudio.SampleNode.getSampleNodeOrNull(id);
+  		if (sampleNode == null) {
+  			return;
+  		}
+  		sampleNode.stop();
+  	}
+  
+  	/**
+  	 * Pauses the `SampleNode` by id.
+  	 * @param {string} id Id of the `SampleNode` to pause.
+  	 * @param {boolean} enable State of the pause
+  	 * @returns {void}
+  	 */
+  	static pauseSampleNode(id, enable) {
+  		const sampleNode = GodotAudio.SampleNode.getSampleNodeOrNull(id);
+  		if (sampleNode == null) {
+  			return;
+  		}
+  		sampleNode.pause(enable);
+  	}
+  
+  	/**
+  	 * Creates a `SampleNode` based on the params. Will register the `SampleNode` to
+  	 * the `GodotAudio.sampleNodes` regisery.
+  	 * @param {SampleNodeParams} params Base params.
+  	 * @param {SampleNodeOptions} options Optional params.
+  	 * @returns {SampleNode}
+  	 */
+  	static create(params, options = {}) {
+  		const sampleNode = new GodotAudio.SampleNode(params, options);
+  		GodotAudio.sampleNodes.set(params.id, sampleNode);
+  		return sampleNode;
+  	}
+  
+  	/**
+  	 * Deletes a `SampleNode` based on the id.
+  	 * @param {string} id Id of the `SampleNode` to delete.
+  	 * @returns {void}
+  	 */
+  	static delete(id) {
+  		GodotAudio.sampleNodes.delete(id);
+  	}
+  
+  	/**
+  	 * @param {SampleNodeParams} params Base params
+  	 * @param {SampleNodeOptions} [options={}] Optional params
+  	 * @constructor
+  	 */
+  	constructor(params, options = {}) {
+  		/** @type {string} */
+  		this.id = params.id;
+  		/** @type {string} */
+  		this.streamObjectId = params.streamObjectId;
+  		/** @type {number} */
+  		this.offset = options.offset ?? 0;
+  		/** @type {LoopMode} */
+  		this.startTime = options.startTime ?? 0;
+  		/** @type {number} */
+  		this.pauseTime = 0;
+  		/** @type {number} */
+  		this._playbackRate = 44100;
+  		/** @type {LoopMode} */
+  		this._loopMode = 'disabled';
+  		/** @type {number} */
+  		this._pitchScale = 1;
+  		/** @type {Map<Bus, SampleNodeBus>} */
+  		this._sampleNodeBuses = new Map();
+  		/** @type {AudioBufferSourceNode} */
+  		this._source = GodotAudio.ctx.createBufferSource();
+  
+  		this.setPlaybackRate(options.playbackRate ?? 44100);
+  		this.setLoopMode(options.loopMode ?? this.getSample().loopMode ?? 'disabled');
+  		this._source.buffer = this.getSample().getAudioBuffer();
+  
+  		/** @type {SampleNode} */
+  		// eslint-disable-next-line consistent-this
+  		const self = this;
+  		this._source.addEventListener('ended', (_) => {
+  			switch (self.getSample().loopMode) {
+  			case 'disabled':
+  				GodotAudio.SampleNode.stopSampleNode(self.id);
+  				break;
+  			default:
+  				// do nothing
+  			}
+  		});
+  
+  		const bus = GodotAudio.Bus.getBus(params.busIndex);
+  		const sampleNodeBus = this.getSampleNodeBus(bus);
+  		sampleNodeBus.setVolume(options.volume);
+  	}
+  
+  	/**
+  	 * Gets the loop mode of the current instance.
+  	 * @returns {LoopMode}
+  	 */
+  	getLoopMode() {
+  		return this._loopMode;
+  	}
+  
+  	/**
+  	 * Sets the loop mode of the current instance.
+  	 * @param {LoopMode} val Value to set.
+  	 * @returns {void}
+  	 */
+  	setLoopMode(val) {
+  		this._loopMode = val;
+  		switch (val) {
+  		case 'forward':
+  		case 'backward':
+  			this._source.loop = true;
+  			break;
+  		default:
+  			this._source.loop = false;
+  		}
+  	}
+  
+  	/**
+  	 * Gets the playback rate.
+  	 * @returns {number}
+  	 */
+  	getPlaybackRate() {
+  		return this._playbackRate;
+  	}
+  
+  	/**
+  	 * Sets the playback rate.
+  	 * @param {number} val Value to set.
+  	 * @returns {void}
+  	 */
+  	setPlaybackRate(val) {
+  		this._playbackRate = val;
+  		this._syncPlaybackRate();
+  	}
+  
+  	/**
+  	 * Gets the pitch scale.
+  	 * @returns {number}
+  	 */
+  	getPitchScale() {
+  		return this._pitchScale;
+  	}
+  
+  	/**
+  	 * Sets the pitch scale.
+  	 * @param {number} val Value to set.
+  	 * @returns {void}
+  	 */
+  	setPitchScale(val) {
+  		this._pitchScale = val;
+  		this._syncPlaybackRate();
+  	}
+  
+  	/**
+  	 * Returns the linked `Sample`.
+  	 * @returns {Sample}
+  	 */
+  	getSample() {
+  		return GodotAudio.Sample.getSample(this.streamObjectId);
+  	}
+  
+  	/**
+  	 * Returns the output node.
+  	 * @returns {AudioNode}
+  	 */
+  	getOutputNode() {
+  		return this._source;
+  	}
+  
+  	/**
+  	 * Starts the `SampleNode`.
+  	 * @returns {void}
+  	 */
+  	start() {
+  		this._source.start(this.offset);
+  	}
+  
+  	/**
+  	 * Stops the `SampleNode`.
+  	 * @returns {void}
+  	 */
+  	stop() {
+  		this._source.stop();
+  		this.clear();
+  	}
+  
+  	/**
+  	 * Pauses the `SampleNode`.
+  	 * @param {boolean} [enable=true] State of the pause.
+  	 * @returns {void}
+  	 */
+  	pause(enable = true) {
+  		if (enable) {
+  			this.pauseTime = (GodotAudio.ctx.currentTime - this.startTime) / this.playbackRate;
+  			this._source.stop();
+  			return;
+  		}
+  
+  		if (this.pauseTime === 0) {
+  			return;
+  		}
+  
+  		this._source.disconnect();
+  		this._source = GodotAudio.ctx.createBufferSource();
+  
+  		this._source.buffer = this.getSample().getAudioBuffer();
+  		this._source.connect(this._gain);
+  		this._source.start(this.offset + this.pauseTime);
+  	}
+  
+  	/**
+  	 * Connects an AudioNode to the output node of this `SampleNode`.
+  	 * @param {AudioNode} node AudioNode to connect.
+  	 * @returns {void}
+  	 */
+  	connect(node) {
+  		return this.getOutputNode().connect(node);
+  	}
+  
+  	/**
+  	 * Sets the volumes of the `SampleNode` for each buses passed in parameters.
+  	 * @param {Bus[]} buses
+  	 * @param {Float32Array} volumes
+  	 */
+  	setVolumes(buses, volumes) {
+  		for (let busIdx = 0; busIdx < buses.length; busIdx++) {
+  			const sampleNodeBus = this.getSampleNodeBus(buses[busIdx]);
+  			sampleNodeBus.setVolume(
+  				volumes.slice(
+  					busIdx * GodotAudio.MAX_VOLUME_CHANNELS,
+  					(busIdx * GodotAudio.MAX_VOLUME_CHANNELS) + GodotAudio.MAX_VOLUME_CHANNELS
+  				)
+  			);
+  		}
+  	}
+  
+  	/**
+  	 * Returns the SampleNodeBus based on the bus in parameters.
+  	 * @param {Bus} bus Bus to get the SampleNodeBus from.
+  	 * @returns {SampleNodeBus}
+  	 */
+  	getSampleNodeBus(bus) {
+  		if (!this._sampleNodeBuses.has(bus)) {
+  			const sampleNodeBus = GodotAudio.SampleNodeBus.create(bus);
+  			this._sampleNodeBuses.set(bus, sampleNodeBus);
+  			this._source.connect(sampleNodeBus.getInputNode());
+  		}
+  		return this._sampleNodeBuses.get(bus);
+  	}
+  
+  	/**
+  	 * Clears the `SampleNode`.
+  	 * @returns {void}
+  	 */
+  	clear() {
+  		this._source.stop();
+  		this._source.disconnect();
+  		this._source = null;
+  
+  		for (const sampleNodeBus of this._sampleNodeBuses.values()) {
+  			sampleNodeBus.clear();
+  		}
+  		this._sampleNodeBuses.clear();
+  		this._sampleNodeBuses = null;
+  
+  		GodotAudio.SampleNode.delete(this.id);
+  	}
+  
+  	/**
+  	 * Syncs the `AudioNode` playback rate based on the `SampleNode` playback rate and pitch scale.
+  	 * @returns {void}
+  	 */
+  	_syncPlaybackRate() {
+  		this._source.playbackRate.value = this.getPlaybackRate() * this.getPitchScale();
+  	}
+  },
+  buses:null,
+  busSolo:null,
+  Bus:class Bus {
+  	/**
+  	 * Returns the number of registered buses.
+  	 * @returns {number}
+  	 */
+  	static getCount() {
+  		return GodotAudio.buses.length;
+  	}
+  
+  	/**
+  	 * Sets the number of registered buses.
+  	 * Will delete buses if lower than the current number.
+  	 * @param {number} val Count of registered buses.
+  	 * @returns {void}
+  	 */
+  	static setCount(val) {
+  		const buses = GodotAudio.buses;
+  		if (val === buses.length) {
+  			return;
+  		}
+  
+  		if (val < buses.length) {
+  			// TODO: what to do with nodes connected to the deleted buses?
+  			const deletedBuses = buses.slice(val);
+  			for (let i = 0; i < deletedBuses.length; i++) {
+  				const deletedBus = deletedBuses[i];
+  				deletedBus.clear();
+  			}
+  			GodotAudio.buses = buses.slice(0, val);
+  			return;
+  		}
+  
+  		for (let i = GodotAudio.buses.length; i < val; i++) {
+  			GodotAudio.Bus.create();
+  		}
+  	}
+  
+  	/**
+  	 * Returns a `Bus` based on it's index number.
+  	 * @param {number} index
+  	 * @returns {Bus}
+  	 * @throws {ReferenceError} If the index value is outside the registry.
+  	 */
+  	static getBus(index) {
+  		if (index < 0 || index >= GodotAudio.buses.length) {
+  			throw new ReferenceError(`invalid bus index "${index}"`);
+  		}
+  		return GodotAudio.buses[index];
+  	}
+  
+  	/**
+  	 * Returns a `Bus` based on it's index number. Returns null if it doesn't exist.
+  	 * @param {number} index
+  	 * @returns {Bus?}
+  	 */
+  	static getBusOrNull(index) {
+  		if (index < 0 || index >= GodotAudio.buses.length) {
+  			return null;
+  		}
+  		return GodotAudio.buses[index];
+  	}
+  
+  	/**
+  	 * Move a bus from an index to another.
+  	 * @param {number} fromIndex From index
+  	 * @param {number} toIndex To index
+  	 * @returns {void}
+  	 */
+  	static move(fromIndex, toIndex) {
+  		const movedBus = GodotAudio.Bus.getBus(fromIndex);
+  		let buses = GodotAudio.buses;
+  		buses = buses.filter((_, i) => i !== fromIndex);
+  		// Inserts at index.
+  		buses.splice(toIndex - 1, 0, movedBus);
+  		GodotAudio.buses = buses;
+  	}
+  
+  	/**
+  	 * Adds a new bus at the specified index.
+  	 * @param {number} index Index to add a new bus.
+  	 * @returns {void}
+  	 */
+  	static addAt(index) {
+  		const newBus = GodotAudio.Bus.create();
+  		if (index !== newBus.getId()) {
+  			GodotAudio.Bus.move(newBus.getId(), index);
+  		}
+  	}
+  
+  	/**
+  	 * Creates a `Bus` and registers it.
+  	 * @returns {Bus}
+  	 */
+  	static create() {
+  		const newBus = new GodotAudio.Bus();
+  		const isFirstBus = GodotAudio.buses.length === 0;
+  		GodotAudio.buses.push(newBus);
+  		if (isFirstBus) {
+  			newBus.setSend(null);
+  		} else {
+  			newBus.setSend(GodotAudio.Bus.getBus(0));
+  		}
+  		return newBus;
+  	}
+  
+  	/**
+  	 * `Bus` constructor.
+  	 * @constructor
+  	 */
+  	constructor() {
+  		/** @type {Set<SampleNode>} */
+  		this._sampleNodes = new Set();
+  		/** @type {boolean} */
+  		this.isSolo = false;
+  		/** @type {Bus?} */
+  		this._send = null;
+  
+  		/** @type {GainNode} */
+  		this._gainNode = GodotAudio.ctx.createGain();
+  		/** @type {GainNode} */
+  		this._soloNode = GodotAudio.ctx.createGain();
+  		/** @type {GainNode} */
+  		this._muteNode = GodotAudio.ctx.createGain();
+  
+  		this._gainNode
+  			.connect(this._soloNode)
+  			.connect(this._muteNode);
+  	}
+  
+  	/**
+  	 * Returns the current id of the bus (its index).
+  	 * @returns {number}
+  	 */
+  	getId() {
+  		return GodotAudio.buses.indexOf(this);
+  	}
+  
+  	/**
+  	 * Returns the bus volume db value.
+  	 * @returns {number}
+  	 */
+  	getVolumeDb() {
+  		return GodotAudio.linear_to_db(this._gainNode.gain.value);
+  	}
+  
+  	/**
+  	 * Sets the bus volume db value.
+  	 * @param {number} val Value to set
+  	 * @returns {void}
+  	 */
+  	setVolumeDb(val) {
+  		this._gainNode.gain.value = GodotAudio.db_to_linear(val);
+  	}
+  
+  	/**
+  	 * Returns the "send" bus.
+  	 * If null, this bus sends its contents directly to the output.
+  	 * If not null, this bus sends its contents to another bus.
+  	 * @returns {Bus?}
+  	 */
+  	getSend() {
+  		return this._send;
+  	}
+  
+  	/**
+  	 * Sets the "send" bus.
+  	 * If null, this bus sends its contents directly to the output.
+  	 * If not null, this bus sends its contents to another bus.
+  	 *
+  	 * **Note:** if null, `getId()` must be equal to 0. Otherwise, it will throw.
+  	 * @param {Bus?} val
+  	 * @returns {void}
+  	 * @throws {Error} When val is `null` and `getId()` isn't equal to 0
+  	 */
+  	setSend(val) {
+  		this._send = val;
+  		if (val == null) {
+  			if (this.getId() == 0) {
+  				this.getOutputNode().connect(GodotAudio.ctx.destination);
+  				return;
+  			}
+  			throw new Error(
+  				`Cannot send to "${val}" without the bus being at index 0 (current index: ${this.getId()})`
+  			);
+  		}
+  		this.connect(val);
+  	}
+  
+  	/**
+  	 * Returns the input node of the bus.
+  	 * @returns {AudioNode}
+  	 */
+  	getInputNode() {
+  		return this._gainNode;
+  	}
+  
+  	/**
+  	 * Returns the output node of the bus.
+  	 * @returns {AudioNode}
+  	 */
+  	getOutputNode() {
+  		return this._muteNode;
+  	}
+  
+  	/**
+  	 * Sets the mute status of the bus.
+  	 * @param {boolean} enable
+  	 */
+  	mute(enable) {
+  		this._muteNode.gain.value = enable ? 0 : 1;
+  	}
+  
+  	/**
+  	 * Sets the solo status of the bus.
+  	 * @param {boolean} enable
+  	 */
+  	solo(enable) {
+  		if (this.isSolo === enable) {
+  			return;
+  		}
+  
+  		if (enable) {
+  			if (GodotAudio.busSolo != null && GodotAudio.busSolo !== this) {
+  				GodotAudio.busSolo._disableSolo();
+  			}
+  			this._enableSolo();
+  			return;
+  		}
+  
+  		this._disableSolo();
+  	}
+  
+  	/**
+  	 * Wrapper to simply add a sample node to the bus.
+  	 * @param {SampleNode} sampleNode `SampleNode` to remove
+  	 * @returns {void}
+  	 */
+  	addSampleNode(sampleNode) {
+  		this._sampleNodes.add(sampleNode);
+  		sampleNode.getOutputNode().connect(this.getInputNode());
+  	}
+  
+  	/**
+  	 * Wrapper to simply remove a sample node from the bus.
+  	 * @param {SampleNode} sampleNode `SampleNode` to remove
+  	 * @returns {void}
+  	 */
+  	removeSampleNode(sampleNode) {
+  		this._sampleNodes.delete(sampleNode);
+  		sampleNode.getOutputNode().disconnect();
+  	}
+  
+  	/**
+  	 * Wrapper to simply connect to another bus.
+  	 * @param {Bus} bus
+  	 * @returns {void}
+  	 */
+  	connect(bus) {
+  		if (bus == null) {
+  			throw new Error('cannot connect to null bus');
+  		}
+  		this.getOutputNode().disconnect();
+  		this.getOutputNode().connect(bus.getInputNode());
+  		return bus;
+  	}
+  
+  	/**
+  	 * Clears the current bus.
+  	 * @returns {void}
+  	 */
+  	clear() {
+  		GodotAudio.buses = GodotAudio.buses.filter((v) => v !== this);
+  	}
+  
+  	/** @type {Bus["prototype"]["_syncSampleNodes"]} */
+  	_syncSampleNodes() {
+  		const sampleNodes = Array.from(this._sampleNodes);
+  		for (let i = 0; i < sampleNodes.length; i++) {
+  			const sampleNode = sampleNodes[i];
+  			sampleNode.getOutputNode().disconnect();
+  			sampleNode.getOutputNode().connect(this.getInputNode());
+  		}
+  	}
+  
+  	/**
+  	 * Process to enable solo.
+  	 * @returns {void}
+  	 */
+  	_enableSolo() {
+  		this.isSolo = true;
+  		GodotAudio.busSolo = this;
+  		this._soloNode.gain.value = 1;
+  		const otherBuses = GodotAudio.buses.filter(
+  			(otherBus) => otherBus !== this
+  		);
+  		for (let i = 0; i < otherBuses.length; i++) {
+  			const otherBus = otherBuses[i];
+  			otherBus._soloNode.gain.value = 0;
+  		}
+  	}
+  
+  	/**
+  	 * Process to disable solo.
+  	 * @returns {void}
+  	 */
+  	_disableSolo() {
+  		this.isSolo = false;
+  		GodotAudio.busSolo = null;
+  		this._soloNode.gain.value = 1;
+  		const otherBuses = GodotAudio.buses.filter(
+  			(otherBus) => otherBus !== this
+  		);
+  		for (let i = 0; i < otherBuses.length; i++) {
+  			const otherBus = otherBuses[i];
+  			otherBus._soloNode.gain.value = 1;
+  		}
+  	}
+  },
   ctx:null,
   input:null,
   driver:null,
   interval:0,
+  linear_to_db:function (linear) {
+  			// eslint-disable-next-line no-loss-of-precision
+  			return Math.log(linear) * 8.6858896380650365530225783783321;
+  		},
+  db_to_linear:function (db) {
+  			// eslint-disable-next-line no-loss-of-precision
+  			return Math.exp(db * 0.11512925464970228420089957273422);
+  		},
   init:function (mix_rate, latency, onstatechange, onlatencyupdate) {
+  			// Initialize classes static values.
+  			GodotAudio.samples = new Map();
+  			GodotAudio.sampleNodes = new Map();
+  			GodotAudio.buses = [];
+  			GodotAudio.busSolo = null;
+  
   			const opts = {};
   			// If mix_rate is 0, let the browser choose.
   			if (mix_rate) {
+  				GodotAudio.sampleRate = mix_rate;
   				opts['sampleRate'] = mix_rate;
   			}
   			// Do not specify, leave 'interactive' for good performance.
@@ -9623,8 +10559,8 @@ function dbg(text) {
   				case 'closed':
   					state = 2;
   					break;
-  
-  					// no default
+  				default:
+  					// Do nothing.
   				}
   				onstatechange(state);
   			};
@@ -9711,16 +10647,93 @@ function dbg(text) {
   				resolve();
   			});
   		},
+  start_sample:function (
+  			playbackObjectId,
+  			streamObjectId,
+  			busIndex,
+  			startOptions
+  		) {
+  			GodotAudio.SampleNode.stopSampleNode(playbackObjectId);
+  			const sampleNode = GodotAudio.SampleNode.create(
+  				{
+  					busIndex,
+  					id: playbackObjectId,
+  					streamObjectId,
+  				},
+  				startOptions
+  			);
+  			sampleNode.start();
+  		},
+  stop_sample:function (playbackObjectId) {
+  			GodotAudio.SampleNode.stopSampleNode(playbackObjectId);
+  		},
+  sample_set_pause:function (playbackObjectId, pause) {
+  			GodotAudio.SampleNode.pauseSampleNode(playbackObjectId, pause);
+  		},
+  update_sample_pitch_scale:function (playbackObjectId, pitchScale) {
+  			const sampleNode = GodotAudio.SampleNode.getSampleNodeOrNull(playbackObjectId);
+  			if (sampleNode == null) {
+  				return;
+  			}
+  			sampleNode.setPitchScale(pitchScale);
+  		},
+  sample_set_volumes_linear:function (playbackObjectId, busIndexes, volumes) {
+  			const sampleNode = GodotAudio.SampleNode.getSampleNodeOrNull(playbackObjectId);
+  			if (sampleNode == null) {
+  				return;
+  			}
+  			const buses = busIndexes.map((busIndex) => GodotAudio.Bus.getBus(busIndex));
+  			sampleNode.setVolumes(buses, volumes);
+  		},
+  set_sample_bus_count:function (count) {
+  			GodotAudio.Bus.setCount(count);
+  		},
+  remove_sample_bus:function (index) {
+  			const bus = GodotAudio.Bus.getBus(index);
+  			bus.clear();
+  		},
+  add_sample_bus:function (atPos) {
+  			GodotAudio.Bus.addAt(atPos);
+  		},
+  move_sample_bus:function (busIndex, toPos) {
+  			GodotAudio.Bus.move(busIndex, toPos);
+  		},
+  set_sample_bus_send:function (busIndex, sendIndex) {
+  			const bus = GodotAudio.Bus.getBus(busIndex);
+  			bus.setSend(GodotAudio.Bus.getBus(sendIndex));
+  		},
+  set_sample_bus_volume_db:function (busIndex, volumeDb) {
+  			const bus = GodotAudio.Bus.getBus(busIndex);
+  			bus.volumeDb = volumeDb;
+  		},
+  set_sample_bus_solo:function (busIndex, enable) {
+  			const bus = GodotAudio.Bus.getBus(busIndex);
+  			bus.solo(enable);
+  		},
+  set_sample_bus_mute:function (busIndex, enable) {
+  			const bus = GodotAudio.Bus.getBus(busIndex);
+  			bus.mute(enable);
+  		},
   };
   function _godot_audio_has_worklet() {
-  		return (GodotAudio.ctx && GodotAudio.ctx.audioWorklet) ? 1 : 0;
+  		return GodotAudio.ctx && GodotAudio.ctx.audioWorklet ? 1 : 0;
   	}
 
-  function _godot_audio_init(p_mix_rate, p_latency, p_state_change, p_latency_update) {
+  function _godot_audio_init(
+  		p_mix_rate,
+  		p_latency,
+  		p_state_change,
+  		p_latency_update
+  	) {
   		const statechange = GodotRuntime.get_func(p_state_change);
   		const latencyupdate = GodotRuntime.get_func(p_latency_update);
   		const mix_rate = GodotRuntime.getHeapValue(p_mix_rate, 'i32');
-  		const channels = GodotAudio.init(mix_rate, p_latency, statechange, latencyupdate);
+  		const channels = GodotAudio.init(
+  			mix_rate,
+  			p_latency,
+  			statechange,
+  			latencyupdate
+  		);
   		GodotRuntime.setHeapValue(p_mix_rate, GodotAudio.ctx.sampleRate, 'i32');
   		return channels;
   	}
@@ -9755,6 +10768,169 @@ function dbg(text) {
   		}
   	}
 
+  function _godot_audio_sample_bus_add(atPos) {
+  		GodotAudio.add_sample_bus(atPos);
+  	}
+
+  function _godot_audio_sample_bus_move(fromPos, toPos) {
+  		GodotAudio.move_sample_bus(fromPos, toPos);
+  	}
+
+  function _godot_audio_sample_bus_remove(index) {
+  		GodotAudio.remove_sample_bus(index);
+  	}
+
+  function _godot_audio_sample_bus_set_count(count) {
+  		GodotAudio.set_sample_bus_count(count);
+  	}
+
+  function _godot_audio_sample_bus_set_mute(bus, enable) {
+  		GodotAudio.set_sample_bus_mute(bus, Boolean(enable));
+  	}
+
+  function _godot_audio_sample_bus_set_send(bus, sendIndex) {
+  		GodotAudio.set_sample_bus_send(bus, sendIndex);
+  	}
+
+  function _godot_audio_sample_bus_set_solo(bus, enable) {
+  		GodotAudio.set_sample_bus_solo(bus, Boolean(enable));
+  	}
+
+  function _godot_audio_sample_bus_set_volume_db(bus, volumeDb) {
+  		GodotAudio.set_sample_bus_volume_db(bus, volumeDb);
+  	}
+
+  function _godot_audio_sample_is_active(playbackObjectIdStrPtr) {
+  		const playbackObjectId = GodotRuntime.parseString(playbackObjectIdStrPtr);
+  		return Number(GodotAudio.sampleNodes.has(playbackObjectId));
+  	}
+
+  function _godot_audio_sample_register_stream(
+  		streamObjectIdStrPtr,
+  		framesPtr,
+  		framesTotal,
+  		loopModeStrPtr,
+  		loopBegin,
+  		loopEnd
+  	) {
+  		const BYTES_PER_FLOAT32 = 4;
+  		const streamObjectId = GodotRuntime.parseString(streamObjectIdStrPtr);
+  		const loopMode = GodotRuntime.parseString(loopModeStrPtr);
+  		const numberOfChannels = 2;
+  		const sampleRate = GodotAudio.ctx.sampleRate;
+  
+  		/** @type {Float32Array} */
+  		const subLeft = GodotRuntime.heapSub(HEAPF32, framesPtr, framesTotal);
+  		/** @type {Float32Array} */
+  		const subRight = GodotRuntime.heapSub(
+  			HEAPF32,
+  			framesPtr + framesTotal * BYTES_PER_FLOAT32,
+  			framesTotal
+  		);
+  
+  		const audioBuffer = GodotAudio.ctx.createBuffer(
+  			numberOfChannels,
+  			framesTotal,
+  			sampleRate
+  		);
+  		audioBuffer.copyToChannel(new Float32Array(subLeft), 0, 0);
+  		audioBuffer.copyToChannel(new Float32Array(subRight), 1, 0);
+  
+  		GodotAudio.Sample.create(
+  			{
+  				id: streamObjectId,
+  				audioBuffer,
+  			},
+  			{
+  				loopBegin,
+  				loopEnd,
+  				loopMode,
+  				numberOfChannels,
+  				sampleRate,
+  			}
+  		);
+  	}
+
+  function _godot_audio_sample_set_pause(playbackObjectIdStrPtr, pause) {
+  		const playbackObjectId = GodotRuntime.parseString(playbackObjectIdStrPtr);
+  		GodotAudio.sample_set_pause(playbackObjectId, Boolean(pause));
+  	}
+
+  function _godot_audio_sample_set_volumes_linear(
+  		playbackObjectIdStrPtr,
+  		busesPtr,
+  		busesSize,
+  		volumesPtr,
+  		volumesSize
+  	) {
+  		/** @type {string} */
+  		const playbackObjectId = GodotRuntime.parseString(playbackObjectIdStrPtr);
+  
+  		/** @type {Uint32Array} */
+  		const buses = GodotRuntime.heapSub(HEAP32, busesPtr, busesSize);
+  		/** @type {Float32Array} */
+  		const volumes = GodotRuntime.heapSub(HEAPF32, volumesPtr, volumesSize);
+  
+  		GodotAudio.sample_set_volumes_linear(
+  			playbackObjectId,
+  			Array.from(buses),
+  			volumes
+  		);
+  	}
+
+  function _godot_audio_sample_start(
+  		playbackObjectIdStrPtr,
+  		streamObjectIdStrPtr,
+  		busIndex,
+  		offset,
+  		volumePtr
+  	) {
+  		/** @type {string} */
+  		const playbackObjectId = GodotRuntime.parseString(playbackObjectIdStrPtr);
+  		/** @type {string} */
+  		const streamObjectId = GodotRuntime.parseString(streamObjectIdStrPtr);
+  		/** @type {Float32Array} */
+  		const volume = GodotRuntime.heapSub(HEAPF32, volumePtr, 8);
+  		/** @type {SampleNodeConstructorOptions} */
+  		const startOptions = {
+  			offset,
+  			volume,
+  			playbackRate: 1,
+  		};
+  		GodotAudio.start_sample(
+  			playbackObjectId,
+  			streamObjectId,
+  			busIndex,
+  			startOptions
+  		);
+  	}
+
+  function _godot_audio_sample_stop(playbackObjectIdStrPtr) {
+  		const playbackObjectId = GodotRuntime.parseString(playbackObjectIdStrPtr);
+  		GodotAudio.stop_sample(playbackObjectId);
+  	}
+
+  function _godot_audio_sample_stream_is_registered(streamObjectIdStrPtr) {
+  		const streamObjectId = GodotRuntime.parseString(streamObjectIdStrPtr);
+  		return Number(GodotAudio.Sample.getSampleOrNull(streamObjectId) != null);
+  	}
+
+  function _godot_audio_sample_unregister_stream(streamObjectIdStrPtr) {
+  		const streamObjectId = GodotRuntime.parseString(streamObjectIdStrPtr);
+  		const sample = GodotAudio.Sample.getSampleOrNull(streamObjectId);
+  		if (sample != null) {
+  			sample.clear();
+  		}
+  	}
+
+  function _godot_audio_sample_update_pitch_scale(
+  		playbackObjectIdStrPtr,
+  		pitchScale
+  	) {
+  		const playbackObjectId = GodotRuntime.parseString(playbackObjectIdStrPtr);
+  		GodotAudio.update_sample_pitch_scale(playbackObjectId, pitchScale);
+  	}
+
   
   
   var GodotAudioWorklet = {
@@ -9763,16 +10939,18 @@ function dbg(text) {
   ring_buffer:null,
   create:function (channels) {
   			const path = GodotConfig.locate_file('godot.audio.worklet.js');
-  			GodotAudioWorklet.promise = GodotAudio.ctx.audioWorklet.addModule(path).then(function () {
-  				GodotAudioWorklet.worklet = new AudioWorkletNode(
-  					GodotAudio.ctx,
-  					'godot-processor',
-  					{
-  						'outputChannelCount': [channels],
-  					}
-  				);
-  				return Promise.resolve();
-  			});
+  			GodotAudioWorklet.promise = GodotAudio.ctx.audioWorklet
+  				.addModule(path)
+  				.then(function () {
+  					GodotAudioWorklet.worklet = new AudioWorkletNode(
+  						GodotAudio.ctx,
+  						'godot-processor',
+  						{
+  							outputChannelCount: [channels],
+  						}
+  					);
+  					return Promise.resolve();
+  				});
   			GodotAudio.driver = GodotAudioWorklet;
   		},
   start:function (in_buf, out_buf, state) {
@@ -9788,7 +10966,14 @@ function dbg(text) {
   				};
   			});
   		},
-  start_no_threads:function (p_out_buf, p_out_size, out_callback, p_in_buf, p_in_size, in_callback) {
+  start_no_threads:function (
+  			p_out_buf,
+  			p_out_size,
+  			out_callback,
+  			p_in_buf,
+  			p_in_size,
+  			in_callback
+  		) {
   			function RingBuffer() {
   				let wpos = 0;
   				let rpos = 0;
@@ -9810,7 +10995,10 @@ function dbg(text) {
   						wpos = 0;
   					}
   					if (pending_samples > 0) {
-  						wbuf.set(buffer.subarray(wpos, wpos + pending_samples), tot_sent - pending_samples);
+  						wbuf.set(
+  							buffer.subarray(wpos, wpos + pending_samples),
+  							tot_sent - pending_samples
+  						);
   					}
   					port.postMessage({ 'cmd': 'chunk', 'data': wbuf.subarray(0, tot_sent) });
   					wpos += pending_samples;
@@ -9853,7 +11041,10 @@ function dbg(text) {
   					}
   					if (event.data['cmd'] === 'read') {
   						const read = event.data['data'];
-  						GodotAudioWorklet.ring_buffer.consumed(read, GodotAudioWorklet.worklet.port);
+  						GodotAudioWorklet.ring_buffer.consumed(
+  							read,
+  							GodotAudioWorklet.worklet.port
+  						);
   					} else if (event.data['cmd'] === 'input') {
   						const buf = event.data['data'];
   						if (buf.length > p_in_size) {
@@ -9903,10 +11094,24 @@ function dbg(text) {
   		return 0;
   	}
 
-  function _godot_audio_worklet_start_no_threads(p_out_buf, p_out_size, p_out_callback, p_in_buf, p_in_size, p_in_callback) {
+  function _godot_audio_worklet_start_no_threads(
+  		p_out_buf,
+  		p_out_size,
+  		p_out_callback,
+  		p_in_buf,
+  		p_in_size,
+  		p_in_callback
+  	) {
   		const out_callback = GodotRuntime.get_func(p_out_callback);
   		const in_callback = GodotRuntime.get_func(p_in_callback);
-  		GodotAudioWorklet.start_no_threads(p_out_buf, p_out_size, out_callback, p_in_buf, p_in_size, in_callback);
+  		GodotAudioWorklet.start_no_threads(
+  			p_out_buf,
+  			p_out_size,
+  			out_callback,
+  			p_in_buf,
+  			p_in_size,
+  			in_callback
+  		);
   	}
 
   function _godot_js_config_canvas_id_get(p_ptr, p_ptr_max) {
@@ -13285,13 +14490,14 @@ function dbg(text) {
 
 
   
+  
+  var stackAlloc = (sz) => __emscripten_stack_alloc(sz);
   var stringToUTF8OnStack = (str) => {
       var size = lengthBytesUTF8(str) + 1;
       var ret = stackAlloc(size);
       stringToUTF8(str, ret, size);
       return ret;
     };
-
 
   var getCFunc = (ident) => {
       var func = Module['_' + ident]; // closure exported function
@@ -13302,7 +14508,9 @@ function dbg(text) {
   
   
   
+  var stackSave = () => _emscripten_stack_get_current();
   
+  var stackRestore = (val) => __emscripten_stack_restore(val);
   
   
   
@@ -13354,7 +14562,7 @@ function dbg(text) {
           }
         }
       }
-      var ret = func.apply(null, cArgs);
+      var ret = func(...cArgs);
       function onDone(ret) {
         if (stack !== 0) stackRestore(stack);
         return convertReturnValue(ret);
@@ -13370,56 +14578,9 @@ function dbg(text) {
      * @param {Object=} opts
      */
   var cwrap = (ident, returnType, argTypes, opts) => {
-      return function() {
-        return ccall(ident, returnType, argTypes, arguments, opts);
-      }
+      return (...args) => ccall(ident, returnType, argTypes, args, opts);
     };
 
-  var FSNode = /** @constructor */ function(parent, name, mode, rdev) {
-    if (!parent) {
-      parent = this;  // root node sets parent to itself
-    }
-    this.parent = parent;
-    this.mount = parent.mount;
-    this.mounted = null;
-    this.id = FS.nextInode++;
-    this.name = name;
-    this.mode = mode;
-    this.node_ops = {};
-    this.stream_ops = {};
-    this.rdev = rdev;
-  };
-  var readMode = 292/*292*/ | 73/*73*/;
-  var writeMode = 146/*146*/;
-  Object.defineProperties(FSNode.prototype, {
-   read: {
-    get: /** @this{FSNode} */function() {
-     return (this.mode & readMode) === readMode;
-    },
-    set: /** @this{FSNode} */function(val) {
-     val ? this.mode |= readMode : this.mode &= ~readMode;
-    }
-   },
-   write: {
-    get: /** @this{FSNode} */function() {
-     return (this.mode & writeMode) === writeMode;
-    },
-    set: /** @this{FSNode} */function(val) {
-     val ? this.mode |= writeMode : this.mode &= ~writeMode;
-    }
-   },
-   isFolder: {
-    get: /** @this{FSNode} */function() {
-     return FS.isDir(this.mode);
-    }
-   },
-   isDevice: {
-    get: /** @this{FSNode} */function() {
-     return FS.isChrdev(this.mode);
-    }
-   }
-  });
-  FS.FSNode = FSNode;
   FS.createPreloadedFile = FS_createPreloadedFile;
   FS.staticInit();;
 
@@ -13438,11 +14599,11 @@ var GLctx;;
 for (var i = 0; i < 32; ++i) tempFixedLengthArray.push(new Array(i));;
 var miniTempWebGLIntBuffersStorage = new Int32Array(288);
   for (/**@suppress{duplicate}*/var i = 0; i < 288; ++i) {
-    miniTempWebGLIntBuffers[i] = miniTempWebGLIntBuffersStorage.subarray(0, i+1);
+    miniTempWebGLIntBuffers[i] = miniTempWebGLIntBuffersStorage.subarray(0, i);
   };
 var miniTempWebGLFloatBuffersStorage = new Float32Array(288);
   for (/**@suppress{duplicate}*/var i = 0; i < 288; ++i) {
-    miniTempWebGLFloatBuffers[i] = miniTempWebGLFloatBuffersStorage.subarray(0, i+1);
+    miniTempWebGLFloatBuffers[i] = miniTempWebGLFloatBuffersStorage.subarray(0, i);
   };
 Module["request_quit"] = function() { GodotOS.request_quit() };Module["onExit"] = GodotOS.cleanup;GodotOS._fs_sync_promise = Promise.resolve();;
 Module["initConfig"] = GodotConfig.init_config;;
@@ -13456,6 +14617,8 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var wasmImports = {
+  /** @export */
+  __assert_fail: ___assert_fail,
   /** @export */
   __call_sighandler: ___call_sighandler,
   /** @export */
@@ -13525,19 +14688,17 @@ var wasmImports = {
   /** @export */
   __syscall_unlinkat: ___syscall_unlinkat,
   /** @export */
+  _abort_js: __abort_js,
+  /** @export */
   _emscripten_get_now_is_monotonic: __emscripten_get_now_is_monotonic,
   /** @export */
   _emscripten_runtime_keepalive_clear: __emscripten_runtime_keepalive_clear,
-  /** @export */
-  _emscripten_throw_longjmp: __emscripten_throw_longjmp,
   /** @export */
   _gmtime_js: __gmtime_js,
   /** @export */
   _localtime_js: __localtime_js,
   /** @export */
   _tzset_js: __tzset_js,
-  /** @export */
-  abort: _abort,
   /** @export */
   emscripten_cancel_main_loop: _emscripten_cancel_main_loop,
   /** @export */
@@ -13823,6 +14984,40 @@ var wasmImports = {
   /** @export */
   godot_audio_resume: _godot_audio_resume,
   /** @export */
+  godot_audio_sample_bus_add: _godot_audio_sample_bus_add,
+  /** @export */
+  godot_audio_sample_bus_move: _godot_audio_sample_bus_move,
+  /** @export */
+  godot_audio_sample_bus_remove: _godot_audio_sample_bus_remove,
+  /** @export */
+  godot_audio_sample_bus_set_count: _godot_audio_sample_bus_set_count,
+  /** @export */
+  godot_audio_sample_bus_set_mute: _godot_audio_sample_bus_set_mute,
+  /** @export */
+  godot_audio_sample_bus_set_send: _godot_audio_sample_bus_set_send,
+  /** @export */
+  godot_audio_sample_bus_set_solo: _godot_audio_sample_bus_set_solo,
+  /** @export */
+  godot_audio_sample_bus_set_volume_db: _godot_audio_sample_bus_set_volume_db,
+  /** @export */
+  godot_audio_sample_is_active: _godot_audio_sample_is_active,
+  /** @export */
+  godot_audio_sample_register_stream: _godot_audio_sample_register_stream,
+  /** @export */
+  godot_audio_sample_set_pause: _godot_audio_sample_set_pause,
+  /** @export */
+  godot_audio_sample_set_volumes_linear: _godot_audio_sample_set_volumes_linear,
+  /** @export */
+  godot_audio_sample_start: _godot_audio_sample_start,
+  /** @export */
+  godot_audio_sample_stop: _godot_audio_sample_stop,
+  /** @export */
+  godot_audio_sample_stream_is_registered: _godot_audio_sample_stream_is_registered,
+  /** @export */
+  godot_audio_sample_unregister_stream: _godot_audio_sample_unregister_stream,
+  /** @export */
+  godot_audio_sample_update_pitch_scale: _godot_audio_sample_update_pitch_scale,
+  /** @export */
   godot_audio_worklet_create: _godot_audio_worklet_create,
   /** @export */
   godot_audio_worklet_start_no_threads: _godot_audio_worklet_start_no_threads,
@@ -14093,28 +15288,6 @@ var wasmImports = {
   /** @export */
   godot_webxr_update_target_frame_rate: _godot_webxr_update_target_frame_rate,
   /** @export */
-  invoke_ii: invoke_ii,
-  /** @export */
-  invoke_iii: invoke_iii,
-  /** @export */
-  invoke_iiii: invoke_iiii,
-  /** @export */
-  invoke_iiiii: invoke_iiiii,
-  /** @export */
-  invoke_iiiiii: invoke_iiiiii,
-  /** @export */
-  invoke_vi: invoke_vi,
-  /** @export */
-  invoke_vii: invoke_vii,
-  /** @export */
-  invoke_viii: invoke_viii,
-  /** @export */
-  invoke_viiii: invoke_viiii,
-  /** @export */
-  invoke_viiiiiii: invoke_viiiiiii,
-  /** @export */
-  invoke_viiij: invoke_viiij,
-  /** @export */
   proc_exit: _proc_exit,
   /** @export */
   strftime: _strftime,
@@ -14122,150 +15295,25 @@ var wasmImports = {
   strftime_l: _strftime_l
 };
 var wasmExports = createWasm();
-var ___wasm_call_ctors = createExportWrapper('__wasm_call_ctors');
-var _free = createExportWrapper('free');
-var __Z14godot_web_mainiPPc = Module['__Z14godot_web_mainiPPc'] = createExportWrapper('_Z14godot_web_mainiPPc');
-var _main = Module['_main'] = createExportWrapper('__main_argc_argv');
-var _malloc = createExportWrapper('malloc');
-var _fflush = createExportWrapper('fflush');
-var _htonl = createExportWrapper('htonl');
-var _htons = createExportWrapper('htons');
-var _ntohs = createExportWrapper('ntohs');
-var __emwebxr_on_input_event = Module['__emwebxr_on_input_event'] = createExportWrapper('_emwebxr_on_input_event');
-var __emwebxr_on_simple_event = Module['__emwebxr_on_simple_event'] = createExportWrapper('_emwebxr_on_simple_event');
-var ___funcs_on_exit = createExportWrapper('__funcs_on_exit');
-var _setThrew = createExportWrapper('setThrew');
+var ___wasm_call_ctors = createExportWrapper('__wasm_call_ctors', 0);
+var _free = createExportWrapper('free', 1);
+var __Z14godot_web_mainiPPc = Module['__Z14godot_web_mainiPPc'] = createExportWrapper('_Z14godot_web_mainiPPc', 2);
+var _main = Module['_main'] = createExportWrapper('__main_argc_argv', 2);
+var _malloc = createExportWrapper('malloc', 1);
+var _fflush = createExportWrapper('fflush', 1);
+var _htonl = createExportWrapper('htonl', 1);
+var _htons = createExportWrapper('htons', 1);
+var _ntohs = createExportWrapper('ntohs', 1);
+var __emwebxr_on_input_event = Module['__emwebxr_on_input_event'] = createExportWrapper('_emwebxr_on_input_event', 2);
+var __emwebxr_on_simple_event = Module['__emwebxr_on_simple_event'] = createExportWrapper('_emwebxr_on_simple_event', 1);
+var ___funcs_on_exit = createExportWrapper('__funcs_on_exit', 0);
 var _emscripten_stack_init = () => (_emscripten_stack_init = wasmExports['emscripten_stack_init'])();
 var _emscripten_stack_get_free = () => (_emscripten_stack_get_free = wasmExports['emscripten_stack_get_free'])();
 var _emscripten_stack_get_base = () => (_emscripten_stack_get_base = wasmExports['emscripten_stack_get_base'])();
 var _emscripten_stack_get_end = () => (_emscripten_stack_get_end = wasmExports['emscripten_stack_get_end'])();
-var stackSave = createExportWrapper('stackSave');
-var stackRestore = createExportWrapper('stackRestore');
-var stackAlloc = createExportWrapper('stackAlloc');
+var __emscripten_stack_restore = (a0) => (__emscripten_stack_restore = wasmExports['_emscripten_stack_restore'])(a0);
+var __emscripten_stack_alloc = (a0) => (__emscripten_stack_alloc = wasmExports['_emscripten_stack_alloc'])(a0);
 var _emscripten_stack_get_current = () => (_emscripten_stack_get_current = wasmExports['emscripten_stack_get_current'])();
-var ___cxa_increment_exception_refcount = createExportWrapper('__cxa_increment_exception_refcount');
-var ___cxa_is_pointer_type = createExportWrapper('__cxa_is_pointer_type');
-
-function invoke_vii(index,a1,a2) {
-  var sp = stackSave();
-  try {
-    getWasmTableEntry(index)(a1,a2);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_vi(index,a1) {
-  var sp = stackSave();
-  try {
-    getWasmTableEntry(index)(a1);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_iiii(index,a1,a2,a3) {
-  var sp = stackSave();
-  try {
-    return getWasmTableEntry(index)(a1,a2,a3);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_ii(index,a1) {
-  var sp = stackSave();
-  try {
-    return getWasmTableEntry(index)(a1);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_iiiiii(index,a1,a2,a3,a4,a5) {
-  var sp = stackSave();
-  try {
-    return getWasmTableEntry(index)(a1,a2,a3,a4,a5);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_viiii(index,a1,a2,a3,a4) {
-  var sp = stackSave();
-  try {
-    getWasmTableEntry(index)(a1,a2,a3,a4);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_viiij(index,a1,a2,a3,a4) {
-  var sp = stackSave();
-  try {
-    getWasmTableEntry(index)(a1,a2,a3,a4);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_iii(index,a1,a2) {
-  var sp = stackSave();
-  try {
-    return getWasmTableEntry(index)(a1,a2);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_iiiii(index,a1,a2,a3,a4) {
-  var sp = stackSave();
-  try {
-    return getWasmTableEntry(index)(a1,a2,a3,a4);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_viiiiiii(index,a1,a2,a3,a4,a5,a6,a7) {
-  var sp = stackSave();
-  try {
-    getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_viii(index,a1,a2,a3) {
-  var sp = stackSave();
-  try {
-    getWasmTableEntry(index)(a1,a2,a3);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
 
 
 // include: postamble.js
@@ -14281,9 +15329,9 @@ var missingLibrarySymbols = [
   'convertI32PairToI53',
   'convertI32PairToI53Checked',
   'convertU32PairToI53',
-  'getCallstack',
+  'getTempRet0',
+  'setTempRet0',
   'emscriptenLog',
-  'convertPCtoSourceLocation',
   'readEmAsmArgs',
   'listenOnce',
   'autoResumeAudioContext',
@@ -14357,9 +15405,9 @@ var missingLibrarySymbols = [
   'registerBatteryEventCallback',
   'setCanvasElementSize',
   'getCanvasElementSize',
-  'demangle',
   'jsStackTrace',
-  'stackTrace',
+  'getCallstack',
+  'convertPCtoSourceLocation',
   'checkWasiClock',
   'wasiRightsToMuslOFlags',
   'wasiOFlagsToMuslOFlags',
@@ -14371,8 +15419,6 @@ var missingLibrarySymbols = [
   'makePromise',
   'idsToPromises',
   'makePromiseCallback',
-  'ExceptionInfo',
-  'findMatchingCatch',
   'Browser_asyncPrepareDataCounter',
   'FS_unlink',
   'FS_mkdirTree',
@@ -14383,9 +15429,6 @@ var missingLibrarySymbols = [
   'writeGLArray',
   'registerWebGlEventCallback',
   'runAndAbortIfError',
-  'SDL_unicode',
-  'SDL_ttfContext',
-  'SDL_audio',
   'emscriptenWebGLGetIndexed',
   'ALLOC_NORMAL',
   'ALLOC_STACK',
@@ -14393,6 +15436,8 @@ var missingLibrarySymbols = [
   'writeStringToMemory',
   'writeAsciiToMemory',
   'setErrNo',
+  'demangle',
+  'stackTrace',
 ];
 missingLibrarySymbols.forEach(missingLibrarySymbol)
 
@@ -14405,22 +15450,11 @@ var unexportedSymbols = [
   'addOnPostRun',
   'addRunDependency',
   'removeRunDependency',
-  'FS_createFolder',
-  'FS_createPath',
-  'FS_createLazyFile',
-  'FS_createLink',
-  'FS_createDevice',
-  'FS_readFile',
   'out',
   'err',
   'abort',
   'wasmMemory',
   'wasmExports',
-  'stackAlloc',
-  'stackSave',
-  'stackRestore',
-  'getTempRet0',
-  'setTempRet0',
   'writeStackCookie',
   'checkStackCookie',
   'writeI53ToI64',
@@ -14429,6 +15463,9 @@ var unexportedSymbols = [
   'MAX_INT53',
   'MIN_INT53',
   'bigintToI53Checked',
+  'stackSave',
+  'stackRestore',
+  'stackAlloc',
   'ptrToString',
   'zeroMemory',
   'exitJS',
@@ -14458,7 +15495,6 @@ var unexportedSymbols = [
   'randomFill',
   'timers',
   'warnOnce',
-  'UNWIND_CACHE',
   'readEmAsmArgsArray',
   'jstoi_q',
   'jstoi_s',
@@ -14501,17 +15537,16 @@ var unexportedSymbols = [
   'findCanvasEventTarget',
   'currentFullscreenStrategy',
   'restoreOldWindowedStyle',
+  'UNWIND_CACHE',
   'ExitStatus',
   'getEnvStrings',
   'doReadv',
   'doWritev',
   'safeSetTimeout',
   'promiseMap',
-  'uncaughtExceptionCount',
-  'exceptionLast',
-  'exceptionCaught',
   'Browser',
   'setMainLoop',
+  'getPreloadedImageData__data',
   'wget',
   'SYSCALLS',
   'getSocketFromFD',
@@ -14522,8 +15557,12 @@ var unexportedSymbols = [
   'FS_getMode',
   'FS_stdin_getChar_buffer',
   'FS_stdin_getChar',
+  'FS_createPath',
+  'FS_createDevice',
+  'FS_readFile',
   'FS',
   'FS_createDataFile',
+  'FS_createLazyFile',
   'MEMFS',
   'TTY',
   'PIPEFS',
@@ -14532,7 +15571,7 @@ var unexportedSymbols = [
   'miniTempWebGLFloatBuffers',
   'miniTempWebGLIntBuffers',
   'heapObjectForWebGLType',
-  'heapAccessShiftForWebGLHeap',
+  'toTypedArrayIndex',
   'webgl_enable_ANGLE_instanced_arrays',
   'webgl_enable_OES_vertex_array_object',
   'webgl_enable_WEBGL_draw_buffers',
@@ -14542,11 +15581,9 @@ var unexportedSymbols = [
   'computeUnpackAlignedImageSize',
   'colorChannelsInGlTextureFormat',
   'emscriptenWebGLGetTexPixelData',
-  '__glGenObject',
   'webglGetUniformLocation',
   'webglPrepareUniformLocationsBeforeFirstUse',
   'webglGetLeftBracePos',
-  'emscripten_webgl_power_preferences',
   'AL',
   'GLUT',
   'EGL',
@@ -14558,6 +15595,8 @@ var unexportedSymbols = [
   'webgl_enable_WEBGL_multi_draw_instanced_base_vertex_base_instance',
   'allocateUTF8',
   'allocateUTF8OnStack',
+  'print',
+  'printErr',
   'GodotWebXR',
   'GodotWebSocket',
   'GodotRTCDataChannel',
@@ -14701,11 +15740,37 @@ if (Module['noInitialRun']) shouldRunNow = false;
 
 run();
 
-
 // end include: postamble.js
 
+// include: postamble_modularize.js
+// In MODULARIZE mode we wrap the generated code in a factory function
+// and return either the Module itself, or a promise of the module.
+//
+// We assign to the `moduleRtn` global here and configure closure to see
+// this as and extern so it won't get minified.
 
-  return moduleArg.ready
+moduleRtn = readyPromise;
+
+// Assertion for attempting to access module properties on the incoming
+// moduleArg.  In the past we used this object as the prototype of the module
+// and assigned properties to it, but now we return a distinct object.  This
+// keeps the instance private until it is ready (i.e the promise has been
+// resolved).
+for (const prop of Object.keys(Module)) {
+  if (!(prop in moduleArg)) {
+    Object.defineProperty(moduleArg, prop, {
+      configurable: true,
+      get() {
+        abort(`Access to module property ('${prop}') is no longer possible via the module constructor argument; Instead, use the result of the module constructor.`)
+      }
+    });
+  }
+}
+// end include: postamble_modularize.js
+
+
+
+  return moduleRtn;
 }
 );
 })();
@@ -14792,7 +15857,8 @@ const Features = {
 	 */
 	getMissingFeatures: function (supportedFeatures = {}) {
 		const {
-			threads: supportsThreads = true,
+			// Quotes are needed for the Closure compiler.
+			'threads': supportsThreads = true,
 		} = supportedFeatures;
 
 		const missing = [];
@@ -15227,12 +16293,13 @@ const InternalConfig = function (initConfig) { // eslint-disable-line no-unused-
 	 */
 	Config.prototype.getModuleConfig = function (loadPath, response) {
 		let r = response;
+		const gdext = this.gdextensionLibs;
 		return {
 			'print': this.onPrint,
 			'printErr': this.onPrintError,
 			'thisProgram': this.executable,
 			'noExitRuntime': false,
-			'dynamicLibraries': [`${loadPath}.side.wasm`],
+			'dynamicLibraries': [`${loadPath}.side.wasm`].concat(this.gdextensionLibs),
 			'instantiateWasm': function (imports, onSuccess) {
 				function done(result) {
 					onSuccess(result['instance'], result['module']);
@@ -15256,6 +16323,8 @@ const InternalConfig = function (initConfig) { // eslint-disable-line no-unused-
 					return `${loadPath}.audio.worklet.js`;
 				} else if (path.endsWith('.js')) {
 					return `${loadPath}.js`;
+				} else if (path in gdext) {
+					return path;
 				} else if (path.endsWith('.side.wasm')) {
 					return `${loadPath}.side.wasm`;
 				} else if (path.endsWith('.wasm')) {
@@ -15481,25 +16550,19 @@ const Engine = (function () {
 					me.rtenv['initConfig'](config);
 
 					// Preload GDExtension libraries.
-					const libs = [];
 					if (me.config.gdextensionLibs.length > 0 && !me.rtenv['loadDynamicLibrary']) {
 						return Promise.reject(new Error('GDExtension libraries are not supported by this engine version. '
 							+ 'Enable "Extensions Support" for your export preset and/or build your custom template with "dlink_enabled=yes".'));
 					}
-					me.config.gdextensionLibs.forEach(function (lib) {
-						libs.push(me.rtenv['loadDynamicLibrary'](lib, { 'loadAsync': true }));
-					});
-					return Promise.all(libs).then(function () {
-						return new Promise(function (resolve, reject) {
-							preloader.preloadedFiles.forEach(function (file) {
-								me.rtenv['copyToFS'](file.path, file.buffer);
-							});
-							preloader.preloadedFiles.length = 0; // Clear memory
-							me.rtenv['callMain'](me.config.args);
-							initPromise = null;
-							me.installServiceWorker();
-							resolve();
-						});
+					return new Promise(function (resolve, reject) {
+						for (const file of preloader.preloadedFiles) {
+							me.rtenv['copyToFS'](file.path, file.buffer);
+						}
+						preloader.preloadedFiles.length = 0; // Clear memory
+						me.rtenv['callMain'](me.config.args);
+						initPromise = null;
+						me.installServiceWorker();
+						resolve();
 					});
 				});
 			},
