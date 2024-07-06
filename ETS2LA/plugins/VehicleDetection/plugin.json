@@ -5,9 +5,9 @@
         "url": "https://github.com/DylDevs",
         "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
     }],
-    "description": "Detects vehicles and other objects using YOLOv5 or YOLOv7",
+    "description": "Detects vehicles using computer vision and can display them in an output window.",
     "version": "1.0",
     "dependencies": [],
-    "modules": ["TruckSimAPI", "Steering", "ShowImage", "ScreenCapture", "Raycasting"],
+    "modules": ["ScreenCapture", "ShowImage", "Raycasting", "TruckSimAPI"],
     "compatible": ["Windows", "Linux", "MacOS"]
 }
