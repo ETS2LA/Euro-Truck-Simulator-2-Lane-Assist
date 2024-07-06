@@ -93,7 +93,7 @@ if __name__ == "__main__":
             error = traceback.format_exc()
             console.print_exception()
             try:
-                globalServer.SendCrashReport("ETS2LA 2.0 - Overseer", str(error))
+                globalServer.SendCrashReport("ETS2LA 2.0 - Main", str(error))
             except: pass
             print("Send the above traceback to the developers.")
             CloseNode()
