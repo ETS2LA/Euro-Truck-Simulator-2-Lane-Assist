@@ -65,8 +65,6 @@ upper_green = np.array([150, 255, 230])
 lower_yellow = np.array([200, 170, 50])
 upper_yellow = np.array([255, 240, 170])
 
-yolo_model_loaded = False
-
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 
@@ -1305,8 +1303,8 @@ def plugin(data):
                 del trafficlights[i]
     except Exception as e:
         exc = traceback.format_exc()
-        SendCrashReport("TrafficLightDetection - Tracking/YOLO Error.", str(exc))
-        print("TrafficLightDetection - Tracking/YOLO Error: " + str(exc))
+        SendCrashReport("TrafficLightDetection - Tracking/AI Error.", str(exc))
+        print("TrafficLightDetection - Tracking/AI Error: " + str(exc))
 
 
 
