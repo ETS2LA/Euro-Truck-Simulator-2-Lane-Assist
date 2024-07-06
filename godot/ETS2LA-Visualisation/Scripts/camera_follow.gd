@@ -18,7 +18,8 @@ func _process(delta: float) -> void:
 	var followSpeed = 10
 	if data != {}:
 		followSpeed = (float(data["speed"]) + 1) * 2
-	
+	if followSpeed < 0:
+		followSpeed = -followSpeed
 	# Lerp the position to the target position
 	self.position = self.position.lerp(target.position + offset, delta * followSpeed)
 	
