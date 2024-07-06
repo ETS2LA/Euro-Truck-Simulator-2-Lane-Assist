@@ -563,6 +563,20 @@ def GetGameWindowPosition():
             return window
     return None
 
+def IsGameWindowForegroundWindow():
+    """Checks if the game window is the foreground window.
+
+    Returns:
+        bool: True if the game window is the foreground window, False if not.
+    """
+    titles = gw.getAllTitles()
+    for title in titles:
+        if title == "Euro Truck Simulator 2" or title == "Euro Truck Simulator 2 - Multiplayer" or title == "American Truck Simulator" or title == "American Truck Simulator - Multiplayer":
+            window = gw.getWindowsWithTitle(title)[0]
+            is_foreground = gw.getActiveWindow() == window
+            return is_foreground
+    return False
+
 popups = [] 
 timeoutlessPopups = []
 def ShowPopup(text, title, type="info", translate=True, timeout=4, indeterminate=False, closeIfMainloopStopped=False):

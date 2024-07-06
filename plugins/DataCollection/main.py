@@ -78,8 +78,20 @@ def CalculateMirrorCoordinates(window):
         tuple: Both mirror coordinates. ((left_x1, left_y1, left_x2, left_y2), (right_x1, right_y1, right_x2, right_y2))
     '''
 
-    left_top_left = round(window[0] + window[2] * 0.012), round(window[1] + window[3] * 0.095)
-    left_bottom_right = round(window[0] + window[2] * 0.152), round(window[1] + window[3] * 0.415)
+    mirrorDistanceFromLeft = 23
+    mirrorDistanceFromTop = 90
+    mirrorWidth = 273
+    mirrorHeight = 362
+    scale = window[3]/1080
+
+    xCoord = window[0] + (mirrorDistanceFromLeft * scale)
+    yCoord = window[1] + (mirrorDistanceFromTop * scale)
+    left_top_left = (round(xCoord), round(yCoord))
+
+    xCoord = window[0] + (mirrorDistanceFromLeft * scale + mirrorWidth * scale)
+    yCoord = window[1] + (mirrorDistanceFromTop * scale + mirrorHeight * scale)
+    left_bottom_right = (round(xCoord), round(yCoord))
+
     right_top_left = window[0] + window[2] - left_bottom_right[0] - 1, left_top_left[1]
     right_bottom_right = window[0] + window[2] - left_top_left[0] - 1, left_bottom_right[1]
 
@@ -204,6 +216,10 @@ def plugin(data):
 
     if vd_data_collection and last_capture + cooldown < time.time():
         game_coords = helpers.GetGameWindowPosition()
+        if helpers.IsGameWindowForegroundWindow() == False:
+            return data
+        if game_coords == None:
+            return data
         if game_coords != last_game_coords:
             mirror_coords = CalculateMirrorCoordinates(game_coords)
         last_game_coords = game_coords
