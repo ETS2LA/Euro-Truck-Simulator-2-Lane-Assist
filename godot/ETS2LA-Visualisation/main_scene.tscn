@@ -92,7 +92,7 @@ script = ExtResource("10_p5w2d")
 [node name="TopLeftContainer" type="VBoxContainer" parent="UI"]
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 320.0
+offset_right = 152.0
 offset_bottom = 140.0
 
 [node name="CheckButton" type="CheckButton" parent="UI/TopLeftContainer"]
