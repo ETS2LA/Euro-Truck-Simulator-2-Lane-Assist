@@ -170,6 +170,8 @@ def SendMirrorImages(mirror1, mirror2):
         server_available = CheckServer()
         last_server_check = time.time()
     if server_available == True:
+        mirror1 = cv2.cvtColor(mirror1, cv2.COLOR_BGR2GRAY)
+        mirror2 = cv2.cvtColor(mirror2, cv2.COLOR_BGR2GRAY)
         try:
             encoded_string = base64.b64encode(cv2.imencode('.png', mirror1)[1]).decode()
             url = "https://api.tumppi066.fi/image/save"
@@ -232,9 +234,6 @@ def plugin(data):
         fullframe = data["frameFull"]
         left_mirror = fullframe.copy()[mirror_coords[0][1]:mirror_coords[0][3], mirror_coords[0][0]:mirror_coords[0][2]]
         right_mirror = fullframe.copy()[mirror_coords[1][1]:mirror_coords[1][3], mirror_coords[1][0]:mirror_coords[1][2]]
-
-        left_mirror = cv2.cvtColor(left_mirror, cv2.COLOR_BGR2GRAY)
-        right_mirror = cv2.cvtColor(right_mirror, cv2.COLOR_BGR2GRAY)
 
         threading.Thread(target=SendMirrorImages, args=(left_mirror, right_mirror,), daemon=True).start()
         last_capture = time.time()
