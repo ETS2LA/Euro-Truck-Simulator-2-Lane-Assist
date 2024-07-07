@@ -98,7 +98,7 @@ def CalculateMirrorCoordinates(window):
     return ((left_top_left[0], left_top_left[1], left_bottom_right[0], left_bottom_right[1]), (right_top_left[0], right_top_left[1], right_bottom_right[0], right_bottom_right[1]))
 
 def Initialize():
-    global vd_data_collection, cooldown, last_capture, server_available, last_server_check, last_game_coords, game_coords, mirror_coords
+    global vd_data_collection, cooldown, last_capture, server_available, last_server_check, last_github_version_check, last_game_coords, game_coords, mirror_coords, app_on_newest_version
 
     vd_data_collection = settings.GetSettings("VehicleDetectionDataCollection", "enabled", True)
     dialog_shown = settings.GetSettings("VehicleDetectionDataCollection", "dialog_shown", False)
@@ -112,10 +112,12 @@ def Initialize():
     cooldown = 5
     last_capture = time.time()
     last_server_check = time.time() + 180
+    last_github_version_check = 0
     server_available = "unknown"
     game_coords = (0, 0, 0, 0)
     last_game_coords = (1, 1, 1, 1)
     mirror_coords = ((0, 0, 0, 0), (0, 0, 0, 0))
+    app_on_newest_version = True
 
     if vd_data_collection == True and dialog_shown == False:
         OptInDialog()
@@ -214,9 +216,9 @@ def plugin(data):
         last_capture = time.time()
     '''
 
-    global vd_data_collection, cooldown, last_capture, mirror_coords, last_game_coords, game_coords
+    global vd_data_collection, cooldown, last_capture, mirror_coords, last_game_coords, game_coords, last_github_version_check, app_on_newest_version
 
-    if vd_data_collection and last_capture + cooldown < time.time():
+    if vd_data_collection and last_capture + cooldown < time.time() and app_on_newest_version == True:
         game_coords = helpers.GetGameWindowPosition()
         if helpers.IsGameWindowForegroundWindow() == False:
             return data
@@ -234,6 +236,13 @@ def plugin(data):
         fullframe = data["frameFull"]
         left_mirror = fullframe.copy()[mirror_coords[0][1]:mirror_coords[0][3], mirror_coords[0][0]:mirror_coords[0][2]]
         right_mirror = fullframe.copy()[mirror_coords[1][1]:mirror_coords[1][3], mirror_coords[1][0]:mirror_coords[1][2]]
+
+        if last_github_version_check + 1800 < time.time():
+            github_version = str(requests.get("https://raw.githubusercontent.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/main/version.txt").text.strip())
+            with open(f"{variables.PATH}/version.txt", "r") as f:
+                current_version = str(f.read().strip())
+            app_on_newest_version = github_version == current_version
+            last_github_version_check = time.time()
 
         threading.Thread(target=SendMirrorImages, args=(left_mirror, right_mirror,), daemon=True).start()
         last_capture = time.time()
