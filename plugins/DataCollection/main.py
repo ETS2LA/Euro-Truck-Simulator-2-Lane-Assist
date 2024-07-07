@@ -82,7 +82,7 @@ def CalculateMirrorCoordinates(window):
     mirrorDistanceFromTop = 262
     mirrorWidth = 210
     mirrorHeight = 190
-    scale = window[3]/1080
+    scale = (window[3] - window[1])/1080
 
     xCoord = window[0] + (mirrorDistanceFromLeft * scale)
     yCoord = window[1] + (mirrorDistanceFromTop * scale)

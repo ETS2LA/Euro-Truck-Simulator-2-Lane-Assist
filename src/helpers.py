@@ -558,9 +558,12 @@ def GetGameWindowPosition():
     titles = gw.getAllTitles()
     for title in titles:
         if title == "Euro Truck Simulator 2" or title == "Euro Truck Simulator 2 - Multiplayer" or title == "American Truck Simulator" or title == "American Truck Simulator - Multiplayer":
-            window = gw.getWindowsWithTitle(title)[0]
-            window = window.topleft[0], window.topleft[1], window.bottomright[0], window.bottomright[1]
-            return window
+            hwnd = win32gui.FindWindow(None, title)
+            rect = win32gui.GetClientRect(hwnd)
+            tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+            br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+            window_position = (tl[0], tl[1], br[0], br[1])
+            return window_position
     return None
 
 def IsGameWindowForegroundWindow():

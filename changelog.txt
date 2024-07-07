@@ -1,1 +1,1 @@
-Made adjustments to the mirror data collection.
+The data collection for the mirror images is now finally fixed and we can start collecting usable data.
