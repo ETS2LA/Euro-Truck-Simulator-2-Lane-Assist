@@ -28,6 +28,7 @@ import numpy as np
 import json
 import cv2
 from PIL import Image
+from rich.progress import Progress
 
 # MARK: Variables
 USE_INTERNAL_VISUALIZATION = True
@@ -357,23 +358,47 @@ def plugin():
     # MARK: >> Load Data
     startPlugin = ""
     if LOAD_DATA:
-        if nodes.nodes == []:
-            toast(LOAD_MSG, type="promise")
-            nodes.LoadNodes()
-            
-        if roads.roads == []:
-            #roads.limitToCount = 10000
-            roads.LoadRoads()
-        if prefabs.prefabs == [] and VISUALIZE_PREFABS:
-            #prefabs.limitToCount = 500
-            prefabs.LoadPrefabs() 
-        if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
-            prefabItems.LoadPrefabItems()
-        
-        if nodes.itemsCalculated == False:
-            nodes.CalculateForwardAndBackwardItemsForNodes()
-            nodes.itemsCalculated = True
-            toast(COMPLETE_MSG, type="success", promise=LOAD_MSG)
+        hasNotLoaded = nodes.nodes == [] or roads.roads == [] or prefabs.prefabs == [] or prefabItems.prefabItems == []
+        if hasNotLoaded:
+            sys.stdout.write("\n")
+            sys.stdout.flush()
+            with Progress(speed_estimate_period=5) as progress:
+                task1 = progress.add_task("[green]nodes[/green]", total=100)
+                task2 = progress.add_task("[green]roads[/green]", total=100)
+                task3 = progress.add_task("[green]prefab data[/green]", total=100)
+                task4 = progress.add_task("[green]prefabs[/green]", total=100)
+                task5 = progress.add_task("[green]calculations[/green]", total=100)
+                
+                if nodes.nodes == []:
+                    toast(LOAD_MSG, type="promise")
+                    nodes.task = task1
+                    nodes.progress = progress
+                    nodes.LoadNodes()
+                    
+                if roads.roads == []:
+                    #roads.limitToCount = 10000
+                    roads.task = task2
+                    roads.progress = progress
+                    roads.LoadRoads()
+                    
+                if prefabs.prefabs == [] and VISUALIZE_PREFABS:
+                    #prefabs.limitToCount = 500
+                    prefabs.task = task3
+                    prefabs.progress = progress
+                    prefabs.LoadPrefabs() 
+                    
+                if prefabItems.prefabItems == [] and VISUALIZE_PREFABS:
+                    prefabItems.task = task4
+                    prefabItems.progress = progress
+                    prefabItems.LoadPrefabItems()
+                
+                if nodes.itemsCalculated == False:
+                    nodes.progress = progress
+                    nodes.task = task5
+                    nodes.CalculateForwardAndBackwardItemsForNodes()
+                    nodes.itemsCalculated = True
+                    toast(COMPLETE_MSG, type="success", promise=LOAD_MSG)
+            sys.stdout.write("\nDone!")
     
     # MARK: >> Compute
     if LOAD_DATA:

@@ -5,6 +5,11 @@ from ETS2LA.backend.variables import *
 from ETS2LA.backend.settings import *
 from GameData import roads, prefabItems
 import sys
+from rich.progress import Task, Progress
+
+# For loading nodes progress indicator
+task: Task = None
+progress: Progress = None
 
 class Item:
     Uid = 0
@@ -71,8 +76,8 @@ def LoadNodes():
     jsonData = json.load(open(nodeFileName))
     jsonLength = len(jsonData)
     
-    sys.stdout.write(f"\nLoading {jsonLength} nodes...\n")
-    
+    progress.update(task, total=jsonLength, description="[green]nodes\n[/green][dim]reading JSON...[/dim]")
+
     count = 0
     for node in jsonData:
         nodeObj = Node()
@@ -90,7 +95,6 @@ def LoadNodes():
             nodeObj.ForwardItem.Type = node["ForwardItem"]["Type"]
         except:
             nodeObj.ForwardItem = None
-            
         try:
             nodeObj.BackwardItem = Item()
             nodeObj.BackwardItem.Uid = node["BackwardItem"]["Uid"]
@@ -100,22 +104,25 @@ def LoadNodes():
         
         nodes.append(nodeObj)
         count += 1
-        
-        if count % int(jsonLength/10) == 0:
-            sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)...\r")
+        progress.update(task, completed=count)
             
-    sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)... done!\n")
+            
+    progress.update(task, total=len(nodes), description="[green]nodes\n[/green][dim]optimizing...[/dim]", completed=0)
+    progress.refresh()
     
-    sys.stdout.write(f" > Optimizing node dictionary...\r")      
-    
+    count = 0
     for node in nodes:
         # Split the node Uid into parts of 3
         uidParts = [str(node.Uid)[i:i+3] for i in range(0, len(str(node.Uid)), 3)]
         # Build the optimizedNodes dictionary
         set_nested_item(optimizedNodes, uidParts, node)
-    
-    sys.stdout.write(f" > Optimizing node dictionary... done!\n")
-    
+        progress.advance(task)
+        if count % 10000 == 0:
+            progress.refresh()
+        
+        count += 1
+        
+    progress.update(task, total=len(nodes), description="[green]nodes[/green]")
     print(f"Node parsing done!")
     
 def GetNodeByUid(uid):
@@ -143,9 +150,10 @@ def GetNodeByUid(uid):
 
 def CalculateForwardAndBackwardItemsForNodes():
     count = len(nodes)
-    sys.stdout.write(f"\nCalculating forward and backward items for nodes... (total {count})\n")
-    
+    #sys.stdout.write(f"\nCalculating forward and backward items for nodes... (total {count})\n")
+    progress.update(task, total=count, description="[green]nodes\n[/green][dim]detecting connected items...[/dim]", completed=0)
     for i, node in enumerate(nodes):
+        progress.advance(task)
         try:
             uid = node.Uid
         
@@ -197,12 +205,14 @@ def CalculateForwardAndBackwardItemsForNodes():
             uidParts = [str(uid)[i:i+3] for i in range(0, len(str(uid)), 3)]
             set_nested_item(optimizedNodes, uidParts, node)
             
-            if i % int(count/10) == 0:
-                sys.stdout.write(f" > {i} ({round(i/count*100)}%)...            \r")
-                sys.stdout.flush()
+            #if i % int(count/10) == 0:
+            #    sys.stdout.write(f" > {i} ({round(i/count*100)}%)...            \r")
+            #    sys.stdout.flush()
         except:
             sys.stdout.write(f" > Error at node {uid}!\n")
             pass
+    
+    progress.update(task, total=count, description="[green]nodes[/green]")
             
-    sys.stdout.write(f" > {i} ({round(i/count*100)}%)... done!                          \n\n")
+    #sys.stdout.write(f" > {i} ({round(i/count*100)}%)... done!                          \n\n")
     roads.MatchRoadsToNodes(output=False)

@@ -8,6 +8,7 @@ import json
 import math
 import sys
 
+
 uidOptimizedPrefabItems = {}
 optimizedPrefabItems = {}
 prefabItems = []
@@ -25,6 +26,13 @@ itemsTotalHeight = 0
 itemsTotalWidth = 0
 itemsAreaCountX = 0
 itemsAreaCountZ = 0
+
+from rich.progress import Task, Progress
+
+# For loading nodes progress indicator
+task: Task = None
+progress: Progress = None
+
 
 # MARK: Classes
 class PrefabItem:
@@ -114,7 +122,9 @@ def LoadPrefabItems():
     jsonData = json.load(open(prefabItemsFileName))
     jsonLength = len(jsonData)
     
-    sys.stdout.write(f"\nLoading {jsonLength} prefab items...\n")
+    progress.update(task, total=jsonLength, description="[green]prefabs\n[/green][dim]reading JSON...[/dim]")
+    
+    # sys.stdout.write(f"\nLoading {jsonLength} prefab items...\n")
     # MARK: >> Parse JSON
     count = 0
     for item in jsonData:
@@ -165,10 +175,13 @@ def LoadPrefabItems():
         
         count += 1
         
+        progress.advance(task)
+        
         if count % int(jsonLength/100) == 0:
-            sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)...\r")
+            progress.refresh()
+            # sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)...\r")
     
-    sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)... done!\n")
+    # sys.stdout.write(f" > {count} ({round(count/jsonLength*100)}%)... done!\n")
     count = 0
     
     
@@ -177,18 +190,20 @@ def LoadPrefabItems():
     # MARK: >> Match
     
     prefabItemCount = len(prefabItems)
-    sys.stdout.write(f" > Matching prefabs and prefab items...\n")
+    
+    progress.update(task, total=prefabItemCount, description="[green]prefabs\n[/green][dim]solving dependencies...[/dim]", completed=0)
+    # sys.stdout.write(f" > Matching prefabs and prefab items...\n")
     prefabItemMatchStartTime = time.time()
     for prefabItem in prefabItems:
         prefabItem.Prefab = prefabs.GetPrefabByToken(prefabItem.Prefab)
         
         if prefabItem.Prefab == None:
-            # sys.stdout.write(f"Prefab item {prefabItem.Uid} has no prefab!")
+            # # sys.stdout.write(f"Prefab item {prefabItem.Uid} has no prefab!")
             pass 
         
         # try:
         #     if not prefabItem.Prefab.ValidRoad:
-        #         # sys.stdout.write(f"Prefab item {prefabItem.Uid} has an invalid prefab!")
+        #         # # sys.stdout.write(f"Prefab item {prefabItem.Uid} has an invalid prefab!")
         #         prefabItems.remove(prefabItem)
         #         continue
         # except:
@@ -278,11 +293,16 @@ def LoadPrefabItems():
         if count % 500 == 0:
             itemsLeft = prefabItemCount - count
             timeLeft = (time.time() - prefabItemMatchStartTime) / count * itemsLeft
-            sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... {round(timeLeft)}s left...   \r")
+            progress.refresh()
+            # sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... {round(timeLeft)}s left...   \r")
+            
+        progress.advance(task)
     
-    sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... done!              \n")
+    # sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... done!              \n")
     
-    sys.stdout.write(f" > Optimizing prefab items...\r")
+    progress.update(task, description="[green]prefabs\n[/green][dim]optimizing...[/dim]", completed=0, total=3)
+    
+    # sys.stdout.write(f" > Optimizing prefab items...\r")
     # MARK: >> Optimize
     for item in prefabItems:
         if item.X < itemsMinX:
@@ -293,6 +313,8 @@ def LoadPrefabItems():
             itemsMinZ = item.Z
         if item.Z > itemsMaxZ:
             itemsMaxZ = item.Z
+            
+    progress.advance(task)
             
     itemsTotalWidth = itemsMaxX - itemsMinX
     itemsTotalHeight = itemsMaxZ - itemsMinZ
@@ -311,11 +333,17 @@ def LoadPrefabItems():
             
         optimizedPrefabItems[x][z].append(item)
         
+    progress.advance(task)
+        
     for item in prefabItems:
         uidParts = [str(item.Uid)[i:i+3] for i in range(0, len(str(item.Uid)), 3)]
         set_nested_item(uidOptimizedPrefabItems, uidParts, item)
+        
+    progress.advance(task)
     
-    sys.stdout.write(f" > Optimizing prefab items... done!\n\n")
+    # sys.stdout.write(f" > Optimizing prefab items... done!\n\n")
+    
+    progress.update(task, description="[green]prefabs[/green]", completed=prefabItemCount)
     
     print("Prefab Items parsing done!")
     

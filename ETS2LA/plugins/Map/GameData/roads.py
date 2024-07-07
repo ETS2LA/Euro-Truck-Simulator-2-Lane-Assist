@@ -7,8 +7,16 @@ import sys
 import GameData.nodes as nodes
 import math
 
+
 ROAD_QUALITY = 0.25 # Points per meter
 MIN_QUALITY = 2 # Need two points to make a line
+
+
+from rich.progress import Task, Progress
+
+# For loading nodes progress indicator
+task: Task = None
+progress: Progress = None
 
 class Road():
     Uid = 0
@@ -290,8 +298,9 @@ def FindClosestPointOnHermiteCurve(px, py, pz, road, lane=None):
 
 
 # MARK: Roads to Nodes
-def MatchRoadsToNodes(output=True):
+def MatchRoadsToNodes(output=False):
     # Match the nodes to the roads
+    progress.update(task, total=len(roads), description="[green]roads\n[/green][dim]solving dependencies...[/dim]")
     count = 0
     noLocationData = 0
     roadsCount = len(roads)
@@ -304,10 +313,7 @@ def MatchRoadsToNodes(output=True):
             noLocationData += 1
         
         count += 1
-        if count % 1000 == 0 and output:
-            roadsLeft = roadsCount - count
-            timeLeft = (time.time() - matchStartTime) / count * roadsLeft
-            sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... eta: {round(timeLeft, 1)}s    \r")
+        progress.advance(task)
     
     if output:
         # sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
@@ -333,7 +339,8 @@ def LoadRoads():
     jsonData = json.load(open(roadFileName))
     roadsInJson = len(jsonData)
     
-    sys.stdout.write(f"\nLoading {len(jsonData)} roads...\n")
+    progress.update(task, total=roadsInJson, description="[green]roads\n[/green][dim]reading JSON...[/dim]")
+    # sys.stdout.write(f"\nLoading {len(jsonData)} roads...\n")
     
     count = 0
     # MARK: >> JSON Parse
@@ -375,19 +382,21 @@ def LoadRoads():
         roads.append(roadObj)
         count += 1
     
-        if count % 1000 == 0:
-            sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)...\r")
+        progress.advance(task)
+        # sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)...\r")
     
         if limitToCount != 0 and count >= limitToCount:
             break
     
-    sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)... done!\n")
-    sys.stdout.write(f" > Matching roads to nodes...\n")
+    # sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)... done!\n")
+    # sys.stdout.write(f" > Matching roads to nodes...\n")
     
     MatchRoadsToNodes()
+    
+    progress.update(task, total=len(roads), description="[green]roads\n[/green][dim]optimizing...[/dim]", completed=0)
 
     # MARK: >> Optimize
-    sys.stdout.write(f" > Optimizing road array...\r")
+    # sys.stdout.write(f" > Optimizing road array...\r")
     for road in roads:
         if road.StartNode.X > roadsMaxX:
             roadsMaxX = road.StartNode.X
@@ -431,7 +440,7 @@ def LoadRoads():
         
         optimizedRoads[x][z].append(road)
         
-    sys.stdout.write(f" > Optimizing road array... done!\n")
+    # sys.stdout.write(f" > Optimizing road array... done!\n")
     print(f"Roads optimized to {areaCountX}x{areaCountZ} areas")
         
     # Optimize roads by the three first numbers of the UID
@@ -444,6 +453,8 @@ def LoadRoads():
             uidOptimizedRoads[uid] = []
             
         uidOptimizedRoads[uid].append(road)
+        
+    progress.update(task, completed=progress._tasks[task].total, description="[green]roads[/green]")
         
     print("Road parsing done!")
 

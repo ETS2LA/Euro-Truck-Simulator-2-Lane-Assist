@@ -6,6 +6,12 @@ import json
 import sys
 import math
 
+from rich.progress import Task, Progress
+
+# For loading nodes progress indicator
+task: Task = None
+progress: Progress = None
+
 prefabFileName = PATH + "ETS2LA/plugins/Map/GameData/prefabs.json"
 optimizedPrefabs = {}
 print = logging.info
@@ -157,7 +163,9 @@ def LoadPrefabs():
     jsonData = json.load(open(prefabFileName))
     jsonLength = len(jsonData)
     
-    sys.stdout.write(f"\nLoading {jsonLength} prefabs...\n")
+    # sys.stdout.write(f"\nLoading {jsonLength} prefabs...\n")
+    
+    progress.update(task, total=jsonLength)
     
     count = 0
     # MARK: >> Parse JSON
@@ -249,23 +257,30 @@ def LoadPrefabs():
         prefabs.append(prefabObj)
         
         count += 1
-        if count % int(jsonLength/100) == 0:
-            sys.stdout.write(f"\r > {count} ({round(count/jsonLength*100)}%)...")
+        #if count % int(jsonLength/100) == 0:
+            # sys.stdout.write(f"\r > {count} ({round(count/jsonLength*100)}%)...")
+           
+        progress.advance(task)
            
         if limitToCount != 0 and count >= limitToCount:
             break 
     
-    sys.stdout.write(f"\r > {count} ({round(count/jsonLength*100)}%)... done!\n")
+    # sys.stdout.write(f"\r > {count} ({round(count/jsonLength*100)}%)... done!\n")
 
-    sys.stdout.write(f" > Optimizing prefab array...\r")
+    progress.update(task, total=progress._tasks[task].total + len(prefabs))
+
+    # sys.stdout.write(f" > Optimizing prefab array...\r")
     # MARK: >> Optimize
     for prefab in prefabs:
         token = str(prefab.Token)[:3]
         if token not in optimizedPrefabs:
             optimizedPrefabs[token] = []
         optimizedPrefabs[token].append(prefab)
+        progress.advance(task)
     
-    sys.stdout.write(f" > Optimizing prefab array... done!\n")
+    progress.update(task, completed=progress._tasks[task].total)
+    
+    # sys.stdout.write(f" > Optimizing prefab array... done!\n")
     
     print("Prefab parsing done!")
         
