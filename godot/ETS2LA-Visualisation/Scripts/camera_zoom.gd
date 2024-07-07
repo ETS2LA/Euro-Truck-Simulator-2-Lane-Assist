@@ -1,6 +1,7 @@
 extends Camera3D
 
-var targetSize = 0.05
+var isFrustrum = self.projection == Camera3D.ProjectionType.PROJECTION_FRUSTUM
+var targetSize = 0.05 if isFrustrum else 48.4
 @onready var Variables = $/root/Node3D/Variables
 
 @export var lightEnvironment = preload("res://Environments/default.tres")
@@ -22,12 +23,22 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("ZoomIn"):
 		if targetSize > 0.01:
-			targetSize -= 0.005
+			if isFrustrum:
+				targetSize -= 0.005
+			else: 
+				targetSize -= 0.5
 	
 	if Input.is_action_just_pressed("ZoomOut"):
-		if targetSize < 0.20:
-			targetSize += 0.005
+		if isFrustrum:
+			if targetSize < 0.20:
+				targetSize += 0.005
+		else:
+			if targetSize < 180:
+				targetSize += 0.5
 	
-	self.size = lerp(self.size, targetSize, delta * 5)
+	if isFrustrum:
+		self.size = lerp(self.size, targetSize, delta * 5)
+	else:
+		self.fov = lerp(self.fov, targetSize, delta * 15)
 	
 	pass

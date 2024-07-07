@@ -40,7 +40,12 @@ def position(data):
     return send
 
 def traffic_lights(data):
-    send = "JSONtrafficLights:" + json.dumps(data["trafficLights"]) + ";"
+    try:
+        send = "JSONtrafficLights:" + json.dumps(data["trafficLights"]) + ";"
+    except:
+        for i in range(0, len(data["trafficLights"])):
+            data["trafficLights"][i] = data["trafficLights"][i].json()
+        send = "JSONtrafficLights:" + json.dumps(data["trafficLights"]) + ";"
     return send
 
 def speed(data):

@@ -139,7 +139,6 @@ func _process(delta: float) -> void:
 					# These point either straight right or left of the point
 					var normalVectors = CreateNormalVectors(forwardVectors)
 					
-						
 					# Create the vertices
 					for i in range(len(points)):
 						var allVertices = CreateVerticesForPoint(points[i], normalVectors[i])
@@ -160,9 +159,6 @@ func _process(delta: float) -> void:
 				var x = prefab["X"]
 				var y = Truck.position.y - Truck.offset.y
 				var z = prefab["Z"]
-				var vertices = []
-				var rightMarkingVertices = []
-				var leftMarkingVertices = []
 				var lines = []
 				var counter = 0
 				for point in prefab["CurvePoints"]:
@@ -190,21 +186,23 @@ func _process(delta: float) -> void:
 					
 					counter += 1
 					
+				var count = 0
 				for line in lines:
+					var vertices = []
+					var rightMarkingVertices = []
+					var leftMarkingVertices = []
 					var points = line
 					var forwardVectors = CreateForwardVectors(points)
 					
 					# These point either straight right or left of the point
 					var normalVectors = CreateNormalVectors(forwardVectors)
 					
-					
 					# Create the vertices
 					for i in range(len(points)):
 						var allVertices = CreateVerticesForPoint(points[i], normalVectors[i])
 						vertices += allVertices[0]
-						leftMarkingVertices += allVertices[1]
-						rightMarkingVertices += allVertices[2]
-						
+						#leftMarkingVertices += allVertices[1]
+						#rightMarkingVertices += allVertices[2]
 				
 					# Render the meshes
 					var dark = Variables.darkMode
