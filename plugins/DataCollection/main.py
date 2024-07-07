@@ -79,9 +79,9 @@ def CalculateMirrorCoordinates(window):
     '''
 
     mirrorDistanceFromLeft = 23
-    mirrorDistanceFromTop = 90
-    mirrorWidth = 273
-    mirrorHeight = 362
+    mirrorDistanceFromTop = 262
+    mirrorWidth = 210
+    mirrorHeight = 190
     scale = window[3]/1080
 
     xCoord = window[0] + (mirrorDistanceFromLeft * scale)
@@ -223,15 +223,18 @@ def plugin(data):
         if game_coords != last_game_coords:
             mirror_coords = CalculateMirrorCoordinates(game_coords)
         last_game_coords = game_coords
-        
+
         try:
             data["frameFull"]
         except:
             return data
-        
+
         fullframe = data["frameFull"]
         left_mirror = fullframe.copy()[mirror_coords[0][1]:mirror_coords[0][3], mirror_coords[0][0]:mirror_coords[0][2]]
         right_mirror = fullframe.copy()[mirror_coords[1][1]:mirror_coords[1][3], mirror_coords[1][0]:mirror_coords[1][2]]
+
+        left_mirror = cv2.cvtColor(left_mirror, cv2.COLOR_BGR2GRAY)
+        right_mirror = cv2.cvtColor(right_mirror, cv2.COLOR_BGR2GRAY)
 
         threading.Thread(target=SendMirrorImages, args=(left_mirror, right_mirror,), daemon=True).start()
         last_capture = time.time()
