@@ -182,6 +182,7 @@ def SendMirrorImages(mirror1, mirror2):
             }
             data = {
                 "image": encoded_string,
+                "blackAndWhite": True,
                 "category": "vehicle_detection_images"
             }
             response = requests.post(url, headers=headers, json=data)
@@ -189,6 +190,7 @@ def SendMirrorImages(mirror1, mirror2):
             encoded_string = base64.b64encode(cv2.imencode('.png', mirror2)[1]).decode()
             data = {
                 "image": encoded_string,
+                "blackAndWhite": True,
                 "category": "vehicle_detection_images"
             }
             response = requests.post(url, headers=headers, json=data)
