@@ -1,3 +1,4 @@
+from ETS2LA.backend.globalServer import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
@@ -16,8 +17,6 @@ import time
 import cv2
 import mss
 import os
-
-def SendCrashReport(arg1="", arg2=""): return # REMOVE THIS LATER
 
 runner:PluginRunner = None
 

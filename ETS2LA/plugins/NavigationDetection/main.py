@@ -1,3 +1,4 @@
+from ETS2LA.backend.globalServer import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
@@ -13,9 +14,6 @@ import time
 import cv2
 import mss
 import os
-
-def SendCrashReport(arg1="", arg2=""): # REMOVE THIS LATER
-    return
 
 try:
     from torchvision import transforms
