@@ -197,19 +197,6 @@ def LoadPrefabItems():
     for prefabItem in prefabItems:
         prefabItem.Prefab = prefabs.GetPrefabByToken(prefabItem.Prefab)
         
-        if prefabItem.Prefab == None:
-            # # sys.stdout.write(f"Prefab item {prefabItem.Uid} has no prefab!")
-            pass 
-        
-        # try:
-        #     if not prefabItem.Prefab.ValidRoad:
-        #         # # sys.stdout.write(f"Prefab item {prefabItem.Uid} has an invalid prefab!")
-        #         prefabItems.remove(prefabItem)
-        #         continue
-        # except:
-        #     prefabItems.remove(prefabItem)
-        #     continue
-        
         prefabItem.StartNode = nodes.GetNodeByUid(prefabItem.StartNodeUid)
         prefabItem.EndNode = nodes.GetNodeByUid(prefabItem.EndNodeUid)
         
@@ -218,9 +205,7 @@ def LoadPrefabItems():
             mapPointOrigin = prefabItem.Prefab.PrefabNodes[prefabItem.Origin]
         except:
             pass
-        
-        # rot = originNode.Rotation - math.pi - math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2
-        
+
         # MARK: >>> Get curves
         
         prefabStartX = originNode.X - mapPointOrigin.X
@@ -229,20 +214,8 @@ def LoadPrefabItems():
         prefabItem.X = prefabStartX
         prefabItem.Z = prefabStartZ
         
-        # Rotate the prefab curves to match the road.
-        # They are rotated around the origin node location by an amount of pi.
         prefabItem.NavigationLanes = []
         for curvePoints in prefabItem.CurvePoints:
-            # def rotate_point(x, z, angle, rot_x, rot_z):
-            #     s = math.sin(angle)
-            #     c = math.cos(angle)
-            #     new_x = x - rot_x
-            #     new_z = z - rot_z
-            #     return (new_x * c - new_z * s + rot_x, new_x * s + new_z * c + rot_z)
-            # 
-            # newPointStart = rotate_point(prefabStartX + curve.startX, prefabStartZ + curve.startZ, rot, originNode.X, originNode.Z)
-            # newPointEnd = rotate_point(prefabStartX + curve.endX, prefabStartZ + curve.endZ, rot, originNode.X, originNode.Z)
-            
             curveStartX = curvePoints[0]
             curveStartZ = curvePoints[1]
             curveEndX = curvePoints[2]
@@ -250,8 +223,7 @@ def LoadPrefabItems():
             
             prefabItem.NavigationLanes.append((curveStartX, curveStartZ, curveEndX, curveEndZ))
             
-        
-        # Set the prefab item as a reference to the road
+
         for nav in prefabItem.Navigation:
             for item in nav.Item2:
                 if item.Type == "Road":
@@ -262,7 +234,6 @@ def LoadPrefabItems():
                         
                     if road != None:
                         road.ConnectedPrefabItems.append(prefabItem.Uid)
-                        # print(f"Added prefab item {prefabItem.Uid} to road {road.Uid}")
         
         
         # MARK: >>> Bounds
@@ -291,18 +262,13 @@ def LoadPrefabItems():
         
         count += 1
         if count % 500 == 0:
-            itemsLeft = prefabItemCount - count
-            timeLeft = (time.time() - prefabItemMatchStartTime) / count * itemsLeft
             progress.refresh()
-            # sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... {round(timeLeft)}s left...   \r")
             
         progress.advance(task)
-    
-    # sys.stdout.write(f"  > {count} ({round(count/prefabItemCount*100)}%)... done!              \n")
+
     
     progress.update(task, description="[green]prefabs\n[/green][dim]optimizing...[/dim]", completed=0, total=3)
-    
-    # sys.stdout.write(f" > Optimizing prefab items...\r")
+
     # MARK: >> Optimize
     for item in prefabItems:
         if item.X < itemsMinX:

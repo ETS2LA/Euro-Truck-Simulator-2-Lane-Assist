@@ -96,6 +96,21 @@ class RoadLook():
             "IsNoVehicles": self.isNoVehicles
         }
 
+# https://stackoverflow.com/a/70377616
+def set_nested_item(dataDict, mapList, val):
+    """Set item in nested dictionary"""
+    current_dict = dataDict
+    for key in mapList[:-1]:
+        current_dict = current_dict.setdefault(key, {})
+    current_dict[mapList[-1]] = val
+    return dataDict
+
+def get_nested_item(dataDict, mapList):
+    """Get item in nested dictionary"""
+    for k in mapList:
+        dataDict = dataDict[k]
+    return dataDict
+
 
 roads = []
 """
@@ -298,27 +313,21 @@ def FindClosestPointOnHermiteCurve(px, py, pz, road, lane=None):
 
 
 # MARK: Roads to Nodes
-def MatchRoadsToNodes(output=False):
+def MatchRoadsToNodes():
     # Match the nodes to the roads
     progress.update(task, total=len(roads), description="[green]roads\n[/green][dim]solving dependencies...[/dim]")
-    count = 0
     noLocationData = 0
-    roadsCount = len(roads)
-    matchStartTime = time.time()
     for road in roads:
         road.StartNode = nodes.GetNodeByUid(road.StartNodeUid)
         road.EndNode = nodes.GetNodeByUid(road.EndNodeUid)
         
         if road.StartNode == None or road.EndNode == None:
             noLocationData += 1
-        
-        count += 1
+            
         progress.advance(task)
     
-    if output:
-        # sys.stdout.write(f"Matched roads : {count}\nRoads with invalid location data : {noLocationData}\nNow optimizing array...\n")
-        sys.stdout.write(f"  > {count} ({round(count/roadsCount * 100)}%)... done!                   \n")
-        sys.stdout.write(f"   > Invalid location data : {noLocationData}\n")
+    if noLocationData > 0:
+        progress.console.print(f" > Invalid location data for {noLocationData} roads!\n")
 
 # MARK: Road Loading
 def LoadRoads():
@@ -333,14 +342,15 @@ def LoadRoads():
     global roads
     global optimizedRoads
     
+    progress.update(task, description="[green]roads\n[/green][dim]reading JSON...[/dim]")
+    
     if nodes.nodes == []:
         nodes.LoadNodes()
     
     jsonData = json.load(open(roadFileName))
     roadsInJson = len(jsonData)
     
-    progress.update(task, total=roadsInJson, description="[green]roads\n[/green][dim]reading JSON...[/dim]")
-    # sys.stdout.write(f"\nLoading {len(jsonData)} roads...\n")
+    progress.update(task, total=roadsInJson, description="[green]roads\n[/green][dim]parsing...[/dim]", completed=0)
     
     count = 0
     # MARK: >> JSON Parse
@@ -380,23 +390,20 @@ def LoadRoads():
         roadObj.RoadLook.roadSizeRight = road["RoadLook"]["RoadSizeRight"]
     
         roads.append(roadObj)
-        count += 1
-    
         progress.advance(task)
-        # sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)...\r")
-    
+ 
+        count += 1
         if limitToCount != 0 and count >= limitToCount:
             break
     
-    # sys.stdout.write(f" > {count} ({round(count/roadsInJson * 100)}%)... done!\n")
-    # sys.stdout.write(f" > Matching roads to nodes...\n")
+    del jsonData
     
     MatchRoadsToNodes()
     
     progress.update(task, total=len(roads), description="[green]roads\n[/green][dim]optimizing...[/dim]", completed=0)
 
     # MARK: >> Optimize
-    # sys.stdout.write(f" > Optimizing road array...\r")
+    # roadsMaxX etc... are global variables
     for road in roads:
         if road.StartNode.X > roadsMaxX:
             roadsMaxX = road.StartNode.X
@@ -443,16 +450,11 @@ def LoadRoads():
     # sys.stdout.write(f" > Optimizing road array... done!\n")
     print(f"Roads optimized to {areaCountX}x{areaCountZ} areas")
         
-    # Optimize roads by the three first numbers of the UID
+    # Optimize roads by their IDs
     for road in roads:
         uid = str(road.Uid)
-        uid = uid[:3]
-        uid = int(uid)
-        
-        if uid not in uidOptimizedRoads:
-            uidOptimizedRoads[uid] = []
-            
-        uidOptimizedRoads[uid].append(road)
+        uidParts = [uid[i:i+3] for i in range(0, len(uid), 3)]
+        set_nested_item(uidOptimizedRoads, uidParts, road)
         
     progress.update(task, completed=progress._tasks[task].total, description="[green]roads[/green]")
         
@@ -488,20 +490,35 @@ def GetLocalCoordinateInTile(x, y, tileX=-1, tileY=-1):
     return x, y
 
 def GetRoadByUid(uid):
-    for road in uidOptimizedRoads[int(str(uid)[:3])]:
-        if road.Uid == uid:
-            return road
+    if uid == 0:
+        return None
+    if uid == None:
+        return None
     
+    uidParts = [str(uid)[i:i+3] for i in range(0, len(str(uid)), 3)]
+    try:
+        road = get_nested_item(uidOptimizedRoads, uidParts)
+        if road != None:
+            return road
+        sys.stdout.write(f" > Node not found in optimizedNodes, searching in nodes...\n")
+        for road in roads:
+            if road.Uid == uid:
+                return road
+    except:
+        sys.stdout.write(f" > Node not found in optimizedNodes, searching in nodes...\n")
+        for road in roads:
+            if road.Uid == uid:
+                return road
+        
     return None
 
 # MARK: Road Setters
 def SetRoadParallelData(road, parallelPoints, laneWidth, boundingBox):
     # Find the road by the UID
-    for arrayRoad in uidOptimizedRoads[int(str(road.Uid)[:3])]:
-        if arrayRoad.Uid == road.Uid:
-            arrayRoad.ParallelPoints = parallelPoints
-            arrayRoad.LaneWidth = laneWidth
-            arrayRoad.BoundingBox = boundingBox
+    road = GetRoadByUid(road.Uid)
+    road.ParallelPoints = parallelPoints
+    road.LaneWidth = laneWidth
+    road.BoundingBox = boundingBox
             
     # Get the area the road should be in from the START node
     x = math.floor((road.StartNode.X - roadsMinX) / 1000)
@@ -517,9 +534,8 @@ def SetRoadParallelData(road, parallelPoints, laneWidth, boundingBox):
 
 def SetRoadPoints(road, points):
     # Find the road by the UID
-    for arrayRoad in uidOptimizedRoads[int(str(road.Uid)[:3])]:
-        if arrayRoad.Uid == road.Uid:
-            arrayRoad.Points = points
+    road = GetRoadByUid(road.Uid)
+    road.Points = points
             
     # Get the area the road should be in from the START node
     x = math.floor((road.StartNode.X - roadsMinX) / 1000)
