@@ -131,7 +131,11 @@ class PluginRunnerController():
                                 self.queue.put(None)
                         
                         if plugin in runners:
-                            self.queue.put(runners[plugin].lastData)
+                            try:
+                                self.queue.put(runners[plugin].lastData)
+                            except:
+                                logging.debug(f"Plugin ({self.pluginName}) is trying to get data from another plugin ({plugin}) that has not been initialized yet.")
+                                self.queue.put(None)
                         else:
                             self.queue.put(None)
                 else:
@@ -144,10 +148,7 @@ class PluginRunnerController():
                     self.lastData = normData
                     globalData.update(tags) # TODO: This is a temporary solution. We need to find a better way to handle this.
                 else:
-                    self.lastData = data
-                
-                continue
-        
+                    self.lastData = data        
         
 runners = {}
 frameTimes = {}
