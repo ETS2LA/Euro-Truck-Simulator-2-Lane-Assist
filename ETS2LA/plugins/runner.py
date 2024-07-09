@@ -1,4 +1,5 @@
 from multiprocessing.connection import Connection
+from ETS2LA.utils.time import AccurateSleep
 import ETS2LA.backend.settings as settings
 from types import SimpleNamespace
 from ETS2LA.utils.logging import *
@@ -47,6 +48,12 @@ class PluginRunner():
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
         self.plugin_name = self.plugin_data["name"]
         self.plugin.runner = self
+        try:
+            self.plugin_fps_cap = self.plugin_data["max_fps"]
+        except:
+            self.plugin_fps_cap = 60
+            
+        logging.info(f"PluginRunner: Plugin {self.plugin_name} has FPS cap of {self.plugin_fps_cap}")
         
         # Load modules
         self.modules = {}
@@ -221,7 +228,18 @@ class PluginRunner():
             pluginExec = time.time()
             if data != None:
                 self.q.put(data, block=True)
+            
             endTime = time.time()
+
+            # Sleep to cap the FPS
+            if self.plugin_fps_cap != 0 or self.plugin_fps_cap != None or self.plugin_fps_cap != -1:
+                timeTaken = time.time() - startTime
+                if timeTaken < 1 / self.plugin_fps_cap:
+                    timeToSleepFor = 1 / self.plugin_fps_cap - timeTaken
+                    AccurateSleep(timeToSleepFor)
+            
+            endTime = time.time()
+            
             self.frametimes.append(endTime - startTime)
             self.executiontimes.append(pluginExec - startTime)
             self.executiontimes[-1] -= self.getQueueProcessingTime

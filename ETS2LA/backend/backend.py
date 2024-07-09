@@ -307,7 +307,7 @@ def GetPerformance():
                             "name": runners[runner].pluginName,
                             "data": data
                         }
-                        currentProcessData["data"]["frametime"] = frameTimes[runners[runner].pluginName][count]["frametime"] + frameTimes[runners[runner].pluginName][count]["executiontime"]
+                        currentProcessData["data"]["frametime"] = frameTimes[runners[runner].pluginName][count]["frametime"] # + frameTimes[runners[runner].pluginName][count]["executiontime"]
                         runnerData["data"].append(currentProcessData)
                         count += 1
                     except:
