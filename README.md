@@ -14,7 +14,7 @@ Lane assist and plugin based interface program for SCS truck simulators.
 
 ### Links
 
-Discord: https://discord.gg/DpJpkNpqwD
+Discord: https://discord.gg/ets2la
 
 Youtube: https://www.youtube.com/@tumppi066
 
@@ -69,7 +69,7 @@ The plugin infrastructure has documentation on the [wiki](https://wiki.ets2la.co
 
 ### I have issues / suggestions.
 
-Please join the [discord](https://discord.gg/DpJpkNpqwD) or make an issue here. Keep in mind that I am more active on the discord, and the issue you face might already have an answer there. 
+Please join the [discord](https://discord.gg/ets2la) or make an issue here. Keep in mind that I am more active on the discord, and the issue you face might already have an answer there. 
 
 
 ### I want to support you.
