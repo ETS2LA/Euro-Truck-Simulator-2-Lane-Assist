@@ -2,7 +2,7 @@ extends Node
 
 @onready var Sockets = $/root/Node3D/Sockets
 
-var TrafficLightScene = preload("res://Objects/trafficLight.tscn")
+var TrafficLightScene = preload("res://Objects/traffic_light.tscn")
 
 func _ready() -> void:
 	pass
@@ -16,16 +16,12 @@ func _process(delta: float) -> void:
 		var TrafficLightData = Sockets.data["JSONTrafficLights"].data
 		if TrafficLightData != null:
 			for object in TrafficLightData:
-				var state = object["State"]
-				var x = float(object["X"])
-				var y = float(object["Y"])
-				var z = float(object["Z"])
-				var pitch = float(object["Pitch"])
-				var yaw = float(object["Yaw"])
-				var roll = float(object["Roll"])
+				var state = object[0]
+				var x = float(object[1])
+				var y = float(object[2])
+				var z = float(object[3])
 
 				var TrafficLight = TrafficLightScene.instantiate()
 				TrafficLight.position = Vector3(x,y,z)
-				TrafficLight.rotation_degrees = Vector3(pitch, yaw, roll)
 				TrafficLight.scale = 1
 				add_child(TrafficLight)

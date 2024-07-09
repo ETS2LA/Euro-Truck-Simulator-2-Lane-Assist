@@ -684,7 +684,7 @@ def plugin():
     data["frameFull"] = ScreenCapture.run(imgtype="full")
 
     frameFull = data["frameFull"]
-    if frameFull is None: return data
+    if frameFull is None: return None, {"TrafficLights": []}
     frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
 
     try:
@@ -1436,3 +1436,9 @@ def plugin():
         cv2.waitKey(1)
     if reset_window == True:
         reset_window = False
+
+    godot_data = []
+    for i, ((_, _, _, _, state), ((trafficlight_x, trafficlight_y, trafficlight_z), _, _), _, _) in enumerate(trafficlights):
+        godot_data.append((state, trafficlight_x, trafficlight_y, trafficlight_z))
+
+    return None, {"TrafficLights": godot_data}
