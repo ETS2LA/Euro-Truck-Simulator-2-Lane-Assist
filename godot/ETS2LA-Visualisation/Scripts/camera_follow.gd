@@ -30,6 +30,10 @@ func _process(delta: float) -> void:
 	# Lerp the rotation to the target rotation
 	var targetRotation = target.rotation_degrees
 	targetRotation.z = 0
+	targetRotation.x = 0
 	self.rotation_degrees = self.rotation_degrees.lerp(target.rotation_degrees + rotationOffset, delta * 10)
+	# Override the tilt and roll since otherwise those would break
+	self.rotation_degrees.z = target.rotation_degrees.z
+	self.rotation_degrees.x = target.rotation_degrees.x
 	
 	pass
