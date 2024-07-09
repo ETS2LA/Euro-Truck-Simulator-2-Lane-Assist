@@ -15,7 +15,6 @@ func _process(delta: float) -> void:
 		self.remove_child(n)
 		n.queue_free() 
 	
-	var newObjects = []
 	if Sockets.data != {}:
 		var vehicleData = Sockets.data["JSONvehicles"].data
 		if vehicleData != null:
