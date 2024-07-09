@@ -106,6 +106,8 @@ func CreateVerticesForPoint(point, normalVector):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	var noData = 0
+	var withData = 0
 	if MapData.MapData != null:
 		var data = MapData.MapData
 		if data != lastData or reload and "roads" in data and "prefabs" in data:
@@ -121,6 +123,10 @@ func _process(delta: float) -> void:
 				var z = road["Z"]
 				var resolution = len(yValues)
 				
+				if len(road["ParallelPoints"]) == 0:
+					noData += 1
+				else:
+					withData += 1
 				
 				for lane in road["ParallelPoints"]:
 					var vertices = []
@@ -214,5 +220,5 @@ func _process(delta: float) -> void:
 			lastData = data
 			reload = false
 				
-			
-		
+	if noData != 0:
+		print(str(noData) + " roads without parallel data, " + str(withData) + " roads with")

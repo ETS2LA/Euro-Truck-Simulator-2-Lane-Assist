@@ -87,9 +87,8 @@ def CalculateParallelPointsForRoads(areaRoads, all=False):
             points = roads.CreatePointsForRoad(road)
             roads.SetRoadPoints(road, points)
             
-        
         # Check for parallel points
-        if road.ParallelPoints == []:
+        if road.ParallelPoints == [] or road.ParallelPoints == None:
             if not all:
                 if calcCount > LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME:
                     continue
@@ -102,6 +101,11 @@ def CalculateParallelPointsForRoads(areaRoads, all=False):
             road.BoundingBox = boundingBox
             roads.SetRoadParallelData(road, parallelPoints, laneWidth, boundingBox)
             calcCount += 1
+
+    if calcCount != 0:
+        return True
+    else:
+        return False
     
 # MARK: Bounds
 def CheckIfInBoundingBox(boundingBox, x, y):

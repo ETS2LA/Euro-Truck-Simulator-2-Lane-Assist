@@ -300,7 +300,7 @@ def plugin():
         
     closeRoads, updatedRoads = compute.GetRoads(data)
     closePrefabs, updatedPrefabs = compute.GetPrefabs(data)
-    compute.CalculateParallelPointsForRoads(closeRoads) # Will slowly populate the lanes over a few frames
+    updatedRoads = compute.CalculateParallelPointsForRoads(closeRoads) # Will slowly populate the lanes over a few frames
     
     if COMPUTE_STEERING_DATA:
         computeData = compute.GetClosestRoadOrPrefabAndLane(data)
