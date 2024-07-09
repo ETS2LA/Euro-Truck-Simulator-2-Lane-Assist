@@ -59,7 +59,13 @@ def vehicles(data):
             if isinstance(vehicle, dict):
                 newVehicles.append(vehicle)
             else:
-                newVehicles.append(vehicle._asdict())
+                try:
+                    newVehicles.append(vehicle.json())
+                except:
+                    try:
+                        newVehicles.append(vehicle.__dict__)
+                    except:
+                        pass
         data["vehicles"] = newVehicles
     
     send = "JSONvehicles:" + json.dumps(data["vehicles"]) + ";"

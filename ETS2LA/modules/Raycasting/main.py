@@ -120,16 +120,16 @@ def RaycastToPlaneBackup(screen_x: float, screen_y: float, plane_height: float):
 
 def RaycastToPlane(screen_x: float, screen_y: float, plane_height: float):
     # Assuming head_rotation_degrees_x/y/z, screen, FOV, window_width, window_height are defined elsewhere
-
+    # Make the truck rotation easier to read
+    truck_yaw = truck_rotation_degrees_x
+    truck_pitch = truck_rotation_degrees_y
+    truck_roll = truck_rotation_degrees_z
+    
+    
     # Make the head rotation easier to read
     head_yaw = -head_rotation_degrees_x
-    head_pitch = -head_rotation_degrees_y
-    head_roll = -head_rotation_degrees_z
-
-    # Make the truck rotation easier to read
-    truck_yaw = -truck_rotation_degrees_x
-    truck_pitch = -truck_rotation_degrees_y
-    truck_roll = -truck_rotation_degrees_z
+    head_pitch = -(head_rotation_degrees_y - truck_pitch)
+    head_roll = -(head_rotation_degrees_z - truck_roll)
 
     # Inverting the screen Y coordinate
     screen_y = screen.height - screen_y
@@ -314,9 +314,13 @@ def run(x=None, y=None):
 
     x, y, z = RaycastToPlane(x, y, truck_y)
 
-    print(f"X: {round(x)}, Y: {round(y)}, Z: {round(z)}           ", end="\r")
+    distance = math.sqrt((x - truck_x) ** 2 + (y - truck_y) ** 2 + (z - truck_z) ** 2)
+
+    relative_x = x - truck_x
+    relative_y = y - truck_y
+    relative_z = z - truck_z
 
     # Return the values
-    return RaycastResponse((x, y, z), 0, (0, CAMERA_HEIGHT, 0))
+    return RaycastResponse((x, y, z), distance, (relative_x, relative_y, relative_z))
 
     
