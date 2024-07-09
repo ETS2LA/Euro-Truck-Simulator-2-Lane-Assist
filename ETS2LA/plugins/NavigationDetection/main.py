@@ -1179,7 +1179,7 @@ def plugin():
         SDKController.lblinker = bool(intended_left_indicator_state)
         SDKController.rblinker = bool(intended_right_indicator_state)
 
-        return data["NavigationDetection"]
+        return turnincoming_detected
 
     else:
 
@@ -1289,12 +1289,6 @@ def plugin():
             indicator_last_left = left_indicator
             indicator_last_right = right_indicator
 
-            data["NavigationDetection"] = {}
-            if left_indicator == True or right_indicator == True:
-                data["NavigationDetection"]["turnincoming"] = True
-            else:
-                data["NavigationDetection"]["turnincoming"] = False
-
             frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
 
             text, fontscale, thickness, text_width_enabled, text_height_enabled = get_text_size(text="Enabled" if enabled else "Disabled", text_width=width/1.1, max_text_height=height/11)
@@ -1304,6 +1298,8 @@ def plugin():
             ShowImage.run(frame)
             SDKController.lblinker = bool(indicator_last_left)
             SDKController.rblinker = bool(indicator_last_right)
+
+            return left_indicator == True or right_indicator == True
 
         except Exception as e:
             exc = traceback.format_exc()

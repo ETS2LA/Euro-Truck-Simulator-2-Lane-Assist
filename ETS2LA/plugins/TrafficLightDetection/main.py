@@ -690,7 +690,7 @@ def plugin():
     data["frameFull"] = ScreenCapture.run(imgtype="full")
 
     frameFull = data["frameFull"]
-    if frameFull is None: return None, {"TrafficLights": godot_data}
+    if frameFull is None: return (next((state for _, _, _, approved in trafficlights if approved and state in ("Red", "Yellow", "Green")), None), trafficlights), {"TrafficLights": godot_data}
     frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
 
     try:
@@ -1361,29 +1361,6 @@ def plugin():
             print("TrafficLightDetection - Position Estimation Drawing Error: " + str(e))
 
 
-    try:
-        data_simple = None
-        for i in range(len(trafficlights)):
-            coord, id, position, approved = trafficlights[i]
-            x, y, w, h, state = coord
-            if state == "Red" and approved == True:
-                data_simple = "Red"
-                break
-            elif state == "Yellow" and approved == True:
-                data_simple = "Yellow"
-                break
-            elif state == "Green" and approved == True:
-                data_simple = "Green"
-                break
-        data["TrafficLightDetection"] = {}
-        data["TrafficLightDetection"]["simple"] = data_simple
-        data["TrafficLightDetection"]["detailed"] = trafficlights
-    except Exception as e:
-        exc = traceback.format_exc()
-        SendCrashReport("TrafficLightDetection - Data Error.", str(exc))
-        print("TrafficLightDetection - Data Error: " + str(e))
-
-
     if reset_window == True:
         if finalwindow == False:
             try:
@@ -1453,4 +1430,4 @@ def plugin():
         if approved == True and trafficlight_x != None and trafficlight_y != None and trafficlight_z != None:
             godot_data.append((state, trafficlight_x, trafficlight_y, trafficlight_z))
 
-    return (data_simple, trafficlights), {"TrafficLights": godot_data}
+    return (next((state for _, _, _, approved in trafficlights if approved and state in ("Red", "Yellow", "Green")), None), trafficlights), {"TrafficLights": godot_data}
