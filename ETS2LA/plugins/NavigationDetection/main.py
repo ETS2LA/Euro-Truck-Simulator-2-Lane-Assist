@@ -144,9 +144,17 @@ def Initialize():
 
     if 'UseAI' in globals():
         if UseAI == False and settings.Get("NavigationDetection", "UseNavigationDetectionAI", False) == True:
-            LoadAIModel()
+            if TorchAvailable == True:
+                LoadAIModel()
+            else:
+                print("TrafficLightDetectionAI not available due to missing dependencies.")
+                console.RestoreConsole()
     elif settings.Get("NavigationDetection", "UseNavigationDetectionAI", False) == True:
-        LoadAIModel()
+        if TorchAvailable == True:
+            LoadAIModel()
+        else:
+            print("TrafficLightDetectionAI not available due to missing dependencies.")
+            console.RestoreConsole()
     UseAI = settings.Get("NavigationDetection", "UseNavigationDetectionAI", False)
     UseCUDA = settings.Get("NavigationDetection", "TryCUDA", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')

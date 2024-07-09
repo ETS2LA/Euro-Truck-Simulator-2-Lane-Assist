@@ -1,0 +1,12 @@
+{
+    "name": "CruiseControl",
+    "authors": [{
+        "name": "Glas42",
+        "url": "https://github.com/Glas42",
+        "avatar": "https://avatars.githubusercontent.com/u/145870870?v=4"
+    }],
+    "description": "Sets the in-game cruise control to the correct speed.",
+    "version": "1.0",
+    "dependencies": [],
+    "modules": ["TruckSimAPI", "SDKController"]
+}

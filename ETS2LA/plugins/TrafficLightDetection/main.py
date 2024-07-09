@@ -1446,4 +1446,4 @@ def plugin():
         if approved == True and trafficlight_x != None and trafficlight_y != None and trafficlight_z != None:
             godot_data.append((state, trafficlight_x, trafficlight_y, trafficlight_z))
 
-    return None, {"TrafficLights": godot_data}
+    return (data_simple, trafficlights), {"TrafficLights": godot_data}
