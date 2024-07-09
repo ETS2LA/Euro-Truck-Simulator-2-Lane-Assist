@@ -375,6 +375,13 @@ def CheckForAIModelUpdates():
 
                     print("\033[92m" + f"Checking for AI model updates..." + "\033[0m")
 
+                    if settings.Get("NavigationDetection", "LastUpdateCheck", 0) + 600 > time.time():
+                        LoadAIProgress = 100
+                        LoadAILabel = "Skipping AI model update check, last check was less than 10 minutes ago."
+                        print("\033[92m" + f"Skipping AI model update check, last check was less than 10 minutes ago." + "\033[0m")
+                        return
+                    settings.Set("NavigationDetection", "LastUpdateCheck", round(time.time()))
+
                     url = "https://huggingface.co/Glas42/NavigationDetectionAI/tree/main/model"
                     response = requests.get(url)
                     soup = BeautifulSoup(response.content, 'html.parser')
