@@ -46,6 +46,7 @@ class PrefabItem:
     Valid = False
     Type = 0
     X = 0
+    Y = 0
     Z = 0
     Hidden = False
     Flags = 0
@@ -70,6 +71,7 @@ class PrefabItem:
             "Valid": self.Valid,
             "Type": self.Type,
             "X": self.X,
+            "Y": self.Y,
             "Z": self.Z,
             "Hidden": self.Hidden,
             "Flags": self.Flags,
@@ -143,6 +145,7 @@ def LoadPrefabItems():
         itemObj.Valid = item["Valid"]
         itemObj.Type = item["Type"]
         itemObj.X = item["X"]
+        itemObj.Y = item["Y"]
         itemObj.Z = item["Z"]
         itemObj.Hidden = item["Hidden"]
         itemObj.Flags = item["Flags"]

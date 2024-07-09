@@ -51,8 +51,10 @@ class PrefabCurve:
     id = 0
     idNode = 0
     startX = 0
+    startY = 0
     startZ = 0
     endX = 0
+    endY = 0
     endZ = 0
     length = 0
     nextLines = []
@@ -63,8 +65,10 @@ class PrefabCurve:
             "id": self.id,
             "idNode": self.idNode,
             "start_X": self.startX,
+            "start_Y": self.startY,
             "start_Z": self.startZ,
             "end_X": self.endX,
+            "end_Y": self.endY,
             "end_Z": self.endZ,
             "length": self.length,
             "nextLines": self.nextLines,
@@ -90,8 +94,10 @@ class NavigationRoute:
 class NavigationRouteNode:
     id = 0
     X = 0
+    Y = 0
     Z = 0
     RotX = 0
+    RotY = 0
     RotZ = 0
     LaneCount = 0
     InputPoints = []
@@ -101,8 +107,10 @@ class NavigationRouteNode:
         return {
             "id": self.id,
             "X": self.X,
+            "Y": self.Y,
             "Z": self.Z,
             "RotX": self.RotX,
+            "RotY": self.RotY,
             "RotZ": self.RotZ,
             "LaneCount": self.LaneCount,
             "InputPoints": self.InputPoints,
@@ -111,6 +119,7 @@ class NavigationRouteNode:
     
 class MapPoint:
     X = 0
+    Y = 0
     Z = 0
     LaneOffset = 0
     LaneCount = 0
@@ -123,6 +132,7 @@ class MapPoint:
     def json(self):
         return {
             "X": self.X,
+            "Y": self.Y, 
             "Z": self.Z,
             "LaneOffset": self.LaneOffset,
             "LaneCount": self.LaneCount,
@@ -136,8 +146,10 @@ class MapPoint:
 class PrefabNode:
     id = 0
     X = 0
+    Y = 0
     Z = 0
     RotX = 0
+    RotY = 0
     RotZ = 0
     LaneCount = 0
     InputPoints = []
@@ -147,8 +159,10 @@ class PrefabNode:
         return {
             "id": self.id,
             "X": self.X,
+            "Y": self.Y,
             "Z": self.Z,
             "RotX": self.RotX,
+            "RotY": self.RotY,
             "RotZ": self.RotZ,
             "LaneCount": self.LaneCount,
             "InputPoints": self.InputPoints,
@@ -183,8 +197,10 @@ def LoadPrefabs():
             nodeObj = PrefabNode()
             nodeObj.id = node["id"]
             nodeObj.X = node["X"]
+            nodeObj.Y = node["Y"]
             nodeObj.Z = node["Z"]
             nodeObj.RotX = node["RotX"]
+            nodeObj.RotY = node["RotY"]
             nodeObj.RotZ = node["RotZ"]
             nodeObj.LaneCount = node["LaneCount"]
             nodeObj.InputPoints = node["InputPoints"]
@@ -197,6 +213,7 @@ def LoadPrefabs():
         for mapPoint in prefab["MapPoints"]:
             mapPointObj = MapPoint()
             mapPointObj.X = mapPoint["X"]
+            mapPointObj.Y = mapPoint["Y"]
             mapPointObj.Z = mapPoint["Z"]
             mapPointObj.LaneOffset = mapPoint["LaneOffset"]
             mapPointObj.LaneCount = mapPoint["LaneCount"]
@@ -216,8 +233,10 @@ def LoadPrefabs():
             prefabCurveObj.id = prefabCurve["id"]
             prefabCurveObj.idNode = prefabCurve["idNode"]
             prefabCurveObj.startX = prefabCurve["start_X"]
+            prefabCurveObj.startY = prefabCurve["start_Y"]
             prefabCurveObj.startZ = prefabCurve["start_Z"]
             prefabCurveObj.endX = prefabCurve["end_X"]
+            prefabCurveObj.endY = prefabCurve["end_Y"]
             prefabCurveObj.endZ = prefabCurve["end_Z"]
             try: prefabCurveObj.length = prefabCurve["length"] 
             except: pass
@@ -236,8 +255,10 @@ def LoadPrefabs():
             navigationRouteObj.StartNode = NavigationRouteNode()
             navigationRouteObj.StartNode.id = navigationRoute["StartNode"]["id"]
             navigationRouteObj.StartNode.X = navigationRoute["StartNode"]["X"]
+            navigationRouteObj.StartNode.Y = navigationRoute["StartNode"]["Y"]
             navigationRouteObj.StartNode.Z = navigationRoute["StartNode"]["Z"]
             navigationRouteObj.StartNode.RotX = navigationRoute["StartNode"]["RotX"]
+            navigationRouteObj.StartNode.RotY = navigationRoute["StartNode"]["RotY"]
             navigationRouteObj.StartNode.RotZ = navigationRoute["StartNode"]["RotZ"]
             navigationRouteObj.StartNode.LaneCount = navigationRoute["StartNode"]["LaneCount"]
             navigationRouteObj.StartNode.InputPoints = navigationRoute["StartNode"]["InputPoints"]
@@ -245,8 +266,10 @@ def LoadPrefabs():
             navigationRouteObj.EndNode = NavigationRouteNode()
             navigationRouteObj.EndNode.id = navigationRoute["EndNode"]["id"]
             navigationRouteObj.EndNode.X = navigationRoute["EndNode"]["X"]
+            navigationRouteObj.EndNode.Y = navigationRoute["EndNode"]["Y"]
             navigationRouteObj.EndNode.Z = navigationRoute["EndNode"]["Z"]
             navigationRouteObj.EndNode.RotX = navigationRoute["EndNode"]["RotX"]
+            navigationRouteObj.EndNode.RotY = navigationRoute["EndNode"]["RotY"]
             navigationRouteObj.EndNode.RotZ = navigationRoute["EndNode"]["RotZ"]
             navigationRouteObj.EndNode.LaneCount = navigationRoute["EndNode"]["LaneCount"]
             navigationRouteObj.EndNode.InputPoints = navigationRoute["EndNode"]["InputPoints"]

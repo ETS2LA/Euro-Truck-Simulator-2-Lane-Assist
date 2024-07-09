@@ -157,14 +157,14 @@ func _process(delta: float) -> void:
 			var prefabData = data["prefabs"]
 			for prefab in prefabData:
 				var x = prefab["X"]
-				var y = Truck.position.y - Truck.offset.y
+				var y = prefab["Y"]
 				var z = prefab["Z"]
 				var lines = []
 				var counter = 0
 				for point in prefab["CurvePoints"]:
 					# Convert the JSON points to godot Vector3s
-					var p1 = Vector3(point[0], y, point[1])
-					var p2 = Vector3(point[2], y, point[3])
+					var p1 = Vector3(point[0], point[4], point[1])
+					var p2 = Vector3(point[2], point[5], point[3])
 					
 					#if x > p1.x: p1.x -= x
 					#else: p1.x += x
