@@ -56,8 +56,10 @@ def vehicles(data):
     if data["vehicles"] is not None:
         newVehicles = []
         for vehicle in data["vehicles"]:
-            newVehicles.append(vehicle.json())
-        
+            if isinstance(vehicle, dict):
+                newVehicles.append(vehicle)
+            else:
+                newVehicles.append(vehicle._asdict())
         data["vehicles"] = newVehicles
     
     send = "JSONvehicles:" + json.dumps(data["vehicles"]) + ";"
