@@ -14,6 +14,9 @@ def normalize(v):
 def lerp(a, b, t):
     return a + t * (b - a)
 
+def distance_between(point1, point2):
+    return np.linalg.norm(np.array(point1) - np.array(point2))
+
 # Function to calculate lane boundaries
 # MARK: Lanes
 def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=999, next_offset=999, side=0):
