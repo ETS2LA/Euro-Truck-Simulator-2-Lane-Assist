@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=19 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://Scripts/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
@@ -13,6 +13,7 @@
 [ext_resource type="Environment" uid="uid://uher5ame32lt" path="res://Environments/default.tres" id="6_dvxwu"]
 [ext_resource type="Script" path="res://Scripts/vehicles.gd" id="7_jhmr7"]
 [ext_resource type="Script" path="res://Scripts/roads_and_prefabs.gd" id="9_115pj"]
+[ext_resource type="Script" path="res://traffic_lights.gd" id="9_b12iv"]
 [ext_resource type="Script" path="res://Scripts/notifications.gd" id="10_p5w2d"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_i61cv"]
@@ -63,6 +64,9 @@ transform = Transform3D(1, 0, 0, 0, -0.961262, 0.275637, 0, -0.275637, -0.961262
 
 [node name="Vehicles" type="Node" parent="."]
 script = ExtResource("7_jhmr7")
+
+[node name="TrafficLights" type="Node" parent="."]
+script = ExtResource("9_b12iv")
 
 [node name="Map" type="Node" parent="."]
 
