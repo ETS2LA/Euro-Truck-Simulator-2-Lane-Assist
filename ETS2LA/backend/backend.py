@@ -21,16 +21,22 @@ class PluginRunnerController():
         global runners
         runners[pluginName] = self # So that we can access this runner later from the main thread or other runners.
         self.pluginName = pluginName
+        
         # Make the queue (comms) and start the process.
         self.queue = multiprocessing.JoinableQueue()
         self.functionQueue = multiprocessing.JoinableQueue()
         self.eventQueue = multiprocessing.JoinableQueue()
         self.immediateQueue = multiprocessing.JoinableQueue()
         self.returnPipe, pluginReturnPipe = multiprocessing.Pipe()
+        
         self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.functionQueue, pluginReturnPipe, self.eventQueue, self.immediateQueue, ), daemon=True)
         self.runner.start()
+        
         self.process = self.runner.pid
         self.process_info = []
+        
+        self.lastData = "Plugin has not returned any data yet."
+        
         self.run()
     
     def immediateQueueThread(self):

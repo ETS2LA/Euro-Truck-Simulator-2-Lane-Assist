@@ -34,6 +34,8 @@ func _process(delta: float) -> void:
 				if distance < 1:
 					distance = 1
 				
+
+				
 				if type == "car":
 					var car = carScene.instantiate()
 					car.position = Vector3(x,y,z)

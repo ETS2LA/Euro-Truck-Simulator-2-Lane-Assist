@@ -53,8 +53,8 @@ func _process(delta: float) -> void:
 				targetSize += 0.5
 	
 	if isFrustrum:
-		self.size = lerp(self.size, targetSize * zoomMultiplier, delta * 5)
+		self.size = lerp(self.size, targetSize / zoomMultiplier, delta * 5)
 	else:
-		self.fov = lerp(self.fov, targetSize * zoomMultiplier, delta * 15)
+		self.fov = lerp(self.fov, targetSize / zoomMultiplier, delta * 15)
 	
 	pass
