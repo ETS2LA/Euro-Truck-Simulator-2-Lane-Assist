@@ -1,4 +1,5 @@
 from ETS2LA.plugins.runner import PluginRunner
+from ETS2LA.plugins.AR.main import ScreenLine
 import mouse
 import time
 import json
@@ -30,7 +31,7 @@ class Vehicle:
 
 clearLines = 50
 def plugin():
-    time.sleep(0.1)
+    time.sleep(0.01)
     # Get mouse position
     mousePos = mouse.get_position()
     # Make two new points to the left and right of the mouse
@@ -43,7 +44,37 @@ def plugin():
         "car"
     )
     
+    horizonYPixel = raycasting.CURRENT_HORIZON
+    
+    line = ScreenLine(
+        (0, horizonYPixel),
+        (5120, horizonYPixel),
+        (255, 255, 255)
+    )
+    
+    mouseYLine = ScreenLine(
+        (mousePos[0], 0),
+        (mousePos[0], 1440),
+        (255, 255, 255)
+    )
+    
+    mouseXLine = ScreenLine(
+        (0, mousePos[1]),
+        (5120, mousePos[1]),
+        (255, 255, 255)
+    )
+    
+    arData = {
+        "lines": [],
+        "circles": [],
+        "boxes": [],
+        "polygons": [],
+        "texts": [],
+        "screenLines": [line, mouseYLine, mouseXLine],
+    }
+    
     return None, {
-        "vehicles": [vehicle]
+        "vehicles": [vehicle],
+        "ar": arData
     }
     
