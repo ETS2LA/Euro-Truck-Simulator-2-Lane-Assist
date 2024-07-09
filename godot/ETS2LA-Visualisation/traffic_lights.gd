@@ -18,11 +18,11 @@ func _process(delta: float) -> void:
 			for object in TrafficLightData:
 				if object != null and typeof(object) != typeof({}):
 					var state = object[0]
-					var x = float(object[1])
-					var y = float(object[2])
-					var z = float(object[3])
+					var x = object[1]
+					var y = object[2]
+					var z = object[3]
 
 					var TrafficLight = TrafficLightScene.instantiate()
 					TrafficLight.position = Vector3(x,y,z)
-					TrafficLight.scale = 1
+					TrafficLight.scale = Vector3(1, 1, 1)
 					add_child(TrafficLight)
