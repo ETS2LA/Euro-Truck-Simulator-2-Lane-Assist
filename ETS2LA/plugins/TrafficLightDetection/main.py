@@ -217,8 +217,8 @@ def Initialize():
     reset_window = True
 
     if advancedmode == False:
-        min_rect_size = screen_width / 240
-        max_rect_size = screen_width / 10
+        min_rect_size = 8
+        max_rect_size = round(screen_height / 4)
     else:
         min_rect_size = settings.Get("TrafficLightDetection", "FiltersMinimalTrafficLightSize", 8)
         max_rect_size = settings.Get("TrafficLightDetection", "FiltersMaximalTrafficLightSize", round(screen_height / 4))
@@ -1441,8 +1441,8 @@ def plugin():
         reset_window = False
 
     godot_data = []
-    for i, ((_, _, _, _, state), ((trafficlight_x, trafficlight_y, trafficlight_z), _, _), _, _) in enumerate(trafficlights):
-        if trafficlight_x != None and trafficlight_y != None and trafficlight_z != None:
+    for i, ((_, _, _, _, state), ((trafficlight_x, trafficlight_y, trafficlight_z), _, _), _, approved) in enumerate(trafficlights):
+        if approved == True and trafficlight_x != None and trafficlight_y != None and trafficlight_z != None:
             godot_data.append((state, trafficlight_x, trafficlight_y, trafficlight_z))
 
     return None, {"TrafficLights": godot_data}
