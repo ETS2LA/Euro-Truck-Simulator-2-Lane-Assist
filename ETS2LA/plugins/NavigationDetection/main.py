@@ -1186,14 +1186,19 @@ def plugin():
                 return
 
             if frame is None: return
-            if width <= 0 or width == None: return
-            if height <= 0 or height == None: return
+            if width == 0 or width == None: return
+            if height == 0 or height == None: return
 
             if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
                 valid_frame = True
             else:
                 valid_frame = False
                 return
+
+            try:
+                gamepaused = data["api"]["pause"]
+            except:
+                gamepaused = False
 
             cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             cv2.rectangle(frame, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
@@ -1202,6 +1207,11 @@ def plugin():
             mask = cv2.inRange(frame, lower_red, upper_red)
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
             frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
+
+            if cv2.countNonZero(frame) / (frame.shape[0] * frame.shape[1]) > 0.03:
+                lane_detected = True
+            else:
+                lane_detected = False
 
             try:
                 AIFrame = preprocess_image(mask)
@@ -1216,7 +1226,7 @@ def plugin():
 
             output = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
-            if enabled == True:
+            if enabled == True and gamepaused == False:
                 if AIModelLoaded == True:
                     with torch.no_grad():
                         output = AIModel(AIFrame)
@@ -1225,6 +1235,11 @@ def plugin():
             steering = float(output[0][0]) / -30
             left_indicator = bool(float(output[0][1]) > 0.15)
             right_indicator = bool(float(output[0][2]) > 0.15)
+
+            if lane_detected == False:
+                steering = 0
+                left_indicator = False
+                right_indicator = False
 
             try:
                 indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
@@ -1238,23 +1253,24 @@ def plugin():
             except:
                 data["sdk"] = {}
 
-            if left_indicator != indicator_left:
-                intended_left_indicator_state = True
-                indicator_left_wait_for_response = True
-                indicator_left_response_timer = current_time
-            if right_indicator != indicator_right:
-                intended_right_indicator_state = True
-                indicator_right_wait_for_response = True
-                indicator_right_response_timer = current_time
+            if enabled == True and gamepaused == False:
+                if left_indicator != indicator_left:
+                    intended_left_indicator_state = True
+                    indicator_left_wait_for_response = True
+                    indicator_left_response_timer = current_time
+                if right_indicator != indicator_right:
+                    intended_right_indicator_state = True
+                    indicator_right_wait_for_response = True
+                    indicator_right_response_timer = current_time
 
-            if indicator_left != indicator_last_left:
-                indicator_left_wait_for_response = False
-            if indicator_right != indicator_last_right:
-                indicator_right_wait_for_response = False
-            if current_time - 1 > indicator_left_response_timer:
-                indicator_left_wait_for_response = False
-            if current_time - 1 > indicator_right_response_timer:
-                indicator_right_wait_for_response = False
+                if indicator_left != indicator_last_left:
+                    indicator_left_wait_for_response = False
+                if indicator_right != indicator_last_right:
+                    indicator_right_wait_for_response = False
+                if current_time - 1 > indicator_left_response_timer:
+                    indicator_left_wait_for_response = False
+                if current_time - 1 > indicator_right_response_timer:
+                    indicator_right_wait_for_response = False
             indicator_last_left = left_indicator
             indicator_last_right = right_indicator
 
@@ -1273,8 +1289,6 @@ def plugin():
             ShowImage.run(frame)
             SDKController.lblinker = bool(indicator_last_left)
             SDKController.rblinker = bool(indicator_last_right)
-
-            return data["NavigationDetection"]
 
         except Exception as e:
             exc = traceback.format_exc()
