@@ -79,6 +79,20 @@ def vehicles(data):
     lastVehicleString = send
     return send
 
+lastSteeringPoints = []
+def steering(data):
+    global lastSteeringPoints
+    steeringPoints = []
+    if data["steeringPoints"] is not None:
+        for point in data["steeringPoints"]:
+            steeringPoints.append(point)
+        lastSteeringPoints = steeringPoints
+    else:
+        steeringPoints = lastSteeringPoints
+        
+    send = "JSONsteeringPoints:" + json.dumps(steeringPoints) + ";"
+    return send
+
 async def start_server(func):
     async with websockets.serve(func, "localhost", 37522):
         await asyncio.Future() # run forever
@@ -108,11 +122,13 @@ def plugin():
     data = TruckSimAPI.run()
     data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
     data["TrafficLights"] = runner.GetData(["tags.TrafficLights"])[0] # Get the traffic lights
+    data["steeringPoints"] = runner.GetData(["Map"])[0]
     
     tempSend = ""
     tempSend += position(data)
     tempSend += speed(data)
     tempSend += vehicles(data)
     tempSend += traffic_lights(data)
+    tempSend += steering(data)
     
     send = tempSend

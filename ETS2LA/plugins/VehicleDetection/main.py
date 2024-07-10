@@ -17,10 +17,12 @@ import os
 runner:PluginRunner = None
 YOLO_FPS = 2 # How many times per second the YOLO model should run
 MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
+
 if MODEL_TYPE == "yolov7":
     MODEL_NAME = "5-31-24_1_yolov7.pt"
 elif MODEL_TYPE == "yolov5":
     MODEL_NAME = "5-25-24_1.pt"
+
 LOADING_TEXT = "Vehicle Detection loading model..."
 
 class Vehicle:

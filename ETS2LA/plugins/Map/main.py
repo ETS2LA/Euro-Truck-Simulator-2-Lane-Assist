@@ -1,5 +1,6 @@
 # Package Imports
 from rich.progress import Progress, TextColumn, BarColumn, TaskProgressColumn, TimeElapsedColumn
+import importlib
 import logging
 import time
 import cv2
@@ -16,6 +17,7 @@ import ETS2LA.backend.sounds as sounds
 # Plugin imports
 from GameData import roads, nodes, prefabs, prefabItems
 import Compute.compute as compute
+plotter = importlib.import_module("Compute.plotter")
 from Visualize import visualize
 
 runner:PluginRunner = None
@@ -63,6 +65,22 @@ def Initialize():
     RAYCASTING = runner.modules.Raycasting
 
 # MARK: Utilities
+
+plotterHash = None
+def UpdatePlotter():
+    global plotterHash
+    global plotter
+    filepath = variables.PATH + "ETS2LA/plugins/Map/Compute/plotter.py"
+    
+    currentHash = ""
+    with open(filepath, "r") as file:
+        currentHash = hash(file.read())
+    
+    if currentHash != plotterHash:
+        logging.warning("Reloading plotter")
+        plotterHash = currentHash
+        # Update the plotter code
+        importlib.reload(plotter)
 
 def GetDistanceFromTruck(x, z, data):
     truckX = data["api"]["truckPlacement"]["coordinateX"]
@@ -235,7 +253,22 @@ def CreateARData(data, closeRoads, closePrefabs):
         
     return arData
 
-externalData = []
+def CreatePlaceholderMapData(data):
+    data.update({ 
+        "map": {
+            "closestItem": None,
+            "closestLane": None,
+            "closestPoint": None,
+            "closestDistance": None,
+            "closestType": None,
+            "inBoundingBox": None,
+            "closestLanes": None,
+            "allPoints": None
+        }
+    })
+    return data
+
+externalData = {}
 def CreateExternalData(closeRoads, closePrefabs, roadUpdate, prefabUpdate):
     global externalData
     if roadUpdate or prefabUpdate:
@@ -295,17 +328,22 @@ def plugin():
     
     if not DATA_LOADED:
         LoadGameData()        
-        
+    
+    data = CreatePlaceholderMapData(data)    
+    
     UpdateSettings()
+    UpdatePlotter()
         
     closeRoads, updatedRoads = compute.GetRoads(data)
     closePrefabs, updatedPrefabs = compute.GetPrefabs(data)
     updatedRoads = compute.CalculateParallelPointsForRoads(closeRoads) # Will slowly populate the lanes over a few frames
     
+    steeringPoints = []
     if COMPUTE_STEERING_DATA:
-        computeData = compute.GetClosestRoadOrPrefabAndLane(data)
-        data.update(computeData)
-        Steering.run(value=data["map"]["closestDistance"], sendToGame=STEERING_ENABLED)
+        #computeData = compute.GetClosestRoadOrPrefabAndLane(data)
+        #data.update(computeData)
+        #Steering.run(value=data["map"]["closestDistance"], sendToGame=STEERING_ENABLED)
+        steeringPoints = plotter.GetNextPoints(data, closeRoads, closePrefabs)
         
     if INTERNAL_VISUALISATION:
         DrawInternalVisualisation(data, closeRoads, closePrefabs)
@@ -318,11 +356,11 @@ def plugin():
     arData = None
     if SEND_AR_DATA:
         arData = CreateARData(data, closeRoads, closePrefabs)
-        return None, {
+        return steeringPoints, {
             "map": externalData,
             "ar": arData,
         }
     
-    return None, {
+    return steeringPoints, {
         "map": externalData,
     }

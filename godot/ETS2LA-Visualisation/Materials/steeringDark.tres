@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://4qef76hrxhn5"]
+
+[resource]
+albedo_color = Color(1.44392e-06, 0.506377, 0.722462, 1)
+metallic_specular = 0.1
+roughness = 0.0
+emission = Color(1, 1, 1, 1)
+distance_fade_max_distance = 0.0
