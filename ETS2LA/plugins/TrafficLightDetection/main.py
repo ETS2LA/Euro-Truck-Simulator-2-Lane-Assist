@@ -296,6 +296,46 @@ def get_ai_device():
     return "CUDA" if torch.cuda.is_available() and settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False) == True else "CPU" if TorchAvailable else "Unknown"
 
 
+def get_ai_properties():
+    if os.path.exists(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel") == False:
+        os.makedirs(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel")
+    model = None
+    for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel"):
+        if file.endswith(".pt"):
+            model = file
+            break
+    if model == None:
+        return "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"
+    MODEL_METADATA = {"data": []}
+    IMG_WIDTH = "UNKNOWN"
+    IMG_HEIGHT = "UNKNOWN"
+    MODEL_EPOCHS = "UNKNOWN"
+    MODEL_BATCH_SIZE = "UNKNOWN"
+    MODEL_IMAGE_COUNT = "UNKNOWN"
+    MODEL_TRAINING_TIME = "UNKNOWN"
+    MODEL_TRAINING_DATE = "UNKNOWN"
+    torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", model), _extra_files=MODEL_METADATA)
+    MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
+    for var in MODEL_METADATA:
+        if "image_width" in var:
+            IMG_WIDTH = int(var.split("#")[1])
+        if "image_height" in var:
+            IMG_HEIGHT = int(var.split("#")[1])
+        if "image_channels" in var:
+            IMG_CHANNELS = str(var.split("#")[1])
+        if "epochs" in var:
+            MODEL_EPOCHS = int(var.split("#")[1])
+        if "batch" in var:
+            MODEL_BATCH_SIZE = int(var.split("#")[1])
+        if "image_count" in var:
+            MODEL_IMAGE_COUNT = int(var.split("#")[1])
+        if "training_time" in var:
+            MODEL_TRAINING_TIME = var.split("#")[1]
+        if "training_date" in var:
+            MODEL_TRAINING_DATE = var.split("#")[1]
+    return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
+
+
 def get_text_size(text="NONE", text_width=100, max_text_height=100):
     fontscale = 1
     textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
@@ -589,7 +629,7 @@ def GetAIModelProperties():
         MODEL_TRAINING_TIME = "UNKNOWN"
         MODEL_TRAINING_DATE = "UNKNOWN"
         if GetAIModelName() == "UNKNOWN":
-            return "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"
+            return
         torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
         MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
         for var in MODEL_METADATA:
@@ -609,13 +649,11 @@ def GetAIModelProperties():
                 MODEL_TRAINING_TIME = var.split("#")[1]
             if "training_date" in var:
                 MODEL_TRAINING_DATE = var.split("#")[1]
-        return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("TrafficLightDetection - Error in function GetAIModelProperties.", str(exc))
         print(f"TrafficLightDetection - Error in function GetAIModelProperties: {ex}")
         console.RestoreConsole()
-        return "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"
 
 
 def GetGamePosition():

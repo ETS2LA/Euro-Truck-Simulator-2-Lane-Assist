@@ -51,7 +51,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
         data = undefined;
         while (data == undefined || data == false)
-            data = (await PluginFunctionCall("TrafficLightDetection", "GetAIModelProperties", [], {"timeout": 15}));
+            data = (await PluginFunctionCall("TrafficLightDetection", "get_ai_properties", [], {"timeout": 15}));
         setModelPropertiesEpochs(data[0]);
         setModelPropertiesBatchSize(data[1]);
         setModelPropertiesImageWidth(data[2]);
