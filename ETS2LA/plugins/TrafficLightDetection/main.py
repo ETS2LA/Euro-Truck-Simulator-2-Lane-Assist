@@ -589,7 +589,7 @@ def GetAIModelProperties():
         MODEL_TRAINING_TIME = "UNKNOWN"
         MODEL_TRAINING_DATE = "UNKNOWN"
         if GetAIModelName() == "UNKNOWN":
-            return
+            return "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"
         torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
         MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
         for var in MODEL_METADATA:
@@ -609,11 +609,13 @@ def GetAIModelProperties():
                 MODEL_TRAINING_TIME = var.split("#")[1]
             if "training_date" in var:
                 MODEL_TRAINING_DATE = var.split("#")[1]
+        return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("TrafficLightDetection - Error in function GetAIModelProperties.", str(exc))
         print(f"TrafficLightDetection - Error in function GetAIModelProperties: {ex}")
         console.RestoreConsole()
+        return "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"
 
 
 def GetGamePosition():

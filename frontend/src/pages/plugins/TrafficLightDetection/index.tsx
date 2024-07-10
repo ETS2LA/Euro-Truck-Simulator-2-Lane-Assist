@@ -27,6 +27,13 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const [ScreenWidth, setScreenWidth] = useState<number | undefined>(undefined);
     const [ScreenHeight, setScreenHeight] = useState<number | undefined>(undefined);
     const [AIDevice, setAIDevice] = useState<string | undefined>(undefined);
+    const [ModelPropertiesEpochs, setModelPropertiesEpochs] = useState<string | undefined>(undefined);
+    const [ModelPropertiesBatchSize, setModelPropertiesBatchSize] = useState<string | undefined>(undefined);
+    const [ModelPropertiesImageWidth, setModelPropertiesImageWidth] = useState<string | undefined>(undefined);
+    const [ModelPropertiesImageHeight, setModelPropertiesImageHeight] = useState<string | undefined>(undefined);
+    const [ModelPropertiesDataPoints, setModelPropertiesDataPoints] = useState<string | undefined>(undefined);
+    const [ModelPropertiesTrainingTime, setModelPropertiesTrainingTime] = useState<string | undefined>(undefined);
+    const [ModelPropertiesTrainingDate, setModelPropertiesTrainingDate] = useState<string | undefined>(undefined);
 
     const GetPythonData = async () => {
         let data = undefined;
@@ -36,10 +43,22 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         setScreenY(data[1]);
         setScreenWidth(data[2]);
         setScreenHeight(data[3]);
+
         data = undefined;
         while (data == undefined || data == false)
             data = (await PluginFunctionCall("TrafficLightDetection", "get_ai_device", [], {"timeout": 15}));
         setAIDevice(data);
+
+        data = undefined;
+        while (data == undefined || data == false)
+            data = (await PluginFunctionCall("TrafficLightDetection", "GetAIModelProperties", [], {"timeout": 15}));
+        setModelPropertiesEpochs(data[0]);
+        setModelPropertiesBatchSize(data[1]);
+        setModelPropertiesImageWidth(data[2]);
+        setModelPropertiesImageHeight(data[3]);
+        setModelPropertiesDataPoints(data[4]);
+        setModelPropertiesTrainingTime(data[5]);
+        setModelPropertiesTrainingDate(data[6]);
     }
     useEffect(() => { GetPythonData(); }, []);
 
@@ -719,6 +738,19 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             </Label>
                         </div>
                         )}
+
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
+                            <Label>
+                                <span className="font-bold">Model Properties</span><br />
+                                Epochs: {ModelPropertiesEpochs}<br />
+                                Batch Size: {ModelPropertiesBatchSize}<br />
+                                Image Width: {ModelPropertiesImageWidth}<br />
+                                Image Height: {ModelPropertiesImageHeight}<br />
+                                Images/Data Points: {ModelPropertiesDataPoints}<br />
+                                Training Time: {ModelPropertiesTrainingTime}<br />
+                                Training Date: {ModelPropertiesTrainingDate}
+                            </Label>
+                        </div>
 
                     </div>
 
