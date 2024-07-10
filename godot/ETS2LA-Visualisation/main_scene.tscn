@@ -47,7 +47,7 @@ offset = Vector3(0, 0.8, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.799465, 0)
 script = ExtResource("2_6bj65")
 target = NodePath("../Truck")
-reverseOffsetRotationDegrees = Vector3(0, 180, 0)
+reverseOffsetRotation = Vector3(0, 3.14, 0)
 
 [node name="Camera3D" type="Camera3D" parent="TruckTracker"]
 transform = Transform3D(1, 0, 0, 0, 0.901833, 0.432086, 0, -0.432086, 0.901833, 0, 8, 13)

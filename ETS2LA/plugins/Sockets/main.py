@@ -52,7 +52,13 @@ def speed(data):
     send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
     return send
 
+lastVehicles = [""]
+lastVehicleString = ""
 def vehicles(data):
+    global lastVehicles, lastVehicleString
+    if data["vehicles"] == lastVehicles:
+        return lastVehicleString
+    
     if data["vehicles"] is not None:
         newVehicles = []
         for vehicle in data["vehicles"]:
@@ -69,6 +75,8 @@ def vehicles(data):
         data["vehicles"] = newVehicles
     
     send = "JSONvehicles:" + json.dumps(data["vehicles"]) + ";"
+    lastVehicles = data["vehicles"]
+    lastVehicleString = send
     return send
 
 async def start_server(func):
@@ -108,7 +116,3 @@ def plugin():
     tempSend += traffic_lights(data)
     
     send = tempSend
-    
-    time.sleep(0.01) # Relieve time for other threads
-    
-    
