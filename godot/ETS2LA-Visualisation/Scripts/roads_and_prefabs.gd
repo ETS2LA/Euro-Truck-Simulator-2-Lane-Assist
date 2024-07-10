@@ -224,10 +224,10 @@ func _process(delta: float) -> void:
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
 		
-		if typeof(SteeringData[0]) == typeof("Not loaded yet"):
-			return
-		
 		if len(SteeringData) == 0:
+			return
+			
+		if typeof(SteeringData[0]) == typeof("Not loaded yet"):
 			return
 		
 		var position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
