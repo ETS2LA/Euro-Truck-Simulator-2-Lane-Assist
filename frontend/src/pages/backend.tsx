@@ -79,13 +79,13 @@ export async function GetIP(ip="localhost"): Promise<string> {
     return data
 }
 
-export async function PluginFunctionCall(plugin:string, method:string, args:any, kwargs:any, ip="localhost", run_innit:boolean=false) {
+export async function PluginFunctionCall(plugin:string, method:string, args:any, kwargs:any, ip="localhost") {
     const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/call/${method}`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({args: args, kwargs: kwargs, run_innit: run_innit})
+        body: JSON.stringify({args: args, kwargs: kwargs})
     })
     const data = await response.json()
     return data

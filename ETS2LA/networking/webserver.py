@@ -152,14 +152,13 @@ from pydantic import BaseModel
 class PluginCallData(BaseModel):
     args: list
     kwargs: dict
-    run_init: bool
 
 @app.post("/api/plugins/{plugin}/call/{function}")
 def call_plugin_function(plugin: str, function: str, data: PluginCallData = None):
     if data is None:
         data = PluginCallData()
     
-    returnData = backend.CallPluginFunction(plugin, function, data.args, data.kwargs, data.run_init)
+    returnData = backend.CallPluginFunction(plugin, function, data.args, data.kwargs)
     if returnData == False or returnData == None:
         return False
     else:

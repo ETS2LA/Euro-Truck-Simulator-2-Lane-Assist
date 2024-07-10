@@ -10,7 +10,6 @@ import sys
 import logging
 import psutil
 import os
-import importlib
 import ETS2LA.backend.git as git
 
 global commits_save
@@ -194,7 +193,7 @@ def GetEnabledPlugins():
         
     return ENABLED_PLUGINS
     
-def CallPluginFunction(plugin, function, args, kwargs, run_innit):
+def CallPluginFunction(plugin, function, args, kwargs):
     if "timeout" in kwargs:
         timeout = kwargs["timeout"]
         kwargs.pop("timeout")
@@ -206,18 +205,6 @@ def CallPluginFunction(plugin, function, args, kwargs, run_innit):
         
     try:
         if plugin in runners:
-            if run_innit:
-                plugin_path = "ETS2LA.plugins." + plugin + ".main"
-                try:
-                    plugin = importlib.import_module(plugin_path)
-                except:
-                    print(f"Failed to import plugin {plugin}")
-
-                try:
-                    plugin.Initialize()
-                except Exception as e:
-                    print(f"Failed to initialize plugin {plugin} with error:\n{traceback.format_exc()}")
-
             runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
             
             # Create a separate thread to call join()
