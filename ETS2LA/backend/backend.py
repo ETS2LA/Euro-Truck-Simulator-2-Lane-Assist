@@ -22,16 +22,22 @@ class PluginRunnerController():
         global runners
         runners[pluginName] = self # So that we can access this runner later from the main thread or other runners.
         self.pluginName = pluginName
+        
         # Make the queue (comms) and start the process.
         self.queue = multiprocessing.JoinableQueue()
         self.functionQueue = multiprocessing.JoinableQueue()
         self.eventQueue = multiprocessing.JoinableQueue()
         self.immediateQueue = multiprocessing.JoinableQueue()
         self.returnPipe, pluginReturnPipe = multiprocessing.Pipe()
+        
         self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.functionQueue, pluginReturnPipe, self.eventQueue, self.immediateQueue, ), daemon=True)
         self.runner.start()
+        
         self.process = self.runner.pid
         self.process_info = []
+        
+        self.lastData = "Plugin has not returned any data yet."
+        
         self.run()
     
     def immediateQueueThread(self):
@@ -126,7 +132,11 @@ class PluginRunnerController():
                                 self.queue.put(None)
                         
                         if plugin in runners:
-                            self.queue.put(runners[plugin].lastData)
+                            try:
+                                self.queue.put(runners[plugin].lastData)
+                            except:
+                                logging.debug(f"Plugin ({self.pluginName}) is trying to get data from another plugin ({plugin}) that has not been initialized yet.")
+                                self.queue.put(None)
                         else:
                             self.queue.put(None)
                 else:
@@ -139,10 +149,7 @@ class PluginRunnerController():
                     self.lastData = normData
                     globalData.update(tags) # TODO: This is a temporary solution. We need to find a better way to handle this.
                 else:
-                    self.lastData = data
-                
-                continue
-        
+                    self.lastData = data        
         
 runners = {}
 frameTimes = {}
@@ -313,7 +320,7 @@ def GetPerformance():
                             "name": runners[runner].pluginName,
                             "data": data
                         }
-                        currentProcessData["data"]["frametime"] = frameTimes[runners[runner].pluginName][count]["frametime"] + frameTimes[runners[runner].pluginName][count]["executiontime"]
+                        currentProcessData["data"]["frametime"] = frameTimes[runners[runner].pluginName][count]["frametime"] # + frameTimes[runners[runner].pluginName][count]["executiontime"]
                         runnerData["data"].append(currentProcessData)
                         count += 1
                     except:

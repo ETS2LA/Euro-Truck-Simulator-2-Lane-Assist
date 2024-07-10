@@ -1,3 +1,4 @@
+from ETS2LA.backend.globalServer import SendCrashReport
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.variables as variables
@@ -9,9 +10,6 @@ import time
 import sys
 
 runner:PluginRunner = None
-
-def SendCrashReport(): # REMOVE THIS LATER
-    return
 
 def Initialize():
     global TruckSimAPI

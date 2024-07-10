@@ -1,14 +1,22 @@
+from ETS2LA.plugins.runner import PluginRunner
+import screeninfo
+import win32gui
+import mouse
 import numpy
 import math
-import mouse
-import screeninfo
-from ETS2LA.plugins.runner import PluginRunner
 
 FOV = 77 # Vertical fov in degrees
 CAMERA_HEIGHT = 1.5 # Height of the camera in meters
 WHEEL_OFFSET = 0.5 # Wheel size to offset the camera in meters
+CURRENT_HORIZON = 0 # Current Y pixel value of the horizon
 
 runner:PluginRunner = None
+
+window_x = 0
+window_y = 0
+window_width = 0
+window_height = 0
+last_window_position = (0, 0, 0, 0, 0)
 
 class RaycastResponse:
     point: tuple
@@ -25,102 +33,148 @@ def Initialize():
     global API
     API = runner.modules.TruckSimAPI
 
+def UpdateGamePosition():
+    global window_x
+    global window_y
+    global window_width
+    global window_height
+    global last_window_position
+    
+    current_time = time.time()
+    if last_window_position[0] + 3 < current_time:
+        hwnd = None
+        top_windows = []
+        win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+        for hwnd, window_text in top_windows:
+            if "Truck Simulator" in window_text and "Discord" not in window_text:
+                rect = win32gui.GetClientRect(hwnd)
+                tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                window_x = window[0]
+                window_y = window[1]
+                window_width = window[2]
+                window_height = window[3]
+                break
+
+        last_window_position = (current_time, window[0], window[1], window[2], window[3])
+
 screen = screeninfo.get_monitors()[0]
-def GetScreenPointAngle(x, y, headRotation):
-    # Get the screen size
-    screen_width = screen.width
-    screen_height = screen.height
-    default_ratio = 16 / 9
-    ratio = screen_width / screen_height
+def RaycastToPlaneBackup(screen_x: float, screen_y: float, plane_height: float):
+    # Assuming head_rotation_degrees_x/y/z, screen, FOV, window_width, window_height are defined elsewhere
 
-    # Convert x and y to integers once
-    x = int(x)
-    y = int(y)
+    # Make the head rotation easier to read
+    head_yaw = -head_rotation_degrees_x
+    head_pitch = -head_rotation_degrees_y
+    head_roll = -head_rotation_degrees_z
 
-    # Get the percentage of the screen the mouse is at
-    x_percentage = x / screen_width
-    y_percentage = y / screen_height
+    # Make the truck rotation easier to read
+    truck_yaw = -truck_rotation_degrees_x
+    truck_pitch = -truck_rotation_degrees_y
+    truck_roll = -truck_rotation_degrees_z
 
-    # Check if the mouse is at the top or bottom of the screen
-    verticalAngle = ((y_percentage - 0.5) * FOV) if y_percentage >= 0.5 else -((0.5 - y_percentage) * FOV)
+    # Inverting the screen Y coordinate
+    screen_y = screen.height - screen_y
 
-    # Calculate the horizontal fov
-    vFOVrad = FOV * math.pi / 180
-    #hFOVrad = math.atan(math.tan(vFOVrad / 2) * ratio)
-    #hFOVdeg = hFOVrad * 180 / math.pi
-
-    # Calculate the horizontal angle
-    #horizontalAngle = (x_percentage - 0.5) * hFOVdeg
-    
-    # Calculate the horizontal angle
-    # Convert screen coordinates back to relative 3D space considering head rotation
+    # Inverting the projection to 3D space
     fov_rad = math.radians(FOV)
-    window_distance = (screen_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
+    window_distance = (window_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
+    final_x = ((screen_x - window_width / 2) / window_distance)
+    final_y = ((screen_y - window_height / 2) / window_distance)
+    final_z = -1  # Direction vector pointing straight out from the camera
 
-    # Adjust x and y from screen to center-relative coordinates
-    center_x = x - screen_width / 2
-    center_y = y - screen_height / 2
+    # Apply head rotations
+    # Roll
+    cos_roll = math.cos(math.radians(-head_roll))
+    sin_roll = math.sin(math.radians(-head_roll))
+    new_x = final_x * cos_roll + final_y * sin_roll
+    new_y = final_y * cos_roll - final_x * sin_roll
+    final_x, final_y = new_x, new_y
 
-    # Reverse the screen projection
-    rel_x = center_x / window_distance
-    rel_y = center_y / window_distance
+    # Pitch
+    cos_pitch = math.cos(math.radians(head_pitch))
+    sin_pitch = math.sin(math.radians(head_pitch))
+    new_y = final_y * cos_pitch + final_z * sin_pitch
+    new_z = final_z * cos_pitch - final_y * sin_pitch
+    final_y, final_z = new_y, new_z
 
-    # Apply inverse head rotation transformations
-    cos_yaw = math.cos(math.radians(headRotation[0]))
-    sin_yaw = math.sin(math.radians(headRotation[0]))
-    cos_pitch = math.cos(math.radians(headRotation[1]))
-    sin_pitch = math.sin(math.radians(headRotation[1]))
+    # Yaw
+    cos_yaw = math.cos(math.radians(head_yaw))
+    sin_yaw = math.sin(math.radians(head_yaw))
+    new_x = final_x * cos_yaw - final_z * sin_yaw
+    new_z = final_z * cos_yaw + final_x * sin_yaw
+    final_x, final_z = new_x, new_z
 
-    # Correctly apply inverse pitch rotation first
-    temp_x_pitch = rel_x
-    temp_y_pitch = rel_y * cos_pitch - rel_y * sin_pitch
+    # Calculate intersection with the horizontal plane
+    # Assuming the camera is at (head_x, head_y, head_z)
+    # And the direction vector is (final_x, final_y, final_z)
+    # We want to find t such that head_y + t*final_y = plane_height
+    if final_y == 0:
+        return None  # Parallel to the plane, no intersection
+    t = (plane_height - head_y) / final_y
+    x = head_x + t * final_x
+    y = plane_height
+    z = head_z + t * final_z
 
-    # Then apply inverse yaw rotation correctly
-    final_x = temp_x_pitch * cos_yaw - temp_y_pitch * sin_yaw
-    final_y = temp_y_pitch * cos_yaw + temp_x_pitch * sin_yaw
+    return x, y, z
 
-    # Calculate angles based on adjusted coordinates
-    horizontalAngle = math.atan2(final_x, 1) * 180 / math.pi  # Corrected horizontal angle calculation
-    #verticalAngle = math.atan2(final_y, 1) * 180 / math.pi
-
-    # Add the head rotation to the angles to get the final angles
-    horizontalAngle -= headRotation[0]
-    verticalAngle -= headRotation[1]
-
-    return (horizontalAngle, verticalAngle)
+def RaycastToPlane(screen_x: float, screen_y: float, plane_height: float):
+    # Assuming head_rotation_degrees_x/y/z, screen, FOV, window_width, window_height are defined elsewhere
+    # Make the truck rotation easier to read
+    truck_yaw = truck_rotation_degrees_x
+    truck_pitch = truck_rotation_degrees_y
+    truck_roll = truck_rotation_degrees_z
     
+    
+    # Make the head rotation easier to read
+    head_yaw = -head_rotation_degrees_x
+    head_pitch = -(head_rotation_degrees_y - truck_pitch)
+    head_roll = -(head_rotation_degrees_z - truck_roll)
 
-def GetCollisionPointWithGround(horizontalAngle, verticalAngle):
-    try:
-        # Calculate the horizontal distance to the point
-        horizontal_distance = CAMERA_HEIGHT / math.tan(math.radians(verticalAngle))
-        # Calculate the x and z coordinates of the point
-        x = horizontal_distance * math.sin(math.radians(-horizontalAngle))
-        z = horizontal_distance * math.cos(math.radians(horizontalAngle))
-        y = 0
-    except:
-        x = 0
-        y = 0
-        z = 0
-    return (x, y, z)
+    # Inverting the screen Y coordinate
+    screen_y = screen.height - screen_y
 
-def RotateAroundCenter(point, center, angle):
-    """Rotate a point around a center point.
+    # Inverting the projection to 3D space
+    fov_rad = math.radians(FOV)
+    window_distance = (window_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
+    final_x = ((screen_x - window_width / 2) / window_distance)
+    final_y = ((screen_y - window_height / 2) / window_distance)
+    final_z = -1  # Direction vector pointing straight out from the camera
 
-    Args:
-        point (tuple): Point to rotate.
-        center (tuple): Center point.
-        angle (float): Angle in radians.
+    # Apply head rotations
+    # Roll
+    cos_roll = math.cos(math.radians(-head_roll))
+    sin_roll = math.sin(math.radians(-head_roll))
+    new_x = final_x * cos_roll + final_y * sin_roll
+    new_y = final_y * cos_roll - final_x * sin_roll
+    final_x, final_y = new_x, new_y
 
-    Returns:
-        tuple: Rotated point.
-    """
-    pointX = point[0] - center[0]
-    pointY = point[1] - center[1]
-    newx = pointX * math.cos(angle) - pointY * math.sin(angle)
-    newy = pointX * math.sin(angle) + pointY * math.cos(angle)
-    return (newx + center[0], newy + center[1])
+    # Pitch
+    cos_pitch = math.cos(math.radians(head_pitch))
+    sin_pitch = math.sin(math.radians(head_pitch))
+    new_y = final_y * cos_pitch + final_z * sin_pitch
+    new_z = final_z * cos_pitch - final_y * sin_pitch
+    final_y, final_z = new_y, new_z
 
+    # Yaw
+    cos_yaw = math.cos(math.radians(head_yaw))
+    sin_yaw = math.sin(math.radians(head_yaw))
+    new_x = final_x * cos_yaw - final_z * sin_yaw
+    new_z = final_z * cos_yaw + final_x * sin_yaw
+    final_x, final_z = new_x, new_z
+
+    # Calculate intersection with the horizontal plane
+    # Assuming the camera is at (head_x, head_y, head_z)
+    # And the direction vector is (final_x, final_y, final_z)
+    # We want to find t such that head_y + t*final_y = plane_height
+    if final_y == 0:
+        return None  # Parallel to the plane, no intersection
+    t = (plane_height - head_y) / final_y
+    x = head_x + t * final_x
+    y = plane_height
+    z = head_z + t * final_z
+
+    return x, y, z
 
 def GetValuesFromAPI():
     global CAMERA_HEIGHT
@@ -249,38 +303,24 @@ def GetValuesFromAPI():
         head_z = 0
 
     CAMERA_HEIGHT = head_y - truck_y + WHEEL_OFFSET
-    # Remove the truck rotation from the head rotation (normalize truck rotation as the plane rotation)
-    head_rotation_x = head_rotation_degrees_x - truck_rotation_degrees_x
-    head_rotation_y = head_rotation_degrees_y - truck_rotation_degrees_y
-    head_rotation_z = head_rotation_degrees_z - truck_rotation_degrees_z
-    # Remove the truck position from the head position (normalize truck position as the plane position)
-    head_x = head_x - truck_x
-    head_y = head_y - truck_y
-    head_z = head_z - truck_z
-    # Return the values
-    return (head_x, head_y, head_z), (head_rotation_x, head_rotation_y, head_rotation_z), (truck_x, truck_y, truck_z), (truck_rotation_radians_x, truck_rotation_radians_y, truck_rotation_radians_z)
 
 import time
 def run(x=None, y=None):
-    # Get values from the API
-    headPos, headRotation, truckPos, truckRotation = GetValuesFromAPI()
+    GetValuesFromAPI()
+    UpdateGamePosition()
     # Get the mouse position
     if x == None and y == None:
         x, y = mouse.get_position()
-    # Calculate the angle of the ray
-    horizontal, vertical = GetScreenPointAngle(x, y, headRotation)
-    # Get the position of the collision point 
-    point = GetCollisionPointWithGround(horizontal, vertical)
-    # Distance to the point
-    distance = math.sqrt(point[0] ** 2 + point[1] ** 2 + point[2] ** 2)
-    # Add the truck position back to the point
-    relativePoint = (point[0], point[1], point[2])
-    point = (point[0] + truckPos[0], point[1] + truckPos[1], point[2] + truckPos[2])
-    # Rotate the point around the truck to match the truck rotation
-    new_x, new_z = RotateAroundCenter((point[0], point[2]), (truckPos[0], truckPos[2]), truckRotation[0] + math.pi)
-    # Rotate the relative point around 0 to match the truck rotation
-    relativePoint = RotateAroundCenter((relativePoint[0], relativePoint[2]), (0, 0), truckRotation[0] + math.pi)
+
+    x, y, z = RaycastToPlane(x, y, truck_y)
+
+    distance = math.sqrt((x - truck_x) ** 2 + (y - truck_y) ** 2 + (z - truck_z) ** 2)
+
+    relative_x = x - truck_x
+    relative_y = y - truck_y
+    relative_z = z - truck_z
+
     # Return the values
-    return RaycastResponse((new_x, point[1], new_z), distance, (relativePoint[0], CAMERA_HEIGHT, relativePoint[1]))
+    return RaycastResponse((x, y, z), distance, (relative_x, relative_y, relative_z))
 
     

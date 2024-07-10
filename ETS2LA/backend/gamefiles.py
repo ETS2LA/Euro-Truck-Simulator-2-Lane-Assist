@@ -6,8 +6,7 @@ import os
 import winreg
 import traceback
 import ctypes.wintypes
-#from src.server import SendCrashReport
-def SendCrashReport(): return
+from ETS2LA.backend.globalServer import SendCrashReport
 
 RED = "\033[91m"
 NORMAL = "\033[0m"

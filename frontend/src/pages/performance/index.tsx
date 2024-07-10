@@ -61,7 +61,7 @@ export default function Home({ ip }: { ip: string }) {
         let cpuPoints = array.map((point:any) => point.data.cpu);
         let memPoints = array.map((point:any) => point.data.mem);
         let diskPoints = array.map((point:any) => point.data.disk);
-        let fps = array.map((point:any) => 1/point.data.frametime*2);
+        let fps = array.map((point:any) => 1/point.data.frametime);
 
         let cpuSimplified = movingAverage(cpuPoints, size);
         let memSimplified = movingAverage(memPoints, size);

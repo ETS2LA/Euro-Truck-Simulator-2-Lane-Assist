@@ -52,8 +52,6 @@ optimizedNodes = {}
 nodeFileName = PATH + "ETS2LA/plugins/Map/GameData/nodes.json"
 itemsCalculated = False
 
-from functools import reduce
-from operator import getitem
 # https://stackoverflow.com/a/70377616
 def set_nested_item(dataDict, mapList, val):
     """Set item in nested dictionary"""
@@ -73,12 +71,12 @@ def LoadNodes():
     global nodes
     global optimizedNodes
     
+    progress.update(task, description="[green]nodes\n[/green][dim]reading JSON...[/dim]")
+    
     jsonData = json.load(open(nodeFileName))
     jsonLength = len(jsonData)
+    progress.update(task, total=jsonLength, description="[green]nodes\n[/green][dim]parsing...[/dim]", completed=0)
     
-    progress.update(task, total=jsonLength, description="[green]nodes\n[/green][dim]reading JSON...[/dim]")
-
-    count = 0
     for node in jsonData:
         nodeObj = Node()
         nodeObj.Uid = node["Uid"]
@@ -103,9 +101,9 @@ def LoadNodes():
             nodeObj.BackwardItem = None
         
         nodes.append(nodeObj)
-        count += 1
-        progress.update(task, completed=count)
+        progress.advance(task)
             
+    del jsonData
             
     progress.update(task, total=len(nodes), description="[green]nodes\n[/green][dim]optimizing...[/dim]", completed=0)
     progress.refresh()
@@ -121,9 +119,10 @@ def LoadNodes():
             progress.refresh()
         
         count += 1
-        
+    
     progress.update(task, total=len(nodes), description="[green]nodes[/green]")
     print(f"Node parsing done!")
+    
     
 def GetNodeByUid(uid):
     if uid == 0:
@@ -215,4 +214,4 @@ def CalculateForwardAndBackwardItemsForNodes():
     progress.update(task, total=count, description="[green]nodes[/green]")
             
     #sys.stdout.write(f" > {i} ({round(i/count*100)}%)... done!                          \n\n")
-    roads.MatchRoadsToNodes(output=False)
+    roads.MatchRoadsToNodes()

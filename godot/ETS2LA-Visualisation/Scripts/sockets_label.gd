@@ -40,6 +40,7 @@ func _process(delta: float) -> void:
 					if socketData[key] == null or socketData[key].data == null:
 						textToAdd += "\n" + str(key) + ": unknown"
 					else:
+						#print(str(socketData[key].data))
 						textToAdd += "\n" + str(key) + ": " + str(len(socketData[key].data)) + " entries"
 				else:
 					textToAdd += "\n" + str(key) + ": " + str(socketData[key])

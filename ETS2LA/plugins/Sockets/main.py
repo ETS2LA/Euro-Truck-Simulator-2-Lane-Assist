@@ -41,26 +41,57 @@ def position(data):
 
 def traffic_lights(data):
     try:
-        send = "JSONtrafficLights:" + json.dumps(data["trafficLights"]) + ";"
+        send = "JSONTrafficLights:" + json.dumps(data["TrafficLights"]) + ";"
     except:
-        for i in range(0, len(data["trafficLights"])):
-            data["trafficLights"][i] = data["trafficLights"][i].json()
-        send = "JSONtrafficLights:" + json.dumps(data["trafficLights"]) + ";"
+        for i in range(0, len(data["TrafficLights"])):
+            data["TrafficLights"][i] = data["TrafficLights"][i].json()
+        send = "JSONTrafficLights:" + json.dumps(data["TrafficLights"]) + ";"
     return send
 
 def speed(data):
     send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
     return send
 
+lastVehicles = [""]
+lastVehicleString = ""
 def vehicles(data):
+    global lastVehicles, lastVehicleString
+    if data["vehicles"] == lastVehicles:
+        return lastVehicleString
+    
     if data["vehicles"] is not None:
         newVehicles = []
         for vehicle in data["vehicles"]:
-            newVehicles.append(vehicle.json())
-        
+            if isinstance(vehicle, dict):
+                newVehicles.append(vehicle)
+            else:
+                try:
+                    newVehicles.append(vehicle.json())
+                except:
+                    try:
+                        newVehicles.append(vehicle.__dict__)
+                    except:
+                        pass
         data["vehicles"] = newVehicles
     
     send = "JSONvehicles:" + json.dumps(data["vehicles"]) + ";"
+    lastVehicles = data["vehicles"]
+    lastVehicleString = send
+    return send
+
+lastSteeringPoints = []
+def steering(data):
+    global lastSteeringPoints
+    steeringPoints = []
+    if data["steeringPoints"] is not None:
+        for point in data["steeringPoints"]:
+            steeringPoints.append(point)
+        lastSteeringPoints = steeringPoints
+    else:
+        steeringPoints = lastSteeringPoints
+        
+    
+    send = "JSONsteeringPoints:" + json.dumps(steeringPoints) + ";"
     return send
 
 async def start_server(func):
@@ -90,17 +121,15 @@ def Initialize():
 def plugin():
     global send
     data = TruckSimAPI.run()
+    data["steeringPoints"] = runner.GetData(["Map"])[0]
     data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
-    data["trafficLights"] = runner.GetData(["tags.trafficLights"])[0] # Get the traffic lights
+    data["TrafficLights"] = runner.GetData(["tags.TrafficLights"])[0] # Get the traffic lights
     
     tempSend = ""
     tempSend += position(data)
     tempSend += speed(data)
     tempSend += vehicles(data)
     tempSend += traffic_lights(data)
+    tempSend += steering(data)
     
     send = tempSend
-    
-    time.sleep(0.01) # Relieve time for other threads
-    
-    

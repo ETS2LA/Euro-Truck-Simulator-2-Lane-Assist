@@ -15,7 +15,6 @@ func _process(delta: float) -> void:
 		self.remove_child(n)
 		n.queue_free() 
 	
-	var newObjects = []
 	if Sockets.data != {}:
 		var vehicleData = Sockets.data["JSONvehicles"].data
 		if vehicleData != null:
@@ -34,6 +33,8 @@ func _process(delta: float) -> void:
 				
 				if distance < 1:
 					distance = 1
+				
+
 				
 				if type == "car":
 					var car = carScene.instantiate()

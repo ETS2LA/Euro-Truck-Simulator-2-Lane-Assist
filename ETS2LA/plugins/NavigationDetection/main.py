@@ -1,3 +1,4 @@
+from ETS2LA.backend.globalServer import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
@@ -13,9 +14,6 @@ import time
 import cv2
 import mss
 import os
-
-def SendCrashReport(arg1="", arg2=""): # REMOVE THIS LATER
-    return
 
 try:
     from torchvision import transforms
@@ -146,9 +144,17 @@ def Initialize():
 
     if 'UseAI' in globals():
         if UseAI == False and settings.Get("NavigationDetection", "UseNavigationDetectionAI", False) == True:
-            LoadAIModel()
+            if TorchAvailable == True:
+                LoadAIModel()
+            else:
+                print("TrafficLightDetectionAI not available due to missing dependencies.")
+                console.RestoreConsole()
     elif settings.Get("NavigationDetection", "UseNavigationDetectionAI", False) == True:
-        LoadAIModel()
+        if TorchAvailable == True:
+            LoadAIModel()
+        else:
+            print("TrafficLightDetectionAI not available due to missing dependencies.")
+            console.RestoreConsole()
     UseAI = settings.Get("NavigationDetection", "UseNavigationDetectionAI", False)
     UseCUDA = settings.Get("NavigationDetection", "TryCUDA", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
@@ -368,6 +374,13 @@ def CheckForAIModelUpdates():
                     LoadAILabel = "Checking for AI model updates..."
 
                     print("\033[92m" + f"Checking for AI model updates..." + "\033[0m")
+
+                    if settings.Get("NavigationDetection", "LastUpdateCheck", 0) + 600 > time.time():
+                        LoadAIProgress = 100
+                        LoadAILabel = "Skipping AI model update check, last check was less than 10 minutes ago."
+                        print("\033[92m" + f"Skipping AI model update check, last check was less than 10 minutes ago." + "\033[0m")
+                        return
+                    settings.Set("NavigationDetection", "LastUpdateCheck", round(time.time()))
 
                     url = "https://huggingface.co/Glas42/NavigationDetectionAI/tree/main/model"
                     response = requests.get(url)
@@ -1166,7 +1179,7 @@ def plugin():
         SDKController.lblinker = bool(intended_left_indicator_state)
         SDKController.rblinker = bool(intended_right_indicator_state)
 
-        return data["NavigationDetection"]
+        return turnincoming_detected
 
     else:
 
@@ -1188,14 +1201,19 @@ def plugin():
                 return
 
             if frame is None: return
-            if width <= 0 or width == None: return
-            if height <= 0 or height == None: return
+            if width == 0 or width == None: return
+            if height == 0 or height == None: return
 
             if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
                 valid_frame = True
             else:
                 valid_frame = False
                 return
+
+            try:
+                gamepaused = data["api"]["pause"]
+            except:
+                gamepaused = False
 
             cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             cv2.rectangle(frame, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
@@ -1204,6 +1222,11 @@ def plugin():
             mask = cv2.inRange(frame, lower_red, upper_red)
             frame_with_mask = cv2.bitwise_and(frame, frame, mask=mask)
             frame = cv2.cvtColor(frame_with_mask, cv2.COLOR_BGR2GRAY)
+
+            if cv2.countNonZero(frame) / (frame.shape[0] * frame.shape[1]) > 0.03:
+                lane_detected = True
+            else:
+                lane_detected = False
 
             try:
                 AIFrame = preprocess_image(mask)
@@ -1218,7 +1241,7 @@ def plugin():
 
             output = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
-            if enabled == True:
+            if enabled == True and gamepaused == False:
                 if AIModelLoaded == True:
                     with torch.no_grad():
                         output = AIModel(AIFrame)
@@ -1227,6 +1250,11 @@ def plugin():
             steering = float(output[0][0]) / -30
             left_indicator = bool(float(output[0][1]) > 0.15)
             right_indicator = bool(float(output[0][2]) > 0.15)
+
+            if lane_detected == False:
+                steering = 0
+                left_indicator = False
+                right_indicator = False
 
             try:
                 indicator_left = data["api"]["truckBool"]["blinkerLeftActive"]
@@ -1240,31 +1268,26 @@ def plugin():
             except:
                 data["sdk"] = {}
 
-            if left_indicator != indicator_left:
-                intended_left_indicator_state = True
-                indicator_left_wait_for_response = True
-                indicator_left_response_timer = current_time
-            if right_indicator != indicator_right:
-                intended_right_indicator_state = True
-                indicator_right_wait_for_response = True
-                indicator_right_response_timer = current_time
+            if enabled == True and gamepaused == False:
+                if left_indicator != indicator_left:
+                    intended_left_indicator_state = True
+                    indicator_left_wait_for_response = True
+                    indicator_left_response_timer = current_time
+                if right_indicator != indicator_right:
+                    intended_right_indicator_state = True
+                    indicator_right_wait_for_response = True
+                    indicator_right_response_timer = current_time
 
-            if indicator_left != indicator_last_left:
-                indicator_left_wait_for_response = False
-            if indicator_right != indicator_last_right:
-                indicator_right_wait_for_response = False
-            if current_time - 1 > indicator_left_response_timer:
-                indicator_left_wait_for_response = False
-            if current_time - 1 > indicator_right_response_timer:
-                indicator_right_wait_for_response = False
+                if indicator_left != indicator_last_left:
+                    indicator_left_wait_for_response = False
+                if indicator_right != indicator_last_right:
+                    indicator_right_wait_for_response = False
+                if current_time - 1 > indicator_left_response_timer:
+                    indicator_left_wait_for_response = False
+                if current_time - 1 > indicator_right_response_timer:
+                    indicator_right_wait_for_response = False
             indicator_last_left = left_indicator
             indicator_last_right = right_indicator
-
-            data["NavigationDetection"] = {}
-            if left_indicator == True or right_indicator == True:
-                data["NavigationDetection"]["turnincoming"] = True
-            else:
-                data["NavigationDetection"]["turnincoming"] = False
 
             frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
 
@@ -1276,7 +1299,7 @@ def plugin():
             SDKController.lblinker = bool(indicator_last_left)
             SDKController.rblinker = bool(indicator_last_right)
 
-            return data["NavigationDetection"]
+            return left_indicator == True or right_indicator == True
 
         except Exception as e:
             exc = traceback.format_exc()

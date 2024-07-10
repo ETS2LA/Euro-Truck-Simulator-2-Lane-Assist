@@ -37,6 +37,12 @@ def InitializeWindow(windowName, img):
         win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
         win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
 
+def DestroyWindow(windowName):
+    try:
+        cv2.destroyWindow(windowName)
+    except:
+        pass
+
 def Initialize():
     pass # Do nothing
 

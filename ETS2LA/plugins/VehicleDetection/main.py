@@ -1,3 +1,4 @@
+from ETS2LA.backend.globalServer import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner  
 import ETS2LA.backend.variables as variables
 import ETS2LA.backend.settings as settings
@@ -16,10 +17,12 @@ import os
 runner:PluginRunner = None
 YOLO_FPS = 2 # How many times per second the YOLO model should run
 MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
+
 if MODEL_TYPE == "yolov7":
     MODEL_NAME = "5-31-24_1_yolov7.pt"
 elif MODEL_TYPE == "yolov5":
     MODEL_NAME = "5-25-24_1.pt"
+
 LOADING_TEXT = "Vehicle Detection loading model..."
 
 class Vehicle:
@@ -38,9 +41,6 @@ class Vehicle:
             "vehicleType": self.vehicleType
         }
     
-
-def SendCrashReport(): # REMOVE THIS LATER
-    return
 
 def Initialize():
     global ShowImage
