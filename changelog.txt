@@ -1,2 +1,2 @@
-1.11.57: Fixed some color channel issues in the data collection code.
 1.11.58: Changed capture area for mirrors in data collection.
+1.11.59: Fixed capture area for mirrors in ATS

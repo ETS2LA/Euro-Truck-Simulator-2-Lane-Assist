@@ -78,10 +78,21 @@ def CalculateMirrorCoordinates(window):
         tuple: Both mirror coordinates. ((left_x1, left_y1, left_x2, left_y2), (right_x1, right_y1, right_x2, right_y2))
     '''
 
-    mirrorDistanceFromLeft = 23
-    mirrorDistanceFromTop = 90
-    mirrorWidth = 273
-    mirrorHeight = 362
+    game = helpers.GetCurrentlyActiveGame()
+
+    if game == "Euro Truck Simulator 2" or game == "Euro Truck Simulator 2 - Multiplayer":
+        mirrorDistanceFromLeft = 23
+        mirrorDistanceFromTop = 90
+        mirrorWidth = 273
+        mirrorHeight = 362
+    elif game == "American Truck Simulator" or game == "American Truck Simulator - Multiplayer":
+        mirrorDistanceFromLeft = 25
+        mirrorDistanceFromTop = 94
+        mirrorWidth = 256
+        mirrorHeight = 358
+    else:
+        return None
+
     scale = (window[3] - window[1])/1080
 
     xCoord = window[0] + (mirrorDistanceFromLeft * scale)
@@ -247,6 +258,7 @@ def plugin(data):
             last_github_version_check = time.time()
 
         threading.Thread(target=SendMirrorImages, args=(left_mirror, right_mirror,), daemon=True).start()
+        
         last_capture = time.time()
 
     return data

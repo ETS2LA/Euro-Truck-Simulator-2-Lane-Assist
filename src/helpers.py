@@ -549,6 +549,18 @@ class PID:
         self.Kd += self.DTerm
         self.clear()
 
+def GetCurrentlyActiveGame():
+    """Gets the currently active game.
+
+    Returns:
+        str: The name of the currently active game, or None if not found.
+    """
+    titles = gw.getAllTitles()
+    for title in titles:
+        if title == "Euro Truck Simulator 2" or title == "Euro Truck Simulator 2 - Multiplayer" or title == "American Truck Simulator" or title == "American Truck Simulator - Multiplayer":
+            return title
+    return None
+
 def GetGameWindowPosition():
     """Gets the position of the game window.
 
