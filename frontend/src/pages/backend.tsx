@@ -79,7 +79,7 @@ export async function GetIP(ip="localhost"): Promise<string> {
     return data
 }
 
-export async function PluginFunctionCall(plugin:string, method:string, args:any, kwargs:any, ip="localhost", run_innit:boolean=true) {
+export async function PluginFunctionCall(plugin:string, method:string, args:any, kwargs:any, ip="localhost", run_innit:boolean=false) {
     const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/call/${method}`, {
         method: "POST",
         headers: {
@@ -96,7 +96,6 @@ export async function GetGitHistory(ip="localhost") {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
-        
         }
     })
     const data = await response.json()
