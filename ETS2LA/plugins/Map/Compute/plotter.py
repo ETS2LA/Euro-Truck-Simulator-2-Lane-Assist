@@ -53,16 +53,19 @@ def GetAllCloseRoadPoints(data : dict, closeRoads : list[Road]):
     for road in closeRoads:
         if DistanceBetweenPoints([x, y], [road.X, road.Z]) < MAX_OBJECT_DISTANCE:
             for i, lane in enumerate(road.ParallelPoints):
-                for point in lane:
-                    if DistanceBetweenPoints([x, y], [point[0], point[1]]) < MAX_POINT_DISTANCE:
-                        points.append(Point(
-                            x=point[0],
-                            y=point[1],
-                            z=road.YValues[i],
-                            type="road",
-                            parentUid=road.Uid,
-                            laneId=i
-                        ))
+                try:
+                    for point in lane:
+                        if DistanceBetweenPoints([x, y], [point[0], point[1]]) < MAX_POINT_DISTANCE:
+                            points.append(Point(
+                                x=point[0],
+                                y=point[1],
+                                z=road.YValues[i],
+                                type="road",
+                                parentUid=road.Uid,
+                                laneId=i
+                            ))
+                except:
+                    pass
 
     return points
     
@@ -117,7 +120,7 @@ def ScorePoint(x : int, y : int, firstPointUid : str, point : Point, lastPoint :
     if lastPoint != None:
         if lastPoint.parentUid != None and point.parentUid != lastPoint.parentUid:
             score += 2
-        if lastPoint.laneId != point.laneId:
+        elif lastPoint.laneId != point.laneId:
             score += 1
     
     return score

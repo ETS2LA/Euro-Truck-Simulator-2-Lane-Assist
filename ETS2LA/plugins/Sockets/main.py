@@ -90,6 +90,7 @@ def steering(data):
     else:
         steeringPoints = lastSteeringPoints
         
+    
     send = "JSONsteeringPoints:" + json.dumps(steeringPoints) + ";"
     return send
 
@@ -120,9 +121,9 @@ def Initialize():
 def plugin():
     global send
     data = TruckSimAPI.run()
+    data["steeringPoints"] = runner.GetData(["Map"])[0]
     data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
     data["TrafficLights"] = runner.GetData(["tags.TrafficLights"])[0] # Get the traffic lights
-    data["steeringPoints"] = runner.GetData(["Map"])[0]
     
     tempSend = ""
     tempSend += position(data)
