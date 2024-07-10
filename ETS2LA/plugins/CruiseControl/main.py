@@ -48,6 +48,7 @@ def plugin():
     global LastCruiseControlSpeed
     global WaitForResponse
     global WaitForResponseTimer
+    global SDKController
 
     CurrentTime = time.time()
 
@@ -76,15 +77,16 @@ def plugin():
 
     Intersection = runner.GetData(["NavigationDetection"])[0]
     if Intersection == True:
-        TargetSpeed = 8.33
+        TargetSpeed = 9
 
     if Speed > 11.25 and LastCruiseControlSpeed != None and LastCruiseControlSpeed != CruiseControlSpeed:
         if abs(CruiseControlSpeed - LastCruiseControlSpeed) < 2.25:
             print(f"CruiseControl - Speed changed from {LastCruiseControlSpeed} to {CruiseControlSpeed}")
     LastCruiseControlSpeed = CruiseControlSpeed
 
-    if Speed > 9 and AutoEnable == True and WaitForResponse == False:
+    if Speed >= 9 and AutoEnable == True and WaitForResponse == False:
         SDKController.cruiectrl = bool(True)
+        print("test")
         WaitForResponse = True
         WaitForResponseTimer = CurrentTime
 

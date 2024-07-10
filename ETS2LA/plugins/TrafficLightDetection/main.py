@@ -48,9 +48,6 @@ upper_green = np.array([150, 255, 230])
 lower_yellow = np.array([200, 170, 50])
 upper_yellow = np.array([255, 240, 170])
 
-yolo_model = None
-yolo_model_loaded = False
-
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 
@@ -73,22 +70,17 @@ def Initialize():
     global circleminusoffset
     global finalwindow
     global grayscalewindow
-    global positionestimationwindow
     global anywindowopen
     global detectyellowlight
     global performancemode
     global advancedmode
     global windowscale
-    global posestwindowscale
     global godot_data
     global coordinates
     global trafficlights
     global windowwidth
     global windowheight
     global reset_window
-    global positionestimation_default_frame
-    global positionestimation_topview
-    global positionestimation_sideview
     global fov
     global x1
     global y1
@@ -128,19 +120,19 @@ def Initialize():
     ScreenCapture = runner.modules.ScreenCapture
 
     if 'UseAI' in globals():
-        if UseAI == False and settings.Get("TrafficLightDetection", "UseAi", True) == True:
+        if UseAI == False and settings.Get("TrafficLightDetection", "UseAIToConfirmTrafficLights", True) == True:
             if TorchAvailable == True:
                 LoadAIModel()
             else:
                 print("TrafficLightDetectionAI not available due to missing dependencies.")
                 console.RestoreConsole()
-    elif settings.Get("TrafficLightDetection", "UseAi", True) == True:
+    elif settings.Get("TrafficLightDetection", "UseAIToConfirmTrafficLights", True) == True:
         if TorchAvailable == True:
             LoadAIModel()
         else:
             print("TrafficLightDetectionAI not available due to missing dependencies.")
             console.RestoreConsole()
-    UseAI = settings.Get("TrafficLightDetection", "UseAi", True)
+    UseAI = settings.Get("TrafficLightDetection", "UseAIToConfirmTrafficLights", True)
     UseCUDA = settings.Get("TrafficLightDetection", "UseCUDA", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
     LoadAILabel = "Loading..."
@@ -148,12 +140,10 @@ def Initialize():
 
     finalwindow = settings.Get("TrafficLightDetection", "FinalWindow", True)
     grayscalewindow = settings.Get("TrafficLightDetection", "GrayscaleWindow", False)
-    positionestimationwindow = settings.Get("TrafficLightDetection", "PositionEstimationWindow", False)
     detectyellowlight = settings.Get("TrafficLightDetection", "YellowLightDetection", False)
     performancemode = settings.Get("TrafficLightDetection", "PerformanceMode", True)
     advancedmode = settings.Get("TrafficLightDetection", "AdvancedSettings", False)
     windowscale = float(settings.Get("TrafficLightDetection", "WindowScale", 0.5))
-    posestwindowscale = float(settings.Get("TrafficLightDetection", "PositionEstimationWindowScale", 0.5))
     x1 = settings.Get("TrafficLightDetection", "x1ofsc", 0)
     y1 = settings.Get("TrafficLightDetection", "y1ofsc", 0)
     x2 = settings.Get("TrafficLightDetection", "x2ofsc", screen_width-1)
@@ -187,30 +177,6 @@ def Initialize():
     godot_data = []
     coordinates = []
     trafficlights = []
-
-    if positionestimationwindow == True:
-        if os.path.exists(variables.PATH + "ETS2LA/assets/TrafficLightDetection/topview.png"):
-            positionestimation_topview = cv2.imread(variables.PATH + "ETS2LA/assets/TrafficLightDetection/topview.png")
-        if os.path.exists(variables.PATH + "ETS2LA/assets/TrafficLightDetection/sideview.png"):
-            positionestimation_sideview = cv2.imread(variables.PATH + "ETS2LA/assets/TrafficLightDetection/sideview.png")
-        positionestimation_default_frame = np.zeros((round(((screen_width-1)/2.5)*posestwindowscale), round((screen_width-1)*posestwindowscale), 3), np.uint8)
-        pixel_per_meter = 25
-        posest_zoom = (positionestimation_default_frame.shape[1] / 300) * pixel_per_meter
-        temp = positionestimation_topview.copy()
-        posest_x1 = 0.24 * positionestimation_default_frame.shape[1] - posest_zoom / 2
-        posest_y1 = positionestimation_default_frame.shape[0] - posest_zoom * (temp.shape[0] / temp.shape[1])
-        posest_x2 = 0.24 * positionestimation_default_frame.shape[1] + posest_zoom / 2
-        posest_y2 = positionestimation_default_frame.shape[0]
-        temp = cv2.resize(temp, ((round(posest_x2) - round(posest_x1)), (round(posest_y2) - round(posest_y1))))
-        positionestimation_default_frame[round(posest_y1):round(posest_y2), round(posest_x1):round(posest_x2)] = temp
-        temp = positionestimation_sideview.copy()
-        posest_x1 = positionestimation_default_frame.shape[1] - posest_zoom
-        posest_y1 = 0.7 * positionestimation_default_frame.shape[0] - posest_zoom * (temp.shape[0] / temp.shape[1]) * 0.5
-        posest_x2 = positionestimation_default_frame.shape[1]
-        posest_y2 = 0.7 * positionestimation_default_frame.shape[0] + posest_zoom * (temp.shape[0] / temp.shape[1]) * 0.5
-        temp = cv2.resize(temp, ((round(posest_x2) - round(posest_x1)), (round(posest_y2) - round(posest_y1))))
-        positionestimation_default_frame[round(posest_y1):round(posest_y2), round(posest_x1):round(posest_x2)] = temp
-        cv2.line(positionestimation_default_frame, (round(positionestimation_default_frame.shape[1]/2), round(0.05*positionestimation_default_frame.shape[0])), (round(positionestimation_default_frame.shape[1]/2), round(0.95*positionestimation_default_frame.shape[0])), (50, 50, 50), round(positionestimation_default_frame.shape[1]/500) if round(positionestimation_default_frame.shape[1]/500) > 1 else 1)
 
     fov = settings.Get("TrafficLightDetection", "FOV", 80)
 
@@ -326,6 +292,10 @@ def get_screen():
     return screen_x, screen_y, screen_width, screen_height
 
 
+def get_ai_device():
+    return str(AIDevice)
+
+
 def get_text_size(text="NONE", text_width=100, max_text_height=100):
     fontscale = 1
     textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
@@ -352,9 +322,7 @@ def ClassifyImage(image):
 
     image = np.array(image, dtype=np.float32)
     if IMG_CHANNELS == 'Grayscale' or IMG_CHANNELS == 'Binarize':
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    else:
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     if IMG_CHANNELS == 'RG':
         image = np.stack((image[:, :, 0], image[:, :, 1]), axis=2)
     elif IMG_CHANNELS == 'GB':
@@ -690,7 +658,7 @@ def plugin():
     data["frameFull"] = ScreenCapture.run(imgtype="full")
 
     frameFull = data["frameFull"]
-    if frameFull is None: return (next((state for _, _, _, approved in trafficlights if approved and state in ("Red", "Yellow", "Green")), None), trafficlights), {"TrafficLights": godot_data}
+    if frameFull is None: state = None; return (next((state for _, _, _, approved in trafficlights if approved and state in ("Red", "Yellow", "Green")), None), trafficlights), {"TrafficLights": godot_data}
     frame = frameFull[y1:y1+(y2-y1), x1:x1+(x2-x1)]
 
     try:
@@ -819,10 +787,9 @@ def plugin():
                                 point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
                                 as_expected = True
                                 for i in range(len(point_mask)):
-                                    point_x, point_y, expected = point_mask[i]
-                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = filtered_frame_bw[point_mask[i][1] - 1, point_mask[i][0] - 1]
                                     color = True if color != 0 else False
-                                    if color != 0 == expected:
+                                    if color != 0 == point_mask[i][2]:
                                         as_expected = False
                                         break
                                 if as_expected:
@@ -877,10 +844,9 @@ def plugin():
                                 point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
                                 as_expected = True
                                 for i in range(len(point_mask)):
-                                    point_x, point_y, expected = point_mask[i]
-                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = filtered_frame_bw[point_mask[i][1] - 1, point_mask[i][0] - 1]
                                     color = True if color != 0 else False
-                                    if color != 0 == expected:
+                                    if color != 0 == point_mask[i][2]:
                                         as_expected = False
                                         break
                                 if as_expected:
@@ -914,10 +880,9 @@ def plugin():
                             point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
                             as_expected = True
                             for i in range(len(point_mask)):
-                                point_x, point_y, expected = point_mask[i]
-                                color = filtered_frame_bw[point_y, point_x]
+                                color = filtered_frame_bw[point_mask[i][1] - 1, point_mask[i][0] - 1]
                                 color = True if color != 0 else False
-                                if color != 0 == expected:
+                                if color != 0 == point_mask[i][2]:
                                     as_expected = False
                                     break
                             if as_expected:
@@ -985,10 +950,9 @@ def plugin():
                                     point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
                                     as_expected = True
                                     for i in range(len(point_mask)):
-                                        point_x, point_y, expected = point_mask[i]
-                                        color = filtered_frame_bw[point_y, point_x]
+                                        color = filtered_frame_bw[point_mask[i][1] - 1, point_mask[i][0] - 1]
                                         color = True if color != 0 else False
-                                        if color != 0 == expected:
+                                        if color != 0 == point_mask[i][2]:
                                             as_expected = False
                                             break
                                     if as_expected:
@@ -1067,10 +1031,9 @@ def plugin():
                                     point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
                                     as_expected = True
                                     for i in range(len(point_mask)):
-                                        point_x, point_y, expected = point_mask[i]
-                                        color = filtered_frame_bw[point_y, point_x]
+                                        color = filtered_frame_bw[point_mask[i][1] - 1, point_mask[i][0] - 1]
                                         color = True if color != 0 else False
-                                        if color != 0 == expected:
+                                        if color != 0 == point_mask[i][2]:
                                             as_expected = False
                                             break
                                     if as_expected:
@@ -1129,10 +1092,9 @@ def plugin():
                                 point_mask.append((round(x + w * 0.95), round(y + h * 0.95), False))
                                 as_expected = True
                                 for i in range(len(point_mask)):
-                                    point_x, point_y, expected = point_mask[i]
-                                    color = filtered_frame_bw[point_y, point_x]
+                                    color = filtered_frame_bw[point_mask[i][1] - 1, point_mask[i][0] - 1]
                                     color = True if color != 0 else False
-                                    if color != 0 == expected:
+                                    if color != 0 == point_mask[i][2]:
                                         as_expected = False
                                         break
                                 if as_expected:
@@ -1224,8 +1186,8 @@ def plugin():
                 del trafficlights[i]
     except Exception as e:
         exc = traceback.format_exc()
-        SendCrashReport("TrafficLightDetection - Tracking/YOLO Error.", str(exc))
-        print("TrafficLightDetection - Tracking/YOLO Error: " + str(exc))
+        SendCrashReport("TrafficLightDetection - Tracking/AI Error.", str(exc))
+        print("TrafficLightDetection - Tracking/AI Error: " + str(exc))
 
 
     try:
@@ -1329,38 +1291,6 @@ def plugin():
         print("TrafficLightDetection - Draw Output Error: " + str(e))
 
 
-    if positionestimationwindow == True:
-        try:
-            positionestimation_frame = positionestimation_default_frame.copy()
-            positionestimation_frame_width = positionestimation_frame.shape[1]
-            positionestimation_frame_height = positionestimation_frame.shape[0]
-
-            for i, ((_, _, _, _, state), ((trafficlight_x, trafficlight_y, trafficlight_z), _, _), _, _) in enumerate(trafficlights):
-                if trafficlight_x != None and trafficlight_y != None and trafficlight_z != None:
-                    ppm = 0.1
-                    x = (trafficlight_x - truck_x) * (1/ppm)
-                    y = (trafficlight_z - truck_z) * (1/ppm)
-
-                    point_x = x
-                    point_y = y
-                    x = round(positionestimation_frame_width/4 + (point_x * math.cos(truck_rotation_radians_x) + point_y * math.sin(truck_rotation_radians_x)))
-                    y = round(positionestimation_frame_height - (point_x * math.sin(truck_rotation_radians_x) - point_y * math.cos(truck_rotation_radians_x)))
-
-                    if state == "Red":
-                        color = (0, 0, 255)
-                    elif state == "Yellow":
-                        color = (0, 255, 255)
-                    elif state == "Green":
-                        color = (0, 255, 0)
-                    if -5 < int(x) < positionestimation_frame_width + 5 and -5 < int(y - round(positionestimation_frame_height * 0.179)) < positionestimation_frame_height + 5:
-                        cv2.circle(positionestimation_frame, (int(x), int(y - round(positionestimation_frame_height * 0.179))), round(positionestimation_frame_height/100), color, -1)
-
-        except Exception as e:
-            exc = traceback.format_exc()
-            SendCrashReport("TrafficLightDetection - Position Estimation Drawing Error.", str(exc))
-            print("TrafficLightDetection - Position Estimation Drawing Error: " + str(e))
-
-
     if reset_window == True:
         if finalwindow == False:
             try:
@@ -1370,11 +1300,6 @@ def plugin():
         if grayscalewindow == False:
             try:
                 cv2.destroyWindow('Traffic Light Detection - B/W')
-            except:
-                pass
-        if positionestimationwindow == False:
-            try:
-                cv2.destroyWindow('Traffic Light Detection - Position Estimation')
             except:
                 pass
 
@@ -1406,20 +1331,6 @@ def plugin():
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
                 win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
         cv2.imshow('Traffic Light Detection - B/W', filtered_frame_bw)
-    if positionestimationwindow == True:
-        window_handle = ctypes.windll.user32.FindWindowW(None, 'Traffic Light Detection - Position Estimation')
-        if window_handle == 0 or reset_window == True:
-            cv2.namedWindow('Traffic Light Detection - Position Estimation', cv2.WINDOW_NORMAL)
-            cv2.resizeWindow('Traffic Light Detection - Position Estimation', positionestimation_frame.shape[1], positionestimation_frame.shape[0])
-            cv2.setWindowProperty('Traffic Light Detection - Position Estimation', cv2.WND_PROP_TOPMOST, 1)
-            if variables.OS == "nt":
-                hwnd = win32gui.FindWindow(None, 'Traffic Light Detection - Position Estimation')
-                windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
-                icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-                hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
-                win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
-                win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
-        cv2.imshow('Traffic Light Detection - Position Estimation', positionestimation_frame)
     if anywindowopen == True:
         cv2.waitKey(1)
     if reset_window == True:
@@ -1430,4 +1341,4 @@ def plugin():
         if approved == True and trafficlight_x != None and trafficlight_y != None and trafficlight_z != None:
             godot_data.append((state, trafficlight_x, trafficlight_y, trafficlight_z))
 
-    return (next((state for _, _, _, approved in trafficlights if approved and state in ("Red", "Yellow", "Green")), None), trafficlights), {"TrafficLights": godot_data}
+    state = None; return (next((state for _, _, _, approved in trafficlights if approved and state in ("Red", "Yellow", "Green")), None), trafficlights), {"TrafficLights": godot_data}

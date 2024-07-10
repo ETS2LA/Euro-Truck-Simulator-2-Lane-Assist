@@ -20,9 +20,18 @@ import useSWR from "swr";
 
 export default function TrafficLightDetection({ ip }: { ip: string }) {
 
+    const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
+    const {data: data2, error: error2, isLoading: isLoading2} = useSWR("TrafficLightDetection.get_screen", () => PluginFunctionCall("TrafficLightDetection", "get_screen", [], {}));
+    const {data: data3, error: error3, isLoading: isLoading3} = useSWR("TrafficLightDetection.get_ai_device", () => PluginFunctionCall("TrafficLightDetection", "get_ai_device", [], {}));
+
+    const ScreenX = data2 ? data2[0] : 0;
+    const ScreenY = data2 ? data2[1] : 0;
+    const ScreenWidth = data2 ? data2[2] : 0;
+    const ScreenHeight = data2 ? data2[3] : 0;
+    const AIDevice = data3 ? data3 : "Unknown";
+
     const defaultFOV = "80";
     const defaultWindowScale = "0.5";
-    const defaultPositionEstimationWindowScale = "0.5";
     const defaultColorSettings_urr = 255;
     const defaultColorSettings_urg = 110;
     const defaultColorSettings_urb = 110;
@@ -42,15 +51,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const defaultColorSettings_lgg = 200;
     const defaultColorSettings_lgb = 0;
     const defaultFiltersMinimalTrafficLightSize = 8;
-    const defaultFiltersMaximalTrafficLightSize = 300;
-
-    const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
-    const {data: data2, error: error2, isLoading: isLoading2} = useSWR("TrafficLightDetection.get_screen", () => PluginFunctionCall("TrafficLightDetection", "get_screen", [], {}));
-    if(!isLoading2 && data2) {
-        console.log(data2);
-    } else {
-        console.log("No data returned from get_screen");
-    }
+    const defaultFiltersMaximalTrafficLightSize = ScreenHeight / 4;
 
     const [ResetSymbol, setResetSymbol] = useState<boolean>(false);
 
@@ -62,12 +63,8 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const [FinalWindow, setFinalWindow] = useState<boolean | undefined>(undefined);
     const [GrayscaleWindow, setGrayscaleWindow] = useState<boolean | undefined>(undefined);
     const [WindowScale, setWindowScale] = useState<string | undefined>(undefined);
-    const [PositionEstimationWindow, setPositionEstimationWindow] = useState<boolean | undefined>(undefined);
-    const [PositionEstimationWindowScale, setPositionEstimationWindowScale] = useState<string | undefined>(undefined);
 
-    const [ConfirmDetectedTrafficLightswithAI, setConfirmDetectedTrafficLightswithAI] = useState<boolean | undefined>(undefined);
-    const [ShowUnconfirmedTrafficLights, setShowUnconfirmedTrafficLights] = useState<boolean | undefined>(undefined);
-    const [YOLOModel, setYOLOModel] = useState<string | undefined>(undefined);
+    const [UseAIToConfirmTrafficLights, setUseAIToConfirmTrafficLights] = useState<boolean | undefined>(undefined);
 
     const [ColorSettings_urr, setColorSettings_urr] = useState<number | undefined>(undefined);
     const [ColorSettings_urg, setColorSettings_urg] = useState<number | undefined>(undefined);
@@ -91,7 +88,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const [FiltersContourSizeFilter, setFiltersContourSizeFilter] = useState<boolean | undefined>(undefined);
     const [FiltersWidthHeightRatioFilter, setFiltersWidthHeightRatioFilter] = useState<boolean | undefined>(undefined);
     const [FiltersPixelPercentageFilter, setFiltersPixelPercentageFilter] = useState<boolean | undefined>(undefined);
-    const [FiltersOtherLightsFilter, setFiltersOtherLightsFilter] = useState<boolean | undefined>(undefined);
+    const [FiltersPixelBlobShapeFilter, setFiltersPixelBlobShapeFilter] = useState<boolean | undefined>(undefined);
     const [FiltersMinimalTrafficLightSize, setFiltersMinimalTrafficLightSize] = useState<number | undefined>(undefined);
     const [FiltersMaximalTrafficLightSize, setFiltersMaximalTrafficLightSize] = useState<number | undefined>(undefined);
 
@@ -106,12 +103,8 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             if (data.FinalWindow !== undefined) { setFinalWindow(data.FinalWindow); } else { setFinalWindow(true); }
             if (data.GrayscaleWindow !== undefined) { setGrayscaleWindow(data.GrayscaleWindow); } else { setGrayscaleWindow(false); }
             if (data.WindowScale !== undefined) { setWindowScale(data.WindowScale); } else { setWindowScale(defaultWindowScale); }
-            if (data.PositionEstimationWindow !== undefined) { setPositionEstimationWindow(data.PositionEstimationWindow); } else { setPositionEstimationWindow(false); }
-            if (data.PositionEstimationWindowScale !== undefined) { setPositionEstimationWindowScale(data.PositionEstimationWindowScale); } else { setPositionEstimationWindowScale(defaultPositionEstimationWindowScale); }
 
-            if (data.ConfirmDetectedTrafficLightswithAI !== undefined) { setConfirmDetectedTrafficLightswithAI(data.ConfirmDetectedTrafficLightswithAI); } else { setConfirmDetectedTrafficLightswithAI(true); }
-            if (data.ShowUnconfirmedTrafficLights !== undefined) { setShowUnconfirmedTrafficLights(data.ShowUnconfirmedTrafficLights); } else { setShowUnconfirmedTrafficLights(false); }
-            if (data.YOLOModel !== undefined) { setYOLOModel(data.YOLOModel); } else { setYOLOModel("YOLOv5n"); }
+            if (data.UseAIToConfirmTrafficLights !== undefined) { setUseAIToConfirmTrafficLights(data.UseAIToConfirmTrafficLights); } else { setUseAIToConfirmTrafficLights(true); }
 
             if (data.ColorSettings_urr !== undefined) { setColorSettings_urr(data.ColorSettings_urr); } else { setColorSettings_urr(defaultColorSettings_urr); }
             if (data.ColorSettings_urg !== undefined) { setColorSettings_urg(data.ColorSettings_urg); } else { setColorSettings_urg(defaultColorSettings_urg); }
@@ -135,7 +128,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             if (data.FiltersContourSizeFilter !== undefined) { setFiltersContourSizeFilter(data.FiltersContourSizeFilter); } else { setFiltersContourSizeFilter(true); }
             if (data.FiltersWidthHeightRatioFilter !== undefined) { setFiltersWidthHeightRatioFilter(data.FiltersWidthHeightRatioFilter); } else { setFiltersWidthHeightRatioFilter(true); }
             if (data.FiltersPixelPercentageFilter !== undefined) { setFiltersPixelPercentageFilter(data.FiltersPixelPercentageFilter); } else { setFiltersPixelPercentageFilter(true); }
-            if (data.FiltersOtherLightsFilter !== undefined) { setFiltersOtherLightsFilter(data.FiltersOtherLightsFilter); } else { setFiltersOtherLightsFilter(true); }
+            if (data.FiltersPixelBlobShapeFilter !== undefined) { setFiltersPixelBlobShapeFilter(data.FiltersPixelBlobShapeFilter); } else { setFiltersPixelBlobShapeFilter(true); }
             if (data.FiltersMinimalTrafficLightSize !== undefined) { setFiltersMinimalTrafficLightSize(data.FiltersMinimalTrafficLightSize); } else { setFiltersMinimalTrafficLightSize(defaultFiltersMinimalTrafficLightSize); }
             if (data.FiltersMaximalTrafficLightSize !== undefined) { setFiltersMaximalTrafficLightSize(data.FiltersMaximalTrafficLightSize); } else { setFiltersMaximalTrafficLightSize(defaultFiltersMaximalTrafficLightSize); }
         
@@ -222,64 +215,14 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         setWindowScale(newWindowScale);
     };
 
-    const UpdatePositionEstimationWindow = async () => {
-        let newPositionEstimationWindow = !PositionEstimationWindow;
-        toast.promise(SetSettingByKey("TrafficLightDetection", "PositionEstimationWindow", newPositionEstimationWindow, ip), {
+    const UpdateUseAIToConfirmTrafficLights = async () => {
+        let newUseAIToConfirmTrafficLights = !UseAIToConfirmTrafficLights;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "UseAIToConfirmTrafficLights", newUseAIToConfirmTrafficLights, ip), {
             loading: "Saving...",
-            success: "Set value to " + newPositionEstimationWindow,
+            success: "Set value to " + newUseAIToConfirmTrafficLights,
             error: "Failed to save"
         });
-        setPositionEstimationWindow(newPositionEstimationWindow);
-    };
-
-    const UpdatePositionEstimationWindowScale = async (e:any) => {
-        let newPositionEstimationWindowScale = (e.target as HTMLInputElement).value;
-        let valid = !isNaN(parseFloat(newPositionEstimationWindowScale));
-        if (valid) { if (parseFloat(newPositionEstimationWindowScale) < 0.1) { newPositionEstimationWindowScale = "0.1"; } if (parseFloat(newPositionEstimationWindowScale) > 9.9) { newPositionEstimationWindowScale = "9.9"; } }
-        toast.promise(SetSettingByKey("TrafficLightDetection", "PositionEstimationWindowScale", valid ? parseFloat(newPositionEstimationWindowScale) : defaultPositionEstimationWindowScale, ip), {
-            loading: "Saving...",
-            success: "Set value to " + parseFloat(newPositionEstimationWindowScale),
-            error: "Failed to save"
-        });
-        setPositionEstimationWindowScale(newPositionEstimationWindowScale);
-    };
-
-    const UpdateConfirmDetectedTrafficLightswithAI = async () => {
-        let newConfirmDetectedTrafficLightswithAI = !ConfirmDetectedTrafficLightswithAI;
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ConfirmDetectedTrafficLightswithAI", newConfirmDetectedTrafficLightswithAI, ip), {
-            loading: "Saving...",
-            success: "Set value to " + newConfirmDetectedTrafficLightswithAI,
-            error: "Failed to save"
-        });
-        setConfirmDetectedTrafficLightswithAI(newConfirmDetectedTrafficLightswithAI);
-    };
-
-    const UpdateShowUnconfirmedTrafficLights = async () => {
-        let newShowUnconfirmedTrafficLights = !ShowUnconfirmedTrafficLights;
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ShowUnconfirmedTrafficLights", newShowUnconfirmedTrafficLights, ip), {
-            loading: "Saving...",
-            success: "Set value to " + newShowUnconfirmedTrafficLights,
-            error: "Failed to save"
-        });
-        setShowUnconfirmedTrafficLights(newShowUnconfirmedTrafficLights);
-    };
-
-    const UpdateYOLOModel = async (e:any) => {
-        let newYOLOModel = e;
-        if (!["YOLOv5n", "YOLOv5s", "YOLOv5m", "YOLOv5l", "YOLOv5x"].includes(newYOLOModel)) {
-            newYOLOModel = "YOLOv5n";
-        }
-        toast.promise(SetSettingByKey("TrafficLightDetection", "YOLOModel", newYOLOModel, ip), {
-            loading: "Saving...",
-            success: "Set value to " + newYOLOModel,
-            error: "Failed to save"
-        });
-        toast.promise(PluginFunctionCall("TrafficLightDetection", "save_and_load_model()", [], {}), {
-            loading: "Loading...",
-            success: "Success",
-            error: "Error"
-        });
-        setYOLOModel(newYOLOModel);
+        setUseAIToConfirmTrafficLights(newUseAIToConfirmTrafficLights);
     };
 
     const UpdateColorSettings_urr = async (e:any) => {
@@ -528,14 +471,14 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         setFiltersPixelPercentageFilter(newFiltersPixelPercentageFilter);
     }
 
-    const UpdateFiltersOtherLightsFilter = async () => {
-        let newFiltersOtherLightsFilter = !FiltersOtherLightsFilter;
-        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersOtherLightsFilter", newFiltersOtherLightsFilter, ip), {
+    const UpdateFiltersPixelBlobShapeFilter = async () => {
+        let newFiltersPixelBlobShapeFilter = !FiltersPixelBlobShapeFilter;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelBlobShapeFilter", newFiltersPixelBlobShapeFilter, ip), {
             loading: "Saving...",
-            success: "Set value to " + newFiltersOtherLightsFilter,
+            success: "Set value to " + newFiltersPixelBlobShapeFilter,
             error: "Failed to save"
         });
-        setFiltersOtherLightsFilter(newFiltersOtherLightsFilter);
+        setFiltersPixelBlobShapeFilter(newFiltersPixelBlobShapeFilter);
     }
 
     const UpdateFiltersMinimalTrafficLightSize = async (e:any) => {
@@ -587,7 +530,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersContourSizeFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersContourSizeFilter(true);
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersWidthHeightRatioFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersWidthHeightRatioFilter(true);
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelPercentageFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersPixelPercentageFilter(true);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersOtherLightsFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersOtherLightsFilter(true);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelBlobShapeFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersPixelBlobShapeFilter(true);
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMinimalTrafficLightSize", defaultFiltersMinimalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMinimalTrafficLightSize, error: "Failed to save"}); setFiltersMinimalTrafficLightSize(defaultFiltersMinimalTrafficLightSize);
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMaximalTrafficLightSize", defaultFiltersMaximalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMaximalTrafficLightSize, error: "Failed to save"}); setFiltersMaximalTrafficLightSize(defaultFiltersMaximalTrafficLightSize);
     }
@@ -720,28 +663,6 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                     </div>
                     )}
 
-                    {PositionEstimationWindow !== undefined && (
-                    <div className="flex flex-row items-center text-left gap-2 pt-2">
-                        <Switch id="positionestimationwindow" checked={PositionEstimationWindow} onCheckedChange={UpdatePositionEstimationWindow} />
-                        <Label htmlFor="positionestimationwindow">
-                            <span className="font-bold">Position Estimation Window</span><br />
-                            If enabled, the app creates a window which shows the estimated position of the traffic light.
-                        </Label>
-                    </div>
-                    )}
-
-                    {PositionEstimationWindowScale !== undefined && (
-                    <div>
-                        <div className="flex flex-row items-center text-left gap-2 pt-2">
-                        <Input placeholder={String(defaultPositionEstimationWindowScale)} id="positionestimationwindowscale" type="number" step="0.01" value={!isNaN(parseFloat(PositionEstimationWindowScale)) ? PositionEstimationWindowScale : ''}  onChangeCapture={(e) => UpdatePositionEstimationWindowScale((e.target as HTMLInputElement).value)} style={{ width: '75px' }}/>
-                            <Label htmlFor="positionestimationwindowscale">
-                                <span className="font-bold">Position Estimation Window Scale</span><br />
-                                Sets the size of the position estimation window.
-                            </Label>
-                        </div>
-                    </div>
-                    )}
-
                 </div>
 
                 </TabsContent>
@@ -749,54 +670,23 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
                     <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', top: '46px', left: '-227px', right: '2.5pt' }}>
 
-                        {ConfirmDetectedTrafficLightswithAI !== undefined && (
+                        {UseAIToConfirmTrafficLights !== undefined && (
                         <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Switch id="confirmdetectedtrafficlightswithai" checked={ConfirmDetectedTrafficLightswithAI} onCheckedChange={UpdateConfirmDetectedTrafficLightswithAI} />
-                            <Label htmlFor="confirmdetectedtrafficlightswithai">
-                                <span className="font-bold">Confirmed Detected Traffic Lights with AI</span><br />
-                                If enabled, the app tracks the detected traffic lights and confirms them with the YOLO object detection. This reduces false detections and increases accuracy.
+                            <Switch id="useaitoconfirmtrafficlights" checked={UseAIToConfirmTrafficLights} onCheckedChange={UpdateUseAIToConfirmTrafficLights} />
+                            <Label htmlFor="cuseaitoconfirmtrafficlights">
+                                <span className="font-bold">Use AI to confirm traffic lights</span><br />
+                                If enabled, the app will confirm the detected traffic lights using an AI model to minimize false detections.
                             </Label>
                         </div>
                         )}
 
-                        {ShowUnconfirmedTrafficLights !== undefined && (
-                            <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Switch id="showunconfirmedtrafficlights" checked={ShowUnconfirmedTrafficLights} onCheckedChange={UpdateShowUnconfirmedTrafficLights} />
-                            <Label htmlFor="showunconfirmedtrafficlights">
-                                <span className="font-bold">Show Unconfirmed Traffic Lights</span><br />
-                                If enabled, the app will show unconfirmed or wrongly detected traffic lights in gray in the output window.
+                        {UseAIToConfirmTrafficLights !== undefined && (
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
+                            <Switch id="useaitoconfirmtrafficlights" checked={UseAIToConfirmTrafficLights} onCheckedChange={UpdateUseAIToConfirmTrafficLights} />
+                            <Label htmlFor="cuseaitoconfirmtrafficlights">
+                                <span className="font-bold">Try to use your GPU to run the AI</span><br />
+                                This requires a NVIDIA GPU with CUDA installed. (Currently using {AIDevice})
                             </Label>
-                        </div>
-                        )}
-
-                        {YOLOModel !== undefined && (
-                        <div className="flex flex-row" style={{ position: 'relative', top: '8px', left: '-8px' }}>
-                            <div className="flex flex-col items-start pl-2 text-left gap-2">
-                                <Label className="font-bold">
-                                    YOLO Model
-                                </Label>
-                                <Label>
-                                    Choose a YOLO model for the confirmation, YOLOv5n is the recommended model.
-                                </Label>
-                                <Select value={ YOLOModel } onValueChange={(e) => UpdateYOLOModel(e)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a YOLO model" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                        <SelectLabel>Select a YOLO model</SelectLabel>
-                                        <SelectItem value="YOLOv5n">YOLOv5n (fastest, lowest accuracy)</SelectItem>
-                                        <SelectItem value="YOLOv5s">YOLOv5s (fast, low accuracy)</SelectItem>
-                                        <SelectItem value="YOLOv5m">YOLOv5m (slow, medium accuracy)</SelectItem>
-                                        <SelectItem value="YOLOv5l">YOLOv5l (slow, high accuracy)</SelectItem>
-                                        <SelectItem value="YOLOv5x">YOLOv5x (slowest, highest accuracy)</SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                                <Button variant={"destructive"} style={{ position: 'relative', top: '2px', height: '100%', textAlign: 'left' }} onClick={() => {toast.promise(PluginFunctionCall("TrafficLightDetection", "delete_and_redownload_model", [], {}), { loading: "Loading...", success: "Success", error: "Error" });}}>
-                                    Delete all downloaded models and redownload the model you are currently using.<br />This could fix faulty model files and other issues.
-                                </Button>
-                            </div>
                         </div>
                         )}
 
@@ -1077,12 +967,12 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                             </div>
                             )}
 
-                            {FiltersOtherLightsFilter !== undefined && (
+                            {FiltersPixelBlobShapeFilter !== undefined && (
                             <div className="flex flex-row" style={{ position: 'relative', top: '20px', left: '3px' }}>
-                                <Switch id="filtersotherlightsfilter" checked={FiltersOtherLightsFilter} onCheckedChange={UpdateFiltersOtherLightsFilter} />
+                                <Switch id="filterspixelblobshapefilter" checked={FiltersPixelBlobShapeFilter} onCheckedChange={UpdateFiltersPixelBlobShapeFilter} />
                                 <div className="flex flex-col items-start pl-2 text-left gap-2">
-                                    <Label htmlFor="filtersotherlightsfilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
-                                        Other Lights Filter
+                                    <Label htmlFor="filterspixelblobshapefilter" className="font-bold" style={{ position: 'relative', top: '3px' }}>
+                                        Pixel Blob Shape Filter
                                     </Label>
                                 </div>
                             </div>
