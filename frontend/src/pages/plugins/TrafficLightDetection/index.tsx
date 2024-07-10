@@ -14,21 +14,34 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
 import { GetSettingsJSON, SetSettingByKey } from "@/pages/settings"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
 export default function TrafficLightDetection({ ip }: { ip: string }) {
 
     const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
-    const {data: data2, error: error2, isLoading: isLoading2} = useSWR("TrafficLightDetection.get_screen", () => PluginFunctionCall("TrafficLightDetection", "get_screen", [], {}));
-    const {data: data3, error: error3, isLoading: isLoading3} = useSWR("TrafficLightDetection.get_ai_device", () => PluginFunctionCall("TrafficLightDetection", "get_ai_device", [], {}));
 
-    const ScreenX = data2 ? data2[0] : 0;
-    const ScreenY = data2 ? data2[1] : 0;
-    const ScreenWidth = data2 ? data2[2] : 0;
-    const ScreenHeight = data2 ? data2[3] : 0;
-    const AIDevice = data3 ? data3 : "Unknown";
+    const [ScreenX, setScreenX] = useState<number | undefined>(undefined);
+    const [ScreenY, setScreenY] = useState<number | undefined>(undefined);
+    const [ScreenWidth, setScreenWidth] = useState<number | undefined>(undefined);
+    const [ScreenHeight, setScreenHeight] = useState<number | undefined>(undefined);
+    const [AIDevice, setAIDevice] = useState<string | undefined>(undefined);
+
+    const GetPythonData = async () => {
+        let data = undefined;
+        while (data == undefined || data == false)
+            data = (await PluginFunctionCall("TrafficLightDetection", "get_screen", [], {"timeout": 15}));
+        setScreenX(data[0]);
+        setScreenY(data[1]);
+        setScreenWidth(data[2]);
+        setScreenHeight(data[3]);
+        data = undefined;
+        while (data == undefined || data == false)
+            data = (await PluginFunctionCall("TrafficLightDetection", "get_ai_device", [], {"timeout": 15}));
+        setAIDevice(data);
+    }
+    useEffect(() => { GetPythonData(); }, []);
 
     const defaultFOV = "80";
     const defaultWindowScale = "0.5";
@@ -51,7 +64,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const defaultColorSettings_lgg = 200;
     const defaultColorSettings_lgb = 0;
     const defaultFiltersMinimalTrafficLightSize = 8;
-    const defaultFiltersMaximalTrafficLightSize = ScreenHeight / 4;
+    const defaultFiltersMaximalTrafficLightSize = ScreenHeight ? ScreenHeight / 4 : 500;
 
     const [ResetSymbol, setResetSymbol] = useState<boolean>(false);
 
@@ -65,6 +78,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const [WindowScale, setWindowScale] = useState<string | undefined>(undefined);
 
     const [UseAIToConfirmTrafficLights, setUseAIToConfirmTrafficLights] = useState<boolean | undefined>(undefined);
+    const [TryToUseYourGPUToRunTheAI, setTryToUseYourGPUToRunTheAI] = useState<boolean | undefined>(undefined);
 
     const [ColorSettings_urr, setColorSettings_urr] = useState<number | undefined>(undefined);
     const [ColorSettings_urg, setColorSettings_urg] = useState<number | undefined>(undefined);
@@ -105,6 +119,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             if (data.WindowScale !== undefined) { setWindowScale(data.WindowScale); } else { setWindowScale(defaultWindowScale); }
 
             if (data.UseAIToConfirmTrafficLights !== undefined) { setUseAIToConfirmTrafficLights(data.UseAIToConfirmTrafficLights); } else { setUseAIToConfirmTrafficLights(true); }
+            if (data.TryToUseYourGPUToRunTheAI !== undefined) { setTryToUseYourGPUToRunTheAI(data.TryToUseYourGPUToRunTheAI); } else { setTryToUseYourGPUToRunTheAI(false); }
 
             if (data.ColorSettings_urr !== undefined) { setColorSettings_urr(data.ColorSettings_urr); } else { setColorSettings_urr(defaultColorSettings_urr); }
             if (data.ColorSettings_urg !== undefined) { setColorSettings_urg(data.ColorSettings_urg); } else { setColorSettings_urg(defaultColorSettings_urg); }
@@ -223,6 +238,21 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setUseAIToConfirmTrafficLights(newUseAIToConfirmTrafficLights);
+    };
+
+    const UpdateTryToUseYourGPUToRunTheAI = async () => {
+        setAIDevice("Updating...");
+        let newTryToUseYourGPUToRunTheAI = !TryToUseYourGPUToRunTheAI;
+        toast.promise(SetSettingByKey("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", newTryToUseYourGPUToRunTheAI, ip), {
+            loading: "Saving...",
+            success: "Set value to " + newTryToUseYourGPUToRunTheAI,
+            error: "Failed to save"
+        });
+        setTryToUseYourGPUToRunTheAI(newTryToUseYourGPUToRunTheAI);
+        let data = undefined;
+        while (data == undefined || data == false)
+            data = (await PluginFunctionCall("TrafficLightDetection", "get_ai_device", [], {"timeout": 15}));
+        setAIDevice(data);
     };
 
     const UpdateColorSettings_urr = async (e:any) => {
@@ -673,19 +703,19 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         {UseAIToConfirmTrafficLights !== undefined && (
                         <div className="flex flex-row items-center text-left gap-2 pt-2">
                             <Switch id="useaitoconfirmtrafficlights" checked={UseAIToConfirmTrafficLights} onCheckedChange={UpdateUseAIToConfirmTrafficLights} />
-                            <Label htmlFor="cuseaitoconfirmtrafficlights">
+                            <Label htmlFor="useaitoconfirmtrafficlights">
                                 <span className="font-bold">Use AI to confirm traffic lights</span><br />
                                 If enabled, the app will confirm the detected traffic lights using an AI model to minimize false detections.
                             </Label>
                         </div>
                         )}
 
-                        {UseAIToConfirmTrafficLights !== undefined && (
+                        {TryToUseYourGPUToRunTheAI !== undefined && (
                         <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Switch id="useaitoconfirmtrafficlights" checked={UseAIToConfirmTrafficLights} onCheckedChange={UpdateUseAIToConfirmTrafficLights} />
-                            <Label htmlFor="cuseaitoconfirmtrafficlights">
+                            <Switch id="trytouseyourgputoruntheai" checked={TryToUseYourGPUToRunTheAI} onCheckedChange={UpdateTryToUseYourGPUToRunTheAI} />
+                            <Label htmlFor="trytouseyourgputoruntheai">
                                 <span className="font-bold">Try to use your GPU to run the AI</span><br />
-                                This requires a NVIDIA GPU with CUDA installed. (Currently using {AIDevice})
+                                This requires a NVIDIA GPU with CUDA installed. (Currently using: {AIDevice})
                             </Label>
                         </div>
                         )}

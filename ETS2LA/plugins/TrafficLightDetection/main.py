@@ -133,7 +133,7 @@ def Initialize():
             print("TrafficLightDetectionAI not available due to missing dependencies.")
             console.RestoreConsole()
     UseAI = settings.Get("TrafficLightDetection", "UseAIToConfirmTrafficLights", True)
-    UseCUDA = settings.Get("TrafficLightDetection", "UseCUDA", False)
+    UseCUDA = settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
     LoadAILabel = "Loading..."
     LoadAIProgress = 0
@@ -293,7 +293,7 @@ def get_screen():
 
 
 def get_ai_device():
-    return str(AIDevice)
+    return "CUDA" if torch.cuda.is_available() and settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False) == True else "CPU" if TorchAvailable else "Unknown"
 
 
 def get_text_size(text="NONE", text_width=100, max_text_height=100):
