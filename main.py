@@ -1,15 +1,10 @@
-"""This file serves as the overseer to ETS2LA. It allows the app to restart itself without user input."""
-
 import ETS2LA.networking.cloud as cloud
-import traceback
 from rich.console import Console
+import traceback
 import sys
 import os
 
-# Remove the PyGame promopt on startup
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # hide pygame welcome message before importing pygame module in any script
 
-# Variables
 LOG_FILE_FOLDER = "logs"    
 GREEN = "\033[92m"
 RED = "\033[91m"
@@ -18,10 +13,10 @@ BLUE = "\033[94m"
 DARK_GRAY = "\033[90m"
 NORMAL = "\033[0m"
 
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 console = Console()
 
 def CloseNode():
-    # Close NodeJS to stop the frontend
     if os.name == "nt":
         os.system("taskkill /F /IM node.exe > nul 2>&1")
     else:
@@ -55,11 +50,10 @@ def CountErrorsAndWarnings():
                     print(f"{DARK_GRAY}└───{NORMAL}")
 
 if __name__ == "__main__":
-    # Make sure NodeJS isn't already running and clear logs
     CloseNode()
     ClearLogFiles()
     
-    # Import ETS2LA.core will import and run the app. Do that repeatedly in case of a crash.
+    # Make sure NodeJS isn't already running and clear logs
     while True:
         try:
             import ETS2LA.core as ETS2LA
@@ -73,6 +67,7 @@ if __name__ == "__main__":
             if e.args[0] == "restart":
                 CloseNode()
                 CountErrorsAndWarnings()
+                ClearLogFiles()
                 print(RED + "ETS2LA is restarting..." + NORMAL)
                 continue
             
