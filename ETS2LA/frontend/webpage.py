@@ -135,6 +135,7 @@ def run():
         ColorTitleBar()
         logging.info('ETS2LA UI opened.')
 
+global window_position
 last_window_position_time = 0
 window_position = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))
 
