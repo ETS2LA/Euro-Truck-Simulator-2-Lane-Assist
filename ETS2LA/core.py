@@ -32,10 +32,13 @@ def run():
             webserver.mainThreadQueue.remove(func)
         
         if not webpage.CheckIfWindowStillOpen():
+            settings.Set("global", "window_position", webpage.window_position)
             raise Exception("exit")
         if variables.CLOSE:
+            settings.Set("global", "window_position", webpage.window_position)
             raise Exception("exit")
         if variables.RESTART:
+            settings.Set("global", "window_position", webpage.window_position)
             raise Exception("restart")
         if variables.MINIMIZE:
             webpage.minimize_window()
