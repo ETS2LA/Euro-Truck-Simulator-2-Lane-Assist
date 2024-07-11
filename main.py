@@ -74,13 +74,13 @@ if __name__ == "__main__":
             if e.args[0] == "Update":
                 CloseNode()
                 print(YELLOW + "ETS2LA is updating..." + NORMAL)
-                # Run the update.bat / sh script
+                
                 if os.name == "nt":
                     os.system("update.bat")
                 else:
                     os.system("sh update.sh")
+                
                 print(GREEN + "ETS2LA will now restart to update itself..." + NORMAL)
-                # Open a new terminal window to run the updated version of ETS2LA
                 os.system("start python main.py")
                 sys.exit(0)
             
