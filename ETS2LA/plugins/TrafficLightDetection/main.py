@@ -1,9 +1,9 @@
-from ETS2LA.backend.globalServer import SendCrashReport
+from ETS2LA.networking.cloud import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner
-import ETS2LA.backend.variables as variables
+import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
-import ETS2LA.backend.console as console
-import ETS2LA.backend.pytorch as pytorch
+import ETS2LA.utils.console as console
+import ETS2LA.utils.pytorch as pytorch
 
 if variables.OS == "nt":
     from ctypes import windll, byref, sizeof, c_int

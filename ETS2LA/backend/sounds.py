@@ -1,5 +1,5 @@
 import ETS2LA.backend.settings as settings
-from ETS2LA.backend.variables import PATH
+from ETS2LA.variables import PATH
 import logging
 import pygame
 import json

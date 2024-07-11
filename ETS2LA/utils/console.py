@@ -1,4 +1,4 @@
-import ETS2LA.backend.variables as variables
+import ETS2LA.variables as variables
 
 if variables.OS == "nt":
     import win32gui, win32con, win32console

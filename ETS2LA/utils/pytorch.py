@@ -1,5 +1,5 @@
-import ETS2LA.backend.variables as variables
-import ETS2LA.backend.console as console
+import ETS2LA.variables as variables
+import ETS2LA.utils.console as console
 import subprocess
 import threading
 import os

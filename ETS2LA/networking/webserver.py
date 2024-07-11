@@ -1,10 +1,11 @@
-from ETS2LA.frontend.webpageExtras.titleAndIcon import color_title_bar
-import ETS2LA.backend.variables as variables
+from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
+import ETS2LA.variables as variables
+from ETS2LA.networking.data_models import *
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.backend.sounds as sounds
-import ETS2LA.backend.git as git
+import ETS2LA.utils.git as git
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
@@ -36,6 +37,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
 
 @app.get("/")
 def read_root():
@@ -146,12 +148,7 @@ def unbind_control(control: str):
 
 @app.get("/api/git/history")
 def get_git_history():
-    return backend.GetGitHistory()
-
-from pydantic import BaseModel
-class PluginCallData(BaseModel):
-    args: list
-    kwargs: dict
+    return git.GetHistory()
 
 @app.post("/api/plugins/{plugin}/call/{function}")
 def call_plugin_function(plugin: str, function: str, data: PluginCallData = None):
@@ -167,7 +164,7 @@ def call_plugin_function(plugin: str, function: str, data: PluginCallData = None
 @app.get("/api/ui/theme/{theme}")
 def set_theme(theme: str):
     try:
-        color_title_bar(theme)
+        ColorTitleBar(theme)
         return True
     except:
         return False
@@ -180,8 +177,6 @@ def get_IP():
 def get_tags_data():
     return backend.globalData
 
-class TagFetchData(BaseModel):
-    tag: str
 @app.post("/api/tags/data")
 def get_tag_data(data: TagFetchData):
     return backend.globalData[data.tag]
@@ -197,21 +192,23 @@ def play_sound(sound: str):
     sounds.Play(sound)
     return True
 
-
 def RunFrontend():
     os.system("cd frontend && npm run dev")
     
-def run():
+def ExtractIP():
     global IP
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     IP = s.getsockname()[0]
     s.close()
+    
+def run():
+    ExtractIP()
     hostname = "0.0.0.0"
-    # Start the webserver on the local IP
+
     threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True).start()
     logging.info(f"Webserver started on http://{IP}:37520 ( http://localhost:37520 )")
-    # Start the frontend
+
     p = multiprocessing.Process(target=RunFrontend, daemon=True)
     p.start()
     logging.info(f"Frontend started on http://{IP}:3000 ( http://localhost:3000 )")

@@ -1,7 +1,7 @@
 import json
 import logging
 print = logging.info
-from ETS2LA.backend.variables import *
+from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
 from GameData import roads, prefabItems
 import sys

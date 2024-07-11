@@ -1,6 +1,6 @@
 """This file serves as the overseer to ETS2LA. It allows the app to restart itself without user input."""
 
-import ETS2LA.backend.globalServer as globalServer
+import ETS2LA.networking.cloud as cloud
 import traceback
 from rich.console import Console
 import sys
@@ -93,7 +93,7 @@ if __name__ == "__main__":
             error = traceback.format_exc()
             console.print_exception()
             try:
-                globalServer.SendCrashReport("ETS2LA 2.0 - Main", str(error))
+                cloud.SendCrashReport("ETS2LA 2.0 - Main", str(error))
             except: pass
             print("Send the above traceback to the developers.")
             CloseNode()

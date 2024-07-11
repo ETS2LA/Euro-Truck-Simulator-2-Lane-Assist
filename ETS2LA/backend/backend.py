@@ -1,25 +1,23 @@
-import multiprocessing
-import multiprocessing.connection
-import ETS2LA.frontend.immediate as immediate
 from ETS2LA.plugins.runner import PluginRunner
+import ETS2LA.frontend.immediate as immediate
+import ETS2LA.utils.git as git
+import multiprocessing.connection
+import multiprocessing
 import threading
-import time
-import json
 import requests
-import sys
 import logging
 import psutil
+import time
+import json
+import sys
 import os
-import ETS2LA.backend.git as git
 
-global commits_save
 commits_save = []
 
 class PluginRunnerController():
     def __init__(self, pluginName, temporary=False):
-        # Initialize the plugin runner
         global runners
-        runners[pluginName] = self # So that we can access this runner later from the main thread or other runners.
+        runners[pluginName] = self
         self.pluginName = pluginName
         
         # Make the queue (comms) and start the process.
@@ -41,12 +39,13 @@ class PluginRunnerController():
     
     def immediateQueueThread(self):
         while True:
-            try: data = self.immediateQueue.get(timeout=0.5) # Get the data returned from the plugin runner.
+            try: 
+                data = self.immediateQueue.get(timeout=0.5)
             except Exception as e: 
                 time.sleep(0.00001)
                 continue
             
-            if type(data) == type(None): # If the data is None, then we just skip this iteration.
+            if type(data) == type(None):
                 time.sleep(0.00001)
                 continue
         
@@ -67,10 +66,8 @@ class PluginRunnerController():
                     size += sum([os.path.getsize(os.path.join(root, name)) for name in dirs])
                 except:
                     pass 
-            # logging.info(f"Plugin {self.pluginName} has a disk usage of {size} bytes.")
+            logging.debug(f"Plugin {self.pluginName} has a disk usage of {size} bytes.")
         except:
-            import traceback
-            traceback.print_exc()
             size = 0
             
         while True:
@@ -83,17 +80,22 @@ class PluginRunnerController():
                 data["cpu"] = process.cpu_percent(interval=0.5) / psutil.cpu_count()
                 data["mem"] = process.memory_percent()
                 self.process_info.append(data)
-                if len(self.process_info) > 240: # 2 minutes of 0.5 intervals
+                if len(self.process_info) > 240: # 2 minutes of 0.5s intervals
                     self.process_info.pop(0)
             except:
                 time.sleep(0.5)
                 continue
         
+    def start_other_threads(self):
+        threading.Thread(target=self.immediateQueueThread, daemon=True).start()
+        threading.Thread(target=self.monitor, daemon=True).start()
+        
     def run(self):
         global frameTimes
         global globalData
-        threading.Thread(target=self.immediateQueueThread, daemon=True).start()
-        threading.Thread(target=self.monitor, daemon=True).start()
+        
+        self.start_other_threads()
+        
         while True:
             try: 
                 data = self.queue.get() # Get the data returned from the plugin runner.
@@ -141,7 +143,7 @@ class PluginRunnerController():
                 else:
                     self.lastData = data
                         
-            else: # If the data is not a dictionary, we can assume it's return data, instead of a command.
+            else: # If the data is not a dictionary, we can assume it's return data instead of a command.
                 if type(data) == tuple:
                     normData = data[0]
                     tags = data[1]
@@ -157,16 +159,14 @@ globalData = {}
 AVAILABLE_PLUGINS = {}
 def GetAvailablePlugins():
     global AVAILABLE_PLUGINS
-    import os
-    # Get list of everything in the plugins folder
+    
     plugins = os.listdir("ETS2LA/plugins")
-    # Check if it's a folder or a file.
     for plugin in plugins:
         if os.path.isdir(f"ETS2LA/plugins/{plugin}"):
             AVAILABLE_PLUGINS[plugin] = {}
-    # Remove the pycache folder.
+
     AVAILABLE_PLUGINS.pop("__pycache__")
-    # Add the plugins.json file contents to AVAILABLE_PLUGINS[plugin][file]
+
     for plugin in AVAILABLE_PLUGINS:
         try:
             with open(f"ETS2LA/plugins/{plugin}/plugin.json", "r") as f:
@@ -180,8 +180,7 @@ def GetAvailablePlugins():
                 "image": "None",
                 "dependencies": "None"
             }
-        
-    # Return
+
     return AVAILABLE_PLUGINS
 
 ENABLED_PLUGINS = []
@@ -193,6 +192,7 @@ def GetEnabledPlugins():
         
     return ENABLED_PLUGINS
     
+# TODO: Fix this code, it's not working most of the time!
 def CallPluginFunction(plugin, function, args, kwargs):
     if "timeout" in kwargs:
         timeout = kwargs["timeout"]
@@ -270,26 +270,19 @@ def CallEvent(event, args, kwargs):
         try:
             runners[runner].eventQueue.put({"event": event, "args": args, "kwargs": kwargs})
         except:
-            import traceback
-            traceback.print_exc()
+            logging.exception(f"Failed to call event {event} on plugin {runner}.")
             pass
 
 def AddPluginRunner(pluginName, temporary=False):
-    if pluginName in runners:
-        return
+    if pluginName in runners: return
     # Run the plugin runner in a separate thread. This is done to avoid blocking the main thread.
     runner = threading.Thread(target=PluginRunnerController, args=(pluginName, temporary, ), daemon=True)
     runner.start()
 
 def RemovePluginRunner(pluginName):
-    if not pluginName in runners:
-        return
-    # Stop the plugin runner
+    if not pluginName in runners: return
     runners[pluginName].runner.terminate()
     runners.pop(pluginName)
-
-def GetGitHistory():
-    return git.GetHistory()
 
 def GetPerformance():
     try:
@@ -313,8 +306,6 @@ def GetPerformance():
                     except:
                         count += 1
                         pass
-                        
-                    
                 array.append(runnerData)
             except:
                 pass

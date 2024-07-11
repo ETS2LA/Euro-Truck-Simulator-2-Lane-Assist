@@ -13,18 +13,23 @@ import time
 import json
 import sys
 import os
+
 class PluginRunner():
     def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
-        # Initialize the logger
-        SetupProcessLogging(pluginName, filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), console_level=logging.WARNING)
+        SetupProcessLogging(
+            pluginName, 
+            filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), 
+            console_level=logging.WARNING
+        )
         logging.info(f"PluginRunner: Starting plugin {pluginName}")
         self.logger = logging.getLogger()
-        # Save the values to the class
+
         self.q = queue
         self.fq = functionQueue
         self.frp = returnPipe
         self.eq = eventQueue
         self.iq = immediateQueue
+        
         self.enableTime = time.time()
         self.getQueueProcessingTime = 0
         self.frametimes = []
@@ -35,9 +40,9 @@ class PluginRunner():
         # Add the plugin filepath to path (so that the plugin can import modules from the plugin folder)
         sys.path.append(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName))
         
-        # Import the plugin
         self.plugin_path_name = pluginName
         plugin_path = "ETS2LA.plugins." + pluginName + ".main"
+        
         try:
             self.plugin = importlib.import_module(plugin_path)
             logging.info(f"PluginRunner: Imported plugin {plugin_path}")
@@ -45,42 +50,44 @@ class PluginRunner():
             logging.exception(f"PluginRunner: Could not import plugin {plugin_path}")
             logging.info(traceback.format_exc())
             return
+        
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
         self.plugin_name = self.plugin_data["name"]
         self.plugin.runner = self
-        try:
-            self.plugin_fps_cap = self.plugin_data["max_fps"]
-        except:
-            self.plugin_fps_cap = 60
+        
+        try: self.plugin_fps_cap = self.plugin_data["max_fps"]
+        except: self.plugin_fps_cap = 60
             
         logging.info(f"PluginRunner: Plugin {self.plugin_name} has FPS cap of {self.plugin_fps_cap}")
         
         # Load modules
         self.modules = {}
         self.moduleHashes = {}
+        
         if "modules" not in self.plugin_data:
             self.plugin_data["modules"] = []
+        
         for module in self.plugin_data["modules"]:
             module_path = "ETS2LA.modules." + module + ".main"
-            # Calculate the hash of the module
+
             with open(os.path.join(os.getcwd(), "ETS2LA", "modules", module, "main.py"), "r") as f:
                 moduleHash = hash(f.read())
+            
             self.moduleHashes[module] = moduleHash
             moduleName = module
+            
             try:
                 module = importlib.import_module(module_path)
                 module.runner = self
+                self.modules[moduleName] = module
                 logging.info(f"PluginRunner: Loaded module {module}")
             except Exception as e:
                 logging.exception(f"PluginRunner: Could not load module {module}")
                 logging.info(traceback.format_exc())
-                continue
-            self.modules[moduleName] = module
             
         self.modulesDict = self.modules
-        self.modules = SimpleNamespace(**self.modules) # Will convert it to a namespace to make runner.modules.ModuleName possible
+        self.modules = SimpleNamespace(**self.modules) # Make runner.modules.moduleName
         
-        # Run module and plugin initializers
         for module in self.modulesDict:
             try:
                 self.modulesDict[module].Initialize()
@@ -98,8 +105,6 @@ class PluginRunner():
             logging.exception(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}. Full traceback:")
             logging.info(traceback.format_exc())
             
-        
-        # Run the plugin
         logging.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
         self.run()
 
@@ -156,7 +161,6 @@ class PluginRunner():
                     except:
                         logging.exception(f"PluginRunner: Could not delete old module {oldModule}")
                     
-            
             time.sleep(1)
 
     def functionThread(self):

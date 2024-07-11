@@ -9,17 +9,23 @@ RegisterKeybind(name, callback=None, description="")
 GetKeybindValue(name)
 ```
 """
-import tkinter as tk
-from tkinter import ttk
-import os
-import math
-import pygame
-import keyboard
-from tktooltip import ToolTip
-import ETS2LA.backend.settings as settings
+
+# This file is from V1, it will be refactored at some point...
+# for now it works so we will roll with it.
+# Sorry for the mess.
+
 from ETS2LA.frontend.immediate import send_sonner
-import time
+import ETS2LA.backend.settings as settings
+from tktooltip import ToolTip
+from tkinter import ttk
+import tkinter as tk
+import threading
+import keyboard
 import logging
+import pygame
+import math
+import time
+import os
 
 KEYBOARD_GUID = 1
 KEYBINDS = []
@@ -386,7 +392,6 @@ def GetKeybindValue(name:str):
     
     return False
 
-import threading
 def run():
     threading.Thread(target=plugin, daemon=True, ).start()
     logging.info("Controls listener started.")

@@ -1,4 +1,4 @@
-from ETS2LA.backend.variables import *
+from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
 import GameData.prefabs as prefabs
 import GameData.roads as roads

@@ -18,9 +18,7 @@ def server(directory):
             self.end_headers()
 
     Handler = MyHTTPRequestHandler
-
     os.chdir(directory)
-
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
         logging.info(f"Godot serving at port {PORT}")
         httpd.serve_forever()

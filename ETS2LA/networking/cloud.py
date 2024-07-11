@@ -1,4 +1,4 @@
-import ETS2LA.backend.variables as variables
+import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
 import requests
 import json

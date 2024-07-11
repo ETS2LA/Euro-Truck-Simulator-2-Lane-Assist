@@ -9,7 +9,7 @@ import os
 
 # ETS2LA Imports
 from ETS2LA.plugins.runner import PluginRunner
-import ETS2LA.backend.variables as variables
+import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
 from ETS2LA.plugins.AR.main import Line
 import ETS2LA.backend.sounds as sounds

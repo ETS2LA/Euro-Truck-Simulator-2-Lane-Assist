@@ -1,7 +1,8 @@
-import ETS2LA.backend.globalServer as globalServer
+from ETS2LA.frontend.webpageExtras.utils import CheckIfWindowStillOpen
+import ETS2LA.networking.cloud as cloud
 import ETS2LA.networking.webserver as webserver
 import ETS2LA.frontend.immediate as immediate
-import ETS2LA.backend.variables as variables
+import ETS2LA.variables as variables
 import ETS2LA.backend.controls as controls
 import ETS2LA.frontend.webpage as webpage
 import ETS2LA.networking.godot as godot
@@ -26,20 +27,21 @@ lastPingTime = 0
 def run():
     global lastPingTime
     while True:
-        time.sleep(0.01)
+        time.sleep(0.01) # Relieve CPU time
+        
         for func in webserver.mainThreadQueue:
             func[0](*func[1], **func[2])
             webserver.mainThreadQueue.remove(func)
         
-        if not webpage.CheckIfWindowStillOpen():
-            settings.Set("global", "window_position", webpage.window_position)
+        if not CheckIfWindowStillOpen():
             raise Exception("exit")
+        
         if variables.CLOSE:
-            settings.Set("global", "window_position", webpage.window_position)
             raise Exception("exit")
+        
         if variables.RESTART:
-            settings.Set("global", "window_position", webpage.window_position)
             raise Exception("restart")
+        
         if variables.MINIMIZE:
             webpage.minimize_window()
             variables.MINIMIZE = False
@@ -47,7 +49,7 @@ def run():
         if lastPingTime + 60 < time.time():
             lastPingTime = time.time()
             try:
-                globalServer.Ping()
+                cloud.Ping()
             except:
                 logging.debug("Could not ping the server.")
                 pass

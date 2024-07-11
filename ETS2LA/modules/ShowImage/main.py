@@ -1,7 +1,7 @@
 import numpy as np
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
-import ETS2LA.backend.variables as variables
+import ETS2LA.variables as variables
 import cv2
 
 runner:PluginRunner = None
