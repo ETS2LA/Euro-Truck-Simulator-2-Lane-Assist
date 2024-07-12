@@ -1,2 +1,1 @@
-1.11.58: Changed capture area for mirrors in data collection.
-1.11.59: Fixed capture area for mirrors in ATS
+1.11.60: Temporarily remove mirror data collection (Thanks for the help!)

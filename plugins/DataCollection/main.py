@@ -229,6 +229,9 @@ def plugin(data):
         last_capture = time.time()
     '''
 
+    '''
+    FOR MIRROR DATA COLLECTION
+
     global vd_data_collection, cooldown, last_capture, mirror_coords, last_game_coords, game_coords, last_github_version_check, app_on_newest_version
 
     if vd_data_collection and last_capture + cooldown < time.time() and app_on_newest_version == True:
@@ -260,6 +263,7 @@ def plugin(data):
         threading.Thread(target=SendMirrorImages, args=(left_mirror, right_mirror,), daemon=True).start()
         
         last_capture = time.time()
+    '''
 
     return data
 
@@ -331,6 +335,8 @@ class UI():
             vd_data_collection_var = helpers.MakeCheckButton(vd_tab, "Enable Data Collection (Anonymous data will be sent to our server)", "DataCollection", "VD Data Collection", 10, 0, width=80, columnspan=2, callback=CheckbuttonCallback)
             helpers.MakeButton(vd_tab, "View Collected Data", lambda: webbrowser.open("https://filebrowser.tumppi066.fi/share/Uw850Xow"), 11, 0, width=150, sticky="nw", columnspan=2)
             
+            ttk.Label(vd_tab, text="VD Data Collection is currently inactive, in the near future it will be enabled again. Thanks for all the help!", font=("Robot", 10, "bold")).grid(row=12, column=0, columnspan=2, pady=2)
+
             tl_tab = ttk.Frame(notebook)
             tl_tab.columnconfigure(0, weight=1)
             tl_tab.columnconfigure(1, weight=1)
