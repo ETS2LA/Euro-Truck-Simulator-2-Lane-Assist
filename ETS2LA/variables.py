@@ -3,7 +3,10 @@ import os
 YEAR = 2024
 """This year will be displayed in the window title. The year in the LICENSE file must be set manually!"""
 
-PATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/').replace('/ETS2LA', '') + "/"
+PATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
+if PATH.endswith("/ETS2LA"):
+    PATH = PATH[:-7]
+PATH += "/"
 """The path to the ETS2LA folder."""
 
 OS = os.name
