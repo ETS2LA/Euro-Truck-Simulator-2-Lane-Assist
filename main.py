@@ -53,8 +53,41 @@ def CheckTkWebview2InstallVersion():
             ChangeVer()
     except:
         ChangeVer()
-        
-        
+
+import time
+from src.logger import print
+import src.variables as variables
+
+anomalous_frames_time_limit = 30 # 30 days
+removed_anomalous_frames = 0
+removed_anomalous_frame_size = 0
+
+def CheckAnomalousFrames():
+    global removed_anomalous_frames, removed_anomalous_frame_size
+
+    # Convert days to seconds
+    time_in_secs = time.time() - (anomalous_frames_time_limit * 86400)
+    anomalousFramesPath = os.path.join(variables.PATH, "anomalousFrames")
+
+    if os.path.exists(anomalousFramesPath):
+        for file in os.listdir(anomalousFramesPath):
+            file_path = os.path.join(anomalousFramesPath, file)
+            
+            # If a file in the anomalousFrames folder is older than the time limit, delete it
+            if os.path.isfile(file_path) and os.path.getmtime(file_path) < time_in_secs:
+                size = os.path.getsize(os.path.join(anomalousFramesPath, file))
+                removed_anomalous_frame_size += size
+                os.remove(os.path.join(anomalousFramesPath, file))
+                removed_anomalous_frames += 1
+
+    if removed_anomalous_frames > 0:
+        removed_frames_size_mb = round(removed_anomalous_frame_size / 1048576, 2)
+        print(f"Removed {removed_anomalous_frames} anomalous frames totaling {removed_frames_size_mb} MB. (Over 30 days old)")
+    else:
+        print("No anomalous frames found over 30 days old.")
+ 
+threading.Thread(target=CheckAnomalousFrames).start()
+
 thread = threading.Thread(target=CheckTkWebview2InstallVersion)
 thread.start()
 thread.join()
@@ -64,8 +97,6 @@ if doRestart:
 # hide pygame welcome message before importing pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import cv2
-import sys
-import time
 import hashlib
 import keyboard
 import importlib
@@ -75,14 +106,12 @@ from tkinter import ttk
 import progress.bar as Bar
 import src.mainUI as mainUI
 import src.logger as logger
-from src.logger import print
 import src.updater as updater
 import src.console as console
 import src.helpers as helpers
 from tkinter import messagebox
 import src.controls as controls
 import src.settings as settings
-import src.variables as variables
 import src.translator as translator
 import src.scsLogReader as LogReader
 from src.server import SendCrashReport, Ping

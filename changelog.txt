@@ -1,1 +1,2 @@
 1.11.60: Temporarily remove mirror data collection (Thanks for the help!)
+1.11.61: Add AnomalousFrames remover (cache clearer) after 30 days

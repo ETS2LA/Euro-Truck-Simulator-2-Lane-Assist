@@ -23,6 +23,9 @@ plugins/Map/Old
 anomalousFrames
 profiles/installer_config.cfg
 
+# Ignore BG
+assets/BorderlessGaming/*
+
 # NavigationDetection
 plugins/NavigationDetection/AIModel/*
 !plugins/NavigationDetection/AIModel/index.md
