@@ -58,35 +58,32 @@ import time
 from src.logger import print
 import src.variables as variables
 
-anomalous_frames_time_limit = 30 # 30 days
-removed_anomalous_frames = 0
-removed_anomalous_frame_size = 0
 
 def CheckAnomalousFrames():
-    global removed_anomalous_frames, removed_anomalous_frame_size
+    try:
+        anomalous_frames_time_limit = 30
+        removed_anomalous_frames = 0
+        removed_anomalous_frame_size = 0
 
-    # Convert days to seconds
-    time_in_secs = time.time() - (anomalous_frames_time_limit * 86400)
-    anomalousFramesPath = os.path.join(variables.PATH, "anomalousFrames")
+        anomalousFrames_path = os.path.join(variables.PATH, "anomalousFrames")
 
-    if os.path.exists(anomalousFramesPath):
-        for file in os.listdir(anomalousFramesPath):
-            file_path = os.path.join(anomalousFramesPath, file)
-            
-            # If a file in the anomalousFrames folder is older than the time limit, delete it
-            if os.path.isfile(file_path) and os.path.getmtime(file_path) < time_in_secs:
-                size = os.path.getsize(os.path.join(anomalousFramesPath, file))
-                removed_anomalous_frame_size += size
-                os.remove(os.path.join(anomalousFramesPath, file))
-                removed_anomalous_frames += 1
+        if os.path.exists(anomalousFrames_path):
+            for file in os.listdir(anomalousFrames_path):
+                file_path = os.path.join(anomalousFrames_path, file)
 
-    if removed_anomalous_frames > 0:
-        removed_frames_size_mb = round(removed_anomalous_frame_size / 1048576, 2)
-        print(f"Removed {removed_anomalous_frames} anomalous frames totaling {removed_frames_size_mb} MB. (Over 30 days old)")
-    else:
-        print("No anomalous frames found over 30 days old.")
- 
-threading.Thread(target=CheckAnomalousFrames).start()
+                if os.path.isfile(file_path) and os.path.getmtime(file_path) < time.time() - (anomalous_frames_time_limit * 86400):
+                    size = os.path.getsize(os.path.join(anomalousFrames_path, file))
+                    removed_anomalous_frame_size += size
+                    os.remove(os.path.join(anomalousFrames_path, file))
+                    removed_anomalous_frames += 1
+
+        if removed_anomalous_frames > 0:
+            removed_frames_size_mb = round(removed_anomalous_frame_size / 1048576, 2)
+            print(f"Removed {removed_anomalous_frames} anomalous frame logs that were older than {anomalous_frames_time_limit} days, totaling {removed_frames_size_mb}MB.")
+    except:
+        print(f"Unable to delete anomalous frame logs older than {anomalous_frames_time_limit} days. Please delete them manually from the folder: {anomalousFrames_path}")
+
+threading.Thread(target=CheckAnomalousFrames, daemon=True).start()
 
 thread = threading.Thread(target=CheckTkWebview2InstallVersion)
 thread.start()
