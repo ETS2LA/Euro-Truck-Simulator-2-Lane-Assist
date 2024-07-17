@@ -1,6 +1,6 @@
 from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
-import GameData.nodes as nodes
+import ETS2LA.plugins.Map.GameData.nodes as nodes
 import logging
 import json
 import sys

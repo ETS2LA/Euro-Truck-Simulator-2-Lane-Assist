@@ -3,7 +3,7 @@ import logging
 print = logging.info
 from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
-from GameData import roads, prefabItems
+from ETS2LA.plugins.Map.GameData import roads, prefabItems
 import sys
 from rich.progress import Task, Progress
 
