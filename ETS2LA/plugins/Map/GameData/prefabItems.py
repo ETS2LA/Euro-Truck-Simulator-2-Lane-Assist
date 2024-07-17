@@ -1,9 +1,9 @@
 from ETS2LA.backend.settings import *
 from ETS2LA.variables import *
 
-import GameData.prefabs as prefabs
-import GameData.roads as roads
-import GameData.nodes as nodes
+import ETS2LA.plugins.Map.GameData.prefabs as prefabs
+import ETS2LA.plugins.Map.GameData.roads as roads
+import ETS2LA.plugins.Map.GameData.nodes as nodes
 
 import logging
 import json
