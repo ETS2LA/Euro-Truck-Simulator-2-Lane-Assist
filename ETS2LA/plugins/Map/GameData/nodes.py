@@ -43,9 +43,20 @@ class Node:
             "rY": self.rY,
             "rZ": self.rZ,
             "Rotation": self.Rotation,
-            "ForwardItem": self.ForwardItem.json() if self.ForwardItem != None else None,
-            "BackwardItem": self.BackwardItem.json() if self.BackwardItem != None else None
+            "ForwardItem": str(self.ForwardItem.Uid) if self.ForwardItem != None else None,
+            "BackwardItem": str(self.BackwardItem.Uid) if self.BackwardItem != None else None
         }
+        
+    def fromJson(self, jsonData):
+        self.Uid = jsonData["Uid"]
+        self.X = jsonData["X"]
+        self.Y = jsonData["Y"]
+        self.Z = jsonData["Z"]
+        self.rX = jsonData["rX"]
+        self.rY = jsonData["rY"]
+        self.rZ = jsonData["rZ"]
+        self.Rotation = jsonData["Rotation"]
+        return self
     
 nodes = []
 optimizedNodes = {}

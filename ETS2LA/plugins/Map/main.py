@@ -45,6 +45,7 @@ SETTINGS_UPDATE_RATE = 1 # seconds
 def Initialize():
     global RAYCASTING
     global Steering
+    global MapUtils
     global toast
     global API
     global SI

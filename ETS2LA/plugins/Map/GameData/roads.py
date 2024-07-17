@@ -1,12 +1,14 @@
-import json
-import logging
-print = logging.info
 from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
-import sys
+
 import GameData.nodes as nodes
+
+import sys
+import logging
+import json
 import math
 
+print = logging.info
 
 ROAD_QUALITY = 0.25 # Points per meter
 MIN_QUALITY = 2 # Need two points to make a line
@@ -43,10 +45,12 @@ class Road():
     BoundingBox = []
     
     def json(self):
-        return {
-            "Uid": self.Uid,
-            "StartNodeUid": self.StartNodeUid,
-            "EndNodeUid": self.EndNodeUid,
+        returnJson = {
+            "Uid": str(self.Uid),
+            "StartNodeUid": str(self.StartNodeUid),
+            "EndNodeUid": str(self.EndNodeUid),
+            "StartNode": self.StartNode.json(),
+            "EndNode": self.EndNode.json(),
             "Nodes": self.Nodes,
             "BlockSize": self.BlockSize,
             "Valid": self.Valid,
@@ -57,12 +61,40 @@ class Road():
             "Hidden": self.Hidden,
             "Flags": self.Flags,
             "Navigation": self.Navigation,
+            "BoundingBox": self.BoundingBox,
             "RoadLook": self.RoadLook.json(),
             "Points": self.Points,
             "IsSecret": self.IsSecret,
             "ParallelPoints": self.ParallelPoints,
             "LaneWidth": self.LaneWidth,
         }
+        return returnJson
+        
+    def fromJson(self, json):
+        # Only load json the we also put out in the above function
+        self.Uid = int(json["Uid"])
+        self.StartNodeUid = int(json["StartNodeUid"])
+        self.EndNodeUid = int(json["EndNodeUid"])
+        self.StartNode = nodes.Node().fromJson(json["StartNode"])
+        self.EndNode = nodes.Node().fromJson(json["EndNode"])
+        self.Nodes = json["Nodes"]
+        self.BlockSize = json["BlockSize"]
+        self.Valid = json["Valid"]
+        self.Type = json["Type"]
+        self.X = json["X"]
+        self.Z = json["Z"]
+        self.YValues = json["YValues"]
+        self.Hidden = json["Hidden"]
+        self.Flags = json["Flags"]
+        self.Navigation = json["Navigation"]
+        self.BoundingBox = json["BoundingBox"]
+        self.RoadLook = RoadLook().fromJson(json["RoadLook"])
+        self.Points = json["Points"]
+        self.IsSecret = json["IsSecret"]
+        self.ParallelPoints = json["ParallelPoints"]
+        self.LaneWidth = json["LaneWidth"]
+        
+        return self
 
 class RoadLook():
     name = ""
@@ -95,6 +127,23 @@ class RoadLook():
             "IsExpress": self.isExpress,
             "IsNoVehicles": self.isNoVehicles
         }
+        
+    def fromJson(self, json):
+        self.name = json["Name"]
+        self.offset = json["Offset"]
+        self.lanesLeft = json["LanesLeft"]
+        self.lanesRight = json["LanesRight"]
+        self.shoulderSpaceLeft = json["ShoulderSpaceLeft"]
+        self.shoulderSpaceRight = json["ShoulderSpaceRight"]
+        self.roadSizeLeft = json["RoadSizeLeft"]
+        self.roadSizeRight = json["RoadSizeRight"]
+        self.token = json["Token"]
+        self.isHighway = json["IsHighway"]
+        self.isLocal = json["IsLocal"]
+        self.isExpress = json["IsExpress"]
+        self.isNoVehicles = json["IsNoVehicles"]
+        
+        return self
 
 # https://stackoverflow.com/a/70377616
 def set_nested_item(dataDict, mapList, val):
@@ -132,48 +181,6 @@ areaCountX = 0
 areaCountZ = 0
 
 limitToCount = 0
-
-# MARK: Road to JSON
-def RoadToJson(road):
-    roadJson = {}
-    
-    roadJson["Uid"] = road.Uid
-    roadJson["StartNodeUid"] = road.StartNodeUid
-    roadJson["EndNodeUid"] = road.EndNodeUid
-    roadJson["Nodes"] = road.Nodes
-    roadJson["BlockSize"] = road.BlockSize
-    roadJson["Valid"] = road.Valid
-    roadJson["Type"] = road.Type
-    roadJson["X"] = road.X
-    roadJson["Z"] = road.Z
-    roadJson["Hidden"] = road.Hidden
-    roadJson["Flags"] = road.Flags
-    roadJson["Navigation"] = road.Navigation
-    roadJson["Points"] = []
-    try:
-        for point in road.Points:
-            # A point is a tuple of (x, z)
-            point = {
-                "X": point[0],
-                "Z": point[1]
-            }
-            roadJson["Points"].append(point)
-    except:
-        pass
-    roadJson["IsSecret"] = road.IsSecret
-    
-    roadJson["RoadLook"] = {}
-    roadJson["RoadLook"]["Name"] = road.RoadLook.name
-    roadJson["RoadLook"]["Offset"] = road.RoadLook.offset
-    roadJson["RoadLook"]["LanesLeft"] = road.RoadLook.lanesLeft
-    roadJson["RoadLook"]["LanesRight"] = road.RoadLook.lanesRight
-    roadJson["RoadLook"]["Token"] = road.RoadLook.token
-    roadJson["RoadLook"]["IsHighway"] = road.RoadLook.isHighway
-    roadJson["RoadLook"]["IsLocal"] = road.RoadLook.isLocal
-    roadJson["RoadLook"]["IsExpress"] = road.RoadLook.isExpress
-    roadJson["RoadLook"]["IsNoVehicles"] = road.RoadLook.isNoVehicles
-    
-    return roadJson
 
 # MARK: Point Calculations
 def Hermite(s, x, z, tanX, tanZ):

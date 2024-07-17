@@ -1,8 +1,10 @@
-from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
+from ETS2LA.variables import *
+
 import GameData.prefabs as prefabs
 import GameData.roads as roads
 import GameData.nodes as nodes
+
 import logging
 import json
 import math
@@ -66,6 +68,7 @@ class PrefabItem:
             "StartNodeUid": self.StartNodeUid,
             "EndNodeUid": self.EndNodeUid,
             "StartNode": self.StartNode.json() if self.StartNode != None else None,
+            "EndNode": self.EndNode.json() if self.EndNode != None else None,
             "Nodes": [node.json() for node in self.Nodes],
             "BlockSize": self.BlockSize,
             "Valid": self.Valid,
@@ -85,6 +88,37 @@ class PrefabItem:
             "EndPoints": self.EndPoints,
             "BoundingBox": self.BoundingBox
         }
+        
+    def fromJson(self, json):
+        self.Uid = json["Uid"]
+        self.StartNodeUid = json["StartNodeUid"]
+        self.EndNodeUid = json["EndNodeUid"]
+        self.StartNode = nodes.GetNodeByUid(json["StartNodeUid"])
+        self.EndNode = nodes.GetNodeByUid(json["EndNodeUid"])
+        try:
+            self.Nodes = [nodes.GetNodeByUid(node) for node in json["Nodes"]]
+        except: self.Nodes = []
+        self.BlockSize = json["BlockSize"]
+        self.Valid = json["Valid"]
+        self.Type = json["Type"]
+        self.X = json["X"]
+        self.Y = json["Y"]
+        self.Z = json["Z"]
+        self.Hidden = json["Hidden"]
+        self.Flags = json["Flags"]
+        self.Navigation = [nav.fromJson() for nav in json["Navigation"]]
+        self.Origin = json["Origin"]
+        self.Padding = json["Padding"]
+        try:
+            self.Prefab = prefabs.GetPrefabByToken(json["Prefab"])
+        except: self.Prefab = None
+        self.NavigationLanes = json["NavigationLanes"]
+        self.IsSecret = json["IsSecret"]
+        self.CurvePoints = json["CurvePoints"]
+        self.EndPoints = json["EndPoints"]
+        self.BoundingBox = json["BoundingBox"]
+        
+        return self
     
 class NavigationItem2:
     Uid = 0
