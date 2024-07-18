@@ -4,33 +4,43 @@ import { Popover, PopoverContent,
     PopoverTrigger } from "@/components/ui/popover"
 import { Tabs, TabsList, TabsTrigger, 
     TabsContent } from "@/components/ui/tabs"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, 
-    DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { toast } from "sonner";
 
 import { GetSettingsJSON } from "@/pages/settings"
 import { PluginFunctionCall } from "@/pages/backend";
-import { SkeletonCard } from "@/components/skeleton_card"
 
 import useSWR from "swr";
 import { useState } from "react";
 
-export default function VehicleDetection({ ip }: { ip: string }) {
-    const {data, error, isLoading} = useSWR("VehicleDetection", () => GetSettingsJSON("VehicleDetection", ip));
+export default function ObjectDetection({ ip }: { ip: string }) {
+    const {data, error, isLoading} = useSWR("ObjectDetection", () => GetSettingsJSON("ObjectDetection", ip));
 
-    // Setup Variables
+    // Lane Changing Model Enabled
+    const [laneChangingModelEnabled, setLaneChangingModelEnabled] = useState<boolean>(false);
+    const handleLaneChangingModelChange = (value: boolean) => {
+        if (value) {
+            setLaneChangingModelEnabled(true);
+        } else {
+            setLaneChangingModelEnabled(false);
+        }
+    };
 
-    // Setup Page
-    const [setup_page, setSetupPage] = useState(0);
-    const [setup_open, setSetupOpen] = useState(false);
-
-    // Component Variables and Functions
+    // Vehicle Classification Model Enabled
+    const [vehicleClassificationModelEnabled, setVehicleClassificationModelEnabled] = useState<boolean>(false);
+    const handleVehicleClassificationModelChange = (value: boolean) => {
+        if (value) {
+            setVehicleClassificationModelEnabled(true);
+        } else {
+            setVehicleClassificationModelEnabled(false);
+        }
+    };
 
     // Model Confidence Slider
     const [modelConfSlider, setModelConfSlider] = useState<number>(0.70);
@@ -70,7 +80,20 @@ export default function VehicleDetection({ ip }: { ip: string }) {
                     <TabsContent value="general">
                         <CardContent>
                             <div className="flex flex-col justify-start pt-2 self-start -ml-56 md:-ml-68">
-                                
+                                <div className="flex flex-row items-center text-left gap-2 pt-2">
+                                    <Switch id="grayscalewindow" checked={laneChangingModelEnabled} onCheckedChange={handleLaneChangingModelChange} />
+                                    <Label htmlFor="grayscalewindow">
+                                        <span className="font-bold">Lame Changing Assist Model</span><br />
+                                        If enabled, Vehicle Detection will use the Lame Changing Assist Model to check for vehicles before changing lanes.
+                                    </Label>
+                                </div>
+                                <div className="flex flex-row items-center text-left gap-2 pt-2">
+                                    <Switch id="grayscalewindow" checked={vehicleClassificationModelEnabled} onCheckedChange={handleVehicleClassificationModelChange} />
+                                    <Label htmlFor="grayscalewindow">
+                                        <span className="font-bold">Vehicle Classification Model</span><br />
+                                        If enabled, Vehicle Detection will use the Vehicle Classification Model to get details about vehicles for GoDot visualization.
+                                    </Label>
+                                </div>
                             </div>
                         </CardContent>
                     </TabsContent>
@@ -85,7 +108,7 @@ export default function VehicleDetection({ ip }: { ip: string }) {
                         <CardContent>
                             <div className="flex flex-col justify-start pt-2 self-start -ml-40 md:-ml-68">
                                 <Tabs className="w-full">
-                                    <TabsList defaultValue="detection" className="grid grid-cols-2 w-full">
+                                    <TabsList defaultValue="detection" className="grid grid-cols-2">
                                         <TabsTrigger value="detection">Detection</TabsTrigger>
                                         <TabsTrigger value="colors">Colors</TabsTrigger>
                                     </TabsList>

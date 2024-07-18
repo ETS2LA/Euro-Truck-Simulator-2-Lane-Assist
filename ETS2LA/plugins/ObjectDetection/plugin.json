@@ -1,11 +1,11 @@
 {
-    "name": "VehicleDetection",
+    "name": "ObjectDetection",
     "authors": [{
         "name": "DylDev",
         "url": "https://github.com/DylDevs",
         "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
     }],
-    "description": "Detects vehicles using computer vision and can display them in an output window.",
+    "description": "Detects various objects using computer vision and can display them in an output window and 3D visualization.",
     "version": "1.0",
     "dependencies": [],
     "modules": ["ScreenCapture", "ShowImage", "Raycasting", "TruckSimAPI"],

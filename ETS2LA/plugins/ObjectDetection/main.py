@@ -82,6 +82,10 @@ def Initialize():
         capture_width = 1020
         capture_height = 480
 
+    #capture_x = 0
+    #capture_y = 0
+    #capture_width = screen.width
+    #capture_height = screen.height
 
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
