@@ -1,6 +1,6 @@
-from GameData.prefabItems import PrefabItem
+from ETS2LA.plugins.Map.GameData.prefabItems import PrefabItem
 import Compute.compute as compute
-from GameData.roads import Road
+from ETS2LA.plugins.Map.GameData.roads import Road
 import numpy as np
 import logging
 import math

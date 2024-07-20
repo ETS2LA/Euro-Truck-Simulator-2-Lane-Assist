@@ -507,12 +507,12 @@ def GetRoadByUid(uid):
         road = get_nested_item(uidOptimizedRoads, uidParts)
         if road != None:
             return road
-        sys.stdout.write(f" > Node not found in optimizedNodes, searching in nodes...\n")
+        sys.stdout.write(f" > Road not found in optimizedRoads, searching in roads...\n")
         for road in roads:
             if road.Uid == uid:
                 return road
     except:
-        sys.stdout.write(f" > Node not found in optimizedNodes, searching in nodes...\n")
+        sys.stdout.write(f" > Road not found in optimizedRoads, searching in roads...\n")
         for road in roads:
             if road.Uid == uid:
                 return road
@@ -554,7 +554,7 @@ def SetRoadPoints(road, points):
             arrayRoad.Points = points
 
 # MARK: Offset
-import GameData.calc as calc
+import ETS2LA.plugins.Map.GameData.calc as calc
 offsetData = { # Array of manual corrections to the offsets
     999: 4.5,
     0.0: 4.5

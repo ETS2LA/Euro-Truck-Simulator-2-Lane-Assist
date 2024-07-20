@@ -1,8 +1,8 @@
-from GameData.prefabItems import PrefabItem
-import GameData.prefabItems as prefabItems
-from GameData.roads import Road, GetOffset
-import GameData.roads as roads
-from GameData import calc
+from ETS2LA.plugins.Map.GameData.prefabItems import PrefabItem
+import ETS2LA.plugins.Map.GameData.prefabItems as prefabItems
+from ETS2LA.plugins.Map.GameData.roads import Road, GetOffset
+import ETS2LA.plugins.Map.GameData.roads as roads
+from ETS2LA.plugins.Map.GameData import calc
 import threading
 import logging
 import math
