@@ -15,8 +15,8 @@ from ETS2LA.plugins.AR.main import Line
 import ETS2LA.backend.sounds as sounds
 
 # Plugin imports
-from GameData import roads, nodes, prefabs, prefabItems
-import Compute.compute as compute
+from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems
+import ETS2LA.plugins.Map.Compute.compute as compute
 plotter = importlib.import_module("Compute.plotter")
 from Visualize import visualize
 
