@@ -615,7 +615,7 @@ def DeleteAllAIModels():
         for file in os.listdir(f"{variables.PATH}plugins/TrafficLightDetection/AIModel"):
             if file.endswith(".pt"):
                 os.remove(os.path.join(f"{variables.PATH}plugins/TrafficLightDetection/AIModel", file))
-    except PermissionError:
+    except PermissionError as ex:
         global TorchAvailable
         TorchAvailable = False
         settings.CreateSettings("TrafficLightDetection", "UseAI", False)

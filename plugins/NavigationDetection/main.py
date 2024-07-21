@@ -278,8 +278,6 @@ def LoadAIModel():
                 global LoadAIProgress
                 global AIModel
                 global AIModelLoaded
-                global IMG_WIDTH
-                global IMG_HEIGHT
 
                 CheckForAIModelUpdates()
                 while AIModelUpdateThread.is_alive(): time.sleep(0.1)
@@ -292,8 +290,7 @@ def LoadAIModel():
 
                 print("\033[92m" + f"Loading the AI model..." + "\033[0m")
 
-                IMG_WIDTH = GetAIModelProperties()[2]
-                IMG_HEIGHT = GetAIModelProperties()[3]
+                GetAIModelProperties()
 
                 ModelFileCorrupted = False
 
@@ -457,7 +454,7 @@ def DeleteAllAIModels():
         for file in os.listdir(f"{variables.PATH}plugins/NavigationDetection/AIModel"):
             if file.endswith(".pt"):
                 os.remove(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", file))
-    except PermissionError:
+    except PermissionError as ex:
         global TorchAvailable
         TorchAvailable = False
         settings.CreateSettings("NavigationDetection", "UseAI", False)
@@ -472,29 +469,52 @@ def DeleteAllAIModels():
 
 
 def GetAIModelProperties():
+    global MODEL_METADATA
+    global IMG_WIDTH
+    global IMG_HEIGHT
+    global IMG_CHANNELS
+    global MODEL_EPOCHS
+    global MODEL_BATCH_SIZE
+    global MODEL_IMAGE_COUNT
+    global MODEL_TRAINING_TIME
+    global MODEL_TRAINING_DATE
     try:
         ModelFolderExists()
+        MODEL_METADATA = {"data": []}
+        IMG_WIDTH = "UNKNOWN"
+        IMG_HEIGHT = "UNKNOWN"
+        IMG_CHANNELS = "UNKNOWN"
+        MODEL_EPOCHS = "UNKNOWN"
+        MODEL_BATCH_SIZE = "UNKNOWN"
+        MODEL_IMAGE_COUNT = "UNKNOWN"
+        MODEL_TRAINING_TIME = "UNKNOWN"
+        MODEL_TRAINING_DATE = "UNKNOWN"
         if GetAIModelName() == "UNKNOWN":
-            return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
-        else:
-            string = str(GetAIModelName())
-            if string != "UNKNOWN":
-                epochs = int(string.split("EPOCHS-")[1].split("_")[0])
-                batch = int(string.split("BATCH-")[1].split("_")[0])
-                img_width = int(string.split("IMG_WIDTH-")[1].split("_")[0])
-                img_height = int(string.split("IMG_HEIGHT-")[1].split("_")[0])
-                img_count = int(string.split("IMG_COUNT-")[1].split("_")[0])
-                training_time = string.split("TIME-")[1].split("_")[0]
-                training_date = string.split("DATE-")[1].split(".")[0]
-                return (epochs, batch, img_width, img_height, img_count, training_time, training_date)
-            else:
-                return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
+            return
+        torch.jit.load(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
+        MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
+        for var in MODEL_METADATA:
+            if "image_width" in var:
+                IMG_WIDTH = int(var.split("#")[1])
+            if "image_height" in var:
+                IMG_HEIGHT = int(var.split("#")[1])
+            if "image_channels" in var:
+                IMG_CHANNELS = str(var.split("#")[1])
+            if "epochs" in var:
+                MODEL_EPOCHS = int(var.split("#")[1])
+            if "batch" in var:
+                MODEL_BATCH_SIZE = int(var.split("#")[1])
+            if "image_count" in var:
+                MODEL_IMAGE_COUNT = int(var.split("#")[1])
+            if "training_time" in var:
+                MODEL_TRAINING_TIME = var.split("#")[1]
+            if "training_date" in var:
+                MODEL_TRAINING_DATE = var.split("#")[1]
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function GetAIModelProperties.", str(exc))
         print(f"NavigationDetection - Error in function GetAIModelProperties: {ex}")
         console.RestoreConsole()
-        return ("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN")
 
 
 if UseAI:
@@ -1532,11 +1552,11 @@ class UI():
 
                 helpers.MakeButton(navigationdetectionaiFrame, "Install CUDA for GPU support", InstallCUDAPopup, 5, 0, width=30, sticky="nw")
 
-                model_properties = GetAIModelProperties()
-
                 helpers.MakeLabel(navigationdetectionaiFrame, "Model properties:", 6, 0, font=("Robot", 12, "bold"), sticky="nw")
-            
-                helpers.MakeLabel(navigationdetectionaiFrame, f"Epochs: {model_properties[0]}\nBatch Size: {model_properties[1]}\nImage Width: {model_properties[2]}\nImage Height: {model_properties[3]}\nImages/Data Points: {model_properties[4]}\nTraining Time: {model_properties[5]}\nTraining Date: {model_properties[6]}", 7, 0, sticky="nw")
+
+                GetAIModelProperties()
+
+                helpers.MakeLabel(navigationdetectionaiFrame, f"Epochs: {MODEL_EPOCHS}\nBatch Size: {MODEL_BATCH_SIZE}\nImage Width: {IMG_WIDTH}\nImage Height: {IMG_HEIGHT}\nImages/Data Points: {MODEL_IMAGE_COUNT}\nTraining Time: {MODEL_TRAINING_TIME}\nTraining Date: {MODEL_TRAINING_DATE}", 7, 0, sticky="nw")
 
                 self.progresslabel = helpers.MakeLabel(navigationdetectionaiFrame, "", 9, 0, sticky="nw")
 
