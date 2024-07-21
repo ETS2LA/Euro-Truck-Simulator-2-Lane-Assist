@@ -20,6 +20,10 @@ import os
 
 runner:PluginRunner = None
 
+NORMAL = "\033[0m"
+GREEN = "\033[92m"
+RED = "\033[91m"
+
 try:
     from torchvision import transforms
     from bs4 import BeautifulSoup
@@ -30,7 +34,7 @@ except:
     TorchAvailable = False
     exc = traceback.format_exc()
     SendCrashReport("TrafficLightDetection - PyTorch import error.", str(exc))
-    print("\033[91m" + f"TrafficLightDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
+    print(RED + f"TrafficLightDetection - PyTorch import Error:\n" + NORMAL + str(exc))
     pytorch.CheckPyTorch()
     console.RestoreConsole()
 
@@ -58,8 +62,6 @@ def Initialize():
     global UseAI
     global UseCUDA
     global AIDevice
-    global LoadAILabel
-    global LoadAIProgress
 
     global min_rect_size
     global max_rect_size
@@ -135,8 +137,6 @@ def Initialize():
     UseAI = settings.Get("TrafficLightDetection", "UseAIToConfirmTrafficLights", True)
     UseCUDA = settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
-    LoadAILabel = "Loading..."
-    LoadAIProgress = 0
 
     finalwindow = settings.Get("TrafficLightDetection", "FinalWindow", True)
     grayscalewindow = settings.Get("TrafficLightDetection", "GrayscaleWindow", False)
@@ -299,22 +299,25 @@ def get_ai_device():
 def get_ai_properties():
     if os.path.exists(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel") == False:
         os.makedirs(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel")
+    IMG_WIDTH = " - - - "
+    IMG_HEIGHT = " - - - "
+    MODEL_EPOCHS = " - - - "
+    MODEL_BATCH_SIZE = " - - - "
+    MODEL_IMAGE_COUNT = " - - - "
+    MODEL_TRAINING_TIME = " - - - "
+    MODEL_TRAINING_DATE = " - - - "
     model = None
     for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel"):
         if file.endswith(".pt"):
             model = file
             break
     if model == None:
-        return "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"
+        return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
     MODEL_METADATA = {"data": []}
-    IMG_WIDTH = "UNKNOWN"
-    IMG_HEIGHT = "UNKNOWN"
-    MODEL_EPOCHS = "UNKNOWN"
-    MODEL_BATCH_SIZE = "UNKNOWN"
-    MODEL_IMAGE_COUNT = "UNKNOWN"
-    MODEL_TRAINING_TIME = "UNKNOWN"
-    MODEL_TRAINING_DATE = "UNKNOWN"
-    torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", model), _extra_files=MODEL_METADATA)
+    try:
+        torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", model), _extra_files=MODEL_METADATA)
+    except:
+         return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
     MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
     for var in MODEL_METADATA:
         if "image_width" in var:
@@ -392,7 +395,8 @@ def ClassifyImage(image):
 
 def HandleCorruptedAIModel():
     DeleteAllAIModels()
-    CheckForAIModelUpdates()
+    print("HANDLE")
+    CheckForAIModelUpdates(ForceUpdate=True)
     while AIModelUpdateThread.is_alive(): time.sleep(0.1)
     time.sleep(0.5)
     if TorchAvailable == True:
@@ -406,8 +410,6 @@ def LoadAIModel():
     try:
         def LoadAIModelThread():
             try:
-                global LoadAILabel
-                global LoadAIProgress
                 global AIModel
                 global AIModelLoaded
 
@@ -417,10 +419,7 @@ def LoadAIModel():
                 if GetAIModelName() == "UNKNOWN":
                     return
 
-                LoadAIProgress = 0
-                LoadAILabel = "Loading the AI model..."
-
-                print("\033[92m" + f"Loading the AI model..." + "\033[0m")
+                print(GREEN + f"Loading the AI model..." + NORMAL)
 
                 GetAIModelProperties()
 
@@ -433,25 +432,19 @@ def LoadAIModel():
                     ModelFileCorrupted = True
 
                 if ModelFileCorrupted == False:
-                    print("\033[92m" + f"Successfully loaded the AI model!" + "\033[0m")
+                    print(GREEN + f"Successfully loaded the AI model!" + NORMAL)
                     AIModelLoaded = True
-                    LoadAIProgress = 100
-                    LoadAILabel = "Successfully loaded the AI model!"
                 else:
-                    print("\033[91m" + f"Failed to load the AI model because the model file is corrupted." + "\033[0m")
+                    print(RED + f"Failed to load the AI model because the model file is corrupted." + NORMAL)
                     AIModelLoaded = False
-                    LoadAIProgress = 0
-                    LoadAILabel = "ERROR! Your AI model file is corrupted!"
                     time.sleep(3)
                     HandleCorruptedAIModel()
             except Exception as e:
                 exc = traceback.format_exc()
                 SendCrashReport("TrafficLightDetection - Loading AI Error.", str(exc))
                 console.RestoreConsole()
-                print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
+                print(RED + f"Failed to load the AI model." + NORMAL)
                 AIModelLoaded = False
-                LoadAIProgress = 0
-                LoadAILabel = "Failed to load the AI model!"
 
         global AIModelLoadThread
         AIModelLoadThread = threading.Thread(target=LoadAIModelThread)
@@ -462,16 +455,13 @@ def LoadAIModel():
         SendCrashReport("TrafficLightDetection - Error in function LoadAIModel.", str(exc))
         print(f"TrafficLightDetection - Error in function LoadAIModel: {ex}")
         console.RestoreConsole()
-        print("\033[91m" + f"Failed to load the AI model." + "\033[0m")
+        print(RED + f"Failed to load the AI model." + NORMAL)
 
 
-def CheckForAIModelUpdates():
+def CheckForAIModelUpdates(ForceUpdate=False):
     try:
-        def CheckForAIModelUpdatesThread():
+        def CheckForAIModelUpdatesThread(ForceUpdate):
             try:
-                global LoadAILabel
-                global LoadAIProgress
-
                 try:
                     response = requests.get("https://huggingface.co/", timeout=3)
                     response = response.status_code
@@ -479,15 +469,10 @@ def CheckForAIModelUpdates():
                     response = None
 
                 if response == 200:
-                    LoadAIProgress = 0
-                    LoadAILabel = "Checking for AI model updates..."
+                    print(GREEN + f"Checking for AI model updates..." + NORMAL)
 
-                    print("\033[92m" + f"Checking for AI model updates..." + "\033[0m")
-
-                    if settings.Get("TrafficLightDetection", "LastUpdateCheck", 0) + 600 > time.time():
-                        LoadAIProgress = 100
-                        LoadAILabel = "Skipping AI model update check, last check was less than 10 minutes ago."
-                        print("\033[92m" + f"Skipping AI model update check, last check was less than 10 minutes ago." + "\033[0m")
+                    if settings.Get("TrafficLightDetection", "LastUpdateCheck", 0) + 600 > time.time() and ForceUpdate == False and GetAIModelName() != "UNKNOWN":
+                        print(GREEN + f"Skipping AI model update check, last check was less than 10 minutes ago." + NORMAL)
                         return
                     settings.Set("TrafficLightDetection", "LastUpdateCheck", round(time.time()))
 
@@ -506,8 +491,7 @@ def CheckForAIModelUpdates():
                         CurrentAIModel = None
 
                     if str(LatestAIModel) != str(CurrentAIModel):
-                        LoadAILabel = "Updating AI model..."
-                        print("\033[92m" + f"Updating AI model..." + "\033[0m")
+                        print(GREEN + f"Updating AI model..." + NORMAL)
                         DeleteAllAIModels()
                         response = requests.get(f"https://huggingface.co/Glas42/TrafficLightDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
                         last_progress = 0
@@ -522,35 +506,25 @@ def CheckForAIModelUpdates():
                                 if round(last_progress) < round(progress):
                                     progress_mb = downloaded_size / (1024 * 1024)
                                     total_size_mb = total_size / (1024 * 1024)
-                                    LoadAIProgress = progress
-                                    LoadAILabel = f"Downloading AI model: {round(progress)}%"
                                     last_progress = progress
-                        LoadAIProgress = 100
-                        LoadAILabel = "Successfully updated AI model!"
-                        print("\033[92m" + f"Successfully updated AI model!" + "\033[0m")
+                        print(GREEN + f"Successfully updated AI model!" + NORMAL)
                     else:
-                        LoadAIProgress = 100
-                        LoadAILabel = "No AI model updates available!"
-                        print("\033[92m" + f"No AI model updates available!" + "\033[0m")
+                        print(GREEN + f"No AI model updates available!" + NORMAL)
 
                 else:
 
                     console.RestoreConsole()
-                    print("\033[91m" + f"Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for AI model updates." + "\033[0m")
-                    LoadAIProgress = 0
-                    LoadAILabel = "Connection to https://huggingface.co/ is\nmost likely not available in your country.\nUnable to check for AI model updates."
+                    print(RED + f"Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for AI model updates." + NORMAL)
 
             except Exception as ex:
                 exc = traceback.format_exc()
                 SendCrashReport("TrafficLightDetection - Error in function CheckForAIModelUpdatesThread.", str(exc))
                 print(f"TrafficLightDetection - Error in function CheckForAIModelUpdatesThread: {ex}")
                 console.RestoreConsole()
-                print("\033[91m" + f"Failed to check for AI model updates or update the AI model." + "\033[0m")
-                LoadAIProgress = 0
-                LoadAILabel = "Failed to check for AI model updates or update the AI model."
+                print(RED + f"Failed to check for AI model updates or update the AI model." + NORMAL)
 
         global AIModelUpdateThread
-        AIModelUpdateThread = threading.Thread(target=CheckForAIModelUpdatesThread)
+        AIModelUpdateThread = threading.Thread(target=CheckForAIModelUpdatesThread, args=(ForceUpdate, ), daemon=True)
         AIModelUpdateThread.start()
 
     except Exception as ex:
@@ -558,7 +532,7 @@ def CheckForAIModelUpdates():
         SendCrashReport("TrafficLightDetection - Error in function CheckForAIModelUpdates.", str(exc))
         print(f"TrafficLightDetection - Error in function CheckForAIModelUpdates: {ex}")
         console.RestoreConsole()
-        print("\033[91m" + f"Failed to check for AI model updates or update the AI model." + "\033[0m")
+        print(RED + f"Failed to check for AI model updates or update the AI model." + NORMAL)
 
 
 def ModelFolderExists():
@@ -593,7 +567,7 @@ def DeleteAllAIModels():
         for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel"):
             if file.endswith(".pt"):
                 os.remove(os.path.join(f"{variables.PATH}ETS2LA/plugins/TrafficLightDetection/AIModel", file))
-    except PermissionError:
+    except PermissionError as ex:
         global TorchAvailable
         TorchAvailable = False
         settings.Set("TrafficLightDetection", "UseAI", False)

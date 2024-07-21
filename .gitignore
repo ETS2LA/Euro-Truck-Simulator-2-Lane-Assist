@@ -7,10 +7,8 @@ logs
 /ETS2LA/global.json
 /ETS2LA/backend/settings/*.json
 
-# Ignore the TrafficLightDetection YOLO files
+# Ignore the TrafficLightDetection AI files
 /ETS2LA/plugins/TrafficLightDetection/AIModel
 
-# Ignore the NavigationDetection YOLO and AI files
+# Ignore the NavigationDetection AI files
 /ETS2LA/plugins/NavigationDetection/AIModel
-/ETS2LA/plugins/NavigationDetection/YOLOFiles
-/ETS2LA/plugins/NavigationDetection/YOLOv5_MapDetectionModel.pt

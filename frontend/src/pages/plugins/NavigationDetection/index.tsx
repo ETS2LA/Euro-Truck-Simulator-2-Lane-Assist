@@ -21,20 +21,57 @@ import useSWR from "swr";
 
 export default function NavigationDetection({ ip }: { ip: string }) {
 
+    const {data, error, isLoading} = useSWR("NavigationDetection", () => GetSettingsJSON("NavigationDetection", ip));
+
+    const [AIDevice, setAIDevice] = useState<string | undefined>(undefined);
+    const [ModelPropertiesEpochs, setModelPropertiesEpochs] = useState<string | undefined>(undefined);
+    const [ModelPropertiesBatchSize, setModelPropertiesBatchSize] = useState<string | undefined>(undefined);
+    const [ModelPropertiesImageWidth, setModelPropertiesImageWidth] = useState<string | undefined>(undefined);
+    const [ModelPropertiesImageHeight, setModelPropertiesImageHeight] = useState<string | undefined>(undefined);
+    const [ModelPropertiesDataPoints, setModelPropertiesDataPoints] = useState<string | undefined>(undefined);
+    const [ModelPropertiesTrainingTime, setModelPropertiesTrainingTime] = useState<string | undefined>(undefined);
+    const [ModelPropertiesTrainingDate, setModelPropertiesTrainingDate] = useState<string | undefined>(undefined);
+
+    const GetPythonData = async () => {
+        setAIDevice("Loading...");
+        setModelPropertiesEpochs("Loading...");
+        setModelPropertiesBatchSize("Loading...");
+        setModelPropertiesImageWidth("Loading...");
+        setModelPropertiesImageHeight("Loading...");
+        setModelPropertiesDataPoints("Loading...");
+        setModelPropertiesTrainingTime("Loading...");
+        setModelPropertiesTrainingDate("Loading...");
+
+        let data = undefined;
+        while (data == undefined || data == false)
+            data = (await PluginFunctionCall("NavigationDetection", "get_ai_device", [], {"timeout": 15}));
+        setAIDevice(data);
+
+        data = undefined;
+        while (data == undefined || data == false)
+            data = (await PluginFunctionCall("NavigationDetection", "get_ai_properties", [], {"timeout": 15}));
+        setModelPropertiesEpochs(data[0]);
+        setModelPropertiesBatchSize(data[1]);
+        setModelPropertiesImageWidth(data[2]);
+        setModelPropertiesImageHeight(data[3]);
+        setModelPropertiesDataPoints(data[4]);
+        setModelPropertiesTrainingTime(data[5]);
+        setModelPropertiesTrainingDate(data[6]);
+    }
+    useEffect(() => { GetPythonData(); }, []);
+
     const defaultLaneOffset = "0";
     const defaultLaneChangeSpeed = "1";
     const defaultLaneChangeWidth = "10";
 
-    const {data, error, isLoading} = useSWR("NavigationDetection", () => GetSettingsJSON("NavigationDetection", ip));
-
     const [LaneOffset, setLaneOffset] = useState<string | undefined>(undefined);
-    const[LeftHandTraffic, setLeftHandTraffic] = useState<boolean | undefined>(undefined);
+    const [LeftHandTraffic, setLeftHandTraffic] = useState<boolean | undefined>(undefined);
     const [LaneChanging, setLaneChanging] = useState<boolean | undefined>(undefined);
     const [LaneChangeSpeed, setLaneChangeSpeed] = useState<string | undefined>(undefined);
     const [LaneChangeWidth, setLaneChangeWidth] = useState<string | undefined>(undefined);
 
     const [UseNavigationDetectionAI, setUseNavigationDetectionAI] = useState<boolean | undefined>(undefined);
-    const [TryCUDA, setTryCUDA] = useState<boolean | undefined>(undefined);
+    const [TryToUseYourGPUToRunTheAI, setTryToUseYourGPUToRunTheAI] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
         if (data) {
@@ -46,7 +83,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             if (data.LaneChangeWidth !== undefined) { setLaneChangeWidth(data.LaneChangeWidth); } else { setLaneChangeWidth(defaultLaneChangeWidth); }
 
             if (data.UseNavigationDetectionAI !== undefined) { setUseNavigationDetectionAI(data.UseNavigationDetectionAI); } else { setUseNavigationDetectionAI(false); }
-            if (data.TryCUDA !== undefined) { setTryCUDA(data.TryCUDA); } else { setTryCUDA(false); }
+            if (data.TryToUseYourGPUToRunTheAI !== undefined) { setTryToUseYourGPUToRunTheAI(data.TryToUseYourGPUToRunTheAI); } else { setTryToUseYourGPUToRunTheAI(false); }
 
         }
     }, [data]);
@@ -123,14 +160,19 @@ export default function NavigationDetection({ ip }: { ip: string }) {
         setUseNavigationDetectionAI(newUseNavigationDetectionAI);
     };
 
-    const UpdateTryCUDA = async () => {
-        let newTryCUDA = !TryCUDA;
-        toast.promise(SetSettingByKey("NavigationDetection", "TryCUDA", newTryCUDA, ip), {
+    const UpdateTryToUseYourGPUToRunTheAI = async () => {
+        setAIDevice("Updating...");
+        let newTryToUseYourGPUToRunTheAI = !TryToUseYourGPUToRunTheAI;
+        toast.promise(SetSettingByKey("NavigationDetection", "TryToUseYourGPUToRunTheAI", newTryToUseYourGPUToRunTheAI, ip), {
             loading: "Saving...",
-            success: "Set value to " + newTryCUDA,
+            success: "Set value to " + newTryToUseYourGPUToRunTheAI,
             error: "Failed to save"
         });
-        setTryCUDA(newTryCUDA);
+        setTryToUseYourGPUToRunTheAI(newTryToUseYourGPUToRunTheAI);
+        let data = undefined;
+        while (data == undefined || data == false)
+            data = (await PluginFunctionCall("NavigationDetection", "get_ai_device", [], {"timeout": 15}));
+        setAIDevice(data);
     };
 
     return (
@@ -153,9 +195,8 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             </Popover>
 
             <Tabs defaultValue="general" style={{ position: 'absolute', top: '47px', left: '248px', right: '13.5pt' }}>
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="general">General</TabsTrigger>
-                    <TabsTrigger value="setup">Setup</TabsTrigger>
                     <TabsTrigger value="navigationdetectionai">NavigationDetectionAI</TabsTrigger>
                     <TabsTrigger value="showimage">Show Image</TabsTrigger>
                 </TabsList>
@@ -231,31 +272,6 @@ export default function NavigationDetection({ ip }: { ip: string }) {
                     </div>
 
                 </TabsContent>
-                <TabsContent value="setup">
-
-                    <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
-
-                        <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Button variant="outline" id="launchautomaticsetup" onClick={() => {toast.promise(PluginFunctionCall("NavigationDetection", "automatic_setup", [], {"timeout": 15}), { loading: "Loading...", success: "Success", error: "Error" });}}>
-                                Launch Automatic Setup
-                            </Button>
-                            <Label htmlFor="launchautomaticsetup">
-                                The automatic setup will search for the minimap on your screen using AI (YOLOv5), it needs to download some files the first time you run it. Make sure that the minimap is always visible and not blocked by other applications.
-                            </Label>
-                        </div>
-
-                        <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Button variant="outline" id="launchmanualsetup" onClick={() => {toast.promise(PluginFunctionCall("NavigationDetection", "manual_setup", [], {"timeout": 15}), { loading: "Loading...", success: "Success", error: "Error" });}}>
-                                Launch Manual Setup
-                            </Button>
-                            <Label htmlFor="launchmanualsetup">
-                                The manual setup will take a screenshot of your screen and then ask you to select the route advisor and arrow position. You can take a look at the example image when you don't know what to do. The example image will open in another window.
-                            </Label>
-                        </div>
-
-                    </div>
-
-                </TabsContent>
                 <TabsContent value="navigationdetectionai">
 
                     <div className="flex flex-col gap-4 justify-start pt-2" style={{ position: 'absolute', left: '-227px', right: '2.5pt' }}>
@@ -270,15 +286,28 @@ export default function NavigationDetection({ ip }: { ip: string }) {
                         </div>
                         )}
 
-                        {TryCUDA !== undefined && (
+                        {TryToUseYourGPUToRunTheAI !== undefined && (
                         <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Switch id="trycuda" checked={TryCUDA} onCheckedChange={UpdateTryCUDA} />
-                            <Label htmlFor="trycuda">
-                                <span className="font-bold">Run AI on GPU</span><br />
-                                If enabled, the app will try to run the AI on your GPU using CUDA, if CUDA is not available, it will fallback to CPU.
+                            <Switch id="trytouseyourgputoruntheai" checked={TryToUseYourGPUToRunTheAI} onCheckedChange={UpdateTryToUseYourGPUToRunTheAI} />
+                            <Label htmlFor="trytouseyourgputoruntheai">
+                                <span className="font-bold">Try to use your GPU to run the AI</span><br />
+                                This requires a NVIDIA GPU with CUDA installed. (Currently using: {AIDevice})
                             </Label>
                         </div>
                         )}
+
+                        <div className="flex flex-row items-center text-left gap-2 pt-2">
+                            <Label style={{ lineHeight: '1.1' }}>
+                                <span className="font-bold">Model Properties</span><br />
+                                Epochs: {ModelPropertiesEpochs}<br />
+                                Batch Size: {ModelPropertiesBatchSize}<br />
+                                Image Width: {ModelPropertiesImageWidth}<br />
+                                Image Height: {ModelPropertiesImageHeight}<br />
+                                Images/Data Points: {ModelPropertiesDataPoints}<br />
+                                Training Time: {ModelPropertiesTrainingTime}<br />
+                                Training Date: {ModelPropertiesTrainingDate}
+                            </Label>
+                        </div>
 
                     </div>
 

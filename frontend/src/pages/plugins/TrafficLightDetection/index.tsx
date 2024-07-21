@@ -36,6 +36,19 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const [ModelPropertiesTrainingDate, setModelPropertiesTrainingDate] = useState<string | undefined>(undefined);
 
     const GetPythonData = async () => {
+        setScreenX(0);
+        setScreenY(0);
+        setScreenWidth(0);
+        setScreenHeight(0);
+        setAIDevice("Loading...");
+        setModelPropertiesEpochs("Loading...");
+        setModelPropertiesBatchSize("Loading...");
+        setModelPropertiesImageWidth("Loading...");
+        setModelPropertiesImageHeight("Loading...");
+        setModelPropertiesDataPoints("Loading...");
+        setModelPropertiesTrainingTime("Loading...");
+        setModelPropertiesTrainingDate("Loading...");
+
         let data = undefined;
         while (data == undefined || data == false)
             data = (await PluginFunctionCall("TrafficLightDetection", "get_screen", [], {"timeout": 15}));
@@ -83,7 +96,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     const defaultColorSettings_lgg = 200;
     const defaultColorSettings_lgb = 0;
     const defaultFiltersMinimalTrafficLightSize = 8;
-    const defaultFiltersMaximalTrafficLightSize = ScreenHeight ? ScreenHeight / 4 : 500;
+    const defaultFiltersMaximalTrafficLightSize = ScreenHeight ? ScreenHeight / 4 : 1000;
 
     const [ResetSymbol, setResetSymbol] = useState<boolean>(false);
 
@@ -740,7 +753,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         )}
 
                         <div className="flex flex-row items-center text-left gap-2 pt-2">
-                            <Label>
+                            <Label style={{ lineHeight: '1.1' }}>
                                 <span className="font-bold">Model Properties</span><br />
                                 Epochs: {ModelPropertiesEpochs}<br />
                                 Batch Size: {ModelPropertiesBatchSize}<br />
