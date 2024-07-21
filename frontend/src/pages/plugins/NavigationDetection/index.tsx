@@ -2,6 +2,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { GetPlugins, EnablePlugin, DisablePlugin } from "@/pages/backend"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
@@ -22,6 +23,8 @@ import useSWR from "swr";
 export default function NavigationDetection({ ip }: { ip: string }) {
 
     const {data, error, isLoading} = useSWR("NavigationDetection", () => GetSettingsJSON("NavigationDetection", ip));
+
+    const isPluginEnabled = false;
 
     const [AIDevice, setAIDevice] = useState<string | undefined>(undefined);
     const [ModelPropertiesEpochs, setModelPropertiesEpochs] = useState<string | undefined>(undefined);
@@ -184,13 +187,33 @@ export default function NavigationDetection({ ip }: { ip: string }) {
                         <Button variant="secondary" style={{ fontWeight: 'bold' }}>NavigationDetection</Button>
                     </CardHeader>
                 </PopoverTrigger>
-                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '91px', width: '225px' }}>
-                    <Label style={{ position: 'absolute', top: '12px', left: '10px', fontSize: '16px' }}>Created by</Label>
-                    <Separator style={{ position: 'absolute', top: '40px', left: "0px" }}/>
-                    <Label style={{ position: 'absolute', top: '57px', left: '46px', fontSize: '16px' }}>Glas42</Label>
-                    <Avatar style={{ position: 'absolute', top: '49px', left: '8px', width: '32px', height: '32px' }}>
+                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '136px', width: '225px' }}>
+                    <Label style={{ position: 'absolute', top: '12px', left: '8px', fontSize: '16px' }}>Created by</Label>
+                    <Separator style={{ position: 'absolute', top: '41px', left: "0px" }}/>
+                    <Label style={{ position: 'absolute', top: '58px', left: '46px', fontSize: '16px' }}>Glas42</Label>
+                    <Avatar style={{ position: 'absolute', top: '50px', left: '8px', width: '32px', height: '32px' }}>
                         <AvatarImage src="https://avatars.githubusercontent.com/u/145870870?v=4"/>
                     </Avatar>
+                    <Separator style={{ position: 'absolute', top: '90px', left: "0px" }}/>
+                    {isPluginEnabled ? (
+                        <Button style={{ position: 'absolute', top: '95px', left: '4px', width: '215px', height: '35px' }} variant={"outline"} onClick={() => {
+                            toast.promise(DisablePlugin("NavigationDetection", ip), {
+                                loading: "Disabling " + "NavigationDetection",
+                                success: "Disabled " + "NavigationDetection",
+                                error: "Error disabling " + "NavigationDetection",
+                                description: "The button may take a second to update."
+                            })
+                        }}>Disable</Button>
+                    ) : (
+                        <Button style={{ position: 'absolute', top: '95px', left: '4px', width: '215px', height: '35px' }} onClick={() => {
+                            toast.promise(EnablePlugin("NavigationDetection", ip), {
+                                loading: "Enabling " + "NavigationDetection",
+                                success: "Enabled " + "NavigationDetection",
+                                error: "Error enabling " + "NavigationDetection",
+                                description: "The button may take a second to update."
+                            })
+                        }}>Enable</Button>
+                    )}
                 </PopoverContent>
             </Popover>
 
