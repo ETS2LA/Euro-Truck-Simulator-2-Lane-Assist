@@ -3,6 +3,7 @@ tkinter-tooltip
 beautifulsoup4
 opencv-python
 transformers
+proxy_tools
 ultralytics
 torchvision
 setuptools
