@@ -55,7 +55,6 @@ def GetHistory():
                             authors[commit["author"]] = cached_url
                         else:
                             try:
-                                print("CALL CALL CALL CALL CALL CALL")
                                 response = requests.get(url, timeout=6)
                                 success = True
                             except:
