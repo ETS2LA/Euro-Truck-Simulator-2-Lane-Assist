@@ -1226,6 +1226,22 @@ def plugin():
             global IMG_HEIGHT
 
             try:
+                if AIModelUpdateThread.is_alive():
+                    frame = np.zeros((ScreenCapture.monitor_y2 - ScreenCapture.monitor_y1, ScreenCapture.monitor_x2 - ScreenCapture.monitor_x1, 3), np.uint8)
+                    text, fontscale, thickness, text_width, text_height = get_text_size(text="Updating AI Model...", text_width=frame.shape[1]/1.5, max_text_height=frame.shape[0])
+                    cv2.putText(frame, text, (round(frame.shape[1]/2 - text_width/2), round(frame.shape[0]/2 - text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 255, 0), thickness, cv2.LINE_AA)
+                    ShowImage.run(frame)
+                    return
+                elif AIModelLoadThread.is_alive():
+                    frame = np.zeros((ScreenCapture.monitor_y2 - ScreenCapture.monitor_y1, ScreenCapture.monitor_x2 - ScreenCapture.monitor_x1, 3), np.uint8)
+                    text, fontscale, thickness, text_width, text_height = get_text_size(text="Loading AI Model...", text_width=frame.shape[1]/1.5, max_text_height=frame.shape[0])
+                    cv2.putText(frame, text, (round(frame.shape[1]/2 - text_width/2), round(frame.shape[0]/2 - text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 255, 0), thickness, cv2.LINE_AA)
+                    ShowImage.run(frame)
+                    return
+            except:
+                return
+
+            try:
                 frame = data["frame"]
                 width = frame.shape[1]
                 height = frame.shape[0]
@@ -1273,10 +1289,11 @@ def plugin():
 
             output = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
-            if enabled == True and gamepaused == False and AIModelLoaded == True and AIModelUpdateThread.is_alive() == False and AIModelLoadThread.is_alive() == False:
-                with torch.no_grad():
-                    output = AIModel(AIFrame)
-                    output = output.tolist()
+            if enabled == True and gamepaused == False:
+                if AIModelLoaded == True:
+                    with torch.no_grad():
+                        output = AIModel(AIFrame)
+                        output = output.tolist()
 
             steering = float(output[0][0]) / -30
             left_indicator = bool(float(output[0][1]) > 0.15)
