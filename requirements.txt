@@ -26,7 +26,6 @@ pygame
 mouse
 scipy
 numpy
-proxy
 torch
 rich
 rpyc
