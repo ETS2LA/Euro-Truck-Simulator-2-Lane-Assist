@@ -61,7 +61,7 @@ def start_webpage():
         window,
         private_mode=False, # Save cookies, local storage and cache
         debug=DEBUG_MODE, # Show developer tools
-        storage_path=variables.PATH + "/ETS2LA/frontend/web_cache"
+        storage_path=f"{variables.PATH}cache"
     )
 
 def run():

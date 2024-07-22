@@ -1,6 +1,9 @@
 # Ignore the logs
 logs
 
+# Ignore the cache
+cache
+
 # Ignore the python cache and settings
 **/__pycache__
 **/settings.json
