@@ -1226,12 +1226,6 @@ def plugin():
             global IMG_HEIGHT
 
             try:
-                while AIModelUpdateThread.is_alive(): return
-                while AIModelLoadThread.is_alive(): return
-            except:
-                return
-
-            try:
                 frame = data["frame"]
                 width = frame.shape[1]
                 height = frame.shape[0]
@@ -1279,11 +1273,10 @@ def plugin():
 
             output = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
-            if enabled == True and gamepaused == False:
-                if AIModelLoaded == True:
-                    with torch.no_grad():
-                        output = AIModel(AIFrame)
-                        output = output.tolist()
+            if enabled == True and gamepaused == False and AIModelLoaded == True and AIModelUpdateThread.is_alive() == False and AIModelLoadThread.is_alive() == False:
+                with torch.no_grad():
+                    output = AIModel(AIFrame)
+                    output = output.tolist()
 
             steering = float(output[0][0]) / -30
             left_indicator = bool(float(output[0][1]) > 0.15)

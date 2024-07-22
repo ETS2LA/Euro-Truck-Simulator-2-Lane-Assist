@@ -1,4 +1,4 @@
-from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar, CheckIfWindowStillOpen, get_screen_dimensions, get_theme, window_position
+from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar, CheckIfWindowStillOpen, get_screen_dimensions, check_valid_window_position, get_theme, window_position
 from ETS2LA.frontend.webpageExtras.html import html
 import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
@@ -35,11 +35,16 @@ def start_webpage():
         time.sleep(3)
         window.load_url('http://localhost:3000')
 
+    window_x = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))[0]
+    window_y = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))[1]
+
+    window_x, window_y = check_valid_window_position(window_x, window_y)
+
     window = webview.create_window(
         f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}', 
         html=html, 
-        x = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))[0],
-        y = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))[1],
+        x = window_x,
+        y = window_y,
         width=1280, 
         height=720,
         background_color=get_theme(),
