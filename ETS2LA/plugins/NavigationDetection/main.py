@@ -7,6 +7,8 @@ import ETS2LA.utils.pytorch as pytorch
 import ETS2LA.backend.sounds as sounds
 import ETS2LA.variables as variables
 
+if variables.OS == "nt":
+    import win32gui
 import numpy as np
 import threading
 import traceback
@@ -43,6 +45,8 @@ screen_x = monitor["left"]
 screen_y = monitor["top"]
 screen_width = monitor["width"]
 screen_height = monitor["height"]
+
+last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 controls.RegisterKeybind("Lane change to the left",
                          notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
@@ -289,6 +293,51 @@ def get_ai_properties():
         if "training_date" in var:
             MODEL_TRAINING_DATE = var.split("#")[1]
     return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
+
+
+def GetGamePosition():
+    global last_GetGamePosition
+    if variables.OS == "nt":
+        if last_GetGamePosition[0] + 3 < time.time():
+            hwnd = None
+            top_windows = []
+            window = last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
+            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+            for hwnd, window_text in top_windows:
+                if "Truck Simulator" in window_text and "Discord" not in window_text:
+                    rect = win32gui.GetClientRect(hwnd)
+                    tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                    br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                    window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                    break
+            last_GetGamePosition = time.time(), window[0], window[1], window[0] + window[2], window[1] + window[3]
+            return window[0], window[1], window[0] + window[2], window[1] + window[3]
+        else:
+            return last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
+    else:
+        return screen_x, screen_y, screen_x + screen_width, screen_y + screen_height
+
+
+def GetRouteAdvisorPosition():
+    x1, y1, x2, y2 = GetGamePosition()
+    distance_from_right = 21
+    distance_from_bottom = 100
+    width = 420
+    height = 219
+    scale = (y2 - y1) / 1080
+    x = x1 + (x2 - x1) - (distance_from_right * scale + width * scale)
+    y = y1 + (y2 - y1) - (distance_from_bottom * scale + height * scale)
+    map_topleft = (round(x), round(y))
+    x = x1 + (x2 - x1) - (distance_from_right * scale)
+    y = y1 + (y2 - y1) - (distance_from_bottom * scale)
+    map_bottomright = (round(x), round(y))
+    x = map_bottomright[0] - (map_bottomright[0] - map_topleft[0]) * 0.57
+    y = map_bottomright[1] - (map_bottomright[1] - map_topleft[1]) * 0.575
+    arrow_topleft = (round(x), round(y))
+    x = map_bottomright[0] - (map_bottomright[0] - map_topleft[0]) * 0.43
+    y = map_bottomright[1] - (map_bottomright[1] - map_topleft[1]) * 0.39
+    arrow_bottomright = (round(x), round(y))
+    return map_topleft, map_bottomright, arrow_topleft, arrow_bottomright
 
 
 def get_text_size(text="NONE", text_width=100, max_text_height=100):
