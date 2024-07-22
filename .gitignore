@@ -9,9 +9,3 @@ cache
 **/settings.json
 /ETS2LA/global.json
 /ETS2LA/backend/settings/*.json
-
-# Ignore the TrafficLightDetection AI files
-/ETS2LA/plugins/TrafficLightDetection/AIModel
-
-# Ignore the NavigationDetection AI files
-/ETS2LA/plugins/NavigationDetection/AIModel

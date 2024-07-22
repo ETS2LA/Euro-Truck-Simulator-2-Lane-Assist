@@ -253,8 +253,8 @@ def get_ai_device():
 
 
 def get_ai_properties():
-    if os.path.exists(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel") == False:
-        os.makedirs(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel")
+    if os.path.exists(f"{variables.PATH}cache/NavigationDetection") == False:
+        os.makedirs(f"{variables.PATH}cache/NavigationDetection")
     IMG_WIDTH = " - - - "
     IMG_HEIGHT = " - - - "
     MODEL_EPOCHS = " - - - "
@@ -263,7 +263,7 @@ def get_ai_properties():
     MODEL_TRAINING_TIME = " - - - "
     MODEL_TRAINING_DATE = " - - - "
     model = None
-    for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel"):
+    for file in os.listdir(f"{variables.PATH}cache/NavigationDetection"):
         if file.endswith(".pt"):
             model = file
             break
@@ -271,7 +271,7 @@ def get_ai_properties():
         return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
     MODEL_METADATA = {"data": []}
     try:
-        torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel", model), _extra_files=MODEL_METADATA)
+        torch.jit.load(os.path.join(f"{variables.PATH}cache/NavigationDetection", model), _extra_files=MODEL_METADATA)
     except:
          return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
     MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
@@ -400,7 +400,7 @@ def LoadAIModel():
                 ModelFileCorrupted = False
 
                 try:
-                    AIModel = torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel", GetAIModelName()), map_location=AIDevice)
+                    AIModel = torch.jit.load(os.path.join(f"{variables.PATH}cache/NavigationDetection", GetAIModelName()), map_location=AIDevice)
                     AIModel.eval()
                 except:
                     ModelFileCorrupted = True
@@ -469,7 +469,7 @@ def CheckForAIModelUpdates(ForceUpdate=False):
                         DeleteAllAIModels()
                         response = requests.get(f"https://huggingface.co/Glas42/NavigationDetectionAI/resolve/main/model/{LatestAIModel}?download=true", stream=True)
                         last_progress = 0
-                        with open(os.path.join(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel", f"{LatestAIModel}"), "wb") as modelfile:
+                        with open(os.path.join(f"{variables.PATH}cache/NavigationDetection", f"{LatestAIModel}"), "wb") as modelfile:
                             total_size = int(response.headers.get('content-length', 0))
                             downloaded_size = 0
                             chunk_size = 1024
@@ -511,8 +511,8 @@ def CheckForAIModelUpdates(ForceUpdate=False):
 
 def ModelFolderExists():
     try:
-        if os.path.exists(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel") == False:
-            os.makedirs(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel")
+        if os.path.exists(f"{variables.PATH}cache/NavigationDetection") == False:
+            os.makedirs(f"{variables.PATH}cache/NavigationDetection")
     except Exception as ex:
         exc = traceback.format_exc()
         SendCrashReport("NavigationDetection - Error in function ModelFolderExists.", str(exc))
@@ -523,7 +523,7 @@ def ModelFolderExists():
 def GetAIModelName():
     try:
         ModelFolderExists()
-        for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel"):
+        for file in os.listdir(f"{variables.PATH}cache/NavigationDetection"):
             if file.endswith(".pt"):
                 return file
         return "UNKNOWN"
@@ -538,9 +538,9 @@ def GetAIModelName():
 def DeleteAllAIModels():
     try:
         ModelFolderExists()
-        for file in os.listdir(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel"):
+        for file in os.listdir(f"{variables.PATH}cache/NavigationDetection"):
             if file.endswith(".pt"):
-                os.remove(os.path.join(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel", file))
+                os.remove(os.path.join(f"{variables.PATH}cache/NavigationDetection", file))
     except PermissionError as ex:
         global TorchAvailable
         TorchAvailable = False
@@ -578,7 +578,7 @@ def GetAIModelProperties():
         MODEL_TRAINING_DATE = "UNKNOWN"
         if GetAIModelName() == "UNKNOWN":
             return
-        torch.jit.load(os.path.join(f"{variables.PATH}ETS2LA/plugins/NavigationDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
+        torch.jit.load(os.path.join(f"{variables.PATH}cache/NavigationDetection", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
         MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
         for var in MODEL_METADATA:
             if "image_width" in var:
