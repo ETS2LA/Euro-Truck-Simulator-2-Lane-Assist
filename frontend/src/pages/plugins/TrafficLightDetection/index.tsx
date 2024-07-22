@@ -1,6 +1,7 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { GetPlugins, EnablePlugin, DisablePlugin } from "@/pages/backend"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardHeader } from "@/components/ui/card"
@@ -21,6 +22,8 @@ import useSWR from "swr";
 export default function TrafficLightDetection({ ip }: { ip: string }) {
 
     const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
+
+    const isPluginEnabled = false;
 
     const [ScreenX, setScreenX] = useState<number | undefined>(undefined);
     const [ScreenY, setScreenY] = useState<number | undefined>(undefined);
@@ -603,7 +606,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     }
 
     return (
-        <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto">
+        <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto">
 
             <Popover>
                 <PopoverTrigger asChild>
@@ -611,13 +614,33 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                         <Button variant="secondary" style={{ fontWeight: 'bold' }}>TrafficLightDetection</Button>
                     </CardHeader>
                 </PopoverTrigger>
-                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '91px', width: '225px' }}>
-                    <Label style={{ position: 'absolute', top: '12px', left: '10px', fontSize: '16px' }}>Created by</Label>
-                    <Separator style={{ position: 'absolute', top: '40px', left: "0px" }}/>
-                    <Label style={{ position: 'absolute', top: '57px', left: '46px', fontSize: '16px' }}>Glas42</Label>
-                    <Avatar style={{ position: 'absolute', top: '49px', left: '8px', width: '32px', height: '32px' }}>
+                <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '136px', width: '225px' }}>
+                    <Label style={{ position: 'absolute', top: '12px', left: '8px', fontSize: '16px' }}>Created by</Label>
+                    <Separator style={{ position: 'absolute', top: '41px', left: "0px" }}/>
+                    <Label style={{ position: 'absolute', top: '58px', left: '46px', fontSize: '16px' }}>Glas42</Label>
+                    <Avatar style={{ position: 'absolute', top: '50px', left: '8px', width: '32px', height: '32px' }}>
                         <AvatarImage src="https://avatars.githubusercontent.com/u/145870870?v=4"/>
                     </Avatar>
+                    <Separator style={{ position: 'absolute', top: '90px', left: "0px" }}/>
+                    {isPluginEnabled ? (
+                        <Button style={{ position: 'absolute', top: '95px', left: '4px', width: '215px', height: '35px' }} variant={"outline"} onClick={() => {
+                            toast.promise(DisablePlugin("TrafficLightDetection", ip), {
+                                loading: "Disabling " + "TrafficLightDetection",
+                                success: "Disabled " + "TrafficLightDetection",
+                                error: "Error disabling " + "TrafficLightDetection",
+                                description: "The button may take a second to update."
+                            })
+                        }}>Disable</Button>
+                    ) : (
+                        <Button style={{ position: 'absolute', top: '95px', left: '4px', width: '215px', height: '35px' }} onClick={() => {
+                            toast.promise(EnablePlugin("TrafficLightDetection", ip), {
+                                loading: "Enabling " + "TrafficLightDetection",
+                                success: "Enabled " + "TrafficLightDetection",
+                                error: "Error enabling " + "TrafficLightDetection",
+                                description: "The button may take a second to update."
+                            })
+                        }}>Enable</Button>
+                    )}
                 </PopoverContent>
             </Popover>
 
