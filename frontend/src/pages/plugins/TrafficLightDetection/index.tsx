@@ -23,7 +23,14 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
     const {data, error, isLoading} = useSWR("TrafficLightDetection", () => GetSettingsJSON("TrafficLightDetection", ip));
 
-    const isPluginEnabled = false;
+    const {data: pluginsData, error: pluginsError, isLoading: pluginsLoading} = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 });
+    const [isPluginEnabled, setIsPluginEnabled] = useState(false);
+    useEffect(() => {
+        if (pluginsData) {
+        const isEnabled = (pluginsData as any)["TrafficLightDetection"]?.enabled || false;
+        setIsPluginEnabled(isEnabled);
+        }
+    }, [pluginsData]);
 
     const [ScreenX, setScreenX] = useState<number | undefined>(undefined);
     const [ScreenY, setScreenY] = useState<number | undefined>(undefined);

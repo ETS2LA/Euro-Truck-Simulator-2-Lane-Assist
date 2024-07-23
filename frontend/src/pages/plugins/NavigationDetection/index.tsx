@@ -24,7 +24,14 @@ export default function NavigationDetection({ ip }: { ip: string }) {
 
     const {data, error, isLoading} = useSWR("NavigationDetection", () => GetSettingsJSON("NavigationDetection", ip));
 
-    const isPluginEnabled = false;
+    const {data: pluginsData, error: pluginsError, isLoading: pluginsLoading} = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 });
+    const [isPluginEnabled, setIsPluginEnabled] = useState(false);
+    useEffect(() => {
+        if (pluginsData) {
+        const isEnabled = (pluginsData as any)["NavigationDetection"]?.enabled || false;
+        setIsPluginEnabled(isEnabled);
+        }
+    }, [pluginsData]);
 
     const [AIDevice, setAIDevice] = useState<string | undefined>(undefined);
     const [ModelPropertiesEpochs, setModelPropertiesEpochs] = useState<string | undefined>(undefined);
