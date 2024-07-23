@@ -126,6 +126,26 @@ def GetRouteAdvisorPosition():
     return map_topleft, map_bottomright, arrow_topleft, arrow_bottomright
 
 
+def ValidateCaptureArea(monitor, x1, y1, x2, y2):
+    monitor = sct.monitors[monitor]
+    width, height = monitor["width"], monitor["height"]
+    x1 = max(0, min(width - 1, x1))
+    x2 = max(0, min(width - 1, x2))
+    y1 = max(0, min(height - 1, y1))
+    y2 = max(0, min(height - 1, y2))
+    if x1 == x2:
+        if x1 == 0:
+            x2 = width - 1
+        else:
+            x1 = 0
+    if y1 == y2:
+        if y1 == 0:
+            y2 = height - 1
+        else:
+            y1 = 0
+    return x1, y1, x2, y2
+
+
 GetScreenDimensions()
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 last_ScreenCaptureCheck = 0
@@ -636,14 +656,13 @@ def plugin():
     global last_ScreenCaptureCheck
     if last_ScreenCaptureCheck + 3 < current_time:
         map_topleft, map_bottomright, arrow_topleft, arrow_bottomright = GetRouteAdvisorPosition()
-        navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
-        navigationsymbol_y = round((arrow_topleft[1] + arrow_bottomright[1]) / 2 - map_topleft[1])
-        ScreenCapture.CreateCam(GetScreenIndex((map_topleft[0] + map_bottomright[0]) / 2, (map_topleft[1] + map_bottomright[1]) / 2) - 1)
         screen_x, screen_y, screen_width, screen_height = GetScreenDimensions(GetScreenIndex((map_topleft[0] + map_bottomright[0]) / 2, (map_topleft[1] + map_bottomright[1]) / 2))
-        ScreenCapture.monitor_x1 = map_topleft[0] - screen_x
-        ScreenCapture.monitor_y1 = map_topleft[1] - screen_y
-        ScreenCapture.monitor_x2 = map_bottomright[0] - screen_x
-        ScreenCapture.monitor_y2 = map_bottomright[1] - screen_y
+        if ScreenCapture.monitor_x1 != map_topleft[0] - screen_x or ScreenCapture.monitor_y1 != map_topleft[1] - screen_y or ScreenCapture.monitor_x2 != map_bottomright[0] - screen_x or ScreenCapture.monitor_y2 != map_bottomright[1] - screen_y:
+            navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
+            navigationsymbol_y = round((arrow_topleft[1] + arrow_bottomright[1]) / 2 - map_topleft[1])
+            ScreenIndex = GetScreenIndex((map_topleft[0] + map_bottomright[0]) / 2, (map_topleft[1] + map_bottomright[1]) / 2)
+            ScreenCapture.CreateCam(ScreenIndex - 1)
+            ScreenCapture.monitor_x1, ScreenCapture.monitor_y1, ScreenCapture.monitor_x2, ScreenCapture.monitor_y2 = ValidateCaptureArea(ScreenIndex, map_topleft[0] - screen_x, map_topleft[1] - screen_y, map_bottomright[0] - screen_x, map_bottomright[1] - screen_y)
         last_ScreenCaptureCheck = current_time
 
     if UseAI == False or TorchAvailable == False:
