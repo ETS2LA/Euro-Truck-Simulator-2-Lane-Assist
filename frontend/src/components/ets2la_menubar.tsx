@@ -6,7 +6,7 @@ import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem,
 import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge"
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { useTheme } from "next-themes"
 import { DiscordLogoIcon } from "@radix-ui/react-icons";
 import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp, 
@@ -61,6 +61,15 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
     }
 
 
+    useLayoutEffect(() => {
+        // Get the initial window position
+        const initialWindowPosition = {
+            x: window.screenX,
+            y: window.screenY,
+        };
+        setWindowPosition(initialWindowPosition);
+    }, []);
+
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (dragging) {
@@ -93,7 +102,10 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
         if (e.target instanceof HTMLElement && e.target.classList.contains('pywebview-drag-region')) {
             e.preventDefault();
             setDragging(true);
-            setLastMousePosition({ x: e.screenX, y: e.screenY });
+            setLastMousePosition({
+                x: e.screenX,
+                y: e.screenY,
+            });
             setClickOffset({
                 x: e.clientX - e.target.getBoundingClientRect().left,
                 y: e.clientY - e.target.getBoundingClientRect().top,
