@@ -61,37 +61,28 @@ import src.variables as variables
 
 def CheckAnomalousFrames():
     try:
-        anomalous_frames_time_limit = 30
-        anomalous_frames_limit = 1000
-        removed_anomalous_frames = 0
-        removed_anomalous_frame_size = 0
+        size_limit = 50 * 1024 * 1024  # 50 MB
+        path = os.path.join(variables.PATH, "anomalousFrames")
 
-        anomalousFrames_path = os.path.join(variables.PATH, "anomalousFrames")
+        if os.path.exists(path):
+            remove_files = 0
+            total_size = 0
+            files = sorted(os.listdir(path), key=lambda x: os.path.getmtime(os.path.join(path, x)))
 
-        if os.path.exists(anomalousFrames_path):
-            for file in os.listdir(anomalousFrames_path):
-                file_path = os.path.join(anomalousFrames_path, file)
+            for file in files:
+                file_path = os.path.join(path, file)
+                file_size = os.path.getsize(file_path)
+                total_size += file_size
 
-                if os.path.isfile(file_path) and os.path.getmtime(file_path) < time.time() - (anomalous_frames_time_limit * 86400):
-                    size = os.path.getsize(os.path.join(anomalousFrames_path, file))
-                    removed_anomalous_frame_size += size
-                    os.remove(os.path.join(anomalousFrames_path, file))
-                    removed_anomalous_frames += 1
+                if total_size > size_limit:
+                    os.remove(file_path)
+                    remove_files += 1
+                    total_size -= file_size
 
-            if len(os.listdir(anomalousFrames_path)) > anomalous_frames_limit:
-                if len(os.listdir(anomalousFrames_path)) > anomalous_frames_limit:
-                    for file in os.listdir(anomalousFrames_path):
-                        file_path = os.path.join(anomalousFrames_path, file)
-                        size = os.path.getsize(os.path.join(anomalousFrames_path, file))
-                        removed_anomalous_frame_size += size
-                        os.remove(os.path.join(anomalousFrames_path, file))
-                        removed_anomalous_frames += 1
-
-        if removed_anomalous_frames > 0:
-            removed_frames_size_mb = round(removed_anomalous_frame_size / 1048576, 2)
-            print(f"Removed {removed_anomalous_frames} anomalous frame logs that were older than {anomalous_frames_time_limit} days (or there were over {anomalous_frames_limit} files), totaling {removed_frames_size_mb}MB.")
+            freed_space_mb = round(total_size / 1048576, 2)
+            print(f"Removed {remove_files} anomalous frame logs, totaling {freed_space_mb}MB.")
     except:
-        print(f"Unable to delete anomalous frame logs older than {anomalous_frames_time_limit} days. Please delete them manually from the folder: {anomalousFrames_path}")
+        print(f"Unable to delete anomalous frame logs. Please delete them manually from the folder: {path}")
 
 threading.Thread(target=CheckAnomalousFrames, daemon=True).start()
 
