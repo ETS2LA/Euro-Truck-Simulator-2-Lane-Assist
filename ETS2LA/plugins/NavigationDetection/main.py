@@ -39,14 +39,6 @@ except:
     pytorch.CheckPyTorch()
     console.RestoreConsole()
 
-sct = mss.mss()
-monitor = sct.monitors[(settings.Get("NavigationDetection", ["ScreenCapture", "display"], 0) + 1)]
-screen_x = monitor["left"]
-screen_y = monitor["top"]
-screen_width = monitor["width"]
-screen_height = monitor["height"]
-
-last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 controls.RegisterKeybind("Lane change to the left",
                          notBoundInfo="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.",
@@ -57,10 +49,87 @@ controls.RegisterKeybind("Lane change to the right",
                          description="Bind this if you dont want to use the indicators\nto change lanes with the NavigationDetection.")
 
 
+sct = mss.mss()
+def GetScreenDimensions(monitor=1):
+    global screen_x, screen_y, screen_width, screen_height
+    monitor = sct.monitors[monitor]
+    screen_x = monitor["left"]
+    screen_y = monitor["top"]
+    screen_width = monitor["width"]
+    screen_height = monitor["height"]
+    return screen_x, screen_y, screen_width, screen_height
+
+
+def GetScreenIndex(x, y):
+    with mss.mss() as sct:
+        monitors = sct.monitors
+    closest_screen_index = None
+    closest_distance = float('inf')
+    for i, monitor in enumerate(monitors[1:]):
+        center_x = (monitor['left'] + monitor['left'] + monitor['width']) // 2
+        center_y = (monitor['top'] + monitor['top'] + monitor['height']) // 2
+        distance = ((center_x - x) ** 2 + (center_y - y) ** 2) ** 0.5
+        if distance < closest_distance:
+            closest_screen_index = i + 1
+            closest_distance = distance
+    return closest_screen_index
+
+
 def ToggleSteering(state:bool, *args, **kwargs):
     global enabled
     enabled = state
     sounds.Play('start' if state else 'end')
+
+
+def GetGamePosition():
+    global last_GetGamePosition
+    if variables.OS == "nt":
+        if last_GetGamePosition[0] + 1 < time.time():
+            hwnd = None
+            top_windows = []
+            window = last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
+            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+            for hwnd, window_text in top_windows:
+                if "Truck Simulator" in window_text and "Discord" not in window_text:
+                    rect = win32gui.GetClientRect(hwnd)
+                    tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                    br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                    window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                    break
+            last_GetGamePosition = time.time(), window[0], window[1], window[0] + window[2], window[1] + window[3]
+            return window[0], window[1], window[0] + window[2], window[1] + window[3]
+        else:
+            return last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
+    else:
+        return screen_x, screen_y, screen_x + screen_width, screen_y + screen_height
+
+
+def GetRouteAdvisorPosition():
+    x1, y1, x2, y2 = GetGamePosition()
+    distance_from_right = 21
+    distance_from_bottom = 100
+    width = 420
+    height = 219
+    scale = (y2 - y1) / 1080
+    x = x1 + (x2 - x1) - (distance_from_right * scale + width * scale)
+    y = y1 + (y2 - y1) - (distance_from_bottom * scale + height * scale)
+    map_topleft = (round(x), round(y))
+    x = x1 + (x2 - x1) - (distance_from_right * scale)
+    y = y1 + (y2 - y1) - (distance_from_bottom * scale)
+    map_bottomright = (round(x), round(y))
+    x = map_bottomright[0] - (map_bottomright[0] - map_topleft[0]) * 0.57
+    y = map_bottomright[1] - (map_bottomright[1] - map_topleft[1]) * 0.575
+    arrow_topleft = (round(x), round(y))
+    x = map_bottomright[0] - (map_bottomright[0] - map_topleft[0]) * 0.43
+    y = map_bottomright[1] - (map_bottomright[1] - map_topleft[1]) * 0.39
+    arrow_bottomright = (round(x), round(y))
+    return map_topleft, map_bottomright, arrow_topleft, arrow_bottomright
+
+
+GetScreenDimensions()
+last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
+last_ScreenCaptureCheck = 0
+
 
 ############################################################################################################################    
 # Settings
@@ -80,8 +149,6 @@ def Initialize():
     global map_bottomright
     global arrow_topleft
     global arrow_bottomright
-
-    global arrow_percentage
 
     global navigationsymbol_x
     global navigationsymbol_y
@@ -166,34 +233,16 @@ def Initialize():
     UseCUDA = settings.Get("NavigationDetection", "TryToUseYourGPUToRunTheAI", True)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
 
-    map_topleft = settings.Get("NavigationDetection", "map_topleft", "unset")
-    map_bottomright = settings.Get("NavigationDetection", "map_bottomright", "unset")
-    arrow_topleft = settings.Get("NavigationDetection", "arrow_topleft", "unset")
-    arrow_bottomright = settings.Get("NavigationDetection", "arrow_bottomright", "unset")
-    arrow_percentage = settings.Get("NavigationDetection", "arrow_percentage", "unset")
 
-    if map_topleft == "unset":
-        map_topleft = None
-    if map_bottomright == "unset":
-        map_bottomright = None
-    if arrow_topleft == "unset":
-        arrow_topleft = None
-    if arrow_bottomright == "unset":
-        arrow_bottomright = None
-    if arrow_percentage == "unset":
-        arrow_percentage = None
-    
-    if arrow_topleft != None and arrow_bottomright != None and map_topleft != None and map_bottomright != None:
-        navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
-        navigationsymbol_y = round((arrow_topleft[1] + arrow_bottomright[1]) / 2 - map_topleft[1])
-        ScreenCapture.CreateCam(CamSetupDisplay = settings.Get("NavigationDetection", ["ScreenCapture", "display"], 0))
-        ScreenCapture.monitor_x1 = map_topleft[0]
-        ScreenCapture.monitor_y1 = map_topleft[1]
-        ScreenCapture.monitor_x2 = map_bottomright[0]
-        ScreenCapture.monitor_y2 = map_bottomright[1]
-    else:
-        navigationsymbol_x = 0
-        navigationsymbol_y = 0
+    map_topleft, map_bottomright, arrow_topleft, arrow_bottomright = GetRouteAdvisorPosition()
+
+    navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
+    navigationsymbol_y = round((arrow_topleft[1] + arrow_bottomright[1]) / 2 - map_topleft[1])
+    ScreenCapture.CreateCam(GetScreenIndex((map_topleft[0] + map_bottomright[0]) / 2, (map_topleft[1] + map_bottomright[1]) / 2) - 1)
+    ScreenCapture.monitor_x1 = map_topleft[0] - screen_x
+    ScreenCapture.monitor_y1 = map_topleft[1] - screen_y
+    ScreenCapture.monitor_x2 = map_bottomright[0] - screen_x
+    ScreenCapture.monitor_y2 = map_bottomright[1] - screen_y
 
     enabled = True
     offset = settings.Get("NavigationDetection", "LaneOffset", 0)
@@ -293,51 +342,6 @@ def get_ai_properties():
         if "training_date" in var:
             MODEL_TRAINING_DATE = var.split("#")[1]
     return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
-
-
-def GetGamePosition():
-    global last_GetGamePosition
-    if variables.OS == "nt":
-        if last_GetGamePosition[0] + 3 < time.time():
-            hwnd = None
-            top_windows = []
-            window = last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
-            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
-            for hwnd, window_text in top_windows:
-                if "Truck Simulator" in window_text and "Discord" not in window_text:
-                    rect = win32gui.GetClientRect(hwnd)
-                    tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
-                    br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
-                    window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
-                    break
-            last_GetGamePosition = time.time(), window[0], window[1], window[0] + window[2], window[1] + window[3]
-            return window[0], window[1], window[0] + window[2], window[1] + window[3]
-        else:
-            return last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
-    else:
-        return screen_x, screen_y, screen_x + screen_width, screen_y + screen_height
-
-
-def GetRouteAdvisorPosition():
-    x1, y1, x2, y2 = GetGamePosition()
-    distance_from_right = 21
-    distance_from_bottom = 100
-    width = 420
-    height = 219
-    scale = (y2 - y1) / 1080
-    x = x1 + (x2 - x1) - (distance_from_right * scale + width * scale)
-    y = y1 + (y2 - y1) - (distance_from_bottom * scale + height * scale)
-    map_topleft = (round(x), round(y))
-    x = x1 + (x2 - x1) - (distance_from_right * scale)
-    y = y1 + (y2 - y1) - (distance_from_bottom * scale)
-    map_bottomright = (round(x), round(y))
-    x = map_bottomright[0] - (map_bottomright[0] - map_topleft[0]) * 0.57
-    y = map_bottomright[1] - (map_bottomright[1] - map_topleft[1]) * 0.575
-    arrow_topleft = (round(x), round(y))
-    x = map_bottomright[0] - (map_bottomright[0] - map_topleft[0]) * 0.43
-    y = map_bottomright[1] - (map_bottomright[1] - map_topleft[1]) * 0.39
-    arrow_bottomright = (round(x), round(y))
-    return map_topleft, map_bottomright, arrow_topleft, arrow_bottomright
 
 
 def get_text_size(text="NONE", text_width=100, max_text_height=100):
@@ -613,6 +617,8 @@ def plugin():
     data["api"] = TruckSimAPI.run()
     data["frame"] = ScreenCapture.run(imgtype="cropped")
 
+    current_time = time.time()
+
     global enabled
     global indicator_last_left
     global indicator_last_right
@@ -621,19 +627,26 @@ def plugin():
     global indicator_left_response_timer
     global indicator_right_response_timer
 
-    current_time = time.time()
+    global map_topleft
+    global map_bottomright
+    global arrow_topleft
+    global arrow_bottomright
+    global navigationsymbol_x
+    global navigationsymbol_y
+    global last_ScreenCaptureCheck
+    if last_ScreenCaptureCheck + 3 < current_time:
+        map_topleft, map_bottomright, arrow_topleft, arrow_bottomright = GetRouteAdvisorPosition()
+        navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
+        navigationsymbol_y = round((arrow_topleft[1] + arrow_bottomright[1]) / 2 - map_topleft[1])
+        ScreenCapture.CreateCam(GetScreenIndex((map_topleft[0] + map_bottomright[0]) / 2, (map_topleft[1] + map_bottomright[1]) / 2) - 1)
+        screen_x, screen_y, screen_width, screen_height = GetScreenDimensions(GetScreenIndex((map_topleft[0] + map_bottomright[0]) / 2, (map_topleft[1] + map_bottomright[1]) / 2))
+        ScreenCapture.monitor_x1 = map_topleft[0] - screen_x
+        ScreenCapture.monitor_y1 = map_topleft[1] - screen_y
+        ScreenCapture.monitor_x2 = map_bottomright[0] - screen_x
+        ScreenCapture.monitor_y2 = map_bottomright[1] - screen_y
+        last_ScreenCaptureCheck = current_time
 
     if UseAI == False or TorchAvailable == False:
-        global map_topleft
-        global map_bottomright
-        global arrow_topleft
-        global arrow_bottomright
-
-        global arrow_percentage
-
-        global navigationsymbol_x
-        global navigationsymbol_y
-
         global offset
         global lefthand_traffic
 

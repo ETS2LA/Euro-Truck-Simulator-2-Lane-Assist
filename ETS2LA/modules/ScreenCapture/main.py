@@ -1,12 +1,9 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 import ETS2LA.variables as variables
-import os
 import numpy as np
 import cv2
 import mss
-import time
-
 
 runner:PluginRunner = None
 
@@ -22,7 +19,6 @@ cam = None
 def CreateCam(CamSetupDisplay:int = display):
     if variables.OS == "nt":
         global cam
-        print("ScreenCapture using bettercam")
         import bettercam
         try:
             cam.stop() # stop the old instance of cam
@@ -43,7 +39,6 @@ def CreateCam(CamSetupDisplay:int = display):
         cam = bettercam.create(output_idx=CamSetupDisplay)
         #cam.start()
     else:
-        print("ScreenCapture using mss")
         global display
         display = CamSetupDisplay + 1
         

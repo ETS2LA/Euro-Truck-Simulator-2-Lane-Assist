@@ -47,7 +47,11 @@ class CustomHighligher(Highlighter):
     def highlight(self, text):
         super().highlight(text)
         plain = text.plain
-        defaultText, traceback = plain.split("Traceback (most recent call last):")
+        try:
+            defaultText, traceback = plain.split("Traceback (most recent call last):")
+        except:
+            defaultText = plain
+            traceback = plain
         print(traceback.strip())
         text.plain = defaultText
         return text

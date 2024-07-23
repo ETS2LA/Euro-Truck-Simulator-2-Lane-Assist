@@ -633,7 +633,7 @@ def GetAIModelProperties():
 def GetGamePosition():
     global last_GetGamePosition
     if variables.OS == "nt":
-        if last_GetGamePosition[0] + 3 < time.time():
+        if last_GetGamePosition[0] + 5 < time.time():
             hwnd = None
             top_windows = []
             window = last_GetGamePosition[1], last_GetGamePosition[2], last_GetGamePosition[3], last_GetGamePosition[4]
