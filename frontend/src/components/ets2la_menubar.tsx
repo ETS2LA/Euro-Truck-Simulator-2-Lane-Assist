@@ -21,8 +21,10 @@ import { Button } from "@/components/ui/button"
 import { set } from "date-fns";
 
 export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}) {
-    const [dragging, setDragging] = useState(false)
-    const [windowStart, setWindowStart] = useState({x: 0, y: 0})
+    const [dragging, setDragging] = useState(false);
+    const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
+    const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 });
+    const [clickOffset, setClickOffset] = useState({ x: 0, y: 0 });
     const { theme, setTheme } = useTheme()
     const { push } = useRouter()
     // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
@@ -59,42 +61,49 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
     }
 
 
-    // Move the pywebview window on mouse down
-    const onDragMouseDown = (e: React.MouseEvent) => {
-        e.preventDefault();
-        setDragging(true);
-        // Get the window position
-        const mouseWindowX = e.clientX
-        const mouseWindowY = e.clientY
-        const mouseScreenX = e.screenX
-        const mouseScreenY = e.screenY
-        // Calculate the start position
-        setWindowStart({x: mouseScreenX - mouseWindowX, y: mouseScreenY - mouseWindowY})
-    }
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (dragging) {
+                const newX = windowPosition.x + (e.screenX - lastMousePosition.x);
+                const newY = windowPosition.y + (e.screenY - lastMousePosition.y);
+                setWindowPosition({ x: newX, y: newY });
+                window.pywebview._bridge.call('pywebviewMoveWindow', [newX, newY], "move");
+                setLastMousePosition({ x: e.screenX, y: e.screenY });
+            }
+        };
 
-    const onDragMouseUp = (e: React.MouseEvent) => {
-        e.preventDefault();
-        setDragging(false);
-    }
+        const handleMouseUp = () => {
+            setDragging(false);
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
 
-    const onDragMouseLeave = (e: React.MouseEvent) => {
-        e.preventDefault();
-        setDragging(false);
-    }
-
-    const onDragMouseMove = (e: React.MouseEvent) => {
-        e.preventDefault();
         if (dragging) {
-            // Add the movement to the window
-            const newPosition = {x: windowStart.x + e.movementX, y: windowStart.y + e.movementY};
-            setWindowStart(newPosition);
-            window.pywebview._bridge.call('pywebviewMoveWindow', [newPosition.x, newPosition.y], "move");
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
         }
-    }
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [dragging, windowPosition.x, windowPosition.y, lastMousePosition.x, lastMousePosition.y, clickOffset.x, clickOffset.y]);
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        if (e.target instanceof HTMLElement && e.target.classList.contains('pywebview-drag-region')) {
+            e.preventDefault();
+            setDragging(true);
+            setLastMousePosition({ x: e.screenX, y: e.screenY });
+            setClickOffset({
+                x: e.clientX - e.target.getBoundingClientRect().left,
+                y: e.clientY - e.target.getBoundingClientRect().top,
+            });
+        }
+    };
 
 
 return (
-    <div className="pywebview-drag-region" onMouseDown={onDragMouseDown} onMouseUp={onDragMouseUp} onMouseMove={onDragMouseMove} onMouseLeave={onDragMouseLeave}>
+    <div className="pywebview-drag-region" onMouseDown={handleMouseDown}>
         <Menubar className="pywebview-drag-region">
         <MenubarMenu>
             <MenubarTrigger className="font-bold">
