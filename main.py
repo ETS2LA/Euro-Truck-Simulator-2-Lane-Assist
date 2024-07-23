@@ -62,6 +62,7 @@ import src.variables as variables
 def CheckAnomalousFrames():
     try:
         anomalous_frames_time_limit = 30
+        anomalous_frames_limit = 1000
         removed_anomalous_frames = 0
         removed_anomalous_frame_size = 0
 
@@ -77,9 +78,18 @@ def CheckAnomalousFrames():
                     os.remove(os.path.join(anomalousFrames_path, file))
                     removed_anomalous_frames += 1
 
+            if len(os.listdir(anomalousFrames_path)) > anomalous_frames_limit:
+                if len(os.listdir(anomalousFrames_path)) > anomalous_frames_limit:
+                    for file in os.listdir(anomalousFrames_path):
+                        file_path = os.path.join(anomalousFrames_path, file)
+                        size = os.path.getsize(os.path.join(anomalousFrames_path, file))
+                        removed_anomalous_frame_size += size
+                        os.remove(os.path.join(anomalousFrames_path, file))
+                        removed_anomalous_frames += 1
+
         if removed_anomalous_frames > 0:
             removed_frames_size_mb = round(removed_anomalous_frame_size / 1048576, 2)
-            print(f"Removed {removed_anomalous_frames} anomalous frame logs that were older than {anomalous_frames_time_limit} days, totaling {removed_frames_size_mb}MB.")
+            print(f"Removed {removed_anomalous_frames} anomalous frame logs that were older than {anomalous_frames_time_limit} days (or there were over {anomalous_frames_limit} files), totaling {removed_frames_size_mb}MB.")
     except:
         print(f"Unable to delete anomalous frame logs older than {anomalous_frames_time_limit} days. Please delete them manually from the folder: {anomalousFrames_path}")
 
