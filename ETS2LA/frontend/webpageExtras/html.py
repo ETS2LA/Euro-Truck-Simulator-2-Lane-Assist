@@ -76,13 +76,5 @@ html = """
         border-right: 2px solid transparent;
         animation: spinner .6s linear infinite;
     }
-
-    </style>
-    <body class="pywebview-drag-region">
-        <div style="flex; justify-content: center; align-items: center;">
-            <p>Please wait while we initialize the user interface</p>
-            <div class="spinner"></div>
-        </div>
-    </body>
 </html>
 """
