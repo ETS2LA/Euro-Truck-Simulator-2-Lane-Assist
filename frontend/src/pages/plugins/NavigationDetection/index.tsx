@@ -36,8 +36,10 @@ export default function NavigationDetection({ ip }: { ip: string }) {
     const [AIDevice, setAIDevice] = useState<string | undefined>(undefined);
     const [ModelPropertiesEpochs, setModelPropertiesEpochs] = useState<string | undefined>(undefined);
     const [ModelPropertiesBatchSize, setModelPropertiesBatchSize] = useState<string | undefined>(undefined);
+    const [ModelPropertiesOutputs, setModelPropertiesOutputs] = useState<string | undefined>(undefined);
     const [ModelPropertiesImageWidth, setModelPropertiesImageWidth] = useState<string | undefined>(undefined);
     const [ModelPropertiesImageHeight, setModelPropertiesImageHeight] = useState<string | undefined>(undefined);
+    const [ModelPropertiesImageChannels, setModelPropertiesImageChannels] = useState<string | undefined>(undefined);
     const [ModelPropertiesDataPoints, setModelPropertiesDataPoints] = useState<string | undefined>(undefined);
     const [ModelPropertiesTrainingTime, setModelPropertiesTrainingTime] = useState<string | undefined>(undefined);
     const [ModelPropertiesTrainingDate, setModelPropertiesTrainingDate] = useState<string | undefined>(undefined);
@@ -46,8 +48,10 @@ export default function NavigationDetection({ ip }: { ip: string }) {
         setAIDevice("Loading...");
         setModelPropertiesEpochs("Loading...");
         setModelPropertiesBatchSize("Loading...");
+        setModelPropertiesOutputs("Loading...");
         setModelPropertiesImageWidth("Loading...");
         setModelPropertiesImageHeight("Loading...");
+        setModelPropertiesImageChannels("Loading...");
         setModelPropertiesDataPoints("Loading...");
         setModelPropertiesTrainingTime("Loading...");
         setModelPropertiesTrainingDate("Loading...");
@@ -62,11 +66,13 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             data = (await PluginFunctionCall("NavigationDetection", "get_ai_properties", [], {"timeout": 15}));
         setModelPropertiesEpochs(data[0]);
         setModelPropertiesBatchSize(data[1]);
-        setModelPropertiesImageWidth(data[2]);
-        setModelPropertiesImageHeight(data[3]);
-        setModelPropertiesDataPoints(data[4]);
-        setModelPropertiesTrainingTime(data[5]);
-        setModelPropertiesTrainingDate(data[6]);
+        setModelPropertiesOutputs(data[2]);
+        setModelPropertiesImageWidth(data[3]);
+        setModelPropertiesImageHeight(data[4]);
+        setModelPropertiesImageChannels(data[5]);
+        setModelPropertiesDataPoints(data[6]);
+        setModelPropertiesTrainingTime(data[7]);
+        setModelPropertiesTrainingDate(data[8]);
     }
     useEffect(() => { GetPythonData(); }, []);
 
@@ -195,7 +201,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
                     </CardHeader>
                 </PopoverTrigger>
                 <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '136px', width: '225px' }}>
-                    <Label style={{ position: 'absolute', top: '12px', left: '8px', fontSize: '16px' }}>Created by</Label>
+                    <Label style={{ position: 'absolute', top: '12px', left: '10px', fontSize: '16px' }}>Created by</Label>
                     <Separator style={{ position: 'absolute', top: '41px', left: "0px" }}/>
                     <Label style={{ position: 'absolute', top: '58px', left: '46px', fontSize: '16px' }}>Glas42</Label>
                     <Avatar style={{ position: 'absolute', top: '50px', left: '8px', width: '32px', height: '32px' }}>
@@ -331,8 +337,10 @@ export default function NavigationDetection({ ip }: { ip: string }) {
                                 <span className="font-bold">Model Properties</span><br />
                                 Epochs: {ModelPropertiesEpochs}<br />
                                 Batch Size: {ModelPropertiesBatchSize}<br />
+                                Outputs: {ModelPropertiesOutputs}<br />
                                 Image Width: {ModelPropertiesImageWidth}<br />
                                 Image Height: {ModelPropertiesImageHeight}<br />
+                                Image Channels : {ModelPropertiesImageChannels}<br />
                                 Images/Data Points: {ModelPropertiesDataPoints}<br />
                                 Training Time: {ModelPropertiesTrainingTime}<br />
                                 Training Date: {ModelPropertiesTrainingDate}

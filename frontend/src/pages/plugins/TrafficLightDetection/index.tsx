@@ -622,7 +622,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
                     </CardHeader>
                 </PopoverTrigger>
                 <PopoverContent style={{ position: 'relative', top: '-23px', left: '0px', height: '136px', width: '225px' }}>
-                    <Label style={{ position: 'absolute', top: '12px', left: '8px', fontSize: '16px' }}>Created by</Label>
+                    <Label style={{ position: 'absolute', top: '12px', left: '10px', fontSize: '16px' }}>Created by</Label>
                     <Separator style={{ position: 'absolute', top: '41px', left: "0px" }}/>
                     <Label style={{ position: 'absolute', top: '58px', left: '46px', fontSize: '16px' }}>Glas42</Label>
                     <Avatar style={{ position: 'absolute', top: '50px', left: '8px', width: '32px', height: '32px' }}>

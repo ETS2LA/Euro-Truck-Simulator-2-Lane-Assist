@@ -326,6 +326,8 @@ def get_ai_properties():
         os.makedirs(f"{variables.PATH}cache/NavigationDetection")
     IMG_WIDTH = " - - - "
     IMG_HEIGHT = " - - - "
+    IMG_CHANNELS = " - - - "
+    MODEL_OUTPUTS = " - - - "
     MODEL_EPOCHS = " - - - "
     MODEL_BATCH_SIZE = " - - - "
     MODEL_IMAGE_COUNT = " - - - "
@@ -337,12 +339,12 @@ def get_ai_properties():
             model = file
             break
     if model == None:
-        return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
+        return MODEL_EPOCHS, MODEL_BATCH_SIZE, MODEL_OUTPUTS, IMG_WIDTH, IMG_HEIGHT, IMG_CHANNELS, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
     MODEL_METADATA = {"data": []}
     try:
         torch.jit.load(os.path.join(f"{variables.PATH}cache/NavigationDetection", model), _extra_files=MODEL_METADATA)
     except:
-         return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
+         return MODEL_EPOCHS, MODEL_BATCH_SIZE, MODEL_OUTPUTS, IMG_WIDTH, IMG_HEIGHT, IMG_CHANNELS, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
     MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
     for var in MODEL_METADATA:
         if "image_width" in var:
@@ -351,6 +353,8 @@ def get_ai_properties():
             IMG_HEIGHT = int(var.split("#")[1])
         if "image_channels" in var:
             IMG_CHANNELS = str(var.split("#")[1])
+        if "outputs" in var:
+            MODEL_OUTPUTS = int(var.split("#")[1])
         if "epochs" in var:
             MODEL_EPOCHS = int(var.split("#")[1])
         if "batch" in var:
@@ -361,7 +365,7 @@ def get_ai_properties():
             MODEL_TRAINING_TIME = var.split("#")[1]
         if "training_date" in var:
             MODEL_TRAINING_DATE = var.split("#")[1]
-    return MODEL_EPOCHS, MODEL_BATCH_SIZE, IMG_WIDTH, IMG_HEIGHT, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
+    return MODEL_EPOCHS, MODEL_BATCH_SIZE, MODEL_OUTPUTS, IMG_WIDTH, IMG_HEIGHT, IMG_CHANNELS, MODEL_IMAGE_COUNT, MODEL_TRAINING_TIME, MODEL_TRAINING_DATE
 
 
 def get_text_size(text="NONE", text_width=100, max_text_height=100):
@@ -584,6 +588,7 @@ def GetAIModelProperties():
     global IMG_WIDTH
     global IMG_HEIGHT
     global IMG_CHANNELS
+    global MODEL_OUTPUTS
     global MODEL_EPOCHS
     global MODEL_BATCH_SIZE
     global MODEL_IMAGE_COUNT
@@ -595,6 +600,7 @@ def GetAIModelProperties():
         IMG_WIDTH = "UNKNOWN"
         IMG_HEIGHT = "UNKNOWN"
         IMG_CHANNELS = "UNKNOWN"
+        MODEL_OUTPUTS = "UNKNOWN"
         MODEL_EPOCHS = "UNKNOWN"
         MODEL_BATCH_SIZE = "UNKNOWN"
         MODEL_IMAGE_COUNT = "UNKNOWN"
@@ -604,6 +610,7 @@ def GetAIModelProperties():
             return
         torch.jit.load(os.path.join(f"{variables.PATH}cache/NavigationDetection", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
         MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
+        print(MODEL_METADATA)
         for var in MODEL_METADATA:
             if "image_width" in var:
                 IMG_WIDTH = int(var.split("#")[1])
@@ -611,6 +618,8 @@ def GetAIModelProperties():
                 IMG_HEIGHT = int(var.split("#")[1])
             if "image_channels" in var:
                 IMG_CHANNELS = str(var.split("#")[1])
+            if "outputs" in var:
+                MODEL_OUTPUTS = int(var.split("#")[1])
             if "epochs" in var:
                 MODEL_EPOCHS = int(var.split("#")[1])
             if "batch" in var:
@@ -1360,15 +1369,14 @@ def plugin():
             try:
                 AIFrame = preprocess_image(mask)
             except:
-                IMG_WIDTH = GetAIModelProperties()[2]
-                IMG_HEIGHT = GetAIModelProperties()[3]
+                GetAIModelProperties()
                 if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
-                    print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
+                    print(f"NavigationDetection - Unable to read the AI model image size.")
                     console.RestoreConsole()
                     return
                 AIFrame = preprocess_image(mask)
 
-            output = [[0, 0, 0, 0, 0, 0, 0, 0]]
+            output = [[0] * MODEL_OUTPUTS]
 
             if enabled == True and gamepaused == False:
                 if AIModelLoaded == True:

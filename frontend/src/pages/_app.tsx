@@ -83,7 +83,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   const handleIpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
-    setShowButton(event.target.value.length > 0);
+    setShowButton(event.target.value.trim() !== '');
   };
 
   const { data, error, isLoading, mutate } = useSWR(ipRef.current, () => GetIP(ipRef.current as string));
@@ -128,7 +128,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <div className='p-3'>
     <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
-        <Badge variant={"destructive"} className='gap-1 rounded-b-none'><Unplug className='w-5 h-5' /> Lost connection to the server.</Badge>
+        <Badge variant={"destructive"} className='gap-2 rounded-b-none'><Unplug className='w-5 h-5' />Lost connection to the server.</Badge>
         <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-180px)]'>
           <h1>ETS2LA</h1>
           <div className="flex flex-col sm:flex-row w-full max-w-sm items-center space-y-2 sm:space-y-0 sm:space-x-2">
