@@ -146,7 +146,7 @@ def ValidateCaptureArea(monitor, x1, y1, x2, y2):
     return x1, y1, x2, y2
 
 
-GetScreenDimensions()
+screen_x, screen_y, screen_width, screen_height = GetScreenDimensions()
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 last_ScreenCaptureCheck = 0
 
@@ -317,11 +317,47 @@ def Initialize():
     lanechanging_final_offset = 0
 
 
-def get_ai_device():
+UpdatingSettings = False
+def UpdateSettings():
+    global UpdatingSettings
+    global UseAI
+    global UseCUDA
+    global AIDevice
+    global offset
+    global lefthand_traffic
+    global lanechanging_do_lane_changing
+    global lanechanging_speed
+    global lanechanging_width
+    global lanechanging_current_lane
+    global lanechanging_final_offset
+    UpdatingSettings = True
+    time.sleep(0.25)
+    Old_UseAI = UseAI
+    Old_UseCUDA = UseCUDA
+    Old_AIDevice = AIDevice
+    UseAI = settings.Get("NavigationDetection", "UseNavigationDetectionAI", True)
+    UseCUDA = settings.Get("NavigationDetection", "TryToUseYourGPUToRunTheAI", True)
+    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
+    if Old_UseAI != UseAI or Old_UseCUDA != UseCUDA or Old_AIDevice != AIDevice:
+        if TorchAvailable == True:
+            LoadAIModel()
+        else:
+            print("NavigationDetectionAI not available due to missing dependencies.")
+            console.RestoreConsole()
+    offset = settings.Get("NavigationDetection", "LaneOffset", 0)
+    lefthand_traffic = settings.Get("NavigationDetection", "LeftHandTraffic", False)
+    lanechanging_do_lane_changing = settings.Get("NavigationDetection", "LaneChanging", True)
+    lanechanging_speed = settings.Get("NavigationDetection", "LaneChangeSpeed", 1)
+    lanechanging_width = settings.Get("NavigationDetection", "LaneChangeWidth", 10)
+    UpdatingSettings = False
+    return True
+
+
+def GetAIDevice():
     return "CUDA" if torch.cuda.is_available() and settings.Get("NavigationDetection", "TryToUseYourGPUToRunTheAI", False) == True else "CPU" if TorchAvailable else "Unknown"
 
 
-def get_ai_properties():
+def GetAIProperties():
     if os.path.exists(f"{variables.PATH}cache/NavigationDetection") == False:
         os.makedirs(f"{variables.PATH}cache/NavigationDetection")
     IMG_WIDTH = " - - - "
@@ -397,7 +433,6 @@ def preprocess_image(image):
 
 def HandleCorruptedAIModel():
     DeleteAllAIModels()
-    print("HANDLE")
     CheckForAIModelUpdates(ForceUpdate=True)
     while AIModelUpdateThread.is_alive(): time.sleep(0.1)
     time.sleep(0.5)
@@ -610,7 +645,6 @@ def GetAIModelProperties():
             return
         torch.jit.load(os.path.join(f"{variables.PATH}cache/NavigationDetection", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
         MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
-        print(MODEL_METADATA)
         for var in MODEL_METADATA:
             if "image_width" in var:
                 IMG_WIDTH = int(var.split("#")[1])
@@ -642,6 +676,8 @@ def GetAIModelProperties():
 ############################################################################################################################
 def plugin():
 
+    if UpdatingSettings: return
+
     data = {}
     data["api"] = TruckSimAPI.run()
     data["frame"] = ScreenCapture.run(imgtype="cropped")
@@ -665,7 +701,7 @@ def plugin():
     global last_ScreenCaptureCheck
     if last_ScreenCaptureCheck + 3 < current_time:
         map_topleft, map_bottomright, arrow_topleft, arrow_bottomright = GetRouteAdvisorPosition()
-        screen_x, screen_y, screen_width, screen_height = GetScreenDimensions(GetScreenIndex((map_topleft[0] + map_bottomright[0]) / 2, (map_topleft[1] + map_bottomright[1]) / 2))
+        screen_x, screen_y, _, _ = GetScreenDimensions(GetScreenIndex((map_topleft[0] + map_bottomright[0]) / 2, (map_topleft[1] + map_bottomright[1]) / 2))
         if ScreenCapture.monitor_x1 != map_topleft[0] - screen_x or ScreenCapture.monitor_y1 != map_topleft[1] - screen_y or ScreenCapture.monitor_x2 != map_bottomright[0] - screen_x or ScreenCapture.monitor_y2 != map_bottomright[1] - screen_y:
             navigationsymbol_x = round((arrow_topleft[0] + arrow_bottomright[0]) / 2 - map_topleft[0])
             navigationsymbol_y = round((arrow_topleft[1] + arrow_bottomright[1]) / 2 - map_topleft[1])
@@ -730,24 +766,12 @@ def plugin():
         if frame is None: return
         if width <= 0 or width == None: return
         if height <= 0 or height == None: return
-        
+
         if isinstance(frame, np.ndarray) and frame.ndim == 3 and frame.size > 0:
             valid_frame = True
         else:
             valid_frame = False
             return
-        
-        if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None:
-            if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < screen_width) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < screen_height):
-                valid_setup = True
-            else:
-                valid_setup = False
-        else:
-            valid_setup = False
-        
-        if valid_setup == False:
-            print("NavigationDetection: Invalid frame or setup.")
-            console.RestoreConsole()
 
         try:
             gamepaused = data["api"]["pause"]
@@ -804,7 +828,7 @@ def plugin():
             else:
                 pixel_ratio = 0
 
-            if arrow_percentage != None:
+            if False and arrow_percentage != None:
                 if pixel_ratio > arrow_percentage * 0.85 and pixel_ratio < arrow_percentage * 1.15:
                     do_zoom = False
                 else:
@@ -1176,25 +1200,7 @@ def plugin():
 
         map_detected = True
 
-        if valid_setup == False:
-            if allow_playsound == True:
-                sounds.Play("info")
-                allow_playsound = False
-                allow_playsound_timer = current_time
-            frame = cv2.GaussianBlur(frame, (9, 9), 0)
-            frame = cv2.addWeighted(frame, 0.5, frame, 0, 0)
-
-            cv2.circle(frame, (width//2, int(height/3.5)), height//4, (255, 128, 0), height//50, cv2.LINE_AA)
-            cv2.line(frame, (width//2, int(height/3.5)), (width//2, int(height//3.5 + height/8)), (255, 128, 0), height//35, cv2.LINE_AA)
-            cv2.circle(frame, (width//2, int(height/3.5 - height/8)), height//50, (255, 128, 0), -1, cv2.LINE_AA)
-
-            text, fontscale, thickness, text_width, text_height = get_text_size(text="Do the Setup", text_width=width/1.1, max_text_height=height/10)
-            cv2.putText(frame, text, (int(width/2-text_width/2), int(height/1.45+text_height/2)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 128, 0), thickness, cv2.LINE_AA)
-
-            correction = 0
-            map_detected = False
-
-        elif do_blocked == True:
+        if do_blocked == True:
             if allow_playsound == True:
                 sounds.Play("info")
                 allow_playsound = False

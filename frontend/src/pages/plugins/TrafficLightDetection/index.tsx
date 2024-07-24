@@ -61,7 +61,7 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
         let data = undefined;
         while (data == undefined || data == false)
-            data = (await PluginFunctionCall("TrafficLightDetection", "get_screen", [], {"timeout": 15}));
+            data = (await PluginFunctionCall("TrafficLightDetection", "GetScreenSize", [], {"timeout": 15}));
         setScreenX(data[0]);
         setScreenY(data[1]);
         setScreenWidth(data[2]);
@@ -69,12 +69,12 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
 
         data = undefined;
         while (data == undefined || data == false)
-            data = (await PluginFunctionCall("TrafficLightDetection", "get_ai_device", [], {"timeout": 15}));
+            data = (await PluginFunctionCall("TrafficLightDetection", "GetAIDevice", [], {"timeout": 15}));
         setAIDevice(data);
 
         data = undefined;
         while (data == undefined || data == false)
-            data = (await PluginFunctionCall("TrafficLightDetection", "get_ai_properties", [], {"timeout": 15}));
+            data = (await PluginFunctionCall("TrafficLightDetection", "GetAIProperties", [], {"timeout": 15}));
         setModelPropertiesEpochs(data[0]);
         setModelPropertiesBatchSize(data[1]);
         setModelPropertiesImageWidth(data[2]);
@@ -195,15 +195,24 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
     if (isLoading) return <p>Loading...</p>
     if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
 
+    const ApplyNewSettings = async () => {
+        if (isPluginEnabled) {
+            let response = undefined;
+            while (response == undefined || response == false)
+                response = (await PluginFunctionCall("TrafficLightDetection", "UpdateSettings", [], {"timeout": 15}));
+        }
+    }
 
     const UpdateYellowLightDetection = async () => {
         let newYellowLightDetection = !YellowLightDetection;
         toast.promise(SetSettingByKey("TrafficLightDetection", "YellowLightDetection", newYellowLightDetection, ip), {
             loading: "Saving...",
             success: "Set value to " + newYellowLightDetection,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setYellowLightDetection(newYellowLightDetection);
+        ApplyNewSettings();
     };
 
     const UpdatePerformanceMode = async () => {
@@ -211,9 +220,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "PerformanceMode", newPerformanceMode, ip), {
             loading: "Saving...",
             success: "Set value to " + newPerformanceMode,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setPerformanceMode(newPerformanceMode);
+        ApplyNewSettings();
     };
 
     const UpdateAdvancedSettings = async () => {
@@ -221,9 +232,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "AdvancedSettings", newAdvancedSettings, ip), {
             loading: "Saving...",
             success: "Set value to " + newAdvancedSettings,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setAdvancedSettings(newAdvancedSettings);
+        ApplyNewSettings();
     };
 
     const UpdateFOV = async (e:any) => {
@@ -234,9 +247,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FOV", valid ? parseFloat(newFOV) : parseFloat(defaultFOV), ip), {
             loading: "Saving...",
             success: "Set value to " + parseFloat(newFOV),
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setFOV(newFOV);
+        ApplyNewSettings();
     };
 
     const UpdateFinalWindow = async () => {
@@ -244,9 +259,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FinalWindow", newFinalWindow, ip), {
             loading: "Saving...",
             success: "Set value to " + newFinalWindow,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setFinalWindow(newFinalWindow);
+        ApplyNewSettings();
     };
 
     const UpdateGrayscaleWindow = async () => {
@@ -254,9 +271,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "GrayscaleWindow", newGrayscaleWindow, ip), {
             loading: "Saving...",
             success: "Set value to " + newGrayscaleWindow,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setGrayscaleWindow(newGrayscaleWindow);
+        ApplyNewSettings();
     };
 
     const UpdateWindowScale = async (e:any) => {
@@ -267,9 +286,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "WindowScale", valid ? parseFloat(newWindowScale) : parseFloat(defaultWindowScale), ip), {
             loading: "Saving...",
             success: "Set value to " + parseFloat(newWindowScale),
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setWindowScale(newWindowScale);
+        ApplyNewSettings();
     };
 
     const UpdateUseAIToConfirmTrafficLights = async () => {
@@ -277,9 +298,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "UseAIToConfirmTrafficLights", newUseAIToConfirmTrafficLights, ip), {
             loading: "Saving...",
             success: "Set value to " + newUseAIToConfirmTrafficLights,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setUseAIToConfirmTrafficLights(newUseAIToConfirmTrafficLights);
+        ApplyNewSettings();
     };
 
     const UpdateTryToUseYourGPUToRunTheAI = async () => {
@@ -288,12 +311,14 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", newTryToUseYourGPUToRunTheAI, ip), {
             loading: "Saving...",
             success: "Set value to " + newTryToUseYourGPUToRunTheAI,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setTryToUseYourGPUToRunTheAI(newTryToUseYourGPUToRunTheAI);
+        ApplyNewSettings();
         let data = undefined;
         while (data == undefined || data == false)
-            data = (await PluginFunctionCall("TrafficLightDetection", "get_ai_device", [], {"timeout": 15}));
+            data = (await PluginFunctionCall("TrafficLightDetection", "GetAIDevice", [], {"timeout": 15}));
         setAIDevice(data);
     };
 
@@ -304,9 +329,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urr", valid ? newColorSettings_urr : defaultColorSettings_urr, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_urr,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_urr(newColorSettings_urr);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_urg = async (e:any) => {
@@ -316,9 +343,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urg", valid ? newColorSettings_urg : defaultColorSettings_urg, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_urg,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_urg(newColorSettings_urg);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_urb = async (e:any) => {
@@ -328,9 +357,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urb", valid ? newColorSettings_urb : defaultColorSettings_urb, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_urb,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_urb(newColorSettings_urb);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lrr = async (e:any) => {
@@ -340,9 +371,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrr", valid ? newColorSettings_lrr : defaultColorSettings_lrr, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lrr,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lrr(newColorSettings_lrr);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lrg = async (e:any) => {
@@ -352,9 +385,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrg", valid ? newColorSettings_lrg : defaultColorSettings_lrg, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lrg,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lrg(newColorSettings_lrg);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lrb = async (e:any) => {
@@ -364,9 +399,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrb", valid ? newColorSettings_lrb : defaultColorSettings_lrb, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lrb,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lrb(newColorSettings_lrb);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_uyr = async (e:any) => {
@@ -376,9 +413,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyr", valid ? newColorSettings_uyr : defaultColorSettings_uyr, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_uyr,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_uyr(newColorSettings_uyr);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_uyg = async (e:any) => {
@@ -388,9 +427,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyg", valid ? newColorSettings_uyg : defaultColorSettings_uyg, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_uyg,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_uyg(newColorSettings_uyg);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_uyb = async (e:any) => {
@@ -400,9 +441,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyb", valid ? newColorSettings_uyb : defaultColorSettings_uyb, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_uyb,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_uyb(newColorSettings_uyb);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lyr = async (e:any) => {
@@ -412,9 +455,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyr", valid ? newColorSettings_lyr : defaultColorSettings_lyr, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lyr,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lyr(newColorSettings_lyr);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lyg = async (e:any) => {
@@ -424,9 +469,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyg", valid ? newColorSettings_lyg : defaultColorSettings_lyg, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lyg,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lyg(newColorSettings_lyg);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lyb = async (e:any) => {
@@ -436,9 +483,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyb", valid ? newColorSettings_lyb : defaultColorSettings_lyb, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lyb,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lyb(newColorSettings_lyb);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_ugr = async (e:any) => {
@@ -448,9 +497,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugr", valid ? newColorSettings_ugr : defaultColorSettings_ugr, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_ugr,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_ugr(newColorSettings_ugr);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_ugg = async (e:any) => {
@@ -460,9 +511,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugg", valid ? newColorSettings_ugg : defaultColorSettings_ugg, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_ugg,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_ugg(newColorSettings_ugg);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_ugb = async (e:any) => {
@@ -472,9 +525,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugb", valid ? newColorSettings_ugb : defaultColorSettings_ugb, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_ugb,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_ugb(newColorSettings_ugb);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lgr = async (e:any) => {
@@ -484,9 +539,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgr", valid ? newColorSettings_lgr : defaultColorSettings_lgr, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lgr,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lgr(newColorSettings_lgr);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lgg = async (e:any) => {
@@ -496,9 +553,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgg", valid ? newColorSettings_lgg : defaultColorSettings_lgg, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lgg,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lgg(newColorSettings_lgg);
+        ApplyNewSettings();
     };
 
     const UpdateColorSettings_lgb = async (e:any) => {
@@ -508,9 +567,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgb", valid ? newColorSettings_lgb : defaultColorSettings_lgb, ip), {
             loading: "Saving...",
             success: "Set value to " + newColorSettings_lgb,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setColorSettings_lgb(newColorSettings_lgb);
+        ApplyNewSettings();
     };
 
     const UpdateFiltersContourSizeFilter = async () => {
@@ -518,9 +579,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersContourSizeFilter", newFiltersContourSizeFilter, ip), {
             loading: "Saving...",
             success: "Set value to " + newFiltersContourSizeFilter,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setFiltersContourSizeFilter(newFiltersContourSizeFilter);
+        ApplyNewSettings();
     };
 
     const UpdateFiltersWidthHeightRatioFilter = async () => {
@@ -528,9 +591,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersWidthHeightRatioFilter", newFiltersWidthHeightRatioFilter, ip), {
             loading: "Saving...",
             success: "Set value to " + newFiltersWidthHeightRatioFilter,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setFiltersWidthHeightRatioFilter(newFiltersWidthHeightRatioFilter);
+        ApplyNewSettings();
     }
 
     const UpdateFiltersPixelPercentageFilter = async () => {
@@ -538,9 +603,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelPercentageFilter", newFiltersPixelPercentageFilter, ip), {
             loading: "Saving...",
             success: "Set value to " + newFiltersPixelPercentageFilter,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setFiltersPixelPercentageFilter(newFiltersPixelPercentageFilter);
+        ApplyNewSettings();
     }
 
     const UpdateFiltersPixelBlobShapeFilter = async () => {
@@ -548,9 +615,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelBlobShapeFilter", newFiltersPixelBlobShapeFilter, ip), {
             loading: "Saving...",
             success: "Set value to " + newFiltersPixelBlobShapeFilter,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setFiltersPixelBlobShapeFilter(newFiltersPixelBlobShapeFilter);
+        ApplyNewSettings();
     }
 
     const UpdateFiltersMinimalTrafficLightSize = async (e:any) => {
@@ -560,9 +629,11 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMinimalTrafficLightSize", valid ? newFiltersMinimalTrafficLightSize : defaultFiltersMinimalTrafficLightSize, ip), {
             loading: "Saving...",
             success: "Set value to " + newFiltersMinimalTrafficLightSize,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setFiltersMinimalTrafficLightSize(newFiltersMinimalTrafficLightSize);
+        ApplyNewSettings();
     };
 
     const UpdateFiltersMaximalTrafficLightSize = async (e:any) => {
@@ -572,39 +643,43 @@ export default function TrafficLightDetection({ ip }: { ip: string }) {
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMaximalTrafficLightSize", valid ? newFiltersMaximalTrafficLightSize : defaultFiltersMaximalTrafficLightSize, ip), {
             loading: "Saving...",
             success: "Set value to " + newFiltersMaximalTrafficLightSize,
-            error: "Failed to save"
+            error: "Failed to save",
+            description: isPluginEnabled ? "It may take a second to apply the new settings." : ""
         });
         setFiltersMaximalTrafficLightSize(newFiltersMaximalTrafficLightSize);
+        ApplyNewSettings();
     }
 
     const ResetColorsToDefault = async () => {
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urr", defaultColorSettings_urr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urr, error: "Failed to save"}); setColorSettings_urr(defaultColorSettings_urr);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urg", defaultColorSettings_urg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urg, error: "Failed to save"}); setColorSettings_urg(defaultColorSettings_urg);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urb", defaultColorSettings_urb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urb, error: "Failed to save"}); setColorSettings_urb(defaultColorSettings_urb);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrr", defaultColorSettings_lrr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrr, error: "Failed to save"}); setColorSettings_lrr(defaultColorSettings_lrr);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrg", defaultColorSettings_lrg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrg, error: "Failed to save"}); setColorSettings_lrg(defaultColorSettings_lrg);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrb", defaultColorSettings_lrb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrb, error: "Failed to save"}); setColorSettings_lrb(defaultColorSettings_lrb);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyr", defaultColorSettings_uyr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyr, error: "Failed to save"}); setColorSettings_uyr(defaultColorSettings_uyr);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyg", defaultColorSettings_uyg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyg, error: "Failed to save"}); setColorSettings_uyg(defaultColorSettings_uyg);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyb", defaultColorSettings_uyb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyb, error: "Failed to save"}); setColorSettings_uyb(defaultColorSettings_uyb);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyr", defaultColorSettings_lyr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyr, error: "Failed to save"}); setColorSettings_lyr(defaultColorSettings_lyr);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyg", defaultColorSettings_lyg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyg, error: "Failed to save"}); setColorSettings_lyg(defaultColorSettings_lyg);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyb", defaultColorSettings_lyb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyb, error: "Failed to save"}); setColorSettings_lyb(defaultColorSettings_lyb);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugr", defaultColorSettings_ugr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugr, error: "Failed to save"}); setColorSettings_ugr(defaultColorSettings_ugr);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugg", defaultColorSettings_ugg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugg, error: "Failed to save"}); setColorSettings_ugg(defaultColorSettings_ugg);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugb", defaultColorSettings_ugb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugb, error: "Failed to save"}); setColorSettings_ugb(defaultColorSettings_ugb);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgr", defaultColorSettings_lgr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgr, error: "Failed to save"}); setColorSettings_lgr(defaultColorSettings_lgr);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgg", defaultColorSettings_lgg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgg, error: "Failed to save"}); setColorSettings_lgg(defaultColorSettings_lgg);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgb", defaultColorSettings_lgb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgb, error: "Failed to save"}); setColorSettings_lgb(defaultColorSettings_lgb);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urr", defaultColorSettings_urr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urr, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_urr(defaultColorSettings_urr);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urg", defaultColorSettings_urg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urg, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_urg(defaultColorSettings_urg);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_urb", defaultColorSettings_urb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_urb, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_urb(defaultColorSettings_urb);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrr", defaultColorSettings_lrr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrr, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lrr(defaultColorSettings_lrr);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrg", defaultColorSettings_lrg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrg, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lrg(defaultColorSettings_lrg);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lrb", defaultColorSettings_lrb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lrb, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lrb(defaultColorSettings_lrb);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyr", defaultColorSettings_uyr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyr, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_uyr(defaultColorSettings_uyr);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyg", defaultColorSettings_uyg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyg, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_uyg(defaultColorSettings_uyg);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_uyb", defaultColorSettings_uyb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_uyb, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_uyb(defaultColorSettings_uyb);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyr", defaultColorSettings_lyr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyr, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lyr(defaultColorSettings_lyr);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyg", defaultColorSettings_lyg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyg, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lyg(defaultColorSettings_lyg);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lyb", defaultColorSettings_lyb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lyb, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lyb(defaultColorSettings_lyb);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugr", defaultColorSettings_ugr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugr, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_ugr(defaultColorSettings_ugr);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugg", defaultColorSettings_ugg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugg, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_ugg(defaultColorSettings_ugg);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_ugb", defaultColorSettings_ugb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_ugb, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_ugb(defaultColorSettings_ugb);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgr", defaultColorSettings_lgr, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgr, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lgr(defaultColorSettings_lgr);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgg", defaultColorSettings_lgg, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgg, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lgg(defaultColorSettings_lgg);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "ColorSettings_lgb", defaultColorSettings_lgb, ip), {loading: "Saving...", success: "Set value to " + defaultColorSettings_lgb, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setColorSettings_lgb(defaultColorSettings_lgb);
+        ApplyNewSettings();
     };
     
     const ResetFiltersToDefault = async () => {
-        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersContourSizeFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersContourSizeFilter(true);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersWidthHeightRatioFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersWidthHeightRatioFilter(true);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelPercentageFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersPixelPercentageFilter(true);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersContourSizeFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setFiltersContourSizeFilter(true);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersWidthHeightRatioFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setFiltersWidthHeightRatioFilter(true);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelPercentageFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setFiltersPixelPercentageFilter(true);
         toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersPixelBlobShapeFilter", true, ip), {loading: "Saving...", success: "Set value to " + true, error: "Failed to save"}); setFiltersPixelBlobShapeFilter(true);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMinimalTrafficLightSize", defaultFiltersMinimalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMinimalTrafficLightSize, error: "Failed to save"}); setFiltersMinimalTrafficLightSize(defaultFiltersMinimalTrafficLightSize);
-        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMaximalTrafficLightSize", defaultFiltersMaximalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMaximalTrafficLightSize, error: "Failed to save"}); setFiltersMaximalTrafficLightSize(defaultFiltersMaximalTrafficLightSize);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMinimalTrafficLightSize", defaultFiltersMinimalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMinimalTrafficLightSize, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setFiltersMinimalTrafficLightSize(defaultFiltersMinimalTrafficLightSize);
+        toast.promise(SetSettingByKey("TrafficLightDetection", "FiltersMaximalTrafficLightSize", defaultFiltersMaximalTrafficLightSize, ip), {loading: "Saving...", success: "Set value to " + defaultFiltersMaximalTrafficLightSize, error: "Failed to save", description: isPluginEnabled ? "It may take a second to apply the new settings." : ""}); setFiltersMaximalTrafficLightSize(defaultFiltersMaximalTrafficLightSize);
+        ApplyNewSettings();
     }
 
     const ResetAdvancedSettingsToDefault = async () => {

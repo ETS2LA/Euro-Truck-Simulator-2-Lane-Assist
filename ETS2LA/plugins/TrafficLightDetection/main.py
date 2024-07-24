@@ -93,24 +93,6 @@ def Initialize():
     global widthheightratiofilter
     global pixelpercentagefilter
     global pixelblobshapefilter
-    global urr
-    global urg
-    global urb
-    global lrr
-    global lrg
-    global lrb
-    global uyr
-    global uyg
-    global uyb
-    global lyr
-    global lyg
-    global lyb
-    global ugr
-    global ugg
-    global ugb
-    global lgr
-    global lgg
-    global lgb
     global lower_red_advanced
     global upper_red_advanced
     global lower_green_advanced
@@ -284,7 +266,176 @@ def Initialize():
     lower_green_advanced = np.array([lgr, lgg, lgb])
 
 
-def get_screen():
+UpdatingSettings = False
+def UpdateSettings():
+    global UpdatingSettings
+    global UseAI
+    global UseCUDA
+    global AIDevice
+    global finalwindow
+    global grayscalewindow
+    global detectyellowlight
+    global performancemode
+    global advancedmode
+    global windowscale
+    global x1
+    global y1
+    global x2
+    global y2
+    global windowwidth
+    global windowheight
+    global rectsizefilter
+    global widthheightratiofilter
+    global pixelpercentagefilter
+    global pixelblobshapefilter
+    global fov
+    global reset_window
+    global min_rect_size
+    global max_rect_size
+    global anywindowopen
+    global upper_red_advanced
+    global lower_red_advanced
+    global upper_yellow_advanced
+    global lower_yellow_advanced
+    global upper_green_advanced
+    global lower_green_advanced
+    UpdatingSettings = True
+    time.sleep(0.25)
+    Old_UseAI = UseAI
+    Old_UseCUDA = UseCUDA
+    Old_AIDevice = AIDevice
+    UseAI = settings.Get("TrafficLightDetection", "UseAIToConfirmTrafficLights", True)
+    UseCUDA = settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False)
+    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
+    if Old_UseAI != UseAI or Old_UseCUDA != UseCUDA or Old_AIDevice != AIDevice:
+        if TorchAvailable == True:
+            LoadAIModel()
+        else:
+            print("TrafficLightDetectionAI not available due to missing dependencies.")
+            console.RestoreConsole()
+    finalwindow = settings.Get("TrafficLightDetection", "FinalWindow", True)
+    grayscalewindow = settings.Get("TrafficLightDetection", "GrayscaleWindow", False)
+    detectyellowlight = settings.Get("TrafficLightDetection", "YellowLightDetection", False)
+    performancemode = settings.Get("TrafficLightDetection", "PerformanceMode", True)
+    advancedmode = settings.Get("TrafficLightDetection", "AdvancedSettings", False)
+    windowscale = float(settings.Get("TrafficLightDetection", "WindowScale", 0.5))
+    x1 = settings.Get("TrafficLightDetection", "x1ofsc", 0)
+    y1 = settings.Get("TrafficLightDetection", "y1ofsc", 0)
+    x2 = settings.Get("TrafficLightDetection", "x2ofsc", screen_width-1)
+    y2 = settings.Get("TrafficLightDetection", "y2ofsc", round(screen_height/1.5)-1)
+    if x1 >= x2:
+        if screen_width-x1 > screen_width-x2:
+            x1 = x2-1
+        else:
+            x2 = x1+1
+    if y1 >= y2:
+        if screen_height-y1 > screen_height-y2:
+            y1 = y2-1
+        else:
+            y2 = y1+1
+    windowwidth = x2-x1
+    windowheight = y2-y1
+    rectsizefilter = settings.Get("TrafficLightDetection", "FiltersMinimalTrafficLightSize", True)
+    widthheightratiofilter = settings.Get("TrafficLightDetection", "FiltersWidthHeightRatioFilter", True)
+    pixelpercentagefilter = settings.Get("TrafficLightDetection", "FiltersPixelPercentageFilter", True)
+    pixelblobshapefilter = settings.Get("TrafficLightDetection", "FiltersPixelBlobShapeFilter", True)
+    fov = settings.Get("TrafficLightDetection", "FOV", 80)
+    reset_window = True
+    if advancedmode == False:
+        min_rect_size = 8
+        max_rect_size = round(screen_height / 4)
+    else:
+        min_rect_size = settings.Get("TrafficLightDetection", "FiltersMinimalTrafficLightSize", 8)
+        max_rect_size = settings.Get("TrafficLightDetection", "FiltersMaximalTrafficLightSize", round(screen_height / 4))
+    if min_rect_size < 8:
+        min_rect_size = 8
+    if finalwindow == True or grayscalewindow == True:
+        anywindowopen = True
+    else:
+        anywindowopen = False
+    urr = settings.Get("TrafficLightDetection", "ColorSettings_urr")
+    if urr == None or not isinstance(urr, int) or not (0 <= urr <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_urr", 255)
+        urr = 255
+    urg = settings.Get("TrafficLightDetection", "ColorSettings_urg")
+    if urg == None or not isinstance(urg, int) or not (0 <= urg <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_urg", 110)
+        urg = 110
+    urb = settings.Get("TrafficLightDetection", "ColorSettings_urb")
+    if urb == None or not isinstance(urb, int) or not (0 <= urb <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_urb", 110)
+        urb = 110
+    lrr = settings.Get("TrafficLightDetection", "ColorSettings_lrr")
+    if lrr == None or not isinstance(lrr, int) or not (0 <= lrr <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lrr", 200)
+        lrr = 200
+    lrg = settings.Get("TrafficLightDetection", "ColorSettings_lrg")
+    if lrg == None or not isinstance(lrg, int) or not (0 <= lrg <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lrg", 0)
+        lrg = 0
+    lrb = settings.Get("TrafficLightDetection", "ColorSettings_lrb")
+    if lrb == None or not isinstance(lrb, int) or not (0 <= lrb <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lrb", 0)
+        lrb = 0
+    uyr = settings.Get("TrafficLightDetection", "ColorSettings_uyr")
+    if uyr == None or not isinstance(uyr, int) or not (0 <= uyr <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_uyr", 255)
+        uyr = 255
+    uyg = settings.Get("TrafficLightDetection", "ColorSettings_uyg")
+    if uyg == None or not isinstance(uyg, int) or not (0 <= uyg <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_uyg", 240)
+        uyg = 240
+    uyb = settings.Get("TrafficLightDetection", "ColorSettings_uyb")
+    if uyb == None or not isinstance(uyb, int) or not (0 <= uyb <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_uyb", 170)
+        uyb = 170
+    lyr = settings.Get("TrafficLightDetection", "ColorSettings_lyr")
+    if lyr == None or not isinstance(lyr, int) or not (0 <= lyr <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lyr", 200)
+        lyr = 200
+    lyg = settings.Get("TrafficLightDetection", "ColorSettings_lyg")
+    if lyg == None or not isinstance(lyg, int) or not (0 <= lyg <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lyg", 170)
+        lyg = 170
+    lyb = settings.Get("TrafficLightDetection", "ColorSettings_lyb")
+    if lyb == None or not isinstance(lyb, int) or not (0 <= lyb <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lyb", 50)
+        lyb = 50
+    ugr = settings.Get("TrafficLightDetection", "ColorSettings_ugr")
+    if ugr == None or not isinstance(ugr, int) or not (0 <= ugr <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_ugr", 150)
+        ugr = 150
+    ugg = settings.Get("TrafficLightDetection", "ColorSettings_ugg")
+    if ugg == None or not isinstance(ugg, int) or not (0 <= ugg <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_ugg", 255)
+        ugg = 255
+    ugb = settings.Get("TrafficLightDetection", "ColorSettings_ugb")
+    if ugb == None or not isinstance(ugb, int) or not (0 <= ugb <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_ugb", 230)
+        ugb = 230
+    lgr = settings.Get("TrafficLightDetection", "ColorSettings_lgr")
+    if lgr == None or not isinstance(lgr, int) or not (0 <= lgr <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lgr", 0)
+        lgr = 0
+    lgg = settings.Get("TrafficLightDetection", "ColorSettings_lgg")
+    if lgg == None or not isinstance(lgg, int) or not (0 <= lgg <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lgg", 200)
+        lgg = 200
+    lgb = settings.Get("TrafficLightDetection", "ColorSettings_lgb")
+    if lgb == None or not isinstance(lgb, int) or not (0 <= lgb <= 255):
+        settings.Set("TrafficLightDetection", "ColorSettings_lgb", 0)
+        lgb = 0
+    upper_red_advanced = np.array([urr, urg, urb])
+    lower_red_advanced = np.array([lrr, lrg, lrb])
+    upper_yellow_advanced = np.array([uyr, uyg, uyb])
+    lower_yellow_advanced = np.array([lyr, lyg, lyb])
+    upper_green_advanced = np.array([ugr, ugg, ugb])
+    lower_green_advanced = np.array([lgr, lgg, lgb])
+    UpdatingSettings = False
+    return True
+
+
+def GetScreenSize():
     screen_x = monitor["left"]
     screen_y = monitor["top"]
     screen_width = monitor["width"]
@@ -292,11 +443,11 @@ def get_screen():
     return screen_x, screen_y, screen_width, screen_height
 
 
-def get_ai_device():
+def GetAIDevice():
     return "CUDA" if torch.cuda.is_available() and settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False) == True else "CPU" if TorchAvailable else "Unknown"
 
 
-def get_ai_properties():
+def GetAIProperties():
     if os.path.exists(f"{variables.PATH}cache/TrafficLightDetection") == False:
         os.makedirs(f"{variables.PATH}cache/TrafficLightDetection")
     IMG_WIDTH = " - - - "
@@ -666,6 +817,8 @@ def plugin():
     global coordinates
     global trafficlights
     global reset_window
+
+    if UpdatingSettings: return
 
     data = {}
     data["api"] = TruckSimAPI.run()

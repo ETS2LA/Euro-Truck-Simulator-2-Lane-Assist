@@ -58,12 +58,12 @@ export default function NavigationDetection({ ip }: { ip: string }) {
 
         let data = undefined;
         while (data == undefined || data == false)
-            data = (await PluginFunctionCall("NavigationDetection", "get_ai_device", [], {"timeout": 15}));
+            data = (await PluginFunctionCall("NavigationDetection", "GetAIDevice", [], {"timeout": 15}));
         setAIDevice(data);
 
         data = undefined;
         while (data == undefined || data == false)
-            data = (await PluginFunctionCall("NavigationDetection", "get_ai_properties", [], {"timeout": 15}));
+            data = (await PluginFunctionCall("NavigationDetection", "GetAIProperties", [], {"timeout": 15}));
         setModelPropertiesEpochs(data[0]);
         setModelPropertiesBatchSize(data[1]);
         setModelPropertiesOutputs(data[2]);
@@ -107,6 +107,14 @@ export default function NavigationDetection({ ip }: { ip: string }) {
     if (isLoading) return <p>Loading...</p>
     if (error) return <p className='p-4'>Lost connection to server - {error.message}</p>
 
+    const ApplyNewSettings = async () => {
+        if (isPluginEnabled) {
+            let response = undefined;
+            while (response == undefined || response == false)
+                response = (await PluginFunctionCall("NavigationDetection", "UpdateSettings", [], {"timeout": 15}));
+        }
+    }
+
     const UpdateLaneOffset = async (e:any) => {
         let newLaneOffset = String(e).replace(/\./g, ".");
         if (newLaneOffset.includes(".") && newLaneOffset.substring(newLaneOffset.indexOf(".") + 1).length > 1) { return; }
@@ -118,6 +126,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setLaneOffset(newLaneOffset);
+        ApplyNewSettings();
     };
 
     const UpdateLeftHandTraffic = async () => {
@@ -128,6 +137,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setLeftHandTraffic(newLeftHandTraffic);
+        ApplyNewSettings();
     };
 
     const UpdateLaneChanging = async () => {
@@ -138,6 +148,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setLaneChanging(newLaneChanging);
+        ApplyNewSettings();
     };
 
     const UpdateLaneChangeSpeed = async (e:any) => {
@@ -151,6 +162,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setLaneChangeSpeed(newLaneChangeSpeed);
+        ApplyNewSettings();
     };
 
     const UpdateLaneChangeWidth = async (e:any) => {
@@ -164,6 +176,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setLaneChangeWidth(newLaneChangeWidth);
+        ApplyNewSettings();
     };
 
     const UpdateUseNavigationDetectionAI = async () => {
@@ -174,6 +187,7 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setUseNavigationDetectionAI(newUseNavigationDetectionAI);
+        ApplyNewSettings();
     };
 
     const UpdateTryToUseYourGPUToRunTheAI = async () => {
@@ -185,9 +199,10 @@ export default function NavigationDetection({ ip }: { ip: string }) {
             error: "Failed to save"
         });
         setTryToUseYourGPUToRunTheAI(newTryToUseYourGPUToRunTheAI);
+        await ApplyNewSettings();
         let data = undefined;
         while (data == undefined || data == false)
-            data = (await PluginFunctionCall("NavigationDetection", "get_ai_device", [], {"timeout": 15}));
+            data = (await PluginFunctionCall("NavigationDetection", "GetAIDevice", [], {"timeout": 15}));
         setAIDevice(data);
     };
 
