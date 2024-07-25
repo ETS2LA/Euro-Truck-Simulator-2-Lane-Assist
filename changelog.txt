@@ -1,3 +1,4 @@
 1.11.60: Temporarily remove mirror data collection (Thanks for the help!)
 1.11.61: Add AnomalousFrames remover (cache clearer) after 30 days
 1.11.62: NavigationDetectionAI now uses metadata to get important information about the model to run the model.
+1.11.63: Fixed a but in the NavigationDetection and TrafficLightDetection where the code would try to access torch even if its not imported.

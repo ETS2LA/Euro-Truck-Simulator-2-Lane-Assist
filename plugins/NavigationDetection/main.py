@@ -143,7 +143,7 @@ def LoadSettings():
                 console.RestoreConsole()
     UseAI = settings.GetSettings("NavigationDetection", "UseAI", False)
     UseCUDA = settings.GetSettings("NavigationDetection", "UseCUDA", False)
-    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
+    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu') if TorchAvailable else None
     LoadAILabel = "Loading..."
     LoadAIProgress = 0
 
@@ -489,7 +489,7 @@ def GetAIModelProperties():
         MODEL_IMAGE_COUNT = "UNKNOWN"
         MODEL_TRAINING_TIME = "UNKNOWN"
         MODEL_TRAINING_DATE = "UNKNOWN"
-        if GetAIModelName() == "UNKNOWN":
+        if GetAIModelName() == "UNKNOWN" or TorchAvailable == False:
             return
         torch.jit.load(os.path.join(f"{variables.PATH}plugins/NavigationDetection/AIModel", GetAIModelName()), _extra_files=MODEL_METADATA, map_location=AIDevice)
         MODEL_METADATA = str(MODEL_METADATA["data"]).replace('b"(', '').replace(')"', '').replace("'", "").split(", ")
