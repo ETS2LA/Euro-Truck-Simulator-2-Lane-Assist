@@ -72,15 +72,14 @@ def CheckAnomalousFrames():
             for file in files:
                 file_path = os.path.join(path, file)
                 file_size = os.path.getsize(file_path)
-                total_size += file_size
 
                 if total_size > size_limit:
                     os.remove(file_path)
                     remove_files += 1
-                    total_size -= file_size
+                    total_size += file_size
 
             freed_space_mb = round(total_size / 1048576, 2)
-            print(f"Removed {remove_files} anomalous frame logs, totaling {freed_space_mb}MB.")
+            print(f"Removed {remove_files} anomalous frame logs. ({freed_space_mb}MB)")
     except:
         print(f"Unable to delete anomalous frame logs. Please delete them manually from the folder: {path}")
 
