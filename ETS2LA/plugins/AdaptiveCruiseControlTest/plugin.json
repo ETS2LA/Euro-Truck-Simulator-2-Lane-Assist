@@ -1,0 +1,13 @@
+{
+    "name": "AdaptiveCruiseControlTest",
+    "authors": [{
+        "name": "DylDev",
+        "url": "https://github.com/DylDevs",
+        "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
+    }],
+    "description": "WIP - Cruise Control using vehicle position data and speed limit.",
+    "version": "1.0",
+    "dependencies": [],
+    "modules": ["ShowImage", "TruckSimAPI", "SDKController", "MapUtils"],
+    "compatible": ["Windows", "Linux", "MacOS"]
+}
