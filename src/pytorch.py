@@ -31,7 +31,7 @@ def CheckPyTorch():
                     console.RestoreConsole()
                 else:
                     print(GREEN + "The app is working on a fix for the problem with 'torch', please don't close the app." + NORMAL)
-                    threading.Thread(target=UpdatePyTorch, args=("cd " + path + "venv/Scripts & .\\activate.bat & cd " + path + " & pip uninstall torch & pip install torch==2.3.1", "torch")).start()
+                    threading.Thread(target=UpdatePyTorch, args=("cd " + path + "venv/Scripts & .\\activate.bat & cd " + path + " & pip uninstall torch -y & pip install torch==2.3.1", "torch")).start()
             elif "torchvision " in module:
                 if "cu" in module:
                     try:
@@ -44,7 +44,7 @@ def CheckPyTorch():
                     console.RestoreConsole()
                 else:
                     print(GREEN + "The app is working on a fix for the problem with 'torchvision', please don't close the app." + NORMAL)
-                    threading.Thread(target=UpdatePyTorch, args=("cd " + path + "venv/Scripts & .\\activate.bat & cd " + path + " & pip uninstall torchvision & pip install torchvision==0.18.1", "torchvision")).start()
+                    threading.Thread(target=UpdatePyTorch, args=("cd " + path + "venv/Scripts & .\\activate.bat & cd " + path + " & pip uninstall torchvision -y & pip install torchvision==0.18.1", "torchvision")).start()
             elif "torchaudio " in module:
                 if "cu" in module:
                     try:
@@ -57,7 +57,7 @@ def CheckPyTorch():
                     console.RestoreConsole()
                 else:
                     print(GREEN + "The app is working on a fix for the problem with 'torchaudio', please don't close the app." + NORMAL)
-                    threading.Thread(target=UpdatePyTorch, args=("cd " + path + "venv/Scripts & .\\activate.bat & cd " + path + " & pip uninstall torchaudio & pip install torchaudio==2.3.1", "torchaudio")).start()
+                    threading.Thread(target=UpdatePyTorch, args=("cd " + path + "venv/Scripts & .\\activate.bat & cd " + path + " & pip uninstall torchaudio -y & pip install torchaudio==2.3.1", "torchaudio")).start()
 
     else:
 
