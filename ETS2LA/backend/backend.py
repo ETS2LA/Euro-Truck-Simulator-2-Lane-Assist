@@ -58,6 +58,13 @@ class PluginRunnerController():
                 sonnerText = data["sonner"]["text"]
                 sonnerPromise = data["sonner"]["promise"]
                 immediate.sonner(sonnerText, sonnerType, sonnerPromise)
+                
+            if "ask" in data:
+                askText = data["ask"]["text"]
+                askOptions = data["ask"]["options"]
+                response = immediate.ask(askText, askOptions)
+                self.immediateQueue.put(response)
+                
         
     def monitor(self):
         process = psutil.Process(self.process)

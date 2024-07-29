@@ -44,7 +44,6 @@ export function ETS2LAStates({ip}: {ip: string}) {
 
         */
         if (data) {
-            console.log("Data has changed:", data);
             let indexesToNotRemove: number[] = [];
             // Loop through the plugins
             for (const plugin in data) {

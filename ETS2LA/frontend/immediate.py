@@ -5,20 +5,31 @@ import asyncio
 import logging
 import json
 
-connected = []
+connected = {}
+responses = {}
+
+condition = threading.Condition()
 
 async def server(websocket, path):
     global connected
-    connected.append(websocket)
+    connected[websocket] = None
     try:
         while True:
-            await websocket.recv()
+            message = await websocket.recv()
+            if message != None:
+                try:
+                    message = json.loads(message)
+                except:
+                    pass
+                # print(f"Received message: {message}")
+                with condition:
+                    connected[websocket] = message
+                    condition.notify_all()
     except:
-        try: connected.remove(websocket)
-        except: pass
+        logging.exception("An error occurred while processing a message.")
+        pass
     finally:
-        try: connected.remove(websocket)
-        except: pass
+        connected.pop(websocket, None)
 
 async def send_sonner(text, type, sonnerPromise):
     global connected
@@ -32,10 +43,39 @@ async def send_sonner(text, type, sonnerPromise):
     tasks = [asyncio.create_task(ws.send(message)) for ws in connected]
     if tasks:
         await asyncio.wait(tasks)
-    
-    
+        
 def sonner(text:str, type:Literal["info", "warning", "error", "success", "promise"]="info", sonnerPromise:str=None):
     asyncio.run(send_sonner(text, type, sonnerPromise))
+
+async def send_ask(text, options):
+    global connected
+    message_dict = {
+        "ask": {
+            "text": text, 
+            "options": options
+        }
+    }
+    
+    message = json.dumps(message_dict)
+    tasks = [asyncio.create_task(ws.send(message)) for ws in connected]
+    if tasks:
+        await asyncio.wait(tasks)
+    
+    response = None
+    while response is None:
+        with condition:
+            condition.wait()
+            for ws in connected:
+                response = connected[ws]
+                if response != None:
+                    connected[ws] = None
+                    break
+        
+    return response
+    
+def ask(text:str, options:list):
+    response = asyncio.run(send_ask(text, options))
+    return response
 
 async def start():
     wsServer = websockets.serve(server, "0.0.0.0", 37521)

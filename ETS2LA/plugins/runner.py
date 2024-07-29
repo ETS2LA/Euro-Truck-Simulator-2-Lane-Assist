@@ -334,3 +334,34 @@ class PluginRunner():
             type (str, optional): Defaults to "info". Available types are "info", "warning", "error" and "success".
         """
         self.iq.put({"sonner": {"text": text, "type": type, "promise": promise}})
+        
+    def ask(self, text:str, options=["Yes", "No"], timeout=600):
+        """Ask the user a question.
+
+        Args:
+            text (str): Text to ask.
+            options (list, optional): Defaults to ["Yes", "No"]. Options to choose from.
+
+        Returns:
+            str: Selected option.
+        """
+        self.iq.put({"ask": {"text": text, "options": options}})
+        response = None
+        startTime = time.time()
+        while response == None:
+            if time.time() - startTime > timeout:
+                return None
+            try:
+                # Wait until we get an answer.
+                data = self.iq.get(timeout=0.1)    
+            except:
+                time.sleep(0.00000001)
+                continue
+            try:
+                # If the data we fetched was from this plugin, we can skip the loop.
+                if "response" in data:
+                    response = data["response"]
+                    return response
+            except:
+                time.sleep(0.00000001)
+                pass

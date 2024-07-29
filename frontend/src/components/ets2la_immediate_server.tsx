@@ -6,6 +6,14 @@ import { Badge } from "./ui/badge"
 import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff, X, Minimize2} from "lucide-react";
 import { CheckForUpdate, Update } from "@/pages/backend";
 import useSWR from "swr";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 import { CloseBackend, MinimizeBackend } from "@/pages/backend"
 import { Button } from "./ui/button";
 
@@ -14,17 +22,19 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
     const { data, error, isLoading } = useSWR("updates", () => CheckForUpdate(ip), { refreshInterval: 60000 }) // Check for updates every minute
     const [connected, setConnected] = useState(false);
     const [promiseMessages, setPromiseMessages] = useState<string[]>([]);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogText, setDialogText] = useState("");
+    const [dialogOptions, setDialogOptions] = useState<string[]>([]);
     let lastMessage:any = null;
 
     useEffect(() => {
-        if(ip == "") ip = "localhost";
+        if (ip == "") ip = "localhost";
 
         // Initialize the WebSocket connection
         socket = new WebSocket(`ws://${ip}:37521`);
 
         // Connection opened
         socket.addEventListener("open", function (event) {
-            socket.send("Hello Server!");
             toast.success("Connected to the ETS2LA backend!")
             setConnected(true);
         });
@@ -35,21 +45,42 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
             if (lastMessage === message) return;
             lastMessage = message;
             console.log("Message from server ", message);
-            let toastType = message["type"]
-            let toastMessage = message["text"]
-            if (toastType === "error") {
-                toast.error(toastMessage)
-            } else if (toastType === "success") {
-                toast.success(toastMessage)
-            } else if (toastType == "info") {
-                toast.info(toastMessage)
-            } else if (toastType == "warning") {
-                toast.warning(toastMessage)
-            } else if (toastType == "promise") {
-                // Add the promise message to the state
-                setPromiseMessages(prevMessages => [...prevMessages, toastMessage]);
-            } else {
-                toast(toastMessage)
+            if ("ask" in message) {
+                let text = message["ask"]["text"]
+                let options = message["ask"]["options"]
+                setDialogText(text)
+                setDialogOptions(options)
+                setDialogOpen(true)
+                // Wait for the user to select an option
+                const listener = function (event:any) {
+                    const message = JSON.parse(event.data);
+                    if ("response" in message) {
+                        if (message["response"] === "dialog") {
+                            // Send the selected option to the backend
+                            socket.send(JSON.stringify({response: dialogOptions[message["option"]]}));
+                            setDialogOpen(false);
+                        }
+                    }
+                };
+            }
+            else {
+
+                let toastType = message["type"]
+                let toastMessage = message["text"]
+                if (toastType === "error") {
+                    toast.error(toastMessage)
+                } else if (toastType === "success") {
+                    toast.success(toastMessage)
+                } else if (toastType == "info") {
+                    toast.info(toastMessage)
+                } else if (toastType == "warning") {
+                    toast.warning(toastMessage)
+                } else if (toastType == "promise") {
+                    // Add the promise message to the state
+                    setPromiseMessages(prevMessages => [...prevMessages, toastMessage]);
+                } else {
+                    toast(toastMessage)
+                }
             }
         });
 
@@ -130,5 +161,25 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
                 <X className="w-4 h-4 overflow-visible" />
             </Button>
         </div>
+        <Dialog open={dialogOpen}>
+            <DialogTrigger>
+                <div></div>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>{dialogText}</DialogTitle>
+                </DialogHeader>
+                <DialogDescription>
+                </DialogDescription>
+                <div className="flex gap-2">
+                    {dialogOptions.map((option, index) => (
+                        <Button key={index} variant={"outline"} onClick={() => {
+                            socket.send(JSON.stringify({response: option}));
+                            setDialogOpen(false);
+                        }}>{option}</Button>
+                    ))}
+                </div>
+            </DialogContent>
+        </Dialog>
     </div>
 }
