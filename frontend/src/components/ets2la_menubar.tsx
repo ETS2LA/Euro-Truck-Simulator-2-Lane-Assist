@@ -14,6 +14,7 @@ import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp,
     Terminal, ListTodo, Users, TextSearch} from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, 
     DisablePlugin, EnablePlugin, RestartBackend, ColorTitleBar } from "@/pages/backend"
+import { SetSettingByKey } from "@/pages/settings";
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la_immediate_server"
@@ -206,12 +207,18 @@ return (
                 </div>
             </MenubarTrigger>
             <MenubarContent>
-                <MenubarItem onClick={() => SetThemeColor("light")}>
+                <MenubarItem onClick={() => {
+                    SetThemeColor("light")
+                    SetSettingByKey("global", "theme", "light", ip=ip)
+                }}>
                     <div className="flex flex-row gap-2 items-center">
                         <Sun className="w-4 h-4"/>Light    
                     </div>
                 </MenubarItem>
-                <MenubarItem onClick={() => SetThemeColor("dark")}>
+                <MenubarItem onClick={() => {
+                    SetThemeColor("dark")
+                    SetSettingByKey("global", "theme", "dark", ip=ip)
+                }}>
                     <div className="flex flex-row gap-2 items-center">
                         <Moon className="w-4 h-4"/>Dark    
                     </div>
