@@ -22,13 +22,17 @@ class PluginRunnerController():
         
         # Make the queue (comms) and start the process.
         self.queue = multiprocessing.JoinableQueue()
+        self.stateQueue = multiprocessing.JoinableQueue()
         self.functionQueue = multiprocessing.JoinableQueue()
         self.eventQueue = multiprocessing.JoinableQueue()
         self.immediateQueue = multiprocessing.JoinableQueue()
         self.returnPipe, pluginReturnPipe = multiprocessing.Pipe()
         
-        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.functionQueue, pluginReturnPipe, self.eventQueue, self.immediateQueue, ), daemon=True)
+        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.stateQueue, self.functionQueue, pluginReturnPipe, self.eventQueue, self.immediateQueue, ), daemon=True)
         self.runner.start()
+        
+        self.state = "running"
+        self.state_progress = -1 # no progress bar
         
         self.process = self.runner.pid
         self.process_info = []
@@ -86,9 +90,40 @@ class PluginRunnerController():
                 time.sleep(0.5)
                 continue
         
+    def stateQueueThread(self):
+        while True:
+            try: 
+                data = self.immediateQueue.get(timeout=0.5)
+            except Exception as e: 
+                time.sleep(0.00001)
+                continue
+            
+            if type(data) == type(None):
+                time.sleep(0.00001)
+                continue
+        
+            try:
+                frametime = data["frametimes"]
+                if self.pluginName not in frameTimes:
+                    frameTimes[self.pluginName] = []
+                frameTimes[self.pluginName].append(frametime[self.pluginName])
+                if len(frameTimes[self.pluginName]) > 240: # 120 seconds of 0.5 intervals
+                    frameTimes[self.pluginName].pop(0)
+            except:
+                pass
+            
+            try:
+                state = data["state"]
+                self.state = state["state"]
+                self.state_progress = state["progress"]
+            except:
+                pass
+                
+        
     def start_other_threads(self):
         threading.Thread(target=self.immediateQueueThread, daemon=True).start()
         threading.Thread(target=self.monitor, daemon=True).start()
+        threading.Thread(target=self.stateQueueThread, daemon=True).start()
         
     def run(self):
         global frameTimes
@@ -113,16 +148,8 @@ class PluginRunnerController():
                     self.queue.put(self.lastData)
                     time.sleep(0.01)
                     continue
-                
-                if "frametimes" in data: # Save the frame times
-                    frametime = data["frametimes"]
-                    if self.pluginName not in frameTimes:
-                        frameTimes[self.pluginName] = []
-                    frameTimes[self.pluginName].append(frametime[self.pluginName])
-                    if len(frameTimes[self.pluginName]) > 240: # 120 seconds of 0.5 intervals
-                        frameTimes[self.pluginName].pop(0)
                         
-                elif "get" in data: # If the data is a get command, then we need to get the data from another plugin.
+                if "get" in data: # If the data is a get command, then we need to get the data from another plugin.
                     plugins = data["get"]
                     for plugin in plugins:
                         if "tags." in plugin:
@@ -191,6 +218,18 @@ def GetEnabledPlugins():
         ENABLED_PLUGINS.append(runner)
         
     return ENABLED_PLUGINS
+
+def GetPluginStates():
+    states = {}
+    for runner in runners:
+        try:
+            states[runner] = {}
+            states[runner]["state"] = runners[runner].state
+            states[runner]["progress"] = runners[runner].progress
+        except:
+            continue
+        
+    return states
     
 # TODO: Fix this code, it's not working most of the time!
 def CallPluginFunction(plugin, function, args, kwargs):

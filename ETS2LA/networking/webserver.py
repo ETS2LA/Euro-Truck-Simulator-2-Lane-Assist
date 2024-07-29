@@ -95,6 +95,10 @@ def get_plugins():
 def get_performance():
     return backend.GetPerformance()
 
+@app.get("/api/plugins/states")
+def get_states():
+    return backend.GetPluginStates()
+
 @app.get("/api/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
     return backend.AddPluginRunner(plugin)

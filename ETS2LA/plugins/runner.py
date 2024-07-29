@@ -15,7 +15,7 @@ import sys
 import os
 
 class PluginRunner():
-    def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
+    def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, stateQueue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
         SetupProcessLogging(
             pluginName, 
             filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), 
@@ -25,6 +25,7 @@ class PluginRunner():
         self.logger = logging.getLogger()
 
         self.q = queue
+        self.sq = stateQueue
         self.fq = functionQueue
         self.frp = returnPipe
         self.eq = eventQueue
@@ -36,6 +37,9 @@ class PluginRunner():
         self.executiontimes = []
         self.temporary = temporary
         self.console = Console()
+        
+        self.state : str  = "running"
+        self.state_progress : int = -1
         
         # Add the plugin filepath to path (so that the plugin can import modules from the plugin folder)
         sys.path.append(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName))
@@ -248,19 +252,22 @@ class PluginRunner():
             self.executiontimes.append(pluginExec - startTime)
             self.executiontimes[-1] -= self.getQueueProcessingTime
             self.getQueueProcessingTime = 0
-            # Send the frametimes to the main thread once a second
+            # Send the frametimes to the main thread twice a second
             if endTime - self.timer > 0.5:
                 # Calculate the avg frametime
                 avgFrametime = sum(self.frametimes) / len(self.frametimes)
                 avgExecTime = sum(self.executiontimes) / len(self.executiontimes)
-                self.q.put({
+                self.sq.put({
                     f"frametimes": {
                         f"{self.plugin_path_name}": {
                             "frametime": avgFrametime,
                             "executiontime": avgExecTime
                         }
-                        }
-                    })
+                    },
+                    f"state": {
+                        "state": self.state,
+                        "progress": self.state_progress
+                    }})
                 logging.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime if avgFrametime != 0 else 0.001),2)} FPS")
                 self.timer = endTime
                 self.frametimes = []
