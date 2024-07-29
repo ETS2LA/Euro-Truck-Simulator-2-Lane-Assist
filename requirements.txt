@@ -2,8 +2,11 @@ importlib-metadata
 deep-translator
 tkinter-tooltip
 opencv-python
+chlorophyll
 ultralytics
+onnxruntime
 torchvision
+screeninfo
 torchaudio
 matplotlib
 setuptools
@@ -11,10 +14,13 @@ tkwebview2
 GitPython
 PyAutoGUI
 pywebview
+bettercam
 colorama
 keyboard
 progress
 requests
+vgamepad
+pygments
 pywin32
 pygame
 psutil
@@ -26,4 +32,6 @@ numpy
 scipy
 wheel
 torch
+onnx
+vdf
 mss
