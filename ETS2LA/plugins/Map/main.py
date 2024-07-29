@@ -86,8 +86,9 @@ def GetDistanceFromTruck(x, z, data):
     
     return ((truckX - x) ** 2 + (truckZ - z) ** 2) ** 0.5
 
+SENT_JSON_ERROR = False
 def CheckIfJSONDataIsAvailable(data):
-    global JSON_FOUND
+    global JSON_FOUND, SENT_JSON_ERROR
     # Check if the GameData folder has it's json files
     filesInGameData = os.listdir(variables.PATH + "ETS2LA/plugins/Map/GameData")
     for file in filesInGameData:
@@ -95,7 +96,9 @@ def CheckIfJSONDataIsAvailable(data):
             JSON_FOUND = True
             
     if not JSON_FOUND:
-        toast("No JSON files found in the GameData folder, please unpack the GameData.zip file.")
+        if not SENT_JSON_ERROR:
+            toast("No JSON files found in the GameData folder, please unpack the GameData.zip file.")
+            SENT_JSON_ERROR = True
 
 def LoadGameData():
     global DATA_LOADED
