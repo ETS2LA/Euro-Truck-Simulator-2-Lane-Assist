@@ -39,7 +39,7 @@ class PluginRunner():
         self.console = Console()
         
         self.state : str  = "running"
-        self.state_progress : int = -1
+        self.state_progress : float = -1
         
         # Add the plugin filepath to path (so that the plugin can import modules from the plugin folder)
         sys.path.append(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName))

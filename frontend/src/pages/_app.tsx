@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { ETS2LAMenubar } from "@/components/ets2la_menubar";
 import { ETS2LACommandMenu } from '@/components/ets2la_command_menu';
+import { ETS2LAStates } from '@/components/ets2la_states';
 import { GetIP } from "./backend";
 import { Toaster } from "@/components/ui/sonner"
 import { Badge } from '@/components/ui/badge';
@@ -211,6 +212,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           SetToken("") // Having two setTokens
           setToken("")
         }} />
+        <ETS2LAStates ip={ip} />
         <div className='py-3 '>
           <ContextMenu>
             <ContextMenuTrigger className="h-full">

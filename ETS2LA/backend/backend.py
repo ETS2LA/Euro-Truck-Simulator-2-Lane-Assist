@@ -93,7 +93,7 @@ class PluginRunnerController():
     def stateQueueThread(self):
         while True:
             try: 
-                data = self.immediateQueue.get(timeout=0.5)
+                data = self.stateQueue.get(timeout=0.5)
             except Exception as e: 
                 time.sleep(0.00001)
                 continue
@@ -225,7 +225,7 @@ def GetPluginStates():
         try:
             states[runner] = {}
             states[runner]["state"] = runners[runner].state
-            states[runner]["progress"] = runners[runner].progress
+            states[runner]["progress"] = runners[runner].state_progress
         except:
             continue
         

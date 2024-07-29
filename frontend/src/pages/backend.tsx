@@ -60,6 +60,12 @@ export async function GetPlugins(ip="localhost"): Promise<string[]> {
     return data
 }
 
+export async function GetStates(ip="localhost") {
+    const response = await fetch("http://" + ip + ":37520/api/plugins/states")
+    const data = await response.json()
+    return data
+}
+
 export async function DisablePlugin(plugin: string, ip="localhost") {
     console.log("Disabling plugin")
     const response = await fetch("http://" + ip + `:37520/api/plugins/${plugin}/disable`)
