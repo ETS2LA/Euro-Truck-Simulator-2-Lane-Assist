@@ -70,7 +70,7 @@ def ETS2LAProcess(exception_queue: Queue):
 
 if __name__ == "__main__":
     exception_queue = Queue()  # Create a queue for exceptions
-    print(f"{BLUE}ETS2LA Overseer started!{NORMAL}")
+    print(f"{BLUE}ETS2LA Overseer started!{NORMAL}\n")
     # Make sure NodeJS isn't already running and clear logs
     while True:
         process = multiprocessing.Process(target=ETS2LAProcess, args=(exception_queue,))
@@ -104,7 +104,7 @@ if __name__ == "__main__":
                     os.system("sh update.sh")
                 
                 CountErrorsAndWarnings()
-                print("\n" + GREEN + "ETS2LA will now restart to update itself..." + NORMAL)
+                print("\n" + GREEN + "Update done... restarting!" + NORMAL + "\n")
                 CloseNode()
                 continue
             
