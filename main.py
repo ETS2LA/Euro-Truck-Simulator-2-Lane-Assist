@@ -96,7 +96,10 @@ if __name__ == "__main__":
             if e.args[0] == "Update":
                 print(YELLOW + "ETS2LA is updating..." + NORMAL)
                 if os.name == "nt":
-                    os.system("update.bat")
+                    try:
+                        os.system("update.bat")
+                    except: # Used Installer
+                        os.system("cd code && cd app && update.bat")
                 else:
                     os.system("sh update.sh")
                 
