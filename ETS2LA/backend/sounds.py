@@ -33,8 +33,13 @@ for i in range(len(SOUNDPACKS)):
 
 SOUNDPACKS = temp        
 SELECTED_SOUNDPACK = settings.Get("global", "soundpack", "default")
+VOLUME = settings.Get("global", "volume", 0.5)
         
 pygame.init()
+
+def UpdateVolume():
+    global VOLUME
+    VOLUME = settings.Get("global", "volume", 0.5)
 
 def GetFilenameForSound(sound: str):
     sounds = os.listdir(SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK)
@@ -47,6 +52,11 @@ def GetFilenameForSound(sound: str):
 def Play(sound: str):
     filename = GetFilenameForSound(sound)
     if filename is None: return False
+    
+    UpdateVolume()
+    
+    pygame.mixer.music.set_volume(VOLUME)
     pygame.mixer.music.load(filename)
     pygame.mixer.music.play()
+    
     return True
