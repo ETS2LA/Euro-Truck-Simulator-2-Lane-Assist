@@ -51,7 +51,7 @@ export function ETS2LAStates({ip}: {ip: string}) {
                 const state = data[plugin].state;
                 const state_progress = data[plugin].progress;
                 const state_progress_percent = Math.floor(state_progress * 100);  
-                if(toastNames.includes(plugin))
+                if(toastNames.includes(plugin) && state_progress != -1)
                 {
                     let index = toastNames.indexOf(plugin);
                     indexesToNotRemove.push(index);
@@ -91,6 +91,7 @@ export function ETS2LAStates({ip}: {ip: string}) {
                     toast.dismiss(toasts[i]);
                     toasts.splice(i, 1);
                     toastNames.splice(i, 1);
+                    toast.success("Done!", { duration: 1000 });
                 }
             }
         }

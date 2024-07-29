@@ -219,11 +219,40 @@ class PluginRunner():
                 except Exception as e:
                     logging.info(f"PluginRunner: Error while calling event {event} in {self.plugin_name}: {e}")
 
+    def stateThread(self):
+        while True:
+            # Send the frametimes to the main thread twice a second
+            time.sleep(0.5)
+            # Calculate the avg frametime
+            try:
+                avgFrametime = sum(self.frametimes) / len(self.frametimes)
+                avgExecTime = sum(self.executiontimes) / len(self.executiontimes)
+            except:
+                avgFrametime = 0
+                avgExecTime = 0
+                
+            self.sq.put({
+                f"frametimes": {
+                    f"{self.plugin_path_name}": {
+                        "frametime": avgFrametime,
+                        "executiontime": avgExecTime
+                    }
+                },
+                f"state": {
+                    "state": self.state,
+                    "progress": self.state_progress
+                }})
+            logging.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime if avgFrametime != 0 else 0.001),2)} FPS")
+            self.timer = time.time()
+            self.frametimes = []
+            self.executiontimes = []
+
     def run(self):
         self.timer = time.time()
         threading.Thread(target=self.functionThread, daemon=True).start()
         threading.Thread(target=self.eventThread, daemon=True).start()
         threading.Thread(target=self.moduleChangeListener, daemon=True).start()
+        threading.Thread(target=self.stateThread, daemon=True).start()
         while True and not self.temporary: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
             startTime = time.time()
             try:
@@ -252,26 +281,6 @@ class PluginRunner():
             self.executiontimes.append(pluginExec - startTime)
             self.executiontimes[-1] -= self.getQueueProcessingTime
             self.getQueueProcessingTime = 0
-            # Send the frametimes to the main thread twice a second
-            if endTime - self.timer > 0.5:
-                # Calculate the avg frametime
-                avgFrametime = sum(self.frametimes) / len(self.frametimes)
-                avgExecTime = sum(self.executiontimes) / len(self.executiontimes)
-                self.sq.put({
-                    f"frametimes": {
-                        f"{self.plugin_path_name}": {
-                            "frametime": avgFrametime,
-                            "executiontime": avgExecTime
-                        }
-                    },
-                    f"state": {
-                        "state": self.state,
-                        "progress": self.state_progress
-                    }})
-                logging.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime if avgFrametime != 0 else 0.001),2)} FPS")
-                self.timer = endTime
-                self.frametimes = []
-                self.executiontimes = []
                 
     def GetData(self, plugins:list):
         """Get data from a list of plugins or the global shared data.

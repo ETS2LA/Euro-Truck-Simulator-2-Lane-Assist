@@ -30,9 +30,6 @@ SEND_AR_DATA = settings.Get("Map", "SendARData", False)
 SEND_EXTERNAL_DATA = settings.Get("Map", "SendExternalData", True)
 EXTERNAL_DATA_RENDER_DISTANCE = settings.Get("Map", "ExternalDataRenderDistance", 200) # meters
 
-LOAD_MSG = "Navigation data is loading..."
-COMPLETE_MSG = "Navigation data loaded!"
-
 INTERNAL_VISUALISATION = settings.Get("Map", "InternalVisualisation", True)
 ZOOM = settings.Get("Map", "Zoom", 1)
 
@@ -109,6 +106,8 @@ def LoadGameData():
         TimeElapsedColumn(),
     )
     
+    runner.state = "Map preparing to load data..."
+    runner.state_progress = 0
     with customProgress as progress:
         task1 = progress.add_task("[green]nodes[/green]", total=100)
         task2 = progress.add_task("[green]roads[/green]", total=100)
@@ -117,7 +116,9 @@ def LoadGameData():
         task5 = progress.add_task("[green]calculations[/green]", total=100)
         
         if nodes.nodes == []:
-            toast(LOAD_MSG, type="promise")
+            runner.state = "Map Loading Nodes"
+            runner.state_progress = 0
+            time.sleep(0.1)
             nodes.task = task1
             nodes.progress = progress
             nodes.LoadNodes()
@@ -125,6 +126,8 @@ def LoadGameData():
             
         if roads.roads == []:
             #roads.limitToCount = 10000
+            runner.state = "Map Loading Roads"
+            runner.state_progress = 0.2
             roads.task = task2
             roads.progress = progress
             roads.LoadRoads()
@@ -132,23 +135,31 @@ def LoadGameData():
             
         if prefabs.prefabs == []:
             #prefabs.limitToCount = 500
+            runner.state = "Map Loading Prefab Data"
+            runner.state_progress = 0.4
             prefabs.task = task3
             prefabs.progress = progress
             prefabs.LoadPrefabs()
             progress.refresh() 
             
         if prefabItems.prefabItems == []:
+            runner.state = "Map Loading Prefabs"
+            runner.state_progress = 0.6
             prefabItems.task = task4
             prefabItems.progress = progress
             prefabItems.LoadPrefabItems()
             progress.refresh()
         
         if nodes.itemsCalculated == False:
+            runner.state = "Map doing final calculations"
+            runner.state_progress = 0.8
             nodes.progress = progress
             nodes.task = task5
             nodes.CalculateForwardAndBackwardItemsForNodes()
             nodes.itemsCalculated = True
-            toast(COMPLETE_MSG, type="success", promise=LOAD_MSG)
+            
+        runner.state = "running"
+        runner.state_progress = -1
     
     logging.info("Data loaded")
     print("\n")
