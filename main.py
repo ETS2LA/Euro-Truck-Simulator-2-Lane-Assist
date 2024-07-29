@@ -1,6 +1,10 @@
 import ETS2LA.networking.cloud as cloud
+from multiprocessing import Queue
 from rich.console import Console
+import multiprocessing
 import traceback
+import importlib
+import queue
 import sys
 import os
 
@@ -33,6 +37,8 @@ def CountErrorsAndWarnings():
     print("\nErrors and warnings in the log files:")
     if not os.path.exists(LOG_FILE_FOLDER):
         os.makedirs(LOG_FILE_FOLDER)
+    
+    count = 0
     for file in os.listdir(LOG_FILE_FOLDER):
         if file.endswith(".log"):
             with open(os.path.join(LOG_FILE_FOLDER, file), "r") as f:
@@ -40,6 +46,7 @@ def CountErrorsAndWarnings():
                 errors = content.count("ERR")
                 warnings = content.count("WRN")
                 if errors != 0 or warnings != 0:
+                    count += 1
                     print()
                     print(f"{DARK_GRAY}┌─── {file}{NORMAL}")
                 if errors != 0:
@@ -48,17 +55,32 @@ def CountErrorsAndWarnings():
                     print(f"{DARK_GRAY}│{YELLOW} Warnings: {warnings} {NORMAL}")
                 if errors != 0 or warnings != 0:
                     print(f"{DARK_GRAY}└───{NORMAL}")
+                    
+    if count == 0:
+        print(f"{GREEN}No errors or warnings found.{NORMAL}")
+
+def ETS2LAProcess(exception_queue: Queue):
+    try:
+        CloseNode()
+        ClearLogFiles()
+        ETS2LA = importlib.import_module("ETS2LA.core")
+        ETS2LA.run()
+    except Exception as e:
+        exception_queue.put(e)
 
 if __name__ == "__main__":
-    CloseNode()
-    ClearLogFiles()
-    
+    exception_queue = Queue()  # Create a queue for exceptions
+    print(f"{BLUE}ETS2LA Overseer started!{NORMAL}")
     # Make sure NodeJS isn't already running and clear logs
     while True:
+        process = multiprocessing.Process(target=ETS2LAProcess, args=(exception_queue,))
+        process.start()
+        process.join()
+        
         try:
-            import ETS2LA.core as ETS2LA
-            ETS2LA.run()
-        except Exception as e:
+            # Check if there is an exception in the queue
+            e = exception_queue.get_nowait()
+            # Handle the exception from the child process here
             if e.args[0] == "exit":
                 CloseNode()
                 CountErrorsAndWarnings()
@@ -68,21 +90,20 @@ if __name__ == "__main__":
                 CloseNode()
                 CountErrorsAndWarnings()
                 ClearLogFiles()
-                print(RED + "ETS2LA is restarting..." + NORMAL)
+                print(YELLOW + "ETS2LA is restarting..." + NORMAL)
                 continue
             
             if e.args[0] == "Update":
-                CloseNode()
                 print(YELLOW + "ETS2LA is updating..." + NORMAL)
-                
                 if os.name == "nt":
                     os.system("update.bat")
                 else:
                     os.system("sh update.sh")
                 
-                print(GREEN + "ETS2LA will now restart to update itself..." + NORMAL)
-                os.system("start python main.py")
-                sys.exit(0)
+                CountErrorsAndWarnings()
+                print("\n" + GREEN + "ETS2LA will now restart to update itself..." + NORMAL)
+                CloseNode()
+                continue
             
             print(f"ETS2LA has crashed with the following error:")
             error = traceback.format_exc()
@@ -96,3 +117,7 @@ if __name__ == "__main__":
             print(RED + "ETS2LA has been closed." + NORMAL)
             input("Press enter to exit...")
             sys.exit(0)
+        
+        except queue.Empty:
+            # No exception was found in the queue
+            pass
