@@ -2,6 +2,7 @@ importlib-metadata
 deep-translator
 tkinter-tooltip
 opencv-python
+numpy==1.26.4
 chlorophyll
 ultralytics
 onnxruntime
@@ -28,7 +29,6 @@ sv_ttk
 Babel
 gdown
 mouse
-numpy
 scipy
 wheel
 torch
