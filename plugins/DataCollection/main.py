@@ -131,7 +131,8 @@ def Initialize():
     app_on_newest_version = True
 
     if vd_data_collection == True and dialog_shown == False:
-        OptInDialog()
+        #OptInDialog()
+        pass
 
 Initialize()
 
