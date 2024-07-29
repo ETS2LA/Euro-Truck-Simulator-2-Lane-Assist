@@ -36,7 +36,7 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
     } 
     const plugins:string[] = [];
     for (const key in data) {
-        console.log(key)
+        //console.log(key)
         plugins.push(key)
     }
     // Get the first characters of the plugin strings

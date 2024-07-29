@@ -13,5 +13,5 @@ def Initialize():
     ...
 
 def plugin():
-    runner.state = "test"
-    runner.state_progress = math.sin(time.time() * 2) * 0.5 + 0.5 # 0 to 1
+    runner.state = "This is doing some kind of loading... I think..."
+    runner.state_progress = math.sin(time.time() * 0.5) * 0.5 + 0.5 # 0 to 1
