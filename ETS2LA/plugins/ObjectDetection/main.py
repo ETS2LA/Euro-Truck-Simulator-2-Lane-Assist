@@ -103,7 +103,7 @@ def Initialize():
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
     
     if MODEL_TYPE == "yolov7":
-        model = torch.hub.load('WongKinYiu/yolov7', 'custom', MODEL_PATH, force_reload=True, trust_repo=True)
+        model = torch.hub.load('WongKinYiu/yolov7', 'custom', path=MODEL_PATH, _verbose=False)
     elif MODEL_TYPE == "yolov5":
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.75
