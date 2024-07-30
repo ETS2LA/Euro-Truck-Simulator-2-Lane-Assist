@@ -147,20 +147,6 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
     }, [promiseMessages]); // Dependency array to run the effect when the promise messages change
 
     return <div className="absolute right-[19px] top-[17px] gap-2 flex">
-        { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />Error: {error.message}</Badge> }
-        { isLoading && <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>Checking for updates...</Badge> || 
-            data && <Badge variant="default" className="gap-1 pl-1 rounded-sm cursor-pointer" onClick={() => toast.promise(Update())}><ArrowDownToLine className="w-5 h-5" />Update available</Badge> ||
-            <Badge variant="secondary" className="gap-1 pl-1 rounded-sm" onClick={() => toast.promise(Update())}><Check className="w-5 h-5" />No updates available</Badge>
-        }
-        <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? "Connected" : "Disconnected, please refresh."}</Badge>
-        <div>
-            <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => MinimizeBackend()}>
-                <Minimize2 className="w-4 h-4 overflow-visible" />
-            </Button>
-            <Button variant={"secondary"} className="h-[26px] w-5 rounded-l-none group" onClick={() => CloseBackend()}>
-                <X className="w-4 h-4 overflow-visible" />
-            </Button>
-        </div>
         <Dialog open={dialogOpen}>
             <DialogTrigger>
                 <div></div>
@@ -181,5 +167,19 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
                 </div>
             </DialogContent>
         </Dialog>
+        { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />Error: {error.message}</Badge> }
+        { isLoading && <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>Checking for updates...</Badge> || 
+            data && <Badge variant="default" className="gap-1 pl-1 rounded-sm cursor-pointer" onClick={() => toast.promise(Update())}><ArrowDownToLine className="w-5 h-5" />Update available</Badge> ||
+            <Badge variant="secondary" className="gap-1 pl-1 rounded-sm" onClick={() => toast.promise(Update())}><Check className="w-5 h-5" />No updates available</Badge>
+        }
+        <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? "Connected" : "Disconnected, please refresh."}</Badge>
+        <div>
+            <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => MinimizeBackend()}>
+                <Minimize2 className="w-4 h-4 overflow-visible" />
+            </Button>
+            <Button variant={"secondary"} className="h-[26px] w-5 rounded-l-none group" onClick={() => CloseBackend()}>
+                <X className="w-4 h-4 overflow-visible" />
+            </Button>
+        </div>
     </div>
 }
