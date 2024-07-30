@@ -6,3 +6,6 @@ class PluginCallData(BaseModel):
     
 class TagFetchData(BaseModel):
     tag: str
+
+class RelieveData(BaseModel):
+    data: dict

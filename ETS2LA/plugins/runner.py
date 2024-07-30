@@ -11,6 +11,7 @@ import importlib
 import logging
 import time
 import json
+import math
 import sys
 import os
 
@@ -40,6 +41,8 @@ class PluginRunner():
         
         self.state : str  = "running"
         self.state_progress : float = -1
+        
+        self.data = {}
         
         # Add the plugin filepath to path (so that the plugin can import modules from the plugin folder)
         sys.path.append(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName))
@@ -232,16 +235,18 @@ class PluginRunner():
                 avgExecTime = 0
                 
             self.sq.put({
-                f"frametimes": {
+                "frametimes": {
                     f"{self.plugin_path_name}": {
                         "frametime": avgFrametime,
                         "executiontime": avgExecTime
                     }
                 },
-                f"state": {
+                "state": {
                     "state": self.state,
                     "progress": self.state_progress
-                }})
+                },
+                "data": self.data 
+            })
             logging.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime if avgFrametime != 0 else 0.001),2)} FPS")
             self.timer = time.time()
             self.frametimes = []
@@ -362,6 +367,31 @@ class PluginRunner():
                 if "response" in data:
                     response = data["response"]
                     return response
+            except:
+                time.sleep(0.00000001)
+                pass
+            
+    def WaitForFrontend(self, timeout=math.inf):
+        startTime = time.time()
+        
+        self.sq.put({
+            "data": self.data
+        })
+        
+        while True:
+            if time.time() - startTime > timeout:
+                return
+            try:
+                # Wait until we get an answer.
+                data = self.iq.get(timeout=0.1)    
+            except:
+                time.sleep(0.00000001)
+                continue
+            try:
+                # If the data we fetched was from this plugin, we can skip the loop.
+                if "data" in data:
+                    self.data = data["data"]
+                    return
             except:
                 time.sleep(0.00000001)
                 pass

@@ -34,6 +34,8 @@ class PluginRunnerController():
         self.state = "running"
         self.state_progress = -1 # no progress bar
         
+        self.data = {}
+        
         self.process = self.runner.pid
         self.process_info = []
         
@@ -52,6 +54,10 @@ class PluginRunnerController():
             if type(data) == type(None):
                 time.sleep(0.00001)
                 continue
+        
+            if "data" in data: # We caught a relieve message from the frontend.
+                self.immediateQueue.put(data)
+                time.sleep(0.2)
         
             if "sonner" in data:
                 sonnerType = data["sonner"]["type"]
@@ -110,21 +116,26 @@ class PluginRunnerController():
                 continue
         
             try:
-                frametime = data["frametimes"]
-                if self.pluginName not in frameTimes:
-                    frameTimes[self.pluginName] = []
-                frameTimes[self.pluginName].append(frametime[self.pluginName])
-                if len(frameTimes[self.pluginName]) > 240: # 120 seconds of 0.5 intervals
-                    frameTimes[self.pluginName].pop(0)
-            except:
-                pass
+                if "frametimes" in data:
+                    frametime = data["frametimes"]
+                    if self.pluginName not in frameTimes:
+                        frameTimes[self.pluginName] = []
+                    frameTimes[self.pluginName].append(frametime[self.pluginName])
+                    if len(frameTimes[self.pluginName]) > 240: # 120 seconds of 0.5 intervals
+                        frameTimes[self.pluginName].pop(0)
+            except: pass
             
             try:
-                state = data["state"]
-                self.state = state["state"]
-                self.state_progress = state["progress"]
-            except:
-                pass
+                if "state" in data:
+                    state = data["state"]
+                    self.state = state["state"]
+                    self.state_progress = state["progress"]
+            except: pass
+            
+            try:
+                if "data" in data:
+                    self.data = data["data"]
+            except: pass
                 
         
     def start_other_threads(self):
@@ -233,10 +244,15 @@ def GetPluginStates():
             states[runner] = {}
             states[runner]["state"] = runners[runner].state
             states[runner]["progress"] = runners[runner].state_progress
+            states[runner]["data"] = runners[runner].data
         except:
             continue
         
     return states
+    
+def RelieveWaitForFrontend(plugin, data):
+    runners[plugin].immediateQueue.put({"data": data})
+    return True
     
 # TODO: Fix this code, it's not working most of the time!
 def CallPluginFunction(plugin, function, args, kwargs):

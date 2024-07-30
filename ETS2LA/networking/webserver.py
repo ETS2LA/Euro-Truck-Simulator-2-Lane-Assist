@@ -38,14 +38,11 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+# region Backend
 
 @app.get("/")
 def read_root():
     return {"ETS2LA": "1.0.0"}
-
-@app.get("/api/frametimes")
-def get_frametimes():
-    return backend.frameTimes
 
 @app.get("/api/quit")
 def quitApp():
@@ -61,6 +58,43 @@ def restartApp():
 def minimizeApp():
     variables.MINIMIZE = True
     return {"status": "ok"}
+
+@app.get("/api/check/updates")
+def check_updates():
+    return git.CheckForUpdate()
+
+@app.get("/api/update")
+def update():
+    mainThreadQueue.append([git.Update, [], {}])
+    return True
+
+@app.get("/api/sounds/play/{sound}")
+def play_sound(sound: str):
+    sounds.Play(sound)
+    return True
+
+@app.get("/api/git/history")
+def get_git_history():
+    return git.GetHistory()
+
+@app.get("/api/ui/theme/{theme}")
+def set_theme(theme: str):
+    try:
+        ColorTitleBar(theme)
+        return True
+    except:
+        return False
+
+@app.get("/api/server/ip")
+def get_IP():
+    return IP
+
+# endregion
+# region Plugins
+
+@app.get("/api/frametimes")
+def get_frametimes():
+    return backend.frameTimes
 
 @app.get("/api/plugins")
 def get_plugins():
@@ -91,6 +125,14 @@ def get_plugins():
     
     return returnData
 
+@app.get("/api/plugins/{plugin}/enable")
+def enable_plugin(plugin: str):
+    return backend.AddPluginRunner(plugin)
+
+@app.get("/api/plugins/{plugin}/disable")
+def disable_plugin(plugin: str):
+    return backend.RemovePluginRunner(plugin)
+
 @app.get("/api/plugins/performance")
 def get_performance():
     return backend.GetPerformance()
@@ -99,13 +141,27 @@ def get_performance():
 def get_states():
     return backend.GetPluginStates()
 
-@app.get("/api/plugins/{plugin}/enable")
-def enable_plugin(plugin: str):
-    return backend.AddPluginRunner(plugin)
+@app.post("/api/plugins/{plugin}/relieve")
+def relieve_plugin(plugin: str, data: RelieveData = None):
+    if data is None:
+        data = RelieveData()
+        data.data = {}
+        
+    return backend.RelieveWaitForFrontend(plugin, data.data)
 
-@app.get("/api/plugins/{plugin}/disable")
-def disable_plugin(plugin: str):
-    return backend.RemovePluginRunner(plugin)
+@app.post("/api/plugins/{plugin}/call/{function}")
+def call_plugin_function(plugin: str, function: str, data: PluginCallData = None):
+    if data is None:
+        data = PluginCallData()
+    
+    returnData = backend.CallPluginFunction(plugin, function, data.args, data.kwargs)
+    if returnData == False or returnData == None:
+        return False
+    else:
+        return returnData
+
+# endregion
+# region Settings
 
 @app.post("/api/plugins/{plugin}/settings/{key}/set")
 def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):
@@ -119,15 +175,6 @@ def set_plugin_settings(plugin: str, data: dict = Body(...)):
     success = settings.Set(plugin, keys, setting)
     return success
     
-@app.get("/api/check/updates")
-def check_updates():
-    return git.CheckForUpdate()
-
-@app.get("/api/update")
-def update():
-    mainThreadQueue.append([git.Update, [], {}])
-    return True
-
 @app.get("/api/plugins/{plugin}/settings/{key}")
 def get_plugin_setting(plugin: str, key: str):
     return settings.Get(plugin, key)
@@ -135,6 +182,9 @@ def get_plugin_setting(plugin: str, key: str):
 @app.get("/api/plugins/{plugin}/settings")
 def get_plugin_settings(plugin: str):
     return settings.GetJSON(plugin)
+
+# endregion
+# region Controls
 
 @app.post("/api/controls/{control}/change")
 def change_control(control: str):
@@ -150,32 +200,8 @@ def unbind_control(control: str):
         pass
     return {"status": "ok"}
 
-@app.get("/api/git/history")
-def get_git_history():
-    return git.GetHistory()
-
-@app.post("/api/plugins/{plugin}/call/{function}")
-def call_plugin_function(plugin: str, function: str, data: PluginCallData = None):
-    if data is None:
-        data = PluginCallData()
-    
-    returnData = backend.CallPluginFunction(plugin, function, data.args, data.kwargs)
-    if returnData == False or returnData == None:
-        return False
-    else:
-        return returnData
-
-@app.get("/api/ui/theme/{theme}")
-def set_theme(theme: str):
-    try:
-        ColorTitleBar(theme)
-        return True
-    except:
-        return False
-
-@app.get("/api/server/ip")
-def get_IP():
-    return IP
+# endregion
+# region Tags
 
 @app.get("/api/tags/data")
 def get_tags_data():
@@ -191,10 +217,8 @@ def get_tags_list():
     keys = list(data.keys())
     return keys
 
-@app.get("/api/sounds/play/{sound}")
-def play_sound(sound: str):
-    sounds.Play(sound)
-    return True
+# endregion
+# region Session
 
 def RunFrontend():
     os.system("cd frontend && npm run dev")
@@ -216,3 +240,5 @@ def run():
     p = multiprocessing.Process(target=RunFrontend, daemon=True)
     p.start()
     logging.info(f"Frontend started on http://{IP}:3000 ( http://localhost:3000 )")
+    
+# endregion

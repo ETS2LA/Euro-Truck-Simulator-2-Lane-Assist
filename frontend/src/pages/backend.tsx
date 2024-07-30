@@ -97,6 +97,18 @@ export async function PluginFunctionCall(plugin:string, method:string, args:any,
     return data
 }
 
+export async function RelievePlugin(plugin:string, relieveData:any, ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/relieve`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: relieveData})
+    })
+    const result = await response.json()
+    return result
+}
+
 export async function GetGitHistory(ip="localhost") {
     const response = await fetch(`http://${ip}:37520/api/git/history`, {
         method: "GET",
