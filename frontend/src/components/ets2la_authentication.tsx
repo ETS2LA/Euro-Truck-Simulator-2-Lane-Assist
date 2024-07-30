@@ -172,8 +172,8 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 						</div>
 						<div className="flex gap-2">
 							<Input id="password" type="password" placeholder="Password" required onChange={onPasswordChange} />
-							<Input id="passwordRepeat" type="password" placeholder="Repeat password" required onChange={onPasswordRepeatChange} disabled={!usernameAvailable}
-								className={passwordsMatch() ? "" : "border-red-700 focus:border-2"}
+							<Input id="passwordRepeat" type="password" placeholder="Repeat password" required onChange={onPasswordRepeatChange}
+								className={passwordsMatch() ? (usernameAvailable ? "focus:border-2 transition-all" : "transition-all hidden") : "border-red-700 focus:border-2 transition-all"}
 							/>
 						</div>
 					</div>
