@@ -13,6 +13,7 @@ def plugin():
     runner.data = {
         "text": "This is a test sonner whose text has been sent from python."
     }
+    runner.ChangePage("plugins/Test")
     print("Plugin waiting for data...")
     runner.WaitForFrontend()
     print("Plugin has received data.")

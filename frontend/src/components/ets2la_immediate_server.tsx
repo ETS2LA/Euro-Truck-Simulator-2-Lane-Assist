@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog"
 import { CloseBackend, MinimizeBackend } from "@/pages/backend"
 import { Button } from "./ui/button";
+import { useRouter } from "next/router";
 
 let socket: WebSocket;
 export function ETS2LAImmediateServer({ip}: {ip: string}) {
@@ -25,6 +26,7 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogText, setDialogText] = useState("");
     const [dialogOptions, setDialogOptions] = useState<string[]>([]);
+    const { push } = useRouter();
     let lastMessage:any = null;
 
     useEffect(() => {
@@ -62,6 +64,9 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
                         }
                     }
                 };
+            }
+            else if ("page" in message) {
+                push(message["page"])
             }
             else {
 

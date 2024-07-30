@@ -65,6 +65,10 @@ class PluginRunnerController():
                 sonnerPromise = data["sonner"]["promise"]
                 immediate.sonner(sonnerText, sonnerType, sonnerPromise)
                 
+            if "page" in data:  
+                page = data["page"]
+                immediate.page(page)
+                
             if "ask" in data:
                 askText = data["ask"]["text"]
                 askOptions = data["ask"]["options"]

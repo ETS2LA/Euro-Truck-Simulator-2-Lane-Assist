@@ -371,6 +371,14 @@ class PluginRunner():
                 time.sleep(0.00000001)
                 pass
             
+    def ChangePage(self, page:str):
+        """Change the page in the frontend.
+
+        Args:
+            page (str): Page to change to.
+        """
+        self.iq.put({"page": page})
+            
     def WaitForFrontend(self, timeout=math.inf):
         startTime = time.time()
         

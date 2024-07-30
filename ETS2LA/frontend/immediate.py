@@ -77,6 +77,23 @@ def ask(text:str, options:list):
     response = asyncio.run(send_ask(text, options))
     return response
 
+async def send_page(page):
+    global connected
+    message_dict = {
+        "page": page
+    }
+    
+    message = json.dumps(message_dict)
+    tasks = [asyncio.create_task(ws.send(message)) for ws in connected]
+    if tasks:
+        await asyncio.wait(tasks)
+        
+def page(page:str):
+    if page == "":
+        logging.error("Tried to send an empty page.")
+        return
+    asyncio.run(send_page(page))
+
 async def start():
     wsServer = websockets.serve(server, "0.0.0.0", 37521)
     await wsServer

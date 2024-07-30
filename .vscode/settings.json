@@ -16,15 +16,27 @@
         "canvast",
         "columnspan",
         "highlightthickness",
+        "imgtype",
         "imshow",
+        "iterrows",
+        "MOSSE",
         "padx",
         "pady",
+        "pyautogui",
         "pygame",
+        "Raycasting",
+        "raycasts",
+        "screeninfo",
         "sonner",
         "SOUNDPACK",
         "SOUNDPACKS",
+        "ultralytics",
         "visualisation",
         "webserver",
-        "Websockets"
+        "Websockets",
+        "xyxy",
+        "yolo",
+        "YOLO",
+        "yolov"
     ]
 }
