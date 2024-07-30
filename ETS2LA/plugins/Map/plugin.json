@@ -7,5 +7,6 @@
     }],
     "description": "Map detection plugin.",
     "version": "1.0",
-    "modules": ["TruckSimAPI", "ShowImage", "Steering", "SDKController", "Raycasting"]
+    "modules": ["TruckSimAPI", "ShowImage", "Steering", "SDKController", "Raycasting"],
+    "max_fps": 20
 }

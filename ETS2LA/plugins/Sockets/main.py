@@ -81,18 +81,21 @@ def vehicles(data):
 
 lastSteeringPoints = []
 def steering(data):
-    global lastSteeringPoints
-    steeringPoints = []
-    if data["steeringPoints"] is not None:
-        for point in data["steeringPoints"]:
-            steeringPoints.append(point)
-        lastSteeringPoints = steeringPoints
-    else:
-        steeringPoints = lastSteeringPoints
+    try:
+        global lastSteeringPoints
+        steeringPoints = []
+        if data["steeringPoints"] is not None:
+            for point in data["steeringPoints"]:
+                steeringPoints.append(point)
+            lastSteeringPoints = steeringPoints
+        else:
+            steeringPoints = lastSteeringPoints
+            
         
-    
-    send = "JSONsteeringPoints:" + json.dumps(steeringPoints) + ";"
-    return send
+        send = "JSONsteeringPoints:" + json.dumps(steeringPoints) + ";"
+        return send
+    except:
+        return "JSONsteeringPoints:[];"
 
 async def start_server(func):
     async with websockets.serve(func, "localhost", 37522):
