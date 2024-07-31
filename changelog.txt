@@ -1,7 +1,1 @@
-1.11.60: Temporarily remove mirror data collection (Thanks for the help!)
-1.11.61: Add AnomalousFrames remover (cache clearer) after 30 days
-1.11.62: NavigationDetectionAI now uses metadata to get important information about the model to run the model.
-1.11.63: Fixed a bug in the NavigationDetection and TrafficLightDetection where the code would try to access torch even if its not imported.
-1.11.64: Added instructions on how to downgrade pytorch when encountering the problem with loading fbgemm.dll or one of its dependencies.
-1.11.65: Temporarily forcing the PyTorch fixer to install a specific version of torch, torchvision, and torchaudio.
-1.11.66: Fixed a bug in the PyTorch fixer, that the wrong version of torch, torchvision, and torchaudio was downloaded.
+Fix translator (disable it) when user has no connection to google translate.

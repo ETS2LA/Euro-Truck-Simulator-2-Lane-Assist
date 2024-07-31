@@ -274,8 +274,11 @@ def Translate(text:str, originalLanguage:str=None, destinationLanguage:str=None)
                         mainUI.UpdateTitle(extraText="TRANSLATING...")
                         mainUI.root.update()
 
-                    translation = translator.translate(text, max_chars=20000)
-                    AddToCache(text, translation)
+                    try:
+                        translation = translator.translate(text, max_chars=20000)
+                        AddToCache(text, translation)
+                    except:
+                        translation = text
                     
                     if hasUI: mainUI.UpdateTitle()
                     return translation
