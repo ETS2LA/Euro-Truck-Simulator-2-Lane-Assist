@@ -2,6 +2,7 @@ from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar, CheckIfWindowStil
 from ETS2LA.frontend.webpageExtras.html import html
 import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
+from multiprocessing import JoinableQueue
 import multiprocessing  
 import logging
 import webview
@@ -13,6 +14,8 @@ if os.name == 'nt':
 
 DEBUG_MODE = False
 
+queue:JoinableQueue = JoinableQueue()
+
 webview.settings = {
     'ALLOW_DOWNLOADS': False,
     'ALLOW_FILE_URLS': True,
@@ -20,20 +23,56 @@ webview.settings = {
     'OPEN_DEVTOOLS_IN_DEBUG': True
 }
 
-def minimize_window():
-    if os.name == 'nt':
-        hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
-        win32gui.ShowWindow(hwnd, 6)
-    elif os.name == 'posix':
-        # Copilot made this, no clue if it works
-        os.system("xdotool getactivewindow windowminimize")
-    else:
-        logging.error("Could not minimize the window. OS not supported.")
+def set_on_top(state: bool):
+    queue.put({"type": "stay_on_top", "state": state})
+    # Wait for the queue to be processed
+    queue.join()
+    value = queue.get()
+    queue.task_done()
+    return value
 
-def start_webpage():
+def get_on_top():
+    queue.put({"type": "stay_on_top", "state": None})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+def minimize_window():
+    queue.put({"type": "minimize"})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+def start_webpage(queue: JoinableQueue):
+    global webview_window
+    
     def load_website(window:webview.Window):
         time.sleep(3)
         window.load_url('http://localhost:3000')
+        while True:
+            time.sleep(0.01)
+            try:
+                data = queue.get_nowait()
+                
+                if data["type"] == "stay_on_top":
+                    if data["state"] == None:
+                        queue.task_done()
+                        queue.put(window.on_top)
+                        continue
+                    
+                    window.on_top = data["state"]
+                    queue.task_done()
+                    queue.put(data["state"])
+                    
+                if data["type"] == "minimize":
+                    window.minimize()
+                    queue.task_done()
+                    queue.put(True)
+                    
+            except:
+                pass
 
     window_x = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))[0]
     window_y = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))[1]
@@ -56,6 +95,8 @@ def start_webpage():
         easy_drag=False
     )
     
+    webview_window = window
+    
     webview.start(
         load_website, 
         window,
@@ -65,7 +106,7 @@ def start_webpage():
     )
 
 def run():
-    p = multiprocessing.Process(target=start_webpage, daemon=True)
+    p = multiprocessing.Process(target=start_webpage, args=(queue, ), daemon=True)
     p.start()
     if os.name == 'nt':
         ColorTitleBar()

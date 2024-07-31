@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import {toast} from "sonner"
 import { Badge } from "./ui/badge"
-import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff, X, Minimize2} from "lucide-react";
-import { CheckForUpdate, Update } from "@/pages/backend";
-import useSWR from "swr";
+import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff, X, Minimize2, Pin, PinOff} from "lucide-react";
+import { CheckForUpdate, Update, GetStayOnTop, SetStayOnTop, CloseBackend, MinimizeBackend } from "@/pages/backend";
+import useSWR, { mutate } from "swr";
 import {
     Dialog,
     DialogContent,
@@ -14,13 +14,20 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { CloseBackend, MinimizeBackend } from "@/pages/backend"
 import { Button } from "./ui/button";
 import { useRouter } from "next/router";
+import { after } from "node:test";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 let socket: WebSocket;
 export function ETS2LAImmediateServer({ip}: {ip: string}) {
     const { data, error, isLoading } = useSWR("updates", () => CheckForUpdate(ip), { refreshInterval: 60000 }) // Check for updates every minute
+    const { data: onTopData, error: onTopError, isLoading: onTopLoading } = useSWR("onTop", () => GetStayOnTop(ip), { refreshInterval: 10000 })
     const [connected, setConnected] = useState(false);
     const [promiseMessages, setPromiseMessages] = useState<string[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -179,12 +186,47 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
         }
         <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? "Connected" : "Disconnected, please refresh."}</Badge>
         <div>
-            <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => MinimizeBackend()}>
-                <Minimize2 className="w-4 h-4 overflow-visible" />
-            </Button>
-            <Button variant={"secondary"} className="h-[26px] w-5 rounded-l-none group" onClick={() => CloseBackend()}>
-                <X className="w-4 h-4 overflow-visible" />
-            </Button>
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => {
+                            toast.promise(SetStayOnTop(ip, !onTopData), { 
+                                loading: "Setting...", 
+                                success: "Set", 
+                                error: "Failed to set", 
+                                onAutoClose: () => mutate("onTop"),
+                                onDismiss: () => mutate("onTop"),
+                                duration: 1000
+                            });
+                        }}>
+                            {onTopData ? <Pin className="w-4 h-4 overflow-visible" /> : <PinOff className="w-4 h-4 overflow-visible" />}
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        {onTopData ? "Disable stay on top" : "Enable stay on top"}
+                    </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Button variant={"secondary"} className="h-[26px] w-5 rounded-none group" onClick={() => MinimizeBackend()}>
+                            <Minimize2 className="w-4 h-4 overflow-visible" />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        Minimize
+                    </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Button variant={"secondary"} className="h-[26px] w-5 rounded-l-none group" onClick={() => CloseBackend()}>
+                            <X className="w-4 h-4 overflow-visible" />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        Close
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
         </div>
     </div>
 }

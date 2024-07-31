@@ -152,3 +152,25 @@ export async function PlaySound(ip="localhost", sound="boot") {
     const data = await response.json()
     return data
 }
+
+export async function GetStayOnTop(ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/window/stay_on_top`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+export async function SetStayOnTop(ip="localhost", top=true) {
+    const response = await fetch(`http://${ip}:37520/api/window/stay_on_top/${top}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}

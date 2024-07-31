@@ -109,8 +109,12 @@ if __name__ == "__main__":
                 continue
             
             print(f"ETS2LA has crashed with the following error:")
-            error = traceback.format_exc()
-            console.print_exception()
+            error = traceback.format_exception(type(e), e, e.__traceback__)
+            try:
+                console.print_exception()
+            except:
+                print(error)
+                print("Used legacy traceback printing.")
             try:
                 cloud.SendCrashReport("ETS2LA 2.0 - Main", str(error))
             except: pass

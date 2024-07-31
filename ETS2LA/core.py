@@ -30,8 +30,12 @@ def run():
         time.sleep(0.01) # Relieve CPU time
         
         for func in webserver.mainThreadQueue:
-            func[0](*func[1], **func[2])
-            webserver.mainThreadQueue.remove(func)
+            try:
+                func[0](*func[1], **func[2])
+                webserver.mainThreadQueue.remove(func)
+                logging.debug(f"Executed queue item: {func[0].__name__}")
+            except:
+                logging.exception("Error while executing queue item.")
         
         if not CheckIfWindowStillOpen():
             raise Exception("exit")
@@ -43,6 +47,7 @@ def run():
             raise Exception("restart")
         
         if variables.MINIMIZE:
+            logging.info("Minimizing the window.")
             webpage.minimize_window()
             variables.MINIMIZE = False
         

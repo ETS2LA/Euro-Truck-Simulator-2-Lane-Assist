@@ -1,10 +1,11 @@
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
-import ETS2LA.variables as variables
+from ETS2LA.frontend.webpage import set_on_top, get_on_top
 from ETS2LA.networking.data_models import *
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.backend.sounds as sounds
+import ETS2LA.variables as variables
 import ETS2LA.utils.git as git
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -88,6 +89,20 @@ def set_theme(theme: str):
 @app.get("/api/server/ip")
 def get_IP():
     return IP
+
+@app.get("/api/window/stay_on_top")
+def get_stay_on_top():
+    return get_on_top()
+
+@app.get("/api/window/stay_on_top/{state}")
+def stay_on_top(state: bool):
+    logging.info(f"Setting stay on top to {state}")
+    #mainThreadQueue.append([set_on_top, [state], {}])
+    #while [set_on_top, [state], {}] in mainThreadQueue:
+    #    pass
+    newState = set_on_top(state)
+    logging.info(f"Stay on top set to {newState}")
+    return newState
 
 # endregion
 # region Plugins
