@@ -271,7 +271,11 @@ def CallPluginFunction(plugin, function, args, kwargs):
         
     try:
         if plugin in runners:
-            runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
+            try:
+                runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
+            except:
+                logging.error(f"Failed to call function {function} on plugin {plugin}. Most likely you are calling the function too fast, and the previous plugin instance has not been removed yet.")
+                return False
             
             # Create a separate thread to call join()
             t = threading.Thread(target=WaitQueue, daemon=True)
@@ -284,12 +288,16 @@ def CallPluginFunction(plugin, function, args, kwargs):
                 del t # Delete the thread
                 return False
             
-            if runners[plugin].returnPipe.poll(timeout=5):
-                data = runners[plugin].returnPipe.recv()
-            else:
-                logging.info(f"Plugin {plugin} function call completed with no data.")
-                data = True
-            return data
+            try:
+                if runners[plugin].returnPipe.poll(timeout=5):
+                        data = runners[plugin].returnPipe.recv()
+                else:
+                    logging.info(f"Plugin {plugin} function call completed with no data.")
+                    data = True
+                return data
+            except:
+                logging.error(f"Failed to receive data from plugin {plugin}. Most likely you are calling the function too fast, and the previous plugin instance has not been removed yet.")
+                return False
         else:
             logging.info(f"Plugin {plugin} is not enabled. Enabling temporarily to run the function.")
             AddPluginRunner(plugin, temporary=True) # Add a temp runner to load the code
@@ -321,8 +329,10 @@ def CallPluginFunction(plugin, function, args, kwargs):
             else:
                 logging.info(f"> Success, but no data")
                 data = True
-            try: RemovePluginRunner(plugin)
-            except: pass
+            try:
+                RemovePluginRunner(plugin)
+            except:
+                logging.warning(f"Failed to remove temporary plugin {plugin}. This might not be an issue.")
             logging.info(f"> Success")
             return data
     except:
