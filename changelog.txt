@@ -1,1 +1,1 @@
-Fix translator (disable it) when user has no connection to google translate.
+Small bug fixes in Navigation detection.

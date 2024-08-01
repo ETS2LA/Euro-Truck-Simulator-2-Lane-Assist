@@ -29,6 +29,7 @@ import tkinter as tk
 import plugins.DefaultSteering.main as DefaultSteering
 import numpy as np
 import subprocess
+import threading
 import traceback
 import ctypes
 import time
@@ -38,7 +39,6 @@ import os
 try:
     from torchvision import transforms
     from bs4 import BeautifulSoup
-    import threading
     import requests
     import torch
     TorchAvailable = True
@@ -1328,8 +1328,7 @@ def plugin(data):
             try:
                 AIFrame = preprocess_image(mask)
             except:
-                IMG_WIDTH = GetAIModelProperties()[2]
-                IMG_HEIGHT = GetAIModelProperties()[3]
+                GetAIModelProperties()
                 if IMG_WIDTH == "UNKNOWN" or IMG_HEIGHT == "UNKNOWN":
                     print(f"NavigationDetection - Unable to read the AI model image size. Make sure you didn't change the model file name. The code wont run the NavigationDetectionAI.")
                     console.RestoreConsole()

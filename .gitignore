@@ -3,6 +3,7 @@ profiles/*.json
 **/__pycache__
 lib
 log.txt
+cache/
 plugins/UFLDLaneDetection/UFLD/models/*.onnx
 plugins/Map/VisualizeRoads/Roads.json
 venv/
