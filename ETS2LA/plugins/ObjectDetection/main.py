@@ -15,13 +15,13 @@ import cv2
 import os
 
 runner:PluginRunner = None
-YOLO_FPS = 2 # How many times per second the YOLO model should run
+YOLO_FPS = 60 # How many times per second the YOLO model should run
 MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
 
 if MODEL_TYPE == "yolov7":
     MODEL_NAME = "5-31-24_1_yolov7.pt"
 elif MODEL_TYPE == "yolov5":
-    MODEL_NAME = "5-25-24_1.pt"
+    MODEL_NAME = "best_v5s.pt"
 
 LOADING_TEXT = "Vehicle Detection loading model..."
 USE_EXTERNAL_VISUALIZATION = True
