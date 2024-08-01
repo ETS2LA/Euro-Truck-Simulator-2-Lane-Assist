@@ -100,6 +100,8 @@ def Initialize():
 
     runner.sonner(LOADING_TEXT, "promise")
 
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
     
     if MODEL_TYPE == "yolov7":
@@ -107,8 +109,9 @@ def Initialize():
     elif MODEL_TYPE == "yolov5":
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.75
+    model.to(device)
 
-    runner.sonner("Vehicle Detection model loaded", "success", promise=LOADING_TEXT)
+    runner.sonner(f"Vehicle Detection model loaded on {device.upper()}", "success", promise=LOADING_TEXT)
 
     cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('Vehicle Detection', int(capture_width/3), int(capture_height/3))
