@@ -237,7 +237,7 @@ def plugin():
                 xr = x + capture_x
                 yr = y + capture_y
                 
-                if label in ['car']:
+                if label in ['car', "van"]:
                     bottomLeftPoint = (xr, yr + h)
                     bottomRightPoint = (xr + w, yr + h)
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car"))
