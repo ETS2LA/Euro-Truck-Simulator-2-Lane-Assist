@@ -1,1 +1,1 @@
-Small bug fixes in Navigation detection.
+Experimental changes to update numpy in case importing fails.

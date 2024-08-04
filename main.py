@@ -93,7 +93,15 @@ if doRestart:
 
 # hide pygame welcome message before importing pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-import cv2
+
+try:
+    import cv2
+except:
+    # Numpy is 2.0.0 and not compatible with opencv-python
+    print("Detected numpy 2... Installing numpy 1.26.4...")
+    os.system("pip install numpy==1.26.4 --force-reinstall")
+    print("Installed numpy 1.26.4. Please restart the app.")
+
 import hashlib
 import keyboard
 import importlib

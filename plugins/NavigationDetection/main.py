@@ -27,7 +27,6 @@ from tkinter import ttk
 import tkinter as tk
 
 import plugins.DefaultSteering.main as DefaultSteering
-import numpy as np
 import subprocess
 import threading
 import traceback
@@ -49,6 +48,29 @@ except:
     print("\033[91m" + f"NavigationDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
     pytorch.CheckPyTorch()
     console.RestoreConsole()
+    
+try:
+    import numpy as np
+    # Check if numpy is under V2.0.0
+    if int(np.__version__.split(".")[0]) >= 2:
+        raise Exception("Numpy version is too high.")
+except:
+    console.RestoreConsole()
+    exc = traceback.format_exc()
+    print("\033[91m" + f"NavigationDetection - Numpy import Error:\n" + "\033[0m" + str(exc))
+    
+    # Download numpy 1.26.4
+    try:
+        path = os.path.dirname(os.path.dirname(variables.PATH)) + "/"
+        subprocess.run("cd " + path + "venv/Scripts & .\\activate.bat & cd " + path + " & pip uninstall numpy", shell=True, stdout=subprocess.DEVNULL)
+        subprocess.run("cd " + path + "venv/Scripts & .\\activate.bat & cd " + path + " & pip install numpy==1.26.4 --force-reinstall", shell=True, stdout=subprocess.DEVNULL)
+        print("\033[92m" + "Numpy has been updated." + "\033[0m")
+    except Exception as ex:
+        SendCrashReport("NavigationDetection - Numpy update error.", str(exc))
+        print("\033[91m" + "Failed to update numpy: " + "\033[0m" + str(ex))
+    
+    import numpy as np
+    
 
 
 controls.RegisterKeybind("Lane change to the left",
