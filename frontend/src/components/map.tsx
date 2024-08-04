@@ -5,7 +5,7 @@ import {
     Marker,
     Popup,
 } from 'react-leaflet'
-import { LatLngTuple, CRS, latLng, latLngBounds } from 'leaflet'
+import { LatLngTuple, CRS, latLng, latLngBounds, Icon } from 'leaflet'
 import {
     ResizableHandle,
     ResizablePanel,
@@ -17,16 +17,21 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { useEffect } from 'react'
+import { set } from 'date-fns'
+import { useRef } from 'react'
+import CustomMarker from './custom_marker'
 
 // Import leaflet css
 import 'leaflet/dist/leaflet.css'
-import { set } from 'date-fns'
 
 // Component to update the map's view
 const UpdateMapView = ({ position }: { position: LatLngTuple }) => {
     const map = useMap(); // Access the map instance
     useEffect(() => {
-      map.setView(position, 8); // Update the map's view to the new position
+        map.flyTo(position, 8, {
+            animate: true,
+            duration: 0.5
+        });
     }, [position, map]);
   
     return null; // This component does not render anything
@@ -59,6 +64,8 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     const {theme, setTheme} = useTheme()
     const [connected, setConnected] = useState(false)
     const [position, setPosition] = useState<LatLngTuple>([0, 0])
+    const [rotation, setRotation] = useState(0)
+    const markerRef = useRef<L.Marker>(null);
 
     useEffect(() => {
         if (ip === "") ip = "localhost";
@@ -79,11 +86,15 @@ export default function ETS2LAMap({ip} : {ip: string}) {
             // Find X and Z
             let X = 0;
             let Z = 0;
+            let RX = 0;
             indices.forEach((index:any) => {
                 if (index.startsWith("x")) {
                     X = parseFloat(index.split("x")[1].replace(":", ""));
                 } else if (index.startsWith("z")) {
                     Z = parseFloat(index.split("z")[1].replace(":", ""));
+                } else if (index.startsWith("rx")) {
+                    RX = parseFloat(index.split("rx")[1].replace(":", ""));
+                    setRotation(RX);
                 }
             });
             if(!isNaN(X) && !isNaN(Z)){
@@ -96,10 +107,8 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     
         // Setup a heartbeat
         const heartbeat = setInterval(() => {
-            if (socket.readyState === WebSocket.OPEN) {
-                socket.send("ok");
-            }
-        }, 500);
+            
+        }, 2000);
     
         // Connection closed
         socket.addEventListener("close", function (event) {
@@ -121,12 +130,23 @@ export default function ETS2LAMap({ip} : {ip: string}) {
         };
     }, []); // Empty dependency array to run the effect only once on mount
 
+    useEffect(() => {
+        // Check if the marker exists
+        if (markerRef.current) {
+            const markerElement = markerRef.current.getElement(); // Get the DOM element of the marker
+            if (markerElement && rotation && rotation !== 0) {
+                markerElement.style.transformOrigin = 'center'; // Ensure rotation is around the center
+                markerElement.style.transform += ` rotate(${-rotation}deg)`; // Apply rotation
+            }
+        }
+    }, [rotation]); // This effect depends on the rotation state    
+
     let corner1 = latLng(0, 165168)
     let corner2 = latLng(148512, 0)
     let bounds = latLngBounds(corner1, corner2)
 
     return (
-        <MapContainer center={position} zoom={4} style={{height: "100%", width: "100%"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
+        <MapContainer center={position} zoom={8} style={{height: "100%", width: "100%"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
             <TileLayer
                 attribution='&copy; <a href="https://ets2.online">tiles from ets2.online</a>'
                 url="https://ets2.online/map/ets2map_150/{z}/{x}/{y}.png"
@@ -135,11 +155,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                 zIndex={-999}
                 tileSize={512}
             />
-            <Marker position={position}>
-                <Popup>
-                    {position[0].toFixed(2)}, {position[1].toFixed(2)}
-                </Popup>
-            </Marker>
+            <CustomMarker position={position} rotation={rotation} />
             <UpdateMapView position={position} />
         </MapContainer>
     )
