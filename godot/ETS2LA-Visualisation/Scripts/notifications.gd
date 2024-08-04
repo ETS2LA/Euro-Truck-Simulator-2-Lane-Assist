@@ -40,6 +40,7 @@ func SendNotification(text, timeout, color = null):
 	label.label_settings = LabelSettings.new()
 	label.label_settings.font_color = color
 	label.text = notif.text
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(label)
 	notif.label = label
 	

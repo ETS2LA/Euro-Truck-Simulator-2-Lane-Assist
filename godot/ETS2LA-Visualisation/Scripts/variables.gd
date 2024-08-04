@@ -1,6 +1,6 @@
 extends Node
 
-var darkMode = false
+var darkMode = true
 signal ThemeChanged
 
 func SwitchTheme():
