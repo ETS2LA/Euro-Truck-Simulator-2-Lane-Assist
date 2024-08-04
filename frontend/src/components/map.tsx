@@ -148,7 +148,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     return (
         <MapContainer center={position} zoom={8} style={{height: "100%", width: "100%"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
             <TileLayer
-                attribution='&copy; <a href="https://ets2.online">tiles from ets2.online</a>'
+                attribution='&copy; tiles from <a href="https://ets2.online">ets2.online</a>'
                 url="https://ets2.online/map/ets2map_150/{z}/{x}/{y}.png"
                 minNativeZoom={2}
                 maxNativeZoom={8}
