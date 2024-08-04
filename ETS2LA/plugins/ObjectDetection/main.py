@@ -108,7 +108,7 @@ def Initialize():
         model = torch.hub.load('WongKinYiu/yolov7', 'custom', path=MODEL_PATH, _verbose=False)
     elif MODEL_TYPE == "yolov5":
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
-    model.conf = 0.75
+    model.conf = 0.70
     model.to(device)
 
     runner.sonner(f"Vehicle Detection model loaded on {device.upper()}", "success", promise=LOADING_TEXT)
