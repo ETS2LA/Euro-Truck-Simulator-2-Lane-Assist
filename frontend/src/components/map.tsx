@@ -147,7 +147,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     let bounds = latLngBounds(corner1, corner2)
 
     return (
-        <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
+        <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
             <TileLayer
                 attribution='&copy; ETS2LA Team'
                 url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
