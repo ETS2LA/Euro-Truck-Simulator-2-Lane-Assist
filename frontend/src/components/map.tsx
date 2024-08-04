@@ -29,8 +29,8 @@ const UpdateMapView = ({ position }: { position: LatLngTuple }) => {
     const map = useMap(); // Access the map instance
     useEffect(() => {
         map.flyTo(position, 8, {
-            animate: true,
-            duration: 0.5
+            animate: false,
+            duration: 0
         });
     }, [position, map]);
   
@@ -38,8 +38,8 @@ const UpdateMapView = ({ position }: { position: LatLngTuple }) => {
 };
 
 function game_coord_to_image(xx:number, yy:number) {
-    var MAX_X = 512; //padding in ts-map 384px
-    var MAX_Y = 512; //padding in ts-map 384px
+    var MAX_X = 256; //padding in ts-map 384px
+    var MAX_Y = 256; //padding in ts-map 384px
     
     // Values from TileMapInfo.json
     const x1 = -94505.8047;
@@ -68,6 +68,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     const markerRef = useRef<L.Marker>(null);
 
     useEffect(() => {
+
         if (ip === "") ip = "localhost";
     
         // Initialize the WebSocket connection
@@ -146,14 +147,14 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     let bounds = latLngBounds(corner1, corner2)
 
     return (
-        <MapContainer center={position} zoom={8} style={{height: "100%", width: "100%"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
+        <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
             <TileLayer
-                attribution='&copy; tiles from <a href="https://ets2.online">ets2.online</a>'
-                url="https://ets2.online/map/ets2map_150/{z}/{x}/{y}.png"
+                attribution='&copy; ETS2LA Team'
+                url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
                 minNativeZoom={2}
                 maxNativeZoom={8}
                 zIndex={-999}
-                tileSize={512}
+                tileSize={256}
             />
             <CustomMarker position={position} rotation={rotation} />
             <UpdateMapView position={position} />
