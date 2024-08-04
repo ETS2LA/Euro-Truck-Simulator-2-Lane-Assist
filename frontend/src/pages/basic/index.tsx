@@ -42,7 +42,7 @@ export default function Home({ip} : {ip: string}) {
                     />
                 </ResizablePanel>
                 <ResizableHandle withHandle />
-                <ResizablePanel defaultSize={65} className="content-center rounded-md gap-1.5 flex flex-col relative">
+                <ResizablePanel defaultSize={65} className="content-center gap-1.5 flex flex-col relative rounded-none">
                     <div className="h-full z-[-9999]">
                         <ETS2LAMap ip={ip} />
                     </div>

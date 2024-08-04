@@ -85,23 +85,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.53676, 0, 0)
 
 [node name="UI" type="Node" parent="."]
 
-[node name="Notifications" type="VBoxContainer" parent="UI"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -150.0
-offset_top = 10.0
-offset_right = 150.0
-offset_bottom = 210.0
-grow_horizontal = 2
-pivot_offset = Vector2(150, 0)
-script = ExtResource("10_p5w2d")
-
 [node name="TopLeftContainer" type="VBoxContainer" parent="UI"]
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 152.0
-offset_bottom = 140.0
+offset_right = 180.0
+offset_bottom = 146.0
 
 [node name="CheckButton" type="CheckButton" parent="UI/TopLeftContainer"]
 layout_mode = 2
@@ -132,6 +120,7 @@ offset_top = 10.0
 offset_right = -10.0
 offset_bottom = 140.0
 grow_horizontal = 0
+mouse_filter = 2
 
 [node name="FPS" type="Label" parent="UI/TopRightContainer"]
 layout_mode = 2
@@ -182,3 +171,16 @@ Updating in 10 seconds"
 label_settings = SubResource("LabelSettings_j8g1s")
 horizontal_alignment = 2
 script = ExtResource("4_x630f")
+
+[node name="Notifications" type="VBoxContainer" parent="UI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 15.005
+offset_right = 150.0
+offset_bottom = 215.005
+grow_horizontal = 2
+pivot_offset = Vector2(150, 0)
+mouse_filter = 2
+script = ExtResource("10_p5w2d")

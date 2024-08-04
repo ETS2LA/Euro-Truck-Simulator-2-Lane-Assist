@@ -10,18 +10,31 @@ import time
 runner:PluginRunner = None # This will be set at plugin startup
 send = ""
 
+connected_clients = []  # Step 1: Maintain a list of connected websockets
+
 async def server(websocket):
+    global send
     print("Client Connected!")
-    while True:
-        try:
-            await websocket.send(send)
-            # Wait for acknowledgment from client
-            ack = await websocket.recv()
-        except:
-            print("Client disconnected.")
-            break
-        if ack != "ok":
-            print(f"Unexpected message from client: {ack}")
+    connected_clients.append(websocket)  # Step 2: Add a client to the list when they connect
+    try:
+        while True:
+            message = send  # Use the global 'send' variable
+            if message:
+                for client in connected_clients:
+                    try:
+                        await client.send(message)
+                    except Exception as e:
+                        print("Client disconnected.", str(e))
+                        connected_clients.remove(client)
+                        del client
+                # Wait for acknowledgment from client
+                ack = await websocket.recv()
+                if ack != "ok":
+                    print(f"Unexpected message from client: {ack}")
+    except Exception as e:
+        print("Client disconnected.", str(e))
+    finally:
+        connected_clients.remove(websocket)  # Step 3: Remove a client from the list when they disconnect
     
 
 def position(data):
