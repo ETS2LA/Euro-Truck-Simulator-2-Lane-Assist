@@ -195,8 +195,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </div>
   }
 
+  const isInBasicMode = routerUseRouter().pathname.includes("basic");
+
   return (
-    <div className='overflow-hidden p-3 pywebview-drag-region'>
+    <div className={isInBasicMode ? "overflow-hidden" : "overflow-hidden p-3"}>
       <Head>
         <link rel="icon" href="https://wiki.tumppi066.fi/assets/favicon.ico" />
       </Head>
@@ -206,14 +208,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         enableSystem
         disableTransitionOnChange
       >
-        <ETS2LAMenubar ip={ip} onLogout={() =>{
-          toast.success("Logged out")
-          localStorage.setItem('token', "");
-          SetToken("") // Having two setTokens
-          setToken("")
-        }} />
-        <ETS2LAStates ip={ip} />
-        <div className='py-3 '>
+        {
+          !isInBasicMode ? <ETS2LAMenubar ip={ip} onLogout={() =>{
+            toast.success("Logged out")
+            localStorage.setItem('token', "");
+            SetToken("") // Having two setTokens
+            setToken("")
+          }} /> : null
+        }
+        <div className={isInBasicMode ? "" : "py-3"}>
           <ContextMenu>
             <ContextMenuTrigger className="h-full">
               <Component {...newPageProps} />
@@ -231,11 +234,20 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   Reload
                   <ContextMenuShortcut>⌘R</ContextMenuShortcut>
               </ContextMenuItem>
+              {isInBasicMode ? 
+                <ContextMenuItem onClick={() => router.push("/")}>
+                    Return to normal mode
+                </ContextMenuItem> :
+                <ContextMenuItem onClick={() => router.push("/basic")}>
+                    Enter basic mode
+                </ContextMenuItem>
+              }
             </ContextMenuContent>
           </ContextMenu>
         </div>
+        <ETS2LAStates ip={ip} />
         <ETS2LACommandMenu ip={ip} />
-        <Toaster position='bottom-center'/>
+        <Toaster position={!isInBasicMode ? 'bottom-center' : 'bottom-left'}/>
       </ThemeProvider>
     </div>
   );
