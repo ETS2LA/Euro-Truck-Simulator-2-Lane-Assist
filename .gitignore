@@ -9,3 +9,7 @@ cache
 **/settings.json
 /ETS2LA/global.json
 /ETS2LA/backend/settings/*.json
+
+# Ignore GoDot exports and export config
+/godot/ETS2LA-Visualisation/export_presets.cfg
+/godot/GoDot Export/*
