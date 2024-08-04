@@ -20,6 +20,7 @@ import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la_immediate_server"
 import { Button } from "@/components/ui/button"
 import { set } from "date-fns";
+import { useRouter as routerUseRouter } from 'next/router';
 
 export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}) {
     const [dragging, setDragging] = useState(false);
@@ -28,6 +29,7 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
     const [clickOffset, setClickOffset] = useState({ x: 0, y: 0 });
     const { theme, setTheme } = useTheme()
     const { push } = useRouter()
+    const isBasic = routerUseRouter().pathname.includes("basic");
     // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
     const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 })
     if (isLoading) return <Menubar><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Menubar>
@@ -116,7 +118,7 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
 
 
 return (
-    <div className="pywebview-drag-region" onMouseDown={handleMouseDown}>
+    <div className={isBasic && "p-1.5" || "pywebview-drag-region"} onMouseDown={handleMouseDown}>
         <Menubar className="pywebview-drag-region">
         <MenubarMenu>
             <MenubarTrigger className="font-bold">
@@ -140,8 +142,14 @@ return (
                 <MenubarSub>
                     <MenubarSubTrigger>Account</MenubarSubTrigger>
                     <MenubarSubContent>
-                        <MenubarItem onClick={() => onLogout()}>Logout</MenubarItem>
-                        <MenubarItem>Settings</MenubarItem>
+                        {!isBasic &&
+                            <>
+                                <MenubarItem onClick={() => onLogout()}>Logout</MenubarItem>
+                                <MenubarItem>Settings</MenubarItem>
+                            </>
+                            || 
+                            <MenubarItem onClick={() => push("/")}>Enter normal mode</MenubarItem>
+                        }
                     </MenubarSubContent>
                 </MenubarSub>
                 <MenubarSeparator />
@@ -149,57 +157,61 @@ return (
             </MenubarContent>
         </MenubarMenu>
         <Separator orientation="vertical" className="m-1" />
-        <MenubarMenu>
-            <MenubarTrigger>
-                <div className="flex flex-row gap-1 items-center">
-                    <Blocks className="w-4 h-4" />Plugins    
-                </div>
-            </MenubarTrigger>
-            <MenubarContent>
-                <MenubarItem onClick={() => push("/plugins")}>Plugin Picker</MenubarItem>
-                {uniqueChars.map((char, index) => (
-                    <MenubarSub key={char}>
-                    <MenubarSubTrigger>{char}</MenubarSubTrigger>
-                    <MenubarSubContent>
-                    {plugins ? plugins.map((plugin, i) => (
-                        plugin.charAt(0) === char && (
-                        <MenubarSub key={i}>
-                            <MenubarSubTrigger>{plugin}</MenubarSubTrigger>
+        {
+            !isBasic && (
+                <MenubarMenu>
+                    <MenubarTrigger>
+                        <div className="flex flex-row gap-1 items-center">
+                            <Blocks className="w-4 h-4" />Plugins    
+                        </div>
+                    </MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem onClick={() => push("/plugins")}>Plugin Picker</MenubarItem>
+                        {uniqueChars.map((char, index) => (
+                            <MenubarSub key={char}>
+                            <MenubarSubTrigger>{char}</MenubarSubTrigger>
                             <MenubarSubContent>
-                                {data ? (data as any)[plugin]["enabled"] ? (
-                                    <MenubarItem onClick={() => {
-                                            toast.promise(DisablePlugin(plugin, ip=ip), {
-                                                loading: "Disabling " + plugin + "...",
-                                                success: "Plugin " + plugin + " disabled!",
-                                                error: "Error disabling " + plugin + "!"
-                                            })
-                                        }}>
-                                        Disable
-                                    </MenubarItem>
-                                ) : (
-                                    <MenubarItem onClick={() => {
-                                        toast.promise(EnablePlugin(plugin, ip=ip), {
-                                            loading: "Enabling " + plugin + "...",
-                                            success: "Plugin " + plugin + " enabled!",
-                                                error: "Error enabling " + plugin + "!"
-                                            })
-                                        }}>
-                                        Enable
-                                    </MenubarItem>
-                                ): null}
-                                <MenubarSeparator />
-                                <MenubarItem onClick={() => push("/plugins/" + plugin)}>Settings</MenubarItem>
+                            {plugins ? plugins.map((plugin, i) => (
+                                plugin.charAt(0) === char && (
+                                <MenubarSub key={i}>
+                                    <MenubarSubTrigger>{plugin}</MenubarSubTrigger>
+                                    <MenubarSubContent>
+                                        {data ? (data as any)[plugin]["enabled"] ? (
+                                            <MenubarItem onClick={() => {
+                                                    toast.promise(DisablePlugin(plugin, ip=ip), {
+                                                        loading: "Disabling " + plugin + "...",
+                                                        success: "Plugin " + plugin + " disabled!",
+                                                        error: "Error disabling " + plugin + "!"
+                                                    })
+                                                }}>
+                                                Disable
+                                            </MenubarItem>
+                                        ) : (
+                                            <MenubarItem onClick={() => {
+                                                toast.promise(EnablePlugin(plugin, ip=ip), {
+                                                    loading: "Enabling " + plugin + "...",
+                                                    success: "Plugin " + plugin + " enabled!",
+                                                        error: "Error enabling " + plugin + "!"
+                                                    })
+                                                }}>
+                                                Enable
+                                            </MenubarItem>
+                                        ): null}
+                                        <MenubarSeparator />
+                                        <MenubarItem onClick={() => push("/plugins/" + plugin)}>Settings</MenubarItem>
+                                    </MenubarSubContent>
+                                </MenubarSub>
+                                )
+                            )) : null}
                             </MenubarSubContent>
                         </MenubarSub>
-                        )
-                    )) : null}
-                    </MenubarSubContent>
-                </MenubarSub>
-                ), plugins)}
-                <MenubarSeparator />
-                <MenubarItem onClick={() => push("/performance")}>Performance</MenubarItem>
-            </MenubarContent>
-        </MenubarMenu>
+                        ), plugins)}
+                        <MenubarSeparator />
+                        <MenubarItem onClick={() => push("/performance")}>Performance</MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+            )
+        }
         <MenubarMenu>
             <MenubarTrigger>
                 <div className="flex flex-row gap-1 items-center">
@@ -264,36 +276,38 @@ return (
                 </MenubarItem>
             </MenubarContent>
         </MenubarMenu>
-        <MenubarMenu>
-            <MenubarTrigger>
-                <div className="flex flex-row gap-1 items-center">
-                    <Terminal className="w-4 h-4" />Development  
-                </div>
-            </MenubarTrigger>
-            <MenubarContent>
-                <MenubarItem onClick={() => push("/development") }>
-                    <div className="flex flex-row gap-2 items-center">
-                        <ListTodo className="w-4 h-4"/> Development Board    
+        {!isBasic && (  
+            <MenubarMenu>
+                <MenubarTrigger>
+                    <div className="flex flex-row gap-1 items-center">
+                        <Terminal className="w-4 h-4" />Development  
                     </div>
-                    <MenubarShortcut>D</MenubarShortcut>
-                </MenubarItem>
-                <MenubarSeparator/>
-                <MenubarItem>
-                    <div className="flex flex-row gap-2 items-center">
-                        <Users className="w-4 h-4"/>Become a Developer 
-                    </div>    
-                    <MenubarShortcut>B</MenubarShortcut>
-                </MenubarItem>
-                <MenubarItem>
-                    <div className="flex flex-row gap-2 items-center">
-                        <TextSearch className="w-4 h-4"/>Development Wiki   
-                    </div>
-                    <MenubarShortcut>W</MenubarShortcut>
-                </MenubarItem>
-            </MenubarContent>
-        </MenubarMenu>
-        <ETS2LAImmediateServer ip={ip} />
+                </MenubarTrigger>
+                <MenubarContent>
+                    <MenubarItem onClick={() => push("/development") }>
+                        <div className="flex flex-row gap-2 items-center">
+                            <ListTodo className="w-4 h-4"/> Development Board    
+                        </div>
+                        <MenubarShortcut>D</MenubarShortcut>
+                    </MenubarItem>
+                    <MenubarSeparator/>
+                    <MenubarItem>
+                        <div className="flex flex-row gap-2 items-center">
+                            <Users className="w-4 h-4"/>Become a Developer 
+                        </div>    
+                        <MenubarShortcut>B</MenubarShortcut>
+                    </MenubarItem>
+                    <MenubarItem>
+                        <div className="flex flex-row gap-2 items-center">
+                            <TextSearch className="w-4 h-4"/>Development Wiki   
+                        </div>
+                        <MenubarShortcut>W</MenubarShortcut>
+                    </MenubarItem>
+                </MenubarContent>
+            </MenubarMenu>
+        )}
         </Menubar>
+        <ETS2LAImmediateServer ip={ip} />
     </div>
 )
 }

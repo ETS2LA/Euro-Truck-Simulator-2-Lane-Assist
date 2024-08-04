@@ -51,6 +51,7 @@ export default function Home({ip} : {ip: string}) {
                     <Card className="flex flex-col justify-center items-center w-full h-full border-dashed gap-4">
                         <Button onClick={() => setVisualisation(true)} variant={"outline"} className="w-64">Start Visualisation</Button>
                         <Button onClick={() => open("http://localhost:60407/ETS2LA Visualisation.html", "_blank")} variant={"outline"} className="w-64">Open in browser</Button>
+                        <Button onClick={() => push("/basic")} variant={"outline"} className="w-64">Enter Basic mode (recommended)</Button>
                     </Card>
                     }
                 </ResizablePanel>
