@@ -119,7 +119,7 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
 
 return (
     <div className={isBasic && "p-1.5" || "pywebview-drag-region"} onMouseDown={handleMouseDown}>
-        <Menubar className="pywebview-drag-region">
+        <Menubar className={isBasic && "pywebview-drag-region absolute bottom-1.5 left-1.5 right-1.5" || "pywebview-drag-region"}>
         <MenubarMenu>
             <MenubarTrigger className="font-bold">
                 <div className="flex flex-row gap-1.5 items-center">

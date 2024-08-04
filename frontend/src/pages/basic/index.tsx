@@ -26,7 +26,7 @@ import { useRouter } from "next/router"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ETS2LAMenubar } from "@/components/ets2la_menubar"
-  
+import ETS2LAMap from "@/components/map"
 
 export default function Home({ip} : {ip: string}) {
     const [visualisation, setVisualisation] = useState(false);
@@ -42,13 +42,15 @@ export default function Home({ip} : {ip: string}) {
                     />
                 </ResizablePanel>
                 <ResizableHandle withHandle />
-                <ResizablePanel defaultSize={65} className="content-center rounded-md gap-1.5 flex flex-col">
-                    <div className="h-full">
-
+                <ResizablePanel defaultSize={65} className="content-center rounded-md gap-1.5 flex flex-col relative">
+                    <div className="h-full z-[-9999]">
+                        <ETS2LAMap ip={ip} />
                     </div>
-                    <ETS2LAMenubar ip={ip} onLogout={() =>{
+                    <div className="absolute top-0 left-0 right-0 h-screen">
+                        <ETS2LAMenubar ip={ip} onLogout={() =>{
 
-                    }} />
+                        }} />
+                    </div>
                 </ResizablePanel>
             </ResizablePanelGroup>
         </div>
