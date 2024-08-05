@@ -21,6 +21,7 @@ var reload = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	print("Rendering 1/2 of prefabs")
 	Variables.ThemeChanged.connect(Reload)
 	pass # Replace with function body.
 
@@ -110,9 +111,9 @@ func CreateVerticesForPoint(point, normalVector, width = 2.25):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
 	if MapData.MapData != null:
 		var data = MapData.MapData
+		var totalLines = 0
 		if data != lastData or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
 			
@@ -157,8 +158,9 @@ func _process(delta: float) -> void:
 					# Render the meshes
 					var dark = Variables.darkMode
 					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
-					CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
-					CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+					totalLines += 1
 					
 			
 			var prefabData = data["prefabs"]
@@ -194,7 +196,10 @@ func _process(delta: float) -> void:
 					counter += 1
 					
 				var count = 0
+				var total = len(lines)
 				for line in lines:
+					#if count > 3:
+					#	continue
 					var vertices = []
 					var rightMarkingVertices = []
 					var leftMarkingVertices = []
@@ -216,10 +221,12 @@ func _process(delta: float) -> void:
 					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
 					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
-					
+					count += 1
+					totalLines += 1
 				
 			lastData = data
 			reload = false
+			print("Total of " + str(totalLines) + " lines")
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data

@@ -42,10 +42,10 @@ function game_coord_to_image(xx:number, yy:number) {
     var MAX_Y = 512; //padding in ts-map 384px
     
     // Values from TileMapInfo.json
-    const x1 = -94505.8047;
-    const x2 = 79254.13;
-    const y1 = -80093.1641;
-    const y2 = 93666.77;
+    const x1 = -94621.8047;
+    const x2 = 79370.13;
+    const y1 = -80209.1641;
+    const y2 = 93782.77;
 
     const xtot = x2 - x1; // Total X length
     const ytot = y2 - y1; // Total Y length
@@ -146,7 +146,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     let corner1 = latLng(0, 165168)
     let corner2 = latLng(148512, 0)
     let bounds = latLngBounds(corner1, corner2)
-
+    // <CustomMarker position={position} rotation={rotation} />
     return (
         <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
             <TileLayer

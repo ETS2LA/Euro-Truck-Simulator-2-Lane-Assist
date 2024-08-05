@@ -39,6 +39,7 @@ MouseHold={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+limits/global_shader_variables/buffer_size=4096
 environment/defaults/default_clear_color=Color(0.0352941, 0.0352941, 0.0431373, 1)
 anti_aliasing/quality/msaa_3d=1
 anti_aliasing/quality/screen_space_aa=1

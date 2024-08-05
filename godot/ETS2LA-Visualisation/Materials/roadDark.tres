@@ -5,4 +5,5 @@ albedo_color = Color(0.117647, 0.117647, 0.117647, 1)
 metallic_specular = 0.1
 roughness = 0.0
 emission = Color(1, 1, 1, 1)
+disable_receive_shadows = true
 distance_fade_max_distance = 0.0

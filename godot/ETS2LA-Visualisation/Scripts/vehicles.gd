@@ -15,6 +15,7 @@ func _process(delta: float) -> void:
 		self.remove_child(n)
 		n.queue_free() 
 	
+	var newObjects = []
 	if Sockets.data != {}:
 		var vehicleData = Sockets.data["JSONvehicles"].data
 		if vehicleData != null:
@@ -34,15 +35,17 @@ func _process(delta: float) -> void:
 				if distance < 1:
 					distance = 1
 				
-
-				
 				if type == "car":
 					var car = carScene.instantiate()
 					car.position = Vector3(x,y,z)
 					car.scale = Vector3(distance, distance, distance)
-					add_child(car)
+					newObjects.append(car)
 				if type == "truck":
 					var truck = truckScene.instantiate()
 					truck.position = Vector3(x,y,z)
 					truck.scale = Vector3(distance, distance, distance)
-					add_child(truck)
+					newObjects.append(truck)
+	
+		for object in newObjects:
+			add_child(object)
+					

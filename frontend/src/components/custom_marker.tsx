@@ -15,7 +15,7 @@ const CustomMarker = ({ position, rotation}: { position: LatLngTuple, rotation: 
         className: 'custom-marker-icon',
         html: `<div style="transform: rotate(${-rotation}deg);">${modifiedSVG}</div>`, // Example with emoji, replace with your SVG or icon
         iconSize: [30, 30],
-        iconAnchor: [15, 30],
+        iconAnchor: [15, 18],
       });
       markerRef.current.setIcon(newIcon);
     }
