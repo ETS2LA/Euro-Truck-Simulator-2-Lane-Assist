@@ -12,7 +12,8 @@ import os
 if os.name == 'nt':
     import win32gui
 
-DEBUG_MODE = False
+DEBUG_MODE = settings.Get("global", "debug_mode", False)
+FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
 
 queue:JoinableQueue = JoinableQueue()
 
@@ -50,7 +51,7 @@ def start_webpage(queue: JoinableQueue):
     
     def load_website(window:webview.Window):
         time.sleep(3)
-        window.load_url('http://localhost:3000')
+        window.load_url('http://localhost:' + str(FRONTEND_PORT))
         while True:
             time.sleep(0.01)
             try:

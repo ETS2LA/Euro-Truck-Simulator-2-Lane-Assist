@@ -26,6 +26,8 @@ import os
 mainThreadQueue = []
 sessionToken = ""
 
+FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
+
 app = FastAPI(
     title="ETS2LA",
     description="Backend API for the ETS2 Lane Assist app",
@@ -238,7 +240,7 @@ def get_tags_list():
 # region Session
 
 def RunFrontend():
-    os.system("cd frontend && npm run dev")
+    os.system("cd frontend && npm run dev -- -p 3005")
     
 def ExtractIP():
     global IP
@@ -256,6 +258,6 @@ def run():
 
     p = multiprocessing.Process(target=RunFrontend, daemon=True)
     p.start()
-    logging.info(f"Frontend started on http://{IP}:3000 ( http://localhost:3000 )")
+    logging.info(f"Frontend started on http://{IP}:{FRONTEND_PORT} ( http://localhost:{FRONTEND_PORT} )")
     
 # endregion

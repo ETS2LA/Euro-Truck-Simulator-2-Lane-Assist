@@ -58,7 +58,7 @@ export function ETS2LAStates({ip}: {ip: string}) {
                     // Update the toast
                     const toastID = toasts[index];
                     toast.custom((t) => (
-                        <div className="h-min w-[354px] border border-zinc-800 rounded-md p-4 text-sm flex flex-col gap-2 font-semibold">
+                        <div className="h-min w-[354px] border border-zinc-800 rounded-lg p-4 text-sm flex flex-col gap-2 font-semibold">
                             <p>{state}</p>
                             <Progress value={state_progress_percent} />
                         </div>
@@ -71,7 +71,7 @@ export function ETS2LAStates({ip}: {ip: string}) {
                 else if (state_progress != -1)
                 {
                     const toastID = toast.custom((t) => (
-                        <div className="h-min w-[354px] border border-zinc-800 rounded-md p-4 text-sm flex flex-col gap-2 font-semibold">
+                        <div className="h-min w-[354px] border border-zinc-800 rounded-lg p-4 text-sm flex flex-col gap-2 font-semibold">
                             <p>{state}</p>
                             <Progress value={state_progress_percent} />
                         </div>
