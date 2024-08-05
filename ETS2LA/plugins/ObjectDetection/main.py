@@ -22,7 +22,13 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 runner:PluginRunner = None
-RUN_YOLO_EVERY_N_FRAME = 10
+profile = "alotfps"
+if profile == "reallygoodfps":
+    RUN_YOLO_EVERY_N_FRAME = 3
+elif profile == "goodfps":
+    RUN_YOLO_EVERY_N_FRAME = 6
+elif profile == "badfps":
+    RUN_YOLO_EVERY_N_FRAME = 10
 YOLO_FPS = 2 # How many times per second the YOLO model should run
 MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
 
@@ -253,7 +259,7 @@ def plugin():
     start_time = time.time()
 
     cv2.putText(frame, f"FPS: {fps}", (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)   
-    cv2.putText(frame, f"YOLO FPS: {fps/RUN_YOLO_EVERY_N_FRAME} ({len(boxes)} objects) (every {RUN_YOLO_EVERY_N_FRAME}th frame)", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)      
+    cv2.putText(frame, f"YOLO FPS: {round(fps / RUN_YOLO_EVERY_N_FRAME, 2)} ({len(boxes)} objects) (every {RUN_YOLO_EVERY_N_FRAME}th frame)", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)      
     cv2.putText(frame, f"Tracking Time: {round(trackTime*1000, 2)}ms ({len(tracked_objects)} objects)", (20, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f"Visual Time: {round(visualTime*1000, 2)}ms", (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f"Input Time: {round(inputTime*1000, 2)}ms", (20, 220), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
