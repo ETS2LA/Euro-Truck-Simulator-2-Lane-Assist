@@ -5,32 +5,34 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import VersionHistory from "@/components/version_history"
-import {
-    ContextMenu,
-    ContextMenuCheckboxItem,
-    ContextMenuContent,
-    ContextMenuItem,
-    ContextMenuLabel,
-    ContextMenuRadioGroup,
-    ContextMenuRadioItem,
-    ContextMenuSeparator,
-    ContextMenuShortcut,
-    ContextMenuSub,
-    ContextMenuSubContent,
-    ContextMenuSubTrigger,
-    ContextMenuTrigger,
-} from "@/components/ui/context-menu"
+import { EnablePlugin, DisablePlugin } from "../backend"
 import { toast } from "sonner"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ETS2LAMenubar } from "@/components/ets2la_menubar"
 import ETS2LAMap from "@/components/map"
+import { useEffect } from "react";
+import { useRef } from "react"
 
-export default function Home({ip} : {ip: string}) {
+export default function Basic({ip} : {ip: string}) {
     const [collapsed, setCollapsed] = useState(false);
     const push = useRouter().push;
+    const isMounted = useRef(true); // Track if the component is mounted
+
+    useEffect(() => {
+        console.log("Enabling plugins with IP " + ip);
+        EnablePlugin("Map", ip).then(() => {
+            EnablePlugin("Sockets", ip).then(() => {
+
+            });
+        });
+        
+        return () => {
+
+        }
+    }, []);
+
     return (
         <div className="w-full h-screen">
             <ResizablePanelGroup direction="horizontal" className="overflow-auto text-center gap-0">

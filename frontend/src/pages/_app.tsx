@@ -219,7 +219,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <div className={isInBasicMode ? "" : "py-3"}>
           <ContextMenu>
             <ContextMenuTrigger className="h-full">
-              <Component {...newPageProps} />
+              <Component {...newPageProps} ip={ip} />
             </ContextMenuTrigger>
             <ContextMenuContent className="w-64">
               <ContextMenuItem onClick={router.back}>

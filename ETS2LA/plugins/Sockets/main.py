@@ -28,7 +28,11 @@ async def server(websocket):
                         connected_clients.remove(client)
                         del client
                 # Wait for acknowledgment from client
-                ack = await websocket.recv()
+                try:
+                    ack = await websocket.recv()
+                except Exception as e:
+                    print("Client disconnected.", str(e))
+                    break
                 if ack != "ok":
                     print(f"Unexpected message from client: {ack}")
     except Exception as e:

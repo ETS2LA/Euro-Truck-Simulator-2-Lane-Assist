@@ -59,7 +59,7 @@ function game_coord_to_image(xx:number, yy:number) {
     ];
 }
 
-let socket: WebSocket;
+let socket: WebSocket | null = null;
 export default function ETS2LAMap({ip} : {ip: string}) {
     const {theme, setTheme} = useTheme()
     const [connected, setConnected] = useState(false)
@@ -125,9 +125,10 @@ export default function ETS2LAMap({ip} : {ip: string}) {
         
         // Cleanup function to close the socket and clear the heartbeat interval when the component unmounts
         return () => {
-            toast.info("Map socket disconnected!");
             socket.close();
             clearInterval(heartbeat); // Clear the heartbeat interval
+            // Clear the socket reference
+            socket = null;
         };
     }, []); // Empty dependency array to run the effect only once on mount
 

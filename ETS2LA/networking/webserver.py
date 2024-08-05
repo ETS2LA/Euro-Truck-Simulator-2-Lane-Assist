@@ -142,10 +142,12 @@ def get_plugins():
 
 @app.get("/api/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
+    logging.info(f"Enabling plugin {plugin}")
     return backend.AddPluginRunner(plugin)
 
 @app.get("/api/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
+    logging.info(f"Disabling plugin {plugin}")
     return backend.RemovePluginRunner(plugin)
 
 @app.get("/api/plugins/performance")

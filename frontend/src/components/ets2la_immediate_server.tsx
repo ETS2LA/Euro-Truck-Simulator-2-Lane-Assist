@@ -24,7 +24,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-let socket: WebSocket;
+let socket: WebSocket | null = null;
 export function ETS2LAImmediateServer({ip}: {ip: string}) {
     const { data, error, isLoading } = useSWR("updates", () => CheckForUpdate(ip), { refreshInterval: 60000 }) // Check for updates every minute
     const { data: onTopData, error: onTopError, isLoading: onTopLoading } = useSWR("onTop", () => GetStayOnTop(ip), { refreshInterval: 10000 })
@@ -111,6 +111,7 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
         // Cleanup function to close the socket when the component unmounts
         return () => {
             socket.close();
+            socket = null;
         };
     }, []); // Empty dependency array to run the effect only once on mount
     
