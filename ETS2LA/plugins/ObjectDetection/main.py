@@ -24,11 +24,11 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 runner:PluginRunner = None
 profile = "reallygoodfps"
 if profile == "reallygoodfps":
-    RUN_YOLO_EVERY_N_FRAME = 3
+    RUN_YOLO_EVERY_N_FRAME = 10
 elif profile == "goodfps":
     RUN_YOLO_EVERY_N_FRAME = 6
 elif profile == "badfps":
-    RUN_YOLO_EVERY_N_FRAME = 10
+    RUN_YOLO_EVERY_N_FRAME = 3
 YOLO_FPS = 2 # How many times per second the YOLO model should run
 MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
 
