@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button"
 import { set } from "date-fns";
 import { useRouter as routerUseRouter } from 'next/router';
 
-export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}) {
+export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout: () => void, isCollapsed?: boolean}) {
     const [dragging, setDragging] = useState(false);
     const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
     const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 });
@@ -117,9 +117,21 @@ export function ETS2LAMenubar({ip, onLogout}: {ip: string, onLogout: () => void}
     };
 
 
+    function getMenubarClassname(collapsed:any, isBasic:any) {
+        console.log(collapsed, isBasic)
+        if(isBasic) {
+            if (collapsed) {
+                return "pywebview-drag-region absolute bottom-3 left-[24vw] right-[24vw] bg-transparent backdrop-blur-xl backdrop-brightness-50"
+            }
+            return "pywebview-drag-region absolute bottom-3 left-3 right-3 bg-transparent backdrop-blur-xl backdrop-brightness-50"
+        } else {
+            return "pywebview-drag-region"
+        }
+    }
+
 return (
     <div className={isBasic && "p-1.5" || "pywebview-drag-region"} onMouseDown={handleMouseDown}>
-        <Menubar className={isBasic && "pywebview-drag-region absolute bottom-3 left-3 right-3 bg-transparent backdrop-blur-xl backdrop-brightness-50" || "pywebview-drag-region"}>
+        <Menubar className={getMenubarClassname(isCollapsed, isBasic)}>
         <MenubarMenu>
             <MenubarTrigger className="font-bold">
                 <div className="flex flex-row gap-1.5 items-center">

@@ -38,8 +38,8 @@ const UpdateMapView = ({ position }: { position: LatLngTuple }) => {
 };
 
 function game_coord_to_image(xx:number, yy:number) {
-    var MAX_X = 256; //padding in ts-map 384px
-    var MAX_Y = 256; //padding in ts-map 384px
+    var MAX_X = 512; //padding in ts-map 384px
+    var MAX_Y = 512; //padding in ts-map 384px
     
     // Values from TileMapInfo.json
     const x1 = -94505.8047;
@@ -154,7 +154,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                 minNativeZoom={2}
                 maxNativeZoom={8}
                 zIndex={-999}
-                tileSize={256}
+                tileSize={512}
             />
             <CustomMarker position={position} rotation={rotation} />
             <UpdateMapView position={position} />
