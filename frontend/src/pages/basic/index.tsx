@@ -24,7 +24,9 @@ export default function Basic({ip} : {ip: string}) {
         console.log("Enabling plugins with IP " + ip);
         EnablePlugin("Map", ip).then(() => {
             EnablePlugin("Sockets", ip).then(() => {
-
+                EnablePlugin("ObjectDetection", ip).then(() => {
+                
+                });
             });
         });
         

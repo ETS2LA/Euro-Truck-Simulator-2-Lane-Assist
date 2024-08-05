@@ -288,7 +288,7 @@ func _process(delta: float) -> void:
 				self.remove_child(n)
 				n.queue_free() 
 		
-		CreateAndRenderMesh(vertices, 0, 0, mat, "steering")
+		CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
 		#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 		#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 		
