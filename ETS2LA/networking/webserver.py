@@ -240,7 +240,7 @@ def get_tags_list():
 # region Session
 
 def RunFrontend():
-    os.system("cd frontend && npm run dev -- -p 3005")
+    os.system(f"cd frontend && npm run dev -- -p {FRONTEND_PORT}")
     
 def ExtractIP():
     global IP

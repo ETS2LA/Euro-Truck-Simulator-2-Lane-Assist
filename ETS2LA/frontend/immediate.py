@@ -15,7 +15,10 @@ async def server(websocket, path):
     connected[websocket] = None
     try:
         while True:
-            message = await websocket.recv()
+            try:
+                message = await websocket.recv()
+            except:
+                break
             if message != None:
                 try:
                     message = json.loads(message)
