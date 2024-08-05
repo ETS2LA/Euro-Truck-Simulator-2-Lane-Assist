@@ -14,6 +14,10 @@ import time
 import cv2
 import os
 
+# Silence the goddamn torch warnings...
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 runner:PluginRunner = None
 YOLO_FPS = 2 # How many times per second the YOLO model should run
 MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
