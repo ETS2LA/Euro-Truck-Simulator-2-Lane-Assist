@@ -13,6 +13,8 @@ extends Node
 @onready var Truck = $/root/Node3D/Truck
 @onready var Variables = $/root/Node3D/Variables
 @onready var Socket = $/root/Node3D/Sockets
+@onready var RoadParent = $/root/Node3D/Map/Roads
+@onready var PrefabParent = $/root/Node3D/Map/Prefabs
 
 var sphere = preload("res://Objects/sphere.tscn")
 var lastData = null
@@ -36,7 +38,7 @@ func JsonPointToLocalCoords(jsonPoint, x, y, z):
 	else: jsonPoint[1] -= z
 	return Vector3(jsonPoint[0], y, jsonPoint[1])
 	
-func CreateAndRenderMesh(vertices, x, z, mat, meshName="default"):
+func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road"):
 	var mesh = Mesh.new()
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLE_STRIP)
@@ -54,7 +56,13 @@ func CreateAndRenderMesh(vertices, x, z, mat, meshName="default"):
 	meshInstance.mesh = mesh
 	meshInstance.position = Vector3(x, 0, z)
 	meshInstance.name = meshName
-	add_child(meshInstance)
+	
+	if parent == "road":
+		RoadParent.add_child(meshInstance)
+	elif parent == "prefab":
+		PrefabParent.add_child(meshInstance)
+	else:
+		add_child(meshInstance)
 	
 func CreateForwardVectors(points):
 	var forwardVectors = []
@@ -120,6 +128,14 @@ func _process(delta: float) -> void:
 			for n in self.get_children():
 				self.remove_child(n)
 				n.queue_free() 
+				
+			for n in PrefabParent.get_children():
+				PrefabParent.remove_child(n)
+				n.queue_free()
+				
+			for n in RoadParent.get_children():
+				RoadParent.remove_child(n)
+				n.queue_free()
 			
 			for road in roadData:
 				var yValues = road["YValues"]
@@ -218,7 +234,7 @@ func _process(delta: float) -> void:
 				
 					# Render the meshes
 					var dark = Variables.darkMode
-					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
+					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, "default", "prefab")
 					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					count += 1

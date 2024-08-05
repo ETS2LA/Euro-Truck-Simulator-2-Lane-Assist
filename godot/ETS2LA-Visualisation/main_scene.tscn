@@ -77,6 +77,10 @@ script = ExtResource("9_b12iv")
 script = ExtResource("9_115pj")
 markingWidth = 0.1
 
+[node name="Roads" type="Node" parent="Map"]
+
+[node name="Prefabs" type="Node" parent="Map"]
+
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 timeout = 1.0
 
