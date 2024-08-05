@@ -203,9 +203,9 @@ def plugin():
     #print(tracked_objects)   
     for tracked_object in tracked_objects:
         box = tracked_object.get_estimate()
-        x, y, w, h = box[0]
-        cv2.rectangle(frame, (int(x), int(y)), (int(w), int(h)), (0, 255, 0), 2)
-        cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id}", (int(x), int(y-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+        x1, y1, x2, y2 = box[0]
+        cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+        cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id}", (int(x1), int(y1-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
         
     # frame = norfair.draw_boxes(frame, tracked_objects)
     trackTime = time.time() - trackTime
@@ -217,24 +217,21 @@ def plugin():
         try:
             for object in tracked_objects:
                 label = object.label
-                x, y, w, h = object.get_estimate()[0]
+                x1, y1, x2, y2 = object.get_estimate()[0]
                 # Add the offset to the x and y coordinates
-                xr = x + capture_x
-                yr = y + capture_y
-                
+                x1r = x1 + capture_x
+                y1r = y1 + capture_y
+                x2r = x2 + capture_x
+                y2r = y2 + capture_y
+                bottomLeftPoint = (int(x1r), int(y2r))
+                bottomRightPoint = (int(x2r), int(y2r))
                 if label in ['car', "van"]:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car"))
                     #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
                 if label in ['truck']:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck"))
                     #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
                 if label in ['bus']:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus"))
                     #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             for line in carPoints:
@@ -249,7 +246,7 @@ def plugin():
                     screenPoints.append(point)
                 vehicles.append(Vehicle(raycasts, screenPoints, line[2]))
         except:
-            pass
+            logging.exception("Error while drawing the vehicles")
     visualTime = time.time() - visualTime
 
     fps = round(1 / (time.time() - start_time))
