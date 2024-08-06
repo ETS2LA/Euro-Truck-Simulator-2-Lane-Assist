@@ -20,7 +20,6 @@ ipython
 pywin32
 fastapi
 uvicorn
-norfair
 pillow
 psutil
 pygame
