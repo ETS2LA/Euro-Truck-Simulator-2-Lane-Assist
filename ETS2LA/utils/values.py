@@ -11,6 +11,18 @@ class SmoothedValue:
         self.smoothingType = smoothingType
         self.smoothingAmount = smoothingAmount
         
+    def get(self):
+        if self.smoothingType == "frames":
+            return sum(self.valueArray) / len(self.valueArray)
+        elif self.smoothingType == "time":
+            while self.valueArray[-1][0] - self.valueArray[0][0] > self.smoothingAmount:
+                self.valueArray.pop(0) 
+            if len(self.valueArray) == 0:
+                return 0
+            return sum([v for t, v in self.valueArray]) / len(self.valueArray)
+        else:
+            raise ValueError("Invalid smoothing type")
+        
     def smooth(self, value):
         if self.smoothingType == "frames":
             self.valueArray.append(value)
