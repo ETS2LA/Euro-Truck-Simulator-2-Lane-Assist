@@ -29,23 +29,13 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 runner:PluginRunner = None
-<<<<<<< HEAD
-profile = "reallygoodfps"
-if profile == "reallygoodfps":
-    RUN_YOLO_EVERY_N_FRAME = 10
-elif profile == "goodfps":
-    RUN_YOLO_EVERY_N_FRAME = 6
-elif profile == "badfps":
-    RUN_YOLO_EVERY_N_FRAME = 3
-YOLO_FPS = 2 # How many times per second the YOLO model should run
-MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
-=======
 MODE : Literal["performance", "quality"] = settings.Get("ObjectDetection", "mode", "performance")
 YOLO_FPS : int = settings.Get("ObjectDetection", "yolo_fps", 2)
 MODEL_TYPE : Literal["yolov5", "yolov7"] = settings.Get("ObjectDetection", "model", "yolov5")
 MODEL_NAME : str = "5-31-24_1_yolov7.pt" if MODEL_TYPE == "yolov7" else "best_v5s.pt"
 LOADING_TEXT : str = "Vehicle Detection loading model..."
 USE_EXTERNAL_VISUALIZATION : bool = True
+TRACK_SPEED : list = ["car", "van", "bus", "truck"]
 
 
 def Initialize():
