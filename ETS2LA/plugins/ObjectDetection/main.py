@@ -213,43 +213,44 @@ def plugin():
     carPoints = []
     vehicles = []
     visualTime = time.time()
-    if type(tracked_objects) != None:
-        try:
-            for object in tracked_objects:
-                label = object.label
-                x, y, w, h = object.get_estimate()[0]
-                # Add the offset to the x and y coordinates
-                xr = x + capture_x
-                yr = y + capture_y
-                
-                if label in ['car', "van"]:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
-                    carPoints.append((bottomLeftPoint, bottomRightPoint, "car"))
-                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
-                if label in ['truck']:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
-                    carPoints.append((bottomLeftPoint, bottomRightPoint, "truck"))
-                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
-                if label in ['bus']:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
-                    carPoints.append((bottomLeftPoint, bottomRightPoint, "bus"))
-                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
-            for line in carPoints:
-                raycasts = []
-                screenPoints = []
-                for point in line:
-                    if type(point) == str: # Skip the vehicle type
-                        continue
-                    raycastStart = time.time()
-                    raycast = Raycast.run(x=point[0], y=point[1])
-                    raycasts.append(raycast)
-                    screenPoints.append(point)
-                vehicles.append(Vehicle(raycasts, screenPoints, line[2]))
-        except:
-            pass
+    # if type(tracked_boxes) != None:
+    #     try:
+    #         for _, box in tracked_boxes.iterrows():
+    #             label = box['name']
+    #             score = box['confidence']
+    #             x, y, w, h = int(box['xmin']), int(box['ymin']), int(box['xmax'] - box['xmin']), int(box['ymax'] - box['ymin'])
+    #             # Add the offset to the x and y coordinates
+    #             xr = x + capture_x
+    #             yr = y + capture_y
+    #             
+    #             if label in ['car', "van"]:
+    #                 bottomLeftPoint = (xr, yr + h)
+    #                 bottomRightPoint = (xr + w, yr + h)
+    #                 carPoints.append((bottomLeftPoint, bottomRightPoint, "car"))
+    #                 cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+    #             if label in ['truck']:
+    #                 bottomLeftPoint = (xr, yr + h)
+    #                 bottomRightPoint = (xr + w, yr + h)
+    #                 carPoints.append((bottomLeftPoint, bottomRightPoint, "truck"))
+    #                 cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+    #             if label in ['bus']:
+    #                 bottomLeftPoint = (xr, yr + h)
+    #                 bottomRightPoint = (xr + w, yr + h)
+    #                 carPoints.append((bottomLeftPoint, bottomRightPoint, "bus"))
+    #                 cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+    #         for line in carPoints:
+    #             raycasts = []
+    #             screenPoints = []
+    #             for point in line:
+    #                 if type(point) == str: # Skip the vehicle type
+    #                     continue
+    #                 raycastStart = time.time()
+    #                 raycast = Raycast.run(x=point[0], y=point[1])
+    #                 raycasts.append(raycast)
+    #                 screenPoints.append(point)
+    #             vehicles.append(Vehicle(raycasts, screenPoints, line[2]))
+    #     except:
+    #         pass
     visualTime = time.time() - visualTime
 
     fps = round(1 / (time.time() - start_time))
