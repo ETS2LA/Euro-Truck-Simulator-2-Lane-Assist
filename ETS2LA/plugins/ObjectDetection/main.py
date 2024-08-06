@@ -22,7 +22,7 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 runner:PluginRunner = None
-profile = "reallygoodfps"
+profile = "alotfps"
 if profile == "reallygoodfps":
     RUN_YOLO_EVERY_N_FRAME = 3
 elif profile == "goodfps":
