@@ -1,9 +1,13 @@
+from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
 from ETS2LA.networking.cloud import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner  
-import ETS2LA.variables as variables
+from ETS2LA.utils.values import SmoothedValue
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 from ETS2LA.utils.logging import logging
+import ETS2LA.variables as variables
+from typing import Literal
+from classes import Vehicle
 import numpy as np
 import screeninfo
 import pyautogui
@@ -14,50 +18,31 @@ import time
 import cv2
 import os
 
+try:
+    from ETS2LA.plugins.AR.main import ScreenLine, Text
+except:
+    pass
+
 # Silence the goddamn torch warnings...
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 runner:PluginRunner = None
-YOLO_FPS = 2 # How many times per second the YOLO model should run
-MODEL_TYPE = "yolov5" # Change this to "yolov7" or "yolov5"
+MODE : Literal["performance", "quality"] = settings.Get("ObjectDetection", "mode", "performance")
+YOLO_FPS : int = settings.Get("ObjectDetection", "yolo_fps", 2)
+MODEL_TYPE : Literal["yolov5", "yolov7"] = settings.Get("ObjectDetection", "model", "yolov5")
+MODEL_NAME : str = "5-31-24_1_yolov7.pt" if MODEL_TYPE == "yolov7" else "best_v5s.pt"
+LOADING_TEXT : str = "Vehicle Detection loading model..."
+USE_EXTERNAL_VISUALIZATION : bool = True
 
-if MODEL_TYPE == "yolov7":
-    MODEL_NAME = "5-31-24_1_yolov7.pt"
-elif MODEL_TYPE == "yolov5":
-    MODEL_NAME = "best_v5s.pt"
-
-LOADING_TEXT = "Vehicle Detection loading model..."
-USE_EXTERNAL_VISUALIZATION = True
-
-try:
-    from ETS2LA.plugins.AR.main import Line, Circle, Box, Polygon, Text, ScreenLine
-except:
-    USE_EXTERNAL_VISUALIZATION = False # Force external off
-
-class Vehicle:
-    raycasts: list
-    screenPoints: list
-    vehicleType: str
-    def __init__(self, raycasts, screenPoints, vehicleType):
-        self.raycasts = raycasts
-        self.screenPoints = screenPoints
-        self.vehicleType = vehicleType
-    
-    def json(self):
-        return {
-            "raycasts": [raycast.json() for raycast in self.raycasts],
-            "screenPoints": self.screenPoints,
-            "vehicleType": self.vehicleType
-        }
-    
 
 def Initialize():
     global ShowImage
     global TruckSimAPI
     global ScreenCapture
     global Raycast
-    global capture_y, capture_x, capture_width, capture_height, model, frame, temp
+    global capture_y, capture_x, capture_width, capture_height
+    global model, frame, temp
 
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
@@ -92,11 +77,6 @@ def Initialize():
         capture_width = 1020
         capture_height = 480
 
-    #capture_x = 0
-    #capture_y = 0
-    #capture_width = screen.width
-    #capture_height = screen.height
-
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
 
@@ -118,13 +98,13 @@ def Initialize():
     runner.sonner(f"Vehicle Detection model loaded on {device.upper()}", "success", promise=LOADING_TEXT)
 
     cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('Vehicle Detection', int(capture_width/3), int(capture_height/3))
+    cv2.resizeWindow('Vehicle Detection', int(capture_width), int(capture_height))
     cv2.setWindowProperty('Vehicle Detection', cv2.WND_PROP_TOPMOST, 1)
 
-boxes = None
-cur_yolo_fps = 0
 frame = None
+boxes = None
 yolo_frame = None
+cur_yolo_fps = 0
 def detection_thread():
     global boxes, cur_yolo_fps
     while True:
@@ -143,7 +123,8 @@ def detection_thread():
         cur_yolo_fps = round(1 / (time.time() - startTime), 1)
     
 import threading
-threading.Thread(target=detection_thread, daemon=True).start()
+if MODE == "performance":
+    threading.Thread(target=detection_thread, daemon=True).start()
 
 trackers = []
 def create_trackers(boxes, frame):
@@ -196,23 +177,43 @@ def track_cars(last_track, boxes, frame):
             pass
 
     return updated_boxes
-    
-    
-    
 
+if MODE == "performance":
+    tracker = Tracker(
+        distance_function="euclidean",
+        distance_threshold=100,
+        hit_counter_max=1
+    )
+elif MODE == "quality":
+        tracker = Tracker(
+        distance_function="euclidean",
+        distance_threshold=100,
+        hit_counter_max=YOLO_FPS,
+        filter_factory=OptimizedKalmanFilterFactory(R=10, Q=1),
+    )
+    
+smoothedFPS = SmoothedValue("time", 1)
+smoothedYOLOFPS = SmoothedValue("time", 1)
+smoothedTrackTime = SmoothedValue("time", 1)
+smoothedVisualTime = SmoothedValue("time", 1)
+smoothedInputTime = SmoothedValue("time", 1)
+smoothedRaycastTime = SmoothedValue("time", 1)
+    
 fps = 0
 start_time = time.time()
+fpsValues = []
+frameCounter = 0
 def plugin():
-    global frame, yolo_frame, fps, start_time, model, capture_x, capture_y, capture_width, capture_height
+    global frame, yolo_frame, fps, cur_yolo_fps, start_time, model, capture_x, capture_y, capture_width, capture_height, boxes, frameCounter
     
     ScreenCapture.monitor_x1 = capture_x
     ScreenCapture.monitor_y1 = capture_y
     ScreenCapture.monitor_x2 = capture_x + capture_width
     ScreenCapture.monitor_y2 = capture_y + capture_height
     
+    inputTime = time.time()
     data = {}
     data["api"] = TruckSimAPI.run()
-    inputTime = time.time()
     data["frame"] = ScreenCapture.run(imgtype="cropped")
     inputTime = time.time() - inputTime
 
@@ -221,41 +222,99 @@ def plugin():
         return None
     
     yolo_frame = frame.copy()
-
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    
+    if MODE == "quality" and frameCounter % YOLO_FPS == 0:
+        results = model(yolo_frame)
+        boxes = results.pandas().xyxy[0]
+        frameCounter = 0
+        cur_yolo_fps = fps / YOLO_FPS
 
     trackTime = time.time()
-    tracked_boxes = track_cars(last_boxes, boxes, yolo_frame)
+    
+    if MODE == "performance":
+        tracked_boxes = track_cars(last_boxes, boxes, yolo_frame)
+        
+        if type(tracked_boxes) != None:
+            norfair_detections = []
+            try:
+                for _, box in tracked_boxes.iterrows():
+                    label = box['name']
+                    score = box['confidence']
+                    x1, y1, x2, y2 = int(box['xmin']), int(box['ymin']), int(box['xmax']), int(box['ymax'])
+                    detection = Detection(
+                        points=np.array([x1, y1, x2, y2]),
+                        scores=np.array([score]),
+                        label=label
+                    )
+                    norfair_detections.append(detection)
+                
+                tracked_boxes = tracker.update(norfair_detections)
+            except:
+                tracker_boxes = tracker.update()
+        else:
+            tracked_boxes = tracker.update()
+            
+    elif MODE == "quality":
+        if frameCounter == 0: # We updated the boxes in the previous frame
+            norfair_detections = []
+            for _, box in boxes.iterrows():
+                label = box['name']
+                score = box['confidence']
+                x1, y1, x2, y2 = int(box['xmin']), int(box['ymin']), int(box['xmax']), int(box['ymax'])
+                detection = Detection(
+                    points=np.array([x1, y1, x2, y2]),
+                    scores=np.array([score]),
+                    label=label
+                )
+                norfair_detections.append(detection)
+            tracked_boxes = tracker.update(norfair_detections, period=YOLO_FPS)
+        else:
+            tracked_boxes = tracker.update()
+    
     trackTime = time.time() - trackTime
 
     carPoints = []
     vehicles = []
     visualTime = time.time()
+    
+    try:
+        for tracked_object in tracked_boxes:
+            box = tracked_object.estimate
+            x, y, w, h = box[0]
+            cv2.rectangle(frame, (int(x), int(y)), (int(w), int(h)), (0, 255, 0), 2)
+            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id}", (int(x), int(y-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+            x1, y1, x2, y2 = box[0]
+            cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id}", (int(x1), int(y1-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+    except:
+        pass
+    
+    visualTime = time.time() - visualTime
+    raycastTime = time.time()
+    
     if type(tracked_boxes) != None:
         try:
-            for _, box in tracked_boxes.iterrows():
-                label = box['name']
-                score = box['confidence']
-                x, y, w, h = int(box['xmin']), int(box['ymin']), int(box['xmax'] - box['xmin']), int(box['ymax'] - box['ymin'])
+            for object in tracked_boxes:
+                label = object.label
+                x1, y1, x2, y2 = object.estimate[0]
                 # Add the offset to the x and y coordinates
-                xr = x + capture_x
-                yr = y + capture_y
+                x1r = x1 + capture_x
+                y1r = y1 + capture_y
+                x2r = x2 + capture_x
+                y2r = y2 + capture_y
+                bottomLeftPoint = (int(x1r), int(y2r))
+                bottomRightPoint = (int(x2r), int(y2r))
                 
                 if label in ['car', "van"]:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car"))
-                    cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
                 if label in ['truck']:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck"))
-                    cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
                 if label in ['bus']:
-                    bottomLeftPoint = (xr, yr + h)
-                    bottomRightPoint = (xr + w, yr + h)
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus"))
-                    cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             for line in carPoints:
                 raycasts = []
                 screenPoints = []
@@ -269,16 +328,22 @@ def plugin():
                 vehicles.append(Vehicle(raycasts, screenPoints, line[2]))
         except:
             pass
-    visualTime = time.time() - visualTime
+        
+    raycastTime = time.time() - raycastTime
 
     fps = round(1 / (time.time() - start_time))
+    fpsValues.append(fps)
+    if fpsValues.__len__() > 10:
+        fpsValues.pop(0)
+    fps = round(sum(fpsValues) / len(fpsValues), 1)
     start_time = time.time()
 
-    cv2.putText(frame, f"FPS: {fps}", (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)   
-    cv2.putText(frame, f"YOLO FPS: {cur_yolo_fps}", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)      
-    cv2.putText(frame, f"Tracking Time: {round(trackTime*1000, 2)}ms ({len(trackers)} objects)", (20, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(frame, f"Visual Time: {round(visualTime*1000, 2)}ms", (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(frame, f"Input Time: {round(inputTime*1000, 2)}ms", (20, 220), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, f"FPS: {round(smoothedFPS(fps), 1)}", (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)   
+    cv2.putText(frame, f"YOLO FPS: {round(smoothedYOLOFPS(cur_yolo_fps), 1)}", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)      
+    cv2.putText(frame, f"Track Time: {round(smoothedTrackTime(trackTime)*1000, 2)}ms", (20, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, f"Visual Time: {round(smoothedVisualTime(visualTime)*1000, 2)}ms", (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, f"Input Time: {round(smoothedInputTime(inputTime)*1000, 2)}ms", (20, 220), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, f"Raycast Time: {round(smoothedRaycastTime(raycastTime)*1000, 2)}ms", (20, 260), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.imshow('Vehicle Detection', frame)
     cv2.waitKey(1)
     
@@ -320,6 +385,8 @@ def plugin():
                 arData['texts'].append(Text(f"{round(middleDistance, 1)}m", (middlePoint[0], middlePoint[1]), color=[0, 255, 0, 255], size=15))
             except:
                 continue
+    
+    frameCounter += 1
     
     return None, {
         "vehicles": vehicles,
