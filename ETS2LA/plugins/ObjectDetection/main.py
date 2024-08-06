@@ -1,4 +1,5 @@
 from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
+from vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
 from ETS2LA.networking.cloud import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner  
 from ETS2LA.utils.values import SmoothedValue
@@ -45,7 +46,6 @@ MODEL_TYPE : Literal["yolov5", "yolov7"] = settings.Get("ObjectDetection", "mode
 MODEL_NAME : str = "5-31-24_1_yolov7.pt" if MODEL_TYPE == "yolov7" else "best_v5s.pt"
 LOADING_TEXT : str = "Vehicle Detection loading model..."
 USE_EXTERNAL_VISUALIZATION : bool = True
->>>>>>> 48f2f789c19f77d3db62024248a1950d081bde67
 
 
 def Initialize():
@@ -293,12 +293,9 @@ def plugin():
     try:
         for tracked_object in tracked_boxes:
             box = tracked_object.estimate
-            x, y, w, h = box[0]
-            cv2.rectangle(frame, (int(x), int(y)), (int(w), int(h)), (0, 255, 0), 2)
-            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id}", (int(x), int(y-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
             x1, y1, x2, y2 = box[0]
             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
-            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id}", (int(x1), int(y1-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id} : {str(round(GetVehicleSpeed(tracked_object.id)*3.6)) + 'kph' if tracked_object.label in TRACK_SPEED else 'static'}", (int(x1), int(y1-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
     except:
         pass
     
@@ -319,26 +316,40 @@ def plugin():
                 bottomRightPoint = (int(x2r), int(y2r))
                 
                 if label in ['car', "van"]:
-                    carPoints.append((bottomLeftPoint, bottomRightPoint, "car"))
+                    carPoints.append((bottomLeftPoint, bottomRightPoint, "car", object.id))
                     #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
                 if label in ['truck']:
-                    carPoints.append((bottomLeftPoint, bottomRightPoint, "truck"))
+                    carPoints.append((bottomLeftPoint, bottomRightPoint, "truck", object.id))
                     #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
                 if label in ['bus']:
-                    carPoints.append((bottomLeftPoint, bottomRightPoint, "bus"))
+                    carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))
                     #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
+            
             for line in carPoints:
+                id = line[3]
+                line = line[:3]
                 raycasts = []
                 screenPoints = []
                 for point in line:
                     if type(point) == str: # Skip the vehicle type
                         continue
-                    raycastStart = time.time()
                     raycast = Raycast.run(x=point[0], y=point[1])
                     raycasts.append(raycast)
                     screenPoints.append(point)
-                vehicles.append(Vehicle(raycasts, screenPoints, line[2]))
+                
+                firstRaycast = raycasts[0]
+                secondRaycast = raycasts[1]
+                middlePoint = ((firstRaycast.point[0] + secondRaycast.point[0]) / 2, (firstRaycast.point[1] + secondRaycast.point[1]) / 2, (firstRaycast.point[2] + secondRaycast.point[2]) / 2)
+                
+                vehicles.append(Vehicle(
+                    raycasts, 
+                    screenPoints, 
+                    line[2],
+                    id,
+                    speed=UpdateVehicleSpeed(id, middlePoint)
+                ))
         except:
+            logging.exception("Error while processing vehicle data")
             pass
         
     raycastTime = time.time() - raycastTime
@@ -359,20 +370,21 @@ def plugin():
     cv2.imshow('Vehicle Detection', frame)
     cv2.waitKey(1)
     
+    arData = {
+        "lines": [],
+        "circles": [],
+        "boxes": [],
+        "polygons": [],
+        "texts": [],
+        "screenLines": [],
+    }
+    
     if USE_EXTERNAL_VISUALIZATION:
         # Send data to the AR plugin
         x = data["api"]["truckPlacement"]["coordinateX"]
         y = data["api"]["truckPlacement"]["coordinateY"]
         z = data["api"]["truckPlacement"]["coordinateZ"]
 
-        arData = {
-            "lines": [],
-            "circles": [],
-            "boxes": [],
-            "polygons": [],
-            "texts": [],
-            "screenLines": [],
-        }
 
         # Add the cars to the external visualization as a line from the start point to y + 1
         for vehicle in vehicles:
