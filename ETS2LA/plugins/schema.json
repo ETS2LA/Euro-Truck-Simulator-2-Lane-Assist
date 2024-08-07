@@ -58,7 +58,8 @@
                             "properties": {
                                 "special": {
                                     "type": "string",
-                                    "description": "The special type."
+                                    "description": "The special type.",
+                                    "enum": ["Title", "Description", "Separator", "Space"]
                                 },
                                 "special_data": {
                                     "type": "string",

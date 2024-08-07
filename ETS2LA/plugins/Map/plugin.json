@@ -8,5 +8,110 @@
     "description": "Map detection plugin.",
     "version": "1.0",
     "modules": ["TruckSimAPI", "ShowImage", "Steering", "SDKController", "Raycasting"],
-    "max_fps": 20
+    "max_fps": 20,
+    "settings": [
+        {
+            "specials": [
+                {
+                    "special": "Title",
+                    "special_data": "Map Settings"
+                },
+                {
+                    "special": "Description",
+                    "special_data": "These settings are for the map plugin."
+                },
+                {
+                    "special": "Separator"
+                }
+            ]
+        },
+        {
+            "name": "Calculate Steering",
+            "key": "ComputeSteeringData",
+            "description": "This will calculate all necessary values for the map to steer the truck.",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "name": "Send Data",
+            "key": "SendExternalData",
+            "description": "This will allow other plugins to use the Map's data. Please note that visualisation will not work without this option enabled. This option can and will improve performance marginally.",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "specials": [
+                {
+                    "special": "Space"
+                },
+                {
+                    "special": "Space"
+                },
+                {
+                    "special": "Space"
+                },
+                {
+                    "special": "Title",
+                    "special_data": "Internal Visualisation"
+                }
+            ]
+        },
+        {
+            "name": "Zoom",
+            "key": "Zoom",
+            "description": "Controls the zoom level of the internal visualisation.",
+            "type": {
+                "type": "number",
+                "min": 1,
+                "max": 10,
+                "step": 1
+            }
+        },
+        {
+            "name": "Enable",
+            "key": "InternalVisualisation",
+            "description": "Whether to render the internal visualisation of the map. Useful if you are not sending the external data.",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "specials": [
+                {
+                    "special": "Space"
+                },
+                {
+                    "special": "Space"
+                },
+                {
+                    "special": "Space"
+                },
+                {
+                    "special": "Title",
+                    "special_data": "External Visualisation"
+                }
+            ]
+        },
+        {
+            "name": "Render Distance",
+            "key": "ExternalDataRenderDistance",
+            "description": "This will set the max distance of the data send to other plugins. Assuming it is allowed by the plugin.",
+            "type": {
+                "type": "number",
+                "min": 0,
+                "max": 1000,
+                "step": 50
+            }
+        },
+        {
+            "name": "Show AR data",
+            "key": "SendARData",
+            "description": "This will show the roads over your game, you need to enable the AR plugin too.",
+            "type": {
+                "type": "boolean"
+            }
+        }
+    ]
 }
