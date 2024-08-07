@@ -74,6 +74,10 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 		</>
 	}
 
+	const SpaceRenderer = (data:string) => {
+		return <div className="h-4"></div>
+	}
+
 	const SpecialsRenderer = (data:any) => {
 		console.log(data)
 		return <div>
@@ -82,6 +86,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 					{special.special == "Title" && TitleRenderer(special.special_data)}
 					{special.special == "Description" && DescriptionRenderer(special.special_data)}
 					{special.special == "Separator" && SeparatorRenderer()}
+					{special.special == "Space" && SpaceRenderer(special.special_data)}
 				</div>
 			))}
 		</div>
@@ -112,7 +117,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				const suffix = data.type.suffix && data.type.suffix || ""
 				return ( // Add return statement here
 					<div className="flex flex-col gap-2">
-						<h4>{data.name} - {defaultValue}{suffix}</h4>
+						<h4>{data.name}  —  {defaultValue}{suffix}</h4>
 						<Slider min={data.type.min} max={data.type.max} defaultValue={[defaultValue]} step={step} onValueCommit={(value) => {
 							SetSettingByKey(plugin, data.key, value[0], ip).then(() => {
 								mutate("settings")
