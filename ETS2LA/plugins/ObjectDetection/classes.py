@@ -12,7 +12,7 @@ class Vehicle:
         self.id = id
         self.speed = speed
     
-    def json(self):
+    def json(self) -> dict:
         return {
             "raycasts": [raycast.json() for raycast in self.raycasts],
             "screenPoints": self.screenPoints,
@@ -20,3 +20,6 @@ class Vehicle:
             "speed": self.speed,
             "id": self.id
         }
+        
+    def __str__(self) -> str:
+        return f"{self.vehicleType} with id {self.id} and speed {self.speed}"
