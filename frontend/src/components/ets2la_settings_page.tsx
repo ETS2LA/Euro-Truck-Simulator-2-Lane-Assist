@@ -74,7 +74,14 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 		</>
 	}
 
-	const SpaceRenderer = (data:string) => {
+	const SpaceRenderer = (data:number) => {
+		if (data) {
+			return <div>
+				{Array(data).fill(0).map((_, index) => (
+					<div key={index} className="h-1"></div>
+				))}
+			</div>
+		}
 		return <div className="h-4"></div>
 	}
 

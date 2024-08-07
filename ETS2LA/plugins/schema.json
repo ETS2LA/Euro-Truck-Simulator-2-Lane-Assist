@@ -62,7 +62,7 @@
                                     "enum": ["Title", "Description", "Separator", "Space"]
                                 },
                                 "special_data": {
-                                    "type": "string",
+                                    "type": ["integer", "string"],
                                     "description": "The special data."
                                 }
                             }

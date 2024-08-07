@@ -44,13 +44,8 @@
         {
             "specials": [
                 {
-                    "special": "Space"
-                },
-                {
-                    "special": "Space"
-                },
-                {
-                    "special": "Space"
+                    "special": "Space",
+                    "special_data": 12
                 },
                 {
                     "special": "Title",
@@ -80,13 +75,8 @@
         {
             "specials": [
                 {
-                    "special": "Space"
-                },
-                {
-                    "special": "Space"
-                },
-                {
-                    "special": "Space"
+                    "special": "Space",
+                    "special_data": 12
                 },
                 {
                     "special": "Title",
