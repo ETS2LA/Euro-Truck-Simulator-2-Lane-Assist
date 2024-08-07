@@ -42,6 +42,89 @@
             "items": {
                 "name": ["Windows", "Linux", "MacOS"]
             }
+        },
+        "settings": {
+            "type": "array",
+            "description": "Settings data to display on the frontend",
+            "items": {
+                "type": "object",
+                "description": "A setting in the settings file.",
+                "properties": {
+                    "specials": {
+                        "type": "array",
+                        "description": "Special stuff that's not actually settings.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "special": {
+                                    "type": "string",
+                                    "description": "The special type."
+                                },
+                                "special_data": {
+                                    "type": "string",
+                                    "description": "The special data."
+                                }
+                            }
+                        }
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the setting."
+                    },
+                    "key": {
+                        "type": "string",
+                        "description": "The setting key in the settings file."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "The description of the setting."
+                    },
+                    "requires_restart": {
+                        "type": "boolean",
+                        "description": "Whether the setting requires a restart to take effect."
+                    },
+                    "type": {
+                        "type": "object",
+                        "description": "The type of the setting.",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "The name of the setting type.",
+                                "enum": ["string", "number", "boolean", "array", "object", "enum"]
+                            },
+                            "options": {
+                                "type": "array",
+                                "description": "If applicable (enum), the options for the setting.",
+                                "items": {
+                                    "data": "string"
+                                }
+                            },
+                            "value_type":
+                            {
+                                "type": "string",
+                                "description": "If applicable (array), the type of the values in the array.",
+                                "enum": ["text", "number", "email", "url"]
+                            },
+                            "min": {
+                                "type": "number",
+                                "description": "If applicable (number), the minimum value for the setting. Having both min and max will create a slider."
+                            },
+                            "max": {
+                                "type": "number",
+                                "description": "If applicable (number), the maximum value for the setting. Having both min and max will create a slider."
+                            },
+                            "step": {
+                                "type": "number",
+                                "description": "If applicable (number), the step value for the setting."
+                            },
+                            "suffix": {
+                                "type": "string",
+                                "description": "If applicable (number), the suffix for the setting. (for example set to % for a percentage)"
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

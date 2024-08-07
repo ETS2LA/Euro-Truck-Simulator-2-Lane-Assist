@@ -245,9 +245,12 @@ def ChangeKeybind(name:str, callback=None):
         window.geometry(f"+{int(window_x)}+{int(window_y)}")
     window.resizable(False, False)
     window.configure(bg=BackgroundColor)
+    window.update()
     window.grab_set()
     window.focus_set()
-    window.update()
+
+    # Focus to the new window
+    window.focus_force()
 
     if os.name == "nt":
         from ctypes import windll, byref, sizeof, c_int

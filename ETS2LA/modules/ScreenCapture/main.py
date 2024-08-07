@@ -1,6 +1,7 @@
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 import ETS2LA.variables as variables
+from typing import Literal
 import numpy as np
 import cv2
 import mss
@@ -9,6 +10,7 @@ runner:PluginRunner = None
 
 sct = mss.mss()
 display = settings.Get("ScreenCapture", "display", 0)
+mode: Literal["continuous", "grab"] = "grab"
 monitor = sct.monitors[(display + 1)]
 monitor_x1 = monitor["left"]
 monitor_y1 = monitor["top"]
@@ -37,13 +39,14 @@ def CreateCam(CamSetupDisplay:int = display):
         except:
             pass
         cam = bettercam.create(output_idx=CamSetupDisplay)
-        #cam.start()
+        if mode == "continuous":
+            cam.start()
     else:
         global display
         display = CamSetupDisplay + 1
         
 def Initialize():
-    CreateCam()
+    ... # CreateCam()
 
 if variables.OS == "nt":
     def run(imgtype:str = "both"):
@@ -52,20 +55,32 @@ if variables.OS == "nt":
         try:
             if cam == None:
                 CreateCam()
-            #mg = np.array(img)
             # return the requestet image, only crop when needed
             if imgtype == "both":
-                img = cam.grab()
+                if mode == "continuous":
+                    img = cam.get_latest_frame()
+                else:
+                    img = cam.grab()
                 croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
                 return croppedImg, img
             elif imgtype == "cropped":
-                croppedImg = cam.grab(region=(monitor_x1, monitor_y1, monitor_x2, monitor_y2))
+                if mode == "continuous":
+                    img = cam.get_latest_frame()
+                    croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                else:
+                    croppedImg = cam.grab(region=(monitor_x1, monitor_y1, monitor_x2, monitor_y2))
                 return croppedImg
             elif imgtype == "full":
-                img = cam.grab()
+                if mode == "continuous":
+                    img = cam.get_latest_frame()
+                else:
+                    img = cam.grab()
                 return img
             else:
-                img = cam.grab()
+                if mode == "continuous":
+                    img = cam.get_latest_frame()
+                else:
+                    img = cam.grab()
                 croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
                 return croppedImg, img
         except:

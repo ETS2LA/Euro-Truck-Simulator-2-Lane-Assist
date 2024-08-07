@@ -44,7 +44,8 @@ export default function Home({ ip }: { ip: string }) {
     for (const key in data) {
         // Check if the key is a number
         if (isNaN(parseInt(key))){
-            console.log(key)
+            if(key == "Global" || key == "global_json")
+                continue
             plugins.push(key)
         }
     }

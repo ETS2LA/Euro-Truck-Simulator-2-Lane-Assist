@@ -29,13 +29,20 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 runner:PluginRunner = None
-MODE : Literal["performance", "quality"] = settings.Get("ObjectDetection", "mode", "performance")
-YOLO_FPS : int = settings.Get("ObjectDetection", "yolo_fps", 2)
-MODEL_TYPE : Literal["yolov5", "yolov7"] = settings.Get("ObjectDetection", "model", "yolov5")
-MODEL_NAME : str = "5-31-24_1_yolov7.pt" if MODEL_TYPE == "yolov7" else "best_v5s.pt"
-LOADING_TEXT : str = "Vehicle Detection loading model..."
-USE_EXTERNAL_VISUALIZATION : bool = True
-TRACK_SPEED : list = ["car", "van", "bus", "truck"]
+MODE: Literal["Performance", "Quality"] = \
+    settings.Get("ObjectDetection", "mode", "Performance")
+YOLO_FPS: int = \
+    settings.Get("ObjectDetection", "yolo_fps", 2)
+MODEL_TYPE: Literal["YoloV5", "YoloV7"] = \
+    settings.Get("ObjectDetection", "model", "YoloV5")
+MODEL_NAME: str = \
+    "5-31-24_1_yolov7.pt" if MODEL_TYPE == "YoloV7" else "best_v5s.pt"
+LOADING_TEXT: str = \
+    "Vehicle Detection loading model..."
+USE_EXTERNAL_VISUALIZATION: bool = \
+    True
+TRACK_SPEED: list = \
+    ["car", "van", "bus", "truck"]
 
 
 def Initialize():
@@ -49,6 +56,7 @@ def Initialize():
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
+    ScreenCapture.mode = "grab"
     Raycast = runner.modules.Raycasting
     
     screen = screeninfo.get_monitors()[0]
@@ -90,9 +98,9 @@ def Initialize():
 
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
     
-    if MODEL_TYPE == "yolov7":
+    if MODEL_TYPE == "YoloV7":
         model = torch.hub.load('WongKinYiu/yolov7', 'custom', path=MODEL_PATH, _verbose=False)
-    elif MODEL_TYPE == "yolov5":
+    elif MODEL_TYPE == "YoloV5":
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
     model.conf = 0.70
     model.to(device)
@@ -125,7 +133,7 @@ def detection_thread():
         cur_yolo_fps = round(1 / (time.time() - startTime), 1)
     
 import threading
-if MODE == "performance":
+if MODE == "Performance":
     threading.Thread(target=detection_thread, daemon=True).start()
 
 trackers = []
@@ -143,7 +151,7 @@ def create_trackers(boxes, frame):
 
 # Use openCV to track the boxes
 last_boxes = None
-def track_cars(last_track, boxes, frame):
+def track_cars(boxes, frame):
     global last_boxes, trackers
     
     if type(boxes) is type(None):
@@ -180,13 +188,13 @@ def track_cars(last_track, boxes, frame):
 
     return updated_boxes
 
-if MODE == "performance":
+if MODE == "Performance":
     tracker = Tracker(
         distance_function="euclidean",
         distance_threshold=100,
         hit_counter_max=1
     )
-elif MODE == "quality":
+elif MODE == "Quality":
         tracker = Tracker(
         distance_function="euclidean",
         distance_threshold=100,
@@ -226,7 +234,7 @@ def plugin():
     yolo_frame = frame.copy()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
-    if MODE == "quality" and frameCounter % YOLO_FPS == 0:
+    if MODE == "Quality" and frameCounter % YOLO_FPS == 0:
         results = model(yolo_frame)
         boxes = results.pandas().xyxy[0]
         frameCounter = 0
@@ -234,8 +242,8 @@ def plugin():
 
     trackTime = time.time()
     
-    if MODE == "performance":
-        tracked_boxes = track_cars(last_boxes, boxes, yolo_frame)
+    if MODE == "Performance":
+        tracked_boxes = track_cars(boxes, yolo_frame)
         
         if type(tracked_boxes) != None:
             norfair_detections = []
@@ -253,11 +261,11 @@ def plugin():
                 
                 tracked_boxes = tracker.update(norfair_detections)
             except:
-                tracker_boxes = tracker.update()
+                tracked_boxes = tracker.update()
         else:
             tracked_boxes = tracker.update()
             
-    elif MODE == "quality":
+    elif MODE == "Quality":
         if frameCounter == 0: # We updated the boxes in the previous frame
             norfair_detections = []
             for _, box in boxes.iterrows():

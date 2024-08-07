@@ -14,7 +14,7 @@ import { Slider } from "@/components/ui/slider"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
-import { GetSettingsJSON, SetSettingByKey } from "@/pages/settings"
+import { GetSettingsJSON, SetSettingByKey } from "@/pages/settingsServer"
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";

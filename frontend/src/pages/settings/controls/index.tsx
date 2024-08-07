@@ -26,14 +26,14 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "sonner"
 import useSWR from "swr"
 import { mutate } from "swr"
-import { GetSettingsJSON, TriggerControlChange, UnbindControl } from "@/pages/settings"
+import { GetSettingsJSON, TriggerControlChange, UnbindControl } from "@/pages/settingsServer"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/router"
 import { Gauge, LineChart } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
-export default function Home({ ip }: { ip: string }) {
+export default function ControlsPage({ ip }: { ip: string }) {
     const { push } = useRouter()
     const {data, error, isLoading} = useSWR("controls", () => GetSettingsJSON("ETS2LA%5Cbackend%5Csettings%5Ccontrols.json", ip));
     if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="font-semibold text-xs text-stone-400">Loading...</p></Card>
@@ -49,8 +49,8 @@ export default function Home({ ip }: { ip: string }) {
     }
 
     return (
-        <div className="flex space-x-3">
-            <Card className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 h-[calc(100vh-72px)] overflow-auto auto-rows-min w-full">
+        <div className="flex space-x-3 font-sans">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 h-full overflow-auto auto-rows-min w-full">
                 {controls.map((control:any) => (
                     <Card key={control} id={control} className="flex flex-col justify-between">
                         <CardHeader className="gap-1">
@@ -75,6 +75,7 @@ export default function Home({ ip }: { ip: string }) {
                                     loading: "Changing keybind...",
                                     success: "Keybind changed successfully!",
                                     error: "Failed to change keybind.",
+                                    description: "Remember click the window that popped up.",
                                     duration: 1000,
                                     onAutoClose: () => mutate("controls"),
                                     onDismiss: () => mutate("controls")
@@ -93,7 +94,7 @@ export default function Home({ ip }: { ip: string }) {
                         </CardFooter>
                     </Card>
                 ))}
-            </Card>
+            </div>
         </div>
     )
 }

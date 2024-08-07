@@ -1,14 +1,53 @@
 {
+    "$schema": "../schema.json",
     "name": "ObjectDetection",
-    "authors": [{
+    "authors": [
+    {
         "name": "DylDev",
         "url": "https://github.com/DylDevs",
         "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
-    }],
+    }, 
+    {
+        "name": "Tumppi066",
+        "url": "https://github.com/Tumppi066",
+        "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
+    }
+    ],
     "description": "Detects various objects using computer vision and can display them in an output window and 3D visualization.",
     "version": "1.0",
     "dependencies": [],
     "modules": ["ScreenCapture", "ShowImage", "Raycasting", "TruckSimAPI"],
     "compatible": ["Windows", "Linux", "MacOS"],
-    "max_fps": 60
+    "max_fps": 60,
+    "settings": [
+        {
+            "name": "Mode",
+            "key": "mode",
+            "description": "The object detection mode you want to use. Please note that quality mode requires a powerful PC to run well.",
+            "requires_restart": true,
+            "type": {
+                "type": "enum",
+                "options": ["Performance", "Quality"]
+            }
+        },
+        {
+            "name": "YOLO Speed",
+            "key": "yolo_fps",
+            "description": "The refresh rate of the YOLO model. Higher values will update detections faster. In performance mode this is FPS, quality mode it's frames between detections. Please note that values above 2 for performance mode might not work as expected.",
+            "requires_restart": true,
+            "type": {
+                "type": "number"
+            }
+        },
+        {
+            "name": "Model architecture",
+            "key": "model",
+            "description": "The model architecture you want to use. Please note that YoloV7 needs more power.",
+            "requires_restart": true,
+            "type": {
+                "type": "enum",
+                "options": ["YoloV5", "YoloV7"]
+            }
+        }
+    ]
 }

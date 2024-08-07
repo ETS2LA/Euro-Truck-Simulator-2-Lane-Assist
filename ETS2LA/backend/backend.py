@@ -230,6 +230,10 @@ def GetAvailablePlugins():
                 "dependencies": "None"
             }
 
+    AVAILABLE_PLUGINS["Global"] = {
+        "file": json.loads(open("ETS2LA/global_settings.json", "r").read())
+    }
+
     return AVAILABLE_PLUGINS
 
 ENABLED_PLUGINS = []

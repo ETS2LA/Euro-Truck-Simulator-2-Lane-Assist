@@ -5,7 +5,7 @@ import time
 lastPositionArray = {
     # id : 
     #   xyz: [x, y, z]
-    #   speed: float
+    #   speed: SmoothedValue
 }
 
 def GetVehicleSpeed(id) -> float:

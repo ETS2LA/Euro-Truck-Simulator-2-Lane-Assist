@@ -14,7 +14,7 @@ import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp,
     Terminal, ListTodo, Users, TextSearch} from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, 
     DisablePlugin, EnablePlugin, RestartBackend, ColorTitleBar } from "@/pages/backend"
-import { SetSettingByKey } from "@/pages/settings";
+import { SetSettingByKey } from "@/pages/settingsServer";
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la_immediate_server"
@@ -39,8 +39,8 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
     } 
     const plugins:string[] = [];
     for (const key in data) {
-        //console.log(key)
-        plugins.push(key)
+        if(key !== "Global" && key !== "global_json")
+            plugins.push(key)
     }
     // Get the first characters of the plugin strings
     const pluginChars = plugins ? plugins.map((plugin) => plugin.charAt(0)) : [];
@@ -256,8 +256,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                     </div>
                 </MenubarTrigger>
                 <MenubarContent>
-                    <MenubarItem onClick={() => push("/settings/global")}>Global</MenubarItem>
-                    <MenubarItem onClick={() => push("/settings/controls")}>Controls</MenubarItem>
+                    <MenubarItem onClick={() => push("/settings")}>Settings</MenubarItem>
                 </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>

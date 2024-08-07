@@ -1,5 +1,6 @@
 from ETS2LA.plugins.runner import PluginRunner
 from ETS2LA.plugins.AR.main import ScreenLine
+from ETS2LA.plugins.ObjectDetection.classes import Vehicle
 import mouse
 import time
 import json
@@ -12,22 +13,6 @@ lastTime = time.time()
 def Initialize():
     global raycasting
     raycasting = runner.modules.Raycasting
-
-class Vehicle:
-    raycasts: list
-    screenPoints: list
-    vehicleType: str
-    def __init__(self, raycasts, screenPoints, vehicleType):
-        self.raycasts = raycasts
-        self.screenPoints = screenPoints
-        self.vehicleType = vehicleType
-    
-    def json(self):
-        return {
-            "raycasts": [raycast.json() for raycast in self.raycasts],
-            "screenPoints": self.screenPoints,
-            "vehicleType": self.vehicleType
-        }
 
 clearLines = 50
 def plugin():

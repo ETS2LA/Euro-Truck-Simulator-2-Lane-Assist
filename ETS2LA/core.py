@@ -6,6 +6,7 @@ import ETS2LA.frontend.webpage as webpage
 import ETS2LA.networking.godot as godot
 import ETS2LA.networking.cloud as cloud
 import ETS2LA.backend.events as events
+import ETS2LA.backend.sounds as sounds
 import ETS2LA.variables as variables
 from ETS2LA.utils.logging import *
 import rich
@@ -20,6 +21,7 @@ godot.run()      # Godot server for the visualisation
 webpage.run()    # Webview to the website.
 events.run()     # Event handlers
 controls.run()   # Control handlers
+sounds.UpdateGlobalSoundpackJson()  # Update the soundpacks in the global settings definition file for the UI
 
 logging.info("ETS2LA backend has been started successfully.")
 

@@ -33,13 +33,16 @@ for i in range(len(SOUNDPACKS)):
 
 SOUNDPACKS = temp        
 SELECTED_SOUNDPACK = settings.Get("global", "soundpack", "default")
-VOLUME = settings.Get("global", "volume", 0.5)
+VOLUME = settings.Get("global", "volume", 50)
         
 pygame.init()
 
+def UpdateGlobalSoundpackJson():
+    settings.Set("ETS2LA/global_settings.json", ["settings", 1, "type", "options"], SOUNDPACKS)
+
 def UpdateVolume():
     global VOLUME
-    VOLUME = settings.Get("global", "volume", 0.5)
+    VOLUME = settings.Get("global", "volume", 50) / 100
 
 def GetFilenameForSound(sound: str):
     sounds = os.listdir(SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK)

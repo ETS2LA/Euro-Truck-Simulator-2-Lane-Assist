@@ -24,6 +24,7 @@ uvicorn
 pillow
 psutil
 pygame
+sv_ttk
 mouse
 scipy
 numpy

@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import ShowImage from "@/pages/modules/ShowImage"
 
-import { GetSettingsJSON, SetSettingByKey } from "@/pages/settings"
+import { GetSettingsJSON, SetSettingByKey } from "@/pages/settingsServer"
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
