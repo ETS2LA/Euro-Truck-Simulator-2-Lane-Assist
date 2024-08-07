@@ -109,9 +109,10 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 			if (data.type.min !== undefined && data.type.max !== undefined) { // Ensure min and max are not undefined
 				const defaultValue = pluginSettings[data.key] && parseFloat(pluginSettings[data.key]) || 0
 				const step = data.type.step && data.type.step || 1
+				const suffix = data.type.suffix && data.type.suffix || ""
 				return ( // Add return statement here
 					<div className="flex flex-col gap-2">
-						<h4>{data.name} - {defaultValue}</h4>
+						<h4>{data.name} - {defaultValue}{suffix}</h4>
 						<Slider min={data.type.min} max={data.type.max} defaultValue={[defaultValue]} step={step} onValueCommit={(value) => {
 							SetSettingByKey(plugin, data.key, value[0], ip).then(() => {
 								mutate("settings")

@@ -116,6 +116,10 @@
                             "step": {
                                 "type": "number",
                                 "description": "If applicable (number), the step value for the setting."
+                            },
+                            "suffix": {
+                                "type": "string",
+                                "description": "If applicable (number), the suffix for the setting. (for example set to % for a percentage)"
                             }
                         }
                     }
