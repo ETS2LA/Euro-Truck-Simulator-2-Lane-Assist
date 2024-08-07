@@ -130,7 +130,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				return (
 					<div className="flex flex-col gap-2">
 						<h4>{data.name}</h4>	
-						<Input type="number" placeholder={pluginSettings[data.key]} onChange={(e) => {
+						<Input type="number" placeholder={pluginSettings[data.key]} className="font-customMono" onChange={(e) => {
 							SetSettingByKey(plugin, data.key, parseFloat(e.target.value), ip).then(() => {
 								mutate("settings");
 								toast.success("Updated setting.", {
@@ -167,8 +167,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				<p className="text-xs text-muted-foreground">{data.description}</p>
 				<div className="pt-2 flex flex-col gap-2">
 					{pluginSettings[data.key] && pluginSettings[data.key].map((value:any, index:number) => (
-						<div key={index} className="flex gap-2">
-							<Input type={data.type.value_type && data.type.value_type || "text"} placeholder={value} onChange={(e) => {
+						<div key={index} className="flex gap-2 items-center">
+							<Input type={data.type.value_type && data.type.value_type || "text"} className="font-customMono" placeholder={value} onChange={(e) => {
 								let newSettings = [...pluginSettings[data.key]]
 								if (data.type.value_type == "number") {
 									newSettings[index] = parseFloat(e.target.value)
@@ -198,6 +198,14 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 					<Button variant={"outline"} className="text-xs h-8 p-3" onClick={() =>
 						{
 							if (data.type.value_type == "number") {
+								if (!pluginSettings[data.key] || pluginSettings[data.key].length == 0) {
+									SetSettingByKey(plugin, data.key, [0], ip).then(() => {
+										mutate("settings")
+										toast.success("Added new element to array.", {
+											duration: 500
+										})
+									})
+								}
 								SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], 0], ip).then(() => {
 									mutate("settings")
 									toast.success("Added new element to array.", {
@@ -205,6 +213,14 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 									})
 								})
 							} else {
+								if (!pluginSettings[data.key] || pluginSettings[data.key].length == 0) {
+									SetSettingByKey(plugin, data.key, [""], ip).then(() => {
+										mutate("settings")
+										toast.success("Added new element to array.", {
+											duration: 500
+										})
+									})
+								}
 								SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], ""], ip).then(() => {
 									mutate("settings")
 									toast.success("Added new element to array.", {
@@ -216,7 +232,6 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 					}> 
 						Add Element
 					</Button>
-					
 				</div>
 			</div>
 		}
