@@ -53,10 +53,10 @@ export default function Home({ ip }: { ip: string }) {
         <div className="h-full font-customSans">
             <div className="flex flex-col gap-2 p-5 pt-2">
                 <h2>Settings</h2>
-                <p className="text-muted-foreground">Manage your settings.</p>
+                
                 <Separator className="translate-y-4" />
             </div>
-            <div className="h-full pt-4 p-1 max-h-[calc(100vh-174px)]">
+            <div className="h-full pt-4 p-1 max-h-[calc(100vh-150px)]">
                 <ResizablePanelGroup direction="horizontal" className="text-center gap-8 pr-4 h-full">
                     <ResizablePanel defaultSize={20}>
                         <ScrollArea className="h-full" type="hover">
