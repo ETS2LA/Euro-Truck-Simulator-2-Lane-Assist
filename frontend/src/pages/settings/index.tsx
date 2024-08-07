@@ -25,6 +25,7 @@ export default function Home({ ip }: { ip: string }) {
     const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
     const { data: global, error: globalsError, isLoading: globalsLoading } = useSWR("globals", () => GetSettingsJSON("global_json", ip));
     const [selectedPlugin, setSelectedPlugin] = useState("Global")
+    const [scrolledDown, setScrolledDown] = useState(false)
 
     const plugins:string[] = [];
     for (const key in data) {
@@ -55,10 +56,10 @@ export default function Home({ ip }: { ip: string }) {
                 <h2>Settings</h2>
                 <Separator className="translate-y-4" />
             </div>
-            <div className="h-full pt-4 p-1 max-h-[calc(100vh-150px)]">
+            <div className="h-full pt-0 p-1 max-h-[calc(100vh-132px)]">
                 <ResizablePanelGroup direction="horizontal" className="text-center gap-8 pr-4 h-full">
                     <ResizablePanel defaultSize={20}>
-                        <ScrollArea className="h-full" type="hover">
+                        <ScrollArea className="h-full pt-4" type="hover">
                             <div className="flex flex-col gap-2 text-start">
                                 <Button key={"Global"} className="items-center justify-start text-sm" variant={selectedPlugin == "Global" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Global")}>
                                     Global
@@ -80,12 +81,15 @@ export default function Home({ ip }: { ip: string }) {
                             </div>
                         </ScrollArea>
                     </ResizablePanel>
-                    <ResizablePanel defaultSize={80} className="h-full w-full">
+                    <ResizablePanel defaultSize={80} className="h-full w-full relative">
                         <ScrollArea className="h-full" type="hover">
+                            <div className="h-4" />
                             {renderPluginPage()}
                         </ScrollArea>
+                        <div className="absolute h-4 top-0 left-0 right-0 bg-gradient-to-b from-background pointer-events-none" />
                     </ResizablePanel>
                 </ResizablePanelGroup>
+                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background pointer-events-none" />
             </div>
         </div>
     )
