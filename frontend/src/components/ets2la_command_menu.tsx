@@ -34,11 +34,13 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
         if (isLoading) return null
         if (error) return null
         for (const key in data) {
-            plugins.push(key)
-            if ((data as any)[key]["enabled"] == false) {
-                disabledPlugins.push(key)
-            } else {
-                enabledPlugins.push(key)
+            if(key != "Global" && key != "global_json"){
+                plugins.push(key)
+                if ((data as any)[key]["enabled"] == false) {
+                    disabledPlugins.push(key)
+                } else {
+                    enabledPlugins.push(key)
+                }
             }
         }
     }

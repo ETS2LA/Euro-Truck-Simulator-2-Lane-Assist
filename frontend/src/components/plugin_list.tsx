@@ -32,6 +32,8 @@ export default function PluginList({ ip }: { ip: string }) {
     )
 
     for (const key in data) {
+        if(key == "Global" || key == "global_json")
+            continue
         plugins.push(key)
         if ((data as any)[key]["enabled"] == false) {
             disabledPlugins.push(key)
