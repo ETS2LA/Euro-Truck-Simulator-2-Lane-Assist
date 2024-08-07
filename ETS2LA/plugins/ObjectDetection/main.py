@@ -253,7 +253,7 @@ def plugin():
                 
                 tracked_boxes = tracker.update(norfair_detections)
             except:
-                tracker_boxes = tracker.update()
+                tracked_boxes = tracker.update()
         else:
             tracked_boxes = tracker.update()
             
