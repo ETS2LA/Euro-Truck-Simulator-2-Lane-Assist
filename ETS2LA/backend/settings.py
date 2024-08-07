@@ -7,8 +7,10 @@ import random
 def GetFilename(plugin):
     if "/" in plugin or "\\" in plugin:
         filename = plugin
-    elif plugin == "global":
+    elif plugin == "global" or plugin == "Global":
         filename = "ETS2LA/global.json"
+    elif plugin == "global_settings":
+        filename = "ETS2LA/global_settings.json"
     else: 
         filename = "ETS2LA/plugins/" + plugin + "/settings.json"
     

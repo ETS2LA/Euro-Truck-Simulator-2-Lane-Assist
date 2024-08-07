@@ -16,6 +16,8 @@ import { Button } from '@/components/ui/button';
 import useSWR from 'swr';
 import Loader from '@/components/ets2la_loader';
 import Head from 'next/head';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -198,57 +200,59 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const isInBasicMode = routerUseRouter().pathname.includes("basic");
 
   return (
-    <div className={isInBasicMode ? "overflow-hidden" : "overflow-hidden p-3"}>
-      <Head>
-        <link rel="icon" href="https://wiki.tumppi066.fi/assets/favicon.ico" />
-      </Head>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-      >
-        {
-          !isInBasicMode ? <ETS2LAMenubar ip={ip} onLogout={() =>{
-            toast.success("Logged out")
-            localStorage.setItem('token', "");
-            SetToken("") // Having two setTokens
-            setToken("")
-          }} /> : null
-        }
-        <div className={isInBasicMode ? "" : "py-3"}>
-          <ContextMenu>
-            <ContextMenuTrigger className="h-full">
-              <Component {...newPageProps} ip={ip} />
-            </ContextMenuTrigger>
-            <ContextMenuContent className="w-64">
-              <ContextMenuItem onClick={router.back}>
-                Back
-                <ContextMenuShortcut>⌘B</ContextMenuShortcut>
-              </ContextMenuItem>
-              <ContextMenuItem onClick={router.forward}>
-                  Forward
-                <ContextMenuShortcut>⌘F</ContextMenuShortcut>
-              </ContextMenuItem>
-              <ContextMenuItem onClick={reloadPage}>
-                  Reload
-                  <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-              </ContextMenuItem>
-              {isInBasicMode ? 
-                <ContextMenuItem onClick={() => router.push("/")}>
-                    Return to normal mode
-                </ContextMenuItem> :
-                <ContextMenuItem onClick={() => router.push("/basic")}>
-                    Enter basic mode
+    <main className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <div className={isInBasicMode ? "overflow-hidden" : "overflow-hidden p-3 h-[calc(100vh)]"}>
+        <Head>
+          <link rel="icon" href="https://wiki.tumppi066.fi/assets/favicon.ico" />
+        </Head>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {
+            !isInBasicMode ? <ETS2LAMenubar ip={ip} onLogout={() =>{
+              toast.success("Logged out")
+              localStorage.setItem('token', "");
+              SetToken("") // Having two setTokens
+              setToken("")
+            }} /> : null
+          }
+          <div className={isInBasicMode ? "" : "pt-3 pb-9 h-full"}>
+            <ContextMenu>
+              <ContextMenuTrigger className="h-full">
+                <Component {...newPageProps} ip={ip} />
+              </ContextMenuTrigger>
+              <ContextMenuContent className="w-64">
+                <ContextMenuItem onClick={router.back}>
+                  Back
+                  <ContextMenuShortcut>⌘B</ContextMenuShortcut>
                 </ContextMenuItem>
-              }
-            </ContextMenuContent>
-          </ContextMenu>
-        </div>
-        <ETS2LAStates ip={ip} />
-        <ETS2LACommandMenu ip={ip} />
-        <Toaster position={!isInBasicMode ? 'bottom-center' : 'bottom-left'}/>
-      </ThemeProvider>
-    </div>
+                <ContextMenuItem onClick={router.forward}>
+                    Forward
+                  <ContextMenuShortcut>⌘F</ContextMenuShortcut>
+                </ContextMenuItem>
+                <ContextMenuItem onClick={reloadPage}>
+                    Reload
+                    <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+                </ContextMenuItem>
+                {isInBasicMode ? 
+                  <ContextMenuItem onClick={() => router.push("/")}>
+                      Return to normal mode
+                  </ContextMenuItem> :
+                  <ContextMenuItem onClick={() => router.push("/basic")}>
+                      Enter basic mode
+                  </ContextMenuItem>
+                }
+              </ContextMenuContent>
+            </ContextMenu>
+          </div>
+          <ETS2LAStates ip={ip} />
+          <ETS2LACommandMenu ip={ip} />
+          <Toaster position={!isInBasicMode ? 'bottom-center' : 'bottom-left'}/>
+        </ThemeProvider>
+      </div>
+    </main>
   );
 }

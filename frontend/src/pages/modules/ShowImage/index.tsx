@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { useSearchParams } from "next/navigation";
 
 
-import { GetSettingsJSON, SetSettingByKey, SetSettingByKeys } from "@/pages/settings"
+import { GetSettingsJSON, SetSettingByKey, SetSettingByKeys } from "@/pages/settingsServer"
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";

@@ -37,6 +37,9 @@ VOLUME = settings.Get("global", "volume", 0.5)
         
 pygame.init()
 
+def UpdateGlobalSoundpackJson():
+    settings.Set("ETS2LA/global_settings.json", ["settings", 1, "type", "options"], SOUNDPACKS)
+
 def UpdateVolume():
     global VOLUME
     VOLUME = settings.Get("global", "volume", 0.5)

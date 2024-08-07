@@ -1,0 +1,48 @@
+{
+    "$schema": "schema.json",
+    "name": "Example Plugin",
+    "authors": [{
+        "name": "Tumppi066",
+        "url": "https://github.com/Tumppi066",
+        "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
+    }],
+    "description": "This is an example plugin json file.",
+    "version": "1.0",
+    "modules": ["TruckSimAPI", "ShowImage", "Steering", "SDKController", "Raycasting"],
+    "max_fps": 20,
+    "COMMENT": "I built the username and email section from this site as an example : https://ui.shadcn.com/examples/forms",
+    "settings": [
+        {
+            "specials": [
+                {
+                    "special": "Title",
+                    "special_data": "Profile"
+                },
+                {
+                    "special": "Description",
+                    "special_data": "This is how others will see you on the site."
+                },
+                {
+                    "special": "Separator"
+                }
+            ]
+        },
+        {
+            "name": "Username",
+            "key": "username",
+            "description": "This is your public display name. It can be your real name or a pseudonym. You can only change this once every 30 days.",
+            "type": {
+                "type": "string"
+            }
+        },
+        {
+            "name": "Email",
+            "key": "email",
+            "description": "You can manage verified email addresses in your email settings",
+            "type": {
+                "type": "enum",
+                "options": ["m@example.com", "m@google.com", "m@support.com"]
+            }
+        }
+    ]
+}

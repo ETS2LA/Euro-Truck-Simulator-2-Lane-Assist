@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner";
 
-import { GetSettingsJSON } from "@/pages/settings"
+import { GetSettingsJSON } from "@/pages/settingsServer"
 import { PluginFunctionCall } from "@/pages/backend";
 
 import useSWR from "swr";

@@ -1,0 +1,73 @@
+{
+    "$schema": "plugins/schema.json",
+    "settings": [
+        {
+            "specials": [
+                {
+                    "special": "Title",
+                    "special_data": "Global Settings"
+                },
+                {
+                    "special": "Description",
+                    "special_data": "These are mostly settings that affect the entire application."
+                },
+                {
+                    "special": "Separator"
+                }
+            ]
+        },
+        {
+            "comment": "DO NOT MOVE THIS SETTING. IT NEEDS TO BE AT INDEX 1 IN THIS FILE!",
+            "name": "Soundpack",
+            "key": "soundpack",
+            "description": "The soundpack to use. These will change all the sounds for the app.",
+            "type": {
+                "type": "enum",
+                "options": ["default"]
+            }
+        },
+        {
+            "name": "Volume",
+            "key": "volume",
+            "description": "The volume of the sounds in the app.",
+            "type": {
+                "type": "number",
+                "min": 0,
+                "max": 1,
+                "step": 0.1
+            }
+        },
+        {
+            "name": "Frontend Port",
+            "key": "frontend_port",
+            "description": "The port the frontend runs on.",
+            "type": {
+                "type": "number"
+            }
+        },
+        {
+            "name": "Fancy Traceback",
+            "key": "use_fancy_traceback",
+            "description": "Whether to use a fancy traceback when an error occurs.",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "name": "Send Crash Reports",
+            "key": "send_crash_reports",
+            "description": "Whether to send crash reports to the developers.",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "name": "Debug Mode",
+            "key": "debug_mode",
+            "description": "Whether to enable debug mode when starting the UI.",
+            "type": {
+                "type": "boolean"
+            }
+        }
+    ]
+}
