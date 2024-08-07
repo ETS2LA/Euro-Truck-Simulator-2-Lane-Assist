@@ -21,6 +21,21 @@
     "max_fps": 60,
     "settings": [
         {
+            "specials": [
+                {
+                    "special": "Title",
+                    "special_data": "Object Detection Settings"
+                },
+                {
+                    "special": "Description",
+                    "special_data": "These settings will affect the quality and performance of the object detection."
+                },
+                {
+                    "special": "Separator"
+                }
+            ]
+        },
+        {
             "name": "Mode",
             "key": "mode",
             "description": "The object detection mode you want to use. Please note that quality mode requires a powerful PC to run well.",

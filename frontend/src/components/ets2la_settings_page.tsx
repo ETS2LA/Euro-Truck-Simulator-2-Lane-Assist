@@ -5,6 +5,7 @@ import { Separator } from "./ui/separator"
 import { set } from "date-fns"
 import { Input } from "./ui/input"
 import { GetSettingsJSON, SetSettingByKey, SetSettingByKeys } from "@/pages/settingsServer"
+import { DisablePlugin, EnablePlugin } from "@/pages/backend"
 import {
 	Select,
 	SelectContent,
@@ -28,11 +29,12 @@ import { useState } from "react"
 export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string }) {
 	const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
 	const { data: pluginSettings, error: pluginSettingsError, isLoading: pluginSettingsLoading } = useSWR("settings", () => GetSettingsJSON(plugin, ip))
-	const [tempValue, setTempValue] = useState(0)
+	const [needsRestart, setNeedsRestart] = useState(false)
 
 	// Update the settings when the plugin changes
 	useEffect(() => {
 		mutate("settings")
+		setNeedsRestart(false)
 	}, [plugin])
 
 	if (isLoading || pluginSettingsLoading) {
@@ -107,6 +109,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				<h4>{data.name}</h4>
 				<Input type="text" placeholder={pluginSettings[data.key]} onChange={(e) => {
 					SetSettingByKey(plugin, data.key, e.target.value, ip).then(() => {
+						if (data.requires_restart)
+							setNeedsRestart(true)
 						mutate("settings")
 						toast.success("Updated setting.", {
 							duration: 500
@@ -127,6 +131,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 						<h4>{data.name}  —  {defaultValue}{suffix}</h4>
 						<Slider min={data.type.min} max={data.type.max} defaultValue={[defaultValue]} step={step} onValueCommit={(value) => {
 							SetSettingByKey(plugin, data.key, value[0], ip).then(() => {
+								if (data.requires_restart)
+									setNeedsRestart(true)
 								mutate("settings")
 								toast.success("Updated setting.", {
 									duration: 500
@@ -144,6 +150,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 						<h4>{data.name}</h4>	
 						<Input type="number" placeholder={pluginSettings[data.key]} className="font-customMono" onChange={(e) => {
 							SetSettingByKey(plugin, data.key, parseFloat(e.target.value), ip).then(() => {
+								if (data.requires_restart)
+									setNeedsRestart(true)
 								mutate("settings");
 								toast.success("Updated setting.", {
 									duration: 500
@@ -164,6 +172,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				</div>
 				<Switch checked={pluginSettings[data.key] && pluginSettings[data.key] || false} onCheckedChange={(bool) => {
 					SetSettingByKey(plugin, data.key, bool, ip).then(() => {
+						if (data.requires_restart)
+							setNeedsRestart(true)
 						mutate("settings")
 						toast.success("Updated setting.", {
 							duration: 500
@@ -189,6 +199,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 									newSettings[index] = e.target.value
 								}
 								SetSettingByKeys(plugin, data.key, newSettings, ip).then(() => {
+									if (data.requires_restart)
+										setNeedsRestart(true)
 									mutate("settings")
 									toast.success("Updated array element.", {
 										duration: 500
@@ -199,6 +211,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 								let newSettings = [...pluginSettings[data.key]]
 								newSettings.splice(index, 1)
 								SetSettingByKeys(plugin, data.key, newSettings, ip).then(() => {
+									if (data.requires_restart)
+										setNeedsRestart(true)
 									mutate("settings")
 									toast.success("Removed array element." , {
 										duration: 500
@@ -212,6 +226,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 							if (data.type.value_type == "number") {
 								if (!pluginSettings[data.key] || pluginSettings[data.key].length == 0) {
 									SetSettingByKey(plugin, data.key, [0], ip).then(() => {
+										if (data.requires_restart)
+											setNeedsRestart(true)
 										mutate("settings")
 										toast.success("Added new element to array.", {
 											duration: 500
@@ -219,6 +235,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 									})
 								}
 								SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], 0], ip).then(() => {
+									if (data.requires_restart)
+										setNeedsRestart(true)
 									mutate("settings")
 									toast.success("Added new element to array.", {
 										duration: 500
@@ -227,6 +245,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 							} else {
 								if (!pluginSettings[data.key] || pluginSettings[data.key].length == 0) {
 									SetSettingByKey(plugin, data.key, [""], ip).then(() => {
+										if (data.requires_restart)
+											setNeedsRestart(true)
 										mutate("settings")
 										toast.success("Added new element to array.", {
 											duration: 500
@@ -234,6 +254,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 									})
 								}
 								SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], ""], ip).then(() => {
+									if (data.requires_restart)
+										setNeedsRestart(true)
 									mutate("settings")
 									toast.success("Added new element to array.", {
 										duration: 500
@@ -260,6 +282,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				<h4>{data.name}</h4>
 				<Select defaultValue={pluginSettings[data.key]} onValueChange={(value) => {
 					SetSettingByKey(plugin, data.key, value, ip).then(() => {
+						if (data.requires_restart)
+							setNeedsRestart(true)
 						mutate("settings")
 						toast.success("Updated setting.", {
 							duration: 500
@@ -285,7 +309,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 
 	return (
 		<TooltipProvider delayDuration={0}>
-			<div className="text-left flex flex-col w-full max-w-[calc(60vw-64px)] gap-6">
+			<div className="text-left flex flex-col w-full max-w-[calc(60vw-64px)] gap-6 relative">
 				{settings.map((setting:any, index:number) => (
 					<div key={index}>
 						{setting.specials && SpecialsRenderer(setting.specials)}
@@ -293,6 +317,19 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 					</div>
 				))}
 				<div className="h-12"></div>
+				{needsRestart && data[plugin]["enabled"] && <div className="absolute bottom-0 left-0 right-0 h-12 bg-red-950 border rounded-md text-sm font-customSans justify-center text-center flex">
+					<Button className="w-full h-full" variant="destructive" onClick={() => {
+						setNeedsRestart(false)
+						DisablePlugin(plugin, ip).then(() => {
+							EnablePlugin(plugin, ip).then(() => {
+								toast.success("Restart Successful", {
+									duration: 1000
+								})
+							})
+						})
+					}
+					}>Plugin needs a restart to update settings.</Button>
+				</div>}
 			</div>
 		</TooltipProvider>
 	)
