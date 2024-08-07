@@ -75,6 +75,7 @@ export default function ControlsPage({ ip }: { ip: string }) {
                                     loading: "Changing keybind...",
                                     success: "Keybind changed successfully!",
                                     error: "Failed to change keybind.",
+                                    description: "Remember click the window that popped up.",
                                     duration: 1000,
                                     onAutoClose: () => mutate("controls"),
                                     onDismiss: () => mutate("controls")
