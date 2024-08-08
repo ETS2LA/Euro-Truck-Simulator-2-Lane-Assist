@@ -340,10 +340,10 @@ def plugin():
                 middlePoint = ((firstRaycast.point[0] + secondRaycast.point[0]) / 2, (firstRaycast.point[1] + secondRaycast.point[1]) / 2, (firstRaycast.point[2] + secondRaycast.point[2]) / 2)
                 
                 vehicles.append(Vehicle(
-                    raycasts, 
-                    screenPoints, 
-                    line[2],
                     id,
+                    line[2],
+                    screenPoints, 
+                    raycasts, 
                     speed=UpdateVehicleSpeed(id, middlePoint)
                 ))
         except:
@@ -408,8 +408,10 @@ def plugin():
             except:
                 continue
     
-    frameCounter += 1
+    vehicles = [vehicle.json() for vehicle in vehicles]
     
+    frameCounter += 1
+
     return None, {
         "vehicles": vehicles,
         "ar": arData

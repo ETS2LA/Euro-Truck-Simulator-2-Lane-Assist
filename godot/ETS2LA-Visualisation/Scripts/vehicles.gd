@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 		var vehicleData = Sockets.data["JSONvehicles"].data
 		if vehicleData != null:
 			for vehicle in vehicleData:
-				var type = vehicle["vehicleType"]
+				var type = vehicle["objectType"]
 				var x1 = float(vehicle["raycasts"][0]["point"][0])
 				var y1 = float(vehicle["raycasts"][0]["point"][1])
 				var z1 = float(vehicle["raycasts"][0]["point"][2])

@@ -25,7 +25,7 @@ def UpdateVehicleSpeed(id, position) -> float:
         timeDifference = currentTime - lastTime
         speed = distance / timeDifference
         lastPositionArray[id]["xyz"] = position
-        lastPositionArray[id]["speed"](speed)
+        speed = lastPositionArray[id]["speed"](speed)
         lastPositionArray[id]["time"] = currentTime
         #print(f"Speed: {speed}, Distance: {distance}")
         return speed

@@ -73,6 +73,7 @@ lastVehicles = [""]
 lastVehicleString = ""
 def vehicles(data):
     global lastVehicles, lastVehicleString
+    
     if data["vehicles"] == lastVehicles:
         return lastVehicleString
     
@@ -88,6 +89,7 @@ def vehicles(data):
                     try:
                         newVehicles.append(vehicle.__dict__)
                     except:
+                        print("Could not convert vehicle to JSON")
                         pass
         data["vehicles"] = newVehicles
     
