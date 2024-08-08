@@ -49,27 +49,26 @@ export default function ControlsPage({ ip }: { ip: string }) {
     }
 
     return (
-        <div className="flex space-x-3 font-sans">
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 h-full overflow-auto auto-rows-min w-full">
+        <div className="flex space-x-3 font-sans max-w-[calc(60vw-64px)]">
+            <div className="flex flex-col gap-4 h-full overflow-auto auto-rows-min w-full">
                 {controls.map((control:any) => (
-                    <Card key={control} id={control} className="flex flex-col justify-between">
-                        <CardHeader className="gap-1">
-                            <CardTitle>{control}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <CardDescription className="flex flex-col gap-2">
-                                <div className="">
-                                    <Badge className="rounded-r-none">Device: </Badge>
-                                    <Badge className="rounded-l-none" variant={"secondary"}>{data[control]["deviceGUID"] == 1 && "Keyboard" || data[control]["deviceGUID"] == -1 && "Unbound" || data[control]["deviceGUID"]}</Badge>
-                                </div>
-                                <div>
-                                    <Badge className="rounded-r-none">{data[control]["deviceGUID"] == "1" && "Key: " || "Button: "}</Badge>
-                                    <Badge className="rounded-l-none" variant={"secondary"}>{data[control]["buttonIndex"] == -1 && "Unbound" || data[control]["buttonIndex"]}</Badge>
-                                </div>
-                                <p className="pt-3">{data[control]["description"] == "" && "No description provided" || data[control].description}</p>
-                            </CardDescription>
-                        </CardContent>
-                        <CardFooter className="flex gap-2">
+                    <div key={control} id={control} className="flex w-full h-full justify-between border rounded-md p-4 text-left content-center items-center">
+                        <div className="flex flex-col gap-2 w-96">
+                            <h3>{control}</h3>
+                            <p className="pt-3 text-sm text-muted-foreground">{data[control]["description"] == "" && "No description provided" || data[control].description}</p>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="">
+                                <Badge className="rounded-r-none">Device: </Badge>
+                                <Badge className="rounded-l-none" variant={"secondary"}>{data[control]["deviceGUID"] == 1 && "Keyboard" || data[control]["deviceGUID"] == -1 && "Unbound" || data[control]["deviceGUID"]}</Badge>
+                            </div>
+                            <div>
+                                <Badge className="rounded-r-none">{data[control]["deviceGUID"] == "1" && "Key: " || "Button: "}</Badge>
+                                <Badge className="rounded-l-none" variant={"secondary"}>{data[control]["buttonIndex"] == -1 && "Unbound" || data[control]["buttonIndex"]}</Badge>
+                            </div>
+                            
+                        </div>
+                        <div className="flex flex-col gap-2">
                             <Button onClick={() => {
                                 toast.promise(TriggerControlChange(control, ip), {
                                     loading: "Changing keybind...",
@@ -91,9 +90,10 @@ export default function ControlsPage({ ip }: { ip: string }) {
                                     onDismiss: () => mutate("controls")
                                 })
                             }}>Unbind</Button>
-                        </CardFooter>
-                    </Card>
+                        </div>
+                    </div>
                 ))}
+                <div className="h-12" />
             </div>
         </div>
     )

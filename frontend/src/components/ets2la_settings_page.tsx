@@ -234,14 +234,16 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 										})
 									})
 								}
-								SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], 0], ip).then(() => {
-									if (data.requires_restart)
-										setNeedsRestart(true)
-									mutate("settings")
-									toast.success("Added new element to array.", {
-										duration: 500
+								else {
+										SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], 0], ip).then(() => {
+										if (data.requires_restart)
+											setNeedsRestart(true)
+										mutate("settings")
+										toast.success("Added new element to array.", {
+											duration: 500
+										})
 									})
-								})
+								}
 							} else {
 								if (!pluginSettings[data.key] || pluginSettings[data.key].length == 0) {
 									SetSettingByKey(plugin, data.key, [""], ip).then(() => {
@@ -253,14 +255,17 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 										})
 									})
 								}
-								SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], ""], ip).then(() => {
-									if (data.requires_restart)
-										setNeedsRestart(true)
-									mutate("settings")
-									toast.success("Added new element to array.", {
-										duration: 500
+								else
+								{
+									SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], ""], ip).then(() => {
+										if (data.requires_restart)
+											setNeedsRestart(true)
+										mutate("settings")
+										toast.success("Added new element to array.", {
+											duration: 500
+										})
 									})
-								})
+								}
 							}
 						}
 					}> 
