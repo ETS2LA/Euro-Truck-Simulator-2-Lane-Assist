@@ -1,6 +1,7 @@
 extends Node
 
 @onready var Sockets = $/root/Node3D/Sockets
+var ObjectScript = preload("res://Scripts/object.gd")
 
 var truckScene = preload("res://Objects/truck.tscn")
 var carScene = preload("res://Objects/car.tscn")
@@ -11,10 +12,13 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	var curObjects = []
+	var curObjectNames = []
 	for n in self.get_children():
-		self.remove_child(n)
-		n.queue_free() 
+		curObjectNames.append(n.name)
+		curObjects.append(n)
 	
+	var newObjectIDs = []
 	var newObjects = []
 	if Sockets.data != {}:
 		var vehicleData = Sockets.data["JSONvehicles"].data
@@ -35,17 +39,34 @@ func _process(delta: float) -> void:
 				if distance < 1:
 					distance = 1
 				
+				newObjectIDs.append(str(vehicle["id"]))
+				
 				if type == "car":
 					var car = carScene.instantiate()
+					car.name = str(vehicle["id"])
 					car.position = Vector3(x,y,z)
 					car.scale = Vector3(distance, distance, distance)
+					car.set_script(ObjectScript)
 					newObjects.append(car)
 				if type == "truck":
 					var truck = truckScene.instantiate()
+					truck.name = str(vehicle["id"])
 					truck.position = Vector3(x,y,z)
 					truck.scale = Vector3(distance, distance, distance)
+					truck.set_script(ObjectScript)
 					newObjects.append(truck)
 	
 		for object in newObjects:
-			add_child(object)
-					
+			if not curObjectNames.has(object.name):
+				add_child(object)
+			else:
+				for curObj in curObjects:
+					if curObj.name == object.name:
+						curObj.UpdatePositionScale(object.position, object.scale)
+				
+				object.queue_free()
+		
+		for n in self.get_children():
+			if not newObjectIDs.has(n.name):
+				self.remove_child(n)
+				n.queue_free()
