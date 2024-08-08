@@ -61,31 +61,47 @@ def Initialize():
     
     screen = screeninfo.get_monitors()[0]
     
-    if screen.height >= 1440:
-        if screen.width >= 5120:
-            screen_cap = "1440p32:9"
+    dimensions = settings.Get("ObjectDetection", "dimensions", None)
+    
+    if dimensions == None:
+        if screen.height >= 1440:
+            if screen.width >= 5120:
+                screen_cap = "1440p32:9"
+            else:
+                screen_cap = "1440p"
         else:
-            screen_cap = "1440p"
+            if screen.height == 1200:
+                screen_cap = "1080p16:10"
+            else:
+                screen_cap = "1080p"
+
+        if screen_cap == "1440p32:9":
+            capture_x = 2100
+            capture_y = 300
+            capture_width = 1280
+            capture_height = 720
+        elif screen_cap == "1440p":
+            capture_x = 700
+            capture_y = 300
+            capture_width = 1280
+            capture_height = 720
+        elif screen_cap == "1080p":
+            capture_x = 600
+            capture_y = 200
+            capture_width = 1020
+            capture_height = 480
+        elif screen_cap == "1080p16:10":
+            capture_x = 600
+            capture_y = 280
+            capture_width = 1020
+            capture_height = 480
+            
+        runner.sonner("Vehicle Detection using profile: " + screen_cap)
+        settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
     else:
-        screen_cap = "1080p"
+        capture_x, capture_y, capture_width, capture_height = dimensions    
+        
 
-    runner.sonner("Vehicle Detection using profile: " + screen_cap)
-
-    if screen_cap == "1440p32:9":
-        capture_x = 2100
-        capture_y = 300
-        capture_width = 1280
-        capture_height = 720
-    elif screen_cap == "1440p":
-        capture_x = 700
-        capture_y = 300
-        capture_width = 1280
-        capture_height = 720
-    elif screen_cap == "1080p":
-        capture_x = 600
-        capture_y = 200
-        capture_width = 1020
-        capture_height = 480
 
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath

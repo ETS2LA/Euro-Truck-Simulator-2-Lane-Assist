@@ -4,12 +4,14 @@ var _target = Vector3(0,0,0)
 var _target_scale = Vector3(0,0,0)
 var _cur_target_time = Time.get_ticks_msec()
 var _last_target_time = Time.get_ticks_msec()
+var _distance:float = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
 func UpdatePositionScale(newPosition: Vector3, newScale: Vector3):
+	_distance = position.distance_to(newPosition)
 	_target = newPosition
 	_target_scale = newScale
 	_last_target_time = _cur_target_time
@@ -17,5 +19,5 @@ func UpdatePositionScale(newPosition: Vector3, newScale: Vector3):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	position = position.lerp(_target, delta)
+	position = position.lerp(_target, delta * _distance)
 	scale = scale.lerp(_target_scale, delta)
