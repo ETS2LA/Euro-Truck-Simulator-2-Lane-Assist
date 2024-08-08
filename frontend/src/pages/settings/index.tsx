@@ -10,14 +10,12 @@ import React, { useState, useEffect } from 'react';
 import { Gauge, LineChart } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import {
-    ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ControlsPage from "./controls"
-import GlobalPage from "./global"
 import { ETS2LASettingsPage } from "@/components/ets2la_settings_page"
 
 export default function Home({ ip }: { ip: string }) {

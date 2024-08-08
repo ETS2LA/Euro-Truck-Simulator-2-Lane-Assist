@@ -376,6 +376,9 @@ def plugin():
             "ar": arData,
         }
     
-    return steeringPoints, {
-        "map": externalData,
-    }
+    if updatedPrefabs or updatedRoads:
+        return steeringPoints, {
+            "map": externalData,
+        }
+    
+    return steeringPoints
