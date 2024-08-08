@@ -1,25 +1,39 @@
-[gd_scene load_steps=22 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=28 format=3 uid="uid://d36vvb6ivwdds"]
 
-[ext_resource type="Script" path="res://Scripts/label_fps.gd" id="1_583x4"]
+[ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
 [ext_resource type="Script" path="res://Scripts/variables.gd" id="1_xlmr0"]
 [ext_resource type="Script" path="res://Scripts/camera_follow.gd" id="2_6bj65"]
 [ext_resource type="Script" path="res://Scripts/map_data.gd" id="2_et5o6"]
-[ext_resource type="Script" path="res://Scripts/Buttons/dark_mode_button.gd" id="2_fkubr"]
-[ext_resource type="Script" path="res://Scripts/sockets_label.gd" id="4_ckaqj"]
-[ext_resource type="Script" path="res://Scripts/map_data_label.gd" id="4_x630f"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/dark_mode_button.gd" id="2_fkubr"]
+[ext_resource type="Script" path="res://Scripts/UI/sockets_label.gd" id="4_ckaqj"]
+[ext_resource type="Script" path="res://Scripts/UI/map_data_label.gd" id="4_x630f"]
 [ext_resource type="Script" path="res://Scripts/camera_zoom.gd" id="5_57w1g"]
 [ext_resource type="Script" path="res://Scripts/truck.gd" id="5_k5niq"]
 [ext_resource type="Environment" uid="uid://uher5ame32lt" path="res://Environments/default.tres" id="6_dvxwu"]
 [ext_resource type="Script" path="res://Scripts/vehicles.gd" id="7_jhmr7"]
 [ext_resource type="Script" path="res://Scripts/roads_and_prefabs.gd" id="9_115pj"]
 [ext_resource type="Script" path="res://traffic_lights.gd" id="9_b12iv"]
-[ext_resource type="Script" path="res://Scripts/notifications.gd" id="10_p5w2d"]
-[ext_resource type="Script" path="res://Scripts/Buttons/camera_reset_button.gd" id="13_1g6rd"]
-[ext_resource type="Script" path="res://Scripts/Buttons/always_on_top_button.gd" id="13_o2qdb"]
-[ext_resource type="Script" path="res://Scripts/Buttons/map_reload_button.gd" id="14_3cect"]
+[ext_resource type="Script" path="res://Scripts/UI/notifications.gd" id="10_p5w2d"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/camera_reset_button.gd" id="13_1g6rd"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/always_on_top_button.gd" id="13_o2qdb"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/map_reload_button.gd" id="14_3cect"]
+[ext_resource type="Script" path="res://Scripts/UI/data_label.gd" id="16_rn4g8"]
+[ext_resource type="Texture2D" uid="uid://bj6bcwvosqap6" path="res://Assets/speedlimit.png" id="17_6k1i8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_i61cv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ompa"]
+font_size = 54
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_qvwik"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_m3h8c"]
+font_size = 7
+
+[sub_resource type="LabelSettings" id="LabelSettings_rra87"]
+font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
 font_size = 12
@@ -115,23 +129,73 @@ layout_mode = 2
 text = "Update Data"
 script = ExtResource("14_3cect")
 
+[node name="FPS" type="Label" parent="UI/TopLeftContainer"]
+layout_mode = 2
+text = "60"
+label_settings = SubResource("LabelSettings_i61cv")
+script = ExtResource("1_583x4")
+
 [node name="TopRightContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -517.0
+offset_left = -91.1899
 offset_top = 10.0
-offset_right = -10.0
+offset_right = -27.1899
 offset_bottom = 140.0
 grow_horizontal = 0
 mouse_filter = 2
 
-[node name="FPS" type="Label" parent="UI/TopRightContainer"]
+[node name="Speed" type="Label" parent="UI/TopRightContainer"]
 layout_mode = 2
-text = "60"
-label_settings = SubResource("LabelSettings_i61cv")
-horizontal_alignment = 2
-script = ExtResource("1_583x4")
+text = "54"
+label_settings = SubResource("LabelSettings_5ompa")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+Multiplier = 3.6
+
+[node name="Units" type="Label" parent="UI/TopRightContainer"]
+layout_mode = 2
+text = "km/h"
+label_settings = SubResource("LabelSettings_qvwik")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+ValueToDisplay = "km/h"
+
+[node name="Units2" type="Label" parent="UI/TopRightContainer"]
+layout_mode = 2
+text = " "
+label_settings = SubResource("LabelSettings_m3h8c")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+ValueToDisplay = " "
+
+[node name="TextureRect" type="TextureRect" parent="UI/TopRightContainer"]
+layout_mode = 2
+texture = ExtResource("17_6k1i8")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="SpeedLimit" type="Label" parent="UI/TopRightContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -21.0
+offset_right = 17.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "50"
+label_settings = SubResource("LabelSettings_rra87")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("16_rn4g8")
+ValueToDisplay = "speedLimit"
+Multiplier = 3.6
 
 [node name="BottomLeftContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 2
