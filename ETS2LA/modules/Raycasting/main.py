@@ -55,9 +55,9 @@ def UpdateGamePosition():
                 window_y = window[1]
                 window_width = window[2]
                 window_height = window[3]
+                last_window_position = (current_time, window[0], window[1], window[2], window[3])
                 break
 
-        last_window_position = (current_time, window[0], window[1], window[2], window[3])
 
 screen = screeninfo.get_monitors()[0]
 def RaycastToPlaneBackup(screen_x: float, screen_y: float, plane_height: float):
