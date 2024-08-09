@@ -36,6 +36,16 @@
             ]
         },
         {
+            "name": "Device",
+            "key": "device",
+            "description": "The device to run Object Detection on, if you use automatic, it will be decided based on your system. (If you select GPU, and you dont have one, or CUDA isn't installed, it will default to CPU.)",
+            "requires_restart": true,
+            "type": {
+                "type": "enum",
+                "options": ["Automatic", "CPU", "GPU"]
+            }
+        },
+        {
             "name": "Mode",
             "key": "mode",
             "description": "The object detection mode you want to use. Please note that quality mode requires a powerful PC to run well.",
