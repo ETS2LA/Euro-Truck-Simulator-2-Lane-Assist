@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 
 let socket: WebSocket | null = null;
-export function ETS2LAImmediateServer({ip}: {ip: string}) {
+export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: boolean}) {
     const { data, error, isLoading } = useSWR("updates", () => CheckForUpdate(ip), { refreshInterval: 60000 }) // Check for updates every minute
     const { data: onTopData, error: onTopError, isLoading: onTopLoading } = useSWR("onTop", () => GetStayOnTop(ip), { refreshInterval: 10000 })
     const [connected, setConnected] = useState(false);
@@ -159,7 +159,7 @@ export function ETS2LAImmediateServer({ip}: {ip: string}) {
         };
     }, [promiseMessages]); // Dependency array to run the effect when the promise messages change
 
-    return <div className="absolute right-[19px] top-[17px] gap-2 flex">
+    return <div className={collapsed && "absolute right-[119px] top-[17px] gap-2 flex" || "absolute right-[19px] top-[17px] gap-2 flex"}>
         <Dialog open={dialogOpen}>
             <DialogTrigger>
                 <div></div>

@@ -317,7 +317,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                 </MenubarMenu>
             )}
             </Menubar>
-            <ETS2LAImmediateServer ip={ip} />
+            <ETS2LAImmediateServer ip={ip} collapsed={isCollapsed} />
         </div>
     )
 }
