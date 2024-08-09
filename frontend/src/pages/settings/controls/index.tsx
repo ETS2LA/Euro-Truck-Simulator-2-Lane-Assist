@@ -93,7 +93,8 @@ export default function ControlsPage({ ip }: { ip: string }) {
                         </div>
                     </div>
                 ))}
-                <div className="h-12" />
+                <p className="text-muted-foreground text-xs">This page will be updated as plugins send a request for a keybind.</p>
+                <div className="h-10" />
             </div>
         </div>
     )
