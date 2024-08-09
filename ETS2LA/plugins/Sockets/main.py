@@ -90,6 +90,7 @@ def vehicles(data):
                     try:
                         newVehicles.append(vehicle.__dict__)
                     except:
+                        logging.error(vehicle)
                         logging.exception("Could not convert vehicle to JSON")
                         pass
         data["vehicles"] = newVehicles
