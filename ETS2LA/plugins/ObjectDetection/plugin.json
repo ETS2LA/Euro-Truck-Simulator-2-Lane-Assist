@@ -67,7 +67,7 @@
         {
             "name": "Screen Capture Dimensions",
             "key": "dimensions",
-            "description": "What part of you screen to use for object detection. Index 0 is X, index 1 is Y, index 2 is Width, index 3 is Height. This setting will be automatically generate after you start the plugin once.",
+            "description": "What part of your screen to use for object detection. Index 0 is X, index 1 is Y, index 2 is Width, index 3 is Height. This setting will be automatically generate after you start the plugin once.",
             "requires_restart": true,
             "type": {
                 "type": "array",

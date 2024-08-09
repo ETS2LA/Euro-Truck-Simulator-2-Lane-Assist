@@ -317,23 +317,22 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 					</div>
 				))}
 				<div className="h-12"></div>
-
-				{needsRestart && data[plugin]["enabled"] && 
-					<div className="absolute bottom-0 left-0 right-0 h-12 bg-red-950 border rounded-md text-sm font-customSans justify-center text-center flex">
-						<Button className="w-full h-full" variant="destructive" onClick={() => {
-							setNeedsRestart(false)
-							DisablePlugin(plugin, ip).then(() => {
-								EnablePlugin(plugin, ip).then(() => {
-									toast.success("Restart Successful", {
-										duration: 1000
-									})
+			</div>
+			{needsRestart && data[plugin]["enabled"] && 
+				<div className="absolute top-4 left-0 right-0 max-w-[calc(60vw-64px)] h-12 bg-red-950 rounded-md text-sm font-customSans justify-center text-center flex">
+					<Button className="w-full h-full" variant="destructive" onClick={() => {
+						setNeedsRestart(false)
+						DisablePlugin(plugin, ip).then(() => {
+							EnablePlugin(plugin, ip).then(() => {
+								toast.success("Restart Successful", {
+									duration: 1000
 								})
 							})
-						}
-						}>Plugin needs a restart to update settings.</Button>
-					</div>
-				}
-			</div>
+						})
+					}
+					}>Plugin needs a restart to update settings.</Button>
+				</div>
+			}
 		</TooltipProvider>
 	)
 }
