@@ -38,7 +38,7 @@ MODEL_TYPE: Literal["YoloV5", "YoloV7"] = \
 MODEL_NAME: str = \
     "5-31-24_1_yolov7.pt" if MODEL_TYPE == "YoloV7" else "best_v5s.pt"
 LOADING_TEXT: str = \
-    "Vehicle Detection loading model..."
+    "Loading Object Detection Model..."
 USE_EXTERNAL_VISUALIZATION: bool = \
     True
 TRACK_SPEED: list = \
@@ -96,13 +96,11 @@ def Initialize():
             capture_width = 1020
             capture_height = 480
             
-        runner.sonner("Vehicle Detection using profile: " + screen_cap)
+        runner.sonner("Object Detection is using screen capture profile: " + screen_cap)
         settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
     else:
         capture_x, capture_y, capture_width, capture_height = dimensions    
         
-
-
     temp = pathlib.PosixPath
     pathlib.PosixPath = pathlib.WindowsPath
 
@@ -110,7 +108,18 @@ def Initialize():
 
     runner.sonner(LOADING_TEXT, "promise")
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    settings_device = settings.Get("ObjectDetection", "device", "Automatic")
+    if settings_device == "Automatic":
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+    else:
+        if settings_device == "GPU":
+            torch_available = torch.cuda.is_available()
+            if torch_available:
+                device = "cuda"
+            else:
+                device = "cpu"
+        else:
+            device = "cpu"
 
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
     
@@ -121,11 +130,11 @@ def Initialize():
     model.conf = 0.70
     model.to(device)
 
-    runner.sonner(f"Vehicle Detection model loaded on {device.upper()}", "success", promise=LOADING_TEXT)
+    runner.sonner(f"Object Detection model loaded on {device.upper()}", "success", promise=LOADING_TEXT)
 
-    cv2.namedWindow('Vehicle Detection', cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('Vehicle Detection', int(capture_width), int(capture_height))
-    cv2.setWindowProperty('Vehicle Detection', cv2.WND_PROP_TOPMOST, 1)
+    cv2.namedWindow('Object Detection', cv2.WINDOW_NORMAL)
+    cv2.resizeWindow('Object Detection', int(capture_width), int(capture_height))
+    cv2.setWindowProperty('Object Detection', cv2.WND_PROP_TOPMOST, 1)
 
 frame = None
 boxes = None
@@ -381,7 +390,7 @@ def plugin():
     cv2.putText(frame, f"Visual Time: {round(smoothedVisualTime(visualTime)*1000, 2)}ms", (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f"Input Time: {round(smoothedInputTime(inputTime)*1000, 2)}ms", (20, 220), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f"Raycast Time: {round(smoothedRaycastTime(raycastTime)*1000, 2)}ms", (20, 260), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.imshow('Vehicle Detection', frame)
+    cv2.imshow('Object Detection', frame)
     cv2.waitKey(1)
     
     arData = {
