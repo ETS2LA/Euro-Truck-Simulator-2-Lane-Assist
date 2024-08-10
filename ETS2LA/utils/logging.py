@@ -1,6 +1,7 @@
+from rich.highlighter import NullHighlighter, Highlighter
+from ETS2LA.utils.translator import Translate
 import ETS2LA.backend.settings as settings
 from rich.logging import RichHandler
-from rich.highlighter import NullHighlighter, Highlighter
 from ETS2LA.utils.colors import *
 import logging
 import os
@@ -31,7 +32,7 @@ def SetupGlobalLogging():
         try:
             os.remove("logs/ETS2LA.log")
         except:
-            logging.error("Could not delete the log file.")
+            logging.error(Translate("logging.delete_log_error"))
     
     # Write the logs to a file
     file_handler = logging.FileHandler("logs/ETS2LA.log", encoding="utf-8")
@@ -39,7 +40,7 @@ def SetupGlobalLogging():
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     logging.getLogger().addHandler(file_handler)
     
-    logging.info("Logger initialized.")
+    logging.info(Translate("logging.logger_initialized"))
     
     return logging.getLogger()
 

@@ -99,7 +99,7 @@ def page(page:str):
     asyncio.run(send_page(page))
 
 async def start():
-    wsServer = websockets.serve(server, "0.0.0.0", 37521)
+    wsServer = websockets.serve(server, "0.0.0.0", 37521, logger=logging.Logger("null"))
     await wsServer
 
 def run_thread():

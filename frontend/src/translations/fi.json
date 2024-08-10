@@ -5,7 +5,7 @@
     "main.errors": "Virheit\u00e4:",
     "main.warnings": "Varoituksia:",
     "main.no_errors_or_warnings": "Virheit\u00e4 tai varoituksia ei l\u00f6ytynyt.",
-    "main.overseer_started": "ETS2LA'n vahti prosessi k\u00e4ynnistetty!",
+    "main.overseer_started": "ETS2LA k\u00e4ynnistyy...",
     "main.restarting": "ETS2LA k\u00e4ynnistyy uudelleen...",
     "main.updating": "ETS2LA p\u00e4ivitys alkanut...",
     "main.update_done": "P\u00e4ivitys valmis... k\u00e4ynnistet\u00e4\u00e4n uudelleen!",
@@ -14,8 +14,8 @@
     "main.send_report": "L\u00e4het\u00e4 yll\u00e4 oleva virhe tekij\u00f6ille.",
     "main.closed": "ETS2LA on sammunut.",
     "main.press_enter": "Painaa rivinvaihtoa sulkeaksesi sovelluksen...",
-    "core.backend_started": "ETS2LA'n taustaprosessi on k\u00e4ynnistetty onnistuneesti.",
-    "immediate.websocket_started": "Websocket (k\u00e4ytt\u00f6liittym\u00e4n ja taustaprosessin kokoaikainen kommunikaatio) k\u00e4ynnistetty.",
+    "core.backend_started": "Taustaprosessi on k\u00e4ynnistetty onnistuneesti.",
+    "immediate.websocket_started": "Websocket (k\u00e4ytt\u00f6liittym\u00e4n ja taustaprosessin nopea kommunikaatio) k\u00e4ynnistetty.",
     "immediate.message_error": "Kommunikaatio viestin k\u00e4sittelyss\u00e4 tapahtui virhe.",
     "immediate.empty_page": "Yritettiin l\u00e4hett\u00e4\u00e4 tyhj\u00e4 sivu.",
     "webserver.enabling_plugin": "K\u00e4ynnistet\u00e4\u00e4n {0}",
@@ -23,5 +23,11 @@
     "webserver.webserver_started": "Taustaprosessin palvelin k\u00e4ynnistetty osoitteessa {0} ( {1} )",
     "webserver.frontend_started": "K\u00e4ytt\u00f6liittym\u00e4 k\u00e4ynnistetty osoitteessa {0} ( {1} )",
     "godot.server_started": "Godot avattu portille {0}",
-    "webpage.opened": "K\u00e4ytt\u00f6liittym\u00e4n ikkuna avattu."
+    "webpage.opened": "K\u00e4ytt\u00f6liittym\u00e4n ikkuna avattu.",
+    "controls.listener_started": "K\u00e4ytt\u00e4j\u00e4n sy\u00f6tteen kuuntelu k\u00e4ynnistetty.",
+    "sounds.missing_sound": "\u00c4\u00e4nipaketissa '{0}' ei ole tarvittavaa \u00e4\u00e4nt\u00e4 '{1}'",
+    "sounds.invalid_file_type": "\u00c4\u00e4nipaketissa '{0}' on virheellinen tiedosto p\u00e4\u00e4tteell\u00e4 '{1}'",
+    "sounds.sound_not_found_in_soundpack": "Yritettiin soittaa \u00e4\u00e4nt\u00e4 '{0}', mutta sit\u00e4 ei l\u00f6ytynyt \u00e4\u00e4nipaketista '{1}'",
+    "logging.delete_log_error": "Lokitiedostoa ei voitu poistaa.",
+    "logging.logger_initialized": "Lokikirjaus alustettu."
 }

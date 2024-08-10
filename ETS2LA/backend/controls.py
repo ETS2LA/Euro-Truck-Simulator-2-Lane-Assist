@@ -15,6 +15,7 @@ GetKeybindValue(name)
 # Sorry for the mess.
 
 from ETS2LA.frontend.immediate import send_sonner
+from ETS2LA.utils.translator import Translate
 import ETS2LA.backend.settings as settings
 import ETS2LA.variables as variables
 from tktooltip import ToolTip
@@ -455,4 +456,4 @@ def GetKeybindValue(name:str):
 
 def run():
     threading.Thread(target=plugin, daemon=True, ).start()
-    logging.info("Controls listener started.")
+    logging.info(Translate("controls.listener_started"))

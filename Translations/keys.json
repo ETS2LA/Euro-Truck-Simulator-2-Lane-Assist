@@ -21,5 +21,11 @@
     "webserver.webserver_started",
     "webserver.frontend_started",
     "godot.server_started",
-    "webpage.opened"
+    "webpage.opened",
+    "controls.listener_started",
+    "sounds.missing_sound",
+    "sounds.invalid_file_type",
+    "sounds.sound_not_found_in_soundpack",
+    "logging.delete_log_error",
+    "logging.logger_initialized"
 ]

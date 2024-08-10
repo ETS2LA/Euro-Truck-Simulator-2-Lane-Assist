@@ -5,7 +5,7 @@
     "main.errors": "Virheitä:",
     "main.warnings": "Varoituksia:",
     "main.no_errors_or_warnings": "Virheitä tai varoituksia ei löytynyt.",
-    "main.overseer_started": "ETS2LA'n vahti prosessi käynnistetty!",
+    "main.overseer_started": "ETS2LA käynnistyy...",
     "main.restarting": "ETS2LA käynnistyy uudelleen...",
     "main.updating": "ETS2LA päivitys alkanut...",
     "main.update_done": "Päivitys valmis... käynnistetään uudelleen!",
@@ -14,8 +14,8 @@
     "main.send_report": "Lähetä yllä oleva virhe tekijöille.",
     "main.closed": "ETS2LA on sammunut.",
     "main.press_enter": "Painaa rivinvaihtoa sulkeaksesi sovelluksen...",
-    "core.backend_started": "ETS2LA'n taustaprosessi on käynnistetty onnistuneesti.",
-    "immediate.websocket_started": "Websocket (käyttöliittymän ja taustaprosessin kokoaikainen kommunikaatio) käynnistetty.",
+    "core.backend_started": "Taustaprosessi on käynnistetty onnistuneesti.",
+    "immediate.websocket_started": "Websocket (käyttöliittymän ja taustaprosessin nopea kommunikaatio) käynnistetty.",
     "immediate.message_error": "Kommunikaatio viestin käsittelyssä tapahtui virhe.",
     "immediate.empty_page": "Yritettiin lähettää tyhjä sivu.",
     "webserver.enabling_plugin": "Käynnistetään {0}",
@@ -23,5 +23,11 @@
     "webserver.webserver_started": "Taustaprosessin palvelin käynnistetty osoitteessa {0} ( {1} )",
     "webserver.frontend_started": "Käyttöliittymä käynnistetty osoitteessa {0} ( {1} )",
     "godot.server_started": "Godot avattu portille {0}",
-    "webpage.opened": "Käyttöliittymän ikkuna avattu."
+    "webpage.opened": "Käyttöliittymän ikkuna avattu.",
+    "controls.listener_started": "Käyttäjän syötteen kuuntelu käynnistetty.",
+    "sounds.missing_sound": "Äänipaketissa '{0}' ei ole tarvittavaa ääntä '{1}'",
+    "sounds.invalid_file_type": "Äänipaketissa '{0}' on virheellinen tiedosto päätteellä '{1}'",
+    "sounds.sound_not_found_in_soundpack": "Yritettiin soittaa ääntä '{0}', mutta sitä ei löytynyt äänipaketista '{1}'",
+    "logging.delete_log_error": "Lokitiedostoa ei voitu poistaa.",
+    "logging.logger_initialized": "Lokikirjaus alustettu."
 }

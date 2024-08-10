@@ -1,3 +1,4 @@
+from ETS2LA.utils.translator import Translate
 import ETS2LA.backend.settings as settings
 from ETS2LA.variables import PATH
 import logging
@@ -22,12 +23,12 @@ for i in range(len(SOUNDPACKS)):
     file_types = [sound.split(".")[1] for sound in os.listdir(SOUNDPACKS_PATH + "/" + pack)]
     for sound in REQUIRED_SOUNDS:
         if sound not in sounds:
-            logging.error(f"Soundpack '{pack}' is missing the required sound '{sound}'")
+            logging.error(Translate("sounds.missing_sound", values=[pack, sound]))
             temp.remove(pack)
             break
     for file_type in file_types:
         if file_type not in ACCEPTED_FORMATS:
-            logging.error(f"Soundpack '{pack}' has an invalid file type '{file_type}'")
+            logging.error(Translate("sounds.invalid_file_type", values=[pack, file_type]))
             temp.remove(pack)
             break
 
@@ -49,7 +50,7 @@ def GetFilenameForSound(sound: str):
     for pack_sound in sounds:
         if sound in pack_sound:
             return SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK + "/" + pack_sound
-    logging.error(f"Tried to play sound '{sound}', but it was not found in soundpack '{SELECTED_SOUNDPACK}'")
+    logging.error(Translate("sounds.sound_not_found_in_soundpack", values=[sound, SELECTED_SOUNDPACK]))
     return None
 
 def Play(sound: str):

@@ -23,5 +23,11 @@
     "webserver.webserver_started": "Webserver started on {0} ( {1} )",
     "webserver.frontend_started": "Frontend started on {0} ( {1} )",
     "godot.server_started": "Godot serving on port {0}",
-    "webpage.opened": "ETS2LA UI opened."
+    "webpage.opened": "ETS2LA UI opened.",
+    "controls.listener_started": "Controls listener started.",
+    "sounds.missing_sound": "Soundpack '{0}' is missing the required sound '{1}'",
+    "sounds.invalid_file_type": "Soundpack '{0}' has an invalid file type '{1}'",
+    "sounds.sound_not_found_in_soundpack": "Tried to play sound '{0}', but it was not found in soundpack '{1}'",
+    "logging.delete_log_error": "Could not delete the log file.",
+    "logging.logger_initialized": "Logger initialized."
 }

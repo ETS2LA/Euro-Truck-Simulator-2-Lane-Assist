@@ -1,3 +1,6 @@
+from ETS2LA.utils.logging import *
+logger = SetupGlobalLogging()
+
 from ETS2LA.frontend.webpageExtras.utils import CheckIfWindowStillOpen
 import ETS2LA.networking.webserver as webserver
 import ETS2LA.frontend.immediate as immediate
@@ -10,13 +13,11 @@ import ETS2LA.networking.cloud as cloud
 import ETS2LA.backend.events as events
 import ETS2LA.backend.sounds as sounds
 import ETS2LA.variables as variables
-from ETS2LA.utils.logging import *
 import rich
 import time
 import os
 
 # Initialize the backend
-logger = SetupGlobalLogging()
 translator.CheckLanguageDatabase()          # Check if all languages have all keys
 translator.UpdateFrontendTranslations()     # Update the frontend translations
 immediate.run()  # Websockets server for immediate data
