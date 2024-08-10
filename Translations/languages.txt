@@ -1,0 +1,17 @@
+# Language Name : Language Code
+Finnish : fi
+Polish : po
+Pirate : pi
+Swedish : sw
+Indonesian : in
+Latvian : la
+Norwegian : no
+Chinese (Traditional) : cht
+Chinese (Simplified) : chs
+Dutch : du
+Russian : ru
+Turkish : tu
+Danish : da
+Hungarian : hu
+French : fr
+German : ge
