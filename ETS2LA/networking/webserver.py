@@ -1,5 +1,6 @@
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
 from ETS2LA.frontend.webpage import set_on_top, get_on_top
+from ETS2LA.utils.translator import Translate
 from ETS2LA.networking.data_models import *
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
@@ -98,12 +99,7 @@ def get_stay_on_top():
 
 @app.get("/api/window/stay_on_top/{state}")
 def stay_on_top(state: bool):
-    logging.info(f"Setting stay on top to {state}")
-    #mainThreadQueue.append([set_on_top, [state], {}])
-    #while [set_on_top, [state], {}] in mainThreadQueue:
-    #    pass
     newState = set_on_top(state)
-    logging.info(f"Stay on top set to {newState}")
     return newState
 
 # endregion
@@ -144,12 +140,12 @@ def get_plugins():
 
 @app.get("/api/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
-    logging.info(f"Enabling plugin {plugin}")
+    logging.info(Translate(f"webserver.enabling_plugin", values=[plugin]))
     return backend.AddPluginRunner(plugin)
 
 @app.get("/api/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
-    logging.info(f"Disabling plugin {plugin}")
+    logging.info(Translate(f"webserver.disabling_plugin", values=[plugin]))
     return backend.RemovePluginRunner(plugin)
 
 @app.get("/api/plugins/performance")
@@ -254,10 +250,10 @@ def run():
     hostname = "0.0.0.0"
 
     threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True).start()
-    logging.info(f"Webserver started on http://{IP}:37520 ( http://localhost:37520 )")
+    logging.info(Translate("webserver.webserver_started", values=[f"http://{IP}:37520", "http://localhost:37520"]))
 
     p = multiprocessing.Process(target=RunFrontend, daemon=True)
     p.start()
-    logging.info(f"Frontend started on http://{IP}:{FRONTEND_PORT} ( http://localhost:{FRONTEND_PORT} )")
+    logging.info(Translate("webserver.frontend_started", values=[f"http://{IP}:{FRONTEND_PORT}", f"http://localhost:{FRONTEND_PORT}"]))
     
 # endregion

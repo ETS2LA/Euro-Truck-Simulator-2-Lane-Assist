@@ -1,3 +1,4 @@
+from ETS2LA.utils.translator import Translate
 from typing import Literal
 import websockets
 import threading
@@ -29,7 +30,7 @@ async def server(websocket, path):
                     connected[websocket] = message
                     condition.notify_all()
     except:
-        logging.exception("An error occurred while processing a message.")
+        logging.exception(Translate("immediate.message_error"))
         pass
     finally:
         connected.pop(websocket, None)
@@ -93,7 +94,7 @@ async def send_page(page):
         
 def page(page:str):
     if page == "":
-        logging.error("Tried to send an empty page.")
+        logging.error(Translate("immediate.empty_page"))
         return
     asyncio.run(send_page(page))
 
@@ -108,5 +109,5 @@ def run_thread():
     loop.run_forever()
 
 def run():
-    logging.info("Starting the websocket server.")
     threading.Thread(target=run_thread, daemon=True).start()
+    logging.info(Translate("immediate.websocket_started"))

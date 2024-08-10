@@ -1,3 +1,4 @@
+from ETS2LA.utils.translator import Translate
 from http import HTTPStatus
 import multiprocessing
 import socketserver
@@ -20,7 +21,7 @@ def server(directory):
     Handler = MyHTTPRequestHandler
     os.chdir(directory)
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        logging.info(f"Godot serving at port {PORT}")
+        logging.info(Translate("godot.server_started", values=[PORT]))
         httpd.serve_forever()
 
 def run():

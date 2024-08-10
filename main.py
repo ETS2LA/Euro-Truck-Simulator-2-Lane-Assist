@@ -1,3 +1,4 @@
+from ETS2LA.utils.translator import Translate
 import ETS2LA.networking.cloud as cloud
 from multiprocessing import Queue
 from rich.console import Console
@@ -34,7 +35,7 @@ def ClearLogFiles():
             os.remove(os.path.join(LOG_FILE_FOLDER, file))
             
 def CountErrorsAndWarnings():
-    print("\nErrors and warnings in the log files:")
+    print("\n" + Translate("main.errors_and_warnings"))
     if not os.path.exists(LOG_FILE_FOLDER):
         os.makedirs(LOG_FILE_FOLDER)
     
@@ -50,14 +51,14 @@ def CountErrorsAndWarnings():
                     print()
                     print(f"{DARK_GRAY}┌─── {file}{NORMAL}")
                 if errors != 0:
-                    print(f"{DARK_GRAY}│{RED} Errors: {errors} {NORMAL}")
+                    print(f"{DARK_GRAY}│{RED} {Translate('main.errors')} {errors} {NORMAL}")
                 if warnings != 0:
-                    print(f"{DARK_GRAY}│{YELLOW} Warnings: {warnings} {NORMAL}")
+                    print(f"{DARK_GRAY}│{YELLOW} {Translate('main.warnings')} {warnings} {NORMAL}")
                 if errors != 0 or warnings != 0:
                     print(f"{DARK_GRAY}└───{NORMAL}")
                     
     if count == 0:
-        print(f"{GREEN}No errors or warnings found.{NORMAL}")
+        print(f"{GREEN}{Translate('main.no_errors_or_warnings')}{NORMAL}")
 
 def ETS2LAProcess(exception_queue: Queue):
     try:
@@ -70,7 +71,7 @@ def ETS2LAProcess(exception_queue: Queue):
 
 if __name__ == "__main__":
     exception_queue = Queue()  # Create a queue for exceptions
-    print(f"{BLUE}ETS2LA Overseer started!{NORMAL}\n")
+    print(f"{BLUE}{Translate('main.overseer_started')}{NORMAL}\n")
     # Make sure NodeJS isn't already running and clear logs
     while True:
         process = multiprocessing.Process(target=ETS2LAProcess, args=(exception_queue,))
@@ -90,11 +91,11 @@ if __name__ == "__main__":
                 CloseNode()
                 CountErrorsAndWarnings()
                 ClearLogFiles()
-                print(YELLOW + "ETS2LA is restarting..." + NORMAL)
+                print(YELLOW + Translate("main.restarting") + NORMAL)
                 continue
             
             if e.args[0] == "Update":
-                print(YELLOW + "ETS2LA is updating..." + NORMAL)
+                print(YELLOW + Translate("main.updating") + NORMAL)
                 if os.name == "nt":
                     try:
                         os.system("update.bat")
@@ -104,25 +105,25 @@ if __name__ == "__main__":
                     os.system("sh update.sh")
                 
                 CountErrorsAndWarnings()
-                print("\n" + GREEN + "Update done... restarting!" + NORMAL + "\n")
+                print("\n" + GREEN + Translate("main.update_done") + NORMAL + "\n")
                 CloseNode()
                 continue
             
-            print(f"ETS2LA has crashed with the following error:")
-            error = traceback.format_exception(type(e), e, e.__traceback__)
+            print(Translate("main.crashed"))
             try:
                 console.print_exception()
             except:
-                print(error)
-                print("Used legacy traceback printing.")
+                error = traceback.format_exception(type(e), e, e.__traceback__)
+                traceback.print_exception(type(e), e, e.__traceback__)
+                print(Translate("main.legacy_traceback"))
             try:
                 cloud.SendCrashReport("ETS2LA 2.0 - Main", str(error))
             except: pass
-            print("Send the above traceback to the developers.")
+            print(Translate("main.send_report"))
             CloseNode()
             CountErrorsAndWarnings()
-            print(RED + "ETS2LA has been closed." + NORMAL)
-            input("Press enter to exit...")
+            print(RED + Translate("main.closed") + NORMAL)
+            input(Translate("main.press_enter"))
             sys.exit(0)
         
         except queue.Empty:

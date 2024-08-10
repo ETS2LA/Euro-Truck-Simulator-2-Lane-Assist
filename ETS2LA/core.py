@@ -1,6 +1,8 @@
 from ETS2LA.frontend.webpageExtras.utils import CheckIfWindowStillOpen
 import ETS2LA.networking.webserver as webserver
 import ETS2LA.frontend.immediate as immediate
+from ETS2LA.utils.translator import Translate
+import ETS2LA.utils.translator as translator
 import ETS2LA.backend.controls as controls
 import ETS2LA.frontend.webpage as webpage
 import ETS2LA.networking.godot as godot
@@ -15,6 +17,8 @@ import os
 
 # Initialize the backend
 logger = SetupGlobalLogging()
+translator.CheckLanguageDatabase()          # Check if all languages have all keys
+translator.UpdateFrontendTranslations()     # Update the frontend translations
 immediate.run()  # Websockets server for immediate data
 webserver.run()  # External webserver for the UI
 godot.run()      # Godot server for the visualisation
@@ -23,7 +27,7 @@ events.run()     # Event handlers
 controls.run()   # Control handlers
 sounds.UpdateGlobalSoundpackJson()  # Update the soundpacks in the global settings definition file for the UI
 
-logging.info("ETS2LA backend has been started successfully.")
+logging.info(Translate("core.backend_started"))
 
 lastPingTime = 0
 def run():
@@ -46,7 +50,6 @@ def run():
             raise Exception("restart")
         
         if variables.MINIMIZE:
-            logging.info("Minimizing the window.")
             webpage.minimize_window()
             variables.MINIMIZE = False
         

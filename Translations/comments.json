@@ -1,0 +1,11 @@
+{
+    "main.overseer_started": "Overseer in this context means the main file that monitors the rest of the program. If the program crashes the overseer will attempt to fix the issue and restart.",
+    "main.errors": "Here the text is before a count of errors. For example a print could be 'Errors: 5'",
+    "main.warnings": "Here the text is before a count of warnings. For example a print could be 'Warnings: 5'",
+    "immediate.message_error": "Message in this context means a transmission between the websocket client (for example the frontend) and the server.",
+    "webserver.enabling_plugin": "{0} is the plugin to be enabled.",
+    "webserver.disabling_plugin": "{0} is the plugin to be disabled.",
+    "webserver.webserver_started": "{0} is the local network address\n{1} is localhost address.\nExample: 'Webserver started on http://192.168.1.106:37520 ( http://localhost:37520 )'",
+    "webserver.frontend_started": "{0} is the local network address\n{1} is localhost address.\nExample: 'Frontend started on http://192.168.1.106:3005 ( http://localhost:3005 )'",
+    "godot.server_started": "{0} is the port number.\nExample: 'Godot serving on port 60407'"
+}

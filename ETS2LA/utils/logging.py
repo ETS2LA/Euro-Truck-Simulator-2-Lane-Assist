@@ -16,10 +16,10 @@ def SetupGlobalLogging():
 
     # Set up logging
     logging.basicConfig(format=
-                        f'[dim][link file://%(pathname)s]%(filename)s[/link file://%(pathname)s][/dim]\t %(message)s', 
-                        level=logging.INFO,
-                        datefmt=f'%H:%M:%S',
-                        handlers=[RichHandler(markup=True, rich_tracebacks=USE_FANCY_TRACEBACK, show_level=True, show_path=False)]
+                            f'[dim][link file://%(pathname)s]%(filename)s[/link file://%(pathname)s][/dim]\t %(message)s', 
+                            level=logging.INFO,
+                            datefmt=f'%H:%M:%S',
+                            handlers=[RichHandler(markup=True, rich_tracebacks=USE_FANCY_TRACEBACK, show_level=True, show_path=False)]
                         )
     
     
@@ -34,7 +34,7 @@ def SetupGlobalLogging():
             logging.error("Could not delete the log file.")
     
     # Write the logs to a file
-    file_handler = logging.FileHandler("logs/ETS2LA.log")
+    file_handler = logging.FileHandler("logs/ETS2LA.log", encoding="utf-8")
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     logging.getLogger().addHandler(file_handler)
@@ -89,7 +89,7 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
         if os.path.exists(filepath):
             os.remove(filepath)
         # Write the logs to a file
-        file_handler = logging.FileHandler(filepath)
+        file_handler = logging.FileHandler(filepath, encoding="utf-8")
         file_handler.setLevel(logging.INFO)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         logging.getLogger().addHandler(file_handler)

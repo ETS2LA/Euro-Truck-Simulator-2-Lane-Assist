@@ -1,8 +1,9 @@
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar, CheckIfWindowStillOpen, get_screen_dimensions, check_valid_window_position, get_theme, window_position
 from ETS2LA.frontend.webpageExtras.html import html
-import ETS2LA.variables as variables
+from ETS2LA.utils.translator import Translate
 import ETS2LA.backend.settings as settings
 from multiprocessing import JoinableQueue
+import ETS2LA.variables as variables
 import multiprocessing  
 import logging
 import webview
@@ -111,4 +112,4 @@ def run():
     p.start()
     if os.name == 'nt':
         ColorTitleBar()
-        logging.info('ETS2LA UI opened.')
+        logging.info(Translate("webpage.opened"))
