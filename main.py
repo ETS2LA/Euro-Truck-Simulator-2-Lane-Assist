@@ -42,7 +42,7 @@ def CountErrorsAndWarnings():
     count = 0
     for file in os.listdir(LOG_FILE_FOLDER):
         if file.endswith(".log"):
-            with open(os.path.join(LOG_FILE_FOLDER, file), "r") as f:
+            with open(os.path.join(LOG_FILE_FOLDER, file), "r", encoding="utf-8") as f:
                 content = f.read()
                 errors = content.count("ERR")
                 warnings = content.count("WRN")
