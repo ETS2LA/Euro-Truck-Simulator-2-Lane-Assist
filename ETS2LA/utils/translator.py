@@ -37,7 +37,7 @@ def UpdateFrontendTranslations():
         
     # Add new translations
     for language in LANGUAGE_DATA:
-        with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.json"), "w") as f:
+        with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.json"), "w", encoding="utf-8") as f:
             json.dump(LANGUAGE_DATA[language], f, indent=4)
             
 def CheckLanguageDatabase():
