@@ -1,27 +1,13 @@
 "use client"
 
-import {
-    Command,
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
-} from "@/components/ui/command"
-
-import { usePathname } from "next/navigation";
 import * as React from "react"  
 import { GetStates } from "@/pages/backend";
-import { mutate } from "swr";
 import useSWR from "swr";
-import { useRouter } from "next/router";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Progress } from "@/components/ui/progress";
+import { translate } from "@/pages/translation";
 
 export function ETS2LAStates({ip}: {ip: string}) {
     const { data, error } = useSWR("states", () => GetStates(ip), { refreshInterval: 1000, refreshWhenHidden: true })
@@ -90,7 +76,7 @@ export function ETS2LAStates({ip}: {ip: string}) {
                     toast.dismiss(toasts[i]);
                     toasts.splice(i, 1);
                     toastNames.splice(i, 1);
-                    toast.success("Done!", { duration: 1000 });
+                    toast.success(translate("frontend.states.complete"), { duration: 1000 });
                 }
             }
         }

@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import type { Metadata } from "next";
 import "@/pages/translation";
-import { translate } from '@/pages/translation';
+import { translate, changeLanguage } from '@/pages/translation';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/context-menu"
 import { useRouter } from 'next/navigation';
 import { useRouter as routerUseRouter } from 'next/router';
-import { token, setToken, PlaySound } from './backend';
+import { token, setToken, PlaySound, GetCurrentLanguage } from './backend';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -92,6 +92,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   };
 
   const { data, error, isLoading, mutate } = useSWR(ipRef.current, () => GetIP(ipRef.current as string));
+  const { data: language, error: languageError, isLoading: languageIsLoading } = useSWR("language", () => GetCurrentLanguage(ipRef.current as string), { refreshInterval: 10000 });
+
+  useEffect(() => {
+    if (language) {
+      changeLanguage(language);
+    }
+  }, [language]);
+
 
   useEffect(() => {
     if (isLoading && !error) {

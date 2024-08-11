@@ -6,12 +6,13 @@ import { GetGitHistory } from "@/pages/backend"
 import { Accordion } from "./ui/accordion"
 import { AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { translate } from "@/pages/translation"
 
 export default function VersionHistory({ip}: {ip: string}) {
     const { data, isLoading, error } = useSWR("history", () => GetGitHistory(ip))
     if (isLoading) return <div className="p-2 flex flex-col space-y-4">
         <div className="h-7 flex flex-col pt-2">
-            <h4 className="pb-3 pl-1 font-medium flex gap-1">Commit History <p className="text-xs text-stone-600">(loading...)</p></h4>
+            <h4 className="pb-3 pl-1 font-medium flex gap-1">{translate("frontend.version_history")} <p className="text-xs text-stone-600">({translate("loading").toLowerCase()})</p></h4>
         </div>
         <Separator />
         <SkeletonItem />
@@ -25,9 +26,9 @@ export default function VersionHistory({ip}: {ip: string}) {
         <SkeletonItem />
         <Separator />
     </div>
-    if (error) return <p className="text-red-500">Error fetching git history</p>
+    if (error) return <p className="text-red-500">{translate("frontend.version_history.error_fetching")}</p>
     if (!data) return <div>
-            <p className="text-red-500">No git history found... data: </p>
+            <p className="text-red-500">{translate("frontend.version_history.no_history")}</p>
             <p>{data}</p>
         </div>
 
@@ -42,7 +43,7 @@ export default function VersionHistory({ip}: {ip: string}) {
 
     return (
         <ScrollArea className="h-full pt-3 text-end" type="scroll">
-            <h4 className="pb-3 pl-3 font-medium flex gap-1">Commit History <p className="text-xs text-stone-600">(updates)</p></h4>
+            <h4 className="pb-3 pl-3 font-medium flex gap-1">{translate("frontend.version_history")} <p className="text-xs text-stone-600">{translate("frontend.version_history.small_text")}</p></h4>
             <Separator />
             <Accordion type="single" collapsible>
                 {commits.map((commit: any, index: number) => {
@@ -52,7 +53,7 @@ export default function VersionHistory({ip}: {ip: string}) {
                                 <div className="flex items-center gap-3 w-full">
                                     <Avatar className="w-7 h-7">
                                         <AvatarImage src={getImage(commit.picture)}/>
-                                        <AvatarFallback>Avatar</AvatarFallback>
+                                        <AvatarFallback>{translate("frontend.version_history.avatar")}</AvatarFallback>
                                     </Avatar>
                                     {commit.author}
                                 </div>
@@ -66,7 +67,7 @@ export default function VersionHistory({ip}: {ip: string}) {
                     )
                 })}
             </Accordion>
-            <p className="text-xs text-stone-500 text-center pt-2 pb-2">Showing only the latest 100 commits</p>
+            <p className="text-xs text-stone-500 text-center pt-2 pb-2">{translate("frontend.version_history.only_100")}</p>
         </ScrollArea>
     )
 }

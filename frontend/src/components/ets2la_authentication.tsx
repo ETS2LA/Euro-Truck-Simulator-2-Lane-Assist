@@ -23,15 +23,13 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner"
-import useSWR from "swr"
-import { mutate } from "swr"
 import { CheckUsernameAvailability, Register, Login } from "@/pages/account"
 import { useState } from "react"
-import { set } from "date-fns"
 import { CircleCheckBig, LogIn } from "lucide-react"
 import darkPromo from "@/assets/promo_dark.png"
 import lightPromo from "@/assets/promo_light.png"
 import { useTheme } from "next-themes"
+import { translate } from "@/pages/translation"
 
 export function Authentication({ onLogin } : { onLogin: (token:string) => void }) {
 	const [username, setUsername] = useState("")
@@ -49,7 +47,7 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 
 
 	const handleGuestLogin = () => {
-		toast.success("Logged in as a guest")
+		toast.success(translate("frontend.authentication.login_as_guest"))
 		onLogin("guest")
 	}
 
@@ -59,10 +57,10 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 		} else {
 			const token = await Login(username, password)
 			if (token) {
-				toast.success("Logged in")
+				toast.success(translate("frontend.authentication.logged_in"))
 				onLogin(token)
 			} else {
-				toast.error("Password for " + username + " is incorrect")
+				toast.error(translate("frontend.authentication.password_incorrect", username))
 			}
 		}
 	}	
@@ -71,19 +69,19 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 		setIsDialogOpen(false)
 		if (confirmed) {
 			if (password !== passwordRepeat) {
-				toast.error("Passwords do not match")
+				toast.error(translate("frontend.authentication.passwords_dont_match"))
 				return
 			}
 			if (!passwordState.uppercase || !passwordState.lowercase || !passwordState.eightCharsOrGreater) {
-				toast.error("Password doesn't meet the requirements")
+				toast.error(translate("frontend.authentication.password_requirements_not_met"))
 				return
 			}
 			const token = await Register(username, password)
 			if (token) {
-				toast.success("Account created")
+				toast.success(translate("frontend.authentication.account_created"))
 				onLogin(token)
 			} else {
-				toast.error("Failed to create account")
+				toast.error(translate("frontend.authentication.account_creation_failed"))
 			}
 		}
 	}
@@ -141,15 +139,15 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 		<div  className="flex items-center justify-center h-[calc(100vh-72px)]">
 			<div className="mx-auto grid w-[350px] gap-6">
 				<div className="grid gap-2 text-center">
-					<h1 className="text-3xl font-bold">{usernameAvailable ? "Signup" : "Login"}</h1>
+					<h1 className="text-3xl font-bold">{usernameAvailable ? translate("frontend.authentication.signup") : translate("frontend.authentication.login")}</h1>
 					<p className="text-balance text-muted-foreground">
-						Please login or sign up to access the application.
+						{translate("frontend.authentication.login_prompt")}
 					</p>
 				</div>
 				<div className="grid gap-4">
 					<div className="grid gap-2">
 						<div className="flex items-center">
-							<Label htmlFor="email">Username</Label>
+							<Label htmlFor="email">{translate("frontend.authentication.username")}</Label>
 							<p className="ml-auto text-sm flex gap-1 items-center text-zinc-500">
 								{usernameAvailable ? (
 									<CircleCheckBig className="w-4 h-4" />
@@ -161,18 +159,18 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 						<Input
 							id="email"
 							type="text"
-							placeholder="Username"
+							placeholder={translate("frontend.authentication.username")}
 							required
 							onChange={onUsernameChange}
 						/>
 					</div>
 					<div className="grid gap-2">
 						<div className="flex items-center">
-							<Label htmlFor="password">Password</Label>
+							<Label htmlFor="password">{translate("frontend.authentication.password")}</Label>
 						</div>
 						<div className="flex gap-2">
-							<Input id="password" type="password" placeholder="Password" required onChange={onPasswordChange} />
-							<Input id="passwordRepeat" type="password" placeholder="Repeat password" required onChange={onPasswordRepeatChange}
+							<Input id="password" type="password" placeholder={translate("frontend.authentication.password")} required onChange={onPasswordChange} />
+							<Input id="passwordRepeat" type="password" placeholder={translate("frontend.authentication.repeat_password")} required onChange={onPasswordRepeatChange}
 								className={passwordsMatch() ? (usernameAvailable ? "focus:border-2 transition-all" : "transition-all hidden") : "border-red-700 focus:border-2 transition-all"}
 							/>
 						</div>
@@ -182,51 +180,57 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 							<AlertDialog>
 								<AlertDialogTrigger>
 									<Button type="submit" className="w-full" onClick={handleLogin}>
-										Login
+										{translate("frontend.authentication.signup_button")}
 									</Button>
 								</AlertDialogTrigger>
 								<AlertDialogContent>
 									<AlertDialogHeader>
-										<AlertDialogTitle>Confirm</AlertDialogTitle>
+										<AlertDialogTitle>{translate("confirm")}</AlertDialogTitle>
 										<AlertDialogDescription>
-											This will create a new account.
+											{translate("frontend.authentication.account_creation_confirmation")}
 										</AlertDialogDescription>
 									</AlertDialogHeader>
 									<AlertDialogFooter>
-										<AlertDialogCancel onClick={() => handleDialogClose(false)}>Cancel</AlertDialogCancel>
-										<AlertDialogAction onClick={() => handleDialogClose(true)}>Continue</AlertDialogAction>
+										<AlertDialogCancel onClick={() => handleDialogClose(false)}>{translate("cancel")}</AlertDialogCancel>
+										<AlertDialogAction onClick={() => handleDialogClose(true)}>{translate("continue")}</AlertDialogAction>
 									</AlertDialogFooter>
 								</AlertDialogContent>
 							</AlertDialog>
 						</>
 					) : (
 						<Button type="submit" className="w-full" onClick={handleLogin}>
-							{usernameAvailable ? "Create Account" : "Login"}
+							{usernameAvailable ? translate("frontend.authentication.signup_button") : translate("frontend.authentication.login_button")}
 						</Button>
 					)}
 					<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
-						Use a Guest account
+						{translate("frontend.authentication.use_guest")}
 					</Button>
 					<Accordion type="single" collapsible className="w-[350px] place-self-center" value={usernameAvailable ? passwordState.uppercase && passwordState.lowercase && passwordState.eightCharsOrGreater ? "" : "item-1" : ""}>
 						<AccordionItem value="item-1">
 							<AccordionTrigger className="w-[400px]"><p
-								className={!usernameAvailable ? "text-zinc-500 transition-colors ease-in-out duration-500" : passwordState.uppercase && passwordState.lowercase && passwordState.eightCharsOrGreater ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}
-								>Password Requirements</p></AccordionTrigger>
+								className={!usernameAvailable ? "text-zinc-500 transition-colors ease-in-out duration-500" : passwordState.uppercase && passwordState.lowercase && passwordState.eightCharsOrGreater ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}>
+									{translate("frontend.authentication.password_requirements")}
+								</p>
+							</AccordionTrigger>
 							<AccordionContent className="flex justify-between pr-0 w-full p-4 pt-0">
 								<p style={{fontSize: '0.9em'}}
-									className={passwordState.uppercase ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> {'Uppercase'} </p>
+									className={passwordState.uppercase ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> 
+									{translate("frontend.authentication.uppercase")} 
+								</p>
 								<p style={{fontSize: '0.9em'}}
-									className={passwordState.lowercase ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> {'Lowercase'} </p>
+									className={passwordState.lowercase ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> 
+									{translate("frontend.authentication.lowercase")} 
+								</p>
 								<p style={{fontSize: '0.9em'}}
-									className={passwordState.eightCharsOrGreater ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> {'Characters [' + passwordState.length + '/8]'} </p>
-
-								
+									className={passwordState.eightCharsOrGreater ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> 
+									{translate("frontend.authentication.characters", passwordState.length)} 
+								</p>
 							</AccordionContent>
 						</AccordionItem>
 					</Accordion>
 				</div>
 				<div className="mt-4 text-center text-sm">
-					<p className="text-muted-foreground">Don't have an account? Just type in your desired username and password and we will create one for you.</p>
+					<p className="text-muted-foreground">{translate("frontend.authentication.account_creation_prompt")}</p>
 				</div>
 			</div>
 		</div>
@@ -237,54 +241,55 @@ export function Authentication({ onLogin } : { onLogin: (token:string) => void }
 				<div className="w-full h-full p-20 animate-in fade-in-5 duration-500">
 					<Accordion type="single" collapsible className="place-self-center">
 						<AccordionItem value="item-1">
-							<AccordionTrigger className="w-[400px]">Is it free?</AccordionTrigger>
+							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.first")}</AccordionTrigger>
 							<AccordionContent>
-								<p>Yes, all features are free to use.</p> 
-								<p>With, or without an account.</p>
+								<p>{translate("frontend.authentication.first_line_1")}</p> 
+								<p>{translate("frontend.authentication.first_line_2")}</p>
 							</AccordionContent>
 						</AccordionItem>
 						<AccordionItem value="item-2">
-							<AccordionTrigger className="w-[400px]">Do you collect private data?</AccordionTrigger>
+							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.second")}</AccordionTrigger>
 							<AccordionContent>
-								<p>No, we do not collect any private data out of principle. I do not want to handle any private data of users, that is too big of a responsibility for me.</p>
+								<p>{translate("frontend.authentication.second_line_1")}</p>
 							</AccordionContent>
 						</AccordionItem>
 						<AccordionItem value="item-3">
-							<AccordionTrigger className="w-[400px]">Why do I need an account?</AccordionTrigger>
+							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.third")}</AccordionTrigger>
 							<AccordionContent>
-								<p>You do not need an account to use the app. An account is only needed for the following <p className="font-bold inline">free</p> features.</p>
+								<p>{translate("frontend.authentication.third_line_1")}</p>
 								<ul className="pt-2">
-									<li>• Cloud settings saving</li>
-									<li>• Developer comments on feedback and support requests</li>
-									<li>• Personal data portal for ETS2 data (see past deliveries etc...)</li>
+									<li>• {translate("frontend.authentication.third_line_1_1")}</li>
+									<li>• {translate("frontend.authentication.third_line_1_2")}</li>
+									<li>• {translate("frontend.authentication.third_line_1_3")}</li>
 								</ul>
-								<p className="pt-2">The app will still collect the ETS2 data without an account. But it will be appended to the public anonymous data portal instead of being tied to your account.</p>
+								<p className="pt-2">{translate("frontend.authentication.third_line_2")}</p>
 							</AccordionContent>
 						</AccordionItem>
 						<AccordionItem value="item-4">
-							<AccordionTrigger className="w-[400px]">How do I delete my account?</AccordionTrigger>
+							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.fourth")}</AccordionTrigger>
 							<AccordionContent>
-								<p>This has not yet been implemented in app, for now please contact me on discord @Tumppi066 or email to <a href="mailto:contact@tumppi066.fi" className="underline">contact@tumppi066.fi</a></p>
+								<p>{translate("frontend.authentication.fourth_line_1")}</p>
 							</AccordionContent>
 						</AccordionItem>
 						<AccordionItem value="item-5">
-							<AccordionTrigger className="w-[400px]">What data do you collect then?</AccordionTrigger>
+							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.fifth")}</AccordionTrigger>
 							<AccordionContent>
-								<p>We the following. Please note that this list includes everything that the app will collect "in the worst case". Most of these can be turned off in the settings!</p>
+								<p>{translate("frontend.authentication.fifth_line_1")}</p>
 								<ul className="pt-2">
-									<li>• Ping to the central server every 60s</li>
-									<li>• App settings</li>
-									<li>• App logs (on crash)</li>
-									<li>• ETS2 API data (see <a href="https://github.com/RenCloud/scs-sdk-plugin?tab=readme-ov-file#telemetry-fields-and-the-c-object" target="_blank" className="underline"> the github repo</a>)</li>
+									<li>• {translate("frontend.authentication.fifth_line_1_1")}</li>
+									<li>• {translate("frontend.authentication.fifth_line_1_2")}</li>
+									<li>• {translate("frontend.authentication.fifth_line_1_3")}</li>
+									<li>• {translate("frontend.authentication.fifth_line_1_4")}</li>
+									<li>  <a href="https://github.com/RenCloud/scs-sdk-plugin?tab=readme-ov-file#telemetry-fields-and-the-c-object" target="_blank" className="underline">https://github.com/RenCloud/scs-sdk-plugin</a></li>
 								</ul>
-								<p className="pt-2">None of the data we collect can be traced back to you. The server doesn't log IPs, ETS2 usernames etc...</p>
+								<p className="pt-2">{translate("frontend.authentication.fifth_line_2")}</p>
 							</AccordionContent>
 						</AccordionItem>
 						<AccordionItem value="item-6">
-							<AccordionTrigger className="w-[400px]">How are my login details stored on my device?</AccordionTrigger>
+							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.sixth")}</AccordionTrigger>
 							<AccordionContent>
-								<p>The app doesn't actually store your login details on device. In fact nowhere in the pipeline is your password stored as plain text. Instead the server provides your device with a login token.</p>
-								<p className="pt-1">This token is then stored in your browser's local storage. It is important to note that, even though this does protect your password, if someone get's hold of said token, they can log into your account.</p>
+								<p>{translate("frontend.authentication.sixth_line_1")}</p>
+								<p className="pt-1">{translate("frontend.authentication.sixth_line_2")}</p>
 							</AccordionContent>
 						</AccordionItem>
 					</Accordion>

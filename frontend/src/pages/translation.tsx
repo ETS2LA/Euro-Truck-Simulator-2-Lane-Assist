@@ -33,3 +33,7 @@ export const translate = (key: string, ...values: any[]): string => {
         return values[number] !== undefined ? values[number] : match;
     });
 }
+
+export const changeLanguage = async (language: string) => {
+    currentLanguage = language;
+}

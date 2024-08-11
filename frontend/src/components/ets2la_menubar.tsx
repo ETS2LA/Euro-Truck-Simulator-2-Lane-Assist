@@ -18,8 +18,7 @@ import { SetSettingByKey } from "@/pages/settingsServer";
 import useSWR from "swr"
 import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la_immediate_server"
-import { Button } from "@/components/ui/button"
-import { set } from "date-fns";
+import { translate } from "@/pages/translation";
 import { useRouter as routerUseRouter } from 'next/router';
 
 export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout: () => void, isCollapsed?: boolean}) {
@@ -32,9 +31,9 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
     const isBasic = routerUseRouter().pathname.includes("basic");
     // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
     const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 })
-    if (isLoading) return <Menubar><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Menubar>
+    if (isLoading) return <Menubar><p className="absolute left-5 font-semibold text-xs text-stone-400">{translate("loading")}</p></Menubar>
     if (error){
-        toast.error("Error fetching plugins from " + ip, {description: error.message})
+        toast.error(translate("frontend.menubar.error_fetching_plugins", ip), {description: error.message})
         return <Menubar><ETS2LAImmediateServer ip={ip} /><p className="absolute left-5 font-semibold text-xs text-stone-400">{error.message}</p></Menubar>
     } 
     const plugins:string[] = [];
@@ -57,9 +56,9 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
     const SetThemeColor = (theme: string) => {
         setTheme(theme)
         toast.promise(ColorTitleBar(ip, theme), {
-            loading: "Setting theme to " + theme + "...",
-            success: "Theme set to " + theme + "!",
-            error: "Error setting theme to " + theme + "!"
+            loading: translate("frontend.menubar.setting_theme", translate(`frontend.theme.${theme}`)),
+            success: translate("frontend.menubar.theme_set", translate(`frontend.theme.${theme}`)),
+            error: translate("frontend.menubar.error_setting_theme", translate(`frontend.theme.${theme}`)),
         })
     }
 
@@ -138,33 +137,33 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                     </div>
                 </MenubarTrigger>
                 <MenubarContent>
-                    <MenubarItem onClick={() => push("/")}>Main Menu</MenubarItem>
+                    <MenubarItem onClick={() => push("/")}>{translate("frontend.menubar.main_menu")}</MenubarItem>
                     <MenubarSeparator />
                     <MenubarSub>
-                            <MenubarSubTrigger>Backend</MenubarSubTrigger>
+                            <MenubarSubTrigger>{translate("frontend.menubar.backend")}</MenubarSubTrigger>
                             <MenubarSubContent>
-                            <MenubarItem onClick={() => RestartBackend()}>Restart <MenubarShortcut>R</MenubarShortcut></MenubarItem>
+                            <MenubarItem onClick={() => RestartBackend()}>{translate("frontend.menubar.backend.restart")} <MenubarShortcut>R</MenubarShortcut></MenubarItem>
                             <MenubarItem onClick={() => CloseBackend()}>
-                                Quit <MenubarShortcut>Q</MenubarShortcut>
+                                {translate("frontend.menubar.backend.quit")} <MenubarShortcut>Q</MenubarShortcut>
                             </MenubarItem>
                         </MenubarSubContent>
                     </MenubarSub>
                     <MenubarSeparator />
                     <MenubarSub>
-                        <MenubarSubTrigger>Account</MenubarSubTrigger>
+                        <MenubarSubTrigger>{translate("frontend.menubar.account")}</MenubarSubTrigger>
                         <MenubarSubContent>
                             {!isBasic &&
                                 <>
-                                    <MenubarItem onClick={() => onLogout()}>Logout</MenubarItem>
-                                    <MenubarItem>Settings</MenubarItem>
+                                    <MenubarItem onClick={() => onLogout()}>{translate("frontend.menubar.account.logout")}</MenubarItem>
+                                    <MenubarItem>{translate("frontend.menubar.account.settings")}</MenubarItem>
                                 </>
                                 || 
-                                <MenubarItem onClick={() => push("/")}>Enter normal mode</MenubarItem>
+                                <MenubarItem onClick={() => push("/")}>{translate("frontend.menubar.enter_normal_mode")}</MenubarItem>
                             }
                         </MenubarSubContent>
                     </MenubarSub>
                     <MenubarSeparator />
-                    <MenubarItem>About ETS2LA</MenubarItem>
+                    <MenubarItem>{translate("frontend.menubar.about")}</MenubarItem>
                 </MenubarContent>
             </MenubarMenu>
             <Separator orientation="vertical" className="m-1" />
@@ -173,11 +172,11 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                     <MenubarMenu>
                         <MenubarTrigger>
                             <div className="flex flex-row gap-1 items-center">
-                                <Blocks className="w-4 h-4" />Plugins    
+                                <Blocks className="w-4 h-4" />{translate("frontend.menubar.plugins")}    
                             </div>
                         </MenubarTrigger>
                         <MenubarContent>
-                            <MenubarItem onClick={() => push("/plugins")}>Plugin Picker</MenubarItem>
+                            <MenubarItem onClick={() => push("/plugins")}>{translate("frontend.menubar.plugins.plugin_picker")}</MenubarItem>
                             {uniqueChars.map((char, index) => (
                                 <MenubarSub key={char}>
                                 <MenubarSubTrigger>{char}</MenubarSubTrigger>
@@ -190,26 +189,26 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                                             {data ? (data as any)[plugin]["enabled"] ? (
                                                 <MenubarItem onClick={() => {
                                                         toast.promise(DisablePlugin(plugin, ip=ip), {
-                                                            loading: "Disabling " + plugin + "...",
-                                                            success: "Plugin " + plugin + " disabled!",
-                                                            error: "Error disabling " + plugin + "!"
+                                                            loading: translate("frontend.menubar.plugin.disabling"),
+                                                            success: translate("frontend.menubar.plugin.disabled"),
+                                                            error: translate("frontend.menubar.plugin.error_disabling"),
                                                         })
                                                     }}>
-                                                    Disable
+                                                    {translate("frontend.menubar.plugins.plugin.disable")}
                                                 </MenubarItem>
                                             ) : (
                                                 <MenubarItem onClick={() => {
                                                     toast.promise(EnablePlugin(plugin, ip=ip), {
-                                                        loading: "Enabling " + plugin + "...",
-                                                        success: "Plugin " + plugin + " enabled!",
-                                                            error: "Error enabling " + plugin + "!"
+                                                            loading: translate("frontend.menubar.plugin.enabling"),
+                                                            success: translate("frontend.menubar.plugin.enabled"),
+                                                            error: translate("frontend.menubar.plugin.error_enabling"),
                                                         })
                                                     }}>
-                                                    Enable
+                                                    {translate("frontend.menubar.plugins.plugin.enable")}
                                                 </MenubarItem>
                                             ): null}
                                             <MenubarSeparator />
-                                            <MenubarItem onClick={() => push("/plugins/" + plugin)}>Settings</MenubarItem>
+                                            <MenubarItem onClick={() => push("/plugins/" + plugin)}>{translate("frontend.menubar.plugins.plugin.settings")}</MenubarItem>
                                         </MenubarSubContent>
                                     </MenubarSub>
                                     )
@@ -218,7 +217,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                             </MenubarSub>
                             ), plugins)}
                             <MenubarSeparator />
-                            <MenubarItem onClick={() => push("/performance")}>Performance</MenubarItem>
+                            <MenubarItem onClick={() => push("/performance")}>{translate("frontend.menubar.plugins.performance")}</MenubarItem>
                         </MenubarContent>
                     </MenubarMenu>
                 )
@@ -226,7 +225,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
             <MenubarMenu>
                 <MenubarTrigger>
                     <div className="flex flex-row gap-1 items-center">
-                        {theme === "light" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}Theme    
+                        {theme === "light" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}{translate("frontend.menubar.theme")}    
                     </div>
                 </MenubarTrigger>
                 <MenubarContent>
@@ -235,7 +234,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                         SetSettingByKey("global", "theme", "light", ip=ip)
                     }}>
                         <div className="flex flex-row gap-2 items-center">
-                            <Sun className="w-4 h-4"/>Light    
+                            <Sun className="w-4 h-4"/>{translate("frontend.theme.light")}    
                         </div>
                     </MenubarItem>
                     <MenubarItem onClick={() => {
@@ -243,7 +242,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                         SetSettingByKey("global", "theme", "dark", ip=ip)
                     }}>
                         <div className="flex flex-row gap-2 items-center">
-                            <Moon className="w-4 h-4"/>Dark    
+                            <Moon className="w-4 h-4"/>{translate("frontend.theme.dark")}    
                         </div>
                     </MenubarItem>
                 </MenubarContent>
@@ -251,36 +250,36 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
             <MenubarMenu>
                 <MenubarTrigger>
                     <div className="flex flex-row gap-1 items-center">
-                        <Settings className="w-4 h-4"/>Settings
+                        <Settings className="w-4 h-4"/>{translate("frontend.menubar.settings")}
                     </div>
                 </MenubarTrigger>
                 <MenubarContent>
-                    <MenubarItem onClick={() => push("/settings")}>Settings</MenubarItem>
+                    <MenubarItem onClick={() => push("/settings")}>{translate("frontend.menubar.settings")}</MenubarItem>
                 </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>
                 <MenubarTrigger>
                     <div className="flex flex-row gap-1 items-center">
-                        <Info className="w-4 h-4" />Help    
+                        <Info className="w-4 h-4" />{translate("frontend.menubar.help")}    
                     </div>
                 </MenubarTrigger>
                 <MenubarContent>
                     <MenubarItem onClick={() => window.open("https://wiki.tumppi066.fi", "_blank")}>
                         <div className="flex flex-row gap-2 items-center">
-                            <HelpCircle className="w-4 h-4"/>Wiki    
+                            <HelpCircle className="w-4 h-4"/>{translate("frontend.menubar.help.wiki")}    
                         </div>
                         <MenubarShortcut>W</MenubarShortcut>
                     </MenubarItem>
                     <MenubarItem onClick={() => window.open("https://discord.tumppi066.fi", "_blank")}>
                         <div className="flex flex-row gap-2 items-center">
-                            <DiscordLogoIcon className="w-4 h-4"/>Discord    
+                            <DiscordLogoIcon className="w-4 h-4"/>{translate("frontend.menubar.help.discord")}    
                         </div>    
                         <MenubarShortcut>D</MenubarShortcut>
                     </MenubarItem>
                     <MenubarSeparator />
                     <MenubarItem onClick={() => push("/feedback")}>
                         <div className="flex flex-row gap-2 items-center">
-                            <MessageCircleHeart className="w-4 h-4"/>Feedback    
+                            <MessageCircleHeart className="w-4 h-4"/>{translate("frontend.menubar.help.feedback")}    
                         </div>
                         <MenubarShortcut>F</MenubarShortcut>
                     </MenubarItem>
@@ -290,26 +289,26 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                 <MenubarMenu>
                     <MenubarTrigger>
                         <div className="flex flex-row gap-1 items-center">
-                            <Terminal className="w-4 h-4" />Development  
+                            <Terminal className="w-4 h-4" />{translate("frontend.menubar.development")}  
                         </div>
                     </MenubarTrigger>
                     <MenubarContent>
                         <MenubarItem onClick={() => push("/development") }>
                             <div className="flex flex-row gap-2 items-center">
-                                <ListTodo className="w-4 h-4"/> Development Board    
+                                <ListTodo className="w-4 h-4"/>{translate("frontend.menubar.development.board")}    
                             </div>
                             <MenubarShortcut>D</MenubarShortcut>
                         </MenubarItem>
                         <MenubarSeparator/>
                         <MenubarItem>
                             <div className="flex flex-row gap-2 items-center">
-                                <Users className="w-4 h-4"/>Become a Developer 
+                                <Users className="w-4 h-4"/>{translate("frontend.menubar.development.become")} 
                             </div>    
                             <MenubarShortcut>B</MenubarShortcut>
                         </MenubarItem>
                         <MenubarItem>
                             <div className="flex flex-row gap-2 items-center">
-                                <TextSearch className="w-4 h-4"/>Development Wiki   
+                                <TextSearch className="w-4 h-4"/>{translate("frontend.menubar.development.wiki")}   
                             </div>
                             <MenubarShortcut>W</MenubarShortcut>
                         </MenubarItem>

@@ -174,3 +174,14 @@ export async function SetStayOnTop(ip="localhost", top=true) {
     const data = await response.json()
     return data
 }
+
+export async function GetCurrentLanguage(ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/language`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}

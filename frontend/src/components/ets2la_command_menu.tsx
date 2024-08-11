@@ -18,7 +18,7 @@ import { GetPlugins, EnablePlugin, DisablePlugin } from "@/pages/backend";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
-
+import { translate } from "@/pages/translation";
 
 export function ETS2LACommandMenu({ip}: {ip: string}) {
     const [open, setOpen] = React.useState(false)
@@ -58,58 +58,58 @@ export function ETS2LACommandMenu({ip}: {ip: string}) {
    
     return (
         <CommandDialog open={open} onOpenChange={setOpen}>
-            <CommandInput placeholder="Type a command or search..." />
+            <CommandInput placeholder={translate("frontend.command.typing_prompt")} />
             <CommandList>
-                <CommandEmpty>No results, please try again.</CommandEmpty>
+                <CommandEmpty>{translate("frontend.command.no_results")}</CommandEmpty>
                 <CommandGroup heading="Actions">
                     {path != "/" ? (
                         <CommandItem onSelect={() => {push("/"); setOpen(false)}}>
-                            Return to the Main Menu
+                            {translate("frontend.command.return_to_main_menu")}
                         </CommandItem>
                     ): null}
                     {path != "/plugins" ? (
                         <CommandItem onSelect={() => {push("/plugins"); setOpen(false)}}>
-                            Open Plugin Manager
+                            {translate("frontend.command.open_plugin_manager")}
                         </CommandItem>
                     ): null}
                 </CommandGroup>
                 <CommandGroup heading="Settings">
                     {plugins.map((plugin) => (
                         <CommandItem key={plugin} onSelect={() => {push("/plugins/" + plugin); setOpen(false)}}>
-                            Open {plugin} interface
+                            {translate("frontend.command.open_plugin", plugin)}
                         </CommandItem>
                     ))}
                 </CommandGroup>
                 <CommandSeparator />
                 {disabledPlugins.length > 0 ? (
-                    <CommandGroup heading="Enable plugins">
+                    <CommandGroup heading={translate("frontend.command.enable_plugins_header")}>
                         {disabledPlugins.map((plugin) => (
                             <CommandItem key={plugin} onSelect={() => {
                                     setOpen(false)
                                     toast.promise(EnablePlugin(plugin, ip=ip), {
-                                        loading: "Enabling " + plugin,
-                                        success: "Enabled " + plugin,
-                                        error: "Error enabling " + plugin
+                                        loading: translate("frontend.command.enabling_plugin", plugin), //"Enabling " + plugin,
+                                        success: translate("frontend.command.enabled_plugin", plugin), //"Enabled " + plugin,
+                                        error: translate("frontend.command.error_enabling_plugin", plugin), //"Error enabling " + plugin
                                     }) 
                                 }}>
-                                Enable {plugin}
+                                {translate("frontend.command.enable_plugin", plugin)}
                             </CommandItem>
                         ))}
                     </CommandGroup>
                 ) : null}
                 <CommandSeparator />
                 {enabledPlugins.length > 0 ? (
-                    <CommandGroup heading="Disable plugins">
+                    <CommandGroup heading={translate("frontend.command.disable_plugins_header")}>
                         {enabledPlugins.map((plugin) => (
                             <CommandItem key={plugin} onSelect={() => {
                                     setOpen(false)
                                     toast.promise(DisablePlugin(plugin, ip=ip), {
-                                        loading: "Disabling " + plugin,
-                                        success: "Disabled " + plugin,
-                                        error: "Error disabling " + plugin
+                                        loading: translate("frontend.command.disabling_plugin", plugin), //"Disabling " + plugin,
+                                        success: translate("frontend.command.disabled_plugin", plugin), //"Disabled " + plugin,
+                                        error: translate("frontend.command.error_disabling_plugin", plugin), //"Error disabling " + plugin
                                     })
                                 }}>
-                                Disable {plugin}
+                                {translate("frontend.command.disable_plugin", plugin)}
                             </CommandItem>
                         ))}
                     </CommandGroup>

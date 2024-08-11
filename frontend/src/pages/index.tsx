@@ -25,6 +25,7 @@ import { toast } from "sonner"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { translate } from "./translation"
   
 
 export default function Home({ip} : {ip: string}) {
@@ -49,9 +50,9 @@ export default function Home({ip} : {ip: string}) {
                     )
                     ||
                     <Card className="flex flex-col justify-center items-center w-full h-full border-dashed gap-4">
-                        <Button onClick={() => setVisualisation(true)} variant={"outline"} className="w-64">Start Visualisation</Button>
-                        <Button onClick={() => open("http://localhost:60407/ETS2LA Visualisation.html", "_blank")} variant={"outline"} className="w-64">Open in browser</Button>
-                        <Button onClick={() => push("/basic")} variant={"outline"} className="w-64">Enter Basic mode (recommended)</Button>
+                        <Button onClick={() => setVisualisation(true)} variant={"outline"} className="w-64">{translate("frontend.mainmenu.visualisation")}</Button>
+                        <Button onClick={() => open("http://localhost:60407/ETS2LA Visualisation.html", "_blank")} variant={"outline"} className="w-64">{translate("frontend.mainmenu.open_in_browser")}</Button>
+                        <Button onClick={() => push("/basic")} variant={"outline"} className="w-64">{translate("frontend.mainmenu.basic_mode")}</Button>
                     </Card>
                     }
                 </ResizablePanel>

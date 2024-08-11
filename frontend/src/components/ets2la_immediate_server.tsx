@@ -23,6 +23,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { translate } from "@/pages/translation";
 
 let socket: WebSocket | null = null;
 export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: boolean}) {
@@ -44,7 +45,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
 
         // Connection opened
         socket.addEventListener("open", function (event) {
-            toast.success("Connected to the ETS2LA backend!")
+            toast.success(translate("frontend.immediate.connected"))
             setConnected(true);
         });
 
@@ -53,7 +54,6 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
             const message = JSON.parse(event.data)
             if (lastMessage === message) return;
             lastMessage = message;
-            console.log("Message from server ", message);
             if ("ask" in message) {
                 let text = message["ask"]["text"]
                 let options = message["ask"]["options"]
@@ -66,8 +66,10 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                     if ("response" in message) {
                         if (message["response"] === "dialog") {
                             // Send the selected option to the backend
-                            socket.send(JSON.stringify({response: dialogOptions[message["option"]]}));
-                            setDialogOpen(false);
+                            if (socket !== null) {
+                                socket.send(JSON.stringify({response: dialogOptions[message["option"]]}));
+                                setDialogOpen(false);
+                            }
                         }
                     }
                 };
@@ -76,7 +78,6 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                 push(message["page"])
             }
             else {
-
                 let toastType = message["type"]
                 let toastMessage = message["text"]
                 if (toastType === "error") {
@@ -99,7 +100,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
         
         // Connection closed
         socket.addEventListener("close", function (event) {
-            toast.error("Disconnected from the ETS2LA backend!")
+            toast.error(translate("frontend.immediate.disconnected"))
             setConnected(false);
         });
         
@@ -110,7 +111,9 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
         
         // Cleanup function to close the socket when the component unmounts
         return () => {
-            socket.close();
+            if (socket !== null) {
+                socket.close();
+            }
             socket = null;
         };
     }, []); // Empty dependency array to run the effect only once on mount
@@ -138,17 +141,21 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                             removePromiseMessage(promiseMessage);
                         }
                     };
-                    socket.addEventListener("message", listener);
+                    if (socket !== null) {
+                        socket.addEventListener("message", listener);
 
-                    // Add a cleanup function to remove the event listener when the promise is resolved
-                    cleanupFunctions.push(() => {
-                        socket.removeEventListener("message", listener);
-                    });
+                        // Add a cleanup function to remove the event listener when the promise is resolved
+                        cleanupFunctions.push(() => {
+                            if (socket !== null) {
+                                socket.removeEventListener("message", listener);
+                            }
+                        });
+                    }
                 }),
                 {
                     loading: promiseMessage,
-                    success: 'Success!',
-                    error: 'Error!'
+                    success: translate("success"),
+                    error: translate("error"),
                 }
             );
         });
@@ -173,28 +180,30 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                 <div className="flex gap-2">
                     {dialogOptions.map((option, index) => (
                         <Button key={index} variant={"outline"} onClick={() => {
-                            socket.send(JSON.stringify({response: option}));
+                            if (socket !== null) {
+                                socket.send(JSON.stringify({response: option}));
+                            }
                             setDialogOpen(false);
                         }}>{option}</Button>
                     ))}
                 </div>
             </DialogContent>
         </Dialog>
-        { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />Error: {error.message}</Badge> }
-        { isLoading && <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>Checking for updates...</Badge> || 
-            data && <Badge variant="default" className="gap-1 pl-1 rounded-sm cursor-pointer" onClick={() => toast.promise(Update())}><ArrowDownToLine className="w-5 h-5" />Update available</Badge> ||
-            <Badge variant="secondary" className="gap-1 pl-1 rounded-sm" onClick={() => toast.promise(Update())}><Check className="w-5 h-5" />No updates available</Badge>
+        { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />{translate("frontend.immediate.update_check_error", error.message)}</Badge> }
+        { isLoading && <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>{translate("frontend.immediate.checking_updates")}</Badge> || 
+            data && <Badge variant="default" className="gap-1 pl-1 rounded-sm cursor-pointer" onClick={() => toast.promise(Update())}><ArrowDownToLine className="w-5 h-5" />{translate("frontend.immediate.update_available")}</Badge> ||
+            <Badge variant="secondary" className="gap-1 pl-1 rounded-sm" onClick={() => toast.promise(Update())}><Check className="w-5 h-5" />{translate("frontend.immediate.up_to_date")}</Badge>
         }
-        <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? "Connected" : "Disconnected, please refresh."}</Badge>
+        <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? translate("frontend.immediate.socket_connected") : translate("frontend.immediate.socket_disconnected")}</Badge>
         <div>
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger>
                         <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => {
                             toast.promise(SetStayOnTop(ip, !onTopData), { 
-                                loading: "Setting...", 
-                                success: "Set", 
-                                error: "Failed to set", 
+                                loading: translate("setting"), 
+                                success: translate("set"), 
+                                error: translate("error"), 
                                 onAutoClose: () => mutate("onTop"),
                                 onDismiss: () => mutate("onTop"),
                                 duration: 1000
@@ -204,7 +213,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        {onTopData ? "Disable stay on top" : "Enable stay on top"}
+                        {onTopData ? translate("frontend.immediate.disable_stay_on_top") : translate("frontend.immediate.enable_stay_on_top")}
                     </TooltipContent>
                 </Tooltip>
                 <Tooltip>
@@ -214,7 +223,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        Minimize
+                        {translate("frontend.immediate.minimize")}
                     </TooltipContent>
                 </Tooltip>
                 <Tooltip>
@@ -224,7 +233,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        Close
+                        {translate("frontend.immediate.close")}
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
