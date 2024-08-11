@@ -1,5 +1,6 @@
 {
     "name": "English",
+    "name_en": "English",
     "iso_code": "en",
     "main.errors_and_warnings": "Errors and warnings in the log files:",
     "main.errors": "Errors:",
