@@ -7,5 +7,5 @@ This branch is most likely totally broken, you shouldn't be here unless you're a
 - 37520: Main API
 - 37521: Frontend websockets
 - 37522: Visualization websockets (position, speed...)
-- 3000: Frontend
+- 3005: Frontend (Can be changed in the settings)
 - 60407: Visualization (Godot)
