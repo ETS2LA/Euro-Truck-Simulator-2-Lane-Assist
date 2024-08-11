@@ -21,6 +21,7 @@
     "webserver.webserver_started": "{0} is the local network address\n{1} is localhost address.\nExample: 'Webserver started on http://192.168.1.106:37520 ( http://localhost:37520 )'",
     "webserver.frontend_started": "{0} is the local network address\n{1} is localhost address.\nExample: 'Frontend started on http://192.168.1.106:3005 ( http://localhost:3005 )'",
     "godot.server_started": "{0} is the port number.\nExample: 'Godot serving on port 60407'",
+    "webpage.opened": null,
     "controls.listener_started": "Listener just means the app is listening for input from the user.",
     "sounds.missing_sound": "{0} is the soundpack name\n{1} is the sound name\nExample: 'Soundpack 'default' is missing the required sound 'beep'",
     "sounds.invalid_file_type": "{0} is the soundpack name\n{1} is the file type\nExample: 'Soundpack 'default' has an invalid file type 'flac'",
