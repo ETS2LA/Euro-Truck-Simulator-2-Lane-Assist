@@ -25,6 +25,7 @@ import { toast } from "sonner"
 import { useEffect } from "react"
 import { Slider } from "./ui/slider"
 import { useState } from "react"
+import { translate } from "@/pages/translation"
 
 export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string }) {
 	const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
@@ -58,11 +59,11 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 	const settings = pluginData.file.settings
 
 	const TitleRenderer = (data:string) => {
-		return <h3 className="font-medium">{data}</h3>
+		return <h3 className="font-medium">{translate(data)}</h3>
 	}
 
 	const DescriptionRenderer = (data:string) => {
-		return <p className="text-sm text-muted-foreground">{data}</p>
+		return <p className="text-sm text-muted-foreground">{translate(data)}</p>
 	}
 
 	const SeparatorRenderer = () => {
@@ -101,7 +102,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 		// string, number, boolean, array, object, enum
 		if (data.type.type == "string") {
 			return <div className="flex flex-col gap-2">
-				<h4>{data.name}</h4>
+				<h4>{translate(data.name)}</h4>
 				<Input type="text" placeholder={pluginSettings[data.key]} onChange={(e) => {
 					SetSettingByKey(plugin, data.key, e.target.value, ip).then(() => {
 						if (data.requires_restart)
@@ -112,7 +113,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 						})
 					})
 				}} />
-				<p className="text-xs text-muted-foreground">{data.description}</p>
+				<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 			</div>
 		}
 
@@ -123,7 +124,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				const suffix = data.type.suffix && data.type.suffix || ""
 				return ( // Add return statement here
 					<div className="flex flex-col gap-2">
-						<h4>{data.name}  —  {value}{suffix}</h4>
+						<h4>{translate(data.name)}  —  {value}{suffix}</h4>
 						<Slider min={data.type.min} max={data.type.max} defaultValue={[value]} step={step} onValueCommit={(value) => {
 							SetSettingByKey(plugin, data.key, value[0], ip).then(() => {
 								if (data.requires_restart)
@@ -134,7 +135,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 								})
 							})
 						}} />
-						<p className="text-xs text-muted-foreground">{data.description}</p>
+						<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 					</div>
 				);
 			}
@@ -142,7 +143,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 			{
 				return (
 					<div className="flex flex-col gap-2">
-						<h4>{data.name}</h4>	
+						<h4>{translate(data.name)}</h4>	
 						<Input type="number" placeholder={pluginSettings[data.key]} className="font-customMono" onChange={(e) => {
 							SetSettingByKey(plugin, data.key, parseFloat(e.target.value), ip).then(() => {
 								if (data.requires_restart)
@@ -153,7 +154,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 								});
 							});
 						}} />
-						<p className="text-xs text-muted-foreground">{data.description}</p>
+						<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 					</div>
 				)
 			}
@@ -162,8 +163,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 		if (data.type.type == "boolean") {
 			return <div className="flex justify-between rounded-md border p-4 items-center">
 				<div className="flex flex-col gap-1 pr-12">
-					<h4 className="font-semibold">{data.name}</h4>
-					<p className="text-xs text-muted-foreground">{data.description}</p>
+					<h4 className="font-semibold">{translate(data.name)}</h4>
+					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 				</div>
 				<Switch checked={pluginSettings[data.key] && pluginSettings[data.key] || false} onCheckedChange={(bool) => {
 					SetSettingByKey(plugin, data.key, bool, ip).then(() => {
@@ -180,8 +181,8 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 
 		if (data.type.type == "array") {
 			return <div>
-				<h4>{data.name}</h4>
-				<p className="text-xs text-muted-foreground">{data.description}</p>
+				<h4>{translate(data.name)}</h4>
+				<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 				<div className="pt-2 flex flex-col gap-2">
 					{pluginSettings[data.key] && pluginSettings[data.key].map((value:any, index:number) => (
 						<div key={index} className="flex gap-2 items-center">
@@ -271,7 +272,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 		}
 
 		if (data.type.type == "object") {
-			return <p className="text-xs text-muted-foreground">Tried to show object [ {data.name} ] but objects are not yet supported!</p>
+			return <p className="text-xs text-muted-foreground">Tried to show object [ {translate(data.name)} ] but objects are not yet supported!</p>
 		}
 
 		if (data.type.type == "enum") {
@@ -279,7 +280,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				return <p className="text-xs text-muted-foreground">No enum values provided.</p>
 			}
 			return <div className="flex flex-col gap-2">
-				<h4>{data.name}</h4>
+				<h4>{translate(data.name)}</h4>
 				<Select defaultValue={pluginSettings[data.key]} onValueChange={(value) => {
 					SetSettingByKey(plugin, data.key, value, ip).then(() => {
 						if (data.requires_restart)
@@ -299,7 +300,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 						))}
 					</SelectContent>
 				</Select>
-				<p className="text-xs text-muted-foreground">{data.description}</p>
+				<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 			</div>
 		}
 

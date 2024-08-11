@@ -5,11 +5,11 @@
             "specials": [
                 {
                     "special": "Title",
-                    "special_data": "Global Settings"
+                    "special_data": "global.settings.1.title"
                 },
                 {
                     "special": "Description",
-                    "special_data": "These are mostly settings that affect the entire application."
+                    "special_data": "global.settings.1.description"
                 },
                 {
                     "special": "Separator"
@@ -18,18 +18,18 @@
         },
         {
             "comment": "DO NOT MOVE THIS SETTING. IT NEEDS TO BE AT INDEX 1 IN THIS FILE!",
-            "name": "Soundpack",
+            "name": "global.settings.2.name",
             "key": "soundpack",
-            "description": "The soundpack to use. These will change all the sounds for the app.",
+            "description": "global.settings.2.description",
             "type": {
                 "type": "enum",
                 "options": ["default"]
             }
         },
         {
-            "name": "Volume",
+            "name": "global.settings.3.name",
             "key": "volume",
-            "description": "The volume of the sounds in the app.",
+            "description": "global.settings.3.description",
             "type": {
                 "type": "number",
                 "min": 0,
@@ -39,33 +39,33 @@
             }
         },
         {
-            "name": "Frontend Port",
+            "name": "global.settings.4.name",
             "key": "frontend_port",
-            "description": "The port the frontend runs on.",
+            "description": "global.settings.4.description",
             "type": {
                 "type": "number"
             }
         },
         {
-            "name": "Fancy Traceback",
+            "name": "global.settings.5.name",
             "key": "use_fancy_traceback",
-            "description": "Whether to use a fancy traceback when an error occurs.",
+            "description": "global.settings.5.description",
             "type": {
                 "type": "boolean"
             }
         },
         {
-            "name": "Send Crash Reports",
+            "name": "global.settings.6.name",
             "key": "send_crash_reports",
-            "description": "Whether to send crash reports to the developers.",
+            "description": "global.settings.6.description",
             "type": {
                 "type": "boolean"
             }
         },
         {
-            "name": "Debug Mode",
+            "name": "global.settings.7.name",
             "key": "debug_mode",
-            "description": "Whether to enable debug mode when starting the UI.",
+            "description": "global.settings.7.description",
             "type": {
                 "type": "boolean"
             }

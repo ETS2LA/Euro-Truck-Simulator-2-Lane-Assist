@@ -2,6 +2,9 @@
     "name": "Suomi",
     "name_en": "Finnish",
     "iso_code": "fi",
+
+    "_GLOBALS": "Please leave a space here to seperate the different sections of the translations.",
+
     "confirm": "Vahvista",
     "cancel": "Peruuta",
     "yes": "Kyllä",
@@ -14,6 +17,9 @@
     "set": "Asetettu",
     "setting": "Asetetaan...",
     "unknown": "Tuntematon",
+
+    "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
+
     "main.errors_and_warnings": "Virheet ja varoitukset lokitiedostoissa:",
     "main.errors": "Virheitä:",
     "main.warnings": "Varoituksia:",
@@ -180,5 +186,22 @@
     "frontend.pluginlist.plugin.view": "Näytä",
     "frontend.404.title": "Oho, mites päädyit tänne?",
     "frontend.404.message": "No painappa nappia niin pääset takas (ja lähetä meille mitä teit, kiitos!)",
-    "frontend.404.button": "Kotinäyttöön"
+    "frontend.404.button": "Kotinäyttöön",
+
+    "_PLUGIN_SETTINGS": "Please leave a space here to seperate the different sections of the translations.",
+
+    "global.settings.1.title": "Asetukset",
+    "global.settings.1.description": "Nämä ovat asetuksia jotka vaikuttavat yleisesti sovelluksen toimintaan.",
+    "global.settings.2.name": "Äänipaketti",
+    "global.settings.2.description": "Äänipaketti jota käytetään. Tämä vaikuttaa kaikkiin sovelluksen ääniin.",
+    "global.settings.3.name": "Äänenvoimakkuus",
+    "global.settings.3.description": "Sovelluksen äänenvoimakkuus.",
+    "global.settings.4.name": "Käyttöliittymän portti",
+    "global.settings.4.description": "Käyttöliittymän portti jota käytetään.",
+    "global.settings.5.name": "Uusi virheen tulostus",
+    "global.settings.5.description": "Käytä uutta virheen tulostusta.",
+    "global.settings.6.name": "Lähetä kaatumisraportit",
+    "global.settings.6.description": "Lähetä kaatumisraportit kehittäjille.",
+    "global.settings.7.name": "Debug tila",
+    "global.settings.7.description": "Avaa käyttöliittymän konsolin käynnistyksen yhteydessä."
 }
