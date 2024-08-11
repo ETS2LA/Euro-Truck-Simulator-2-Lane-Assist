@@ -25,7 +25,7 @@
     "controls.listener_started": "Listener just means the app is listening for input from the user.",
     "sounds.missing_sound": "{0} is the soundpack name\n{1} is the sound name\nExample: 'Soundpack 'default' is missing the required sound 'beep'",
     "sounds.invalid_file_type": "{0} is the soundpack name\n{1} is the file type\nExample: 'Soundpack 'default' has an invalid file type 'flac'",
-    "sounds.sound_not_found_in_soundpack": "{0} is the sound name\n{1} is the soundpack name\nExample: 'Tried to play sound 'beep', but it was not found in soundpack 'default'"
+    "sounds.sound_not_found_in_soundpack": "{0} is the sound name\n{1} is the soundpack name\nExample: 'Tried to play sound 'beep', but it was not found in soundpack 'default'",
     "logging.delete_log_error": null,
     "logging.logger_initialized": null
 }
