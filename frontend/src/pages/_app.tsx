@@ -1,5 +1,7 @@
 import type { AppProps } from 'next/app'
 import type { Metadata } from "next";
+import "@/pages/translation";
+import { translate } from '@/pages/translation';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
@@ -131,12 +133,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <div className='p-3'>
     <Card className="flex flex-col content-center text-center space-y-5 pb-0 h-[calc(100vh-27px)] overflow-auto rounded-t-md">
       <div className='flex flex-col space-y-5'>
-        <Badge variant={"destructive"} className='gap-2 rounded-b-none'><Unplug className='w-5 h-5' />Lost connection to the server.</Badge>
+        <Badge variant={"destructive"} className='gap-2 rounded-b-none'><Unplug className='w-5 h-5' />{translate("frontend.app.lost_connection")}</Badge>
         <div className='flex flex-col items-center space-y-5 justify-center h-[calc(100vh-180px)]'>
           <h1>ETS2LA</h1>
           <div className="flex flex-col sm:flex-row w-full max-w-sm items-center space-y-2 sm:space-y-0 sm:space-x-2">
-            <Input type="text" onChange={handleIpChange} placeholder="Local IP address of ETS2LA" className='w-[60vw] sm:w-full' />
-            {showButton && <Button onClick={retry}>Connect</Button>}
+            <Input type="text" onChange={handleIpChange} placeholder={translate("frontend.app.local_ip_placeholder")} className='w-[60vw] sm:w-full' />
+            {showButton && <Button onClick={retry}>{translate("frontend.app.connect")}</Button>}
           </div>
         </div>
       </div>
@@ -145,8 +147,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   </ThemeProvider>
   
   let ip = ipRef.current;
-
-  console.log(ip);
 
   // Add the ip to the pageProps
   const newPageProps = { ...pageProps, ip };
@@ -177,16 +177,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             </ContextMenuTrigger>
             <ContextMenuContent className="w-64">
               <ContextMenuItem onClick={router.back}>
-                Back
-                <ContextMenuShortcut>⌘B</ContextMenuShortcut>
+                {translate("frontend.context.back")}
+              <ContextMenuShortcut>⌘B</ContextMenuShortcut>
               </ContextMenuItem>
               <ContextMenuItem onClick={router.forward}>
-                  Forward
-                <ContextMenuShortcut>⌘F</ContextMenuShortcut>
+                {translate("frontend.context.forward")}
+              <ContextMenuShortcut>⌘F</ContextMenuShortcut>
               </ContextMenuItem>
               <ContextMenuItem onClick={reloadPage}>
-                  Reload
-                  <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+                {translate("frontend.context.reload")}
+              <ContextMenuShortcut>⌘R</ContextMenuShortcut>
               </ContextMenuItem>
             </ContextMenuContent>
           </ContextMenu>
@@ -213,7 +213,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         >
           {
             !isInBasicMode ? <ETS2LAMenubar ip={ip} onLogout={() =>{
-              toast.success("Logged out")
+              toast.success(translate("frontend.logged_out"))
               localStorage.setItem('token', "");
               SetToken("") // Having two setTokens
               setToken("")
@@ -226,23 +226,23 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               </ContextMenuTrigger>
               <ContextMenuContent className="w-64">
                 <ContextMenuItem onClick={router.back}>
-                  Back
-                  <ContextMenuShortcut>⌘B</ContextMenuShortcut>
+                  {translate("frontend.context.back")}
+                <ContextMenuShortcut>⌘B</ContextMenuShortcut>
                 </ContextMenuItem>
                 <ContextMenuItem onClick={router.forward}>
-                    Forward
-                  <ContextMenuShortcut>⌘F</ContextMenuShortcut>
+                  {translate("frontend.context.forward")}
+                <ContextMenuShortcut>⌘F</ContextMenuShortcut>
                 </ContextMenuItem>
                 <ContextMenuItem onClick={reloadPage}>
-                    Reload
-                    <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+                  {translate("frontend.context.reload")}
+                  <ContextMenuShortcut>⌘R</ContextMenuShortcut>
                 </ContextMenuItem>
                 {isInBasicMode ? 
                   <ContextMenuItem onClick={() => router.push("/")}>
-                      Return to normal mode
+                      {translate("frontend.context.return_to_normal")}
                   </ContextMenuItem> :
                   <ContextMenuItem onClick={() => router.push("/basic")}>
-                      Enter basic mode
+                      {translate("frontend.context.return_to_basic")}
                   </ContextMenuItem>
                 }
               </ContextMenuContent>

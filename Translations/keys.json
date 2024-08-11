@@ -22,10 +22,20 @@
     "webserver.frontend_started",
     "godot.server_started",
     "webpage.opened",
+    "webpage.ui_loading",
     "controls.listener_started",
     "sounds.missing_sound",
     "sounds.invalid_file_type",
     "sounds.sound_not_found_in_soundpack",
     "logging.delete_log_error",
-    "logging.logger_initialized"
+    "logging.logger_initialized",
+    "frontend.app.lost_connection",
+    "frontend.app.local_ip_placeholder",
+    "frontend.app.connect",
+    "frontend.context.back",
+    "frontend.context.forward",
+    "frontend.context.reload",
+    "frontend.logged_out",
+    "frontend.context.return_to_normal",
+    "frontend.context.return_to_basic"
 ]

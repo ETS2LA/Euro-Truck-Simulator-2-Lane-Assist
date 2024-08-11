@@ -42,12 +42,16 @@ def UpdateFrontendTranslations():
             
 def CheckLanguageDatabase():
     for language in LANGUAGE_CODES:
+        not_found = []
         for key in KEYS:
             if key not in LANGUAGE_DATA[language]:
                 try:
-                    logging.error(f"Did not find a value for {key} in {LANGUAGES[LANGUAGE_CODES.index(language)]}!")
+                    not_found.append(key)
+                    #logging.error(f"Did not find a value for {key} in {LANGUAGES[LANGUAGE_CODES.index(language)]}!")
                 except:
                     pass # Probably encoding issue
+        if len(not_found) > 0:
+            logging.error(f"Did not find values for the following keys in {LANGUAGE_DATA[language]['name_en']}: {not_found}")
 
 def GetCodeForLanguage(language: str):
     if language in LANGUAGES:

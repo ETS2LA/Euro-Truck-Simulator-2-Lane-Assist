@@ -1,5 +1,6 @@
 {
     "name": "Suomi",
+    "name_en": "Finnish",
     "iso_code": "fi",
     "main.errors_and_warnings": "Virheet ja varoitukset lokitiedostoissa:",
     "main.errors": "Virheit\u00e4:",
@@ -24,10 +25,20 @@
     "webserver.frontend_started": "K\u00e4ytt\u00f6liittym\u00e4 k\u00e4ynnistetty osoitteessa {0} ( {1} )",
     "godot.server_started": "Godot avattu portille {0}",
     "webpage.opened": "K\u00e4ytt\u00f6liittym\u00e4n ikkuna avattu.",
+    "webpage.ui_loading": "Odota kunnes k\u00e4ytt\u00f6liittym\u00e4 on k\u00e4ynnistynyt",
     "controls.listener_started": "K\u00e4ytt\u00e4j\u00e4n sy\u00f6tteen kuuntelu k\u00e4ynnistetty.",
     "sounds.missing_sound": "\u00c4\u00e4nipaketissa '{0}' ei ole tarvittavaa \u00e4\u00e4nt\u00e4 '{1}'",
     "sounds.invalid_file_type": "\u00c4\u00e4nipaketissa '{0}' on virheellinen tiedosto p\u00e4\u00e4tteell\u00e4 '{1}'",
     "sounds.sound_not_found_in_soundpack": "Yritettiin soittaa \u00e4\u00e4nt\u00e4 '{0}', mutta sit\u00e4 ei l\u00f6ytynyt \u00e4\u00e4nipaketista '{1}'",
     "logging.delete_log_error": "Lokitiedostoa ei voitu poistaa.",
-    "logging.logger_initialized": "Lokikirjaus alustettu."
+    "logging.logger_initialized": "Lokikirjaus alustettu.",
+    "frontend.app.lost_connection": "Menetettiin yhteys palvelimeen.",
+    "frontend.app.local_ip_placeholder": "ETS2LA:n paikallinen IP-osoite",
+    "frontend.app.connect": "Yhdist\u00e4",
+    "frontend.context.back": "Takaisin",
+    "frontend.context.forward": "Eteenp\u00e4in",
+    "frontend.context.reload": "P\u00e4ivit\u00e4",
+    "frontend.context.return_to_normal": "Takaisin normaaliin tilaan",
+    "frontend.context.return_to_basic": "Takaisin perustilaan",
+    "frontend.logged_out": "Kirjauduttu ulos."
 }

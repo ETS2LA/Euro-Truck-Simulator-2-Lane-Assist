@@ -25,10 +25,20 @@
     "webserver.frontend_started": "Käyttöliittymä käynnistetty osoitteessa {0} ( {1} )",
     "godot.server_started": "Godot avattu portille {0}",
     "webpage.opened": "Käyttöliittymän ikkuna avattu.",
+    "webpage.ui_loading": "Odota kunnes käyttöliittymä on käynnistynyt",
     "controls.listener_started": "Käyttäjän syötteen kuuntelu käynnistetty.",
     "sounds.missing_sound": "Äänipaketissa '{0}' ei ole tarvittavaa ääntä '{1}'",
     "sounds.invalid_file_type": "Äänipaketissa '{0}' on virheellinen tiedosto päätteellä '{1}'",
     "sounds.sound_not_found_in_soundpack": "Yritettiin soittaa ääntä '{0}', mutta sitä ei löytynyt äänipaketista '{1}'",
     "logging.delete_log_error": "Lokitiedostoa ei voitu poistaa.",
-    "logging.logger_initialized": "Lokikirjaus alustettu."
+    "logging.logger_initialized": "Lokikirjaus alustettu.",
+    "frontend.app.lost_connection": "Menetettiin yhteys palvelimeen.",
+    "frontend.app.local_ip_placeholder": "ETS2LA:n paikallinen IP-osoite",
+    "frontend.app.connect": "Yhdistä",
+    "frontend.context.back": "Takaisin",
+    "frontend.context.forward": "Eteenpäin",
+    "frontend.context.reload": "Päivitä",
+    "frontend.context.return_to_normal": "Takaisin normaaliin tilaan",
+    "frontend.context.return_to_basic": "Takaisin perustilaan",
+    "frontend.logged_out": "Kirjauduttu ulos."
 }

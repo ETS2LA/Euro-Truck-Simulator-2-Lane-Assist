@@ -1,3 +1,5 @@
+from ETS2LA.utils.translator import Translate
+
 html = """
 <html>
     <style>
@@ -77,4 +79,4 @@ html = """
         animation: spinner .6s linear infinite;
     }
 </html>
-"""
+""".replace("Please wait while we initialize the user interface", Translate("webpage.ui_loading"))
