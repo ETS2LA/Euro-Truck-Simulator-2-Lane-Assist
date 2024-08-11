@@ -1,5 +1,6 @@
 {
     "name": "Suomi",
+    "name_en": "Finnish",
     "iso_code": "fi",
     "main.errors_and_warnings": "Virheet ja varoitukset lokitiedostoissa:",
     "main.errors": "Virheitä:",
