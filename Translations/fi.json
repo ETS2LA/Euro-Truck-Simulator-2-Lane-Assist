@@ -179,6 +179,6 @@
     "frontend.pluginlist.plugin.disable": "Deaktivoi",
     "frontend.pluginlist.plugin.view": "Näytä",
     "frontend.404.title": "Oho, mites päädyit tänne?",
-    "frontend.404.message": "No painappa nappia niin pääset takas (ja lähetä meille miten, kiitos!)",
+    "frontend.404.message": "No painappa nappia niin pääset takas (ja lähetä meille mitä teit, kiitos!)",
     "frontend.404.button": "Kotinäyttöön"
 }
