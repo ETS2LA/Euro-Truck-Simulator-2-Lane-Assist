@@ -119,9 +119,9 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
     function getMenubarClassname(collapsed:any, isBasic:any) {
         if(isBasic) {
             if (collapsed) {
-                return "pywebview-drag-region absolute bottom-3 left-[24vw] right-[24vw] bg-transparent border-none backdrop-blur-xl backdrop-brightness-50"
+                return "pywebview-drag-region absolute top-3 left-[15vw] right-[8.75vw] bg-transparent border-none backdrop-blur-xl backdrop-brightness-50"
             }
-            return "pywebview-drag-region absolute bottom-3 left-3 right-3 bg-transparent border-none backdrop-blur-xl backdrop-brightness-50"
+            return "pywebview-drag-region absolute top-3 left-3 right-3 bg-transparent border-none backdrop-blur-xl backdrop-brightness-50"
         } else {
             return "pywebview-drag-region"
         }
