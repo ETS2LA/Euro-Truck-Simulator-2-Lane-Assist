@@ -51,6 +51,14 @@
     "logging.delete_log_error": "Lokitiedostoa ei voitu poistaa.",
     "logging.logger_initialized": "Lokikirjaus alustettu.",
     
+    "_RUNNER": "Please leave a space here to seperate the different sections of the translations.",
+
+    "runner.could_not_import": "{0} laajennusta ei voitu ladata.",
+    "runner.could_not_load_module": "{0} moduulia ei voitu ladata.",
+    "runner.initialize_error": "Virhe {0} laajennuksen alustuksessa. [Initialize()]",
+    "runner.error_calling_function": "Virhe kutsuttaessa funktiota {0} laajennuksessa {1}",
+    "runner.plugin_crash": "{0} on kaatunut, virhe alla.",
+
     "_FRONTEND": "Please leave a space here to seperate the different sections of the translations.",
 
     "frontend.app.lost_connection": "Menetettiin yhteys palvelimeen.",
