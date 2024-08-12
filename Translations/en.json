@@ -218,6 +218,11 @@
     "frontend.feedback.description": "Please provide any feedback you have. This will be send directly to a private channel for developers to see.",
     "frontend.feedback.disclaimer": "Do not share any personal information.",
     "frontend.feedback.submit": "Submit",
+    "frontend.performance.error_fetching": "Error fetching plugins from {0}",
+    "frontend.performance.no_data": "There is no data to display. Try enabling a plugin.",
+    "frontend.performance.cpu": "CPU",
+    "frontend.performance.mem": "Memory",
+    "frontend.performance.fps": "FPS",
 
     "_PLUGIN_SETTINGS": "Please leave a space here to seperate the different sections of the translations.",
 

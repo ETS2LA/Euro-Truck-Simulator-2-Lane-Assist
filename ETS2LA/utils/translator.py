@@ -118,4 +118,3 @@ def CheckForLanguageUpdates():
         LoadLanguageData()
         UpdateFrontendTranslations()
         UpdateSettingsUITranslations()
-        logging.info("Changing language to: " + LANGUAGE)

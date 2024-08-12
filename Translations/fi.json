@@ -215,6 +215,11 @@
     "frontend.feedback.description": "Palautteesi ja ehdotuksesi tähän. Palaute on näkyvillä vain kehittäjille.",
     "frontend.feedback.disclaimer": "Älä jaa henkilökohtaisia tietoja, kuten sähköpostiosoitetta.",
     "frontend.feedback.submit": "Lähetä",
+    "frontend.performance.error_fetching": "Taustaprosessi osoitteesa {0} ei vastannut pyyntöön.",
+    "frontend.performance.no_data": "Laajennuksien tietoja ei löytynyt, kokeile aktivoida yksi.",
+    "frontend.performance.cpu": "Suoritin",
+    "frontend.performance.mem": "Muisti",
+    "frontend.performance.fps": "FPS",
 
     "_PLUGIN_SETTINGS": "Please leave a space here to seperate the different sections of the translations.",
 

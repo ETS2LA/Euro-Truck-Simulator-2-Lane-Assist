@@ -205,6 +205,11 @@
     "frontend.feedback.description",
     "frontend.feedback.disclaimer",
     "frontend.feedback.submit",
+    "frontend.performance.error_fetching",
+    "frontend.performance.no_data",
+    "frontend.performance.cpu",
+    "frontend.performance.mem",
+    "frontend.performance.fps",
 
     "global.settings.1.title",
     "global.settings.1.description",

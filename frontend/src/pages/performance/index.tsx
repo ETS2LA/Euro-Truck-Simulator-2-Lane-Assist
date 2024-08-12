@@ -29,8 +29,7 @@ import {
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { useState } from "react"
-import simplify from "simplify-js"
-import { X } from "lucide-react"
+import { translate } from "../translation"
   
 
 export default function Home({ ip }: { ip: string }) {
@@ -39,7 +38,7 @@ export default function Home({ ip }: { ip: string }) {
     const { data, error, isLoading } = useSWR("performance", () => GetPerformance(ip), { refreshInterval: 500, revalidateOnFocus: false })
     if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Card>
     if (error){
-        toast.error("Error fetching plugins from " + ip, {description: error.message})
+        toast.error(translate("frontend.performance.error_fetching", ip), {description: error.message})
         return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-75px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">{error.message}</p></Card>
     } 
 
@@ -101,17 +100,17 @@ export default function Home({ ip }: { ip: string }) {
                                 <Tooltip itemStyle={{background: "transparent"}} contentStyle={{background: "transparent", border: "none"}} />
                                 <Legend />
                                 <YAxis domain={[0, 100]} width={18} ticks={[0, 50, 100]} axisLine={false} tickSize={0} />
-                                <YAxis width={18} orientation="right" yAxisId="right" axisLine={false} tickSize={4} />
+                                <YAxis width={18} orientation="right" yAxisId="right" axisLine={false} tickSize={4} height={100}/>
                                 <XAxis axisLine={false} ticks={[0,230]} />
-                                <Line type="monotone" dataKey="cpu" stroke="#8884d8" dot={false} isAnimationActive={true} name="cpu" animationEasing="ease-in-out" animationDuration={0}/>
-                                <Line type="monotone" dataKey="mem" stroke="#82ca9d" dot={false} isAnimationActive={true} name="mem" animationEasing="ease-in-out" animationDuration={0}/>
-                                <Line type="monotone" dataKey="fps" stroke="#ff0000" dot={false} isAnimationActive={true} name="fps" yAxisId="right" animationEasing="ease-in-out" animationDuration={0} />
+                                <Line type="monotone" dataKey="cpu" stroke="#8884d8" dot={false} isAnimationActive={true} name={translate("frontend.performance.cpu")} animationEasing="ease-in-out" animationDuration={0}/>
+                                <Line type="monotone" dataKey="mem" stroke="#82ca9d" dot={false} isAnimationActive={true} name={translate("frontend.performance.mem")} animationEasing="ease-in-out" animationDuration={0}/>
+                                <Line type="monotone" dataKey="fps" stroke="#ff0000" dot={false} isAnimationActive={true} name={translate("frontend.performance.fps")} yAxisId="right" animationEasing="ease-in-out" animationDuration={0} />
                             </LineChart>
                         </ResponsiveContainer>
                     )}
                     {Object.keys(data).length == 0 && (
                         <div className="flex flex-col items-center justify-center h-full">
-                            <p className="text-zinc-700">There is no data to display. Try enabling a plugin.</p>
+                            <p className="text-zinc-700">{translate("frontend.performance.no_data")}</p>
                         </div>
                     )}
                 </ResizablePanel>
