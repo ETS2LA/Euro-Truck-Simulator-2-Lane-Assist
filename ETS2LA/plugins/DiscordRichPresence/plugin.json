@@ -1,11 +1,11 @@
 {
-    "name": "DiscordRichPresence",
+    "name": "plugins.discordrichpresence",
     "authors": [{
         "name": "DylDev",
         "url": "https://github.com/DylDevs",
         "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
     }],
-    "description": "Discord Rich Presence for ETS2LA",
+    "description": "plugins.discordrichpresence.description",
     "version": "1.0",
     "dependencies": [],
     "modules": ["TruckSimAPI"],

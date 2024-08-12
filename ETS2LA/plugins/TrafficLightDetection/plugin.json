@@ -1,11 +1,11 @@
 {
-    "name": "TrafficLightDetection",
+    "name": "plugins.trafficlightdetection",
     "authors": [{
         "name": "Glas42",
         "url": "https://github.com/Glas42",
         "avatar": "https://avatars.githubusercontent.com/u/145870870?v=4"
     }],
-    "description": "Detects traffic lights using computer vision and can display them in an output window. It communicates with the CruiseControl plugin to stop the truck at red traffic lights.",
+    "description": "plugins.trafficlightdetection.description",
     "version": "0.7",
     "dependencies": [],
     "modules": ["TruckSimAPI", "ScreenCapture"]

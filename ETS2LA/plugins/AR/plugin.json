@@ -1,5 +1,5 @@
 {
-    "name": "AR (Augmented Reality)",
+    "name": "plugins.ar",
     "authors": [
     {
         "name": "Glas42",
@@ -11,7 +11,7 @@
         "url": "https://github.com/Tumppi066",
         "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
     }],
-    "description": "in development... You can view the test AR in Berlin, if you go right from the spawn point.",
+    "description": "plugins.ar.description",
     "version": "1.0",
     "image": "image.png",
     "dependencies": [],

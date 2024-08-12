@@ -1,6 +1,6 @@
 {
     "$schema": "../schema.json",
-    "name": "ObjectDetection",
+    "name": "plugins.objectdetection",
     "authors": [
     {
         "name": "DylDev",
@@ -13,7 +13,7 @@
         "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
     }
     ],
-    "description": "Detects various objects using computer vision and can display them in an output window and 3D visualization.",
+    "description": "plugins.objectdetection.description",
     "version": "1.0",
     "dependencies": [],
     "modules": ["ScreenCapture", "ShowImage", "Raycasting", "TruckSimAPI"],

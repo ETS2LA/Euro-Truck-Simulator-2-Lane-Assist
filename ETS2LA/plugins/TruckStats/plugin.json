@@ -1,11 +1,11 @@
 {
-    "name": "TruckStats",
+    "name": "plugins.truckstats",
     "authors": [{
         "name": "Glas42",
         "url": "https://github.com/Glas42",
         "avatar": "https://avatars.githubusercontent.com/u/145870870?v=4"
     }],
-    "description": "This plugin shows some statistics about the truck, route and the game.",
+    "description": "plugins.truckstats.description",
     "version": "1.0",
     "dependencies": [],
     "modules": ["TruckSimAPI"]

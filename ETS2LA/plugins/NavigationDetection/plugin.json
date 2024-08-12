@@ -1,11 +1,11 @@
 {
-    "name": "NavigationDetection",
+    "name": "plugins.navigationdetection",
     "authors": [{
         "name": "Glas42",
         "url": "https://github.com/Glas42",
         "avatar": "https://avatars.githubusercontent.com/u/145870870?v=4"
     }],
-    "description": "Uses the in-game route advisor to follow the selected route.",
+    "description": "plugins.navigationdetection.description",
     "version": "3.1",
     "dependencies": [],
     "modules": ["TruckSimAPI", "SDKController", "Steering", "ShowImage", "ScreenCapture"]

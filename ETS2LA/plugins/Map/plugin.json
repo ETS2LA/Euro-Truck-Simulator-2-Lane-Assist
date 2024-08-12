@@ -1,11 +1,11 @@
 {
-    "name": "Map",
+    "name": "plugins.map",
     "authors": [{
         "name": "Tumppi066",
         "url": "https://github.com/Tumppi066",
         "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
     }],
-    "description": "Map detection plugin.",
+    "description": "plugins.map.description",
     "version": "1.0",
     "modules": ["TruckSimAPI", "ShowImage", "Steering", "SDKController", "Raycasting"],
     "max_fps": 20,

@@ -1,11 +1,11 @@
 {
-    "name": "MicrocontrollerControl",
+    "name": "plugins.microcontrollercontrol",
     "authors": [{
         "name": "DylDev",
         "url": "https://github.com/DylDevs",
         "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
     }],
-    "description": "Allows you to control ETS2LA and ETS2 from a microcontroller (Made for button boxes)",
+    "description": "plugins.microcontrollercontrol.description",
     "version": "1.0",
     "dependencies": [],
     "modules": ["TruckSimAPI"],

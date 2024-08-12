@@ -7,22 +7,6 @@ import {
     CardTitle,
 } from "@/components/ui/card"  
 
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
-
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-
 import { toast } from "sonner"
 import useSWR from "swr"
 import { GetPlugins, EnablePlugin, DisablePlugin } from "../backend"
@@ -31,12 +15,14 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/router"
 import { Gauge, LineChart } from "lucide-react"
 
+import { translate } from "../translation"
+
 export default function Home({ ip }: { ip: string }) {
     const { push } = useRouter()
     const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
-    if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">Loading...</p></Card>
+    if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">{translate("loading")}</p></Card>
     if (error){
-        toast.error("Error fetching plugins from " + ip, {description: error.message})
+        toast.error(translate("frontend.menubar.error_fetching_plugins", ip), {description: error.message})
         return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">{error.message}</p></Card>
     } 
 
@@ -55,7 +41,10 @@ export default function Home({ ip }: { ip: string }) {
                 {plugins.map((plugin) => (
                     <Card key={plugin} id={plugin} className="flex flex-col justify-between">
                         <CardHeader className="gap-1">
-                            <CardTitle>{data ? (data as any)[plugin]["file"]["name"] : plugin}</CardTitle>
+                            <CardTitle>
+                                {data ? translate((data as any)[plugin]["file"]["name"]) : plugin}
+                            </CardTitle>
+
                                 <div className="flex gap-2">
                                     {data && (data as any)[plugin]["file"]["authors"] && typeof (data as any)[plugin]["file"]["authors"] == typeof [{}] ? (
                                         (data as any)[plugin]["file"]["authors"].map((author: any, index: number) => (
@@ -68,16 +57,17 @@ export default function Home({ ip }: { ip: string }) {
                                         ))
                                     ) : null}
                                 </div>
-                            {data ? (data as any)[plugin]["enabled"] ? (
-                                <div className="flex flex-row gap-1 items-center">
-                                    <Gauge color="#888888" className="w-5 h-5"/>
-                                    <p className="text-muted-foreground text-xs">Plugin is running at {data ? (data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1] ? Math.round(1/(data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1]["frametime"]) : "Unknown" : "Unknown"} fps.</p>
-                                </div>
-                            ) : null : null}
+
+                                {data ? (data as any)[plugin]["enabled"] ? (
+                                    <div className="flex flex-row gap-1 items-center">
+                                        <Gauge color="#888888" className="w-5 h-5"/>
+                                        <p className="text-muted-foreground text-xs">{translate("frontend.plugins.plugin_running", data ? (data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1] ? Math.round(1/(data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1]["frametime"]) : "Unknown" : "Unknown")}</p>
+                                    </div>
+                                ) : null : null}
                         </CardHeader>
                         <CardContent>
                             <CardDescription>
-                                <p>{data ? (data as any)[plugin]["file"]["description"] : "No description available"}</p>
+                                <p>{data ? translate((data as any)[plugin]["file"]["description"]) : translate("frontend.plugins.no_description")}</p>
                             </CardDescription>
                         </CardContent>
                         <CardFooter className="gap-3 flex flex-col">
@@ -85,21 +75,21 @@ export default function Home({ ip }: { ip: string }) {
                                 {data ? (data as any)[plugin]["enabled"] ? (
                                     <Button variant={"outline"} onClick={() => {
                                         toast.promise(DisablePlugin(plugin, ip), {
-                                            loading: "Disabling " + plugin,
-                                            success: "Disabled " + plugin,
-                                            error: "Error disabling " + plugin,
-                                            description: "The button may take a second to update."
+                                            loading: translate("frontend.command.disabling_plugin", plugin),
+                                            success: translate("frontend.command.disabled_plugin", plugin),
+                                            error: translate("frontend.command.error_disabling_plugin", plugin),
+                                            description: translate("frontend.plugins.button_may_take_second_to_update")
                                         })
-                                    }}>Disable</Button>) : (
+                                    }}>{translate("frontend.menubar.plugins.plugin.disable")}</Button>) : (
                                     <Button onClick={() => {
                                         toast.promise(EnablePlugin(plugin, ip), {
-                                            loading: "Enabling " + plugin,
-                                            success: "Enabled " + plugin,
-                                            error: "Error enabling " + plugin,
-                                            description: "The button may take a second to update."
+                                            loading: translate("frontend.command.enabling_plugin", plugin),
+                                            success: translate("frontend.command.enabled_plugin", plugin),
+                                            error: translate("frontend.command.error_enabling_plugin", plugin),
+                                            description: translate("frontend.plugins.button_may_take_second_to_update")
                                         })
-                                }}>Enable</Button>): null} 
-                                <Button variant={"outline"} onClick={() => push(`/plugins/${plugin}`)}>Open Interface</Button>
+                                }}>{translate("frontend.menubar.plugins.plugin.enable")}</Button>): null} 
+                                <Button variant={"outline"} onClick={() => push(`/plugins/${plugin}`)}>{translate("frontend.plugins.open_interface")}</Button>
                             </div>
                         </CardFooter>
                     </Card>
