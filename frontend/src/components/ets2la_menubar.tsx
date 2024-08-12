@@ -42,7 +42,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
             plugins.push(key)
     }
     // Get the first characters of the plugin strings
-    const pluginChars = plugins ? plugins.map((plugin) => plugin.charAt(0)) : [];
+    const pluginChars = plugins ? plugins.map((plugin) => data ? (data as any)[plugin]["file"] ? translate((data as any)[plugin]["file"]["name"]).charAt(0) : plugin.charAt(0) : plugin.charAt(0)) : [];
     // Remove duplicates (without Set)
     const uniqueChars:string[] = [];
     for (const char of pluginChars) {
@@ -182,15 +182,15 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                                 <MenubarSubTrigger>{char}</MenubarSubTrigger>
                                 <MenubarSubContent>
                                 {plugins ? plugins.map((plugin, i) => (
-                                    plugin.charAt(0) === char && (
+                                    (data ? (data as any)[plugin]["file"] ? translate((data as any)[plugin]["file"]["name"]).charAt(0) : plugin.charAt(0) : plugin.charAt(0)) === char && (
                                     <MenubarSub key={i}>
-                                        <MenubarSubTrigger>{plugin}</MenubarSubTrigger>
+                                        <MenubarSubTrigger>{data ? translate((data as any)[plugin]["file"]["name"]) : plugin}</MenubarSubTrigger>
                                         <MenubarSubContent>
                                             {data ? (data as any)[plugin]["enabled"] ? (
                                                 <MenubarItem onClick={() => {
                                                         toast.promise(DisablePlugin(plugin, ip=ip), {
                                                             loading: translate("frontend.menubar.plugin.disabling"),
-                                                            success: translate("frontend.menubar.plugin.disabled", plugin),
+                                                            success: translate("frontend.menubar.plugin.disabled", data ? (data as any)[plugin]["file"] ? translate((data as any)[plugin]["file"]["name"]) : plugin : plugin),
                                                             error: translate("frontend.menubar.plugin.error_disabling"),
                                                         })
                                                     }}>
@@ -200,7 +200,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                                                 <MenubarItem onClick={() => {
                                                     toast.promise(EnablePlugin(plugin, ip=ip), {
                                                             loading: translate("frontend.menubar.plugin.enabling"),
-                                                            success: translate("frontend.menubar.plugin.enabled", plugin),
+                                                            success: translate("frontend.menubar.plugin.enabled", data ? (data as any)[plugin]["file"] ? translate((data as any)[plugin]["file"]["name"]) : plugin : plugin),
                                                             error: translate("frontend.menubar.plugin.error_enabling"),
                                                         })
                                                     }}>
