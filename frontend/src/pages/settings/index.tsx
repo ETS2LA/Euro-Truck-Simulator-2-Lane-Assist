@@ -72,7 +72,7 @@ export default function Home({ ip }: { ip: string }) {
                                     plugin == "Global" ? null :
                                     data && data[plugin] && data[plugin].file && data[plugin].file.settings ?
                                     <Button key={index} className="items-center justify-start text-sm" variant={selectedPlugin == plugin && "secondary" || "ghost"} onClick={() => setSelectedPlugin(plugin)}>
-                                        {plugin}
+                                        {translate(data[plugin].file.name)}
                                     </Button> : null
                                 ))}
                                 <br />

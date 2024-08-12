@@ -75,17 +75,17 @@ export default function Home({ ip }: { ip: string }) {
                                 {data ? (data as any)[plugin]["enabled"] ? (
                                     <Button variant={"outline"} onClick={() => {
                                         toast.promise(DisablePlugin(plugin, ip), {
-                                            loading: translate("frontend.command.disabling_plugin", plugin),
-                                            success: translate("frontend.command.disabled_plugin", plugin),
-                                            error: translate("frontend.command.error_disabling_plugin", plugin),
+                                            loading: translate("frontend.command.disabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
+                                            success: translate("frontend.command.disabled_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
+                                            error: translate("frontend.command.error_disabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
                                             description: translate("frontend.plugins.button_may_take_second_to_update")
                                         })
                                     }}>{translate("frontend.menubar.plugins.plugin.disable")}</Button>) : (
                                     <Button onClick={() => {
                                         toast.promise(EnablePlugin(plugin, ip), {
-                                            loading: translate("frontend.command.enabling_plugin", plugin),
-                                            success: translate("frontend.command.enabled_plugin", plugin),
-                                            error: translate("frontend.command.error_enabling_plugin", plugin),
+                                            loading: translate("frontend.command.enabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
+                                            success: translate("frontend.command.enabled_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
+                                            error: translate("frontend.command.error_enabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
                                             description: translate("frontend.plugins.button_may_take_second_to_update")
                                         })
                                 }}>{translate("frontend.menubar.plugins.plugin.enable")}</Button>): null} 

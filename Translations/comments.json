@@ -50,5 +50,8 @@
     "runner.could_not_load_module": "{0} is the module object.\nExample: 'Could not load module <object>'",
     "runner.initialize_error": "{0} is the plugin name or module\nExample: 'Error while running Initialize() for NavigationDetection",
     "runner.error_calling_function": "{0} is the function name\n{1} is the plugin name\nExample: 'Error while calling function 'onStart' in NavigationDetection",
-    "runner.plugin_crash": "{0} is the plugin name\nExample: 'Plugin NavigationDetection has crashed'"
+    "runner.plugin_crash": "{0} is the plugin name\nExample: 'Plugin NavigationDetection has crashed'",
+    "map.visualisation.roads.text": "{0} is the count of roads\n{1} is the current tile\n{2} is the count of roads currently being loaded\nExample: 'Roads: 5, Tile: (27,13), Loading: 2'",
+    "map.visualisation.prefabs.prefabs": "{0} is the count of prefabs\n{1} is the current tile\nExample: 'Prefabs: 5, Tile: (27,13)'",
+    "map.visualisation.prefabs.curves": "{0} is the count of curves\nExample: 'Curves: 5'"
 }

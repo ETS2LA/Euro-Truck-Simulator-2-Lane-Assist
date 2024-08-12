@@ -314,5 +314,18 @@
     "object_detection.settings.5.name": "Mallin arkkitehtuuri",
     "object_detection.settings.5.description": "YoloV7 vaatii enemmän tehoja kuin YoloV5. Eroa ei ole paljoa joten suositus on käyttää YoloV5 mallia.",
     "object_detection.settings.6.name": "Kuvakaappauksen mitat",
-    "object_detection.settings.6.description": "Missä kohtaa näyttöä etsitään esineitä. Ensimmäinen on X, toinen Y, kolmas leveys, neljäs korkeus. Tämä asetus päivittyy automaattisesti kun aktivoit laajennuksen kerran."
+    "object_detection.settings.6.description": "Missä kohtaa näyttöä etsitään esineitä. Ensimmäinen on X, toinen Y, kolmas leveys, neljäs korkeus. Tämä asetus päivittyy automaattisesti kun aktivoit laajennuksen kerran.",
+        
+    "_PLUGIN_KEYS": "These are keys that specific plugins need",
+
+    "map.json_not_found": "JSON tietoja ei löytynyt. Pura .zip tiedosto ja yritä uudelleen.",
+    "map.loading.preparing": "Kartta valmistautuu lataamaan tiedot...",
+    "map.loading.nodes": "Kartta lataa pisteitä...",
+    "map.loading.roads": "Kartta lataa teitä...",
+    "map.loading.prefab_data": "Kartta lataa risteyksien tietoja...",
+    "map.loading.prefabs": "Kartta lataa risteyksiä...",
+    "map.loading.final_calculations": "Kartta viimeistelee laskelmia...",
+    "map.visualisation.roads.text": "Teitä {0}, Coordinaatit: {1}, Ladataan {2}",
+    "map.visualisation.prefabs.prefabs": "Risteyksiä {0}, Coordinaatit: {1}",
+    "map.visualisation.prefabs.curves": "Käyriä {0}"
 }

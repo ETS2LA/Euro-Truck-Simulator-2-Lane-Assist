@@ -1,14 +1,15 @@
-import cv2
+from ETS2LA.utils.translator import Translate
 from GameData import nodes, roads, prefabs, prefabItems
-import math
 import numpy as np
-import os
+import logging
+import cv2
+import math
 import json
 import time
-import logging
-print = logging.info
 import sys
+import os
 
+print = logging.info
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 
 def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
@@ -179,7 +180,7 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
         sys.stdout.write(f"Calculated parallel points for {calcCount} roads\n")
         
     if drawText:
-        cv2.putText(img, f"Roads: {len(areaRoads)}, Tile: {str(tileCoords)}, Loading: {str(int(skipped))}", (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(img, Translate("map.visualisation.roads.text", values=[len(areaRoads), str(tileCoords), str(int(skipped))]), (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
     # Return the image    
     return img
@@ -252,8 +253,8 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
             pass
 
     if drawText:
-        cv2.putText(img, f"Prefabs: {len(areaItems)}, Tile: {str(prefabTileCoords)}", (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
-        cv2.putText(img, f"Curves: {curveCount}", (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(img, Translate("map.visualisation.prefabs.prefabs", values=[len(areaItems), str(prefabTileCoords)]), (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(img, Translate("map.visualisation.prefabs.curves", values=[curveCount]), (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
     
     return img
 

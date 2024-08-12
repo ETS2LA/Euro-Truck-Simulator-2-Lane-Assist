@@ -300,5 +300,16 @@
     "object_detection.settings.5.name": "Model architecture",
     "object_detection.settings.5.description": "The model architecture you want to use. Please note that YoloV7 needs more power.",
     "object_detection.settings.6.name": "Screen Capture Dimensions",
-    "object_detection.settings.6.description": "What part of your screen to use for object detection. Index 0 is X, index 1 is Y, index 2 is Width, index 3 is Height. This setting will be automatically generate after you start the plugin once."
+    "object_detection.settings.6.description": "What part of your screen to use for object detection. Index 0 is X, index 1 is Y, index 2 is Width, index 3 is Height. This setting will be automatically generate after you start the plugin once.",
+    "_PLUGIN_KEYS": "These are keys that specific plugins need",
+    "map.json_not_found": "No JSON files found in the GameData folder, please unpack the GameData.zip file.",
+    "map.loading.preparing": "Map preparing to load data...",
+    "map.loading.nodes": "Map Loading nodes...",
+    "map.loading.roads": "Map Loading roads...",
+    "map.loading.prefab_data": "Map Loading prefab data...",
+    "map.loading.prefabs": "Map Loading prefabs...",
+    "map.loading.final_calculations": "Map doing final calculations...",
+    "map.visualisation.roads.text": "Roads: {0}, Tile: {1}, Loading: {2}",
+    "map.visualisation.prefabs.prefabs": "Prefabs: {0}, Tile: {1}",
+    "map.visualisation.prefabs.curves": "Curves: {0}"
 }

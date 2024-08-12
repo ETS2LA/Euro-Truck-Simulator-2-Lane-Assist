@@ -9,10 +9,11 @@ import os
 
 # ETS2LA Imports
 from ETS2LA.plugins.runner import PluginRunner
-import ETS2LA.variables as variables
+from ETS2LA.utils.translator import Translate
 import ETS2LA.backend.settings as settings
 from ETS2LA.plugins.AR.main import Line
 import ETS2LA.backend.sounds as sounds
+import ETS2LA.variables as variables
 
 # Plugin imports
 from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems
@@ -97,7 +98,7 @@ def CheckIfJSONDataIsAvailable(data):
             
     if not JSON_FOUND:
         if not SENT_JSON_ERROR:
-            toast("No JSON files found in the GameData folder, please unpack the GameData.zip file.")
+            toast(Translate("map.json_not_found"))
             SENT_JSON_ERROR = True
 
 def LoadGameData():
@@ -109,7 +110,7 @@ def LoadGameData():
         TimeElapsedColumn(),
     )
     
-    runner.state = "Map preparing to load data..."
+    runner.state = Translate("map.loading.preparing")
     runner.state_progress = 0
     with customProgress as progress:
         task1 = progress.add_task("[green]nodes[/green]", total=100)
@@ -119,7 +120,7 @@ def LoadGameData():
         task5 = progress.add_task("[green]calculations[/green]", total=100)
         
         if nodes.nodes == []:
-            runner.state = "Map Loading Nodes"
+            runner.state = Translate("map.loading.nodes")
             runner.state_progress = 0
             time.sleep(0.1)
             nodes.task = task1
@@ -129,7 +130,7 @@ def LoadGameData():
             
         if roads.roads == []:
             #roads.limitToCount = 10000
-            runner.state = "Map Loading Roads"
+            runner.state = Translate("map.loading.roads")
             runner.state_progress = 0.2
             roads.task = task2
             roads.progress = progress
@@ -138,7 +139,7 @@ def LoadGameData():
             
         if prefabs.prefabs == []:
             #prefabs.limitToCount = 500
-            runner.state = "Map Loading Prefab Data"
+            runner.state = Translate("map.loading.prefab_data")
             runner.state_progress = 0.4
             prefabs.task = task3
             prefabs.progress = progress
@@ -146,7 +147,7 @@ def LoadGameData():
             progress.refresh() 
             
         if prefabItems.prefabItems == []:
-            runner.state = "Map Loading Prefabs"
+            runner.state = Translate("map.loading.prefabs")
             runner.state_progress = 0.6
             prefabItems.task = task4
             prefabItems.progress = progress
@@ -154,7 +155,7 @@ def LoadGameData():
             progress.refresh()
         
         if nodes.itemsCalculated == False:
-            runner.state = "Map doing final calculations"
+            runner.state = Translate("map.loading.final_calculations")
             runner.state_progress = 0.8
             nodes.progress = progress
             nodes.task = task5
@@ -184,7 +185,7 @@ def DrawInternalVisualisation(data, closeRoads, closePrefabs):
         for point in allPoints:
             img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2)
             
-        cv2.putText(img, "Steering enabled (default N)" if STEERING_ENABLED else "Steering disabled (default N)", (10, 190), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+        #cv2.putText(img, "Steering enabled (default N)" if STEERING_ENABLED else "Steering disabled (default N)", (10, 190), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
         
     img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
     img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
