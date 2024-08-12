@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ControlsPage from "./controls"
 import { ETS2LASettingsPage } from "@/components/ets2la_settings_page"
+import { translate } from "../translation"
 
 export default function Home({ ip }: { ip: string }) {
     const { push } = useRouter()
@@ -44,14 +45,14 @@ export default function Home({ ip }: { ip: string }) {
             // Ensure data is correctly passed to ETS2LASettingsPage
             return <ETS2LASettingsPage ip={ip} plugin={selectedPlugin} />;
         } else {
-            return <p className="text-xs text-muted-foreground text-start pl-4">Plugin data is not valid or missing.</p>;
+            return <p className="text-xs text-muted-foreground text-start pl-4">{translate("frontend.settings.data_missing")}</p>;
         }
     };
 
     return (
         <div className="h-full font-customSans">
             <div className="flex flex-col gap-2 p-5 pt-[13px]">
-                <h2>Settings</h2>
+                <h2>{translate("frontend.settings")}</h2>
                 <Separator className="translate-y-4" />
             </div>
             <div className="h-full pt-0 p-1 max-h-[calc(100vh-132px)]">
@@ -60,10 +61,10 @@ export default function Home({ ip }: { ip: string }) {
                         <ScrollArea className="h-full pt-4" type="hover">
                             <div className="flex flex-col gap-2 text-start">
                                 <Button key={"Global"} className="items-center justify-start text-sm" variant={selectedPlugin == "Global" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Global")}>
-                                    Global
+                                    {translate("frontend.settings.global")}
                                 </Button>
                                 <Button key={"Controls"} className="items-center justify-start text-sm" variant={selectedPlugin == "Controls" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Controls")}>
-                                Controls
+                                    {translate("frontend.settings.controls")}
                                 </Button>
                                 <br />
                                 {plugins.map((plugin:any, index) => (
@@ -75,7 +76,9 @@ export default function Home({ ip }: { ip: string }) {
                                     </Button> : null
                                 ))}
                                 <br />
-                                <p className="text-xs text-muted-foreground text-start pl-4">This list only includes plugins that support the global settings file.</p>
+                                <p className="text-xs text-muted-foreground text-start pl-4">
+                                    {translate("frontend.settings.global_info")}
+                                </p>
                             </div>
                         </ScrollArea>
                     </ResizablePanel>

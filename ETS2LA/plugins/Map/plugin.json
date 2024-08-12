@@ -14,11 +14,11 @@
             "specials": [
                 {
                     "special": "Title",
-                    "special_data": "Map Settings"
+                    "special_data": "map.settings.1.title"
                 },
                 {
                     "special": "Description",
-                    "special_data": "These settings are for the map plugin."
+                    "special_data": "map.settings.1.description"
                 },
                 {
                     "special": "Separator"
@@ -26,17 +26,17 @@
             ]
         },
         {
-            "name": "Calculate Steering",
+            "name": "map.settings.2.name",
             "key": "ComputeSteeringData",
-            "description": "This will calculate all necessary values for the map to steer the truck.",
+            "description": "map.settings.2.description",
             "type": {
                 "type": "boolean"
             }
         },
         {
-            "name": "Send Data",
+            "name": "map.settings.3.name",
             "key": "SendExternalData",
-            "description": "This will allow other plugins to use the Map's data. Please note that visualisation will not work without this option enabled. This option can and will improve performance marginally.",
+            "description": "map.settings.3.description",
             "type": {
                 "type": "boolean"
             }
@@ -49,14 +49,14 @@
                 },
                 {
                     "special": "Title",
-                    "special_data": "Internal Visualisation"
+                    "special_data": "map.settings.4.title"
                 }
             ]
         },
         {
-            "name": "Zoom",
+            "name": "map.settings.5.name",
             "key": "Zoom",
-            "description": "Controls the zoom level of the internal visualisation.",
+            "description": "map.settings.5.description",
             "type": {
                 "type": "number",
                 "min": 1,
@@ -65,9 +65,9 @@
             }
         },
         {
-            "name": "Enable",
+            "name": "map.settings.6.name",
             "key": "InternalVisualisation",
-            "description": "Whether to render the internal visualisation of the map. Useful if you are not sending the external data.",
+            "description": "map.settings.6.description",
             "type": {
                 "type": "boolean"
             }
@@ -80,14 +80,14 @@
                 },
                 {
                     "special": "Title",
-                    "special_data": "External Visualisation"
+                    "special_data": "map.settings.7.title"
                 }
             ]
         },
         {
-            "name": "Render Distance",
+            "name": "map.settings.8.name",
             "key": "ExternalDataRenderDistance",
-            "description": "This will set the max distance of the data send to other plugins. Assuming it is allowed by the plugin.",
+            "description": "map.settings.8.description",
             "type": {
                 "type": "number",
                 "min": 0,
@@ -96,9 +96,9 @@
             }
         },
         {
-            "name": "Show AR data",
+            "name": "map.settings.9.name",
             "key": "SendARData",
-            "description": "This will show the roads over your game, you need to enable the AR plugin too.",
+            "description": "map.settings.9.description",
             "type": {
                 "type": "boolean"
             }

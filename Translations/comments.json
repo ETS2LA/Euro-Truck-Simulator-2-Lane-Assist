@@ -40,5 +40,9 @@
     "frontend.pluginlist.plugin.view": "This button will open the plugin frontend page, it might thus be appropriate to translate the button as 'show' or 'open' etc...",
     "frontend.404.title": "You can go wild here, I'd like to see some fun jokes in the 404 page!",
     "frontend.404.message": "You can go wild here, I'd like to see some fun jokes in the 404 page!",
-    "frontend.404.button": "You can go wild here, I'd like to see some fun jokes in the 404 page! (at least make this something about the main menu)"
+    "frontend.404.button": "You can go wild here, I'd like to see some fun jokes in the 404 page! (at least make this something about the main menu)",
+    "frontend.settings.error": "{0} is the error message that happened.",
+    "frontend.settings.unknown_data_type": "{0} is the data type that was unknown.\nExample: 'Unknown data type: string'",
+    "object_detection.settings.2.description": "This has three options, CPU, GPU and Automatic. The others are probably self explanatory but if you think people can't understand 'Automatic' then you should explain it here.",
+    "object_detection.settings.3.description": "This two options, Performance and Quality. These cannot be translated. If you think people can't understand them then you should explain them here."
 }

@@ -23,7 +23,9 @@
             "description": "global.settings.2.description",
             "type": {
                 "type": "enum",
-                "options": ["default"]
+                "options": [
+                    "default"
+                ]
             }
         },
         {
@@ -36,6 +38,20 @@
                 "max": 100,
                 "step": 5,
                 "suffix": "%"
+            }
+        },
+        {
+            "comment": "DO NOT MOVE THIS SETTING. IT NEEDS TO BE AT INDEX 3 IN THIS FILE!",
+            "name": "global.settings.8.name",
+            "key": "language",
+            "description": "global.settings.8.description",
+            "type": {
+                "type": "enum",
+                "options": [
+                    "en",
+                    "fi",
+                    "hu"
+                ]
             }
         },
         {

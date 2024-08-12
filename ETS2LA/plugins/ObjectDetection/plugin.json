@@ -24,11 +24,11 @@
             "specials": [
                 {
                     "special": "Title",
-                    "special_data": "Object Detection Settings"
+                    "special_data": "object_detection.settings.1.title"
                 },
                 {
                     "special": "Description",
-                    "special_data": "These settings will affect the quality and performance of the object detection."
+                    "special_data": "object_detection.settings.1.description"
                 },
                 {
                     "special": "Separator"
@@ -36,9 +36,9 @@
             ]
         },
         {
-            "name": "Device",
+            "name": "object_detection.settings.2.name",
             "key": "device",
-            "description": "The device to run Object Detection on, if you use automatic, it will be decided based on your system. (If you select GPU, and you dont have one, or CUDA isn't installed, it will default to CPU.)",
+            "description": "object_detection.settings.2.description",
             "requires_restart": true,
             "type": {
                 "type": "enum",
@@ -46,9 +46,9 @@
             }
         },
         {
-            "name": "Mode",
+            "name": "object_detection.settings.3.name",
             "key": "mode",
-            "description": "The object detection mode you want to use. Please note that quality mode requires a powerful PC to run well.",
+            "description": "object_detection.settings.3.description",
             "requires_restart": true,
             "type": {
                 "type": "enum",
@@ -56,18 +56,18 @@
             }
         },
         {
-            "name": "YOLO Speed",
+            "name": "object_detection.settings.4.name",
             "key": "yolo_fps",
-            "description": "The refresh rate of the YOLO model. Higher values will update detections faster. In performance mode this is FPS, quality mode it's frames between detections. Please note that values above 2 for performance mode might not work as expected.",
+            "description": "object_detection.settings.4.description",
             "requires_restart": true,
             "type": {
                 "type": "number"
             }
         },
         {
-            "name": "Model architecture",
+            "name": "object_detection.settings.5.name",
             "key": "model",
-            "description": "The model architecture you want to use. Please note that YoloV7 needs more power.",
+            "description": "object_detection.settings.5.description",
             "requires_restart": true,
             "type": {
                 "type": "enum",
@@ -75,9 +75,9 @@
             }
         },
         {
-            "name": "Screen Capture Dimensions",
+            "name": "object_detection.settings.6.name",
             "key": "dimensions",
-            "description": "What part of your screen to use for object detection. Index 0 is X, index 1 is Y, index 2 is Width, index 3 is Height. This setting will be automatically generate after you start the plugin once.",
+            "description": "object_detection.settings.6.description",
             "requires_restart": true,
             "type": {
                 "type": "array",

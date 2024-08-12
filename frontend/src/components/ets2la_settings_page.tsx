@@ -43,17 +43,17 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 	}
 
 	if (error || pluginSettingsError) {
-		return <p className="text-xs text-muted-foreground">Error: {error}</p>
+		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.error", error)}</p>
 	}
 
 	if (!data || !pluginSettings) {
-		return <p className="text-xs text-muted-foreground">Got no data from the backend.</p>
+		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.backend_no_data")}</p>
 	}
 
 	const pluginData = data[plugin]
 
 	if (!pluginData) {
-		return <p className="text-xs text-muted-foreground">No data available for this plugin.</p>
+		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.data_missing")}</p>
 	}
 
 	const settings = pluginData.file.settings
@@ -108,7 +108,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 						if (data.requires_restart)
 							setNeedsRestart(true)
 						mutate("settings")
-						toast.success("Updated setting.", {
+						toast.success(translate("frontend.settings.string.updated"), {
 							duration: 500
 						})
 					})
@@ -130,7 +130,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 								if (data.requires_restart)
 									setNeedsRestart(true)
 								mutate("settings")
-								toast.success("Updated setting.", {
+								toast.success(translate("frontend.settings.number.updated"), {
 									duration: 500
 								})
 							})
@@ -149,7 +149,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 								if (data.requires_restart)
 									setNeedsRestart(true)
 								mutate("settings");
-								toast.success("Updated setting.", {
+								toast.success(translate("frontend.settings.number.updated"), {
 									duration: 500
 								});
 							});
@@ -171,7 +171,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 						if (data.requires_restart)
 							setNeedsRestart(true)
 						mutate("settings")
-						toast.success("Updated setting.", {
+						toast.success(translate("frontend.settings.boolean.updated"), {
 							duration: 500
 						})
 					})
@@ -198,7 +198,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 									if (data.requires_restart)
 										setNeedsRestart(true)
 									mutate("settings")
-									toast.success("Updated array element.", {
+									toast.success(translate("frontend.settings.array.updated_element"), {
 										duration: 500
 									})
 								})
@@ -210,11 +210,11 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 									if (data.requires_restart)
 										setNeedsRestart(true)
 									mutate("settings")
-									toast.success("Removed array element." , {
+									toast.success(translate("frontend.settings.array.removed_element"), {
 										duration: 500
 									})
 								})
-							}} >Remove</Button>
+							}} >{translate("frontend.settings.array.remove")}</Button>
 						</div>
 					))}
 					<Button variant={"outline"} className="text-xs h-8 p-3" onClick={() =>
@@ -225,7 +225,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 										if (data.requires_restart)
 											setNeedsRestart(true)
 										mutate("settings")
-										toast.success("Added new element to array.", {
+										toast.success(translate("frontend.settings.array.added_element"), {
 											duration: 500
 										})
 									})
@@ -235,7 +235,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 										if (data.requires_restart)
 											setNeedsRestart(true)
 										mutate("settings")
-										toast.success("Added new element to array.", {
+										toast.success(translate("frontend.settings.array.added_element"), {
 											duration: 500
 										})
 									})
@@ -246,7 +246,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 										if (data.requires_restart)
 											setNeedsRestart(true)
 										mutate("settings")
-										toast.success("Added new element to array.", {
+										toast.success(translate("frontend.settings.array.added_element"), {
 											duration: 500
 										})
 									})
@@ -257,7 +257,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 										if (data.requires_restart)
 											setNeedsRestart(true)
 										mutate("settings")
-										toast.success("Added new element to array.", {
+										toast.success(translate("frontend.settings.array.added_element"), {
 											duration: 500
 										})
 									})
@@ -265,7 +265,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 							}
 						}
 					}> 
-						Add Element
+						{translate("frontend.settings.array.add")}
 					</Button>
 				</div>
 			</div>
@@ -277,7 +277,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 
 		if (data.type.type == "enum") {
 			if (!data.type.options) {
-				return <p className="text-xs text-muted-foreground">No enum values provided.</p>
+				return <p className="text-xs text-muted-foreground">{translate("frontend.settings.enum.no_enum")}</p>
 			}
 			return <div className="flex flex-col gap-2">
 				<h4>{translate(data.name)}</h4>
@@ -286,7 +286,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 						if (data.requires_restart)
 							setNeedsRestart(true)
 						mutate("settings")
-						toast.success("Updated setting.", {
+						toast.success(translate("frontend.settings.enum.updated"), {
 							duration: 500
 						})
 					})
@@ -304,7 +304,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 			</div>
 		}
 
-		return <p className="text-xs text-muted-foreground">Unknown data type: {data.type.type}</p>
+		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.unknown_data_type", data.type.type)}</p>
 	}
 
 
@@ -325,13 +325,13 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 						setNeedsRestart(false)
 						DisablePlugin(plugin, ip).then(() => {
 							EnablePlugin(plugin, ip).then(() => {
-								toast.success("Restart Successful", {
+								toast.success(translate("frontend.settings.restarted"), {
 									duration: 1000
 								})
 							})
 						})
 					}
-					}>Plugin needs a restart to update settings.</Button>
+					}>{translate("frontend.settings.needs_restart")}</Button>
 				</div>
 			}
 		</TooltipProvider>

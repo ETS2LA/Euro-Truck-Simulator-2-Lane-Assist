@@ -20,6 +20,7 @@ import os
 # Initialize the backend
 translator.CheckLanguageDatabase()          # Check if all languages have all keys
 translator.UpdateFrontendTranslations()     # Update the frontend translations
+translator.UpdateSettingsUITranslations()   # Update the translation options in the global_settings.json file
 immediate.run()  # Websockets server for immediate data
 webserver.run()  # External webserver for the UI
 godot.run()      # Godot server for the visualisation
