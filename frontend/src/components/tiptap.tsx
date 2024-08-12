@@ -9,7 +9,6 @@ const Tiptap = ({ className, onUpdate }: { className?: string, onUpdate:any }) =
         extensions: [
             StarterKit,
         ],
-        content: 'You can use markdown keybindings to format your text! (ctrl+b, ctrl+i)<br>You can also use markdown directly (e.g. # H1, ## H2...)',
         editorProps: {
             attributes: {
                 class: className,
