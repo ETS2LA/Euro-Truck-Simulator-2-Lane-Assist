@@ -18,9 +18,10 @@ KEYS = json.load(open(os.path.join(DATA_FOLDER, "keys.json"), "r", encoding="utf
 LANGUAGE_DATA = {}
 LANGUAGES = []
 LANGUAGE_CODES = []
+PRINT_LANGUAGES = True
 
 def LoadLanguageData():
-    global LANGUAGE_DATA
+    global LANGUAGE_DATA, PRINT_LANGUAGES
     global LANGUAGES, LANGUAGE_CODES
     
     LANGUAGE_DATA = {}
@@ -31,6 +32,11 @@ def LoadLanguageData():
         LANGUAGE_DATA[file.split(".")[0]] = json.load(open(os.path.join(DATA_FOLDER, file), "r", encoding="utf-8"))
         LANGUAGES.append(LANGUAGE_DATA[file.split(".")[0]]["name"])
         LANGUAGE_CODES.append(file.split(".")[0])
+        
+    if PRINT_LANGUAGES:
+        print(f"Languages: {LANGUAGES}")
+        print(f"Language Codes: {LANGUAGE_CODES}")
+        PRINT_LANGUAGES = False
         
 LoadLanguageData()
 
