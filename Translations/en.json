@@ -51,6 +51,14 @@
     "logging.delete_log_error": "Could not delete the log file.",
     "logging.logger_initialized": "Logger initialized.",
 
+    "_RUNNER": "Please leave a space here to seperate the different sections of the translations.",
+
+    "runner.could_not_import": "Could not import plugin {0}",
+    "runner.could_not_load_module": "Could not load module {0}",
+    "runner.initialize_error": "Error while running Initialize() for {0}",
+    "runner.error_calling_function": "Error while calling function {0} in {1}",
+    "runner.plugin_crash": "Plugin {0} has crashed.",
+
     "_FRONTEND": "Please leave a space here to seperate the different sections of the translations.",
     
     "frontend.app.lost_connection": "Lost connection to the server.",

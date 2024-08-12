@@ -1,4 +1,5 @@
 from multiprocessing.connection import Connection
+from ETS2LA.utils.translator import Translate
 from ETS2LA.utils.time import AccurateSleep
 import ETS2LA.backend.settings as settings
 from types import SimpleNamespace
@@ -54,12 +55,12 @@ class PluginRunner():
             self.plugin = importlib.import_module(plugin_path)
             logging.info(f"PluginRunner: Imported plugin {plugin_path}")
         except Exception as e:
-            logging.exception(f"PluginRunner: Could not import plugin {plugin_path}")
+            logging.exception(f"PluginRunner: {Translate('runner.could_not_import', values=[plugin_path])}")
             logging.info(traceback.format_exc())
             return
         
         self.plugin_data = json.loads(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "plugin.json")).read())
-        self.plugin_name = self.plugin_data["name"]
+        self.plugin_name = Translate(self.plugin_data["name"])
         self.plugin.runner = self
         
         try: self.plugin_fps_cap = self.plugin_data["max_fps"]
@@ -89,7 +90,7 @@ class PluginRunner():
                 self.modules[moduleName] = module
                 logging.info(f"PluginRunner: Loaded module {module}")
             except Exception as e:
-                logging.exception(f"PluginRunner: Could not load module {module}")
+                logging.exception(f"PluginRunner: {Translate('runner.could_not_load_module', values=[module])}")
                 logging.info(traceback.format_exc())
             
         self.modulesDict = self.modules
@@ -99,7 +100,7 @@ class PluginRunner():
             try:
                 self.modulesDict[module].Initialize()
             except Exception as e:
-                logging.exception(f"PluginRunner: Error while running Initialize() for {module}")
+                logging.exception(f"PluginRunner: {Translate('runner.could_not_load_module', values=[module])}")
                 logging.info(traceback.format_exc())
                 continue
         
@@ -109,7 +110,7 @@ class PluginRunner():
             else:
                 logging.info(f"PluginRunner: Plugin {self.plugin_name} is temporary, skipping Initialize(), please call it in the function manually if necessary.")
         except Exception as e:
-            logging.exception(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}. Full traceback:")
+            logging.exception(f"PluginRunner: {Translate('runner.could_not_load_module', values=[self.plugin_name])}")
             logging.info(traceback.format_exc())
             
         logging.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
@@ -118,11 +119,12 @@ class PluginRunner():
     def moduleChangeListener(self):
         # Listen for changes, and update the modules as required
         while True:
+            break # Doesn't work, TODO: Fix this
             for module in self.moduleHashes:
                 with open(os.path.join(os.getcwd(), "ETS2LA", "modules", module, "main.py"), "r") as f:
                     moduleHash = hash(f.read())
                 if moduleHash != self.moduleHashes[module]:
-                    logging.warning(f"PluginRunner: Module {module} has changed, reloading it.")
+                    #logging.warning(f"PluginRunner: Module {module} has changed, reloading it.")
                     module_path = "ETS2LA.modules." + module + ".main"
                     moduleName = module
                     oldModule = self.modulesDict[moduleName]
@@ -144,7 +146,7 @@ class PluginRunner():
                         logging.exception(f"PluginRunner: Error while running Initialize() for {module_path} with error {e}")
                         continue
                     
-                    logging.warning(f"PluginRunner: Module {module_path} reloaded")
+                    #logging.warning(f"PluginRunner: Module {module_path} reloaded")
                     
                     # Reinitialize all plugins and modules to update the references
                     try:
@@ -192,7 +194,7 @@ class PluginRunner():
                     self.frp.send(data)
                     self.fq.task_done()
                 except Exception as e:
-                    logging.exception(f"PluginRunner: Error while calling function {function} in {self.plugin_name}: {e}")
+                    logging.exception(f"PluginRunner: {Translate('runner.error_calling_function', values=[function, self.plugin_name])}")
 
     def eventThread(self):
         while True:
@@ -263,7 +265,7 @@ class PluginRunner():
             try:
                 data = self.plugin.plugin()
             except:
-                logging.exception(f"PluginRunner: Plugin {self.plugin_name} has crashed with the following error:")
+                logging.exception(f"PluginRunner: {Translate('runner.plugin_crash', values=[self.plugin_name])}")
                 logging.info(traceback.format_exc())
                 self.q.put(None)
                 return

@@ -39,6 +39,13 @@
     "sounds.sound_not_found_in_soundpack",
     "logging.delete_log_error",
     "logging.logger_initialized",
+
+    "runner.could_not_import",
+    "runner.could_not_load_module",
+    "runner.initialize_error",
+    "runner.error_calling_function",
+    "runner.plugin_crash",
+
     "frontend.app.lost_connection",
     "frontend.app.local_ip_placeholder",
     "frontend.app.connect",
