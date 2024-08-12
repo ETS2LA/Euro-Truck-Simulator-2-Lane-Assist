@@ -1,5 +1,6 @@
 import ETS2LA.backend.settings as settings
 import ETS2LA.variables as variables
+import hashlib
 import logging
 import json
 import ftfy
@@ -8,7 +9,6 @@ import os
 
 DATA_FOLDER = "Translations"
 FRONTEND_DATA_FOLDER = "frontend/src/translations"
-LANGUAGE = settings.Get("global", "language", "en")
 
 FILES = os.listdir(DATA_FOLDER)
 FILES.remove("keys.json")
@@ -21,7 +21,11 @@ LANGUAGE_CODES = []
 
 def LoadLanguageData():
     global LANGUAGE_DATA
-    global LANGUAGES
+    global LANGUAGES, LANGUAGE_CODES
+    
+    LANGUAGE_DATA = {}
+    LANGUAGES = []
+    LANGUAGE_CODES = []
     
     for file in FILES:
         LANGUAGE_DATA[file.split(".")[0]] = json.load(open(os.path.join(DATA_FOLDER, file), "r", encoding="utf-8"))
@@ -29,6 +33,9 @@ def LoadLanguageData():
         LANGUAGE_CODES.append(file.split(".")[0])
         
 LoadLanguageData()
+
+LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
+SETTINGS_HASH = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
 
 def UpdateFrontendTranslations():
     # Remove old translations
@@ -43,7 +50,7 @@ def UpdateFrontendTranslations():
 def UpdateSettingsUITranslations():
     # Edit the global_settings.json file
     global_settings = json.load(open("ETS2LA/global_settings.json", "r", encoding="utf-8"))
-    global_settings["settings"][3]["type"]["options"] = LANGUAGE_CODES
+    global_settings["settings"][3]["type"]["options"] = LANGUAGES
     open("ETS2LA/global_settings.json", "w", encoding="utf-8").write(json.dumps(global_settings, indent=4))
             
 def CheckLanguageDatabase():
@@ -101,3 +108,14 @@ def Translate(key: str, values: list = None) -> str:
         return LANGUAGE_DATA["en"][key].format(*values)
     
     return ftfy.fix_text(LANGUAGE_DATA[LANGUAGE][key].format(*values))
+
+def CheckForLanguageUpdates():
+    global LANGUAGE, SETTINGS_HASH
+    cur_hash = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
+    if cur_hash != SETTINGS_HASH:
+        SETTINGS_HASH = cur_hash
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
+        LoadLanguageData()
+        UpdateFrontendTranslations()
+        UpdateSettingsUITranslations()
+        logging.info("Changing language to: " + LANGUAGE)

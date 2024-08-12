@@ -1,6 +1,7 @@
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
 from ETS2LA.frontend.webpage import set_on_top, get_on_top
-from ETS2LA.utils.translator import Translate, LANGUAGE
+from ETS2LA.utils.translator import Translate
+import ETS2LA.utils.translator as translator
 from ETS2LA.networking.data_models import *
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
@@ -180,7 +181,8 @@ def call_plugin_function(plugin: str, function: str, data: PluginCallData = None
 
 @app.get("/api/language")
 def get_language():
-    return LANGUAGE
+    translator.CheckForLanguageUpdates()
+    return translator.LANGUAGE
 
 # endregion
 # region Settings

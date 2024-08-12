@@ -45,12 +45,13 @@
             "name": "global.settings.8.name",
             "key": "language",
             "description": "global.settings.8.description",
+            "requires_restart": true,
             "type": {
                 "type": "enum",
                 "options": [
-                    "en",
-                    "fi",
-                    "hu"
+                    "English",
+                    "Suomi",
+                    "Magyar"
                 ]
             }
         },

@@ -1,5 +1,3 @@
-import { GetSettingByKey } from "./settingsServer";
-
 interface Translation {
     [key: string]: string;
 }

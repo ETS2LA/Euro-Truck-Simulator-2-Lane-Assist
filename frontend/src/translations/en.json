@@ -205,7 +205,7 @@
     "frontend.settings.needs_restart": "Plugin needs a restart to update settings.",
     "frontend.settings.restarted": "Restart Successful",
     "_PLUGIN_SETTINGS": "Please leave a space here to seperate the different sections of the translations.",
-    "global.settings.1.title": "Global Settings",
+    "global.settings.1.title": "Supports hot reload now",
     "global.settings.1.description": "These are mostly settings that affect the entire application.",
     "global.settings.2.name": "Soundpack",
     "global.settings.2.description": "The soundpack to use. These will change all the sounds for the app.",

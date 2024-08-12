@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import type { Metadata } from "next";
 import "@/pages/translation";
-import { translate, changeLanguage } from '@/pages/translation';
+import { translate, changeLanguage, currentLanguage } from '@/pages/translation';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
@@ -92,7 +92,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   };
 
   const { data, error, isLoading, mutate } = useSWR(ipRef.current, () => GetIP(ipRef.current as string));
-  const { data: language, error: languageError, isLoading: languageIsLoading } = useSWR("language", () => GetCurrentLanguage(ipRef.current as string), { refreshInterval: 10000 });
+  const { data: language, error: languageError, isLoading: languageIsLoading } = useSWR("language", () => GetCurrentLanguage(ipRef.current as string), { refreshInterval: 1000 });
 
   useEffect(() => {
     if (language) {

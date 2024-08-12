@@ -55,6 +55,8 @@ def run():
             webpage.minimize_window()
             variables.MINIMIZE = False
         
+        translator.CheckForLanguageUpdates()
+        
         if lastPingTime + 60 < time.time():
             lastPingTime = time.time()
             try:

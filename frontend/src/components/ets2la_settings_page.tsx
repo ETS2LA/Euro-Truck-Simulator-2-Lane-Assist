@@ -319,7 +319,15 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 				))}
 				<div className="h-12"></div>
 			</div>
-			{needsRestart && data[plugin]["enabled"] && 
+			{needsRestart && plugin == "Global" && 
+				<div className="absolute top-4 left-0 right-0 max-w-[calc(60vw-64px)] h-12 bg-red-950 rounded-md text-sm font-customSans justify-center text-center flex">
+					<Button className="w-full h-full" variant="destructive" onClick={() => {
+						setNeedsRestart(false)
+						window.location.reload()
+					}
+					}>{translate("frontend.settings.needs_restart")}</Button>
+				</div>
+			|| data[plugin]["enabled"] &&
 				<div className="absolute top-4 left-0 right-0 max-w-[calc(60vw-64px)] h-12 bg-red-950 rounded-md text-sm font-customSans justify-center text-center flex">
 					<Button className="w-full h-full" variant="destructive" onClick={() => {
 						setNeedsRestart(false)

@@ -190,7 +190,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                                                 <MenubarItem onClick={() => {
                                                         toast.promise(DisablePlugin(plugin, ip=ip), {
                                                             loading: translate("frontend.menubar.plugin.disabling"),
-                                                            success: translate("frontend.menubar.plugin.disabled"),
+                                                            success: translate("frontend.menubar.plugin.disabled", plugin),
                                                             error: translate("frontend.menubar.plugin.error_disabling"),
                                                         })
                                                     }}>
@@ -200,7 +200,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                                                 <MenubarItem onClick={() => {
                                                     toast.promise(EnablePlugin(plugin, ip=ip), {
                                                             loading: translate("frontend.menubar.plugin.enabling"),
-                                                            success: translate("frontend.menubar.plugin.enabled"),
+                                                            success: translate("frontend.menubar.plugin.enabled", plugin),
                                                             error: translate("frontend.menubar.plugin.error_enabling"),
                                                         })
                                                     }}>
