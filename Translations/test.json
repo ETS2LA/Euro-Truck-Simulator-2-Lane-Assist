@@ -18,7 +18,7 @@
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
 
     "main.errors_and_warnings": "Errors and warnings in the log files:",
-    "main.errors": "Errors:"
+    "main.errors": "Errors:",
     "main.overseer_started": "ETS2LA Overseer started!",
     "main.restarting": "ETS2LA is restarting...",
     "main.updating": "ETS2LA is updating...",
