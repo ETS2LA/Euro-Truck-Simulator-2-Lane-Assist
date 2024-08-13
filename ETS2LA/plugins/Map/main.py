@@ -356,10 +356,12 @@ def plugin():
     
     steeringPoints = []
     if COMPUTE_STEERING_DATA:
-        #computeData = compute.GetClosestRoadOrPrefabAndLane(data)
-        #data.update(computeData)
-        #Steering.run(value=data["map"]["closestDistance"], sendToGame=STEERING_ENABLED)
-        steeringPoints = plotter.GetNextPoints(data, closeRoads, closePrefabs)
+        steeringData = plotter.GetNextPoints(data, closeRoads, closePrefabs)
+        steeringPoints = steeringData["map"]["allPoints"]
+        try: steeringAngle = steeringData["map"]["angle"]
+        except: steeringAngle = 0
+        data.update(steeringData)
+        Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
         
     if INTERNAL_VISUALISATION:
         DrawInternalVisualisation(data, closeRoads, closePrefabs)
