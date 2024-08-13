@@ -1,12 +1,13 @@
 {
-    "name": "English",
-    "name_en": "English",
-    "iso_code": "en",
+    "name": "Test",
+    "name_en": "Test",
+    "iso_code": "test",
 
     "_GLOBALS": "Please leave a space here to seperate the different sections of the translations.",
 
     "confirm": "Confirm",
-    "cancel": "Cancel"    "no": "No",
+    "cancel": "Cancel"   
+    "no": "No",
     "loading": "Loading...",
     "success": "Success",
     "error": "Error",
