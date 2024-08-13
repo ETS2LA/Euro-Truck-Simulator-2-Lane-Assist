@@ -272,5 +272,5 @@
     "map.loading.prefabs": "Map Loading prefabs...",
     "map.loading.final_calculations": "Map doing final calculations...",
     "map.visualisation.roads.text": "Roads: {0}, Tile: {1}, Loading: {2}",
-    "map.visualisation.prefabs.prefabs": "Prefabs: {0}, Tile: {1}",
+    "map.visualisation.prefabs.prefabs": "Prefabs: {0}, Tile: {1}"
 }
