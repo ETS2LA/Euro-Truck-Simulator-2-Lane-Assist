@@ -23,6 +23,7 @@ plugins/Map/GameData/*.json
 plugins/Map/Old
 anomalousFrames
 profiles/installer_config.cfg
+godot
 
 # Ignore BG
 assets/BorderlessGaming/*
