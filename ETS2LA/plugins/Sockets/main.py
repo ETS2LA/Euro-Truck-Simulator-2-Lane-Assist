@@ -70,6 +70,11 @@ def speed(data):
     send += "speedLimit:" + str(data["truckFloat"]["speedLimit"]) + ";"
     return send
 
+def accelBrake(data):
+    send = "accel:" + str(data["truckFloat"]["gameThrottle"]) + ";"
+    send += "brake:" + str(data["truckFloat"]["gameBrake"]) + ";"
+    return send
+
 lastVehicles = [""]
 lastVehicleString = ""
 def vehicles(data):
@@ -151,6 +156,7 @@ def plugin():
     tempSend = ""
     tempSend += position(data)
     tempSend += speed(data)
+    tempSend += accelBrake(data)
     tempSend += vehicles(data)
     tempSend += traffic_lights(data)
     tempSend += steering(data)
