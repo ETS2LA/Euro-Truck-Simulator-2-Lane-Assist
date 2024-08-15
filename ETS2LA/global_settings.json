@@ -52,7 +52,10 @@
                     "English",
                     "Suomi",
                     "Magyar",
-                    "T\u00fcrk\u00e7e"
+                    "Test",
+                    "T\u00fcrk\u00e7e",
+                    "\u7b80\u4f53\u4e2d\u6587 (\u4e2d\u56fd)",
+                    "\u7e41\u9ad4\u4e2d\u6587 (\u53f0\u7063)"
                 ]
             }
         },

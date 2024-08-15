@@ -38,7 +38,7 @@ func JsonPointToLocalCoords(jsonPoint, x, y, z):
 	else: jsonPoint[1] -= z
 	return Vector3(jsonPoint[0], y, jsonPoint[1])
 	
-func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road"):
+func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road", y=0):
 	var mesh = Mesh.new()
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLE_STRIP)
@@ -54,7 +54,7 @@ func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road")
 	# Render the road mesh
 	var meshInstance = MeshInstance3D.new()
 	meshInstance.mesh = mesh
-	meshInstance.position = Vector3(x, 0, z)
+	meshInstance.position = Vector3(x, y, z)
 	meshInstance.name = meshName
 	
 	if parent == "road":
@@ -182,44 +182,25 @@ func _process(delta: float) -> void:
 			var prefabData = data["prefabs"]
 			for prefab in prefabData:
 				var x = prefab["X"]
-				var y = prefab["Y"]
+				var y = prefab["Y"] # + prefab["Nodes"][0]["Y"]
 				var z = prefab["Z"]
 				var lines = []
-				var counter = 0
-				for point in prefab["CurvePoints"]:
-					# Convert the JSON points to godot Vector3s
-					var p1 = Vector3(point[0], point[4], point[1])
-					var p2 = Vector3(point[2], point[5], point[3])
-					
-					#if x > p1.x: p1.x -= x
-					#else: p1.x += x
-					#if z > p1.z: p1.z -= z
-					#else: p1.z += z
-					
-					#if x > p2.x: p2.x -= x
-					#else: p2.x += x
-					#if z > p2.z: p2.z -= z
-					#else: p2.z += z
-					
-					p1.x -= x
-					p1.z -= z
-					
-					p2.x -= x
-					p2.z -= z
-					
-					lines.append([p1, p2])
-					
-					counter += 1
-					
-				var count = 0
-				var total = len(lines)
-				for line in lines:
-					#if count > 3:
-					#	continue
+				for lane in prefab["CurvePoints"]:
 					var vertices = []
 					var rightMarkingVertices = []
 					var leftMarkingVertices = []
-					var points = line
+					var points = []
+					var counter = 0
+					for point in lane:
+						point = Vector3(point[0], point[2], point[1])
+						point.x -= x
+						point.z -= z
+						#point.y += y
+						#points.append(JsonPointToLocalCoords(point, x, pointY, z))
+						points.append(point)
+						counter += 1
+					
+					# These point towards the next point
 					var forwardVectors = CreateForwardVectors(points)
 					
 					# These point either straight right or left of the point
@@ -229,15 +210,15 @@ func _process(delta: float) -> void:
 					for i in range(len(points)):
 						var allVertices = CreateVerticesForPoint(points[i], normalVectors[i])
 						vertices += allVertices[0]
-						#leftMarkingVertices += allVertices[1]
-						#rightMarkingVertices += allVertices[2]
+						leftMarkingVertices += allVertices[1]
+						rightMarkingVertices += allVertices[2]
+						
 				
 					# Render the meshes
 					var dark = Variables.darkMode
-					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, "default", "prefab")
+					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
 					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
-					count += 1
 					totalLines += 1
 				
 			lastData = data
@@ -289,6 +270,6 @@ func _process(delta: float) -> void:
 				n.queue_free() 
 		
 		CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
-		#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
-		#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+		#CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering", "self", -0.98)
+		#CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering", "self", -0.98)
 		

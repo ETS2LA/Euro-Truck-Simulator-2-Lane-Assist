@@ -47,6 +47,9 @@ export default function Home({ ip }: { ip: string }) {
         for (let i = 0; i < array.length - sampleSize + 1; i++) {
             let window = array.slice(i, i + sampleSize);
             let average = window.reduce((total:any, value:any) => total + value, 0) / window.length;
+            if (average == Infinity || average == -Infinity) {
+                average = 0;
+            }
             result.push(average);
         }
         return result;

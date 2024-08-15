@@ -523,6 +523,7 @@ def GetRoadByUid(uid):
 def SetRoadParallelData(road, parallelPoints, laneWidth, boundingBox):
     # Find the road by the UID
     road = GetRoadByUid(road.Uid)
+    if road == None: return # For some reason the road was not found...
     road.ParallelPoints = parallelPoints
     road.LaneWidth = laneWidth
     road.BoundingBox = boundingBox
