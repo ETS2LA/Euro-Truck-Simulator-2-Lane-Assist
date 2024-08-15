@@ -600,7 +600,7 @@ function createExportWrapper(name, nargs) {
 // include: runtime_exceptions.js
 // end include: runtime_exceptions.js
 function findWasmBinary() {
-    var f = 'godot.web.template_release.wasm32.nothreads.wasm';
+    var f = 'godot.web.template_debug.wasm32.nothreads.wasm';
     if (!isDataURI(f)) {
       return locateFile(f);
     }

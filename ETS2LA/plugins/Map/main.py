@@ -19,7 +19,7 @@ import ETS2LA.variables as variables
 from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems
 import ETS2LA.plugins.Map.Compute.compute as compute
 plotter = importlib.import_module("Compute.plotter")
-from Visualize import visualize
+visualize = importlib.import_module("Visualize.visualize")
 
 runner:PluginRunner = None
 
@@ -80,6 +80,22 @@ def UpdatePlotter():
         plotterHash = currentHash
         # Update the plotter code
         importlib.reload(plotter)
+
+visualizeHash = None
+def UpdateVisualize():
+    global visualizeHash
+    global visualize
+    filepath = variables.PATH + "ETS2LA/plugins/Map/Visualize/visualize.py"
+    
+    currentHash = ""
+    with open(filepath, "r") as file:
+        currentHash = hash(file.read())
+    
+    if currentHash != visualizeHash:
+        logging.warning("Reloading visualize")
+        visualizeHash = currentHash
+        # Update the visualize code
+        importlib.reload(visualize)
 
 def GetDistanceFromTruck(x, z, data):
     truckX = data["api"]["truckPlacement"]["coordinateX"]
@@ -294,18 +310,8 @@ def CreateExternalData(closeRoads, closePrefabs, roadUpdate, prefabUpdate):
             
         dataPrefabs = []
         for prefab in closePrefabs:
-            prefab.Nodes = []
-            try:
-                prefab.StartNode.ForwardItem = None
-                prefab.StartNode.BackwardItem = None
-            except: pass
-            try:
-                prefab.EndNode.ForwardItem = None
-                prefab.EndNode.BackwardItem = None
-            except: pass
-            prefab.Navigation = []
-            prefab.Prefab = None
-            dataPrefabs.append(prefab.json())
+            prefabJson = prefab.json()
+            dataPrefabs.append(prefabJson)
 
         externalData = {
             "roads": dataRoads,
@@ -349,9 +355,11 @@ def plugin():
     
     UpdateSettings()
     UpdatePlotter()
+    UpdateVisualize()
         
     closeRoads, updatedRoads = compute.GetRoads(data)
     closePrefabs, updatedPrefabs = compute.GetPrefabs(data)
+    
     updatedRoads = compute.CalculateParallelPointsForRoads(closeRoads) # Will slowly populate the lanes over a few frames
     
     steeringPoints = []

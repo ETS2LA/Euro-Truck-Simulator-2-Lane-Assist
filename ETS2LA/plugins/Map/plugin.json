@@ -8,7 +8,7 @@
     "description": "plugins.map.description",
     "version": "1.0",
     "modules": ["TruckSimAPI", "ShowImage", "Steering", "SDKController", "Raycasting"],
-    "max_fps": 60,
+    "max_fps": 20,
     "settings": [
         {
             "specials": [

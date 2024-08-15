@@ -8,7 +8,7 @@ import math
 POINT_SEPARATION = 2 # Meter forward for each point
 POINTS_TO_TEST = 4 # How many points to test forwards
 POINT_COUNT = 20
-MAX_OBJECT_DISTANCE = 500 # Maximum distance to look for objects with points
+MAX_OBJECT_DISTANCE = 1000 # Maximum distance to look for objects with points
 MAX_POINT_DISTANCE = 100 # Maximum distance to add points to the calculations
 
 class Point:
@@ -78,24 +78,19 @@ def GetAllCloseItemPoints(data : dict, closeItems : list[PrefabItem]):
     for item in closeItems:
         if DistanceBetweenPoints([x, y], [item.X, item.Z]) < MAX_OBJECT_DISTANCE:
             for curve in item.CurvePoints:
-                point1 = [curve[0], curve[1], curve[4]]
-                point2 = [curve[2], curve[3], curve[5]]
-                if DistanceBetweenPoints([x, y], [point1[0], point1[1]]) < MAX_POINT_DISTANCE:
-                    points.append(Point(
-                        x=point1[0],
-                        y=point1[1],
-                        z=point1[2],
-                        type="item",
-                        parentUid=item.Uid
-                    ))
-                if DistanceBetweenPoints([x, y], [point2[0], point2[1]]) < MAX_POINT_DISTANCE:
-                    points.append(Point(
-                        x=point2[0],
-                        y=point2[1],
-                        z=point2[2],
-                        type="item",
-                        parentUid=item.Uid
-                    ))
+                try:
+                    for point in curve:
+                        if DistanceBetweenPoints([x, y], [point[0], point[1]]) < MAX_POINT_DISTANCE:
+                            points.append(Point(
+                                x=point[0],
+                                y=point[1],
+                                z=point[2],
+                                type="item",
+                                parentUid=item.Uid
+                            ))
+                except:
+                    logging.exception("Error in GetAllCloseItemPoints")
+                    pass
     
     return points
 
@@ -213,7 +208,8 @@ def GetNextPoints(data : dict, closeRoads : list, closeItems : list):
         closePoints.remove(scoredPoints[0])
         
         for point in scoredPoints:
-            ...#print(f"    - Point at {point.array()} with score {point.score}")
+            #print(f"    - Point at {point.array()} with score {point.score}")
+            ...
         #print(f" --> Added point {i} at {points[-1]} with score {scoredPoints[0].score}")
         
         # Calculate the forward vector between the last two points

@@ -4,6 +4,7 @@ from ETS2LA.variables import *
 import ETS2LA.plugins.Map.GameData.prefabs as prefabs
 import ETS2LA.plugins.Map.GameData.roads as roads
 import ETS2LA.plugins.Map.GameData.nodes as nodes
+import ETS2LA.plugins.Map.GameData.calc as calc
 
 import logging
 import json
@@ -35,7 +36,6 @@ from rich.progress import Task, Progress
 task: Task = None
 progress: Progress = None
 
-
 # MARK: Classes
 class PrefabItem:
     Uid = 0
@@ -58,9 +58,90 @@ class PrefabItem:
     Prefab = None
     NavigationLanes = []
     IsSecret = False
-    CurvePoints = [[]]
+    _CurvePoints = [[]]
     EndPoints = []
     BoundingBox = []
+    
+    @property
+    def CurvePoints(self):
+        try:
+            self.getPoints()
+        except:
+            logging.exception("Error getting curvepoints for prefab item: " + str(self.Uid))
+        return self._CurvePoints
+
+    @CurvePoints.setter
+    def CurvePoints(self, value):
+        self._CurvePoints = value
+
+    def getPoints(self):
+        if self._CurvePoints is not None and self._CurvePoints != [[]] and len(self._CurvePoints) > 0:
+            return self._CurvePoints  # Already processed
+    
+        if self.Prefab == None or self.Nodes == None or len(self.Nodes) == 0:
+            return self._CurvePoints  # Some don't have a prefab or nodes
+    
+        originNode = self.Nodes[0]
+        mapPointOrigin = self.Prefab.PrefabNodes[self.Origin]
+    
+        rot = float(originNode.Rotation - math.pi -
+            math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2)
+        
+        if self.Prefab.FilePath == "prefab/fork/road_1x_sidewalk_end_4m.ppd":
+            logging.warning(f"{self.Uid}\n{originNode.Uid}\n{originNode.Rotation}\n{mapPointOrigin.id}\n{mapPointOrigin.RotX}\n{mapPointOrigin.RotZ}\n{rot}")
+        
+        prefabStartX = originNode.X - mapPointOrigin.X
+        prefabStartZ = originNode.Z - mapPointOrigin.Z
+        prefabStartY = originNode.Y - mapPointOrigin.Y
+
+        tempPoints = []
+    
+        for i, lane in enumerate(self.Prefab.PrefabLanes):
+            tempPoints.append([])  # Adding a new list for each lane
+            if len(lane.Curves) < 4:
+                for k in range(len(lane.Curves)):
+                    curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
+                    curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
+                    tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[k].startY + prefabStartY))
+                    tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[k].endY + prefabStartY))
+            else:
+                for j in range(len(lane.Curves)):
+                    #logging.warning("Processing lanepoint: " + str(j))
+                    if j == 0:
+                        curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[j].startX, prefabStartZ + lane.Curves[j].startZ, rot, originNode.X, originNode.Z)
+                        tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[j].startY + prefabStartY))
+                    elif j == len(lane.Curves) - 1:
+                        curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[j].endX, prefabStartZ + lane.Curves[j].endZ, rot, originNode.X, originNode.Z)
+                        tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[j].endY + prefabStartY))
+                    else:
+                        p0 = lane.Curves[j - 1]
+                        p1 = lane.Curves[j]
+                        p2 = lane.Curves[j + 1] if j < len(lane.Curves) - 1 else lane.Curves[j]
+                        p3 = lane.Curves[j + 2] if j < len(lane.Curves) - 2 else lane.Curves[j]
+    
+                        for t in [x * 0.05 for x in range(20)]:  # Generates values from 0 to 1 inclusive in steps of 0.05
+                            #logging.warning("Processing curvepoint: " + str(t))
+                            x = 0.5 * ((2 * p1.startX) +
+                                       (-p0.startX + p2.startX) * t +
+                                       (2 * p0.startX - 5 * p1.startX + 4 * p2.startX - p3.startX) * t**2 +
+                                       (-p0.startX + 3 * p1.startX - 3 * p2.startX + p3.startX) * t**3)
+    
+                            z = 0.5 * ((2 * p1.startZ) +
+                                       (-p0.startZ + p2.startZ) * t +
+                                       (2 * p0.startZ - 5 * p1.startZ + 4 * p2.startZ - p3.startZ) * t**2 +
+                                       (-p0.startZ + 3 * p1.startZ - 3 * p2.startZ + p3.startZ) * t**3)
+                            
+                            y = 0.5 * ((2 * p1.startY) +
+                                       (-p0.startY + p2.startY) * t +
+                                       (2 * p0.startY - 5 * p1.startY + 4 * p2.startY - p3.startY) * t**2 +
+                                       (-p0.startY + 3 * p1.startY - 3 * p2.startY + p3.startY) * t**3)
+    
+                            rotatedPoint = calc.RotatePoint(prefabStartX + x, prefabStartZ + z, rot, originNode.X, originNode.Z)
+                            #rotatedPoint = calc.RotatePoint3D(prefabStartX + x, y, prefabStartZ + z, 0, 0, 0, originNode.X, originNode.Y, originNode.Z)
+                            
+                            tempPoints[i].append((rotatedPoint[0], rotatedPoint[1], y + prefabStartY))
+    
+        self.CurvePoints = tempPoints
     
     def json(self):
         return {
@@ -81,10 +162,10 @@ class PrefabItem:
             "Navigation": [nav.json() for nav in self.Navigation],
             "Origin": self.Origin,
             "Padding": self.Padding,
-            "Prefab": self.Prefab.json() if self.Prefab != None else None,
+            "Prefab": self.Prefab.Token if self.Prefab != None else None,
             "NavigationLanes": self.NavigationLanes,
             "IsSecret": self.IsSecret,
-            "CurvePoints": self.CurvePoints,
+            "CurvePoints": self._CurvePoints,
             "EndPoints": self.EndPoints,
             "BoundingBox": self.BoundingBox
         }
@@ -114,7 +195,7 @@ class PrefabItem:
         except: self.Prefab = None
         self.NavigationLanes = json["NavigationLanes"]
         self.IsSecret = json["IsSecret"]
-        self.CurvePoints = json["CurvePoints"]
+        self._CurvePoints = json["CurvePoints"]
         self.EndPoints = json["EndPoints"]
         self.BoundingBox = json["BoundingBox"]
         
@@ -205,7 +286,7 @@ def LoadPrefabItems():
         itemObj.Padding = item["Padding"]
         itemObj.Prefab = item["Prefab"]
         itemObj.IsSecret = item["IsSecret"]
-        itemObj.CurvePoints = item["curvePoints"]
+        #itemObj.CurvePoints = item["curvePoints"]
         
         if itemObj.Valid:
             prefabItems.append(itemObj)
@@ -233,6 +314,8 @@ def LoadPrefabItems():
     prefabItemMatchStartTime = time.time()
     for prefabItem in prefabItems:
         prefabItem.Prefab = prefabs.GetPrefabByToken(prefabItem.Prefab)
+        if prefabItem.Prefab == None:
+            logging.warning(f"Prefab item {prefabItem.Uid} has no prefab!")
         
         prefabItem.StartNode = nodes.GetNodeByUid(prefabItem.StartNodeUid)
         prefabItem.EndNode = nodes.GetNodeByUid(prefabItem.EndNodeUid)
@@ -251,14 +334,14 @@ def LoadPrefabItems():
         prefabItem.X = prefabStartX
         prefabItem.Z = prefabStartZ
         
-        prefabItem.NavigationLanes = []
-        for curvePoints in prefabItem.CurvePoints:
-            curveStartX = curvePoints[0]
-            curveStartZ = curvePoints[1]
-            curveEndX = curvePoints[2]
-            curveEndZ = curvePoints[3]
-            
-            prefabItem.NavigationLanes.append((curveStartX, curveStartZ, curveEndX, curveEndZ))
+        #prefabItem.NavigationLanes = []
+        #for curvePoints in prefabItem.CurvePoints:
+        #    curveStartX = curvePoints[0]
+        #    curveStartZ = curvePoints[1]
+        #    curveEndX = curvePoints[2]
+        #    curveEndZ = curvePoints[3]
+        #    
+        #    prefabItem.NavigationLanes.append((curveStartX, curveStartZ, curveEndX, curveEndZ))
             
 
         for nav in prefabItem.Navigation:
@@ -334,6 +417,7 @@ def LoadPrefabItems():
         if z not in optimizedPrefabItems[x]:
             optimizedPrefabItems[x][z] = []
             
+            
         optimizedPrefabItems[x][z].append(item)
         
     progress.advance(task)
@@ -357,7 +441,7 @@ def GetItemsInTileByCoordinates(x, z):
     
     if x in optimizedPrefabItems:
         if z in optimizedPrefabItems[x]:
-            prefabItems = optimizedPrefabItems[x][z].copy()
+            prefabItems = optimizedPrefabItems[x][z]
             return prefabItems
     
     return []
