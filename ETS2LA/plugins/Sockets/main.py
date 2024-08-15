@@ -68,6 +68,7 @@ def traffic_lights(data):
 def speed(data):
     send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
     send += "speedLimit:" + str(data["truckFloat"]["speedLimit"]) + ";"
+    send += "cc:" + str(data["truckFloat"]["cruiseControlSpeed"]) + ";"
     return send
 
 def accelBrake(data):

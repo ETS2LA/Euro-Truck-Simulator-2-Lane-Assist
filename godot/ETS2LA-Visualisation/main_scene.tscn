@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=39 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://Scripts/roads_and_prefabs.gd" id="9_115pj"]
 [ext_resource type="Script" path="res://traffic_lights.gd" id="9_b12iv"]
 [ext_resource type="Script" path="res://Scripts/UI/notifications.gd" id="10_p5w2d"]
+[ext_resource type="Script" path="res://Scripts/UI/data_progress.gd" id="12_f87nd"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/camera_reset_button.gd" id="13_1g6rd"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/always_on_top_button.gd" id="13_o2qdb"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/map_reload_button.gd" id="14_3cect"]
@@ -63,6 +64,17 @@ font = ExtResource("16_4yfey")
 font = ExtResource("16_4yfey")
 font_size = 30
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hwuu1"]
+font = ExtResource("16_4yfey")
+font_size = 30
+
+[sub_resource type="FontVariation" id="FontVariation_3k4pa"]
+base_font = ExtResource("16_4yfey")
+spacing_top = -12
+
+[sub_resource type="LabelSettings" id="LabelSettings_0cifn"]
+font = SubResource("FontVariation_3k4pa")
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
 font_size = 12
@@ -138,7 +150,7 @@ offset_bottom = 314.0
 
 [node name="Label" type="Label" parent="UI/TopLeftContainer"]
 layout_mode = 2
-text = " Steering"
+text = " Speed"
 label_settings = SubResource("LabelSettings_xv7ty")
 
 [node name="Information" type="HBoxContainer" parent="UI/TopLeftContainer"]
@@ -156,19 +168,24 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/background = SubResource("StyleBoxFlat_aoyvd")
 theme_override_styles/fill = SubResource("StyleBoxFlat_b477p")
-value = 70.0
+max_value = 1.0
+step = 0.001
 fill_mode = 3
 show_percentage = false
+script = ExtResource("12_f87nd")
+ValueToDisplay = "accel"
 
 [node name="Braking" type="ProgressBar" parent="UI/TopLeftContainer/Information/Sliders"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/background = SubResource("StyleBoxFlat_u32vb")
 theme_override_styles/fill = SubResource("StyleBoxFlat_l7mpi")
-step = 1.0
-value = 50.0
+max_value = 1.0
+step = 0.001
 fill_mode = 2
 show_percentage = false
+script = ExtResource("12_f87nd")
+ValueToDisplay = "brake"
 
 [node name="VehicleInformation" type="VBoxContainer" parent="UI/TopLeftContainer/Information"]
 layout_mode = 2
@@ -257,6 +274,27 @@ script = ExtResource("16_rn4g8")
 DarkModeColor = Color(0, 0, 0, 1)
 ValueToDisplay = "speedLimit"
 Multiplier = 3.6
+
+[node name="Label" type="Label" parent="UI/TopRightContainer"]
+layout_mode = 2
+text = "80"
+label_settings = SubResource("LabelSettings_hwuu1")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+DarkModeColor = Color(0.358197, 0.366457, 0.389254, 1)
+LightModeColor = Color(0, 0.223529, 0.490196, 1)
+ValueToDisplay = "cc"
+Multiplier = 3.6
+
+[node name="Label2" type="Label" parent="UI/TopRightContainer"]
+layout_mode = 2
+text = "set"
+label_settings = SubResource("LabelSettings_0cifn")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+DarkModeColor = Color(0.356863, 0.364706, 0.388235, 1)
+LightModeColor = Color(0, 0.223529, 0.490196, 1)
+ValueToDisplay = "set"
 
 [node name="BottomLeftContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 2
