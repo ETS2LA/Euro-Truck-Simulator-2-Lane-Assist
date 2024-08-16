@@ -2,6 +2,7 @@ from ETS2LA.backend.settings import *
 from ETS2LA.variables import *
 
 import ETS2LA.plugins.Map.GameData.prefabs as prefabs
+from ETS2LA.plugins.Map.GameData.calc import Hermite
 import ETS2LA.plugins.Map.GameData.roads as roads
 import ETS2LA.plugins.Map.GameData.nodes as nodes
 import ETS2LA.plugins.Map.GameData.calc as calc
@@ -84,6 +85,12 @@ class PrefabItem:
             return self._CurvePoints  # Some don't have a prefab or nodes
     
         originNode = self.Nodes[0]
+        
+        if type(self.Prefab) == int:
+            self.Prefab = prefabs.GetPrefabByToken(self.Prefab)
+        if self.Prefab == None:
+            return self._CurvePoints
+        
         mapPointOrigin = self.Prefab.PrefabNodes[self.Origin]
     
         rot = float(originNode.Rotation - math.pi -
@@ -99,10 +106,41 @@ class PrefabItem:
             tempPoints.append([])  # Adding a new list for each lane
             if len(lane.Curves) < 4:
                 for k in range(len(lane.Curves)):
-                    curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
-                    curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
-                    tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[k].startY + prefabStartY))
-                    tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[k].endY + prefabStartY))
+                    if len(self.Nodes) == 2:
+                        StartNode = self.Nodes[0]
+                        EndNode = self.Nodes[1]
+                        
+                        curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
+                        curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
+                        
+                        sx = curveStartPoint[0]
+                        sz = curveStartPoint[1]
+                        sy = lane.Curves[k].startY + prefabStartY
+                        ex = curveEndPoint[0]
+                        ez = curveEndPoint[1]
+                        ey = lane.Curves[k].endY + prefabStartY
+                        
+                        radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+
+                        tanSx = math.cos(-(math.pi * 0.5 - StartNode.Rotation)) * radius
+                        tanEx = math.cos(-(math.pi * 0.5 - EndNode.Rotation)) * radius
+                        tanSz = math.sin(-(math.pi * 0.5 - StartNode.Rotation)) * radius
+                        tanEz = math.sin(-(math.pi * 0.5 - EndNode.Rotation)) * radius
+                        
+                        resolution = 10
+                        
+                        for j in range(resolution):
+                            s = j / (resolution - 1)
+                            x = Hermite(s, sx, ex, tanSx, tanEx)
+                            z = Hermite(s, sz, ez, tanSz, tanEz)
+                            #rotatedPoint = calc.RotatePoint(x, z, rot, originNode.X, originNode.Z)
+                            tempPoints[i].append((x, z, sy + (ey - sy) * s))
+                    
+                    else:
+                        curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
+                        curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
+                        tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[k].startY + prefabStartY))
+                        tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[k].endY + prefabStartY))
             else:
                 for j in range(len(lane.Curves)):
                     #logging.warning("Processing lanepoint: " + str(j))

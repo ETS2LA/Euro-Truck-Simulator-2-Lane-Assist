@@ -111,15 +111,17 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
     CurrentItem = Route[-1].item
     ClosestLane = Route[-1].lane
     
+    if type(CurrentItem) == Road:   
+        BackwardNode = CurrentItem.EndNode
+        ForwardNode = CurrentItem.StartNode
+    
     if type(CurrentItem) == PrefabItem:
         if len(CurrentItem.Nodes) == 2:
-            CurrentItem.StartNode = CurrentItem.Nodes[0]
-            CurrentItem.EndNode = CurrentItem.Nodes[1]
+            ForwardNode = CurrentItem.Nodes[0]
+            BackwardNode = CurrentItem.Nodes[1]
         else:
             return
     
-    BackwardNode = CurrentItem.EndNode
-    ForwardNode = CurrentItem.StartNode
     
     BackwardPosition = [BackwardNode.X, BackwardNode.Z]
     ForwardPosition = [ForwardNode.X, ForwardNode.Z]

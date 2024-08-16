@@ -192,7 +192,6 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
         else:
             return closestLane
     except:
-        logging.exception("Error in FindClosestLane")
         return None, None, None, sys.maxsize, None
 
 # MARK: Closest item
