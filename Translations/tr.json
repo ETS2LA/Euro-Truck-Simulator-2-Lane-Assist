@@ -325,7 +325,7 @@
     "object_detection.settings.6.name": "Ekran Yakalama Boyutları",
     "object_detection.settings.6.description": "Nesne algılama için ekranınızın hangi bölümünü kullanacağınızı belirler. Dizin 0 X, dizin 1 Y, dizin 2 Genişlik, dizin 3 Yüksekliktir. Bu ayar, eklentiyi bir kez başlattıktan sonra otomatik olarak oluşturulacaktır.",
     
-	"_THE_POLITICS": "I'm not a fan of the Turkish Goverment. They will probably ban this app too and tell us that it is because of terrorism lol. Just vote for Cumhuriyet Halk Partisi next time you fucking idiots. C'mon, search it.",
+	"_THE_POLITICS": "Better not take too much risk",
 
     "map.json_not_found": "GameData klasöründe JSON dosyası bulunamadı. Lütfen GameData.zip dosyasının içindeki JSON dosyalarını dışarı çıkarın.",
     "map.loading.preparing": "Harita, veri yüklemeye hazırlanıyor...",
