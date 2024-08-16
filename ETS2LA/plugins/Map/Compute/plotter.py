@@ -195,10 +195,10 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
             Curves = NextItem.CurvePoints
             Lanes = NextItem.Prefab.PrefabLanes
             
-            if NeedInvert(DiscardPointsBehindTheTruck(CurrentItem.ParallelPoints[ClosestLane], truckX, truckZ, rotation), truckX, truckZ):
-                CurrentEndPoint = CurrentItem.ParallelPoints[ClosestLane][::-1][-1]
-            else: 
-                CurrentEndPoint = CurrentItem.ParallelPoints[ClosestLane][-1]
+            if NeedInvert(Route[-1].points, truckX, truckZ):
+                CurrentEndPoint = Route[-1].points[::-1][-1]
+            else:
+                CurrentEndPoint = Route[-1].points[-1]
             
             #logging.warning(f"CurrentEndPoint: {CurrentEndPoint}")
 
