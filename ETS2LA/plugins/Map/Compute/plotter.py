@@ -232,7 +232,7 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
             if closestLaneId == [math.inf]:
                 return []
             
-            wantedDirection = "right" if data["api"]["truckBool"]["blinkerLeftOn"] else "left" if data["api"]["truckBool"]["blinkerRightOn"] else "forward"
+            wantedDirection = "right" if data["api"]["truckBool"]["blinkerLeftActive"] else "left" if data["api"]["truckBool"]["blinkerRightActive"] else "forward"
             if len(closestLaneId) > 1:
                 if wantedDirection == 'forward':
                     # Check which of the lanes is the most forward
@@ -300,15 +300,20 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
 def DistanceBetweenPoints(point1, point2):
     return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
+wasIndicating = False
+
 def GetNextPoints(data : dict, MapUtils, Enabled):
     global Route
+    global wasIndicating
     
     data["map"]["allPoints"] = []
     data["map"]["endPoints"] = []
     data["map"]["angle"] = 0
     
-    if not Enabled or data["api"]["truckBool"]["blinkerLeftOn"] or data["api"]["truckBool"]["blinkerRightOn"]:
+    if not Enabled or ((data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]) and not wasIndicating) or ((not data["api"]["truckBool"]["blinkerLeftActive"] and not data["api"]["truckBool"]["blinkerRightActive"]) and wasIndicating):
+        wasIndicating = data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]
         Route = []
+        print("Route cleared")
         #return data
     
     truckX = data["api"]["truckPlacement"]["coordinateX"]
@@ -420,7 +425,11 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
         else:
             angle += offsetCorrection
         
-        data["map"]["angle"] = angle * 2
+        multiplier = 2
+        if data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]:
+            multiplier = 4
+        
+        data["map"]["angle"] = angle * multiplier
         #print(f"Angle is {angle}")
     else:
         # Just home to the last point if there are less than 2
