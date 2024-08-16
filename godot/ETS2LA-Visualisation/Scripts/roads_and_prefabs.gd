@@ -241,10 +241,12 @@ func _process(delta: float) -> void:
 		var points = []
 		var counter = 0
 		for point in SteeringData:
-			# Convert the JSON points to godot Vector3s
-			points.append(Vector3(point[0], position.y + 1, point[1]))
-			#print(points[-1])
-			counter += 1
+			if typeof(point) != typeof({"hello": "there"}):
+				if len(point) > 1:
+					# Convert the JSON points to godot Vector3s
+					points.append(Vector3(point[0], position.y + 1, point[1]))
+					#print(points[-1])
+					counter += 1
 		
 		# These point towards the next point
 		var forwardVectors = CreateForwardVectors(points)
