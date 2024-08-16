@@ -566,6 +566,7 @@ offsetPerName = {
     "Highway 2 lanes 2m offset" : 8.5,
     "Highway 2 lanes 1m offset" : 6.5,
     "Highway 3 lanes 2m offset" : 8.5,
+    "Highway 3 lanes 5m offset" : 14.5,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
 }
 offsetRules = {
