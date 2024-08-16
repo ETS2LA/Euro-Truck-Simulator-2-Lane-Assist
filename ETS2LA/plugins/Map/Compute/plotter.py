@@ -76,8 +76,14 @@ def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
         angle = math.degrees(angle)
         if angle > 90:
             continue
-        newPoints.append(point)      
+        newPoints.append(point)   
         
+    try:
+        if DistanceBetweenPoints([truckX, truckZ], newPoints[0]) > DistanceBetweenPoints([truckX, truckZ], newPoints[-1]):
+            newPoints = newPoints[::-1]
+    except:
+        pass
+    
     return newPoints
 
 def NeedInvert(points, truckX, truckY):
@@ -277,7 +283,7 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
     
     if not Enabled:
         Route = []
-        return data
+        #return data
     
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
@@ -326,7 +332,7 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
     for item in itemsToRemove:
         Route.remove(item)
 
-    data["map"]["allPoints"] = allPoints#[:10]
+    data["map"]["allPoints"] = allPoints#[:5]
     data["map"]["endPoints"] = []
     
     if allPoints == []:
@@ -370,6 +376,7 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
         # Calculate the angle as before
         angle = np.arccos(np.dot(truckForwardVector, centerlineVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(centerlineVector)))
         angle = math.degrees(angle)
+        
         if np.cross(truckForwardVector, centerlineVector) < 0:
             angle = -angle
         
