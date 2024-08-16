@@ -374,7 +374,7 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
         try:
             Route.append(GetNextItem(data, truckX, truckZ, rotation, MapUtils))
         except:
-            logging.exception("Failed to get next item")
+            #logging.exception("Failed to get next item")
             if len(Route) == 0:
                 closestData = MapUtils.run(truckX, 0, truckZ)
                 try:
