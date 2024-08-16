@@ -520,8 +520,9 @@ def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0, p
     tileCoords = roads.GetTileCoordinates(x, y)
     truckXY = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
     try:
+        #logging.warning(f"Point: {point}")
         try:
-            xy = roads.GetLocalCoordinateInTile(point[0], point[2], tileCoords[0], tileCoords[1])
+            xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
         except:
             xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
         xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
@@ -530,7 +531,7 @@ def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0, p
         pointX = int(zoomedX + size//2)
         pointY = int(zoomedY + size//2)
         cv2.circle(img, (pointX, pointY), 2 * pointSize, color, -1, cv2.LINE_AA)
-        
+        #logging.warning(f"Point: {pointX}, {pointY}")
         if distance != 0:
             # Draw a line and text from the truck to the point
             cv2.line(img, (size//2, size//2), (pointX, pointY), (100,100,100), 1, cv2.LINE_AA)

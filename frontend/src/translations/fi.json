@@ -311,5 +311,6 @@
     "map.loading.final_calculations": "Kartta viimeistelee laskelmia...",
     "map.visualisation.roads.text": "Teit\u00e4 {0}, Coordinaatit: {1}, Ladataan {2}",
     "map.visualisation.prefabs.prefabs": "Risteyksi\u00e4 {0}, Coordinaatit: {1}",
-    "map.visualisation.prefabs.curves": "K\u00e4yri\u00e4 {0}"
+    "map.visualisation.prefabs.curves": "K\u00e4yri\u00e4 {0}",
+    "map.extracting_data": "Puretaan GameData.zip, odota hetki..."
 }

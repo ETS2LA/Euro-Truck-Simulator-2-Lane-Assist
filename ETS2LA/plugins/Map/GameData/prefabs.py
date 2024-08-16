@@ -13,7 +13,7 @@ from rich.progress import Task, Progress
 task: Task = None
 progress: Progress = None
 
-prefabFileName = PATH + "ETS2LA/plugins/Map/GameData/prefabs.json"
+prefabFileName = PATH + "ETS2LA/plugins/Map/GameData/data/prefabs.json"
 optimizedPrefabs = {}
 print = logging.info
 limitToCount = 0

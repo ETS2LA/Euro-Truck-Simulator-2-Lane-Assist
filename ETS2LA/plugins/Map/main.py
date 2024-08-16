@@ -17,6 +17,7 @@ import ETS2LA.variables as variables
 
 # Plugin imports
 from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems
+import ETS2LA.plugins.Map.GameData.extractor as extractor
 import ETS2LA.plugins.Map.Compute.compute as compute
 plotter = importlib.import_module("Compute.plotter")
 visualize = importlib.import_module("Visualize.visualize")
@@ -52,6 +53,8 @@ def Initialize():
     API.TRAILER = True
     
     SI = runner.modules.ShowImage
+    
+    MapUtils = runner.modules.MapUtils
     
     Steering = runner.modules.Steering
     Steering.OFFSET = 0
@@ -344,11 +347,13 @@ def plugin():
         "api": API.run(),
     }
     
-    if not JSON_FOUND:
-        CheckIfJSONDataIsAvailable(data)
-        return None
+    # No longer needed, data will always be available
+    # if not JSON_FOUND:
+    #     CheckIfJSONDataIsAvailable(data)
+    #     return None
     
     if not DATA_LOADED:
+        extractor.UpdateData()
         LoadGameData()        
     
     data = CreatePlaceholderMapData(data)    
@@ -364,7 +369,7 @@ def plugin():
     
     steeringPoints = []
     if COMPUTE_STEERING_DATA:
-        steeringData = plotter.GetNextPoints(data, closeRoads, closePrefabs)
+        steeringData = plotter.GetNextPoints(data, MapUtils)
         steeringPoints = steeringData["map"]["allPoints"]
         try: steeringAngle = steeringData["map"]["angle"]
         except: steeringAngle = 0

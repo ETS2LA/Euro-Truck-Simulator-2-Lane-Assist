@@ -60,7 +60,7 @@ class Node:
     
 nodes = []
 optimizedNodes = {}
-nodeFileName = PATH + "ETS2LA/plugins/Map/GameData/nodes.json"
+nodeFileName = PATH + "ETS2LA/plugins/Map/GameData/data/nodes.json"
 itemsCalculated = False
 
 # https://stackoverflow.com/a/70377616

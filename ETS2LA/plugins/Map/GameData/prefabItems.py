@@ -18,7 +18,7 @@ prefabItems = []
 
 print = logging.info
 
-prefabItemsFileName = PATH + "ETS2LA/plugins/Map/GameData/prefab_items.json"
+prefabItemsFileName = PATH + "ETS2LA/plugins/Map/GameData/data/prefab_items.json"
 
 itemsMinX = 0
 itemsMaxX = 0
@@ -57,6 +57,8 @@ class PrefabItem:
     Padding = 0
     Prefab = None
     NavigationLanes = []
+    LaneStartPoints = []
+    LaneEndPoints = []
     IsSecret = False
     _CurvePoints = [[]]
     EndPoints = []
@@ -86,9 +88,6 @@ class PrefabItem:
     
         rot = float(originNode.Rotation - math.pi -
             math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2)
-        
-        if self.Prefab.FilePath == "prefab/fork/road_1x_sidewalk_end_4m.ppd":
-            logging.warning(f"{self.Uid}\n{originNode.Uid}\n{originNode.Rotation}\n{mapPointOrigin.id}\n{mapPointOrigin.RotX}\n{mapPointOrigin.RotZ}\n{rot}")
         
         prefabStartX = originNode.X - mapPointOrigin.X
         prefabStartZ = originNode.Z - mapPointOrigin.Z
@@ -141,6 +140,11 @@ class PrefabItem:
                             
                             tempPoints[i].append((rotatedPoint[0], rotatedPoint[1], y + prefabStartY))
     
+            LaneStartPoint = calc.RotatePoint(prefabStartX + lane.StartX, prefabStartZ + lane.StartZ, rot, originNode.X, originNode.Z)
+            LaneEndPoint = calc.RotatePoint(prefabStartX + lane.EndX, prefabStartZ + lane.EndZ, rot, originNode.X, originNode.Z)
+            self.LaneStartPoints.append((LaneStartPoint[0], LaneStartPoint[1], lane.StartY + prefabStartY))
+            self.LaneEndPoints.append((LaneEndPoint[0], LaneEndPoint[1], lane.EndY + prefabStartY))
+    
         self.CurvePoints = tempPoints
     
     def json(self):
@@ -174,10 +178,10 @@ class PrefabItem:
         self.Uid = json["Uid"]
         self.StartNodeUid = json["StartNodeUid"]
         self.EndNodeUid = json["EndNodeUid"]
-        self.StartNode = nodes.GetNodeByUid(json["StartNodeUid"])
-        self.EndNode = nodes.GetNodeByUid(json["EndNodeUid"])
+        self.StartNode = json["StartNodeUid"] # nodes.GetNodeByUid(json["StartNodeUid"])
+        self.EndNode = json["EndNodeUid"] # nodes.GetNodeByUid(json["EndNodeUid"])
         try:
-            self.Nodes = [nodes.GetNodeByUid(node) for node in json["Nodes"]]
+            self.Nodes = json["Nodes"] # [nodes.GetNodeByUid(node) for node in json["Nodes"]]
         except: self.Nodes = []
         self.BlockSize = json["BlockSize"]
         self.Valid = json["Valid"]
@@ -187,11 +191,11 @@ class PrefabItem:
         self.Z = json["Z"]
         self.Hidden = json["Hidden"]
         self.Flags = json["Flags"]
-        self.Navigation = [nav.fromJson() for nav in json["Navigation"]]
+        self.Navigation = json["Navigation"]
         self.Origin = json["Origin"]
         self.Padding = json["Padding"]
         try:
-            self.Prefab = prefabs.GetPrefabByToken(json["Prefab"])
+            self.Prefab = json["Prefab"] # prefabs.GetPrefabByToken(json["Prefab"])
         except: self.Prefab = None
         self.NavigationLanes = json["NavigationLanes"]
         self.IsSecret = json["IsSecret"]

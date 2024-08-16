@@ -169,7 +169,7 @@ WARNING: This array does not get updated, since it is so large. Please use the u
 
 optimizedRoads = {}
 uidOptimizedRoads = {}
-roadFileName = PATH + "ETS2LA/plugins/Map/GameData/roads.json"
+roadFileName = PATH + "ETS2LA/plugins/Map/GameData/data/roads.json"
 
 roadsMaxX = 0
 roadsMaxZ = 0

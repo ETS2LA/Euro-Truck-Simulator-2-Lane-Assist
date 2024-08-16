@@ -66,7 +66,7 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
         elif type(item) == Road:
             lanes = item.ParallelPoints
         elif type(item) == PrefabItem:
-            lanes = [[(lane[0], lane[1]), (lane[2], lane[3])] for lane in item.NavigationLanes]
+            lanes = item.CurvePoints
         
         laneFirstPoints = [lane[0] for lane in lanes]
         laneLastPoints = [lane[-1] for lane in lanes]

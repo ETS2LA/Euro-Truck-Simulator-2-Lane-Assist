@@ -83,6 +83,8 @@ def vehicles(data):
         for vehicle in data["vehicles"]:
             if isinstance(vehicle, dict):
                 newVehicles.append(vehicle)
+            elif isinstance(vehicle, list): # No clue why this happens, it's just sometimes single coordinates like this [31352.055901850657, 18157.970393701282]
+                continue
             else:
                 try:
                     newVehicles.append(vehicle.json())
