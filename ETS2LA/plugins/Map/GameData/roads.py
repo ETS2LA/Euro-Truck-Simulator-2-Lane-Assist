@@ -577,6 +577,7 @@ offsetRules = {
     "**road 1 dirt minim tmpl": 2.25,
     "**road 1 minim village 1 tmpl": 2.25,
     "**2 lanes 1m offset": 6.5,
+    "**r2 tram": 2.25,
 }
 
 def GetOffset(road):

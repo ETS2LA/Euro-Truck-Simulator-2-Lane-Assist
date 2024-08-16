@@ -91,6 +91,10 @@ def vehicles(data):
                 newVehicles.append(vehicle)
             elif isinstance(vehicle, list): # No clue why this happens, it's just sometimes single coordinates like this [31352.055901850657, 18157.970393701282]
                 continue
+            elif isinstance(vehicle, tuple):
+                continue
+            elif isinstance(vehicle, str):
+                continue
             else:
                 try:
                     newVehicles.append(vehicle.json())
@@ -98,8 +102,8 @@ def vehicles(data):
                     try:
                         newVehicles.append(vehicle.__dict__)
                     except:
-                        logging.exception(vehicle)
                         pass
+                    
         data["vehicles"] = newVehicles
     
     send = "JSONvehicles:" + json.dumps(data["vehicles"]) + ";"
@@ -118,7 +122,6 @@ def steering(data):
             lastSteeringPoints = steeringPoints
         else:
             steeringPoints = lastSteeringPoints
-            
         
         send = "JSONsteeringPoints:" + json.dumps(steeringPoints) + ";"
         return send

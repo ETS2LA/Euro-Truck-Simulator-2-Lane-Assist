@@ -247,7 +247,7 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
                         min_y = pointY
                         
                     # Check if the point is within the display area (1000px x 1000px) plus a padding of 200px
-                    if pointX > 1500 or pointX < -500 or pointY > 1500 or pointY < -500:
+                    if pointX > 1500 or pointX < -1500 or pointY > 1500 or pointY < -1500:
                         break
                     
                 

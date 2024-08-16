@@ -58,7 +58,7 @@ def Initialize():
     
     Steering = runner.modules.Steering
     Steering.OFFSET = 0
-    Steering.SMOOTH_TIME = 0.0
+    Steering.SMOOTH_TIME = 0.5
     Steering.IGNORE_SMOOTH = False
     Steering.SENSITIVITY = 1
     
@@ -203,6 +203,9 @@ def DrawInternalVisualisation(data, closeRoads, closePrefabs):
         allPoints = data["map"]["allPoints"]
         for point in allPoints:
             img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2)
+        endPoints = data["map"]["endPoints"]
+        for point in endPoints:
+            img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2, color=(0, 255, 0))
             
         #cv2.putText(img, "Steering enabled (default N)" if STEERING_ENABLED else "Steering disabled (default N)", (10, 190), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
         
@@ -369,7 +372,7 @@ def plugin():
     
     steeringPoints = []
     if COMPUTE_STEERING_DATA:
-        steeringData = plotter.GetNextPoints(data, MapUtils)
+        steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
         steeringPoints = steeringData["map"]["allPoints"]
         try: steeringAngle = steeringData["map"]["angle"]
         except: steeringAngle = 0
