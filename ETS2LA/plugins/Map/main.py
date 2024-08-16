@@ -3,6 +3,7 @@ from rich.progress import Progress, TextColumn, BarColumn, TaskProgressColumn, T
 import importlib
 import logging
 import time
+import math
 import cv2
 import os
 
@@ -377,7 +378,8 @@ def plugin():
         try: steeringAngle = steeringData["map"]["angle"]
         except: steeringAngle = 0
         data.update(steeringData)
-        Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
+        if steeringAngle is not None and not math.isnan(steeringAngle):
+            Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
         
     if INTERNAL_VISUALISATION:
         DrawInternalVisualisation(data, closeRoads, closePrefabs)

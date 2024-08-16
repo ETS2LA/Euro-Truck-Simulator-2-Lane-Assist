@@ -5,6 +5,7 @@ from typing import cast
 import numpy as np
 import logging
 import math
+import json
 import time
 class RouteItem:
     item: PrefabItem | Road
@@ -36,7 +37,7 @@ class RouteItem:
         return newPoints
         
 Route : list[RouteItem] = []
-RouteLength = 2
+RouteLength = 3
 
 def GetItemAndLaneReferences(closestData, MapUtils):
     global Route
@@ -120,8 +121,20 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
             ForwardNode = CurrentItem.Nodes[0]
             BackwardNode = CurrentItem.Nodes[1]
         else:
-            return
-    
+            points = CurrentItem.CurvePoints[ClosestLane]
+            ForwardNode = None
+            ForwardNodeDistance = math.inf
+            BackwardNode = None
+            BackwardNodeDistance = math.inf
+            for node in CurrentItem.Nodes:
+                distance = math.sqrt((points[0][0] - node.X) ** 2 + (points[0][1] - node.Z) ** 2)
+                if distance < ForwardNodeDistance:
+                    ForwardNodeDistance = distance
+                    ForwardNode = node
+                distance = math.sqrt((points[-1][0] - node.X) ** 2 + (points[-1][1] - node.Z) ** 2)
+                if distance < BackwardNodeDistance:
+                    BackwardNodeDistance = distance
+                    BackwardNode = node
     
     BackwardPosition = [BackwardNode.X, BackwardNode.Z]
     ForwardPosition = [ForwardNode.X, ForwardNode.Z]
@@ -139,16 +152,23 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
     ForwardItem = NextNode.ForwardItem
     BackwardItem = NextNode.BackwardItem
     
-    ForwardUid = ForwardItem.Uid
-    BackwardUid = BackwardItem.Uid
-    
-    if ForwardUid == CurrentItem.Uid:
-        NextItem = BackwardItem
-    else:
-        NextItem = ForwardItem
-        
-    if NextItem is None:
+    if ForwardItem is None and BackwardItem is None:
         return []
+    elif ForwardItem is None:
+        NextItem = BackwardItem
+    elif BackwardItem is None:
+        NextItem = ForwardItem
+    else:
+        ForwardUid = ForwardItem.Uid
+        BackwardUid = BackwardItem.Uid
+        
+        if ForwardUid == CurrentItem.Uid:
+            NextItem = BackwardItem
+        else:
+            NextItem = ForwardItem
+            
+        if NextItem is None:
+            return []
         
     if type(NextItem) == Road:
         NextItem = cast(Road, NextItem) # Get intellisense
@@ -349,7 +369,8 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
         if routeItem.points == []:
             Route.remove(routeItem)
     
-    if len(Route) < RouteLength:
+    tries = 0
+    while len(Route) < RouteLength:
         try:
             Route.append(GetNextItem(data, truckX, truckZ, rotation, MapUtils))
         except:
@@ -362,6 +383,12 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
                     return data
             else:
                 return data
+            
+        tries += 1
+        if tries > 10:
+            break
+    
+    #logging.warning(f"Route length: {len(Route)} tries: {tries}")
     
     allPoints = []
     itemsToRemove = []
