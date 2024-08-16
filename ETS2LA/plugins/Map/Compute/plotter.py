@@ -232,7 +232,7 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
             if closestLaneId == [math.inf]:
                 return []
             
-            wantedDirection = 'forward' # 'forward', 'right', 'left'
+            wantedDirection = "right" if data["api"]["truckBool"]["blinkerLeftOn"] else "left" if data["api"]["truckBool"]["blinkerRightOn"] else "forward"
             if len(closestLaneId) > 1:
                 if wantedDirection == 'forward':
                     # Check which of the lanes is the most forward
@@ -247,6 +247,32 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
                             forwardestLane = i
                     
                     closestLaneId = forwardestLane
+                if wantedDirection == "right":
+                    # Check which of the lanes is the most right
+                    rightestLane = math.inf
+                    rightestLaneDot = math.inf
+                    for i in closestLaneId:
+                        laneEnd = Curves[i][-1]
+                        vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
+                        dot = np.dot([math.cos(rotation), -math.sin(rotation)], vector)
+                        if dot < rightestLaneDot:
+                            rightestLaneDot = dot
+                            rightestLane = i
+                    
+                    closestLaneId = rightestLane
+                if wantedDirection == "left":
+                    # Check which of the lanes is the most left
+                    leftestLane = math.inf
+                    leftestLaneDot = math.inf
+                    for i in closestLaneId:
+                        laneEnd = Curves[i][-1]
+                        vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
+                        dot = np.dot([-math.cos(rotation), math.sin(rotation)], vector)
+                        if dot < leftestLaneDot:
+                            leftestLaneDot = dot
+                            leftestLane = i
+                    
+                    closestLaneId = leftestLane
                     
             else:
                 closestLaneId = closestLaneId[0]
@@ -281,7 +307,7 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
     data["map"]["endPoints"] = []
     data["map"]["angle"] = 0
     
-    if not Enabled:
+    if not Enabled or data["api"]["truckBool"]["blinkerLeftOn"] or data["api"]["truckBool"]["blinkerRightOn"]:
         Route = []
         #return data
     
