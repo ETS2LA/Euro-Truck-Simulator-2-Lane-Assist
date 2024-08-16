@@ -1,5 +1,6 @@
 extends Label
 
+@export var RenderSockets = true
 var Sockets = null
 @onready var Truck = $/root/Node3D/Truck
 @onready var TruckTracker = $/root/Node3D/TruckTracker
@@ -18,7 +19,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Sockets != null:
 		var textToAdd = ""
-		textToAdd += Sockets.status
+		textToAdd += Sockets.status	
 		if Sockets.status != "Connected":
 			self.label_settings.font_color = Color.RED
 		else:
@@ -26,24 +27,25 @@ func _process(delta: float) -> void:
 				self.label_settings.font_color = Color8(255, 255, 255, 50)
 			else:
 				self.label_settings.font_color = Color8(0, 0, 0, 100)
-			textToAdd += "\nSlowest data update took " + str(worstResponseTime) + "ms"
-		
-			responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
-			if Time.get_ticks_msec() - averageResponseShowTime > 1000: # once per second
-				worstResponseTime = responseTimes.max()
-				responseTimes = []
-				averageResponseShowTime = Time.get_ticks_msec()
+			if RenderSockets != false:
+				textToAdd += "\nSlowest data update took " + str(worstResponseTime) + "ms"
 			
-			var socketData = Sockets.GetData()
-			for key in socketData:
-				if "JSON" in key:
-					if socketData[key] == null or socketData[key].data == null:
-						textToAdd += "\n" + str(key) + ": unknown"
+				responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
+				if Time.get_ticks_msec() - averageResponseShowTime > 1000: # once per second
+					worstResponseTime = responseTimes.max()
+					responseTimes = []
+					averageResponseShowTime = Time.get_ticks_msec()
+				
+				var socketData = Sockets.GetData()
+				for key in socketData:
+					if "JSON" in key:
+						if socketData[key] == null or socketData[key].data == null:
+							textToAdd += "\n" + str(key) + ": unknown"
+						else:
+							#print(str(socketData[key].data))
+							textToAdd += "\n" + str(key) + ": " + str(len(socketData[key].data)) + " entries"
 					else:
-						#print(str(socketData[key].data))
-						textToAdd += "\n" + str(key) + ": " + str(len(socketData[key].data)) + " entries"
-				else:
-					textToAdd += "\n" + str(key) + ": " + str(socketData[key])
+						textToAdd += "\n" + str(key) + ": " + str(socketData[key])
 				
 		text = textToAdd
 	else:

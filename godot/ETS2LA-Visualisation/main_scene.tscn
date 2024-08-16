@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=39 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
@@ -15,25 +15,66 @@
 [ext_resource type="Script" path="res://Scripts/roads_and_prefabs.gd" id="9_115pj"]
 [ext_resource type="Script" path="res://traffic_lights.gd" id="9_b12iv"]
 [ext_resource type="Script" path="res://Scripts/UI/notifications.gd" id="10_p5w2d"]
+[ext_resource type="Script" path="res://Scripts/UI/data_progress.gd" id="12_f87nd"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/camera_reset_button.gd" id="13_1g6rd"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/always_on_top_button.gd" id="13_o2qdb"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/map_reload_button.gd" id="14_3cect"]
+[ext_resource type="FontFile" uid="uid://r5tbj1eoqxtc" path="res://Assets/Poppins-Regular.ttf" id="16_4yfey"]
 [ext_resource type="Script" path="res://Scripts/UI/data_label.gd" id="16_rn4g8"]
 [ext_resource type="Texture2D" uid="uid://bj6bcwvosqap6" path="res://Assets/speedlimit.png" id="17_6k1i8"]
 
+[sub_resource type="FontVariation" id="FontVariation_kk0ys"]
+base_font = ExtResource("16_4yfey")
+spacing_space = 20
+spacing_top = 4
+spacing_bottom = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_xv7ty"]
+font = SubResource("FontVariation_kk0ys")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aoyvd"]
+bg_color = Color(0.223103, 0.223103, 0.223103, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b477p"]
+bg_color = Color(0.741385, 0.741385, 0.741385, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u32vb"]
+bg_color = Color(0.223529, 0.223529, 0.223529, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l7mpi"]
+bg_color = Color(0.838887, 0.39829, 0.387534, 1)
+
 [sub_resource type="LabelSettings" id="LabelSettings_i61cv"]
 
+[sub_resource type="FontVariation" id="FontVariation_fg5a7"]
+base_font = ExtResource("16_4yfey")
+spacing_top = -24
+spacing_bottom = -10
+
 [sub_resource type="LabelSettings" id="LabelSettings_5ompa"]
-font_size = 54
+line_spacing = 0.0
+font = SubResource("FontVariation_fg5a7")
+font_size = 72
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_qvwik"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_m3h8c"]
-font_size = 7
+font = ExtResource("16_4yfey")
 
 [sub_resource type="LabelSettings" id="LabelSettings_rra87"]
+font = ExtResource("16_4yfey")
 font_size = 30
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hwuu1"]
+font = ExtResource("16_4yfey")
+font_size = 30
+
+[sub_resource type="FontVariation" id="FontVariation_3k4pa"]
+base_font = ExtResource("16_4yfey")
+spacing_top = -12
+
+[sub_resource type="LabelSettings" id="LabelSettings_0cifn"]
+font = SubResource("FontVariation_3k4pa")
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
 font_size = 12
@@ -104,71 +145,107 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.53676, 0, 0)
 [node name="UI" type="Node" parent="."]
 
 [node name="TopLeftContainer" type="VBoxContainer" parent="UI"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 180.0
-offset_bottom = 146.0
+offset_right = 181.0
+offset_bottom = 314.0
 
-[node name="CheckButton" type="CheckButton" parent="UI/TopLeftContainer"]
+[node name="Label" type="Label" parent="UI/TopLeftContainer"]
+layout_mode = 2
+text = " Speed"
+label_settings = SubResource("LabelSettings_xv7ty")
+
+[node name="Information" type="HBoxContainer" parent="UI/TopLeftContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="Sliders" type="VBoxContainer" parent="UI/TopLeftContainer/Information"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Acceleration" type="ProgressBar" parent="UI/TopLeftContainer/Information/Sliders"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_aoyvd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_b477p")
+max_value = 1.0
+step = 0.001
+fill_mode = 3
+show_percentage = false
+script = ExtResource("12_f87nd")
+ValueToDisplay = "accel"
+
+[node name="Braking" type="ProgressBar" parent="UI/TopLeftContainer/Information/Sliders"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_u32vb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_l7mpi")
+max_value = 1.0
+step = 0.001
+fill_mode = 2
+show_percentage = false
+script = ExtResource("12_f87nd")
+ValueToDisplay = "brake"
+
+[node name="VehicleInformation" type="VBoxContainer" parent="UI/TopLeftContainer/Information"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CheckButton" type="CheckButton" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
 layout_mode = 2
 text = "Dark Mode"
 script = ExtResource("2_fkubr")
 
-[node name="CheckButton2" type="CheckButton" parent="UI/TopLeftContainer"]
+[node name="CheckButton2" type="CheckButton" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
 layout_mode = 2
 text = "Always On Top  "
 script = ExtResource("13_o2qdb")
 
-[node name="Button" type="Button" parent="UI/TopLeftContainer"]
+[node name="Button" type="Button" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
 layout_mode = 2
 text = "Reset Camera"
 script = ExtResource("13_1g6rd")
 
-[node name="Button2" type="Button" parent="UI/TopLeftContainer"]
+[node name="Button2" type="Button" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
 layout_mode = 2
 text = "Update Data"
 script = ExtResource("14_3cect")
 
-[node name="FPS" type="Label" parent="UI/TopLeftContainer"]
+[node name="FPS" type="Label" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
 layout_mode = 2
 text = "60"
 label_settings = SubResource("LabelSettings_i61cv")
 script = ExtResource("1_583x4")
 
+[node name="Speed" type="Label" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+layout_mode = 2
+text = "54"
+label_settings = SubResource("LabelSettings_5ompa")
+script = ExtResource("16_rn4g8")
+Multiplier = 3.6
+
+[node name="Units" type="Label" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+layout_mode = 2
+text = " KM/H"
+label_settings = SubResource("LabelSettings_qvwik")
+script = ExtResource("16_rn4g8")
+ValueToDisplay = " KM/H"
+
 [node name="TopRightContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -91.1899
+offset_left = -74.0
 offset_top = 10.0
-offset_right = -27.1899
+offset_right = -10.0
 offset_bottom = 140.0
 grow_horizontal = 0
 mouse_filter = 2
-
-[node name="Speed" type="Label" parent="UI/TopRightContainer"]
-layout_mode = 2
-text = "54"
-label_settings = SubResource("LabelSettings_5ompa")
-horizontal_alignment = 1
-script = ExtResource("16_rn4g8")
-Multiplier = 3.6
-
-[node name="Units" type="Label" parent="UI/TopRightContainer"]
-layout_mode = 2
-text = "km/h"
-label_settings = SubResource("LabelSettings_qvwik")
-horizontal_alignment = 1
-script = ExtResource("16_rn4g8")
-ValueToDisplay = "km/h"
-
-[node name="Units2" type="Label" parent="UI/TopRightContainer"]
-layout_mode = 2
-text = " "
-label_settings = SubResource("LabelSettings_m3h8c")
-horizontal_alignment = 1
-script = ExtResource("16_rn4g8")
-ValueToDisplay = " "
 
 [node name="TextureRect" type="TextureRect" parent="UI/TopRightContainer"]
 layout_mode = 2
@@ -189,13 +266,35 @@ offset_right = 17.0
 offset_bottom = 21.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "50"
+text = "80"
 label_settings = SubResource("LabelSettings_rra87")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("16_rn4g8")
+DarkModeColor = Color(0, 0, 0, 1)
 ValueToDisplay = "speedLimit"
 Multiplier = 3.6
+
+[node name="Label" type="Label" parent="UI/TopRightContainer"]
+layout_mode = 2
+text = "80"
+label_settings = SubResource("LabelSettings_hwuu1")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+DarkModeColor = Color(0.358197, 0.366457, 0.389254, 1)
+LightModeColor = Color(0, 0.223529, 0.490196, 1)
+ValueToDisplay = "cc"
+Multiplier = 3.6
+
+[node name="Label2" type="Label" parent="UI/TopRightContainer"]
+layout_mode = 2
+text = "set"
+label_settings = SubResource("LabelSettings_0cifn")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+DarkModeColor = Color(0.356863, 0.364706, 0.388235, 1)
+LightModeColor = Color(0, 0.223529, 0.490196, 1)
+ValueToDisplay = "set"
 
 [node name="BottomLeftContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 2
@@ -217,6 +316,7 @@ stuff: stuff
 stuff: stuff"
 label_settings = SubResource("LabelSettings_rgrby")
 script = ExtResource("4_ckaqj")
+RenderSockets = false
 
 [node name="BottomRightContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 3
