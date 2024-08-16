@@ -145,10 +145,10 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
             NextItem = cast(Road, NextItem) # Get intellisense
             Lanes = NextItem.ParallelPoints
             
-            if NeedInvert(DiscardPointsBehindTheTruck(CurrentItem.ParallelPoints[ClosestLane], truckX, truckZ, rotation), truckX, truckZ):
-                CurrentEndPoint = CurrentItem.ParallelPoints[ClosestLane][::-1][-1]
-            else: 
-                CurrentEndPoint = CurrentItem.ParallelPoints[ClosestLane][-1]
+            if NeedInvert(Route[-1].points, truckX, truckZ):
+                CurrentEndPoint = Route[-1].points[::-1][-1]
+            else:
+                CurrentEndPoint = Route[-1].points[-1]
             
             closestLaneId = math.inf
             closestLaneDistance = math.inf
