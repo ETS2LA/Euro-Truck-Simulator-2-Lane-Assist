@@ -19,6 +19,16 @@ import ETS2LA.variables as variables
 from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems
 import ETS2LA.plugins.Map.GameData.extractor as extractor
 import ETS2LA.plugins.Map.Compute.compute as compute
+
+# Linux Check
+LINUX = os.path.exists("/etc/os-release")
+
+if LINUX:
+    print("Linux detected")
+else:
+    from ETS2LA.plugins.AR.main import Line
+
+
 plotter = importlib.import_module("Compute.plotter")
 visualize = importlib.import_module("Visualize.visualize")
 
