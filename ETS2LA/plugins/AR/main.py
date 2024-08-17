@@ -3,20 +3,14 @@ import ETS2LA.backend.settings as settings
 
 import dearpygui.dearpygui as dpg
 from ctypes import c_int
+import win32con
+import win32gui
 import ctypes
 import math
 import time
 import mss
 import sys
-import os
 
-LINUX = os.path.exists("/etc/os-release")
-
-if LINUX:
-    print("Running on Linux")
-else:
-    import win32con
-    import win32gui
 
 drawlist = None
 sct = mss.mss()
