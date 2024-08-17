@@ -80,9 +80,13 @@ def UpdatePlotter():
     
     if currentHash != plotterHash:
         logging.warning("Reloading plotter")
-        plotterHash = currentHash
         # Update the plotter code
-        importlib.reload(plotter)
+        try:
+            importlib.reload(plotter)
+            plotterHash = currentHash
+        except:
+            logging.exception("Failed to reload plotter")
+            
 
 visualizeHash = None
 def UpdateVisualize():
@@ -373,7 +377,7 @@ def plugin():
     steeringPoints = []
     if COMPUTE_STEERING_DATA:
         steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
-        steeringPoints = steeringData["map"]["allPoints"]
+        steeringPoints = steeringData["map"]["allPoints"][:20] # Cap to 20 points
         try: steeringAngle = steeringData["map"]["angle"]
         except: steeringAngle = 0
         data.update(steeringData)

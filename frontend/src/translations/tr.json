@@ -305,7 +305,7 @@
     "object_detection.settings.5.description": "Kullanmak istedi\u011finiz model mimarisi. L\u00fctfen YoloV7'nin daha fazla g\u00fc\u00e7 gerektirdi\u011fini unutmay\u0131n.",
     "object_detection.settings.6.name": "Ekran Yakalama Boyutlar\u0131",
     "object_detection.settings.6.description": "Nesne alg\u0131lama i\u00e7in ekran\u0131n\u0131z\u0131n hangi b\u00f6l\u00fcm\u00fcn\u00fc kullanaca\u011f\u0131n\u0131z\u0131 belirler. Dizin 0 X, dizin 1 Y, dizin 2 Geni\u015flik, dizin 3 Y\u00fcksekliktir. Bu ayar, eklentiyi bir kez ba\u015flatt\u0131ktan sonra otomatik olarak olu\u015fturulacakt\u0131r.",
-    "_THE_POLITICS": "I'm not a fan of the Turkish Goverment. They will probably ban this app too and tell us that it is because of terrorism lol. Just vote for Cumhuriyet Halk Partisi next time you fucking idiots. C'mon, search it.",
+    "_THE_POLITICS": "Better not take too much risk",
     "map.json_not_found": "GameData klas\u00f6r\u00fcnde JSON dosyas\u0131 bulunamad\u0131. L\u00fctfen GameData.zip dosyas\u0131n\u0131n i\u00e7indeki JSON dosyalar\u0131n\u0131 d\u0131\u015far\u0131 \u00e7\u0131kar\u0131n.",
     "map.loading.preparing": "Harita, veri y\u00fcklemeye haz\u0131rlan\u0131yor...",
     "map.loading.nodes": "Harita, d\u00fc\u011f\u00fcmleri y\u00fckl\u00fcyor...",

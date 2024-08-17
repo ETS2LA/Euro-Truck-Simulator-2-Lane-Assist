@@ -27,6 +27,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_
     
     #print(custom_offset)
     base_custom_offset = custom_offset
+    # points = points[::-1] # This will fix some roads being the other way around (mainly 2 left 1 right with a wide gap)
     pointCount = len(points)
     for i in range(pointCount - 1):
         point1 = np.array(points[i])

@@ -91,10 +91,16 @@ class PrefabItem:
         if self.Prefab == None:
             return self._CurvePoints
         
-        mapPointOrigin = self.Prefab.PrefabNodes[self.Origin]
+        try:
+            if type(originNode) == dict:
+                originNode = nodes.Node().fromJson(originNode)
+        
+            mapPointOrigin = self.Prefab.PrefabNodes[self.Origin]
     
-        rot = float(originNode.Rotation - math.pi -
-            math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2)
+            rot = float(originNode.Rotation - math.pi -
+                math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2)
+        except:
+            return self._CurvePoints
         
         prefabStartX = originNode.X - mapPointOrigin.X
         prefabStartZ = originNode.Z - mapPointOrigin.Z
@@ -106,41 +112,52 @@ class PrefabItem:
             tempPoints.append([])  # Adding a new list for each lane
             if len(lane.Curves) < 4:
                 for k in range(len(lane.Curves)):
-                    if len(self.Nodes) == 2:
-                        StartNode = self.Nodes[0]
-                        EndNode = self.Nodes[1]
-                        
-                        curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
-                        curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
-                        
-                        sx = curveStartPoint[0]
-                        sz = curveStartPoint[1]
-                        sy = lane.Curves[k].startY + prefabStartY
-                        ex = curveEndPoint[0]
-                        ez = curveEndPoint[1]
-                        ey = lane.Curves[k].endY + prefabStartY
-                        
-                        radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
-
-                        tanSx = math.cos(-(math.pi * 0.5 - StartNode.Rotation)) * radius
-                        tanEx = math.cos(-(math.pi * 0.5 - EndNode.Rotation)) * radius
-                        tanSz = math.sin(-(math.pi * 0.5 - StartNode.Rotation)) * radius
-                        tanEz = math.sin(-(math.pi * 0.5 - EndNode.Rotation)) * radius
-                        
-                        resolution = 10
-                        
-                        for j in range(resolution):
-                            s = j / (resolution - 1)
-                            x = Hermite(s, sx, ex, tanSx, tanEx)
-                            z = Hermite(s, sz, ez, tanSz, tanEz)
-                            #rotatedPoint = calc.RotatePoint(x, z, rot, originNode.X, originNode.Z)
-                            tempPoints[i].append((x, z, sy + (ey - sy) * s))
+                    #if len(self.Nodes) == 2:
+                    curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
+                    curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
                     
-                    else:
-                        curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
-                        curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
-                        tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[k].startY + prefabStartY))
-                        tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[k].endY + prefabStartY))
+                    StartNode = None
+                    StartNodeDistance = math.inf
+                    EndNode = None
+                    EndNodeDistance = math.inf
+                    for node in self.Nodes:
+                        distance = math.sqrt(math.pow(node.X - curveStartPoint[0], 2) + math.pow(node.Z - curveStartPoint[1], 2))
+                        if distance < StartNodeDistance:
+                            StartNodeDistance = distance
+                            StartNode = node
+                        distance = math.sqrt(math.pow(node.X - curveEndPoint[0], 2) + math.pow(node.Z - curveEndPoint[1], 2))
+                        if distance < EndNodeDistance:
+                            EndNodeDistance = distance
+                            EndNode = node
+                    
+                    sx = curveStartPoint[0]
+                    sz = curveStartPoint[1]
+                    sy = lane.Curves[k].startY + prefabStartY
+                    ex = curveEndPoint[0]
+                    ez = curveEndPoint[1]
+                    ey = lane.Curves[k].endY + prefabStartY
+                    
+                    radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+
+                    tanSx = math.cos(-(math.pi * 0.5 - StartNode.Rotation)) * radius
+                    tanEx = math.cos(-(math.pi * 0.5 - EndNode.Rotation)) * radius
+                    tanSz = math.sin(-(math.pi * 0.5 - StartNode.Rotation)) * radius
+                    tanEz = math.sin(-(math.pi * 0.5 - EndNode.Rotation)) * radius
+                    
+                    resolution = 10
+                    
+                    for j in range(resolution):
+                        s = j / (resolution - 1)
+                        x = Hermite(s, sx, ex, tanSx, tanEx)
+                        z = Hermite(s, sz, ez, tanSz, tanEz)
+                        #rotatedPoint = calc.RotatePoint(x, z, rot, originNode.X, originNode.Z)
+                        tempPoints[i].append((x, z, sy + (ey - sy) * s))
+                    
+                    #else:
+                    #    curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
+                    #    curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
+                    #    tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[k].startY + prefabStartY))
+                    #    tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[k].endY + prefabStartY))
             else:
                 for j in range(len(lane.Curves)):
                     #logging.warning("Processing lanepoint: " + str(j))
@@ -190,9 +207,9 @@ class PrefabItem:
             "Uid": self.Uid,
             "StartNodeUid": self.StartNodeUid,
             "EndNodeUid": self.EndNodeUid,
-            "StartNode": self.StartNode.json() if self.StartNode != None else None,
-            "EndNode": self.EndNode.json() if self.EndNode != None else None,
-            "Nodes": [node.json() for node in self.Nodes],
+            "StartNode": self.StartNode.json() if self.StartNode != None and type(self.StartNode) != int else self.StartNode,
+            "EndNode": self.EndNode.json() if self.EndNode != None and type(self.EndNode) != int else self.EndNode,
+            "Nodes": [node.json() if type(node) != dict else node for node in self.Nodes],
             "BlockSize": self.BlockSize,
             "Valid": self.Valid,
             "Type": self.Type,
@@ -201,10 +218,10 @@ class PrefabItem:
             "Z": self.Z,
             "Hidden": self.Hidden,
             "Flags": self.Flags,
-            "Navigation": [nav.json() for nav in self.Navigation],
+            "Navigation": [nav.json() if type(nav) != dict else nav for nav in self.Navigation],
             "Origin": self.Origin,
             "Padding": self.Padding,
-            "Prefab": self.Prefab.Token if self.Prefab != None else None,
+            "Prefab": self.Prefab.Token if self.Prefab != None and type(self.Prefab) != int else self.Prefab,
             "NavigationLanes": self.NavigationLanes,
             "IsSecret": self.IsSecret,
             "CurvePoints": self._CurvePoints,
