@@ -558,12 +558,14 @@ offsetPerName = {
     "Highway 2 lanes 2.5m offset" : 9.5,
     "Highway 2 lanes 2m offset" : 8.5,
     "Highway 2 lanes 1m offset" : 6.5,
+    "Highway 2 lanes 10m offset" : 24.5,
     "Highway 3 lanes 2m offset" : 8.5,
     "Highway 3 lanes 5m offset" : 14.5,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
 }
 offsetRules = {
     "***Road 2 city narrow": 6.5,
+    "***Road 2 plus 1 temp": -11,
     "**road1 hw 1m offset tmpl": 8.5,
     "**road 2 narrow tmpl": 6.5,
     "**road 2 city narrow tmpl": 6.5,

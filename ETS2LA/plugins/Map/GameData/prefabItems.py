@@ -91,10 +91,16 @@ class PrefabItem:
         if self.Prefab == None:
             return self._CurvePoints
         
-        mapPointOrigin = self.Prefab.PrefabNodes[self.Origin]
+        try:
+            if type(originNode) == dict:
+                originNode = nodes.Node().fromJson(originNode)
+        
+            mapPointOrigin = self.Prefab.PrefabNodes[self.Origin]
     
-        rot = float(originNode.Rotation - math.pi -
-            math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2)
+            rot = float(originNode.Rotation - math.pi -
+                math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2)
+        except:
+            return self._CurvePoints
         
         prefabStartX = originNode.X - mapPointOrigin.X
         prefabStartZ = originNode.Z - mapPointOrigin.Z
@@ -201,9 +207,9 @@ class PrefabItem:
             "Uid": self.Uid,
             "StartNodeUid": self.StartNodeUid,
             "EndNodeUid": self.EndNodeUid,
-            "StartNode": self.StartNode.json() if self.StartNode != None else None,
-            "EndNode": self.EndNode.json() if self.EndNode != None else None,
-            "Nodes": [node.json() for node in self.Nodes],
+            "StartNode": self.StartNode.json() if self.StartNode != None and type(self.StartNode) != int else self.StartNode,
+            "EndNode": self.EndNode.json() if self.EndNode != None and type(self.EndNode) != int else self.EndNode,
+            "Nodes": [node.json() if type(node) != dict else node for node in self.Nodes],
             "BlockSize": self.BlockSize,
             "Valid": self.Valid,
             "Type": self.Type,
@@ -212,10 +218,10 @@ class PrefabItem:
             "Z": self.Z,
             "Hidden": self.Hidden,
             "Flags": self.Flags,
-            "Navigation": [nav.json() for nav in self.Navigation],
+            "Navigation": [nav.json() if type(nav) != dict else nav for nav in self.Navigation],
             "Origin": self.Origin,
             "Padding": self.Padding,
-            "Prefab": self.Prefab.Token if self.Prefab != None else None,
+            "Prefab": self.Prefab.Token if self.Prefab != None and type(self.Prefab) != int else self.Prefab,
             "NavigationLanes": self.NavigationLanes,
             "IsSecret": self.IsSecret,
             "CurvePoints": self._CurvePoints,

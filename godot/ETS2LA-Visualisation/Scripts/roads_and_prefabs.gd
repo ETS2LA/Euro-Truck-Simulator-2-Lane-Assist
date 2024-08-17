@@ -15,6 +15,7 @@ extends Node
 @onready var Socket = $/root/Node3D/Sockets
 @onready var RoadParent = $/root/Node3D/Map/Roads
 @onready var PrefabParent = $/root/Node3D/Map/Prefabs
+@onready var Notifications = $/root/Node3D/UI/Notifications
 
 var sphere = preload("res://Objects/sphere.tscn")
 var lastData = null
@@ -125,19 +126,37 @@ func _process(delta: float) -> void:
 		if data != lastData or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
 			
-			for n in self.get_children():
-				self.remove_child(n)
-				n.queue_free() 
+			#for n in self.get_children():
+			#	self.remove_child(n)
+			#	n.queue_free() 
 				
-			for n in PrefabParent.get_children():
-				PrefabParent.remove_child(n)
-				n.queue_free()
-				
+			var curRoads = []
+			var curRoadUids = []
 			for n in RoadParent.get_children():
-				RoadParent.remove_child(n)
-				n.queue_free()
+				curRoadUids.append(n.name.split("-")[0])
+				curRoads.append(n)
+				
+			var curPrefabs = []
+			var curPrefabUids = []
+			for n in PrefabParent.get_children():
+				curPrefabUids.append(n.name.split("-")[0])
+				curPrefabs.append(n)
+				
+			#for n in PrefabParent.get_children():
+			#	PrefabParent.remove_child(n)
+			#	n.queue_free()
+			#	
+			#for n in RoadParent.get_children():
+			#	RoadParent.remove_child(n)
+			#	n.queue_free()
+			
+			var roadsInData = []
 			
 			for road in roadData:
+				var uid = str(road["Uid"])
+				roadsInData.append(uid)
+				if curRoadUids.has(uid):
+					continue
 				var yValues = road["YValues"]
 				var x = road["X"]
 				var z = road["Z"]
@@ -173,14 +192,27 @@ func _process(delta: float) -> void:
 				
 					# Render the meshes
 					var dark = Variables.darkMode
-					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
+					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, uid + "-" + str(totalLines))
 					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					totalLines += 1
-					
+			
+			for n in RoadParent.get_children():
+				var name = n.name
+				name = name.split("-")[0]
+				if not roadsInData.has(name):
+					RoadParent.remove_child(n)
+					n.queue_free()
 			
 			var prefabData = data["prefabs"]
+			
+			var prefabsInData = []
+			
 			for prefab in prefabData:
+				var uid = str(prefab["Uid"])
+				prefabsInData.append(uid)
+				if curPrefabUids.has(uid):
+					continue
 				var x = prefab["X"]
 				var y = prefab["Y"] # + prefab["Nodes"][0]["Y"]
 				var z = prefab["Z"]
@@ -216,14 +248,22 @@ func _process(delta: float) -> void:
 				
 					# Render the meshes
 					var dark = Variables.darkMode
-					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
+					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, uid + "-" + str(totalLines))
 					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					totalLines += 1
-				
+			
+			for n in PrefabParent.get_children():
+				var name = n.name
+				name = name.split("-")[0]
+				if not prefabsInData.has(name):
+					PrefabParent.remove_child(n)
+					n.queue_free()
+			
 			lastData = data
 			reload = false
 			print("Total of " + str(totalLines) + " lines")
+			Notifications.SendNotification("Drew " + str(totalLines) + " new lines.", 2000)
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
