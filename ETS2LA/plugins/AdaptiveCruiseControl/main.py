@@ -1,13 +1,17 @@
+from ETS2LA.modules.SDKController.main import SCSController as Controller
+from ETS2LA.plugins.ObjectDetection.classes import Vehicle
 from ETS2LA.networking.cloud import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner  
-import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 from ETS2LA.utils.logging import logging
+import ETS2LA.variables as variables
+from typing import cast
 import numpy as np
 import screeninfo
 import pyautogui
 import torch
+import math
 import json
 import time
 import cv2
@@ -15,136 +19,143 @@ import os
 
 runner:PluginRunner = None
 
-class PIDController:
-    def __init__(self, kp, ki, kd, setpoint, initial_output=0, output_limits=(None, None)):
-        self.kp = kp
-        self.ki = ki
-        self.kd = kd
-        self.setpoint = setpoint
-        self.output_limits = output_limits
+FOLLOW_DISTANCE = settings.Get("AdaptiveCruiseControl", "distance", 30) # meters
 
-        self._integral = 0
-        self._previous_error = None
-        self.output = initial_output
-
-    def update(self, measured_value, dt):
-        # Calculate error (invert the sign)
-        error = measured_value - self.setpoint
-
-        # Proportional term
-        p = self.kp * error
-
-        # Integral term
-        self._integral += error * dt
-        i = self.ki * self._integral
-
-        # Derivative term
-        d = 0
-        if self._previous_error is not None:
-            d = self.kd * (error - self._previous_error) / dt
-
-        # Calculate output
-        output = p + i + d
-
-        # Apply output limits
-        if self.output_limits[0] is not None:
-            output = max(self.output_limits[0], output)
-        if self.output_limits[1] is not None:
-            output = min(self.output_limits[1], output)
-
-        # Ensure output is not negative
-        output = max(output, 0)
-
-        # Save the error for the next update
-        self._previous_error = error
-
-        # Save and return the output
-        self.output = output
-        return output
+def LoadSettings():
+    global FOLLOW_DISTANCE
+    FOLLOW_DISTANCE = settings.Get("AdaptiveCruiseControl", "distance", 30)
+    
+# Update settings on change
+settings.Listen("AdaptiveCruiseControl", LoadSettings)
 
 def Initialize():
     global ShowImage, TruckSimAPI, SDKController, MapUtils
-    global last_pid_update, acc_pid, dt, last_frame
 
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
-    SDKController = runner.modules.SDKController
+    SDKController = runner.modules.SDKController.SCSController()
+    SDKController = cast(Controller, SDKController)
     MapUtils = runner.modules.MapUtils
-
-    last_pid_update = time.time()
-    last_frame = None
+    logging.warning("AdaptiveCruiseControl plugin initialized")
     
-    # Window for showing speed
-    cv2.namedWindow('Adaptive Cruise Control', cv2.WINDOW_NORMAL)
-    cv2.setWindowProperty('Adaptive Cruise Control', cv2.WND_PROP_TOPMOST, 1)
+def CalculateAcceleration(targetSpeed: float, currentSpeed: float, distance: float) -> float:
+    # Adjust the target speed based on the distance to the vehicle ahead
+    if distance < FOLLOW_DISTANCE and vehicleSpeed < currentSpeed:
+        targetSpeed = (distance / FOLLOW_DISTANCE) * targetSpeed
+    # First calculate the acceleration needed to keep the speed constant
+    acceleration = (targetSpeed - currentSpeed) / 3.6
+    # Then add an offset based on how far we are from the target speed
+    acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
+    return acceleration
 
-    # Parameters
-    kp = 1.0 # Slightly adjusted proportional gain
-    ki = 0.03  # Slightly adjusted integral gain
-    kd = 0.01  # Slightly adjusted derivative gain
-    setpoint_distance = 6  # Desired distance from vehicle in front in meters
-    output_limits = (0, 120)  # speed limits in km/h
-    dt = 0.2 # Time step for PID controller
+lastVehicleDistance = math.inf
+vehicleSpeed = math.inf
+lastVehicleTime = time.time()
+def GetDistanceToVehicleAhead(apiData: dict) -> float:
+    global lastVehicleDistance, lastVehicleTime, vehicleSpeed
+    vehicles = runner.GetData(['tags.vehicles'])[0]
+    if vehicles is None:
+        return math.inf
+    
+    vehiclesInFront = []
+    
+    rotation = apiData["truckPlacement"]["rotationX"] * 360
+    if rotation < 0: rotation += 360
+    rotation = math.radians(rotation)
+    
+    for vehicle in vehicles:
+        if isinstance(vehicle, dict):
+            vehicle = Vehicle(None, None, None, None, None).fromJson(vehicle)
+        if not isinstance(vehicle, Vehicle):
+            continue
+        
+        # Create a line from the two relative points on the vehicle
+        x1 = vehicle.raycasts[0].relativePoint[0]
+        y1 = vehicle.raycasts[0].relativePoint[2]
+        x2 = vehicle.raycasts[1].relativePoint[0]
+        y2 = vehicle.raycasts[1].relativePoint[2]
+        
+        averageX = (x1 + x2) / 2
+        averageY = (y1 + y2) / 2
+        
+        truckForwardVector = np.array([-math.sin(rotation), -math.cos(rotation)])
+        pointVector = np.array([averageX, averageY])
+        normalizedPointVector = pointVector / np.linalg.norm(pointVector)
+        normalizedTruckForwardVector = truckForwardVector / np.linalg.norm(truckForwardVector)
 
-    acc_pid = PIDController(kp, ki, kd, setpoint_distance, output_limits=output_limits)
-
-def GetVehicleLane(raycasts):
-    global MapUtils
-    raycast1_points = raycasts[0]['point']
-    raycast2_points = raycasts[1]['point']
-    x = (raycast1_points[0] + raycast2_points[0]) / 2
-    y = (raycast1_points[1] + raycast2_points[1]) / 2
-    z = (raycast1_points[2] + raycast2_points[2]) / 2
-
-    map_data = MapUtils.run(x, y, z)
-    print(map_data)
-
-
+        angle = math.acos(np.dot(normalizedPointVector, normalizedTruckForwardVector))
+        
+        if angle < math.radians(2) and angle > -math.radians(2):
+            distance = math.sqrt(averageX**2 + averageY**2)
+            vehiclesInFront.append((distance, vehicle))
+            lastVehicleDistance = distance
+            lastVehicleTime = time.time()
+            vehcileSpeed = vehicle.speed
+        
+            
+    if len(vehiclesInFront) == 0:
+        if time.time() - lastVehicleTime < 1:
+            return lastVehicleDistance
+        return math.inf
+    
+    closestDistance = math.inf
+    for distance, vehicle in vehiclesInFront:
+        if distance < closestDistance:
+            closestDistance = distance
+            
+    return closestDistance
+        
+    
+lastTargetSpeed = 0
+lastTargetSpeedTime = time.time()
 def plugin():
-    global TruckSimAPI, ShowImage, last_pid_update, acc_pid, dt, last_frame
-
-    data = {}
-    #data["api"] = TruckSimAPI.run()
-    #data["map"] = runner.GetData(["tags.map"])[0]
-    data["vehicles"] = runner.GetData(["tags.vehicles"])[0]
-
-    if data["vehicles"] is not None and len(data["vehicles"]) > 0:
-        vehicles = data["vehicles"]
-        for vehicle in vehicles:
-            raycasts = vehicle.json()['raycasts']
-            lane = GetVehicleLane(raycasts)
-
-    '''
-    if time.time() - last_pid_update > dt:
-        print(data["vehicles"])
-        frame = np.zeros((300, 200, 3), np.uint8)
-        if data["vehicles"] is not None and len(data["vehicles"]) > 0:
-            vehicle = data["vehicles"][0]
-            distance = vehicle.json()['raycasts'][0]['distance']
-
-            speed = acc_pid.update(distance, dt)
-            distance_ft = distance * 3.28084  # Convert meters to feet
-            speed_mph = speed * 0.621371  # Convert km/h to mph
-            #print(f"Distance: {distance:.2f} m ({distance_ft:.2f} ft), Speed: {speed:.2f} km/h ({speed_mph:.2f} mph)")
-
-            cv2.putText(frame, f"Distance: {distance:.2f} m ({distance_ft:.2f} ft)", (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255))
-            cv2.putText(frame, f"Speed: {speed:.2f} km/h ({speed_mph:.2f} mph)", (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255))
-
-            last_pid_update = time.time()
-            last_frame = frame
+    global lastTargetSpeed, lastTargetSpeedTime
+    try:
+        apiData = TruckSimAPI.run()
+        
+        
+        # if apiData["truckFloat"]["userThrottle"] > 0.05 or apiData["truckFloat"]["userBrake"] > 0.05:
+        #     SDKController.aforward = float(0)
+        #     SDKController.abackward = float(0)
+        #     logging.warning("AdaptiveCruiseControl plugin disabled due to user input")
+        #     return
+        
+        targetSpeed = runner.GetData(['tags.targetSpeed'])[0]
+        
+        currentSpeed = apiData['truckFloat']['speed']
+        
+        if targetSpeed is None or isinstance(targetSpeed, list):
+            if time.time() - lastTargetSpeedTime > 1:
+                targetSpeed = apiData['truckFloat']['speedLimit']
+                lastTargetSpeed = targetSpeed
+                lastTargetSpeedTime = time.time()
+            else: 
+                targetSpeed = lastTargetSpeed
         else:
-            if data["vehicles"] is None:
-                cv2.putText(frame, "Vehicles list is none", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255))
-            else:
-                cv2.putText(frame, "No vehicles detected", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255))
-    else:
-        frame = last_frame
-    
-    if frame is None:
-        frame = np.zeros((300, 200, 3), np.uint8)
-        cv2.putText(frame, "No vehicles detected", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255))
-        last_frame = frame
-
-    cv2.imshow('Adaptive Cruise Control', frame)
-    cv2.waitKey(1)
-    '''
+            lastTargetSpeed = targetSpeed
+            lastTargetSpeedTime = time.time()                
+            
+        if targetSpeed != 0:
+            targetSpeed += 0.5 / 3.6 # Add a small offset to the target speed to avoid oscillations
+        
+        try:
+            distance = GetDistanceToVehicleAhead(apiData)
+        except:
+            distance = math.inf
+            
+        acceleration = CalculateAcceleration(targetSpeed, currentSpeed, distance)
+        
+        if acceleration > 0:
+            SDKController.aforward = float(acceleration * 10)
+            SDKController.abackward = float(0)
+        else:
+            SDKController.abackward = float(-acceleration * 1)
+            SDKController.aforward = float(0)
+        
+        # return None, {
+        #     "status": " Normal" if distance > FOLLOW_DISTANCE else " Slowing",
+        # }    
+        
+    except:
+        logging.exception("AdaptiveCruiseControl plugin failed")
+        SDKController.aforward = float(0)

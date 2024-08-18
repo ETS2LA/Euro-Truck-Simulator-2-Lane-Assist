@@ -298,6 +298,11 @@
     "object_detection.settings.6.name",
     "object_detection.settings.6.description",
 
+    "acc.settings.1.title",
+    "acc.settings.1.description",
+    "acc.settings.2.name",
+    "acc.settings.2.description",
+
     "map.loading.preparing",
     "map.loading.nodes",
     "map.loading.roads",

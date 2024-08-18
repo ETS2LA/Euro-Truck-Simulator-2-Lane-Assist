@@ -43,7 +43,10 @@ func _process(delta: float) -> void:
 							textToAdd += "\n" + str(key) + ": unknown"
 						else:
 							#print(str(socketData[key].data))
-							textToAdd += "\n" + str(key) + ": " + str(len(socketData[key].data)) + " entries"
+							if typeof(socketData[key].data) == typeof({}):
+								textToAdd += "\n" + str(key) + ": " + str(len(socketData[key].data)) + " entries"
+							else: 
+								textToAdd += "\n" + str(key) + ": " + str(socketData[key])
 					else:
 						textToAdd += "\n" + str(key) + ": " + str(socketData[key])
 				

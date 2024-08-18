@@ -409,6 +409,13 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
 def DistanceBetweenPoints(point1, point2):
     return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
+def map_curvature_to_speed_effect(curvature):
+    factor = 1e13
+    factor *= 5 
+    min_effect, max_effect = 0.0, 0.5
+    effect = min(max(curvature * factor, min_effect), max_effect)
+    return effect
+
 wasIndicating = False
 
 def GetNextPoints(data : dict, MapUtils, Enabled):

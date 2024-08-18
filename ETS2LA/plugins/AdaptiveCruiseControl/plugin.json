@@ -1,4 +1,5 @@
 {
+    "$schema": "../schema.json",
     "name": "plugins.adaptivecruisecontrol",
     "authors": [{
         "name": "DylDev",
@@ -7,7 +8,36 @@
     }],
     "description": "plugins.adaptivecruisecontrol.description",
     "version": "1.0",
+    "max_fps": 20,
     "dependencies": [],
     "modules": ["ShowImage", "TruckSimAPI", "SDKController", "MapUtils"],
-    "compatible": ["Windows", "Linux", "MacOS"]
+    "compatible": ["Windows", "Linux", "MacOS"],
+    "settings": [
+        {
+            "specials": [
+                {
+                    "special": "Title",
+                    "special_data": "acc.settings.1.title"
+                },
+                {
+                    "special": "Description",
+                    "special_data": "acc.settings.1.description"
+                },
+                {
+                    "special": "Separator"
+                }
+            ]
+        },
+        {
+            "name": "acc.settings.2.name",
+            "description": "acc.settings.2.description",
+            "key": "distance",
+            "type": {
+                "type": "number",
+                "min": 10,
+                "max": 100,
+                "step": 1
+            }
+        }
+    ]
 }

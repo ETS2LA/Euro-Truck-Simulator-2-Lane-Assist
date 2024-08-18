@@ -28,6 +28,8 @@ class RaycastResponse:
         self.relativePoint = relativePoint
     def json(self):
         return {"point": self.point, "distance": self.distance, "relativePoint": self.relativePoint}
+    def fromJson(json):
+        return RaycastResponse(json["point"], json["distance"], json["relativePoint"])
 
 def Initialize():
     global API

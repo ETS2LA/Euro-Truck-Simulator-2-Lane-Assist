@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 		var TrafficLightData = Sockets.data["JSONTrafficLights"].data
 		if TrafficLightData != null:
 			for object in TrafficLightData:
-				if object != null and typeof(object) != typeof({}) and len(object) >= 4:
+				if object != null and typeof(object) != typeof({}) and typeof(object) != typeof(float(1)) and len(object) >= 4:
 					var state = object[0]
 					var x = object[1]
 					var y = object[2]

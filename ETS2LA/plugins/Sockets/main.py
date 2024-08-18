@@ -57,6 +57,7 @@ def position(data):
     return send
 
 def traffic_lights(data):
+    data["TrafficLights"] = runner.GetData(["tags.TrafficLights"])[0] # Get the traffic lights
     try:
         send = "JSONTrafficLights:" + json.dumps(data["TrafficLights"]) + ";"
     except:
@@ -66,9 +67,10 @@ def traffic_lights(data):
     return send
 
 def speed(data):
+    data["targetSpeed"] = runner.GetData(["tags.targetSpeed"])[0] # Get the target speed
     send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
     send += "speedLimit:" + str(data["truckFloat"]["speedLimit"]) + ";"
-    send += "cc:" + str(data["truckFloat"]["cruiseControlSpeed"]) + ";"
+    send += "cc:" + str(data["truckFloat"]["cruiseControlSpeed"] if data["targetSpeed"] == None and type(data["targetSpeed"]) != dict else data["targetSpeed"]) + ";"
     return send
 
 def accelBrake(data):
@@ -81,28 +83,34 @@ lastVehicleString = ""
 def vehicles(data):
     global lastVehicles, lastVehicleString
     
+    data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
+    
     if data["vehicles"] == lastVehicles:
         return lastVehicleString
     
     if data["vehicles"] is not None:
         newVehicles = []
-        for vehicle in data["vehicles"]:
-            if isinstance(vehicle, dict):
-                newVehicles.append(vehicle)
-            elif isinstance(vehicle, list): # No clue why this happens, it's just sometimes single coordinates like this [31352.055901850657, 18157.970393701282]
-                continue
-            elif isinstance(vehicle, tuple):
-                continue
-            elif isinstance(vehicle, str):
-                continue
-            else:
-                try:
-                    newVehicles.append(vehicle.json())
-                except:
+        try:
+            for vehicle in data["vehicles"]:
+                if isinstance(vehicle, dict):
+                    newVehicles.append(vehicle)
+                elif isinstance(vehicle, list): # No clue why this happens, it's just sometimes single coordinates like this [31352.055901850657, 18157.970393701282]
+                    continue
+                elif isinstance(vehicle, tuple):
+                    continue
+                elif isinstance(vehicle, str):
+                    continue
+                else:
                     try:
-                        newVehicles.append(vehicle.__dict__)
+                        newVehicles.append(vehicle.json())
                     except:
-                        pass
+                        try:
+                            newVehicles.append(vehicle.__dict__)
+                        except:
+                            pass
+        except:
+            print("Error in vehicles")
+            print(data["vehicles"])
                     
         data["vehicles"] = newVehicles
     
@@ -116,6 +124,7 @@ def steering(data):
     try:
         global lastSteeringPoints
         steeringPoints = []
+        data["steeringPoints"] = runner.GetData(["Map"])[0]
         if data["steeringPoints"] is not None:
             for point in data["steeringPoints"]:
                 steeringPoints.append(point)
@@ -155,9 +164,11 @@ def Initialize():
 def plugin():
     global send
     data = TruckSimAPI.run()
-    data["steeringPoints"] = runner.GetData(["Map"])[0]
-    data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
-    data["TrafficLights"] = runner.GetData(["tags.TrafficLights"])[0] # Get the traffic lights
+    
+    # print(data["steeringPoints"])
+    # print(data["vehicles"])
+    # print(data["TrafficLights"])
+    # print(data["targetSpeed"])
     
     tempSend = ""
     tempSend += position(data)

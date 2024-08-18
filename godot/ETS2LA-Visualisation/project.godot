@@ -17,6 +17,10 @@ boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 boot_splash/image="ignore_this_warning_it_is_required_for_the_splash_screen_because_of_godot"
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/always_on_top=true
+
 [input]
 
 ZoomIn={

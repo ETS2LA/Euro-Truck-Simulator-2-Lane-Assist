@@ -326,7 +326,12 @@ def run(x, y, z):
     UpdateMapData()
     if mapData == None or mapData == {}:
         return None
-    prefabs = LoadPrefabs(mapData)
-    roads = LoadRoads(mapData)
+    
+    try:
+        prefabs = LoadPrefabs(mapData)
+        roads = LoadRoads(mapData)
+    except: 
+        return None
+    
     data = API.run()
     return GetClosestRoadOrPrefabAndLane(x, z, y, data, closeRoads=roads, closePrefabs=prefabs)["map"]

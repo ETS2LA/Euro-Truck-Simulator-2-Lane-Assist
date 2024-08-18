@@ -1,5 +1,6 @@
 # Package Imports
 from rich.progress import Progress, TextColumn, BarColumn, TaskProgressColumn, TimeElapsedColumn
+import numpy as np
 import importlib
 import logging
 import time
@@ -349,6 +350,36 @@ def UpdateSettings():
     
     lastUpdate = time.time()
 
+def CalculateCurvature(points):
+    try:
+        # Extract x and y components
+        x = np.array([point[0] for point in points])
+        y = np.array([point[1] for point in points])
+
+        # Calculate differences
+        dx1, dx2 = x[:-2] - x[1:-1], x[1:-1] - x[2:]
+        dy1, dy2 = y[:-2] - y[1:-1], y[1:-1] - y[2:]
+
+        # Calculate the components of the curvature formula
+        numerator = np.abs(dx1 * dy2 - dx2 * dy1)
+        denominator = (np.sqrt(x[:-2]**2 + y[:-2]**2) *
+                    np.sqrt(x[1:-1]**2 + y[1:-1]**2) *
+                    np.sqrt(x[2:]**2 + y[2:]**2))
+
+        # Avoid division by zero by adding a small epsilon
+        epsilon = 1e-10
+        curvature_values = numerator / (denominator + epsilon)
+
+        # Sum the curvature values to get the total curvature
+        total_curvature = np.sum(curvature_values)
+
+        #print("Total Curvature:", total_curvature)
+        
+        return total_curvature
+    except:
+        logging.exception("Failed to calculate curvature")
+        return 0
+
 # MARK: Plugin
 def plugin():
     data = {
@@ -375,15 +406,34 @@ def plugin():
     
     updatedRoads = compute.CalculateParallelPointsForRoads(closeRoads) # Will slowly populate the lanes over a few frames
     
+    targetSpeed = data["api"]["truckFloat"]["speedLimit"]
     steeringPoints = []
     if COMPUTE_STEERING_DATA:
         steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
-        steeringPoints = steeringData["map"]["allPoints"][:20] # Cap to 20 points
+        steeringPoints = steeringData["map"]["allPoints"]
         try: steeringAngle = steeringData["map"]["angle"]
         except: steeringAngle = 0
         data.update(steeringData)
         if steeringAngle is not None and not math.isnan(steeringAngle):
             Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
+            
+        # Calculate how tight the next 20m of road is
+        distance = 0
+        points = []
+        lastPoint = None
+        for point in steeringPoints:
+            if distance > 20:
+                break
+            if lastPoint is not None:
+                distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
+            points.append(point)
+            lastPoint = point
+        
+        curvature = CalculateCurvature(points)
+                
+        # Modulate the target speed based on the curvature
+        targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
+        #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
         
     if INTERNAL_VISUALISATION:
         DrawInternalVisualisation(data, closeRoads, closePrefabs)
@@ -396,14 +446,18 @@ def plugin():
     arData = None
     if SEND_AR_DATA:
         arData = CreateARData(data, closeRoads, closePrefabs)
-        return steeringPoints, {
+        return steeringPoints[:20], {
             "map": externalData,
             "ar": arData,
+            "targetSpeed": targetSpeed,
         }
     
     if updatedPrefabs or updatedRoads:
-        return steeringPoints, {
+        return steeringPoints[:20], {
             "map": externalData,
+            "targetSpeed": targetSpeed,
         }
     
-    return steeringPoints
+    return steeringPoints[:20], {
+        "targetSpeed": targetSpeed
+    }

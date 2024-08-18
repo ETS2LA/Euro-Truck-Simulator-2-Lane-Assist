@@ -1,3 +1,4 @@
+from ETS2LA.modules.Raycasting.main import RaycastResponse as Raycast
 from typing import Literal, List, Tuple
 
 class Object:
@@ -78,6 +79,9 @@ class Vehicle(Object):
             "raycasts": [raycast.json() for raycast in self.raycasts],
             "speed": self.speed
         }
+        
+    def fromJson(self, json: dict):
+        return Vehicle(json["id"], json["objectType"], json["screenPoints"], [Raycast.fromJson(raycast) for raycast in json["raycasts"]], json["speed"])
         
     def __str__(self) -> str:
         return f"{self.objectType} with id {self.id} and speed {self.speed}"
