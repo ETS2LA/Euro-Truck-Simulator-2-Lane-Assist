@@ -301,6 +301,10 @@
     "object_detection.settings.5.description": "A modell architekt\u00fara, amit haszn\u00e1lni szeretn\u00e9l. K\u00e9rlek, vedd figyelembe, hogy a YoloV7 t\u00f6bb teljes\u00edtm\u00e9nyt ig\u00e9nyel.",
     "object_detection.settings.6.name": "K\u00e9perny\u0151 K\u00e9p M\u00e9retei",
     "object_detection.settings.6.description": "Melyik r\u00e9sze a k\u00e9perny\u0151nek haszn\u00e1lhat\u00f3 az objektum detekt\u00e1l\u00e1shoz. Index 0 az X, index 1 az Y, index 2 a Sz\u00e9less\u00e9g, index 3 a Magass\u00e1g. Ez a be\u00e1ll\u00edt\u00e1s automatikusan gener\u00e1l\u00f3dik, miut\u00e1n egyszer elind\u00edtod a plugint.",
+    "acc.settings.1.title": "Adaptiv Tempomat be\u00e1ll\u00edt\u00e1sok",
+    "acc.settings.1.description": "Ez hat\u00e1ssal lesz arra, hogy az alkalmaz\u00e1s hogyan reag\u00e1l m\u00e1s j\u00e1rm\u0171vekre.",
+    "acc.settings.2.name": "K\u00f6vet\u00e9si t\u00e1vols\u00e1g",
+    "acc.settings.2.description": "Konkr\u00e9tan ekkora a k\u00f6vet\u00e9si t\u00e1vols\u00e1g m\u00e9terben kifejezve, 80km/h vagy 50mph-n\u00e1l",
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
     "map.json_not_found": "Nem tal\u00e1lhat\u00f3 JSON file GameData mapp\u00e1ban, k\u00e9rlek csomagold ki a GameData.zip file-t.",
     "map.loading.preparing": "T\u00e9rk\u00e9p el\u0151k\u00e9sz\u00fcl az adatok bet\u00f6lt\u00e9s\u00e9re...",
@@ -311,5 +315,6 @@
     "map.loading.final_calculations": "T\u00e9rk\u00e9p utols\u00f3 sz\u00e1m\u00edt\u00e1sai...",
     "map.visualisation.roads.text": "Utak: {0}, Csemp\u00e9k: {1}, Bet\u00f6lt\u00e9s: {2}",
     "map.visualisation.prefabs.prefabs": "El\u0151re fabrik\u00e1ltt objektumok: {0}, Csemp\u00e9k: {1}",
-    "map.visualisation.prefabs.curves": "Kanyarok/G\u00f6rb\u00e9k: {0}"
+    "map.visualisation.prefabs.curves": "Kanyarok/G\u00f6rb\u00e9k: {0}",
+    "map.extracting_data": "Kibont\u00e1s allat van a GameData.zip k\u00e9r\u00fcnk v\u00e1rj..."
 }
