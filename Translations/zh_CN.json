@@ -332,5 +332,6 @@
     "map.loading.final_calculations": "地图进行最后计算中...",
     "map.visualisation.roads.text": "道路：{0}，区块：{1}，加载中：{2}",
     "map.visualisation.prefabs.prefabs": "预设对象：{0}，区块：{1}",
-    "map.visualisation.prefabs.curves": "弯道：{0}"
+    "map.visualisation.prefabs.curves": "弯道：{0}",
+    "map.extracting_data": "正在获取 GameData.zip 数据，请稍候..."
 }
