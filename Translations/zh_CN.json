@@ -316,6 +316,11 @@
     "object_detection.settings.6.name": "屏幕捕捉尺寸",
     "object_detection.settings.6.description": "用于物体检测的屏幕部分。位置 0 是 X，位置 1 是 Y，位置 2 是宽度，位置 3 是高度。此设置将在您首次启动插件后自动设置。",
     
+    "acc.settings.1.title": "自适应巡航控制设置",
+    "acc.settings.1.description": "此选项将影响应用程序对其他车辆的反应方式。",
+    "acc.settings.2.name": "跟车距离",
+    "acc.settings.2.description": "具体来说，这是在时速80公里或50英里的距离（单位：米）。",
+    
     "_PLUGIN_KEYS": "这些是特定插件所需的键值",
 
     "map.json_not_found": "在 GameData 文件夹中找不到 json 文件，请解压缩 GameData.zip 文件。",
