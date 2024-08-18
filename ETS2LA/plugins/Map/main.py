@@ -417,12 +417,12 @@ def plugin():
         if steeringAngle is not None and not math.isnan(steeringAngle):
             Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
             
-        # Calculate how tight the next 20m of road is
+        # Calculate how tight the next 50m of road is
         distance = 0
         points = []
         lastPoint = None
         for point in steeringPoints:
-            if distance > 20:
+            if distance > 50:
                 break
             if lastPoint is not None:
                 distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5

@@ -80,10 +80,17 @@ def accelBrake(data):
 
 lastVehicles = [""]
 lastVehicleString = ""
+lastVehicleStringTime = time.time()
 def vehicles(data):
-    global lastVehicles, lastVehicleString
+    global lastVehicles, lastVehicleString, lastVehicleStringTime
     
     data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
+    
+    if data["vehicles"] is None:
+        if time.time() - lastVehicleStringTime < 1:
+            return lastVehicleString
+        else:
+            return "JSONvehicles:[];"
     
     try:    
         if data["vehicles"] == lastVehicles:
@@ -117,9 +124,14 @@ def vehicles(data):
                     
         data["vehicles"] = newVehicles
     
+    if data["vehicles"] is []:
+        if time.time() - lastVehicleStringTime < 1:
+            return lastVehicleString
+        
     send = "JSONvehicles:" + json.dumps(data["vehicles"]) + ";"
     lastVehicles = data["vehicles"]
     lastVehicleString = send
+    lastVehicleStringTime = time.time()
     return send
 
 lastSteeringPoints = []
