@@ -32,16 +32,16 @@ substanceSize = 25
 # virtualZ = 25650
 
 # Sweden
-# virtualX = 22600
-# virtualZ = -45480
+virtualX = 22600
+virtualZ = -45480
 
 # Baltics
 # virtualX = 44000
 # virtualZ = -49200
 
 # Working Set (not a specific location)
-virtualX = 36145
-virtualZ = 24695
+# virtualX = 36145
+# virtualZ = 24695
 
 class scsTelemetry:
     

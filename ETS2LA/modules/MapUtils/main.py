@@ -66,7 +66,7 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
         elif type(item) == Road:
             lanes = item.ParallelPoints
         elif type(item) == PrefabItem:
-            lanes = [[(lane[0], lane[1]), (lane[2], lane[3])] for lane in item.NavigationLanes]
+            lanes = item.CurvePoints
         
         laneFirstPoints = [lane[0] for lane in lanes]
         laneLastPoints = [lane[-1] for lane in lanes]
@@ -77,23 +77,23 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
         lanePercentages = []
         for lane in lanes:
             if lane == []: continue
+            if type(item) == Road:
+                startPoint = lane[0]
+                endPoint = lane[-1]
+                playerPoint = [x, y]
+                
+                if type(startPoint) != tuple or type(endPoint) != tuple or type(playerPoint) != list:
+                    continue
+                
+                # Calculate the distance between the player and the start and end points
+                startDistance = math.sqrt((startPoint[0] - playerPoint[0])**2 + (startPoint[1] - playerPoint[1])**2)
+                endDistance = math.sqrt((endPoint[0] - playerPoint[0])**2 + (endPoint[1] - playerPoint[1])**2)
+                sumDistance = startDistance + endDistance
+                
+                percentage = startDistance / sumDistance
+                lanePercentages.append(percentage)
             
-            startPoint = lane[0]
-            endPoint = lane[-1]
-            playerPoint = [x, y]
-            
-            if type(startPoint) != tuple or type(endPoint) != tuple or type(playerPoint) != list:
-                continue
-            
-            # Calculate the distance between the player and the start and end points
-            startDistance = math.sqrt((startPoint[0] - playerPoint[0])**2 + (startPoint[1] - playerPoint[1])**2)
-            endDistance = math.sqrt((endPoint[0] - playerPoint[0])**2 + (endPoint[1] - playerPoint[1])**2)
-            sumDistance = startDistance + endDistance
-            
-            percentage = startDistance / sumDistance
-            lanePercentages.append(percentage)
-            
-        # Now for each lane interpolate the point that maches the players percentage
+        # Now for each lane interpolate the point that matches the players percentage
         interpolatedPoints = []
         pointsLanes = []
         for lane in lanes:
@@ -102,10 +102,54 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
                 
                 if type(item) == PrefabItem or len(lanes) == 1:
                     # Get the two points closest to the player
+                    # firstPoint = None
+                    # firstPointDistance = math.inf
+                    # secondPoint = None
+                    # secondPointDistance = math.inf
+                    # for point in lane:
+                    #     try:
+                    #         distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
+                    #         if distance < firstPointDistance:
+                    #             secondPoint = firstPoint
+                    #             secondPointDistance = firstPointDistance
+                    #             firstPoint = point
+                    #             firstPointDistance = distance
+                    #         elif distance < secondPointDistance:
+                    #             secondPoint = point
+                    #             secondPointDistance = distance
+                    #     except:
+                    #         continue
+                    # 
+                    # if firstPoint == None or secondPoint == None:
+                    #     continue
+                    # 
+                    # # Get the percentage of the first point
+                    # startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+                    # endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+                    # sumDistance = startDistance + endDistance
+                    # firstPointPercentage = startDistance / sumDistance
+                    # 
+                    # # Get the percentage of the second point
+                    # # startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
+                    # # endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
+                    # # sumDistance = startDistance + endDistance
+                    # # secondPointPercentage = startDistance / sumDistance
+                    # 
+                    # # Interpolate the point
+                    # newPoint = [0, 0]
+                    # newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
+                    # newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
+                    # 
+                    # interpolatedPoints.append(newPoint)
+                    # pointsLanes.append(lane)
+                    
+                    ...
+                    
+                    # Get the two points that are closest to the player.
                     firstPoint = None
-                    firstPointDistance = 999999
+                    firstPointDistance = math.inf
                     secondPoint = None
-                    secondPointDistance = 999999
+                    secondPointDistance = math.inf
                     for point in lane:
                         try:
                             distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
@@ -119,21 +163,12 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
                                 secondPointDistance = distance
                         except:
                             continue
-                    
-                    if firstPoint == None or secondPoint == None:
-                        continue
-                    
+                        
                     # Get the percentage of the first point
                     startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
                     endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
                     sumDistance = startDistance + endDistance
                     firstPointPercentage = startDistance / sumDistance
-                    
-                    # Get the percentage of the second point
-                    # startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
-                    # endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
-                    # sumDistance = startDistance + endDistance
-                    # secondPointPercentage = startDistance / sumDistance
                     
                     # Interpolate the point
                     newPoint = [0, 0]
@@ -142,6 +177,7 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
                     
                     interpolatedPoints.append(newPoint)
                     pointsLanes.append(lane)
+                    
                     
                 elif type(item) == Road:
                     percentage, point = roads.FindClosestPointOnHermiteCurve(x, z, y, road=item, lane=lane)
@@ -163,9 +199,9 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
                 closestPoint = point
                 closestLaneDistance = distance
                            
-        if type(item) == PrefabItem:
-            # Convert the closest lane back to the original format
-            closestLane = (closestLane[0][0], closestLane[0][1], closestLane[1][0], closestLane[1][1])
+        # if type(item) == PrefabItem:
+        #     # Convert the closest lane back to the original format
+        #     closestLane = (closestLane[0][0], closestLane[0][1], closestLane[1][0], closestLane[1][1])
         
         # Find which index the lane is in
         if item != None:

@@ -1,6 +1,7 @@
 from ETS2LA.variables import *
 from ETS2LA.backend.settings import *
 
+from ETS2LA.plugins.Map.GameData.calc import Hermite
 import ETS2LA.plugins.Map.GameData.nodes as nodes
 
 import sys
@@ -169,7 +170,7 @@ WARNING: This array does not get updated, since it is so large. Please use the u
 
 optimizedRoads = {}
 uidOptimizedRoads = {}
-roadFileName = PATH + "ETS2LA/plugins/Map/GameData/roads.json"
+roadFileName = PATH + "ETS2LA/plugins/Map/GameData/data/roads.json"
 
 roadsMaxX = 0
 roadsMaxZ = 0
@@ -181,14 +182,6 @@ areaCountX = 0
 areaCountZ = 0
 
 limitToCount = 0
-
-# MARK: Point Calculations
-def Hermite(s, x, z, tanX, tanZ):
-    h1 = 2 * math.pow(s, 3) - 3 * math.pow(s, 2) + 1
-    h2 = -2 * math.pow(s, 3) + 3 * math.pow(s, 2)
-    h3 = math.pow(s, 3) - 2 * math.pow(s, 2) + s
-    h4 = math.pow(s, 3) - math.pow(s, 2)
-    return h1 * x + h2 * z + h3 * tanX + h4 * tanZ
 
 def CreatePointsForRoad(road):
     # All this code is copied from the original C# implementation of point calculations
@@ -523,6 +516,7 @@ def GetRoadByUid(uid):
 def SetRoadParallelData(road, parallelPoints, laneWidth, boundingBox):
     # Find the road by the UID
     road = GetRoadByUid(road.Uid)
+    if road == None: return # For some reason the road was not found...
     road.ParallelPoints = parallelPoints
     road.LaneWidth = laneWidth
     road.BoundingBox = boundingBox
@@ -564,18 +558,23 @@ offsetPerName = {
     "Highway 2 lanes 2.5m offset" : 9.5,
     "Highway 2 lanes 2m offset" : 8.5,
     "Highway 2 lanes 1m offset" : 6.5,
+    "Highway 2 lanes 10m offset" : 24.5,
     "Highway 3 lanes 2m offset" : 8.5,
+    "Highway 3 lanes 5m offset" : 14.5,
     "balt hw 2 lanes 5m offset tmpl": 14.5,
 }
 offsetRules = {
     "***Road 2 city narrow": 6.5,
+    "***Road 2 plus 1 temp": -11,
     "**road1 hw 1m offset tmpl": 8.5,
     "**road 2 narrow tmpl": 6.5,
     "**road 2 city narrow tmpl": 6.5,
     "**road 1 minim tmpl": 2.25,
     "**road 1 dirt minim tmpl": 2.25,
     "**road 1 minim village 1 tmpl": 2.25,
+    "**road 1 plus 1 tmpl": 9.0,
     "**2 lanes 1m offset": 6.5,
+    "**r2 tram": 2.25,
 }
 
 def GetOffset(road):

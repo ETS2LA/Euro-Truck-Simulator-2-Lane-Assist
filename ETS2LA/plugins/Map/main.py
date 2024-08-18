@@ -3,6 +3,7 @@ from rich.progress import Progress, TextColumn, BarColumn, TaskProgressColumn, T
 import importlib
 import logging
 import time
+import math
 import cv2
 import os
 
@@ -17,9 +18,10 @@ import ETS2LA.variables as variables
 
 # Plugin imports
 from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems
+import ETS2LA.plugins.Map.GameData.extractor as extractor
 import ETS2LA.plugins.Map.Compute.compute as compute
 plotter = importlib.import_module("Compute.plotter")
-from Visualize import visualize
+visualize = importlib.import_module("Visualize.visualize")
 
 runner:PluginRunner = None
 
@@ -53,9 +55,11 @@ def Initialize():
     
     SI = runner.modules.ShowImage
     
+    MapUtils = runner.modules.MapUtils
+    
     Steering = runner.modules.Steering
     Steering.OFFSET = 0
-    Steering.SMOOTH_TIME = 0.0
+    Steering.SMOOTH_TIME = 0.5
     Steering.IGNORE_SMOOTH = False
     Steering.SENSITIVITY = 1
     
@@ -77,9 +81,29 @@ def UpdatePlotter():
     
     if currentHash != plotterHash:
         logging.warning("Reloading plotter")
-        plotterHash = currentHash
         # Update the plotter code
-        importlib.reload(plotter)
+        try:
+            importlib.reload(plotter)
+            plotterHash = currentHash
+        except:
+            logging.exception("Failed to reload plotter")
+            
+
+visualizeHash = None
+def UpdateVisualize():
+    global visualizeHash
+    global visualize
+    filepath = variables.PATH + "ETS2LA/plugins/Map/Visualize/visualize.py"
+    
+    currentHash = ""
+    with open(filepath, "r") as file:
+        currentHash = hash(file.read())
+    
+    if currentHash != visualizeHash:
+        logging.warning("Reloading visualize")
+        visualizeHash = currentHash
+        # Update the visualize code
+        importlib.reload(visualize)
 
 def GetDistanceFromTruck(x, z, data):
     truckX = data["api"]["truckPlacement"]["coordinateX"]
@@ -184,6 +208,9 @@ def DrawInternalVisualisation(data, closeRoads, closePrefabs):
         allPoints = data["map"]["allPoints"]
         for point in allPoints:
             img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2)
+        endPoints = data["map"]["endPoints"]
+        for point in endPoints:
+            img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2, color=(0, 255, 0))
             
         #cv2.putText(img, "Steering enabled (default N)" if STEERING_ENABLED else "Steering disabled (default N)", (10, 190), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
         
@@ -294,18 +321,8 @@ def CreateExternalData(closeRoads, closePrefabs, roadUpdate, prefabUpdate):
             
         dataPrefabs = []
         for prefab in closePrefabs:
-            prefab.Nodes = []
-            try:
-                prefab.StartNode.ForwardItem = None
-                prefab.StartNode.BackwardItem = None
-            except: pass
-            try:
-                prefab.EndNode.ForwardItem = None
-                prefab.EndNode.BackwardItem = None
-            except: pass
-            prefab.Navigation = []
-            prefab.Prefab = None
-            dataPrefabs.append(prefab.json())
+            prefabJson = prefab.json()
+            dataPrefabs.append(prefabJson)
 
         externalData = {
             "roads": dataRoads,
@@ -338,30 +355,35 @@ def plugin():
         "api": API.run(),
     }
     
-    if not JSON_FOUND:
-        CheckIfJSONDataIsAvailable(data)
-        return None
+    # No longer needed, data will always be available
+    # if not JSON_FOUND:
+    #     CheckIfJSONDataIsAvailable(data)
+    #     return None
     
     if not DATA_LOADED:
+        extractor.UpdateData()
         LoadGameData()        
     
     data = CreatePlaceholderMapData(data)    
     
     UpdateSettings()
     UpdatePlotter()
+    UpdateVisualize()
         
     closeRoads, updatedRoads = compute.GetRoads(data)
     closePrefabs, updatedPrefabs = compute.GetPrefabs(data)
+    
     updatedRoads = compute.CalculateParallelPointsForRoads(closeRoads) # Will slowly populate the lanes over a few frames
     
     steeringPoints = []
     if COMPUTE_STEERING_DATA:
-        steeringData = plotter.GetNextPoints(data, closeRoads, closePrefabs)
-        steeringPoints = steeringData["map"]["allPoints"]
+        steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
+        steeringPoints = steeringData["map"]["allPoints"][:20] # Cap to 20 points
         try: steeringAngle = steeringData["map"]["angle"]
         except: steeringAngle = 0
         data.update(steeringData)
-        Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
+        if steeringAngle is not None and not math.isnan(steeringAngle):
+            Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
         
     if INTERNAL_VISUALISATION:
         DrawInternalVisualisation(data, closeRoads, closePrefabs)

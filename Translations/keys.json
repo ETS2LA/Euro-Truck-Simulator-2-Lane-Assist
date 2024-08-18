@@ -306,5 +306,7 @@
     "map.loading.final_calculations",
     "map.visualisation.roads.text",
     "map.visualisation.prefabs.prefabs",
-    "map.visualisation.prefabs.curves"
+    "map.visualisation.prefabs.curves",
+    "map.json_not_found",
+    "map.extracting_data"
 ]

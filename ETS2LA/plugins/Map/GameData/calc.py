@@ -1,5 +1,7 @@
 import numpy as np
+import math
 
+# MARK: Vector
 # Function to calculate the perpendicular vector
 def perpendicular_vector(v):
     return np.array([-v[1], v[0]])
@@ -25,6 +27,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_
     
     #print(custom_offset)
     base_custom_offset = custom_offset
+    # points = points[::-1] # This will fix some roads being the other way around (mainly 2 left 1 right with a wide gap)
     pointCount = len(points)
     for i in range(pointCount - 1):
         point1 = np.array(points[i])
@@ -99,3 +102,44 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_
                 lanes['right'][lane].append(right_point2.tolist())
 
     return lanes
+
+# MARK: Points
+def RotatePoint(x, z, angle, rotX, rotZ):
+    s = math.sin(angle)
+    c = math.cos(angle)
+    newX = x - rotX
+    newZ = z - rotZ
+    return (((newX * c) - (newZ * s) + rotX), ((newX * s) + (newZ * c) + rotZ))
+
+def RotatePoint3D(x, y, z, angleX, angleY, angleZ, rotX, rotY, rotZ):
+    # Rotation around X-axis
+    cosX = math.cos(angleX)
+    sinX = math.sin(angleX)
+    y_rotated_x = y * cosX - z * sinX
+    z_rotated_x = y * sinX + z * cosX
+
+    # Rotation around Y-axis
+    cosY = math.cos(angleY)
+    sinY = math.sin(angleY)
+    x_rotated_y = x * cosY + z_rotated_x * sinY
+    z_rotated_y = -x * sinY + z_rotated_x * cosY
+
+    # Rotation around Z-axis
+    cosZ = math.cos(angleZ)
+    sinZ = math.sin(angleZ)
+    x_rotated_z = x_rotated_y * cosZ - y_rotated_x * sinZ
+    y_rotated_z = x_rotated_y * sinZ + y_rotated_x * cosZ
+
+    # Translate back
+    newX = x_rotated_z + rotX
+    newY = y_rotated_z + rotY
+    newZ = z_rotated_y + rotZ
+
+    return newX, newY, newZ
+
+def Hermite(s, x, z, tanX, tanZ):
+    h1 = 2 * math.pow(s, 3) - 3 * math.pow(s, 2) + 1
+    h2 = -2 * math.pow(s, 3) + 3 * math.pow(s, 2)
+    h3 = math.pow(s, 3) - 2 * math.pow(s, 2) + s
+    h4 = math.pow(s, 3) - math.pow(s, 2)
+    return h1 * x + h2 * z + h3 * tanX + h4 * tanZ

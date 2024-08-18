@@ -197,6 +197,7 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
     Returns:
         np.array: image array
     """
+    startTime = time.time()
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
     y = data["api"]["truckPlacement"]["coordinateZ"]
@@ -217,23 +218,42 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
     curveCount = 0
     for item in areaItems:
         try:
-            # Draw the curves
-            for curve in item.NavigationLanes:
-                curveCount += 1
-                startXY = roads.GetLocalCoordinateInTile(curve[0], curve[1] , tileCoords[0], tileCoords[1])
-                endXY = roads.GetLocalCoordinateInTile(curve[2], curve[3], tileCoords[0], tileCoords[1])
-                startXY = (startXY[0] - truckXY[0], startXY[1] - truckXY[1])
-                endXY = (endXY[0] - truckXY[0], endXY[1] - truckXY[1])
-                # Apply zoom to the local coordinates
-                zoomedStartX = startXY[0] * zoom
-                zoomedStartY = startXY[1] * zoom
-                zoomedEndX = endXY[0] * zoom
-                zoomedEndY = endXY[1] * zoom
-                # Offset the zoomed coordinates by the truck's position to "move" the camera
-                startX = int(zoomedStartX + size//2)
-                startY = int(zoomedStartY + size//2)
-                endX = int(zoomedEndX + size//2)
-                endY = int(zoomedEndY + size//2)
+            #if item.Prefab.FilePath == "prefab/fork/road_1x_sidewalk_end_4m.ppd":
+            #    logging.warning(item.CurvePoints)
+            id = 0
+            for curve in item.CurvePoints:
+                max_x = -math.inf
+                max_y = -math.inf
+                min_x = math.inf
+                min_y = math.inf
+                points = []
+                for i in range(len(curve)):
+                    point = curve[i]
+                    xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
+                    xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
+                    zoomedX = xy[0] * zoom
+                    zoomedY = xy[1] * zoom
+                    pointX = int(zoomedX + size//2)
+                    pointY = int(zoomedY + size//2)
+                    points.append((pointX, pointY))
+                    
+                    if pointX > max_x:
+                        max_x = pointX
+                    if pointX < min_x:
+                        min_x = pointX
+                    if pointY > max_y:
+                        max_y = pointY
+                    if pointY < min_y:
+                        min_y = pointY
+                        
+                    # Check if the point is within the display area (1000px x 1000px) plus a padding of 200px
+                    if pointX > 1500 or pointX < -1500 or pointY > 1500 or pointY < -1500:
+                        break
+                    
+                
+                # Check if the bounding box is within the display area (1000px x 1000px)
+                if min_x > 1000 or max_x < 0 or min_y > 1000 or max_y < 0:
+                    continue
                 
                 color = (100, 100, 100)
                 try:
@@ -246,16 +266,33 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
                 except:
                     pass
                 
-                cv2.line(img, (startX, startY), (endX, endY), color, 2 + (zoom - 1))
+                curveCount += 1
+                if len(points) == 2:
+                    cv2.line(img, points[0], points[1], color, (1 + (zoom - 1)), cv2.LINE_AA)
+                else:
+                    cv2.polylines(img, np.int32([points]), False, color, (1 + (zoom - 1)), cv2.LINE_AA)
+            
+            prefabOrigin = (item.X, item.Z)
+            prefabXY = roads.GetLocalCoordinateInTile(prefabOrigin[0], prefabOrigin[1], prefabTileCoords[0], prefabTileCoords[1])
+            prefabXY = (prefabXY[0] - truckXY[0], prefabXY[1] - truckXY[1])
+            zoomedX = prefabXY[0] * zoom
+            zoomedY = prefabXY[1] * zoom
+            pointX = int(zoomedX + size//2)
+            pointY = int(zoomedY + size//2)
+            cv2.putText(img, f"{item.Prefab.FilePath}", (pointX, pointY), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(img, f"ID: {item.Uid}", (pointX, pointY + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
         except: 
             #import traceback
             #traceback.print_exc()
+            #logging.exception("Error drawing prefab curve")
             pass
 
     if drawText:
         cv2.putText(img, Translate("map.visualisation.prefabs.prefabs", values=[len(areaItems), str(prefabTileCoords)]), (10, 110), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
         cv2.putText(img, Translate("map.visualisation.prefabs.curves", values=[curveCount]), (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
     
+    endTime = time.time()
+    sys.stdout.write(f"Visualized {len(areaItems)} prefabs in {round((endTime - startTime) * 1000, 1)} ms     \r")
     return img
 
 def RotateAroundCenter(point, center, angle):
@@ -483,8 +520,9 @@ def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0, p
     tileCoords = roads.GetTileCoordinates(x, y)
     truckXY = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
     try:
+        #logging.warning(f"Point: {point}")
         try:
-            xy = roads.GetLocalCoordinateInTile(point[0], point[2], tileCoords[0], tileCoords[1])
+            xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
         except:
             xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
         xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
@@ -493,7 +531,7 @@ def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0, p
         pointX = int(zoomedX + size//2)
         pointY = int(zoomedY + size//2)
         cv2.circle(img, (pointX, pointY), 2 * pointSize, color, -1, cv2.LINE_AA)
-        
+        #logging.warning(f"Point: {pointX}, {pointY}")
         if distance != 0:
             # Draw a line and text from the truck to the point
             cv2.line(img, (size//2, size//2), (pointX, pointY), (100,100,100), 1, cv2.LINE_AA)

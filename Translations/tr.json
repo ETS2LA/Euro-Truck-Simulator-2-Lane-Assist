@@ -3,9 +3,9 @@
     "name_en": "Turkish",
     "iso_code": "tr",
 
-    "_GLOBALS": "Translated by Byeco And onayB09",
+    "_CREDIT": "Translated by Byeco And onayB09",
 	
-	"_GLOBALS": "Alfa acılara yürüyorum korkmuyorum",
+	"_IMBETTER": "Alfa acılara yürüyorum korkmuyorum",
     
 	"confirm": "Onayla",
     "cancel": "İptal",
@@ -20,7 +20,7 @@
     "setting": "Ayarlanıyor...",
     "unknown": "Bilinmiyor",
 
-    "_BACKEND": "Hey man, not me, AI is driving my truck.",
+    "_THEDADJOKE": "Hey man, not me, AI is driving my truck.",
 
     "main.errors_and_warnings": "Günlük dosyasındaki hata ve uyarılar:",
     "main.errors": "Hatalar:",
@@ -53,7 +53,7 @@
     "logging.delete_log_error": "Günlük dosyası silinemedi.",
     "logging.logger_initialized": "Günlük kaydedici başlatıldı.",
 
-    "_RUNNER": "Geometry Dash is peak game bro try it especially bloodbath.",
+    "_GEOMETRYDASH": "Geometry Dash is peak game bro try it especially bloodbath.",
 
     "runner.could_not_import": "{0} eklentisi içe aktarılamadı",
     "runner.could_not_load_module": "{0} modülü yüklenemedi",
@@ -61,7 +61,7 @@
     "runner.error_calling_function": "{1} içindeki {0} fonksiyonu çağrılırken hata oluştu",
     "runner.plugin_crash": "{0} eklentisi çöktü.",
 	
-    "_FRONTEND": "Hakançağlanoğluburadaonnumaraheryerdeşimdiellerhavaya",
+    "_FOOTBALL": "Hakançağlanoğluburadaonnumaraheryerdeşimdiellerhavaya",
     
     "frontend.app.lost_connection": "Sunucuyla bağlantı kesildi.",
     "frontend.app.local_ip_placeholder": "ETS2LA'nın yerel IP adresi",
@@ -105,7 +105,7 @@
     "frontend.authentication.repeat_password": "Şifreyi Tekrarla",
     "frontend.authentication.account_creation_confirmation": "Bu yeni bir hesap oluşturur. Emin misiniz?",
 	
-	"_GLOBALS": "https://youtu.be/xvFZjo5PgG0",
+	"_MUSTHAVEETS2": "https://youtu.be/xvFZjo5PgG0",
 	
     "frontend.authentication.use_guest": "Misafir hesabı kullan",
     "frontend.authentication.password_requirements": "Şifre Gereksinimleri",
@@ -241,7 +241,7 @@
     "frontend.plugins.button_may_take_second_to_update": "Düğmenin güncellenmesi birkaç saniye sürebilir.",
     "frontend.plugins.open_interface": "Arayüzü Aç",
 
-    "_LIST_OF_PLUGINS": "Ryan Gosling is literally me.",
+    "_I_DRIVE": "Ryan Gosling is literally me.",
 
     "plugins.adaptivecruisecontrol": "Adaptif Hız Sabitleyici",
     "plugins.adaptivecruisecontrol.description": "WIP - Araç konum verilerini ve hız sınırını kullanarak hızınızı sabitler.",
@@ -272,7 +272,7 @@
     "plugins.truckstats": "Kamyon İstatistikleri",
     "plugins.truckstats.description": "Bu eklenti kamyon, rota ve oyun hakkında bazı istatistikleri gösterir.",
 
-	"_PLUGIN_SETTINGS": "Aferin! İyi kız. They will never know its a good girl meme.",
+	"_GOOD_GIRL": "Aferin! İyi kız. They will never know its a good girl meme.",
 
     "global.settings.1.title": "Genel Ayarlar",
     "global.settings.1.description": "Bunlar çoğunlukla uygulamanın tamamını etkileyen ayarlardır.",
@@ -291,6 +291,8 @@
     "global.settings.8.name": "Dil",
     "global.settings.8.description": "Uygulama için kullanılacak dil. Değişiklikleri uygulamak için yeniden başlatman gerekiyor!",
 
+    "_LOL": "aint no way DylDev got rickrolled from a json file lmao",
+
     "map.settings.1.title": "Harita Ayarları",
     "map.settings.1.description": "Bu ayarlar harita eklentisi içindir.",
     "map.settings.2.name": "Yönlendirme hesaplama",
@@ -308,6 +310,8 @@
     "map.settings.9.name": "AR Verisini Göster",
     "map.settings.9.description": "Bu, oyun üzerinde yolları gösterecektir, AR eklentisini de etkinleştirmeniz gerekir.",
 
+    "_SKIBIDIRIZZ": "i strawberry elephant reddit looksmax cocomelon girl dinner like i negative rizz we go gym hitting the griddy ratio cringe gyatt hit the griddy gassy rizzing up imposter say pibby glitch toilet kai cenat andrew tate fanum tax john pork rizz king 1 2 buckle my shoe L streamer quandale dingle duke dennis freddy fazbear skibidi ahh bussin' infinite rizz duke dennis infinite rizz gyatt strawberry elephant but you i am a surgeon pibby glitch battle pass gigachad sturdy tiktok we go jim funny moments toilet battle pass therian boy dinner looksmax fortnite adin ross from negative rizz delulu strawberry elephant ohio infinite rizz",
+
     "object_detection.settings.1.title": "Nesne Algılama Ayarları",
     "object_detection.settings.1.description": "Bu ayarlar, nesne algılamanın kalite ve performansını etkiler.",
     "object_detection.settings.2.name": "Cihaz",
@@ -321,7 +325,7 @@
     "object_detection.settings.6.name": "Ekran Yakalama Boyutları",
     "object_detection.settings.6.description": "Nesne algılama için ekranınızın hangi bölümünü kullanacağınızı belirler. Dizin 0 X, dizin 1 Y, dizin 2 Genişlik, dizin 3 Yüksekliktir. Bu ayar, eklentiyi bir kez başlattıktan sonra otomatik olarak oluşturulacaktır.",
     
-	"_PLUGIN_KEYS": "I'm not a fan of the Turkish Goverment. They will probably ban this app too and tell us that it is because of terrorism lol.",
+	"_THE_POLITICS": "Better not take too much risk",
 
     "map.json_not_found": "GameData klasöründe JSON dosyası bulunamadı. Lütfen GameData.zip dosyasının içindeki JSON dosyalarını dışarı çıkarın.",
     "map.loading.preparing": "Harita, veri yüklemeye hazırlanıyor...",
@@ -332,5 +336,6 @@
     "map.loading.final_calculations": "Harita son hesaplamaları yapıyor...",
     "map.visualisation.roads.text": "Yollar: {0}, Konum: {1}, Yükleniyor: {2}",
     "map.visualisation.prefabs.prefabs": "Prefabrikler: {0}, Konum: {1}",
-    "map.visualisation.prefabs.curves": "Virajlar: {0}"
+    "map.visualisation.prefabs.curves": "Virajlar: {0}",
+    "map.extracting_data": "GameData.zip ayıklanırken lütfen bekleyin..."
 }

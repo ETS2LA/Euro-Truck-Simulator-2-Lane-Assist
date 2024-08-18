@@ -15,6 +15,7 @@ extends Node
 @onready var Socket = $/root/Node3D/Sockets
 @onready var RoadParent = $/root/Node3D/Map/Roads
 @onready var PrefabParent = $/root/Node3D/Map/Prefabs
+@onready var Notifications = $/root/Node3D/UI/Notifications
 
 var sphere = preload("res://Objects/sphere.tscn")
 var lastData = null
@@ -38,7 +39,7 @@ func JsonPointToLocalCoords(jsonPoint, x, y, z):
 	else: jsonPoint[1] -= z
 	return Vector3(jsonPoint[0], y, jsonPoint[1])
 	
-func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road"):
+func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road", y=0):
 	var mesh = Mesh.new()
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLE_STRIP)
@@ -54,7 +55,7 @@ func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road")
 	# Render the road mesh
 	var meshInstance = MeshInstance3D.new()
 	meshInstance.mesh = mesh
-	meshInstance.position = Vector3(x, 0, z)
+	meshInstance.position = Vector3(x, y, z)
 	meshInstance.name = meshName
 	
 	if parent == "road":
@@ -125,19 +126,37 @@ func _process(delta: float) -> void:
 		if data != lastData or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
 			
-			for n in self.get_children():
-				self.remove_child(n)
-				n.queue_free() 
+			#for n in self.get_children():
+			#	self.remove_child(n)
+			#	n.queue_free() 
 				
-			for n in PrefabParent.get_children():
-				PrefabParent.remove_child(n)
-				n.queue_free()
-				
+			var curRoads = []
+			var curRoadUids = []
 			for n in RoadParent.get_children():
-				RoadParent.remove_child(n)
-				n.queue_free()
+				curRoadUids.append(n.name.split("-")[0])
+				curRoads.append(n)
+				
+			var curPrefabs = []
+			var curPrefabUids = []
+			for n in PrefabParent.get_children():
+				curPrefabUids.append(n.name.split("-")[0])
+				curPrefabs.append(n)
+				
+			#for n in PrefabParent.get_children():
+			#	PrefabParent.remove_child(n)
+			#	n.queue_free()
+			#	
+			#for n in RoadParent.get_children():
+			#	RoadParent.remove_child(n)
+			#	n.queue_free()
+			
+			var roadsInData = []
 			
 			for road in roadData:
+				var uid = str(road["Uid"])
+				roadsInData.append(uid)
+				if curRoadUids.has(uid):
+					continue
 				var yValues = road["YValues"]
 				var x = road["X"]
 				var z = road["Z"]
@@ -173,53 +192,47 @@ func _process(delta: float) -> void:
 				
 					# Render the meshes
 					var dark = Variables.darkMode
-					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat)
+					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, uid + "-" + str(totalLines))
 					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					totalLines += 1
-					
+			
+			for n in RoadParent.get_children():
+				var name = n.name
+				name = name.split("-")[0]
+				if not roadsInData.has(name):
+					RoadParent.remove_child(n)
+					n.queue_free()
 			
 			var prefabData = data["prefabs"]
+			
+			var prefabsInData = []
+			
 			for prefab in prefabData:
+				var uid = str(prefab["Uid"])
+				prefabsInData.append(uid)
+				if curPrefabUids.has(uid):
+					continue
 				var x = prefab["X"]
-				var y = prefab["Y"]
+				var y = prefab["Y"] # + prefab["Nodes"][0]["Y"]
 				var z = prefab["Z"]
 				var lines = []
-				var counter = 0
-				for point in prefab["CurvePoints"]:
-					# Convert the JSON points to godot Vector3s
-					var p1 = Vector3(point[0], point[4], point[1])
-					var p2 = Vector3(point[2], point[5], point[3])
-					
-					#if x > p1.x: p1.x -= x
-					#else: p1.x += x
-					#if z > p1.z: p1.z -= z
-					#else: p1.z += z
-					
-					#if x > p2.x: p2.x -= x
-					#else: p2.x += x
-					#if z > p2.z: p2.z -= z
-					#else: p2.z += z
-					
-					p1.x -= x
-					p1.z -= z
-					
-					p2.x -= x
-					p2.z -= z
-					
-					lines.append([p1, p2])
-					
-					counter += 1
-					
-				var count = 0
-				var total = len(lines)
-				for line in lines:
-					#if count > 3:
-					#	continue
+				for lane in prefab["CurvePoints"]:
 					var vertices = []
 					var rightMarkingVertices = []
 					var leftMarkingVertices = []
-					var points = line
+					var points = []
+					var counter = 0
+					for point in lane:
+						point = Vector3(point[0], point[2], point[1])
+						point.x -= x
+						point.z -= z
+						#point.y += y
+						#points.append(JsonPointToLocalCoords(point, x, pointY, z))
+						points.append(point)
+						counter += 1
+					
+					# These point towards the next point
 					var forwardVectors = CreateForwardVectors(points)
 					
 					# These point either straight right or left of the point
@@ -229,20 +242,28 @@ func _process(delta: float) -> void:
 					for i in range(len(points)):
 						var allVertices = CreateVerticesForPoint(points[i], normalVectors[i])
 						vertices += allVertices[0]
-						#leftMarkingVertices += allVertices[1]
-						#rightMarkingVertices += allVertices[2]
+						leftMarkingVertices += allVertices[1]
+						rightMarkingVertices += allVertices[2]
+						
 				
 					# Render the meshes
 					var dark = Variables.darkMode
-					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, "default", "prefab")
+					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, uid + "-" + str(totalLines))
 					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
 					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
-					count += 1
 					totalLines += 1
-				
+			
+			for n in PrefabParent.get_children():
+				var name = n.name
+				name = name.split("-")[0]
+				if not prefabsInData.has(name):
+					PrefabParent.remove_child(n)
+					n.queue_free()
+			
 			lastData = data
 			reload = false
 			print("Total of " + str(totalLines) + " lines")
+			Notifications.SendNotification("Drew " + str(totalLines) + " new lines.", 2000)
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
@@ -260,10 +281,12 @@ func _process(delta: float) -> void:
 		var points = []
 		var counter = 0
 		for point in SteeringData:
-			# Convert the JSON points to godot Vector3s
-			points.append(Vector3(point[0], position.y + 1, point[1]))
-			#print(points[-1])
-			counter += 1
+			if typeof(point) != typeof({"hello": "there"}):
+				if len(point) > 1:
+					# Convert the JSON points to godot Vector3s
+					points.append(Vector3(point[0], position.y + 1, point[1]))
+					#print(points[-1])
+					counter += 1
 		
 		# These point towards the next point
 		var forwardVectors = CreateForwardVectors(points)
@@ -289,6 +312,6 @@ func _process(delta: float) -> void:
 				n.queue_free() 
 		
 		CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
-		#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
-		#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+		#CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering", "self", -0.98)
+		#CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering", "self", -0.98)
 		

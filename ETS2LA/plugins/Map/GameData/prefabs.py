@@ -5,6 +5,7 @@ import logging
 import json
 import sys
 import math
+from typing import List, Dict
 
 from rich.progress import Task, Progress
 
@@ -12,7 +13,7 @@ from rich.progress import Task, Progress
 task: Task = None
 progress: Progress = None
 
-prefabFileName = PATH + "ETS2LA/plugins/Map/GameData/prefabs.json"
+prefabFileName = PATH + "ETS2LA/plugins/Map/GameData/data/prefabs.json"
 optimizedPrefabs = {}
 print = logging.info
 limitToCount = 0
@@ -31,6 +32,7 @@ class Prefab:
     PrefabCurves = []
     NavigationRoutes = []
     CalculatedLanePoints = []
+    PrefabLanes = []
     
     def json(self):
         return {
@@ -43,7 +45,8 @@ class Prefab:
             "MapPoints": [mapPoint.json() for mapPoint in self.MapPoints],
             "TriggerPoints": self.TriggerPoints,
             "PrefabCurves": [curve.json() for curve in self.PrefabCurves],
-            "NavigationRoutes": [route.json() for route in self.NavigationRoutes]
+            "NavigationRoutes": [route.json() for route in self.NavigationRoutes],
+            "PrefabLanes": [lane.json() for lane in self.PrefabLanes]
         }
     
     
@@ -168,6 +171,28 @@ class PrefabNode:
             "InputPoints": self.InputPoints,
             "OutputPoints": self.OutputPoints
         }
+        
+class PrefabLane:
+    Curves: List[PrefabCurve] = []
+    StartX = 0
+    StartY = 0
+    StartZ = 0
+    EndX = 0
+    EndY = 0
+    EndZ = 0
+    Length = 0
+    
+    def json(self):
+        return {
+            "Curves": [curve.json() for curve in self.Curves],
+            "StartX": self.StartX,
+            "StartY": self.StartY,
+            "StartZ": self.StartZ,
+            "EndX": self.EndX,
+            "EndY": self.EndY,
+            "EndZ": self.EndZ,
+            "Length": self.Length
+        }
     
 # MARK: Load Prefabs
 def LoadPrefabs():
@@ -193,6 +218,7 @@ def LoadPrefabs():
         prefabObj.Category = prefab["Category"]
         prefabObj.ValidRoad = prefab["ValidRoad"]
         
+        prefabObj.PrefabNodes = []
         for node in prefab["PrefabNodes"]:
             nodeObj = PrefabNode()
             nodeObj.id = node["id"]
@@ -207,9 +233,11 @@ def LoadPrefabs():
             nodeObj.OutputPoints = node["OutputPoints"]
             prefabObj.PrefabNodes.append(nodeObj)
         
+        prefabObj.SpawnPoints = []
         for spawnPoint in prefab["SpawnPoints"]:
             prefabObj.SpawnPoints.append(spawnPoint)
         
+        prefabObj.MapPoints = []
         for mapPoint in prefab["MapPoints"]:
             mapPointObj = MapPoint()
             mapPointObj.X = mapPoint["X"]
@@ -224,6 +252,7 @@ def LoadPrefabs():
             mapPointObj.ControlNodeIndex = mapPoint["ControlNodeIndex"]
             prefabObj.MapPoints.append(mapPointObj)
         
+        prefabObj.TriggerPoints = []
         for triggerPoint in prefab["TriggerPoints"]:
             prefabObj.TriggerPoints.append(triggerPoint)
         
@@ -244,7 +273,7 @@ def LoadPrefabs():
             prefabCurveObj.prevLines = prefabCurve["prevLines"]
             prefabObj.PrefabCurves.append(prefabCurveObj)
                     
-            
+        prefabObj.NavigationRoutes = []
         for navigationRoute in prefab["NavigationRoutes"]:
             name = navigationRoute
             navigationRoute = prefab["NavigationRoutes"][navigationRoute]
@@ -276,6 +305,36 @@ def LoadPrefabs():
             navigationRouteObj.EndNode.OutputPoints = navigationRoute["EndNode"]["OutputPoints"]
             
             prefabObj.NavigationRoutes.append(navigationRouteObj)
+            
+        prefabObj.PrefabLanes = []
+        for prefabLane in prefab["Lanes"]:
+            prefabLaneObj = PrefabLane()
+            prefabLaneObj.StartX = prefabLane["start_X"]
+            prefabLaneObj.StartY = prefabLane["start_Y"]
+            prefabLaneObj.StartZ = prefabLane["start_Z"]
+            prefabLaneObj.EndX = prefabLane["end_X"]
+            prefabLaneObj.EndY = prefabLane["end_Y"]
+            prefabLaneObj.EndZ = prefabLane["end_Z"]
+            prefabLaneObj.Length = prefabLane["length"]
+            prefabLaneObj.Curves = []
+            for curve in prefabLane["curves"]:
+                try:
+                    curveObj = PrefabCurve()
+                    curveObj.id = curve["id"]
+                    curveObj.idNode = curve["idNode"]
+                    curveObj.startX = curve["start_X"]
+                    curveObj.startY = curve["start_Y"]
+                    curveObj.startZ = curve["start_Z"]
+                    curveObj.endX = curve["end_X"]
+                    curveObj.endY = curve["end_Y"]
+                    curveObj.endZ = curve["end_Z"]
+                    curveObj.length = curve["lenght"] # typo in the JSON
+                    curveObj.nextLines = curve["nextLines"]
+                    curveObj.prevLines = curve["prevLines"]
+                    prefabLaneObj.Curves.append(curveObj)
+                except:
+                    logging.exception(f"Error parsing prefab lane curve: {curve}")
+            prefabObj.PrefabLanes.append(prefabLaneObj)
             
         prefabs.append(prefabObj)
         
