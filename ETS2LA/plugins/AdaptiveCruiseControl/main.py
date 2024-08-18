@@ -90,7 +90,7 @@ def GetDistanceToVehicleAhead(apiData: dict) -> float:
             vehiclesInFront.append((distance, vehicle))
             lastVehicleDistance = distance
             lastVehicleTime = time.time()
-            vehcileSpeed = vehicle.speed
+            vehicleSpeed = vehicle.speed
         
             
     if len(vehiclesInFront) == 0:

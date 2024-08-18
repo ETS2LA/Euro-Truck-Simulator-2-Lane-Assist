@@ -171,11 +171,18 @@ def plugin():
     # print(data["targetSpeed"])
     
     tempSend = ""
+    logging.warning("Sending data to client")
     tempSend += position(data)
+    logging.warning("Position sent")
     tempSend += speed(data)
+    logging.warning("Speed sent")
     tempSend += accelBrake(data)
+    logging.warning("AccelBrake sent")
     tempSend += vehicles(data)
+    logging.warning("Vehicles sent")
     tempSend += traffic_lights(data)
+    logging.warning("TrafficLights sent")
     tempSend += steering(data)
+    logging.warning("SteeringPoints sent")
     
     send = tempSend

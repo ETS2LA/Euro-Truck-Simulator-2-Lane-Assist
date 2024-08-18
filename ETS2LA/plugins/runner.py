@@ -316,6 +316,7 @@ class PluginRunner():
                 if startTime - time.time() > 0.25:
                     count += 1
                     data.append(None)
+                    print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
                 continue
             if type(queueData) == type(None):
                 data.append(None)
@@ -325,9 +326,16 @@ class PluginRunner():
                 # If the data we fetched was from this plugin, we can skip the loop.
                 if "get" in queueData or "frametimes" in queueData: 
                     self.q.put(queueData)
+                    if startTime - time.time() > 0.25:
+                        count += 1
+                        data.append(None)
+                        print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
                     continue
             except:
-                pass
+                if startTime - time.time() > 0.25:
+                    count += 1
+                    data.append(None)
+                    print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
             # Append the data to the list
             data.append(queueData)
             count += 1
