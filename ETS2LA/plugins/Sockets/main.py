@@ -66,11 +66,25 @@ def traffic_lights(data):
         send = "JSONTrafficLights:" + json.dumps(data["TrafficLights"]) + ";"
     return send
 
+lastTargetSpeed = 0
+lastTargetSpeedTime = time.time()
 def speed(data):
+    global lastTargetSpeed, lastTargetSpeedTime
+    
     data["targetSpeed"] = runner.GetData(["tags.targetSpeed"])[0] # Get the target speed
+    
+    if data["targetSpeed"] is None or type(data["targetSpeed"]) == list or type(data["targetSpeed"]) == dict:
+        if time.time() - lastTargetSpeedTime < 1:
+            data["targetSpeed"] = lastTargetSpeed
+        else:
+            data["targetSpeed"] = data["truckFloat"]["cruiseControlSpeed"]
+    else:
+        lastTargetSpeed = data["targetSpeed"]
+        lastTargetSpeedTime = time.time()
+            
     send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
     send += "speedLimit:" + str(data["truckFloat"]["speedLimit"]) + ";"
-    send += "cc:" + str(data["truckFloat"]["cruiseControlSpeed"] if data["targetSpeed"] == None and type(data["targetSpeed"]) != dict else data["targetSpeed"]) + ";"
+    send += "cc:" + str(data["targetSpeed"]) + ";"
     return send
 
 def accelBrake(data):

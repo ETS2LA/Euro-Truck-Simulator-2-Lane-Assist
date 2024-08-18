@@ -411,7 +411,7 @@ def DistanceBetweenPoints(point1, point2):
 
 def map_curvature_to_speed_effect(curvature):
     factor = 1e13
-    factor *= 5 
+    factor *= 3
     min_effect, max_effect = 0.0, 0.5
     effect = min(max(curvature * factor, min_effect), max_effect)
     return effect
