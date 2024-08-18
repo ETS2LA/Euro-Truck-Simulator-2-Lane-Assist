@@ -21,6 +21,8 @@ func _process(delta: float) -> void:
 	var newObjectIDs = []
 	var newObjects = []
 	if Sockets.data != {}:
+		if not Sockets.data.has("JSONvehicles"):
+			return
 		var vehicleData = Sockets.data["JSONvehicles"].data
 		if vehicleData != null:
 			for vehicle in vehicleData:

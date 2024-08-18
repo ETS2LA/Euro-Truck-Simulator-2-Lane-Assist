@@ -416,6 +416,36 @@ def map_curvature_to_speed_effect(curvature):
     effect = min(max(curvature * factor, min_effect), max_effect)
     return effect
 
+def CalculateCurvature(points):
+    try:
+        # Extract x and y components
+        x = np.array([point[0] for point in points])
+        y = np.array([point[1] for point in points])
+
+        # Calculate differences
+        dx1, dx2 = x[:-2] - x[1:-1], x[1:-1] - x[2:]
+        dy1, dy2 = y[:-2] - y[1:-1], y[1:-1] - y[2:]
+
+        # Calculate the components of the curvature formula
+        numerator = np.abs(dx1 * dy2 - dx2 * dy1)
+        denominator = (np.sqrt(x[:-2]**2 + y[:-2]**2) *
+                    np.sqrt(x[1:-1]**2 + y[1:-1]**2) *
+                    np.sqrt(x[2:]**2 + y[2:]**2))
+
+        # Avoid division by zero by adding a small epsilon
+        epsilon = 1e-10
+        curvature_values = numerator / (denominator + epsilon)
+
+        # Sum the curvature values to get the total curvature
+        total_curvature = np.sum(curvature_values)
+
+        #print("Total Curvature:", total_curvature)
+        
+        return total_curvature
+    except:
+        logging.exception("Failed to calculate curvature")
+        return 0
+
 wasIndicating = False
 
 def GetNextPoints(data : dict, MapUtils, Enabled):
