@@ -320,7 +320,6 @@ class PluginRunner():
                     count += 1
                     data.append(None)
                     lastTime = time.time()
-                    print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
                 continue
             if type(queueData) == type(None):
                 data.append(None)
@@ -335,14 +334,12 @@ class PluginRunner():
                         count += 1
                         data.append(None)
                         lastTime = time.time()
-                        print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
                     continue
             except:
                 if time.time() - lastTime > 0.25:
                     count += 1
                     data.append(None)
                     lastTime = time.time()
-                    print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
             # Append the data to the list
             lastTime = time.time()
             data.append(queueData)

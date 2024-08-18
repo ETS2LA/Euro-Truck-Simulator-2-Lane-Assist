@@ -127,11 +127,8 @@ def steering(data):
     try:
         global lastSteeringPoints
         steeringPoints = []
-        logging.warning("SteeringPoints")
         data["steeringPoints"] = runner.GetData(["Map"])[0]
-        logging.warning("Got steeringPoints")
         if data["steeringPoints"] is not None:
-            logging.warning("steeringPoints is not None")
             for point in data["steeringPoints"]:
                 steeringPoints.append(point)
             lastSteeringPoints = steeringPoints
@@ -139,7 +136,6 @@ def steering(data):
             steeringPoints = lastSteeringPoints
         
         send = "JSONsteeringPoints:" + json.dumps(steeringPoints) + ";"
-        logging.warning("Returning steeringPoints")
         return send
     except:
         return "JSONsteeringPoints:[];"
