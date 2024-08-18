@@ -133,8 +133,7 @@ def vehicles(data):
                         except:
                             pass
         except:
-            print("Error in vehicles")
-            print(data["vehicles"])
+            pass
                     
         data["vehicles"] = newVehicles
     
