@@ -113,6 +113,10 @@ def plugin():
     try:
         apiData = TruckSimAPI.run()
         
+        if apiData['truckFloat']['speedLimit'] == 0:
+            SDKController.aforward = float(0)
+            SDKController.abackward = float(0)
+            return
         
         # if apiData["truckFloat"]["userThrottle"] > 0.05 or apiData["truckFloat"]["userBrake"] > 0.05:
         #     SDKController.aforward = float(0)
@@ -159,3 +163,4 @@ def plugin():
     except:
         logging.exception("AdaptiveCruiseControl plugin failed")
         SDKController.aforward = float(0)
+        SDKController.abackward = float(0)

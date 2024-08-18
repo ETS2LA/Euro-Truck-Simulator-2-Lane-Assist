@@ -85,7 +85,10 @@ def vehicles(data):
     
     data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
     
-    if data["vehicles"] == lastVehicles:
+    try:    
+        if data["vehicles"] == lastVehicles:
+            return lastVehicleString
+    except:
         return lastVehicleString
     
     if data["vehicles"] is not None:
@@ -124,8 +127,11 @@ def steering(data):
     try:
         global lastSteeringPoints
         steeringPoints = []
+        logging.warning("SteeringPoints")
         data["steeringPoints"] = runner.GetData(["Map"])[0]
+        logging.warning("Got steeringPoints")
         if data["steeringPoints"] is not None:
+            logging.warning("steeringPoints is not None")
             for point in data["steeringPoints"]:
                 steeringPoints.append(point)
             lastSteeringPoints = steeringPoints
@@ -133,6 +139,7 @@ def steering(data):
             steeringPoints = lastSteeringPoints
         
         send = "JSONsteeringPoints:" + json.dumps(steeringPoints) + ";"
+        logging.warning("Returning steeringPoints")
         return send
     except:
         return "JSONsteeringPoints:[];"
@@ -171,18 +178,11 @@ def plugin():
     # print(data["targetSpeed"])
     
     tempSend = ""
-    logging.warning("Sending data to client")
     tempSend += position(data)
-    logging.warning("Position sent")
     tempSend += speed(data)
-    logging.warning("Speed sent")
     tempSend += accelBrake(data)
-    logging.warning("AccelBrake sent")
     tempSend += vehicles(data)
-    logging.warning("Vehicles sent")
     tempSend += traffic_lights(data)
-    logging.warning("TrafficLights sent")
     tempSend += steering(data)
-    logging.warning("SteeringPoints sent")
     
     send = tempSend
