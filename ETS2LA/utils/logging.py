@@ -24,15 +24,16 @@ def SetupGlobalLogging():
                         )
     
     
-    # If the file path doesn't exist, create it
+    # If the file path doesn't exist, create it, else, delete the old log files
     if not os.path.exists("logs"):
         os.makedirs("logs")
-    # If the log file exists, delete it
-    if os.path.exists("logs/ETS2LA.log"):
-        try:
-            os.remove("logs/ETS2LA.log")
-        except:
-            logging.error(Translate("logging.delete_log_error"))
+    else:
+        for file in os.listdir("logs"):
+            if file.endswith(".log"):
+                try:
+                    os.remove(f"logs/{file}")
+                except:
+                    logging.error(f"Another ETS2LA instance is running. Please close it and try again.")
     
     # Write the logs to a file
     file_handler = logging.FileHandler("logs/ETS2LA.log", encoding="utf-8")
