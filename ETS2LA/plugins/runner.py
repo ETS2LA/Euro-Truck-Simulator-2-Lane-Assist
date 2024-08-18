@@ -307,39 +307,51 @@ class PluginRunner():
         self.q.put({"get": plugins})
         data = []
         count = 0
+        lastTime = time.time()
         while count != amount: # Loop until we have all the data
+            if time.time() - startTime > 1:
+                break
             try:
                 # Wait until we get an answer.
                 queueData = self.q.get(timeout=0.25)    
             except:
                 time.sleep(0.00000001)
-                if startTime - time.time() > 0.25:
+                if time.time() - lastTime > 0.25:
                     count += 1
                     data.append(None)
+                    lastTime = time.time()
                     print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
                 continue
             if type(queueData) == type(None):
                 data.append(None)
                 count += 1
+                lastTime = time.time()
                 continue
             try:
                 # If the data we fetched was from this plugin, we can skip the loop.
                 if "get" in queueData or "frametimes" in queueData: 
                     self.q.put(queueData)
-                    if startTime - time.time() > 0.25:
+                    if time.time() - lastTime > 0.25:
                         count += 1
                         data.append(None)
+                        lastTime = time.time()
                         print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
                     continue
             except:
-                if startTime - time.time() > 0.25:
+                if time.time() - lastTime > 0.25:
                     count += 1
                     data.append(None)
+                    lastTime = time.time()
                     print(f"PluginRunner: GetData() timed out after 0.25 seconds, returning None for plugin {plugins[count]}")
             # Append the data to the list
+            lastTime = time.time()
             data.append(queueData)
             count += 1
             
+        if len(data) != amount:
+            for i in range(amount - len(data)):
+                data.append(None)
+        
         endTime = time.time()
         self.getQueueProcessingTime += endTime - startTime
         # Return all gathered data
