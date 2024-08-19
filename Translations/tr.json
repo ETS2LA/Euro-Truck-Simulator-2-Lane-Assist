@@ -325,6 +325,11 @@
     "object_detection.settings.6.name": "Ekran Yakalama Boyutları",
     "object_detection.settings.6.description": "Nesne algılama için ekranınızın hangi bölümünü kullanacağınızı belirler. Dizin 0 X, dizin 1 Y, dizin 2 Genişlik, dizin 3 Yüksekliktir. Bu ayar, eklentiyi bir kez başlattıktan sonra otomatik olarak oluşturulacaktır.",
     
+    "acc.settings.1.title": "Adaptif Hız Sabitleyicisi Ayarları",
+    "acc.settings.1.description": "Bu, uygulamanın diğer araçlara nasıl yanıt vereceğini etkileyecektir.",
+    "acc.settings.2.name": "Mesafeyi Takip Et",
+    "acc.settings.2.description": "Spesifik olarak bu, 80 kph veya 50mph hızda metre cinsinden mesafedir.",
+
 	"_THE_POLITICS": "Better not take too much risk",
 
     "map.json_not_found": "GameData klasöründe JSON dosyası bulunamadı. Lütfen GameData.zip dosyasının içindeki JSON dosyalarını dışarı çıkarın.",
