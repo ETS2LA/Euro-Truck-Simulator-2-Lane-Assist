@@ -1,6 +1,6 @@
 {
   "version": "3.5.0",
-  "created": "2024-04-10T17.55.50Z",
+  "created": "2024-08-21T19.37.24Z",
   "files": [
     {
       "path": ".nojekyll"
@@ -1224,6 +1224,12 @@
       "path": "assets\\cruisecontrol\\cruisecontrol_on_unset.png"
     },
     {
+      "path": "assets\\datacollection\\1.png"
+    },
+    {
+      "path": "assets\\datacollection\\2.png"
+    },
+    {
       "path": "assets\\favicon.ico"
     },
     {
@@ -1285,7 +1291,22 @@
       "path": "assets\\sounds\\warning.mp3"
     },
     {
+      "path": "assets\\trafficlightdetection\\datasetexample_1.png"
+    },
+    {
+      "path": "assets\\trafficlightdetection\\datasetexample_2.png"
+    },
+    {
+      "path": "assets\\trafficlightdetection\\datasetexample_3.png"
+    },
+    {
       "path": "assets\\trafficlightdetection\\setupexample.png"
+    },
+    {
+      "path": "assets\\trafficlightdetection\\sideview.png"
+    },
+    {
+      "path": "assets\\trafficlightdetection\\topview.png"
     },
     {
       "path": "assets\\translationcache\\cache.json",
@@ -1316,10 +1337,19 @@
       "path": "blog\\v1.11.0\\index.html"
     },
     {
+      "path": "blog\\v1.11.minor\\index.html"
+    },
+    {
       "path": "blog\\v1.9.0\\index.html"
     },
     {
       "path": "blog\\v1.9.minor\\index.html"
+    },
+    {
+      "path": "cache\\avatar_urls.txt"
+    },
+    {
+      "path": "cache\\ebwebview\\default\\service-worker\\cachestorage\\0f12c7aa2be97db95f13e5f4a4d7065e5254b96e\\index.txt"
     },
     {
       "path": "changelog.txt"
@@ -2755,13 +2785,15 @@
       "path": "index.html"
     },
     {
-      "path": "last_ping.txt"
+      "path": "last_ping.txt",
+      "old": true
     },
     {
       "path": "license"
     },
     {
-      "path": "log.txt"
+      "path": "log.txt",
+      "old": true
     },
     {
       "path": "Panels\\DataViewer\\index.html",
@@ -2845,7 +2877,13 @@
       "old": true
     },
     {
+      "path": "plugins\\navigationdetection\\aimodel\\index.html"
+    },
+    {
       "path": "plugins\\navigationdetection\\index.html"
+    },
+    {
+      "path": "plugins\\navigationdetection\\yolofiles\\index.html"
     },
     {
       "path": "plugins\\navigationdetection\\yolofiles\\ultralytics_yolov5_master\\contributing\\index.html",
@@ -3323,6 +3361,9 @@
       "path": "plugins\\thememaker\\example.png"
     },
     {
+      "path": "plugins\\trafficlightdetection\\aimodel\\index.html"
+    },
+    {
       "path": "plugins\\trafficlightdetection\\index.html"
     },
     {
@@ -3366,7 +3407,8 @@
       "old": true
     },
     {
-      "path": "plugins\\trafficlightdetection\\yolomodels\\index.html"
+      "path": "plugins\\trafficlightdetection\\yolomodels\\index.html",
+      "old": true
     },
     {
       "path": "plugins\\wiki\\index.html"
@@ -3420,7 +3462,8 @@
       "path": "robots.txt"
     },
     {
-      "path": "screenshot.png"
+      "path": "screenshot.png",
+      "old": true
     },
     {
       "path": "sitemap.xml.gz"
