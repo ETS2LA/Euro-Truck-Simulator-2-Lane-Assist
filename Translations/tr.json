@@ -290,6 +290,8 @@
     "global.settings.7.description": "Hata ayıklama modunu etkinleştirip etkinleştirmeyeceğiniz.",
     "global.settings.8.name": "Dil",
     "global.settings.8.description": "Uygulama için kullanılacak dil. Değişiklikleri uygulamak için yeniden başlatman gerekiyor!",
+    "global.settings.9.name": "Çerçevesiz",
+    "global.settings.9.description": "Uygulama için çerçevesiz bir pencere kullanılıp kullanılmayacağı. Değişiklikleri uygulamak için tam bir yeniden başlatma gerekiyor! Uygulama penceresini hareket ettirmeyle ilgili sorunları çözecektir. Ayrıca ölçeklendirmeyi de etkinleştirir.",
 
     "_LOL": "aint no way DylDev got rickrolled from a json file lmao",
 
