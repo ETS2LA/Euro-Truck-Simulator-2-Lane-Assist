@@ -285,6 +285,8 @@
     "global.settings.7.description": "Avaa käyttöliittymän konsolin käynnistyksen yhteydessä.",
     "global.settings.8.name": "Kieli",
     "global.settings.8.description": "Sovelluksen kieli. Vaatii uudelleenkäynnistyksen!",
+    "global.settings.9.name": "Reunaton ikkuna",
+    "global.settings.9.description": "Vaatii uudelleenkäynnistyksen! Poistaa käyttöjärjestelmän ikkunan reunat. Poistamalla käytöstä voi korjata ongelmia esimerkiksi ikkunan liikuttamisen kanssa.",
 
     "map.settings.1.title": "Kartan asetukset",
     "map.settings.1.description": "Nämä asetukset vaikuttavat karttaan ja sen karttatietoihin.",
@@ -316,6 +318,11 @@
     "object_detection.settings.6.name": "Kuvakaappauksen mitat",
     "object_detection.settings.6.description": "Missä kohtaa näyttöä etsitään objekteja. Ensimmäinen on X, toinen Y, kolmas leveys, neljäs korkeus. Tämä asetus päivittyy automaattisesti kun aktivoit laajennuksen kerran.",
         
+    "acc.settings.1.title": "Adaptiivisen vakionopeudensäätimen asetukset",
+    "acc.settings.1.description": "Nämä asetukset vaikuttavat adaptiivisen vakionopeudensäätimen toimintaan.",
+    "acc.settings.2.name": "Seuraamis etäisyys",
+    "acc.settings.2.description": "Kuinka kaukana edellä menevästä autosta ajetaan 80kph nopeudessa.",
+
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 
     "map.json_not_found": "JSON tietoja ei löytynyt. Pura .zip tiedosto ja yritä uudelleen.",

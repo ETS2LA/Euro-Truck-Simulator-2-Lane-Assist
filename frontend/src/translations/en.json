@@ -273,6 +273,8 @@
     "global.settings.7.description": "Whether to enable debug mode.",
     "global.settings.8.name": "Language",
     "global.settings.8.description": "The language to use for the app. Needs a restart to apply changes!",
+    "global.settings.9.name": "Frameless",
+    "global.settings.9.description": "Whether to use a frameless window for the app. Needs a full restart to apply changes! Will fix problems with moving the app window around. Also enables scaling.",
     "map.settings.1.title": "Map Settings",
     "map.settings.1.description": "These settings are for the map plugin.",
     "map.settings.2.name": "Calculate Steering",

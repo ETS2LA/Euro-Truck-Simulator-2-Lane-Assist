@@ -67,6 +67,14 @@
             }
         },
         {
+            "name": "global.settings.9.name",
+            "description": "global.settings.9.description",
+            "key": "frameless",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
             "name": "global.settings.5.name",
             "key": "use_fancy_traceback",
             "description": "global.settings.5.description",

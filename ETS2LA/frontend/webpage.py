@@ -15,6 +15,7 @@ if os.name == 'nt':
 
 DEBUG_MODE = settings.Get("global", "debug_mode", False)
 FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
+FRAMELESS = settings.Get("global", "frameless", True)
 
 queue:JoinableQueue = JoinableQueue()
 
@@ -93,7 +94,7 @@ def start_webpage(queue: JoinableQueue):
         zoomable=True,
         confirm_close=False, 
         text_select=True,
-        frameless=True, 
+        frameless=FRAMELESS, 
         easy_drag=False
     )
     
