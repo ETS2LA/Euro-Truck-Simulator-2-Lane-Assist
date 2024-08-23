@@ -664,7 +664,7 @@ def CalculateParallelCurves(road):
             next_offset = custom_offset_prev
             side = 1
 
-        lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), custom_offset=custom_offset, next_offset=next_offset, side=side)
+        lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), road, custom_offset=custom_offset, next_offset=next_offset, side=side)
         newPoints = lanes['left'] + lanes['right']
         
         boundingBox = [[999999, 999999], [-999999, -999999]]

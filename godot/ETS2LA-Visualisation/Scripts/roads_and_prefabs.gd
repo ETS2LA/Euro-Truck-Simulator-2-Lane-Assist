@@ -3,9 +3,12 @@ extends Node
 @export var roadMat = preload("res://Materials/road.tres")
 @export var roadDarkMat = preload("res://Materials/roadDark.tres")
 @export var markingMat = preload("res://Materials/markings.tres")
+@export var markingDashedMat = preload("res://Materials/markingsDashed.tres")
 @export var markingsDarkMat = preload("res://Materials/markingsDark.tres")
+@export var markingsDarkDashed = preload("res://Materials/markingsDarkDashed.tres")
 @export var steeringMat = preload("res://Materials/steering.tres")
 @export var steeringDarkMat = preload("res://Materials/steeringDark.tres")
+@export var roadObject = preload("res://Objects/road.tscn")
 
 @export var markingWidth : float
 
@@ -24,7 +27,7 @@ var reload = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("Rendering 1/2 of prefabs")
+	#print("Rendering 1/2 of prefabs")
 	Variables.ThemeChanged.connect(Reload)
 	pass # Replace with function body.
 
@@ -122,6 +125,7 @@ func CreateVerticesForPoint(point, normalVector, width = 2.25):
 func _process(delta: float) -> void:
 	if MapData.MapData != null:
 		var data = MapData.MapData
+		var dark = Variables.darkMode
 		var totalLines = 0
 		if data != lastData or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
@@ -154,48 +158,97 @@ func _process(delta: float) -> void:
 			
 			for road in roadData:
 				var uid = str(road["Uid"])
+				
 				roadsInData.append(uid)
 				if curRoadUids.has(uid):
 					continue
+				
 				var yValues = road["YValues"]
-				var x = road["X"]
-				var z = road["Z"]
-				var resolution = len(yValues)
+				var lanesLeft = len(road["RoadLook"]["LanesLeft"])
+				var lanesRight = len(road["RoadLook"]["LanesRight"])
 					
 				if len(yValues) == 0:
 					continue
 				
+				var index = 0
 				for lane in road["ParallelPoints"]:
-					var vertices = []
-					var rightMarkingVertices = []
-					var leftMarkingVertices = []
 					var points = []
 					var counter = 0
 					for point in lane:
 						# Convert the JSON points to godot Vector3s
-						points.append(JsonPointToLocalCoords(point, x, yValues[counter], z))
+						#points.append(JsonPointToLocalCoords(point, x, yValues[counter], z))
+						points.append(Vector3(point[0], yValues[counter], point[1]))
 						counter += 1
 					
-					# These point towards the next point
-					var forwardVectors = CreateForwardVectors(points)
+					var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+					roadObj.name = uid + "-" + str(totalLines)
+
+					var right:CSGPolygon3D = roadObj.get_node("Right")
+					var left:CSGPolygon3D = roadObj.get_node("Left")
+					var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
+					var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
+					var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
+					var rightDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingLeft")
 					
-					# These point either straight right or left of the point
-					var normalVectors = CreateNormalVectors(forwardVectors)
+					var pathObj = Path3D.new()
+					pathObj.name = "Path3D"
+					pathObj.curve = Curve3D.new()
 					
-					# Create the vertices
-					for i in range(len(points)):
-						var allVertices = CreateVerticesForPoint(points[i], normalVectors[i])
-						vertices += allVertices[0]
-						leftMarkingVertices += allVertices[1]
-						rightMarkingVertices += allVertices[2]
+					#path.curve.clear_points()
+					for point in points:
+						pathObj.curve.add_point(point)
+					
+					roadObj.add_child(pathObj)
+					
+					RoadParent.add_child(roadObj)
+					
+					right.set_path_node(roadObj.get_node("Path3D").get_path())
+					left.set_path_node(roadObj.get_node("Path3D").get_path())
+
+					var drewLanes = false
+
+					# Handle the solid lines
+					if lanesLeft > 0:
+						if index == 0:
+							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+							rightSolidLine.material = markingMat if not dark else markingsDarkMat
+							drewLanes = true
+						elif index == lanesLeft - 1:
+							leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+							leftSolidLine.material = markingMat if not dark else markingsDarkMat
+							drewLanes = true
+					
+					if lanesRight > 0 and not drewLanes:
+						if index == lanesLeft:
+							leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+							leftSolidLine.material = markingMat if not dark else markingsDarkMat
+							
+							if lanesRight == 1:
+								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								rightSolidLine.material = markingMat if not dark else markingsDarkMat
+
+						elif index == lanesLeft + lanesRight - 1:
+							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+							rightSolidLine.material = markingMat if not dark else markingsDarkMat
+					# Handle the dashed lines
+					if (lanesLeft + lanesRight) > 1:
+						if lanesLeft > 0:
+							if index == 0:
+								leftDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								leftDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+								drewLanes = true
 						
-				
-					# Render the meshes
-					var dark = Variables.darkMode
-					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, uid + "-" + str(totalLines))
-					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
-					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+						if lanesRight > 0 and not drewLanes:
+							if index == lanesLeft:
+								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+
+					
+					right.material = roadMat if not dark else roadDarkMat
+					left.material = roadMat if not dark else roadDarkMat
+					
 					totalLines += 1
+					index += 1
 			
 			for n in RoadParent.get_children():
 				var name = n.name
@@ -225,32 +278,45 @@ func _process(delta: float) -> void:
 					var counter = 0
 					for point in lane:
 						point = Vector3(point[0], point[2], point[1])
-						point.x -= x
-						point.z -= z
+						#point.x -= x
+						#point.z -= z
 						#point.y += y
 						#points.append(JsonPointToLocalCoords(point, x, pointY, z))
 						points.append(point)
 						counter += 1
 					
-					# These point towards the next point
-					var forwardVectors = CreateForwardVectors(points)
+					var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+					roadObj.name = uid + "-" + str(totalLines)
+					var right:CSGPolygon3D = roadObj.get_node("Right")
+					var left:CSGPolygon3D = roadObj.get_node("Left")
+					var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
+					var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
+					var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
+					var rightDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingLeft")
 					
-					# These point either straight right or left of the point
-					var normalVectors = CreateNormalVectors(forwardVectors)
+					var pathObj = Path3D.new()
+					pathObj.name = "Path3D"
+					pathObj.curve = Curve3D.new()
 					
-					# Create the vertices
-					for i in range(len(points)):
-						var allVertices = CreateVerticesForPoint(points[i], normalVectors[i])
-						vertices += allVertices[0]
-						leftMarkingVertices += allVertices[1]
-						rightMarkingVertices += allVertices[2]
-						
-				
-					# Render the meshes
-					var dark = Variables.darkMode
-					CreateAndRenderMesh(vertices, x, z, roadMat if not dark else roadDarkMat, uid + "-" + str(totalLines))
-					#CreateAndRenderMesh(rightMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
-					#CreateAndRenderMesh(leftMarkingVertices, x, z, markingMat if not dark else markingsDarkMat)
+					#path.curve.clear_points()
+					for point in points:
+						pathObj.curve.add_point(point)
+					
+					roadObj.add_child(pathObj)
+					
+					RoadParent.add_child(roadObj)
+					
+					right.set_path_node(roadObj.get_node("Path3D").get_path())
+					left.set_path_node(roadObj.get_node("Path3D").get_path())
+
+					leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+					leftSolidLine.material = markingMat if not dark else markingsDarkMat
+					rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+					rightSolidLine.material = markingMat if not dark else markingsDarkMat
+					
+					right.material = roadMat if not dark else roadDarkMat
+					left.material = roadMat if not dark else roadDarkMat
+					
 					totalLines += 1
 			
 			for n in PrefabParent.get_children():
@@ -284,7 +350,7 @@ func _process(delta: float) -> void:
 			if typeof(point) != typeof({"hello": "there"}):
 				if len(point) > 1:
 					# Convert the JSON points to godot Vector3s
-					points.append(Vector3(point[0], position.y + 1, point[1]))
+					points.append(Vector3(point[0], point[2] + 0.05, point[1]))
 					#print(points[-1])
 					counter += 1
 		

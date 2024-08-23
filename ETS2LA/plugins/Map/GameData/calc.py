@@ -21,7 +21,7 @@ def distance_between(point1, point2):
 
 # Function to calculate lane boundaries
 # MARK: Lanes
-def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_offset=999, next_offset=999, side=0):
+def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, custom_offset=999, next_offset=999, side=0):
     lanes = {'left': [[] for _ in range(num_left_lanes)], 
              'right': [[] for _ in range(num_right_lanes)]}
     
@@ -100,6 +100,14 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, custom_
             lanes['right'][lane].append(right_point1.tolist())
             if i == len(points) - 2:
                 lanes['right'][lane].append(right_point2.tolist())
+
+    # Add the Y values from the road. This will help with visualizing the lanes later on
+    for lane in range(num_left_lanes):
+        for i in range(len(lanes['left'][lane])):
+            lanes['left'][lane][i].append(road.YValues[i])
+    for lane in range(num_right_lanes):
+        for i in range(len(lanes['right'][lane])):
+            lanes['right'][lane][i].append(road.YValues[i])
 
     return lanes
 

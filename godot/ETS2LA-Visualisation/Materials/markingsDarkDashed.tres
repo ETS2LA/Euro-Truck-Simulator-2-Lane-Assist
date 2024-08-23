@@ -1,0 +1,22 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://cncmwiwejl51v"]
+
+[sub_resource type="Gradient" id="Gradient_4re4a"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.55, 0.55)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_536in"]
+gradient = SubResource("Gradient_4re4a")
+
+[resource]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(0.703808, 0.703808, 0.703808, 1)
+metallic_specular = 0.1
+roughness = 0.0
+emission = Color(1, 1, 1, 1)
+detail_enabled = true
+detail_mask = SubResource("GradientTexture1D_536in")
+detail_blend_mode = 2
+disable_receive_shadows = true
+distance_fade_max_distance = 0.0

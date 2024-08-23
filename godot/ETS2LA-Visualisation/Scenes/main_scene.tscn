@@ -1,0 +1,353 @@
+[gd_scene load_steps=39 format=3 uid="uid://d36vvb6ivwdds"]
+
+[ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
+[ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
+[ext_resource type="Script" path="res://Scripts/variables.gd" id="1_xlmr0"]
+[ext_resource type="Script" path="res://Scripts/camera_follow.gd" id="2_6bj65"]
+[ext_resource type="Script" path="res://Scripts/map_data.gd" id="2_et5o6"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/dark_mode_button.gd" id="2_fkubr"]
+[ext_resource type="Script" path="res://Scripts/UI/sockets_label.gd" id="4_ckaqj"]
+[ext_resource type="Script" path="res://Scripts/UI/map_data_label.gd" id="4_x630f"]
+[ext_resource type="Script" path="res://Scripts/camera_zoom.gd" id="5_57w1g"]
+[ext_resource type="Script" path="res://Scripts/truck.gd" id="5_k5niq"]
+[ext_resource type="Environment" uid="uid://uher5ame32lt" path="res://Environments/default.tres" id="6_dvxwu"]
+[ext_resource type="Script" path="res://Scripts/vehicles.gd" id="7_jhmr7"]
+[ext_resource type="Script" path="res://Scripts/roads_and_prefabs.gd" id="9_115pj"]
+[ext_resource type="Script" path="res://traffic_lights.gd" id="9_b12iv"]
+[ext_resource type="Script" path="res://Scripts/UI/notifications.gd" id="10_p5w2d"]
+[ext_resource type="Script" path="res://Scripts/UI/data_progress.gd" id="12_f87nd"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/camera_reset_button.gd" id="13_1g6rd"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/always_on_top_button.gd" id="13_o2qdb"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/map_reload_button.gd" id="14_3cect"]
+[ext_resource type="FontFile" uid="uid://r5tbj1eoqxtc" path="res://Assets/Poppins-Regular.ttf" id="16_4yfey"]
+[ext_resource type="Script" path="res://Scripts/UI/data_label.gd" id="16_rn4g8"]
+[ext_resource type="Texture2D" uid="uid://bj6bcwvosqap6" path="res://Assets/speedlimit.png" id="17_6k1i8"]
+
+[sub_resource type="FontVariation" id="FontVariation_kk0ys"]
+base_font = ExtResource("16_4yfey")
+spacing_space = 20
+spacing_top = 4
+spacing_bottom = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_xv7ty"]
+font = SubResource("FontVariation_kk0ys")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aoyvd"]
+bg_color = Color(0.223103, 0.223103, 0.223103, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b477p"]
+bg_color = Color(0.741385, 0.741385, 0.741385, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u32vb"]
+bg_color = Color(0.223529, 0.223529, 0.223529, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l7mpi"]
+bg_color = Color(0.838887, 0.39829, 0.387534, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_i61cv"]
+
+[sub_resource type="FontVariation" id="FontVariation_fg5a7"]
+base_font = ExtResource("16_4yfey")
+spacing_top = -24
+spacing_bottom = -10
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ompa"]
+line_spacing = 0.0
+font = SubResource("FontVariation_fg5a7")
+font_size = 72
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_qvwik"]
+font = ExtResource("16_4yfey")
+
+[sub_resource type="LabelSettings" id="LabelSettings_rra87"]
+font = ExtResource("16_4yfey")
+font_size = 30
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hwuu1"]
+font = ExtResource("16_4yfey")
+font_size = 30
+
+[sub_resource type="FontVariation" id="FontVariation_3k4pa"]
+base_font = ExtResource("16_4yfey")
+spacing_top = -12
+
+[sub_resource type="LabelSettings" id="LabelSettings_0cifn"]
+font = SubResource("FontVariation_3k4pa")
+
+[sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
+font_size = 12
+font_color = Color(0, 0, 0, 0.392157)
+
+[sub_resource type="LabelSettings" id="LabelSettings_j8g1s"]
+font_size = 12
+font_color = Color(0, 0, 0, 0.392157)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Variables" type="Node" parent="."]
+script = ExtResource("1_xlmr0")
+
+[node name="Sockets" type="Node" parent="."]
+script = ExtResource("1_wt6xa")
+
+[node name="MapData" type="Node" parent="."]
+script = ExtResource("2_et5o6")
+
+[node name="Truck" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.012, 1, 2.774)
+size = Vector3(1.43958, 1.61023, 6.54785)
+script = ExtResource("5_k5niq")
+offset = Vector3(0, 0.8, 0)
+
+[node name="TruckTracker" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.799465, 0)
+script = ExtResource("2_6bj65")
+target = NodePath("../Truck")
+reverseOffsetRotation = Vector3(0, 3.14, 0)
+
+[node name="Camera3D" type="Camera3D" parent="TruckTracker"]
+transform = Transform3D(1, 0, 0, 0, 0.901833, 0.432086, 0, -0.432086, 0.901833, 0, 8, 13)
+environment = ExtResource("6_dvxwu")
+projection = 2
+current = true
+fov = 48.4
+size = 0.05
+far = 300.0
+script = ExtResource("5_57w1g")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.961262, 0.275637, 0, -0.275637, -0.961262, 0, 1.58165, 0)
+
+[node name="Vehicles" type="Node" parent="."]
+script = ExtResource("7_jhmr7")
+
+[node name="TrafficLights" type="Node" parent="."]
+script = ExtResource("9_b12iv")
+
+[node name="Map" type="Node" parent="."]
+
+[node name="RoadsAndPrefabs" type="Node" parent="Map"]
+script = ExtResource("9_115pj")
+markingWidth = 0.1
+
+[node name="Roads" type="Node" parent="Map"]
+
+[node name="Prefabs" type="Node" parent="Map"]
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+timeout = 2.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.53676, 0, 0)
+
+[node name="UI" type="Node" parent="."]
+
+[node name="TopLeftContainer" type="VBoxContainer" parent="UI"]
+offset_right = 181.0
+offset_bottom = 314.0
+
+[node name="Label" type="Label" parent="UI/TopLeftContainer"]
+layout_mode = 2
+text = " Speed"
+label_settings = SubResource("LabelSettings_xv7ty")
+
+[node name="Information" type="HBoxContainer" parent="UI/TopLeftContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="Sliders" type="VBoxContainer" parent="UI/TopLeftContainer/Information"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Acceleration" type="ProgressBar" parent="UI/TopLeftContainer/Information/Sliders"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_aoyvd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_b477p")
+max_value = 1.0
+step = 0.001
+fill_mode = 3
+show_percentage = false
+script = ExtResource("12_f87nd")
+ValueToDisplay = "accel"
+
+[node name="Braking" type="ProgressBar" parent="UI/TopLeftContainer/Information/Sliders"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_u32vb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_l7mpi")
+max_value = 1.0
+step = 0.001
+fill_mode = 2
+show_percentage = false
+script = ExtResource("12_f87nd")
+ValueToDisplay = "brake"
+
+[node name="VehicleInformation" type="VBoxContainer" parent="UI/TopLeftContainer/Information"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CheckButton" type="CheckButton" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
+layout_mode = 2
+text = "Dark Mode"
+script = ExtResource("2_fkubr")
+
+[node name="CheckButton2" type="CheckButton" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
+layout_mode = 2
+text = "Always On Top  "
+script = ExtResource("13_o2qdb")
+
+[node name="Button" type="Button" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
+layout_mode = 2
+text = "Reset Camera"
+script = ExtResource("13_1g6rd")
+
+[node name="Button2" type="Button" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
+layout_mode = 2
+text = "Update Data"
+script = ExtResource("14_3cect")
+
+[node name="FPS" type="Label" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+visible = false
+layout_mode = 2
+text = "60"
+label_settings = SubResource("LabelSettings_i61cv")
+script = ExtResource("1_583x4")
+
+[node name="Speed" type="Label" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+layout_mode = 2
+text = "54"
+label_settings = SubResource("LabelSettings_5ompa")
+script = ExtResource("16_rn4g8")
+Multiplier = 3.6
+
+[node name="Units" type="Label" parent="UI/TopLeftContainer/Information/VehicleInformation"]
+layout_mode = 2
+text = " KM/H"
+label_settings = SubResource("LabelSettings_qvwik")
+script = ExtResource("16_rn4g8")
+ValueToDisplay = " KM/H"
+
+[node name="TopRightContainer" type="VBoxContainer" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -74.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 140.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/TopRightContainer"]
+layout_mode = 2
+texture = ExtResource("17_6k1i8")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="SpeedLimit" type="Label" parent="UI/TopRightContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -21.0
+offset_right = 17.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "80"
+label_settings = SubResource("LabelSettings_rra87")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("16_rn4g8")
+DarkModeColor = Color(0, 0, 0, 1)
+ValueToDisplay = "speedLimit"
+Multiplier = 3.6
+
+[node name="Label" type="Label" parent="UI/TopRightContainer"]
+layout_mode = 2
+text = "80"
+label_settings = SubResource("LabelSettings_hwuu1")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+DarkModeColor = Color(0.358197, 0.366457, 0.389254, 1)
+LightModeColor = Color(0, 0.223529, 0.490196, 1)
+ValueToDisplay = "cc"
+Multiplier = 3.6
+
+[node name="Label2" type="Label" parent="UI/TopRightContainer"]
+layout_mode = 2
+text = "set"
+label_settings = SubResource("LabelSettings_0cifn")
+horizontal_alignment = 1
+script = ExtResource("16_rn4g8")
+DarkModeColor = Color(0.356863, 0.364706, 0.388235, 1)
+LightModeColor = Color(0, 0.223529, 0.490196, 1)
+ValueToDisplay = "auto"
+
+[node name="BottomLeftContainer" type="VBoxContainer" parent="UI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -140.0
+offset_right = 517.0
+offset_bottom = -10.0
+grow_vertical = 0
+alignment = 2
+
+[node name="Sockets" type="Label" parent="UI/BottomLeftContainer"]
+layout_mode = 2
+text = "Connected
+stuff: stuff
+stuff: stuff
+stuff: stuff
+stuff: stuff"
+label_settings = SubResource("LabelSettings_rgrby")
+script = ExtResource("4_ckaqj")
+
+[node name="BottomRightContainer" type="VBoxContainer" parent="UI"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -517.0
+offset_top = -140.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+alignment = 2
+
+[node name="MapData" type="Label" parent="UI/BottomRightContainer"]
+layout_mode = 2
+text = "Map data loaded
+Updating in 10 seconds"
+label_settings = SubResource("LabelSettings_j8g1s")
+horizontal_alignment = 2
+script = ExtResource("4_x630f")
+
+[node name="Notifications" type="VBoxContainer" parent="UI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 15.005
+offset_right = 150.0
+offset_bottom = 215.005
+grow_horizontal = 2
+pivot_offset = Vector2(150, 0)
+mouse_filter = 2
+script = ExtResource("10_p5w2d")
