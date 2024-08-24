@@ -47,5 +47,6 @@ gl_compatibility/item_buffer_size=32768
 limits/global_shader_variables/buffer_size=4096
 limits/spatial_indexer/threaded_cull_minimum_instances=4096
 environment/defaults/default_clear_color=Color(0.0352941, 0.0352941, 0.0431373, 1)
+anti_aliasing/quality/msaa_2d=1
 anti_aliasing/quality/msaa_3d=1
 anti_aliasing/quality/screen_space_aa=1
