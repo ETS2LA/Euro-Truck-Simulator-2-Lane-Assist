@@ -1,6 +1,7 @@
 from ETS2LA.plugins.Map.GameData.prefabItems import PrefabItem, GetPrefabItemByUid
 from ETS2LA.plugins.Map.GameData.roads import Road, GetRoadByUid
 import ETS2LA.plugins.Map.GameData.nodes as Nodes
+import ETS2LA.backend.settings as settings
 import Compute.compute as compute
 from typing import cast
 import numpy as np
@@ -39,6 +40,18 @@ class RouteItem:
         
 Route : list[RouteItem] = []
 RouteLength = 3
+
+def LoadSettings():
+    global OFFSET_MULTIPLIER
+    global ANGLE_MULTIPLIER
+    
+    OFFSET_MULTIPLIER = settings.Get("Map", "OffsetMultiplier", 2)
+    ANGLE_MULTIPLIER = settings.Get("Map", "AngleMultiplier", 1)
+
+OFFSET_MULTIPLIER = settings.Get("Map", "OffsetMultiplier", 2)
+ANGLE_MULTIPLIER = settings.Get("Map", "AngleMultiplier", 1)
+
+settings.Listen("Map", LoadSettings)
 
 def GetItemAndLaneReferences(closestData, MapUtils):
     global Route
@@ -440,12 +453,14 @@ def CalculateCurvature(points):
                 angle = 0
                 
             # Check if the angle is closer to 180 degrees
-            if angle > math.pi/4:
-                angle = angle - math.pi/2
+            # if angle > math.pi/4:
+            #     angle = angle - math.pi/2
                 
             #print(f"Angle: {angle}")
                 
             angles.append(angle)
+        
+        # print(f"Angles: {angles}")
         
         # Calculate the curvature
         total_curvature = 0
@@ -595,14 +610,16 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
         if angle < -140:
             angle = 0
         
+        angle = angle * ANGLE_MULTIPLIER
+        
         # Adjust angle based on lateral offset
         # This is a simplistic approach; you may need a more sophisticated control algorithm
         offsetCorrection = lateralOffset * 5  # correctionFactor is a tuning parameter
         offsetCorrection = max(-20, min(20, offsetCorrection))  # limit the correction to -10..10 degrees
         if isLeft:
-            angle += offsetCorrection
+            angle += offsetCorrection * OFFSET_MULTIPLIER
         else:
-            angle += offsetCorrection
+            angle += offsetCorrection * OFFSET_MULTIPLIER
         
         multiplier = 2
         #if data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]:

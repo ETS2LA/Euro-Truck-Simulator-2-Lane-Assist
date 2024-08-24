@@ -20,6 +20,7 @@ import os
 runner:PluginRunner = None
 
 FOLLOW_DISTANCE = settings.Get("AdaptiveCruiseControl", "distance", 30) # meters
+ACC_ENABLED = False
 
 def LoadSettings():
     global FOLLOW_DISTANCE
@@ -37,6 +38,10 @@ def Initialize():
     SDKController = cast(Controller, SDKController)
     MapUtils = runner.modules.MapUtils
     logging.warning("AdaptiveCruiseControl plugin initialized")
+    
+def ToggleSteering(state:bool, *args, **kwargs):
+    global ACC_ENABLED
+    ACC_ENABLED = state
     
 def CalculateAcceleration(targetSpeed: float, currentSpeed: float, distance: float) -> float:
     # Adjust the target speed based on the distance to the vehicle ahead
@@ -110,6 +115,12 @@ lastTargetSpeed = 0
 lastTargetSpeedTime = time.time()
 def plugin():
     global lastTargetSpeed, lastTargetSpeedTime
+    
+    if not ACC_ENABLED:
+        SDKController.aforward = float(0)
+        SDKController.abackward = float(0)
+        return
+    
     try:
         apiData = TruckSimAPI.run()
         
