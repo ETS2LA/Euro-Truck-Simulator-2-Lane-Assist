@@ -210,9 +210,15 @@ func _process(delta: float) -> void:
 					# Handle the solid lines
 					if lanesLeft > 0:
 						if index == 0:
-							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-							rightSolidLine.material = markingMat if not dark else markingsDarkMat
-							drewLanes = true
+							if lanesLeft != 1 or lanesRight != 1:
+								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								rightSolidLine.material = markingMat if not dark else markingsDarkMat
+								drewLanes = true
+							
+							if lanesLeft == 1:
+								leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								leftSolidLine.material = markingMat if not dark else markingsDarkMat
+							
 						elif index == lanesLeft - 1:
 							leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
 							leftSolidLine.material = markingMat if not dark else markingsDarkMat
@@ -220,8 +226,9 @@ func _process(delta: float) -> void:
 					
 					if lanesRight > 0 and not drewLanes:
 						if index == lanesLeft:
-							leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-							leftSolidLine.material = markingMat if not dark else markingsDarkMat
+							if lanesLeft != 1 or lanesRight != 1:
+								leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								leftSolidLine.material = markingMat if not dark else markingsDarkMat
 							
 							if lanesRight == 1:
 								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
@@ -230,8 +237,15 @@ func _process(delta: float) -> void:
 						elif index == lanesLeft + lanesRight - 1:
 							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
 							rightSolidLine.material = markingMat if not dark else markingsDarkMat
+							
 					# Handle the dashed lines
-					if (lanesLeft + lanesRight) > 1:
+					if lanesLeft == 1 and lanesRight == 1:
+						if index == 0:
+							rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+							rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+							drewLanes = true
+					
+					elif (lanesLeft + lanesRight) > 1:
 						if lanesLeft > 0:
 							if index == 0:
 								leftDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())

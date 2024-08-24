@@ -438,12 +438,19 @@ def CalculateCurvature(points):
             # Check if nan
             if angle != angle:
                 angle = 0
+                
+            # Check if the angle is closer to 180 degrees
+            if angle > math.pi/4:
+                angle = angle - math.pi/2
+                
+            #print(f"Angle: {angle}")
+                
             angles.append(angle)
         
         # Calculate the curvature
         total_curvature = 0
         for angle in angles:
-            total_curvature += angle
+            total_curvature += abs(angle)
         
         return total_curvature
     except:
