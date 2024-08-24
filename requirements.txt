@@ -3,6 +3,7 @@ tkinter-tooltip
 beautifulsoup4
 pywebview==5.1
 opencv-python
+numpy==1.26.4
 transformers
 proxy_tools
 ultralytics
@@ -27,7 +28,6 @@ pygame
 sv_ttk
 mouse
 scipy
-numpy
 torch
 ftfy
 rich
