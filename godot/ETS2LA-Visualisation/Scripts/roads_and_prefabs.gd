@@ -239,6 +239,7 @@ func _process(delta: float) -> void:
 							rightSolidLine.material = markingMat if not dark else markingsDarkMat
 							
 					# Handle the dashed lines
+					drewLanes = false
 					if lanesLeft == 1 and lanesRight == 1:
 						if index == 0:
 							rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
@@ -247,22 +248,15 @@ func _process(delta: float) -> void:
 					
 					elif (lanesLeft + lanesRight) > 1:
 						if lanesLeft > 0:
-							if index == 0:
+							if index < lanesLeft - 1:
 								leftDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
 								leftDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
-								drewLanes = true
-							elif index == lanesLeft - 1:
-								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
 								drewLanes = true
 						
 						if lanesRight > 0 and not drewLanes:
-							if index == lanesLeft:
+							if index < lanesLeft + lanesRight - 1:
 								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
 								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
-							elif index == lanesLeft + lanesRight - 1:
-								leftDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								leftDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
 
 					
 					right.material = roadMat if not dark else roadDarkMat
