@@ -1,5 +1,7 @@
-from ETS2LA.utils.translator import Translate
 from GameData import nodes, roads, prefabs, prefabItems
+import ETS2LA.plugins.Map.GameData.calc as calc
+from ETS2LA.plugins.runner import PluginRunner
+from ETS2LA.utils.translator import Translate
 import numpy as np
 import logging
 import cv2
@@ -10,6 +12,7 @@ import sys
 import os
 
 print = logging.info
+runner: PluginRunner = None
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 
 def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
@@ -101,6 +104,7 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
                     # Check if the points are within the display area (1000px x 1000px)
                     if pointX < 0 or pointX > 1000 or pointY < 0 or pointY > 1000:
                         continue
+                    
                     newPoints.append((pointX, pointY))
                     if firstPoint == []:
                         firstPoint = (pointX, pointY)
@@ -116,58 +120,16 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
                         color = (0, 0, 255)
                 except:
                     pass
-            
-                #if points != [] or points != None:
-                #    sys.stdout.write(f"\nDrawing lane {laneCount} of {newPoints}\n")
-                #    sys.stdout.flush()
                     
                 cv2.polylines(img, np.int32([newPoints]), False, color, (2 + (zoom - 1)), cv2.LINE_AA)
                 
                 laneCount += 1
-            
-            # Convert the bounding box to local coordinates
-            # boundingBox = road.BoundingBox
-            # newBoundingBox = []
-            # for point in boundingBox:
-            #     xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
-            #     xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
-            #     # Apply zoom to the local coordinates
-            #     zoomedX = xy[0] * zoom
-            #     zoomedY = xy[1] * zoom
-            #     # Offset the zoomed coordinates by the truck's position to "move" the camera
-            #     pointX = int(zoomedX + size//2)
-            #     pointY = int(zoomedY + size//2)
-            #     newBoundingBox.append((pointX, pointY))
-            # cv2.rectangle(img, newBoundingBox[0], newBoundingBox[1], (0, 150, 0), 2)
                 
-            
             try:
                 if drawText:
-                    #cv2.putText(img, f"Offset: {road.RoadLook.offset}", (firstPoint[0], firstPoint[1]), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
                     cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1] + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
-                    startNode = road.StartNode
-                    endNode = road.EndNode
-                    #cv2.putText(img, f"Start Node Height: {startNode.Y}", (firstPoint[0], firstPoint[1] + 40), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
-                    #cv2.putText(img, f"End Node Height: {endNode.Y}", (firstPoint[0], firstPoint[1] + 60), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
-                    #yValues = road.YValues
-                    #cv2.putText(img, f"Y Values: {yValues}", (firstPoint[0], firstPoint[1] + 80), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
-            except: pass
-            # Draw the original road
-            # try:
-            #     newPoints = []
-            #     for point in road.Points:
-            #         xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
-            #         xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
-            #         # Apply zoom to the local coordinates
-            #         zoomedX = xy[0] * zoom
-            #         zoomedY = xy[1] * zoom
-            #         # Offset the zoomed coordinates by the truck's position to "move" the camera
-            #         pointX = int(zoomedX + size//2)
-            #         pointY = int(zoomedY + size//2)
-            #         newPoints.append((pointX, pointY))
-            #     cv2.polylines(img, np.int32([newPoints]), False, (0, 0, 255), (1 + (zoom - 1)), cv2.LINE_AA)
-            # except:
-            #     pass
+            except: 
+                pass
             
             road = None
         
@@ -197,7 +159,6 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
     Returns:
         np.array: image array
     """
-    startTime = time.time()
     # Get the current X and Y position of the truck
     x = data["api"]["truckPlacement"]["coordinateX"]
     y = data["api"]["truckPlacement"]["coordinateZ"]
@@ -216,11 +177,13 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
     
     truckXY = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
     curveCount = 0
+    
     for item in areaItems:
         try:
             #if item.Prefab.FilePath == "prefab/fork/road_1x_sidewalk_end_4m.ppd":
             #    logging.warning(item.CurvePoints)
             id = 0
+            startTime = time.time()
             for curve in item.CurvePoints:
                 max_x = -math.inf
                 max_y = -math.inf
@@ -235,7 +198,6 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
                     zoomedY = xy[1] * zoom
                     pointX = int(zoomedX + size//2)
                     pointY = int(zoomedY + size//2)
-                    points.append((pointX, pointY))
                     
                     if pointX > max_x:
                         max_x = pointX
@@ -247,13 +209,11 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
                         min_y = pointY
                         
                     # Check if the point is within the display area (1000px x 1000px) plus a padding of 200px
-                    if pointX > 1500 or pointX < -1500 or pointY > 1500 or pointY < -1500:
-                        break
+                    if pointX > 1000 or pointX < 0 or pointY > 1000 or pointY < 0:
+                        continue
                     
-                
-                # Check if the bounding box is within the display area (1000px x 1000px)
-                if min_x > 1000 or max_x < 0 or min_y > 1000 or max_y < 0:
-                    continue
+                    points.append((pointX, pointY))
+                    
                 
                 color = (100, 100, 100)
                 try:
@@ -271,6 +231,110 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
                     cv2.line(img, points[0], points[1], color, (1 + (zoom - 1)), cv2.LINE_AA)
                 else:
                     cv2.polylines(img, np.int32([points]), False, color, (1 + (zoom - 1)), cv2.LINE_AA)
+            
+            #sys.stdout.write(f"Visualized {len(item.CurvePoints)} curves in {round((time.time() - startTime) * 1000, 1)} ms\n")
+            startTime = time.time()
+            
+            originNode = item.Nodes[0]
+    
+            if type(item.Prefab) == int:
+                item.Prefab = prefabs.GetPrefabByToken(item.Prefab)
+            if item.Prefab == None:
+                return
+            
+            try:
+                if type(originNode) == dict:
+                    originNode = nodes.Node().fromJson(originNode)
+            
+                mapPointOrigin = item.Prefab.PrefabNodes[item.Origin]
+        
+                rot = float(originNode.Rotation - math.pi -
+                    math.atan2(mapPointOrigin.RotZ, mapPointOrigin.RotX) + math.pi / 2)
+            except:
+                return
+            
+            prefabStartX = originNode.X - mapPointOrigin.X
+            prefabStartZ = originNode.Z - mapPointOrigin.Z
+            prefabStartY = originNode.Y - mapPointOrigin.Y
+            
+            drawables = []
+            points_drawn = set()
+            for i in range(len(item.Prefab.MapPoints)):
+                map_point = item.Prefab.MapPoints[i]
+                points_drawn.add(i)
+
+                if map_point.LaneCount == -1:  # non-road Prefab
+                    poly_points = {}
+                    next_point = i
+                    while next_point != -1:
+                        if len(item.Prefab.MapPoints[next_point].Neighbours) == 0:
+                            break
+
+                        for neighbour in item.Prefab.MapPoints[next_point].Neighbours:
+                            if neighbour not in poly_points:  # New Polygon Neighbour
+                                next_point = neighbour
+                                new_point = calc.RotatePoint(
+                                    prefabStartX + item.Prefab.MapPoints[next_point].X,
+                                    prefabStartZ + item.Prefab.MapPoints[next_point].Z, rot, originNode.X,
+                                    originNode.Z)
+                                poly_points[next_point] = new_point
+                                break
+                        else:
+                            next_point = -1
+
+                    if len(poly_points) < 2:
+                        continue
+                        
+                    #logging.warning(f"First polypoint : {next(iter(poly_points))}")
+                    visual_flag = item.Prefab.MapPoints[next(iter(poly_points))].PrefabColorFlags
+
+                    def is_bit_set(number, bit):
+                        return number & (1 << bit) != 0
+
+                    fill_color = (120, 120, 120)
+                    #road_over = is_bit_set(visual_flag, 0)  # Road Over flag
+                    z_index = 10
+                    if is_bit_set(visual_flag, 1):
+                        fill_color = (120, 120, 120)
+                    elif is_bit_set(visual_flag, 2):
+                        fill_color = (50, 50, 50)
+                        z_index = 11
+                    elif is_bit_set(visual_flag, 3):
+                        fill_color = (67, 90, 75)
+                        z_index = 12
+                    # else fill_color = palette['Error']  # Unknown
+
+                    # Now convert the points to local coordinates
+                    new_poly_points = {}
+                    for key, value in poly_points.items():
+                        xy = roads.GetLocalCoordinateInTile(value[0], value[1], tileCoords[0], tileCoords[1])
+                        xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
+                        zoomedX = xy[0] * zoom
+                        zoomedY = xy[1] * zoom
+                        pointX = int(zoomedX + size//2)
+                        pointY = int(zoomedY + size//2)
+                        new_poly_points[key] = (pointX, pointY)
+
+                    if len(new_poly_points) > 2:
+                        #logging.warning(f"Drawing polygon with {len(new_poly_points)} points")
+                        #logging.warning(new_poly_points)
+                        drawables.append([new_poly_points, z_index, fill_color])
+                        
+                    
+                    #prefab_look = TsPrefabPolyLook(list(poly_points.values()), z_index=z_index, color=fill_color)
+                    #prefabItem.add_look(prefab_look)
+            
+                # Get all drawables that are on the same z-index
+                z_indexes = [10, 11, 12]
+                for z_index in z_indexes:
+                    # Get all drawables on the same z-index
+                    drawables_z = [drawable for drawable in drawables if drawable[1] == z_index]
+                    # Draw the drawables
+                    for drawable in drawables_z:
+                        cv2.fillPoly(img, [np.int32(list(drawable[0].values()))], drawable[2])
+                    
+            
+            #sys.stdout.write(f"Visualized {len(item.Prefab.MapPoints)} prefab points in {round((time.time() - startTime) * 1000, 1)} ms\n")   
             
             prefabOrigin = (item.X, item.Z)
             prefabXY = roads.GetLocalCoordinateInTile(prefabOrigin[0], prefabOrigin[1], prefabTileCoords[0], prefabTileCoords[1])
@@ -292,7 +356,7 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
         cv2.putText(img, Translate("map.visualisation.prefabs.curves", values=[curveCount]), (10, 150), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
     
     endTime = time.time()
-    sys.stdout.write(f"Visualized {len(areaItems)} prefabs in {round((endTime - startTime) * 1000, 1)} ms     \r")
+    #sys.stdout.write(f"Visualized {len(areaItems)} prefabs in {round((endTime - startTime) * 1000, 1)} ms     \r")
     return img
 
 def RotateAroundCenter(point, center, angle):

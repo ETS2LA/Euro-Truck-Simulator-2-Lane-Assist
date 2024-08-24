@@ -54,6 +54,7 @@
     "mini-css-extract-plugin": "^2.8.1",
     "next": "^14.2.2",
     "next-themes": "^0.3.0",
+    "pako": "^2.1.0",
     "react": "^18",
     "react-day-picker": "^8.10.0",
     "react-dom": "^18",

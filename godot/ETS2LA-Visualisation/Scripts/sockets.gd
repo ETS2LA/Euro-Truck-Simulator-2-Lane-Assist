@@ -21,6 +21,22 @@ func _ready() -> void:
 	socket.inbound_buffer_size = 65535*10
 	Connect()
 
+# https://forum.godotengine.org/t/working-example-of-compress-decompress-with-streampeergzip/51831/2
+func gzip_decode(data):
+	var gzip = StreamPeerGZIP.new()
+	gzip.start_decompression()
+	gzip.put_data(data)
+	gzip.finish()
+	var string = gzip.get_utf8_string(gzip.get_available_bytes())
+	return string
+
+func gzip_encode(text: String):
+	var gzip = StreamPeerGZIP.new()
+	gzip.start_compression()
+	gzip.put_data(text.to_utf8_buffer())
+	gzip.finish()
+	return gzip.get_data(gzip.get_available_bytes())[1]
+
 func _process(delta):
 	socket.poll()
 	var state = socket.get_ready_state()
@@ -38,8 +54,7 @@ func _process(delta):
 		var tempData = {}
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet()
-			# Decode it
-			packet = packet.get_string_from_utf8()
+			packet = gzip_decode(packet)
 			packet = packet.split(";")
 			for packetData in packet:
 				# Find the first :

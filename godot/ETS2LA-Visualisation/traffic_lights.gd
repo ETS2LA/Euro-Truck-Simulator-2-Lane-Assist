@@ -13,16 +13,17 @@ func _process(delta: float) -> void:
 		n.queue_free()
 
 	if Sockets.data != {}:
-		var TrafficLightData = Sockets.data["JSONTrafficLights"].data
-		if TrafficLightData != null:
-			for object in TrafficLightData:
-				if object != null and typeof(object) != typeof({}) and typeof(object) != typeof(float(1)) and len(object) >= 4:
-					var state = object[0]
-					var x = object[1]
-					var y = object[2]
-					var z = object[3]
+		if typeof(Sockets.data) == typeof({}):
+			var TrafficLightData = Sockets.data["JSONTrafficLights"].data
+			if TrafficLightData != null:
+				for object in TrafficLightData:
+					if object != null and typeof(object) != typeof({}) and typeof(object) != typeof(float(1)) and len(object) >= 4:
+						var state = object[0]
+						var x = object[1]
+						var y = object[2]
+						var z = object[3]
 
-					var TrafficLight = TrafficLightScene.instantiate()
-					TrafficLight.position = Vector3(x,y,z)
-					TrafficLight.scale = Vector3(1, 1, 1)
-					add_child(TrafficLight)
+						var TrafficLight = TrafficLightScene.instantiate()
+						TrafficLight.position = Vector3(x,y,z)
+						TrafficLight.scale = Vector3(1, 1, 1)
+						add_child(TrafficLight)

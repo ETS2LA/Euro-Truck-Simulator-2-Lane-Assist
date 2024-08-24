@@ -1,5 +1,6 @@
 from multiprocessing.connection import Connection
 from ETS2LA.utils.translator import Translate
+from ETS2LA.utils.values import SmoothedValue
 from ETS2LA.utils.time import AccurateSleep
 import ETS2LA.backend.settings as settings
 from types import SimpleNamespace
@@ -34,6 +35,7 @@ class PluginRunner():
         self.iq = immediateQueue
         
         self.enableTime = time.time()
+        self.profilerEnabled = settings.Get(pluginName, "profiler", False)
         self.getQueueProcessingTime = 0
         self.frametimes = []
         self.executiontimes = []
@@ -112,6 +114,9 @@ class PluginRunner():
         except Exception as e:
             logging.exception(f"PluginRunner: {Translate('runner.could_not_load_module', values=[self.plugin_name])}")
             logging.info(traceback.format_exc())
+            
+        self.frameStartTime = time.time()
+        self.profilerData = {}
             
         logging.info(f"PluginRunner: Plugin {self.plugin_name} initialized")
         self.run()
@@ -253,6 +258,35 @@ class PluginRunner():
             self.timer = time.time()
             self.frametimes = []
             self.executiontimes = []
+            
+    def Profile(self, name):
+        timeSinceStart = time.time() - self.profileStartTime
+        timeSinceStart *= 1000
+        if name not in self.profilerData:
+            self.profilerData[name] = SmoothedValue(smoothingType="time", smoothingAmount=1)
+            
+        self.profilerData[name](timeSinceStart)
+        self.profileStartTime = time.time()
+        
+    def PrintProfiler(self):
+        if len(self.profilerData) == 0:
+            return
+        
+        # Move the cursor up by the amount of lines in the profiler
+        print("\033[F" * (len(self.profilerData) + 2))
+        
+        total = sum([self.profilerData[name].get() for name in self.profilerData])
+        pendingDelete = []
+        for name in self.profilerData:
+            value = self.profilerData[name].get()
+            print(f"{name}: {round(value, 1)}ms ({round(value / total * 100, 1)}%)                                     ")
+            if value == 0:
+                pendingDelete.append(name)
+        
+        for name in pendingDelete:
+            self.profilerData.pop(name)
+        
+        print(f"Total: {round(total, 1)}ms                               ")
 
     def run(self):
         self.timer = time.time()
@@ -261,9 +295,12 @@ class PluginRunner():
         threading.Thread(target=self.moduleChangeListener, daemon=True).start()
         threading.Thread(target=self.stateThread, daemon=True).start()
         while True and not self.temporary: # NOTE: This class is running in a separate process, we can thus use an infinite loop!
-            startTime = time.time()
+            self.profileStartTime = time.time()
+            startTime = self.profileStartTime
             try:
                 data = self.plugin.plugin()
+                if self.profilerEnabled:
+                    self.PrintProfiler()
             except:
                 logging.exception(f"PluginRunner: {Translate('runner.plugin_crash', values=[self.plugin_name])}")
                 logging.info(traceback.format_exc())

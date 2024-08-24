@@ -410,36 +410,40 @@ def DistanceBetweenPoints(point1, point2):
     return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
 def map_curvature_to_speed_effect(curvature):
-    factor = 1e13
-    factor *= 3
+    factor = 0.01 # needs a 50 degree turn to reach max effect
     min_effect, max_effect = 0.0, 0.5
     effect = min(max(curvature * factor, min_effect), max_effect)
     return effect
 
 def CalculateCurvature(points):
     try:
-        # Extract x and y components
-        x = np.array([point[0] for point in points])
-        y = np.array([point[1] for point in points])
-
-        # Calculate differences
-        dx1, dx2 = x[:-2] - x[1:-1], x[1:-1] - x[2:]
-        dy1, dy2 = y[:-2] - y[1:-1], y[1:-1] - y[2:]
-
-        # Calculate the components of the curvature formula
-        numerator = np.abs(dx1 * dy2 - dx2 * dy1)
-        denominator = (np.sqrt(x[:-2]**2 + y[:-2]**2) *
-                    np.sqrt(x[1:-1]**2 + y[1:-1]**2) *
-                    np.sqrt(x[2:]**2 + y[2:]**2))
-
-        # Avoid division by zero by adding a small epsilon
-        epsilon = 1e-10
-        curvature_values = numerator / (denominator + epsilon)
-
-        # Sum the curvature values to get the total curvature
-        total_curvature = np.sum(curvature_values)
-
-        #print("Total Curvature:", total_curvature)
+        # Calculate the dot products of the vectors between the points
+        dot_products = []
+        for i in range(1, len(points)-1):
+            try:
+                vector1 = [points[i][0] - points[i-1][0], points[i][1] - points[i-1][1]]
+                vector2 = [points[i+1][0] - points[i][0], points[i+1][1] - points[i][1]]
+                dot_product = np.dot(vector1, vector2)
+                # Check if nan
+                if dot_product != dot_product:
+                    dot_product = 0
+                dot_products.append(dot_product)
+            except:
+                dot_products.append(0)
+            
+        # Calculate the angles between the vectors
+        angles = []
+        for i in range(len(dot_products)-1):
+            angle = np.arccos(dot_products[i] / (np.linalg.norm(vector1) * np.linalg.norm(vector2)))
+            # Check if nan
+            if angle != angle:
+                angle = 0
+            angles.append(angle)
+        
+        # Calculate the curvature
+        total_curvature = 0
+        for angle in angles:
+            total_curvature += angle
         
         return total_curvature
     except:

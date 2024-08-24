@@ -20,6 +20,7 @@ import { useEffect } from 'react'
 import { set } from 'date-fns'
 import { useRef } from 'react'
 import CustomMarker from './custom_marker'
+import pako from 'pako';
 
 // Import leaflet css
 import 'leaflet/dist/leaflet.css'
@@ -82,7 +83,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     
         // Listen for messages
         socket.addEventListener("message", function (event) {
-            const message = event.data;
+            const message = pako.ungzip(event.data, { windowBits: 28, to: 'string' });
             const indices = message.split(";");
             // Find X and Z
             let X = 0;
@@ -120,6 +121,9 @@ export default function ETS2LAMap({ip} : {ip: string}) {
         
         // Error
         socket.addEventListener("error", function (event) {
+            toast.error("Map disconnected from the backend!", {
+                description: "" + event
+            })
             console.error("WebSocket error observed:", event);
         });
         

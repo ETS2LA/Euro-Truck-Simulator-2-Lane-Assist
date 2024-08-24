@@ -67,6 +67,8 @@ def Initialize():
     toast = runner.sonner
     
     RAYCASTING = runner.modules.Raycasting
+    
+    visualize.runner = runner
 
 # MARK: Utilities
 
@@ -105,6 +107,7 @@ def UpdateVisualize():
         visualizeHash = currentHash
         # Update the visualize code
         importlib.reload(visualize)
+        visualize.runner = runner
 
 def GetDistanceFromTruck(x, z, data):
     truckX = data["api"]["truckPlacement"]["coordinateX"]
@@ -219,8 +222,10 @@ def DrawInternalVisualisation(data, closeRoads, closePrefabs):
     img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
 
     # Convert to BGR
+    runner.Profile("Visualizations")
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     SI.run(img)
+    runner.Profile("Show Image")
 
 def CreateARData(data, closeRoads, closePrefabs):
     arData = {
@@ -356,10 +361,7 @@ def plugin():
         "api": API.run(),
     }
     
-    # No longer needed, data will always be available
-    # if not JSON_FOUND:
-    #     CheckIfJSONDataIsAvailable(data)
-    #     return None
+    runner.Profile("API")
     
     if not DATA_LOADED:
         extractor.UpdateData()
@@ -370,11 +372,15 @@ def plugin():
     UpdateSettings()
     UpdatePlotter()
     UpdateVisualize()
+    
+    runner.Profile("File Updates")
         
     closeRoads, updatedRoads = compute.GetRoads(data)
     closePrefabs, updatedPrefabs = compute.GetPrefabs(data)
     
     updatedRoads = compute.CalculateParallelPointsForRoads(closeRoads) # Will slowly populate the lanes over a few frames
+    
+    runner.Profile("Road and Prefab updates")
     
     targetSpeed = data["api"]["truckFloat"]["speedLimit"]
     steeringPoints = []
@@ -405,6 +411,8 @@ def plugin():
         targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
         #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
         
+    runner.Profile("Steering data")
+        
     if INTERNAL_VISUALISATION:
         DrawInternalVisualisation(data, closeRoads, closePrefabs)
     else:
@@ -412,6 +420,8 @@ def plugin():
         
     if SEND_EXTERNAL_DATA:
         CreateExternalData(closeRoads, closePrefabs, updatedRoads, updatedPrefabs)
+        
+    runner.Profile("External Data")
         
     arData = None
     if SEND_AR_DATA:

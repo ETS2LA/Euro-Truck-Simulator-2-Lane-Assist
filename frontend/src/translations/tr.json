@@ -275,6 +275,8 @@
     "global.settings.7.description": "Hata ay\u0131klama modunu etkinle\u015ftirip etkinle\u015ftirmeyece\u011finiz.",
     "global.settings.8.name": "Dil",
     "global.settings.8.description": "Uygulama i\u00e7in kullan\u0131lacak dil. De\u011fi\u015fiklikleri uygulamak i\u00e7in yeniden ba\u015flatman gerekiyor!",
+    "global.settings.9.name": "\u00c7er\u00e7evesiz",
+    "global.settings.9.description": "Uygulama i\u00e7in \u00e7er\u00e7evesiz bir pencere kullan\u0131l\u0131p kullan\u0131lmayaca\u011f\u0131. De\u011fi\u015fiklikleri uygulamak i\u00e7in tam bir yeniden ba\u015flatma gerekiyor! Uygulama penceresini hareket ettirmeyle ilgili sorunlar\u0131 \u00e7\u00f6zecektir. Ayr\u0131ca \u00f6l\u00e7eklendirmeyi de etkinle\u015ftirir.",
     "_LOL": "aint no way DylDev got rickrolled from a json file lmao",
     "map.settings.1.title": "Harita Ayarlar\u0131",
     "map.settings.1.description": "Bu ayarlar harita eklentisi i\u00e7indir.",
