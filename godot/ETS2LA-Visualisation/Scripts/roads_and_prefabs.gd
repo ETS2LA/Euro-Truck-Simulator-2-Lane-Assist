@@ -162,11 +162,12 @@ func _process(delta: float) -> void:
 			for road in roadData:
 				var uid = str(road["Uid"])
 				
+				var yValues = road["YValues"]
+				
 				var roadX = road["X"]
 				var roadY = 0
 				var roadZ = road["Z"]
 				var roadPosition = Vector3(roadX, roadY, roadZ)
-				var yValues = road["YValues"]
 				var lanesLeft = len(road["RoadLook"]["LanesLeft"])
 				var lanesRight = len(road["RoadLook"]["LanesRight"])
 				
@@ -190,6 +191,7 @@ func _process(delta: float) -> void:
 						# Convert the JSON points to godot Vector3s
 						#points.append(JsonPointToLocalCoords(point, x, yValues[counter], z))
 						points.append(Vector3(point[0], yValues[counter], point[1]))
+						counter += 1
 					
 					var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 					roadObj.name = uid + "-" + str(totalLines)
@@ -363,7 +365,7 @@ func _process(delta: float) -> void:
 			reload = false
 			print("Total of " + str(totalLines) + " lines")
 			print("Skipped " + str(skippedLines) + " lines")
-			Notifications.SendNotification("Drew " + str(totalLines) + " new lines. Skipped " + str(skippedLines), 2000)
+			Notifications.SendNotification("Drew " + str(totalLines) + " new lines. Skipped " + str(skippedLines) + " objects", 2000)
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
