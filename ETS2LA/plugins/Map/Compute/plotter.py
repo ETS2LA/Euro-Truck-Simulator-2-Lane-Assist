@@ -39,7 +39,7 @@ class RouteItem:
         return newPoints
         
 Route : list[RouteItem] = []
-RouteLength = 3
+RouteLength = 2
 
 def LoadSettings():
     global OFFSET_MULTIPLIER
