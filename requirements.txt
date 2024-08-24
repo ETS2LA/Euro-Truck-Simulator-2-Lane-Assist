@@ -1,6 +1,7 @@
 opencv-contrib-python
 tkinter-tooltip
 beautifulsoup4
+pywebview==5.1
 opencv-python
 transformers
 proxy_tools
@@ -9,7 +10,6 @@ torchvision
 setuptools
 websockets
 screeninfo
-pywebview
 pyautogui
 gitpython
 dearpygui
