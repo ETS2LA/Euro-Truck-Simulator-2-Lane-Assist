@@ -337,7 +337,10 @@
     "map.visualisation.roads.text": "道路：{0}，區塊：{1}，載入中：{2}",
     "map.visualisation.prefabs.prefabs": "預設物件：{0}，區塊：{1}",
     "map.visualisation.prefabs.curves": "彎道：{0}",
-    "map.extracting_data": "正在取得 GameData.zip 資料，請稍候..."
+    "map.extracting_data": "正在取得 GameData.zip 資料，請稍候...",
+    "map.settings.10.title": "轉向設置",
+    "map.settings.11.name":"平滑度",
+    "map.settings.11.description":"平滑轉向的時間（以秒為單位）。值為0時，轉向會非常靈敏；值大於0.5時，可能會導致左右搖擺。"
 }
 
 

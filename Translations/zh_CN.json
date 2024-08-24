@@ -335,5 +335,8 @@
     "map.visualisation.roads.text": "道路：{0}，区块：{1}，加载中：{2}",
     "map.visualisation.prefabs.prefabs": "预设对象：{0}，区块：{1}",
     "map.visualisation.prefabs.curves": "弯道：{0}",
-    "map.extracting_data": "正在获取 GameData.zip 数据，请稍候..."
+    "map.extracting_data": "正在获取 GameData.zip 数据，请稍候...",
+    "map.settings.10.title": "转向设置",
+    "map.settings.11.name":"平滑度",
+    "map.settings.11.description":"平滑转向的时间（以秒为单位）。值为0时，转向会非常灵敏；值大于0.5时，可能会导致左右摇摆。"
 }
