@@ -285,6 +285,8 @@
     "global.settings.7.description": "Engedélyezni kell-e a hibakereső módot.",
     "global.settings.8.name": "Nyelv",
     "global.settings.8.description": "Az alkalmazás nyelve. A változtatások alkalmazásához újra kell indítani az alkalmazást!",
+    "global.settings.9.name": "Keret nélkül",
+    "global.settings.9.description": "Keret nélküli ablak használata az alkalmazáshoz. Újra kell indítani az alkalmazást! Megoldja az alkalmazás ablakának mozgatásával kapcsolatos problémákat. Lehetővé teszi a méretezést is.",
 
     "map.settings.1.title": "Térképi Beállítások",
     "map.settings.1.description": "Ezek a beállítások a térkép pluginra vonatkoznak.",
