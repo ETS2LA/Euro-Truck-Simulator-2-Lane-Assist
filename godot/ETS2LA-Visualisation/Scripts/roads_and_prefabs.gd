@@ -11,6 +11,7 @@ extends Node
 @export var roadObject = preload("res://Objects/road.tscn")
 
 @export var markingWidth : float
+@export var maxDistance : float = 750 # meters
 
 @onready var MapData = $/root/Node3D/MapData
 @onready var Truck = $/root/Node3D/Truck
@@ -127,6 +128,8 @@ func _process(delta: float) -> void:
 		var data = MapData.MapData
 		var dark = Variables.darkMode
 		var totalLines = 0
+		var skippedLines = 0
+		var position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
 		if data != lastData and data != {} or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
 
@@ -159,13 +162,22 @@ func _process(delta: float) -> void:
 			for road in roadData:
 				var uid = str(road["Uid"])
 				
+				var yValues = road["YValues"]
+				
+				var roadX = road["X"]
+				var roadY = 0
+				var roadZ = road["Z"]
+				var roadPosition = Vector3(roadX, roadY, roadZ)
+				var lanesLeft = len(road["RoadLook"]["LanesLeft"])
+				var lanesRight = len(road["RoadLook"]["LanesRight"])
+				
+				if roadPosition.distance_to(position) > maxDistance:
+					skippedLines += 1
+					continue
+				
 				roadsInData.append(uid)
 				if curRoadUids.has(uid):
 					continue
-				
-				var yValues = road["YValues"]
-				var lanesLeft = len(road["RoadLook"]["LanesLeft"])
-				var lanesRight = len(road["RoadLook"]["LanesRight"])
 					
 				if len(yValues) == 0:
 					continue
@@ -174,6 +186,7 @@ func _process(delta: float) -> void:
 				for lane in road["ParallelPoints"]:
 					var points = []
 					var counter = 0
+					var tooFar = false
 					for point in lane:
 						# Convert the JSON points to godot Vector3s
 						#points.append(JsonPointToLocalCoords(point, x, yValues[counter], z))
@@ -278,12 +291,19 @@ func _process(delta: float) -> void:
 			
 			for prefab in prefabData:
 				var uid = str(prefab["Uid"])
-				prefabsInData.append(uid)
-				if curPrefabUids.has(uid):
-					continue
+				
 				var x = prefab["X"]
 				var y = prefab["Y"] # + prefab["Nodes"][0]["Y"]
 				var z = prefab["Z"]
+				var prefabPosition = Vector3(x, y, z)
+				if prefabPosition.distance_to(position) > maxDistance:
+					skippedLines += 1
+					continue
+				
+				prefabsInData.append(uid)
+				if curPrefabUids.has(uid):
+					continue
+				
 				var lines = []
 				for lane in prefab["CurvePoints"]:
 					var vertices = []
@@ -344,7 +364,8 @@ func _process(delta: float) -> void:
 			lastData = data
 			reload = false
 			print("Total of " + str(totalLines) + " lines")
-			Notifications.SendNotification("Drew " + str(totalLines) + " new lines.", 2000)
+			print("Skipped " + str(skippedLines) + " lines")
+			Notifications.SendNotification("Drew " + str(totalLines) + " new lines. Skipped " + str(skippedLines) + " objects", 2000)
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
@@ -355,7 +376,6 @@ func _process(delta: float) -> void:
 		if typeof(SteeringData[0]) == typeof("Not loaded yet"):
 			return
 		
-		var position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
 		var vertices = []
 		var rightMarkingVertices = []
 		var leftMarkingVertices = []
