@@ -294,6 +294,7 @@ def UpdateSettings():
     global INTERNAL_VISUALISATION
     global ZOOM
     global lastUpdate
+    global Steering
     
     if time.time() - lastUpdate < SETTINGS_UPDATE_RATE:
         return
@@ -303,6 +304,7 @@ def UpdateSettings():
     SEND_EXTERNAL_DATA = settings.Get("Map", "SendExternalData", True)
     INTERNAL_VISUALISATION = settings.Get("Map", "InternalVisualisation", True)
     ZOOM = settings.Get("Map", "Zoom", 1)
+    Steering.SMOOTH_TIME = settings.Get("Map", "SteeringSmoothTime", 0.5)
     
     lastUpdate = time.time()
 

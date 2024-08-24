@@ -26,6 +26,24 @@
             ]
         },
         {
+            "name": "map.settings.3.name",
+            "key": "SendExternalData",
+            "description": "map.settings.3.description",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "specials": [{
+                "special": "Space",
+                "special_data": 12
+            },
+            {
+                "special": "Title",
+                "special_data": "map.settings.10.title"
+            }]
+        },
+        {
             "name": "map.settings.2.name",
             "key": "ComputeSteeringData",
             "description": "map.settings.2.description",
@@ -34,11 +52,14 @@
             }
         },
         {
-            "name": "map.settings.3.name",
-            "key": "SendExternalData",
-            "description": "map.settings.3.description",
+            "name": "map.settings.11.name",
+            "key": "SteeringSmoothTime",
+            "description": "map.settings.11.description",
             "type": {
-                "type": "boolean"
+                "type": "number",
+                "min": 0,
+                "max": 2,
+                "step": 0.1
             }
         },
         {
