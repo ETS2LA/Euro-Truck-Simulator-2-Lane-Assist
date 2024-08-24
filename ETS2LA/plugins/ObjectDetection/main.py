@@ -429,7 +429,10 @@ def plugin():
                 # Add the lines
                 arData['screenLines'].append(ScreenLine((leftPoint[0], leftPoint[1]), (rightPoint[0], rightPoint[1]), color=[0, 255, 0, 100], thickness=2))
                 # Add the text
-                arData['texts'].append(Text(f"{round(middleDistance, 1)}m", (middlePoint[0], middlePoint[1]), color=[0, 255, 0, 255], size=15))
+                arData['texts'].append(Text(f"{round(middleDistance, 1)} m", (middlePoint[0], middlePoint[1]), color=[0, 255, 0, 255], size=15))
+                try:
+                    arData['texts'].append(Text(f"{int(round(vehicle.speed * 3.6, 0))} km/h", (middlePoint[0], middlePoint[1] + 20), color=[0, 255, 0, 255], size=15))
+                except: pass
             except:
                 continue
     

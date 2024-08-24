@@ -34,7 +34,7 @@ def UpdateVehicleSpeed(id, position) -> float:
             return 0
         lastPositionArray[id] = {
             "xyz": position,
-            "speed": SmoothedValue("time", 1),
+            "speed": SmoothedValue("time", 2),
             "time": time.time()
         }
         return 0
