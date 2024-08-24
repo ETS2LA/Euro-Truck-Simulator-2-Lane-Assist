@@ -273,6 +273,8 @@
     "global.settings.7.description": "Enged\u00e9lyezni kell-e a hibakeres\u0151 m\u00f3dot.",
     "global.settings.8.name": "Nyelv",
     "global.settings.8.description": "Az alkalmaz\u00e1s nyelve. A v\u00e1ltoztat\u00e1sok alkalmaz\u00e1s\u00e1hoz \u00fajra kell ind\u00edtani az alkalmaz\u00e1st!",
+    "global.settings.9.name": "Keret n\u00e9lk\u00fcl",
+    "global.settings.9.description": "Keret n\u00e9lk\u00fcli ablak haszn\u00e1lata az alkalmaz\u00e1shoz. \u00dajra kell ind\u00edtani az alkalmaz\u00e1st! Megoldja az alkalmaz\u00e1s ablak\u00e1nak mozgat\u00e1s\u00e1val kapcsolatos probl\u00e9m\u00e1kat. Lehet\u0151v\u00e9 teszi a m\u00e9retez\u00e9st is.",
     "map.settings.1.title": "T\u00e9rk\u00e9pi Be\u00e1ll\u00edt\u00e1sok",
     "map.settings.1.description": "Ezek a be\u00e1ll\u00edt\u00e1sok a t\u00e9rk\u00e9p pluginra vonatkoznak.",
     "map.settings.2.name": "Korm\u00e1nyz\u00e1s Sz\u00e1m\u00edt\u00e1sa",

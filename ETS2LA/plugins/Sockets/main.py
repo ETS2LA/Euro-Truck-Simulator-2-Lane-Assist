@@ -202,10 +202,16 @@ def plugin():
     
     tempSend = ""
     tempSend += position(data)
+    runner.Profile("Position")
     tempSend += speed(data)
+    runner.Profile("Speed")
     tempSend += accelBrake(data)
+    runner.Profile("AccelBrake")
     tempSend += vehicles(data)
+    runner.Profile("Vehicles")
     tempSend += traffic_lights(data)
+    runner.Profile("TrafficLights")
     tempSend += steering(data)
+    runner.Profile("Steering")
     
     send = tempSend

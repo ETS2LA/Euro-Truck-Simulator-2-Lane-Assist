@@ -18,7 +18,7 @@ import sys
 import os
 
 class PluginRunner():
-    def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, stateQueue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
+    def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, dataQueue:multiprocessing.JoinableQueue, stateQueue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
         SetupProcessLogging(
             pluginName, 
             filepath=os.path.join(os.getcwd(), "logs", f"{pluginName}.log"), 
@@ -28,6 +28,7 @@ class PluginRunner():
         self.logger = logging.getLogger()
 
         self.q = queue
+        self.dq = dataQueue
         self.sq = stateQueue
         self.fq = functionQueue
         self.frp = returnPipe
@@ -341,7 +342,7 @@ class PluginRunner():
             plugins = [plugins]
         amount = len(plugins)
         # Send the get command to the main thread
-        self.q.put({"get": plugins})
+        self.dq.put({"get": plugins})
         data = []
         count = 0
         lastTime = time.time()
@@ -350,7 +351,7 @@ class PluginRunner():
                 break
             try:
                 # Wait until we get an answer.
-                queueData = self.q.get(timeout=0.25)    
+                queueData = self.dq.get(timeout=0.25)   
             except:
                 time.sleep(0.00000001)
                 if time.time() - lastTime > 0.25:
@@ -365,8 +366,8 @@ class PluginRunner():
                 continue
             try:
                 # If the data we fetched was from this plugin, we can skip the loop.
-                if "get" in queueData or "frametimes" in queueData: 
-                    self.q.put(queueData)
+                if "get" in queueData: 
+                    self.dq.put(queueData)
                     if time.time() - lastTime > 0.25:
                         count += 1
                         data.append(None)
@@ -382,6 +383,8 @@ class PluginRunner():
             data.append(queueData)
             count += 1
             
+        self.dq.task_done()
+            
         if len(data) != amount:
             for i in range(amount - len(data)):
                 data.append(None)
@@ -389,6 +392,7 @@ class PluginRunner():
         endTime = time.time()
         self.getQueueProcessingTime += endTime - startTime
         # Return all gathered data
+        self.Profile(f"GetData({plugins})")
         return data
     
     def sonner(self, text:str, type:str="info", promise:str=""):

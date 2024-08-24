@@ -369,7 +369,7 @@ def plugin():
     else:
         SI.DestroyWindow("Lane Assist")
         
-    if SEND_EXTERNAL_DATA:
+    if SEND_EXTERNAL_DATA and (updatedPrefabs or updatedRoads):
         CreateExternalData(closeRoads, closePrefabs, updatedRoads, updatedPrefabs)
         
     runner.Profile("External Data")
@@ -388,6 +388,8 @@ def plugin():
         }
     
     if updatedPrefabs or updatedRoads:
+        logging.warning("Map updated plugin data.")
+        logging.warning(f"Roads: {len(externalData['roads'])}, Prefabs: {len(externalData['prefabs'])}")
         return steeringPoints[:20], {
             "map": externalData,
             "targetSpeed": targetSpeed,

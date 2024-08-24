@@ -34,13 +34,14 @@ class PluginRunnerController():
         
         # Make the queue (comms) and start the process.
         self.queue = multiprocessing.JoinableQueue()
+        self.dataQueue = multiprocessing.JoinableQueue()
         self.stateQueue = multiprocessing.JoinableQueue()
         self.functionQueue = multiprocessing.JoinableQueue()
         self.eventQueue = multiprocessing.JoinableQueue()
         self.immediateQueue = multiprocessing.JoinableQueue()
         self.returnPipe, pluginReturnPipe = multiprocessing.Pipe()
         
-        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.stateQueue, self.functionQueue, pluginReturnPipe, self.eventQueue, self.immediateQueue, ), daemon=True)
+        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.dataQueue, self.stateQueue, self.functionQueue, pluginReturnPipe, self.eventQueue, self.immediateQueue, ), daemon=True)
         self.runner.start()
         
         self.state = "running"
@@ -152,12 +153,72 @@ class PluginRunnerController():
                 if "data" in data:
                     self.data = data["data"]
             except: pass
+            
+    def dataQueueThread(self):
+        lastAnswer = ""
+        while True:
+            try: 
+                data = self.dataQueue.get(timeout=0.5)
+            except Exception as e: 
+                time.sleep(0.00001)
+                continue
+            
+            if type(data) == type(None):
+                time.sleep(0.00001)
+                continue
+            
+            if data == lastAnswer:
+                time.sleep(0.00001)
+                continue
+            
+            if type(data) != dict:
+                time.sleep(0.00001)
+                continue
+            
+            if "get" in data: # If the data is a get command, then we need to get the data from another plugin.
+                plugins = data["get"]
+                for plugin in plugins:
+                    if "tags." in plugin:
+                        tag = plugin.split("tags.")[1]
+                        try:
+                            count = 0
+                            for plugin in globalData:
+                                if tag in globalData[plugin]:
+                                    count += 1
+                                    
+                            data = {}
+                            for plugin in globalData:
+                                if tag in globalData[plugin]:
+                                    if type(globalData[plugin][tag]) == dict:
+                                        if count > 1:
+                                            data = merge(data, globalData[plugin][tag])
+                                        else:
+                                            data = globalData[plugin][tag]
+                                            break
+                                    else: 
+                                        data = globalData[plugin][tag]
+                            self.dataQueue.put(data)
+                        except:
+                            logging.exception(f"Failed to get data from tag {tag}.")
+                            self.dataQueue.put(None)
+                    
+                    if plugin in runners:
+                        try:
+                            self.dataQueue.put(runners[plugin].lastData)
+                        except:
+                            logging.debug(f"Plugin ({self.pluginName}) is trying to get data from another plugin ({plugin}) that has not been initialized yet.")
+                            self.dataQueue.put(None)
+                    else:
+                        self.dataQueue.put(None)
+                        
+                self.dataQueue.task_done()
                 
         
     def start_other_threads(self):
         threading.Thread(target=self.immediateQueueThread, daemon=True).start()
         threading.Thread(target=self.monitor, daemon=True).start()
         threading.Thread(target=self.stateQueueThread, daemon=True).start()
+        threading.Thread(target=self.dataQueueThread, daemon=True).start()
         
     def run(self):
         global frameTimes
@@ -182,51 +243,16 @@ class PluginRunnerController():
                     self.queue.put(self.lastData)
                     time.sleep(0.01)
                     continue
-                        
-                if "get" in data: # If the data is a get command, then we need to get the data from another plugin.
-                    plugins = data["get"]
-                    for plugin in plugins:
-                        if "tags." in plugin:
-                            tag = plugin.split("tags.")[1]
-                            try:
-                                count = 0
-                                for plugin in globalData:
-                                    if tag in globalData[plugin]:
-                                        count += 1
-                                        
-                                data = {}
-                                for plugin in globalData:
-                                    if tag in globalData[plugin]:
-                                        if type(globalData[plugin][tag]) == dict:
-                                            if count > 1:
-                                                data = merge(data, globalData[plugin][tag])
-                                            else:
-                                                data = globalData[plugin][tag]
-                                                break
-                                        else: 
-                                            data = globalData[plugin][tag]
-                                self.queue.put(data)
-                            except:
-                                logging.exception(f"Failed to get data from tag {tag}.")
-                                self.queue.put(None)
-                        
-                        if plugin in runners:
-                            try:
-                                self.queue.put(runners[plugin].lastData)
-                            except:
-                                logging.debug(f"Plugin ({self.pluginName}) is trying to get data from another plugin ({plugin}) that has not been initialized yet.")
-                                self.queue.put(None)
-                        else:
-                            self.queue.put(None)
-                else:
-                    self.lastData = data
-                        
             else: # If the data is not a dictionary, we can assume it's return data instead of a command.
                 if type(data) == tuple:
                     normData = data[0]
                     tags = data[1]
                     self.lastData = normData
-                    globalData[self.pluginName] = tags
+                    if self.pluginName not in globalData:
+                        globalData[self.pluginName] = {}
+                    
+                    for tag in tags:
+                        globalData[self.pluginName][tag] = tags[tag]
                 else:
                     self.lastData = data        
         
