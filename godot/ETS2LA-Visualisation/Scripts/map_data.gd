@@ -2,7 +2,7 @@ extends Node
 
 @export var url = "http://127.0.0.1:37520/api/tags/data"
 @export var tag = "map"
-@export var updateRate = 20 # Seconds
+@export var updateRate = 10 # Seconds
 @onready var HTTPRequestObject = $/root/Node3D/HTTPRequest
 @onready var Notifications = $/root/Node3D/UI/Notifications
 

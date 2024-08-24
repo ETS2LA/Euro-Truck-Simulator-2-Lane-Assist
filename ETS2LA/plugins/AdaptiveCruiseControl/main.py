@@ -139,7 +139,7 @@ def plugin():
         
         currentSpeed = apiData['truckFloat']['speed']
         
-        if targetSpeed is None or isinstance(targetSpeed, list):
+        if targetSpeed is None or not isinstance(targetSpeed, float):
             if time.time() - lastTargetSpeedTime > 1:
                 targetSpeed = apiData['truckFloat']['speedLimit']
                 lastTargetSpeed = targetSpeed

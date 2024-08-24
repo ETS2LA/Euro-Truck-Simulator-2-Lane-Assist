@@ -243,8 +243,10 @@ def CreateARData(data, closeRoads, closePrefabs):
     if data["map"]:
         if "allPoints" in data["map"]:
             for i in range(len(data["map"]["allPoints"]) - 2):
+                if i % 2 == 0:
+                    continue # Half the resolution
                 point1 = data["map"]["allPoints"][i]
-                point2 = data["map"]["allPoints"][i + 1]
+                point2 = data["map"]["allPoints"][i + 2]
                 if GetDistanceFromTruck(point1[0], point1[1], data) < EXTERNAL_DATA_RENDER_DISTANCE or GetDistanceFromTruck(point2[0], point2[1], data) < EXTERNAL_DATA_RENDER_DISTANCE:
                     arData['lines'].append(Line((point1[0], point1[2], point1[1]), (point2[0], point2[2], point2[1]), color=[0, 94, 130, 100], thickness=5))
         
@@ -275,6 +277,7 @@ def CreateExternalData(closeRoads, closePrefabs, roadUpdate, prefabUpdate):
             
         dataPrefabs = []
         for prefab in closePrefabs:
+            _ = prefab.CurvePoints # Generate curve points for visualisation
             prefabJson = prefab.json()
             dataPrefabs.append(prefabJson)
 
@@ -370,6 +373,10 @@ def plugin():
         CreateExternalData(closeRoads, closePrefabs, updatedRoads, updatedPrefabs)
         
     runner.Profile("External Data")
+        
+    # Half the resolution of the steering points
+    if COMPUTE_STEERING_DATA:
+        steeringPoints = steeringPoints[::2]
         
     arData = None
     if SEND_AR_DATA:
