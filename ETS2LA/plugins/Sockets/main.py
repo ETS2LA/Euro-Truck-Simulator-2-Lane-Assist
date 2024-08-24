@@ -102,7 +102,7 @@ def vehicles(data):
     
     data["vehicles"] = runner.GetData(["tags.vehicles"])[0] # Get the cars
     
-    if data["vehicles"] is None:
+    if data["vehicles"] is None or type(data["vehicles"]) != list or data["vehicles"] == [] or type(data["vehicles"][0]) != dict:
         if time.time() - lastVehicleStringTime < 1:
             return lastVehicleString
         else:

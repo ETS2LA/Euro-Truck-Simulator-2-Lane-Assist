@@ -28,7 +28,8 @@ func _process(delta: float) -> void:
 			else:
 				self.label_settings.font_color = Color8(0, 0, 0, 100)
 			if RenderSockets != false:
-				textToAdd += "\nSlowest data update took " + str(worstResponseTime) + "ms"
+				var fps = 1000 / (worstResponseTime + 0.01)
+				textToAdd += "\nSlowest data update took " + str(worstResponseTime) + "ms (" + str(round(fps)) + "fps)"
 			
 				responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
 				if Time.get_ticks_msec() - averageResponseShowTime > 1000: # once per second

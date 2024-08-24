@@ -230,9 +230,11 @@ def draw(data):
             if len(valid_points) >= 3 if polygon.closed else len(valid_points) >= 2:
                 dpg.draw_polygon(valid_points, fill=polygon.fill, color=polygon.color, thickness=polygon.thickness)
                 
-        for text in data["overlay"]["texts"]:
-            if None not in text.position:
-                dpg.draw_text(text.position + text.offset, text.text, color=text.color, size=text.size)
+        try:
+            for text in data["overlay"]["texts"]:
+                if None not in text.position:
+                    dpg.draw_text(text.position + text.offset, text.text, color=text.color, size=text.size)
+        except: pass
     
     dpg.render_dearpygui_frame()
 
@@ -436,26 +438,32 @@ def plugin():
             
         else:
             raise Exception("No data")
-        for line in data["overlay"]["lines"]:
-            try:
-                startDistance = math.sqrt((line.start[0] - truck_x) ** 2 + (line.start[2] - truck_z) ** 2)
-                endDistance = math.sqrt((line.end[0] - truck_x) ** 2 + (line.end[2] - truck_z) ** 2)
-                line.start = ConvertToScreenCoordinate(line.start[0], line.start[1], line.start[2])
-                line.end = ConvertToScreenCoordinate(line.end[0], line.end[1], line.end[2])
-                #alpha = int(calculate_alpha(startDistance))
-                #line.color[3] = alpha
-            except:
-                data["overlay"]["lines"].remove(line)
-                continue
-        for text in data["overlay"]["texts"]:
-            try:
-                if len(text.position) == 3:
-                    text.position = ConvertToScreenCoordinate(text.position[0], text.position[1], text.position[2])
-            except:
-                data["overlay"]["texts"].remove(text)
-                continue
+        
+        try:
+            for line in data["overlay"]["lines"]:
+                try:
+                    startDistance = math.sqrt((line.start[0] - truck_x) ** 2 + (line.start[2] - truck_z) ** 2)
+                    endDistance = math.sqrt((line.end[0] - truck_x) ** 2 + (line.end[2] - truck_z) ** 2)
+                    line.start = ConvertToScreenCoordinate(line.start[0], line.start[1], line.start[2])
+                    line.end = ConvertToScreenCoordinate(line.end[0], line.end[1], line.end[2])
+                except:
+                    data["overlay"]["lines"].remove(line)
+                    continue
+        except: pass
+        
+        try:
+            for text in data["overlay"]["texts"]:
+                try:
+                    if len(text.position) == 3:
+                        text.position = ConvertToScreenCoordinate(text.position[0], text.position[1], text.position[2])
+                except:
+                    data["overlay"]["texts"].remove(text)
+                    continue
+        except: pass
             
-        lastOverlayData = data["overlay"]
+        if "overlay" in data:
+            lastOverlayData = data["overlay"]
+            
     except Exception as e:
         if lastOverlayData != None:
             data["overlay"] = lastOverlayData
@@ -467,8 +475,6 @@ def plugin():
             data["overlay"]["boxes"] = []
             data["overlay"]["polygons"] = []
             data["overlay"]["texts"] = []
-
-    data["overlay"]["polygons"].append(Polygon([[x1, y1], [x2, y2], [x3, y3]], fill=[255, 255, 255, int(alpha * 0.5)], color=[255, 255, 255, int(alpha)], closed=True))
 
     try:
         draw(data)

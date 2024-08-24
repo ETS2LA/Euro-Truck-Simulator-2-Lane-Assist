@@ -229,76 +229,24 @@ def DrawInternalVisualisation(data, closeRoads, closePrefabs):
 
 def CreateARData(data, closeRoads, closePrefabs):
     arData = {
-        "lines": [],
-        "circles": [],
-        "boxes": [],
-        "polygons": [],
-        "texts": [],
-        "screenLines": [],
+        "lines": []
+        # "circles": [],
+        # "boxes": [],
+        # "polygons": [],
+        # "texts": [],
+        # "screenLines": [],
     }
     
     x = data["api"]["truckPlacement"]["coordinateX"]
     y = data["api"]["truckPlacement"]["coordinateY"]
-    
-    # Convert each road to a line
-    for road in closeRoads:
-        try:
-            # print(road.ParallelPoints)
-            if road.ParallelPoints == [] or road.ParallelPoints == None or road.ParallelPoints == [[(0, 0), (0, 0)], [(0, 0), (0, 0)]]:
-                continue
-            
-            for lane in road.ParallelPoints: # lane is a list of multiple points forming the curve of the lane
-                startPoint = None
-                index = 0
-                
-                if road == data["map"]["closestItem"]:
-                    color = [0, 255, 0, 100]
-                    if lane == data["map"]["closestLane"]:
-                        color = [0, 0, 255, 255]
-                else:
-                    color = [255, 255, 255, 50]
-                    
-                for point in lane: # point is {x, y}
-                    if startPoint == None:
-                        startPoint = point
-                        index += 1
-                        continue
-                    if index == 1:
-                        if GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_DATA_RENDER_DISTANCE:
-                            arData['lines'].append(Line((startPoint[0], road.YValues[0], startPoint[1]), (point[0], road.YValues[1], point[1]), color=color, thickness=5))
-                    else:
-                        if GetDistanceFromTruck(point[0], point[1], data) < EXTERNAL_DATA_RENDER_DISTANCE:
-                            arData['lines'].append(Line((lane[index - 1][0], road.YValues[index - 1], lane[index - 1][1]), (point[0], road.YValues[index], point[1]), color=color, thickness=5))
-                    index += 1
-        except:
-            import traceback
-            traceback.print_exc()
-            continue
         
-    for prefab in closePrefabs:
-        try:
-            try:
-                originNode = prefab.Nodes[0]
-                prefabY = originNode.Y
-            except:
-                prefabY = y
-            # Draw the curves
-            for curve in prefab.NavigationLanes:
-                if curve == data["map"]["closestLane"]:
-                    color = [0, 0, 255, 255]
-                if prefab == data["map"]["closestItem"]:
-                    color = [0, 255, 0, 100]
-                else:
-                    color = [255, 255, 255, 50]
-                    
-                startXY = (curve[0], prefabY, curve[1])
-                endXY = (curve[2], prefabY, curve[3])
-                if GetDistanceFromTruck(startXY[0], startXY[2], data) < EXTERNAL_DATA_RENDER_DISTANCE or GetDistanceFromTruck(endXY[0], endXY[2], data) < EXTERNAL_DATA_RENDER_DISTANCE:
-                    arData['lines'].append(Line(startXY, endXY, color=color, thickness=5))
-        except:
-            import traceback
-            traceback.print_exc()
-            continue
+    if data["map"]:
+        if "allPoints" in data["map"]:
+            for i in range(len(data["map"]["allPoints"]) - 2):
+                point1 = data["map"]["allPoints"][i]
+                point2 = data["map"]["allPoints"][i + 1]
+                if GetDistanceFromTruck(point1[0], point1[1], data) < EXTERNAL_DATA_RENDER_DISTANCE or GetDistanceFromTruck(point2[0], point2[1], data) < EXTERNAL_DATA_RENDER_DISTANCE:
+                    arData['lines'].append(Line((point1[0], point1[2], point1[1]), (point2[0], point2[2], point2[1]), color=[0, 94, 130, 100], thickness=5))
         
     return arData
 

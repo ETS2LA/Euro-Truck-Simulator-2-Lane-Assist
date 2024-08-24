@@ -23,9 +23,7 @@ func send_request() -> void:
 	})
 	Notifications.SendNotification("Getting new map data...", 2000)
 	HTTPRequestObject.request_completed.connect(parse_request)
-	print(json)
 	HTTPRequestObject.request(url, headers, HTTPClient.METHOD_POST, json)
-	print("Request map data...")
 
 func parse_request(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())

@@ -14,6 +14,18 @@ import os
 
 commits_save = []
 
+# https://stackoverflow.com/a/7205107
+def merge(a: dict, b: dict, path=[]):
+    for key in b:
+        if key in a:
+            if isinstance(a[key], dict) and isinstance(b[key], dict):
+                merge(a[key], b[key], path + [str(key)])
+            elif a[key] != b[key]:
+                raise Exception('Conflict at ' + '.'.join(path + [str(key)]))
+        else:
+            a[key] = b[key]
+    return a
+
 class PluginRunnerController():
     def __init__(self, pluginName, temporary=False):
         global runners
@@ -177,8 +189,25 @@ class PluginRunnerController():
                         if "tags." in plugin:
                             tag = plugin.split("tags.")[1]
                             try:
-                                self.queue.put(globalData[tag])
+                                count = 0
+                                for plugin in globalData:
+                                    if tag in globalData[plugin]:
+                                        count += 1
+                                        
+                                data = {}
+                                for plugin in globalData:
+                                    if tag in globalData[plugin]:
+                                        if type(globalData[plugin][tag]) == dict:
+                                            if count > 1:
+                                                data = merge(data, globalData[plugin][tag])
+                                            else:
+                                                data = globalData[plugin][tag]
+                                                break
+                                        else: 
+                                            data = globalData[plugin][tag]
+                                self.queue.put(data)
                             except:
+                                logging.exception(f"Failed to get data from tag {tag}.")
                                 self.queue.put(None)
                         
                         if plugin in runners:
@@ -197,7 +226,7 @@ class PluginRunnerController():
                     normData = data[0]
                     tags = data[1]
                     self.lastData = normData
-                    globalData.update(tags) # TODO: This is a temporary solution. We need to find a better way to handle this.
+                    globalData[self.pluginName] = tags
                 else:
                     self.lastData = data        
         

@@ -127,9 +127,9 @@ func _process(delta: float) -> void:
 		var data = MapData.MapData
 		var dark = Variables.darkMode
 		var totalLines = 0
-		if data != lastData or reload and "roads" in data and "prefabs" in data:
+		if data != lastData and data != {} or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
-			
+
 			#for n in self.get_children():
 			#	self.remove_child(n)
 			#	n.queue_free() 
