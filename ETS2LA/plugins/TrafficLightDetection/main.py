@@ -1,9 +1,9 @@
 from ETS2LA.networking.cloud import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner
-import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
 import ETS2LA.utils.console as console
-import ETS2LA.utils.pytorch as pytorch
+import ETS2LA.utils.modules as modules
+import ETS2LA.variables as variables
 
 if variables.OS == "nt":
     from ctypes import windll, byref, sizeof, c_int
@@ -55,6 +55,21 @@ last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 
 def Initialize():
+    global TorchAvailable
+    if TorchAvailable == False:
+        modules.CheckPyTorch(runner)
+        try:
+            global transforms, BeautifulSoup, requests, torch
+            from torchvision import transforms
+            from bs4 import BeautifulSoup
+            import requests
+            import torch
+            TorchAvailable = True
+        except:
+            TorchAvailable = False
+    if TorchAvailable == True:
+        modules.CheckNumPy(runner)
+
     global TruckSimAPI
     global ScreenCapture
 
@@ -263,19 +278,6 @@ def Initialize():
     lower_yellow_advanced = np.array([lyr, lyg, lyb])
     upper_green_advanced = np.array([ugr, ugg, ugb])
     lower_green_advanced = np.array([lgr, lgg, lgb])
-
-
-if TorchAvailable == False:
-    pytorch.CheckPyTorch()
-    try:
-        from torchvision import transforms
-        from bs4 import BeautifulSoup
-        import requests
-        import torch
-        TorchAvailable = True
-        Initialize()
-    except:
-        TorchAvailable = False
 
 
 UpdatingSettings = False
@@ -559,7 +561,6 @@ def ClassifyImage(image):
 
 def HandleCorruptedAIModel():
     DeleteAllAIModels()
-    print("HANDLE")
     CheckForAIModelUpdates(ForceUpdate=True)
     while AIModelUpdateThread.is_alive(): time.sleep(0.1)
     time.sleep(0.5)

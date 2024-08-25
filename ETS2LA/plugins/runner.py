@@ -260,6 +260,32 @@ class PluginRunner():
             self.frametimes = []
             self.executiontimes = []
             
+    def UpdateState(self):
+        try:
+            avgFrametime = sum(self.frametimes) / len(self.frametimes)
+            avgExecTime = sum(self.executiontimes) / len(self.executiontimes)
+        except:
+            avgFrametime = 0
+            avgExecTime = 0
+            
+        self.sq.put({
+            "frametimes": {
+                f"{self.plugin_path_name}": {
+                    "frametime": avgFrametime,
+                    "executiontime": avgExecTime
+                }
+            },
+            "state": {
+                "state": self.state,
+                "progress": self.state_progress
+            },
+            "data": self.data 
+        })
+        logging.info(f"PluginRunner: {self.plugin_path_name} is running at {round(1 / (avgFrametime if avgFrametime != 0 else 0.001),2)} FPS")
+        self.timer = time.time()
+        self.frametimes = []
+        self.executiontimes = []
+
     def Profile(self, name):
         timeSinceStart = time.time() - self.profileStartTime
         timeSinceStart *= 1000

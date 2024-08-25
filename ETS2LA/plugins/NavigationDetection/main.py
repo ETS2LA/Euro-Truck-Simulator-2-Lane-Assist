@@ -2,9 +2,9 @@ from ETS2LA.networking.cloud import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
-import ETS2LA.utils.console as console
-import ETS2LA.utils.pytorch as pytorch
 import ETS2LA.backend.sounds as sounds
+import ETS2LA.utils.console as console
+import ETS2LA.utils.modules as modules
 import ETS2LA.variables as variables
 
 if variables.OS == "nt":
@@ -154,6 +154,21 @@ last_ScreenCaptureCheck = 0
 # Settings
 ############################################################################################################################
 def Initialize():
+    global TorchAvailable
+    if TorchAvailable == False:
+        modules.CheckPyTorch(runner)
+        try:
+            global transforms, BeautifulSoup, requests, torch
+            from torchvision import transforms
+            from bs4 import BeautifulSoup
+            import requests
+            import torch
+            TorchAvailable = True
+        except:
+            TorchAvailable = False
+    if TorchAvailable == True:
+        modules.CheckNumPy(runner)
+
     global Steering
     global ShowImage
     global TruckSimAPI
@@ -314,19 +329,6 @@ def Initialize():
     lanechanging_width = settings.Get("NavigationDetection", "LaneChangeWidth", 10)
     lanechanging_current_lane = 0
     lanechanging_final_offset = 0
-
-
-if TorchAvailable == False:
-    pytorch.CheckPyTorch()
-    try:
-        from torchvision import transforms
-        from bs4 import BeautifulSoup
-        import requests
-        import torch
-        TorchAvailable = True
-        Initialize()
-    except:
-        TorchAvailable = False
 
 
 UpdatingSettings = False
