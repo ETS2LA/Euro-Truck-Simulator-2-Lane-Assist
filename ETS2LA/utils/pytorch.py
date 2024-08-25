@@ -11,7 +11,7 @@ NORMAL = "\033[0m"
 
 ALLOW_INSTALL = True
 
-def CheckPyTorch():
+def CheckPyTorch(runner):
     path = os.path.dirname(os.path.dirname(os.path.dirname(variables.PATH))) + "/"
 
     def UpdatePyTorch(command, module):
@@ -19,6 +19,7 @@ def CheckPyTorch():
         while ALLOW_INSTALL == False:
             time.sleep(0.1)
         ALLOW_INSTALL = False
+        console.RestoreConsole()
         print(GREEN + f"\nThe app is working on a fix for the problem with '{module}', please don't close the app, it could take a few minutes." + NORMAL)
         command = str(command).replace("/", "\\")
         subprocess.run(command, shell=True)
@@ -60,5 +61,35 @@ def CheckPyTorch():
 
     else:
 
-        print(RED + "The app is not installed in a virtual environment, please check yourself why PyTorch is not working." + NORMAL)
-        console.RestoreConsole()
+        if runner.ask("The app is not installed in a virtual environment, are you fine with the code modifying your global torch, torchvision and torchaudio modules to solve the problem with torch, torchvision and torchaudio so you are able to use the AI features?") == "Yes":
+            result = subprocess.run("pip list", shell=True, capture_output=True, text=True)
+            modules = result.stdout
+            torch_found = False
+            torchvision_found = False
+            torchaudio_found = False
+            for module in modules.splitlines():
+                if "torch " in module:
+                    torch_found = True
+                    if "cu" in module:
+                        threading.Thread(target=UpdatePyTorch, args=("pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cu121 --force-reinstall", "torchaudio")).start()
+                    else:
+                        threading.Thread(target=UpdatePyTorch, args=("pip install torch==2.3.1 --force-reinstall", "torch")).start()
+                elif "torchvision " in module:
+                    torchvision_found = True
+                    if "cu" in module:
+                        threading.Thread(target=UpdatePyTorch, args=("pip install torchvision==0.18.1 --index-url https://download.pytorch.org/whl/cu121 --force-reinstall", "torchaudio")).start()
+                    else:
+                        threading.Thread(target=UpdatePyTorch, args=("pip install torchvision==0.18.1 --force-reinstall", "torchvision")).start()
+                elif "torchaudio " in module:
+                    torchaudio_found = True
+                    if "cu" in module:
+                        threading.Thread(target=UpdatePyTorch, args=("pip install torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu121 --force-reinstall", "torchaudio")).start()
+                    else:
+                        threading.Thread(target=UpdatePyTorch, args=("pip install torchaudio==2.3.1 --force-reinstall", "torchaudio")).start()
+
+            if torch_found == False:
+                threading.Thread(target=UpdatePyTorch, args=("pip install torch==2.3.1 --force-reinstall", "torch")).start()
+            if torchvision_found == False:
+                threading.Thread(target=UpdatePyTorch, args=("pip install torchvision==0.18.1 --force-reinstall", "torchvision")).start()
+            if torchaudio_found == False:
+                threading.Thread(target=UpdatePyTorch, args=("pip install torchaudio==2.3.1 --force-reinstall", "torchaudio")).start()

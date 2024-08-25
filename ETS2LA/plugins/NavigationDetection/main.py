@@ -36,7 +36,6 @@ except:
     exc = traceback.format_exc()
     SendCrashReport("NavigationDetection - PyTorch import error.", str(exc))
     print(RED + f"NavigationDetection - PyTorch import Error:\n" + NORMAL + str(exc))
-    pytorch.CheckPyTorch()
     console.RestoreConsole()
 
 
@@ -251,7 +250,7 @@ def Initialize():
             console.RestoreConsole()
     UseAI = settings.Get("NavigationDetection", "UseNavigationDetectionAI", True)
     UseCUDA = settings.Get("NavigationDetection", "TryToUseYourGPUToRunTheAI", True)
-    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
+    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu') if TorchAvailable else None
 
 
     map_topleft, map_bottomright, arrow_topleft, arrow_bottomright = GetRouteAdvisorPosition()
@@ -317,6 +316,19 @@ def Initialize():
     lanechanging_final_offset = 0
 
 
+if TorchAvailable == False:
+    pytorch.CheckPyTorch()
+    try:
+        from torchvision import transforms
+        from bs4 import BeautifulSoup
+        import requests
+        import torch
+        TorchAvailable = True
+        Initialize()
+    except:
+        TorchAvailable = False
+
+
 UpdatingSettings = False
 def UpdateSettings():
     global UpdatingSettings
@@ -333,12 +345,11 @@ def UpdateSettings():
     UpdatingSettings = True
     time.sleep(0.25)
     Old_UseAI = UseAI
-    Old_UseCUDA = UseCUDA
     Old_AIDevice = AIDevice
     UseAI = settings.Get("NavigationDetection", "UseNavigationDetectionAI", True)
     UseCUDA = settings.Get("NavigationDetection", "TryToUseYourGPUToRunTheAI", True)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
-    if Old_UseAI != UseAI or Old_UseCUDA != UseCUDA or Old_AIDevice != AIDevice:
+    if (Old_UseAI != UseAI or Old_AIDevice != AIDevice) and UseAI == True:
         if TorchAvailable == True:
             LoadAIModel()
         else:
@@ -350,10 +361,12 @@ def UpdateSettings():
     lanechanging_speed = settings.Get("NavigationDetection", "LaneChangeSpeed", 1)
     lanechanging_width = settings.Get("NavigationDetection", "LaneChangeWidth", 10)
     UpdatingSettings = False
-    return True
+settings.Listen("NavigationDetection", UpdateSettings)
 
 
 def GetAIDevice():
+    if TorchAvailable == False:
+        return "Unknown"
     return "CUDA" if torch.cuda.is_available() and settings.Get("NavigationDetection", "TryToUseYourGPUToRunTheAI", False) == True else "CPU" if TorchAvailable else "Unknown"
 
 

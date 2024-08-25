@@ -35,7 +35,6 @@ except:
     exc = traceback.format_exc()
     SendCrashReport("TrafficLightDetection - PyTorch import error.", str(exc))
     print(RED + f"TrafficLightDetection - PyTorch import Error:\n" + NORMAL + str(exc))
-    pytorch.CheckPyTorch()
     console.RestoreConsole()
 
 sct = mss.mss()
@@ -118,7 +117,7 @@ def Initialize():
             console.RestoreConsole()
     UseAI = settings.Get("TrafficLightDetection", "UseAIToConfirmTrafficLights", True)
     UseCUDA = settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False)
-    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
+    AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu') if TorchAvailable else None
 
     finalwindow = settings.Get("TrafficLightDetection", "FinalWindow", True)
     grayscalewindow = settings.Get("TrafficLightDetection", "GrayscaleWindow", False)
@@ -266,6 +265,19 @@ def Initialize():
     lower_green_advanced = np.array([lgr, lgg, lgb])
 
 
+if TorchAvailable == False:
+    pytorch.CheckPyTorch()
+    try:
+        from torchvision import transforms
+        from bs4 import BeautifulSoup
+        import requests
+        import torch
+        TorchAvailable = True
+        Initialize()
+    except:
+        TorchAvailable = False
+
+
 UpdatingSettings = False
 def UpdateSettings():
     global UpdatingSettings
@@ -302,12 +314,11 @@ def UpdateSettings():
     UpdatingSettings = True
     time.sleep(0.25)
     Old_UseAI = UseAI
-    Old_UseCUDA = UseCUDA
     Old_AIDevice = AIDevice
     UseAI = settings.Get("TrafficLightDetection", "UseAIToConfirmTrafficLights", True)
     UseCUDA = settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False)
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu')
-    if Old_UseAI != UseAI or Old_UseCUDA != UseCUDA or Old_AIDevice != AIDevice:
+    if (Old_UseAI != UseAI or Old_AIDevice != AIDevice) and UseAI == True:
         if TorchAvailable == True:
             LoadAIModel()
         else:
@@ -432,7 +443,7 @@ def UpdateSettings():
     upper_green_advanced = np.array([ugr, ugg, ugb])
     lower_green_advanced = np.array([lgr, lgg, lgb])
     UpdatingSettings = False
-    return True
+settings.Listen("TrafficLightDetection", UpdateSettings)
 
 
 def GetScreenSize():
@@ -444,6 +455,8 @@ def GetScreenSize():
 
 
 def GetAIDevice():
+    if TorchAvailable == False:
+        return "Unknown"
     return "CUDA" if torch.cuda.is_available() and settings.Get("TrafficLightDetection", "TryToUseYourGPUToRunTheAI", False) == True else "CPU" if TorchAvailable else "Unknown"
 
 
