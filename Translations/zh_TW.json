@@ -245,7 +245,7 @@
     "plugins.ar": "虛擬實境 (AR)",
     "plugins.ar.description": "開發中... 插件會在遊戲中繪製形狀，使它們看起來像是在遊戲世界中。",
     "plugins.cruisecontrol": "巡航控制",
-    "plugins.cruisecontrol.description": "將遊戲內的巡航控制設置為正確的速度。",
+    "plugins.cruisecontrol.description": "將遊戲內的巡航控制設定為正確的速度。",
     "plugins.datacollection": "數據收集",
     "plugins.datacollection.description": "用於車輛辨識插件的數據收集。",
     "plugins.depthprediction": "深度預測",
@@ -338,7 +338,7 @@
     "map.visualisation.prefabs.prefabs": "預設物件：{0}，區塊：{1}",
     "map.visualisation.prefabs.curves": "彎道：{0}",
     "map.extracting_data": "正在取得 GameData.zip 資料，請稍候...",
-    "map.settings.10.title": "轉向設置",
+    "map.settings.10.title": "轉向設定",
     "map.settings.11.name":"平滑度",
     "map.settings.11.description":"平滑轉向的時間（以秒為單位）。值為0時，轉向會非常靈敏；值大於0.5時，可能會導致左右搖擺。"
 }
