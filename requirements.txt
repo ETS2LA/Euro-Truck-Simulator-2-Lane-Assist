@@ -1,7 +1,9 @@
 opencv-contrib-python
 tkinter-tooltip
 beautifulsoup4
+pywebview==5.1
 opencv-python
+numpy==1.26.4
 transformers
 proxy_tools
 ultralytics
@@ -9,7 +11,6 @@ torchvision
 setuptools
 websockets
 screeninfo
-pywebview
 pyautogui
 gitpython
 dearpygui
@@ -27,7 +28,6 @@ pygame
 sv_ttk
 mouse
 scipy
-numpy
 torch
 ftfy
 rich
