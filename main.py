@@ -1,4 +1,11 @@
-from ETS2LA.utils.translator import Translate
+try:
+    from ETS2LA.utils.translator import Translate
+except:
+    import sys
+    import os
+    sys.path.append(os.path.dirname(__file__))
+    from ETS2LA.utils.translator import Translate
+    
 import ETS2LA.networking.cloud as cloud
 from multiprocessing import Queue
 from rich.console import Console

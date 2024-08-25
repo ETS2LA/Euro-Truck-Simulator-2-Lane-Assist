@@ -1,3 +1,4 @@
+git+https://github.com/rodjjo/filterpy.git
 opencv-contrib-python
 tkinter-tooltip
 beautifulsoup4

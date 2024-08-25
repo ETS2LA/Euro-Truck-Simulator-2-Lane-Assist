@@ -304,6 +304,9 @@
     "map.settings.8.description": "Ez beállítja az adat maximális távolságát, amelyet más plugineknek küldesz. Feltételezve, hogy azt a plugin engedélyezi.",
     "map.settings.9.name": "AR Adatok Megjelenítése",
     "map.settings.9.description": "Ez megjeleníti az utakat a játékodon, szükséged lesz az AR plugin engedélyezésére is.",
+    "map.settings.10.title": "Kormányzási beállítások",
+    "map.settings.11.name": "Holtjáték",
+    "map.settings.11.description": "Hány másodperc alatt reagáljon a kormány? A 0 érték sazonnali reakciót ad, míg a több, mint 0.5 lehetséges, hogy kacsázáshoz vezet.",
 
     "object_detection.settings.1.title": "Objektum Detektálási Beállítások",
     "object_detection.settings.1.description": "Ezek a beállítások befolyásolják az objektum detektálás minőségét és teljesítményét.",
