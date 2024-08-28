@@ -306,6 +306,8 @@
     "map.settings.8.description": "這將設定發送給其他插件的數據的最大距離，前提是該插件允許。",
     "map.settings.9.name": "顯示 AR 數據",
     "map.settings.9.description": "這將顯示遊戲中的道路，您還需要啟用 AR 插件。",
+    "map.settings.12.name": "在ETS2LA上導航",
+    "map.settings.12.description": "將計算齣到達目的地所需的路徑。免責聲明：此路綫不保証是最快的路綫。!",
 
     "object_detection.settings.1.title": "物體辨識設定",
     "object_detection.settings.1.description": "這些設定將影響物體辨識的品質和效能。",
@@ -331,6 +333,7 @@
     "map.loading.preparing": "準備載入數據中...",
     "map.loading.nodes": "載入資料點...",
     "map.loading.roads": "載入道路中...",
+    "map.loading.ferries": "載入輪渡中...",
     "map.loading.prefab_data": "載入預設物件資料中...",
     "map.loading.prefabs": "載入預設物件中...",
     "map.loading.final_calculations": "進行最後計算中...",
