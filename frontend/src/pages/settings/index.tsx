@@ -62,10 +62,10 @@ export default function Home({ ip }: { ip: string }) {
                         <ResizablePanel defaultSize={20}>
                             <ScrollArea className="h-full pt-4" type="hover">
                                 <div className="flex flex-col gap-2 text-start">
-                                    <Button key={"Global"} className="items-center justify-start text-sm" variant={selectedPlugin == "Global" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Global")}>
+                                    <Button key={"Global"} className="items-center justify-start text-sm rounded-r-none" variant={selectedPlugin == "Global" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Global")}>
                                         {translate("frontend.settings.global")}
                                     </Button>
-                                    <Button key={"Controls"} className="items-center justify-start text-sm" variant={selectedPlugin == "Controls" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Controls")}>
+                                    <Button key={"Controls"} className="items-center justify-start text-sm rounded-r-none" variant={selectedPlugin == "Controls" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Controls")}>
                                         {translate("frontend.settings.controls")}
                                     </Button>
                                     <br />
