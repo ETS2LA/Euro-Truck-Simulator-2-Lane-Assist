@@ -242,7 +242,7 @@
     "plugins.discordrichpresence.description": "Discord Rich Presence laajennus ETS2LA:lle.",
     "plugins.map": "Kartta",
     "plugins.map.description": "Karttatietojen visualisointi ja lukeminen pelist\u00e4. HUOMIO: T\u00e4ytyy olla p\u00e4\u00e4ll\u00e4 melkein jokaisessa tilanteessa.",
-    "plugins.microcontrollercontrol": "Mirkro-ohjaimien tuki",
+    "plugins.microcontrollercontrol": "Mikro-ohjaimien tuki",
     "plugins.microcontrollercontrol.description": "Antaa mikro-ohjaimien (kuten arduino) ohjata ETS2LA:ta ja peli\u00e4 sen kautta.",
     "plugins.navigationdetection": "Navigaatio ohjaus",
     "plugins.navigationdetection.description": "Sama kuin ETS2LA V1.0:ssa - Ohjaa rekkaa pienen kartan navigaation avulla.",
