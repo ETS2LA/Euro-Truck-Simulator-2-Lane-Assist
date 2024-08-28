@@ -44,6 +44,15 @@
             }]
         },
         {
+            "name": "map.settings.12.name",
+            "key": "Navigation",
+            "description": "map.settings.12.description",
+            "requires_restart": true,
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
             "name": "map.settings.2.name",
             "key": "ComputeSteeringData",
             "description": "map.settings.2.description",

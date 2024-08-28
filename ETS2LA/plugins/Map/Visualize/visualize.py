@@ -15,6 +15,7 @@ print = logging.info
 runner: PluginRunner = None
 LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
 
+# MARK: Roads
 def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
     """Will draw the roads onto the image.
     data: The game data
@@ -128,6 +129,12 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
             try:
                 if drawText:
                     cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1] + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                    try:
+                        lengths = road.Lengths
+                        average = sum(lengths) / len(lengths)
+                        cv2.putText(img, f"Length: {round(average, 1)}m", (firstPoint[0], firstPoint[1] + 40), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                    except:
+                        pass
             except: 
                 pass
             
@@ -148,6 +155,7 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
     return img
 
 
+# MARK: Prefabs
 def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
     """Will draw the prefabs onto the image.
 
@@ -334,8 +342,7 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
                         cv2.fillPoly(img, [np.int32(list(drawable[0].values()))], drawable[2])
                     
             
-            #sys.stdout.write(f"Visualized {len(item.Prefab.MapPoints)} prefab points in {round((time.time() - startTime) * 1000, 1)} ms\n")   
-            
+            #sys.stdout.write(f"Visualized {len(item.Prefab.MapPoints)} prefab points in {round((time.time() - startTime) * 1000, 1)} ms\n")
             prefabOrigin = (item.X, item.Z)
             prefabXY = roads.GetLocalCoordinateInTile(prefabOrigin[0], prefabOrigin[1], prefabTileCoords[0], prefabTileCoords[1])
             prefabXY = (prefabXY[0] - truckXY[0], prefabXY[1] - truckXY[1])
@@ -359,6 +366,8 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
     #sys.stdout.write(f"Visualized {len(areaItems)} prefabs in {round((endTime - startTime) * 1000, 1)} ms     \r")
     return img
 
+# MARK: Rotate
+
 def RotateAroundCenter(point, center, angle):
     """Rotate a point around a center point.
 
@@ -375,6 +384,8 @@ def RotateAroundCenter(point, center, angle):
     newx = pointX * math.cos(angle) - pointY * math.sin(angle)
     newy = pointX * math.sin(angle) + pointY * math.cos(angle)
     return (int(newx + center[0]), int(newy + center[1]))
+
+# MARK: Truck
 
 def VisualizeTruck(data, img=None, zoom=2):
     """Will draw the truck onto the image.
@@ -521,6 +532,7 @@ def VisualizeTruck(data, img=None, zoom=2):
         
     return img
 
+# MARK: Traffic Lights
 
 def VisualizeTrafficLights(data, img=None, zoom=2):
     if img is None:

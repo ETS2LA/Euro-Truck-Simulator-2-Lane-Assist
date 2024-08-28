@@ -64,6 +64,7 @@ class PrefabItem:
     _CurvePoints = [[]]
     EndPoints = []
     BoundingBox = []
+    FerryUid = 0
     
     @property
     def CurvePoints(self):
@@ -345,6 +346,7 @@ def LoadPrefabItems():
         itemObj.Padding = item["Padding"]
         itemObj.Prefab = item["Prefab"]
         itemObj.IsSecret = item["IsSecret"]
+        itemObj.FerryUid = item["FerryUid"]
         #itemObj.CurvePoints = item["curvePoints"]
         
         if itemObj.Valid:
@@ -538,3 +540,10 @@ def GetPrefabItemByUid(uid):
         for item in prefabItems:
             if item.Uid == uid:
                 return item
+            
+def FindItemsWithFerryUid(uid):
+    items = []
+    for item in prefabItems:
+        if item.FerryUid == uid:
+            items.append(item)
+    return items

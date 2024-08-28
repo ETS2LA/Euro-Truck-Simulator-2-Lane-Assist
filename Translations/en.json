@@ -287,10 +287,7 @@
     "global.settings.8.description": "The language to use for the app. Needs a restart to apply changes!",
     "global.settings.9.name": "Frameless",
     "global.settings.9.description": "Whether to use a frameless window for the app. Needs a full restart to apply changes! Will fix problems with moving the app window around. Also enables scaling.",
-    "map.settings.10.title": "Steering Settings",
-    "map.settings.11.name": "Smoothness",
-    "map.settings.11.description": "The amount of seconds to smooth the steering over. A value of 0 will be extremely snappy, while a value over 0.5 might swing left and right.",
-
+    
     "map.settings.1.title": "Map Settings",
     "map.settings.1.description": "These settings are for the map plugin.",
     "map.settings.2.name": "Calculate Steering",
@@ -307,7 +304,12 @@
     "map.settings.8.description": "This will set the max distance of the data send to other plugins. Assuming it is allowed by the plugin.",
     "map.settings.9.name": "Show AR data",
     "map.settings.9.description": "This will show the roads over your game, you need to enable the AR plugin too.",
-
+    "map.settings.10.title": "Steering Settings",
+    "map.settings.11.name": "Smoothness",
+    "map.settings.11.description": "The amount of seconds to smooth the steering over. A value of 0 will be extremely snappy, while a value over 0.5 might swing left and right.",
+    "map.settings.12.name": "Navigate on ETS2LA",
+    "map.settings.12.description": "Will calculate the necessary path to follow a route to your destination. Disclaimer: This route is not guaranteed to be the fastest!",
+    
     "object_detection.settings.1.title": "Object Detection Settings",
     "object_detection.settings.1.description": "These settings will affect the quality and performance of the object detection.",
     "object_detection.settings.2.name": "Device",
@@ -332,6 +334,7 @@
     "map.loading.preparing": "Map preparing to load data...",
     "map.loading.nodes": "Map Loading nodes...",
     "map.loading.roads": "Map Loading roads...",
+    "map.loading.ferries": "Map Loading ferries...",
     "map.loading.prefab_data": "Map Loading prefab data...",
     "map.loading.prefabs": "Map Loading prefabs...",
     "map.loading.final_calculations": "Map doing final calculations...",

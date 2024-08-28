@@ -41,9 +41,38 @@ class Road():
     Points = None
     IsSecret = False
     ConnectedPrefabItems = []
-    ParallelPoints = []
+    _ParallelPoints = []
+    _Lengths = []
     LaneWidth = 0
     BoundingBox = []
+    
+    @property
+    def ParallelPoints(self):
+        return self._ParallelPoints
+    
+    @ParallelPoints.setter
+    def ParallelPoints(self, value):
+        self._ParallelPoints = value
+        self.Lengths = []
+        for i in range(len(value)):
+            length = 0
+            lastPosition = None
+            for j in range(len(value[i])):
+                if lastPosition != None:
+                    length += math.sqrt(math.pow(value[i][j][0] - lastPosition[0], 2) + math.pow(value[i][j][1] - lastPosition[1], 2))
+                lastPosition = value[i][j]
+            self.Lengths.append(length)
+    
+    @property
+    def Lengths(self):
+        if self._Lengths == []:
+            nodeDistance = math.sqrt(math.pow(self.StartNode.X - self.EndNode.X, 2) + math.pow(self.StartNode.Z - self.EndNode.Z, 2))
+            self._Lengths = [nodeDistance]
+        return self._Lengths
+    
+    @Lengths.setter
+    def Lengths(self, value):
+        self._Lengths = value
     
     def json(self):
         returnJson = {
@@ -96,6 +125,9 @@ class Road():
         self.LaneWidth = json["LaneWidth"]
         
         return self
+    
+    def HeuristicDistance(self, x, z):
+        return abs(self.X - x) + abs(self.Z - z)
 
 class RoadLook():
     name = ""

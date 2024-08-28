@@ -20,9 +20,11 @@ import ETS2LA.variables as variables
 # Plugin imports
 from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems
 import ETS2LA.plugins.Map.GameData.extractor as extractor
+import ETS2LA.plugins.Map.GameData.ferries as ferries
 import ETS2LA.plugins.Map.Compute.compute as compute
 plotter = importlib.import_module("Compute.plotter")
 visualize = importlib.import_module("Visualize.visualize")
+navigation = importlib.import_module("Compute.navigation")
 
 runner:PluginRunner = None
 
@@ -33,6 +35,7 @@ STEERING_ENABLED = False
 SEND_AR_DATA = settings.Get("Map", "SendARData", False)
 SEND_EXTERNAL_DATA = settings.Get("Map", "SendExternalData", True)
 EXTERNAL_DATA_RENDER_DISTANCE = settings.Get("Map", "ExternalDataRenderDistance", 200) # meters
+NAVIGATION = settings.Get("Map", "Navigation", True) # whether to use the navigation system
 
 INTERNAL_VISUALISATION = settings.Get("Map", "InternalVisualisation", True)
 ZOOM = settings.Get("Map", "Zoom", 1)
@@ -108,6 +111,23 @@ def UpdateVisualize():
         # Update the visualize code
         importlib.reload(visualize)
         visualize.runner = runner
+        
+navigationHash = None
+def UpdateNavigation():
+    global navigationHash
+    global navigation
+    filepath = variables.PATH + "ETS2LA/plugins/Map/Compute/navigation.py"
+    
+    currentHash = ""
+    with open(filepath, "r") as file:
+        currentHash = hash(file.read())
+    
+    if currentHash != navigationHash:
+        logging.warning("Reloading navigation")
+        navigationHash = currentHash
+        # Update the navigation code
+        importlib.reload(navigation)
+        navigation.runner = runner
 
 def GetDistanceFromTruck(x, z, data):
     truckX = data["api"]["truckPlacement"]["coordinateX"]
@@ -145,6 +165,7 @@ def LoadGameData():
         task2 = progress.add_task("[green]roads[/green]", total=100)
         task3 = progress.add_task("[green]prefab data[/green]", total=100)
         task4 = progress.add_task("[green]prefabs[/green]", total=100)
+        task6 = progress.add_task("[green]ferries[/green]", total=100)
         task5 = progress.add_task("[green]calculations[/green]", total=100)
         
         if nodes.nodes == []:
@@ -159,7 +180,7 @@ def LoadGameData():
         if roads.roads == []:
             #roads.limitToCount = 10000
             runner.state = Translate("map.loading.roads")
-            runner.state_progress = 0.2
+            runner.state_progress = 0.15
             roads.task = task2
             roads.progress = progress
             roads.LoadRoads()
@@ -168,7 +189,7 @@ def LoadGameData():
         if prefabs.prefabs == []:
             #prefabs.limitToCount = 500
             runner.state = Translate("map.loading.prefab_data")
-            runner.state_progress = 0.4
+            runner.state_progress = 0.3
             prefabs.task = task3
             prefabs.progress = progress
             prefabs.LoadPrefabs()
@@ -176,15 +197,23 @@ def LoadGameData():
             
         if prefabItems.prefabItems == []:
             runner.state = Translate("map.loading.prefabs")
-            runner.state_progress = 0.6
+            runner.state_progress = 0.45
             prefabItems.task = task4
             prefabItems.progress = progress
             prefabItems.LoadPrefabItems()
             progress.refresh()
+            
+        if ferries.ports == []:
+            runner.state = Translate("map.loading.ferries")
+            runner.state_progress = 0.6
+            ferries.task = task6
+            ferries.progress = progress
+            ferries.LoadFerries()
+            progress.refresh()
         
         if nodes.itemsCalculated == False:
             runner.state = Translate("map.loading.final_calculations")
-            runner.state_progress = 0.8
+            runner.state_progress = 0.75
             nodes.progress = progress
             nodes.task = task5
             nodes.CalculateForwardAndBackwardItemsForNodes()
@@ -210,11 +239,13 @@ def DrawInternalVisualisation(data, closeRoads, closePrefabs):
     if COMPUTE_STEERING_DATA:
         img = visualize.VisualizePoint(data, data["map"]["closestPoint"], img=img, zoom=ZOOM, pointSize=3)
         allPoints = data["map"]["allPoints"]
-        for point in allPoints:
-            img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2)
+        if allPoints != None:
+            for point in allPoints:
+                img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2)
         endPoints = data["map"]["endPoints"]
-        for point in endPoints:
-            img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2, color=(0, 255, 0))
+        if endPoints != None:
+            for point in endPoints:
+                img = visualize.VisualizePoint(data, point, img=img, zoom=ZOOM, pointSize=2, color=(0, 255, 0))
             
         #cv2.putText(img, "Steering enabled (default N)" if STEERING_ENABLED else "Steering disabled (default N)", (10, 190), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
         
@@ -293,6 +324,7 @@ def UpdateSettings():
     global SEND_EXTERNAL_DATA
     global INTERNAL_VISUALISATION
     global ZOOM
+    global NAVIGATION
     global lastUpdate
     global Steering
     
@@ -304,6 +336,7 @@ def UpdateSettings():
     SEND_EXTERNAL_DATA = settings.Get("Map", "SendExternalData", True)
     INTERNAL_VISUALISATION = settings.Get("Map", "InternalVisualisation", True)
     ZOOM = settings.Get("Map", "Zoom", 1)
+    NAVIGATION = settings.Get("Map", "Navigation", True)
     Steering.SMOOTH_TIME = settings.Get("Map", "SteeringSmoothTime", 0.5)
     
     lastUpdate = time.time()
@@ -325,6 +358,7 @@ def plugin():
     UpdateSettings()
     UpdatePlotter()
     UpdateVisualize()
+    UpdateNavigation()
     
     runner.Profile("File Updates")
         
@@ -335,34 +369,52 @@ def plugin():
     
     runner.Profile("Road and Prefab updates")
     
+    
     targetSpeed = data["api"]["truckFloat"]["speedLimit"]
     steeringPoints = []
     if COMPUTE_STEERING_DATA:
-        steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
-        steeringPoints = steeringData["map"]["allPoints"]
-        try: steeringAngle = steeringData["map"]["angle"]
-        except: steeringAngle = 0
-        data.update(steeringData)
-        if steeringAngle is not None and not math.isnan(steeringAngle):
-            Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
-            
-        # Calculate how tight the next 50m of road is
-        distance = 0
-        points = []
-        lastPoint = None
-        for point in steeringPoints:
-            if distance > 50:
-                break
-            if lastPoint is not None:
-                distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
-            points.append(point)
-            lastPoint = point
-        
-        curvature = plotter.CalculateCurvature(points)
-                
-        # Modulate the target speed based on the curvature
-        targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
-        #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
+        truckX = data["api"]["truckPlacement"]["coordinateX"]
+        truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+        closestData = MapUtils.run(truckX, 0, truckZ)
+        if NAVIGATION:
+            try:
+                navigationData = navigation.Update(data, closestData)
+            except:
+                logging.exception("Failed to update navigation data")
+                navigationData = None
+        else:
+            navigationData = None
+            try:
+                cv2.destroyWindow("image")
+            except: pass
+
+        data["map"]["endPoints"] = []
+        data["map"]["allPoints"] = []
+        # steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
+        # steeringPoints = steeringData["map"]["allPoints"]
+        # try: steeringAngle = steeringData["map"]["angle"]
+        # except: steeringAngle = 0
+        # data.update(steeringData)
+        # if steeringAngle is not None and not math.isnan(steeringAngle):
+        #     Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
+        #     
+        # # Calculate how tight the next 50m of road is
+        # distance = 0
+        # points = []
+        # lastPoint = None
+        # for point in steeringPoints:
+        #     if distance > 50:
+        #         break
+        #     if lastPoint is not None:
+        #         distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
+        #     points.append(point)
+        #     lastPoint = point
+        # 
+        # curvature = plotter.CalculateCurvature(points)
+        #         
+        # # Modulate the target speed based on the curvature
+        # targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
+        # #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
         
     runner.Profile("Steering data")
         

@@ -318,5 +318,8 @@
     "map.visualisation.roads.text": "\u9053\u8def\uff1a{0}\uff0c\u533a\u5757\uff1a{1}\uff0c\u52a0\u8f7d\u4e2d\uff1a{2}",
     "map.visualisation.prefabs.prefabs": "\u9884\u8bbe\u5bf9\u8c61\uff1a{0}\uff0c\u533a\u5757\uff1a{1}",
     "map.visualisation.prefabs.curves": "\u5f2f\u9053\uff1a{0}",
-    "map.extracting_data": "\u6b63\u5728\u83b7\u53d6 GameData.zip \u6570\u636e\uff0c\u8bf7\u7a0d\u5019..."
+    "map.extracting_data": "\u6b63\u5728\u83b7\u53d6 GameData.zip \u6570\u636e\uff0c\u8bf7\u7a0d\u5019...",
+    "map.settings.10.title": "\u8f6c\u5411\u8bbe\u7f6e",
+    "map.settings.11.name": "\u5e73\u6ed1\u5ea6",
+    "map.settings.11.description": "\u5e73\u6ed1\u8f6c\u5411\u7684\u65f6\u95f4\uff08\u4ee5\u79d2\u4e3a\u5355\u4f4d\uff09\u3002\u503c\u4e3a0\u65f6\uff0c\u8f6c\u5411\u4f1a\u975e\u5e38\u7075\u654f\uff1b\u503c\u5927\u4e8e0.5\u65f6\uff0c\u53ef\u80fd\u4f1a\u5bfc\u81f4\u5de6\u53f3\u6447\u6446\u3002"
 }

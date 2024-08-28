@@ -9,6 +9,8 @@ import logging
 import math
 import json
 import time
+
+#MARK: Classes
 class RouteItem:
     item: PrefabItem | Road
     points: list[list[float]]
@@ -41,6 +43,7 @@ class RouteItem:
 Route : list[RouteItem] = []
 RouteLength = 2
 
+# MARK: Settings
 def LoadSettings():
     global OFFSET_MULTIPLIER
     global ANGLE_MULTIPLIER
@@ -53,6 +56,7 @@ ANGLE_MULTIPLIER = settings.Get("Map", "AngleMultiplier", 1)
 
 settings.Listen("Map", LoadSettings)
 
+# MARK: References
 def GetItemAndLaneReferences(closestData, MapUtils):
     global Route
     
@@ -80,7 +84,6 @@ def GetItemAndLaneReferences(closestData, MapUtils):
         )
         Route.append(routeItem)
         
-    # MARK: HERE
     elif type(closestItem) == PrefabItem:
         for i, node in enumerate(closestItem.Nodes):
             if type(node) == int:
@@ -119,6 +122,7 @@ def GetItemAndLaneReferences(closestData, MapUtils):
         #CurrentItem = closestItem
         #ClosestLane = closestItem.CurvePoints.index(closestData["closestLane"])
 
+# MARK: Discard points
 def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
     newPoints = []
     truckForwardVector = [-math.sin(rotation), -math.cos(rotation)]
@@ -139,6 +143,7 @@ def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
     
     return newPoints
 
+# MARK: Check inversion
 def NeedInvert(points, truckX, truckY):
     if len(points) < 2:
         return False
@@ -159,6 +164,7 @@ def NeedInvert(points, truckX, truckY):
     
     return False
 
+# MARK: Next item
 def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
     #logging.warning("Getting next item")
     # Check which node is to the front of the truck
@@ -419,6 +425,9 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
         
         return routeItem
         
+# MARK: External
+# AKA. functions that are called from the main file,
+# the only reason they are here is for auto updating on code changes
 def DistanceBetweenPoints(point1, point2):
     return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
@@ -428,6 +437,7 @@ def map_curvature_to_speed_effect(curvature):
     effect = min(max(curvature * factor, min_effect), max_effect)
     return effect
 
+# MARK: Calculate curvature
 def CalculateCurvature(points):
     try:
         # Calculate the dot products of the vectors between the points
@@ -474,6 +484,7 @@ def CalculateCurvature(points):
 
 wasIndicating = False
 
+# MARK: Main Function
 def GetNextPoints(data : dict, MapUtils, Enabled):
     global Route
     global wasIndicating
@@ -524,7 +535,6 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
             Route.append(item)
             #logging.warning(f"Route length: {len(Route)}")
         except:
-            #MARK: HERE
             #logging.exception("Failed to get next item")
             if len(Route) == 0:
                 closestData = MapUtils.run(truckX, 0, truckZ)

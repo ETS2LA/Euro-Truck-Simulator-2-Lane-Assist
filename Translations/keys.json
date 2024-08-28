@@ -269,10 +269,7 @@
     "global.settings.8.description",
     "global.settings.9.name",
     "global.settings.9.description",
-    "map.settings.10.title",
-    "map.settings.11.name",
-    "map.settings.11.description",
-
+    
     "map.settings.1.title",
     "map.settings.1.description",
     "map.settings.2.name",
@@ -289,7 +286,12 @@
     "map.settings.8.description",
     "map.settings.9.name",
     "map.settings.9.description",
-
+    "map.settings.10.title",
+    "map.settings.11.name",
+    "map.settings.11.description",
+    "map.settings.12.name",
+    "map.settings.12.description",
+    
     "object_detection.settings.1.title",
     "object_detection.settings.1.description",
     "object_detection.settings.2.name",
@@ -313,6 +315,7 @@
     "map.loading.roads",
     "map.loading.prefab_data",
     "map.loading.prefabs",
+    "map.loading.ferries",
     "map.loading.final_calculations",
     "map.visualisation.roads.text",
     "map.visualisation.prefabs.prefabs",

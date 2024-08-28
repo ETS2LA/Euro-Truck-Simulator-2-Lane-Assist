@@ -58,6 +58,9 @@ class Node:
         self.Rotation = jsonData["Rotation"]
         return self
     
+    def HeuristicDistance(self, x, z):
+        return abs(self.X - x) + abs(self.Z - z)
+    
 nodes = []
 optimizedNodes = {}
 nodeFileName = PATH + "ETS2LA/plugins/Map/GameData/data/nodes.json"
