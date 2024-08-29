@@ -63,14 +63,16 @@ def LoadSettings():
 # Called Every Time A New Frame Is Available
 lastFrameTime = time.time()
 lastFrame = None
+currentFrame = None
 usingFrame = False
 fpsValues = []
 @capture.event
 def on_frame_arrived(frame: Frame, capture_control: InternalCaptureControl):
-    global lastFrameTime, lastFrame
+    global lastFrameTime, lastFrame, usingFrame, currentFrame
     
     if not usingFrame:
-        lastFrame = frame
+        currentFrame = frame
+        lastFrame = frame.convert_to_bgr().frame_buffer
         fpsValues.append(1 / (time.time() - lastFrameTime))
         while len(fpsValues) > 100:
             fpsValues.pop(0)
@@ -88,9 +90,9 @@ def plugin(data):
     LoadSettings()
     try:
         usingFrame = True
-        data["frameFull"] = lastFrame.convert_to_bgr().frame_buffer
+        data["frameFull"] = lastFrame
         # Crop the frame to the selected area
-        frame = lastFrame.convert_to_bgr().frame_buffer[monitor[1]:monitor[3], monitor[0]:monitor[2]]
+        frame = lastFrame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
         data["frame"] = frame
         data["frameOriginal"] = frame
         usingFrame = False
