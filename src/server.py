@@ -64,6 +64,8 @@ def SendCrashReport(type:str, message:str, additional=None):
             return response.status_code == 200
         else:
             print("Crash detected, but crash reports are not allowed to be sent.")
+            import traceback
+            traceback.print_exc()
     except:
         import traceback
         traceback.print_exc()

@@ -1334,8 +1334,9 @@ def plugin(data):
                 gamepaused = False
                 speed = 0
 
-            cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
-            cv2.rectangle(frame, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
+            frame_bgr = frame.copy()
+            cv2.rectangle(frame_bgr, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
+            cv2.rectangle(frame_bgr, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             lower_red = np.array([0, 0, 160])
             upper_red = np.array([110, 110, 255])
             mask = cv2.inRange(frame, lower_red, upper_red)
@@ -1635,4 +1636,4 @@ class UI():
     except Exception as ex:
         print(ex.args)
 
-# this comment is used to reload the app after finishing the setup - 1
+# this comment is used to reload the app after finishing the setup - 0

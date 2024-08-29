@@ -1,1 +1,2 @@
-Backported a new screencapture library from 2.0. You can enable WindowsCapture in the plugins menu. Keep in mind that it's experimental! If it does work you can expect around 5x less time spent on screencap.
+1.11.70: Backported a new screencapture library from 2.0. You can enable WindowsCapture in the plugins menu. Keep in mind that it's experimental! If it does work you can expect around 5x less time spent on screencap.
+1.11.71: Fixed an error when using WindowsCapture with NavAI

@@ -76,7 +76,7 @@ def on_frame_arrived(frame: Frame, capture_control: InternalCaptureControl):
         fpsValues.append(1 / (time.time() - lastFrameTime))
         while len(fpsValues) > 100:
             fpsValues.pop(0)
-        sys.stdout.write(f"FPS: {round(sum(fpsValues) / len(fpsValues), 2)}            \r")
+        #sys.stdout.write(f"FPS: {round(sum(fpsValues) / len(fpsValues), 2)}            \r")
         lastFrameTime = time.time()
 
 # Called When The Capture Item Closes Usually When The Window Closes, Capture
@@ -95,6 +95,7 @@ def plugin(data):
         frame = lastFrame[monitor[1]:monitor[3], monitor[0]:monitor[2]]
         data["frame"] = frame
         data["frameOriginal"] = frame
+        print(type(frame))
         usingFrame = False
     except Exception as ex:
         print(ex)
