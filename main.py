@@ -503,6 +503,9 @@ InstallPlugins()
 def CheckForONNXRuntimeChange():
     change = settings.GetSettings("SwitchLaneDetectionDevice", "switchTo")
     if change != None:
+        if not splash or splash == None:
+            splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+            splash.updateProgress(text="Initializing...", step=1)
         if change == "GPU":
             splash.updateProgress(text="Uninstalling ONNX...")
             os.system("pip uninstall onnxruntime -y")
