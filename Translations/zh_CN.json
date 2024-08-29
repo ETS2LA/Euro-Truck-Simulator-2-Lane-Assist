@@ -304,6 +304,11 @@
     "map.settings.8.description": "这将设置发送给其他插件的数据的最大距离，前提是该插件允许。",
     "map.settings.9.name": "显示 AR 画面",
     "map.settings.9.description": "这将显示游戏中的道路，您需要启用 AR 插件。",
+   "map.settings.10.title": "转向设置",
+    "map.settings.11.name":"平滑度",
+    "map.settings.11.description":"平滑转向的时间（以秒为单位）。值为0时，转向会非常灵敏；值大于0.5时，可能会导致左右摇摆。",
+    "map.settings.12.name": "在ETS2LA上导航",
+    "map.settings.12.description": "将计算出到达目的地所需的路径。免责声明：此路线不保证是最快的！",
 
     "object_detection.settings.1.title": "物体检测设置",
     "object_detection.settings.1.description": "这些设置将影响物体检测的质量和性能。",
@@ -329,14 +334,13 @@
     "map.loading.preparing": "地图准备加载数据中...",
     "map.loading.nodes": "地图加载数据点...",
     "map.loading.roads": "地图加载道路中...",
+    "map.loading.ferries": "地图加载轮渡中...",
     "map.loading.prefab_data": "地图加载预设对象数据中...",
     "map.loading.prefabs": "地图加载预设对象中...",
     "map.loading.final_calculations": "地图进行最后计算中...",
     "map.visualisation.roads.text": "道路：{0}，区块：{1}，加载中：{2}",
     "map.visualisation.prefabs.prefabs": "预设对象：{0}，区块：{1}",
     "map.visualisation.prefabs.curves": "弯道：{0}",
-    "map.extracting_data": "正在获取 GameData.zip 数据，请稍候...",
-    "map.settings.10.title": "转向设置",
-    "map.settings.11.name":"平滑度",
-    "map.settings.11.description":"平滑转向的时间（以秒为单位）。值为0时，转向会非常灵敏；值大于0.5时，可能会导致左右摇摆。"
+    "map.extracting_data": "正在获取 GameData.zip 数据，请稍候..."
+    
 }

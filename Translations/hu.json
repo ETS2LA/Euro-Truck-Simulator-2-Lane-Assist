@@ -306,8 +306,10 @@
     "map.settings.9.description": "Ez megjeleníti az utakat a játékodon, szükséged lesz az AR plugin engedélyezésére is.",
     "map.settings.10.title": "Kormányzási beállítások",
     "map.settings.11.name": "Holtjáték",
-    "map.settings.11.description": "Hány másodperc alatt reagáljon a kormány? A 0 érték sazonnali reakciót ad, míg a több, mint 0.5 lehetséges, hogy kacsázáshoz vezet.",
-
+    "map.settings.11.description": "Hány másodperc alatt reagáljon a kormány? A 0 érték azonnali reakciót ad, míg a több, mint 0.5 lehetséges, hogy kacsázáshoz vezet.",
+    "map.settings.12.name": "Navigálás az ETS2LA-n",
+    "map.settings.12.description": "Kiszámítja a célállomáshoz vezető útvonalat. Felhívás: Ez az útvonal nem garantáltan a leggyorsabb!",
+    
     "object_detection.settings.1.title": "Objektum Detektálási Beállítások",
     "object_detection.settings.1.description": "Ezek a beállítások befolyásolják az objektum detektálás minőségét és teljesítményét.",
     "object_detection.settings.2.name": "Eszköz",
@@ -332,6 +334,7 @@
     "map.loading.preparing": "Térkép előkészül az adatok betöltésére...",
     "map.loading.nodes": "Térkép betölti a csomópontokat...",
     "map.loading.roads": "Térkép betölti a utakat...",
+    "map.loading.ferries": "Térkép betölti a kompokat...",
     "map.loading.prefab_data": "Térkép betölti az előre fabrikállt adatokat...",
     "map.loading.prefabs": "Térkép betölti az előre fabrikállt objektumokat...",
     "map.loading.final_calculations": "Térkép utolsó számításai...",
