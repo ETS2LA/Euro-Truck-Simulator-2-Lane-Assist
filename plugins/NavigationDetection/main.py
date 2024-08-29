@@ -635,7 +635,7 @@ def plugin(data):
         else:
             valid_frame = False
             return data
-        
+
         if map_topleft != None and map_bottomright != None and arrow_topleft != None and arrow_bottomright != None:
             if (0 <= map_topleft[0] < arrow_topleft[0] < arrow_bottomright[0] < map_bottomright[0] < data["frameFull"].shape[1]) and (0 <= map_topleft[1] < arrow_topleft[1] < arrow_bottomright[1] < map_bottomright[1] < data["frameFull"].shape[0]):
                 valid_setup = True
@@ -1334,9 +1334,8 @@ def plugin(data):
                 gamepaused = False
                 speed = 0
 
-            frame_bgr = frame.copy()
-            cv2.rectangle(frame_bgr, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
-            cv2.rectangle(frame_bgr, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
+            cv2.rectangle(frame, (0, 0), (round(frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
+            cv2.rectangle(frame, (frame.shape[1] ,0), (round(frame.shape[1]-frame.shape[1]/6), round(frame.shape[0]/3)), (0, 0, 0), -1)
             lower_red = np.array([0, 0, 160])
             upper_red = np.array([110, 110, 255])
             mask = cv2.inRange(frame, lower_red, upper_red)

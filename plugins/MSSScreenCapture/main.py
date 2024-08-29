@@ -12,7 +12,7 @@ PluginInfo = PluginInformation(
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="image capture", # Will run the plugin before anything else in the mainloop (data will be empty)
     exclusive="ScreenCapture" # Will disable the other screen capture plugins
 )
 
@@ -33,36 +33,16 @@ def CreateCamera():
     global height
     global display
     global monitor
-    
-    width = settings.GetSettings("bettercam", "width")
-    if width == None:
-        settings.CreateSettings("bettercam", "width", 1280)
-        width = 1280
 
-    height = settings.GetSettings("bettercam", "height")
-    if height == None:
-        settings.CreateSettings("bettercam", "height", 720)
-        height = 720
-        
-    x = settings.GetSettings("bettercam", "x")
-    if x == None:
-        settings.CreateSettings("bettercam", "x", 0)
-        x = 0
-
-    y = settings.GetSettings("bettercam", "y")
-    if y == None:
-        settings.CreateSettings("bettercam", "y", 0)
-        y = 0
-    
-    display = settings.GetSettings("bettercam", "display")
-    if display == None:
-        settings.CreateSettings("bettercam", "display", 0)
-        display = 0
+    x = settings.GetSettings("bettercam", "x", 0)
+    y = settings.GetSettings("bettercam", "y", 0)
+    width = settings.GetSettings("bettercam", "width", 1280)
+    height = settings.GetSettings("bettercam", "height", 720)
+    display = settings.GetSettings("bettercam", "display", 0)
 
     left, top = x, y
-    right, bottom = left + width, top + height
+    right, bottom = left + width - 1, top + height - 1
     monitor = (left,top,right,bottom)
-
 CreateCamera()
 
 def onEnable():

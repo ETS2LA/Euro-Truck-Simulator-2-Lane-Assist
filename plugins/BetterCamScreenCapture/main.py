@@ -15,7 +15,7 @@ PluginInfo = PluginInformation(
     author="Tumppi066",
     url="https://github.com/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist",
     type="dynamic", # = Panel
-    dynamicOrder="before lane detection", # Will run the plugin before anything else in the mainloop (data will be empty)
+    dynamicOrder="image capture", # Will run the plugin before anything else in the mainloop (data will be empty)
     exclusive="ScreenCapture" # Will disable the other screen capture plugins
 )
 
@@ -79,7 +79,7 @@ def CreateCamera():
         device = 0
 
     left, top = x, y
-    right, bottom = left + width, top + height
+    right, bottom = left + width - 1, top + height - 1
 
     from tkinter import messagebox
     import screeninfo
@@ -132,6 +132,11 @@ def CreateCamera():
             webbrowser.open("https://github.com/SerpentAI/D3DShot/wiki/Installation-Note:-Laptops")
         
         variables.ENABLELOOP = False
+
+    import plugins.WindowsCapture.main as WindowsCapture
+    WindowsCapture.CreateCamera()
+    import plugins.MSSScreenCapture.main as MSSScreenCapture
+    MSSScreenCapture.CreateCamera()
 
 
 # The main file runs the "plugin" function each time the plugin is called
