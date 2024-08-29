@@ -2,3 +2,4 @@
 1.11.71: Fixed an error when using WindowsCapture with NavAI
 1.11.72: Fixed the image flickering bug
 1.11.73: Using PyAutoGUI v0.9.51 by default now.
+1.11.74: Fixed BetterCam crashing when loading the settings.

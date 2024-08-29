@@ -133,10 +133,16 @@ def CreateCamera():
         
         variables.ENABLELOOP = False
 
-    import plugins.WindowsCapture.main as WindowsCapture
-    WindowsCapture.CreateCamera()
-    import plugins.MSSScreenCapture.main as MSSScreenCapture
-    MSSScreenCapture.CreateCamera()
+    try:
+        import plugins.WindowsCapture.main as WindowsCapture
+        WindowsCapture.CreateCamera()
+    except:
+        pass
+    try:
+        import plugins.MSSScreenCapture.main as MSSScreenCapture
+        MSSScreenCapture.CreateCamera()
+    except:
+        pass
 
 
 # The main file runs the "plugin" function each time the plugin is called
