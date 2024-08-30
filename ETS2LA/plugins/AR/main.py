@@ -36,7 +36,7 @@ def Initialize():
     
     TruckSimAPI = runner.modules.TruckSimAPI
 
-    monitor = settings.Get("ScreenCapture", "display", 0)
+    monitor = settings.Get("Global", "display", 0)
     monitor = sct.monitors[(monitor + 1)]
     screen_x = monitor["left"]
     screen_y = monitor["top"]

@@ -340,13 +340,10 @@ def plugin():
                 
                 if label in ['car', "van"]:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car", object.id))
-                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
                 if label in ['truck']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck", object.id))
-                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
                 if label in ['bus']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))
-                    #cv2.line(frame, (x, y + h), (x + w, y + h), (0, 0, 255), 2)
             
             for line in carPoints:
                 id = line[3]
@@ -386,6 +383,7 @@ def plugin():
 
     cv2.putText(frame, f"FPS: {round(smoothedFPS(fps), 1)}", (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)   
     cv2.putText(frame, f"YOLO FPS: {round(smoothedYOLOFPS(cur_yolo_fps), 1)}", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)      
+    cv2.putText(frame, f"Objects: {len(vehicles)}", (20, 300), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f"Track Time: {round(smoothedTrackTime(trackTime)*1000, 2)}ms", (20, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f"Visual Time: {round(smoothedVisualTime(visualTime)*1000, 2)}ms", (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f"Input Time: {round(smoothedInputTime(inputTime)*1000, 2)}ms", (20, 220), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)

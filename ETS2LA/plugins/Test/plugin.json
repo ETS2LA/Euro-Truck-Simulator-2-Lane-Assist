@@ -1,0 +1,13 @@
+{
+    "name": "Test",
+    "authors": [{
+        "name": "Tumppi066",
+        "url": "https://github.com/Tumppi066",
+        "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
+    }],
+    "description": "Test",
+    "version": "1.0",
+    "dependencies": [],
+    "modules": ["ScreenCapture"],
+    "compatible": ["Windows", "Linux", "MacOS"]
+}
