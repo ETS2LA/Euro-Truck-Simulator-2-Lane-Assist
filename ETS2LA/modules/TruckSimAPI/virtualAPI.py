@@ -39,6 +39,10 @@ substanceSize = 25
 # virtualX = 44000
 # virtualZ = -49200
 
+# ATS (Los Angeles)
+# virtualX = -105000
+# virtualZ = 15000
+
 # Working Set (not a specific location)
 virtualX = 21275
 virtualZ = -48710
