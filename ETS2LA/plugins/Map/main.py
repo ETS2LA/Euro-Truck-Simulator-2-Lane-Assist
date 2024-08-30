@@ -388,33 +388,34 @@ def plugin():
                 cv2.destroyWindow("image")
             except: pass
 
-        data["map"]["endPoints"] = []
-        data["map"]["allPoints"] = []
-        # steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
-        # steeringPoints = steeringData["map"]["allPoints"]
-        # try: steeringAngle = steeringData["map"]["angle"]
-        # except: steeringAngle = 0
-        # data.update(steeringData)
-        # if steeringAngle is not None and not math.isnan(steeringAngle):
-        #     Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
-        #     
-        # # Calculate how tight the next 50m of road is
-        # distance = 0
-        # points = []
-        # lastPoint = None
-        # for point in steeringPoints:
-        #     if distance > 50:
-        #         break
-        #     if lastPoint is not None:
-        #         distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
-        #     points.append(point)
-        #     lastPoint = point
-        # 
-        # curvature = plotter.CalculateCurvature(points)
-        #         
-        # # Modulate the target speed based on the curvature
-        # targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
-        # #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
+        #data["map"]["endPoints"] = []
+        #data["map"]["allPoints"] = []
+        
+        steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
+        steeringPoints = steeringData["map"]["allPoints"]
+        try: steeringAngle = steeringData["map"]["angle"]
+        except: steeringAngle = 0
+        data.update(steeringData)
+        if steeringAngle is not None and not math.isnan(steeringAngle):
+            Steering.run(value=(steeringAngle/180), sendToGame=STEERING_ENABLED)
+            
+        # Calculate how tight the next 50m of road is
+        distance = 0
+        points = []
+        lastPoint = None
+        for point in steeringPoints:
+            if distance > 50:
+                break
+            if lastPoint is not None:
+                distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
+            points.append(point)
+            lastPoint = point
+        
+        curvature = plotter.CalculateCurvature(points)
+                
+        # Modulate the target speed based on the curvature
+        targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
+        #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
         
     runner.Profile("Steering data")
         
