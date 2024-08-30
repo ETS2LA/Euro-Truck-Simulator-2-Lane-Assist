@@ -322,16 +322,14 @@ mapData = None
 lastMapDataUpdate = time.time()
 
 # MARK: Run
-def run(x, y, z):
-    UpdateMapData()
-    if mapData == None or mapData == {}:
-        return None
-    
-    try:
-        prefabs = LoadPrefabs(mapData)
-        roads = LoadRoads(mapData)
-    except: 
-        return None
-    
+def run(x, y, z, closeRoads=None, closePrefabs=None):
     data = API.run()
-    return GetClosestRoadOrPrefabAndLane(x, z, y, data, closeRoads=roads, closePrefabs=prefabs)["map"]
+    if closeRoads == None or closePrefabs == None:
+        UpdateMapData()
+        if mapData == None or mapData == {}:
+            return None
+        
+        closePrefabs = LoadPrefabs(mapData)
+        closeRoads = LoadRoads(mapData)
+    
+    return GetClosestRoadOrPrefabAndLane(x, z, y, data, closeRoads=closeRoads, closePrefabs=closePrefabs)["map"]

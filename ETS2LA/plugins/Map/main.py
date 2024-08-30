@@ -359,23 +359,25 @@ def plugin():
     UpdatePlotter()
     UpdateVisualize()
     UpdateNavigation()
-    
-    runner.Profile("File Updates")
         
     closeRoads, updatedRoads = compute.GetRoads(data)
     closePrefabs, updatedPrefabs = compute.GetPrefabs(data)
     
     updatedRoads = compute.CalculateParallelPointsForRoads(closeRoads) # Will slowly populate the lanes over a few frames
     
-    runner.Profile("Road and Prefab updates")
-    
     
     targetSpeed = data["api"]["truckFloat"]["speedLimit"]
     steeringPoints = []
+    
+    runner.Profile("Updates")
+    
     if COMPUTE_STEERING_DATA:
         truckX = data["api"]["truckPlacement"]["coordinateX"]
         truckZ = data["api"]["truckPlacement"]["coordinateZ"]
-        closestData = MapUtils.run(truckX, 0, truckZ)
+        closestData = MapUtils.run(truckX, 0, truckZ, closeRoads=closeRoads, closePrefabs=closePrefabs)
+        
+        runner.Profile("MapUtils")
+        
         if NAVIGATION:
             try:
                 navigationData = navigation.Update(data, closestData)
@@ -384,14 +386,14 @@ def plugin():
                 navigationData = None
         else:
             navigationData = None
-            try:
-                cv2.destroyWindow("image")
-            except: pass
+            
+        runner.Profile("Navigation data")
 
         #data["map"]["endPoints"] = []
         #data["map"]["allPoints"] = []
         
         steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
+        runner.Profile("Steering data")
         steeringPoints = steeringData["map"]["allPoints"]
         try: steeringAngle = steeringData["map"]["angle"]
         except: steeringAngle = 0
@@ -410,6 +412,8 @@ def plugin():
                 distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
             points.append(point)
             lastPoint = point
+            
+        runner.Profile("- doing stuff with said data")
         
         curvature = plotter.CalculateCurvature(points)
                 
@@ -417,7 +421,8 @@ def plugin():
         targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
         #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
         
-    runner.Profile("Steering data")
+        runner.Profile("Curvature")
+        
         
     if INTERNAL_VISUALISATION:
         DrawInternalVisualisation(data, closeRoads, closePrefabs)

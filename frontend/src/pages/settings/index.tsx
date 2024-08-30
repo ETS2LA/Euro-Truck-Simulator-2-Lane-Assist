@@ -58,7 +58,7 @@ export default function Home({ ip }: { ip: string }) {
             </div>
             <div className="h-full pt-0 p-1 max-h-[calc(100vh-132px)]">
                 <TooltipProvider>
-                    <ResizablePanelGroup direction="horizontal" className="text-center gap-8 pr-4 h-full">
+                    <ResizablePanelGroup direction="horizontal" className="text-center gap-4 pr-4 h-full">
                         <ResizablePanel defaultSize={20}>
                             <ScrollArea className="h-full pt-4" type="hover">
                                 <div className="flex flex-col gap-2 text-start">
@@ -107,7 +107,7 @@ export default function Home({ ip }: { ip: string }) {
                     </ResizablePanelGroup>
                 </TooltipProvider>
                 <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background pointer-events-none" />
-                <div className="absolute bottom-0 left-[217px] top-[150px] w-10 bg-gradient-to-l from-background pointer-events-none" />
+                <div className="absolute bottom-0 left-[210px] top-[150px] w-12 bg-gradient-to-l from-background pointer-events-none" />
             </div>
         </div>
     )

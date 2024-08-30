@@ -40,8 +40,8 @@ substanceSize = 25
 # virtualZ = -49200
 
 # Working Set (not a specific location)
-virtualX = 21275
-virtualZ = -48710
+virtualX = 23475
+virtualZ = -46450
 
 class scsTelemetry:
     
