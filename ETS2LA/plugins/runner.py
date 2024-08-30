@@ -18,6 +18,17 @@ import sys
 import os
 
 class PluginRunner():
+    
+    def ReloadPlugin(self):
+        try:
+            importlib.reload(self.plugin)
+            self.plugin.runner = self
+            self.plugin.Initialize()
+            logging.warning(f"PluginRunner: Reloaded plugin {self.plugin_name}")
+        except Exception as e:
+            logging.exception(f"PluginRunner: Could not reload plugin {self.plugin_name}")
+            logging.info(traceback.format_exc())
+    
     def __init__(self, pluginName, temporary, queue:multiprocessing.JoinableQueue, dataQueue:multiprocessing.JoinableQueue, stateQueue:multiprocessing.JoinableQueue, functionQueue:multiprocessing.JoinableQueue, returnPipe:Connection, eventQueue:multiprocessing.JoinableQueue, immediateQueue:multiprocessing.JoinableQueue):
         SetupProcessLogging(
             pluginName, 
@@ -53,6 +64,7 @@ class PluginRunner():
         
         self.plugin_path_name = pluginName
         plugin_path = "ETS2LA.plugins." + pluginName + ".main"
+        self.plugin_hash = hash(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", pluginName, "main.py")).read())
         
         try:
             self.plugin = importlib.import_module(plugin_path)
@@ -125,57 +137,14 @@ class PluginRunner():
     def moduleChangeListener(self):
         # Listen for changes, and update the modules as required
         while True:
-            break # Doesn't work, TODO: Fix this
-            for module in self.moduleHashes:
-                with open(os.path.join(os.getcwd(), "ETS2LA", "modules", module, "main.py"), "r") as f:
-                    moduleHash = hash(f.read())
-                if moduleHash != self.moduleHashes[module]:
-                    #logging.warning(f"PluginRunner: Module {module} has changed, reloading it.")
-                    module_path = "ETS2LA.modules." + module + ".main"
-                    moduleName = module
-                    oldModule = self.modulesDict[moduleName]
-                    try:
-                        module = importlib.import_module(module_path)
-                        module.runner = self
-                        self.modulesDict[moduleName] = module
-                        logging.info(f"PluginRunner: Loaded module {moduleName}")
-                    except Exception as e:
-                        logging.exception(f"PluginRunner: Could not load module {module_path} with error: {e}")
-                        continue
-                    
-                    self.modules = SimpleNamespace(**self.modulesDict)
-                    self.moduleHashes[moduleName] = moduleHash
-                    try:
-                        self.modulesDict[moduleName].Initialize()
-                        logging.info(f"PluginRunner: Reinitialized {moduleName}")
-                    except Exception as e:
-                        logging.exception(f"PluginRunner: Error while running Initialize() for {module_path} with error {e}")
-                        continue
-                    
-                    #logging.warning(f"PluginRunner: Module {module_path} reloaded")
-                    
-                    # Reinitialize all plugins and modules to update the references
-                    try:
-                        for module in self.modulesDict:
-                            self.modulesDict[module].Initialize()
-                            logging.info(f"PluginRunner: Reinitialized {module}")
-                    except Exception as e:
-                        logging.exception(f"PluginRunner: Error while running Initialize() for {module} with error {e}")
-                        continue
-                    
-                    try:
-                        self.plugin.Initialize()
-                        logging.info(f"PluginRunner: Reinitialized {self.plugin_name}")
-                    except Exception as e:
-                        logging.exception(f"PluginRunner: Error while running Initialize() for {self.plugin_name} with error {e}")
-                        continue
-                    
-                    # Remove the old module
-                    try:
-                        del oldModule
-                    except:
-                        logging.exception(f"PluginRunner: Could not delete old module {oldModule}")
-                    
+            if self.temporary:
+                return
+
+            plugin_hash = hash(open(os.path.join(os.getcwd(), "ETS2LA", "plugins", self.plugin_path_name, "main.py")).read())
+            if plugin_hash != self.plugin_hash:
+                self.ReloadPlugin()
+                self.plugin_hash = plugin_hash
+            
             time.sleep(1)
 
     def functionThread(self):
