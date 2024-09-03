@@ -18,15 +18,17 @@ class RouteItem:
     length: float
     endPosition: list[float]
     startPosition: list[float]
+    inverted: bool
     
-    def __init__(self, item, points, lane, length, endPosition, startPosition):
+    def __init__(self, item, points, lane, length, endPosition, startPosition, inverted):
         self.item = item
         self.points = points
         self.lane = lane
         self.length = length
         self.endPosition = endPosition
         self.startPosition = startPosition
-        
+        self.inverted = inverted
+    
     def DiscardPointsBehindTheTruck(self, truckX, truckZ, rotation):
         newPoints = []
         truckForwardVector = [-math.sin(rotation), -math.cos(rotation)]
@@ -53,11 +55,12 @@ def LoadSettings():
 
 OFFSET_MULTIPLIER = settings.Get("Map", "OffsetMultiplier", 2)
 ANGLE_MULTIPLIER = settings.Get("Map", "AngleMultiplier", 1)
+DISTANCE_FOR_LANE_CHANGE = settings.Get("Map", "PointsForLaneChange", 50)
 
 settings.Listen("Map", LoadSettings)
 
 # MARK: References
-def GetItemAndLaneReferences(closestData, MapUtils):
+def GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ):
     global Route
     
     closestItem = closestData["closestItem"]
@@ -69,19 +72,29 @@ def GetItemAndLaneReferences(closestData, MapUtils):
     
     if type(closestItem) == Road:
         closestItem = GetRoadByUid(closestItem.Uid)
+        closestItem = cast(Road, closestItem) # Get intellisense
         if closestItem is None: return None
         length = 0
         for i in range(len(closestItem.ParallelPoints)):
             length += np.linalg.norm(np.array(closestItem.ParallelPoints[i][1]) - np.array(closestItem.ParallelPoints[i][0]))
         lane = closestItem.ParallelPoints.index(closestData["closestLane"])
+        
+        points = closestItem.ParallelPoints[lane]
+        needInvert = NeedInvert(closestItem.ParallelPoints[lane], truckX, truckZ)
+        if needInvert:
+            points = points[::-1]
+            
+        
         routeItem = RouteItem(
             item = closestItem,
-            points = closestItem.ParallelPoints[lane],
+            points = points,
             lane = lane,
             length = length,
             endPosition = closestItem.ParallelPoints[lane][-1],
-            startPosition = closestItem.ParallelPoints[lane][0]
+            startPosition = closestItem.ParallelPoints[lane][0],
+            inverted = needInvert
         )
+        
         Route.append(routeItem)
         
     elif type(closestItem) == PrefabItem:
@@ -110,7 +123,8 @@ def GetItemAndLaneReferences(closestData, MapUtils):
             lane = laneIndex,
             length = length,
             endPosition = closestItem.CurvePoints[laneIndex][-1],
-            startPosition = closestItem.CurvePoints[laneIndex][0]
+            startPosition = closestItem.CurvePoints[laneIndex][0],
+            inverted = False
         )
         
         Route.append(routeItem)
@@ -260,11 +274,7 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
         NextItem = cast(Road, NextItem) # Get intellisense
         Lanes = NextItem.ParallelPoints
         
-        if NeedInvert(Route[-1].points, truckX, truckZ):
-            #logging.warning("Inverting last item points")
-            CurrentEndPoint = Route[-1].points[::-1][-1]
-        else:
-            CurrentEndPoint = Route[-1].points[-1]
+        CurrentEndPoint = Route[-1].points[-1]
         
         closestLaneId = math.inf
         closestLaneDistance = math.inf
@@ -291,7 +301,8 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
         
         closestPoints = Lanes[closestLaneId]
         
-        if NeedInvert(Lanes[closestLaneId], truckX, truckZ):
+        needInvert = NeedInvert(closestPoints, truckX, truckZ)
+        if needInvert:
             closestPoints = closestPoints[::-1]
         
         length = 0
@@ -304,7 +315,8 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
             lane = closestLaneId,
             length = length,
             endPosition = closestPoints[-1],
-            startPosition = closestPoints[0]
+            startPosition = closestPoints[0],
+            inverted = needInvert
         )
         
         #logging.warning(f"RouteItem created for road")
@@ -418,7 +430,8 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
             lane = closestLaneId,
             length = length,
             endPosition = closestPoints[-1],
-            startPosition = closestPoints[0]
+            startPosition = closestPoints[0],
+            inverted = False
         )
         
         #logging.warning(f"RouteItem created for prefab")
@@ -482,8 +495,85 @@ def CalculateCurvature(points):
         logging.exception("Failed to calculate curvature")
         return 0
 
-wasIndicating = False
+def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation):
+    returnPoints = []
+    
+    def GetPointLaneChangeDistance(point):
+        return np.linalg.norm(np.array([point[0], point[1]]) - np.array([truckX, truckZ]))
+    def EasingFunction(t): # in out cubic
+        return t < 0.5 and 2 * t * t or 1 - math.pow(-2 * t + 2, 2) / 2
+    
+    if type(routeItem.item) != Road:
+        logging.warning("You can only lane change on roads")
+        return routeItem.points
+    
+    inverted = routeItem.inverted
+    logging.warning("Generating lane change " + ("right" if isRight else "left") + (" inverted" if inverted else ""))
+    
+    road = cast(Road, routeItem.item)
+    lanesLeft = len(road.RoadLook.lanesLeft)
+    lanesRight = len(road.RoadLook.lanesRight)
+    curLane = routeItem.lane
+    if inverted:
+        wantedLane = curLane + 1 if isRight else curLane - 1
+    else:
+        wantedLane = curLane - 1 if isRight else curLane + 1
+    curLaneSide = 1 if curLane < lanesLeft else -1
+    wantedLaneSide = 1 if wantedLane < lanesLeft else -1
+    if curLaneSide != wantedLaneSide:
+        logging.warning("Can't lane change to the other side")
+        return routeItem.points
+    
+    logging.warning(f"CurLane: {curLane}, WantedLane: {wantedLane}")
+    
+    if wantedLane < 0 or wantedLane >= lanesLeft + lanesRight:
+        logging.warning("No lane found to lane change to")
+        return routeItem.points
+    
+    curPoints = routeItem.points
+    parallelPoints = road.ParallelPoints[wantedLane]
+    if inverted:
+        parallelPoints = parallelPoints[::-1]
+        
+    parallelPoints = DiscardPointsBehindTheTruck(parallelPoints, truckX, truckZ, rotation)
+        
+    startPercentage = 0
+    if startPercentage > 1:
+        startPercentage = 1
+        
+    # Check which point is over the lane change distance
+    index = 0
+    for point in curPoints:
+        distance = GetPointLaneChangeDistance(point)
+        if distance > DISTANCE_FOR_LANE_CHANGE:
+            break
+        index += 1
+    
+    logging.warning(f"Index: {index}")
+    # Now create the inbetween points to lane change
+    if index > 0:
+        for i in range(index):
+            percentage = i / index + startPercentage
+            percentage = EasingFunction(percentage)
+            
+            if percentage > 1:
+                percentage = 1
+            if percentage < 0:
+                percentage = 0
+                
+            point = (curPoints[i][0] + (parallelPoints[i][0] - curPoints[i][0]) * percentage, curPoints[i][1] + (parallelPoints[i][1] - curPoints[i][1]) * percentage, curPoints[i][2] + (parallelPoints[i][2] - curPoints[i][2]) * percentage)
+            returnPoints.append(point)
+    else:
+        returnPoints.append(curPoints[0])
+        
+    # Then add the rest of the points on the side we changed to
+    for i in range(index, len(parallelPoints)):
+        returnPoints.append(parallelPoints[i])
+        
+    routeItem.lane = wantedLane
+    return returnPoints
 
+wasIndicating = False
 # MARK: Main Function
 def GetNextPoints(data : dict, MapUtils, Enabled):
     global Route
@@ -493,26 +583,46 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
     data["map"]["endPoints"] = []
     data["map"]["angle"] = 0
     
-    if not Enabled:
-        Route = []
-        #return data
-        
-    if ((data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]) and not wasIndicating) or ((not data["api"]["truckBool"]["blinkerLeftActive"] and not data["api"]["truckBool"]["blinkerRightActive"]) and wasIndicating):
-        wasIndicating = data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]
-        Route = Route[:1] # Reset the next item
-    
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
     rotation = data["api"]["truckPlacement"]["rotationX"] * 360
     if rotation < 0: rotation += 360
     rotation = math.radians(rotation)
     
+    if len(Route) > 0 and Route[0].points == []:
+        Route = []
+        #return data
+    
+    if not Enabled:
+        Route = []
+        #return data
+        
+    indicating = data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]
+    indicatingRight = data["api"]["truckBool"]["blinkerRightActive"]
+    if (indicating and not wasIndicating) or (not indicating and wasIndicating):
+        logging.warning("Resetting route")
+        wasIndicating = data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]
+        Route = Route[:1] # Reset the next item
+        if len(Route) > 0 and indicating:
+            try:
+                Route[0].points = GenerateLaneChange(Route[0], truckX, truckZ, indicatingRight, rotation)
+            except:
+                pass
+    
     if len(Route) == 0:
-        closestData = MapUtils.run(truckX, 0, truckZ)
         try:
-            GetItemAndLaneReferences(closestData, MapUtils)
+            closestData = MapUtils.run(truckX, 0, truckZ)
+        except:
+            return data
+        try:
+            GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ)
+            if indicating:
+                try:
+                    Route[0].points = GenerateLaneChange(Route[0], truckX, truckZ, indicatingRight, rotation)
+                except:
+                    pass
         except: 
-            #logging.exception("Failed to get item and lane references")
+            logging.exception("Failed to get item and lane references")
             return data
     
     if Route == []:
@@ -522,7 +632,7 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
         routeItem.points = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
         if routeItem.points == []:
             Route.remove(routeItem)
-    
+        
     tries = 0
     while len(Route) < RouteLength:
         try:
@@ -537,13 +647,16 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
         except:
             #logging.exception("Failed to get next item")
             if len(Route) == 0:
-                closestData = MapUtils.run(truckX, 0, truckZ)
                 try:
-                    GetItemAndLaneReferences(closestData, MapUtils)
+                    closestData = MapUtils.run(truckX, 0, truckZ)
+                except:
+                    break
+                try:
+                    GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ)
                 except: 
-                    return data
+                    break
             else:
-                return data
+                break
             
         tries += 1
         if tries > 10:
@@ -582,75 +695,79 @@ def GetNextPoints(data : dict, MapUtils, Enabled):
         ClosestLane = None
         return data
         
-    if len(allPoints) > 2:
-        allPoints = allPoints[:5]
-        # Average out the first 4 points
-        x = 0
-        y = 0
-        for i in range(1, len(allPoints)):
-            x += allPoints[i][0]
-            y += allPoints[i][1]
-        
-        x /= 4
-        y /= 4
-        
-        pointforwardVector = [allPoints[len(allPoints)-1][0] - allPoints[0][0], allPoints[len(allPoints)-1][1] - allPoints[0][1]]
-        # Check if we are to the left or right of the forward vector (going left the angle has to be negative)
-        if np.cross(truckForwardVector, pointforwardVector) < 0:
-            isLeft = True
-        else: isLeft = False
-        
-        # Calculate the centerline vector and the truck's position relative to the first point
-        centerlineVector = [allPoints[-1][0] - allPoints[0][0], allPoints[-1][1] - allPoints[0][1]]
-        truckPositionVector = [truckX - allPoints[0][0], truckZ - allPoints[0][1]]
-        
-        # Calculate lateral offset from the centerline
-        # This is a simplified approach; for more accuracy, consider each segment of the centerline
-        lateralOffset = np.cross(truckPositionVector, centerlineVector) / np.linalg.norm(centerlineVector)
-        
-        # Calculate the angle as before
-        angle = np.arccos(np.dot(truckForwardVector, centerlineVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(centerlineVector)))
-        angle = math.degrees(angle)
-        
-        if np.cross(truckForwardVector, centerlineVector) < 0:
-            angle = -angle
-        
-        if angle > 140:
-            angle = 0
-        if angle < -140:
-            angle = 0
-        
-        angle = angle * ANGLE_MULTIPLIER
-        
-        # Adjust angle based on lateral offset
-        # This is a simplistic approach; you may need a more sophisticated control algorithm
-        offsetCorrection = lateralOffset * 5  # correctionFactor is a tuning parameter
-        offsetCorrection = max(-20, min(20, offsetCorrection))  # limit the correction to -10..10 degrees
-        if isLeft:
-            angle += offsetCorrection * OFFSET_MULTIPLIER
-        else:
-            angle += offsetCorrection * OFFSET_MULTIPLIER
-        
-        multiplier = 2
-        #if data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]:
-        #    multiplier = 4
-        
-        data["map"]["angle"] = angle * multiplier
-        #print(f"Angle is {angle}")
-    else:
-        # Just home to the last point if there are less than 2
-        x = allPoints[len(allPoints)-1][0]
-        y = allPoints[len(allPoints)-1][1]
-        
-        # Create a vector from the truck to the last point
-        vector = [x - truckX, y - truckZ]
-        # Calculate the angle between the truck forward vector and the vector to the last point
-        angle = np.arccos(np.dot(truckForwardVector, vector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(vector)))
-        angle = math.degrees(angle)
-        # Check if the angle is negative or positive
-        if np.cross(truckForwardVector, vector) < 0:
-            angle = -angle
+    try:
+        if len(allPoints) > 2:
+            allPoints = allPoints[:5]
+            # Average out the first 4 points
+            x = 0
+            y = 0
+            for i in range(1, len(allPoints)):
+                x += allPoints[i][0]
+                y += allPoints[i][1]
             
-        data["map"]["angle"] = angle * 2
+            x /= 4
+            y /= 4
+            
+            pointforwardVector = [allPoints[len(allPoints)-1][0] - allPoints[0][0], allPoints[len(allPoints)-1][1] - allPoints[0][1]]
+            # Check if we are to the left or right of the forward vector (going left the angle has to be negative)
+            if np.cross(truckForwardVector, pointforwardVector) < 0:
+                isLeft = True
+            else: isLeft = False
+            
+            # Calculate the centerline vector and the truck's position relative to the first point
+            centerlineVector = [allPoints[-1][0] - allPoints[0][0], allPoints[-1][1] - allPoints[0][1]]
+            truckPositionVector = [truckX - allPoints[0][0], truckZ - allPoints[0][1]]
+            
+            # Calculate lateral offset from the centerline
+            # This is a simplified approach; for more accuracy, consider each segment of the centerline
+            lateralOffset = np.cross(truckPositionVector, centerlineVector) / np.linalg.norm(centerlineVector)
+            
+            # Calculate the angle as before
+            angle = np.arccos(np.dot(truckForwardVector, centerlineVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(centerlineVector)))
+            angle = math.degrees(angle)
+            
+            if np.cross(truckForwardVector, centerlineVector) < 0:
+                angle = -angle
+            
+            if angle > 140:
+                angle = 0
+            if angle < -140:
+                angle = 0
+            
+            angle = angle * ANGLE_MULTIPLIER
+            
+            # Adjust angle based on lateral offset
+            # This is a simplistic approach; you may need a more sophisticated control algorithm
+            offsetCorrection = lateralOffset * 5  # correctionFactor is a tuning parameter
+            offsetCorrection = max(-20, min(20, offsetCorrection))  # limit the correction to -10..10 degrees
+            if isLeft:
+                angle += offsetCorrection * OFFSET_MULTIPLIER
+            else:
+                angle += offsetCorrection * OFFSET_MULTIPLIER
+            
+            multiplier = 2
+            #if data["api"]["truckBool"]["blinkerLeftActive"] or data["api"]["truckBool"]["blinkerRightActive"]:
+            #    multiplier = 4
+            
+            data["map"]["angle"] = angle * multiplier
+            #print(f"Angle is {angle}")
+        else:
+            # Just home to the last point if there are less than 2
+            x = allPoints[len(allPoints)-1][0]
+            y = allPoints[len(allPoints)-1][1]
+            
+            # Create a vector from the truck to the last point
+            vector = [x - truckX, y - truckZ]
+            # Calculate the angle between the truck forward vector and the vector to the last point
+            angle = np.arccos(np.dot(truckForwardVector, vector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(vector)))
+            angle = math.degrees(angle)
+            # Check if the angle is negative or positive
+            if np.cross(truckForwardVector, vector) < 0:
+                angle = -angle
+                
+            data["map"]["angle"] = angle * 2
+    except:
+        logging.exception("Failed to calculate angle")
+        data["map"]["angle"] = 0
         
     return data

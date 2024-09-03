@@ -697,6 +697,8 @@ def CalculateParallelCurves(road):
             side = 1
 
         lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), road, custom_offset=custom_offset, next_offset=next_offset, side=side)
+        # Invert the left lane array
+        lanes['left'] = lanes['left'][::-1]
         newPoints = lanes['left'] + lanes['right']
         
         boundingBox = [[999999, 999999], [-999999, -999999]]

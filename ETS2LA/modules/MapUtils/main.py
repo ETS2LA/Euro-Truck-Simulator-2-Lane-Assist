@@ -290,10 +290,13 @@ def GetClosestRoadOrPrefabAndLane(x, y, z, data, closeRoads=None, closePrefabs=N
 # MARK: Load from JSON
 def LoadPrefabs(mapData):
     prefabs = []
-    for prefab in mapData["prefabs"]:
-        prefabItem = PrefabItem()
-        prefabItem.fromJson(prefab)
-        prefabs.append(prefabItem)
+    try:
+        for prefab in mapData["prefabs"]:
+            prefabItem = PrefabItem()
+            prefabItem.fromJson(prefab)
+            prefabs.append(prefabItem)
+    except:
+        logging.exception("Error in LoadPrefabs")
     return prefabs
 
 def LoadRoads(mapData):
