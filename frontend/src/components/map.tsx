@@ -83,28 +83,64 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     
         // Listen for messages
         socket.addEventListener("message", function (event) {
-            const message = pako.ungzip(event.data, { windowBits: 28, to: 'string' });
-            const indices = message.split(";");
-            // Find X and Z
-            let X = 0;
-            let Z = 0;
-            let RX = 0;
-            indices.forEach((index:any) => {
-                if (index.startsWith("x")) {
-                    X = parseFloat(index.split("x")[1].replace(":", ""));
-                } else if (index.startsWith("z")) {
-                    Z = parseFloat(index.split("z")[1].replace(":", ""));
-                } else if (index.startsWith("rx")) {
-                    RX = parseFloat(index.split("rx")[1].replace(":", ""));
-                    setRotation(RX);
+            try {
+                if (socket)
+                    socket.send("ok");
+                let data = event.data;
+                if (data instanceof Blob) {
+                    // Use the Blob.arrayBuffer() method to read the Blob's content
+                    const arrayBuffer = data.arrayBuffer().then(buffer => {
+                        data = new Uint8Array(buffer);
+                        console.log("Received message:", data);
+                        const message = pako.ungzip(data, { windowBits: 28, to: 'string' });
+                        const indices = message.split(";");
+                        // Find X and Z
+                        let X = 0;
+                        let Z = 0;
+                        let RX = 0;
+                        indices.forEach((index: any) => {
+                            if (index.startsWith("x")) {
+                                X = parseFloat(index.split("x")[1].replace(":", ""));
+                            } else if (index.startsWith("z")) {
+                                Z = parseFloat(index.split("z")[1].replace(":", ""));
+                            } else if (index.startsWith("rx")) {
+                                RX = parseFloat(index.split("rx")[1].replace(":", ""));
+                                setRotation(RX);
+                            }
+                        });
+                        if (!isNaN(X) && !isNaN(Z)) {
+                            [X, Z] = game_coord_to_image(X, Z);
+                            setPosition([-Z, X]);
+                        }
+                    });
                 }
-            });
-            if(!isNaN(X) && !isNaN(Z)){
-                [X, Z] = game_coord_to_image(X, Z);
-                //console.log(X, Z);
-                setPosition([-Z, X]);
+                else{
+                    console.log("Received message:", data);
+                    const message = pako.ungzip(data, { windowBits: 28, to: 'string' });
+                    const indices = message.split(";");
+                    // Find X and Z
+                    let X = 0;
+                    let Z = 0;
+                    let RX = 0;
+                    indices.forEach((index: any) => {
+                        if (index.startsWith("x")) {
+                            X = parseFloat(index.split("x")[1].replace(":", ""));
+                        } else if (index.startsWith("z")) {
+                            Z = parseFloat(index.split("z")[1].replace(":", ""));
+                        } else if (index.startsWith("rx")) {
+                            RX = parseFloat(index.split("rx")[1].replace(":", ""));
+                            setRotation(RX);
+                        }
+                    });
+                    if (!isNaN(X) && !isNaN(Z)) {
+                        [X, Z] = game_coord_to_image(X, Z);
+                        setPosition([-Z, X]);
+                    }
+                }
+
+            } catch (error) {
+                console.error("Decompression error:", error);
             }
-            socket.send("ok");    
         });
     
         // Setup a heartbeat

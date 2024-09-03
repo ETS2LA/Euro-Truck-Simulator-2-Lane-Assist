@@ -16,7 +16,7 @@ import { useEffect } from "react";
 import { useRef } from "react"
 
 export default function Basic({ip} : {ip: string}) {
-    const [collapsed, setCollapsed] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
     const push = useRouter().push;
     const isMounted = useRef(true); // Track if the component is mounted
 
@@ -46,7 +46,7 @@ export default function Basic({ip} : {ip: string}) {
                     />
                 </ResizablePanel>
                 <ResizableHandle withHandle />
-                <ResizablePanel defaultSize={0} className={collapsed ? "content-center gap-1.5 flex flex-col rounded-none" : "content-center gap-1.5 flex flex-col relative rounded-none"}
+                <ResizablePanel defaultSize={65} className={collapsed ? "content-center gap-1.5 flex flex-col rounded-none" : "content-center gap-1.5 flex flex-col relative rounded-none"}
                     collapsedSize={0}
                     collapsible
                     maxSize={65}

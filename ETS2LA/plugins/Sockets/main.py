@@ -17,18 +17,11 @@ async def server(websocket):
     global send
     print("Client Connected!")
     connected_clients.append(websocket)  # Step 2: Add a client to the list when they connect
+    print("Number of connected clients: ", len(connected_clients))
     try:
         while True:
-            message = zlib.compress(send.encode("utf-8"), wbits=28)  # Use the global 'send' variable
-            if message:
-                #message =   # Compress the message
-                for client in connected_clients:
-                    try:
-                        await client.send(message)
-                    except Exception as e:
-                        print("Error sending data.", str(e))
-                        connected_clients.remove(client)
-                        del client
+            if send:
+                await websocket.send(send)
                 # Wait for acknowledgment from client
                 try:
                     ack = await websocket.recv()
@@ -214,4 +207,4 @@ def plugin():
     tempSend += steering(data)
     runner.Profile("Steering")
     
-    send = tempSend
+    send = zlib.compress(tempSend.encode("utf-8"), wbits=28)
