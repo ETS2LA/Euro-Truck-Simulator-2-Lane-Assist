@@ -188,17 +188,19 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     let bounds = latLngBounds(corner1, corner2)
     // <CustomMarker position={position} rotation={rotation} />
     return (
-        <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
-            <TileLayer
-                attribution='&copy; ETS2LA Team'
-                url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
-                minNativeZoom={2}
-                maxNativeZoom={8}
-                zIndex={-999}
-                tileSize={512}
-            />
-            <CustomMarker position={position} rotation={rotation} />
-            <UpdateMapView position={position} />
-        </MapContainer>
+        <>
+            <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
+                <TileLayer
+                    attribution='&copy; ETS2LA Team'
+                    url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
+                    minNativeZoom={2}
+                    maxNativeZoom={8}
+                    zIndex={-999}
+                    tileSize={512}
+                />
+                <CustomMarker position={position} rotation={rotation} />
+                <UpdateMapView position={position} />
+            </MapContainer>
+        </>
     )
 }

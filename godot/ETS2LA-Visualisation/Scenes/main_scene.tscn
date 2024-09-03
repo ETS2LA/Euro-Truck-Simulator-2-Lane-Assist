@@ -131,6 +131,7 @@ script = ExtResource("9_b12iv")
 [node name="RoadsAndPrefabs" type="Node" parent="Map"]
 script = ExtResource("9_115pj")
 markingWidth = 0.1
+maxDistance = 1250.0
 
 [node name="Roads" type="Node" parent="Map"]
 
@@ -316,6 +317,7 @@ stuff: stuff
 stuff: stuff"
 label_settings = SubResource("LabelSettings_rgrby")
 script = ExtResource("4_ckaqj")
+RenderSockets = false
 
 [node name="BottomRightContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 3

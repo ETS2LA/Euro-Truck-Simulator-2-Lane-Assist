@@ -44,8 +44,9 @@ export default function Basic({ip} : {ip: string}) {
                         className="w-full h-full" 
                         sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                     />
+                    {!collapsed && <div className="absolute bottom-0 left-[calc(35vw-0.25rem)] h-[100vh] w-1 bg-gradient-to-r from-transparent to-[#1b1b1b] pointer-events-none" />}
                 </ResizablePanel>
-                <ResizableHandle withHandle />
+                <ResizableHandle withHandle className="w-0" />
                 <ResizablePanel defaultSize={65} className={collapsed ? "content-center gap-1.5 flex flex-col rounded-none" : "content-center gap-1.5 flex flex-col relative rounded-none"}
                     collapsedSize={0}
                     collapsible
@@ -57,6 +58,7 @@ export default function Basic({ip} : {ip: string}) {
                     <div className="h-full z-[-9999]">
                         <ETS2LAMap ip={ip} />
                     </div>
+                    {!collapsed && <div className="absolute bottom-0 left-0 h-[100vh] w-16 bg-gradient-to-l from-transparent to-[#1b1b1b] pointer-events-none" />}
                     <div className="absolute top-0 left-0 right-0 h-screen">
                         <ETS2LAMenubar ip={ip} onLogout={() =>{}} isCollapsed={collapsed} />
                     </div>
