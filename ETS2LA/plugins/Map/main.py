@@ -388,11 +388,8 @@ def plugin():
             navigationData = None
             
         runner.Profile("Navigation data")
-
-        #data["map"]["endPoints"] = []
-        #data["map"]["allPoints"] = []
         
-        steeringData = plotter.GetNextPoints(data, MapUtils, STEERING_ENABLED)
+        steeringData = plotter.GetSteeringPoints(data, MapUtils, STEERING_ENABLED)
         runner.Profile("Steering data")
         steeringPoints = steeringData["map"]["allPoints"]
         try: steeringAngle = steeringData["map"]["angle"]

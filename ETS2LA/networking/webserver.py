@@ -64,6 +64,10 @@ def minimizeApp():
     variables.MINIMIZE = True
     return {"status": "ok"}
 
+@app.get("/api/map/style")
+def get_map_style():
+    return json.loads(open("ETS2LA/assets/map_style.json").read())
+
 @app.get("/api/check/updates")
 def check_updates():
     return git.CheckForUpdate()

@@ -575,7 +575,7 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation):
 
 wasIndicating = False
 # MARK: Main Function
-def GetNextPoints(data : dict, MapUtils, Enabled):
+def GetSteeringPoints(data : dict, MapUtils, Enabled):
     global Route
     global wasIndicating
     

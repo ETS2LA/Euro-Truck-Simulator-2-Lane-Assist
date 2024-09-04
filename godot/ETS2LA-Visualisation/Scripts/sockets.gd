@@ -23,12 +23,15 @@ func _ready() -> void:
 
 # https://forum.godotengine.org/t/working-example-of-compress-decompress-with-streampeergzip/51831/2
 func gzip_decode(data):
-	var gzip = StreamPeerGZIP.new()
-	gzip.start_decompression()
-	gzip.put_data(data)
-	gzip.finish()
-	var string = gzip.get_utf8_string(gzip.get_available_bytes())
-	return string
+	if data:
+		var gzip = StreamPeerGZIP.new()
+		gzip.start_decompression()
+		gzip.put_data(data)
+		# var error = gzip.finish()
+		var string = gzip.get_utf8_string(gzip.get_available_bytes())
+		return string
+	else:
+		return null
 
 func gzip_encode(text: String):
 	var gzip = StreamPeerGZIP.new()

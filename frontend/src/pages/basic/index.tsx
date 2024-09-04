@@ -22,13 +22,13 @@ export default function Basic({ip} : {ip: string}) {
 
     useEffect(() => {
         console.log("Enabling plugins with IP " + ip);
-        EnablePlugin("Sockets", ip).then(() => {
-            EnablePlugin("ObjectDetection", ip).then(() => {
-                EnablePlugin("Map", ip).then(() => {
-                
-                });
-            });
-        });
+        //EnablePlugin("Sockets", ip).then(() => {
+        //    EnablePlugin("ObjectDetection", ip).then(() => {
+        //        EnablePlugin("Map", ip).then(() => {
+        //        
+        //        });
+        //    });
+        //});
         
         return () => {
 

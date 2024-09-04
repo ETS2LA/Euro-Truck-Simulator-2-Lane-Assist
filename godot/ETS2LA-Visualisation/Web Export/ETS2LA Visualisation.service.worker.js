@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1725374619|826995245';
+const CACHE_VERSION = '1725462684|834735148';
 /** @type {string} */
 const CACHE_PREFIX = 'ETS2LA Visualisa-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;

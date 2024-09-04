@@ -1,0 +1,53 @@
+{
+    "id": "whateverthisis",
+    "name": "ETS2LA Map Style",
+    "zoom": 7,
+    "pitch": 0,
+    "center": [
+        0,
+        0
+    ],
+    "layers": [
+        {
+            "id": "background",
+            "type": "background",
+            "paint": {
+                "background-color": "#1b1b1b"
+            },
+            "filter": [
+                "all"
+            ],
+            "layout": {
+                "visibility": "visible"
+            },
+            "maxzoom": 8
+        },
+        {
+            "id": "ets2la-tiles",
+            "type": "raster",
+            "source": "ets2la-tiles",
+            "minzoom": 0,
+            "maxzoom": 8,
+            "layout": {
+                "visibility": "visible"
+            },
+            "paint": {
+                "raster-opacity": 1
+            }
+        }
+    ],
+    "bearing": 0,
+    "sources": {
+        "ets2la-tiles": {
+            "type": "raster",
+            "tiles": [
+                "https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
+            ],
+            "tileSize": 512,
+            "minzoom": 0,
+            "maxzoom": 8,
+            "attribution": "ETS2LA Contributors"
+        }
+    },
+    "version": 8
+}
