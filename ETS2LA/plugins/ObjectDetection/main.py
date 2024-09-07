@@ -122,7 +122,8 @@ def Initialize():
             device = "cpu"
 
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
-    
+
+    torch.hub.set_dir(f"{variables.PATH}cache/ObjectDetection")
     if MODEL_TYPE == "YoloV7":
         model = torch.hub.load('WongKinYiu/yolov7', 'custom', path=MODEL_PATH, _verbose=False)
     elif MODEL_TYPE == "YoloV5":
