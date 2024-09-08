@@ -8,13 +8,13 @@ CACHE_DIR = f"{variables.PATH}cache"
 CACHE_FILE = os.path.join(CACHE_DIR, "avatar_urls.txt")
 
 def CheckForUpdate():
-    repo = git.Repo()
-    current_hash = repo.head.object.hexsha
-    o = repo.remotes.origin
-    origin_hash = o.fetch()[0].commit.hexsha
-    if current_hash != origin_hash:
-        return True
-    else:
+    try:
+        repo = git.Repo()
+        current_hash = repo.head.object.hexsha
+        o = repo.remotes.origin
+        origin_hash = o.fetch()[0].commit.hexsha
+        return current_hash != origin_hash
+    except:
         return False
     
 commits_save = []
