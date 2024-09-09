@@ -174,7 +174,7 @@
     "frontend.immediate.checking_updates": "Tarkistetaan päivityksiä...",
     "frontend.immediate.update_available": "{0} päivitys(tä) saatavilla!",
     "frontend.immediate.up_to_date": "Ei päivityksiä saatavilla",
-    "frontend.immediate.no_updates": "Sinulla on uusin version",
+    "frontend.immediate.no_updates": "Sinulla on jo uusin versio",
     "frontend.immediate.socket_connected": "Yhdistetty",
     "frontend.immediate.socket_disconnected": "Yhteys katkaistu, päivitä sivu",
     "frontend.immediate.enable_stay_on_top": "Pidä päällimmäisenä",
