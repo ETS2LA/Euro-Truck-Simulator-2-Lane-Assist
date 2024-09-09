@@ -365,7 +365,7 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
         #logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
                 
         if closestLaneId == [math.inf]:
-            return []
+            return [] 
         
         wantedDirection = "right" if data["api"]["truckBool"]["blinkerLeftActive"] else "left" if data["api"]["truckBool"]["blinkerRightActive"] else "forward"
         if len(closestLaneId) > 1:
