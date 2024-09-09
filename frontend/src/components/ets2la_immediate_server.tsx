@@ -24,6 +24,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { translate } from "@/pages/translation";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 
 let socket: WebSocket | null = null;
 export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: boolean}) {
@@ -190,9 +191,46 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
             </DialogContent>
         </Dialog>
         { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />{translate("frontend.immediate.update_check_error", error.message)}</Badge> }
-        { isLoading && <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>{translate("frontend.immediate.checking_updates")}</Badge> || 
-            data && <Badge variant="default" className="gap-1 pl-1 rounded-sm cursor-pointer" onClick={() => toast.promise(Update())}><ArrowDownToLine className="w-5 h-5" />{translate("frontend.immediate.update_available")}</Badge> ||
-            <Badge variant="secondary" className="gap-1 pl-1 rounded-sm" onClick={() => toast.promise(Update())}><Check className="w-5 h-5" />{translate("frontend.immediate.up_to_date")}</Badge>
+        {   isLoading && 
+                <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>{translate("frontend.immediate.checking_updates")}</Badge> 
+            || data && 
+                <TooltipProvider>
+                    <Tooltip delayDuration={0}>
+                        <TooltipTrigger>
+                            <Badge variant="default" className="gap-1 pl-1 rounded-sm cursor-pointer" onClick={() => toast.promise(Update())}><ArrowDownToLine className="w-5 h-5" />{translate("frontend.immediate.update_available", data.length)}</Badge> 
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-background border flex flex-col gap-3 w-64 max-h-64 overflow-auto p-0">
+                            <Accordion type="multiple">
+                                {data.map((update:any, index:any) => (
+                                    <AccordionItem value={update.message} className="text-foreground">
+                                        <AccordionTrigger className="text-xs font-semibold text-left p-2 no-underline">
+                                            <p>{update.message}</p>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="text-xs pl-2">
+                                            {update.description !== "" && 
+                                            <div className="pt-1 pb-0.5">
+                                                <p className="">{update.description}</p>
+                                            </div>
+                                            }
+                                            <p className="text-muted">by {update.author}</p>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            ||
+            <TooltipProvider>
+                <Tooltip delayDuration={0}>
+                    <TooltipTrigger>
+                    <Badge variant="secondary" className="gap-1 pl-1 rounded-sm" onClick={() => toast.promise(Update())}><Check className="w-5 h-5" />{translate("frontend.immediate.up_to_date")}</Badge>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-background border flex flex-col gap-3 w-44 h-8 overflow-auto p-0 text-center text-foreground text-bold justify-center">
+                        {translate("frontend.immediate.no_updates")}
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
         }
         <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? translate("frontend.immediate.socket_connected") : translate("frontend.immediate.socket_disconnected")}</Badge>
         <div>

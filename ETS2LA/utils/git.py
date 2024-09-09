@@ -13,7 +13,15 @@ def CheckForUpdate():
     o = repo.remotes.origin
     origin_hash = o.fetch()[0].commit.hexsha
     if current_hash != origin_hash:
-        return True
+        updates = []
+        for commit in repo.iter_commits(f"{current_hash}..{origin_hash}"):
+            updates.append({
+                "author": commit.author.name,
+                "message": commit.summary,
+                "description": commit.message.replace(commit.summary, "").strip(),
+                "time": commit.committed_date
+            })
+        return updates
     else:
         return False
     

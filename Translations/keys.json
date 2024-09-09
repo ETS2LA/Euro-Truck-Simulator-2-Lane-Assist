@@ -159,6 +159,7 @@
     "frontend.immediate.checking_updates",
     "frontend.immediate.update_available",
     "frontend.immediate.up_to_date",
+    "frontend.immediate.no_updates",
     "frontend.immediate.socket_connected",
     "frontend.immediate.socket_disconnected",
     "frontend.immediate.enable_stay_on_top",
