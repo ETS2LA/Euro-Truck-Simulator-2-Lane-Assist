@@ -172,7 +172,8 @@
     "frontend.immediate.disconnected": "與 ETS2LA 伺服器端斷開連接",
     "frontend.immediate.update_check_error": "錯誤：{0}",
     "frontend.immediate.checking_updates": "正在檢查更新...",
-    "frontend.immediate.update_available": "有可用更新",
+    "frontend.immediate.update_available": "有{0}個可用更新",
+    "frontend.immediate.no_updates": "沒有可用的更新",
     "frontend.immediate.up_to_date": "最新版本",
     "frontend.immediate.socket_connected": "已連接",
     "frontend.immediate.socket_disconnected": "未連接，請重新整理。",
@@ -306,8 +307,8 @@
     "map.settings.8.description": "這將設定發送給其他插件的數據的最大距離，前提是該插件允許。",
     "map.settings.9.name": "顯示 AR 數據",
     "map.settings.9.description": "這將顯示遊戲中的道路，您還需要啟用 AR 插件。",
-    "map.settings.12.name": "在ETS2LA上導航",
-    "map.settings.12.description": "將計算齣到達目的地所需的路徑。免責聲明：此路綫不保証是最快的路綫。!",
+    "map.settings.12.name": "在 ETS2LA 中導航",
+    "map.settings.12.description": "將計算通往目的地的路線。聲明：此路線不保證是最快的！",
 
     "object_detection.settings.1.title": "物體辨識設定",
     "object_detection.settings.1.description": "這些設定將影響物體辨識的品質和效能。",
@@ -333,7 +334,7 @@
     "map.loading.preparing": "準備載入數據中...",
     "map.loading.nodes": "載入資料點...",
     "map.loading.roads": "載入道路中...",
-    "map.loading.ferries": "載入輪渡中...",
+    "map.loading.ferries": "正在載入渡輪路線...",
     "map.loading.prefab_data": "載入預設物件資料中...",
     "map.loading.prefabs": "載入預設物件中...",
     "map.loading.final_calculations": "進行最後計算中...",
@@ -343,7 +344,7 @@
     "map.extracting_data": "正在取得 GameData.zip 資料，請稍候...",
     "map.settings.10.title": "轉向設定",
     "map.settings.11.name":"平滑度",
-    "map.settings.11.description":"平滑轉向的時間（以秒為單位）。值為0時，轉向會非常靈敏；值大於0.5時，可能會導致左右搖擺。"
+    "map.settings.11.description":"平滑轉向的時間（秒）。數值為0時，轉向會非常靈敏；數值大於0.5時，可能會導致左右搖晃。"
 }
 
 
