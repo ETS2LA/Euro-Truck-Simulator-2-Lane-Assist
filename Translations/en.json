@@ -326,8 +326,8 @@
     
     "acc.settings.1.title": "Adaptive Cruise Control Settings",
     "acc.settings.1.description": "This will affect how the app responds to other vehicles.",
-    "acc.settings.2.name": "Follow Distance",
-    "acc.settings.2.description": "Specifically this is the distance in meters at a speed of 80kph or 50mph.",
+    "acc.settings.2.name": "Follow Time",
+    "acc.settings.2.description": "How many seconds behind the vehicle in front we should be.",
 
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 

@@ -432,8 +432,8 @@ def plugin():
     runner.Profile("External Data")
         
     # Half the resolution of the steering points
-    if COMPUTE_STEERING_DATA:
-        steeringPoints = steeringPoints[::2]
+    # if COMPUTE_STEERING_DATA:
+    #     steeringPoints = steeringPoints[::2]
         
     arData = None
     if SEND_AR_DATA:

@@ -448,7 +448,7 @@ def DistanceBetweenPoints(point1, point2):
     return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
 def map_curvature_to_speed_effect(curvature):
-    factor = 0.007 # 90 degree turn = 0.63 effect
+    factor = 0.007
     min_effect, max_effect = 0.0, 0.7
     effect = min(max(curvature * factor, min_effect), max_effect)
     return effect
@@ -471,7 +471,6 @@ def CalculateCurvature(points):
                 cos_angle = dot_product / norm_product
                 cos_angle = np.clip(cos_angle, -1, 1)
                 angle = np.arccos(cos_angle)
-                
                 if angle > math.pi/2:
                     angle = math.pi - angle
 
@@ -484,10 +483,10 @@ def CalculateCurvature(points):
         lower_bound = q1 - (1.5 * iqr)
         upper_bound = q3 + (1.5 * iqr)
         filtered_curvatures = [x for x in curvatures if lower_bound <= x <= upper_bound]
-
+        
         total_curvature = sum(filtered_curvatures)
         total_curvature = math.degrees(total_curvature)
-        print(f"Curvature: {total_curvature}", end="\r")
+        #print(f"Curvature: {total_curvature}", end="\r")
 
         return total_curvature
     except Exception as e:
@@ -495,7 +494,7 @@ def CalculateCurvature(points):
         return 0
 
 # MARK: Lane Change
-def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation):
+def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation, speed):
     returnPoints = []
     
     def GetPointLaneChangeDistance(point):
@@ -536,11 +535,13 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation):
     if startPercentage > 1:
         startPercentage = 1
         
+    speedPercentage = speed / 50
+        
     # Check which point is over the lane change distance
     index = 0
     for point in curPoints:
         distance = GetPointLaneChangeDistance(point)
-        if distance > DISTANCE_FOR_LANE_CHANGE:
+        if distance > DISTANCE_FOR_LANE_CHANGE * speedPercentage:
             break
         index += 1
     
@@ -579,7 +580,9 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
     data["map"]["angle"] = 0
     
     truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckY = data["api"]["truckPlacement"]["coordinateY"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    speed = data["api"]["truckFloat"]["speed"] * 3.6 # m/s -> km/h
     rotation = data["api"]["truckPlacement"]["rotationX"] * 360
     if rotation < 0: rotation += 360
     rotation = math.radians(rotation)
@@ -600,7 +603,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         Route = Route[:1] # Reset the next item
         if len(Route) > 0 and indicating:
             try:
-                Route[0].points = GenerateLaneChange(Route[0], truckX, truckZ, indicatingRight, rotation)
+                Route[0].points = GenerateLaneChange(Route[0], truckX, truckZ, indicatingRight, rotation, speed)
             except:
                 pass
     
@@ -613,7 +616,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
             GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ)
             if indicating:
                 try:
-                    Route[0].points = GenerateLaneChange(Route[0], truckX, truckZ, indicatingRight, rotation)
+                    Route[0].points = GenerateLaneChange(Route[0], truckX, truckZ, indicatingRight, rotation, speed)
                 except:
                     pass
         except: 
@@ -676,8 +679,25 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         #data["map"]["endPoints"].append(routeItem.endPosition)
         count += 1
 
+    acceptedPoints = []
+    lastPoint = allPoints[0]
+    for i in range(1, len(allPoints)):
+        vector1 = [allPoints[i][0] - lastPoint[0], allPoints[i][1] - lastPoint[1]]
+        vector2 = [lastPoint[0] - truckX, lastPoint[1] - truckZ]
+        
+        angle = np.arccos(np.dot(vector1, vector2) / (np.linalg.norm(vector1) * np.linalg.norm(vector2)))
+        angle = math.degrees(angle)
+        if angle < 90:
+            acceptedPoints.append(allPoints[i])
+            lastPoint = allPoints[i]
+        else:
+            ...#print(f"Angle is {angle}")
+    
+    allPoints = acceptedPoints
+
     if len(Route) > 0:
-        data["map"]["allPoints"] = Route[0].removedPoints[-1:] + allPoints
+        data["map"]["allPoints"] =  allPoints
+        #print(data["map"]["allPoints"])
     else:
         data["map"]["allPoints"] = allPoints
         

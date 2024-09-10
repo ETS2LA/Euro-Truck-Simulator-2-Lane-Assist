@@ -159,6 +159,21 @@ def steering(data):
         return send
     except:
         return "JSONsteeringPoints:[];"
+    
+lastStatus = ""
+def status(data):
+    try:
+        global lastStatus
+        data["status"] = runner.GetData(["tags.status"])[0]
+        if data["status"] is None or type(data["status"]) != str:
+            data["status"] = lastStatus
+        else:
+            lastStatus = data["status"]
+        send = "status:" + data["status"] + ";"
+        return send
+    except:
+        logging.exception("Error in status")
+        return 'status:ACC status error;'
 
 async def start_server(func):
     async with websockets.serve(func, "localhost", 37522):
@@ -206,5 +221,7 @@ def plugin():
     runner.Profile("TrafficLights")
     tempSend += steering(data)
     runner.Profile("Steering")
+    tempSend += status(data)
+    runner.Profile("Status")
     
     send = zlib.compress(tempSend.encode("utf-8"), wbits=28)

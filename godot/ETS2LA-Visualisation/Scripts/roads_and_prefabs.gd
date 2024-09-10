@@ -17,7 +17,7 @@ extends Node
 @export var maxDistance : float = 750 # meters
 
 @onready var MapData = $/root/Node3D/MapData
-@onready var Truck = $/root/Node3D/Truck
+@onready var Truck: Node3D = $/root/Node3D/Truck
 @onready var Variables = $/root/Node3D/Variables
 @onready var Socket = $/root/Node3D/Sockets
 @onready var RoadParent = $/root/Node3D/Map/Roads
@@ -401,6 +401,13 @@ func _process(delta: float) -> void:
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
+		var truckX = Truck.position.x
+		var truckY = Truck.position.y - 0.8
+		var truckZ = Truck.position.z
+		
+		if typeof(truckX) != 3 and typeof(truckY) != 3 and typeof(truckZ) != 3:
+			#print(typeof(truckX))
+			return
 		
 		if len(SteeringData) == 0:
 			return
@@ -420,6 +427,11 @@ func _process(delta: float) -> void:
 					points.append(Vector3(point[0], point[2] + 0.05, point[1]))
 					#print(points[-1])
 					counter += 1
+		
+		if len(points) == 0:
+			return
+		
+		points.push_front(Vector3(truckX, points[0].y, truckZ))
 		
 		# These point towards the next point
 		var forwardVectors = CreateForwardVectors(points)
