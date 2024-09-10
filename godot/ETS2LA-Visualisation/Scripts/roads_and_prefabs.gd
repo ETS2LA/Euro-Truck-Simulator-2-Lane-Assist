@@ -6,8 +6,10 @@ extends Node
 @export var markingDashedMat = preload("res://Materials/markingsDashed.tres")
 @export var markingsDarkMat = preload("res://Materials/markingsDark.tres")
 @export var markingsDarkDashed = preload("res://Materials/markingsDarkDashed.tres")
+@export var markingsDarkDashedNoOvertake = preload("res://Materials/markingsDarkDashedNoOvertake.tres")
 @export var steeringMat = preload("res://Materials/steering.tres")
 @export var steeringDarkMat = preload("res://Materials/steeringDark.tres")
+
 @export var roadObject = preload("res://Objects/road.tscn")
 
 @export var markingWidth : float
@@ -168,8 +170,23 @@ func _process(delta: float) -> void:
 				var roadY = 0
 				var roadZ = road["Z"]
 				var roadPosition = Vector3(roadX, roadY, roadZ)
+				var overtake = []
+				var shoulderLeft = road["RoadLook"]["ShoulderSpaceLeft"]
+				var shoulderRight = road["RoadLook"]["ShoulderSpaceRight"]
 				var lanesLeft = len(road["RoadLook"]["LanesLeft"])
 				var lanesRight = len(road["RoadLook"]["LanesRight"])
+				
+				for lane in road["RoadLook"]["LanesLeft"]:
+					if "no_overtake" in lane:
+						overtake.append(false)
+					else:
+						overtake.append(true)
+						
+				for lane in road["RoadLook"]["LanesRight"]:
+					if "no_overtake" in lane:
+						overtake.append(false)
+					else:
+						overtake.append(true)
 				
 				if roadPosition.distance_to(position) > maxDistance:
 					skippedLines += 1
@@ -197,7 +214,15 @@ func _process(delta: float) -> void:
 					roadObj.name = uid + "-" + str(totalLines)
 
 					var right:CSGPolygon3D = roadObj.get_node("Right")
+					
+					if shoulderRight != null and shoulderRight != 0:
+						right.polygon[2].x += shoulderRight
+					
 					var left:CSGPolygon3D = roadObj.get_node("Left")
+					
+					if shoulderLeft != null and shoulderLeft != 0:
+						left.polygon[2].x -= shoulderLeft
+					
 					var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
 					var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
 					var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
@@ -255,9 +280,14 @@ func _process(delta: float) -> void:
 					drewLanes = false
 					if lanesLeft == 1 and lanesRight == 1:
 						if index == 0:
-							rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-							rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
-							drewLanes = true
+							if overtake[0]:
+								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+								drewLanes = true
+							else:
+								if not overtake[0]:
+									rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									rightSolidLine.material = markingMat if not dark else markingsDarkMat
 					
 					elif (lanesLeft + lanesRight) > 1:
 						if lanesLeft > 0:

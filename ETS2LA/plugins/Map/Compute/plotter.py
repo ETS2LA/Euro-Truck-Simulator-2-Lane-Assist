@@ -505,7 +505,6 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation):
         return routeItem.points
     
     inverted = routeItem.inverted
-    logging.warning("Generating lane change " + ("right" if isRight else "left") + (" inverted" if inverted else ""))
     
     road = cast(Road, routeItem.item)
     lanesLeft = len(road.RoadLook.lanesLeft)
@@ -518,13 +517,9 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation):
     curLaneSide = 1 if curLane < lanesLeft else -1
     wantedLaneSide = 1 if wantedLane < lanesLeft else -1
     if curLaneSide != wantedLaneSide:
-        logging.warning("Can't lane change to the other side")
         return routeItem.points
     
-    logging.warning(f"CurLane: {curLane}, WantedLane: {wantedLane}")
-    
     if wantedLane < 0 or wantedLane >= lanesLeft + lanesRight:
-        logging.warning("No lane found to lane change to")
         return routeItem.points
     
     curPoints = routeItem.points

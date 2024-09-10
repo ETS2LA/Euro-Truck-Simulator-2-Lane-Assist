@@ -164,7 +164,7 @@ def plugin():
             SDKController.aforward = float(acceleration * 10)
             SDKController.abackward = float(0)
         else:
-            SDKController.abackward = float(-acceleration * 0.5)
+            SDKController.abackward = float(-acceleration * 0.25)
             SDKController.aforward = float(0)
         
         # return None, {

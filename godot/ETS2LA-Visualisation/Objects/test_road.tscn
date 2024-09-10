@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhmdtnoxbaksu"]
+[gd_scene load_steps=6 format=3 uid="uid://dhmdtnoxbaksu"]
 
+[ext_resource type="Material" uid="uid://llnf3757c4hf" path="res://Materials/markingsDarkDashedNoOvertake.tres" id="1_620vi"]
 [ext_resource type="Material" uid="uid://dmaxysuvanmss" path="res://Materials/road.tres" id="1_f1bkl"]
 [ext_resource type="Material" uid="uid://h2rhtr8ttayn" path="res://Materials/roadDark.tres" id="1_ytyp0"]
 [ext_resource type="Material" uid="uid://cejr8km14y5dw" path="res://Materials/markingsDashed.tres" id="2_jvv1s"]
@@ -19,6 +20,7 @@ curve = SubResource("Curve3D_n1x74")
 [node name="SolidMarkingLeft" type="CSGPolygon3D" parent="Path3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0362682, 0.0338306, 0.00931549)
 visible = false
+material_override = ExtResource("1_620vi")
 calculate_tangents = false
 polygon = PackedVector2Array(-2.15, -0.02, -2.15, -0.01, -2.25, -0.01, -2.25, -0.02)
 mode = 2
@@ -47,7 +49,7 @@ path_local = false
 path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
-material = ExtResource("2_jvv1s")
+material = ExtResource("1_620vi")
 
 [node name="DashedMarkingRight" type="CSGPolygon3D" parent="Path3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0362682, 0.0338306, 0.00931549)
