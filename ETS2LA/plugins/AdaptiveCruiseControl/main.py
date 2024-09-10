@@ -19,12 +19,12 @@ import os
 
 runner:PluginRunner = None
 
-FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "distance", 30) # meters
+FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "distance", 3) # meters
 ACC_ENABLED = False
 
 def LoadSettings():
     global FOLLOW_TIME
-    FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "distance", 30)
+    FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "distance", 3)
     
 # Update settings on change
 settings.Listen("AdaptiveCruiseControl", LoadSettings)
