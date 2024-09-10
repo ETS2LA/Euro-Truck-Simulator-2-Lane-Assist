@@ -14,6 +14,7 @@ import time
 class RouteItem:
     item: PrefabItem | Road
     points: list[list[float]]
+    removedPoints: list[list[float]]
     lane: int
     length: float
     endPosition: list[float]
@@ -28,6 +29,7 @@ class RouteItem:
         self.endPosition = endPosition
         self.startPosition = startPosition
         self.inverted = inverted
+        self.removedPoints = []
     
     def DiscardPointsBehindTheTruck(self, truckX, truckZ, rotation):
         newPoints = []
@@ -37,6 +39,7 @@ class RouteItem:
             angle = np.arccos(np.dot(truckForwardVector, pointForwardVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(pointForwardVector)))
             angle = math.degrees(angle)
             if angle > 90:
+                self.removedPoints.append(point)
                 continue
             newPoints.append(point)      
         
@@ -621,7 +624,11 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         return data
     
     for routeItem in Route:
-        routeItem.points = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
+        newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
+        for point in routeItem.points:
+            if point not in newPoints:
+                routeItem.removedPoints.append(point)
+        routeItem.points = newPoints
         if routeItem.points == []:
             Route.remove(routeItem)
         
@@ -669,10 +676,14 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         #data["map"]["endPoints"].append(routeItem.endPosition)
         count += 1
 
+    if len(Route) > 0:
+        data["map"]["allPoints"] = Route[0].removedPoints[-1:] + allPoints
+    else:
+        data["map"]["allPoints"] = allPoints
+        
     for item in itemsToRemove:
         Route.remove(item)
 
-    data["map"]["allPoints"] = allPoints # Cap to 20 points
     data["map"]["endPoints"] = endPoints
     
     if allPoints == []:

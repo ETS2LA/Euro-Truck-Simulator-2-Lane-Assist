@@ -11,6 +11,7 @@ extends Node
 @export var steeringDarkMat = preload("res://Materials/steeringDark.tres")
 
 @export var roadObject = preload("res://Objects/road.tscn")
+@export var roadScript = preload("res://Scripts/road.gd")
 
 @export var markingWidth : float
 @export var maxDistance : float = 750 # meters
@@ -60,6 +61,7 @@ func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road",
 	
 	# Render the road mesh
 	var meshInstance = MeshInstance3D.new()
+	meshInstance.set_script(roadScript)
 	meshInstance.mesh = mesh
 	meshInstance.position = Vector3(x, y, z)
 	meshInstance.name = meshName
@@ -110,7 +112,7 @@ func CreateVerticesForPoint(point, normalVector, width = 2.25):
 	vertices.push_back(rightPoint)
 	
 	# Markings
-	leftPoint = point + Vector3((normalVector * 2.2)[0], 0, (normalVector * (2.25 - markingWidth))[1])
+	leftPoint = point + Vector3((normalVector * (2.25 - markingWidth))[0], 0, (normalVector * (2.25 - markingWidth))[1])
 	rightPoint = point + Vector3((normalVector * (2.25 + markingWidth))[0], 0, (normalVector * (2.25 + markingWidth))[1])
 
 	rightMarkingVertices.push_back(leftPoint)
@@ -374,10 +376,10 @@ func _process(delta: float) -> void:
 					right.set_path_node(roadObj.get_node("Path3D").get_path())
 					left.set_path_node(roadObj.get_node("Path3D").get_path())
 
-					leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-					leftSolidLine.material = markingMat if not dark else markingsDarkMat
-					rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-					rightSolidLine.material = markingMat if not dark else markingsDarkMat
+					#leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+					#leftSolidLine.material = markingMat if not dark else markingsDarkMat
+					#rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+					#rightSolidLine.material = markingMat if not dark else markingsDarkMat
 					
 					right.material = roadMat if not dark else roadDarkMat
 					left.material = roadMat if not dark else roadDarkMat
@@ -437,12 +439,13 @@ func _process(delta: float) -> void:
 		var dark = Variables.darkMode
 		var mat = steeringMat if not dark else steeringDarkMat
 		
+		var curTime = Time.get_ticks_msec()
 		for n in self.get_children():
-			if n.name == "steering":
+			if "steering" in n.name:
 				self.remove_child(n)
-				n.queue_free() 
+				n.queue_free()
 		
-		CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
-		#CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering", "self", -0.98)
-		#CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering", "self", -0.98)
+		CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering-1", "self", 0.05)
+		CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering-2", "self", 0.05)
+		#CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
 		
