@@ -39,5 +39,6 @@
         "YOLO",
         "yolov"
     ],
-    "godotTools.editorPath.godot4": "f:\\Godot\\Godot_v4.3-stable_win64.exe"
+    "godotTools.editorPath.godot4": "f:\\Godot\\Godot_v4.3-stable_win64.exe",
+    "python.analysis.typeCheckingMode": "basic"
 }

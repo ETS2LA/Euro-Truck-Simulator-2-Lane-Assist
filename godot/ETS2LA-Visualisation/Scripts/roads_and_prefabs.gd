@@ -229,8 +229,8 @@ func _process(delta: float) -> void:
 								drewLanes = true
 							
 							if lanesLeft == 1:
-								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								rightSolidLine.material = markingMat if not dark else markingsDarkMat
+								leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								leftSolidLine.material = markingMat if not dark else markingsDarkMat
 							
 						elif index == lanesLeft - 1:
 							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())

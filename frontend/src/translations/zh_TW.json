@@ -164,7 +164,8 @@
     "frontend.immediate.disconnected": "\u8207 ETS2LA \u4f3a\u670d\u5668\u7aef\u65b7\u958b\u9023\u63a5",
     "frontend.immediate.update_check_error": "\u932f\u8aa4\uff1a{0}",
     "frontend.immediate.checking_updates": "\u6b63\u5728\u6aa2\u67e5\u66f4\u65b0...",
-    "frontend.immediate.update_available": "\u6709\u53ef\u7528\u66f4\u65b0",
+    "frontend.immediate.update_available": "\u6709{0}\u500b\u53ef\u7528\u66f4\u65b0",
+    "frontend.immediate.no_updates": "\u6c92\u6709\u53ef\u7528\u7684\u66f4\u65b0",
     "frontend.immediate.up_to_date": "\u6700\u65b0\u7248\u672c",
     "frontend.immediate.socket_connected": "\u5df2\u9023\u63a5",
     "frontend.immediate.socket_disconnected": "\u672a\u9023\u63a5\uff0c\u8acb\u91cd\u65b0\u6574\u7406\u3002",
@@ -291,8 +292,8 @@
     "map.settings.8.description": "\u9019\u5c07\u8a2d\u5b9a\u767c\u9001\u7d66\u5176\u4ed6\u63d2\u4ef6\u7684\u6578\u64da\u7684\u6700\u5927\u8ddd\u96e2\uff0c\u524d\u63d0\u662f\u8a72\u63d2\u4ef6\u5141\u8a31\u3002",
     "map.settings.9.name": "\u986f\u793a AR \u6578\u64da",
     "map.settings.9.description": "\u9019\u5c07\u986f\u793a\u904a\u6232\u4e2d\u7684\u9053\u8def\uff0c\u60a8\u9084\u9700\u8981\u555f\u7528 AR \u63d2\u4ef6\u3002",
-    "map.settings.12.name": "\u5728ETS2LA\u4e0a\u5c0e\u822a",
-    "map.settings.12.description": "\u5c07\u8a08\u7b97\u9f63\u5230\u9054\u76ee\u7684\u5730\u6240\u9700\u7684\u8def\u5f91\u3002\u514d\u8cac\u8072\u660e\uff1a\u6b64\u8def\u7dab\u4e0d\u4fdd\u8a3c\u662f\u6700\u5feb\u7684\u8def\u7dab\u3002!",
+    "map.settings.12.name": "\u5728 ETS2LA \u4e2d\u5c0e\u822a",
+    "map.settings.12.description": "\u5c07\u8a08\u7b97\u901a\u5f80\u76ee\u7684\u5730\u7684\u8def\u7dda\u3002\u8072\u660e\uff1a\u6b64\u8def\u7dda\u4e0d\u4fdd\u8b49\u662f\u6700\u5feb\u7684\uff01",
     "object_detection.settings.1.title": "\u7269\u9ad4\u8fa8\u8b58\u8a2d\u5b9a",
     "object_detection.settings.1.description": "\u9019\u4e9b\u8a2d\u5b9a\u5c07\u5f71\u97ff\u7269\u9ad4\u8fa8\u8b58\u7684\u54c1\u8cea\u548c\u6548\u80fd\u3002",
     "object_detection.settings.2.name": "\u8a2d\u5099",
@@ -314,7 +315,7 @@
     "map.loading.preparing": "\u6e96\u5099\u8f09\u5165\u6578\u64da\u4e2d...",
     "map.loading.nodes": "\u8f09\u5165\u8cc7\u6599\u9ede...",
     "map.loading.roads": "\u8f09\u5165\u9053\u8def\u4e2d...",
-    "map.loading.ferries": "\u8f09\u5165\u8f2a\u6e21\u4e2d...",
+    "map.loading.ferries": "\u6b63\u5728\u8f09\u5165\u6e21\u8f2a\u8def\u7dda...",
     "map.loading.prefab_data": "\u8f09\u5165\u9810\u8a2d\u7269\u4ef6\u8cc7\u6599\u4e2d...",
     "map.loading.prefabs": "\u8f09\u5165\u9810\u8a2d\u7269\u4ef6\u4e2d...",
     "map.loading.final_calculations": "\u9032\u884c\u6700\u5f8c\u8a08\u7b97\u4e2d...",
@@ -324,5 +325,5 @@
     "map.extracting_data": "\u6b63\u5728\u53d6\u5f97 GameData.zip \u8cc7\u6599\uff0c\u8acb\u7a0d\u5019...",
     "map.settings.10.title": "\u8f49\u5411\u8a2d\u5b9a",
     "map.settings.11.name": "\u5e73\u6ed1\u5ea6",
-    "map.settings.11.description": "\u5e73\u6ed1\u8f49\u5411\u7684\u6642\u9593\uff08\u4ee5\u79d2\u70ba\u55ae\u4f4d\uff09\u3002\u503c\u70ba0\u6642\uff0c\u8f49\u5411\u6703\u975e\u5e38\u9748\u654f\uff1b\u503c\u5927\u65bc0.5\u6642\uff0c\u53ef\u80fd\u6703\u5c0e\u81f4\u5de6\u53f3\u6416\u64fa\u3002"
+    "map.settings.11.description": "\u5e73\u6ed1\u8f49\u5411\u7684\u6642\u9593\uff08\u79d2\uff09\u3002\u6578\u503c\u70ba0\u6642\uff0c\u8f49\u5411\u6703\u975e\u5e38\u9748\u654f\uff1b\u6578\u503c\u5927\u65bc0.5\u6642\uff0c\u53ef\u80fd\u6703\u5c0e\u81f4\u5de6\u53f3\u6416\u6643\u3002"
 }

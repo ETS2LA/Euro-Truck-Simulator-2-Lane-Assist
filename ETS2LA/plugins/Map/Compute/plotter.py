@@ -445,56 +445,53 @@ def DistanceBetweenPoints(point1, point2):
     return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
 def map_curvature_to_speed_effect(curvature):
-    factor = 0.01 # needs a 50 degree turn to reach max effect
-    min_effect, max_effect = 0.0, 0.5
+    factor = 0.007 # 90 degree turn = 0.63 effect
+    min_effect, max_effect = 0.0, 0.7
     effect = min(max(curvature * factor, min_effect), max_effect)
     return effect
 
-# MARK: Calculate curvature
 def CalculateCurvature(points):
+    if len(points) < 3:  # Need at least 3 points to calculate curvature
+        return 0
+    
+    curvatures = []
     try:
-        # Calculate the dot products of the vectors between the points
-        dot_products = []
-        for i in range(1, len(points)-1):
-            try:
-                vector1 = [points[i][0] - points[i-1][0], points[i][1] - points[i-1][1]]
-                vector2 = [points[i+1][0] - points[i][0], points[i+1][1] - points[i][1]]
-                dot_product = np.dot(vector1, vector2)
-                # Check if nan
-                if dot_product != dot_product:
-                    dot_product = 0
-                dot_products.append(dot_product)
-            except:
-                dot_products.append(0)
-            
-        # Calculate the angles between the vectors
-        angles = []
-        for i in range(len(dot_products)-1):
-            angle = np.arccos(dot_products[i] / (np.linalg.norm(vector1) * np.linalg.norm(vector2)))
-            # Check if nan
-            if angle != angle:
+        for i in range(1, len(points) - 1):
+            vector1 = np.array(points[i]) - np.array(points[i - 1])
+            vector2 = np.array(points[i + 1]) - np.array(points[i])
+            dot_product = np.dot(vector1, vector2)
+            norm_product = np.linalg.norm(vector1) * np.linalg.norm(vector2)
+
+            if norm_product == 0:
                 angle = 0
+            else:
+                cos_angle = dot_product / norm_product
+                cos_angle = np.clip(cos_angle, -1, 1)
+                angle = np.arccos(cos_angle)
                 
-            # Check if the angle is closer to 180 degrees
-            # if angle > math.pi/4:
-            #     angle = angle - math.pi/2
-                
-            #print(f"Angle: {angle}")
-                
-            angles.append(angle)
-        
-        # print(f"Angles: {angles}")
-        
-        # Calculate the curvature
-        total_curvature = 0
-        for angle in angles:
-            total_curvature += abs(angle)
-        
+                if angle > math.pi/2:
+                    angle = math.pi - angle
+
+            if not np.isnan(angle) and angle != 0:
+                curvatures.append(angle)
+
+        # Filter outliers using IQR
+        q1, q3 = np.percentile(curvatures, [25, 75])
+        iqr = q3 - q1
+        lower_bound = q1 - (1.5 * iqr)
+        upper_bound = q3 + (1.5 * iqr)
+        filtered_curvatures = [x for x in curvatures if lower_bound <= x <= upper_bound]
+
+        total_curvature = sum(filtered_curvatures)
+        total_curvature = math.degrees(total_curvature)
+        print(f"Curvature: {total_curvature}", end="\r")
+
         return total_curvature
-    except:
+    except Exception as e:
         logging.exception("Failed to calculate curvature")
         return 0
 
+# MARK: Lane Change
 def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation):
     returnPoints = []
     
