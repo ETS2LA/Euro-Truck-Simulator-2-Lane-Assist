@@ -25,6 +25,7 @@
     "main.warnings": "Warnings:",
     "main.no_errors_or_warnings": "No errors or warnings found.",
     "main.overseer_started": "ETS2LA Overseer started!",
+    "main.development_mode": "Running ETS2LA in development mode.",
     "main.restarting": "ETS2LA is restarting...",
     "main.updating": "ETS2LA is updating...",
     "main.update_done": "Update done... restarting!",

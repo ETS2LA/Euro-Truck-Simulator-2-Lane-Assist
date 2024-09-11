@@ -22,6 +22,7 @@ GREEN = "\033[92m"
 RED = "\033[91m"
 YELLOW = "\033[93m"
 BLUE = "\033[94m"
+PURPLE = "\033[95m"
 DARK_GRAY = "\033[90m"
 NORMAL = "\033[0m"
 
@@ -79,6 +80,10 @@ def ETS2LAProcess(exception_queue: Queue):
 if __name__ == "__main__":
     exception_queue = Queue()  # Create a queue for exceptions
     print(f"{BLUE}{Translate('main.overseer_started')}{NORMAL}\n")
+    if "--dev" in sys.argv:
+        import ETS2LA.variables
+        ETS2LA.variables.DEVELOPMENT_MODE = True
+        print(f"{PURPLE}{Translate('main.development_mode')}{NORMAL}\n")
     # Make sure NodeJS isn't already running and clear logs
     while True:
         process = multiprocessing.Process(target=ETS2LAProcess, args=(exception_queue,))
