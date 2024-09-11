@@ -67,12 +67,6 @@ vehicleId = 0
 def GetTimeToVehicleAhead(apiData: dict) -> float:
     global lastVehicleDistance, lastVehicleTime, vehicleSpeed, lastTimeToVehicle, vehicleId
     vehicles = runner.GetData(['tags.vehicles'])[0]
-    points = runner.GetData(["Map"])[0]
-    
-    if type(points) != list or len(points) == 0 or type(points[0]) != list:
-        if time.time() - lastVehicleTime < 1:
-            return lastTimeToVehicle
-        return math.inf
 
     if vehicles is None:
         if time.time() - lastVehicleTime < 1:
@@ -87,6 +81,23 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
     rotation = apiData["truckPlacement"]["rotationX"] * 360
     if rotation < 0: rotation += 360
     rotation = math.radians(rotation)
+    
+    points = runner.GetData(["Map"])[0]
+    
+    if type(points) != list or len(points) == 0 or type(points[0]) != list:
+        if time.time() - lastVehicleTime < 1:
+            return lastTimeToVehicle
+        return math.inf
+    
+    if len(points) == 1:
+        point = points[0]
+        points = [[truckX, truckY], [point[0], point[1]]]
+        
+    if len(points) == 2:
+        # Generate 10 points between the two points
+        x1, y1 = points[0]
+        x2, y2 = points[1]
+        points = [[x1 + (x2 - x1) * i / 10, y1 + (y2 - y1) * i / 10] for i in range(10)]
     
     if type(vehicles) != list:
         if time.time() - lastVehicleTime < 1:
@@ -190,6 +201,11 @@ def SetAccelBrake(accel:float) -> None:
         SDKController.abackward = float(-accel * 0.25)
         SDKController.aforward = float(0)
 
+def GetStatus() -> str:
+    if time.time() - lastVehicleTime < 1:
+        return f"Time: {lastTimeToVehicle:.1f}s, Distance: {lastVehicleDistance*3.6:.0f}m, Other Speed: {vehicleSpeed*3.6:.0f}kph"
+    return "No vehicles in front"
+
 def plugin():
     if not ACC_ENABLED:
         Reset(); return
@@ -211,8 +227,10 @@ def plugin():
     if ACC_ENABLED:
         SetAccelBrake(acceleration)
         
+        
+        
     return None, {
-        "status": f"Time: {lastTimeToVehicle:.2f}s, Distance: {lastVehicleDistance*3.6:.2f}m, Other Speed: {vehicleSpeed*3.6:.2f}kph",
+        "status": GetStatus(),
         "acc": targetSpeed,
         "highlights": [vehicleId if time.time() - lastVehicleTime < 1 else None]
     } 

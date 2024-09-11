@@ -51,7 +51,7 @@ func _process(delta: float) -> void:
 					car.set_script(ObjectScript)
 					car.id = int(vehicle["id"])
 					newObjects.append(car)
-				if type == "truck":
+				if type == "truck" or type == "bus":
 					var truck = truckScene.instantiate()
 					truck.name = str(vehicle["id"])
 					truck.position = Vector3(x,y,z)

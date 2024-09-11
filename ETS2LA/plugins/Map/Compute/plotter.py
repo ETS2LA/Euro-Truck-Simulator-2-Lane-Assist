@@ -46,7 +46,7 @@ class RouteItem:
         return newPoints
         
 Route : list[RouteItem] = []
-RouteLength = 2
+RouteLength = 3
 
 # MARK: Settings
 def LoadSettings():
