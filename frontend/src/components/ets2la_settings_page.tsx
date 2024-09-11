@@ -99,6 +99,13 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 	}
 
 	const SettingsRenderer = (data:any) => {
+		if(!pluginSettings[data.key])
+		{
+			if(data.type.default != undefined){
+				pluginSettings[data.key] = data.type.default
+			}	
+		}
+
 		// string, number, boolean, array, object, enum
 		if (data.type.type == "string") {
 			return <div className="flex flex-col gap-2">
@@ -119,7 +126,7 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 
 		if (data.type.type == "number") {
 			const value = pluginSettings[data.key] && parseFloat(pluginSettings[data.key]) || 0
-			if (data.type.min !== undefined && data.type.max !== undefined && value != 0) { // Ensure min and max are not undefined
+			if (data.type.min !== undefined && data.type.max !== undefined) { // Ensure min and max are not undefined
 				const step = data.type.step && data.type.step || 1
 				const suffix = data.type.suffix && data.type.suffix || ""
 				return ( // Add return statement here

@@ -133,7 +133,11 @@ func _process(delta: float) -> void:
 		var dark = Variables.darkMode
 		var totalLines = 0
 		var skippedLines = 0
-		var position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
+		var position = Vector3(0,0,0)
+		if "x" in Socket.data:
+			position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
+		else:
+			return
 		if data != lastData and data != {} or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
 
@@ -421,11 +425,9 @@ func _process(delta: float) -> void:
 		var points = []
 		var counter = 0
 		for point in SteeringData:
-			if typeof(point) != typeof({"hello": "there"}):
+			if typeof(point) == typeof([]):
 				if len(point) > 1:
-					# Convert the JSON points to godot Vector3s
 					points.append(Vector3(point[0], point[2] + 0.05, point[1]))
-					#print(points[-1])
 					counter += 1
 		
 		if len(points) == 0:

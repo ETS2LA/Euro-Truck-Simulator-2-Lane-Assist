@@ -151,6 +151,7 @@ anchors_preset = 0
 offset_right = 181.0
 
 [node name="Label" type="Label" parent="UI/TopLeftContainer2"]
+layout_mode = 0
 offset_left = 21.0
 offset_right = 202.0
 offset_bottom = 35.0

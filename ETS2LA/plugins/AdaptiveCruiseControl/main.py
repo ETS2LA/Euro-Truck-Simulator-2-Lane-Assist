@@ -19,19 +19,20 @@ import os
 
 runner:PluginRunner = None
 
-FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "distance", 3) # meters
+FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3) # meters
+OVERSPEED_PERCENTAGE = settings.Get("AdaptiveCruiseControl", "overspeed", 0) # 0-100
 ACC_ENABLED = False
 
 def LoadSettings():
-    global FOLLOW_TIME
-    FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "distance", 3)
+    global FOLLOW_TIME, OVERSPEED_PERCENTAGE
+    FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3)
+    OVERSPEED_PERCENTAGE = settings.Get("AdaptiveCruiseControl", "overspeed", 0)
     
 # Update settings on change
 settings.Listen("AdaptiveCruiseControl", LoadSettings)
 
 def Initialize():
     global ShowImage, TruckSimAPI, SDKController, MapUtils
-
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     SDKController = runner.modules.SDKController.SCSController()
@@ -44,22 +45,35 @@ def ToggleSteering(state:bool, *args, **kwargs):
     ACC_ENABLED = state
     
 def CalculateAcceleration(targetSpeed: float, currentSpeed: float, time: float) -> float:
-    # Adjust the target speed based on the distance to the vehicle ahead
     if time < FOLLOW_TIME and time > 0:
         targetSpeed = (time / FOLLOW_TIME) * targetSpeed
-    # First calculate the acceleration needed to keep the speed constant
+
+    # Base accel to stay at current speed
     acceleration = (targetSpeed - currentSpeed) / 3.6
-    # Then add an offset based on how far we are from the target speed
+    
+    # To accelerate towards the target speed
     acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
+    
     return acceleration, targetSpeed
+
+def GetDistanceToPoint(point1: list, point2: list) -> float:
+    return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
 
 lastVehicleDistance = math.inf
 vehicleSpeed = math.inf
 lastVehicleTime = time.time()
 lastTimeToVehicle = math.inf
+vehicleId = 0
 def GetTimeToVehicleAhead(apiData: dict) -> float:
-    global lastVehicleDistance, lastVehicleTime, vehicleSpeed, lastTimeToVehicle
+    global lastVehicleDistance, lastVehicleTime, vehicleSpeed, lastTimeToVehicle, vehicleId
     vehicles = runner.GetData(['tags.vehicles'])[0]
+    points = runner.GetData(["Map"])[0]
+    
+    if type(points) != list or len(points) == 0 or type(points[0]) != list:
+        if time.time() - lastVehicleTime < 1:
+            return lastTimeToVehicle
+        return math.inf
+
     if vehicles is None:
         if time.time() - lastVehicleTime < 1:
             return lastTimeToVehicle
@@ -67,11 +81,12 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
     
     vehiclesInFront = []
     
+    truckX = apiData["truckPlacement"]["coordinateX"]
+    truckY = apiData["truckPlacement"]["coordinateZ"]
+    truckSpeed = apiData["truckFloat"]["speed"]
     rotation = apiData["truckPlacement"]["rotationX"] * 360
     if rotation < 0: rotation += 360
     rotation = math.radians(rotation)
-    
-    truckSpeed = apiData["truckFloat"]["speed"]
     
     if type(vehicles) != list:
         if time.time() - lastVehicleTime < 1:
@@ -85,36 +100,33 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
             continue
         
         # Create a line from the two relative points on the vehicle
-        x1 = vehicle.raycasts[0].relativePoint[0]
-        y1 = vehicle.raycasts[0].relativePoint[2]
-        x2 = vehicle.raycasts[1].relativePoint[0]
-        y2 = vehicle.raycasts[1].relativePoint[2]
+        x1 = vehicle.raycasts[0].point[0]
+        y1 = vehicle.raycasts[0].point[2]
+        x2 = vehicle.raycasts[1].point[0]
+        y2 = vehicle.raycasts[1].point[2]
         
         averageX = (x1 + x2) / 2
         averageY = (y1 + y2) / 2
         
-        truckForwardVector = np.array([-math.sin(rotation), -math.cos(rotation)])
-        pointVector = np.array([averageX, averageY])
-        normalizedPointVector = pointVector / np.linalg.norm(pointVector)
-        normalizedTruckForwardVector = truckForwardVector / np.linalg.norm(truckForwardVector)
-
-        angle = math.acos(np.dot(normalizedPointVector, normalizedTruckForwardVector))
-        
-        # Get the angle to work with.
-        # At 50kph it should be 2 degrees
-        # at 0 kph it should be 40 degrees
-        truckSpeedKph = truckSpeed * 3.6
-        if truckSpeedKph < 1:
-            checkAngle = 15
-        elif truckSpeedKph < 50:
-            checkAngle = 2 + (15-2) * (1 - truckSpeedKph / 50)
-        else:
-            checkAngle = 2
-        
-        if angle < math.radians(checkAngle) and angle > -math.radians(checkAngle):
-            distance = math.sqrt(averageX**2 + averageY**2)
-            vehiclesInFront.append((distance, vehicle))
+        closestPointDistance = math.inf
+        index = 0
+        for point in points:
+            distance = GetDistanceToPoint([averageX, averageY], point)
+            if distance < closestPointDistance:
+                closestPointDistance = distance
+            else:
+                # Make an intermediate point
+                lastPoint = points[index - 1]
+                intermediatePoint = [(lastPoint[0] + point[0]) / 2, (lastPoint[1] + point[1]) / 2]
+                distance = GetDistanceToPoint([averageX, averageY], intermediatePoint)
+                if distance < closestPointDistance:
+                    closestPointDistance = distance
+                break
+            index += 1
+                
+        if closestPointDistance < 2: # Road is 4.5m wide, want to check 4m
             lastVehicleTime = time.time()
+            vehiclesInFront.append((GetDistanceToPoint([averageX, averageY], [truckX, truckY]), vehicle))
             
     if len(vehiclesInFront) == 0:
         if time.time() - lastVehicleTime < 1:
@@ -126,6 +138,7 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
         if distance < closestDistance:
             closestDistance = distance
             vehicleSpeed = vehicle.speed
+            vehicleId = vehicle.id
             
     lastVehicleDistance = closestDistance
 
@@ -142,70 +155,64 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
     lastTimeToVehicle = timeToVehicle
     return timeToVehicle
         
-    
+def Reset() -> None:
+    SDKController.aforward = float(0)
+    SDKController.abackward = float(0)
+
 lastTargetSpeed = 0
-lastTargetSpeedTime = time.time()
-def plugin():
-    global lastTargetSpeed, lastTargetSpeedTime
+targetSpeed = 0
+def GetTargetSpeed(apiData: dict) -> float:
+    global lastTargetSpeed, lastTargetSpeedTime, targetSpeed
+    targetSpeed = runner.GetData(['tags.targetSpeed'])[0]
     
-    if not ACC_ENABLED:
-        SDKController.aforward = float(0)
-        SDKController.abackward = float(0)
-        #return
-    
-    try:
-        apiData = TruckSimAPI.run()
-        
-        if apiData['truckFloat']['speedLimit'] == 0:
-            SDKController.aforward = float(0)
-            SDKController.abackward = float(0)
-            #return
-        
-        # if apiData["truckFloat"]["userThrottle"] > 0.05 or apiData["truckFloat"]["userBrake"] > 0.05:
-        #     SDKController.aforward = float(0)
-        #     SDKController.abackward = float(0)
-        #     logging.warning("AdaptiveCruiseControl plugin disabled due to user input")
-        #     return
-        
-        targetSpeed = runner.GetData(['tags.targetSpeed'])[0]
-        
-        currentSpeed = apiData['truckFloat']['speed']
-        
-        if targetSpeed is None or not isinstance(targetSpeed, float):
-            if time.time() - lastTargetSpeedTime > 1:
-                targetSpeed = apiData['truckFloat']['speedLimit']
-                lastTargetSpeed = targetSpeed
-                lastTargetSpeedTime = time.time()
-            else: 
-                targetSpeed = lastTargetSpeed
-        else:
+    if targetSpeed is None or not isinstance(targetSpeed, float):
+        if time.time() - lastTargetSpeedTime > 1:
+            targetSpeed = apiData['truckFloat']['speedLimit']
             lastTargetSpeed = targetSpeed
-            lastTargetSpeedTime = time.time()                
+            lastTargetSpeedTime = time.time()
+        else: 
+            targetSpeed = lastTargetSpeed
+    else:
+        targetSpeed = targetSpeed * (1 + OVERSPEED_PERCENTAGE / 100)
+        lastTargetSpeed = targetSpeed
+        lastTargetSpeedTime = time.time() 
+        
+    if targetSpeed != 0:
+        targetSpeed += 0.5 / 3.6
             
-        if targetSpeed != 0:
-            targetSpeed += 0.5 / 3.6 # Add a small offset to the target speed to avoid oscillations
-        
-        try:
-            timeToVehicle = GetTimeToVehicleAhead(apiData)
-        except:
-            timeToVehicle = math.inf
-            logging.exception("Failed to get time to vehicle ahead")
-            
-        acceleration, targetSpeed = CalculateAcceleration(targetSpeed, currentSpeed, timeToVehicle)
-        
-        if ACC_ENABLED:
-            if acceleration > 0:
-                SDKController.aforward = float(acceleration * 10)
-                SDKController.abackward = float(0)
-            else:
-                SDKController.abackward = float(-acceleration * 0.25)
-                SDKController.aforward = float(0)
-        
-        return None, {
-            "status": f"Time: {lastTimeToVehicle:.2f}s, Distance: {lastVehicleDistance*3.6:.2f}m, Other Speed: {vehicleSpeed*3.6:.2f}kph",
-        } 
-    
-    except:
-        logging.exception("AdaptiveCruiseControl plugin failed")
-        SDKController.aforward = float(0)
+    return targetSpeed
+
+def SetAccelBrake(accel:float) -> None:
+    if accel > 0:
+        SDKController.aforward = float(accel * 10)
         SDKController.abackward = float(0)
+    else:
+        SDKController.abackward = float(-accel * 0.25)
+        SDKController.aforward = float(0)
+
+def plugin():
+    if not ACC_ENABLED:
+        Reset(); return
+        
+    apiData = TruckSimAPI.run()
+    if apiData['truckFloat']['speedLimit'] == 0:
+        Reset(); return
+    
+    currentSpeed = apiData['truckFloat']['speed']
+    
+    try: targetSpeed = GetTargetSpeed(apiData)
+    except: Reset(); return
+    
+    try: timeToVehicle = GetTimeToVehicleAhead(apiData)
+    except: timeToVehicle = math.inf; logging.exception("Failed to get time to vehicle ahead")
+        
+    acceleration, targetSpeed = CalculateAcceleration(targetSpeed, currentSpeed, timeToVehicle)
+    
+    if ACC_ENABLED:
+        SetAccelBrake(acceleration)
+        
+    return None, {
+        "status": f"Time: {lastTimeToVehicle:.2f}s, Distance: {lastVehicleDistance*3.6:.2f}m, Other Speed: {vehicleSpeed*3.6:.2f}kph",
+        "acc": targetSpeed,
+        "highlights": [vehicleId if time.time() - lastVehicleTime < 1 else None]
+    } 
