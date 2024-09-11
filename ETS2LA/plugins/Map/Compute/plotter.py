@@ -698,6 +698,10 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
             ...#print(f"Angle is {angle}")
     
     allPoints = acceptedPoints
+    
+    if allPoints == []:
+        Route = []
+        return data
 
     if len(Route) > 0:
         data["map"]["allPoints"] =  allPoints
@@ -713,8 +717,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
     truckForwardVector = [-math.sin(rotation), -math.cos(rotation)]
         
     if DistanceBetweenPoints([truckX, truckZ], allPoints[0]) > 1500:
-        CurrentItem = None
-        ClosestLane = None
+        Route = []
         return data
         
     try:
