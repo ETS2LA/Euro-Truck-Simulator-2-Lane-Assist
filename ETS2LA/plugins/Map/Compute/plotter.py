@@ -680,8 +680,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         count += 1
 
     if allPoints == []:
-        CurrentItem = None
-        ClosestLane = None
+        Route = []
         return data
 
     acceptedPoints = []
