@@ -326,8 +326,10 @@
     
     "acc.settings.1.title": "ACC - 自适应巡航控制 设置",
     "acc.settings.1.description": "此选项将影响应用程序对其他车辆的反应方式。",
-    "acc.settings.2.name": "跟车距离",
-    "acc.settings.2.description": "具体来说，这是在时速80公里或50英里的距离（单位：米）。",
+    "acc.settings.2.name": "跟车时间",
+    "acc.settings.2.description": "与前方车辆之间的距离应保持的秒数。",
+    "acc.settings.3.name": "速度偏移",
+    "acc.settings.3.description": "以超过限速的指定百分比驾驶。",
     
     "_PLUGIN_KEYS": "这些是特定插件所需的键值",
 
