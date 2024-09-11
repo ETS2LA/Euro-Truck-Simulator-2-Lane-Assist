@@ -23,6 +23,13 @@ func _process(delta: float) -> void:
 		if Sockets.status != "Connected":
 			self.label_settings.font_color = Color.RED
 		else:
+			
+			responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
+			if Time.get_ticks_msec() - averageResponseShowTime > 1000: # once per second
+				worstResponseTime = responseTimes.max()
+				responseTimes = []
+				averageResponseShowTime = Time.get_ticks_msec()
+			
 			if Variables.darkMode:
 				self.label_settings.font_color = Color8(255, 255, 255, 50)
 			else:
@@ -30,12 +37,6 @@ func _process(delta: float) -> void:
 			if RenderSockets != false:
 				var fps = 1000 / (worstResponseTime + 0.01)
 				textToAdd += "\nSlowest data update took " + str(worstResponseTime) + "ms (" + str(round(fps)) + "fps)"
-			
-				responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
-				if Time.get_ticks_msec() - averageResponseShowTime > 1000: # once per second
-					worstResponseTime = responseTimes.max()
-					responseTimes = []
-					averageResponseShowTime = Time.get_ticks_msec()
 				
 				var socketData = Sockets.GetData()
 				for key in socketData:
@@ -50,7 +51,9 @@ func _process(delta: float) -> void:
 								textToAdd += "\n" + str(key) + ": " + str(socketData[key])
 					else:
 						textToAdd += "\n" + str(key) + ": " + str(socketData[key])
-				
+			else:
+				var fps = 1000 / (worstResponseTime + 0.01)
+				textToAdd += " @ " + str(round(fps)) + "fps"
 		text = textToAdd
 	else:
 		text = "Sockets not found"

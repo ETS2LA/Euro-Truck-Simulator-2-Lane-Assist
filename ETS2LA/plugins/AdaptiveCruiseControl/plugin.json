@@ -1,11 +1,18 @@
 {
     "$schema": "../schema.json",
     "name": "plugins.adaptivecruisecontrol",
-    "authors": [{
+    "authors": [
+    {
+        "name": "Tumppi066",
+        "url": "https://github.com/Tumppi066",
+        "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
+    },
+    {
         "name": "DylDev",
         "url": "https://github.com/DylDevs",
         "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
-    }],
+    }
+    ],
     "description": "plugins.adaptivecruisecontrol.description",
     "version": "1.0",
     "max_fps": 20,
@@ -31,12 +38,27 @@
         {
             "name": "acc.settings.2.name",
             "description": "acc.settings.2.description",
-            "key": "distance",
+            "key": "time",
             "type": {
                 "type": "number",
-                "min": 10,
-                "max": 100,
-                "step": 1
+                "default": 1,
+                "min": 0,
+                "max": 4,
+                "step": 0.5,
+                "suffix": "s"
+            }
+        },
+        {
+            "name": "acc.settings.3.name",
+            "description": "acc.settings.3.description",
+            "key": "overspeed",
+            "type": {
+                "type": "number",
+                "default": 0,
+                "min": 0,
+                "max": 20,
+                "step": 1,
+                "suffix": "%"
             }
         }
     ]

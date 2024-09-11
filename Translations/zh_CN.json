@@ -1,5 +1,5 @@
 {
-    "name": "简体中文 (中国)",
+    "name": "简体中文",
     "name_en": "Simplified Chinese (China)",
     "iso_code": "zh-CN",
 
@@ -36,10 +36,10 @@
     "core.backend_started": "ETS2LA 服务器端已成功启动。",
     "immediate.websocket_started": "Websocket 已启动。",
     "immediate.message_error": "处理消息时发生错误。",
-    "immediate.empty_page": "尝试传送空白页面。",
+    "immediate.empty_page": "尝试发送一个空白页面。",
     "webserver.enabling_plugin": "正在启用插件 {0}",
     "webserver.disabling_plugin": "正在停用插件 {0}",
-    "webserver.webserver_started": "网页服务器已在 {0} 上启动 ( {1} )",
+    "webserver.webserver_started": "网页服务已在 {0} 上启动 ( {1} )",
     "webserver.frontend_started": "用户界面已在 {0} 上启动 ( {1} )",
     "godot.server_started": "Godot 已在端口 {0} 上启动",
     "webpage.opened": "ETS2LA 用户界面已打开。",
@@ -90,7 +90,7 @@
     "frontend.authentication.logged_in": "登录成功",
     "frontend.authentication.password_incorrect": "{0} 的密码不正确",
     "frontend.authentication.passwords_dont_match": "密码不一致",
-    "frontend.authentication.password_requirements_not_met": "未达到密码要求",
+    "frontend.authentication.password_requirements_not_met": "未达到密码安全要求",
     "frontend.authentication.account_created": "账号创建成功",
     "frontend.authentication.account_creation_failed": "账号创建失败",
     "frontend.authentication.signup": "注册",
@@ -172,9 +172,9 @@
     "frontend.immediate.disconnected": "与 ETS2LA 服务器端断开连接",
     "frontend.immediate.update_check_error": "错误：{0}",
     "frontend.immediate.checking_updates": "正在检查更新...",
-    "frontend.immediate.update_available": "有{0}个可用更新",
+    "frontend.immediate.update_available": "你已落后最新版 {0} 个更新",
     "frontend.immediate.no_updates": "没有可用的更新。",
-    "frontend.immediate.up_to_date": "最新版本",
+    "frontend.immediate.up_to_date": "已是最新版本",
     "frontend.immediate.socket_connected": "已连接",
     "frontend.immediate.socket_disconnected": "已断开，请重新加载。",
     "frontend.immediate.enable_stay_on_top": "启用置顶",
@@ -326,8 +326,10 @@
     
     "acc.settings.1.title": "ACC - 自适应巡航控制 设置",
     "acc.settings.1.description": "此选项将影响应用程序对其他车辆的反应方式。",
-    "acc.settings.2.name": "跟车距离",
-    "acc.settings.2.description": "具体来说，这是在时速80公里或50英里的距离（单位：米）。",
+    "acc.settings.2.name": "跟车时间",
+    "acc.settings.2.description": "与前方车辆之间的距离应保持的秒数。",
+    "acc.settings.3.name": "速度偏移",
+    "acc.settings.3.description": "以超过限速的指定百分比驾驶。",
     
     "_PLUGIN_KEYS": "这些是特定插件所需的键值",
 
@@ -343,5 +345,4 @@
     "map.visualisation.prefabs.prefabs": "预设对象：{0}，区块：{1}",
     "map.visualisation.prefabs.curves": "弯道：{0}",
     "map.extracting_data": "正在获取 GameData.zip 数据，请稍候..."
-    
 }

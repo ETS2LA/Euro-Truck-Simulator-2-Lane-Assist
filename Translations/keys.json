@@ -310,6 +310,8 @@
     "acc.settings.1.description",
     "acc.settings.2.name",
     "acc.settings.2.description",
+    "acc.settings.3.name",
+    "acc.settings.3.description",
 
     "map.loading.preparing",
     "map.loading.nodes",

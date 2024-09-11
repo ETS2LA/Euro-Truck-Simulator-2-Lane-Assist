@@ -6,15 +6,18 @@ extends Node
 @export var markingDashedMat = preload("res://Materials/markingsDashed.tres")
 @export var markingsDarkMat = preload("res://Materials/markingsDark.tres")
 @export var markingsDarkDashed = preload("res://Materials/markingsDarkDashed.tres")
+@export var markingsDarkDashedNoOvertake = preload("res://Materials/markingsDarkDashedNoOvertake.tres")
 @export var steeringMat = preload("res://Materials/steering.tres")
 @export var steeringDarkMat = preload("res://Materials/steeringDark.tres")
+
 @export var roadObject = preload("res://Objects/road.tscn")
+@export var roadScript = preload("res://Scripts/road.gd")
 
 @export var markingWidth : float
 @export var maxDistance : float = 750 # meters
 
 @onready var MapData = $/root/Node3D/MapData
-@onready var Truck = $/root/Node3D/Truck
+@onready var Truck: Node3D = $/root/Node3D/Truck
 @onready var Variables = $/root/Node3D/Variables
 @onready var Socket = $/root/Node3D/Sockets
 @onready var RoadParent = $/root/Node3D/Map/Roads
@@ -58,6 +61,7 @@ func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road",
 	
 	# Render the road mesh
 	var meshInstance = MeshInstance3D.new()
+	meshInstance.set_script(roadScript)
 	meshInstance.mesh = mesh
 	meshInstance.position = Vector3(x, y, z)
 	meshInstance.name = meshName
@@ -108,7 +112,7 @@ func CreateVerticesForPoint(point, normalVector, width = 2.25):
 	vertices.push_back(rightPoint)
 	
 	# Markings
-	leftPoint = point + Vector3((normalVector * 2.2)[0], 0, (normalVector * (2.25 - markingWidth))[1])
+	leftPoint = point + Vector3((normalVector * (2.25 - markingWidth))[0], 0, (normalVector * (2.25 - markingWidth))[1])
 	rightPoint = point + Vector3((normalVector * (2.25 + markingWidth))[0], 0, (normalVector * (2.25 + markingWidth))[1])
 
 	rightMarkingVertices.push_back(leftPoint)
@@ -129,7 +133,11 @@ func _process(delta: float) -> void:
 		var dark = Variables.darkMode
 		var totalLines = 0
 		var skippedLines = 0
-		var position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
+		var position = Vector3(0,0,0)
+		if "x" in Socket.data:
+			position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
+		else:
+			return
 		if data != lastData and data != {} or reload and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
 
@@ -168,8 +176,23 @@ func _process(delta: float) -> void:
 				var roadY = 0
 				var roadZ = road["Z"]
 				var roadPosition = Vector3(roadX, roadY, roadZ)
+				var overtake = []
+				var shoulderLeft = road["RoadLook"]["ShoulderSpaceLeft"]
+				var shoulderRight = road["RoadLook"]["ShoulderSpaceRight"]
 				var lanesLeft = len(road["RoadLook"]["LanesLeft"])
 				var lanesRight = len(road["RoadLook"]["LanesRight"])
+				
+				for lane in road["RoadLook"]["LanesLeft"]:
+					if "no_overtake" in lane:
+						overtake.append(false)
+					else:
+						overtake.append(true)
+						
+				for lane in road["RoadLook"]["LanesRight"]:
+					if "no_overtake" in lane:
+						overtake.append(false)
+					else:
+						overtake.append(true)
 				
 				if roadPosition.distance_to(position) > maxDistance:
 					skippedLines += 1
@@ -197,7 +220,15 @@ func _process(delta: float) -> void:
 					roadObj.name = uid + "-" + str(totalLines)
 
 					var right:CSGPolygon3D = roadObj.get_node("Right")
+					
+					if shoulderRight != null and shoulderRight != 0:
+						right.polygon[2].x += shoulderRight
+					
 					var left:CSGPolygon3D = roadObj.get_node("Left")
+					
+					if shoulderLeft != null and shoulderLeft != 0:
+						left.polygon[2].x -= shoulderLeft
+					
 					var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
 					var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
 					var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
@@ -224,8 +255,8 @@ func _process(delta: float) -> void:
 					if lanesLeft > 0:
 						if index == 0:
 							if lanesLeft != 1 or lanesRight != 1:
-								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								rightSolidLine.material = markingMat if not dark else markingsDarkMat
+								leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								leftSolidLine.material = markingMat if not dark else markingsDarkMat
 								drewLanes = true
 							
 							if lanesLeft == 1:
@@ -233,8 +264,8 @@ func _process(delta: float) -> void:
 								leftSolidLine.material = markingMat if not dark else markingsDarkMat
 							
 						elif index == lanesLeft - 1:
-							leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-							leftSolidLine.material = markingMat if not dark else markingsDarkMat
+							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+							rightSolidLine.material = markingMat if not dark else markingsDarkMat
 							drewLanes = true
 					
 					if lanesRight > 0 and not drewLanes:
@@ -255,15 +286,20 @@ func _process(delta: float) -> void:
 					drewLanes = false
 					if lanesLeft == 1 and lanesRight == 1:
 						if index == 0:
-							rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-							rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
-							drewLanes = true
+							if overtake[0]:
+								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+								drewLanes = true
+							else:
+								if not overtake[0]:
+									rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									rightSolidLine.material = markingMat if not dark else markingsDarkMat
 					
 					elif (lanesLeft + lanesRight) > 1:
 						if lanesLeft > 0:
 							if index < lanesLeft - 1:
-								leftDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								leftDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
 								drewLanes = true
 						
 						if lanesRight > 0 and not drewLanes:
@@ -344,10 +380,10 @@ func _process(delta: float) -> void:
 					right.set_path_node(roadObj.get_node("Path3D").get_path())
 					left.set_path_node(roadObj.get_node("Path3D").get_path())
 
-					leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-					leftSolidLine.material = markingMat if not dark else markingsDarkMat
-					rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-					rightSolidLine.material = markingMat if not dark else markingsDarkMat
+					#leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+					#leftSolidLine.material = markingMat if not dark else markingsDarkMat
+					#rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+					#rightSolidLine.material = markingMat if not dark else markingsDarkMat
 					
 					right.material = roadMat if not dark else roadDarkMat
 					left.material = roadMat if not dark else roadDarkMat
@@ -369,6 +405,13 @@ func _process(delta: float) -> void:
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
+		var truckX = Truck.position.x
+		var truckY = Truck.position.y - 0.8
+		var truckZ = Truck.position.z
+		
+		if typeof(truckX) != 3 and typeof(truckY) != 3 and typeof(truckZ) != 3:
+			#print(typeof(truckX))
+			return
 		
 		if len(SteeringData) == 0:
 			return
@@ -382,12 +425,15 @@ func _process(delta: float) -> void:
 		var points = []
 		var counter = 0
 		for point in SteeringData:
-			if typeof(point) != typeof({"hello": "there"}):
+			if typeof(point) == typeof([]):
 				if len(point) > 1:
-					# Convert the JSON points to godot Vector3s
 					points.append(Vector3(point[0], point[2] + 0.05, point[1]))
-					#print(points[-1])
 					counter += 1
+		
+		if len(points) == 0:
+			return
+		
+		points.push_front(Vector3(truckX, points[0].y, truckZ))
 		
 		# These point towards the next point
 		var forwardVectors = CreateForwardVectors(points)
@@ -407,12 +453,13 @@ func _process(delta: float) -> void:
 		var dark = Variables.darkMode
 		var mat = steeringMat if not dark else steeringDarkMat
 		
+		var curTime = Time.get_ticks_msec()
 		for n in self.get_children():
-			if n.name == "steering":
+			if "steering" in n.name:
 				self.remove_child(n)
-				n.queue_free() 
+				n.queue_free()
 		
-		CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
-		#CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering", "self", -0.98)
-		#CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering", "self", -0.98)
+		CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering-1", "self", 0.05)
+		CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering-2", "self", 0.05)
+		#CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
 		

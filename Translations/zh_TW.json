@@ -325,8 +325,10 @@
     
     "acc.settings.1.title": "主動式巡航控制設定",
     "acc.settings.1.description": "此選項將影響應用程式對其他車輛的反應方式。",
-    "acc.settings.2.name": "跟車距離",
-    "acc.settings.2.description": "例如，這是在時速80公里或50英里的距離（公尺）。",    
+    "acc.settings.2.name": "跟車時間",
+    "acc.settings.2.description": "應與前車保持的秒數。",
+    "acc.settings.3.name": "速度偏移",
+    "acc.settings.3.description": "超過限速的百分比。",
     
     "_PLUGIN_KEYS": "這些是特定插件所需的鍵值",
 
