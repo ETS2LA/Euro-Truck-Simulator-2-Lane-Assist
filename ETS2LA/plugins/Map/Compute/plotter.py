@@ -679,6 +679,11 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         #data["map"]["endPoints"].append(routeItem.endPosition)
         count += 1
 
+    if allPoints == []:
+        CurrentItem = None
+        ClosestLane = None
+        return data
+
     acceptedPoints = []
     lastPoint = allPoints[0]
     for i in range(1, len(allPoints)):
@@ -705,11 +710,6 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         Route.remove(item)
 
     data["map"]["endPoints"] = endPoints
-    
-    if allPoints == []:
-        CurrentItem = None
-        ClosestLane = None
-        return data
         
     truckForwardVector = [-math.sin(rotation), -math.cos(rotation)]
         
