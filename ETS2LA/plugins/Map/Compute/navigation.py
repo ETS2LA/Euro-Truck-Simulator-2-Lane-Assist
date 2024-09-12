@@ -329,13 +329,13 @@ def DrawMap(StartPoint, EndPoint, PathPoints, best, total=0):
     cv2.imshow('image', lastFrame)
     cv2.waitKey(1)
 
-cv2.namedWindow('image')
-cv2.setMouseCallback('image', MouseCallback)
 lastFrame = np.zeros((HEIGHT, WIDTH, 3), np.uint8)
 def Update(data, closestData):
     global roadsMaxX, roadsMaxZ, roadsMinX, roadsMinZ, FIRST_POSITION, SECOND_POSITION, FIRST_NODE, SECOND_NODE, WIDTH, HEIGHT, lastFrame
     
     if CHANGED:
+        cv2.namedWindow('image')
+        cv2.setMouseCallback('image', MouseCallback)
         # roadsMaxX = roads.roadsMaxX
         # roadsMaxZ = roads.roadsMaxZ
         # roadsMinX = roads.roadsMinX
