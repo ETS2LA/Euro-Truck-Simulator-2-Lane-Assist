@@ -6,7 +6,7 @@ import ETS2LA.plugins.Map.GameData.roads as roads
 import ETS2LA.plugins.Map.GameData.nodes as Nodes
 import ETS2LA.backend.settings as settings
 from ETS2LA.variables import PATH
-from typing import cast
+from typing import cast, List, Tuple, Union
 import numpy as np
 import time
 import math
@@ -45,7 +45,7 @@ LAST_TARGET_COMPANY = None
 LAST_TARGET_COMPANY_CITY = None
 LAST_TARGET_COMPANY_NAME = None
 class AStarNode:
-    def __init__(self, x, z, lenght, node):
+    def __init__(self, x, z, lenght, node, item, startOrEnd):
         self.x = x
         self.z = z
         self.length = lenght
@@ -55,6 +55,8 @@ class AStarNode:
         self.f = 0
         self.parent = None
         self.neighbours = []
+        self.item = item
+        self.startOrEnd = startOrEnd
         
     def __eq__(self, other):
         return self.x == other.x and self.z == other.z
@@ -69,23 +71,24 @@ class AStarNode:
         return np.sqrt((self.x - x)**2 + (self.z - z)**2)
     
     def __str__(self):
-        return f"({self.x}, {self.z})"
+        return f"AStarNode: ({self.x}, {self.z})"
     
     def __repr__(self):
-        return f"({self.x}, {self.z})"
+        return f"AStarNode: ({self.x}, {self.z})"
     
     def _ParseRoads(self, item:Road):
         node = self.node
         if item.EndNode.Uid != node.Uid:
-            self.neighbours.append(AStarNode(item.EndNode.X, item.EndNode.Z, item.Lengths[0], item.EndNode))
+            self.neighbours.append(AStarNode(item.EndNode.X, item.EndNode.Z, item.Lengths[0], item.EndNode, item, "end"))
         if item.StartNode.Uid != node.Uid:
-            self.neighbours.append(AStarNode(item.StartNode.X, item.StartNode.Z, item.Lengths[0], item.StartNode))
+            self.neighbours.append(AStarNode(item.StartNode.X, item.StartNode.Z, item.Lengths[0], item.StartNode, item, "start"))
     
     def _ParsePrefabItems(self, item:PrefabItem, lastNode:Nodes.Node, isRecursive=True):
         for node in item.Nodes:
             if node.Uid != self.node.Uid:
                 distance = np.sqrt((node.X - self.node.X)**2 + (node.Z - self.node.Z)**2)
-                self.neighbours.append(AStarNode(node.X, node.Z, distance, node))
+                index = item.Nodes.index(node)
+                self.neighbours.append(AStarNode(node.X, node.Z, distance, node, item, index))
         
         if item.FerryUid != 0 and isRecursive:
             ports = ferries.FindEndPortByStartUid(item.FerryUid)
@@ -175,7 +178,7 @@ def AStar(startNode:AStarNode, endNode:AStarNode):
             path = []
             current = currentNode
             while current is not None:
-                path.append((current.x, current.z))
+                path.append(current)
                 current = current.parent
             return path[::-1]
         
@@ -201,7 +204,7 @@ def AStar(startNode:AStarNode, endNode:AStarNode):
             bestPath = []
             current = bestCurrentNode
             while current is not None:
-                bestPath.append((current.x, current.z))
+                bestPath.append(current)
                 current = current.parent
             bestPath = bestPath[::-1]
         else:
@@ -291,6 +294,8 @@ def MouseCallback(event, x, y, flags, param):
 def DrawMap(StartPoint, EndPoint, PathPoints, best, total=0):
     global WIDTH, HEIGHT, lastFrame
     img = GenerateTileImage()
+    
+    best = [(node.x, node.z) for node in best]
     
     if StartPoint != None:
         x, y = ConvertWorldToScreen(StartPoint[0], StartPoint[1])
@@ -394,14 +399,14 @@ def Update(data, closestData):
         # Draw the first and second points
         if FIRST_POSITION != None:
             FIRST_NODE, length = ClosestNode(FIRST_POSITION[0], FIRST_POSITION[1])
-            FIRST_NODE = AStarNode(FIRST_NODE.X, FIRST_NODE.Z, length, FIRST_NODE)
+            FIRST_NODE = AStarNode(FIRST_NODE.X, FIRST_NODE.Z, length, FIRST_NODE, None, "start")
             
             x, y = ConvertWorldToScreen(FIRST_POSITION[0], FIRST_POSITION[1])
             cv2.circle(img, (int(x), int(y)), 5, (0, 100, 0), -1, cv2.LINE_AA)
             
         if SECOND_POSITION != None:
             SECOND_NODE, length = ClosestNode(SECOND_POSITION[0], SECOND_POSITION[1])
-            SECOND_NODE = AStarNode(SECOND_NODE.X, SECOND_NODE.Z, length, SECOND_NODE)
+            SECOND_NODE = AStarNode(SECOND_NODE.X, SECOND_NODE.Z, length, SECOND_NODE, None, "end")
             
             x, y = ConvertWorldToScreen(SECOND_POSITION[0], SECOND_POSITION[1])
             cv2.circle(img, (int(x), int(y)), 5, (0, 0, 100), -1, cv2.LINE_AA)
@@ -420,10 +425,11 @@ def Update(data, closestData):
             print("Calculating path")
             startTime = time.time()
             path = AStar(FIRST_NODE, SECOND_NODE)
+            coordinatePath = [(node.x, node.z) for node in path]
             screenPoints = []
             length = 0
             lastPosition = None
-            for point in path:
+            for point in coordinatePath:
                 if lastPosition:
                     length += np.sqrt((point[0] - lastPosition[0])**2 + (point[1] - lastPosition[1])**2)
                 lastPosition = point

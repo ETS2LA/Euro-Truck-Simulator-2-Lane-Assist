@@ -185,13 +185,16 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
 # MARK: Closest item
 def GetClosestRoadOrPrefabAndLane(x, y, z, data, closeRoads=None, closePrefabs=None):
     inBoundingBox = []
-    for road in closeRoads:
-        if CheckIfInBoundingBox(road.BoundingBox, x, y):
-            inBoundingBox.append(road)
+    if len(closeRoads) + len(closePrefabs) == 1:
+        inBoundingBox.append(closeRoads[0] if len(closeRoads) == 1 else closePrefabs[0])
+    else:
+        for road in closeRoads:
+            if CheckIfInBoundingBox(road.BoundingBox, x, y):
+                inBoundingBox.append(road)
     
-    for prefab in closePrefabs:
-        if CheckIfInBoundingBox(prefab.BoundingBox, x, y):
-            inBoundingBox.append(prefab)
+        for prefab in closePrefabs:
+            if CheckIfInBoundingBox(prefab.BoundingBox, x, y):
+                inBoundingBox.append(prefab)
             
     #logging.info(f"Found {len(inBoundingBox)} items in bounding box")
             

@@ -430,21 +430,21 @@ def plugin():
         distance = 0
         points = []
         lastPoint = None
-        for point in steeringPoints:
-            if distance > 50:
-                break
-            if lastPoint is not None:
-                distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
-            points.append(point)
-            lastPoint = point
+        if steeringPoints is None:
+            steeringPoints = []
+        else:
+            for point in steeringPoints:
+                if distance > 50:
+                    break
+                if lastPoint is not None:
+                    distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
+                points.append(point)
+                lastPoint = point
             
-        runner.Profile("- doing stuff with said data")
-        
+            runner.Profile("- doing stuff with said data")
+            
         curvature = plotter.CalculateCurvature(points)
-                
-        # Modulate the target speed based on the curvature
         targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
-        #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
         
         runner.Profile("Curvature")
         

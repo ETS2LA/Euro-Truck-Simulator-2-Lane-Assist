@@ -188,95 +188,97 @@ def NeedInvert(points, truckX, truckY):
     return False
 
 # MARK: Next item
-def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
+def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownUid=None) -> RouteItem:
     #logging.warning("Getting next item")
     # Check which node is to the front of the truck
     CurrentItem = Route[-1].item
     ClosestLane = Route[-1].lane
     
-    if type(CurrentItem) == Road:   
-        BackwardNode = CurrentItem.EndNode
-        ForwardNode = CurrentItem.StartNode
-    
-    if type(CurrentItem) == PrefabItem:
-        if len(CurrentItem.Nodes) == 2:
-            ForwardNode = CurrentItem.Nodes[0]
-            BackwardNode = CurrentItem.Nodes[1]
-        else:
-            points = CurrentItem.CurvePoints[ClosestLane]
-            ForwardNode = None
-            ForwardNodeDistance = math.inf
-            BackwardNode = None
-            BackwardNodeDistance = math.inf
-            for node in CurrentItem.Nodes:
-                frontDistance = math.sqrt((points[0][0] - node.X) ** 2 + (points[0][1] - node.Z) ** 2)
-                backDistance = math.sqrt((points[-1][0] - node.X) ** 2 + (points[-1][1] - node.Z) ** 2)
-                if frontDistance < backDistance:
-                    if frontDistance < ForwardNodeDistance:
-                        ForwardNodeDistance = frontDistance
-                        ForwardNode = node
-                else:
-                    if backDistance < BackwardNodeDistance:
-                        BackwardNodeDistance = backDistance
-                        BackwardNode = node
-                                             
-    
-    BackwardPosition = [BackwardNode.X, BackwardNode.Z]
-    ForwardPosition = [ForwardNode.X, ForwardNode.Z]
-    
-    #logging.warning(f"BackwardPosition: {BackwardPosition}, ForwardPosition: {ForwardPosition}")
-    
-    # Calculate the angles between the last 2 points of the current item and the nodes
-    if len(Route[-1].points) < 2:
-        return []
-    if len(Route[-1].points) >= 4:
-        PointVector = [Route[-1].points[-1][0] - Route[-1].points[-3][0], Route[-1].points[-1][1] - Route[-1].points[-3][1]]
-    else:
-        PointVector = [Route[-1].points[-1][0] - Route[-1].points[-2][0], Route[-1].points[-1][1] - Route[-1].points[-2][1]]
-    BackwardAngle = np.arccos(np.dot(PointVector, [BackwardPosition[0] - Route[-1].points[-1][0], BackwardPosition[1] - Route[-1].points[-1][1]]) / (np.linalg.norm(PointVector) * np.linalg.norm([BackwardPosition[0] - Route[-1].points[-1][0], BackwardPosition[1] - Route[-1].points[-1][1]])))
-    ForwardAngle = np.arccos(np.dot(PointVector, [ForwardPosition[0] - Route[-1].points[-1][0], ForwardPosition[1] - Route[-1].points[-1][1]]) / (np.linalg.norm(PointVector) * np.linalg.norm([ForwardPosition[0] - Route[-1].points[-1][0], ForwardPosition[1] - Route[-1].points[-1][1]])))
-    # BackwardAngle = np.arccos(np.dot([BackwardPosition[0] - truckX, BackwardPosition[1] - truckZ], [math.sin(rotation), math.cos(rotation)]) / (np.linalg.norm([BackwardPosition[0] - truckX, BackwardPosition[1] - truckZ]) * np.linalg.norm([math.sin(rotation), math.cos(rotation)])))
-    # ForwardAngle = np.arccos(np.dot([ForwardPosition[0] - truckX, ForwardPosition[1] - truckZ], [math.sin(rotation), math.cos(rotation)]) / (np.linalg.norm([ForwardPosition[0] - truckX, ForwardPosition[1] - truckZ]) * np.linalg.norm([math.sin(rotation), math.cos(rotation)])))
-
-    if BackwardAngle > ForwardAngle:
-        #logging.warning("Backward node is closer")
-        NextNode = ForwardNode
-    else:
-        #logging.warning("Forward node is closer")
-        NextNode = BackwardNode
+    if knownUid == None: 
+        if type(CurrentItem) == Road:   
+            BackwardNode = CurrentItem.EndNode
+            ForwardNode = CurrentItem.StartNode
         
-    ForwardItem = NextNode.ForwardItem
-    BackwardItem = NextNode.BackwardItem
-    
-    if ForwardItem is None and BackwardItem is None:
-        return []
-    elif ForwardItem is None:
-        #logging.warning("Forward item is none")
-        NextItem = BackwardItem
-    elif BackwardItem is None:
-        #logging.warning("Backward item is none")
-        NextItem = ForwardItem
-    else:
-        ForwardUid = ForwardItem.Uid
-        BackwardUid = BackwardItem.Uid
         
-        #logging.warning(f"ForwardUid: {ForwardUid}, BackwardUid: {BackwardUid}")
-        #logging.warning(f"CurrentItemUid: {CurrentItem.Uid}")
-        #if len(Route) > 1:
-        #    logging.warning(f"PreviousItemUid: {Route[-2].item.Uid}")
+        if type(CurrentItem) == PrefabItem:
+            if len(CurrentItem.Nodes) == 2:
+                ForwardNode = CurrentItem.Nodes[0]
+                BackwardNode = CurrentItem.Nodes[1]
+            else:
+                points = CurrentItem.CurvePoints[ClosestLane]
+                ForwardNode = None
+                ForwardNodeDistance = math.inf
+                BackwardNode = None
+                BackwardNodeDistance = math.inf
+                for node in CurrentItem.Nodes:
+                    frontDistance = math.sqrt((points[0][0] - node.X) ** 2 + (points[0][1] - node.Z) ** 2)
+                    backDistance = math.sqrt((points[-1][0] - node.X) ** 2 + (points[-1][1] - node.Z) ** 2)
+                    if frontDistance < backDistance:
+                        if frontDistance < ForwardNodeDistance:
+                            ForwardNodeDistance = frontDistance
+                            ForwardNode = node
+                    else:
+                        if backDistance < BackwardNodeDistance:
+                            BackwardNodeDistance = backDistance
+                            BackwardNode = node
+                                                
         
-        if ForwardUid == CurrentItem.Uid:
-            #logging.warning("Selecting backward item")
-            NextItem = BackwardItem
-        else:
-            #logging.warning("Selecting forward item")
-            NextItem = ForwardItem
-            
-        if NextItem is None:
+        BackwardPosition = [BackwardNode.X, BackwardNode.Z]
+        ForwardPosition = [ForwardNode.X, ForwardNode.Z]
+        
+        #logging.warning(f"BackwardPosition: {BackwardPosition}, ForwardPosition: {ForwardPosition}")
+        
+        # Calculate the angles between the last 2 points of the current item and the nodes
+        if len(Route[-1].points) < 2:
             return []
+        if len(Route[-1].points) >= 4:
+            PointVector = [Route[-1].points[-1][0] - Route[-1].points[-3][0], Route[-1].points[-1][1] - Route[-1].points[-3][1]]
+        else:
+            PointVector = [Route[-1].points[-1][0] - Route[-1].points[-2][0], Route[-1].points[-1][1] - Route[-1].points[-2][1]]
+        BackwardAngle = np.arccos(np.dot(PointVector, [BackwardPosition[0] - Route[-1].points[-1][0], BackwardPosition[1] - Route[-1].points[-1][1]]) / (np.linalg.norm(PointVector) * np.linalg.norm([BackwardPosition[0] - Route[-1].points[-1][0], BackwardPosition[1] - Route[-1].points[-1][1]])))
+        ForwardAngle = np.arccos(np.dot(PointVector, [ForwardPosition[0] - Route[-1].points[-1][0], ForwardPosition[1] - Route[-1].points[-1][1]]) / (np.linalg.norm(PointVector) * np.linalg.norm([ForwardPosition[0] - Route[-1].points[-1][0], ForwardPosition[1] - Route[-1].points[-1][1]])))
+        # BackwardAngle = np.arccos(np.dot([BackwardPosition[0] - truckX, BackwardPosition[1] - truckZ], [math.sin(rotation), math.cos(rotation)]) / (np.linalg.norm([BackwardPosition[0] - truckX, BackwardPosition[1] - truckZ]) * np.linalg.norm([math.sin(rotation), math.cos(rotation)])))
+        # ForwardAngle = np.arccos(np.dot([ForwardPosition[0] - truckX, ForwardPosition[1] - truckZ], [math.sin(rotation), math.cos(rotation)]) / (np.linalg.norm([ForwardPosition[0] - truckX, ForwardPosition[1] - truckZ]) * np.linalg.norm([math.sin(rotation), math.cos(rotation)])))
+
+        if BackwardAngle > ForwardAngle:
+            #logging.warning("Backward node is closer")
+            NextNode = ForwardNode
+        else:
+            #logging.warning("Forward node is closer")
+            NextNode = BackwardNode
+            
+        ForwardItem = NextNode.ForwardItem
+        BackwardItem = NextNode.BackwardItem
         
-    if NextItem.Uid == CurrentItem.Uid:
-        return []
+        if ForwardItem is None and BackwardItem is None:
+            return []
+        elif ForwardItem is None:
+            #logging.warning("Forward item is none")
+            NextItem = BackwardItem
+        elif BackwardItem is None:
+            #logging.warning("Backward item is none")
+            NextItem = ForwardItem
+        else:
+            ForwardUid = ForwardItem.Uid
+            BackwardUid = BackwardItem.Uid
+            
+            #logging.warning(f"ForwardUid: {ForwardUid}, BackwardUid: {BackwardUid}")
+            #logging.warning(f"CurrentItemUid: {CurrentItem.Uid}")
+            #if len(Route) > 1:
+            #    logging.warning(f"PreviousItemUid: {Route[-2].item.Uid}")
+            
+            if ForwardUid == CurrentItem.Uid:
+                #logging.warning("Selecting backward item")
+                NextItem = BackwardItem
+            else:
+                #logging.warning("Selecting forward item")
+                NextItem = ForwardItem
+                
+            if NextItem is None:
+                return []
+            
+        if NextItem.Uid == CurrentItem.Uid:
+            return []
         
     if type(NextItem) == Road:
         #logging.warning("Next item is a road")
@@ -582,11 +584,11 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation, speed):
     routeItem.lane = wantedLane
     return returnPoints
 
-wasIndicating = False
-# MARK: Main Function
-def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData):
+# MARK: No Nav
+def HandleNoNav(data, MapUtils, Enabled):
     global Route
     global wasIndicating
+    global allPoints
     
     data["map"]["allPoints"] = []
     data["map"]["endPoints"] = []
@@ -729,12 +731,83 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData):
 
     data["map"]["endPoints"] = endPoints
         
-    truckForwardVector = [-math.sin(rotation), -math.cos(rotation)]
-        
     if DistanceBetweenPoints([truckX, truckZ], allPoints[0]) > 1500:
         Route = []
         return data
+    
+    return None
+
+currentPathIndex = 0
+# MARK: Navigation
+def HandleNav(data, MapUtils, Enabled, path):
+    global currentPathIndex
+    
+    
+    truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckY = data["api"]["truckPlacement"]["coordinateY"]
+    truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    
+    if Route == []:
+        # Find the closest item to the truck.
+        closestNode = None
+        closestDistance = math.inf
+        index = 0
+        for node in path:
+            if node.item == None:
+                continue
+            distance = math.sqrt((truckX - node.x) ** 2 + (truckZ - node.z) ** 2)
+            if distance < closestDistance:
+                closestDistance = distance
+                closestNode = node
+                currentPathIndex = index
+                
+            index += 1
         
+        closeRoads = [] if type(closestNode.item) != Road else [closestNode.item]
+        closePrefabs = [] if type(closestNode.item) != PrefabItem else [closestNode.item]
+        
+        closeData = MapUtils.run(truckX, 0, truckZ, closeRoads, closePrefabs)
+        if closeData["closestItem"] == None:
+            return data
+        
+        # Create first route item
+        GetItemAndLaneReferences(closeData, MapUtils, truckX, truckZ)
+        
+        if Route == []:
+            return data
+        
+        
+    while len(Route) < 4:
+        currentPathIndex += 1
+        nextItem = GetNextItem(data, truckX, truckZ, 0, MapUtils, knownUid=path[currentPathIndex].item.Uid)
+        if nextItem == []:
+            break
+        Route.append(nextItem)
+    
+
+wasIndicating = False
+# MARK: Main Function
+def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData):
+    global allPoints
+    
+    # ! navigationData != None
+    if False:
+        navData = HandleNav(data, MapUtils, Enabled, navigationData)
+        if navData != None:
+            return navData
+        
+    else:
+        noNavData = HandleNoNav(data, MapUtils, Enabled)
+        if noNavData != None:
+            return noNavData
+    
+
+    truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    rotation = data["api"]["truckPlacement"]["rotationX"] * 360
+    if rotation < 0: rotation += 360
+    rotation = math.radians(rotation)
+    truckForwardVector = [-math.sin(rotation), -math.cos(rotation)]
     try:
         if len(allPoints) > 2:
             allPoints = allPoints[:5]
@@ -807,7 +880,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData):
                 
             data["map"]["angle"] = angle * 2
     except:
-        logging.exception("Failed to calculate angle")
+        #logging.exception("Failed to calculate angle")
         data["map"]["angle"] = 0
         
     return data
