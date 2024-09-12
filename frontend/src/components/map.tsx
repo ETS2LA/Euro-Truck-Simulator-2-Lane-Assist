@@ -27,10 +27,11 @@ import "leaflet-rotate"
 import 'leaflet/dist/leaflet.css'
 
 // Component to update the map's view
-const UpdateMapView = ({ position }: { position: LatLngTuple }) => {
+const UpdateMapView = ({ position, speed, rx }: { position: LatLngTuple, speed: number, rx: number }) => {
     const map = useMap(); // Access the map instance
     useEffect(() => {
-        map.flyTo(position, 8, {
+        let zoom = 8;
+        map.flyTo(position, zoom, {
             animate: false,
             duration: 0
         });
@@ -66,6 +67,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     const {theme, setTheme} = useTheme()
     const [connected, setConnected] = useState(false)
     const [position, setPosition] = useState<LatLngTuple>([0, 0])
+    const [speed, setSpeed] = useState(0)
     const [rotation, setRotation] = useState(0)
     const markerRef = useRef<L.Marker>(null);
 
@@ -98,6 +100,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                         let X = 0;
                         let Z = 0;
                         let RX = 0;
+                        let Speed = 0;
                         indices.forEach((index: any) => {
                             if (index.startsWith("x")) {
                                 X = parseFloat(index.split("x")[1].replace(":", ""));
@@ -106,6 +109,9 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                             } else if (index.startsWith("rx")) {
                                 RX = parseFloat(index.split("rx")[1].replace(":", ""));
                                 setRotation(RX);
+                            } else if (index.startsWith("speed") && !index.startsWith("speedLimit")) {
+                                Speed = parseFloat(index.split("speed")[1].replace(":", ""));
+                                setSpeed(Speed);
                             }
                         });
                         if (!isNaN(X) && !isNaN(Z)) {
@@ -121,6 +127,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                     let X = 0;
                     let Z = 0;
                     let RX = 0;
+                    let Speed = 0;
                     indices.forEach((index: any) => {
                         if (index.startsWith("x")) {
                             X = parseFloat(index.split("x")[1].replace(":", ""));
@@ -129,6 +136,9 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                         } else if (index.startsWith("rx")) {
                             RX = parseFloat(index.split("rx")[1].replace(":", ""));
                             setRotation(RX);
+                        } else if (index.startsWith("speed") && !index.startsWith("speedLimit")) {
+                            Speed = parseFloat(index.split("speed")[1].replace(":", ""));
+                            setSpeed(Speed);
                         }
                     });
                     if (!isNaN(X) && !isNaN(Z)) {
@@ -188,7 +198,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     // <CustomMarker position={position} rotation={rotation} />
     return (
         <>
-            <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true}>
+            <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true} zoomSnap={0}>
                 <TileLayer
                     attribution='&copy; ETS2LA Team'
                     url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
@@ -198,7 +208,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                     tileSize={512}
                 />
                 <CustomMarker position={position} rotation={rotation} />
-                <UpdateMapView position={position} />
+                <UpdateMapView position={position} speed={speed} rx={rotation} />
             </MapContainer>
         </>
     )
