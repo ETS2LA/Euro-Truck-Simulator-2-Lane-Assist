@@ -7,6 +7,7 @@ import ETS2LA.plugins.Map.GameData.roads as roads
 import ETS2LA.plugins.Map.GameData.nodes as nodes
 import ETS2LA.plugins.Map.GameData.calc as calc
 
+import numpy as np
 import logging
 import json
 import math
@@ -36,6 +37,7 @@ from rich.progress import Task, Progress
 # For loading nodes progress indicator
 task: Task = None
 progress: Progress = None
+truckX: float = 0; truckZ: float = 0
 
 # MARK: Classes
 class PrefabItem:
@@ -111,6 +113,16 @@ class PrefabItem:
     
         for i, lane in enumerate(self.Prefab.PrefabLanes):
             tempPoints.append([])  # Adding a new list for each lane
+            if len(lane.Curves) == 2:
+                curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[0].startX, prefabStartZ + lane.Curves[0].startZ, rot, originNode.X, originNode.Z)
+                curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[0].endX, prefabStartZ + lane.Curves[0].endZ, rot, originNode.X, originNode.Z)
+                tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[0].startY + prefabStartY))
+                tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[0].endY + prefabStartY))
+                
+                curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[1].startX, prefabStartZ + lane.Curves[1].startZ, rot, originNode.X, originNode.Z)
+                curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[1].endX, prefabStartZ + lane.Curves[1].endZ, rot, originNode.X, originNode.Z)
+                tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[1].startY + prefabStartY))
+                tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[1].endY + prefabStartY))
             if len(lane.Curves) < 4:
                 for k in range(len(lane.Curves)):
                     #if len(self.Nodes) == 2:
@@ -161,7 +173,7 @@ class PrefabItem:
                     #    tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[k].endY + prefabStartY))
             else:
                 for j in range(len(lane.Curves)):
-                    #logging.warning("Processing lanepoint: " + str(j))
+                    #pointCount = len(lane.Curves)
                     if j == 0:
                         curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[j].startX, prefabStartZ + lane.Curves[j].startZ, rot, originNode.X, originNode.Z)
                         tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[j].startY + prefabStartY))
@@ -174,8 +186,7 @@ class PrefabItem:
                         p2 = lane.Curves[j + 1] if j < len(lane.Curves) - 1 else lane.Curves[j]
                         p3 = lane.Curves[j + 2] if j < len(lane.Curves) - 2 else lane.Curves[j]
     
-                        for t in [x * 0.05 for x in range(20)]:  # Generates values from 0 to 1 inclusive in steps of 0.05
-                            #logging.warning("Processing curvepoint: " + str(t))
+                        for t in [x * 0.2 for x in range(5)]: # 5 points for each 2 points
                             x = 0.5 * ((2 * p1.startX) +
                                        (-p0.startX + p2.startX) * t +
                                        (2 * p0.startX - 5 * p1.startX + 4 * p2.startX - p3.startX) * t**2 +
@@ -202,6 +213,30 @@ class PrefabItem:
             self.LaneEndPoints.append((LaneEndPoint[0], LaneEndPoint[1], lane.EndY + prefabStartY))
     
         self.CurvePoints = tempPoints
+        
+        # Recalculate the bounding box of the prefab item
+        minX = 1000000
+        maxX = -1000000
+        minZ = 1000000
+        maxZ = -1000000
+        for lane in tempPoints:
+            for point in lane:
+                if point[0] < minX:
+                    minX = point[0]
+                if point[0] > maxX:
+                    maxX = point[0]
+                if point[1] < minZ:
+                    minZ = point[1]
+                if point[1] > maxZ:
+                    maxZ = point[1]
+                    
+        # Add 5m of padding
+        minX -= 5
+        maxX += 5
+        minZ -= 5
+        maxZ += 5
+        
+        self.BoundingBox = [[minX, minZ], [maxX, maxZ]]
     
     def json(self):
         return {

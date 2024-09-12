@@ -433,7 +433,7 @@ func _process(delta: float) -> void:
 		if len(points) == 0:
 			return
 		
-		points.push_front(Vector3(truckX, points[0].y, truckZ))
+		points.push_front(Vector3(truckX, max(points[0].y, truckY), truckZ))
 		
 		# These point towards the next point
 		var forwardVectors = CreateForwardVectors(points)

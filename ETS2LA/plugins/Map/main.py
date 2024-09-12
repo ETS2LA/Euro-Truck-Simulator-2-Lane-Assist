@@ -340,6 +340,13 @@ def UpdateSettings():
     Steering.SMOOTH_TIME = settings.Get("Map", "SteeringSmoothTime", 0.5)
     
     lastUpdate = time.time()
+    
+def UpdateDataVariables(apiData):
+    truckX = apiData["api"]["truckPlacement"]["coordinateX"]
+    truckZ = apiData["api"]["truckPlacement"]["coordinateZ"]
+    truckY = apiData["api"]["truckPlacement"]["coordinateY"]
+    prefabItems.truckX = truckX
+    prefabItems.truckZ = truckZ
 
 # MARK: Plugin
 def plugin():
@@ -359,6 +366,7 @@ def plugin():
     UpdatePlotter()
     UpdateVisualize()
     UpdateNavigation()
+    UpdateDataVariables(data)
         
     closeRoads, updatedRoads = compute.GetRoads(data)
     closePrefabs, updatedPrefabs = compute.GetPrefabs(data)

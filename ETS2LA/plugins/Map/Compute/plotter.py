@@ -10,6 +10,11 @@ import math
 import json
 import time
 
+RouteLength = 3
+OFFSET_MULTIPLIER = settings.Get("Map", "OffsetMultiplier", 2)
+ANGLE_MULTIPLIER = settings.Get("Map", "AngleMultiplier", 1)
+DISTANCE_FOR_LANE_CHANGE = settings.Get("Map", "PointsForLaneChange", 50)
+
 #MARK: Classes
 class RouteItem:
     item: PrefabItem | Road
@@ -38,15 +43,20 @@ class RouteItem:
             pointForwardVector = [point[0] - truckX, point[1] - truckZ]
             angle = np.arccos(np.dot(truckForwardVector, pointForwardVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(pointForwardVector)))
             angle = math.degrees(angle)
-            if angle > 90:
+            if angle > 90 or angle < -90:
                 self.removedPoints.append(point)
                 continue
             newPoints.append(point)      
         
         return newPoints
+    
+    def __str__(self):
+        return f"RouteItem: {self.item.Uid} of type {'Road' if type(self.item) == Road else 'PrefabItem'}"
         
+    def __repr__(self):
+        return f"RouteItem: {self.item.Uid} of type {'Road' if type(self.item) == Road else 'PrefabItem'}"
+
 Route : list[RouteItem] = []
-RouteLength = 2
 
 # MARK: Settings
 def LoadSettings():
@@ -55,10 +65,6 @@ def LoadSettings():
     
     OFFSET_MULTIPLIER = settings.Get("Map", "OffsetMultiplier", 2)
     ANGLE_MULTIPLIER = settings.Get("Map", "AngleMultiplier", 1)
-
-OFFSET_MULTIPLIER = settings.Get("Map", "OffsetMultiplier", 2)
-ANGLE_MULTIPLIER = settings.Get("Map", "AngleMultiplier", 1)
-DISTANCE_FOR_LANE_CHANGE = settings.Get("Map", "PointsForLaneChange", 50)
 
 settings.Listen("Map", LoadSettings)
 
@@ -148,7 +154,7 @@ def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
         # angle = np.arccos(np.dot(truckForwardVector, pointforwardVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(pointforwardVector)))
         angle = np.arccos(np.dot(truckForwardVector, pointForwardVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(pointForwardVector)))
         angle = math.degrees(angle)
-        if angle > 90:
+        if angle > 90 or angle < -90:
             continue
         newPoints.append(point)   
         
@@ -351,33 +357,33 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
             ##logging.warning(f"Distance: {distance}")
             if distance < closestLaneDistance:
                 closestLaneDistance = distance
-                closestLaneId = [i]
+                closestLaneIds = [i]
             elif distance == closestLaneDistance:
-                closestLaneId.append(i)
+                closestLaneIds.append(i)
                 
         for i in range(len(Lanes)):
             laneEnd = Curves[i][-1]
             distance = math.sqrt((CurrentEndPoint[0] - laneEnd[0]) ** 2 + (CurrentEndPoint[1] - laneEnd[1]) ** 2)
             if distance < closestLaneDistance:
                 closestLaneDistance = distance
-                closestLaneId = [i]
+                closestLaneIds = [i]
             elif distance == closestLaneDistance:
-                closestLaneId.append(i)
+                closestLaneIds.append(i)
                 
         #logging.warning(f"ClosestLaneId: {closestLaneId}")
         #logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
                 
-        if closestLaneId == [math.inf]:
+        if closestLaneIds == [math.inf]:
             return [] 
         
         wantedDirection = "right" if data["api"]["truckBool"]["blinkerLeftActive"] else "left" if data["api"]["truckBool"]["blinkerRightActive"] else "forward"
-        if len(closestLaneId) > 1:
+        if len(closestLaneIds) > 1:
             #logging.warning(f"Multiple closest lanes: {closestLaneId}")
             if wantedDirection == 'forward':
                 # Check which of the lanes is the most forward
                 forwardestLane = math.inf
                 forwardestLaneDot = math.inf
-                for i in closestLaneId:
+                for i in closestLaneIds:
                     laneEnd = Curves[i][-1]
                     vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
                     dot = np.dot([math.sin(rotation), math.cos(rotation)], vector)
@@ -385,12 +391,12 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
                         forwardestLaneDot = dot
                         forwardestLane = i
                 
-                closestLaneId = forwardestLane
+                closestLaneIds = forwardestLane
             if wantedDirection == "right":
                 # Check which of the lanes is the most right
                 rightestLane = math.inf
                 rightestLaneDot = math.inf
-                for i in closestLaneId:
+                for i in closestLaneIds:
                     laneEnd = Curves[i][-1]
                     vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
                     dot = np.dot([math.cos(rotation), -math.sin(rotation)], vector)
@@ -398,12 +404,12 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
                         rightestLaneDot = dot
                         rightestLane = i
                 
-                closestLaneId = rightestLane
+                closestLaneIds = rightestLane
             if wantedDirection == "left":
                 # Check which of the lanes is the most left
                 leftestLane = math.inf
                 leftestLaneDot = math.inf
-                for i in closestLaneId:
+                for i in closestLaneIds:
                     laneEnd = Curves[i][-1]
                     vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
                     dot = np.dot([-math.cos(rotation), math.sin(rotation)], vector)
@@ -411,14 +417,14 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
                         leftestLaneDot = dot
                         leftestLane = i
                 
-                closestLaneId = leftestLane
+                closestLaneIds = leftestLane
                 
         else:
-            closestLaneId = closestLaneId[0]
+            closestLaneIds = closestLaneIds[0]
         
         #logging.warning(f"ClosestLaneId: {closestLaneId}")
         
-        closestPoints = Curves[closestLaneId]
+        closestPoints = Curves[closestLaneIds]
         
         if NeedInvert(closestPoints, truckX, truckZ):
             closestPoints = closestPoints[::-1]
@@ -430,7 +436,7 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils) -> RouteItem:
         routeItem = RouteItem(
             item = NextItem,
             points = closestPoints,
-            lane = closestLaneId,
+            lane = closestLaneIds,
             length = length,
             endPosition = closestPoints[-1],
             startPosition = closestPoints[0],
@@ -478,15 +484,20 @@ def CalculateCurvature(points):
                 curvatures.append(angle)
 
         # Filter outliers using IQR
-        q1, q3 = np.percentile(curvatures, [25, 75])
-        iqr = q3 - q1
-        lower_bound = q1 - (1.5 * iqr)
-        upper_bound = q3 + (1.5 * iqr)
-        filtered_curvatures = [x for x in curvatures if lower_bound <= x <= upper_bound]
-        
-        total_curvature = sum(filtered_curvatures)
-        total_curvature = math.degrees(total_curvature)
-        #print(f"Curvature: {total_curvature}", end="\r")
+        try:
+            q1, q3 = np.percentile(curvatures, [25, 75])
+            iqr = q3 - q1
+            lower_bound = q1 - (1.5 * iqr)
+            upper_bound = q3 + (1.5 * iqr)
+            filtered_curvatures = [x for x in curvatures if lower_bound <= x <= upper_bound]
+            
+            total_curvature = sum(filtered_curvatures)
+            total_curvature = math.degrees(total_curvature)
+            #print(f"Curvature: {total_curvature}", end="\r")
+        except:
+            total_curvature = sum(curvatures)
+            total_curvature = math.degrees(total_curvature)
+            #print(f"Curvature: {total_curvature}", end="\r")
 
         return total_curvature
     except Exception as e:
@@ -544,8 +555,10 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation, speed):
         if distance > DISTANCE_FOR_LANE_CHANGE * speedPercentage:
             break
         index += 1
-    
-    logging.warning(f"Index: {index}")
+        
+    if GetPointLaneChangeDistance(curPoints[index]) < DISTANCE_FOR_LANE_CHANGE * speedPercentage:
+        return routeItem.points 
+
     # Now create the inbetween points to lane change
     if index > 0:
         for i in range(index):
@@ -587,10 +600,6 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
     if rotation < 0: rotation += 360
     rotation = math.radians(rotation)
     
-    if len(Route) > 0 and Route[0].points == []:
-        Route = []
-        #return data
-    
     if not Enabled:
         Route = []
         #return data
@@ -611,6 +620,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         try:
             closestData = MapUtils.run(truckX, 0, truckZ)
         except:
+            logging.exception("Failed to get closest data")
             return data
         try:
             GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ)
@@ -621,6 +631,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
                     pass
         except: 
             logging.exception("Failed to get item and lane references")
+            Route = []
             return data
     
     if Route == []:
@@ -638,6 +649,14 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
     tries = 0
     while len(Route) < RouteLength:
         try:
+            if len(Route) == 0:
+                try:
+                    closestData = MapUtils.run(truckX, 0, truckZ)
+                except: return data
+                try:
+                    GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ)
+                except: return data
+            
             item = GetNextItem(data, truckX, truckZ, rotation, MapUtils)
             if item == []:
                 tries += 1
@@ -647,18 +666,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
             Route.append(item)
             #logging.warning(f"Route length: {len(Route)}")
         except:
-            #logging.exception("Failed to get next item")
-            if len(Route) == 0:
-                try:
-                    closestData = MapUtils.run(truckX, 0, truckZ)
-                except:
-                    break
-                try:
-                    GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ)
-                except: 
-                    break
-            else:
-                break
+            logging.exception("Failed to get next item")
             
         tries += 1
         if tries > 10:
@@ -678,26 +686,36 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
             itemsToRemove.append(routeItem)
         #data["map"]["endPoints"].append(routeItem.endPosition)
         count += 1
+        
+    for item in itemsToRemove:
+        Route.remove(item)
 
-    if allPoints == []:
+    if allPoints == [] or Route == []:
         Route = []
         return data
 
     acceptedPoints = []
     lastPoint = allPoints[0]
+    lastVector = np.array([-math.sin(rotation), -math.cos(rotation)])
+    #print("Point checks")
+    #print(lastVector)
     for i in range(1, len(allPoints)):
         vector1 = [allPoints[i][0] - lastPoint[0], allPoints[i][1] - lastPoint[1]]
-        vector2 = [lastPoint[0] - truckX, lastPoint[1] - truckZ]
-        
-        angle = np.arccos(np.dot(vector1, vector2) / (np.linalg.norm(vector1) * np.linalg.norm(vector2)))
+        vector1 = vector1 / np.linalg.norm(vector1)
+        #print(lastVector)
+        #print(vector1)
+        angle = np.arccos(np.dot(vector1, lastVector) / (np.linalg.norm(vector1) * np.linalg.norm(lastVector)))
         angle = math.degrees(angle)
-        if angle < 90:
+        if np.array_equal(vector1, lastVector) or (angle < 90 and angle > -90):
             acceptedPoints.append(allPoints[i])
+            lastVector = vector1
             lastPoint = allPoints[i]
         else:
-            ...#print(f"Angle is {angle}")
-    
+            #print(angle)
+            ...
     allPoints = acceptedPoints
+    
+    #print(Route)
     
     if allPoints == []:
         Route = []
@@ -708,9 +726,6 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled):
         #print(data["map"]["allPoints"])
     else:
         data["map"]["allPoints"] = allPoints
-        
-    for item in itemsToRemove:
-        Route.remove(item)
 
     data["map"]["endPoints"] = endPoints
         
