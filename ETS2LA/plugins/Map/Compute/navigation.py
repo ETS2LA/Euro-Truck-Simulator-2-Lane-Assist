@@ -1,4 +1,5 @@
 from ETS2LA.plugins.Map.GameData.prefabItems import PrefabItem, GetPrefabItemByUid, FindItemsWithFerryUid
+from ETS2LA.plugins.Map.GameData.companies import Company, GetCompanyInCity, GetCompaniesByName
 from ETS2LA.plugins.Map.GameData.roads import Road, GetRoadByUid
 import ETS2LA.plugins.Map.GameData.ferries as ferries
 import ETS2LA.plugins.Map.GameData.roads as roads
@@ -27,6 +28,22 @@ if roadsMaxX != 0 and roadsMaxZ != 0 and roadsMinX != 0 and roadsMinZ != 0:
     WIDTH = MAX_IMAGE_SIZE
     HEIGHT = int(WIDTH / aspectRatio)
     
+MOUSE_X = 0
+MOUSE_Y = 0
+FIRST_POSITION = None
+FIRST_NODE = None
+SECOND_POSITION = None
+SECOND_NODE = None
+holdingLeft = False
+holdingRight = False
+CHANGED = False
+FIRST_START = True
+
+TIME_OF_LAST_UPDATE = time.time()
+POSITION_AT_LAST_UPDATE = (0, 0)
+LAST_TARGET_COMPANY = None
+LAST_TARGET_COMPANY_CITY = None
+LAST_TARGET_COMPANY_NAME = None
 class AStarNode:
     def __init__(self, x, z, lenght, node):
         self.x = x
@@ -247,16 +264,6 @@ def ClosestNode(x, z):
         closestDistance = endDistance
             
     return closestNode, closestRoad.Lengths[0]
-
-MOUSE_X = 0
-MOUSE_Y = 0
-FIRST_POSITION = None
-FIRST_NODE = None
-SECOND_POSITION = None
-SECOND_NODE = None
-holdingLeft = False
-holdingRight = False
-CHANGED = False
 def MouseCallback(event, x, y, flags, param):
     global MOUSE_X, MOUSE_Y, FIRST_POSITION, SECOND_POSITION, holdingLeft, holdingRight, CHANGED
     if event == cv2.EVENT_MOUSEMOVE:
@@ -330,12 +337,47 @@ def DrawMap(StartPoint, EndPoint, PathPoints, best, total=0):
     cv2.waitKey(1)
 
 lastFrame = np.zeros((HEIGHT, WIDTH, 3), np.uint8)
+cv2.putText(lastFrame, "This will automatically load once you get a job in game.", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+cv2.putText(lastFrame, "Left click to set the start point, right click to set the end point.", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 def Update(data, closestData):
-    global roadsMaxX, roadsMaxZ, roadsMinX, roadsMinZ, FIRST_POSITION, SECOND_POSITION, FIRST_NODE, SECOND_NODE, WIDTH, HEIGHT, lastFrame
+    global roadsMaxX, roadsMaxZ, roadsMinX, roadsMinZ, FIRST_POSITION, SECOND_POSITION, FIRST_NODE, SECOND_NODE, WIDTH, HEIGHT, lastFrame, FIRST_START, LAST_TARGET_COMPANY, LAST_TARGET_COMPANY_CITY, LAST_TARGET_COMPANY_NAME, CHANGED, path, TIME_OF_LAST_UPDATE, POSITION_AT_LAST_UPDATE
+    
+    if FIRST_START == True:
+        cv2.namedWindow('image')
+        cv2.setWindowProperty('image', cv2.WND_PROP_TOPMOST, 1)
+        cv2.setMouseCallback('image', MouseCallback)
+        FIRST_START = False
+    
+    target_city = data["api"]["configString"]["cityDst"]
+    target_company = data["api"]["configString"]["compDstId"].lower().replace(" ", "_")
+    truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    
+    if target_city != LAST_TARGET_COMPANY_CITY \
+        or target_company != LAST_TARGET_COMPANY_NAME \
+        or (time.time() - TIME_OF_LAST_UPDATE > 20\
+            and math.sqrt((truckX - POSITION_AT_LAST_UPDATE[0])**2 + (truckZ - POSITION_AT_LAST_UPDATE[1])**2) > 1000
+        ): # 20 update again after load time.
+
+        #print(target_city)
+        #print(target_company)
+        target_company = GetCompanyInCity(target_company, target_city)
+        print(target_company)
+        for company in target_company:
+            print(company.closestCity.name)
+        if target_company != None and len(target_company) > 0:
+            target_company = target_company[0]
+            LAST_TARGET_COMPANY = target_company
+            LAST_TARGET_COMPANY_CITY = target_city
+            LAST_TARGET_COMPANY_NAME = target_company.name
+            SECOND_POSITION = (target_company.x, target_company.y)
+            FIRST_POSITION = (truckX, truckZ)
+            CHANGED = True
+            TIME_OF_LAST_UPDATE = time.time()
+            POSITION_AT_LAST_UPDATE = (truckX, truckZ)
+        
     
     if CHANGED:
-        cv2.namedWindow('image')
-        cv2.setMouseCallback('image', MouseCallback)
         # roadsMaxX = roads.roadsMaxX
         # roadsMaxZ = roads.roadsMaxZ
         # roadsMinX = roads.roadsMinX
@@ -396,6 +438,10 @@ def Update(data, closestData):
     
         lastFrame = img
         
+        CHANGED = False
+        
     # Display said image
     cv2.imshow('image', lastFrame)
     cv2.waitKey(1)
+    
+    return path

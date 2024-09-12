@@ -82,4 +82,4 @@ def GetCompaniesByCity(city):
     return [company for company in companies if company.closestCity == city]
 
 def GetCompanyInCity(name, city):
-    return [company for company in companies if company.name == name and company.closestCity == city]
+    return [company for company in companies if company.name == name and company.closestCity.name == city]
