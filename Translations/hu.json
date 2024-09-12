@@ -326,9 +326,10 @@
  
     "acc.settings.1.title": "Adaptiv Tempomat beállítások",
     "acc.settings.1.description": "Ez hatással lesz arra, hogy az alkalmazás hogyan reagál más járművekre.",
-    "acc.settings.2.name": "Követési távolság",
-    "acc.settings.2.description": "Konkrétan ekkora a követési távolság méterben kifejezve, 80km/h vagy 50mph-nál", 
-
+    "acc.settings.2.name": "Követési idő",
+    "acc.settings.2.description": "Hány másodpercre az ellöttünk lévőre legyünk.",
+    "acc.settings.3.name": "Sebesség Eltérés",
+    "acc.settings.3.description": "Ennyi százalékkal vezessen a megengedett sebességhatár felett.",
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 
     "map.json_not_found": "Nem található JSON file GameData mappában, kérlek csomagold ki a GameData.zip file-t.",
