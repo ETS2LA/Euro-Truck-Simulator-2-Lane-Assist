@@ -540,7 +540,7 @@ def DistanceBetweenPoints(point1, point2):
     return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
 def map_curvature_to_speed_effect(curvature):
-    factor = 0.007
+    factor = 0.07
     min_effect, max_effect = 0.0, 0.7
     effect = min(max(curvature * factor, min_effect), max_effect)
     return effect
@@ -569,6 +569,7 @@ def CalculateCurvature(points):
             if not np.isnan(angle) and angle != 0:
                 curvatures.append(angle)
 
+        #print(f"Curvatures: {curvatures}")
         # Filter outliers using IQR
         try:
             q1, q3 = np.percentile(curvatures, [25, 75])
@@ -576,12 +577,12 @@ def CalculateCurvature(points):
             lower_bound = q1 - (1.5 * iqr)
             upper_bound = q3 + (1.5 * iqr)
             filtered_curvatures = [x for x in curvatures if lower_bound <= x <= upper_bound]
-            
-            total_curvature = sum(filtered_curvatures)
+
+            total_curvature = sum(filtered_curvatures) / len(filtered_curvatures)
             total_curvature = math.degrees(total_curvature)
             #print(f"Curvature: {total_curvature}", end="\r")
         except:
-            total_curvature = sum(curvatures)
+            total_curvature = sum(curvatures) / len(curvatures)
             total_curvature = math.degrees(total_curvature)
             #print(f"Curvature: {total_curvature}", end="\r")
 
@@ -792,7 +793,7 @@ def HandleNoNav(data, MapUtils, Enabled):
         #print(vector1)
         angle = np.arccos(np.dot(vector1, lastVector) / (np.linalg.norm(vector1) * np.linalg.norm(lastVector)))
         angle = math.degrees(angle)
-        if np.array_equal(vector1, lastVector) or (angle < 90 and angle > -90):
+        if np.array_equal(vector1, lastVector) or (angle < 90 and angle > -80):
             acceptedPoints.append(allPoints[i])
             lastVector = vector1
             lastPoint = allPoints[i]

@@ -44,9 +44,11 @@ def ToggleSteering(state:bool, *args, **kwargs):
     global ACC_ENABLED
     ACC_ENABLED = state
     
-def CalculateAcceleration(targetSpeed: float, currentSpeed: float, time: float) -> float:
-    if time < FOLLOW_TIME and time > 0:
-        targetSpeed = (time / FOLLOW_TIME) * targetSpeed
+def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistance: float, time: float, vehicleSpeed: float) -> float:
+    if (time < FOLLOW_TIME and time > 0 or currentDistance < 25) and vehicleSpeed < currentSpeed*1.1:
+        targetSpeed = (time / (FOLLOW_TIME)) * targetSpeed
+        if currentDistance < 25:
+            targetSpeed /= 2
 
     # Base accel to stay at current speed
     acceleration = (targetSpeed - currentSpeed) / 3.6
@@ -84,7 +86,7 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
     
     points = runner.GetData(["Map"])[0]
     
-    if type(points) != list or len(points) == 0 or type(points[0]) != list:
+    if type(points) != list or len(points) == 0 or (type(points[0]) != list and type(points[0]) != tuple):
         if time.time() - lastVehicleTime < 1:
             return lastTimeToVehicle
         return math.inf
@@ -217,17 +219,15 @@ def plugin():
     currentSpeed = apiData['truckFloat']['speed']
     
     try: targetSpeed = GetTargetSpeed(apiData)
-    except: Reset(); return
+    except: Reset(); logging.exception("something"); return
     
     try: timeToVehicle = GetTimeToVehicleAhead(apiData)
     except: timeToVehicle = math.inf; logging.exception("Failed to get time to vehicle ahead")
         
-    acceleration, targetSpeed = CalculateAcceleration(targetSpeed, currentSpeed, timeToVehicle)
+    acceleration, targetSpeed = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, vehicleSpeed)
     
     if ACC_ENABLED:
         SetAccelBrake(acceleration)
-        
-        
         
     return None, {
         "status": GetStatus(),
