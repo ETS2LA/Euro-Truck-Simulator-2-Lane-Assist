@@ -40,8 +40,6 @@ except ValueError:
     logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
     LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
     settings.Set("global", "language", "English")
-    settings.Save()
-
 
 SETTINGS_HASH = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
 
@@ -128,7 +126,6 @@ def CheckForLanguageUpdates():
             logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
             LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
             settings.Set("global", "language", "English")
-            settings.Save()
         LoadLanguageData()
         UpdateFrontendTranslations()
         UpdateSettingsUITranslations()
