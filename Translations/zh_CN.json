@@ -25,6 +25,7 @@
     "main.warnings": "警告：",
     "main.no_errors_or_warnings": "未发现错误或警告。",
     "main.overseer_started": "ETS2LA 管理程序已启动！",
+    "main.development_mode": "以开发者模式运行ETS2LA。",
     "main.restarting": "ETS2LA 正在重新启动...",
     "main.updating": "ETS2LA 正在更新...",
     "main.update_done": "更新完成... 正在重启！",
