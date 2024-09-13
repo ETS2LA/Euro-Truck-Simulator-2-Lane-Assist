@@ -163,7 +163,7 @@ def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
         if DistanceBetweenPoints([truckX, truckZ], newPoints[0]) > DistanceBetweenPoints([truckX, truckZ], newPoints[-1]):
             newPoints = newPoints[::-1]
     except:
-        logging.exception("Failed to check if the points should be inverted")
+        #logging.exception("Failed to check if the points should be inverted")
         pass
     
     return newPoints
@@ -312,8 +312,8 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownItem=None,
         if closestLaneId == math.inf:
             return []
         
-        logging.warning(f"ClosestLaneId: {closestLaneId}")
-        logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
+        #logging.warning(f"ClosestLaneId: {closestLaneId}")
+        #logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
         
         closestPoints = Lanes[closestLaneId]
         
@@ -449,9 +449,9 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownItem=None,
             if len(closestLaneIds) == 1:
                 closestLaneIds = closestLaneIds[0]
             else:
-                logging.warning(f"Multiple closest lanes: {closestLaneIds}")
-                logging.warning(f"FollowingItemStart {followingItemStartNode.X}, {followingItemStartNode.Z}")
-                logging.warning(f"FollowingItemEnd {followingItemEndNode.X}, {followingItemEndNode.Z}")
+                #logging.warning(f"Multiple closest lanes: {closestLaneIds}")
+                #logging.warning(f"FollowingItemStart {followingItemStartNode.X}, {followingItemStartNode.Z}")
+                #logging.warning(f"FollowingItemEnd {followingItemEndNode.X}, {followingItemEndNode.Z}")
                 # find the lane that brings us to the following item
                 closestLaneDistance = math.inf
                 for i in closestLaneIds:
@@ -468,8 +468,8 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownItem=None,
                         closestLaneIds = i
                     
         
-        logging.warning(f"ClosestLaneId: {closestLaneIds}")
-        logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
+        #logging.warning(f"ClosestLaneId: {closestLaneIds}")
+        #logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
         
         closestPoints = Curves[closestLaneIds]
         

@@ -21,6 +21,7 @@
     "main.warnings": "Figyelmeztet\u00e9sek:",
     "main.no_errors_or_warnings": "Nincsenek hib\u00e1k vagy figyelmeztet\u00e9sek.",
     "main.overseer_started": "Az ETS2LA Fel\u00fcgyel\u0151 elindult!",
+    "main.development_mode": "ETS2LA elind\u00edt\u00e1sa fejleszt\u00e9si m\u00f3dban.",
     "main.restarting": "Az ETS2LA \u00fajraindul...",
     "main.updating": "Az ETS2LA friss\u00edt\u00e9se...",
     "main.update_done": "Friss\u00edt\u00e9s k\u00e9sz... \u00fajraind\u00edt\u00e1s!",
