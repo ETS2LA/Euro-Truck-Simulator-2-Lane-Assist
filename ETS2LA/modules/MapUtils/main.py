@@ -101,50 +101,6 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
                 if lane == []: continue
                 
                 if type(item) == PrefabItem or len(lanes) == 1:
-                    # Get the two points closest to the player
-                    # firstPoint = None
-                    # firstPointDistance = math.inf
-                    # secondPoint = None
-                    # secondPointDistance = math.inf
-                    # for point in lane:
-                    #     try:
-                    #         distance = math.sqrt((point[0] - x)**2 + (point[1] - y)**2)
-                    #         if distance < firstPointDistance:
-                    #             secondPoint = firstPoint
-                    #             secondPointDistance = firstPointDistance
-                    #             firstPoint = point
-                    #             firstPointDistance = distance
-                    #         elif distance < secondPointDistance:
-                    #             secondPoint = point
-                    #             secondPointDistance = distance
-                    #     except:
-                    #         continue
-                    # 
-                    # if firstPoint == None or secondPoint == None:
-                    #     continue
-                    # 
-                    # # Get the percentage of the first point
-                    # startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
-                    # endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
-                    # sumDistance = startDistance + endDistance
-                    # firstPointPercentage = startDistance / sumDistance
-                    # 
-                    # # Get the percentage of the second point
-                    # # startDistance = math.sqrt((firstPoint[0] - x)**2 + (firstPoint[1] - y)**2)
-                    # # endDistance = math.sqrt((secondPoint[0] - x)**2 + (secondPoint[1] - y)**2)
-                    # # sumDistance = startDistance + endDistance
-                    # # secondPointPercentage = startDistance / sumDistance
-                    # 
-                    # # Interpolate the point
-                    # newPoint = [0, 0]
-                    # newPoint[0] = firstPoint[0] + (secondPoint[0] - firstPoint[0]) * firstPointPercentage
-                    # newPoint[1] = firstPoint[1] + (secondPoint[1] - firstPoint[1]) * firstPointPercentage
-                    # 
-                    # interpolatedPoints.append(newPoint)
-                    # pointsLanes.append(lane)
-                    
-                    ...
-                    
                     # Get the two points that are closest to the player.
                     firstPoint = None
                     firstPointDistance = math.inf
@@ -178,7 +134,6 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
                     interpolatedPoints.append(newPoint)
                     pointsLanes.append(lane)
                     
-                    
                 elif type(item) == Road:
                     percentage, point = roads.FindClosestPointOnHermiteCurve(x, z, y, road=item, lane=lane)
                     point = (point[0], point[2])
@@ -199,10 +154,6 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
                 closestPoint = point
                 closestLaneDistance = distance
                            
-        # if type(item) == PrefabItem:
-        #     # Convert the closest lane back to the original format
-        #     closestLane = (closestLane[0][0], closestLane[0][1], closestLane[1][0], closestLane[1][1])
-        
         # Find which index the lane is in
         if item != None:
             index = 0
@@ -234,13 +185,16 @@ def FindClosestLane(x, y, z, item, data, lanes=None):
 # MARK: Closest item
 def GetClosestRoadOrPrefabAndLane(x, y, z, data, closeRoads=None, closePrefabs=None):
     inBoundingBox = []
-    for road in closeRoads:
-        if CheckIfInBoundingBox(road.BoundingBox, x, y):
-            inBoundingBox.append(road)
+    if len(closeRoads) + len(closePrefabs) == 1:
+        inBoundingBox.append(closeRoads[0] if len(closeRoads) == 1 else closePrefabs[0])
+    else:
+        for road in closeRoads:
+            if CheckIfInBoundingBox(road.BoundingBox, x, y):
+                inBoundingBox.append(road)
     
-    for prefab in closePrefabs:
-        if CheckIfInBoundingBox(prefab.BoundingBox, x, y):
-            inBoundingBox.append(prefab)
+        for prefab in closePrefabs:
+            if CheckIfInBoundingBox(prefab.BoundingBox, x, y):
+                inBoundingBox.append(prefab)
             
     #logging.info(f"Found {len(inBoundingBox)} items in bounding box")
             

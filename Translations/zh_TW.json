@@ -25,6 +25,7 @@
     "main.warnings": "警告：",
     "main.no_errors_or_warnings": "未發現錯誤或警告。",
     "main.overseer_started": "ETS2LA 管理程式已啟動！",
+    "main.development_mode": "正在以開發模式執行 ETS2LA",
     "main.restarting": "ETS2LA 正在重新啟動...",
     "main.updating": "ETS2LA 正在更新...",
     "main.update_done": "更新完成... 正在重啟！",
@@ -172,7 +173,7 @@
     "frontend.immediate.disconnected": "與 ETS2LA 伺服器端斷開連接",
     "frontend.immediate.update_check_error": "錯誤：{0}",
     "frontend.immediate.checking_updates": "正在檢查更新...",
-    "frontend.immediate.update_available": "有{0}個可用更新",
+    "frontend.immediate.update_available": "有 {0} 個可用更新",
     "frontend.immediate.no_updates": "沒有可用的更新",
     "frontend.immediate.up_to_date": "最新版本",
     "frontend.immediate.socket_connected": "已連接",
@@ -325,8 +326,10 @@
     
     "acc.settings.1.title": "主動式巡航控制設定",
     "acc.settings.1.description": "此選項將影響應用程式對其他車輛的反應方式。",
-    "acc.settings.2.name": "跟車距離",
-    "acc.settings.2.description": "例如，這是在時速80公里或50英里的距離（公尺）。",    
+    "acc.settings.2.name": "跟車時間",
+    "acc.settings.2.description": "應與前車保持的秒數。",
+    "acc.settings.3.name": "速度偏移",
+    "acc.settings.3.description": "超過限速的百分比。",
     
     "_PLUGIN_KEYS": "這些是特定插件所需的鍵值",
 

@@ -326,8 +326,10 @@
         
     "acc.settings.1.title": "Adaptiivisen vakionopeudensäätimen asetukset",
     "acc.settings.1.description": "Nämä asetukset vaikuttavat adaptiivisen vakionopeudensäätimen toimintaan.",
-    "acc.settings.2.name": "Seuraamis etäisyys",
-    "acc.settings.2.description": "Kuinka kaukana edellä menevästä autosta ajetaan 80kph nopeudessa.",
+    "acc.settings.2.name": "Seuraamis etäisyys (aikana)",
+    "acc.settings.2.description": "Kuinka monta sekunttia perässä ETS2LA yrittää seurata edellä menevää autoa.",
+    "acc.settings.3.name": "Nopeuden säätö",
+    "acc.settings.3.description": "Aja tätä prosenttia nopeusrajoitusta nopeammin.",
 
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 

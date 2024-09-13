@@ -25,6 +25,7 @@
     "main.warnings": "Figyelmeztetések:",
     "main.no_errors_or_warnings": "Nincsenek hibák vagy figyelmeztetések.",
     "main.overseer_started": "Az ETS2LA Felügyelő elindult!",
+    "main.development_mode": "ETS2LA elindítása fejlesztési módban.",
     "main.restarting": "Az ETS2LA újraindul...",
     "main.updating": "Az ETS2LA frissítése...",
     "main.update_done": "Frissítés kész... újraindítás!",
@@ -172,7 +173,8 @@
     "frontend.immediate.disconnected": "Kapcsolat megszakadva az ETS2LA háttérrel",
     "frontend.immediate.update_check_error": "Hiba: {0}",
     "frontend.immediate.checking_updates": "Frissítések ellenőrzése...",
-    "frontend.immediate.update_available": "Frissítés elérhető",
+    "frontend.immediate.update_available": "{0} frissítés(ek) van(nak) még",
+    "frontend.immediate.no_updates": "Nincs elérhető frissítés.",
     "frontend.immediate.up_to_date": "Frissítve",
     "frontend.immediate.socket_connected": "Kapcsolódva",
     "frontend.immediate.socket_disconnected": "Kapcsolat megszakadva, kérlek frissíts.",
@@ -325,9 +327,10 @@
  
     "acc.settings.1.title": "Adaptiv Tempomat beállítások",
     "acc.settings.1.description": "Ez hatással lesz arra, hogy az alkalmazás hogyan reagál más járművekre.",
-    "acc.settings.2.name": "Követési távolság",
-    "acc.settings.2.description": "Konkrétan ekkora a követési távolság méterben kifejezve, 80km/h vagy 50mph-nál", 
-
+    "acc.settings.2.name": "Követési idő",
+    "acc.settings.2.description": "Hány másodpercre az ellöttünk lévőre legyünk.",
+    "acc.settings.3.name": "Sebesség Eltérés",
+    "acc.settings.3.description": "Ennyi százalékkal vezessen a megengedett sebességhatár felett.",
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 
     "map.json_not_found": "Nem található JSON file GameData mappában, kérlek csomagold ki a GameData.zip file-t.",

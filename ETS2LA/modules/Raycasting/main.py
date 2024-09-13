@@ -310,6 +310,8 @@ import time
 def run(x=None, y=None):
     GetValuesFromAPI()
     UpdateGamePosition()
+    if window_width == 0 or window_height == 0:
+        RaycastResponse((truck_x, truck_y, truck_z), 0, (0, 0, 0))
     # Get the mouse position
     if x == None and y == None:
         x, y = mouse.get_position()

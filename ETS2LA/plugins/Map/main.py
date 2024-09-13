@@ -18,7 +18,7 @@ import ETS2LA.backend.sounds as sounds
 import ETS2LA.variables as variables
 
 # Plugin imports
-from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems
+from ETS2LA.plugins.Map.GameData import roads, nodes, prefabs, prefabItems, cities, companies
 import ETS2LA.plugins.Map.GameData.extractor as extractor
 import ETS2LA.plugins.Map.GameData.ferries as ferries
 import ETS2LA.plugins.Map.Compute.compute as compute
@@ -149,6 +149,7 @@ def CheckIfJSONDataIsAvailable(data):
             toast(Translate("map.json_not_found"))
             SENT_JSON_ERROR = True
 
+# MARK: Load Game Data
 def LoadGameData():
     global DATA_LOADED
     customProgress = Progress(
@@ -167,10 +168,13 @@ def LoadGameData():
         task4 = progress.add_task("[green]prefabs[/green]", total=100)
         task6 = progress.add_task("[green]ferries[/green]", total=100)
         task5 = progress.add_task("[green]calculations[/green]", total=100)
+        task7 = progress.add_task("[green]cities[/green]", total=100)
+        task8 = progress.add_task("[green]companies[/green]", total=100)
+        taskCount = 8
         
         if nodes.nodes == []:
             runner.state = Translate("map.loading.nodes")
-            runner.state_progress = 0
+            runner.state_progress = 1/taskCount
             time.sleep(0.1)
             nodes.task = task1
             nodes.progress = progress
@@ -180,7 +184,7 @@ def LoadGameData():
         if roads.roads == []:
             #roads.limitToCount = 10000
             runner.state = Translate("map.loading.roads")
-            runner.state_progress = 0.15
+            runner.state_progress = 2/taskCount
             roads.task = task2
             roads.progress = progress
             roads.LoadRoads()
@@ -189,7 +193,7 @@ def LoadGameData():
         if prefabs.prefabs == []:
             #prefabs.limitToCount = 500
             runner.state = Translate("map.loading.prefab_data")
-            runner.state_progress = 0.3
+            runner.state_progress = 3/taskCount
             prefabs.task = task3
             prefabs.progress = progress
             prefabs.LoadPrefabs()
@@ -197,7 +201,7 @@ def LoadGameData():
             
         if prefabItems.prefabItems == []:
             runner.state = Translate("map.loading.prefabs")
-            runner.state_progress = 0.45
+            runner.state_progress = 4/taskCount
             prefabItems.task = task4
             prefabItems.progress = progress
             prefabItems.LoadPrefabItems()
@@ -205,7 +209,7 @@ def LoadGameData():
             
         if ferries.ports == []:
             runner.state = Translate("map.loading.ferries")
-            runner.state_progress = 0.6
+            runner.state_progress = 5/taskCount
             ferries.task = task6
             ferries.progress = progress
             ferries.LoadFerries()
@@ -213,11 +217,27 @@ def LoadGameData():
         
         if nodes.itemsCalculated == False:
             runner.state = Translate("map.loading.final_calculations")
-            runner.state_progress = 0.75
+            runner.state_progress = 6/taskCount
             nodes.progress = progress
             nodes.task = task5
             nodes.CalculateForwardAndBackwardItemsForNodes()
             nodes.itemsCalculated = True
+            
+        if cities.cities == []:
+            runner.state = Translate("map.loading.cities")
+            runner.state_progress = 7/taskCount
+            cities.task = task7
+            cities.progress = progress
+            cities.LoadCities()
+            progress.refresh()
+            
+        if companies.companies == []:
+            runner.state = Translate("map.loading.companies")
+            runner.state_progress = 8/taskCount
+            companies.task = task8
+            companies.progress = progress
+            companies.LoadCompanies()
+            progress.refresh()
             
         runner.state = "running"
         runner.state_progress = -1
@@ -251,6 +271,8 @@ def DrawInternalVisualisation(data, closeRoads, closePrefabs):
         
     img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
     img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
+    
+    img = visualize.VisualizeDebugPoints(data, img=img, zoom=ZOOM)
 
     # Convert to BGR
     runner.Profile("Visualizations")
@@ -340,6 +362,14 @@ def UpdateSettings():
     Steering.SMOOTH_TIME = settings.Get("Map", "SteeringSmoothTime", 0.5)
     
     lastUpdate = time.time()
+    
+def UpdateDataVariables(apiData):
+    truckX = apiData["api"]["truckPlacement"]["coordinateX"]
+    truckZ = apiData["api"]["truckPlacement"]["coordinateZ"]
+    truckY = apiData["api"]["truckPlacement"]["coordinateY"]
+    prefabItems.truckX = truckX
+    prefabItems.truckZ = truckZ
+    plotter.visualize = visualize
 
 # MARK: Plugin
 def plugin():
@@ -359,6 +389,7 @@ def plugin():
     UpdatePlotter()
     UpdateVisualize()
     UpdateNavigation()
+    UpdateDataVariables(data)
         
     closeRoads, updatedRoads = compute.GetRoads(data)
     closePrefabs, updatedPrefabs = compute.GetPrefabs(data)
@@ -389,7 +420,7 @@ def plugin():
             
         runner.Profile("Navigation data")
         
-        steeringData = plotter.GetSteeringPoints(data, MapUtils, STEERING_ENABLED)
+        steeringData = plotter.GetSteeringPoints(data, MapUtils, STEERING_ENABLED, navigationData)
         runner.Profile("Steering data")
         steeringPoints = steeringData["map"]["allPoints"]
         try: steeringAngle = steeringData["map"]["angle"]
@@ -402,21 +433,21 @@ def plugin():
         distance = 0
         points = []
         lastPoint = None
-        for point in steeringPoints:
-            if distance > 50:
-                break
-            if lastPoint is not None:
-                distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
-            points.append(point)
-            lastPoint = point
+        if steeringPoints is None:
+            steeringPoints = []
+        else:
+            for point in steeringPoints:
+                if distance > 50:
+                    break
+                if lastPoint is not None:
+                    distance += ((point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2) ** 0.5
+                points.append(point)
+                lastPoint = point
             
-        runner.Profile("- doing stuff with said data")
-        
+            runner.Profile("- doing stuff with said data")
+            
         curvature = plotter.CalculateCurvature(points)
-                
-        # Modulate the target speed based on the curvature
         targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
-        #logging.warning(f"Curvature: {curvature * 10e13}, Target speed: {targetSpeed}")
         
         runner.Profile("Curvature")
         
@@ -432,8 +463,8 @@ def plugin():
     runner.Profile("External Data")
         
     # Half the resolution of the steering points
-    if COMPUTE_STEERING_DATA:
-        steeringPoints = steeringPoints[::2]
+    # if COMPUTE_STEERING_DATA:
+    #     steeringPoints = steeringPoints[::2]
         
     arData = None
     if SEND_AR_DATA:
@@ -442,6 +473,7 @@ def plugin():
             "map": externalData,
             "ar": arData,
             "targetSpeed": targetSpeed,
+            "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
         }
     
     if updatedPrefabs or updatedRoads:
@@ -450,8 +482,10 @@ def plugin():
         return steeringPoints[:20], {
             "map": externalData,
             "targetSpeed": targetSpeed,
+            "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
         }
     
     return steeringPoints[:20], {
-        "targetSpeed": targetSpeed
+        "targetSpeed": targetSpeed,
+        "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
     }

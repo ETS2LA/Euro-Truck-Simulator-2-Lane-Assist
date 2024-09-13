@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://ct7bi62bp08w3"]
+[gd_scene load_steps=4 format=3 uid="uid://ct7bi62bp08w3"]
 
 [ext_resource type="Material" uid="uid://dmaxysuvanmss" path="res://Materials/road.tres" id="1_66tx7"]
+[ext_resource type="Script" path="res://Scripts/road.gd" id="1_h34co"]
 [ext_resource type="Material" uid="uid://cejr8km14y5dw" path="res://Materials/markingsDashed.tres" id="2_0aeml"]
 
 [node name="RoadPiece" type="Node3D"]
+script = ExtResource("1_h34co")
 
 [node name="Right" type="CSGPolygon3D" parent="."]
 calculate_tangents = false

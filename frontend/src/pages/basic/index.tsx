@@ -55,8 +55,10 @@ export default function Basic({ip} : {ip: string}) {
                     onCollapse={() => setCollapsed(true)}
                     onExpand={() => setCollapsed(false)}
                 >
-                    <div className="h-full z-[-9999]">
-                        <ETS2LAMap ip={ip} />
+                    <div className="bg-[#1b1b1b] h-full">
+                        <div className="h-full z-[-9999] bg-[#1b1b1b]" style={{transform: "rotateX(0) translate(0px,0px)"}}>
+                            <ETS2LAMap ip={ip} />
+                        </div>
                     </div>
                     {!collapsed && <div className="absolute bottom-0 left-0 h-[100vh] w-16 bg-gradient-to-l from-transparent to-[#1b1b1b] pointer-events-none" />}
                     <div className="absolute top-0 left-0 right-0 h-screen">

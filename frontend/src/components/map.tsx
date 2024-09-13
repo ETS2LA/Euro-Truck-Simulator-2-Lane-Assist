@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/resizable"
 import { toast } from "sonner"
 import { useRouter } from "next/router"
-import { use, useState } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { useEffect } from 'react'
@@ -21,45 +21,23 @@ import { set } from 'date-fns'
 import { useRef } from 'react'
 import CustomMarker from './custom_marker'
 import pako from 'pako';
-import maplibregl from 'maplibre-gl';
+import { MdForkRight, MdStraight  } from "react-icons/md";
+import { json } from 'stream/consumers'
+import { Card, CardContent } from './ui/card'
+import "leaflet-rotate"
 
-// Import maplibre css
-import 'maplibre-gl/dist/maplibre-gl.css';
 // Import leaflet css
-// import 'leaflet/dist/leaflet.css'
-
-function game_coord_to_coordinates(xx: number, yy: number): [number, number] {
-    // Values from TileMapInfo.json - the bounds of your game world in game coordinates
-    const x1 = -94621.8047;
-    const x2 = 79370.13;
-    const y1 = -80209.1641;
-    const y2 = 93782.77;
-
-    // The target lat/lon bounds that the game world corresponds to
-    const latMin = -90; // Replace with the correct bounds for your map region
-    const latMax = 90;  // Replace with the correct bounds for your map region
-    const lonMin = -180;         // Replace with the correct bounds for your map region
-    const lonMax = 180;          // Replace with the correct bounds for your map region
-
-    // Convert the game coordinates to relative positions
-    let xrel = (xx - x1) / (x2 - x1);  // Relative X position
-    let yrel = (yy - y1) / (y2 - y1);  // Relative Y position
-
-    // Map the relative positions to the latitude and longitude bounds
-    const lon = lonMin + xrel * (lonMax - lonMin);
-    const lat = latMin + yrel * (latMax - latMin);
-
-    return [lon, -(lat)]; // Return the calculated coordinates
-}
+import 'leaflet/dist/leaflet.css'
 
 // Component to update the map's view
-const UpdateMapView = ({ position, map }: { position: any, map: any }) => {
-    if (!map) return null; // If the map is not ready yet, do not render anything
-
-    position = game_coord_to_coordinates(position[0], position[1]); // Convert the game coordinates to normal map coordinates (lat, lng)
-    //console.log("Position:", position);
+const UpdateMapView = ({ position, speed, rx }: { position: LatLngTuple, speed: number, rx: number }) => {
+    const map = useMap(); // Access the map instance
     useEffect(() => {
-        map.flyTo({ center: position, zoom: 7.9 });
+        let zoom = 8;
+        map.flyTo(position, zoom, {
+            animate: false,
+            duration: 0
+        });
     }, [position, map]);
   
     return null; // This component does not render anything
@@ -91,24 +69,11 @@ let socket: WebSocket | null = null;
 export default function ETS2LAMap({ip} : {ip: string}) {
     const {theme, setTheme} = useTheme()
     const [connected, setConnected] = useState(false)
-    const [position, setPosition] = useState([0, 0])
+    const [position, setPosition] = useState<LatLngTuple>([0, 0])
+    const [speed, setSpeed] = useState(0)
     const [rotation, setRotation] = useState(0)
+    const [instructions, setInstructions] = useState<string[]>([])
     const markerRef = useRef<L.Marker>(null);
-    const mapContainer = useRef<any>(null);
-    const map = useRef<any>(null);
-    const zoom = 7;
-
-    useEffect(() => {
-        if (map.current) return; // stops map from intializing more than once
-        console.log("Initializing map")
-        map.current = new maplibregl.Map({
-          container: mapContainer.current,
-          style: ip === "localhost" ? 'http://localhost:37520/api/map/style' : `http://${ip}:37520/api/map/style`,
-          center: [0, 0],
-          zoom: zoom
-        });
-        console.log("Map initialized")
-    }, [zoom]);
 
     useEffect(() => {
 
@@ -133,13 +98,13 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                     // Use the Blob.arrayBuffer() method to read the Blob's content
                     const arrayBuffer = data.arrayBuffer().then(buffer => {
                         data = new Uint8Array(buffer);
-                        //console.log("Received message:", data);
                         const message = pako.ungzip(data, { windowBits: 28, to: 'string' });
                         const indices = message.split(";");
                         // Find X and Z
                         let X = 0;
                         let Z = 0;
                         let RX = 0;
+                        let Speed = 0;
                         indices.forEach((index: any) => {
                             if (index.startsWith("x")) {
                                 X = parseFloat(index.split("x")[1].replace(":", ""));
@@ -148,22 +113,29 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                             } else if (index.startsWith("rx")) {
                                 RX = parseFloat(index.split("rx")[1].replace(":", ""));
                                 setRotation(RX);
+                            } else if (index.startsWith("speed") && !index.startsWith("speedLimit")) {
+                                Speed = parseFloat(index.split("speed")[1].replace(":", ""));
+                                setSpeed(Speed);
+                            } else if (index.startsWith("instruct")) {
+                                let instruct = index.split("instruct")[1].replace(":", "");
+                                instruct = JSON.parse(instruct);
+                                setInstructions(instruct);
                             }
                         });
                         if (!isNaN(X) && !isNaN(Z)) {
-                            //[X, Z] = game_coord_to_image(X, Z);
-                            setPosition([X, Z]);
+                            [X, Z] = game_coord_to_image(X, Z);
+                            setPosition([-Z, X]);
                         }
                     });
                 }
                 else{
-                    //console.log("Received message:", data);
                     const message = pako.ungzip(data, { windowBits: 28, to: 'string' });
                     const indices = message.split(";");
                     // Find X and Z
                     let X = 0;
                     let Z = 0;
                     let RX = 0;
+                    let Speed = 0;
                     indices.forEach((index: any) => {
                         if (index.startsWith("x")) {
                             X = parseFloat(index.split("x")[1].replace(":", ""));
@@ -172,11 +144,18 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                         } else if (index.startsWith("rx")) {
                             RX = parseFloat(index.split("rx")[1].replace(":", ""));
                             setRotation(RX);
+                        } else if (index.startsWith("speed") && !index.startsWith("speedLimit")) {
+                            Speed = parseFloat(index.split("speed")[1].replace(":", ""));
+                            setSpeed(Speed);
+                        } else if (index.startsWith("instruct")) {
+                            let instruct = index.split("instruct")[1].replace(":", "");
+                            instruct = JSON.parse(instruct);
+                            setInstructions(instruct);
                         }
                     });
                     if (!isNaN(X) && !isNaN(Z)) {
-                        //[X, Z] = game_coord_to_image(X, Z);
-                        setPosition([X, Z]);
+                        [X, Z] = game_coord_to_image(X, Z);
+                        setPosition([-Z, X]);
                     }
                 }
 
@@ -224,25 +203,49 @@ export default function ETS2LAMap({ip} : {ip: string}) {
             }
         }
     }, [rotation]); // This effect depends on the rotation state    
+
+    let corner1 = latLng(0, 165168)
+    let corner2 = latLng(148512, 0)
+    let bounds = latLngBounds(corner1, corner2)
     // <CustomMarker position={position} rotation={rotation} />
-    // <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple}>
-    //    <TileLayer
-    //    attribution='&copy; ETS2LA Team'
-    //    url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
-    //    minNativeZoom={2}
-    //    maxNativeZoom={8}
-    //    zIndex={-999}
-    //    tileSize={512}
-    //    />
-    //    <CustomMarker position={position} rotation={rotation} />
-    //    <UpdateMapView position={position} />
-    //</MapContainer>
     return (
-        <div className='w-full h-full'>
-            <div ref={mapContainer} className='w-full h-full' style={{backgroundColor: "#1b1b1b"}}>
-                <UpdateMapView position={position} map={map.current} />
+        <div style={{height: "100%", width: "100%", position: "relative"}}>
+            {instructions[0] &&
+                <Card style={{position: "absolute", top: "58px", right: "12px", zIndex: 1000}} className="bg-transparent border-none backdrop-blur-xl backdrop-brightness-50 h-24 w-48">
+                    <CardContent className='p-0 h-full pb-1'>
+                        <div className='flex flex-col h-full gap-0 p-0 font-customSans justify-center'>
+                            <div className='flex items-center h-full pr-6 gap-0'>
+                                {instructions[0].distance < 10 &&
+                                    <MdForkRight className='w-16 h-16 justify-center' />
+                                    ||
+                                    <MdStraight className='w-16 h-16 justify-center' />
+                                }
+                                <div className="flex flex-col gap-0 text-left pl-0 overflow-hidden">
+                                    {instructions[0].distance > 10 &&
+                                        <p className='font-bold'>In {Math.round(instructions[0].distance/100)/10} km</p>
+                                    }
+                                    <h3>{instructions[0].direction && "Prefab"}</h3>
+                                    <p className='text-[10px] pt-1'>{Math.round(instructions[instructions.length - 1].totalDistance/100)/10} km left</p>
+                                </div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            }
+            <div style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b", position: "absolute"}}>
+                <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true} zoomSnap={0}>
+                    <TileLayer
+                        attribution='&copy; ETS2LA Team'
+                        url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
+                        minNativeZoom={2}
+                        maxNativeZoom={8}
+                        zIndex={-999}
+                        tileSize={512}
+                    />
+                    <CustomMarker position={position} rotation={rotation} />
+                    <UpdateMapView position={position} speed={speed} rx={rotation} />
+                </MapContainer>
             </div>
-            <div className='border absolute w-2 h-2 top-[calc(50vh-0.5rem)] left-[calc(35vw-1.5rem)] border-white' />
         </div>
     )
 }

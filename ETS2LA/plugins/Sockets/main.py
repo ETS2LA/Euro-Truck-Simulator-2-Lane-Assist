@@ -66,7 +66,7 @@ lastTargetSpeedTime = time.time()
 def speed(data):
     global lastTargetSpeed, lastTargetSpeedTime
     
-    data["targetSpeed"] = runner.GetData(["tags.targetSpeed"])[0] # Get the target speed
+    data["targetSpeed"] = runner.GetData(["tags.acc"])[0] # Get the target speed
     
     if data["targetSpeed"] is None or type(data["targetSpeed"]) == list or type(data["targetSpeed"]) == dict:
         if time.time() - lastTargetSpeedTime < 1:
@@ -159,6 +159,52 @@ def steering(data):
         return send
     except:
         return "JSONsteeringPoints:[];"
+    
+lastStatus = ""
+def status(data):
+    try:
+        global lastStatus
+        data["status"] = runner.GetData(["tags.status"])[0]
+        if data["status"] is None or type(data["status"]) != str:
+            data["status"] = lastStatus
+        else:
+            lastStatus = data["status"]
+        send = "status:" + data["status"] + ";"
+        return send
+    except:
+        logging.exception("Error in status")
+        return 'status:ACC status error;'
+    
+lastHiglights = ""
+def highlights(data):
+    try:
+        global lastHiglights
+        data["highlights"] = runner.GetData(["tags.highlights"])[0]
+        if data["highlights"] is None or type(data["highlights"]) != list:
+            data["highlights"] = lastHiglights
+        else:
+            lastHiglights = data["highlights"]
+            
+        send = "highlights:" + json.dumps(data["highlights"]) + ";"
+        return send
+    except:
+        logging.exception("Error in highlights")
+        return 'highlights:[];'
+        
+lastInstruct = [{}]
+def instruct(data):
+    try:
+        global lastInstruct
+        data["instruct"] = runner.GetData(["tags.instruct"])[0]
+        if data["instruct"] is None or type(data["instruct"]) != list:
+            data["instruct"] = lastInstruct
+        else:
+            lastInstruct = data["instruct"]
+
+        send = "instruct:" + json.dumps(data["instruct"][:4] + [data["instruct"][-1]]) + ";"
+        return send
+    except:
+        return ""
 
 async def start_server(func):
     async with websockets.serve(func, "localhost", 37522):
@@ -206,5 +252,11 @@ def plugin():
     runner.Profile("TrafficLights")
     tempSend += steering(data)
     runner.Profile("Steering")
+    tempSend += status(data)
+    runner.Profile("Status")
+    tempSend += highlights(data)
+    runner.Profile("Highlights")
+    tempSend += instruct(data)
+    runner.Profile("Instruct")
     
     send = zlib.compress(tempSend.encode("utf-8"), wbits=28)

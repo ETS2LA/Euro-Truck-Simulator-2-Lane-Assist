@@ -11,11 +11,12 @@ const CustomMarker = ({ position, rotation}: { position: LatLngTuple, rotation: 
 
   useEffect(() => {
     if (markerRef.current) {
+      map.setBearing(rotation);
       const newIcon = divIcon({
         className: 'custom-marker-icon',
-        html: `<div style="transform: rotate(${-rotation}deg);">${modifiedSVG}</div>`, // Example with emoji, replace with your SVG or icon
+        html: `<div style="transform: rotate(${0}deg);">${modifiedSVG}</div>`, // Example with emoji, replace with your SVG or icon
         iconSize: [30, 30],
-        iconAnchor: [15, 18],
+        iconAnchor: [13, 18],
       });
       markerRef.current.setIcon(newIcon);
     }

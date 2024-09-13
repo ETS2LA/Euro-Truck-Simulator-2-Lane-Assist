@@ -1,9 +1,4 @@
 {
-    "python.languageServer": "Pylance",
-    "python.analysis.diagnosticSeverityOverrides": {
-        "reportMissingModuleSource": "none",
-        "reportShadowedImports": "none"
-    },
     "json.schemas": [
         {
             "fileMatch": [
@@ -39,5 +34,10 @@
         "YOLO",
         "yolov"
     ],
-    "godotTools.editorPath.godot4": "f:\\Godot\\Godot_v4.3-stable_win64.exe"
+    "godotTools.editorPath.godot4": "f:\\Godot\\Godot_v4.3-stable_win64.exe",
+    "python.languageServer": "Pylance",
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportMissingModuleSource": "none",
+        "reportShadowedImports": "none"
+    },
 }

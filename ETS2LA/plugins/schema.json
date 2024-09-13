@@ -106,6 +106,11 @@
                                 "description": "If applicable (array), the type of the values in the array.",
                                 "enum": ["text", "number", "email", "url"]
                             },
+                            "default":
+                            {
+                                "type": ["string", "number", "boolean", "array", "object"],
+                                "description": "The default value for the setting."
+                            },
                             "min": {
                                 "type": "number",
                                 "description": "If applicable (number), the minimum value for the setting. Having both min and max will create a slider."

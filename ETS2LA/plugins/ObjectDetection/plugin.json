@@ -18,7 +18,7 @@
     "dependencies": [],
     "modules": ["ScreenCapture", "ShowImage", "Raycasting", "TruckSimAPI"],
     "compatible": ["Windows", "Linux", "MacOS"],
-    "max_fps": 60,
+    "max_fps": 30,
     "settings": [
         {
             "specials": [

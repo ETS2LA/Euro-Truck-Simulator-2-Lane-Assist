@@ -13,7 +13,8 @@ import os
 
 print = logging.info
 runner: PluginRunner = None
-LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
+LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 100
+DEBUG_POINTS = []
 
 # MARK: Roads
 def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
@@ -52,21 +53,6 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
             if road.Points == None:
                 points = roads.CreatePointsForRoad(road)
                 roads.SetRoadPoints(road, points)
-            
-            # newPoints = []
-            # for point in road.Points:
-            #     xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
-            #     truckXY = roads.GetLocalCoordinateInTile(x, y, tileCoords[0], tileCoords[1])
-            #     xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
-            #     # Apply zoom to the local coordinates
-            #     zoomedX = xy[0] * zoom
-            #     zoomedY = xy[1] * zoom
-            #     # Offset the zoomed coordinates by the truck's position to "move" the camera
-            #     pointX = int(zoomedX + size//2)
-            #     pointY = int(zoomedY + size//2)
-            #     newPoints.append((pointX, pointY))
-            # 
-            # cv2.polylines(img, np.int32([newPoints]), False, (0, 100, 150), (1 + (zoom - 1)), cv2.LINE_AA)
             
             # Check for parallel points
             if road.ParallelPoints == []:
@@ -129,10 +115,11 @@ def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
             try:
                 if drawText:
                     cv2.putText(img, f"Name: {road.RoadLook.name}", (firstPoint[0], firstPoint[1] + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                    cv2.putText(img, f"ID: {road.Uid}", (firstPoint[0], firstPoint[1] + 40), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
                     try:
                         lengths = road.Lengths
                         average = sum(lengths) / len(lengths)
-                        cv2.putText(img, f"Length: {round(average, 1)}m", (firstPoint[0], firstPoint[1] + 40), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                        cv2.putText(img, f"Length: {round(average, 1)}m", (firstPoint[0], firstPoint[1] + 60), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
                     except:
                         pass
             except: 
@@ -352,6 +339,30 @@ def VisualizePrefabs(data, closePrefabItems, img=None, zoom=2, drawText=True):
             pointY = int(zoomedY + size//2)
             cv2.putText(img, f"{item.Prefab.FilePath}", (pointX, pointY), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(img, f"ID: {item.Uid}", (pointX, pointY + 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        
+            # Draw the bounding box
+            if item.BoundingBox != None:
+                boundingBox = item.BoundingBox
+                newPoints = []
+                #sys.stdout.write(f"Bounding box: {boundingBox}\n")
+                for point in boundingBox:
+                    xy = roads.GetLocalCoordinateInTile(point[0], point[1], tileCoords[0], tileCoords[1])
+                    xy = (xy[0] - truckXY[0], xy[1] - truckXY[1])
+                    zoomedX = xy[0] * zoom
+                    zoomedY = xy[1] * zoom
+                    pointX = int(zoomedX + size//2)
+                    pointY = int(zoomedY + size//2)
+                    newPoints.append((pointX, pointY))
+                    
+                boundingPoints = []
+
+                boundingPoints.append(newPoints[0])
+                boundingPoints.append((newPoints[0][0], newPoints[1][1]))
+                boundingPoints.append(newPoints[1])
+                boundingPoints.append((newPoints[1][0], newPoints[0][1]))
+                    
+                cv2.polylines(img, np.int32([boundingPoints]), True, (0, 0, 255), 1, cv2.LINE_AA)
+        
         except: 
             #import traceback
             #traceback.print_exc()
@@ -615,5 +626,22 @@ def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0, p
         
     except:
         pass
+    
+    return img
+
+def SetDebugPoints(points):
+    global DEBUG_POINTS
+    DEBUG_POINTS = points
+
+def VisualizeDebugPoints(data, img=None, zoom=2):
+    global DEBUG_POINTS
+    if img is None:
+        size = 1000
+        img = np.zeros((size, size, 3), np.uint8)
+    else:
+        size = img.shape[0]
+    
+    for point in DEBUG_POINTS:
+        VisualizePoint(data, point, img, zoom, (0, 255, 0), pointSize=4)
     
     return img
