@@ -23,6 +23,8 @@ MAX_IMAGE_SIZE = 1000
 WIDTH = MAX_IMAGE_SIZE
 HEIGHT = MAX_IMAGE_SIZE
 
+path = []
+
 if roadsMaxX != 0 and roadsMaxZ != 0 and roadsMinX != 0 and roadsMinZ != 0:
     aspectRatio = (roadsMaxX - roadsMinX) / (roadsMaxZ - roadsMinZ)
     WIDTH = MAX_IMAGE_SIZE
@@ -367,9 +369,6 @@ def Update(data, closestData):
         #print(target_city)
         #print(target_company)
         target_company = GetCompanyInCity(target_company, target_city)
-        print(target_company)
-        for company in target_company:
-            print(company.closestCity.name)
         if target_company != None and len(target_company) > 0:
             target_company = target_company[0]
             LAST_TARGET_COMPANY = target_company

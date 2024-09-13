@@ -868,7 +868,6 @@ def HandleNav(data, MapUtils, Enabled, path):
         
         # Create first route item
         GetItemAndLaneReferences(closeData, MapUtils, truckX, truckZ)
-        print(Route)
         if Route == []:
             return data
         
@@ -886,8 +885,6 @@ def HandleNav(data, MapUtils, Enabled, path):
                 logging.warning("Next item is empty")
                 break
         except:
-            print(nextItem)
-            print(Route)
             logging.exception("Failed to add next item")
     
     
