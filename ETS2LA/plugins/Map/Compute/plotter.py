@@ -505,11 +505,13 @@ def GetPathInstruct(path, apiData):
     data = []
     startIndex = currentPathIndex - len(Route)
     curDistance = 0
+    totalDistance = 0
     lastType = Road
     for i in range(startIndex, len(path)):
         pathItem = path[i]
         if type(pathItem.item) == Road:
             curDistance += pathItem.length
+            totalDistance += pathItem.length
             if i == startIndex:
                 # Remove the distance from the first item
                 truckX = apiData["api"]["truckPlacement"]["coordinateX"]
@@ -521,6 +523,11 @@ def GetPathInstruct(path, apiData):
                         "distance": curDistance if curDistance > 0 else 0,
                     })
             curDistance = pathItem.length
+    
+    if len(data) > 0:
+        data.append({
+            "totalDistance": totalDistance
+        })
     
     #print(data[:3])
     return data

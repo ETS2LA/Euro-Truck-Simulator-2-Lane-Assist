@@ -147,6 +147,10 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                         } else if (index.startsWith("speed") && !index.startsWith("speedLimit")) {
                             Speed = parseFloat(index.split("speed")[1].replace(":", ""));
                             setSpeed(Speed);
+                        } else if (index.startsWith("instruct")) {
+                            let instruct = index.split("instruct")[1].replace(":", "");
+                            instruct = JSON.parse(instruct);
+                            setInstructions(instruct);
                         }
                     });
                     if (!isNaN(X) && !isNaN(Z)) {
@@ -208,18 +212,21 @@ export default function ETS2LAMap({ip} : {ip: string}) {
         <div style={{height: "100%", width: "100%", position: "relative"}}>
             {instructions[0] &&
                 <Card style={{position: "absolute", top: "58px", right: "12px", zIndex: 1000}} className="bg-transparent border-none backdrop-blur-xl backdrop-brightness-50 h-24 w-48">
-                    <CardContent className='p-0 h-full pb-2'>
-                        <div className='flex items-center h-full pr-6 gap-0'>
-                            {instructions[0].distance < 10 &&
-                                <MdForkRight className='w-16 h-16 justify-center' />
-                                ||
-                                <MdStraight className='w-16 h-16 justify-center' />
-                            }
-                            <div className="flex flex-col gap-1.5 text-left pl-0 overflow-hidden font-customSans">
-                                {instructions[0].distance > 10 &&
-                                    <p className='font-bold'>In {Math.round(instructions[0].distance/100)/10} km</p>
+                    <CardContent className='p-0 h-full pb-1'>
+                        <div className='flex flex-col h-full gap-0 p-0 font-customSans justify-center'>
+                            <div className='flex items-center h-full pr-6 gap-0'>
+                                {instructions[0].distance < 10 &&
+                                    <MdForkRight className='w-16 h-16 justify-center' />
+                                    ||
+                                    <MdStraight className='w-16 h-16 justify-center' />
                                 }
-                                <h3>{instructions[0].direction && "Prefab"}</h3>
+                                <div className="flex flex-col gap-0 text-left pl-0 overflow-hidden">
+                                    {instructions[0].distance > 10 &&
+                                        <p className='font-bold'>In {Math.round(instructions[0].distance/100)/10} km</p>
+                                    }
+                                    <h3>{instructions[0].direction && "Prefab"}</h3>
+                                    <p className='text-[10px] pt-1'>{Math.round(instructions[instructions.length - 1].totalDistance/100)/10} km left</p>
+                                </div>
                             </div>
                         </div>
                     </CardContent>

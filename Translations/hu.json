@@ -25,6 +25,7 @@
     "main.warnings": "Figyelmeztetések:",
     "main.no_errors_or_warnings": "Nincsenek hibák vagy figyelmeztetések.",
     "main.overseer_started": "Az ETS2LA Felügyelő elindult!",
+    "main.development_mode": "ETS2LA elindítása fejlesztési módban.",
     "main.restarting": "Az ETS2LA újraindul...",
     "main.updating": "Az ETS2LA frissítése...",
     "main.update_done": "Frissítés kész... újraindítás!",

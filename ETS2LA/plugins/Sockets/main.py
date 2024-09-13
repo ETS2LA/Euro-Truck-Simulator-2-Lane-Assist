@@ -201,11 +201,10 @@ def instruct(data):
         else:
             lastInstruct = data["instruct"]
 
-        send = "instruct:" + json.dumps(data["instruct"][:4]) + ";"
+        send = "instruct:" + json.dumps(data["instruct"][:4] + [data["instruct"][-1]]) + ";"
         return send
     except:
-        logging.exception("Error in instruct")
-        return 'instruct:[];'
+        return ""
 
 async def start_server(func):
     async with websockets.serve(func, "localhost", 37522):
