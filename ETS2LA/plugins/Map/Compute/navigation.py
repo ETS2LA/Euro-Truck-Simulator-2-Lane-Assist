@@ -51,7 +51,7 @@ class AStarNode:
         self.length = lenght
         self.node: Nodes.Node = node
         self.g = 0
-        self.h = 0
+        self.h = 0 
         self.f = 0
         self.parent = None
         self.neighbours = []
@@ -360,7 +360,7 @@ def Update(data, closestData):
     
     if target_city != LAST_TARGET_COMPANY_CITY \
         or target_company != LAST_TARGET_COMPANY_NAME \
-        or (time.time() - TIME_OF_LAST_UPDATE > 20\
+        or (time.time() - TIME_OF_LAST_UPDATE < 20\
             and math.sqrt((truckX - POSITION_AT_LAST_UPDATE[0])**2 + (truckZ - POSITION_AT_LAST_UPDATE[1])**2) > 1000
         ): # 20 update again after load time.
 

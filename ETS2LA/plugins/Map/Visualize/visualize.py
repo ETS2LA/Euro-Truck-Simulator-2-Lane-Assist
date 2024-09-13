@@ -13,7 +13,8 @@ import os
 
 print = logging.info
 runner: PluginRunner = None
-LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 10
+LIMIT_OF_PARALLEL_LANE_CALCS_PER_FRAME = 100
+DEBUG_POINTS = []
 
 # MARK: Roads
 def VisualizeRoads(data, closeRoads, img=None, zoom=2, drawText=True):
@@ -625,5 +626,22 @@ def VisualizePoint(data, point, img=None, zoom=2, color=(255,0,0), distance=0, p
         
     except:
         pass
+    
+    return img
+
+def SetDebugPoints(points):
+    global DEBUG_POINTS
+    DEBUG_POINTS = points
+
+def VisualizeDebugPoints(data, img=None, zoom=2):
+    global DEBUG_POINTS
+    if img is None:
+        size = 1000
+        img = np.zeros((size, size, 3), np.uint8)
+    else:
+        size = img.shape[0]
+    
+    for point in DEBUG_POINTS:
+        VisualizePoint(data, point, img, zoom, (0, 255, 0), pointSize=4)
     
     return img

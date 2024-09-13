@@ -191,6 +191,21 @@ def highlights(data):
         logging.exception("Error in highlights")
         return 'highlights:[];'
         
+lastInstruct = [{}]
+def instruct(data):
+    try:
+        global lastInstruct
+        data["instruct"] = runner.GetData(["tags.instruct"])[0]
+        if data["instruct"] is None or type(data["instruct"]) != list:
+            data["instruct"] = lastInstruct
+        else:
+            lastInstruct = data["instruct"]
+
+        send = "instruct:" + json.dumps(data["instruct"][:4]) + ";"
+        return send
+    except:
+        logging.exception("Error in instruct")
+        return 'instruct:[];'
 
 async def start_server(func):
     async with websockets.serve(func, "localhost", 37522):
@@ -242,5 +257,7 @@ def plugin():
     runner.Profile("Status")
     tempSend += highlights(data)
     runner.Profile("Highlights")
+    tempSend += instruct(data)
+    runner.Profile("Instruct")
     
     send = zlib.compress(tempSend.encode("utf-8"), wbits=28)

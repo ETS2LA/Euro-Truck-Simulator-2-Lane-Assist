@@ -14,6 +14,7 @@ RouteLength = 3
 OFFSET_MULTIPLIER = settings.Get("Map", "OffsetMultiplier", 2)
 ANGLE_MULTIPLIER = settings.Get("Map", "AngleMultiplier", 1)
 DISTANCE_FOR_LANE_CHANGE = settings.Get("Map", "PointsForLaneChange", 50)
+visualize = None
 
 #MARK: Classes
 class RouteItem:
@@ -162,6 +163,7 @@ def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
         if DistanceBetweenPoints([truckX, truckZ], newPoints[0]) > DistanceBetweenPoints([truckX, truckZ], newPoints[-1]):
             newPoints = newPoints[::-1]
     except:
+        logging.exception("Failed to check if the points should be inverted")
         pass
     
     return newPoints
@@ -188,13 +190,13 @@ def NeedInvert(points, truckX, truckY):
     return False
 
 # MARK: Next item
-def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownUid=None) -> RouteItem:
+def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownItem=None, nextItem=None) -> RouteItem:
     #logging.warning("Getting next item")
     # Check which node is to the front of the truck
     CurrentItem = Route[-1].item
     ClosestLane = Route[-1].lane
     
-    if knownUid == None: 
+    if knownItem == None: 
         if type(CurrentItem) == Road:   
             BackwardNode = CurrentItem.EndNode
             ForwardNode = CurrentItem.StartNode
@@ -280,6 +282,9 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownUid=None) 
         if NextItem.Uid == CurrentItem.Uid:
             return []
         
+    else:
+        NextItem = knownItem
+        
     if type(NextItem) == Road:
         #logging.warning("Next item is a road")
         NextItem = cast(Road, NextItem) # Get intellisense
@@ -307,8 +312,8 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownUid=None) 
         if closestLaneId == math.inf:
             return []
         
-        #logging.warning(f"ClosestLaneId: {closestLaneId}")
-        #logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
+        logging.warning(f"ClosestLaneId: {closestLaneId}")
+        logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
         
         closestPoints = Lanes[closestLaneId]
         
@@ -335,6 +340,22 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownUid=None) 
         return routeItem
         
     elif type(NextItem) == PrefabItem:
+        followingItem = None
+        followingItemStartNode = None
+        followingItemEndNode = None
+        if nextItem != None:
+            followingItem = nextItem
+            if type(followingItem) == Road:
+                followingItem = cast(Road, followingItem)
+                followingItemStartNode = followingItem.StartNode
+                followingItemEndNode = followingItem.EndNode
+            if type(followingItem) == PrefabItem:
+                followingItem = cast(PrefabItem, followingItem)
+                followingItemStartNode = followingItem.Nodes[0]
+                followingItemEndNode = followingItem.Nodes[-1]
+            
+            visualize.SetDebugPoints([[followingItemStartNode.X, followingItemStartNode.Z], [followingItemEndNode.X, followingItemEndNode.Z]])
+        
         #logging.warning("Next item is a prefab")
         NextItem = cast(PrefabItem, NextItem) # Get intellisense
         Curves = NextItem.CurvePoints
@@ -378,53 +399,77 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownUid=None) 
         if closestLaneIds == [math.inf]:
             return [] 
         
-        wantedDirection = "right" if data["api"]["truckBool"]["blinkerLeftActive"] else "left" if data["api"]["truckBool"]["blinkerRightActive"] else "forward"
-        if len(closestLaneIds) > 1:
-            #logging.warning(f"Multiple closest lanes: {closestLaneId}")
-            if wantedDirection == 'forward':
-                # Check which of the lanes is the most forward
-                forwardestLane = math.inf
-                forwardestLaneDot = math.inf
-                for i in closestLaneIds:
-                    laneEnd = Curves[i][-1]
-                    vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
-                    dot = np.dot([math.sin(rotation), math.cos(rotation)], vector)
-                    if dot < forwardestLaneDot:
-                        forwardestLaneDot = dot
-                        forwardestLane = i
-                
-                closestLaneIds = forwardestLane
-            if wantedDirection == "right":
-                # Check which of the lanes is the most right
-                rightestLane = math.inf
-                rightestLaneDot = math.inf
-                for i in closestLaneIds:
-                    laneEnd = Curves[i][-1]
-                    vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
-                    dot = np.dot([math.cos(rotation), -math.sin(rotation)], vector)
-                    if dot < rightestLaneDot:
-                        rightestLaneDot = dot
-                        rightestLane = i
-                
-                closestLaneIds = rightestLane
-            if wantedDirection == "left":
-                # Check which of the lanes is the most left
-                leftestLane = math.inf
-                leftestLaneDot = math.inf
-                for i in closestLaneIds:
-                    laneEnd = Curves[i][-1]
-                    vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
-                    dot = np.dot([-math.cos(rotation), math.sin(rotation)], vector)
-                    if dot < leftestLaneDot:
-                        leftestLaneDot = dot
-                        leftestLane = i
-                
-                closestLaneIds = leftestLane
-                
+        if followingItem == None:
+            wantedDirection = "right" if data["api"]["truckBool"]["blinkerLeftActive"] else "left" if data["api"]["truckBool"]["blinkerRightActive"] else "forward"
+            if len(closestLaneIds) > 1:
+                #logging.warning(f"Multiple closest lanes: {closestLaneId}")
+                if wantedDirection == 'forward':
+                    # Check which of the lanes is the most forward
+                    forwardestLane = math.inf
+                    forwardestLaneDot = math.inf
+                    for i in closestLaneIds:
+                        laneEnd = Curves[i][-1]
+                        vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
+                        dot = np.dot([math.sin(rotation), math.cos(rotation)], vector)
+                        if dot < forwardestLaneDot:
+                            forwardestLaneDot = dot
+                            forwardestLane = i
+                    
+                    closestLaneIds = forwardestLane
+                if wantedDirection == "right":
+                    # Check which of the lanes is the most right
+                    rightestLane = math.inf
+                    rightestLaneDot = math.inf
+                    for i in closestLaneIds:
+                        laneEnd = Curves[i][-1]
+                        vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
+                        dot = np.dot([math.cos(rotation), -math.sin(rotation)], vector)
+                        if dot < rightestLaneDot:
+                            rightestLaneDot = dot
+                            rightestLane = i
+                    
+                    closestLaneIds = rightestLane
+                if wantedDirection == "left":
+                    # Check which of the lanes is the most left
+                    leftestLane = math.inf
+                    leftestLaneDot = math.inf
+                    for i in closestLaneIds:
+                        laneEnd = Curves[i][-1]
+                        vector = [laneEnd[0] - CurrentEndPoint[0], laneEnd[1] - CurrentEndPoint[1]]
+                        dot = np.dot([-math.cos(rotation), math.sin(rotation)], vector)
+                        if dot < leftestLaneDot:
+                            leftestLaneDot = dot
+                            leftestLane = i
+                    
+                    closestLaneIds = leftestLane
+                    
+            else:
+                closestLaneIds = closestLaneIds[0]
         else:
-            closestLaneIds = closestLaneIds[0]
+            if len(closestLaneIds) == 1:
+                closestLaneIds = closestLaneIds[0]
+            else:
+                logging.warning(f"Multiple closest lanes: {closestLaneIds}")
+                logging.warning(f"FollowingItemStart {followingItemStartNode.X}, {followingItemStartNode.Z}")
+                logging.warning(f"FollowingItemEnd {followingItemEndNode.X}, {followingItemEndNode.Z}")
+                # find the lane that brings us to the following item
+                closestLaneDistance = math.inf
+                for i in closestLaneIds:
+                    laneEnd = Curves[i][-1]
+                    
+                    distance = math.sqrt((laneEnd[0] - followingItemStartNode.X) ** 2 + (laneEnd[1] - followingItemStartNode.Z) ** 2)
+                    if distance < closestLaneDistance:
+                        closestLaneDistance = distance
+                        closestLaneIds = i
+                        
+                    distance = math.sqrt((laneEnd[0] - followingItemEndNode.X) ** 2 + (laneEnd[1] - followingItemEndNode.Z) ** 2)
+                    if distance < closestLaneDistance:
+                        closestLaneDistance = distance
+                        closestLaneIds = i
+                    
         
-        #logging.warning(f"ClosestLaneId: {closestLaneId}")
+        logging.warning(f"ClosestLaneId: {closestLaneIds}")
+        logging.warning(f"ClosestLaneDistance: {closestLaneDistance}")
         
         closestPoints = Curves[closestLaneIds]
         
@@ -448,6 +493,38 @@ def GetNextItem(data : dict, truckX, truckZ, rotation, MapUtils, knownUid=None) 
         #logging.warning(f"RouteItem created for prefab")
         
         return routeItem
+    
+# MARK: Path Instruct
+currentPathIndex = 0
+def GetPathInstruct(path, apiData):
+    # Human readable instructions in json format
+    # [{
+    #   "direction": "left",
+    #   "distance": 100 
+    # }]
+    data = []
+    startIndex = currentPathIndex - len(Route)
+    curDistance = 0
+    lastType = Road
+    for i in range(startIndex, len(path)):
+        pathItem = path[i]
+        if type(pathItem.item) == Road:
+            curDistance += pathItem.length
+            if i == startIndex:
+                # Remove the distance from the first item
+                truckX = apiData["api"]["truckPlacement"]["coordinateX"]
+                truckZ = apiData["api"]["truckPlacement"]["coordinateZ"]
+                curDistance -= DistanceBetweenPoints([truckX, truckZ], [pathItem.x, pathItem.z])
+        elif type(pathItem.item) == PrefabItem:
+            data.append({
+                        "direction": "turn",
+                        "distance": curDistance if curDistance > 0 else 0,
+                    })
+            curDistance = pathItem.length
+    
+    #print(data[:3])
+    return data
+    
         
 # MARK: External
 # AKA. functions that are called from the main file,
@@ -740,49 +817,133 @@ def HandleNoNav(data, MapUtils, Enabled):
 currentPathIndex = 0
 # MARK: Navigation
 def HandleNav(data, MapUtils, Enabled, path):
-    global currentPathIndex
+    global currentPathIndex, Route
+    global allPoints
     
+    data["map"]["allPoints"] = []
+    data["map"]["endPoints"] = []
+    data["map"]["angle"] = 0
+    
+    if not Enabled:
+        Route = []
+        currentPathIndex = 0
+        return data
     
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckY = data["api"]["truckPlacement"]["coordinateY"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    rotation = data["api"]["truckPlacement"]["rotationX"] * 360
+    if rotation < 0: rotation += 360
+    rotation = math.radians(rotation)
     
     if Route == []:
         # Find the closest item to the truck.
-        closestNode = None
-        closestDistance = math.inf
-        index = 0
+        closeNodes = []
         for node in path:
             if node.item == None:
                 continue
             distance = math.sqrt((truckX - node.x) ** 2 + (truckZ - node.z) ** 2)
-            if distance < closestDistance:
-                closestDistance = distance
-                closestNode = node
-                currentPathIndex = index
-                
-            index += 1
+            if distance < 2000:
+                closeNodes.append(node)
         
-        closeRoads = [] if type(closestNode.item) != Road else [closestNode.item]
-        closePrefabs = [] if type(closestNode.item) != PrefabItem else [closestNode.item]
+        closeRoads = []
+        closePrefabs = []
+        for node in closeNodes:
+            if type(node.item) == Road:
+                closeRoads.append(node.item)
+            if type(node.item) == PrefabItem:
+                closePrefabs.append(node.item)
         
         closeData = MapUtils.run(truckX, 0, truckZ, closeRoads, closePrefabs)
         if closeData["closestItem"] == None:
             return data
         
+        closestNode = None
+        for node in closeNodes:
+            if node.item == closeData["closestItem"]:
+                closestNode = node
+                break
+            
+        currentPathIndex = path.index(closestNode)
+        
         # Create first route item
         GetItemAndLaneReferences(closeData, MapUtils, truckX, truckZ)
-        
+        print(Route)
         if Route == []:
             return data
         
-        
     while len(Route) < 4:
         currentPathIndex += 1
-        nextItem = GetNextItem(data, truckX, truckZ, 0, MapUtils, knownUid=path[currentPathIndex].item.Uid)
-        if nextItem == []:
-            break
-        Route.append(nextItem)
+        if currentPathIndex >= len(path):
+            logging.warning("End of path")
+            return data
+        nextItem = GetNextItem(data, truckX, truckZ, 0, MapUtils, knownItem=path[currentPathIndex].item, nextItem=path[currentPathIndex+1].item)
+        try:
+            if nextItem != []:
+                if nextItem.item.Uid not in [item.item.Uid for item in Route]:
+                    Route.append(nextItem)
+            else:
+                logging.warning("Next item is empty")
+                break
+        except:
+            print(nextItem)
+            print(Route)
+            logging.exception("Failed to add next item")
+    
+    
+    for routeItem in Route:
+        newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
+        for point in routeItem.points:
+            if point not in newPoints:
+                routeItem.removedPoints.append(point)
+        routeItem.points = newPoints
+        if routeItem.points == []:
+            Route.remove(routeItem)
+        
+    allPoints = []    
+    for i in range(len(Route)):
+        allPoints.extend(Route[i].points)
+            
+    acceptedPoints = []
+    lastPoint = allPoints[0]
+    lastVector = np.array([-math.sin(rotation), -math.cos(rotation)])
+    #print("Point checks")
+    #print(lastVector)
+    for i in range(1, len(allPoints)):
+        vector1 = [allPoints[i][0] - lastPoint[0], allPoints[i][1] - lastPoint[1]]
+        vector1 = vector1 / np.linalg.norm(vector1)
+        #print(lastVector)
+        #print(vector1)
+        angle = np.arccos(np.dot(vector1, lastVector) / (np.linalg.norm(vector1) * np.linalg.norm(lastVector)))
+        angle = math.degrees(angle)
+        if np.array_equal(vector1, lastVector) or (angle < 90 and angle > -90):
+            acceptedPoints.append(allPoints[i])
+            lastVector = vector1
+            lastPoint = allPoints[i]
+        else:
+            #print(angle)
+            ...
+    allPoints = acceptedPoints
+    
+    if allPoints == []:
+        Route = []
+        currentPathIndex = 0
+        return data
+
+
+    if len(Route) > 0:
+        data["map"]["allPoints"] =  allPoints
+    else:
+        data["map"]["allPoints"] = allPoints
+
+    data["map"]["endPoints"] = []
+        
+    if DistanceBetweenPoints([truckX, truckZ], allPoints[0]) > 200:
+        Route = []
+        currentPathIndex = 0
+        return data
+    
+    return None
     
 
 wasIndicating = False
@@ -790,17 +951,23 @@ wasIndicating = False
 def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData):
     global allPoints
     
-    # ! navigationData != None
-    if False:
-        navData = HandleNav(data, MapUtils, Enabled, navigationData)
-        if navData != None:
-            return navData
+    if navigationData != None:
+        try:
+            data["map"]["instruct"] = GetPathInstruct(navigationData, data)
+            navData = HandleNav(data, MapUtils, Enabled, navigationData)
+            if navData != None:
+                return navData
+        except:
+            logging.exception("Failed to handle navigation")
+            noNavData = HandleNoNav(data, MapUtils, Enabled)
+            if noNavData != None:
+                return noNavData
         
     else:
         noNavData = HandleNoNav(data, MapUtils, Enabled)
         if noNavData != None:
             return noNavData
-    
+
 
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
@@ -830,6 +997,8 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData):
             # Calculate the centerline vector and the truck's position relative to the first point
             centerlineVector = [allPoints[-1][0] - allPoints[0][0], allPoints[-1][1] - allPoints[0][1]]
             truckPositionVector = [truckX - allPoints[0][0], truckZ - allPoints[0][1]]
+            #print(centerlineVector)
+            #print(truckPositionVector)
             
             # Calculate lateral offset from the centerline
             # This is a simplified approach; for more accuracy, consider each segment of the centerline

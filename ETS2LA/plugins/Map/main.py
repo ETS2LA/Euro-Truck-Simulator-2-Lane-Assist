@@ -271,6 +271,8 @@ def DrawInternalVisualisation(data, closeRoads, closePrefabs):
         
     img = visualize.VisualizeTruck(data, img=img, zoom=ZOOM)
     img = visualize.VisualizeTrafficLights(data, img=img, zoom=ZOOM)
+    
+    img = visualize.VisualizeDebugPoints(data, img=img, zoom=ZOOM)
 
     # Convert to BGR
     runner.Profile("Visualizations")
@@ -367,6 +369,7 @@ def UpdateDataVariables(apiData):
     truckY = apiData["api"]["truckPlacement"]["coordinateY"]
     prefabItems.truckX = truckX
     prefabItems.truckZ = truckZ
+    plotter.visualize = visualize
 
 # MARK: Plugin
 def plugin():
@@ -470,6 +473,7 @@ def plugin():
             "map": externalData,
             "ar": arData,
             "targetSpeed": targetSpeed,
+            "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
         }
     
     if updatedPrefabs or updatedRoads:
@@ -478,8 +482,10 @@ def plugin():
         return steeringPoints[:20], {
             "map": externalData,
             "targetSpeed": targetSpeed,
+            "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
         }
     
     return steeringPoints[:20], {
-        "targetSpeed": targetSpeed
+        "targetSpeed": targetSpeed,
+        "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
     }

@@ -21,6 +21,7 @@
     "main.warnings": "\u8b66\u544a\uff1a",
     "main.no_errors_or_warnings": "\u672a\u53d1\u73b0\u9519\u8bef\u6216\u8b66\u544a\u3002",
     "main.overseer_started": "ETS2LA \u7ba1\u7406\u7a0b\u5e8f\u5df2\u542f\u52a8\uff01",
+    "main.development_mode": "\u4ee5\u5f00\u53d1\u8005\u6a21\u5f0f\u8fd0\u884cETS2LA\u3002",
     "main.restarting": "ETS2LA \u6b63\u5728\u91cd\u65b0\u542f\u52a8...",
     "main.updating": "ETS2LA \u6b63\u5728\u66f4\u65b0...",
     "main.update_done": "\u66f4\u65b0\u5b8c\u6210... \u6b63\u5728\u91cd\u542f\uff01",

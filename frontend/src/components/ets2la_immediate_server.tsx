@@ -232,7 +232,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                 </Tooltip>
             </TooltipProvider>
         }
-        <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? translate("frontend.immediate.socket_connected") : translate("frontend.immediate.socket_disconnected")}</Badge>
+        <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm h-[26px]">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? translate("frontend.immediate.socket_connected") : translate("frontend.immediate.socket_disconnected")}</Badge>
         <div>
             <TooltipProvider>
                 <Tooltip>

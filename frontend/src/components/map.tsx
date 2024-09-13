@@ -21,6 +21,9 @@ import { set } from 'date-fns'
 import { useRef } from 'react'
 import CustomMarker from './custom_marker'
 import pako from 'pako';
+import { MdForkRight, MdStraight  } from "react-icons/md";
+import { json } from 'stream/consumers'
+import { Card, CardContent } from './ui/card'
 import "leaflet-rotate"
 
 // Import leaflet css
@@ -69,6 +72,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     const [position, setPosition] = useState<LatLngTuple>([0, 0])
     const [speed, setSpeed] = useState(0)
     const [rotation, setRotation] = useState(0)
+    const [instructions, setInstructions] = useState<string[]>([])
     const markerRef = useRef<L.Marker>(null);
 
     useEffect(() => {
@@ -112,6 +116,10 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                             } else if (index.startsWith("speed") && !index.startsWith("speedLimit")) {
                                 Speed = parseFloat(index.split("speed")[1].replace(":", ""));
                                 setSpeed(Speed);
+                            } else if (index.startsWith("instruct")) {
+                                let instruct = index.split("instruct")[1].replace(":", "");
+                                instruct = JSON.parse(instruct);
+                                setInstructions(instruct);
                             }
                         });
                         if (!isNaN(X) && !isNaN(Z)) {
@@ -197,19 +205,40 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     let bounds = latLngBounds(corner1, corner2)
     // <CustomMarker position={position} rotation={rotation} />
     return (
-        <>
-            <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true} zoomSnap={0}>
-                <TileLayer
-                    attribution='&copy; ETS2LA Team'
-                    url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
-                    minNativeZoom={2}
-                    maxNativeZoom={8}
-                    zIndex={-999}
-                    tileSize={512}
-                />
-                <CustomMarker position={position} rotation={rotation} />
-                <UpdateMapView position={position} speed={speed} rx={rotation} />
-            </MapContainer>
-        </>
+        <div style={{height: "100%", width: "100%", position: "relative"}}>
+            {instructions[0] &&
+                <Card style={{position: "absolute", top: "58px", right: "12px", zIndex: 1000}} className="bg-transparent border-none backdrop-blur-xl backdrop-brightness-50 h-24 w-48">
+                    <CardContent className='p-0 h-full pb-2'>
+                        <div className='flex items-center h-full pr-6 gap-0'>
+                            {instructions[0].distance < 10 &&
+                                <MdForkRight className='w-16 h-16 justify-center' />
+                                ||
+                                <MdStraight className='w-16 h-16 justify-center' />
+                            }
+                            <div className="flex flex-col gap-1.5 text-left pl-0 overflow-hidden font-customSans">
+                                {instructions[0].distance > 10 &&
+                                    <p className='font-bold'>In {Math.round(instructions[0].distance/100)/10} km</p>
+                                }
+                                <h3>{instructions[0].direction && "Prefab"}</h3>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            }
+            <div style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b", position: "absolute"}}>
+                <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true} zoomSnap={0}>
+                    <TileLayer
+                        attribution='&copy; ETS2LA Team'
+                        url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
+                        minNativeZoom={2}
+                        maxNativeZoom={8}
+                        zIndex={-999}
+                        tileSize={512}
+                    />
+                    <CustomMarker position={position} rotation={rotation} />
+                    <UpdateMapView position={position} speed={speed} rx={rotation} />
+                </MapContainer>
+            </div>
+        </div>
     )
 }
