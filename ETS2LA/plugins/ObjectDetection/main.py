@@ -1,20 +1,19 @@
+# Import libraries
 from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
 from vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
-from ETS2LA.networking.cloud import SendCrashReport
 from ETS2LA.plugins.runner import PluginRunner  
 from ETS2LA.utils.values import SmoothedValue
 import ETS2LA.backend.settings as settings
-import ETS2LA.backend.controls as controls
 from ETS2LA.utils.logging import logging
 import ETS2LA.variables as variables
 from typing import Literal
 from classes import Vehicle
 import numpy as np
 import screeninfo
-import pyautogui
+import threading
+import warnings
 import pathlib
 import torch
-import json
 import time
 import cv2
 import os
@@ -24,10 +23,10 @@ try:
 except:
     pass
 
-# Silence the goddamn torch warnings...
-import warnings
+# Silence torch warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+# Literals
 runner:PluginRunner = None
 MODE: Literal["Performance", "Quality"] = \
     settings.Get("ObjectDetection", "mode", "Performance")
@@ -36,14 +35,13 @@ YOLO_FPS: int = \
 MODEL_TYPE: Literal["YoloV5", "YoloV7"] = \
     settings.Get("ObjectDetection", "model", "YoloV5")
 MODEL_NAME: str = \
-    "5-31-24_1_yolov7.pt" if MODEL_TYPE == "YoloV7" else "best_v5s.pt"
+    "v7n.pt" if MODEL_TYPE == "YoloV7" else "v5s.pt"
 LOADING_TEXT: str = \
     "Loading Object Detection Model..."
 USE_EXTERNAL_VISUALIZATION: bool = \
     True
 TRACK_SPEED: list = \
     ["car", "van", "bus", "truck"]
-
 
 def Initialize():
     global ShowImage
@@ -60,9 +58,9 @@ def Initialize():
     Raycast = runner.modules.Raycasting
     
     screen = screeninfo.get_monitors()[0]
-    
     dimensions = settings.Get("ObjectDetection", "dimensions", None)
     
+    # Set the capture dimensions based on the screen resolution
     if dimensions == None:
         if screen.height >= 1440:
             if screen.width >= 5120:
@@ -101,13 +99,17 @@ def Initialize():
     else:
         capture_x, capture_y, capture_width, capture_height = dimensions    
         
-    temp = pathlib.PosixPath
-    pathlib.PosixPath = pathlib.WindowsPath
+    # Fix the torch temp path for Windows
+    if os.name == 'nt':
+        temp = pathlib.PosixPath
+        pathlib.PosixPath = pathlib.WindowsPath
 
     time.sleep(0.5) # Let the profile text show for a bit
 
+    # Display loading text
     runner.sonner(LOADING_TEXT, "promise")
 
+    # Get device
     settings_device = settings.Get("ObjectDetection", "device", "Automatic")
     if settings_device == "Automatic":
         device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -122,19 +124,23 @@ def Initialize():
             device = "cpu"
 
     MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
-
+    # Set cache directory for torch
     torch.hub.set_dir(f"{variables.PATH}cache/ObjectDetection")
+
+    # Load model
     if MODEL_TYPE == "YoloV7":
         model = torch.hub.load('WongKinYiu/yolov7', 'custom', path=MODEL_PATH, _verbose=False)
     elif MODEL_TYPE == "YoloV5":
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
-    model.conf = 0.70
-    model.to(device)
+    model.conf = 0.70  # NMS confidence threshold (x% confidence to keep)
+    model.to(device)  # Move model to GPU if available
 
+    # Display loaded text
     runner.sonner(f"Object Detection model loaded on {device.upper()}", "success", promise=LOADING_TEXT)
 
+    # Create OpenCV window
     cv2.namedWindow('Object Detection', cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('Object Detection', int(capture_width), int(capture_height))
+    cv2.resizeWindow('Object Detection', int(screen.width / 5), int(screen.height / 5))
     cv2.setWindowProperty('Object Detection', cv2.WND_PROP_TOPMOST, 1)
 
 frame = None
@@ -157,8 +163,7 @@ def detection_thread():
         if timeToSleep > 0:
             time.sleep(timeToSleep)
         cur_yolo_fps = round(1 / (time.time() - startTime), 1)
-    
-import threading
+
 if MODE == "Performance":
     threading.Thread(target=detection_thread, daemon=True).start()
 
@@ -221,7 +226,7 @@ if MODE == "Performance":
         hit_counter_max=1
     )
 elif MODE == "Quality":
-        tracker = Tracker(
+    tracker = Tracker(
         distance_function="euclidean",
         distance_threshold=100,
         hit_counter_max=YOLO_FPS,
@@ -375,6 +380,7 @@ def plugin():
         
     raycastTime = time.time() - raycastTime
 
+    # Calculate FPS
     fps = round(1 / (time.time() - start_time))
     fpsValues.append(fps)
     if fpsValues.__len__() > 10:
@@ -382,6 +388,7 @@ def plugin():
     fps = round(sum(fpsValues) / len(fpsValues), 1)
     start_time = time.time()
 
+    # Display FPS values
     cv2.putText(frame, f"FPS: {round(smoothedFPS(fps), 1)}", (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)   
     cv2.putText(frame, f"YOLO FPS: {round(smoothedYOLOFPS(cur_yolo_fps), 1)}", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)      
     cv2.putText(frame, f"Objects: {len(vehicles)}", (20, 300), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
@@ -401,6 +408,7 @@ def plugin():
         "screenLines": [],
     }
     
+    # Get the data for the AR plugin
     if USE_EXTERNAL_VISUALIZATION:
         # Send data to the AR plugin
         x = data["api"]["truckPlacement"]["coordinateX"]
@@ -435,11 +443,10 @@ def plugin():
             except:
                 continue
     
-    vehicles = [vehicle.json() for vehicle in vehicles]
-    
     frameCounter += 1
 
+    # Return data to the main thread
     return None, {
-        "vehicles": vehicles,
+        "vehicles": [vehicle.json() for vehicle in vehicles],
         "ar": arData
     }
