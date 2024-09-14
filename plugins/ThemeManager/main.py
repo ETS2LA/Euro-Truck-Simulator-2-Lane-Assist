@@ -20,6 +20,7 @@ import src.variables as variables
 import src.settings as settings
 import os
 from PIL import Image, ImageTk
+import json
 
 class Theme():
     name = ""
@@ -43,7 +44,6 @@ class UI():
                             # Parse the json into the class
                             theme = Theme()
                             fileContent = open(os.path.join(path, folder, file), "r").read()
-                            import json
                             jsonContent = json.loads(fileContent)
                             theme.name = jsonContent["name"]
                             theme.description = jsonContent["description"]
