@@ -119,7 +119,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                             } else if (index.startsWith("instruct")) {
                                 let instruct = index.split("instruct")[1].replace(":", "");
                                 instruct = JSON.parse(instruct);
-                                if (instruct.length > 0 && instructions.length > 0 && instruct[0].distance === instructions[0].distance) {
+                                if (instruct.length > 1) {
                                     setInstructions(instruct);
                                 }
                             }
