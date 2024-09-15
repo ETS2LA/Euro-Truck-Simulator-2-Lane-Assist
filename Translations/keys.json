@@ -9,6 +9,8 @@
     "error",
     "done",
     "unknown",
+    "download",
+    "downloading",
     "main.errors_and_warnings",
     "main.errors",
     "main.warnings",
@@ -325,5 +327,17 @@
     "map.visualisation.prefabs.prefabs",
     "map.visualisation.prefabs.curves",
     "map.json_not_found",
-    "map.extracting_data"
+    "map.extracting_data",
+
+    "object_detection.loading_model",
+    "object_detection.not_found.1",
+    "object_detection.not_found.2",
+    "object_detection.connection_failed.1",
+    "object_detection.connection_failed.2",
+    "object_detection.connection_failed.3",
+    "object_detection.connection_failed.4",
+    "object_detection.screen_capture_profile",
+    "object_detection.loaded_model",
+    "object_detection.tracking_failed",
+    "object_detection.processing_error"
 ]

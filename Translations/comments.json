@@ -1,4 +1,5 @@
 {
+    "downloading": "{0} is the name of what is being downloaded.\nExample: 'Downloading model...'",
     "main.errors": "Here the text is before a count of errors. For example a print could be 'Errors: 5'",
     "main.warnings": "Here the text is before a count of warnings. For example a print could be 'Warnings: 5'",
     "main.overseer_started": "Overseer in this context means the main file that monitors the rest of the program. If the program crashes the overseer will attempt to fix the issue and restart.",
@@ -53,5 +54,11 @@
     "runner.plugin_crash": "{0} is the plugin name\nExample: 'Plugin NavigationDetection has crashed'",
     "map.visualisation.roads.text": "{0} is the count of roads\n{1} is the current tile\n{2} is the count of roads currently being loaded\nExample: 'Roads: 5, Tile: (27,13), Loading: 2'",
     "map.visualisation.prefabs.prefabs": "{0} is the count of prefabs\n{1} is the current tile\nExample: 'Prefabs: 5, Tile: (27,13)'",
-    "map.visualisation.prefabs.curves": "{0} is the count of curves\nExample: 'Curves: 5'"
+    "map.visualisation.prefabs.curves": "{0} is the count of curves\nExample: 'Curves: 5'",
+    "object_detection.not_found.1": "Displayed in the first line of a modal when the selected model is not found, the model name is shown below this message.",
+    "object_detection.not_found.2": "The full sentence will be: {translation} Hugging Face",
+    "object_detection.connection_failed.1": "Don't change Hugging Face",
+    "object_detection.screen_capture_profile": "{0} is the profile name\nExample: 'Object Detection is using screen capture profile: 1080p'",
+    "object_detection.loaded_models": "{0} is the device that the model was loaded on, Can be 'CPU' or 'GPU'.\nExample: 'Loaded model on CPU'",
+    "object_detection.tracking_failed": "{0} is the class of vehicle that the tracking failed on.\n{1} is the confidence rating of said vehicle, this is a number from 0 to 1.\nExample: 'Tracking failed for car with confidence 0.5'"
 }

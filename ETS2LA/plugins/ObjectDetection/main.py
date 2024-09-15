@@ -1,6 +1,7 @@
 # Import libraries
 from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
 from vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
+from ETS2LA.utils.translator import Translate
 from ETS2LA.plugins.runner import PluginRunner  
 from ETS2LA.utils.values import SmoothedValue
 import ETS2LA.backend.settings as settings
@@ -8,10 +9,12 @@ from ETS2LA.utils.logging import logging
 import ETS2LA.variables as variables
 from typing import Literal
 from classes import Vehicle
+from tqdm import tqdm
 import numpy as np
 import screeninfo
 import threading
 import warnings
+import requests
 import pathlib
 import torch
 import time
@@ -26,22 +29,53 @@ except:
 # Silence torch warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+settings_yolo_fps = settings.Get("ObjectDetection", "yolo_fps", 2)
+
 # Literals
 runner:PluginRunner = None
 MODE: Literal["Performance", "Quality"] = \
     settings.Get("ObjectDetection", "mode", "Performance")
 YOLO_FPS: int = \
-    settings.Get("ObjectDetection", "yolo_fps", 2)
+    settings_yolo_fps if settings_yolo_fps > 0 else 2
 MODEL_TYPE: Literal["YoloV5", "YoloV7"] = \
     settings.Get("ObjectDetection", "model", "YoloV5")
 MODEL_NAME: str = \
-    "v7n.pt" if MODEL_TYPE == "YoloV7" else "v5s.pt"
-LOADING_TEXT: str = \
-    "Loading Object Detection Model..."
+    "YOLOv7-tiny.pt" if MODEL_TYPE == "YoloV7" else "YOLOv5s.pt"
+MODEL_PATH: str = \
+    os.path.join(os.path.dirname(__file__), "models", MODEL_NAME)
+MODEL_REPO: str = \
+    "https://huggingface.co/DylDev/ETS2-Vehicle-Detection"
+MODEL_DOWNLOAD_LINK: str = \
+    f"{MODEL_REPO}/resolve/main/{MODEL_NAME}?download=true"
 USE_EXTERNAL_VISUALIZATION: bool = \
     True
 TRACK_SPEED: list = \
     ["car", "van", "bus", "truck"]
+
+model_download_html = \
+    f"""
+    <div>
+        <h1 style="font-size: 1.5rem; line-height: 1.75rem;">Object Detection - Model Download</h1>
+        <div style="margin-top: 18px; font-size: 1rem; line-height: 0.75rem;">
+            <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.not_found.1")}</p></p>
+            <p style="color: rgb(82 82 91); margin-bottom: 12px;">{MODEL_NAME}</p>
+            <p style="color: rgb(82 82 91); margin-bottom: 6px;">{Translate("object_detection.not_found.2")} </p><a style="text-decoration-line: underline;" href="{MODEL_REPO}">Hugging Face</a></p>
+        </div>
+    </div>
+    """
+
+connection_failed_html = \
+    f"""
+    <div>
+        <h1 style="font-size: 1.5rem; line-height: 1.75rem;">Object Detection - Connection Failed</h1>
+        <div style="margin-top: 18px; font-size: 1rem; line-height: 0.75rem;">
+            <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.connection_failed.1")}</p>
+            <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.connection_failed.2")}</p>
+            <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.connection_failed.3")}</p>
+            <p style="color: rgb(82 82 91); margin-bottom: 6px;">{Translate("object_detection.connection_failed.4")}</p>
+        </div>
+    </div>
+    """
 
 def Initialize():
     global ShowImage
@@ -94,20 +128,58 @@ def Initialize():
             capture_width = 1020
             capture_height = 480
             
-        runner.sonner("Object Detection is using screen capture profile: " + screen_cap)
+        runner.sonner(Translate("object_detection.screen_capture_profile", [screen_cap]))
         settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
     else:
-        capture_x, capture_y, capture_width, capture_height = dimensions    
+        capture_x, capture_y, capture_width, capture_height = dimensions   
+
+    time.sleep(0.5) # Let the profile text show for a bit
+
+    if not os.path.exists(MODEL_PATH):
+        try:
+            requests.get(MODEL_REPO)
+        except:
+            runner.ask(connection_failed_html, ["Ok"])
+            runner.terminate()
+            return False
+        choice = runner.ask(model_download_html, [Translate("cancel"), Translate("download")])
+        translated_downloading = Translate("downloading", [MODEL_NAME])
+        if choice == Translate("download"):
+            runner.state = translated_downloading
+            runner.state_progress = 0
+
+            chunk_size = 1024
+            response = requests.get(MODEL_DOWNLOAD_LINK, stream=True)
+            total_size = int(response.headers.get('content-length', 0))
+            with open(MODEL_PATH, 'wb') as file, tqdm(desc=f"Downloading {MODEL_PATH}", total=total_size,
+                    unit='B', unit_scale=True, unit_divisor=chunk_size) as progress_bar:
+                downloaded_size = 0
+                total_mb = total_size / (chunk_size ** 2) 
+                for data in response.iter_content(chunk_size=chunk_size):
+                    size = file.write(data)
+                    downloaded_size += size
+                    progress_bar.update(size)
+
+                    downloaded_mb = downloaded_size / (chunk_size ** 2)  # Convert to MB
+                    runner.state = f"{translated_downloading} ({round(downloaded_mb, 2)} / {round(total_mb, 2)} MB)"
+                    runner.state_progress = downloaded_size / total_size
+                    runner.UpdateState()
+            
+            runner.state = "running"
+            runner.state_progress = -1
+            runner.UpdateState()
+        else:
+            runner.terminate()
+            return False
         
     # Fix the torch temp path for Windows
     if os.name == 'nt':
         temp = pathlib.PosixPath
         pathlib.PosixPath = pathlib.WindowsPath
 
-    time.sleep(0.5) # Let the profile text show for a bit
-
     # Display loading text
-    runner.sonner(LOADING_TEXT, "promise")
+    loading_model = Translate("object_detection.loading_model")
+    runner.sonner(loading_model, "promise")
 
     # Get device
     settings_device = settings.Get("ObjectDetection", "device", "Automatic")
@@ -123,7 +195,6 @@ def Initialize():
         else:
             device = "cpu"
 
-    MODEL_PATH = os.path.dirname(__file__) + f"/models/{MODEL_NAME}"
     # Set cache directory for torch
     torch.hub.set_dir(f"{variables.PATH}cache/ObjectDetection")
 
@@ -136,12 +207,15 @@ def Initialize():
     model.to(device)  # Move model to GPU if available
 
     # Display loaded text
-    runner.sonner(f"Object Detection model loaded on {device.upper()}", "success", promise=LOADING_TEXT)
+    runner.sonner(Translate("object_detection.loaded_model", [device.upper()]), "success", promise=loading_model)
 
     # Create OpenCV window
     cv2.namedWindow('Object Detection', cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('Object Detection', int(screen.width / 5), int(screen.height / 5))
+    cv2.resizeWindow('Object Detection', int(screen.width / 3), int(screen.height / 3))
     cv2.setWindowProperty('Object Detection', cv2.WND_PROP_TOPMOST, 1)
+
+    if MODE == "Performance":
+        threading.Thread(target=detection_thread, daemon=True).start()
 
 frame = None
 boxes = None
@@ -163,9 +237,6 @@ def detection_thread():
         if timeToSleep > 0:
             time.sleep(timeToSleep)
         cur_yolo_fps = round(1 / (time.time() - startTime), 1)
-
-if MODE == "Performance":
-    threading.Thread(target=detection_thread, daemon=True).start()
 
 trackers = []
 def create_trackers(boxes, frame):
@@ -206,7 +277,7 @@ def track_cars(boxes, frame):
         try:
             success, pos = tracker.update(frame)
             if not success:
-                print(f"Tracking failed for {box[0]['name']} with confidence {box[0]['confidence']}")
+                print(Translate("object_detection.tracking_failed", [box[0]['name'], box[0]['confidence']]))
                 continue
             x, y, w, h = int(pos[0]), int(pos[1]), int(pos[2]), int(pos[3])
             updated_boxes.loc[box[0], 'xmin'] = x
