@@ -33,7 +33,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
     const [connected, setConnected] = useState(false);
     const [promiseMessages, setPromiseMessages] = useState<string[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [dialogText, setDialogText] = useState("");
+    const [dialogObject, setDialogObject] = useState({__html: ""});
     const [dialogOptions, setDialogOptions] = useState<string[]>([]);
     const { push } = useRouter();
     let lastMessage:any = null;
@@ -58,7 +58,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
             if ("ask" in message) {
                 let text = message["ask"]["text"]
                 let options = message["ask"]["options"]
-                setDialogText(text)
+                setDialogObject({__html: "<div>" + text + "</div>"})
                 setDialogOptions(options)
                 setDialogOpen(true)
                 // Wait for the user to select an option
@@ -168,13 +168,17 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
     }, [promiseMessages]); // Dependency array to run the effect when the promise messages change
 
     return <div className={collapsed && "absolute right-[119px] top-[17px] gap-2 flex" || "absolute right-[19px] top-[17px] gap-2 flex"}>
-        <Dialog open={dialogOpen}>
+        <Dialog open={dialogOpen} >
             <DialogTrigger>
-                <div></div>
+                <div>
+
+                </div>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>{dialogText}</DialogTitle>
+                    <DialogTitle>
+                        <div dangerouslySetInnerHTML={dialogObject} />
+                    </DialogTitle>
                 </DialogHeader>
                 <DialogDescription>
                 </DialogDescription>
