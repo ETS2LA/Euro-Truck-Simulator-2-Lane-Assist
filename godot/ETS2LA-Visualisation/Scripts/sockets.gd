@@ -1,7 +1,7 @@
 extends Node
 var socket = WebSocketPeer.new()
 var data = {}
-var lastDataEntry = Time.get_ticks_msec()
+var lastDataEntry = Time.get_ticks_usec()
 var connectRetryTime = 2000 # msec
 var connectingSince = Time.get_ticks_msec()
 var status = ""
@@ -92,7 +92,7 @@ func _process(delta):
 		
 		if tempData != {}:
 			data = tempData
-			lastDataEntry = Time.get_ticks_msec()
+			lastDataEntry = Time.get_ticks_usec()
 			# Acknowledge the packet
 			socket.send_text("ok")
 		

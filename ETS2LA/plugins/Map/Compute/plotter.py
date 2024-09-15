@@ -670,7 +670,7 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation, speed):
     return returnPoints
 
 # MARK: No Nav
-def HandleNoNav(data, MapUtils, Enabled):
+def HandleNoNav(data, MapUtils, Enabled, closestData):
     global Route
     global wasIndicating
     global allPoints
@@ -705,11 +705,6 @@ def HandleNoNav(data, MapUtils, Enabled):
     
     if len(Route) == 0:
         try:
-            closestData = MapUtils.run(truckX, 0, truckZ)
-        except:
-            logging.exception("Failed to get closest data")
-            return data
-        try:
             GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ)
             if indicating:
                 try:
@@ -737,9 +732,6 @@ def HandleNoNav(data, MapUtils, Enabled):
     while len(Route) < RouteLength:
         try:
             if len(Route) == 0:
-                try:
-                    closestData = MapUtils.run(truckX, 0, truckZ)
-                except: return data
                 try:
                     GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ)
                 except: return data
@@ -824,7 +816,7 @@ def HandleNoNav(data, MapUtils, Enabled):
 
 currentPathIndex = 0
 # MARK: Navigation
-def HandleNav(data, MapUtils, Enabled, path):
+def HandleNav(data, MapUtils, Enabled, path, closestData):
     global currentPathIndex, Route
     global allPoints
     
@@ -862,7 +854,7 @@ def HandleNav(data, MapUtils, Enabled, path):
             if type(node.item) == PrefabItem:
                 closePrefabs.append(node.item)
         
-        closeData = MapUtils.run(truckX, 0, truckZ, closeRoads, closePrefabs)
+        closeData = closestData
         if closeData["closestItem"] == None:
             return data
         
@@ -953,23 +945,23 @@ def HandleNav(data, MapUtils, Enabled, path):
 
 wasIndicating = False
 # MARK: Main Function
-def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData):
+def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData, closestData):
     global allPoints
     
     if navigationData != None:
         try:
             data["map"]["instruct"] = GetPathInstruct(navigationData, data)
-            navData = HandleNav(data, MapUtils, Enabled, navigationData)
+            navData = HandleNav(data, MapUtils, Enabled, navigationData, closestData)
             if navData != None:
                 return navData
         except:
             logging.exception("Failed to handle navigation")
-            noNavData = HandleNoNav(data, MapUtils, Enabled)
+            noNavData = HandleNoNav(data, MapUtils, Enabled, closestData)
             if noNavData != None:
                 return noNavData
         
     else:
-        noNavData = HandleNoNav(data, MapUtils, Enabled)
+        noNavData = HandleNoNav(data, MapUtils, Enabled, closestData)
         if noNavData != None:
             return noNavData
 

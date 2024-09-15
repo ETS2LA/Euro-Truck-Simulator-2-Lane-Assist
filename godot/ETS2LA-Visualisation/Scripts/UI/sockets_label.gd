@@ -5,7 +5,7 @@ var Sockets = null
 @onready var Truck = $/root/Node3D/Truck
 @onready var TruckTracker = $/root/Node3D/TruckTracker
 @onready var Variables = $/root/Node3D/Variables
-var averageResponseShowTime = Time.get_ticks_msec()
+var averageResponseShowTime = Time.get_ticks_usec()
 var responseTimes = []
 var worstResponseTime = 0
 
@@ -24,18 +24,18 @@ func _process(delta: float) -> void:
 			self.label_settings.font_color = Color.RED
 		else:
 			
-			responseTimes.append(Time.get_ticks_msec() - Sockets.lastDataEntry)
-			if Time.get_ticks_msec() - averageResponseShowTime > 1000: # once per second
+			responseTimes.append(Time.get_ticks_usec() - Sockets.lastDataEntry)
+			if Time.get_ticks_usec() - averageResponseShowTime > 1000000: # once per second
 				worstResponseTime = responseTimes.max()
 				responseTimes = []
-				averageResponseShowTime = Time.get_ticks_msec()
+				averageResponseShowTime = Time.get_ticks_usec()
 			
 			if Variables.darkMode:
 				self.label_settings.font_color = Color8(255, 255, 255, 50)
 			else:
 				self.label_settings.font_color = Color8(0, 0, 0, 100)
 			if RenderSockets != false:
-				var fps = 1000 / (worstResponseTime + 0.01)
+				var fps =  1000000 / (worstResponseTime + 0.01)
 				textToAdd += "\nSlowest data update took " + str(worstResponseTime) + "ms (" + str(round(fps)) + "fps)"
 				
 				var socketData = Sockets.GetData()
@@ -52,7 +52,7 @@ func _process(delta: float) -> void:
 					else:
 						textToAdd += "\n" + str(key) + ": " + str(socketData[key])
 			else:
-				var fps = 1000 / (worstResponseTime + 0.01)
+				var fps = 1000000 / (worstResponseTime + 0.01)
 				textToAdd += " @ " + str(round(fps)) + "fps"
 		text = textToAdd
 	else:
