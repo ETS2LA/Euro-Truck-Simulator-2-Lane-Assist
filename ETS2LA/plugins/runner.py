@@ -18,7 +18,6 @@ import sys
 import os
 
 class PluginRunner():
-    
     def ReloadPlugin(self):
         try:
             importlib.reload(self.plugin)
@@ -398,6 +397,16 @@ class PluginRunner():
             type (str, optional): Defaults to "info". Available types are "info", "warning", "error" and "success".
         """
         self.iq.put({"sonner": {"text": text, "type": type, "promise": promise}})
+        
+    def terminate(self):
+        """Disable the plugin."""
+        self.iq.put({"disable": None})
+        disableStartTime = time.time()
+        while True:
+            time.sleep(0.1) # Wait until the plugin is disabled
+            if time.time() - disableStartTime > 5:
+                logging.exception(f"PluginRunner: Failed to disable plugin {self.plugin_name}")
+                return
         
     def ask(self, text:str, options=["Yes", "No"], timeout=600):
         """Ask the user a question.

@@ -212,7 +212,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     // <CustomMarker position={position} rotation={rotation} />
     return (
         <div style={{height: "100%", width: "100%", position: "relative"}}>
-            {instructions[0] &&
+            {instructions[0] && Number.isFinite(instructions[instructions.length - 1].totalDistance) &&
                 <Card style={{position: "absolute", top: "58px", right: "12px", zIndex: 1000}} className="bg-transparent border-none backdrop-blur-xl backdrop-brightness-50 h-24 w-48">
                     <CardContent className='p-0 h-full pb-1'>
                         <div className='flex flex-col h-full gap-0 p-0 font-customSans justify-center'>

@@ -4,6 +4,7 @@ import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.variables as variables
 import numpy as np
+import time
 import cv2
 
 runner:PluginRunner = None
@@ -13,14 +14,6 @@ def Initialize():
     screen = runner.modules.ScreenCapture
 
 def plugin():
-    frame, fullFrame = screen.run()
-    runner.Profile("ScreenCapture")
-    
-    if frame is None:
-        return
-    if type(frame) != np.ndarray:
-        return
-
-    cv2.imshow("frame", frame)
-    cv2.waitKey(1)
-    runner.Profile("ImShow")
+    print("Plugin started")
+    runner.terminate()
+    print("Plugin stopped")

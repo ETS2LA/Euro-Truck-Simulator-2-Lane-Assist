@@ -72,6 +72,9 @@ class PluginRunnerController():
                 self.immediateQueue.put(data)
                 time.sleep(0.2)
         
+            if "disable" in data:
+                RemovePluginRunner(self.pluginName)
+        
             if "sonner" in data:
                 sonnerType = data["sonner"]["type"]
                 sonnerText = data["sonner"]["text"]
