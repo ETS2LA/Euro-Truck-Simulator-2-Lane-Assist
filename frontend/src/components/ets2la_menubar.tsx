@@ -11,7 +11,8 @@ import { useTheme } from "next-themes"
 import { DiscordLogoIcon } from "@radix-ui/react-icons";
 import { Blocks, Moon, Sun, Info, Bolt, SunMoon, CircleHelp, 
     MessageCircleHeart, HelpCircle, Settings, 
-    Terminal, ListTodo, Users, TextSearch} from "lucide-react"
+    MessageCircleQuestion, TextSearch, MessagesSquare,
+    MessageSquare} from "lucide-react"
 import { GetVersion, CloseBackend, GetPlugins, 
     DisablePlugin, EnablePlugin, RestartBackend, ColorTitleBar } from "@/pages/backend"
 import { SetSettingByKey } from "@/pages/settingsServer";
@@ -289,28 +290,22 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                 <MenubarMenu>
                     <MenubarTrigger>
                         <div className="flex flex-row gap-1 items-center">
-                            <Terminal className="w-4 h-4" />{translate("frontend.menubar.development")}  
+                            <MessageCircleQuestion className="w-4 h-4" />Support
                         </div>
                     </MenubarTrigger>
                     <MenubarContent>
-                        <MenubarItem onClick={() => push("/development") }>
+                        <MenubarItem onClick={() => push("/support") }>
                             <div className="flex flex-row gap-2 items-center">
-                                <ListTodo className="w-4 h-4"/>{translate("frontend.menubar.development.board")}    
+                                <MessageSquare className="w-4 h-4"/>Chat    
                             </div>
-                            <MenubarShortcut>D</MenubarShortcut>
+                            <MenubarShortcut>C</MenubarShortcut>
                         </MenubarItem>
                         <MenubarSeparator/>
                         <MenubarItem>
                             <div className="flex flex-row gap-2 items-center">
-                                <Users className="w-4 h-4"/>{translate("frontend.menubar.development.become")} 
+                                <Info className="w-4 h-4"/>Resources 
                             </div>    
-                            <MenubarShortcut>B</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarItem>
-                            <div className="flex flex-row gap-2 items-center">
-                                <TextSearch className="w-4 h-4"/>{translate("frontend.menubar.development.wiki")}   
-                            </div>
-                            <MenubarShortcut>W</MenubarShortcut>
+                            <MenubarShortcut>R</MenubarShortcut>
                         </MenubarItem>
                     </MenubarContent>
                 </MenubarMenu>

@@ -15,6 +15,8 @@
     "set": "Set",
     "setting": "Setting...",
     "unknown": "Unknown",
+    "download": "Download",
+    "downloading": "Downloading {0}...",
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
     "main.errors_and_warnings": "Errors and warnings in the log files:",
     "main.errors": "Errors:",
@@ -328,5 +330,16 @@
     "map.visualisation.roads.text": "Roads: {0}, Tile: {1}, Loading: {2}",
     "map.visualisation.prefabs.prefabs": "Prefabs: {0}, Tile: {1}",
     "map.visualisation.prefabs.curves": "Curves: {0}",
-    "map.extracting_data": "Extracting GameData.zip please wait..."
+    "map.extracting_data": "Extracting GameData.zip please wait...",
+    "object_detection.loading_model": "Loading Object Detection Model...",
+    "object_detection.not_found.1": "The requested model shown below has not yet been downloaded.",
+    "object_detection.not_found.2": "Click the button below to download the model from",
+    "object_detection.connection_failed.1": "Unable to reach the server at Hugging Face.",
+    "object_detection.connection_failed.2": "Please check your internet connection.",
+    "object_detection.connection_failed.3": "NOTE: In countries like China, the server may be blocked.",
+    "object_detection.connection_failed.4": "In this case, you should ask in the Discord for help.",
+    "object_detection.screen_capture_profile": "Object Detection is using screen capture profile: {0}",
+    "object_detection.loaded_model": "Object Detection model loaded on {0}",
+    "object_detection.tracking_failed": "Tracking failed for {0} with confidence {1}",
+    "object_detection.processing_error": "Error while processing vehicle data"
 }
