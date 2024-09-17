@@ -111,7 +111,7 @@ export default function Home() {
             </ScrollArea>
             {/* Input area */}
             <Textarea
-              className="p-2 border rounded-lg w-full bg-white text-black dark:bg-[#2d2d2d] dark:text-foreground"
+              className="p-2 border rounded-lg w-full bg-white text-black dark:bg-[#000000] dark:text-foreground"
               placeholder="Type a message..."
             />
           </div>
