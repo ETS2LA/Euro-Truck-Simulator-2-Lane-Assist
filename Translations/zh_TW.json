@@ -17,6 +17,8 @@
     "set": "已設定",
     "setting": "正在設定...",
     "unknown": "未知",
+    "download": "下載",
+    "downloading": "正在下載 {0}...",
 
     "_BACKEND": "請在此處保留一個空格以區分不同的翻譯部分。",
 
@@ -297,7 +299,7 @@
     "map.settings.2.name": "計算轉向",
     "map.settings.2.description": "這將計算地圖轉向卡車所需的所需值。",
     "map.settings.3.name": "發送數據",
-    "map.settings.3.description": "這將允許其他插件使用地圖的數據。請注意，如果未啟用此選項，視覺化將無法工作。此選項可以且將提高性能。",
+    "map.settings.3.description": "這將允許其他插件使用地圖的數據。請注意，如果未啟用此選項，視覺化將無法工作。此選項可以稍微提升效能。",
     "map.settings.4.title": "內部視覺化",
     "map.settings.5.name": "縮放",
     "map.settings.5.description": "控制內部視覺化的縮放級別。",
@@ -347,7 +349,17 @@
     "map.extracting_data": "正在取得 GameData.zip 資料，請稍候...",
     "map.settings.10.title": "轉向設定",
     "map.settings.11.name":"平滑度",
-    "map.settings.11.description":"平滑轉向的時間（秒）。數值為0時，轉向會非常靈敏；數值大於0.5時，可能會導致左右搖晃。"
+    "map.settings.11.description":"平滑轉向的時間（秒）。數值為0時，轉向會非常靈敏；數值大於0.5時，可能會導致左右搖晃。",
+
+    "object_detection.loading_model": "正在載入物體辨識模型...",
+    "object_detection.not_found.1": "以下所需的模型尚未下載。",
+    "object_detection.not_found.2": "請點擊下方按鈕從以下來源下載模型",
+    "object_detection.connection_failed.1": "無法連接到 Hugging Face 伺服器。",
+    "object_detection.connection_failed.2": "請檢查您的網路連線。",
+    "object_detection.connection_failed.3": "注意：在中國等國家，伺服器可能被封鎖。",
+    "object_detection.connection_failed.4": "在這種情況下，請在 Discord 上尋求幫助。",
+    "object_detection.screen_capture_profile": "物體辨識使用螢幕擷取設定檔：{0}",
+    "object_detection.loaded_model": "物體辨識模型已載入於 {0}",
+    "object_detection.tracking_failed": "對 {0} 的追蹤失敗，置信度為 {1}",
+    "object_detection.processing_error": "處理車輛數據時發生錯誤"    
 }
-
-
