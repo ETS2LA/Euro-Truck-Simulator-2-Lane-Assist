@@ -172,7 +172,32 @@ export default function Home() {
 
     useEffect(() => {
         if (scrollAreaRef.current) {
-            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+            let scrollHeight = scrollAreaRef.current.scrollHeight;
+            let clientHeight = scrollAreaRef.current.clientHeight;
+            let difference = scrollHeight - clientHeight;
+    
+            if (difference > 0) {
+                const scrollDown = () => {
+                    let scrollTop = scrollAreaRef.current.scrollTop;
+                    let remainingDistance = difference - scrollTop;
+    
+                    // Exponentially increase speed based on remaining distance
+                    let speedFactor = Math.pow(remainingDistance / difference, 10); // Exponential factor
+                    let scrollStep = Math.max(1, Math.min(20, (1 - speedFactor) * 200)); // Increase the range and speed
+                    let interval = Math.max(5, speedFactor * 30); // Faster interval as distance decreases
+    
+                    if (scrollTop < difference) {
+                        scrollAreaRef.current.scrollTop += scrollStep;
+                        setTimeout(scrollDown, interval);
+                    }
+                };
+    
+                scrollDown(); // Start scrolling
+    
+                return () => {
+                    // Cleanup, in case the effect is re-triggered
+                };
+            }
         }
     }, [conversations, conversation_index]);
 
