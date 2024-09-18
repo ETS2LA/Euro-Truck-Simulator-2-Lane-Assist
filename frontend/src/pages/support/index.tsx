@@ -1,13 +1,12 @@
 import { Textarea } from '@/components/ui/textarea';
-import { Avatar } from '@/components/ui/avatar';
-import {
-  ResizablePanel,
-  ResizablePanelGroup,
-  ResizableHandle,
-} from '@/components/ui/resizable';
+import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from '@/components/ui/resizable';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import { Forward } from 'lucide-react';
+import { toast, Toaster} from 'sonner';
+import { useState } from 'react';
 
 class Message {
   id: number;
@@ -31,7 +30,39 @@ class Message {
   }
 }
 
-const messages = [
+class Tag {
+  name: string;
+  color: string; // hex color
+  constructor(name: string, color: string) {
+    this.name = name;
+    this.color = color;
+  }
+}
+
+class Conversation {
+    name: string;
+    id: number;
+    members: string[];
+    messages: Message[];
+    tags: Tag[];
+    constructor(name: string, id : number, members: string[], messages: Message[], tags: Tag[]) {
+        this.name = name
+        this.id = id
+        this.members = members
+        this.messages = messages;
+        this.tags = tags
+    }
+}
+
+const tags = {
+    'bug': new Tag('Bug', '#ef4444'),
+    'feature': new Tag('Feature', '#2563eb'),
+    'other': new Tag('Other', '#3f3f46'),
+    'closed': new Tag('Closed', '#15803d'),
+    'open': new Tag('Open', '#a16207'),
+}
+
+const conv1_messages: Message[] = [
   new Message(1, 'Developer', 'Hello! How can I help you?', 'left'),
   new Message(2, 'You', "Hi! The steering won't work in ETS2LA.", 'right'),
   new Message(3, 'Developer', 'Did you do the First Time Setup?', 'left'),
@@ -44,11 +75,17 @@ const messages = [
   new Message(12, 'You', 'Goodbye!', 'right'),
 ];
 
-const ChatMessage = ({ message }: { message: Message }) => {
-    const index = messages.indexOf(message);
+const conv2_messages: Message[] = [
+  new Message(1, 'You', 'Hello! I would like to suggest you a feature. Would it be possible to make a button that would allow us to upload images to this support chat?', 'right'),
+  new Message(2, 'Developer', 'Great suggestion!', 'left'),
+  new Message(3, 'Developer', "I'll get to work on adding this.", 'left'),
+  new Message(4, 'You', 'Ok. Thank you.', 'right'),
+];
+
+const ChatMessage = ({ message_index, messages }: { message_index: number, messages: Message[] }) => {
+    const message = messages[message_index];
     const isRight = message.side === 'right';
-    const nextMessage = messages[index + 1];
-    const isLastMessage = !nextMessage;
+    const nextMessage = messages[message_index + 1];
     const isSameSideNext = nextMessage?.side === message.side;
 
     // Remove bottom padding if there's a next message on the same side
@@ -88,37 +125,107 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </div>
     );
 };
+
 export default function Home() {
-  return (
-    <div className="flex flex-col w-full h-full overflow-auto rounded-t-md justify-center items-center">
-      <ResizablePanelGroup direction="horizontal" className="rounded-lg border">
-        {/* Left panel content */}
-        <ResizablePanel defaultSize={20}>
-          <div className="flex flex-col mt-4 h-full w-full space-y-3 overflow-y-auto overflow-x-hidden max-h-full">
-            
-          </div>
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        {/* Chat area */}
-        <ResizablePanel defaultSize={80}>
-          <div className="w-full pb-2 h-full flex flex-col justify-between">
-            <ScrollArea className="pb-2 flex flex-col gap-1">
-                <div className="flex flex-col mx-4">
-                    {messages.map((message) => (
-                        <ChatMessage key={message.id} message={message} />
-                    ))}
+    const [conversations, setConversations] = useState<Conversation[]>([
+        new Conversation('Broken Steering', 1, ['You', 'Developer'], conv1_messages, [tags['bug'], tags['closed']]),
+        new Conversation('Uploading Images', 2, ['You', 'Developer'], conv2_messages, [tags['feature'], tags['open']]),
+    ]);
+    const [conversation_index, setConversationIndex] = useState(0);
+    const [textbox_text, setTextboxText] = useState('');
+
+    function ChangeConversation(index: number) {
+        setConversationIndex(index);
+    }
+
+    function SendMessage(text: string) {
+        if (text.trim() === '') {toast.error('Message cannot be empty!'); return} // Prevent sending empty messages
+
+        // Create a new array for messages
+        const updatedMessages = [...conversations[conversation_index].messages, new Message(conversations[conversation_index].messages.length + 1, 'You', text, 'right')];
+
+        // Update the conversation
+        const updatedConversation = {
+            ...conversations[conversation_index],
+            messages: updatedMessages,
+        };
+
+        // Create a new conversations array with the updated conversation
+        const updatedConversations = [...conversations];
+        updatedConversations[conversation_index] = updatedConversation;
+
+        // Update the state
+        setConversations(updatedConversations);
+        setTextboxText(''); // Clear the textbox
+    }
+
+    const conversation_data = conversations[conversation_index];
+
+    return (
+        <div className="flex flex-col w-full h-full overflow-auto rounded-t-md justify-center items-center">
+        <ResizablePanelGroup direction="horizontal" className="rounded-lg border">
+            {/* Left panel content */}
+            <ResizablePanel defaultSize={30}>
+                <div className="flex flex-col h-full w-full space-y-3 overflow-y-auto overflow-x-hidden max-h-full">
+                    <div className="flex flex-col">
+                        {conversations.map((conversation, index) => (
+                            <div key={index}>
+                                <Button className="flex flex-col justify-items-start w-full h-22 gap-1 rounded-none" variant={"ghost"} onClick={() => ChangeConversation(index)}>
+                                    <h1 className='text-lg'>{conversation.name}</h1>
+                                    <p className='text-sm text-zinc-600'>{conversation.members.join(', ')}</p>
+                                    <div className="flex flex-row gap-2">
+                                        {conversation.tags.map((tag) => (
+                                            <Badge key={tag.name} style={{ backgroundColor: tag.color, color: 'white' }}>{tag.name}</Badge>
+                                        ))}
+                                    </div>
+                                </Button>
+                                <Separator orientation="horizontal" />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </ScrollArea>
-            {/* Input area */}
-            <div className="flex flex-row">
-                <Textarea
-                className="p-2 ml-4 border rounded-lg w-11/12 bg-white text-black dark:bg-[#000000] dark:text-foreground resize-none h-18"
-                placeholder="Type a message..."/>
-                <Button className="w-1/12 mx-2 h-18 mr-4"><Forward className='w-8 h-8' /></Button>
-            </div>
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
-    </div>
-  );
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel defaultSize={70}>
+                <div className="w-full pb-2 h-full flex flex-col justify-between relative">
+                    {/* Top gradient */}
+                    <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background to-transparent pointer-events-none z-50"></div>
+
+                    <ScrollArea className="flex flex-col gap-1 relative z-0">
+                        <div className="flex flex-col text-center mt-6 mb-2 items-center">
+                        <h1 className="text-2xl font-bold">{conversation_data.name}</h1>
+                        <p className="text-sm text-zinc-500">{conversation_data.members.join(', ')}</p>
+                        <p className="text-sm text-zinc-500">{conversation_data.messages.length} messages</p>
+                        <div className="flex flex-row gap-2 mt-2">
+                            {conversation_data.tags.map((tag) => (
+                            <Badge key={tag.name} style={{ backgroundColor: tag.color, color: 'white' }}>{tag.name}</Badge>
+                            ))}
+                        </div>
+                        </div>
+                        <Separator className="translate-y-4 mb-8" />
+                        <div className="flex flex-col mx-4">
+                        {conversation_data.messages.map((message, index) => (
+                            <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} />
+                        ))}
+                        </div>
+                    </ScrollArea>
+
+                    {/* Gradient behind the text area */}
+                    <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-0"></div>
+
+                    {/* Input area */}
+                    <div className="relative z-10 flex flex-row">
+                        <Textarea
+                        className="p-2 ml-4 border rounded-lg w-11/12 bg-white text-black dark:bg-zinc-900 dark:text-foreground resize-none h-18"
+                        placeholder="Type a message"
+                        value={textbox_text}
+                        onChange={(e) => setTextboxText(e.target.value)}
+                        />
+                        <Button className="w-1/12 mx-2 h-18 mr-4" onClick={() => SendMessage(textbox_text)}><Forward className='w-8 h-8' /></Button>
+                    </div>
+                </div>
+            </ResizablePanel>
+        </ResizablePanelGroup>
+        </div>
+    );
 }
