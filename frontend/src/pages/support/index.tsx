@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Forward } from 'lucide-react';
 import { toast, Toaster} from 'sonner';
 import { useState, useEffect, useRef } from 'react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 class Message {
   id: number;
@@ -30,36 +31,20 @@ class Message {
   }
 }
 
-class Tag {
-  name: string;
-  color: string; // hex color
-  constructor(name: string, color: string) {
-    this.name = name;
-    this.color = color;
-  }
-}
 
 class Conversation {
     name: string;
     id: number;
     members: string[];
     messages: Message[];
-    tags: Tag[];
-    constructor(name: string, id : number, members: string[], messages: Message[], tags: Tag[]) {
+    tags: string[];
+    constructor(name: string, id : number, members: string[], messages: Message[], tags: string[]) {
         this.name = name
         this.id = id
         this.members = members
         this.messages = messages;
         this.tags = tags
     }
-}
-
-const tags = {
-    'bug': new Tag('Bug', '#ef4444'),
-    'feature': new Tag('Feature', '#2563eb'),
-    'other': new Tag('Other', '#3f3f46'),
-    'closed': new Tag('Closed', '#15803d'),
-    'open': new Tag('Open', '#a16207'),
 }
 
 const conv1_messages: Message[] = [
@@ -93,8 +78,8 @@ const ChatMessage = ({ message_index, messages }: { message_index: number, messa
         isRight ? 'justify-end' : 'justify-start'
     } font-customSans text-sm ${isSameSideNext ? 'pb-2' : 'pb-4'}`;
 
-    const messageContentClass = `px-4 py-2 rounded-lg ${
-        isRight ? 'rounded-br-none' : 'rounded-bl-none'
+    const messageContentClass = `p-3 rounded-lg ${
+        isRight ? !isSameSideNext ? 'rounded-br-none' : "" : !isSameSideNext ? 'rounded-bl-none' : ""
     } bg-gray-200 text-black dark:bg-[#303030] dark:text-foreground`;
 
     return (
@@ -104,7 +89,7 @@ const ChatMessage = ({ message_index, messages }: { message_index: number, messa
                     isRight ? 'items-end' : 'items-start'
                 }`}
             >
-                <div className={messageContentClass}>
+                <div className={messageContentClass + " flex flex-col gap-1"}>
                     {message.reference && (
                         <div className={`p-2 border-l-4 border-gray-400 dark:border-gray-600`}>
                             {/* Display the referenced message text */}
@@ -128,8 +113,8 @@ const ChatMessage = ({ message_index, messages }: { message_index: number, messa
 
 export default function Home() {
     const [conversations, setConversations] = useState<Conversation[]>([
-        new Conversation('Broken Steering', 1, ['You', 'Developer'], conv1_messages, [tags['bug'], tags['closed']]),
-        new Conversation('Uploading Images', 2, ['You', 'Developer'], conv2_messages, [tags['feature'], tags['open']]),
+        new Conversation('Broken Steering', 1, ['You', 'Developer'], conv1_messages, ["Bugs", "Closed"]),
+        new Conversation('Uploading Images', 2, ['You', 'Developer'], conv2_messages, ["Feedback", "Open"]),
     ]);
     const [conversation_index, setConversationIndex] = useState(0);
     const [textbox_text, setTextboxText] = useState('');
@@ -168,6 +153,12 @@ export default function Home() {
         setTextboxText(''); // Clear the textbox
     }
 
+    function HandleNewConversation() {
+        const new_conversation = new Conversation('New Conversation', conversations.length + 1, ['You', 'Developer'], [], ["New"]);
+        setConversations([...conversations, new_conversation]);
+        setConversationIndex(conversations.length);
+    }
+
     const conversation_data = conversations[conversation_index];
 
     useEffect(() => {
@@ -203,54 +194,56 @@ export default function Home() {
 
     return (
         <div className="flex flex-col w-full h-full overflow-auto rounded-t-md justify-center items-center">
-            <ResizablePanelGroup direction="horizontal" className="rounded-lg border">
+            <div className="absolute bottom-0 left-[212px] top-[50px] w-12 bg-gradient-to-l from-background pointer-events-none" />
+            <ResizablePanelGroup direction="horizontal" className="">
                 {/* Left panel content */}
-                <ResizablePanel defaultSize={30}>
+                <ResizablePanel defaultSize={20}>
                     <div className="flex flex-col h-full w-full space-y-3 overflow-y-auto overflow-x-hidden max-h-full">
-                        <div className="flex flex-col">
-                            {conversations.map((conversation, index) => (
-                                <div key={index}>
-                                    <Button className="flex flex-col justify-items-start w-full h-22 gap-1 rounded-none" variant={"ghost"} onClick={() => ChangeConversation(index)}>
-                                        <h1 className='text-lg'>{conversation.name}</h1>
-                                        <p className='text-sm text-zinc-600'>{conversation.members.join(', ')}</p>
-                                        <div className="flex flex-row gap-2">
-                                            {conversation.tags.map((tag) => (
-                                                <Badge key={tag.name} style={{ backgroundColor: tag.color, color: 'white' }}>{tag.name}</Badge>
-                                            ))}
-                                        </div>
-                                    </Button>
-                                    <Separator orientation="horizontal" />
-                                </div>
-                            ))}
+                        <div className="flex flex-col gap-2">
+                            <TooltipProvider>
+                                <Button variant="secondary" className="items-center justify-start text-sm w-full rounded-r-none" onClick={HandleNewConversation}>
+                                    Create a new conversation
+                                </Button>
+                                <br />
+                                {conversations.map((conversation, index) => (
+                                    <div className="items-center justify-start text-sm">
+                                        <Tooltip delayDuration={0} disableHoverableContent={true}>
+                                            <TooltipTrigger className="items-center justify-start text-sm w-full">
+                                                <Button key={index} variant={ conversation_index == index ? "secondary" : "ghost"} className="items-center justify-start text-sm w-full rounded-r-none" onClick={() => ChangeConversation(index)}>
+                                                    {conversation.name}
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent className='bg-transparent'>
+                                                <div className="flex gap-2 text-start p-2 rounded-lg backdrop-blur-md backdrop-brightness-75">
+                                                    {conversation.tags.map((tag, index) => (
+                                                        <Badge key={index} variant="default" className="text-xs">{tag}</Badge>
+                                                    ))}
+                                                </div>
+                                            </TooltipContent>
+                                        </Tooltip> 
+                                    </div>
+                                ))}
+                                <p className='p-4 text-muted-foreground text-xs'>Please note that nothing on this page is real, and you cannot yet use it.</p>
+                            </TooltipProvider>
                         </div>
                     </div>
                 </ResizablePanel>
-                <ResizableHandle withHandle />
-                <ResizablePanel defaultSize={70}>
+                <ResizablePanel defaultSize={80}>
                     <div className="w-full pb-2 h-full flex flex-col justify-between relative">
                         {/* Top gradient */}
                         <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background to-transparent pointer-events-none z-50"></div>
                         <div ref={scrollAreaRef} className="flex flex-col gap-1 relative z-0 overflow-y-auto">
-                            <div className="flex flex-col text-center mt-6 mb-2 items-center">
-                                <h1 className="text-2xl font-bold">{conversation_data.name}</h1>
-                                <p className="text-sm text-zinc-500">{conversation_data.members.join(', ')}</p>
-                                <p className="text-sm text-zinc-500">{conversation_data.messages.length} messages</p>
-                                <div className="flex flex-row gap-2 mt-2">
-                                    {conversation_data.tags.map((tag) => (
-                                        <Badge key={tag.name} style={{ backgroundColor: tag.color, color: 'white' }}>{tag.name}</Badge>
-                                    ))}
-                                </div>
-                            </div>
-                            <Separator className="translate-y-4 mb-8" />
-                            <div className="flex flex-col mx-4">
+                            <ScrollArea className="flex flex-col gap-1 p-2">
+                                <br />
+                                <br />
                                 {conversation_data.messages.map((message, index) => (
                                     <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} />
                                 ))}
-                            </div>
+                            </ScrollArea>
                         </div>
 
                         {/* Gradient behind the text area */}
-                        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-0"></div>
+                        {/* <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-0"></div> */}
 
                         {/* Input area */}
                         <div className="relative z-10 flex flex-row">
