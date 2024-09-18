@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Forward } from 'lucide-react';
 import { toast, Toaster} from 'sonner';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 class Message {
   id: number;
@@ -133,6 +133,15 @@ export default function Home() {
     ]);
     const [conversation_index, setConversationIndex] = useState(0);
     const [textbox_text, setTextboxText] = useState('');
+    const [inputValue, setInputValue] = useState("");
+
+    const scrollAreaRef = useRef<HTMLDivElement>(null); // Ref for the scroll area
+
+    const handleKeyDown = (event: any) => {
+        if (event.key === "Enter") {
+            SendMessage(textbox_text);
+        }
+    };
 
     function ChangeConversation(index: number) {
         setConversationIndex(index);
@@ -161,71 +170,77 @@ export default function Home() {
 
     const conversation_data = conversations[conversation_index];
 
+    useEffect(() => {
+        if (scrollAreaRef.current) {
+            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+        }
+    }, [conversations, conversation_index]);
+
     return (
         <div className="flex flex-col w-full h-full overflow-auto rounded-t-md justify-center items-center">
-        <ResizablePanelGroup direction="horizontal" className="rounded-lg border">
-            {/* Left panel content */}
-            <ResizablePanel defaultSize={30}>
-                <div className="flex flex-col h-full w-full space-y-3 overflow-y-auto overflow-x-hidden max-h-full">
-                    <div className="flex flex-col">
-                        {conversations.map((conversation, index) => (
-                            <div key={index}>
-                                <Button className="flex flex-col justify-items-start w-full h-22 gap-1 rounded-none" variant={"ghost"} onClick={() => ChangeConversation(index)}>
-                                    <h1 className='text-lg'>{conversation.name}</h1>
-                                    <p className='text-sm text-zinc-600'>{conversation.members.join(', ')}</p>
-                                    <div className="flex flex-row gap-2">
-                                        {conversation.tags.map((tag) => (
-                                            <Badge key={tag.name} style={{ backgroundColor: tag.color, color: 'white' }}>{tag.name}</Badge>
-                                        ))}
-                                    </div>
-                                </Button>
-                                <Separator orientation="horizontal" />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={70}>
-                <div className="w-full pb-2 h-full flex flex-col justify-between relative">
-                    {/* Top gradient */}
-                    <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background to-transparent pointer-events-none z-50"></div>
-
-                    <ScrollArea className="flex flex-col gap-1 relative z-0">
-                        <div className="flex flex-col text-center mt-6 mb-2 items-center">
-                        <h1 className="text-2xl font-bold">{conversation_data.name}</h1>
-                        <p className="text-sm text-zinc-500">{conversation_data.members.join(', ')}</p>
-                        <p className="text-sm text-zinc-500">{conversation_data.messages.length} messages</p>
-                        <div className="flex flex-row gap-2 mt-2">
-                            {conversation_data.tags.map((tag) => (
-                            <Badge key={tag.name} style={{ backgroundColor: tag.color, color: 'white' }}>{tag.name}</Badge>
+            <ResizablePanelGroup direction="horizontal" className="rounded-lg border">
+                {/* Left panel content */}
+                <ResizablePanel defaultSize={30}>
+                    <div className="flex flex-col h-full w-full space-y-3 overflow-y-auto overflow-x-hidden max-h-full">
+                        <div className="flex flex-col">
+                            {conversations.map((conversation, index) => (
+                                <div key={index}>
+                                    <Button className="flex flex-col justify-items-start w-full h-22 gap-1 rounded-none" variant={"ghost"} onClick={() => ChangeConversation(index)}>
+                                        <h1 className='text-lg'>{conversation.name}</h1>
+                                        <p className='text-sm text-zinc-600'>{conversation.members.join(', ')}</p>
+                                        <div className="flex flex-row gap-2">
+                                            {conversation.tags.map((tag) => (
+                                                <Badge key={tag.name} style={{ backgroundColor: tag.color, color: 'white' }}>{tag.name}</Badge>
+                                            ))}
+                                        </div>
+                                    </Button>
+                                    <Separator orientation="horizontal" />
+                                </div>
                             ))}
                         </div>
-                        </div>
-                        <Separator className="translate-y-4 mb-8" />
-                        <div className="flex flex-col mx-4">
-                        {conversation_data.messages.map((message, index) => (
-                            <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} />
-                        ))}
-                        </div>
-                    </ScrollArea>
-
-                    {/* Gradient behind the text area */}
-                    <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-0"></div>
-
-                    {/* Input area */}
-                    <div className="relative z-10 flex flex-row">
-                        <Textarea
-                        className="p-2 ml-4 border rounded-lg w-11/12 bg-white text-black dark:bg-zinc-900 dark:text-foreground resize-none h-18"
-                        placeholder="Type a message"
-                        value={textbox_text}
-                        onChange={(e) => setTextboxText(e.target.value)}
-                        />
-                        <Button className="w-1/12 mx-2 h-18 mr-4" onClick={() => SendMessage(textbox_text)}><Forward className='w-8 h-8' /></Button>
                     </div>
-                </div>
-            </ResizablePanel>
-        </ResizablePanelGroup>
+                </ResizablePanel>
+                <ResizableHandle withHandle />
+                <ResizablePanel defaultSize={70}>
+                    <div className="w-full pb-2 h-full flex flex-col justify-between relative">
+                        {/* Top gradient */}
+                        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background to-transparent pointer-events-none z-50"></div>
+                        <div ref={scrollAreaRef} className="flex flex-col gap-1 relative z-0 overflow-y-auto">
+                            <div className="flex flex-col text-center mt-6 mb-2 items-center">
+                                <h1 className="text-2xl font-bold">{conversation_data.name}</h1>
+                                <p className="text-sm text-zinc-500">{conversation_data.members.join(', ')}</p>
+                                <p className="text-sm text-zinc-500">{conversation_data.messages.length} messages</p>
+                                <div className="flex flex-row gap-2 mt-2">
+                                    {conversation_data.tags.map((tag) => (
+                                        <Badge key={tag.name} style={{ backgroundColor: tag.color, color: 'white' }}>{tag.name}</Badge>
+                                    ))}
+                                </div>
+                            </div>
+                            <Separator className="translate-y-4 mb-8" />
+                            <div className="flex flex-col mx-4">
+                                {conversation_data.messages.map((message, index) => (
+                                    <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Gradient behind the text area */}
+                        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-0"></div>
+
+                        {/* Input area */}
+                        <div className="relative z-10 flex flex-row">
+                            <Textarea
+                                className="p-2 ml-4 border rounded-lg w-11/12 bg-white text-black dark:bg-zinc-900 dark:text-foreground resize-none h-14"
+                                placeholder="Type a message"
+                                value={textbox_text}
+                                onChange={(e) => setTextboxText(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                            />
+                            <Button className="w-1/12 h-15 mr-4 ml-2" onClick={() => SendMessage(textbox_text)}><Forward className='w-6 h-6' /></Button>
+                        </div>
+                    </div>
+                </ResizablePanel>
+            </ResizablePanelGroup>
         </div>
     );
 }
