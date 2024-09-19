@@ -293,6 +293,10 @@
     "global.settings.8.description": "應用程式使用的語言。需要重新啟動才能變更！",
     "global.settings.9.name": "無邊框視窗",
     "global.settings.9.description": "是否使用無邊框視窗。需要完全重啟才能應用變更！這將修正移動應用程式視窗時的問題，並啟用縮放功能。",    
+    "global.settings.10.name": "視窗寬度",
+    "global.settings.10.description": "視窗的寬度。",
+    "global.settings.11.name": "視窗高度",
+    "global.settings.11.description": "視窗的高度。",
 
     "map.settings.1.title": "地圖設定",
     "map.settings.1.description": "這些是地圖插件的設定。",
