@@ -32,13 +32,38 @@ class Message {
 }
 
 
+class ConversationEvent {
+    id: number;
+    event: "create" | "join" | "tag_add" | "tag_remove" | "change_name" | "leave" | "fixing" | "closed" | "reopened";
+    data: any;
+    text: string | null;
+
+    private eventTextGenerators: Record<string, () => string> = {
+        "create": () => `${this.data[0]} created the conversation with tag(s): ${this.data[1]}`,
+        "join": () => `${this.data[0]} joined the conversation`,
+        "tag_add": () => `${this.data[0]} added the following tag(s): ${this.data[1]}`,
+        "tag_remove": () => `${this.data[0]} removed the following tag(s): ${this.data[1]}`,
+        "change_name": () => `${this.data[0]} changed the conversation name to ${this.data[1]}`,
+        "fixing": () => `${this.data[0]} is fixing the issue`,
+        "leave": () => `${this.data[0]} left the conversation`,
+        "closed": () => `${this.data[0]} closed the conversation`,
+        "reopened": () => `${this.data[0]} reopened the conversation`,
+    };
+
+    constructor(id: number, event: "create" | "join" | "tag_add" | "tag_remove" | "change_name" | "fixing" | "leave" | "closed" | "reopened", data: any) {
+        this.id = id;
+        this.event = event;
+        this.data = data;
+        this.text = this.eventTextGenerators[event]?.() ?? `Unknown event was triggered with: ${JSON.stringify(data)}`;
+    }
+}
 class Conversation {
     name: string;
     id: number;
     members: string[];
-    messages: Message[];
+    messages: any;
     tags: string[];
-    constructor(name: string, id : number, members: string[], messages: Message[], tags: string[]) {
+    constructor(name: string, id : number, members: string[], messages: any, tags: string[]) {
         this.name = name
         this.id = id
         this.members = members
@@ -47,24 +72,32 @@ class Conversation {
     }
 }
 
-const conv1_messages: Message[] = [
-  new Message(1, 'Developer', 'Hello! How can I help you?', 'left'),
-  new Message(2, 'You', "Hi! The steering won't work in ETS2LA.", 'right'),
-  new Message(3, 'Developer', 'Did you do the First Time Setup?', 'left'),
-  new Message(4, 'You', 'No, let me try that out.', 'right'),
-  new Message(6, 'You', 'I did it now', 'right', 3),
-  new Message(7, 'Developer', 'And is it working now?', 'left', 6),
+const conv1_messages = [
+  new ConversationEvent(1, 'create', ['You', ['Bug']]),
+  new ConversationEvent(2, 'join', ['Developer']),
+  new Message(3, 'Developer', 'Hello! How can I help you?', 'left'),
+  new Message(4, 'You', "Hi! The steering won't work in ETS2LA.", 'right'),
+  new Message(5, 'Developer', 'Did you do the First Time Setup?', 'left'),
+  new Message(6, 'You', 'No, let me try that out.', 'right'),
+  new Message(7, 'You', 'I did it now', 'right', 3),
+  new Message(8, 'Developer', 'And is it working now?', 'left', 6),
   new Message(9, 'You', "Yes, it's working now", 'right'),
   new Message(10, 'Developer', 'Ok good!', 'left'),
   new Message(11, 'Developer', 'Have a nice day!', 'left'),
   new Message(12, 'You', 'Goodbye!', 'right'),
+  new ConversationEvent(13, 'closed', ['You']),
 ];
 
-const conv2_messages: Message[] = [
-  new Message(1, 'You', 'Hello! I would like to suggest you a feature. Would it be possible to make a button that would allow us to upload images to this support chat?', 'right'),
-  new Message(2, 'Developer', 'Great suggestion!', 'left'),
-  new Message(3, 'Developer', "I'll get to work on adding this.", 'left'),
-  new Message(4, 'You', 'Ok. Thank you.', 'right'),
+const conv2_messages = [
+  new ConversationEvent(1, 'create', ['You', ['Feature']]),
+  new Message(2, 'You', 'Hello! I would like to suggest you a feature. Would it be possible to make a button that would allow us to upload images to this support chat?', 'right'),
+  new Message(3, 'Developer', 'Great suggestion!', 'left'),
+  new Message(4, 'Developer', "I'll get to work on adding this.", 'left'),
+  new ConversationEvent(5, 'fixing', ['Developer']),
+  new Message(6, 'You', 'Ok. Thank you.', 'right'),
+  new Message(7, 'Developer', 'This has been added.', 'left'),
+  new Message(8, 'You', 'Nice!', 'right'),
+  new ConversationEvent(9, 'closed', ['You']),
 ];
 
 const ChatMessage = ({ message_index, messages }: { message_index: number, messages: Message[] }) => {
@@ -111,6 +144,29 @@ const ChatMessage = ({ message_index, messages }: { message_index: number, messa
     );
 };
 
+const ChatEvent = ({ event } : { event: ConversationEvent }) => {
+    return (
+        <div style={{ width: '100%', textAlign: 'center', margin: '20px 0', position: 'relative' }}>
+            <Separator orientation="horizontal" style={{ width: '100%', position: 'relative' }}>
+                <span
+                    style={{
+                        position: 'absolute',
+                        top: '-0.75em', // Adjust as needed to position text
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        backgroundColor: '#09090b', // Ensure text is readable on separator
+                        padding: '0 10px',
+                        whiteSpace: 'nowrap', // Prevent text wrapping
+                    }}
+                >
+                    {event.text}
+                </span>
+            </Separator>
+        </div>
+    );
+};
+
+
 export default function Home() {
     const [conversations, setConversations] = useState<Conversation[]>([
         new Conversation('Broken Steering', 1, ['You', 'Developer'], conv1_messages, ["Bugs", "Closed"]),
@@ -118,9 +174,9 @@ export default function Home() {
     ]);
     const [conversation_index, setConversationIndex] = useState(0);
     const [textbox_text, setTextboxText] = useState('');
-    const [inputValue, setInputValue] = useState("");
-
+    const conversation_data = conversations[conversation_index];
     const scrollAreaRef = useRef<HTMLDivElement>(null); // Ref for the scroll area
+
 
     const handleKeyDown = (event: any) => {
         if (event.key === "Enter") {
@@ -149,7 +205,9 @@ export default function Home() {
         updatedConversations[conversation_index] = updatedConversation;
 
         // Update the state
+        scrollToBottom()
         setConversations(updatedConversations);
+        const conversation_data = conversations[conversation_index];
         setTextboxText(''); // Clear the textbox
     }
 
@@ -159,13 +217,11 @@ export default function Home() {
         setConversationIndex(conversations.length);
     }
 
-    const conversation_data = conversations[conversation_index];
-
-    useEffect(() => {
+    function scrollToBottom() {
         if (scrollAreaRef.current) {
             let scrollHeight = scrollAreaRef.current.scrollHeight;
-            let clientHeight = scrollAreaRef.current.clientHeight;
-            let difference = scrollHeight - clientHeight;
+            let clientHeight = scrollAreaRef.current.clientHeight + 10;
+            let difference = scrollHeight - clientHeight ;
     
             if (difference > 0) {
                 const scrollDown = () => {
@@ -175,22 +231,29 @@ export default function Home() {
                     // Exponentially increase speed based on remaining distance
                     let speedFactor = Math.pow(remainingDistance / difference, 10); // Exponential factor
                     let scrollStep = Math.max(1, Math.min(20, (1 - speedFactor) * 200)); // Increase the range and speed
-                    let interval = Math.max(5, speedFactor * 30); // Faster interval as distance decreases
+                    let interval = Math.max(5, speedFactor * 10); // Faster interval as distance decreases
     
                     if (scrollTop < difference) {
                         scrollAreaRef.current.scrollTop += scrollStep;
                         setTimeout(scrollDown, interval);
                     }
                 };
-    
-                scrollDown(); // Start scrolling
-    
+
+                const scrollDownHard = () => {
+                    scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+                };
+
+                scrollDownHard();
+
+                //scrollDown(); // Start scrolling
+
+
                 return () => {
                     // Cleanup, in case the effect is re-triggered
                 };
             }
         }
-    }, [conversations, conversation_index]);
+    };
 
     return (
         <div className="flex flex-col w-full h-full overflow-auto rounded-t-md justify-center items-center">
@@ -232,18 +295,19 @@ export default function Home() {
                     <div className="w-full pb-2 h-full flex flex-col justify-between relative">
                         {/* Top gradient */}
                         <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background to-transparent pointer-events-none z-50"></div>
-                        <div ref={scrollAreaRef} className="flex flex-col gap-1 relative z-0 overflow-y-auto">
-                            <ScrollArea className="flex flex-col gap-1 p-2">
+                        <div ref={scrollAreaRef} className="flex flex-col gap-1 relative z-0 overflow-y-auto custom-scrollbar">
+                            <div className="flex flex-col gap-1 p-2">
                                 <br />
-                                <br />
-                                {conversation_data.messages.map((message, index) => (
-                                    <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} />
-                                ))}
-                            </ScrollArea>
+                                {conversation_data.messages.map((message, index) => {
+                                    if (message instanceof Message) {
+                                        return <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} />;
+                                    } else if (message instanceof ConversationEvent) {
+                                        return <ChatEvent key={message.id} event={message} />;
+                                    }
+                                    return null;
+                                })}
+                            </div>
                         </div>
-
-                        {/* Gradient behind the text area */}
-                        {/* <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-0"></div> */}
 
                         {/* Input area */}
                         <div className="relative z-10 flex flex-row">
