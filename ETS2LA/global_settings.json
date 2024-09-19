@@ -67,9 +67,9 @@
             }
         },
         {
-            "name": "Window Width",
+            "name": "global.settings.10.name",
             "key": "width",
-            "description": "Width of the window, needs a restart to apply changes.",
+            "description": "global.settings.10.description",
             "type": {
                 "type": "number",
                 "min": 920,
@@ -78,9 +78,9 @@
             }
         },
         {
-            "name": "Window Height",
+            "name": "global.settings.11.name",
             "key": "height",
-            "description": "Height of the window, needs a restart to apply changes.",
+            "description": "global.settings.11.description",
             "type": {
                 "type": "number",
                 "min": 480,
