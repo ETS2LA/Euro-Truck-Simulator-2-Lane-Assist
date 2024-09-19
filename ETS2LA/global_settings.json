@@ -67,6 +67,28 @@
             }
         },
         {
+            "name": "Window Width",
+            "key": "width",
+            "description": "Width of the window, needs a restart to apply changes.",
+            "type": {
+                "type": "number",
+                "min": 920,
+                "max": 2560,
+                "step": 10
+            }
+        },
+        {
+            "name": "Window Height",
+            "key": "height",
+            "description": "Height of the window, needs a restart to apply changes.",
+            "type": {
+                "type": "number",
+                "min": 480,
+                "max": 1440,
+                "step": 10
+            }
+        },
+        {
             "name": "global.settings.9.name",
             "description": "global.settings.9.description",
             "key": "frameless",

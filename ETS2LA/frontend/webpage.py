@@ -16,6 +16,8 @@ if os.name == 'nt':
 DEBUG_MODE = settings.Get("global", "debug_mode", False)
 FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
 FRAMELESS = settings.Get("global", "frameless", True)
+WIDTH = settings.Get("global", "width", 1280)
+HEIGHT = settings.Get("global", "height", 720)
 
 queue:JoinableQueue = JoinableQueue()
 
@@ -87,8 +89,8 @@ def start_webpage(queue: JoinableQueue):
         html=html, 
         x = window_x,
         y = window_y,
-        width=1280, 
-        height=720,
+        width=WIDTH, 
+        height=HEIGHT,
         background_color=get_theme(),
         resizable=True, 
         zoomable=True,
