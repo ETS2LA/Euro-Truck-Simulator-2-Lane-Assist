@@ -32,6 +32,7 @@ import { translate } from "@/pages/translation"
 import { GetSettingByKey, SetSettingByKey } from "@/pages/settingsServer"
 import { log } from "console"
 import { DiscordLogoIcon } from "@radix-ui/react-icons"
+import { CheckWindow } from "@/pages/backend"
 
 export function Authentication({ onLogin, ip } : { onLogin: (token:string) => void, ip: string }) {
 	const { theme, setTheme } = useTheme()
@@ -49,7 +50,14 @@ export function Authentication({ onLogin, ip } : { onLogin: (token:string) => vo
 			}
 		})
 		.then(response => response.json())
-		const loginWindow = window.open(loginURL, '_blank', 'width=800,height=600');
+		let discordOpen = await CheckWindow("Discord", ip)
+		console.log(discordOpen)
+		if(discordOpen) {
+			window.open(loginURL.replace("https://", "discord://"), '_self');
+			toast.info(translate("frontend.authentication.check_discord"))
+		} else{
+			window.open(loginURL, '_blank', 'width=800,height=600');
+		}
 		SetSettingByKey("global", "token", null, ip)
 		SetSettingByKey("global", "user_id", null, ip)
 		// Wait for the token to be set

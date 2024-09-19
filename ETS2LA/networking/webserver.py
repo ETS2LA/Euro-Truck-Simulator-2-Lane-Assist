@@ -1,5 +1,6 @@
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
 from ETS2LA.frontend.webpage import set_on_top, get_on_top
+from ETS2LA.utils.window import CheckIfWindowOpen
 from ETS2LA.utils.translator import Translate
 import ETS2LA.utils.translator as translator
 from ETS2LA.networking.data_models import *
@@ -49,6 +50,10 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"ETS2LA": "1.0.0"}
+
+@app.get("/api/window/exists/{name}")
+def check_window(name: str):
+    return CheckIfWindowOpen(name)
 
 @app.get("/auth/discord/login")
 def login(code):
