@@ -65,3 +65,18 @@ export async function ValidateUser() {
     }
     return false
 }
+
+export async function GetUserData() {
+    const credentials = await GetCredentials()
+    let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${credentials.token}`
+        },
+    })
+    if(response.ok) {
+        return response.json()
+    }
+    throw new Error(response.statusText)
+}
