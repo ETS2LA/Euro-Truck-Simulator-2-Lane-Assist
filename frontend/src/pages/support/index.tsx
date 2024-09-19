@@ -177,7 +177,6 @@ export default function Home() {
     const conversation_data = conversations[conversation_index];
     const scrollAreaRef = useRef<HTMLDivElement>(null); // Ref for the scroll area
 
-
     const handleKeyDown = (event: any) => {
         if (event.key === "Enter") {
             SendMessage(textbox_text);
@@ -186,6 +185,9 @@ export default function Home() {
 
     function ChangeConversation(index: number) {
         setConversationIndex(index);
+        if (scrollAreaRef.current) {
+            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+        }
     }
 
     function SendMessage(text: string) {
@@ -220,40 +222,37 @@ export default function Home() {
     function scrollToBottom() {
         if (scrollAreaRef.current) {
             let scrollHeight = scrollAreaRef.current.scrollHeight;
-            let clientHeight = scrollAreaRef.current.clientHeight + 10;
-            let difference = scrollHeight - clientHeight ;
+            let clientHeight = scrollAreaRef.current.clientHeight;
+            let difference = scrollHeight - clientHeight;
+            console.log("Scroll Height: " + scrollHeight + " Client Height: " + clientHeight + " Difference: " + difference);
     
             if (difference > 0) {
                 const scrollDown = () => {
                     let scrollTop = scrollAreaRef.current.scrollTop;
                     let remainingDistance = difference - scrollTop;
     
-                    // Exponentially increase speed based on remaining distance
-                    let speedFactor = Math.pow(remainingDistance / difference, 10); // Exponential factor
-                    let scrollStep = Math.max(1, Math.min(20, (1 - speedFactor) * 200)); // Increase the range and speed
-                    let interval = Math.max(5, speedFactor * 10); // Faster interval as distance decreases
+                    // Adjusted speed factor for smoother scroll
+                    let speedFactor = Math.pow(remainingDistance / difference, 5);
+                    let scrollStep = Math.max(1, Math.min(20, (1 - speedFactor) * 200));
+                    let interval = Math.max(5, speedFactor * 10);
     
-                    if (scrollTop < difference) {
+                    if (scrollTop < difference - 1) {
                         scrollAreaRef.current.scrollTop += scrollStep;
+                        console.log("Current Position: " + scrollAreaRef.current.scrollTop);
                         setTimeout(scrollDown, interval);
+                    } else {
+                        // Set scrollTop to scrollHeight - clientHeight for the exact bottom position
+                        scrollAreaRef.current.scrollTop = scrollHeight - clientHeight;
+                        console.log("Snapped to bottom at position: " + scrollAreaRef.current.scrollTop);
                     }
                 };
-
-                const scrollDownHard = () => {
-                    scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-                };
-
-                scrollDownHard();
-
-                //scrollDown(); // Start scrolling
-
-
-                return () => {
-                    // Cleanup, in case the effect is re-triggered
-                };
+    
+                scrollDown();
             }
         }
-    };
+    }
+    
+    
 
     return (
         <div className="flex flex-col w-full h-full overflow-auto rounded-t-md justify-center items-center">
