@@ -501,6 +501,7 @@ def InstallPlugins():
 InstallPlugins()    
 
 def CheckForONNXRuntimeChange():
+    global splash
     change = settings.GetSettings("SwitchLaneDetectionDevice", "switchTo")
     if change != None:
         if not splash or splash == None:
