@@ -20,7 +20,7 @@ def get_screen_dimensions(monitor=1):
 last_window_position_time = 0
 window_position = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))
 
-def check_valid_window_position(window_x, window_y):
+def check_valid_window_position(window_x, window_y, width=1280, height=720):
     with mss.mss() as sct:
         monitors = sct.monitors
     closest_screen_index = None
@@ -28,15 +28,15 @@ def check_valid_window_position(window_x, window_y):
     for i, monitor in enumerate(monitors[1:]):
         center_x = (monitor['left'] + monitor['left'] + monitor['width']) // 2
         center_y = (monitor['top'] + monitor['top'] + monitor['height']) // 2
-        distance = ((center_x - window_x - 1280//2) ** 2 + (center_y - window_y - 720//2) ** 2) ** 0.5
+        distance = ((center_x - window_x - width//2) ** 2 + (center_y - window_y - height//2) ** 2) ** 0.5
         if distance < closest_distance:
             closest_screen_index = i + 1
             closest_distance = distance
 
-    if get_screen_dimensions(closest_screen_index)[0] > window_x + 1280//2 or window_x + 1280//2 > get_screen_dimensions(closest_screen_index)[0] + get_screen_dimensions(closest_screen_index)[2]:
-        window_x = get_screen_dimensions(closest_screen_index)[0] + get_screen_dimensions(closest_screen_index)[2] - 1280 if window_x + 1280//2 > get_screen_dimensions(closest_screen_index)[0] + get_screen_dimensions(closest_screen_index)[2] else get_screen_dimensions(closest_screen_index)[0]
-    if get_screen_dimensions(closest_screen_index)[1] > window_y or window_y + 720//2 > get_screen_dimensions(closest_screen_index)[1] + get_screen_dimensions(closest_screen_index)[3]:
-        window_y = get_screen_dimensions(closest_screen_index)[1] + get_screen_dimensions(closest_screen_index)[3] - 720 if window_y + 720//2 > get_screen_dimensions(closest_screen_index)[1] + get_screen_dimensions(closest_screen_index)[3] else get_screen_dimensions(closest_screen_index)[1]
+    if get_screen_dimensions(closest_screen_index)[0] > window_x + width//2 or window_x + width//2 > get_screen_dimensions(closest_screen_index)[0] + get_screen_dimensions(closest_screen_index)[2]:
+        window_x = get_screen_dimensions(closest_screen_index)[0] + get_screen_dimensions(closest_screen_index)[2] - width if window_x + width//2 > get_screen_dimensions(closest_screen_index)[0] + get_screen_dimensions(closest_screen_index)[2] else get_screen_dimensions(closest_screen_index)[0]
+    if get_screen_dimensions(closest_screen_index)[1] > window_y or window_y + height//2 > get_screen_dimensions(closest_screen_index)[1] + get_screen_dimensions(closest_screen_index)[3]:
+        window_y = get_screen_dimensions(closest_screen_index)[1] + get_screen_dimensions(closest_screen_index)[3] - height if window_y + height//2 > get_screen_dimensions(closest_screen_index)[1] + get_screen_dimensions(closest_screen_index)[3] else get_screen_dimensions(closest_screen_index)[1]
 
     return window_x, window_y
 
