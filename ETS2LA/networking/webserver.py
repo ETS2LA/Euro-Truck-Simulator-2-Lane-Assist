@@ -19,6 +19,7 @@ import multiprocessing
 import traceback
 import threading
 import logging
+import requests
 import uvicorn
 import socket
 import json
@@ -48,6 +49,18 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"ETS2LA": "1.0.0"}
+
+@app.get("/auth/discord/login")
+def login(code):
+    try:
+        response = requests.get("https://api.ets2la.com/auth/discord/login", params={"code": code})
+        settings.Set("global", "user_id", response.json()["user_id"])
+        settings.Set("global", "token", response.json()["token"])
+        return response.json()["success"] + " - You can now close this window"
+    except:
+        exception = traceback.format_exc()
+        logging.error(exception)
+        return exception
 
 @app.get("/api/quit")
 def quitApp():

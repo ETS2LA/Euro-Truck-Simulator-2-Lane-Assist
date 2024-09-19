@@ -49,6 +49,8 @@ export const metadata: Metadata = {
 import { useState, useRef, useEffect } from 'react';
 import { Authentication } from '@/components/ets2la_authentication';
 import { toast } from 'sonner';
+import { SetSettingByKey } from './settingsServer';
+import { ValidateUser } from './account';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [inputValue, setInputValue] = useState("localhost");
@@ -74,7 +76,19 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     if (token) {
       setToken(token);
       SetToken(token);
-      toast.success("Welcome back!", {duration: 1000});
+      ValidateUser().then((valid) => {
+        if(valid){
+          console.log("Token is valid")
+          toast.success("Welcome back!", {duration: 1000});
+        }
+        else {
+          console.log("Token is invalid")
+          toast.error("Your token is invalid, please log in again", {duration: 1000});
+          localStorage.setItem('token', "");
+          setToken("");
+          SetToken("");
+        }
+      })
     }
   }, []);
 
@@ -85,6 +99,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       SetToken(token);
     }
   }, [token]);
+
+  // Try and validate the current token
 
   const handleIpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -181,7 +197,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               <Authentication onLogin={(gotToken) => {
                 SetToken(gotToken)
                 setToken(gotToken)
-                }} />
+                }} ip={ip} />
             </ContextMenuTrigger>
             <ContextMenuContent className="w-64">
               <ContextMenuItem onClick={router.back}>
@@ -222,6 +238,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           {
             !isInBasicMode ? <ETS2LAMenubar ip={ip} onLogout={() =>{
               toast.success(translate("frontend.logged_out"))
+              SetSettingByKey("global", "token", null, ip)
               localStorage.setItem('token', "");
               SetToken("") // Having two setTokens
               setToken("")

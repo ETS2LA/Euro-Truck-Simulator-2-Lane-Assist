@@ -60,13 +60,13 @@ def run():
             translator.CheckForLanguageUpdates()
             frameCounter = 0
         
-        if lastPingTime + 60 < time.time():
-            lastPingTime = time.time()
-            try:
-                cloud.Ping()
-            except:
-                logging.debug("Could not ping the server.")
-                pass
+        # if lastPingTime + 60 < time.time():
+        #     lastPingTime = time.time()
+        #     try:
+        #         cloud.Ping()
+        #     except:
+        #         logging.debug("Could not ping the server.")
+        #         pass
             
         frameCounter += 1
 

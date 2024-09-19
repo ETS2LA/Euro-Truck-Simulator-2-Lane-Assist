@@ -21,6 +21,7 @@ import {toast} from "sonner"
 import { ETS2LAImmediateServer } from "./ets2la_immediate_server"
 import { translate } from "@/pages/translation";
 import { useRouter as routerUseRouter } from 'next/router';
+import { DeleteUser } from "@/pages/account";
 
 export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout: () => void, isCollapsed?: boolean}) {
     const [dragging, setDragging] = useState(false);
@@ -157,6 +158,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                                 <>
                                     <MenubarItem onClick={() => onLogout()}>{translate("frontend.menubar.account.logout")}</MenubarItem>
                                     <MenubarItem>{translate("frontend.menubar.account.settings")}</MenubarItem>
+                                    <MenubarItem onClick={() => {DeleteUser(); onLogout()}}>Delete Account</MenubarItem>
                                 </>
                                 || 
                                 <MenubarItem onClick={() => push("/")}>{translate("frontend.menubar.enter_normal_mode")}</MenubarItem>
