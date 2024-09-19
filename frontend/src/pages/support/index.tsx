@@ -1,10 +1,9 @@
 import { Textarea } from '@/components/ui/textarea';
 import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from '@/components/ui/resizable';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { Forward } from 'lucide-react';
+import { Forward, Reply} from 'lucide-react';
 import { toast, Toaster} from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -31,7 +30,6 @@ class Message {
   }
 }
 
-
 class ConversationEvent {
     id: number;
     event: "create" | "join" | "tag_add" | "tag_remove" | "change_name" | "leave" | "fixing" | "closed" | "reopened";
@@ -57,6 +55,7 @@ class ConversationEvent {
         this.text = this.eventTextGenerators[event]?.() ?? `Unknown event was triggered with: ${JSON.stringify(data)}`;
     }
 }
+
 class Conversation {
     name: string;
     id: number;
@@ -100,7 +99,7 @@ const conv2_messages = [
   new ConversationEvent(9, 'closed', ['You']),
 ];
 
-const ChatMessage = ({ message_index, messages }: { message_index: number, messages: Message[] }) => {
+const ChatMessage = ({ message_index, messages, reply_func }: { message_index: number, messages: Message[], reply_func: (message: string) => void}) => {
     const message = messages[message_index];
     const isRight = message.side === 'right';
     const nextMessage = messages[message_index + 1];
@@ -111,7 +110,7 @@ const ChatMessage = ({ message_index, messages }: { message_index: number, messa
         isRight ? 'justify-end' : 'justify-start'
     } font-customSans text-sm ${isSameSideNext ? 'pb-2' : 'pb-4'}`;
 
-    const messageContentClass = `p-3 rounded-lg ${
+    const messageContentClass = `p-3 rounded-lg relative group ${
         isRight ? !isSameSideNext ? 'rounded-br-none' : "" : !isSameSideNext ? 'rounded-bl-none' : ""
     } bg-gray-200 text-black dark:bg-[#303030] dark:text-foreground`;
 
@@ -123,6 +122,10 @@ const ChatMessage = ({ message_index, messages }: { message_index: number, messa
                 }`}
             >
                 <div className={messageContentClass + " flex flex-col gap-1"}>
+                    <Button className={`absolute top-1 ${isRight ? 'left-1' : 'right-1'} hidden group-hover:block text-xs p-1 rounded-full`} onClick={() => reply_func(message.text)}>
+                        <Reply />
+                    </Button>
+
                     {message.reference && (
                         <div className={`p-2 border-l-4 border-gray-400 dark:border-gray-600`}>
                             {/* Display the referenced message text */}
@@ -143,6 +146,7 @@ const ChatMessage = ({ message_index, messages }: { message_index: number, messa
         </div>
     );
 };
+
 
 const ChatEvent = ({ event } : { event: ConversationEvent }) => {
     return (
@@ -174,6 +178,7 @@ export default function Home() {
     ]);
     const [conversation_index, setConversationIndex] = useState(0);
     const [textbox_text, setTextboxText] = useState('');
+    const [replying, setReplying] = useState(false);
     const conversation_data = conversations[conversation_index];
     const scrollAreaRef = useRef<HTMLDivElement>(null); // Ref for the scroll area
 
@@ -206,10 +211,11 @@ export default function Home() {
         const updatedConversations = [...conversations];
         updatedConversations[conversation_index] = updatedConversation;
 
-        // Update the state
+        // Update states
         scrollToBottom()
         setConversations(updatedConversations);
         const conversation_data = conversations[conversation_index];
+        setReplying(false);
         setTextboxText(''); // Clear the textbox
     }
 
@@ -217,6 +223,11 @@ export default function Home() {
         const new_conversation = new Conversation('New Conversation', conversations.length + 1, ['You', 'Developer'], [], ["New"]);
         setConversations([...conversations, new_conversation]);
         setConversationIndex(conversations.length);
+    }
+
+    function Reply(message_index : number, reply_index : number) {
+        setReplying(true);
+        conversations[conversation_index].messages[message_index].reference = reply_index;
     }
 
     function scrollToBottom() {
@@ -299,7 +310,7 @@ export default function Home() {
                                 <br />
                                 {conversation_data.messages.map((message, index) => {
                                     if (message instanceof Message) {
-                                        return <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} />;
+                                        return <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} reply_func={Reply} />;
                                     } else if (message instanceof ConversationEvent) {
                                         return <ChatEvent key={message.id} event={message} />;
                                     }
