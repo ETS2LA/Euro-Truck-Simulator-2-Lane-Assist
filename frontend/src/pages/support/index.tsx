@@ -1,12 +1,12 @@
 import { Textarea } from '@/components/ui/textarea';
 import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from '@/components/ui/resizable';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Forward, Reply} from 'lucide-react';
 import { toast, Toaster} from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
 
 class Message {
   id: number;
@@ -37,7 +37,7 @@ class ConversationEvent {
     text: string | null;
 
     private eventTextGenerators: Record<string, () => string> = {
-        "create": () => `${this.data[0]} created the conversation with tag(s): ${this.data[1]}`,
+        "create": () => `${this.data[0]} started a new conversation`,
         "join": () => `${this.data[0]} joined the conversation`,
         "tag_add": () => `${this.data[0]} added the following tag(s): ${this.data[1]}`,
         "tag_remove": () => `${this.data[0]} removed the following tag(s): ${this.data[1]}`,
@@ -106,9 +106,9 @@ const ChatMessage = ({ message_index, messages, reply_func }: { message_index: n
     const isSameSideNext = nextMessage?.side === message.side;
 
     // Remove bottom padding if there's a next message on the same side
-    const messageContainerClass = `flex ${
+    const messageContainerClass = `flex gap-1 ${
         isRight ? 'justify-end' : 'justify-start'
-    } font-customSans text-sm ${isSameSideNext ? 'pb-2' : 'pb-4'}`;
+    } font-customSans text-sm ${isSameSideNext ? 'pb-2' : 'pb-4'} group`;
 
     const messageContentClass = `p-3 rounded-lg relative group ${
         isRight ? !isSameSideNext ? 'rounded-br-none' : "" : !isSameSideNext ? 'rounded-bl-none' : ""
@@ -117,24 +117,32 @@ const ChatMessage = ({ message_index, messages, reply_func }: { message_index: n
     return (
         <div className={messageContainerClass}>
             <div
-                className={`flex-col gap-1 flex max-w-96 ${
+                className={`flex-col gap-1 flex ${
                     isRight ? 'items-end' : 'items-start'
                 }`}
             >
-                <div className={messageContentClass + " flex flex-col gap-1"}>
-                    <Button className={`absolute top-1 ${isRight ? 'left-1' : 'right-1'} hidden group-hover:block text-xs p-1 rounded-full`} onClick={() => reply_func(message.text)}>
-                        <Reply />
-                    </Button>
-
-                    {message.reference && (
-                        <div className={`p-2 border-l-4 border-gray-400 dark:border-gray-600`}>
-                            {/* Display the referenced message text */}
-                            <p className="text-xs text-gray-600 dark:text-gray-300">
-                                {messages.find((msg) => msg.id === message.reference)?.text}
-                            </p>
-                        </div>
+                <div className='flex gap-1'>
+                    {message.side === 'right' && (
+                        <Button className={`hidden group-hover:block text-xs h-full p-1 rounded-md bg-transparent border-none`} variant={"secondary"} onClick={() => reply_func(message.text)}>
+                            <Reply className='w-4 h-4' />
+                        </Button>   
                     )}
-                    <p>{message.text}</p>
+                    <div className={messageContentClass + " flex flex-col gap-1 max-w-96"}>
+                        {message.reference && (
+                            <div className={`p-2 border-l-4 border-gray-400 dark:border-gray-600`}>
+                                {/* Display the referenced message text */}
+                                <p className="text-xs text-gray-600 dark:text-gray-300">
+                                    {messages.find((msg) => msg.id === message.reference)?.text}
+                                </p>
+                            </div>
+                        )}
+                        <p>{message.text}</p>
+                    </div>
+                    {message.side === 'left' && (
+                        <Button className={`hidden group-hover:block text-xs h-full p-1 rounded-md bg-transparent border-none`} variant={"outline"} onClick={() => reply_func(message.text)}>
+                            <Reply className='w-4 h-4' />
+                        </Button>   
+                    )}
                 </div>
                 {/* Hide the username if there's a next message from the same side */}
                 {!isSameSideNext && (
@@ -162,6 +170,7 @@ const ChatEvent = ({ event } : { event: ConversationEvent }) => {
                         padding: '0 10px',
                         whiteSpace: 'nowrap', // Prevent text wrapping
                     }}
+                    className='text-xs text-muted-foreground'
                 >
                     {event.text}
                 </span>
@@ -267,11 +276,11 @@ export default function Home() {
 
     return (
         <div className="flex flex-col w-full h-full overflow-auto rounded-t-md justify-center items-center">
-            <div className="absolute bottom-0 left-[212px] top-[50px] w-12 bg-gradient-to-l from-background pointer-events-none" />
             <ResizablePanelGroup direction="horizontal" className="">
                 {/* Left panel content */}
                 <ResizablePanel defaultSize={20}>
-                    <div className="flex flex-col h-full w-full space-y-3 overflow-y-auto overflow-x-hidden max-h-full">
+                    <div className="flex flex-col h-full w-full space-y-3 overflow-y-auto overflow-x-hidden max-h-full relative">
+                        <div className="absolute bottom-0 right-[0px] top-[0px] w-12 bg-gradient-to-l from-background pointer-events-none" />
                         <div className="flex flex-col gap-2">
                             <TooltipProvider>
                                 <Button variant="secondary" className="items-center justify-start text-sm w-full rounded-r-none" onClick={HandleNewConversation}>
@@ -304,10 +313,10 @@ export default function Home() {
                 <ResizablePanel defaultSize={80}>
                     <div className="w-full pb-2 h-full flex flex-col justify-between relative">
                         {/* Top gradient */}
-                        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background to-transparent pointer-events-none z-50"></div>
+                        <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-background to-transparent pointer-events-none z-50"></div>
                         <div ref={scrollAreaRef} className="flex flex-col gap-1 relative z-0 overflow-y-auto custom-scrollbar">
-                            <div className="flex flex-col gap-1 p-2">
-                                <br />
+                            <div className="flex flex-col gap-1 p-2 relative">
+                                <p className='h-4'> </p>
                                 {conversation_data.messages.map((message, index) => {
                                     if (message instanceof Message) {
                                         return <ChatMessage key={message.id} message_index={index} messages={conversation_data.messages} reply_func={Reply} />;
@@ -316,6 +325,7 @@ export default function Home() {
                                     }
                                     return null;
                                 })}
+                                <p className='h-4'> </p>
                             </div>
                         </div>
 
@@ -330,6 +340,9 @@ export default function Home() {
                             />
                             <Button className="w-1/12 h-15 mr-4 ml-2" onClick={() => SendMessage(textbox_text)}><Forward className='w-6 h-6' /></Button>
                         </div>
+
+                        {/* Bottom gradient */}
+                        <div className="absolute bottom-[68px] left-0 w-full h-12 bg-gradient-to-t from-background to-transparent pointer-events-none z-50"></div>
                     </div>
                 </ResizablePanel>
             </ResizablePanelGroup>
