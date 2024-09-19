@@ -292,9 +292,9 @@
     "global.settings.9.name": "Frameless",
     "global.settings.9.description": "Whether to use a frameless window for the app. Needs a full restart to apply changes! Will fix problems with moving the app window around. Also enables scaling.",
     "global.settings.10.name": "Window Width",
-    "global.settings.10.description": "Width of the window, needs a restart to apply changes.",
+    "global.settings.10.description": "Width of the window.",
     "global.settings.11.name": "Window Height",
-    "global.settings.11.description": "Height of the window, needs a restart to apply changes.",
+    "global.settings.11.description": "Height of the window.",
 
     "map.settings.1.title": "Map Settings",
     "map.settings.1.description": "These settings are for the map plugin.",
