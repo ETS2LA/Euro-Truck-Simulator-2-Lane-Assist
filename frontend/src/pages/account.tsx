@@ -75,8 +75,10 @@ export async function GetUserData() {
             'Authorization': `Bearer ${credentials.token}`
         },
     })
-    if(response.ok) {
-        return response.json()
+    if (response.ok) {
+        const data = await response.json()
+        console.log(data["data"])
+        return data["data"]
     }
     throw new Error(response.statusText)
 }
