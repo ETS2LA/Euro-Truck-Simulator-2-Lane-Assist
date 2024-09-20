@@ -1,8 +1,8 @@
+import logging
+import random
+import time
 import json
 import os
-import logging
-import time
-import random
 
 def GetFilename(plugin):
     if "/" in plugin or "\\" in plugin:
