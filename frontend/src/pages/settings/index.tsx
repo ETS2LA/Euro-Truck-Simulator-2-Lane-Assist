@@ -61,7 +61,8 @@ export default function Home({ ip }: { ip: string }) {
                     <ResizablePanelGroup direction="horizontal" className="text-center gap-4 pr-4 h-full">
                         <ResizablePanel defaultSize={20}>
                             <ScrollArea className="h-full pt-4" type="hover">
-                                <div className="flex flex-col gap-2 text-start">
+                                <div className="flex flex-col gap-2 text-start relative">
+                                    <div className="absolute bottom-0 right-0 h-full w-12 bg-gradient-to-l from-background pointer-events-none" />
                                     <Button key={"Global"} className="items-center justify-start text-sm rounded-r-none" variant={selectedPlugin == "Global" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Global")}>
                                         {translate("frontend.settings.global")}
                                     </Button>
@@ -107,7 +108,6 @@ export default function Home({ ip }: { ip: string }) {
                     </ResizablePanelGroup>
                 </TooltipProvider>
                 <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background pointer-events-none" />
-                <div className="absolute bottom-0 left-[210px] top-[150px] w-12 bg-gradient-to-l from-background pointer-events-none" />
             </div>
         </div>
     )
