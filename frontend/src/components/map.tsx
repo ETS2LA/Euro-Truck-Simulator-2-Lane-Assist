@@ -210,10 +210,10 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     
     useEffect(() => {
         if (speed*3.6 > 5) {
-            // From 0 tilt at 10kph to 50 tilt at 80kph
-            setTilt((speed*3.6 - 5) / 80 * 50);
+            // From 0 tilt at 10kph to 55 tilt at 80kph
+            setTilt(Math.min((speed*3.6 - 5) / 80 * 55, 55));
             // From -90 offset at 10kph to -60 offset at 80kph
-            setyOffset((speed*3.6 - 5) / 60 * 10 - 90);
+            setyOffset(Math.min((speed*3.6 - 5) / 60 * 10 - 90, -60));
         }
         else {
             setyOffset(-90);
