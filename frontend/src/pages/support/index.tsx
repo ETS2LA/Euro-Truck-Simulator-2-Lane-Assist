@@ -1,12 +1,18 @@
-import { Textarea } from '@/components/ui/textarea';
+// UI
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from '@/components/ui/resizable';
 import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
-import { Forward, Reply} from 'lucide-react';
-import { toast, Toaster} from 'sonner';
-import { useState, useEffect, useRef } from 'react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+
+// Backend
+import { GetUserData } from '../account';
+
+// Others
+import { useState, useEffect, useRef } from 'react';
+import { Forward, Reply } from 'lucide-react';
+import { toast, Toaster } from 'sonner';
 
 class Message {
   id: number;
@@ -39,8 +45,8 @@ class ConversationEvent {
     private eventTextGenerators: Record<string, () => string> = {
         "create": () => `${this.data[0]} started a new conversation`,
         "join": () => `${this.data[0]} joined the conversation`,
-        "tag_add": () => `${this.data[0]} added the following tag(s): ${this.data[1]}`,
-        "tag_remove": () => `${this.data[0]} removed the following tag(s): ${this.data[1]}`,
+        "tag_add": () => `${this.data[0]} added tag(s): ${this.data[1]}`,
+        "tag_remove": () => `${this.data[0]} removed tag(s): ${this.data[1]}`,
         "change_name": () => `${this.data[0]} changed the conversation name to ${this.data[1]}`,
         "fixing": () => `${this.data[0]} is fixing the issue`,
         "leave": () => `${this.data[0]} left the conversation`,
@@ -71,33 +77,40 @@ class Conversation {
     }
 }
 
-const conv1_messages = [
-  new ConversationEvent(1, 'create', ['You', ['Bug']]),
-  new ConversationEvent(2, 'join', ['Developer']),
-  new Message(3, 'Developer', 'Hello! How can I help you?', 'left'),
-  new Message(4, 'You', "Hi! The steering won't work in ETS2LA.", 'right'),
-  new Message(5, 'Developer', 'Did you do the First Time Setup?', 'left'),
-  new Message(6, 'You', 'No, let me try that out.', 'right'),
-  new Message(7, 'You', 'I did it now', 'right', 3),
-  new Message(8, 'Developer', 'And is it working now?', 'left', 6),
-  new Message(9, 'You', "Yes, it's working now", 'right'),
-  new Message(10, 'Developer', 'Ok good!', 'left'),
-  new Message(11, 'Developer', 'Have a nice day!', 'left'),
-  new Message(12, 'You', 'Goodbye!', 'right'),
-  new ConversationEvent(13, 'closed', ['You']),
-];
+function GetConversations(username: string) {
+    const conv1_messages = [
+        new ConversationEvent(1, 'create', [username, ['Bug']]),
+        new ConversationEvent(2, 'join', [username]),
+        new Message(3, 'Developer', 'Hello! How can I help you?', 'left'),
+        new Message(4, username, "Hi! The steering won't work in ETS2LA.", 'right'),
+        new Message(5, 'Developer', 'Did you do the First Time Setup?', 'left'),
+        new Message(6, username, 'No, let me try that out.', 'right'),
+        new Message(7, username, 'I did it now', 'right', 3),
+        new Message(8, 'Developer', 'And is it working now?', 'left', 6),
+        new Message(9, username, "Yes, it's working now", 'right'),
+        new Message(10, 'Developer', 'Ok good!', 'left'),
+        new Message(11, 'Developer', 'Have a nice day!', 'left'),
+        new Message(12, username, 'Goodbye!', 'right'),
+        new ConversationEvent(13, 'closed', [username]),
+    ];
+      
+    const conv2_messages = [
+        new ConversationEvent(1, 'create', [username, ['Feature']]),
+        new Message(2, username, 'Hello! I would like to suggest you a feature. Would it be possible to make a button that would allow us to upload images to this support chat?', 'right'),
+        new Message(3, 'Developer', 'Great suggestion!', 'left'),
+        new Message(4, 'Developer', "I'll get to work on adding this.", 'left'),
+        new ConversationEvent(5, 'fixing', ['Developer']),
+        new Message(6, username, 'Ok. Thank you.', 'right'),
+        new Message(7, 'Developer', 'This has been added.', 'left'),
+        new Message(8, username, 'Nice!', 'right'),
+        new ConversationEvent(9, 'closed', [username]),
+    ];
 
-const conv2_messages = [
-  new ConversationEvent(1, 'create', ['You', ['Feature']]),
-  new Message(2, 'You', 'Hello! I would like to suggest you a feature. Would it be possible to make a button that would allow us to upload images to this support chat?', 'right'),
-  new Message(3, 'Developer', 'Great suggestion!', 'left'),
-  new Message(4, 'Developer', "I'll get to work on adding this.", 'left'),
-  new ConversationEvent(5, 'fixing', ['Developer']),
-  new Message(6, 'You', 'Ok. Thank you.', 'right'),
-  new Message(7, 'Developer', 'This has been added.', 'left'),
-  new Message(8, 'You', 'Nice!', 'right'),
-  new ConversationEvent(9, 'closed', ['You']),
-];
+    return [
+        ["Broken Steering", conv1_messages, ["Bugs", "Closed"]],
+        ["Uploading Images", conv2_messages, ["Feedback", "Open"]]
+    ];
+}
 
 const ChatMessage = ({ message_index, messages, reply_func }: { message_index: number, messages: Message[], reply_func: (message: string) => void}) => {
     const message = messages[message_index];
@@ -181,10 +194,27 @@ const ChatEvent = ({ event } : { event: ConversationEvent }) => {
 
 
 export default function Home() {
-    const [conversations, setConversations] = useState<Conversation[]>([
-        new Conversation('Broken Steering', 1, ['You', 'Developer'], conv1_messages, ["Bugs", "Closed"]),
-        new Conversation('Uploading Images', 2, ['You', 'Developer'], conv2_messages, ["Feedback", "Open"]),
-    ]);
+    const [username, setUsername] = useState("You");
+    const [conversations, setConversations] = useState([] as Conversation[]);
+
+    useEffect(() => {
+        async function fetchUserData() {
+            const userData = await GetUserData();
+            setUsername(userData["username"] ?? "You");
+        }
+        fetchUserData();
+    }, []);
+
+    useEffect(() => {
+        if (username) {
+            const fetchedConversations = GetConversations(username).map((conv, index) => {
+                const [title, messages, tags] = conv;
+                return new Conversation(title, index, [username, 'Developer'], messages, tags);
+            });
+            setConversations(fetchedConversations);
+        }
+    }, [username]);
+
     const [conversation_index, setConversationIndex] = useState(0);
     const [textbox_text, setTextboxText] = useState('');
     const [replying, setReplying] = useState(false);
@@ -208,7 +238,7 @@ export default function Home() {
         if (text.trim() === '') {toast.error('Message cannot be empty!'); return} // Prevent sending empty messages
 
         // Create a new array for messages
-        const updatedMessages = [...conversations[conversation_index].messages, new Message(conversations[conversation_index].messages.length + 1, 'You', text, 'right')];
+        const updatedMessages = [...conversations[conversation_index].messages, new Message(conversations[conversation_index].messages.length + 1, username, text, 'right')];
 
         // Update the conversation
         const updatedConversation = {
@@ -229,7 +259,7 @@ export default function Home() {
     }
 
     function HandleNewConversation() {
-        const new_conversation = new Conversation('New Conversation', conversations.length + 1, ['You', 'Developer'], [], ["New"]);
+        const new_conversation = new Conversation('New Conversation', conversations.length + 1, [username, 'Developer'], [], ["New"]);
         setConversations([...conversations, new_conversation]);
         setConversationIndex(conversations.length);
     }

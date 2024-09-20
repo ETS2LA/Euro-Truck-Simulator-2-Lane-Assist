@@ -56,39 +56,3 @@ def SendCrashReport(type:str, message:str, additional=None):
     else:
         print("Crash detected, but crash reporting is disabled.")
         return False
-
-def GetMotd():
-    """Get the message of the day from the main application server. This will be shown to the user when the app is opened.
-
-    Returns:
-        str: Message of the day
-    """
-    
-    try:
-        url = 'https://crash.tumppi066.fi/motd'
-        response = json.loads(requests.get(url, timeout=1).text)
-        return response["motd"]
-    except:
-        return "Could not get server message."
-    
-def GetUserCount():
-    """Get the amount of users using the app. This will be shown to the user when the app is opened.
-
-    Returns:
-        str: User count
-    """
-    
-    try:
-        url = 'https://crash.tumppi066.fi/usercount'
-        response = json.loads(requests.get(url, timeout=1).text)
-        return response["usercount"]
-    except:
-        return "Could not get user count."
-    
-def Ping():
-    """Will send a ping to the server, doesn't send any data."""
-    try:
-        url = 'https://crash.tumppi066.fi/ping'
-        requests.get(url, timeout=1)
-    except:
-        pass

@@ -16,6 +16,13 @@ export async function GetVersion(ip="localhost") {
     const data = await response.json()
 }
 
+export async function CheckWindow(window:string, ip="localhost") {
+    console.log("Checking window")
+    const response = await fetch("http://" + ip + ":37520/api/window/exists/" + window)
+    const data = await response.json()
+    return data
+}
+
 export async function CheckForUpdate(ip="localhost") {
     console.log("Checking for update")
     const response = await fetch("http://" + ip + ":37520/api/check/updates")
