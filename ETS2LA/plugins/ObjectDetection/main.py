@@ -55,10 +55,11 @@ TRACK_SPEED: list = \
 model_download_html = \
     f"""
     <div>
-        <h1 style="font-size: 1.5rem; line-height: 1.75rem;">Object Detection - Model Download</h1>
+        <h1 style="font-size: 1rem; line-height: 1.25rem;">Object Detection - Model Download</h1>
         <div style="margin-top: 18px; font-size: 1rem; line-height: 0.75rem;">
             <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.not_found.1")}</p></p>
-            <p style="color: rgb(82 82 91); margin-bottom: 12px;">{MODEL_NAME}</p>
+            <p style="color: rgb(82 82 91); margin-bottom: 12px;">- {MODEL_NAME}</p>
+            <br />
             <p style="color: rgb(82 82 91); margin-bottom: 6px;">{Translate("object_detection.not_found.2")} </p><a style="text-decoration-line: underline;" href="{MODEL_REPO}">Hugging Face</a></p>
         </div>
     </div>
@@ -67,7 +68,7 @@ model_download_html = \
 connection_failed_html = \
     f"""
     <div>
-        <h1 style="font-size: 1.5rem; line-height: 1.75rem;">Object Detection - Connection Failed</h1>
+        <h1 style="font-size: 1rem; line-height: 1.25rem;">Object Detection - Connection Failed</h1>
         <div style="margin-top: 18px; font-size: 1rem; line-height: 0.75rem;">
             <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.connection_failed.1")}</p>
             <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.connection_failed.2")}</p>

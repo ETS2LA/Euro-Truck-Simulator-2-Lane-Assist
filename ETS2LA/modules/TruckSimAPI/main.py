@@ -9,6 +9,29 @@ lastX = 0
 lastY = 0
 isConnected = False
 
+eventCallbacks = {
+    "jobEnded": [],
+    "jobStarted": []
+}
+
+def listen(event, callback):
+    if event in eventCallbacks:
+        eventCallbacks[event].append(callback)
+        
+wasOnJob = False
+def _checkEvents(data):
+    global wasOnJob
+    
+    if data["specialBool"]["onJob"] == True and wasOnJob == False:
+        for callback in eventCallbacks["jobStarted"]:
+            callback(data)
+        wasOnJob = True
+    elif data["specialBool"]["onJob"] == False and wasOnJob == True:
+        for callback in eventCallbacks["jobEnded"]:
+            callback(data)
+        wasOnJob = False
+    
+
 def run(Fallback=True):
     global API
     global lastX
@@ -26,6 +49,8 @@ def run(Fallback=True):
             return "not connected"
         else:
             data = VIRTUAL_API.update(trailerData=TRAILER)
+
+    _checkEvents(data)
 
     return data 
 
