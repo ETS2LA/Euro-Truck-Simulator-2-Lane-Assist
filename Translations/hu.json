@@ -17,6 +17,8 @@
     "set": "Beállít",
     "setting": "Beállítás...",
     "unknown": "Ismeretlen",
+    "download": "Letöltve",
+    "downloading": "{0} Letöltése...",
 
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
 
@@ -289,7 +291,11 @@
     "global.settings.8.description": "Az alkalmazás nyelve. A változtatások alkalmazásához újra kell indítani az alkalmazást!",
     "global.settings.9.name": "Keret nélkül",
     "global.settings.9.description": "Keret nélküli ablak használata az alkalmazáshoz. Újra kell indítani az alkalmazást! Megoldja az alkalmazás ablakának mozgatásával kapcsolatos problémákat. Lehetővé teszi a méretezést is.",
-
+    "global.settings.10.name": "Ablak szélesség",
+    "global.settings.10.description": "Meghatározza az ablak szélességét.",
+    "global.settings.11.name": "Ablak magasság",
+    "global.settings.11.description": "Meghatározza az ablak magasságát.",
+    
     "map.settings.1.title": "Térképi Beállítások",
     "map.settings.1.description": "Ezek a beállítások a térkép pluginra vonatkoznak.",
     "map.settings.2.name": "Kormányzás Számítása",
@@ -331,6 +337,7 @@
     "acc.settings.2.description": "Hány másodpercre az ellöttünk lévőre legyünk.",
     "acc.settings.3.name": "Sebesség Eltérés",
     "acc.settings.3.description": "Ennyi százalékkal vezessen a megengedett sebességhatár felett.",
+
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 
     "map.json_not_found": "Nem található JSON file GameData mappában, kérlek csomagold ki a GameData.zip file-t.",
@@ -344,6 +351,17 @@
     "map.visualisation.roads.text": "Utak: {0}, Csempék: {1}, Betöltés: {2}",
     "map.visualisation.prefabs.prefabs": "Előre fabrikáltt objektumok: {0}, Csempék: {1}",
     "map.visualisation.prefabs.curves": "Kanyarok/Görbék: {0}",
-    "map.extracting_data": "Kibontás allat van a GameData.zip kérünk várj..."
-
+    "map.extracting_data": "Kibontás allat van a GameData.zip kérünk várj...",
+    
+    "object_detection.loading_model": "Betöltjük az Objektum detektáló Modeljét...",
+    "object_detection.not_found.1": "Az alább látható szükséges model még nem töltödöt le.",
+    "object_detection.not_found.2": "Kattints a gombra az alábbi model letöltéséhez.",
+    "object_detection.connection_failed.1": "Nem sikerült elérni a Hugging Face szervereket.",
+    "object_detection.connection_failed.2": "Kérjük ellenőrize internet kapcsolatát.",
+    "object_detection.connection_failed.3": "JEGYZET: Országok mint kína a szerver le lehet blokkolva.",
+    "object_detection.connection_failed.4": "Ebben az esetben kérdezd meg a Discord-ot segítségért.",
+    "object_detection.screen_capture_profile": "Obijektum felismerő megjelenítési profilja: {0}",
+    "object_detection.loaded_model": "Az Obijektum felismerő betöltött a {0}",
+    "object_detection.tracking_failed": "{0} Követése sikertelen, {1} Ennyi konfidenciával.",
+    "object_detection.processing_error": "Hiba jármű adat feldolgozása közben."
 }
