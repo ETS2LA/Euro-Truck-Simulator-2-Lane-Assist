@@ -56,7 +56,7 @@ export default function Basic({ip} : {ip: string}) {
                     onExpand={() => setCollapsed(false)}
                 >
                     <div className="bg-[#1b1b1b] h-full">
-                        <div className="h-full z-[-9999] bg-[#1b1b1b]" style={{transform: "rotateX(0) translate(0px,0px)"}}>
+                        <div className="h-full z-[-9999] bg-[#1b1b1b]" style={{perspective: "1200px"}}>
                             <ETS2LAMap ip={ip} />
                         </div>
                     </div>
