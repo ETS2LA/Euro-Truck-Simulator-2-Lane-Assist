@@ -77,7 +77,6 @@ export async function GetUserData() {
     })
     if (response.ok) {
         const data = await response.json()
-        console.log(data["data"])
         return data["data"]
     }
     throw new Error(response.statusText)
