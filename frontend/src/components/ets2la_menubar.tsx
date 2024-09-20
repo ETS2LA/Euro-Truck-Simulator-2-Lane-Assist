@@ -158,7 +158,7 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
                                 <>
                                     <MenubarItem onClick={() => onLogout()}>{translate("frontend.menubar.account.logout")}</MenubarItem>
                                     <MenubarItem>{translate("frontend.menubar.account.settings")}</MenubarItem>
-                                    <MenubarItem onClick={() => {DeleteUser(); onLogout()}}>Delete Account</MenubarItem>
+                                    <MenubarItem onClick={() => {DeleteUser(); onLogout()}}>{translate("frontend.menubar.account.delete")}</MenubarItem>
                                 </>
                                 || 
                                 <MenubarItem onClick={() => push("/")}>{translate("frontend.menubar.enter_normal_mode")}</MenubarItem>

@@ -64,7 +64,7 @@ export function Authentication({ onLogin, ip } : { onLogin: (token:string) => vo
 		const interval = setInterval(async () => {
 			const token = await GetSettingByKey("global", "token", ip)
 			if (token) {
-				toast.success(translate("frontend.authentication.login_success"))
+				toast.success(translate("frontend.authentication.logged_in"))
 				clearInterval(interval)
 				onLogin(token)
 			}
@@ -87,23 +87,23 @@ export function Authentication({ onLogin, ip } : { onLogin: (token:string) => vo
 				<div className="grid gap-4">
 					<Button onClick={handleDiscordLogin} variant={"outline"} className="flex gap-2 transition-all items-center content-center">
 						<DiscordIcon />
-						Login using Discord
+						{translate("frontend.authentication.login_with_discord")}
 					</Button>
 					<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
 						{translate("frontend.authentication.use_guest")}
 					</Button>
 				</div>
 				<p className="text-xs text-muted-foreground">
-					ETS2LA only stores your encrypted Discord ID and username. You can find our privacy policy here: (TODO)
+					{translate("frontend.authentication.login_info")} <a href="https://ets2la.github.io/documentation/privacy-policy/" target="_blank" className="text-accent-foreground">ets2la.com</a>
 				</p>
 				<p className="text-xs text-muted-foreground">
-					Registering is not mandatory to use all local features of ETS2LA, but it will grant you access to a wider range of cloud based features, see here: (TODO)
+					{translate("frontend.authentication.register_info")} <a className="text-accent-foreground">(TODO)</a>
 				</p>
 			</div>
 		</div>
 		<div className="hidden rounded-xl h-full lg:flex w-full">
 			<Image
-				src={theme === "dark" ? darkPromo : lightPromo}
+				src={theme === "light" ? lightPromo : darkPromo}
 				alt="ETS2LA Promo"
 				className="rounded-xl h-full object-left object-cover animate-in fade-in-5 duration-500"
 			/>

@@ -26,6 +26,8 @@
     "frontend.command.error_disabling_plugin": "{0} is the plugin name\nExample: 'Error disabling NavigationDetection'",
     "frontend.command.enable_plugin": "{0} is the plugin name\nExample: 'Enable NavigationDetection'",
     "frontend.command.disable_plugin": "{0} is the plugin name\nExample: 'Disable NavigationDetection'",
+    "frontend.authentication.register_info": "After this text will be a link to the ETS2LA cloud page. That is why the english translation has : at the end.",
+    "frontend.authentication.login_info": "After this text will be a link to the policy page. That is why the english translation has : at the end.",
     "frontend.authentication.uppercase": "This is the requirement for a password to have at least one uppercase character",
     "frontend.authentication.lowercase": "This is the requirement for a password to have at least one lowercase character",
     "frontend.authentication.characters": "{0} is the current character count\nExample: 'Characters [4/8]'",
