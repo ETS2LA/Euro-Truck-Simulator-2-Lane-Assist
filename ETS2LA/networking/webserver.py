@@ -12,8 +12,8 @@ import ETS2LA.variables as variables
 import ETS2LA.utils.git as git
 
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
-from fastapi import Body
+from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Body
 from typing import Union
 from typing import Any
 import multiprocessing
@@ -55,13 +55,13 @@ def read_root():
 def check_window(name: str):
     return CheckIfWindowOpen(name)
 
-@app.get("/auth/discord/login")
+@app.get("/auth/discord/login", response_class=HTMLResponse)
 def login(code):
     try:
         response = requests.get("https://api.ets2la.com/auth/discord/login", params={"code": code})
         settings.Set("global", "user_id", response.json()["user_id"])
         settings.Set("global", "token", response.json()["token"])
-        return response.json()["success"] + " - You can now close this window"
+        return HTMLResponse(content=open("ETS2LA/networking/auth_complete.html").read().replace("response_code", response.json()["success"]), status_code=200)
     except:
         exception = traceback.format_exc()
         logging.error(exception)

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading Bar</title>
+    <style>
+        body {
+            font-size: 16px;
+            font-family: sans-serif;
+            color: #333;
+            background-color: #09090b;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        @keyframes spinner {
+            to {transform: rotate(360deg);}
+        }
+        .spinner:before {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin-top: 20px;
+            margin-left: 0px;
+            border-radius: 50%;
+            border-top: 2px solid #333;
+            border-right: 2px solid transparent;
+            animation: spinner .6s linear infinite;
+        }
+        #code {
+            display: none;
+            font-family: monospace;
+            color: #333;
+        }
+        #confirmation {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner" id="spinner"></div>
+    <div style="height: 50px;"></div>
+    <div id="confirmation">
+        Login successful, you will now be redirected to ets2la.com...
+    </div>
+    <div id="code">
+        > response_code
+    </div>
+
+    <script>
+        setTimeout(function() {
+            document.getElementById("spinner").style.display = "none";
+            document.getElementById("confirmation").style.display = "block";
+            document.getElementById("code").style.display = "block";
+        }, 1500);
+        setTimeout(function() {
+            window.location.href = "https://ets2la.com";
+        }, 4000);
+    </script>
+</body>
+</html>
