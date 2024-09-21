@@ -28,7 +28,6 @@ class JobStarted():
         job.fromAPIData(data)
         backend.CallEvent('JobStarted', job, {})
         logging.info("Triggered event: JobStarted")
-        logging.info(job.json())
         cloud.StartedJob(job)
         last_started_job = job
     def __init__(self):
@@ -45,7 +44,6 @@ class JobFinished():
             job.unit_mass = last_started_job.unit_mass
         backend.CallEvent('JobFinished', job, {})
         logging.info("Triggered event: JobFinished")
-        logging.info(job.json())
         cloud.FinishedJob(job)
     def __init__(self):
         API.listen('jobFinished', self.JobFinished)
@@ -56,7 +54,6 @@ class JobDelivered():
         job.fromAPIData(data)
         backend.CallEvent('JobDelivered', job, {})
         logging.info("Triggered event: JobDelivered")
-        logging.info(job.json())
     def __init__(self):
         API.listen('jobDelivered', self.JobDelivered)
         
@@ -66,7 +63,6 @@ class JobCancelled():
         job.fromAPIData(data)
         backend.CallEvent('JobCancelled', job, {})
         logging.info("Triggered event: JobCancelled")
-        logging.info(job.json())
         cloud.CancelledJob(job)
     def __init__(self):
         API.listen('jobCancelled', self.JobCancelled)
@@ -77,7 +73,6 @@ class RefuelStarted():
         refuel.fromAPIData(data)
         backend.CallEvent('RefuelStarted', refuel, {})
         logging.info("Triggered event: RefuelStarted")
-        logging.info(refuel.json())
     def __init__(self):
         API.listen('refuelStarted', self.RefuelStarted)
         
@@ -87,7 +82,6 @@ class RefuelPayed():
         refuel.fromAPIData(data)
         backend.CallEvent('RefuelPayed', refuel, {})
         logging.info("Triggered event: RefuelPayed")
-        logging.info(refuel.json())
     def __init__(self):
         API.listen('refuelPayed', self.RefuelPayed)
         
