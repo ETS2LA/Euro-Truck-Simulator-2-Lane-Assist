@@ -23,10 +23,12 @@ class Object:
 
 class TrafficLight(Object):
     state: Literal["red", "yellow", "green"]
+    position: Tuple[float, float, float]
     
-    def __init__(self, id, objectType, screenPoints, state):
+    def __init__(self, id, objectType, screenPoints, state, position=(0, 0, 0)):
         super().__init__(id, objectType, screenPoints)
         self.state = state
+        self.position = position
         
     def json(self) -> dict:
         return {
