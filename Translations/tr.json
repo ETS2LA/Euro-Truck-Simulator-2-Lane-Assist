@@ -19,6 +19,8 @@
     "set": "Ayarlandı",
     "setting": "Ayarlanıyor...",
     "unknown": "Bilinmiyor",
+    "download": "İndirme",
+    "downloading": "{0} indiriliyor...",
 
     "_THEDADJOKE": "Hey man, not me, AI is driving my truck.",
 
@@ -27,6 +29,7 @@
     "main.warnings": "Uyarılar:",
     "main.no_errors_or_warnings": "Hata veya uyarı bulunamadı.",
     "main.overseer_started": "ETS2LA Overseer başlatıldı!",
+    "main.development_mode": "ETS2LA geliştirici modunda çalıştırılıyor.",
     "main.restarting": "ETS2LA yeniden başlatılıyor...",
     "main.updating": "ETS2LA güncelleniyor...",
     "main.update_done": "Güncelleme tamamlandı... yeniden başlatılıyor!",
@@ -89,6 +92,10 @@
     "frontend.command.enable_plugin": "{0} Eklentisini etkinleştir",
     "frontend.command.disable_plugin": "{0} Eklentisini devre dışı bırak",
     "frontend.authentication.login_as_guest": "Misafir olarak giriş yapıldı",
+    "frontend.authentication.login_info": "ETS2LA yalnızca şifrelenmiş Discord ID'nizi ve kullanıcı adınızı depolar. Gizlilik politikamızı burada bulabilirsin:",
+    "frontend.authentication.login_with_discord": "Discord ile giriş yap",
+    "frontend.authentication.check_discord": "Discord uygulaması üzerinden kimlik doğrulaması başlatıldı.",
+    "frontend.authentication.register_info": "ETS2LA'nın tüm özelliklerini kullanmak için kayıt olmak zorunda değilsin, ancak daha geniş yelpazede bulut tabanlı özelliklere erişim sağlarsın, aynı buradakiler gibi:",
     "frontend.authentication.logged_in": "Giriş yapıldı",
     "frontend.authentication.password_incorrect": "{0} için şifre yanlış",
     "frontend.authentication.passwords_dont_match": "Şifreler eşleşmiyor",
@@ -149,6 +156,7 @@
     "frontend.menubar.account": "Hesap",
     "frontend.menubar.account.logout": "Oturumu kapat",
     "frontend.menubar.account.settings": "Ayarlar",
+    "frontend.menubar.account.delete": "Hesabını Sil",
     "frontend.menubar.enter_normal_mode": "Normal moda gir",
     "frontend.menubar.about": "ETS2LA Hakkında",
     "frontend.menubar.plugins": "Eklentiler",
@@ -178,6 +186,7 @@
     "frontend.immediate.update_check_error": "Hata: {0}",
     "frontend.immediate.checking_updates": "Güncellemeler kontrol ediliyor...",
     "frontend.immediate.update_available": "Güncelleme mevcut",
+    "frontend.immediate.no_updates": "Kullanılabilir güncelleme yok.",
     "frontend.immediate.up_to_date": "Güncel",
     "frontend.immediate.socket_connected": "Bağlandı",
     "frontend.immediate.socket_disconnected": "Bağlantı kesildi, lütfen yenileyin.",
@@ -292,6 +301,10 @@
     "global.settings.8.description": "Uygulama için kullanılacak dil. Değişiklikleri uygulamak için yeniden başlatman gerekiyor!",
     "global.settings.9.name": "Çerçevesiz",
     "global.settings.9.description": "Uygulama için çerçevesiz bir pencere kullanılıp kullanılmayacağı. Değişiklikleri uygulamak için tam bir yeniden başlatma gerekiyor! Uygulama penceresini hareket ettirmeyle ilgili sorunları çözecektir. Ayrıca ölçeklendirmeyi de etkinleştirir.",
+    "global.settings.10.name": "Pencere Genişliği",
+    "global.settings.10.description": "Pencerenin genişliği.",
+    "global.settings.11.name": "Pencere yüksekliği",
+    "global.settings.11.description": "Pencerenin yüksekliği.",
 
     "_LOL": "aint no way DylDev got rickrolled from a json file lmao",
 
@@ -314,6 +327,8 @@
     "map.settings.10.title": "Direksiyon Ayarları",
     "map.settings.11.name": "Pürüzsüzlük",
     "map.settings.11.description": "Direksiyonu düzeltmek için gereken saniye miktarı. 0 değeri son derece ani olurken, 0,5'in üzerindeki bir değer ise sağa sola savrulabilir.",
+    "map.settings.12.name": "Rotayı ETS2LA üzerinden çiz",
+    "map.settings.12.description": "Hedefinize giden rotayı hesaplayacak. Feragatname: Bu rotanın en hızlı olacağı garanti edilemez!",
 
     "_SKIBIDIRIZZ": "i strawberry elephant reddit looksmax cocomelon girl dinner like i negative rizz we go gym hitting the griddy ratio cringe gyatt hit the griddy gassy rizzing up imposter say pibby glitch toilet kai cenat andrew tate fanum tax john pork rizz king 1 2 buckle my shoe L streamer quandale dingle duke dennis freddy fazbear skibidi ahh bussin' infinite rizz duke dennis infinite rizz gyatt strawberry elephant but you i am a surgeon pibby glitch battle pass gigachad sturdy tiktok we go jim funny moments toilet battle pass therian boy dinner looksmax fortnite adin ross from negative rizz delulu strawberry elephant ohio infinite rizz",
 
@@ -334,6 +349,8 @@
     "acc.settings.1.description": "Bu, uygulamanın diğer araçlara nasıl yanıt vereceğini etkileyecektir.",
     "acc.settings.2.name": "Mesafeyi Takip Et",
     "acc.settings.2.description": "Spesifik olarak bu, 80 kph veya 50mph hızda metre cinsinden mesafedir.",
+    "acc.settings.3.name": "Hız Ofseti",
+    "acc.settings.3.description": "Verdiğiniz yüzdelik kadar hız limitinin üstüne çıkar.",
 
 	"_THE_POLITICS": "Better not take too much risk",
 
@@ -341,11 +358,24 @@
     "map.loading.preparing": "Harita, veri yüklemeye hazırlanıyor...",
     "map.loading.nodes": "Harita, düğümleri yüklüyor...",
     "map.loading.roads": "Harita, yolları yüklüyor...",
+    "map.loading.ferries": "Harita, feribotları yüklüyor...",
     "map.loading.prefab_data": "Harita, Prefabrik verileri yüklüyor...",
     "map.loading.prefabs": "Harita, prefabrikleri yüklüyor...",
     "map.loading.final_calculations": "Harita son hesaplamaları yapıyor...",
     "map.visualisation.roads.text": "Yollar: {0}, Konum: {1}, Yükleniyor: {2}",
     "map.visualisation.prefabs.prefabs": "Prefabrikler: {0}, Konum: {1}",
     "map.visualisation.prefabs.curves": "Virajlar: {0}",
-    "map.extracting_data": "GameData.zip ayıklanırken lütfen bekleyin..."
+    "map.extracting_data": "GameData.zip ayıklanırken lütfen bekleyin...",
+
+    "object_detection.loading_model": "Nesne Algılayıcı Modeli Yükleniyor...",
+    "object_detection.not_found.1": "Aşağıda gösterilen istenen model henüz indirilmedi.",
+    "object_detection.not_found.2": "Aşağıdaki butona tıklayarak modeli şu kaynaktan indirebilirsin:",
+    "object_detection.connection_failed.1": "Hugging Face'teki sunucuya ulaşılamıyor",
+    "object_detection.connection_failed.2": "Lütfen internet bağlantınızı kontrol edin.",
+    "object_detection.connection_failed.3": "NOT: Çin gibi ülkelerde sunucu engellenmiş olabilir. (Türkiye'de şimdilik böyle bir sıkıntı yok.)",
+    "object_detection.connection_failed.4": "Böyle bir şey olursa Discord sunucumuzdan yardım almalısın.",
+    "object_detection.screen_capture_profile": "Nesne Algılama {0} ekran yakalama profili kullanıyor.",
+    "object_detection.loaded_model": "Nesne Algılama modeli {0} üzerinde yüklendi.",
+    "object_detection.tracking_failed": "{0} için izleme {1} güven değeriyle başarısız oldu.",
+    "object_detection.processing_error": "Araç verileri işlenirken hata oluştu"
 }
