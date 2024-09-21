@@ -1,21 +1,17 @@
 from types import SimpleNamespace
+from pydantic import BaseModel
 from typing import Literal
 import time
 
-class CancelledJob:
-    timestamp: int = 0
+class CancelledJob(BaseModel):
+    timestamp: float = 0
     special: bool = False
     started_time: int = 0
     cancelled_time: int = 0
     cancelled_penalty: int = 0
     
     def json(self):
-        return {
-            'special': self.special,
-            'started_time': self.started_time,
-            'cancelled_time': self.cancelled_time,
-            'cancelled_penalty': self.cancelled_penalty
-        }
+        return self.model_dump()
         
     def fromAPIData(self, data):
         self.timestamp = time.time()
@@ -24,13 +20,13 @@ class CancelledJob:
         self.cancelled_time = data["gameplayUI"]["jobFinishedTime"]
         self.cancelled_penalty = data["gameplayLongLong"]["jobCancelledPenalty"]
 
-class FinishedJob:
-    timestamp: int = 0
+class FinishedJob(BaseModel):
+    timestamp: float = 0
     
     special: bool = False
     
     cargo: str = ""
-    cargo_id: str = 0
+    cargo_id: str = ""
         
     unit_mass: float = 0
     unit_count: int = 0
@@ -49,22 +45,7 @@ class FinishedJob:
     delivered_revenue: int = 0
     
     def json(self):
-        return {
-            'timestamp': self.timestamp,
-            'special': self.special,
-            'cargo': self.cargo,
-            'cargo_id': self.cargo_id,
-            'unit_mass': self.unit_mass,
-            'unit_count': self.unit_count,
-            'delivered_delivery_time': self.delivered_delivery_time,
-            'starting_time': self.starting_time,
-            'finished_time': self.finished_time,
-            'delivered_autoload_used': self.delivered_autoload_used,
-            'delivered_autopark_used': self.delivered_autopark_used,
-            'delivered_cargo_damage': self.delivered_cargo_damage,
-            'delivered_distance_km': self.delivered_distance_km,
-            'delivered_revenue': self.delivered_revenue
-        }
+        return self.model_dump()
         
     def fromAPIData(self, data):
         self.timestamp = time.time()
@@ -90,13 +71,13 @@ class FinishedJob:
         
         self.delivered_revenue = data["gameplayLongLong"]["jobDeliveredRevenue"]
     
-class Job:
-    timestamp: int = 0
+class Job(BaseModel):
+    timestamp: float = 0
     
     special: bool = False
     
     cargo: str = ""
-    cargo_id: str = 0
+    cargo_id: str = ""
     
     unit_mass: float = 0
     unit_count: int = 0
@@ -118,25 +99,7 @@ class Job:
     event_type: Literal["delivered", "cancelled", "loaded"] = "loaded"
     
     def json(self):
-        return {
-            'timestamp': self.timestamp,
-            'special': self.special,
-            'cargo': self.cargo,
-            'cargo_id': self.cargo_id,
-            'unit_mass': self.unit_mass,
-            'unit_count': self.unit_count,
-            'delivered_delivery_time': self.delivered_delivery_time,
-            'starting_time': self.starting_time,
-            'finished_time': self.finished_time,
-            'delivered_cargo_damage': self.delivered_cargo_damage,
-            'delivered_distance_km': self.delivered_distance_km,
-            'delivered_autopark_used': self.delivered_autopark_used,
-            'delivered_autoload_used': self.delivered_autoload_used,
-            'income': self.income,
-            'delivered_revenue': self.delivered_revenue,
-            'cancelled_penalty': self.cancelled_penalty,
-            'event_type': self.event_type
-        }
+        return self.model_dump()
     
     def fromAPIData(self, data):
         self.timestamp = time.time()
@@ -170,17 +133,13 @@ class Job:
         elif data["specialBool"]["jobFinished"] == True:
             self.event_type = "delivered"
             
-class Refuel:
-    timestamp: int = 0
+class Refuel(BaseModel):
+    timestamp: float = 0
     refuelAmount: float = 0
     type: Literal["started", "payed"] = "started"
     
     def json(self):
-        return {
-            'timestamp': self.timestamp,
-            'refuelAmount': self.refuelAmount,
-            'type': self.type
-        }
+        return self.model_dump()
         
     def fromAPIData(self, data):
         self.timestamp = time.time()

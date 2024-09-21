@@ -1,7 +1,11 @@
-import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
+import ETS2LA.backend.classes as classes
+import ETS2LA.variables as variables
 import requests
+import logging
 import json
+
+URL = "https://api.ets2la.com"
 
 def SendCrashReport(type:str, message:str, additional=None):
     """Will send a crash report to the main application server. This will then be forwarded to the developers on discord.
@@ -56,3 +60,59 @@ def SendCrashReport(type:str, message:str, additional=None):
     else:
         print("Crash detected, but crash reporting is disabled.")
         return False
+
+def GetCredentials():
+    user_id = settings.Get("global", "user_id", None)
+    token = settings.Get("global", "token", None)
+    return user_id, token, user_id is not None and token is not None
+
+def StartedJob(job: classes.Job):
+    user_id, token, success = GetCredentials()
+    if success:
+        url = URL + f'/user/{user_id}/job/started'
+        headers = {
+            'Authorization': f"Bearer {token}"
+        }
+        data = job.json()
+        r = requests.post(url, headers=headers, json=data)
+        if r.json()["status"] == 200:
+            logging.info("Successfully sent job data to the cloud.")
+        else:
+            logging.warning("Job data not saved, error: " + r.text)
+        return r.json()["status"] == 200
+    
+    return False
+
+def FinishedJob(job: classes.FinishedJob):
+    user_id, token, success = GetCredentials()
+    if success:
+        url = URL + f'/user/{user_id}/job/finished'
+        headers = {
+            'Authorization': f"Bearer {token}"
+        }
+        data = job.json()
+        r = requests.post(url, headers=headers, json=data)
+        if r.json()["status"] == 200:
+            logging.info("Successfully sent job data to the cloud.")
+        else:
+            logging.warning("Job data not saved, error: " + r.text)
+        return r.json()["status"] == 200
+    
+    return False
+
+def CancelledJob(job: classes.CancelledJob):
+    user_id, token, success = GetCredentials()
+    if success:
+        url = URL + f'/user/{user_id}/job/cancelled'
+        headers = {
+            'Authorization': f"Bearer {token}"
+        }
+        data = job.json()
+        r = requests.post(url, headers=headers, json=data)
+        if r.json()["status"] == 200:
+            logging.info("Successfully sent job data to the cloud.")
+        else:
+            logging.warning("Job data not saved, error: " + r.text)
+        return r.json()["status"] == 200
+    
+    return False
