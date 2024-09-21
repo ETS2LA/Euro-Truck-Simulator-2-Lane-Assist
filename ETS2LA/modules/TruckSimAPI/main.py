@@ -7,6 +7,7 @@ from ETS2LA.modules.TruckSimAPI.virtualAPI import scsTelemetry as virtualTelemet
 API = None
 VIRTUAL_API = None
 TRAILER = False
+CHECK_EVENTS = False # DO NOT TURN THIS ON!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
 lastX = 0
 lastY = 0
 isConnected = False
@@ -100,7 +101,8 @@ def run(Fallback=True):
         else:
             data = VIRTUAL_API.update(trailerData=TRAILER)
 
-    _checkEvents(data)
+    if CHECK_EVENTS:
+        _checkEvents(data)
 
     return data 
 

@@ -7,6 +7,7 @@ import logging
 import time
 
 API.Initialize()
+API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
     
 # Events
 class ToggleSteering():
