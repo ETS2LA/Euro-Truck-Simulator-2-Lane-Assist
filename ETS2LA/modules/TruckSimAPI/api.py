@@ -17,7 +17,20 @@ import time
 
 class scsTelemetry:
     
-    # VARIABLE READING
+    specialBoolOffsets = {
+        "onJob": 4300,
+        "jobFinished": 4301,
+        "jobCancelled": 4302,
+        "jobDelivered": 4303,
+        "fined": 4304,
+        "tollgate": 4305,
+        "ferry": 4306,
+        "train": 4307,
+        "refuel": 4308,
+        "refuelPayed": 4309
+    }
+    
+    # MARK: VARIABLE READING
     
     def readGame(self, offset):
         int = struct.unpack('i', self.mm[offset:offset+4])[0]
@@ -28,7 +41,7 @@ class scsTelemetry:
         else:
             return "unknown", offset+4
     
-    # SPECIAL READING
+    # MARK: SPECIAL READING
     
     def readTrailer(self, offset, count=1):
         trailers = []
@@ -142,7 +155,15 @@ class scsTelemetry:
         return trailers, offset
             
     
-    # VALUE READING
+    # MARK: VALUE SETTING
+    
+    def setBool(self, offset, value):
+        self.mm = mmap.mmap(0, mmapSize, mmapName)
+        self.mm[offset:offset+1] = struct.pack('?', value)
+        self.mm.close()
+        return offset+1
+    
+    # MARK: VALUE READING
     
     def readBool(self, offset, count=1):
         if count == 1:
@@ -153,7 +174,6 @@ class scsTelemetry:
             for i in range(count):
                 bools.append(struct.unpack('?', self.mm[offset+i:offset+i+1])[0])
             return bools, offset+count
-            
     
     def readInt(self, offset, count=1):
         if count == 1:
@@ -220,6 +240,8 @@ class scsTelemetry:
             strings.append(self.readChar(offset+i*stringSize, stringSize)[0])
         return strings, offset+count*stringSize
     
+    # MARK: UPDATE
+    
     def update(self, trailerData=False):
         self.mm = mmap.mmap(0, mmapSize, mmapName)
         
@@ -228,6 +250,7 @@ class scsTelemetry:
         
         # ALL COMMENTS EXTRACTED FROM https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
         try:
+            # MARK: ZONE 1 - 0
             # ZONE 1 -> Start at offset 0
             
             data["sdkActive"], offset = self.readBool(offset)
@@ -242,6 +265,7 @@ class scsTelemetry:
             
             # END OF ZONE 1 -> Offset 40
             
+            # MARK: ZONE 2 - 40
             # START OF ZONE 2 -> Offset 40
             # The Second zone contains unsigned integers and it sorted in sub structures
             
@@ -285,6 +309,7 @@ class scsTelemetry:
             
             # END OF ZONE 2 -> Offset 500
             
+            # MARK: ZONE 3 - 500
             # START OF ZONE 3 -> Offset 500
             # The third zone contains integers and is sorted in sub structures
             
@@ -302,6 +327,7 @@ class scsTelemetry:
             
             offset += 4
             
+            # MARK: ZONE 4 - 700
             # START IF ZONE 4 -> Offset 700
             # The fourth zone contains floats and is sorted in sub structures
             
@@ -377,6 +403,7 @@ class scsTelemetry:
             
             # END OF ZONE 4 -> Offset 1500
             
+            # MARK: ZONE 5 - 1500
             # START OF ZONE 5 -> Offset 1500
             # The fifth zone contains bool and is sorted in sub structures
             
@@ -429,6 +456,7 @@ class scsTelemetry:
             
             # END OF ZONE 5 -> Offset 1640
             
+            # MARK: ZONE 6 - 1640
             # START OF ZONE 6 -> Offset 1640
             # The sixth zone contains fvector and is sorted in sub structures
             
@@ -470,6 +498,7 @@ class scsTelemetry:
             
             # END OF ZONE 6 -> Offset 2000
             
+            # MARK: ZONE 7 - 2000
             # START OF ZONE 7 -> Offset 2000
             # The 7th zone contains fplacement and is sorted in sub structures
             data["headPlacement"] = {}
@@ -490,6 +519,7 @@ class scsTelemetry:
             
             # END OF ZONE 7 -> Offset 2200
             
+            # MARK: ZONE 8 - 2200
             # START OF ZONE 8 -> Offset 2200
             
             data["truckPlacement"] = {}
@@ -504,6 +534,7 @@ class scsTelemetry:
             
             # END OF ZONE 8 -> Offset 2300
             
+            # MARK: ZONE 9 - 2300
             # START OF ZONE 9 -> Offset 2300
             # The 9th zone contains strings and is sorted in sub structures
             
@@ -543,6 +574,7 @@ class scsTelemetry:
             
             # END OF ZONE 9 -> Offset 4000
             
+            # MARK: ZONE 10 - 4000
             # START OF ZONE 10 -> Offset 4000
             # The 10th zone contains unsigned long long and is sorted in sub structures
             
@@ -553,6 +585,7 @@ class scsTelemetry:
             
             # END OF ZONE 10 -> Offset 4200
             
+            # MARK: ZONE 11 - 4200
             # START OF ZONE 11 -> Offset 4200
             # The 11th zone contains long long and is sorted in sub structures
             
@@ -568,6 +601,7 @@ class scsTelemetry:
             
             # END OF ZONE 11 -> Offset 4300
             
+            # MARK: ZONE 12 - 4300
             # START OF ZONE 12 -> Offset 4300
             # The 12th zone contains special events and is sorted in sub structures
             
@@ -587,12 +621,14 @@ class scsTelemetry:
             
             # END OF ZONE 12 -> Offset 4400
             
+            # MARK: ZONE 13 - 4400
             # START OF ZONE 13 -> Offset 4400
             
             data["substances"], offset = self.readStringArray(offset, count=substanceSize, stringSize=stringSize)
             
             # END OF ZONE 13 -> Offset 6000
             
+            # MARK: ZONE 14 - 6000
             # START OF ZONE 14 -> Offset 6000
             if trailerData:
                 data["trailers"], offset = self.readTrailer(offset, count=10)

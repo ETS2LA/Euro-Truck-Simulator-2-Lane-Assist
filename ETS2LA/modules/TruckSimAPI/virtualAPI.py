@@ -49,6 +49,19 @@ virtualZ = -46450
 
 class scsTelemetry:
     
+    specialBoolOffsets = {
+        "onJob": 4300,
+        "jobFinished": 4301,
+        "jobCancelled": 4302,
+        "jobDelivered": 4303,
+        "fined": 4304,
+        "tollgate": 4305,
+        "ferry": 4306,
+        "train": 4307,
+        "refuel": 4308,
+        "refuelPayed": 4309
+    }
+    
     # VARIABLE READING
     
     def readGame(self, offset):
@@ -176,6 +189,10 @@ class scsTelemetry:
             
         return trailers, offset
             
+    # VALUE SETTING
+    
+    def setBool(self, offset, value):
+        return offset+1
     
     # VALUE READING
     

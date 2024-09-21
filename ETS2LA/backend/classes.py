@@ -1,6 +1,71 @@
 from typing import Literal
 from types import SimpleNamespace
 
+class CancelledJob:
+    special: bool = False
+    started_time: int = 0
+    cancelled_time: int = 0
+    cancelled_penalty: int = 0
+    
+    def json(self):
+        return {
+            'special': self.special,
+            'started_time': self.started_time,
+            'cancelled_time': self.cancelled_time,
+            'cancelled_penalty': self.cancelled_penalty
+        }
+        
+    def fromAPIData(self, data):
+        self.special = data["configBool"]["specialJob"]
+        self.started_time = data["gameplayUI"]["jobStartingTime"]
+        self.cancelled_time = data["gameplayUI"]["jobFinishedTime"]
+        self.cancelled_penalty = data["gameplayLongLong"]["jobCancelledPenalty"]
+
+class FinishedJob:
+    special: bool = False
+    
+    starting_time: int = 0
+    finished_time: int = 0
+    delivered_delivery_time: int = 0
+    
+    delivered_autoload_used: bool = False
+    delivered_autopark_used: bool = False
+    
+    delivered_cargo_damage: float = 0
+    
+    delivered_distance_km: float = 0
+    
+    delivered_revenue: int = 0
+    
+    def json(self):
+        return {
+            'special': self.special,
+            'starting_time': self.starting_time,
+            'finished_time': self.finished_time,
+            'delivered_delivery_time': self.delivered_delivery_time,
+            'delivered_autoload_used': self.delivered_autoload_used,
+            'delivered_autopark_used': self.delivered_autopark_used,
+            'delivered_cargo_damage': self.delivered_cargo_damage,
+            'delivered_distance_km': self.delivered_distance_km,
+            'delivered_revenue': self.delivered_revenue
+        }
+        
+    def fromAPIData(self, data):
+        self.special = data["configBool"]["specialJob"]
+        
+        self.starting_time = data["gameplayUI"]["jobStartingTime"]
+        self.finished_time = data["gameplayUI"]["jobFinishedTime"]
+        self.delivered_delivery_time = data["gameplayUI"]["jobDeliveredDeliveryTime"]
+        
+        self.delivered_autoload_used = data["gameplayBool"]["jobDeliveredAutoloadUsed"]
+        self.delivered_autopark_used = data["gameplayBool"]["jobDeliveredAutoparkUsed"]
+        
+        self.delivered_cargo_damage = data["gameplayFloat"]["jobDeliveredCargoDamage"]
+        
+        self.delivered_distance_km = data["gameplayFloat"]["jobDeliveredDistanceKm"]
+        
+        self.delivered_revenue = data["gameplayLongLong"]["jobDeliveredRevenue"]
+    
 class Job:
     special: bool = False
     
@@ -71,7 +136,18 @@ class Job:
         
         if data["specialBool"]["onJob"] == True:
             self.event_type = "loaded"
-        elif data["specialBool"]["jobFinished"] == True:
-            self.event_type = "delivered"
         elif data["specialBool"]["jobCancelled"] == True:
             self.event_type = "cancelled"
+        elif data["specialBool"]["jobFinished"] == True:
+            self.event_type = "delivered"
+            
+class Refuel:
+    refuelAmount: float = 0
+    
+    def json(self):
+        return {
+            'refuelAmount': self.refuelAmount
+        }
+        
+    def fromAPIData(self, data):
+        self.refuelAmount = data["gameplayFloat"]["refuelAmount"]
