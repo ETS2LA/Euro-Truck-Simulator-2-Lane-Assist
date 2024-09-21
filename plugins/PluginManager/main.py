@@ -95,17 +95,17 @@ class UI():
         self.screenCaptureVariable = tk.StringVar()
         self.screenCaptureVariable.set([helpers.ConvertCapitalizationToSpaces(p.PluginInfo.name) for p in self.plugins if p.PluginInfo.exclusive == "ScreenCapture"])
         
-        self.pluginList = tk.Listbox(self.root, width=20, height=30, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.pluginList = tk.Listbox(self.root, width=23, height=30, listvariable=self.listVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.pluginList.grid(row=2, column=0, padx=10, pady=2)
         # Bind double click
         self.pluginList.bind('<Double-Button>', lambda x: self.switchPluginState(self.pluginList.curselection()[0], self.pluginList))
         
-        self.laneDetectionList = tk.Listbox(self.root, width=20, height=30, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.laneDetectionList = tk.Listbox(self.root, width=23, height=30, listvariable=self.laneDetectionVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.laneDetectionList.grid(row=2, column=1, padx=10, pady=2)
         # Bind double click
         self.laneDetectionList.bind('<Double-Button>', lambda x: self.switchPluginState(self.laneDetectionList.curselection()[0], self.laneDetectionList))
         
-        self.screenCaptureList = tk.Listbox(self.root, width=20, height=30, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
+        self.screenCaptureList = tk.Listbox(self.root, width=23, height=30, listvariable=self.screenCaptureVariable, font=("Roboto", 12), selectmode="single", activestyle="none", justify="center")
         self.screenCaptureList.grid(row=2, column=2, padx=10, pady=2)
         # Bind double click
         self.screenCaptureList.bind('<Double-Button>', lambda x: self.switchPluginState(self.screenCaptureList.curselection()[0], self.screenCaptureList))
@@ -165,7 +165,7 @@ class UI():
         self.plugin = plugin.PluginInfo
         
         
-        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=440, height=650)
+        self.pluginInfoFrame = ttk.LabelFrame(self.root, text=self.plugin.name, width=300, height=650)
         self.pluginInfoFrame.pack_propagate(0)
         self.pluginInfoFrame.grid_propagate(0)
         self.pluginInfoFrame.grid(row=0, column=3, padx=10, pady=2, rowspan=3)
