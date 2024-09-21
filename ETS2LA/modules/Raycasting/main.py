@@ -1,16 +1,22 @@
 from ETS2LA.plugins.runner import PluginRunner
 import screeninfo
-import win32gui
 import mouse
 import numpy
 import math
+import time
+import sys
 
-FOV = 77 # Vertical fov in degrees
-CAMERA_HEIGHT = 1.5 # Height of the camera in meters
-WHEEL_OFFSET = 0.5 # Wheel size to offset the camera in meters
-CURRENT_HORIZON = 0 # Current Y pixel value of the horizon
+if sys.platform == "win32":
+    import win32gui
+elif sys.platform == "linux":
+    from Xlib import display as xdisplay
 
-runner:PluginRunner = None
+FOV = 77  # Vertical fov in degrees
+CAMERA_HEIGHT = 1.5  # Height of the camera in meters
+WHEEL_OFFSET = 0.5  # Wheel size to offset the camera in meters
+CURRENT_HORIZON = 0  # Current Y pixel value of the horizon
+
+runner: PluginRunner = None
 
 window_x = 0
 window_y = 0
@@ -22,10 +28,12 @@ class RaycastResponse:
     point: tuple
     distance: tuple
     relativePoint: tuple
+
     def __init__(self, point, distance, relativePoint):
         self.point = point
         self.distance = distance
         self.relativePoint = relativePoint
+
     def json(self):
         return {"point": self.point, "distance": self.distance, "relativePoint": self.relativePoint}
 
@@ -42,22 +50,30 @@ def UpdateGamePosition():
     
     current_time = time.time()
     if last_window_position[0] + 3 < current_time:
-        hwnd = None
-        top_windows = []
-        win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
-        for hwnd, window_text in top_windows:
-            if "Truck Simulator" in window_text and "Discord" not in window_text:
-                rect = win32gui.GetClientRect(hwnd)
-                tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
-                br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
-                window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
-                window_x = window[0]
-                window_y = window[1]
-                window_width = window[2]
-                window_height = window[3]
-                last_window_position = (current_time, window[0], window[1], window[2], window[3])
-                break
-
+        if sys.platform == "win32":
+            hwnd = None
+            top_windows = []
+            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+            for hwnd, window_text in top_windows:
+                if "Truck Simulator" in window_text and "Discord" not in window_text:
+                    rect = win32gui.GetClientRect(hwnd)
+                    tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                    br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                    window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                    window_x, window_y, window_width, window_height = window
+                    last_window_position = (current_time, window[0], window[1], window[2], window[3])
+                    break
+        elif sys.platform == "linux":
+            d = xdisplay.Display()
+            root = d.screen().root
+            window = root.query_tree().children
+            for win in window:
+                window_name = win.get_wm_name()
+                if window_name and "Truck Simulator" in window_name and "Discord" not in window_name:
+                    geom = win.get_geometry()
+                    window_x, window_y, window_width, window_height = geom.x, geom.y, geom.width, geom.height
+                    last_window_position = (current_time, window_x, window_y, window_width, window_height)
+                    break
 
 screen = screeninfo.get_monitors()[0]
 def RaycastToPlaneBackup(screen_x: float, screen_y: float, plane_height: float):
@@ -308,7 +324,6 @@ import time
 def run(x=None, y=None):
     GetValuesFromAPI()
     UpdateGamePosition()
-    # Get the mouse position
     if x == None and y == None:
         x, y = mouse.get_position()
 
@@ -320,7 +335,7 @@ def run(x=None, y=None):
     relative_y = y - truck_y
     relative_z = z - truck_z
 
-    # Return the values
     return RaycastResponse((x, y, z), distance, (relative_x, relative_y, relative_z))
+
 
     
