@@ -1,7 +1,9 @@
-from typing import Literal
 from types import SimpleNamespace
+from typing import Literal
+import time
 
 class CancelledJob:
+    timestamp: int = 0
     special: bool = False
     started_time: int = 0
     cancelled_time: int = 0
@@ -16,13 +18,22 @@ class CancelledJob:
         }
         
     def fromAPIData(self, data):
+        self.timestamp = time.time()
         self.special = data["configBool"]["specialJob"]
         self.started_time = data["gameplayUI"]["jobStartingTime"]
         self.cancelled_time = data["gameplayUI"]["jobFinishedTime"]
         self.cancelled_penalty = data["gameplayLongLong"]["jobCancelledPenalty"]
 
 class FinishedJob:
+    timestamp: int = 0
+    
     special: bool = False
+    
+    cargo: str = ""
+    cargo_id: str = 0
+        
+    unit_mass: float = 0
+    unit_count: int = 0
     
     starting_time: int = 0
     finished_time: int = 0
@@ -39,10 +50,15 @@ class FinishedJob:
     
     def json(self):
         return {
+            'timestamp': self.timestamp,
             'special': self.special,
+            'cargo': self.cargo,
+            'cargo_id': self.cargo_id,
+            'unit_mass': self.unit_mass,
+            'unit_count': self.unit_count,
+            'delivered_delivery_time': self.delivered_delivery_time,
             'starting_time': self.starting_time,
             'finished_time': self.finished_time,
-            'delivered_delivery_time': self.delivered_delivery_time,
             'delivered_autoload_used': self.delivered_autoload_used,
             'delivered_autopark_used': self.delivered_autopark_used,
             'delivered_cargo_damage': self.delivered_cargo_damage,
@@ -51,7 +67,15 @@ class FinishedJob:
         }
         
     def fromAPIData(self, data):
+        self.timestamp = time.time()
+        
         self.special = data["configBool"]["specialJob"]
+        
+        self.cargo = data["configString"]["cargo"]
+        self.cargo_id = data["configString"]["cargoId"]
+        
+        self.unit_mass = data["configFloat"]["unitMass"]
+        self.unit_count = data["configUI"]["unitCount"]
         
         self.starting_time = data["gameplayUI"]["jobStartingTime"]
         self.finished_time = data["gameplayUI"]["jobFinishedTime"]
@@ -67,6 +91,8 @@ class FinishedJob:
         self.delivered_revenue = data["gameplayLongLong"]["jobDeliveredRevenue"]
     
 class Job:
+    timestamp: int = 0
+    
     special: bool = False
     
     cargo: str = ""
@@ -93,6 +119,7 @@ class Job:
     
     def json(self):
         return {
+            'timestamp': self.timestamp,
             'special': self.special,
             'cargo': self.cargo,
             'cargo_id': self.cargo_id,
@@ -112,6 +139,8 @@ class Job:
         }
     
     def fromAPIData(self, data):
+        self.timestamp = time.time()
+        
         self.special = data["configBool"]["specialJob"]
         
         self.cargo = data["configString"]["cargo"]
@@ -142,12 +171,19 @@ class Job:
             self.event_type = "delivered"
             
 class Refuel:
+    timestamp: int = 0
     refuelAmount: float = 0
+    type: Literal["started", "payed"] = "started"
     
     def json(self):
         return {
-            'refuelAmount': self.refuelAmount
+            'timestamp': self.timestamp,
+            'refuelAmount': self.refuelAmount,
+            'type': self.type
         }
         
     def fromAPIData(self, data):
+        self.timestamp = time.time()
+        if data["specialBool"]["refuelPayed"] == True:
+            self.type = "payed"
         self.refuelAmount = data["gameplayFloat"]["refuelAmount"]
