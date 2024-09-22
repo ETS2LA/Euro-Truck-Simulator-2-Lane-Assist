@@ -607,6 +607,7 @@ offsetRules = {
     "**road 1 plus 1 tmpl": 9.0,
     "**2 lanes 1m offset": 6.5,
     "**r2 tram": 2.25,
+    "**road 2 tram": 2.25,
 }
 
 def GetOffset(road):

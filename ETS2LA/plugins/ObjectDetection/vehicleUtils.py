@@ -1,4 +1,5 @@
 from ETS2LA.utils.values import SmoothedValue
+from typing import Union
 import math
 import time
 
@@ -6,6 +7,8 @@ lastPositionArray = {
     # id : 
     #   xyz: [x, y, z]
     #   speed: SmoothedValue
+    #   distance: float
+    #   time: float
 }
 
 def GetVehicleSpeed(id) -> float:
@@ -14,7 +17,7 @@ def GetVehicleSpeed(id) -> float:
     else:
         return 0
 
-def UpdateVehicleSpeed(id, position) -> float:
+def UpdateVehicleSpeed(id, position) -> float | Union[float, float]:
     if id in lastPositionArray:
         if len(position) != 3:
             return 0

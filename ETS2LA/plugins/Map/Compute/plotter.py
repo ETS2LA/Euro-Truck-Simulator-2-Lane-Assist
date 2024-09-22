@@ -147,7 +147,7 @@ def GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ):
         #ClosestLane = closestItem.CurvePoints.index(closestData["closestLane"])
 
 # MARK: Discard points
-def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
+def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation, isDisabled = False):
     newPoints = []
     truckForwardVector = [-math.sin(rotation), -math.cos(rotation)]
     index = 0
@@ -159,9 +159,12 @@ def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
         if angle > 90 or angle < -90:
             index += 1
             continue
-
-        newPoints = points[index:]
-        break
+        
+        if isDisabled:
+            newPoints.append(point)
+        else:
+            newPoints = points[index:]
+            break
         
     try:
         if DistanceBetweenPoints([truckX, truckZ], newPoints[0]) > DistanceBetweenPoints([truckX, truckZ], newPoints[-1]):
@@ -755,7 +758,7 @@ def HandleNoNav(data, MapUtils, Enabled, closestData):
     count = 0
     for routeItem in Route:
         if count == 0:
-            newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
+            newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation, isDisabled=not Enabled)
             for point in routeItem.points:
                 if point not in newPoints:
                     routeItem.removedPoints.append(point)

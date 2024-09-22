@@ -1,6 +1,6 @@
 # Import libraries
-from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
 from vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
+from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
 from ETS2LA.utils.translator import Translate
 from ETS2LA.plugins.runner import PluginRunner  
 from ETS2LA.utils.values import SmoothedValue
@@ -18,6 +18,7 @@ import requests
 import pathlib
 import torch
 import time
+import math
 import cv2
 import os
 
@@ -329,6 +330,10 @@ def plugin():
     data["api"] = TruckSimAPI.run()
     data["frame"] = ScreenCapture.run(imgtype="cropped")
     inputTime = time.time() - inputTime
+    
+    truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckY = data["api"]["truckPlacement"]["coordinateY"]
+    truckZ = data["api"]["truckPlacement"]["coordinateZ"]
 
     frame = data["frame"]
     if frame is None: 
@@ -396,7 +401,7 @@ def plugin():
             box = tracked_object.estimate
             x1, y1, x2, y2 = box[0]
             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
-            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id} : {str(round(GetVehicleSpeed(tracked_object.id)*3.6)) + 'kph' if tracked_object.label in TRACK_SPEED else 'static'}", (int(x1), int(y1-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id} {': ' + str(round(GetVehicleSpeed(tracked_object.id)*3.6)) + 'kph' if tracked_object.label in TRACK_SPEED else ': static'}", (int(x1), int(y1-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
     except:
         pass
     
@@ -439,12 +444,16 @@ def plugin():
                 secondRaycast = raycasts[1]
                 middlePoint = ((firstRaycast.point[0] + secondRaycast.point[0]) / 2, (firstRaycast.point[1] + secondRaycast.point[1]) / 2, (firstRaycast.point[2] + secondRaycast.point[2]) / 2)
                 
+                speed = UpdateVehicleSpeed(id, middlePoint)
+                distance = math.sqrt((middlePoint[0] - truckX)**2 + (middlePoint[1] - truckY)**2 + (middlePoint[2] - truckZ)**2)
+                
                 vehicles.append(Vehicle(
                     id,
                     line[2],
                     screenPoints, 
                     raycasts, 
-                    speed=UpdateVehicleSpeed(id, middlePoint)
+                    speed=speed,
+                    distance=distance
                 ))
         except:
             logging.exception("Error while processing vehicle data")
@@ -482,12 +491,6 @@ def plugin():
     
     # Get the data for the AR plugin
     if USE_EXTERNAL_VISUALIZATION:
-        # Send data to the AR plugin
-        x = data["api"]["truckPlacement"]["coordinateX"]
-        y = data["api"]["truckPlacement"]["coordinateY"]
-        z = data["api"]["truckPlacement"]["coordinateZ"]
-
-
         # Add the cars to the external visualization as a line from the start point to y + 1
         for vehicle in vehicles:
             if vehicle == None: continue

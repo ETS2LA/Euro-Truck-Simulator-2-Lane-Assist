@@ -69,21 +69,24 @@ class Sign(Object):
 class Vehicle(Object):
     raycasts: list
     speed: float
+    distance: float
     
-    def __init__(self, id, objectType, screenPoints, raycasts, speed=0):
+    def __init__(self, id, objectType, screenPoints, raycasts, speed=0, distance=0):
         super().__init__(id, objectType, screenPoints)
         self.raycasts = raycasts
         self.speed = speed
+        self.distance = distance
         
     def json(self) -> dict:
         return {
             **super().json(),
             "raycasts": [raycast.json() for raycast in self.raycasts],
-            "speed": self.speed
+            "speed": self.speed,
+            "distance": self.distance
         }
         
     def fromJson(self, json: dict):
-        return Vehicle(json["id"], json["objectType"], json["screenPoints"], [Raycast.fromJson(raycast) for raycast in json["raycasts"]], json["speed"])
+        return Vehicle(json["id"], json["objectType"], json["screenPoints"], [Raycast.fromJson(raycast) for raycast in json["raycasts"]], json["speed"], json["distance"])
         
     def __str__(self) -> str:
         return f"{self.objectType} with id {self.id} and speed {self.speed}"

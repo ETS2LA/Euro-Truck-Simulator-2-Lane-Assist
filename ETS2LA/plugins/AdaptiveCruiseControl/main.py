@@ -19,7 +19,7 @@ import os
 
 runner:PluginRunner = None
 
-FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3) # meters
+FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3) # seconds
 OVERSPEED_PERCENTAGE = settings.Get("AdaptiveCruiseControl", "overspeed", 0) # 0-100
 ACC_ENABLED = False
 
@@ -45,10 +45,15 @@ def ToggleSteering(state:bool, *args, **kwargs):
     ACC_ENABLED = state
     
 def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistance: float, time: float, vehicleSpeed: float) -> float:
-    if (time < FOLLOW_TIME and time > 0 or currentDistance < 25) and vehicleSpeed < currentSpeed*1.1:
-        targetSpeed = (time / (FOLLOW_TIME)) * targetSpeed
-        if currentDistance < 25:
-            targetSpeed /= 2
+    distance = currentDistance
+    if distance <= 0:
+        distance = 999
+        
+    if ((time < FOLLOW_TIME and time > 0) or distance < 40) and (vehicleSpeed < 30 or vehicleSpeed < currentSpeed*1.1):
+        timeTargetSpeed = (time / (FOLLOW_TIME)) * targetSpeed
+        distanceTargetSpeed = ((distance - 15) / 40) * targetSpeed
+        print(f"timeTargetSpeed: {timeTargetSpeed}, distanceTargetSpeed: {distanceTargetSpeed}               ", end="\r")
+        targetSpeed = min(timeTargetSpeed, distanceTargetSpeed) 
 
     # Base accel to stay at current speed
     acceleration = (targetSpeed - currentSpeed) / 3.6
@@ -73,6 +78,7 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
     if vehicles is None:
         if time.time() - lastVehicleTime < 1:
             return lastTimeToVehicle
+        lastVehicleDistance = math.inf
         return math.inf
     
     vehiclesInFront = []
@@ -89,6 +95,7 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
     if type(points) != list or len(points) == 0 or (type(points[0]) != list and type(points[0]) != tuple):
         if time.time() - lastVehicleTime < 1:
             return lastTimeToVehicle
+        lastVehicleDistance = math.inf
         return math.inf
     
     if len(points) == 1:
@@ -104,6 +111,7 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
     if type(vehicles) != list:
         if time.time() - lastVehicleTime < 1:
             return lastTimeToVehicle
+        lastVehicleDistance = math.inf
         return math.inf
     
     for vehicle in vehicles:
@@ -144,26 +152,19 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
     if len(vehiclesInFront) == 0:
         if time.time() - lastVehicleTime < 1:
             return lastTimeToVehicle
+        lastVehicleDistance = math.inf
         return math.inf
     
     closestDistance = math.inf
     for distance, vehicle in vehiclesInFront:
         if distance < closestDistance:
-            closestDistance = distance
+            closestDistance = vehicle.distance
             vehicleSpeed = vehicle.speed
             vehicleId = vehicle.id
             
     lastVehicleDistance = closestDistance
-
-    if vehicleSpeed < 5:
-        # Check if the vehicle is close enough to care about
-        if closestDistance / (max(15/3.6, truckSpeed)) > FOLLOW_TIME:
-            if time.time() - lastVehicleTime < 1:
-                return lastTimeToVehicle
-            return math.inf
-        timeToVehicle = 0.001
-    else:
-        timeToVehicle = closestDistance / truckSpeed
+    timeToVehicle = closestDistance / truckSpeed
+    timeToVehicle = (closestDistance + vehicleSpeed / 2 * timeToVehicle) / truckSpeed
         
     lastTimeToVehicle = timeToVehicle
     return timeToVehicle
@@ -205,7 +206,7 @@ def SetAccelBrake(accel:float) -> None:
 
 def GetStatus() -> str:
     if time.time() - lastVehicleTime < 1:
-        return f"Time: {lastTimeToVehicle:.1f}s, Distance: {lastVehicleDistance*3.6:.0f}m, Other Speed: {vehicleSpeed*3.6:.0f}kph"
+        return f"Time: {lastTimeToVehicle:.1f}s, Distance: {lastVehicleDistance:.0f}m, Other Speed: {vehicleSpeed*3.6:.0f}kph"
     return "No vehicles in front"
 
 def plugin():
