@@ -211,12 +211,12 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     useEffect(() => {
         if (speed*3.6 > 5) {
             // From 0 tilt at 10kph to 55 tilt at 80kph
-            setTilt(Math.min((speed*3.6 - 5) / 80 * 55, 55));
+            setTilt(Math.min((speed*3.6 - 5) / 70 * 55, 55));
             // From -90 offset at 10kph to -60 offset at 80kph
-            setyOffset(Math.min((speed*3.6 - 5) / 60 * 10 - 90, -60));
+            setyOffset((speed*3.6 - 5) / 70 * 5 - 90);
         }
         else {
-            setyOffset(-90);
+            setyOffset(-95);
             setTilt(0);
         }
     })
@@ -250,6 +250,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                 </Card>
             }
             <div style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b", position: "absolute", transformStyle: "preserve-3d", transform: `rotateX(${tilt}deg) translate(-33vw, ${yOffset}vh)`}}>
+                <div className="absolute -top-1 left-0 h-32 w-[200%] bg-gradient-to-t from-transparent to-[#1b1b1b] pointer-events-none z-50" />
                 <MapContainer center={position} zoom={7} style={{height: "300%", width: "200%", backgroundColor: "#1b1b1b", transformStyle: "preserve-3d", WebkitTransformStyle: "preserve-3d"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true} zoomSnap={0}>
                     <TileLayer
                         attribution='&copy; ETS2LA Team'

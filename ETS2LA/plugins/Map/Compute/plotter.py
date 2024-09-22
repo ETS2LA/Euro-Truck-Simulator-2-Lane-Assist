@@ -552,11 +552,11 @@ def CalculateCurvature(points):
     curvatures = []
     try:
         for i in range(1, len(points) - 1):
-            vector1 = np.array(points[i]) - np.array(points[i - 1])
-            vector2 = np.array(points[i + 1]) - np.array(points[i])
+            vector1 = np.array(points[i][:2]) - np.array(points[i - 1][:2])
+            vector2 = np.array(points[i + 1][:2]) - np.array(points[i][:2])
             dot_product = np.dot(vector1, vector2)
             norm_product = np.linalg.norm(vector1) * np.linalg.norm(vector2)
-
+            
             if norm_product == 0:
                 angle = 0
             else:
@@ -569,7 +569,6 @@ def CalculateCurvature(points):
             if not np.isnan(angle) and angle != 0:
                 curvatures.append(angle)
 
-        #print(f"Curvatures: {curvatures}")
         # Filter outliers using IQR
         try:
             q1, q3 = np.percentile(curvatures, [25, 75])
@@ -719,14 +718,16 @@ def HandleNoNav(data, MapUtils, Enabled, closestData):
     if Route == []:
         return data
     
+    count = 0
     for routeItem in Route:
-        newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
-        for point in routeItem.points:
-            if point not in newPoints:
-                routeItem.removedPoints.append(point)
-        routeItem.points = newPoints
-        if routeItem.points == []:
-            Route.remove(routeItem)
+        if count == 0:
+            newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
+            for point in routeItem.points:
+                if point not in newPoints:
+                    routeItem.removedPoints.append(point)
+            routeItem.points = newPoints
+            if routeItem.points == []:
+                Route.remove(routeItem)
         
     tries = 0
     while len(Route) < RouteLength:
@@ -785,7 +786,7 @@ def HandleNoNav(data, MapUtils, Enabled, closestData):
         #print(vector1)
         angle = np.arccos(np.dot(vector1, lastVector) / (np.linalg.norm(vector1) * np.linalg.norm(lastVector)))
         angle = math.degrees(angle)
-        if np.array_equal(vector1, lastVector) or (angle < 90 and angle > -80):
+        if np.array_equal(vector1, lastVector) or (angle < 80 and angle > -80):
             acceptedPoints.append(allPoints[i])
             lastVector = vector1
             lastPoint = allPoints[i]
