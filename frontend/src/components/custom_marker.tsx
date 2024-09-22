@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Marker, useMap } from 'react-leaflet';
-import { LatLngTuple, divIcon } from 'leaflet';
+import { LatLngTuple, divIcon, latLng } from 'leaflet';
 
 let modifiedSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="orange" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-navigation-2"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>';
 let iconSVGRed = `data:image/svg+xml;base64,${btoa(modifiedSVG)}`;

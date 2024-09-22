@@ -447,7 +447,8 @@ def plugin():
             runner.Profile("- doing stuff with said data")
             
         curvature = plotter.CalculateCurvature(points)
-        targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
+        max_speed = plotter.map_curvature_to_max_speed(curvature)
+        if targetSpeed > max_speed: targetSpeed = max_speed
         
         runner.Profile("Curvature")
         
