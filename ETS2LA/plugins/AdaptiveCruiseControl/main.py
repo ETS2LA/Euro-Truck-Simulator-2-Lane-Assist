@@ -45,6 +45,8 @@ def ToggleSteering(state:bool, *args, **kwargs):
     ACC_ENABLED = state
     
 def DistanceFunction(x):
+    if x <= 0.2:
+        return x
     return math.log10(x) + 1
     
 statusString = ""
