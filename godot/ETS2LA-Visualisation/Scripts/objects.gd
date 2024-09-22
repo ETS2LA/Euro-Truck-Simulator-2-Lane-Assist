@@ -9,12 +9,7 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
-	for n in self.get_children():
-		self.remove_child(n)
-		n.queue_free()
-
 	if Sockets.data != {}:
-		
 		var curObjects = []
 		var curObjectNames = []
 		for n in self.get_children():
@@ -55,5 +50,6 @@ func _process(delta: float) -> void:
 		
 			for n in self.get_children():
 				if not newObjectIDs.has(n.name):
+					print("remove")
 					self.remove_child(n)
 					n.queue_free()

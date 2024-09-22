@@ -33,9 +33,8 @@ func _process(delta: float) -> void:
 		position = position.lerp(_target, delta * _distance)
 		scale = scale.lerp(_target_scale, delta)
 	else:
-		position = _target
-		scale = _target_scale
-	
+		return
+		
 	if "highlights" in Socket.data:
 		var highlight: String = Socket.data["highlights"]
 		highlight = highlight.replace("[", "")

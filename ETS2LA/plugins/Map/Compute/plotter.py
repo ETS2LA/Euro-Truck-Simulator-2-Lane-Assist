@@ -599,28 +599,16 @@ def CalculateCurvature(points):
                 cos_angle = dot_product / norm_product
                 cos_angle = np.clip(cos_angle, -1, 1)
                 angle = np.arccos(cos_angle)
-                #print(f"Angle: {angle}")
+                #print(f"Angle: {math.degrees(angle)}")
                 if angle > math.pi/2:
                     angle = math.pi - angle
 
             if not np.isnan(angle) and angle != 0:
                 curvatures.append(angle)
 
-        # Filter outliers using IQR
-        try:
-            q1, q3 = np.percentile(curvatures, [25, 75])
-            iqr = q3 - q1
-            lower_bound = q1 - (1.5 * iqr)
-            upper_bound = q3 + (1.5 * iqr)
-            filtered_curvatures = [x for x in curvatures if lower_bound <= x <= upper_bound]
-
-            total_curvature = sum(filtered_curvatures)
-            total_curvature = math.degrees(total_curvature)
-            #print(f"Curvature: {total_curvature}", end="\r")
-        except:
-            total_curvature = sum(curvatures)
-            total_curvature = math.degrees(total_curvature)
-            #print(f"Curvature: {total_curvature}", end="\r")
+        total_curvature = sum(curvatures)
+        total_curvature = math.degrees(total_curvature)
+        #print(f"Curvature: {total_curvature}", end="\r")
 
         return total_curvature
     except Exception as e:
@@ -835,7 +823,6 @@ def HandleNoNav(data, MapUtils, Enabled, closestData):
             #print(angle)
             ...
     allPoints = acceptedPoints
-    
     #print(Route)
     
     if allPoints == []:
@@ -853,7 +840,6 @@ def HandleNoNav(data, MapUtils, Enabled, closestData):
     if DistanceBetweenPoints([truckX, truckZ], allPoints[0]) > 1500:
         Route = []
         return data
-    
     return None
 
 currentPathIndex = 0
@@ -1008,8 +994,7 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData, closestDat
         noNavData = HandleNoNav(data, MapUtils, Enabled, closestData)
         if noNavData != None:
             return noNavData
-
-
+        
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
     rotation = data["api"]["truckPlacement"]["rotationX"] * 360
