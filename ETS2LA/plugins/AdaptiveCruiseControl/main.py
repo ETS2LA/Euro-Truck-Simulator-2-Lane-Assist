@@ -44,18 +44,33 @@ def ToggleSteering(state:bool, *args, **kwargs):
     global ACC_ENABLED
     ACC_ENABLED = state
     
+def DistanceFunction(x):
+    return math.log10(x) + 1
+    
+statusString = ""
 def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistance: float, time: float, vehicleSpeed: float) -> float:
+    global statusString
+    
     distance = currentDistance
     if distance <= 0:
         distance = 999
         
     type = "map"
     if ((time < FOLLOW_TIME and time > 0) or distance < 40) and (vehicleSpeed < 30 or vehicleSpeed < currentSpeed*1.1):
-        timeTargetSpeed = (time / (FOLLOW_TIME)) * targetSpeed
-        distanceTargetSpeed = ((distance) / 30 - 1/3) * targetSpeed
-        print(f"timeTargetSpeed: {timeTargetSpeed}, distanceTargetSpeed: {distanceTargetSpeed}               ", end="\r")
-        type = "time" if timeTargetSpeed < distanceTargetSpeed else "distance"
-        targetSpeed = min(timeTargetSpeed, distanceTargetSpeed) 
+        timePercent = time / FOLLOW_TIME
+        timeTargetSpeed = timePercent * targetSpeed
+        
+        distancePercent = DistanceFunction(distance / 30 - 1/3)
+        distanceTargetSpeed = distancePercent * targetSpeed
+        if timeTargetSpeed < distanceTargetSpeed:
+            type = "time"
+            targetSpeed = timeTargetSpeed
+            statusString = f" {time:.1f}s / {FOLLOW_TIME}s"
+        else:
+            type = "distance"
+            targetSpeed = distanceTargetSpeed
+            statusString = f" {distance:.1f}m / 40m"
+        
 
     # Base accel to stay at current speed
     acceleration = (targetSpeed - currentSpeed) / 3.6
@@ -208,9 +223,9 @@ def SetAccelBrake(accel:float) -> None:
 
 def GetStatus(type) -> str:
     if type == "time":
-        return "Slowing dow to maintain time gap"
+        return "Slowing dow to maintain time gap" + statusString
     elif type == "distance":
-        return "Slowing down to maintain distance gap"
+        return "Slowing down to maintain distance gap" + statusString
     else:
         return "Maintaining speed according to map"
 
