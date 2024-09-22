@@ -29,15 +29,15 @@ navigation = importlib.import_module("Compute.navigation")
 runner:PluginRunner = None
 
 # MARK: Globals
-COMPUTE_STEERING_DATA = settings.Get("Map", "ComputeSteeringData", False)
+COMPUTE_STEERING_DATA = settings.Get("Map", "ComputeSteeringData", True)
 STEERING_ENABLED = False
 
 SEND_AR_DATA = settings.Get("Map", "SendARData", False)
 SEND_EXTERNAL_DATA = settings.Get("Map", "SendExternalData", True)
 EXTERNAL_DATA_RENDER_DISTANCE = settings.Get("Map", "ExternalDataRenderDistance", 200) # meters
-NAVIGATION = settings.Get("Map", "Navigation", True) # whether to use the navigation system
+NAVIGATION = settings.Get("Map", "Navigation", False) # whether to use the navigation system
 
-INTERNAL_VISUALISATION = settings.Get("Map", "InternalVisualisation", True)
+INTERNAL_VISUALISATION = settings.Get("Map", "InternalVisualisation", False)
 ZOOM = settings.Get("Map", "Zoom", 1)
 
 DATA_LOADED = False
