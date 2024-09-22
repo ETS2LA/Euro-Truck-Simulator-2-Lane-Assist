@@ -5,15 +5,18 @@ class Object:
     id: int
     objectType: str
     screenPoints: list
+    position: Tuple[float, float, float]
     
-    def __init__(self, id, objectType, screenPoints):
+    def __init__(self, id, objectType, screenPoints, position=(0, 0, 0)):
         self.id = id
         self.objectType = objectType
         self.screenPoints = screenPoints
+        self.position = position
         
     def json(self) -> dict:
         return {
             "id": self.id,
+            "position": self.position,
             "objectType": self.objectType,
             "screenPoints": self.screenPoints
         }
@@ -90,3 +93,19 @@ class Vehicle(Object):
         
     def __str__(self) -> str:
         return f"{self.objectType} with id {self.id} and speed {self.speed}"
+    
+class RoadMarker(Object):
+    markerType: Literal["solid", "broken", "dotted", "double"]
+    
+    def __init__(self, id, objectType, screenPoints, position, markerType = "solid"):
+        super().__init__(id, objectType, screenPoints, position=position)
+        self.markerType = markerType
+        
+    def json(self) -> dict:
+        return {
+            **super().json(),
+            "markerType": self.markerType
+        }
+        
+    def __str__(self) -> str:
+        return f"{self.objectType} with id {self.id} and type {self.markerType}"

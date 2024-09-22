@@ -49,10 +49,12 @@ def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistan
     if distance <= 0:
         distance = 999
         
+    type = "map"
     if ((time < FOLLOW_TIME and time > 0) or distance < 40) and (vehicleSpeed < 30 or vehicleSpeed < currentSpeed*1.1):
         timeTargetSpeed = (time / (FOLLOW_TIME)) * targetSpeed
-        distanceTargetSpeed = ((distance - 15) / 40) * targetSpeed
+        distanceTargetSpeed = ((distance) / 30 - 1/3) * targetSpeed
         print(f"timeTargetSpeed: {timeTargetSpeed}, distanceTargetSpeed: {distanceTargetSpeed}               ", end="\r")
+        type = "time" if timeTargetSpeed < distanceTargetSpeed else "distance"
         targetSpeed = min(timeTargetSpeed, distanceTargetSpeed) 
 
     # Base accel to stay at current speed
@@ -61,7 +63,7 @@ def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistan
     # To accelerate towards the target speed
     acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
     
-    return acceleration, targetSpeed
+    return acceleration, targetSpeed, type
 
 def GetDistanceToPoint(point1: list, point2: list) -> float:
     return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
@@ -204,10 +206,13 @@ def SetAccelBrake(accel:float) -> None:
         SDKController.abackward = float(-accel * 0.25)
         SDKController.aforward = float(0)
 
-def GetStatus() -> str:
-    if time.time() - lastVehicleTime < 1:
-        return f"Time: {lastTimeToVehicle:.1f}s, Distance: {lastVehicleDistance:.0f}m, Other Speed: {vehicleSpeed*3.6:.0f}kph"
-    return "No vehicles in front"
+def GetStatus(type) -> str:
+    if type == "time":
+        return "Slowing dow to maintain time gap"
+    elif type == "distance":
+        return "Slowing down to maintain distance gap"
+    else:
+        return "Maintaining speed according to map"
 
 def plugin():
     if not ACC_ENABLED:
@@ -225,13 +230,13 @@ def plugin():
     try: timeToVehicle = GetTimeToVehicleAhead(apiData)
     except: timeToVehicle = math.inf; logging.exception("Failed to get time to vehicle ahead")
         
-    acceleration, targetSpeed = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, vehicleSpeed)
+    acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, vehicleSpeed)
     
     if ACC_ENABLED:
         SetAccelBrake(acceleration)
         
     return None, {
-        "status": GetStatus(),
+        "status": GetStatus(type),
         "acc": targetSpeed,
         "highlights": [vehicleId if time.time() - lastVehicleTime < 1 else None]
     } 

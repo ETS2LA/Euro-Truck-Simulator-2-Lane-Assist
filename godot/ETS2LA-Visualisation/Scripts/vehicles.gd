@@ -2,7 +2,6 @@ extends Node
 
 @onready var Sockets = $/root/Node3D/Sockets
 var ObjectScript = preload("res://Scripts/object.gd")
-
 var truckScene = preload("res://Objects/truck.tscn")
 var carScene = preload("res://Objects/car.tscn")
 

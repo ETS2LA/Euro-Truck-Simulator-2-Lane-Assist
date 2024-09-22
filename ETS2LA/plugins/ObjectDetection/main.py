@@ -6,9 +6,9 @@ from ETS2LA.plugins.runner import PluginRunner
 from ETS2LA.utils.values import SmoothedValue
 import ETS2LA.backend.settings as settings
 from ETS2LA.utils.logging import logging
+from classes import Vehicle, RoadMarker
 import ETS2LA.variables as variables
 from typing import Literal
-from classes import Vehicle
 from tqdm import tqdm
 import numpy as np
 import screeninfo
@@ -393,7 +393,9 @@ def plugin():
     trackTime = time.time() - trackTime
 
     carPoints = []
+    objectPoints = []
     vehicles = []
+    objects = []
     visualTime = time.time()
     
     try:
@@ -423,10 +425,12 @@ def plugin():
                 
                 if label in ['car', "van"]:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car", object.id))
-                if label in ['truck']:
+                elif label in ['truck']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck", object.id))
-                if label in ['bus']:
+                elif label in ['bus']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))
+                else:
+                    objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id))
             
             for line in carPoints:
                 id = line[3]
@@ -455,6 +459,32 @@ def plugin():
                     speed=speed,
                     distance=distance
                 ))
+                
+            for line in objectPoints:
+                id = line[3]
+                line = line[:3]
+                label = line[2]
+                raycasts = []
+                screenPoints = []
+                for point in line:
+                    if type(point) == str:
+                        continue
+                    raycast = Raycast.run(x=point[0], y=point[1])
+                    raycasts.append(raycast)
+                    screenPoints.append(point)
+                    
+                firstRaycast = raycasts[0]
+                secondRaycast = raycasts[1]
+                middlePoint = ((firstRaycast.point[0] + secondRaycast.point[0]) / 2, (firstRaycast.point[1] + secondRaycast.point[1]) / 2, (firstRaycast.point[2] + secondRaycast.point[2]) / 2)
+                
+                if label == "road_marker":
+                    objects.append(RoadMarker(
+                        id,
+                        label,
+                        screenPoints,
+                        middlePoint
+                    ))
+                
         except:
             logging.exception("Error while processing vehicle data")
             pass
@@ -523,5 +553,6 @@ def plugin():
     # Return data to the main thread
     return None, {
         "vehicles": [vehicle.json() for vehicle in vehicles],
+        "objects": [object.json() for object in objects],
         "ar": arData
     }
