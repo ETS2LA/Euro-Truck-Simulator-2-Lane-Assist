@@ -502,7 +502,6 @@ def plugin():
                     height = line[8]
                     track = PositionEstimation.run(id, (middlePoint[0], middlePoint[1], width, height))
                     if track != None and track.position != None:
-                        print(track.position.tuple())
                         position = track.position.tuple()
                     else:
                         position = (0, 0, 0)
