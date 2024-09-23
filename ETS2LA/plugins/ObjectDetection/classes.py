@@ -43,21 +43,21 @@ class TrafficLight(Object):
         return f"{self.objectType} with id {self.id} and state {self.state}"
 
 class Sign(Object):
-    signType: Literal["stop_sign", 
-                      "yield_sign", 
-                      "speedlimit_sign", 
-                      "info_sign", 
-                      "mandatory_sign", 
-                      "warning_sign", 
-                      "priority_sign", 
-                      "prohibitory_sign",
-                      "regulatory_sign", 
-                      "service_sign", 
-                      "railroad_sign", 
-                      "additional_sign"]
+    signType: Literal["stop", 
+                      "yield", 
+                      "speedlimit", 
+                      "info", 
+                      "mandatory", 
+                      "warning", 
+                      "priority", 
+                      "prohibitory",
+                      "regulatory", 
+                      "service", 
+                      "railroad", 
+                      "additional"]
     
-    def __init__(self, id, objectType, screenPoints, signType):
-        super().__init__(id, objectType, screenPoints)
+    def __init__(self, id, objectType, screenPoints, signType, position):
+        super().__init__(id, objectType, screenPoints, position=position)
         self.signType = signType
         
     def json(self) -> dict:

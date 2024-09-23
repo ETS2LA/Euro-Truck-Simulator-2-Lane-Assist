@@ -1,11 +1,12 @@
 from ETS2LA.plugins.runner import PluginRunner
+import ETS2LA.backend.settings as settings
 import screeninfo
 import win32gui
 import mouse
 import numpy
 import math
 
-FOV = 77 # Vertical fov in degrees
+FOV = settings.Get("global", "FOV", 77) # Vertical fov in degrees
 CAMERA_HEIGHT = 1.5 # Height of the camera in meters
 WHEEL_OFFSET = 0.5 # Wheel size to offset the camera in meters
 CURRENT_HORIZON = 0 # Current Y pixel value of the horizon

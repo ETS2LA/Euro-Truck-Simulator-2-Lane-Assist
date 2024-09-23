@@ -4,6 +4,7 @@ extends Node
 
 var ObjectScript = preload("res://Scripts/object.gd")
 var RoadMarkerScene = preload("res://Objects/road_marker.tscn")
+var SignScene = preload("res://Objects/sign.tscn")
 
 func _ready() -> void:
 	pass
@@ -31,6 +32,15 @@ func _process(delta: float) -> void:
 						if type == "road_marker":
 							var markerType = object["markerType"]
 							var newObject = RoadMarkerScene.instantiate()
+							newObject.name = str(id)
+							newObject.position = position
+							newObject.set_script(ObjectScript)
+							newObject.type = "static"
+							newObject.id = int(id)
+							newObjects.append(newObject)
+							newObjectIDs.append(str(id))
+						if type == "sign":
+							var newObject = SignScene.instantiate()
 							newObject.name = str(id)
 							newObject.position = position
 							newObject.set_script(ObjectScript)

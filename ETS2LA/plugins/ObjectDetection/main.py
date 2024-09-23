@@ -1,12 +1,12 @@
 # Import libraries
-from vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
 from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
+from vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
 from ETS2LA.utils.translator import Translate
 from ETS2LA.plugins.runner import PluginRunner  
+from classes import Vehicle, RoadMarker, Sign
 from ETS2LA.utils.values import SmoothedValue
 import ETS2LA.backend.settings as settings
 from ETS2LA.utils.logging import logging
-from classes import Vehicle, RoadMarker
 import ETS2LA.variables as variables
 from typing import Literal
 from tqdm import tqdm
@@ -84,12 +84,14 @@ def Initialize():
     global TruckSimAPI
     global ScreenCapture
     global Raycast
+    global PositionEstimation
     global capture_y, capture_x, capture_width, capture_height
     global model, frame, temp
 
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
+    PositionEstimation = runner.modules.PositionEstimation
     ScreenCapture.mode = "grab"
     Raycast = runner.modules.Raycasting
     
@@ -415,6 +417,8 @@ def plugin():
             for object in tracked_boxes:
                 label = object.label
                 x1, y1, x2, y2 = object.estimate[0]
+                width = x2 - x1
+                height = y2 - y1
                 # Add the offset to the x and y coordinates
                 x1r = x1 + capture_x
                 y1r = y1 + capture_y
@@ -422,6 +426,7 @@ def plugin():
                 y2r = y2 + capture_y
                 bottomLeftPoint = (int(x1r), int(y2r))
                 bottomRightPoint = (int(x2r), int(y2r))
+                middlePoint = (int((x1r + x2r) / 2), int((y1r + y2r) / 2))
                 
                 if label in ['car', "van"]:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car", object.id))
@@ -429,8 +434,10 @@ def plugin():
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck", object.id))
                 elif label in ['bus']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))
-                else:
+                elif label in ["road_marker"]:
                     objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id))
+                else:
+                    objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id, middlePoint, x1, y1, width, height))
             
             for line in carPoints:
                 id = line[3]
@@ -461,30 +468,53 @@ def plugin():
                 ))
                 
             for line in objectPoints:
-                id = line[3]
-                line = line[:3]
-                label = line[2]
-                raycasts = []
-                screenPoints = []
-                for point in line:
-                    if type(point) == str:
-                        continue
-                    raycast = Raycast.run(x=point[0], y=point[1])
-                    raycasts.append(raycast)
-                    screenPoints.append(point)
+                if len(line) == 4:
+                    id = line[3]
+                    line = line[:3]
+                    label = line[2]
+                    raycasts = []
+                    screenPoints = []
+                    for point in line:
+                        if type(point) == str:
+                            continue
+                        raycast = Raycast.run(x=point[0], y=point[1])
+                        raycasts.append(raycast)
+                        screenPoints.append(point)
+                        
+                    firstRaycast = raycasts[0]
+                    secondRaycast = raycasts[1]
+                    middlePoint = ((firstRaycast.point[0] + secondRaycast.point[0]) / 2, (firstRaycast.point[1] + secondRaycast.point[1]) / 2, (firstRaycast.point[2] + secondRaycast.point[2]) / 2)
                     
-                firstRaycast = raycasts[0]
-                secondRaycast = raycasts[1]
-                middlePoint = ((firstRaycast.point[0] + secondRaycast.point[0]) / 2, (firstRaycast.point[1] + secondRaycast.point[1]) / 2, (firstRaycast.point[2] + secondRaycast.point[2]) / 2)
-                
-                if label == "road_marker":
-                    objects.append(RoadMarker(
-                        id,
-                        label,
-                        screenPoints,
-                        middlePoint
-                    ))
-                
+                    if label == "road_marker":
+                        objects.append(RoadMarker(
+                            id,
+                            label,
+                            screenPoints,
+                            middlePoint
+                        ))
+                else:
+                    id = line[3]
+                    label = line[2]
+                    middlePoint = line[4]
+                    x1 = line[5]
+                    y1 = line[6]
+                    width = line[7]
+                    height = line[8]
+                    track = PositionEstimation.run(id, (middlePoint[0], middlePoint[1], width, height))
+                    if track != None and track.position != None:
+                        print(track.position.tuple())
+                        position = track.position.tuple()
+                    else:
+                        position = (0, 0, 0)
+                        
+                    if "sign" in label:
+                        objects.append(Sign(
+                            id,
+                            "sign",
+                            middlePoint,
+                            label.replace("_sign", ""),
+                            position
+                        ))
         except:
             logging.exception("Error while processing vehicle data")
             pass
