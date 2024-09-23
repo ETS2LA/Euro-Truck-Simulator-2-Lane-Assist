@@ -45,9 +45,11 @@ def ToggleSteering(state:bool, *args, **kwargs):
     ACC_ENABLED = state
     
 def DistanceFunction(x):
-    if x <= 0.2:
-        return x
-    return math.log10(x) + 1
+    if x < 0:
+        return 0
+    if x > 1:
+        return 1
+    return math.sin((x * math.pi) / 2)
     
 statusString = ""
 def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistance: float, time: float, vehicleSpeed: float) -> float:
@@ -58,12 +60,13 @@ def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistan
         distance = 999
         
     type = "map"
-    if ((time < FOLLOW_TIME and time > 0) or distance < 40) and (vehicleSpeed < 30 or vehicleSpeed < currentSpeed*1.1):
+    if ((time < FOLLOW_TIME and time > 0) or distance < 60) and (vehicleSpeed < 30 or vehicleSpeed < currentSpeed*1.1):
         timePercent = time / FOLLOW_TIME
         timeTargetSpeed = timePercent * targetSpeed
         
-        distancePercent = DistanceFunction(distance / 30 - 1/3)
+        distancePercent = DistanceFunction(distance / 40 - 3/8)
         distanceTargetSpeed = distancePercent * targetSpeed
+        
         if timeTargetSpeed < distanceTargetSpeed:
             type = "time"
             targetSpeed = timeTargetSpeed
