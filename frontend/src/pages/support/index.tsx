@@ -176,10 +176,10 @@ const conv2_messages = [
 
 const ChatEvent = ({ event }: { event: ConversationEvent }) => {
   return (
-    <div className="flex items-center my-2 w-full justify-center">
-      <div className="flex-1 h-px bg-current mx-2"></div>
-      <span className="text-xs font-bold whitespace-nowrap">{event.text}</span>
-      <div className="flex-1 h-px bg-current mx-2"></div>
+    <div className="flex items-center w-full justify-center pb-4">
+      <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
+      <span className="text-xs whitespace-nowrap text-muted-foreground">{event.text}</span>
+      <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
     </div>
   );
 };
@@ -303,7 +303,7 @@ function SearchBox({
         <input
           id="searchInput"
           ref={inputRef}
-          className={`bg-transparent border-none ${
+          className={`bg-transparent border-none pl-1 ${
             theme === 'dark' ? 'text-white' : 'text-black'
           } w-full focus:outline-none h-full text-xs`} 
           placeholder="Search messages..."
@@ -337,7 +337,7 @@ function SearchBox({
               onClick={handlePreviousMatch}
             >
               <ChevronUp
-                className="w-5 h-5" 
+                className="w-3 h-3" 
                 style={{ color: theme === 'dark' ? 'white' : 'black' }}
               />
             </Button>
@@ -348,7 +348,7 @@ function SearchBox({
               onClick={handleNextMatch}
             >
               <ChevronDown
-                className="w-5 h-5" 
+                className="w-3 h-3" 
                 style={{ color: theme === 'dark' ? 'white' : 'black' }}
               />
             </Button>
