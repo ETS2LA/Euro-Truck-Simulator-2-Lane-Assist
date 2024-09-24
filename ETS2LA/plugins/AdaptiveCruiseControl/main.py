@@ -21,12 +21,18 @@ runner:PluginRunner = None
 
 FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3) # seconds
 OVERSPEED_PERCENTAGE = settings.Get("AdaptiveCruiseControl", "overspeed", 0) # 0-100
+BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60) # meters
+STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15) # meters
+TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5) # times
 ACC_ENABLED = False
 
 def LoadSettings():
-    global FOLLOW_TIME, OVERSPEED_PERCENTAGE
+    global FOLLOW_TIME, OVERSPEED_PERCENTAGE, BRAKING_DISTANCE, STOPPING_DISTANCE, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER
     FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3)
     OVERSPEED_PERCENTAGE = settings.Get("AdaptiveCruiseControl", "overspeed", 0)
+    BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60)
+    STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15)
+    TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5)
     
 # Update settings on change
 settings.Listen("AdaptiveCruiseControl", LoadSettings)
@@ -51,30 +57,30 @@ def DistanceFunction(x):
         return 1
     return math.sin((x * math.pi) / 2)
     
-statusString = ""
-def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistance: float, time: float, vehicleSpeed: float) -> float:
-    global statusString
+statusData = ""
+def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistance: float, time: float, vehicleSpeed: float, falloffDistance: float = BRAKING_DISTANCE, stoppingDistance: float = STOPPING_DISTANCE) -> tuple:
+    global statusData
     
     distance = currentDistance
     if distance <= 0:
         distance = 999
         
     type = "map"
-    if ((time < FOLLOW_TIME and time > 0) or distance < 60) and (vehicleSpeed < 30 or vehicleSpeed < currentSpeed*1.1):
+    if ((time < FOLLOW_TIME and time > 0) or distance < falloffDistance) and (vehicleSpeed < 30 or vehicleSpeed < currentSpeed*1.1):
         timePercent = time / FOLLOW_TIME
         timeTargetSpeed = timePercent * targetSpeed
         
-        distancePercent = DistanceFunction(distance / 40 - 3/8)
+        distancePercent = DistanceFunction(distance / (falloffDistance * 2/3) - (stoppingDistance / (falloffDistance * 2/3)))
         distanceTargetSpeed = distancePercent * targetSpeed
         
         if timeTargetSpeed < distanceTargetSpeed:
             type = "time"
             targetSpeed = timeTargetSpeed
-            statusString = f" {time:.1f}s / {FOLLOW_TIME}s"
+            statusData = (time, FOLLOW_TIME) # f" {time:.1f}s / {FOLLOW_TIME}s"
         else:
             type = "distance"
             targetSpeed = distanceTargetSpeed
-            statusString = f" {distance:.1f}m / 40m"
+            statusData = (distance, falloffDistance) # f" {distance:.1f}m / 40m"
         
 
     # Base accel to stay at current speed
@@ -218,6 +224,52 @@ def GetTargetSpeed(apiData: dict) -> float:
             
     return targetSpeed
 
+lastRedLightTime = 0
+def RedLightExists() -> bool:
+    global lastRedLightTime
+    trafficLights = runner.GetData(['tags.traffic_lights'])[0]
+    if trafficLights is None:
+        if time.time() - lastRedLightTime < .5:
+            return True
+        return False
+    else:
+        if type(trafficLights) != list:
+            if time.time() - lastRedLightTime < .5:
+                return True
+            return False
+        for light in trafficLights:
+            try:
+                if type(light) != dict:
+                    continue
+                if light["state"] == "red":
+                    lastRedLightTime = time.time()
+                    return True
+            except: continue
+            
+    if time.time() - lastRedLightTime < .5:
+        return True
+    
+    return False
+
+lastIntersectionDistance = math.inf
+lastIntersectionDistanceTime = time.time()
+def GetIntersectionDistance() -> float:
+    global lastIntersectionDistance, lastIntersectionDistanceTime
+    try:
+        data = runner.GetData(['tags.next_intersection_distance'])[0]
+    except:
+        if time.time() - lastIntersectionDistanceTime < 0.5:
+            return lastIntersectionDistance
+        return math.inf
+    
+    if type(data) != str and type(data) != float:
+        if time.time() - lastIntersectionDistanceTime < 0.5:
+            return lastIntersectionDistance
+        return math.inf
+    
+    lastIntersectionDistance = float(data)
+    return float(data)
+
 def SetAccelBrake(accel:float) -> None:
     if accel > 0:
         SDKController.aforward = float(accel * 10)
@@ -228,13 +280,21 @@ def SetAccelBrake(accel:float) -> None:
 
 def GetStatus(type) -> str:
     if type == "time":
-        return "Slowing dow to maintain time gap" + statusString
+        runner.state = "Slowing dow to maintain time gap"
+        runner.state_progress = 1 - statusData[0] / statusData[1]
+        return "Slowing dow to maintain time gap" + f" {statusData[0]:.1f}s / {statusData[1]}s"
     elif type == "distance":
-        return "Slowing down to maintain distance gap" + statusString
+        runner.state = "Slowing down to maintain distance gap"
+        runner.state_progress = 1 - statusData[0] / statusData[1]
+        return "Slowing down to maintain distance gap" + f" {statusData[0]:.1f}m / {statusData[1]}m"
     else:
+        runner.state = "running"
+        runner.state_progress = -1
         return "Maintaining speed according to map"
 
 def plugin():
+    global lastVehicleDistance
+    
     if not ACC_ENABLED:
         Reset(); return
         
@@ -250,9 +310,19 @@ def plugin():
     try: timeToVehicle = GetTimeToVehicleAhead(apiData)
     except: timeToVehicle = math.inf; logging.exception("Failed to get time to vehicle ahead")
         
-    acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, vehicleSpeed)
+    if RedLightExists(): 
+        intersectionDistance = GetIntersectionDistance()
+        if intersectionDistance < lastVehicleDistance:
+            lastVehicleDistance = intersectionDistance
+            acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, 0, falloffDistance=BRAKING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, stoppingDistance=STOPPING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER)
+        else:
+            acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, vehicleSpeed)
+    else:
+        acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, vehicleSpeed)
     
     if ACC_ENABLED:
+        if targetSpeed == 0:
+            acceleration = -1
         SetAccelBrake(acceleration)
         
     return None, {

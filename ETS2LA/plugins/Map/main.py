@@ -315,7 +315,8 @@ def CreatePlaceholderMapData(data):
             "closestType": None,
             "inBoundingBox": None,
             "closestLanes": None,
-            "allPoints": None
+            "allPoints": None,
+            "next_intersection_distance": math.inf,
         }
     })
     return data
@@ -474,6 +475,7 @@ def plugin():
             "map": externalData,
             "ar": arData,
             "targetSpeed": targetSpeed,
+            "next_intersection_distance": data["map"]["next_intersection_distance"],
             "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
         }
     
@@ -483,10 +485,12 @@ def plugin():
         return steeringPoints[:20], {
             "map": externalData,
             "targetSpeed": targetSpeed,
+            "next_intersection_distance": data["map"]["next_intersection_distance"],
             "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
         }
     
     return steeringPoints[:20], {
         "targetSpeed": targetSpeed,
+        "next_intersection_distance": data["map"]["next_intersection_distance"],
         "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
     }

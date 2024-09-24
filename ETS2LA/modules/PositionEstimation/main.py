@@ -70,8 +70,6 @@ def run(id: str, detection: tuple | ObjectDetection) -> ObjectTrack | None:
             # Update the object
             obj = GetObjectById(id)
             obj.update(detection, head)
-            if obj.position != None:
-                print(obj.position.tuple())
             
         DeleteOldObjects()
         return obj

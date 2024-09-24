@@ -1,9 +1,9 @@
 # Import libraries
 from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
 from vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
+from classes import Vehicle, RoadMarker, Sign, TrafficLight
 from ETS2LA.utils.translator import Translate
 from ETS2LA.plugins.runner import PluginRunner  
-from classes import Vehicle, RoadMarker, Sign
 from ETS2LA.utils.values import SmoothedValue
 import ETS2LA.backend.settings as settings
 from ETS2LA.utils.logging import logging
@@ -396,8 +396,10 @@ def plugin():
 
     carPoints = []
     objectPoints = []
+    trafficLightPoints = []
     vehicles = []
     objects = []
+    trafficLights = []
     visualTime = time.time()
     
     try:
@@ -436,6 +438,8 @@ def plugin():
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))
                 elif label in ["road_marker"]:
                     objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id))
+                elif label in ["red_traffic_light", "green_traffic_light", "yellow_traffic_light"]:
+                    trafficLightPoints.append((middlePoint, label, object.id))
                 else:
                     objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id, middlePoint, x1, y1, width, height))
             
@@ -514,6 +518,17 @@ def plugin():
                             label.replace("_sign", ""),
                             position
                         ))
+                        
+            for point, label, id in trafficLightPoints:
+                state = label.replace("_traffic_light", "")
+                label = "traffic_light"
+                trafficLights.append(TrafficLight(
+                    id,
+                    label,
+                    [point],
+                    state
+                ))
+                        
         except:
             logging.exception("Error while processing vehicle data")
             pass
@@ -583,5 +598,6 @@ def plugin():
     return None, {
         "vehicles": [vehicle.json() for vehicle in vehicles],
         "objects": [object.json() for object in objects],
+        "traffic_lights": [light.json() for light in trafficLights],
         "ar": arData
     }

@@ -972,6 +972,28 @@ def HandleNav(data, MapUtils, Enabled, path, closestData):
     
     return None
     
+def GetDistanceToNextIntersection(data):
+    global Route
+    truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckY = data["api"]["truckPlacement"]["coordinateY"]
+    truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    for item in Route:
+        if type(item.item) == PrefabItem:
+            # Find the closest point on the prefab
+            closestPointDistance = math.inf
+            for lane in item.item.CurvePoints:
+                for point in lane:
+                    distance = math.sqrt((truckX - point[0]) ** 2 + (truckY - point[2]) ** 2 + (truckZ - point[1]) ** 2)
+                    if distance < closestPointDistance:
+                        closestPointDistance = distance
+
+            return closestPointDistance
+        
+    # There are no prefabs in the route, find the distance to the end of the current item
+    if type(Route[0].item) == Road:
+        startNodeDistance = math.sqrt((truckX - Route[0].item.StartNode.X) ** 2 + (truckY - Route[0].item.StartNode.Y) ** 2 + (truckZ - Route[0].item.StartNode.Z) ** 2)
+        endNodeDistance = math.sqrt((truckX - Route[0].item.EndNode.X) ** 2 + (truckY - Route[0].item.EndNode.Y) ** 2 + (truckZ - Route[0].item.EndNode.Z) ** 2)
+        return min(startNodeDistance, endNodeDistance)
 
 wasIndicating = False
 # MARK: Main Function
@@ -994,6 +1016,8 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData, closestDat
         noNavData = HandleNoNav(data, MapUtils, Enabled, closestData)
         if noNavData != None:
             return noNavData
+        
+    data["map"]["next_intersection_distance"] = GetDistanceToNextIntersection(data)
         
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
