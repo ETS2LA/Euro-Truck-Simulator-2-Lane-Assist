@@ -23,286 +23,90 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner"
-import { CheckUsernameAvailability, Register, Login } from "@/pages/account"
 import { useState } from "react"
 import { CircleCheckBig, LogIn } from "lucide-react"
 import darkPromo from "@/assets/promo_dark.png"
 import lightPromo from "@/assets/promo_light.png"
 import { useTheme } from "next-themes"
 import { translate } from "@/pages/translation"
+import { GetSettingByKey, SetSettingByKey } from "@/pages/settingsServer"
+import { log } from "console"
+import { DiscordLogoIcon } from "@radix-ui/react-icons"
+import { CheckWindow } from "@/pages/backend"
 
-export function Authentication({ onLogin } : { onLogin: (token:string) => void }) {
-	const [username, setUsername] = useState("")
-	const [usernameAvailable, setUsernameAvailable] = useState(false)
-	const [password, setPassword] = useState("")
-	const [passwordRepeat, setPasswordRepeat] = useState("")
-	const [isDialogOpen, setIsDialogOpen] = useState(false);
+export function Authentication({ onLogin, ip } : { onLogin: (token:string) => void, ip: string }) {
 	const { theme, setTheme } = useTheme()
-	const [passwordState, setPasswordState] = useState({
-		uppercase: false,
-		lowercase: false,
-		length: 0,
-		eightCharsOrGreater: false,
-	});
-
 
 	const handleGuestLogin = () => {
 		toast.success(translate("frontend.authentication.login_as_guest"))
 		onLogin("guest")
 	}
 
-	const handleLogin = async () => {
-		if (usernameAvailable) {
-			setIsDialogOpen(true)
-		} else {
-			const token = await Login(username, password)
+	const handleDiscordLogin = async function() {
+		let loginURL = await fetch("https://api.ets2la.com/auth/discord", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			}
+		})
+		.then(response => response.json())
+		let discordOpen = await CheckWindow("Discord", ip)
+		console.log(discordOpen)
+		if(discordOpen) {
+			window.open(loginURL.replace("https://", "discord://"), '_self');
+			toast.info(translate("frontend.authentication.check_discord"))
+		} else{
+			window.open(loginURL, '_blank', 'width=800,height=600');
+		}
+		SetSettingByKey("global", "token", null, ip)
+		SetSettingByKey("global", "user_id", null, ip)
+		// Wait for the token to be set
+		const interval = setInterval(async () => {
+			const token = await GetSettingByKey("global", "token", ip)
 			if (token) {
 				toast.success(translate("frontend.authentication.logged_in"))
+				clearInterval(interval)
 				onLogin(token)
-			} else {
-				toast.error(translate("frontend.authentication.password_incorrect", username))
 			}
-		}
-	}	
+		}, 1000)
+	};
 
-	const handleDialogClose = async (confirmed: boolean) => {
-		setIsDialogOpen(false)
-		if (confirmed) {
-			if (password !== passwordRepeat) {
-				toast.error(translate("frontend.authentication.passwords_dont_match"))
-				return
-			}
-			if (!passwordState.uppercase || !passwordState.lowercase || !passwordState.eightCharsOrGreater) {
-				toast.error(translate("frontend.authentication.password_requirements_not_met"))
-				return
-			}
-			const token = await Register(username, password)
-			if (token) {
-				toast.success(translate("frontend.authentication.account_created"))
-				onLogin(token)
-			} else {
-				toast.error(translate("frontend.authentication.account_creation_failed"))
-			}
-		}
-	}
-
-	const onUsernameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const username = e.target.value
-		setUsername(username)
-		if (await CheckUsernameAvailability(username)) {
-			setUsernameAvailable(true)
-		} else if (username === "Username") {
-			setUsernameAvailable(true)
-		} else {
-			setUsernameAvailable(false)
-		}
-	}
-
-	const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const newPassword = e.target.value; // -> created const not to use 'e.target.value' two times
-		setPassword(newPassword)
-		
-		// set the new password state
-		setPasswordState(getPasswordStrength(newPassword))
-	}
-
-	const onPasswordRepeatChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPasswordRepeat(e.target.value)
-	}
-
-	function passwordsMatch() {
-		if (passwordRepeat === "" || password === "") {
-			return true;
-		}
-		return password === passwordRepeat;
-	}
-
-	function getPasswordStrength(password: string) {
-		// Define regular expressions for different criteria
-		const lowercaseRegex = /[a-z]/; // all lowercase chars
-		const uppercaseRegex = /[A-Z]/; // all uppercase chars
-		
-		// Define passwordMeter to check which symbols/chars are in the password
-		const passwordMeter = {
-			uppercase: Boolean(password.match(uppercaseRegex)),
-			lowercase: Boolean(password.match(lowercaseRegex)),
-			length: password.length,
-			eightCharsOrGreater: password.length >= 8,
-		  }
-		
-		  // return it
-		return passwordMeter
-	}
+	const DiscordIcon = () => (
+		<svg viewBox="0 -28.5 256 256" className="w-5 h-5">
+			<path
+				d="M216.856339,16.5966031 C200.285002,8.84328665 182.566144,3.2084988 164.041564,0 C161.766523,4.11318106 159.108624,9.64549908 157.276099,14.0464379 C137.583995,11.0849896 118.072967,11.0849896 98.7430163,14.0464379 C96.9108417,9.64549908 94.1925838,4.11318106 91.8971895,0 C73.3526068,3.2084988 55.6133949,8.86399117 39.0420583,16.6376612 C5.61752293,67.146514 -3.4433191,116.400813 1.08711069,164.955721 C23.2560196,181.510915 44.7403634,191.567697 65.8621325,198.148576 C71.0772151,190.971126 75.7283628,183.341335 79.7352139,175.300261 C72.104019,172.400575 64.7949724,168.822202 57.8887866,164.667963 C59.7209612,163.310589 61.5131304,161.891452 63.2445898,160.431257 C105.36741,180.133187 151.134928,180.133187 192.754523,160.431257 C194.506336,161.891452 196.298154,163.310589 198.110326,164.667963 C191.183787,168.842556 183.854737,172.420929 176.223542,175.320965 C180.230393,183.341335 184.861538,190.991831 190.096624,198.16893 C211.238746,191.588051 232.743023,181.531619 254.911949,164.955721 C260.227747,108.668201 245.831087,59.8662432 216.856339,16.5966031 Z M85.4738752,135.09489 C72.8290281,135.09489 62.4592217,123.290155 62.4592217,108.914901 C62.4592217,94.5396472 72.607595,82.7145587 85.4738752,82.7145587 C98.3405064,82.7145587 108.709962,94.5189427 108.488529,108.914901 C108.508531,123.290155 98.3405064,135.09489 85.4738752,135.09489 Z M170.525237,135.09489 C157.88039,135.09489 147.510584,123.290155 147.510584,108.914901 C147.510584,94.5396472 157.658606,82.7145587 170.525237,82.7145587 C183.391518,82.7145587 193.761324,94.5189427 193.539891,108.914901 C193.539891,123.290155 183.391518,135.09489 170.525237,135.09489 Z"
+				fill="#5865F2"
+			/>
+		</svg>
+	);
 
 	return (
 	<div className="w-full lg:grid lg:grid-cols-2 h-full">
 		<div  className="flex items-center justify-center h-[calc(100vh-72px)]">
 			<div className="mx-auto grid w-[350px] gap-6">
-				<div className="grid gap-2 text-center">
-					<h1 className="text-3xl font-bold">{usernameAvailable ? translate("frontend.authentication.signup") : translate("frontend.authentication.login")}</h1>
-					<p className="text-balance text-muted-foreground">
-						{translate("frontend.authentication.login_prompt")}
-					</p>
-				</div>
 				<div className="grid gap-4">
-					<div className="grid gap-2">
-						<div className="flex items-center">
-							<Label htmlFor="email">{translate("frontend.authentication.username")}</Label>
-							<p className="ml-auto text-sm flex gap-1 items-center text-zinc-500">
-								{usernameAvailable ? (
-									<CircleCheckBig className="w-4 h-4" />
-								) : (
-									<LogIn className="w-4 h-4" />
-								)}
-							</p>
-						</div>
-						<Input
-							id="email"
-							type="text"
-							placeholder={translate("frontend.authentication.username")}
-							required
-							onChange={onUsernameChange}
-						/>
-					</div>
-					<div className="grid gap-2">
-						<div className="flex items-center">
-							<Label htmlFor="password">{translate("frontend.authentication.password")}</Label>
-						</div>
-						<div className="flex gap-2">
-							<Input id="password" type="password" placeholder={translate("frontend.authentication.password")} required onChange={onPasswordChange} />
-							<Input id="passwordRepeat" type="password" placeholder={translate("frontend.authentication.repeat_password")} required onChange={onPasswordRepeatChange}
-								className={passwordsMatch() ? (usernameAvailable ? "focus:border-2 transition-all" : "transition-all hidden") : "border-red-700 focus:border-2 transition-all"}
-							/>
-						</div>
-					</div>
-					{usernameAvailable ? (
-						<>
-							<AlertDialog>
-								<AlertDialogTrigger>
-									<Button type="submit" className="w-full" onClick={handleLogin}>
-										{translate("frontend.authentication.signup_button")}
-									</Button>
-								</AlertDialogTrigger>
-								<AlertDialogContent>
-									<AlertDialogHeader>
-										<AlertDialogTitle>{translate("confirm")}</AlertDialogTitle>
-										<AlertDialogDescription>
-											{translate("frontend.authentication.account_creation_confirmation")}
-										</AlertDialogDescription>
-									</AlertDialogHeader>
-									<AlertDialogFooter>
-										<AlertDialogCancel onClick={() => handleDialogClose(false)}>{translate("cancel")}</AlertDialogCancel>
-										<AlertDialogAction onClick={() => handleDialogClose(true)}>{translate("continue")}</AlertDialogAction>
-									</AlertDialogFooter>
-								</AlertDialogContent>
-							</AlertDialog>
-						</>
-					) : (
-						<Button type="submit" className="w-full" onClick={handleLogin}>
-							{usernameAvailable ? translate("frontend.authentication.signup_button") : translate("frontend.authentication.login_button")}
-						</Button>
-					)}
+					<Button onClick={handleDiscordLogin} variant={"outline"} className="flex gap-2 transition-all items-center content-center">
+						<DiscordIcon />
+						{translate("frontend.authentication.login_with_discord")}
+					</Button>
 					<Button variant="outline" className="w-full" onClick={handleGuestLogin}>
 						{translate("frontend.authentication.use_guest")}
 					</Button>
-					<Accordion type="single" collapsible className="w-[350px] place-self-center" value={usernameAvailable ? passwordState.uppercase && passwordState.lowercase && passwordState.eightCharsOrGreater ? "" : "item-1" : ""}>
-						<AccordionItem value="item-1">
-							<AccordionTrigger className="w-[400px]"><p
-								className={!usernameAvailable ? "text-zinc-500 transition-colors ease-in-out duration-500" : passwordState.uppercase && passwordState.lowercase && passwordState.eightCharsOrGreater ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}>
-									{translate("frontend.authentication.password_requirements")}
-								</p>
-							</AccordionTrigger>
-							<AccordionContent className="flex justify-between pr-0 w-full p-4 pt-0">
-								<p style={{fontSize: '0.9em'}}
-									className={passwordState.uppercase ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> 
-									{translate("frontend.authentication.uppercase")} 
-								</p>
-								<p style={{fontSize: '0.9em'}}
-									className={passwordState.lowercase ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> 
-									{translate("frontend.authentication.lowercase")} 
-								</p>
-								<p style={{fontSize: '0.9em'}}
-									className={passwordState.eightCharsOrGreater ? "text-green-400 transition-colors ease-in-out duration-500" : "text-red-400 transition-colors ease-in-out duration-500"}> 
-									{translate("frontend.authentication.characters", passwordState.length)} 
-								</p>
-							</AccordionContent>
-						</AccordionItem>
-					</Accordion>
 				</div>
-				<div className="mt-4 text-center text-sm">
-					<p className="text-muted-foreground">{translate("frontend.authentication.account_creation_prompt")}</p>
-				</div>
+				<p className="text-xs text-muted-foreground">
+					{translate("frontend.authentication.login_info")} <a href="https://ets2la.github.io/documentation/privacy-policy/" target="_blank" className="text-accent-foreground">ets2la.com</a>
+				</p>
+				<p className="text-xs text-muted-foreground">
+					{translate("frontend.authentication.register_info")} <a className="text-accent-foreground">(TODO)</a>
+				</p>
 			</div>
 		</div>
 		<div className="hidden rounded-xl h-full lg:flex w-full">
-			{usernameAvailable ? (
-			<>
-				<Separator orientation='vertical' />
-				<div className="w-full h-full p-20 animate-in fade-in-5 duration-500">
-					<Accordion type="single" collapsible className="place-self-center">
-						<AccordionItem value="item-1">
-							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.first")}</AccordionTrigger>
-							<AccordionContent>
-								<p>{translate("frontend.authentication.first_line_1")}</p> 
-								<p>{translate("frontend.authentication.first_line_2")}</p>
-							</AccordionContent>
-						</AccordionItem>
-						<AccordionItem value="item-2">
-							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.second")}</AccordionTrigger>
-							<AccordionContent>
-								<p>{translate("frontend.authentication.second_line_1")}</p>
-							</AccordionContent>
-						</AccordionItem>
-						<AccordionItem value="item-3">
-							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.third")}</AccordionTrigger>
-							<AccordionContent>
-								<p>{translate("frontend.authentication.third_line_1")}</p>
-								<ul className="pt-2">
-									<li>• {translate("frontend.authentication.third_line_1_1")}</li>
-									<li>• {translate("frontend.authentication.third_line_1_2")}</li>
-									<li>• {translate("frontend.authentication.third_line_1_3")}</li>
-								</ul>
-								<p className="pt-2">{translate("frontend.authentication.third_line_2")}</p>
-							</AccordionContent>
-						</AccordionItem>
-						<AccordionItem value="item-4">
-							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.fourth")}</AccordionTrigger>
-							<AccordionContent>
-								<p>{translate("frontend.authentication.fourth_line_1")}</p>
-							</AccordionContent>
-						</AccordionItem>
-						<AccordionItem value="item-5">
-							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.fifth")}</AccordionTrigger>
-							<AccordionContent>
-								<p>{translate("frontend.authentication.fifth_line_1")}</p>
-								<ul className="pt-2">
-									<li>• {translate("frontend.authentication.fifth_line_1_1")}</li>
-									<li>• {translate("frontend.authentication.fifth_line_1_2")}</li>
-									<li>• {translate("frontend.authentication.fifth_line_1_3")}</li>
-									<li>• {translate("frontend.authentication.fifth_line_1_4")}</li>
-									<li>  <a href="https://github.com/RenCloud/scs-sdk-plugin?tab=readme-ov-file#telemetry-fields-and-the-c-object" target="_blank" className="underline">https://github.com/RenCloud/scs-sdk-plugin</a></li>
-								</ul>
-								<p className="pt-2">{translate("frontend.authentication.fifth_line_2")}</p>
-							</AccordionContent>
-						</AccordionItem>
-						<AccordionItem value="item-6">
-							<AccordionTrigger className="w-[400px]">{translate("frontend.authentication.sixth")}</AccordionTrigger>
-							<AccordionContent>
-								<p>{translate("frontend.authentication.sixth_line_1")}</p>
-								<p className="pt-1">{translate("frontend.authentication.sixth_line_2")}</p>
-							</AccordionContent>
-						</AccordionItem>
-					</Accordion>
-				</div>
-			</>
-			) : 
-			(
-				<Image
-					src={theme === "dark" ? darkPromo : lightPromo}
-					alt="ETS2LA Promo"
-					className="rounded-xl h-full object-left object-cover animate-in fade-in-5 duration-500"
-				/>
-			)}
+			<Image
+				src={theme === "light" ? lightPromo : darkPromo}
+				alt="ETS2LA Promo"
+				className="rounded-xl h-full object-left object-cover animate-in fade-in-5 duration-500"
+			/>
 		</div>
 	</div>
 )

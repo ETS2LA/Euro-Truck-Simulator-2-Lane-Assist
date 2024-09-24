@@ -1,5 +1,6 @@
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
 from ETS2LA.frontend.webpage import set_on_top, get_on_top
+from ETS2LA.utils.window import CheckIfWindowOpen
 from ETS2LA.utils.translator import Translate
 import ETS2LA.utils.translator as translator
 from ETS2LA.networking.data_models import *
@@ -11,14 +12,15 @@ import ETS2LA.variables as variables
 import ETS2LA.utils.git as git
 
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
-from fastapi import Body
+from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Body
 from typing import Union
 from typing import Any
 import multiprocessing
 import traceback
 import threading
 import logging
+import requests
 import uvicorn
 import socket
 import json
@@ -48,6 +50,22 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"ETS2LA": "1.0.0"}
+
+@app.get("/api/window/exists/{name}")
+def check_window(name: str):
+    return CheckIfWindowOpen(name)
+
+@app.get("/auth/discord/login", response_class=HTMLResponse)
+def login(code):
+    try:
+        response = requests.get("https://api.ets2la.com/auth/discord/login", params={"code": code})
+        settings.Set("global", "user_id", response.json()["user_id"])
+        settings.Set("global", "token", response.json()["token"])
+        return HTMLResponse(content=open("ETS2LA/networking/auth_complete.html").read().replace("response_code", response.json()["success"]), status_code=200)
+    except:
+        exception = traceback.format_exc()
+        logging.error(exception)
+        return exception
 
 @app.get("/api/quit")
 def quitApp():

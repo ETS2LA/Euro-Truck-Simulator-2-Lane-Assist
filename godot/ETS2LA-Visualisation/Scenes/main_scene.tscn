@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=40 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
@@ -13,7 +13,8 @@
 [ext_resource type="Environment" uid="uid://uher5ame32lt" path="res://Environments/default.tres" id="6_dvxwu"]
 [ext_resource type="Script" path="res://Scripts/vehicles.gd" id="7_jhmr7"]
 [ext_resource type="Script" path="res://Scripts/roads_and_prefabs.gd" id="9_115pj"]
-[ext_resource type="Script" path="res://traffic_lights.gd" id="9_b12iv"]
+[ext_resource type="Script" path="res://Scripts/traffic_lights.gd" id="9_b12iv"]
+[ext_resource type="Script" path="res://Scripts/objects.gd" id="10_n46bk"]
 [ext_resource type="Script" path="res://Scripts/UI/notifications.gd" id="10_p5w2d"]
 [ext_resource type="Script" path="res://Scripts/UI/data_progress.gd" id="12_f87nd"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/camera_reset_button.gd" id="13_1g6rd"]
@@ -125,6 +126,9 @@ script = ExtResource("7_jhmr7")
 
 [node name="TrafficLights" type="Node" parent="."]
 script = ExtResource("9_b12iv")
+
+[node name="Objects" type="Node" parent="."]
+script = ExtResource("10_n46bk")
 
 [node name="Map" type="Node" parent="."]
 

@@ -67,6 +67,28 @@
             }
         },
         {
+            "name": "global.settings.10.name",
+            "key": "width",
+            "description": "global.settings.10.description",
+            "type": {
+                "type": "number",
+                "min": 920,
+                "max": 2560,
+                "step": 10
+            }
+        },
+        {
+            "name": "global.settings.11.name",
+            "key": "height",
+            "description": "global.settings.11.description",
+            "type": {
+                "type": "number",
+                "min": 480,
+                "max": 1440,
+                "step": 10
+            }
+        },
+        {
             "name": "global.settings.9.name",
             "description": "global.settings.9.description",
             "key": "frameless",

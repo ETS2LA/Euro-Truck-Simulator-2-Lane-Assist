@@ -29,15 +29,15 @@ navigation = importlib.import_module("Compute.navigation")
 runner:PluginRunner = None
 
 # MARK: Globals
-COMPUTE_STEERING_DATA = settings.Get("Map", "ComputeSteeringData", False)
+COMPUTE_STEERING_DATA = settings.Get("Map", "ComputeSteeringData", True)
 STEERING_ENABLED = False
 
 SEND_AR_DATA = settings.Get("Map", "SendARData", False)
 SEND_EXTERNAL_DATA = settings.Get("Map", "SendExternalData", True)
 EXTERNAL_DATA_RENDER_DISTANCE = settings.Get("Map", "ExternalDataRenderDistance", 200) # meters
-NAVIGATION = settings.Get("Map", "Navigation", True) # whether to use the navigation system
+NAVIGATION = settings.Get("Map", "Navigation", False) # whether to use the navigation system
 
-INTERNAL_VISUALISATION = settings.Get("Map", "InternalVisualisation", True)
+INTERNAL_VISUALISATION = settings.Get("Map", "InternalVisualisation", False)
 ZOOM = settings.Get("Map", "Zoom", 1)
 
 DATA_LOADED = False
@@ -315,7 +315,8 @@ def CreatePlaceholderMapData(data):
             "closestType": None,
             "inBoundingBox": None,
             "closestLanes": None,
-            "allPoints": None
+            "allPoints": None,
+            "next_intersection_distance": math.inf,
         }
     })
     return data
@@ -447,7 +448,8 @@ def plugin():
             runner.Profile("- doing stuff with said data")
             
         curvature = plotter.CalculateCurvature(points)
-        targetSpeed = targetSpeed * (1 - plotter.map_curvature_to_speed_effect(curvature))
+        max_speed = plotter.map_curvature_to_max_speed(curvature)
+        if targetSpeed > max_speed: targetSpeed = max_speed
         
         runner.Profile("Curvature")
         
@@ -473,6 +475,7 @@ def plugin():
             "map": externalData,
             "ar": arData,
             "targetSpeed": targetSpeed,
+            "next_intersection_distance": data["map"]["next_intersection_distance"],
             "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
         }
     
@@ -482,10 +485,12 @@ def plugin():
         return steeringPoints[:20], {
             "map": externalData,
             "targetSpeed": targetSpeed,
+            "next_intersection_distance": data["map"]["next_intersection_distance"],
             "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
         }
     
     return steeringPoints[:20], {
         "targetSpeed": targetSpeed,
+        "next_intersection_distance": data["map"]["next_intersection_distance"],
         "instruct": data["map"]["instruct"] if "instruct" in data["map"] else {},
     }

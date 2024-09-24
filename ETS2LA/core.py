@@ -32,10 +32,11 @@ sounds.UpdateGlobalSoundpackJson()  # Update the soundpacks in the global settin
 logging.info(Translate("core.backend_started"))
 
 lastPingTime = 0
+frameCounter = 0
 def run():
-    global lastPingTime
+    global lastPingTime, frameCounter
     while True:
-        time.sleep(0.01) # Relieve CPU time
+        time.sleep(0.01) # Relieve CPU time (100fps)
         
         for func in webserver.mainThreadQueue:
             func[0](*func[1], **func[2])
@@ -55,15 +56,19 @@ def run():
             webpage.minimize_window()
             variables.MINIMIZE = False
         
-        translator.CheckForLanguageUpdates()
+        if frameCounter % 100 == 0: # 1 second 
+            translator.CheckForLanguageUpdates()
+            frameCounter = 0
         
-        if lastPingTime + 60 < time.time():
-            lastPingTime = time.time()
-            try:
-                cloud.Ping()
-            except:
-                logging.debug("Could not ping the server.")
-                pass
+        # if lastPingTime + 60 < time.time():
+        #     lastPingTime = time.time()
+        #     try:
+        #         cloud.Ping()
+        #     except:
+        #         logging.debug("Could not ping the server.")
+        #         pass
+            
+        frameCounter += 1
 
 if __name__ == "__main__":
     run()

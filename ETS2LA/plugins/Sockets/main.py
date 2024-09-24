@@ -142,6 +142,61 @@ def vehicles(data):
     lastVehicleStringTime = time.time()
     return send
 
+lastObjects = [""]
+lastObjectString = ""
+lastObjectStringTime = time.time()
+def objects(data):
+    global lastObjects, lastObjectString, lastObjectStringTime
+    
+    data["objects"] = runner.GetData(["tags.objects"])[0] # Get the objects
+    
+    if data["objects"] is None or type(data["objects"]) != list or data["objects"] == [] or type(data["objects"][0]) != dict:
+        if time.time() - lastObjectStringTime < 1:
+            return lastObjectString
+        else:
+            return "JSONobjects:[];"
+    
+    try:    
+        if data["objects"] == lastObjects:
+            return lastObjectString
+    except:
+        return lastObjectString
+    
+    if data["objects"] is not None:
+        newObjects = []
+        try:
+            for obj in data["objects"]:
+                if isinstance(obj, dict):
+                    newObjects.append(obj)
+                elif isinstance(obj, list): # No clue why this happens, it's just sometimes single coordinates like this [31352.055901850657, 18157.970393701282]
+                    continue
+                elif isinstance(obj, tuple):
+                    continue
+                elif isinstance(obj, str):
+                    continue
+                else:
+                    try:
+                        newObjects.append(obj.json())
+                    except:
+                        try:
+                            newObjects.append(obj.__dict__)
+                        except:
+                            pass
+        except:
+            pass
+                    
+        data["objects"] = newObjects
+    
+    if data["objects"] is []:
+        if time.time() - lastObjectStringTime < 1:
+            return lastObjectString
+        
+    send = "JSONobjects:" + json.dumps(data["objects"]) + ";"
+    lastObjects = data["objects"]
+    lastObjectString = send
+    lastObjectStringTime = time.time()
+    return send
+
 lastSteeringPoints = []
 def steering(data):
     try:
@@ -248,6 +303,8 @@ def plugin():
     runner.Profile("AccelBrake")
     tempSend += vehicles(data)
     runner.Profile("Vehicles")
+    tempSend += objects(data)
+    runner.Profile("Objects")
     tempSend += traffic_lights(data)
     runner.Profile("TrafficLights")
     tempSend += steering(data)

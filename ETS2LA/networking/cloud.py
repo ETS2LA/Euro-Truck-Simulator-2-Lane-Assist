@@ -1,7 +1,11 @@
-import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
+import ETS2LA.backend.classes as classes
+import ETS2LA.variables as variables
 import requests
+import logging
 import json
+
+URL = "https://api.ets2la.com"
 
 def SendCrashReport(type:str, message:str, additional=None):
     """Will send a crash report to the main application server. This will then be forwarded to the developers on discord.
@@ -57,38 +61,58 @@ def SendCrashReport(type:str, message:str, additional=None):
         print("Crash detected, but crash reporting is disabled.")
         return False
 
-def GetMotd():
-    """Get the message of the day from the main application server. This will be shown to the user when the app is opened.
+def GetCredentials():
+    user_id = settings.Get("global", "user_id", None)
+    token = settings.Get("global", "token", None)
+    return user_id, token, user_id is not None and token is not None
 
-    Returns:
-        str: Message of the day
-    """
+def StartedJob(job: classes.Job):
+    user_id, token, success = GetCredentials()
+    if success:
+        url = URL + f'/user/{user_id}/job/started'
+        headers = {
+            'Authorization': f"Bearer {token}"
+        }
+        data = job.json()
+        r = requests.post(url, headers=headers, json=data)
+        if r.json()["status"] == 200:
+            logging.info("Successfully sent job data to the cloud.")
+        else:
+            logging.warning("Job data not saved, error: " + r.text)
+        return r.json()["status"] == 200
     
-    try:
-        url = 'https://crash.tumppi066.fi/motd'
-        response = json.loads(requests.get(url, timeout=1).text)
-        return response["motd"]
-    except:
-        return "Could not get server message."
-    
-def GetUserCount():
-    """Get the amount of users using the app. This will be shown to the user when the app is opened.
+    return False
 
-    Returns:
-        str: User count
-    """
+def FinishedJob(job: classes.FinishedJob):
+    user_id, token, success = GetCredentials()
+    if success:
+        url = URL + f'/user/{user_id}/job/finished'
+        headers = {
+            'Authorization': f"Bearer {token}"
+        }
+        data = job.json()
+        r = requests.post(url, headers=headers, json=data)
+        if r.json()["status"] == 200:
+            logging.info("Successfully sent job data to the cloud.")
+        else:
+            logging.warning("Job data not saved, error: " + r.text)
+        return r.json()["status"] == 200
     
-    try:
-        url = 'https://crash.tumppi066.fi/usercount'
-        response = json.loads(requests.get(url, timeout=1).text)
-        return response["usercount"]
-    except:
-        return "Could not get user count."
+    return False
+
+def CancelledJob(job: classes.CancelledJob):
+    user_id, token, success = GetCredentials()
+    if success:
+        url = URL + f'/user/{user_id}/job/cancelled'
+        headers = {
+            'Authorization': f"Bearer {token}"
+        }
+        data = job.json()
+        r = requests.post(url, headers=headers, json=data)
+        if r.json()["status"] == 200:
+            logging.info("Successfully sent job data to the cloud.")
+        else:
+            logging.warning("Job data not saved, error: " + r.text)
+        return r.json()["status"] == 200
     
-def Ping():
-    """Will send a ping to the server, doesn't send any data."""
-    try:
-        url = 'https://crash.tumppi066.fi/ping'
-        requests.get(url, timeout=1)
-    except:
-        pass
+    return False

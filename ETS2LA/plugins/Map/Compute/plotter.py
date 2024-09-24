@@ -147,17 +147,24 @@ def GetItemAndLaneReferences(closestData, MapUtils, truckX, truckZ):
         #ClosestLane = closestItem.CurvePoints.index(closestData["closestLane"])
 
 # MARK: Discard points
-def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation):
+def DiscardPointsBehindTheTruck(points, truckX, truckZ, rotation, isDisabled = False):
     newPoints = []
     truckForwardVector = [-math.sin(rotation), -math.cos(rotation)]
+    index = 0
     for point in points:
         pointForwardVector = [point[0] - truckX, point[1] - truckZ]
         # angle = np.arccos(np.dot(truckForwardVector, pointforwardVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(pointforwardVector)))
         angle = np.arccos(np.dot(truckForwardVector, pointForwardVector) / (np.linalg.norm(truckForwardVector) * np.linalg.norm(pointForwardVector)))
         angle = math.degrees(angle)
         if angle > 90 or angle < -90:
+            index += 1
             continue
-        newPoints.append(point)   
+        
+        if isDisabled:
+            newPoints.append(point)
+        else:
+            newPoints = points[index:]
+            break
         
     try:
         if DistanceBetweenPoints([truckX, truckZ], newPoints[0]) > DistanceBetweenPoints([truckX, truckZ], newPoints[-1]):
@@ -539,11 +546,37 @@ def GetPathInstruct(path, apiData):
 def DistanceBetweenPoints(point1, point2):
     return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
-def map_curvature_to_speed_effect(curvature):
-    factor = 0.07
-    min_effect, max_effect = 0.0, 0.7
-    effect = min(max(curvature * factor, min_effect), max_effect)
-    return effect
+# Curvature in degrees
+curvature_to_max_speed = {
+    0: 100, # Max speed that ETS2LA is allowed to drive
+    10: 90,
+    20: 80,
+    30: 70,
+    40: 60,
+    50: 50,
+    60: 40,
+    70: 30,
+    80: 25,
+    90: 20,
+}
+def map_curvature_to_max_speed(curvature):
+    # Map the curvature to a max speed
+    index_below = 0
+    index_above = 0
+    for key in curvature_to_max_speed.keys():
+        if key > curvature:
+            index_above = key
+            break
+        index_below = key
+        
+    # Interpolate between the two values
+    if index_below == len(curvature_to_max_speed.keys()) and index_above == 0:
+        return curvature_to_max_speed[-1] / 3.6 # Convert to m/s
+    
+    percentage = (curvature - index_below) / (index_above - index_below)
+    if percentage < 0: percentage = 0
+    return (curvature_to_max_speed[index_below] + (curvature_to_max_speed[index_above] - curvature_to_max_speed[index_below]) * percentage) / 3.6 # Convert to m/s
+    
 
 def CalculateCurvature(points):
     if len(points) < 3:  # Need at least 3 points to calculate curvature
@@ -552,39 +585,30 @@ def CalculateCurvature(points):
     curvatures = []
     try:
         for i in range(1, len(points) - 1):
-            vector1 = np.array(points[i]) - np.array(points[i - 1])
-            vector2 = np.array(points[i + 1]) - np.array(points[i])
+            vector1 = np.array(points[i][:2]) - np.array(points[i - 1][:2])
+            vector2 = np.array(points[i + 1][:2]) - np.array(points[i][:2])
+            vector1 = vector1 / np.linalg.norm(vector1)
+            vector2 = vector2 / np.linalg.norm(vector2)
+            #print(vector1, vector2)
             dot_product = np.dot(vector1, vector2)
             norm_product = np.linalg.norm(vector1) * np.linalg.norm(vector2)
-
+            
             if norm_product == 0:
                 angle = 0
             else:
                 cos_angle = dot_product / norm_product
                 cos_angle = np.clip(cos_angle, -1, 1)
                 angle = np.arccos(cos_angle)
+                #print(f"Angle: {math.degrees(angle)}")
                 if angle > math.pi/2:
                     angle = math.pi - angle
 
             if not np.isnan(angle) and angle != 0:
                 curvatures.append(angle)
 
-        #print(f"Curvatures: {curvatures}")
-        # Filter outliers using IQR
-        try:
-            q1, q3 = np.percentile(curvatures, [25, 75])
-            iqr = q3 - q1
-            lower_bound = q1 - (1.5 * iqr)
-            upper_bound = q3 + (1.5 * iqr)
-            filtered_curvatures = [x for x in curvatures if lower_bound <= x <= upper_bound]
-
-            total_curvature = sum(filtered_curvatures) / len(filtered_curvatures)
-            total_curvature = math.degrees(total_curvature)
-            #print(f"Curvature: {total_curvature}", end="\r")
-        except:
-            total_curvature = sum(curvatures) / len(curvatures)
-            total_curvature = math.degrees(total_curvature)
-            #print(f"Curvature: {total_curvature}", end="\r")
+        total_curvature = sum(curvatures)
+        total_curvature = math.degrees(total_curvature)
+        #print(f"Curvature: {total_curvature}", end="\r")
 
         return total_curvature
     except Exception as e:
@@ -719,14 +743,18 @@ def HandleNoNav(data, MapUtils, Enabled, closestData):
     if Route == []:
         return data
     
+    count = 0
     for routeItem in Route:
-        newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
-        for point in routeItem.points:
-            if point not in newPoints:
-                routeItem.removedPoints.append(point)
-        routeItem.points = newPoints
-        if routeItem.points == []:
-            Route.remove(routeItem)
+        if count == 0:
+            newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation, isDisabled=not Enabled)
+            for point in routeItem.points:
+                if point not in newPoints:
+                    routeItem.removedPoints.append(point)
+            routeItem.points = newPoints
+            if routeItem.points == []:
+                Route.remove(routeItem)
+                
+        count += 1
         
     tries = 0
     while len(Route) < RouteLength:
@@ -785,15 +813,16 @@ def HandleNoNav(data, MapUtils, Enabled, closestData):
         #print(vector1)
         angle = np.arccos(np.dot(vector1, lastVector) / (np.linalg.norm(vector1) * np.linalg.norm(lastVector)))
         angle = math.degrees(angle)
-        if np.array_equal(vector1, lastVector) or (angle < 90 and angle > -80):
-            acceptedPoints.append(allPoints[i])
-            lastVector = vector1
-            lastPoint = allPoints[i]
+        if np.array_equal(vector1, lastVector) or (angle < 80 and angle > -80):
+            distance = math.sqrt((allPoints[i][0] - lastPoint[0]) ** 2 + (allPoints[i][1] - lastPoint[1]) ** 2)
+            if distance > 2:
+                acceptedPoints.append(allPoints[i])
+                lastVector = vector1
+                lastPoint = allPoints[i]
         else:
             #print(angle)
             ...
     allPoints = acceptedPoints
-    
     #print(Route)
     
     if allPoints == []:
@@ -811,7 +840,6 @@ def HandleNoNav(data, MapUtils, Enabled, closestData):
     if DistanceBetweenPoints([truckX, truckZ], allPoints[0]) > 1500:
         Route = []
         return data
-    
     return None
 
 currentPathIndex = 0
@@ -914,9 +942,11 @@ def HandleNav(data, MapUtils, Enabled, path, closestData):
         angle = np.arccos(np.dot(vector1, lastVector) / (np.linalg.norm(vector1) * np.linalg.norm(lastVector)))
         angle = math.degrees(angle)
         if np.array_equal(vector1, lastVector) or (angle < 90 and angle > -90):
-            acceptedPoints.append(allPoints[i])
-            lastVector = vector1
-            lastPoint = allPoints[i]
+            distance = math.sqrt((allPoints[i][0] - lastPoint[0]) ** 2 + (allPoints[i][1] - lastPoint[1]) ** 2)
+            if distance > 2:
+                acceptedPoints.append(allPoints[i])
+                lastVector = vector1
+                lastPoint = allPoints[i]
         else:
             #print(angle)
             ...
@@ -942,6 +972,28 @@ def HandleNav(data, MapUtils, Enabled, path, closestData):
     
     return None
     
+def GetDistanceToNextIntersection(data):
+    global Route
+    truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckY = data["api"]["truckPlacement"]["coordinateY"]
+    truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    for item in Route:
+        if type(item.item) == PrefabItem:
+            # Find the closest point on the prefab
+            closestPointDistance = math.inf
+            for lane in item.item.CurvePoints:
+                for point in lane:
+                    distance = math.sqrt((truckX - point[0]) ** 2 + (truckY - point[2]) ** 2 + (truckZ - point[1]) ** 2)
+                    if distance < closestPointDistance:
+                        closestPointDistance = distance
+
+            return closestPointDistance
+        
+    # There are no prefabs in the route, find the distance to the end of the current item
+    if type(Route[0].item) == Road:
+        startNodeDistance = math.sqrt((truckX - Route[0].item.StartNode.X) ** 2 + (truckY - Route[0].item.StartNode.Y) ** 2 + (truckZ - Route[0].item.StartNode.Z) ** 2)
+        endNodeDistance = math.sqrt((truckX - Route[0].item.EndNode.X) ** 2 + (truckY - Route[0].item.EndNode.Y) ** 2 + (truckZ - Route[0].item.EndNode.Z) ** 2)
+        return min(startNodeDistance, endNodeDistance)
 
 wasIndicating = False
 # MARK: Main Function
@@ -964,8 +1016,9 @@ def GetSteeringPoints(data : dict, MapUtils, Enabled, navigationData, closestDat
         noNavData = HandleNoNav(data, MapUtils, Enabled, closestData)
         if noNavData != None:
             return noNavData
-
-
+        
+    data["map"]["next_intersection_distance"] = GetDistanceToNextIntersection(data)
+        
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
     rotation = data["api"]["truckPlacement"]["rotationX"] * 360

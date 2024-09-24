@@ -6,6 +6,7 @@ except:
     sys.path.append(os.path.dirname(__file__))
     from ETS2LA.utils.translator import Translate
     
+from ETS2LA.modules.SDKController.main import SCSController
 import ETS2LA.networking.cloud as cloud
 from multiprocessing import Queue
 from rich.console import Console
@@ -28,6 +29,7 @@ NORMAL = "\033[0m"
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 console = Console()
+controller = SCSController()
 
 def CloseNode():
     if os.name == "nt":
@@ -97,12 +99,14 @@ if __name__ == "__main__":
             if e.args[0] == "exit":
                 CloseNode()
                 CountErrorsAndWarnings()
+                controller.reset()
                 sys.exit(0)
 
             if e.args[0] == "restart":
                 CloseNode()
                 CountErrorsAndWarnings()
                 ClearLogFiles()
+                controller.reset()
                 print(YELLOW + Translate("main.restarting") + NORMAL)
                 continue
             
@@ -117,6 +121,7 @@ if __name__ == "__main__":
                     os.system("sh update.sh")
                 
                 CountErrorsAndWarnings()
+                controller.reset()
                 print("\n" + GREEN + Translate("main.update_done") + NORMAL + "\n")
                 CloseNode()
                 continue
@@ -135,6 +140,7 @@ if __name__ == "__main__":
             CloseNode()
             CountErrorsAndWarnings()
             print(RED + Translate("main.closed") + NORMAL)
+            controller.reset()
             input(Translate("main.press_enter"))
             sys.exit(0)
         

@@ -291,6 +291,10 @@
     "global.settings.8.description": "应用程序使用的语言。需要重新启动才能更改！",
     "global.settings.9.name": "无边框窗口",
     "global.settings.9.description": "是否使用无边框窗口。需要完全重启才能应用更改！这将修正移动应用程序窗口时的问题，并启用缩放功能。",    
+    "global.settings.10.name": "窗口宽度",
+    "global.settings.10.description": "窗口的宽度.",
+    "global.settings.11.name": "窗口高度",
+    "global.settings.11.description": "窗口的高度.",
 
     "map.settings.1.title": "地图设置",
     "map.settings.1.description": "这些是地图插件的设置。",

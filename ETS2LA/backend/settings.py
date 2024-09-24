@@ -1,8 +1,8 @@
+import logging
+import random
+import time
 import json
 import os
-import logging
-import time
-import random
 
 def GetFilename(plugin):
     if "/" in plugin or "\\" in plugin:
@@ -30,6 +30,10 @@ def CreateIfNotExists(plugin):
     filename = GetFilename(plugin)
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     if not os.path.exists(filename):
+        with open(filename, 'w') as f:
+            json.dump({}, f, indent=4)
+            return False
+    if open(filename, "r").read().replace("\n", "").strip() == "":
         with open(filename, 'w') as f:
             json.dump({}, f, indent=4)
             return False
@@ -89,7 +93,6 @@ def GetJSON(plugin, filename=None):
     # Check that the file exists
     filename = GetFilename(plugin)
     CreateIfNotExists(plugin)
-    
     try:
         with open(filename) as f:
             return json.load(f)

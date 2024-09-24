@@ -16,6 +16,8 @@ if os.name == 'nt':
 DEBUG_MODE = settings.Get("global", "debug_mode", False)
 FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
 FRAMELESS = settings.Get("global", "frameless", True)
+WIDTH = settings.Get("global", "width", 1280)
+HEIGHT = settings.Get("global", "height", 720)
 
 queue:JoinableQueue = JoinableQueue()
 
@@ -28,14 +30,21 @@ webview.settings = {
 
 def set_on_top(state: bool):
     queue.put({"type": "stay_on_top", "state": state})
-    # Wait for the queue to be processed
-    queue.join()
+    queue.join() # Wait for the queue to be processed
     value = queue.get()
     queue.task_done()
     return value
 
 def get_on_top():
     queue.put({"type": "stay_on_top", "state": None})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+def resize_window(width:int, height:int):
+    global webview_window
+    queue.put({"type": "resize", "width": width, "height": height})
     queue.join() # Wait for the queue to be processed
     value = queue.get()
     queue.task_done()
@@ -74,21 +83,26 @@ def start_webpage(queue: JoinableQueue):
                     queue.task_done()
                     queue.put(True)
                     
+                if data["type"] == "resize":
+                    window.resize(data["width"], data["height"])
+                    queue.task_done()
+                    queue.put(True)
+                    
             except:
                 pass
 
-    window_x = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))[0]
-    window_y = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))[1]
+    window_x = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - WIDTH//2, get_screen_dimensions()[3]//2 - HEIGHT//2))[0]
+    window_y = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - WIDTH//2, get_screen_dimensions()[3]//2 - HEIGHT//2))[1]
 
-    window_x, window_y = check_valid_window_position(window_x, window_y)
+    window_x, window_y = check_valid_window_position(window_x, window_y, WIDTH, HEIGHT)
 
     window = webview.create_window(
         f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}', 
         html=html, 
         x = window_x,
         y = window_y,
-        width=1280, 
-        height=720,
+        width=WIDTH, 
+        height=HEIGHT,
         background_color=get_theme(),
         resizable=True, 
         zoomable=True,
@@ -107,6 +121,18 @@ def start_webpage(queue: JoinableQueue):
         debug=DEBUG_MODE, # Show developer tools
         storage_path=f"{variables.PATH}cache"
     )
+
+def check_for_size_change(settings):
+    global WIDTH, HEIGHT
+    width = settings["width"]
+    height = settings["height"]
+    if width != WIDTH or height != HEIGHT:
+        while not resize_window(width, height):
+            pass
+        WIDTH = width
+        HEIGHT = height
+    
+settings.Listen("global", check_for_size_change)
 
 def run():
     p = multiprocessing.Process(target=start_webpage, args=(queue, ), daemon=True)

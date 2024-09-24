@@ -1,6 +1,7 @@
 # Import libraries
 from norfair import Detection, Tracker, OptimizedKalmanFilterFactory
 from vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
+from classes import Vehicle, RoadMarker, Sign, TrafficLight
 from ETS2LA.utils.translator import Translate
 from ETS2LA.plugins.runner import PluginRunner  
 from ETS2LA.utils.values import SmoothedValue
@@ -8,7 +9,6 @@ import ETS2LA.backend.settings as settings
 from ETS2LA.utils.logging import logging
 import ETS2LA.variables as variables
 from typing import Literal
-from classes import Vehicle
 from tqdm import tqdm
 import numpy as np
 import screeninfo
@@ -18,6 +18,7 @@ import requests
 import pathlib
 import torch
 import time
+import math
 import cv2
 import os
 
@@ -55,10 +56,11 @@ TRACK_SPEED: list = \
 model_download_html = \
     f"""
     <div>
-        <h1 style="font-size: 1.5rem; line-height: 1.75rem;">Object Detection - Model Download</h1>
+        <h1 style="font-size: 1rem; line-height: 1.25rem;">Object Detection - Model Download</h1>
         <div style="margin-top: 18px; font-size: 1rem; line-height: 0.75rem;">
             <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.not_found.1")}</p></p>
-            <p style="color: rgb(82 82 91); margin-bottom: 12px;">{MODEL_NAME}</p>
+            <p style="color: rgb(82 82 91); margin-bottom: 12px;">- {MODEL_NAME}</p>
+            <br />
             <p style="color: rgb(82 82 91); margin-bottom: 6px;">{Translate("object_detection.not_found.2")} </p><a style="text-decoration-line: underline;" href="{MODEL_REPO}">Hugging Face</a></p>
         </div>
     </div>
@@ -67,7 +69,7 @@ model_download_html = \
 connection_failed_html = \
     f"""
     <div>
-        <h1 style="font-size: 1.5rem; line-height: 1.75rem;">Object Detection - Connection Failed</h1>
+        <h1 style="font-size: 1rem; line-height: 1.25rem;">Object Detection - Connection Failed</h1>
         <div style="margin-top: 18px; font-size: 1rem; line-height: 0.75rem;">
             <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.connection_failed.1")}</p>
             <p style="color: rgb(82 82 91); margin-bottom: 12px;">{Translate("object_detection.connection_failed.2")}</p>
@@ -82,12 +84,14 @@ def Initialize():
     global TruckSimAPI
     global ScreenCapture
     global Raycast
+    global PositionEstimation
     global capture_y, capture_x, capture_width, capture_height
     global model, frame, temp
 
     ShowImage = runner.modules.ShowImage
     TruckSimAPI = runner.modules.TruckSimAPI
     ScreenCapture = runner.modules.ScreenCapture
+    PositionEstimation = runner.modules.PositionEstimation
     ScreenCapture.mode = "grab"
     Raycast = runner.modules.Raycasting
     
@@ -328,6 +332,10 @@ def plugin():
     data["api"] = TruckSimAPI.run()
     data["frame"] = ScreenCapture.run(imgtype="cropped")
     inputTime = time.time() - inputTime
+    
+    truckX = data["api"]["truckPlacement"]["coordinateX"]
+    truckY = data["api"]["truckPlacement"]["coordinateY"]
+    truckZ = data["api"]["truckPlacement"]["coordinateZ"]
 
     frame = data["frame"]
     if frame is None: 
@@ -387,7 +395,11 @@ def plugin():
     trackTime = time.time() - trackTime
 
     carPoints = []
+    objectPoints = []
+    trafficLightPoints = []
     vehicles = []
+    objects = []
+    trafficLights = []
     visualTime = time.time()
     
     try:
@@ -395,7 +407,7 @@ def plugin():
             box = tracked_object.estimate
             x1, y1, x2, y2 = box[0]
             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
-            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id} : {str(round(GetVehicleSpeed(tracked_object.id)*3.6)) + 'kph' if tracked_object.label in TRACK_SPEED else 'static'}", (int(x1), int(y1-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(frame, f"{tracked_object.label} : {tracked_object.id} {': ' + str(round(GetVehicleSpeed(tracked_object.id)*3.6)) + 'kph' if tracked_object.label in TRACK_SPEED else ': static'}", (int(x1), int(y1-10)), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
     except:
         pass
     
@@ -407,6 +419,8 @@ def plugin():
             for object in tracked_boxes:
                 label = object.label
                 x1, y1, x2, y2 = object.estimate[0]
+                width = x2 - x1
+                height = y2 - y1
                 # Add the offset to the x and y coordinates
                 x1r = x1 + capture_x
                 y1r = y1 + capture_y
@@ -414,13 +428,20 @@ def plugin():
                 y2r = y2 + capture_y
                 bottomLeftPoint = (int(x1r), int(y2r))
                 bottomRightPoint = (int(x2r), int(y2r))
+                middlePoint = (int((x1r + x2r) / 2), int((y1r + y2r) / 2))
                 
                 if label in ['car', "van"]:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car", object.id))
-                if label in ['truck']:
+                elif label in ['truck']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck", object.id))
-                if label in ['bus']:
+                elif label in ['bus']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))
+                elif label in ["road_marker"]:
+                    objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id))
+                elif label in ["red_traffic_light", "green_traffic_light", "yellow_traffic_light"]:
+                    trafficLightPoints.append((middlePoint, label, object.id))
+                else:
+                    objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id, middlePoint, x1, y1, width, height))
             
             for line in carPoints:
                 id = line[3]
@@ -438,13 +459,76 @@ def plugin():
                 secondRaycast = raycasts[1]
                 middlePoint = ((firstRaycast.point[0] + secondRaycast.point[0]) / 2, (firstRaycast.point[1] + secondRaycast.point[1]) / 2, (firstRaycast.point[2] + secondRaycast.point[2]) / 2)
                 
+                speed = UpdateVehicleSpeed(id, middlePoint)
+                distance = math.sqrt((middlePoint[0] - truckX)**2 + (middlePoint[1] - truckY)**2 + (middlePoint[2] - truckZ)**2)
+                
                 vehicles.append(Vehicle(
                     id,
                     line[2],
                     screenPoints, 
                     raycasts, 
-                    speed=UpdateVehicleSpeed(id, middlePoint)
+                    speed=speed,
+                    distance=distance
                 ))
+                
+            for line in objectPoints:
+                if len(line) == 4:
+                    id = line[3]
+                    line = line[:3]
+                    label = line[2]
+                    raycasts = []
+                    screenPoints = []
+                    for point in line:
+                        if type(point) == str:
+                            continue
+                        raycast = Raycast.run(x=point[0], y=point[1])
+                        raycasts.append(raycast)
+                        screenPoints.append(point)
+                        
+                    firstRaycast = raycasts[0]
+                    secondRaycast = raycasts[1]
+                    middlePoint = ((firstRaycast.point[0] + secondRaycast.point[0]) / 2, (firstRaycast.point[1] + secondRaycast.point[1]) / 2, (firstRaycast.point[2] + secondRaycast.point[2]) / 2)
+                    
+                    if label == "road_marker":
+                        objects.append(RoadMarker(
+                            id,
+                            label,
+                            screenPoints,
+                            middlePoint
+                        ))
+                else:
+                    id = line[3]
+                    label = line[2]
+                    middlePoint = line[4]
+                    x1 = line[5]
+                    y1 = line[6]
+                    width = line[7]
+                    height = line[8]
+                    track = PositionEstimation.run(id, (middlePoint[0], middlePoint[1], width, height))
+                    if track != None and track.position != None:
+                        position = track.position.tuple()
+                    else:
+                        position = (0, 0, 0)
+                        
+                    if "sign" in label:
+                        objects.append(Sign(
+                            id,
+                            "sign",
+                            middlePoint,
+                            label.replace("_sign", ""),
+                            position
+                        ))
+                        
+            for point, label, id in trafficLightPoints:
+                state = label.replace("_traffic_light", "")
+                label = "traffic_light"
+                trafficLights.append(TrafficLight(
+                    id,
+                    label,
+                    [point],
+                    state
+                ))
+                        
         except:
             logging.exception("Error while processing vehicle data")
             pass
@@ -481,12 +565,6 @@ def plugin():
     
     # Get the data for the AR plugin
     if USE_EXTERNAL_VISUALIZATION:
-        # Send data to the AR plugin
-        x = data["api"]["truckPlacement"]["coordinateX"]
-        y = data["api"]["truckPlacement"]["coordinateY"]
-        z = data["api"]["truckPlacement"]["coordinateZ"]
-
-
         # Add the cars to the external visualization as a line from the start point to y + 1
         for vehicle in vehicles:
             if vehicle == None: continue
@@ -519,5 +597,7 @@ def plugin():
     # Return data to the main thread
     return None, {
         "vehicles": [vehicle.json() for vehicle in vehicles],
+        "objects": [object.json() for object in objects],
+        "traffic_lights": [light.json() for light in trafficLights],
         "ar": arData
     }

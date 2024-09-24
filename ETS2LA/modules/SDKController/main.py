@@ -1,15 +1,10 @@
-import cv2
 import numpy as np
-from ETS2LA.plugins.runner import PluginRunner
-import os
-import logging
-
-runner:PluginRunner = None
-
-import mmap
 import platform
 import struct
+import mmap
 import sys
+import cv2
+import os
 
 from typing import Dict
 
@@ -18,6 +13,8 @@ from typing import Dict
 # the insertion-order preservation nature of dict objects has
 # been declared to be an official part of the Python language spec.
 assert sys.version_info >= (3, 7)
+
+runner = None
 
 def Initialize():
     pass # Do nothing
@@ -106,11 +103,21 @@ class SCSController:
             raise RuntimeError(f"{system} is not supported")
 
         self._initialized = True
-        logging.info("SCSController initialized")
 
     def close(self):
         self._shm_buff.close()
         self._shm_fd.close()
+
+    def reset(self):
+        for i, t in SCSController.__annotations__.items():
+            if t is bool:
+                self._shm_buff.seek(self._shm_offsets[i])
+                self._shm_buff.write(struct.pack("?", False))
+            elif t is float:
+                self._shm_buff.seek(self._shm_offsets[i])
+                self._shm_buff.write(struct.pack("f", 0.0))
+
+        self._shm_buff.flush()
 
     def __enter__(self):
         return self

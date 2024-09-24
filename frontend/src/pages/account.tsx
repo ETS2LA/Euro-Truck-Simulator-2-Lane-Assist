@@ -2,6 +2,14 @@ import { title } from "process";
 import { token } from "./backend";
 import { useState } from "react";
 import { toast } from "sonner";
+import { GetSettingByKey } from "./settingsServer";
+
+async function GetCredentials() {
+    return {
+        user_id: await GetSettingByKey("global", "user_id"),
+        token: await GetSettingByKey("global", "token")
+    }
+}
 
 export async function CheckConnection() {
     try {
@@ -26,63 +34,50 @@ export async function CheckConnection() {
     }
 }
 
-export async function CheckUsernameAvailability(username:string) {
-    if (await CheckConnection() === false) {
-        console.error("Failed to connect to backend at https://api.tumppi066.fi/!")
-        return false
-    }
-    let response = await fetch("https://api.tumppi066.fi/account/username/check", {
-        method: "POST",
+export async function DeleteUser() {
+    const credentials = await GetCredentials()
+    console.log(credentials)
+    let response = await fetch("https://api.ets2la.com/delete/" + credentials.user_id, {
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${credentials.token}`
         },
-        body: JSON.stringify({username: username})
     })
-    let data = await response.json()
-    if(data.status == "ok") {
+    if(response.ok) {
+        toast.success("Your account has been deleted!")
+        return true
+    }
+    throw new Error(response.statusText)
+}
+
+export async function ValidateUser() {
+    const credentials = await GetCredentials()
+    let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${credentials.token}`
+        },
+    })
+    if(response.status == 200) {
         return true
     }
     return false
 }
 
-export async function Register(username:string, password:string) {
-    if (await CheckConnection() === false) {
-        console.error("Failed to connect to backend at https://api.tumppi066.fi/!")
-        return null
-    }
-    let response = await fetch("https://api.tumppi066.fi/account/register", {
-        method: "POST",
+export async function GetUserData() {
+    const credentials = await GetCredentials()
+    let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id, {
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${credentials.token}`
         },
-        body: JSON.stringify({username: username, password: password})
     })
-    let data = await response.json()
-    if(data.status == "ok") {
-        return data.message
+    if (response.ok) {
+        const data = await response.json()
+        return data["data"]
     }
-    return null
-}
-
-export async function Login(username:string, password:string) {
-    await CheckConnection().then((result) => {
-        console.log(result)
-        if (result === false) {
-            console.error("Failed to connect to backend at https://api.tumppi066.fi/!")
-            return null
-        }
-    })
-        
-    let response = await fetch("https://api.tumppi066.fi/account/login", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({username: username, password: password})
-    })
-    let data = await response.json()
-    if(data.status == "ok") {
-        return data.message
-    }
-    return null
+    throw new Error(response.statusText)
 }

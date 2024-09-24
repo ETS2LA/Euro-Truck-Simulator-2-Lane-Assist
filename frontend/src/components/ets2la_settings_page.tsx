@@ -26,6 +26,78 @@ import { useEffect } from "react"
 import { Slider } from "./ui/slider"
 import { useState } from "react"
 import { translate } from "@/pages/translation"
+import React, { Component } from 'react';
+
+interface SliderComponentProps {
+    pluginSettings: Record<string, any>;
+    data: {
+        key: string;
+        name: string;
+        description: string;
+        type: {
+            type: string;
+            min: number;
+            max: number;
+            step?: number;
+            suffix?: string;
+            requires_restart?: boolean;
+        };
+    };
+    plugin: string;
+    ip: string;
+    setNeedsRestart: (needsRestart: boolean) => void;
+    mutate: (key: string) => void;
+    translate: (key: string) => string;
+}
+
+interface SliderComponentState {
+    curSliderValue: number;
+    tempSliderValue: number | null;
+}
+
+class SliderComponent extends Component<SliderComponentProps, SliderComponentState> {
+    constructor(props: SliderComponentProps) {
+        super(props);
+        const value = props.pluginSettings[props.data.key] ? parseFloat(props.pluginSettings[props.data.key]) : 0;
+        this.state = {
+            curSliderValue: value,
+            tempSliderValue: null
+        };
+    }
+
+    handleValueChange = (value: number[]) => {
+        this.setState({ tempSliderValue: value[0] });
+    }
+
+    handleValueCommit = (value: number[]) => {
+        const { plugin, data, ip, setNeedsRestart, mutate, translate } = this.props;
+        SetSettingByKey(plugin, data.key, value[0], ip).then(() => {
+            if (data.type.requires_restart)
+                setNeedsRestart(true);
+            mutate("settings");
+            toast.success(translate("frontend.settings.number.updated"), {
+                duration: 500
+            });
+            this.setState({ curSliderValue: value[0], tempSliderValue: null });
+        });
+    }
+
+    render() {
+        const { data, translate, pluginSettings } = this.props;
+        const { curSliderValue, tempSliderValue } = this.state;
+        const value = pluginSettings[data.key] ? parseFloat(pluginSettings[data.key]) : 0;
+        const step = data.type.step || 1;
+        const suffix = data.type.suffix || "";
+
+        return (
+            <div className="flex flex-col gap-2">
+                <h4>{translate(data.name)}  —  {value}{suffix}{tempSliderValue !== null ? tempSliderValue != value ? ` → ${tempSliderValue}${suffix}` : `` : ``}</h4>
+                <Slider min={data.type.min} max={data.type.max} defaultValue={[value]} step={step} onValueChange={this.handleValueChange} onValueCommit={this.handleValueCommit} />
+                <p className="text-xs text-muted-foreground">{translate(data.description)}</p>
+            </div>
+        );
+    }
+}
 
 export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string }) {
 	const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
@@ -127,23 +199,17 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 		if (data.type.type == "number") {
 			const value = pluginSettings[data.key] && parseFloat(pluginSettings[data.key]) || 0
 			if (data.type.min !== undefined && data.type.max !== undefined) { // Ensure min and max are not undefined
-				const step = data.type.step && data.type.step || 1
-				const suffix = data.type.suffix && data.type.suffix || ""
 				return ( // Add return statement here
-					<div className="flex flex-col gap-2">
-						<h4>{translate(data.name)}  —  {value}{suffix}</h4>
-						<Slider min={data.type.min} max={data.type.max} defaultValue={[value]} step={step} onValueCommit={(value) => {
-							SetSettingByKey(plugin, data.key, value[0], ip).then(() => {
-								if (data.requires_restart)
-									setNeedsRestart(true)
-								mutate("settings")
-								toast.success(translate("frontend.settings.number.updated"), {
-									duration: 500
-								})
-							})
-						}} />
-						<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
-					</div>
+					<SliderComponent
+						pluginSettings={pluginSettings}
+						data={data}
+						plugin={plugin}
+						ip={ip}
+						setNeedsRestart={setNeedsRestart}
+						mutate={mutate}
+						toast={toast}
+						translate={translate}
+					/>
 				);
 			}
 			else

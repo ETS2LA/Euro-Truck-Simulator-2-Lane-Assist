@@ -1,6 +1,8 @@
 extends Node3D
 
 var id:int = 0
+var type = "dynamic"
+
 var _defaultMaterial:BaseMaterial3D
 var _child: CSGBox3D
 var _target = Vector3(0,0,0)
@@ -27,9 +29,12 @@ func UpdatePositionScale(newPosition: Vector3, newScale: Vector3):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	position = position.lerp(_target, delta * _distance)
-	scale = scale.lerp(_target_scale, delta)
-	
+	if type == "dynamic":
+		position = position.lerp(_target, delta * _distance)
+		scale = scale.lerp(_target_scale, delta)
+	else:
+		return
+		
 	if "highlights" in Socket.data:
 		var highlight: String = Socket.data["highlights"]
 		highlight = highlight.replace("[", "")

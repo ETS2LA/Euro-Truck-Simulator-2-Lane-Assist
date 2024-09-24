@@ -74,6 +74,8 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     const [rotation, setRotation] = useState(0)
     const [instructions, setInstructions] = useState<string[]>([])
     const markerRef = useRef<L.Marker>(null);
+    const [tilt, setTilt] = useState(0)
+    const [yOffset, setyOffset] = useState(-90)
 
     useEffect(() => {
 
@@ -204,14 +206,27 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                 markerElement.style.transform += ` rotate(${-rotation}deg)`; // Apply rotation
             }
         }
-    }, [rotation]); // This effect depends on the rotation state    
+    }, [rotation]); // This effect depends on the rotation state 
+    
+    useEffect(() => {
+        if (speed*3.6 > 5) {
+            // From 0 tilt at 10kph to 55 tilt at 80kph
+            setTilt(Math.min((speed*3.6 - 5) / 70 * 60, 60));
+            // From -90 offset at 10kph to -60 offset at 80kph
+            setyOffset((speed*3.6 - 5) / 70 * 5 - 90);
+        }
+        else {
+            setyOffset(-95);
+            setTilt(0);
+        }
+    })
 
     let corner1 = latLng(0, 165168)
     let corner2 = latLng(148512, 0)
     let bounds = latLngBounds(corner1, corner2)
     // <CustomMarker position={position} rotation={rotation} />
     return (
-        <div style={{height: "100%", width: "100%", position: "relative"}}>
+        <div style={{height: "100%", width: "100%", position: "relative", perspective: "800px"}}>
             {instructions[0] && Number.isFinite(instructions[instructions.length - 1].totalDistance) &&
                 <Card style={{position: "absolute", top: "58px", right: "12px", zIndex: 1000}} className="bg-transparent border-none backdrop-blur-xl backdrop-brightness-50 h-24 w-48">
                     <CardContent className='p-0 h-full pb-1'>
@@ -234,8 +249,9 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                     </CardContent>
                 </Card>
             }
-            <div style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b", position: "absolute"}}>
-                <MapContainer center={position} zoom={7} style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true} zoomSnap={0}>
+            <div style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b", position: "absolute", transformStyle: "preserve-3d", transform: `rotateX(${tilt}deg) translate(-33vw, ${yOffset}vh)`}}>
+                <div className="absolute -top-1 left-0 h-32 w-[200%] bg-gradient-to-t from-transparent to-[#1b1b1b] pointer-events-none z-50" />
+                <MapContainer center={position} zoom={7} style={{height: "300%", width: "200%", backgroundColor: "#1b1b1b", transformStyle: "preserve-3d", WebkitTransformStyle: "preserve-3d"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true} zoomSnap={0}>
                     <TileLayer
                         attribution='&copy; ETS2LA Team'
                         url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"

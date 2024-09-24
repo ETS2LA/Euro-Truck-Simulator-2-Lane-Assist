@@ -113,19 +113,8 @@ class PrefabItem:
     
         for i, lane in enumerate(self.Prefab.PrefabLanes):
             tempPoints.append([])  # Adding a new list for each lane
-            if len(lane.Curves) == 2:
-                curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[0].startX, prefabStartZ + lane.Curves[0].startZ, rot, originNode.X, originNode.Z)
-                curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[0].endX, prefabStartZ + lane.Curves[0].endZ, rot, originNode.X, originNode.Z)
-                tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[0].startY + prefabStartY))
-                tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[0].endY + prefabStartY))
-                
-                curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[1].startX, prefabStartZ + lane.Curves[1].startZ, rot, originNode.X, originNode.Z)
-                curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[1].endX, prefabStartZ + lane.Curves[1].endZ, rot, originNode.X, originNode.Z)
-                tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[1].startY + prefabStartY))
-                tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[1].endY + prefabStartY))
             if len(lane.Curves) < 4:
                 for k in range(len(lane.Curves)):
-                    #if len(self.Nodes) == 2:
                     curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
                     curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
                     
@@ -165,12 +154,6 @@ class PrefabItem:
                         z = Hermite(s, sz, ez, tanSz, tanEz)
                         #rotatedPoint = calc.RotatePoint(x, z, rot, originNode.X, originNode.Z)
                         tempPoints[i].append((x, z, sy + (ey - sy) * s))
-                    
-                    #else:
-                    #    curveStartPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].startX, prefabStartZ + lane.Curves[k].startZ, rot, originNode.X, originNode.Z)
-                    #    curveEndPoint = calc.RotatePoint(prefabStartX + lane.Curves[k].endX, prefabStartZ + lane.Curves[k].endZ, rot, originNode.X, originNode.Z)
-                    #    tempPoints[i].append((curveStartPoint[0], curveStartPoint[1], lane.Curves[k].startY + prefabStartY))
-                    #    tempPoints[i].append((curveEndPoint[0], curveEndPoint[1], lane.Curves[k].endY + prefabStartY))
             else:
                 for j in range(len(lane.Curves)):
                     #pointCount = len(lane.Curves)
