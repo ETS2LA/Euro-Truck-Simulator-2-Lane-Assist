@@ -287,6 +287,10 @@ def GetStatus(type) -> str:
         runner.state = "Slowing down to maintain distance gap"
         runner.state_progress = 1 - statusData[0] / statusData[1]
         return "Slowing down to maintain distance gap" + f" {statusData[0]:.1f}m / {statusData[1]}m"
+    elif type == "traffic light":
+        runner.state = "Stopping for traffic light"
+        runner.state_progress = 1 - statusData[0] / statusData[1]
+        return f"Slowing down for traffic light in {statusData[0]:.1f}m"
     else:
         runner.state = "running"
         runner.state_progress = -1
@@ -315,6 +319,7 @@ def plugin():
         if intersectionDistance < lastVehicleDistance:
             lastVehicleDistance = intersectionDistance
             acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, 0, falloffDistance=BRAKING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, stoppingDistance=STOPPING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER)
+            type = "traffic light"
         else:
             acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, vehicleSpeed)
     else:
