@@ -670,21 +670,19 @@ export default function Home() {
             <div className="relative w-full">
               {replyingTo && (
                 <div
-                  className={`absolute p-2 rounded-t-md flex justify-between items-center ${
-                    theme === 'dark' ? 'bg-[#303030] text-white' : 'bg-white text-black'
-                  }`}
+                  className={`absolute p-2 rounded-md flex justify-between items-center border bg-background`}
                   style={{
                     width: 'calc(100% - 101px)',
-                    top: '-60%',
+                    top: '-80%',
                     left: '0%',
-                    height: '70%',
+                    height: '60%',
                   }}
                 >
-                  <span>
+                  <span className='text-xs'>
                     Replying to {replyingTo.username}: "{replyingTo.text}"
                   </span>
                   <Button
-                    className="ml-2"
+                    className='-mx-2'
                     variant="ghost"
                     onClick={() => setReplyingTo(null)}
                   >
