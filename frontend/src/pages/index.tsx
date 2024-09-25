@@ -45,7 +45,7 @@ export default function Home({ip} : {ip: string}) {
                 <ResizablePanel defaultSize={80} className="content-center rounded-md">
                     <ResizablePanelGroup direction="vertical" className="overflow-auto text-center gap-1.5">
                         <ResizablePanel defaultSize={10} className="flex flex-col justify-center text-left">
-                            <h2 className="font-customSans pl-3">{translate("frontend.hello", userData ? userData["username"] : "loading...")}</h2>
+                            <h2 className="font-customSans pl-3">{translate("frontend.hello", userData ? userData["username"] : translate("loading"))}</h2>
                         </ResizablePanel> 
                         <ResizablePanel defaultSize={90}>
                             <ResizablePanelGroup direction="horizontal" className="overflow-auto text-center gap-1.5">

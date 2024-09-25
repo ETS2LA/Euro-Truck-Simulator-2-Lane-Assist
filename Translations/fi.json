@@ -66,6 +66,11 @@
 
     "_FRONTEND": "Please leave a space here to seperate the different sections of the translations.",
 
+    "frontend.hello": "Tervetuloa, {0}!",
+    "frontend.disclaimer.title": "Huomio!",
+    "frontend.disclaimer.description.line1": "ETS2LA ei ole vastuussa mistään sovelluksen käytöstä aiheutuvista haitoista. Sovelluksen käyttäminen on omalla vastuullasi.",
+    "frontend.disclaimer.description.line2": "ETS2LA:n käyttäminen TruckersMP (TMP) palvelussa on sen tekijöiden mukaan sallittua. Muista kuitenkin, että heidän näkökulmastaan sinä olet vastuussa ETS2LA:n teoista.",
+    "frontend.disclaimer.ok": "Ymmärrän",
     "frontend.app.lost_connection": "Menetettiin yhteys palvelimeen.",
     "frontend.app.local_ip_placeholder": "ETS2LA:n paikallinen IP-osoite",
     "frontend.app.connect": "Yhdistä",
@@ -157,7 +162,7 @@
     "frontend.version_history.only_100": "Näytetään vain 100 viimeisintä muutosta",
     "frontend.mainmenu.visualisation": "Käynnistä visualisaatio",
     "frontend.mainmenu.open_in_browser": "Avaa visualisaatio selaimessa",
-    "frontend.mainmenu.basic_mode": "Avaa perustila (suositellaan)",
+    "frontend.mainmenu.basic_mode": "Avaa perustila",
     "frontend.pluginlist.failed_to_fetch": "Laajennuksia ei voitu hakea",
     "frontend.pluginlist.name": "Laajennukset",
     "frontend.pluginlist.small_text": " ",
@@ -204,6 +209,9 @@
     "frontend.plugins.no_description": "Kuvausta ei saatavilla",
     "frontend.plugins.button_may_take_second_to_update": "Napilla voi mennä hetki päivittyä",
     "frontend.plugins.open_interface": "Avaa käyttöliittymä",
+    "frontend.mainmenu.updates": "Tässä kehittäjien tekemiä päivityksiä!",
+    "frontend.mainmenu.stats": "Katso omia tilastojasi tästä!",
+    "frontend.mainmenu.plugins": "Hallitse laajennuksia täällä.",
 
     "_LIST_OF_PLUGINS": "Following will be a list of all plugins that allow translation of their names.",
 
