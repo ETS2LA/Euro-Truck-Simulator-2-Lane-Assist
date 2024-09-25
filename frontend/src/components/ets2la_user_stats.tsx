@@ -18,22 +18,30 @@ export default function ETS2LAUserStats() {
 
     useState(() => {
         GetJobs().then((data) => {
-            setJobs(data);
-            setJobCount(data.length);
-            let distance = 0;
-            data.forEach((job:any) => {
-                distance += job["delivered_distance_km"];
-            })
-            setTotalDistance(distance);
-            let revenue = 0;
-            data.forEach((job:any) => {
-                revenue += job["delivered_revenue"];
-            })
-            setTotalRevenue(revenue);
+            try {
+                setJobs(data);
+                setJobCount(data.length);
+                let distance = 0;
+                data.forEach((job:any) => {
+                    distance += job["delivered_distance_km"];
+                })
+                setTotalDistance(distance);
+                let revenue = 0;
+                data.forEach((job:any) => {
+                    revenue += job["delivered_revenue"];
+                })
+                setTotalRevenue(revenue);
+            }
+            catch (error) {
+                toast.error("An error occurred while fetching your job data", {description: "Are you logged in? Have you done jobs?"})
+            }
         })
     }, )
 
     function formatValue(value: number) {
+        if (!value) {
+            return "0"
+        }
         let string = value.toString()
         // Add a space every 3 digits
         // if (string.length <= 4) {
