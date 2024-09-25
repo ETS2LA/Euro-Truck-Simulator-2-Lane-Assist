@@ -1,4 +1,6 @@
-import win32gui
+import os
+if os.name == 'nt':
+    import win32gui
 
 def CheckIfWindowOpen(name):
     top_windows = []
