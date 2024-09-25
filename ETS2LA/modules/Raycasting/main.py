@@ -36,6 +36,12 @@ def Initialize():
     global API
     API = runner.modules.TruckSimAPI
 
+def LoadSettings(jsonData):
+    global FOV
+    FOV = jsonData["FOV"]
+
+settings.Listen("global", LoadSettings)
+
 def UpdateGamePosition():
     global window_x
     global window_y
