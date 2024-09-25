@@ -51,12 +51,14 @@ import { Authentication } from '@/components/ets2la_authentication';
 import { toast } from 'sonner';
 import { SetSettingByKey } from './settingsServer';
 import { ValidateUser } from './account';
+import DisclaimerDialog from '@/components/ets2la_disclaimer_dialog';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [inputValue, setInputValue] = useState("localhost");
   const ipRef = useRef("localhost");
 
   const [showButton, setShowButton] = useState(false);
+  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
   const [status, setStatus] = useState("loading");
 
   const [Token, SetToken] = useState("");
@@ -235,6 +237,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           enableSystem
           disableTransitionOnChange
         >
+          {disclaimerOpen? 
+            <DisclaimerDialog onClose={() => setDisclaimerOpen(false)} open={disclaimerOpen} /> : null
+          }
           {
             !isInBasicMode ? <ETS2LAMenubar ip={ip} onLogout={() =>{
               toast.success(translate("frontend.logged_out"))
