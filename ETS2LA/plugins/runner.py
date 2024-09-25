@@ -445,12 +445,29 @@ class PluginRunner():
         Args:
             title (str): Title of the value.
             json (str): JSON of the value.
+            
+        Example: (same syntax as plugins.json, just without the keys and supports just one value)
+        ```python
+        dict = [
+            {
+                "name": "Test",
+                "description": "Test value",
+                "type": {
+                    "type": "number"
+                }
+            }
+        ]
+        value = runner.get_value("Title", dict)
+        print(value)
+        ```
+        Note:
+        This function will block until the user has entered a value or the timeout (60s) has been reached.
         """
         self.iq.put({"value": {"title": title, "json": jsonData}})
         response = None
         startTime = time.time()
         while response == None:
-            if time.time() - startTime > 30:
+            if time.time() - startTime > 60:
                 return None
             try:
                 # Wait until we get an answer.

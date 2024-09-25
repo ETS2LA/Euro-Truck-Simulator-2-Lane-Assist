@@ -1,5 +1,7 @@
 from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
 import ETS2LA.modules.TruckSimAPI.main as API
+from ETS2LA.frontend.immediate import value
+import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.networking.cloud as cloud
@@ -88,9 +90,27 @@ class RefuelPayed():
 
 class VehicleChange():
     lastLicensePlate = ""
+    firstRun = True
     def VehicleChange(self, data):
         backend.CallEvent('VehicleChange', data["configString"]["truckLicensePlate"], {})
         logging.info("Triggered event: VehicleChange")
+        if self.firstRun: # Ignore the first run as the frontend has not yet started
+            self.firstRun = False
+            return
+        
+        # Try to get new FOV value from user
+        dict = [{
+            "name": "FOV",
+            "description": "We've detected a new vehicle. Please enter the new FOV value.",
+            "type": {
+                "type": "number",
+                "default": settings.Get("global", "FOV", 77)
+            }
+        }]
+        newFOV = value("Vehicle Change Detected", dict)
+        if newFOV != 0 and newFOV != None:
+            settings.Set("global", "FOV", newFOV["value"])
+            logging.info("New FOV value set to: " + str(newFOV))
         
     def ApiCallback(self, data):
         if data["configString"]["truckLicensePlate"] != self.lastLicensePlate:
