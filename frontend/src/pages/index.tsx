@@ -35,9 +35,11 @@ export default function Home({ip} : {ip: string}) {
     const push = useRouter().push;
     const [userData, setUserData] = useState(null);
 
-    GetUserData().then((data) => {
-        setUserData(data);
-    })
+    useState(() => {
+        GetUserData().then((data) => {
+            setUserData(data);
+        })
+    }, )
 
     return (
         <div className="w-full h-[calc(100vh-72px)]">
