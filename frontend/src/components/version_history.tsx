@@ -42,14 +42,15 @@ export default function VersionHistory({ip}: {ip: string}) {
     }
 
     return (
-        <ScrollArea className="h-full pt-3 text-end" type="scroll">
-            <h4 className="pb-3 pl-3 font-medium flex gap-1">{translate("frontend.version_history")} <p className="text-xs text-stone-600">{translate("frontend.version_history.small_text")}</p></h4>
-            <Separator />
+        <ScrollArea className="h-full text-end" type="scroll">
+            {//<h4 className="pb-3 pl-3 font-medium flex gap-1">{translate("frontend.version_history")} <p className="text-xs text-stone-600">{translate("frontend.version_history.small_text")}</p></h4>
+            //<Separator />
+            }
             <Accordion type="single" collapsible>
                 {commits.map((commit: any, index: number) => {
                     return (
-                        <AccordionItem value={commit} className="w-full">
-                            <AccordionTrigger className="pl-3 pr-3 decoration-transparent">
+                        <AccordionItem value={commit} className="w-full group">
+                            <AccordionTrigger className="pl-3 pr-3 decoration-transparent opacity-50 group-hover:opacity-100">
                                 <div className="flex items-center gap-3 w-full">
                                     <Avatar className="w-7 h-7">
                                         <AvatarImage src={getImage(commit.picture)}/>

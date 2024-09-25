@@ -45,9 +45,10 @@ export default function PluginList({ ip }: { ip: string }) {
 
     return (
         // Hide scrollbar too
-        <ScrollArea className="h-full pt-3 text-start" type="scroll">
-            <h4 className="pb-3 pl-3 font-medium flex gap-1">{translate("frontend.pluginlist.name")} {translate("frontend.pluginlist.small_text") != "" && <p className="text-xs text-stone-600">{translate("frontend.pluginlist.small_text")}</p> || null} </h4>
-            <Separator />
+        <ScrollArea className="h-full text-start" type="scroll">
+            {//<h4 className="pb-3 pl-3 font-medium flex gap-1">{translate("frontend.pluginlist.name")} {translate("frontend.pluginlist.small_text") != "" && <p className="text-xs text-stone-600">{translate("frontend.pluginlist.small_text")}</p> || null} </h4>
+            //<Separator />
+            }
             <Accordion type="single" collapsible>
                 {enabledPlugins.map((plugin, index) => (
                     <AccordionItem value={plugin}>

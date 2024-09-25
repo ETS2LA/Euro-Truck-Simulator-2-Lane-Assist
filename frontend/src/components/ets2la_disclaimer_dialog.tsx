@@ -11,6 +11,7 @@ import {
 import { Button } from './ui/button'
 import { useState, useEffect, use } from 'react'
 import { Progress } from './ui/progress'
+import { translate } from '@/pages/translation'
 
 export default function DisclaimerDialog({onClose, open}: {onClose: any, open: boolean}) {
     const [startTime, setStartTime] = useState(Date.now())
@@ -48,15 +49,15 @@ export default function DisclaimerDialog({onClose, open}: {onClose: any, open: b
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
-                        Disclaimer!
+                        {translate("frontend.disclaimer.title")}
                     </DialogTitle>
                 </DialogHeader>
                 <DialogDescription className='flex flex-col gap-2'>
-                    <p>ETS2LA is not responsible for any ill effects caused by using any of the features provided by this software. Please use the software at your own risk.</p>
-                    <p>Using ETS2LA in TruckersMP has been <span className='font-bold'>allowed by TMP staff</span> but you are responsible for any bans or warnings caused by using this software.</p>
+                    <p>{translate("frontend.disclaimer.description.line1")}</p>
+                    <p>{translate("frontend.disclaimer.description.line2")}</p>
                     <br />
                     <div className='flex flex-col gap-0 relative group'>
-                        <Button variant={"outline"} className='text-foreground z-10 hover:font-semibold bg-background border-none disabled:opacity-100 disabled:text-muted-foreground' onClick={onClose} disabled={!buttonEnabled}>I understand</Button>
+                        <Button variant={"outline"} className='text-foreground z-10 hover:font-semibold bg-background border-none disabled:opacity-100 disabled:text-muted-foreground' onClick={onClose} disabled={!buttonEnabled}>{translate("frontend.disclaimer.ok")}</Button>
                         <Progress className='w-[calc(100%+2px)] rounded-lg h-[38px] my-[-1px] mx-[-1px] absolute bg-accent/20' value={progress} max={100} sliderClassname='bg-accent' onSubmit={onClose} />
                     </div>
                 </DialogDescription>

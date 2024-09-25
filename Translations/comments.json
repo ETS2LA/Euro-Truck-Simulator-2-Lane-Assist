@@ -37,6 +37,7 @@
     "frontend.immediate.update_check_error": "{0} is the error message",
     "set": "Something was set.\nExample: [Stay on top set to true] 'Set'",
     "setting": "The act of setting something.\nExample: [Setting stay on top to true] 'Setting...'",
+    "frontend.hello": "{0} is the name of the user\nExample: 'Hello, Tumppi066'",
     "frontend.version_history.no_history": "'Data: ' here means that the app will show the data on the next line.",
     "frontend.pluginlist.name": "The TM in this value and the small_text is a joke in english. You can just translate this as something like Plugin List and leave the small_text as a space if you don't come up with anything.",
     "frontend.pluginlist.small_text": "The TM in the name and the this value is a joke in english. You can just leave this as a space if you don't come up with anything.",
