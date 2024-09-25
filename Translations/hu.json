@@ -53,6 +53,8 @@
     "sounds.sound_not_found_in_soundpack": "A '{0}' hang lejátszására tett próbálkozás nem találta meg a '{1}' hangcsomagban",
     "logging.delete_log_error": "Nem sikerült törölni a naplófájlt.",
     "logging.logger_initialized": "A naplózó inicializálva lett.",
+    "events.vehicle_change.vehicle_change": "Jármű csere észlelve.",
+    "events.vehicle_change.vehicle_change_description": "Mi észleltük hogy egy új járműbe száltál, kérünk kabin nézetbe nyomd meg az f4-et, majd nyisd meg a ülés beállitásokat és az új látószöged értékét írd be.",
 
     "_RUNNER": "Please leave a space here to seperate the different sections of the translations.",
 
@@ -90,7 +92,7 @@
     "frontend.command.enable_plugin": "{0} engedélyezése",
     "frontend.command.disable_plugin": "{0} letiltása",
     "frontend.authentication.login_as_guest": "Vendégként bejelentkezve",
-    "frontend.authentication.login_info": "ETS2LA Csak a Discord ID-et és a felhasználó nevedet tárolja. Az adatvédelmi tájékoztatót itt találod::",
+    "frontend.authentication.login_info": "ETS2LA Csak a Discord ID-et és a felhasználó nevedet tárolja. Az adatvédelmi tájékoztatót itt találod:",
     "frontend.authentication.login_with_discord": "Bejelentkezés discorddal",
     "frontend.authentication.check_discord": "A bejelentkezés elindult a Discordon keresztül.",
     "frontend.authentication.register_info": "A regisztráció nem szükséges a helyben futatott Pluginok-hoz, viszont hozzáférést fog adni ezekhez a különböző Felhő alapú szollgáltatásokhoz:",
