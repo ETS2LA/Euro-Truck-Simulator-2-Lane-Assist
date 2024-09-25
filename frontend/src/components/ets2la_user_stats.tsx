@@ -93,13 +93,13 @@ export default function ETS2LAUserStats() {
             <Card className="flex flex-col gap-0 justify-center">
                 <CardHeader className="pb-1">
                     <CardTitle className="text-sm font-medium">
-                        Average job distance is
+                        On average your jobs were
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{formatValue(Math.round(totalDistance/jobCount))}km</div>
                     <p className="text-xs text-muted-foreground">
-                        or {formatValue(Math.round(totalDistance/jobCount*0.621371), ",")} miles
+                        ({formatValue(Math.round(totalDistance/jobCount*0.621371), ",")} miles) long
                     </p>
                 </CardContent>
             </Card>
@@ -112,46 +112,46 @@ export default function ETS2LAUserStats() {
                 <CardContent>
                     <div className="text-2xl font-bold">{formatValue(totalRevenue)}€</div>
                     <p className="text-xs text-muted-foreground">
-                        or {formatValue(Math.round(totalRevenue*1.18), ",")}$ (very rough estimate)
+                        or ${formatValue(Math.round(totalRevenue*1.18), ",")} (very rough estimate)
                     </p>
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
                 <CardHeader className="pb-1">
                     <CardTitle className="text-sm font-medium">
-                        Average revenue per kilometer
+                        On average you earned
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{formatValue(Math.round(totalRevenue/totalDistance))}€/km</div>
                     <p className="text-xs text-muted-foreground">
-                        or {formatValue(Math.round((totalRevenue*1.18)/(totalDistance*0.621371)), ",")}$/mile
+                        or ${formatValue(Math.round((totalRevenue*1.18)/(totalDistance*0.621371)), ",")}/mile
                     </p>
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
                 <CardHeader className="pb-1">
                     <CardTitle className="text-sm font-medium">
-                        Average revenue per job
+                        On average your jobs have paid you
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{formatValue(Math.round(totalRevenue/jobCount))}€</div>
                     <p className="text-xs text-muted-foreground">
-                        that's {formatValue(Math.round((totalRevenue*1.18)/jobCount), ",")}$ per job
+                        or ${formatValue(Math.round((totalRevenue*1.18)/jobCount), ",")} (again rough estimate)
                     </p>
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
                 <CardHeader className="pb-1">
                     <CardTitle className="text-sm font-medium">
-                        You've transported a total of
+                        You've also transported a total of
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{formatValue(Math.round(totalWeight))} tons</div>
                     <p className="text-xs text-muted-foreground">
-                        that's {formatValue(Math.round(totalWeight*1.10231), ",")} US tonnes
+                        or {formatValue(Math.round(totalWeight*1.10231), ",")} US tonnes
                     </p>
                 </CardContent>
             </Card>
