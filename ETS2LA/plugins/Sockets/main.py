@@ -5,6 +5,7 @@ import threading
 import logging
 import asyncio
 import json
+import os
 import zlib
 import time
 
@@ -316,4 +317,8 @@ def plugin():
     tempSend += instruct(data)
     runner.Profile("Instruct")
 
-    send = compress_data(tempSend.encode("utf-8"))
+    #Switch to zlib when on windows
+    if os.name == "nt":
+        send = zlib.compress(tempSend.encode("utf-8"), wbits=28)
+    else:
+        send = compress_data(tempSend.encode("utf-8"))
