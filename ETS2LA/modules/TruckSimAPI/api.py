@@ -1,11 +1,17 @@
 import mmap
 import struct
 import logging
+import os
 print = logging.info
+
 
 # https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
 
-mmapName = "Local\SCSTelemetry"
+LINUX = os.path.exists("/etc/os-release")
+if LINUX:
+    mmapName = "/dev/shm/SCS/SCSTelemetry"
+else:
+    mmapName = "Local\SCSTelemetry"
 mmapSize = 32*1024
 
 stringSize = 64
@@ -243,7 +249,11 @@ class scsTelemetry:
     # MARK: UPDATE
     
     def update(self, trailerData=False):
-        self.mm = mmap.mmap(0, mmapSize, mmapName)
+        if LINUX:
+            self.fd = open(mmapName)
+            self.mm = mmap.mmap(self.fd.fileno(), length=0, flags=mmap.MAP_SHARED, prot=mmap.PROT_READ)
+        else:
+            self.mm = mmap.mmap(0, mmapSize, mmapName)
         
         data = {}
         offset = 0
@@ -254,6 +264,7 @@ class scsTelemetry:
             # ZONE 1 -> Start at offset 0
             
             data["sdkActive"], offset = self.readBool(offset)
+            print("SDK Active: " + str(data["sdkActive"]))
             data["placeHolder"], offset = self.readChar(offset, 3)
             data["pause"], offset = self.readBool(offset)
             data["placeHolder2"], offset = self.readChar(offset, 3)

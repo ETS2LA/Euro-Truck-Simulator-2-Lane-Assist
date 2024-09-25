@@ -6,6 +6,7 @@ import numpy as np
 import logging
 import cv2
 import mss
+import os
 
 runner:PluginRunner = None
 
@@ -20,6 +21,9 @@ monitor_y2 = monitor["height"]
 cam = None
 cam_process = None
 latest_windows_frame = None
+
+#Check if on linux
+LINUX = os.path.exists("/etc/os-release")
 
 def CreateCam(CamSetupDisplay:int = display):
     if variables.OS == "nt":
@@ -164,7 +168,10 @@ else: # Linux
         """imgtype: "both", "cropped", "full" """
         try:
             # Capture the entire screen
-            fullMonitor = sct.monitors[(display + 1)]
+            if LINUX:
+                fullMonitor = sct.monitors[display]
+            else:
+                fullMonitor = sct.monitors[(display) + 1]
             img = np.array(sct.grab(fullMonitor))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             # return the requestet image, only crop when needed
