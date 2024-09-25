@@ -39,8 +39,8 @@ export default function DisclaimerDialog({onClose, open}: {onClose: any, open: b
         }
     }, [progress, startTime])
 
-    return <Dialog open={open} onOpenChange={onClose}>
-            <DialogTrigger>
+    return <Dialog open={open}>
+            <DialogTrigger className="absolute">
                 <div>
 
                 </div>
@@ -57,7 +57,7 @@ export default function DisclaimerDialog({onClose, open}: {onClose: any, open: b
                     <br />
                     <div className='flex flex-col gap-0 relative group'>
                         <Button variant={"outline"} className='text-foreground z-10 hover:font-semibold bg-background border-none disabled:opacity-100 disabled:text-muted-foreground' onClick={onClose} disabled={!buttonEnabled}>I understand</Button>
-                        <Progress className='w-[calc(100%+2px)] rounded-lg h-[38px] my-[-1px] mx-[-1px] absolute bg-accent/20' value={progress} max={100} sliderClassname='bg-accent' />
+                        <Progress className='w-[calc(100%+2px)] rounded-lg h-[38px] my-[-1px] mx-[-1px] absolute bg-accent/20' value={progress} max={100} sliderClassname='bg-accent' onSubmit={onClose} />
                     </div>
                 </DialogDescription>
             </DialogContent>
