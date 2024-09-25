@@ -446,7 +446,6 @@ def plugin():
                 if label in ['car', "van"]:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car", object.id))
                 elif label in ['truck']:
-                    carPoints.append((bottomLeftPoint))
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck", object.id))
                 elif label in ['bus']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))
