@@ -101,7 +101,7 @@ class VehicleChange():
         # Try to get new FOV value from user
         dict = [{
             "name": "FOV",
-            "description": "We've detected a new vehicle. Please press F4 in the cabin view and enter your new FOV value.",
+            "description": "We've detected a new vehicle. Please press F4 in the cabin view, open the seat settings, and enter your new FOV value.",
             "type": {
                 "type": "number",
                 "default": settings.Get("global", "FOV", 77)
