@@ -22,9 +22,19 @@ import math
 import cv2
 import os
 
+# Conditional import for window management
+if os.name == "nt":
+    import win32gui
+    from ETS2LA.plugins.AR.main import ScreenLine, Text
+else:
+    from Xlib import X, display
+    import Xlib.error
+    import Xlib.ext
+    import Xlib.XK
+
 try:
     from ETS2LA.plugins.AR.main import ScreenLine, Text
-except:
+except ImportError:
     pass
 
 # Silence torch warnings
@@ -33,7 +43,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 settings_yolo_fps = settings.Get("ObjectDetection", "yolo_fps", 2)
 
 # Literals
-runner:PluginRunner = None
+runner: PluginRunner = None
 MODE: Literal["Performance", "Quality"] = \
     settings.Get("ObjectDetection", "mode", "Performance")
 YOLO_FPS: int = \
@@ -85,7 +95,7 @@ def Initialize():
     global ScreenCapture
     global Raycast
     global PositionEstimation
-    global capture_y, capture_x, capture_width, capture_height
+    global capture_x, capture_y, capture_width, capture_height
     global model, frame, temp
 
     ShowImage = runner.modules.ShowImage
@@ -97,9 +107,9 @@ def Initialize():
     
     screen = screeninfo.get_monitors()[0]
     dimensions = settings.Get("ObjectDetection", "dimensions", None)
-    
+
     # Set the capture dimensions based on the screen resolution
-    if dimensions == None:
+    if dimensions is None or len(dimensions) != 4:
         if screen.height >= 1440:
             if screen.width >= 5120:
                 screen_cap = "1440p32:9"
@@ -137,7 +147,7 @@ def Initialize():
     else:
         capture_x, capture_y, capture_width, capture_height = dimensions   
 
-    time.sleep(0.5) # Let the profile text show for a bit
+    time.sleep(0.5)  # Let the profile text show for a bit
 
     if not os.path.exists(MODEL_PATH):
         try:
@@ -163,7 +173,6 @@ def Initialize():
                     size = file.write(data)
                     downloaded_size += size
                     progress_bar.update(size)
-
                     downloaded_mb = downloaded_size / (chunk_size ** 2)  # Convert to MB
                     runner.state = f"{translated_downloading} ({round(downloaded_mb, 2)} / {round(total_mb, 2)} MB)"
                     runner.state_progress = downloaded_size / total_size
@@ -225,6 +234,7 @@ frame = None
 boxes = None
 yolo_frame = None
 cur_yolo_fps = 0
+
 def detection_thread():
     global boxes, cur_yolo_fps
     while True:
@@ -233,16 +243,19 @@ def detection_thread():
             continue
         startTime = time.time()
         # Run YOLO model
-        try: results = model(yolo_frame)
-        except: time.sleep(1/YOLO_FPS); continue # Model is not ready
+        try:
+            results = model(yolo_frame)
+        except:
+            time.sleep(1/YOLO_FPS)
+            continue  # Model is not ready
         boxes = results.pandas().xyxy[0]
-        #print(boxes)
         timeToSleep = 1/YOLO_FPS - (time.time() - startTime)
         if timeToSleep > 0:
             time.sleep(timeToSleep)
         cur_yolo_fps = round(1 / (time.time() - startTime), 1)
 
 trackers = []
+
 def create_trackers(boxes, frame):
     global trackers
     try:
@@ -257,13 +270,14 @@ def create_trackers(boxes, frame):
 
 # Use openCV to track the boxes
 last_boxes = None
+
 def track_cars(boxes, frame):
     global last_boxes, trackers
     
-    if type(boxes) is type(None):
+    if boxes is None:
         return None
     
-    if type(last_boxes) is type(None):
+    if last_boxes is None:
         last_boxes = boxes
         create_trackers(boxes, frame)
         
@@ -271,10 +285,9 @@ def track_cars(boxes, frame):
         last_boxes = boxes
         create_trackers(boxes, frame)
         
-    if type(trackers) is None:
+    if trackers is None:
         return None
     
-    # Update the trackers and return the yolo data with updated boxes
     updated_boxes = boxes.copy()
     count = 0
     for tracker, box in zip(trackers, boxes.iterrows()):
@@ -307,18 +320,19 @@ elif MODE == "Quality":
         hit_counter_max=YOLO_FPS,
         filter_factory=OptimizedKalmanFilterFactory(R=10, Q=1),
     )
-    
+
 smoothedFPS = SmoothedValue("time", 1)
 smoothedYOLOFPS = SmoothedValue("time", 1)
 smoothedTrackTime = SmoothedValue("time", 1)
 smoothedVisualTime = SmoothedValue("time", 1)
 smoothedInputTime = SmoothedValue("time", 1)
 smoothedRaycastTime = SmoothedValue("time", 1)
-    
+
 fps = 0
 start_time = time.time()
 fpsValues = []
 frameCounter = 0
+
 def plugin():
     global frame, yolo_frame, fps, cur_yolo_fps, start_time, model, capture_x, capture_y, capture_width, capture_height, boxes, frameCounter
     
@@ -355,7 +369,7 @@ def plugin():
     if MODE == "Performance":
         tracked_boxes = track_cars(boxes, yolo_frame)
         
-        if type(tracked_boxes) != None:
+        if tracked_boxes is not None:
             norfair_detections = []
             try:
                 for _, box in tracked_boxes.iterrows():
@@ -376,7 +390,7 @@ def plugin():
             tracked_boxes = tracker.update()
             
     elif MODE == "Quality":
-        if frameCounter == 0: # We updated the boxes in the previous frame
+        if frameCounter == 0:  # We updated the boxes in the previous frame
             norfair_detections = []
             for _, box in boxes.iterrows():
                 label = box['name']
@@ -414,14 +428,13 @@ def plugin():
     visualTime = time.time() - visualTime
     raycastTime = time.time()
     
-    if type(tracked_boxes) != None:
+    if tracked_boxes is not None:
         try:
             for object in tracked_boxes:
                 label = object.label
                 x1, y1, x2, y2 = object.estimate[0]
                 width = x2 - x1
                 height = y2 - y1
-                # Add the offset to the x and y coordinates
                 x1r = x1 + capture_x
                 y1r = y1 + capture_y
                 x2r = x2 + capture_x
@@ -433,6 +446,7 @@ def plugin():
                 if label in ['car', "van"]:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "car", object.id))
                 elif label in ['truck']:
+                    carPoints.append((bottomLeftPoint))
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "truck", object.id))
                 elif label in ['bus']:
                     carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))

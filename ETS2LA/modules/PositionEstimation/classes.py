@@ -1,8 +1,9 @@
 import ETS2LA.backend.settings as settings
 import time
 import math
+import os
 
-if variables.OS == "nt":
+if os.name == "nt":
     import win32gui
 
 window_x = 0

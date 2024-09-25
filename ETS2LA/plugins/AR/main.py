@@ -4,10 +4,7 @@ import ETS2LA.backend.settings as settings
 import dearpygui.dearpygui as dpg
 from ctypes import c_int
 import ctypes
-import math
-import time
 import mss
-import sys
 import os
 
 LINUX = os.path.exists("/etc/os-release")
@@ -17,14 +14,50 @@ if LINUX:
 else:
     import win32con
     import win32gui
+    dwm = ctypes.windll.dwmapi
 
 drawlist = None
 sct = mss.mss()
-dwm = ctypes.windll.dwmapi
-runner:PluginRunner = None
+runner: PluginRunner = None
+capture_x, capture_y, capture_width, capture_height = 0, 0, 0, 0
+import time
+from ETS2LA.plugins.AR.main import ScreenLine, Text
 
+# Add the dimensions variable as a global variable or fetch it from settings
+dimensions = []  # Fetch these settings as appropriate.
+
+capture_x, capture_y, capture_width, capture_height = 0, 0, 0, 0
+
+class ScreenCapture:
+  monitor_x1 = 0
+  monitor_y1 = 0
+  monitor_x2 = 0
+  monitor_y2 = 0
 
 def Initialize():
+    global dimensions
+    dimensions = settings.Get("ObjectDetection", "dimensions", [])
+    
+    if len(dimensions) == 4:
+        global capture_x, capture_y, capture_width, capture_height
+        capture_x, capture_y, capture_width, capture_height = dimensions
+    else:
+        capture_x, capture_y, capture_width, capture_height = 0, 0, 0, 0  # Default values or fallback behavior
+
+# Initialize other globals and settings
+def plugin():
+    global frame, yolo_frame, fps, cur_yolo_fps, start_time, model, capture_x, capture_y, capture_width, capture_height, boxes, frameCounter
+    
+    if capture_x == 0 and capture_y == 0 and capture_width == 0 and capture_height == 0:
+        Initialize()  # Ensure variables are initialized, call Initialize if values are default
+    
+    ScreenCapture.monitor_x1 = capture_x
+    ScreenCapture.monitor_y1 = capture_y
+    ScreenCapture.monitor_x2 = capture_x + capture_width
+    ScreenCapture.monitor_y2 = capture_y + capture_height
+    
+    # The rest of the plugin code...
+    # More code...
     global TruckSimAPI
 
     global screen_x
@@ -59,6 +92,7 @@ def Initialize():
 
     InitializeWindow()
 
+    # More code...
 
 class MARGINS(ctypes.Structure):
     _fields_ = [("cxLeftWidth", c_int),
@@ -288,6 +322,9 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
 
 lastOverlayData = None
 def plugin():
+    global capture_x, capture_y, capture_width, capture_height
+    capture_x, capture_y, capture_width, capture_height = 0, 0, 0, 0  # Initial or default values
+
     global lastOverlayData
     data = {}
     data["api"] = TruckSimAPI.run(Fallback=False)
@@ -411,7 +448,7 @@ def plugin():
         head_z = 0
 
 
-    x1, y1, d1 = ConvertToScreenCoordinate(x=10448.742, y=35.324, z=-10132.315)
+    x1, y1, d1
 
     x2, y2, d2 = ConvertToScreenCoordinate(x=10453.237, y=36.324, z=-10130.404)
 
