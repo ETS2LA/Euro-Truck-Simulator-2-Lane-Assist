@@ -53,6 +53,8 @@
     "sounds.sound_not_found_in_soundpack": "Tried to play sound '{0}', but it was not found in soundpack '{1}'",
     "logging.delete_log_error": "Could not delete the log file.",
     "logging.logger_initialized": "Logger initialized.",
+    "events.vehicle_change.vehicle_change": "Vehicle change detected.",
+    "events.vehicle_change.vehicle_change_description": "We've detected a new vehicle. Please press F4 in the cabin view, open the seat settings, and enter your new FOV value.",
 
     "_RUNNER": "Please leave a space here to seperate the different sections of the translations.",
 

@@ -66,7 +66,7 @@ def CalculateAcceleration(targetSpeed: float, currentSpeed: float, currentDistan
         distance = 999
         
     type = "map"
-    if ((time < FOLLOW_TIME and time > 0) or distance < falloffDistance) and (vehicleSpeed < 30 or vehicleSpeed < currentSpeed*1.1):
+    if ((time < FOLLOW_TIME and time > 0) or distance < falloffDistance) and (vehicleSpeed < 30/3.6 or vehicleSpeed < currentSpeed*1.1):
         timePercent = time / FOLLOW_TIME
         timeTargetSpeed = timePercent * targetSpeed
         

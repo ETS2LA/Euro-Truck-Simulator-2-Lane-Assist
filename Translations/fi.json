@@ -53,6 +53,8 @@
     "sounds.sound_not_found_in_soundpack": "Yritettiin soittaa ääntä '{0}', mutta sitä ei löytynyt äänipaketista '{1}'",
     "logging.delete_log_error": "Lokitiedostoa ei voitu poistaa.",
     "logging.logger_initialized": "Lokikirjaus alustettu.",
+    "events.vehicle_change.vehicle_change": "Ajoneuvon vaihto.",
+    "events.vehicle_change.vehicle_change_description": "Vaihdoit ajoneuvoa. Paina sisäkuvassa F4, avaa penkin asetukset, ja kirjoita tähän ajoneuvosi fov.",
     
     "_RUNNER": "Please leave a space here to seperate the different sections of the translations.",
 

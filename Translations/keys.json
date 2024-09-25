@@ -42,6 +42,8 @@
     "sounds.sound_not_found_in_soundpack",
     "logging.delete_log_error",
     "logging.logger_initialized",
+    "events.vehicle_change.vehicle_change",
+    "events.vehicle_change.vehicle_change_description",
 
     "runner.could_not_import",
     "runner.could_not_load_module",
