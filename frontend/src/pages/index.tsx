@@ -50,14 +50,14 @@ export default function Home({ip} : {ip: string}) {
                         <ResizablePanel defaultSize={90}>
                             <ResizablePanelGroup direction="horizontal" className="overflow-auto text-center gap-1.5">
                                 <ResizablePanel defaultSize={30} className="flex flex-col text-left gap-[18px] opacity-50 hover:opacity-100 transition-all">
-                                    <p className="text-xs text-muted-foreground pl-3">Check out these updates from our developers!</p>
+                                    <p className="text-xs text-muted-foreground pl-3">{translate("frontend.mainmenu.updates")}</p>
                                     <div className="border rounded-lg h-[calc(100%-34px)]">
                                         <VersionHistory ip={ip} />
                                     </div>
                                 </ResizablePanel>
                                 <div />
                                 <ResizablePanel defaultSize={70} className="flex flex-col text-left gap-[18px] opacity-50 hover:opacity-100 transition-all">
-                                    <p className="text-xs text-muted-foreground pl-3">Here are some of your stats!</p>
+                                    <p className="text-xs text-muted-foreground pl-3">{translate("frontend.mainmenu.stats")}</p>
                                     <div className="border border-dashed rounded-lg h-[calc(100%-34px)]">
 
                                     </div>
@@ -75,7 +75,7 @@ export default function Home({ip} : {ip: string}) {
                         <ResizablePanel defaultSize={90}>
                             <ResizablePanelGroup direction="vertical" className="overflow-auto text-center gap-3">
                                 <ResizablePanel defaultSize={75} className="flex flex-col text-left gap-[18px] opacity-50 hover:opacity-100 transition-all">
-                                    <p className="text-xs text-muted-foreground pl-3">Manage your plugins here.</p>
+                                    <p className="text-xs text-muted-foreground pl-3">{translate("frontend.mainmenu.plugins")}</p>
                                     <div className="border rounded-lg h-[calc(100%-34px)]">
                                         <PluginList ip={ip} />
                                     </div>

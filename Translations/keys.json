@@ -195,6 +195,9 @@
     "frontend.plugins.no_description",
     "frontend.plugins.button_may_take_second_to_update",
     "frontend.plugins.open_interface",
+    "frontend.mainmenu.updates",
+    "frontend.mainmenu.stats",
+    "frontend.mainmenu.plugins",
 
     "plugins.adaptivecruisecontrol",
     "plugins.adaptivecruisecontrol.description",
