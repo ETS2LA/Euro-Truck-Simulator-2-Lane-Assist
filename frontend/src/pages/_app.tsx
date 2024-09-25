@@ -79,7 +79,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       setToken(token);
       SetToken(token);
       ValidateUser().then((valid) => {
-        if(valid){
+        if(valid == true){
           console.log("Token is valid")
           toast.success("Welcome back!", {duration: 1000});
         }

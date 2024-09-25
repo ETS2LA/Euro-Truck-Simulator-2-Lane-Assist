@@ -60,10 +60,13 @@ export async function ValidateUser() {
             'Authorization': `Bearer ${credentials.token}`
         },
     })
-    if(response.status == 200) {
+    let data = await response.json()
+    if(data["status"] == 200) {
         return true
+    } else {
+        toast.error("Your token is invalid, please log in again")
+        return false
     }
-    return false
 }
 
 export async function GetUserData() {
