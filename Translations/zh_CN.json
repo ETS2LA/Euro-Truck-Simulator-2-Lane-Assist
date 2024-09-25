@@ -53,6 +53,9 @@
     "sounds.sound_not_found_in_soundpack": "尝试播放音效 '{0}'，但在音效库 '{1}' 中找不到",
     "logging.delete_log_error": "无法删除日志文件。",
     "logging.logger_initialized": "日志系统已初始化。",
+    "events.vehicle_change.vehicle_change": "侦测到车辆变更。",
+    "events.vehicle_change.vehicle_change_description": "我们侦测到一辆新车。请在驾驶舱视角中按下 F4，打开「调整座椅」选项，并输入新的视野 （FOV） 值。",
+
 
     "_RUNNER": "请在此处留空以分隔不同的翻译区段。",
 
