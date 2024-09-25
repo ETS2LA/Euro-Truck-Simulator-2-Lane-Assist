@@ -18,9 +18,15 @@ def Initialize():
     screen = runner.modules.ScreenCapture
 
 def plugin():
-    time.sleep(1)
-    print("Horn on")
-    controller.horn = True
-    time.sleep(1)
-    print("Horn off")
-    controller.horn = False
+    askDict = [
+        {
+            "name": "Test",
+            "description": "I need this value innit'",
+            "type": {
+                "type": "number"
+            }
+        }
+    ]
+    value = runner.get_value("Test", askDict)
+    print(value)
+    time.sleep(30)

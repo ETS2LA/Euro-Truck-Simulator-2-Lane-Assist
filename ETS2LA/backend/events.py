@@ -9,6 +9,7 @@ import time
 
 API.Initialize()
 API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
+callbacks = []
     
 # Events
 class ToggleSteering():
@@ -19,8 +20,8 @@ class ToggleSteering():
     def __init__(self):
         controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n")
         
-last_started_job = None
         
+last_started_job = None # This is used to fill out the data for the Job events
 class JobStarted():
     def JobStarted(self, data):
         global last_started_job
@@ -84,11 +85,31 @@ class RefuelPayed():
         logging.info("Triggered event: RefuelPayed")
     def __init__(self):
         API.listen('refuelPayed', self.RefuelPayed)
+
+class VehicleChange():
+    lastLicensePlate = ""
+    def VehicleChange(self, data):
+        backend.CallEvent('VehicleChange', data["configString"]["truckLicensePlate"], {})
+        logging.info("Triggered event: VehicleChange")
+        
+    def ApiCallback(self, data):
+        if data["configString"]["truckLicensePlate"] != self.lastLicensePlate:
+            self.lastLicensePlate = data["configString"]["truckLicensePlate"]
+            self.VehicleChange(data)
+        
+    def __init__(self):
+        callbacks.append(self.ApiCallback)
         
 # Start monitoring
 def ApiThread():
     while True:
-        API.run()
+        data = API.run()
+        for callback in callbacks:
+            try:
+                callback(data)
+            except:
+                logging.exception("Error in callback")
+                
         time.sleep(0.1)
 
 def run():
@@ -99,6 +120,7 @@ def run():
     JobCancelled()
     RefuelStarted()
     RefuelPayed()
+    VehicleChange()
     
     threading.Thread(target=ApiThread, daemon=True).start()
     logging.info("Event monitor started.")

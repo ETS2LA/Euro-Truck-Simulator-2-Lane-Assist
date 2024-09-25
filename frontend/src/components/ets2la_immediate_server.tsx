@@ -1,6 +1,6 @@
 "use client"
 import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {toast} from "sonner"
 import { Badge } from "./ui/badge"
 import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff, X, Minimize2, Pin, PinOff} from "lucide-react";
@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 import { translate } from "@/pages/translation";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
+import ValueDialog from "./ets2la_value_dialog";
 
 let socket: WebSocket | null = null;
 export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: boolean}) {
@@ -35,8 +36,17 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogObject, setDialogObject] = useState({__html: ""});
     const [dialogOptions, setDialogOptions] = useState<string[]>([]);
+    const [valueDialogOpen, setValueDialogOpen] = useState(true);
+    const [valueDialogTitle, setValueDialogTitle] = useState("Test");
+    const [valueDialogJson, setValueDialogJson] = useState("");
+    const [returnValue, setReturnValue] = useState(null)
+    const returnValueRef = useRef(returnValue);
     const { push } = useRouter();
     let lastMessage:any = null;
+
+    useEffect(() => { 
+        returnValueRef.current = returnValue;
+    }, [returnValue]);
 
     useEffect(() => {
         if (ip == "") ip = "localhost";
@@ -75,6 +85,25 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                     }
                 };
             }
+            else if ("value" in message) {
+                let title = message["value"]["title"]
+                let jsonData = message["value"]["json"]
+                setValueDialogJson(jsonData)
+                setValueDialogTitle(title)
+                setValueDialogOpen(true)
+                setReturnValue(null)
+                console.log(returnValue)
+                // Wait for the return value to be set
+                let listener = setInterval(() => {
+                    if (returnValueRef.current !== null) { // Use the ref here
+                        if (socket !== null) {
+                            socket.send(JSON.stringify({value: returnValueRef.current})); // Use the ref here
+                        }
+                        setReturnValue(null)
+                        clearInterval(listener)
+                    }
+                }, 200);
+            }
             else if ("page" in message) {
                 push(message["page"])
             }
@@ -109,7 +138,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
         socket.addEventListener("error", function (event) {
             console.error("WebSocket error observed:", event);
         });
-        
+
         // Cleanup function to close the socket when the component unmounts
         return () => {
             if (socket !== null) {
@@ -123,6 +152,12 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
     const removePromiseMessage = (message: string) => {
         setPromiseMessages(prevMessages => prevMessages.filter(m => m !== message));
     };
+
+    const handleReturnValue = (value: any) => {
+        console.log(value)
+        setValueDialogOpen(false)
+        setReturnValue(value)
+    }
 
     // Use an effect to handle promise messages
     useEffect(() => {
@@ -167,6 +202,10 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
         };
     }, [promiseMessages]); // Dependency array to run the effect when the promise messages change
 
+    useEffect(() => {
+        console.log(valueDialogJson)
+    }, [valueDialogJson])
+
     return <div className={collapsed && "absolute right-[119px] top-[17px] gap-2 flex" || "absolute right-[19px] top-[17px] gap-2 flex"}>
         <Dialog open={dialogOpen} >
             <DialogTrigger>
@@ -194,6 +233,9 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                 </div>
             </DialogContent>
         </Dialog>
+
+        <ValueDialog open={valueDialogOpen} onClose={handleReturnValue} title={valueDialogTitle} json={valueDialogJson} />
+
         { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />{translate("frontend.immediate.update_check_error", error.message)}</Badge> }
         {   isLoading && 
                 <Badge variant={"outline"} className="gap-1 pl-1 rounded-sm"><Rss className="w-5 h-5"/>{translate("frontend.immediate.checking_updates")}</Badge> 

@@ -91,6 +91,12 @@ class PluginRunnerController():
                 response = immediate.ask(askText, askOptions)
                 self.immediateQueue.put(response)
                 
+            if "value" in data:
+                title = data["value"]["title"]
+                jsonData = data["value"]["json"]
+                response = immediate.value(title, jsonData)
+                self.immediateQueue.put(response)
+                
         
     def monitor(self):
         process = psutil.Process(self.process)

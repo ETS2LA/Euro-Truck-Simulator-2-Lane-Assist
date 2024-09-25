@@ -439,6 +439,34 @@ class PluginRunner():
                 time.sleep(0.00000001)
                 pass
             
+    def get_value(self, title:str, jsonData:str):
+        """Get a value from the frontend.
+
+        Args:
+            title (str): Title of the value.
+            json (str): JSON of the value.
+        """
+        self.iq.put({"value": {"title": title, "json": jsonData}})
+        response = None
+        startTime = time.time()
+        while response == None:
+            if time.time() - startTime > 30:
+                return None
+            try:
+                # Wait until we get an answer.
+                data = self.iq.get(timeout=0.1)    
+            except:
+                time.sleep(0.00000001)
+                continue
+            try:
+                # If the data we fetched was from this plugin, we can skip the loop.
+                if "value" in data:
+                    response = data["value"]
+                    return response
+            except:
+                time.sleep(0.00000001)
+                pass
+            
     def ChangePage(self, page:str):
         """Change the page in the frontend.
 
