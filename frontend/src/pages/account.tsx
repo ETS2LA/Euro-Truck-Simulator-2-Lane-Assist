@@ -84,3 +84,19 @@ export async function GetUserData() {
     }
     throw new Error(response.statusText)
 }
+
+export async function GetJobs() {
+    const credentials = await GetCredentials()
+    let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id + "/jobs", {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${credentials.token}`
+        },
+    })
+    if (response.ok) {
+        const data = await response.json()
+        return data["data"]
+    }
+    throw new Error(response.statusText)
+}

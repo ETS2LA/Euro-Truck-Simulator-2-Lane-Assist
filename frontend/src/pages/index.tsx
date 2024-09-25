@@ -29,6 +29,7 @@ import { translate } from "./translation"
 import { Separator } from "@/components/ui/separator"
 import { GetUserData } from "./account"
 import useSWR from "swr"  
+import ETS2LAUserStats from "@/components/ets2la_user_stats"
 
 
 export default function Home({ip} : {ip: string}) {
@@ -60,9 +61,7 @@ export default function Home({ip} : {ip: string}) {
                                 <div />
                                 <ResizablePanel defaultSize={70} className="flex flex-col text-left gap-[18px] opacity-50 hover:opacity-100 transition-all">
                                     <p className="text-xs text-muted-foreground pl-3">{translate("frontend.mainmenu.stats")}</p>
-                                    <div className="border border-dashed rounded-lg h-[calc(100%-34px)]">
-
-                                    </div>
+                                    <ETS2LAUserStats />
                                 </ResizablePanel>
                             </ResizablePanelGroup>
                         </ResizablePanel>
