@@ -7,9 +7,6 @@ import numpy
 import math
 
 FOV = settings.Get("global", "FOV", 77) # Vertical fov in degrees
-CAMERA_HEIGHT = 1.5 # Height of the camera in meters
-WHEEL_OFFSET = 0.5 # Wheel size to offset the camera in meters
-CURRENT_HORIZON = 0 # Current Y pixel value of the horizon
 
 runner:PluginRunner = None
 
@@ -69,64 +66,6 @@ def UpdateGamePosition():
 
 
 screen = screeninfo.get_monitors()[0]
-def RaycastToPlaneBackup(screen_x: float, screen_y: float, plane_height: float):
-    # Assuming head_rotation_degrees_x/y/z, screen, FOV, window_width, window_height are defined elsewhere
-
-    # Make the head rotation easier to read
-    head_yaw = -head_rotation_degrees_x
-    head_pitch = -head_rotation_degrees_y
-    head_roll = -head_rotation_degrees_z
-
-    # Make the truck rotation easier to read
-    truck_yaw = -truck_rotation_degrees_x
-    truck_pitch = -truck_rotation_degrees_y
-    truck_roll = -truck_rotation_degrees_z
-
-    # Inverting the screen Y coordinate
-    screen_y = screen.height - screen_y
-
-    # Inverting the projection to 3D space
-    fov_rad = math.radians(FOV)
-    window_distance = (window_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
-    final_x = ((screen_x - window_width / 2) / window_distance)
-    final_y = ((screen_y - window_height / 2) / window_distance)
-    final_z = -1  # Direction vector pointing straight out from the camera
-
-    # Apply head rotations
-    # Roll
-    cos_roll = math.cos(math.radians(-head_roll))
-    sin_roll = math.sin(math.radians(-head_roll))
-    new_x = final_x * cos_roll + final_y * sin_roll
-    new_y = final_y * cos_roll - final_x * sin_roll
-    final_x, final_y = new_x, new_y
-
-    # Pitch
-    cos_pitch = math.cos(math.radians(head_pitch))
-    sin_pitch = math.sin(math.radians(head_pitch))
-    new_y = final_y * cos_pitch + final_z * sin_pitch
-    new_z = final_z * cos_pitch - final_y * sin_pitch
-    final_y, final_z = new_y, new_z
-
-    # Yaw
-    cos_yaw = math.cos(math.radians(head_yaw))
-    sin_yaw = math.sin(math.radians(head_yaw))
-    new_x = final_x * cos_yaw - final_z * sin_yaw
-    new_z = final_z * cos_yaw + final_x * sin_yaw
-    final_x, final_z = new_x, new_z
-
-    # Calculate intersection with the horizontal plane
-    # Assuming the camera is at (head_x, head_y, head_z)
-    # And the direction vector is (final_x, final_y, final_z)
-    # We want to find t such that head_y + t*final_y = plane_height
-    if final_y == 0:
-        return None  # Parallel to the plane, no intersection
-    t = (plane_height - head_y) / final_y
-    x = head_x + t * final_x
-    y = plane_height
-    z = head_z + t * final_z
-
-    return x, y, z
-
 def RaycastToPlane(screen_x: float, screen_y: float, plane_height: float):
     # Assuming head_rotation_degrees_x/y/z, screen, FOV, window_width, window_height are defined elsewhere
     # Make the truck rotation easier to read
@@ -186,7 +125,6 @@ def RaycastToPlane(screen_x: float, screen_y: float, plane_height: float):
     return x, y, z
 
 def GetValuesFromAPI():
-    global CAMERA_HEIGHT
     global truck_x
     global truck_y
     global truck_z
@@ -310,8 +248,6 @@ def GetValuesFromAPI():
         head_x = 0
         head_y = 0
         head_z = 0
-
-    CAMERA_HEIGHT = head_y - truck_y + WHEEL_OFFSET
 
 import time
 def run(x=None, y=None):
