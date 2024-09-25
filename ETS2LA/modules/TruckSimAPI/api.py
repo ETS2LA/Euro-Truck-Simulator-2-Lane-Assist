@@ -264,7 +264,6 @@ class scsTelemetry:
             # ZONE 1 -> Start at offset 0
             
             data["sdkActive"], offset = self.readBool(offset)
-            print("SDK Active: " + str(data["sdkActive"]))
             data["placeHolder"], offset = self.readChar(offset, 3)
             data["pause"], offset = self.readBool(offset)
             data["placeHolder2"], offset = self.readChar(offset, 3)
