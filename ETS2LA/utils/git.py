@@ -54,6 +54,8 @@ def GetHistory():
                     if commit["author"] not in authors:
                         if commit["author"] == "DylDev": # Hardcoded because of usernames
                             url = f"https://api.github.com/users/DylDevs"
+                        elif commit["author"] == "Lun":
+                            url = f"https://api.github.com/users/Lun011666"
                         else:
                             url = f"https://api.github.com/users/{commit['author']}"
 
