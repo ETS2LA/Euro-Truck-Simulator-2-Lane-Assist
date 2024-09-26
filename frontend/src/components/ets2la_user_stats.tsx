@@ -65,7 +65,7 @@ export default function ETS2LAUserStats() {
     return(
         <div className="w-full h-[calc(100%-34px)] grid grid-rows-4 grid-cols-2 gap-3">
             <Card className="flex flex-col gap-0 justify-center">
-                <CardHeader className="pb-1">
+                <CardHeader className="pb-0">
                     <CardTitle className="text-sm font-medium">
                         You've driven a total of
                     </CardTitle>
@@ -78,7 +78,7 @@ export default function ETS2LAUserStats() {
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
-                <CardHeader className="pb-1">
+                <CardHeader className="pb-0">
                     <CardTitle className="text-sm font-medium">
                         You've completed
                     </CardTitle>
@@ -91,7 +91,7 @@ export default function ETS2LAUserStats() {
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
-                <CardHeader className="pb-1">
+                <CardHeader className="pb-0">
                     <CardTitle className="text-sm font-medium">
                         On average your jobs were
                     </CardTitle>
@@ -104,7 +104,7 @@ export default function ETS2LAUserStats() {
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
-                <CardHeader className="pb-1">
+                <CardHeader className="pb-0">
                     <CardTitle className="text-sm font-medium">
                         You've earned a total of
                     </CardTitle>
@@ -117,7 +117,7 @@ export default function ETS2LAUserStats() {
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
-                <CardHeader className="pb-1">
+                <CardHeader className="pb-0">
                     <CardTitle className="text-sm font-medium">
                         On average you earned
                     </CardTitle>
@@ -130,7 +130,7 @@ export default function ETS2LAUserStats() {
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
-                <CardHeader className="pb-1">
+                <CardHeader className="pb-0">
                     <CardTitle className="text-sm font-medium">
                         On average your jobs have paid you
                     </CardTitle>
@@ -143,7 +143,7 @@ export default function ETS2LAUserStats() {
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
-                <CardHeader className="pb-1">
+                <CardHeader className="pb-0">
                     <CardTitle className="text-sm font-medium">
                         You've also transported a total of
                     </CardTitle>
@@ -156,7 +156,7 @@ export default function ETS2LAUserStats() {
                 </CardContent>
             </Card>
             <Card className="flex flex-col gap-0 justify-center">
-                <CardHeader className="pb-1">
+                <CardHeader className="pb-0">
                     <CardTitle className="text-sm font-medium">
                         Your heaviest job was
                     </CardTitle>
