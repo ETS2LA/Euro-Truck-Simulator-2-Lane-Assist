@@ -208,7 +208,10 @@
     "frontend.plugins.plugin_running": "插件以 {0} fps 运行中",
     "frontend.plugins.no_description": "无说明",
     "frontend.plugins.button_may_take_second_to_update": "加载可能需要几秒钟",
-    "frontend.plugins.open_interface": "插件设置",    
+    "frontend.plugins.open_interface": "插件设置",
+    "frontend.mainmenu.updates": "查看开发人员的最新更新！",
+    "frontend.mainmenu.stats": "以下是您的统计资料！",
+    "frontend.mainmenu.plugins": "在这里管理您的插件。",    
 
     "_LIST_OF_PLUGINS": "以下将列出所有允许名称翻译的插件。",
 
