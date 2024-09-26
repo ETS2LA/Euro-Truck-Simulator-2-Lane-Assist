@@ -3,8 +3,14 @@ import time
 import math
 import os
 
+
 if os.name == "nt":
     import win32gui
+else:
+    from Xlib import X, display
+    import Xlib.error
+    import Xlib.ext
+    import Xlib.XK
 
 window_x = 0
 window_y = 0

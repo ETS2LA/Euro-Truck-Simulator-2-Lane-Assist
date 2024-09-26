@@ -4,13 +4,20 @@ import ETS2LA.backend.settings as settings
 import dearpygui.dearpygui as dpg
 from ctypes import c_int
 import ctypes
+import math
+import time
 import mss
+
+import sys
 import os
 
 LINUX = os.path.exists("/etc/os-release")
 
 if LINUX:
     print("Running on Linux")
+    from Xlib import X
+    from Xlib.display import Display
+    from Xlib.ext import shape
 else:
     import win32con
     import win32gui
@@ -19,45 +26,8 @@ else:
 drawlist = None
 sct = mss.mss()
 runner: PluginRunner = None
-capture_x, capture_y, capture_width, capture_height = 0, 0, 0, 0
-import time
-from ETS2LA.plugins.AR.main import ScreenLine, Text
-
-# Add the dimensions variable as a global variable or fetch it from settings
-dimensions = []  # Fetch these settings as appropriate.
-
-capture_x, capture_y, capture_width, capture_height = 0, 0, 0, 0
-
-class ScreenCapture:
-  monitor_x1 = 0
-  monitor_y1 = 0
-  monitor_x2 = 0
-  monitor_y2 = 0
 
 def Initialize():
-    global dimensions
-    dimensions = settings.Get("ObjectDetection", "dimensions", [])
-    
-    if len(dimensions) == 4:
-        global capture_x, capture_y, capture_width, capture_height
-        capture_x, capture_y, capture_width, capture_height = dimensions
-    else:
-        capture_x, capture_y, capture_width, capture_height = 0, 0, 0, 0  # Default values or fallback behavior
-
-# Initialize other globals and settings
-def plugin():
-    global frame, yolo_frame, fps, cur_yolo_fps, start_time, model, capture_x, capture_y, capture_width, capture_height, boxes, frameCounter
-    
-    if capture_x == 0 and capture_y == 0 and capture_width == 0 and capture_height == 0:
-        Initialize()  # Ensure variables are initialized, call Initialize if values are default
-    
-    ScreenCapture.monitor_x1 = capture_x
-    ScreenCapture.monitor_y1 = capture_y
-    ScreenCapture.monitor_x2 = capture_x + capture_width
-    ScreenCapture.monitor_y2 = capture_y + capture_height
-    
-    # The rest of the plugin code...
-    # More code...
     global TruckSimAPI
 
     global screen_x
@@ -92,14 +62,11 @@ def plugin():
 
     InitializeWindow()
 
-    # More code...
-
 class MARGINS(ctypes.Structure):
     _fields_ = [("cxLeftWidth", c_int),
                 ("cxRightWidth", c_int),
                 ("cyTopHeight", c_int),
-                ("cyBottomHeight", c_int)
-               ]
+                ("cyBottomHeight", c_int)]
 
 class Line:
     start: tuple
@@ -111,7 +78,7 @@ class Line:
         self.end = end
         self.color = color
         self.thickness = thickness
-        
+
 class ScreenLine:
     """Line that uses screen positions instead of 3D positions."""
     start: tuple
@@ -184,7 +151,6 @@ class Polygon:
         if closed:
             self.points.append(points[0])
 
-
 def InitializeWindow():
     global window
     global window_x
@@ -193,20 +159,21 @@ def InitializeWindow():
     global window_height
 
     try:
-        hwnd = None
-        top_windows = []
-        win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
-        for hwnd, window_text in top_windows:
-            if "Truck Simulator" in window_text and "Discord" not in window_text:
-                rect = win32gui.GetClientRect(hwnd)
-                tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
-                br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
-                window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
-                window_x = window[0]
-                window_y = window[1]
-                window_width = window[2]
-                window_height = window[3]
-                break
+        if not LINUX:
+            hwnd = None
+            top_windows = []
+            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+            for hwnd, window_text in top_windows:
+                if "Truck Simulator" in window_text and "Discord" not in window_text:
+                    rect = win32gui.GetClientRect(hwnd)
+                    tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                    br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                    window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                    window_x = window[0]
+                    window_y = window[1]
+                    window_width = window[2]
+                    window_height = window[3]
+                    break
 
         dpg.create_context()
         dpg.create_viewport(title=f'ETS2LA - AR/Overlay', always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=window[0], y_pos=window[1], width=window[2], height=window[3], small_icon="frontend\\src\\assets\\favicon.ico", large_icon="frontend\\src\\assets\\favicon.ico")
@@ -214,15 +181,39 @@ def InitializeWindow():
         dpg.setup_dearpygui()
         dpg.show_viewport()
 
-        hwnd = win32gui.FindWindow(None, f'ETS2LA - AR/Overlay')
+        if not LINUX:
+            hwnd = win32gui.FindWindow(None, 'ETS2LA - AR/Overlay')
+            margins = MARGINS(-1, -1, -1, -1)
+            dwm.DwmExtendFrameIntoClientArea(hwnd, margins)
+            win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT)
+        else:
+            display = Display()
+            root = display.screen().root
+            window = root.create_window(window_x, window_y, window_width, window_height, 0, X.CopyFromParent, X.InputOutput, X.CopyFromParent, background_pixel=0)
+            window.set_wm_name('ETS2LA - AR/Overlay')
+            window.set_wm_class('ets2la_ar_overlay', 'ETS2LA - AR/Overlay')
 
-        margins = MARGINS(-1, -1,-1, -1)
-        dwm.DwmExtendFrameIntoClientArea(hwnd, margins)
-        win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT)
-    except:
+            # Make the window transparent
+            window.change_property(display.intern_atom('_NET_WM_WINDOW_TYPE'), X.Atom.ATOM, 32, [display.intern_atom('_NET_WM_WINDOW_TYPE_POPUP')], X.PropModeReplace)
+            window.change_property(display.intern_atom('_NET_WM_STATE'), X.Atom.ATOM, 32, [display.intern_atom('_NET_WM_STATE_ABOVE')], X.PropModeReplace)
+            window.change_property(display.intern_atom('_NET_WM_STATE'), X.Atom.ATOM, 32, [display.intern_atom('_NET_WM_STATE_SKIP_TASKBAR')], X.PropModeAppend)
+            
+            shape_mask = display.screen().root.create_pixmap(window_width, window_height, 1)
+            mask_gc = shape_mask.create_gc(foreground=0, background=0)
+            shape_mask.fill_rectangle(mask_gc, 0, 0, window_width, window_height)
+            shape.gc(foreground=1, background=0)
+            shape.select_input(window, shape.ShapeNotifyMask)
+            shape_gc.free()
+            shape_mask.free()
+
+            window.map()
+            shape.window_set_shape_rectangles(window, X.ShapeBounding, 0, 0, [])
+    except Exception:
         import traceback
         print(traceback.format_exc())
-
+    except Exception:
+        import traceback
+        print(traceback.format_exc())
 
 def resize():
     dpg.set_viewport_pos([window_x, window_y])
@@ -248,7 +239,6 @@ def draw(data):
         dpg.delete_item(drawlist)
 
     with dpg.viewport_drawlist(label="draw") as drawlist:
-
         for line in lines:
             if None not in line.start and None not in line.end:
                 dpg.draw_line([line.start[0], line.start[1]], [line.end[0], line.end[1]], color=line.color, thickness=line.thickness)
@@ -274,13 +264,12 @@ def draw(data):
             for text in data["overlay"]["texts"]:
                 if None not in text.position:
                     dpg.draw_text(text.position + text.offset, text.text, color=text.color, size=text.size)
-        except: pass
+        except: 
+            pass
     
     dpg.render_dearpygui_frame()
 
-
-def ConvertToScreenCoordinate(x:float, y:float, z:float):
-
+def ConvertToScreenCoordinate(x: float, y: float, z: float):
     head_yaw = head_rotation_degrees_x
     head_pitch = head_rotation_degrees_y
     head_roll = head_rotation_degrees_z
@@ -319,12 +308,8 @@ def ConvertToScreenCoordinate(x:float, y:float, z:float):
 
     return screen_x, screen_y, distance
 
-
 lastOverlayData = None
 def plugin():
-    global capture_x, capture_y, capture_width, capture_height
-    capture_x, capture_y, capture_width, capture_height = 0, 0, 0, 0  # Initial or default values
-
     global lastOverlayData
     data = {}
     data["api"] = TruckSimAPI.run(Fallback=False)
@@ -351,28 +336,41 @@ def plugin():
     global head_rotation_degrees_y
     global head_rotation_degrees_z
 
-
     current_time = time.time()
+
     if last_window_position[0] + 3 < current_time:
-        hwnd = None
-        top_windows = []
-        win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
-        for hwnd, window_text in top_windows:
-            if "Truck Simulator" in window_text and "Discord" not in window_text:
-                rect = win32gui.GetClientRect(hwnd)
-                tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
-                br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
-                window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
-                window_x = window[0]
-                window_y = window[1]
-                window_width = window[2]
-                window_height = window[3]
-                break
-        if window[0] != last_window_position[1] or window[1] != last_window_position[2] or window[2] != last_window_position[3] or window[3] != last_window_position[4]:
-            resize()
-        last_window_position = (current_time, window[0], window[1], window[2], window[3])
+        if not LINUX:
+            hwnd = None
+            top_windows = []
+            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+            for hwnd, window_text in top_windows:
+                if "Truck Simulator" in window_text and "Discord" not in window_text:
+                    rect = win32gui.GetClientRect(hwnd)
+                    tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                    br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                    window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                    window_x = window[0]
+                    window_y = window[1]
+                    window_width = window[2]
+                    window_height = window[3]
+                    break
+        else:
+            geom = window.get_geometry()
+            window_x, window_y, window_width, window_height = geom.x, geom.y, geom.width, geom.height
 
+        print(f"Type of window: {type(window)}")
+        print(f"Contents of window: {window}")
 
+        if not LINUX:
+            if window[0] != last_window_position[1] or window[1] != last_window_position[2] or window[2] != last_window_position[3] or window[3] != last_window_position[4]:
+                resize()
+            last_window_position = (current_time, window[0], window[1], window[2], window[3])
+        else:
+            if window_x != last_window_position[1] or window_y != last_window_position[2] or window_width != last_window_position[3] or window_height != last_window_position[4]:
+                resize()
+            last_window_position = (current_time, window_x, window_y, window_width, window_height)
+
+    # Rest of the code follows ...
     try:
         truck_x = data["api"]["truckPlacement"]["coordinateX"]
         truck_y = data["api"]["truckPlacement"]["coordinateY"]
@@ -394,7 +392,7 @@ def plugin():
         head_offset_rotation_x = data["api"]["headPlacement"]["headOffsetrotationX"]
         head_offset_rotation_y = data["api"]["headPlacement"]["headOffsetrotationY"]
         head_offset_rotation_z = data["api"]["headPlacement"]["headOffsetrotationZ"]
-        
+
         truck_rotation_degrees_x = truck_rotation_x * 360
         truck_rotation_radians_x = -math.radians(truck_rotation_degrees_x)
 
@@ -414,7 +412,6 @@ def plugin():
         head_z = point_x * math.sin(truck_rotation_radians_x) + point_z * math.cos(truck_rotation_radians_x) + truck_z
 
     except:
-
         truck_x = 0
         truck_y = 0
         truck_z = 0
@@ -447,8 +444,7 @@ def plugin():
         head_y = 0
         head_z = 0
 
-
-    x1, y1, d1
+    x1, y1, d1 = ConvertToScreenCoordinate(x=10448.742, y=35.324, z=-10132.315)
 
     x2, y2, d2 = ConvertToScreenCoordinate(x=10453.237, y=36.324, z=-10130.404)
 
@@ -478,10 +474,9 @@ def plugin():
         arData = runner.GetData(["tags.ar"])[0]
         if arData != None:
             data["overlay"] = arData
-            
         else:
             raise Exception("No data")
-        
+
         try:
             for line in data["overlay"]["lines"]:
                 try:
@@ -493,7 +488,7 @@ def plugin():
                     data["overlay"]["lines"].remove(line)
                     continue
         except: pass
-        
+
         try:
             for text in data["overlay"]["texts"]:
                 try:
@@ -503,10 +498,10 @@ def plugin():
                     data["overlay"]["texts"].remove(text)
                     continue
         except: pass
-            
+
         if "overlay" in data:
             lastOverlayData = data["overlay"]
-            
+
     except Exception as e:
         if lastOverlayData != None:
             data["overlay"] = lastOverlayData
