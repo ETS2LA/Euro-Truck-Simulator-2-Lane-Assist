@@ -65,7 +65,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     try {
-      PlaySound("localhost", "boot")
+      if (!PlaySound(ipRef.current, "boot")) {console.log("Not running on the local machine")}
     }
     catch (e) {
       console.log("Not running on the local machine")
