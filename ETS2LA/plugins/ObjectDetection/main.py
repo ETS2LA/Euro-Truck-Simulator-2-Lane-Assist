@@ -99,12 +99,11 @@ def Initialize():
     dimensions = settings.Get("ObjectDetection", "dimensions", None)
 
     def SetScreenCaptureDimensions():
-        width_scale = screen.width / 1920
         height_scale = screen.height / 1080
 
-        capture_x = round(600 * width_scale)
+        capture_x = 600 
         capture_y = round(200 * height_scale)
-        capture_width = round(1020 * width_scale)
+        capture_width = 1020
         capture_height = round(480 * height_scale)
 
         runner.sonner(Translate("object_detection.screen_capture_profile", [f"{screen.width}x{screen.height}"]))
