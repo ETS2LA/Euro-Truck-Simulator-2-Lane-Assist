@@ -97,9 +97,8 @@ def Initialize():
     
     screen = screeninfo.get_monitors()[0]
     dimensions = settings.Get("ObjectDetection", "dimensions", None)
-    
-    # Set the capture dimensions based on the screen resolution
-    if dimensions == None:
+
+    def SetScreenCaptureDimensions():
         if screen.height >= 1440:
             if screen.width >= 5120:
                 screen_cap = "1440p32:9"
@@ -142,10 +141,18 @@ def Initialize():
             
         runner.sonner(Translate("object_detection.screen_capture_profile", [screen_cap]))
         settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
-    else:
-        capture_x, capture_y, capture_width, capture_height = dimensions   
+        time.sleep(0.5) # Let the profile text show for a bit
 
-    time.sleep(0.5) # Let the profile text show for a bit
+        return capture_x, capture_y, capture_width, capture_height
+    
+    # Set the capture dimensions based on the screen resolution
+    if dimensions == None:
+        dimensions = SetScreenCaptureDimensions()
+    else:
+        if len(dimensions) != 4:
+            dimensions = SetScreenCaptureDimensions()
+
+    capture_x, capture_y, capture_width, capture_height = dimensions   
 
     if not os.path.exists(MODEL_PATH):
         try:
