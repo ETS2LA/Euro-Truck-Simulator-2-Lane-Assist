@@ -40,7 +40,7 @@ export default function Basic({ip} : {ip: string}) {
             <ResizablePanelGroup direction="horizontal" className="overflow-auto text-center gap-0">
                 <ResizablePanel defaultSize={35}>
                     <iframe 
-                        src={`http://localhost:60407/ETS2LA Visualisation.html`} 
+                        src={`http://${ip}:60407/ETS2LA Visualisation.html`} 
                         className="w-full h-full" 
                         sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                     />
