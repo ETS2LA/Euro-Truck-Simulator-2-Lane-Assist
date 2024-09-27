@@ -5,6 +5,7 @@ import threading
 import logging
 import asyncio
 import json
+import os
 import zlib
 import time
 
@@ -283,17 +284,17 @@ def Initialize():
     socket.start()
     
     print("Visualization sockets waiting for client...")
+def compress_data(data):
+    compressor = zlib.compressobj(wbits=28)
+    compressed_data = compressor.compress(data)
+    compressed_data += compressor.flush()
+    return compressed_data
 
 # Example usage in your server function
 def plugin():
     global send
     data = TruckSimAPI.run()
-    
-    # print(data["steeringPoints"])
-    # print(data["vehicles"])
-    # print(data["TrafficLights"])
-    # print(data["targetSpeed"])
-    
+
     tempSend = ""
     tempSend += position(data)
     runner.Profile("Position")
@@ -315,5 +316,9 @@ def plugin():
     runner.Profile("Highlights")
     tempSend += instruct(data)
     runner.Profile("Instruct")
-    
-    send = zlib.compress(tempSend.encode("utf-8"), wbits=28)
+
+    #Switch to zlib when on windows
+    if os.name == "nt":
+        send = zlib.compress(tempSend.encode("utf-8"), wbits=28)
+    else:
+        send = compress_data(tempSend.encode("utf-8"))
