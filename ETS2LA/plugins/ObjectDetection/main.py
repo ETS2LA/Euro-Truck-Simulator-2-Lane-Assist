@@ -109,7 +109,10 @@ def Initialize():
             if screen.height == 1200:
                 screen_cap = "1080p16:10"
             else:
-                screen_cap = "1080p"
+                if screen.width == 3840:
+                    screen_cap = "2160p32:9"
+                else:
+                    screen_cap = "1080p"
 
         if screen_cap == "1440p32:9":
             capture_x = 2100
@@ -131,6 +134,11 @@ def Initialize():
             capture_y = 280
             capture_width = 1020
             capture_height = 480
+        elif screen_cap == "2160p32:9":
+            capture_x = 3150
+            capture_y = 450
+            capture_width = 1920
+            capture_height = 1080
             
         runner.sonner(Translate("object_detection.screen_capture_profile", [screen_cap]))
         settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
