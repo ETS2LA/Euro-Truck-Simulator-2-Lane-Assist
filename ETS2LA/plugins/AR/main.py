@@ -370,7 +370,6 @@ def plugin():
                 resize()
             last_window_position = (current_time, window_x, window_y, window_width, window_height)
 
-    # Rest of the code follows ...
     try:
         truck_x = data["api"]["truckPlacement"]["coordinateX"]
         truck_y = data["api"]["truckPlacement"]["coordinateY"]
