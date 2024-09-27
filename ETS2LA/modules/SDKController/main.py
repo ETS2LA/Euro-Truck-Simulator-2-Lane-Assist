@@ -95,7 +95,7 @@ class SCSController:
             try:
                 self._shm_fd = open(self.SHM_FILE, "rb+")
             except:
-                raise RuntimeError(f"ETS2/ATS is not running (Currently game needs to be running for app to start (Blame tummy not me :3))") #Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
+                raise RuntimeError(f"ETS2/ATS is not running (Currently game needs to be running for app to start THIS IS TEMPORARY)") #Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
             try:
                 self._shm_buff = mmap.mmap(self._shm_fd.fileno(), length=shm_size,
                                            flags=mmap.MAP_SHARED, access=mmap.ACCESS_WRITE)
