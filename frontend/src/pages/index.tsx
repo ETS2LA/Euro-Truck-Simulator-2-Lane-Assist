@@ -29,15 +29,18 @@ import { translate } from "./translation"
 import { Separator } from "@/components/ui/separator"
 import { GetUserData } from "./account"
 import useSWR from "swr"  
+import ETS2LAUserStats from "@/components/ets2la_user_stats"
 
 
 export default function Home({ip} : {ip: string}) {
     const push = useRouter().push;
     const [userData, setUserData] = useState(null);
 
-    GetUserData().then((data) => {
-        setUserData(data);
-    })
+    useState(() => {
+        GetUserData().then((data) => {
+            setUserData(data);
+        })
+    }, )
 
     return (
         <div className="w-full h-[calc(100vh-72px)]">
@@ -49,18 +52,16 @@ export default function Home({ip} : {ip: string}) {
                         </ResizablePanel> 
                         <ResizablePanel defaultSize={90}>
                             <ResizablePanelGroup direction="horizontal" className="overflow-auto text-center gap-1.5">
-                                <ResizablePanel defaultSize={30} className="flex flex-col text-left gap-[18px] opacity-50 hover:opacity-100 transition-all">
+                                <ResizablePanel defaultSize={30} className="flex flex-col text-left gap-[18px]  transition-all">
                                     <p className="text-xs text-muted-foreground pl-3">{translate("frontend.mainmenu.updates")}</p>
                                     <div className="border rounded-lg h-[calc(100%-34px)]">
                                         <VersionHistory ip={ip} />
                                     </div>
                                 </ResizablePanel>
                                 <div />
-                                <ResizablePanel defaultSize={70} className="flex flex-col text-left gap-[18px] opacity-50 hover:opacity-100 transition-all">
+                                <ResizablePanel defaultSize={70} className="flex flex-col text-left gap-[18px]  transition-all">
                                     <p className="text-xs text-muted-foreground pl-3">{translate("frontend.mainmenu.stats")}</p>
-                                    <div className="border border-dashed rounded-lg h-[calc(100%-34px)]">
-
-                                    </div>
+                                    <ETS2LAUserStats />
                                 </ResizablePanel>
                             </ResizablePanelGroup>
                         </ResizablePanel>
@@ -69,18 +70,18 @@ export default function Home({ip} : {ip: string}) {
                 <div />
                 <ResizablePanel defaultSize={20}>
                     <ResizablePanelGroup direction="vertical" className="overflow-auto text-center gap-1.5">
-                        <ResizablePanel defaultSize={10} className="flex flex-col justify-center text-left opacity-50 hover:opacity-100 transition-all">
+                        <ResizablePanel defaultSize={10} className="flex flex-col justify-center text-left  transition-all">
                             
                         </ResizablePanel> 
                         <ResizablePanel defaultSize={90}>
                             <ResizablePanelGroup direction="vertical" className="overflow-auto text-center gap-3">
-                                <ResizablePanel defaultSize={75} className="flex flex-col text-left gap-[18px] opacity-50 hover:opacity-100 transition-all">
+                                <ResizablePanel defaultSize={75} className="flex flex-col text-left gap-[18px]  transition-all">
                                     <p className="text-xs text-muted-foreground pl-3">{translate("frontend.mainmenu.plugins")}</p>
                                     <div className="border rounded-lg h-[calc(100%-34px)]">
                                         <PluginList ip={ip} />
                                     </div>
                                 </ResizablePanel>
-                                <ResizablePanel defaultSize={25} className="opacity-50 hover:opacity-100 transition-all">
+                                <ResizablePanel defaultSize={25} className=" transition-all">
                                     <div className="border rounded-lg h-full flex flex-col gap-3 justify-center items-center">
                                         <Button onClick={() => push("/basic")} variant={"outline"} className="w-48">{translate("frontend.mainmenu.basic_mode")}</Button>
                                         <Button onClick={() => open("http://localhost:60407/ETS2LA Visualisation.html", "_blank")} variant={"outline"} className="w-48">{translate("frontend.mainmenu.open_in_browser")}</Button>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem,
     MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator,
     MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger,
@@ -23,54 +23,32 @@ import { translate } from "@/pages/translation";
 import { useRouter as routerUseRouter } from 'next/router';
 import { DeleteUser } from "@/pages/account";
 
-export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout: () => void, isCollapsed?: boolean}) {
+export function ETS2LAMenubar({ ip, onLogout, isCollapsed }: { ip: string, onLogout: () => void, isCollapsed?: boolean }) {
     const [dragging, setDragging] = useState(false);
     const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
     const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 });
     const [clickOffset, setClickOffset] = useState({ x: 0, y: 0 });
-    const { theme, setTheme } = useTheme()
-    const { push } = useRouter()
-    const isBasic = routerUseRouter().pathname.includes("basic");
-    // Get the plugins from the backend (pass ip to the GetPlugins function and refresh every second)
-    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 })
-    if (isLoading) return <Menubar><p className="absolute left-5 font-semibold text-xs text-stone-400">{translate("loading")}</p></Menubar>
-    if (error){
-        toast.error(translate("frontend.menubar.error_fetching_plugins", ip), {description: error.message})
-        return <Menubar><ETS2LAImmediateServer ip={ip} /><p className="absolute left-5 font-semibold text-xs text-stone-400">{error.message}</p></Menubar>
-    } 
-    const plugins:string[] = [];
-    for (const key in data) {
-        if(key !== "Global" && key !== "global_json")
-            plugins.push(key)
-    }
-    // Get the first characters of the plugin strings
-    const pluginChars = plugins ? plugins.map((plugin) => data ? (data as any)[plugin]["file"] ? translate((data as any)[plugin]["file"]["name"]).charAt(0) : plugin.charAt(0) : plugin.charAt(0)) : [];
-    // Remove duplicates (without Set)
-    const uniqueChars:string[] = [];
-    for (const char of pluginChars) {
-        if (!uniqueChars.includes(char)) {
-            uniqueChars.push(char);
-        }
-    }
-    // Sort the unique characters alphabetically
-    uniqueChars.sort();
+    const { theme, setTheme } = useTheme();
+    const { push } = useRouter();
+    const { pathname } = routerUseRouter();
+    const isBasic = pathname.includes("basic");
+
+    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 });
+    const plugins = data ? Object.keys(data).filter(key => key !== "Global" && key !== "global_json") : [];
+    const pluginChars = plugins.map(plugin => data[plugin]?.file ? translate(data[plugin].file.name).charAt(0) : plugin.charAt(0));
+    const uniqueChars = Array.from(new Set(pluginChars)).sort();
 
     const SetThemeColor = (theme: string) => {
-        setTheme(theme)
+        setTheme(theme);
         toast.promise(ColorTitleBar(ip, theme), {
             loading: translate("frontend.menubar.setting_theme", translate(`frontend.theme.${theme}`)),
             success: translate("frontend.menubar.theme_set", translate(`frontend.theme.${theme}`)),
             error: translate("frontend.menubar.error_setting_theme", translate(`frontend.theme.${theme}`)),
-        })
-    }
+        });
+    };
 
-
-    useLayoutEffect(() => {
-        // Get the initial window position
-        const initialWindowPosition = {
-            x: window.screenX,
-            y: window.screenY,
-        };
+    useEffect(() => {
+        const initialWindowPosition = { x: window.screenX, y: window.screenY };
         setWindowPosition(initialWindowPosition);
     }, []);
 
@@ -100,16 +78,13 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [dragging, windowPosition.x, windowPosition.y, lastMousePosition.x, lastMousePosition.y, clickOffset.x, clickOffset.y]);
+    }, [dragging, windowPosition, lastMousePosition]);
 
     const handleMouseDown = (e: React.MouseEvent) => {
         if (e.target instanceof HTMLElement && e.target.classList.contains('pywebview-drag-region')) {
             e.preventDefault();
             setDragging(true);
-            setLastMousePosition({
-                x: e.screenX,
-                y: e.screenY,
-            });
+            setLastMousePosition({ x: e.screenX, y: e.screenY });
             setClickOffset({
                 x: e.clientX - e.target.getBoundingClientRect().left,
                 y: e.clientY - e.target.getBoundingClientRect().top,
@@ -117,16 +92,21 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
         }
     };
 
+    function getMenubarClassname(collapsed: any, isBasic: any) {
+        return isBasic 
+            ? (collapsed ? "pywebview-drag-region absolute top-3 left-[8.75vw] right-[8.75vw] bg-transparent border-none backdrop-blur-xl backdrop-brightness-50"
+                         : "pywebview-drag-region absolute top-3 left-3 right-3 bg-transparent border-none backdrop-blur-xl backdrop-brightness-50")
+            : "pywebview-drag-region";
+    }
 
-    function getMenubarClassname(collapsed:any, isBasic:any) {
-        if(isBasic) {
-            if (collapsed) {
-                return "pywebview-drag-region absolute top-3 left-[8.75vw] right-[8.75vw] bg-transparent border-none backdrop-blur-xl backdrop-brightness-50"
-            }
-            return "pywebview-drag-region absolute top-3 left-3 right-3 bg-transparent border-none backdrop-blur-xl backdrop-brightness-50"
-        } else {
-            return "pywebview-drag-region"
-        }
+    // Return loading or error states early
+    if (isLoading) {
+        return <Menubar><p className="absolute left-5 font-semibold text-xs text-stone-400">{translate("loading")}</p></Menubar>;
+    }
+
+    if (error) {
+        toast.error(translate("frontend.menubar.error_fetching_plugins", ip), { description: error.message });
+        return <Menubar><ETS2LAImmediateServer ip={ip} /><p className="absolute left-5 font-semibold text-xs text-stone-400">{error.message}</p></Menubar>;
     }
 
     return (
@@ -318,4 +298,3 @@ export function ETS2LAMenubar({ip, onLogout, isCollapsed}: {ip: string, onLogout
         </div>
     )
 }
-  

@@ -65,7 +65,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     try {
-      PlaySound("localhost", "boot")
+      if (!PlaySound(ipRef.current, "boot")) {console.log("Not running on the local machine")}
     }
     catch (e) {
       console.log("Not running on the local machine")
@@ -252,7 +252,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <div className={isInBasicMode ? "" : "pt-3 pb-9 h-full"}>
             <ContextMenu>
               <ContextMenuTrigger className="h-full">
-                <Component {...newPageProps} ip={ip} />
+                  <Component {...newPageProps} ip={ip} />
               </ContextMenuTrigger>
               <ContextMenuContent className="w-64">
                 <ContextMenuItem onClick={router.back}>

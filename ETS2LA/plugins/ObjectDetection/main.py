@@ -52,8 +52,10 @@ MODEL_TYPE: Literal["YoloV5", "YoloV7"] = \
     settings.Get("ObjectDetection", "model", "YoloV5")
 MODEL_NAME: str = \
     "YOLOv7-tiny.pt" if MODEL_TYPE == "YoloV7" else "YOLOv5s.pt"
+MODELS_DIR: str = \
+    os.path.join(os.path.dirname(__file__), "models")
 MODEL_PATH: str = \
-    os.path.join(os.path.dirname(__file__), "models", MODEL_NAME)
+    os.path.join(MODELS_DIR, MODEL_NAME)
 MODEL_REPO: str = \
     "https://huggingface.co/DylDev/ETS2-Vehicle-Detection"
 MODEL_DOWNLOAD_LINK: str = \
@@ -107,47 +109,33 @@ def Initialize():
     
     screen = screeninfo.get_monitors()[0]
     dimensions = settings.Get("ObjectDetection", "dimensions", None)
+    
+    def SetScreenCaptureDimensions():
+        height_scale = screen.height / 1080
+        width_scale = screen.width / 1920
 
-    # Set the capture dimensions based on the screen resolution
-    if dimensions is None or len(dimensions) != 4:
-        if screen.height >= 1440:
-            if screen.width >= 5120:
-                screen_cap = "1440p32:9"
-            else:
-                screen_cap = "1440p"
-        else:
-            if screen.height == 1200:
-                screen_cap = "1080p16:10"
-            else:
-                screen_cap = "1080p"
+        capture_x = round(600 * width_scale)
+        capture_y = round(200 * height_scale)
+        capture_width = 1020
+        capture_height = round(480 * height_scale)
 
-        if screen_cap == "1440p32:9":
-            capture_x = 2100
-            capture_y = 300
-            capture_width = 1280
-            capture_height = 720
-        elif screen_cap == "1440p":
-            capture_x = 700
-            capture_y = 300
-            capture_width = 1280
-            capture_height = 720
-        elif screen_cap == "1080p":
-            capture_x = 600
-            capture_y = 200
-            capture_width = 1020
-            capture_height = 480
-        elif screen_cap == "1080p16:10":
-            capture_x = 600
-            capture_y = 280
-            capture_width = 1020
-            capture_height = 480
-            
-        runner.sonner(Translate("object_detection.screen_capture_profile", [screen_cap]))
+        runner.sonner(Translate("object_detection.screen_capture_profile", [f"{screen.width}x{screen.height}"]))
         settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
-    else:
-        capture_x, capture_y, capture_width, capture_height = dimensions   
+        time.sleep(0.5) # Let the profile text show for a bit
 
-    time.sleep(0.5)  # Let the profile text show for a bit
+        return capture_x, capture_y, capture_width, capture_height
+    
+    # Set the capture dimensions based on the screen resolution
+    if dimensions == None:
+        dimensions = SetScreenCaptureDimensions()
+    else:
+        if len(dimensions) != 4:
+            dimensions = SetScreenCaptureDimensions()
+
+    capture_x, capture_y, capture_width, capture_height = dimensions   
+
+    if not os.path.exists(MODELS_DIR):
+        os.makedirs(MODELS_DIR)
 
     if not os.path.exists(MODEL_PATH):
         try:

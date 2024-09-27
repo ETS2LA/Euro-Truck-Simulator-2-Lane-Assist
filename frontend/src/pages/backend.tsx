@@ -150,14 +150,18 @@ export async function ColorTitleBar(ip="localhost", theme="dark") {
 }
 
 export async function PlaySound(ip="localhost", sound="boot") {
-    const response = await fetch(`http://${ip}:37520/api/sounds/play/${sound}`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    const data = await response.json()
-    return data
+    try {
+        const response = await fetch(`http://${ip}:37520/api/sounds/play/${sound}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const data = await response.json()
+        return data
+    } catch {
+        return null
+    }
 }
 
 export async function GetStayOnTop(ip="localhost") {
