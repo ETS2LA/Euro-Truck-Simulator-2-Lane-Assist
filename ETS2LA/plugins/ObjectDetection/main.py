@@ -42,8 +42,10 @@ MODEL_TYPE: Literal["YoloV5", "YoloV7"] = \
     settings.Get("ObjectDetection", "model", "YoloV5")
 MODEL_NAME: str = \
     "YOLOv7-tiny.pt" if MODEL_TYPE == "YoloV7" else "YOLOv5s.pt"
+MODELS_DIR: str = \
+    os.path.join(os.path.dirname(__file__), "models")
 MODEL_PATH: str = \
-    os.path.join(os.path.dirname(__file__), "models", MODEL_NAME)
+    os.path.join(MODELS_DIR, MODEL_NAME)
 MODEL_REPO: str = \
     "https://huggingface.co/DylDev/ETS2-Vehicle-Detection"
 MODEL_DOWNLOAD_LINK: str = \
@@ -100,8 +102,9 @@ def Initialize():
 
     def SetScreenCaptureDimensions():
         height_scale = screen.height / 1080
+        width_scale = screen.width / 1920
 
-        capture_x = 600 
+        capture_x = round(600 * width_scale)
         capture_y = round(200 * height_scale)
         capture_width = 1020
         capture_height = round(480 * height_scale)
@@ -120,6 +123,9 @@ def Initialize():
             dimensions = SetScreenCaptureDimensions()
 
     capture_x, capture_y, capture_width, capture_height = dimensions   
+
+    if not os.path.exists(MODELS_DIR):
+        os.makedirs(MODELS_DIR)
 
     if not os.path.exists(MODEL_PATH):
         try:
