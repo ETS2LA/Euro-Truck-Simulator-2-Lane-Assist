@@ -99,47 +99,15 @@ def Initialize():
     dimensions = settings.Get("ObjectDetection", "dimensions", None)
 
     def SetScreenCaptureDimensions():
-        if screen.height >= 1440:
-            if screen.width >= 5120:
-                screen_cap = "1440p32:9"
-            else:
-                screen_cap = "1440p"
-        else:
-            if screen.height == 1200:
-                screen_cap = "1080p16:10"
-            else:
-                if screen.width == 3840:
-                    screen_cap = "2160p32:9"
-                else:
-                    screen_cap = "1080p"
+        width_scale = screen.width / 1920
+        height_scale = screen.height / 1080
 
-        if screen_cap == "1440p32:9":
-            capture_x = 2100
-            capture_y = 300
-            capture_width = 1280
-            capture_height = 720
-        elif screen_cap == "1440p":
-            capture_x = 700
-            capture_y = 300
-            capture_width = 1280
-            capture_height = 720
-        elif screen_cap == "1080p":
-            capture_x = 600
-            capture_y = 200
-            capture_width = 1020
-            capture_height = 480
-        elif screen_cap == "1080p16:10":
-            capture_x = 600
-            capture_y = 280
-            capture_width = 1020
-            capture_height = 480
-        elif screen_cap == "2160p32:9":
-            capture_x = 3150
-            capture_y = 450
-            capture_width = 1920
-            capture_height = 1080
-            
-        runner.sonner(Translate("object_detection.screen_capture_profile", [screen_cap]))
+        capture_x = round(600 * width_scale)
+        capture_y = round(200 * height_scale)
+        capture_width = round(1020 * width_scale)
+        capture_height = round(480 * height_scale)
+
+        runner.sonner(Translate("object_detection.screen_capture_profile", [f"{screen.width}x{screen.height}"]))
         settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
         time.sleep(0.5) # Let the profile text show for a bit
 
