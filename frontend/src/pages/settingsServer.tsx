@@ -5,11 +5,26 @@ export async function GetSettingsJSON(plugin:string, ip="localhost") {
     return await response.json();
 }
 
-export async function GetSettingByKey(plugin:string, key:string, ip="localhost") {
-    const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/settings/${key}`);
-    return await response.json();
-}
+export async function GetSettingByKey(plugin: string, key: string, ip = "localhost") {
+    try {
+        const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/settings/${key}`);
+        
+        if (!response.ok) {
+            console.error(`Failed to fetch: HTTP status ${response.status}`);
+            return null;
+        }
 
+        try {
+            return await response.json();
+        } catch (jsonError) {
+            console.error("Failed to parse JSON response:", jsonError);
+            return null;
+        }
+    } catch (error) {
+        console.error("An error occurred while getting the setting by key:", error);
+        return null;
+    }
+}
 export async function SetSettingByKey(plugin:string, key:string, value:any, ip="localhost") {
     try {
         const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/settings/${key}/set`, {

@@ -252,7 +252,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <div className={isInBasicMode ? "" : "pt-3 pb-9 h-full"}>
             <ContextMenu>
               <ContextMenuTrigger className="h-full">
-                <Component {...newPageProps} ip={ip} />
+                <div className='overflow-auto'>
+                  <Component {...newPageProps} ip={ip} />
+                </div>
               </ContextMenuTrigger>
               <ContextMenuContent className="w-64">
                 <ContextMenuItem onClick={router.back}>
