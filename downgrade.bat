@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 echo ============================================
 echo Would you like to:
 echo 1. Update to the newest version after downgrade
-echo 2. Downgrade to a specific commit (no update)
+echo 2. Downgrade to a specific commit 
 echo ============================================
 set /p choice="Choose an option (1-2): "
 
