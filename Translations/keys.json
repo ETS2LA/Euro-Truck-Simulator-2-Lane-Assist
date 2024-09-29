@@ -57,6 +57,7 @@
     "frontend.disclaimer.description.line2",
     "frontend.disclaimer.ok",
     "frontend.disclaimer.dontshowagain",
+    "frontend.disclaimer.dontshowagain.toast",
     "frontend.app.lost_connection",
     "frontend.app.local_ip_placeholder",
     "frontend.app.connect",

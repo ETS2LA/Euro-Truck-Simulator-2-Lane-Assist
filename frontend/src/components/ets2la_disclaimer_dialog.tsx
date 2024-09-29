@@ -13,6 +13,7 @@ import { useState, useEffect, use } from 'react'
 import { Progress } from './ui/progress'
 import { translate } from '@/pages/translation'
 import { set } from 'date-fns'
+import { toast } from 'sonner';
 
 export default function DisclaimerDialog({onClose, open}: {onClose: any, open: boolean}) {
     const [startTime, setStartTime] = useState(Date.now())
@@ -66,6 +67,7 @@ export default function DisclaimerDialog({onClose, open}: {onClose: any, open: b
 
     function onDontShowAgain() {
         onClose();
+        toast.info(translate("frontend.disclaimer.dontshowagain.toast"));
         localStorage.setItem("dontShowDisclaimer", "true");
     }
 

@@ -63,6 +63,8 @@
     "frontend.disclaimer.description.line1": "ETS2LA ei ole vastuussa mist\u00e4\u00e4n sovelluksen k\u00e4yt\u00f6st\u00e4 aiheutuvista haitoista. Sovelluksen k\u00e4ytt\u00e4minen on omalla vastuullasi.",
     "frontend.disclaimer.description.line2": "ETS2LA:n k\u00e4ytt\u00e4minen TruckersMP (TMP) palvelussa on sen tekij\u00f6iden mukaan sallittua. Muista kuitenkin, ett\u00e4 heid\u00e4n n\u00e4k\u00f6kulmastaan sin\u00e4 olet vastuussa ETS2LA:n teoista.",
     "frontend.disclaimer.ok": "Ymm\u00e4rr\u00e4n",
+    "frontend.disclaimer.dontshowagain": "\u00c4l\u00e4 n\u00e4yt\u00e4 t\u00e4t\u00e4 uudelleen",
+    "frontend.disclaimer.dontshowagain.toast": "Et n\u00e4e viesti\u00e4 uudelleen ennen seuraavaa p\u00e4ivityst\u00e4.",
     "frontend.app.lost_connection": "Menetettiin yhteys palvelimeen.",
     "frontend.app.local_ip_placeholder": "ETS2LA:n paikallinen IP-osoite",
     "frontend.app.connect": "Yhdist\u00e4",

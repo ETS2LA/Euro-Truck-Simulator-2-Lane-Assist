@@ -72,6 +72,7 @@
     "frontend.disclaimer.description.line2": "ETS2LA:n käyttäminen TruckersMP (TMP) palvelussa on sen tekijöiden mukaan sallittua. Muista kuitenkin, että heidän näkökulmastaan sinä olet vastuussa ETS2LA:n teoista.",
     "frontend.disclaimer.ok": "Ymmärrän",
     "frontend.disclaimer.dontshowagain": "Älä näytä tätä uudelleen",
+    "frontend.disclaimer.dontshowagain.toast": "Et näe viestiä uudelleen ennen seuraavaa päivitystä.",
     "frontend.app.lost_connection": "Menetettiin yhteys palvelimeen.",
     "frontend.app.local_ip_placeholder": "ETS2LA:n paikallinen IP-osoite",
     "frontend.app.connect": "Yhdistä",
