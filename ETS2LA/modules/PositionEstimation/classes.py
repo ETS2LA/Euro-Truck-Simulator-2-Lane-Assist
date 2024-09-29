@@ -32,42 +32,46 @@ def ConvertToAngle(x, y):
     return angle_x, angle_y
 
 def UpdateGamePosition():
-    if os.name == "nt":
-        # Windows-specific code
-        hwnd = None
-        top_windows = []
-        win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
-        for hwnd, window_text in top_windows:
-            if "Truck Simulator" in window_text and "Discord" not in window_text:
-                rect = win32gui.GetClientRect(hwnd)
-                tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
-                br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
-                window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
-                window_x = window[0]
-                window_y = window[1]
-                window_width = window[2]
-                window_height = window[3]
-                last_window_position = (current_time, window[0], window[1], window[2], window[3])
-                break
-    else:
-        # Linux-specific code
-        d = display.Display()
-        root = d.screen().root
-        top_windows = root.query_tree().children
-        for window in top_windows:
-            try:
-                window_name = window.get_wm_name()
-                if window_name and "Truck Simulator" in window_name and "Discord" not in window_name:
-                    geom = window.get_geometry()
-                    window_attrs = window.get_attributes()
-                    window_x = geom.x
-                    window_y = geom.y
-                    window_width = geom.width
-                    window_height = geom.height
-                    last_window_position = (current_time, window_x, window_y, window_width, window_height)
+    global window_x, window_y, window_width, window_height, last_window_position
+    current_time = time.time()
+    
+    if last_window_position[0] + 3 < current_time:
+        if os.name == "nt":
+            # Windows-specific code
+            hwnd = None
+            top_windows = []
+            win32gui.EnumWindows(lambda hwnd, top_windows: top_windows.append((hwnd, win32gui.GetWindowText(hwnd))), top_windows)
+            for hwnd, window_text in top_windows:
+                if "Truck Simulator" in window_text and "Discord" not in window_text:
+                    rect = win32gui.GetClientRect(hwnd)
+                    tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
+                    br = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
+                    window = (tl[0], tl[1], br[0] - tl[0], br[1] - tl[1])
+                    window_x = window[0]
+                    window_y = window[1]
+                    window_width = window[2]
+                    window_height = window[3]
+                    last_window_position = (current_time, window[0], window[1], window[2], window[3])
                     break
-            except (Xlib.error.XError, AttributeError):
-                continue
+        else:
+            # Linux-specific code
+            d = display.Display()
+            root = d.screen().root
+            top_windows = root.query_tree().children
+            for window in top_windows:
+                try:
+                    window_name = window.get_wm_name()
+                    if window_name and "Truck Simulator" in window_name and "Discord" not in window_name:
+                        geom = window.get_geometry()
+                        window_attrs = window.get_attributes()
+                        window_x = geom.x
+                        window_y = geom.y
+                        window_width = geom.width
+                        window_height = geom.height
+                        last_window_position = (current_time, window_x, window_y, window_width, window_height)
+                        break
+                except (Xlib.error.XError, AttributeError):
+                    continue
 
 
 
