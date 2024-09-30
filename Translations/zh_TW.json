@@ -71,6 +71,8 @@
     "frontend.disclaimer.title": "免責聲明！",
     "frontend.disclaimer.description.line1": "ETS2LA 對使用此軟體提供的任何功能所導致的不良影響概不負責。請自行承擔使用此軟體的風險。",
     "frontend.disclaimer.description.line2": "TruckersMP 的管理團隊已允許使用 ETS2LA，但若因使用本軟體而受到任何封鎖或警告，您需自行負責。",
+    "frontend.disclaimer.dontshowagain": "不要再次顯示",
+    "frontend.disclaimer.dontshowagain.toast": "您不會在下一次更新之前再看到它。.",
     "frontend.disclaimer.ok": "我瞭解了", 
     "frontend.app.lost_connection": "與伺服器的連線中斷。",
     "frontend.app.local_ip_placeholder": "ETS2LA 的本地 IP 地址",
