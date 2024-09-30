@@ -72,6 +72,7 @@
     "frontend.disclaimer.description.line2": "TMP 工作人员允许在 TruckersMP 中使用 ETS2LA，但您应对因使用该软件而导致的任何封禁或警告负责。",
     "frontend.disclaimer.ok": "我明白",
     "frontend.disclaimer.dontshowagain": "不再显示",
+    "frontend.disclaimer.dontshowagain.toast": "直到下一次更新前你不会再看到此消息",
     "frontend.app.lost_connection": "与服务器的连接中断。",
     "frontend.app.local_ip_placeholder": "ETS2LA 的本地 IP 地址",
     "frontend.app.connect": "连接",
