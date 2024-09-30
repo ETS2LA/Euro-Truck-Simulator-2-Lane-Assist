@@ -616,7 +616,7 @@ def CalculateCurvature(points):
         return 0
 
 # MARK: Lane Change
-def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation, speed):
+def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation, speed, allowTooShort=False, absolute=False):
     returnPoints = []
     
     def GetPointLaneChangeDistance(point):
@@ -647,6 +647,11 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation, speed):
         return routeItem.points
     
     curPoints = routeItem.points
+    
+    if absolute:
+        truckX = curPoints[0][0]
+        truckZ = curPoints[0][1]
+    
     parallelPoints = road.ParallelPoints[wantedLane]
     if inverted:
         parallelPoints = parallelPoints[::-1]
@@ -667,7 +672,7 @@ def GenerateLaneChange(routeItem, truckX, truckZ, isRight, rotation, speed):
             break
         index += 1
         
-    if GetPointLaneChangeDistance(curPoints[index]) < DISTANCE_FOR_LANE_CHANGE * speedPercentage:
+    if GetPointLaneChangeDistance(curPoints[index]) < DISTANCE_FOR_LANE_CHANGE * speedPercentage and not allowTooShort:
         return routeItem.points 
 
     # Now create the inbetween points to lane change
@@ -860,6 +865,7 @@ def HandleNav(data, MapUtils, Enabled, path, closestData):
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckY = data["api"]["truckPlacement"]["coordinateY"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    speed = data["api"]["truckFloat"]["speed"] * 3.6 # m/s -> km/h
     rotation = data["api"]["truckPlacement"]["rotationX"] * 360
     if rotation < 0: rotation += 360
     rotation = math.radians(rotation)
@@ -899,7 +905,7 @@ def HandleNav(data, MapUtils, Enabled, path, closestData):
         if Route == []:
             return data
         
-    while len(Route) < 4:
+    while len(Route) < 5:
         currentPathIndex += 1
         if currentPathIndex >= len(path):
             logging.warning("End of path")
@@ -915,7 +921,6 @@ def HandleNav(data, MapUtils, Enabled, path, closestData):
         except:
             logging.exception("Failed to add next item")
     
-    
     for routeItem in Route:
         newPoints = DiscardPointsBehindTheTruck(routeItem.points, truckX, truckZ, rotation)
         for point in routeItem.points:
@@ -924,6 +929,47 @@ def HandleNav(data, MapUtils, Enabled, path, closestData):
         routeItem.points = newPoints
         if routeItem.points == []:
             Route.remove(routeItem)
+    
+    problemIndex = 0
+    index = 0
+    for routeItem in Route:
+        if index == len(Route) - 1:
+            break
+        
+        if DistanceBetweenPoints(routeItem.points[-1], Route[index+1].points[0]) > 4:
+            problemIndex = index
+            break
+        
+        index += 1
+        
+    if problemIndex > 0:
+        routeItem = None
+        index = problemIndex
+        while routeItem is None or type(routeItem.item) != Road:
+            index -= 1
+            if index < 0:
+                break
+            routeItem = Route[index]
+            
+        if routeItem != None:
+            logging.warning("Problem with route, correcting...")
+            # Get the first point of the item after the problem index
+            item = Route[problemIndex+1].points[-1]
+            # Check if this is to the right or left of the current item
+            vector = [item[0] - truckX, item[1] - truckZ]
+            vector = vector / np.linalg.norm(vector)
+            angle = np.arccos(np.dot(vector, [-math.sin(rotation), -math.cos(rotation)]) / (np.linalg.norm(vector) * np.linalg.norm([-math.sin(rotation), -math.cos(rotation)])))
+            angle = math.degrees(angle)
+            isRight = angle > 0
+            # Create a lane change to the next item
+            try:
+                oldRoute = Route
+                Route = Route[:problemIndex]
+                countDifferece = len(oldRoute) - len(Route)
+                currentPathIndex -= countDifferece
+                Route[index].points = GenerateLaneChange(Route[index], truckX, truckZ, isRight, rotation, speed, allowTooShort=True, absolute=True)
+            except:
+                logging.warning("Failed to generate lane change")
         
     allPoints = []    
     for i in range(len(Route)):

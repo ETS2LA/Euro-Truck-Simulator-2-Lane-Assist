@@ -6,7 +6,7 @@ import ETS2LA.plugins.Map.GameData.roads as roads
 import ETS2LA.plugins.Map.GameData.nodes as Nodes
 import ETS2LA.backend.settings as settings
 from ETS2LA.variables import PATH
-from typing import cast, List, Tuple, Union
+from typing import cast, List, Tuple, Union, Literal
 import numpy as np
 import time
 import math
@@ -32,6 +32,7 @@ if roadsMaxX != 0 and roadsMaxZ != 0 and roadsMinX != 0 and roadsMinZ != 0:
     
 MOUSE_X = 0
 MOUSE_Y = 0
+API_POSITION = False
 FIRST_POSITION = None
 FIRST_NODE = None
 SECOND_POSITION = None
@@ -47,10 +48,11 @@ LAST_TARGET_COMPANY = None
 LAST_TARGET_COMPANY_CITY = None
 LAST_TARGET_COMPANY_NAME = None
 class AStarNode:
-    def __init__(self, x, z, lenght, node, item, startOrEnd):
+    def __init__(self, x, z, side, node, item, startOrEnd, prefab_start_points=[]):
         self.x = x
         self.z = z
-        self.length = lenght
+        self.side = side
+        self.length = item.Lengths[0] if type(item) == Road else 0
         self.node: Nodes.Node = node
         self.g = 0
         self.h = 0 
@@ -59,6 +61,7 @@ class AStarNode:
         self.neighbours = []
         self.item = item
         self.startOrEnd = startOrEnd
+        self.prefab_start_points = prefab_start_points
         
     def __eq__(self, other):
         return self.x == other.x and self.z == other.z
@@ -78,19 +81,109 @@ class AStarNode:
     def __repr__(self):
         return f"AStarNode: ({self.x}, {self.z})"
     
+    def _distance(self, x1, y1, x2, y2):
+        return np.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+    
+    def _get_lane_side(self, lane: list, road: Road):
+        lanesLeft = len(road.RoadLook.lanesLeft)
+        index = road.ParallelPoints.index(lane)
+        if index < lanesLeft:
+            return "left"
+        else:
+            return "right"
+        
+    def _get_lanes_on_side(self, road: Road, side: str):
+        lanes = []
+        if road.Points == None:
+            road.Points = roads.CreatePointsForRoad(road)
+        if road.ParallelPoints == []:
+            bounds, points, width = roads.CalculateParallelCurves(road)
+            road.ParallelPoints = points
+            road.BoundingBox = bounds
+        for lane in road.ParallelPoints:
+            if self._get_lane_side(lane, road) == side:
+                lanes.append(lane)
+        return lanes
+    
+    def _get_routes_to_road(self, road: Road):
+        start_points = self.prefab_start_points
+        
+        if road.Points == None:
+            road.Points = roads.CreatePointsForRoad(road)
+        if road.ParallelPoints == []:
+            bounds, points, width = roads.CalculateParallelCurves(road)
+            road.ParallelPoints = points
+            road.BoundingBox = bounds
+        
+        end_points = [lane[-1] for lane in road.ParallelPoints]
+        end_points += [lane[0] for lane in road.ParallelPoints]
+        routes = []
+        for lane in self.item.CurvePoints:
+            for start_point in start_points:
+                if self._distance(lane[0][0], lane[0][1], start_point[0], start_point[1]) < 4:
+                    for end_point in end_points:
+                        if self._distance(lane[-1][0], lane[-1][1], end_point[0], end_point[1]) < 4:
+                            routes.append(lane)
+                            break
+
+            for start_point in start_points:
+                if self._distance(lane[-1][0], lane[-1][1], start_point[0], start_point[1]) < 4:
+                    for end_point in end_points:
+                        if self._distance(lane[0][0], lane[0][1], end_point[0], end_point[1]) < 4:
+                            routes.append(lane)
+        
+        return routes
+    
     def _ParseRoads(self, item:Road):
         node = self.node
         if item.EndNode.Uid != node.Uid:
-            self.neighbours.append(AStarNode(item.EndNode.X, item.EndNode.Z, item.Lengths[0], item.EndNode, item, "end"))
+            if self.item == None:
+                self.neighbours.append(AStarNode(item.EndNode.X, item.EndNode.Z, "right", item.EndNode, item, "end"))
+            elif type(self.item) == Road:
+                self.neighbours.append(AStarNode(item.EndNode.X, item.EndNode.Z, self.side, item.EndNode, item, "end"))
+            else:
+                if self.prefab_start_points == []:
+                    self.neighbours.append(AStarNode(item.EndNode.X, item.EndNode.Z, self.side, item.EndNode, item, "end"))
+                    return 
+                
+                self.neighbours.append(AStarNode(item.EndNode.X, item.EndNode.Z, self.side, item.EndNode, item, "end", prefab_start_points=self.prefab_start_points))
+                # routes = self._get_routes_to_road(item)
+                # if len(routes) > 0:
+                #     self.neighbours.append(AStarNode(routes[0][0][0], routes[0][0][1], self.side, item.StartNode, item, "end"))
+                # else:
+                #     ... # No route found to the road
+                
         if item.StartNode.Uid != node.Uid:
-            self.neighbours.append(AStarNode(item.StartNode.X, item.StartNode.Z, item.Lengths[0], item.StartNode, item, "start"))
+            if self.item == None:
+                self.neighbours.append(AStarNode(item.EndNode.X, item.EndNode.Z, "right", item.EndNode, item, "start"))
+            elif type(self.item) == Road:
+                self.neighbours.append(AStarNode(item.StartNode.X, item.StartNode.Z, self.side, item.StartNode, item, "start"))
+            else:
+                if self.prefab_start_points == []:
+                    self.neighbours.append(AStarNode(item.StartNode.X, item.StartNode.Z, self.side, item.StartNode, item, "start"))
+                    return
+                
+                self.neighbours.append(AStarNode(item.StartNode.X, item.StartNode.Z, self.side, item.StartNode, item, "start"))
+                # routes = self._get_routes_to_road(item)
+                # if len(routes) > 0:
+                #     self.neighbours.append(AStarNode(routes[0][0][0], routes[0][0][1], self.side, item.StartNode, item, "start"))
+                # else:
+                #     ... # No route found to the road
     
     def _ParsePrefabItems(self, item:PrefabItem, lastNode:Nodes.Node, isRecursive=True):
         for node in item.Nodes:
             if node.Uid != self.node.Uid:
-                distance = np.sqrt((node.X - self.node.X)**2 + (node.Z - self.node.Z)**2)
                 index = item.Nodes.index(node)
-                self.neighbours.append(AStarNode(node.X, node.Z, distance, node, item, index))
+                if type(self.item) == PrefabItem or isRecursive == False: # also match when we're a port
+                    self.neighbours.append(AStarNode(node.X, node.Z, self.side, node, item, index))
+                else: 
+                    if self.item == None:
+                        continue
+                    
+                    lanes = self._get_lanes_on_side(self.item, self.side)
+                    starts = [lane[0] for lane in lanes]
+                    starts += [lane[-1] for lane in lanes]
+                    self.neighbours.append(AStarNode(node.X, node.Z, self.side, node, item, index, prefab_start_points=starts))
         
         if item.FerryUid != 0 and isRecursive:
             ports = ferries.FindEndPortByStartUid(item.FerryUid)
@@ -199,7 +292,7 @@ def AStar(startNode:AStarNode, endNode:AStarNode):
             neighbour.parent = currentNode
             openList.append(neighbour)
         
-        # Find the node in openList with the lowest f value
+        # Find the node in openList with the max f value
         bestCurrentNode = min(openList, key=lambda n: n.f, default=None)
         if bestCurrentNode:
             # Construct the path to this node
@@ -212,7 +305,7 @@ def AStar(startNode:AStarNode, endNode:AStarNode):
         else:
             bestPath = []
         
-        if counter % 500 == 0:
+        if counter % 50 == 0:
             DrawMap((startNode.x, startNode.z), (endNode.x, endNode.z), [(node.x, node.z) for node in openList], bestPath, total=total)
             counter = 0
         
@@ -253,6 +346,8 @@ def ClosestNode(x, z):
             closestDistance = distance
             
     closestRoad = cast(Road, closestRoad)
+    if closestRoad.Points == None:
+        closestRoad.Points = roads.CreatePointsForRoad(closestRoad)
     
     closestNode = None
     closestDistance = 0
@@ -264,13 +359,18 @@ def ClosestNode(x, z):
         neighbours = [closestRoad.EndNode]
         closestDistance = startDistance
     else:
-        closestNode = closestRoad.EndNode
+        closestNode = closestRoad.EndNode 
         neighbours = [closestRoad.StartNode]
         closestDistance = endDistance
+        
+    # TODO: Check the actual side of the road we're on
             
-    return closestNode, closestRoad.Lengths[0]
+    side = "right"
+            
+    return closestNode, closestRoad.Lengths[0], side
+
 def MouseCallback(event, x, y, flags, param):
-    global MOUSE_X, MOUSE_Y, FIRST_POSITION, SECOND_POSITION, holdingLeft, holdingRight, CHANGED
+    global MOUSE_X, MOUSE_Y, FIRST_POSITION, SECOND_POSITION, holdingLeft, holdingRight, CHANGED, API_POSITION
     if event == cv2.EVENT_MOUSEMOVE:
         MOUSE_X, MOUSE_Y = x, y
         
@@ -279,6 +379,10 @@ def MouseCallback(event, x, y, flags, param):
         FIRST_POSITION = ConvertScreenToWorld(x, y)
         holdingLeft = True
         CHANGED = True
+    if event == cv2.EVENT_MBUTTONDBLCLK:
+        API_POSITION = True
+        CHANGED = True
+        
     if event == cv2.EVENT_RBUTTONDOWN or holdingRight:
         MOUSE_X, MOUSE_Y = x, y
         SECOND_POSITION = ConvertScreenToWorld(x, y)
@@ -347,7 +451,7 @@ lastFrame = np.zeros((HEIGHT, WIDTH, 3), np.uint8)
 cv2.putText(lastFrame, "This will automatically load once you get a job in game.", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 cv2.putText(lastFrame, "Left click to set the start point, right click to set the end point.", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 def Update(data, closestData):
-    global roadsMaxX, roadsMaxZ, roadsMinX, roadsMinZ, FIRST_POSITION, SECOND_POSITION, FIRST_NODE, SECOND_NODE, WIDTH, HEIGHT, lastFrame, FIRST_START, LAST_TARGET_COMPANY, LAST_TARGET_COMPANY_CITY, LAST_TARGET_COMPANY_NAME, CHANGED, path, TIME_OF_LAST_UPDATE, POSITION_AT_LAST_UPDATE
+    global roadsMaxX, roadsMaxZ, roadsMinX, roadsMinZ, API_POSITION, FIRST_POSITION, SECOND_POSITION, FIRST_NODE, SECOND_NODE, WIDTH, HEIGHT, lastFrame, FIRST_START, LAST_TARGET_COMPANY, LAST_TARGET_COMPANY_CITY, LAST_TARGET_COMPANY_NAME, CHANGED, path, TIME_OF_LAST_UPDATE, POSITION_AT_LAST_UPDATE
     
     if FIRST_START == True:
         cv2.namedWindow('image')
@@ -359,6 +463,10 @@ def Update(data, closestData):
     target_company = data["api"]["configString"]["compDstId"].lower().replace(" ", "_")
     truckX = data["api"]["truckPlacement"]["coordinateX"]
     truckZ = data["api"]["truckPlacement"]["coordinateZ"]
+    
+    if API_POSITION:
+        FIRST_POSITION = (truckX, truckZ)
+        API_POSITION = False
     
     if target_city != LAST_TARGET_COMPANY_CITY \
         or target_company != LAST_TARGET_COMPANY_NAME \
@@ -397,15 +505,15 @@ def Update(data, closestData):
         
         # Draw the first and second points
         if FIRST_POSITION != None:
-            FIRST_NODE, length = ClosestNode(FIRST_POSITION[0], FIRST_POSITION[1])
-            FIRST_NODE = AStarNode(FIRST_NODE.X, FIRST_NODE.Z, length, FIRST_NODE, None, "start")
+            FIRST_NODE, points, side = ClosestNode(FIRST_POSITION[0], FIRST_POSITION[1])
+            FIRST_NODE = AStarNode(FIRST_NODE.X, FIRST_NODE.Z, side, FIRST_NODE, None, "start")
             
             x, y = ConvertWorldToScreen(FIRST_POSITION[0], FIRST_POSITION[1])
             cv2.circle(img, (int(x), int(y)), 5, (0, 100, 0), -1, cv2.LINE_AA)
             
         if SECOND_POSITION != None:
-            SECOND_NODE, length = ClosestNode(SECOND_POSITION[0], SECOND_POSITION[1])
-            SECOND_NODE = AStarNode(SECOND_NODE.X, SECOND_NODE.Z, length, SECOND_NODE, None, "end")
+            SECOND_NODE, points, side = ClosestNode(SECOND_POSITION[0], SECOND_POSITION[1])
+            SECOND_NODE = AStarNode(SECOND_NODE.X, SECOND_NODE.Z, side, SECOND_NODE, None, "end")
             
             x, y = ConvertWorldToScreen(SECOND_POSITION[0], SECOND_POSITION[1])
             cv2.circle(img, (int(x), int(y)), 5, (0, 0, 100), -1, cv2.LINE_AA)
