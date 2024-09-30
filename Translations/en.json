@@ -71,6 +71,8 @@
     "frontend.disclaimer.description.line1": "ETS2LA is not responsible for any ill effects caused by using any of the features provided by this software. Please use the software at your own risk.",
     "frontend.disclaimer.description.line2": "Using ETS2LA in TruckersMP has been allowed by TMP staff but you are responsible for any bans or warnings caused by using this software.",
     "frontend.disclaimer.ok": "I understand",
+    "frontend.disclaimer.dontshowagain": "Don't show this again",
+    "frontend.disclaimer.dontshowagain.toast": "You won't see it again till the next update.",
     "frontend.app.lost_connection": "Lost connection to the server.",
     "frontend.app.local_ip_placeholder": "Local IP address of ETS2LA",
     "frontend.app.connect": "Connect",
