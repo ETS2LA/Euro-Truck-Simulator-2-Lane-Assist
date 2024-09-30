@@ -898,6 +898,10 @@ def HandleNav(data, MapUtils, Enabled, path, closestData):
                 closestNode = node
                 break
             
+        if closestNode is None:
+            logging.warning("Closest node is none, maybe no path was found or you are on the wrong item?")
+            return data
+        
         currentPathIndex = path.index(closestNode)
         
         # Create first route item
