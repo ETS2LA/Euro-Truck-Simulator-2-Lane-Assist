@@ -65,7 +65,14 @@
     "runner.plugin_crash": "Plugin {0} összeomlott.",
 
     "_FRONTEND": "Please leave a space here to seperate the different sections of the translations.",
-    
+
+    "frontend.hello": "Hello, {0}!",
+    "frontend.disclaimer.title": "Felelősség válalás!",
+    "frontend.disclaimer.description.line1": "ETS2LA nem felelős semmilyen fennakadó problémáért, ami a program használata miatt történt. Kérlek használd a programot saját kockázatra.",
+    "frontend.disclaimer.description.line2": "ETS2LA használata engedélyezve van a TruckersMP-ben, a moderátorok álltal, ám akármilyen figyelmeztetésért és büntetésért amit a program okoz, te vagy a felelős.",
+    "frontend.disclaimer.ok": "Értettem.",
+    "frontend.disclaimer.dontshowagain": "Ne mutasa még egyszer ezt az üzenetet.",
+    "frontend.disclaimer.dontshowagain.toast": "Te nem fogod ezt látni a következő frissítésig.",
     "frontend.app.lost_connection": "Elveszett a kapcsolat a szerverrel.",
     "frontend.app.local_ip_placeholder": "Az ETS2LA helyi IP címe",
     "frontend.app.connect": "Csatlakozás",
@@ -246,6 +253,9 @@
     "frontend.plugins.no_description": "Nincs leírás.",
     "frontend.plugins.button_may_take_second_to_update": "Elterthat, egy másodhtpercig a frissítés.",
     "frontend.plugins.open_interface": "Kezelőfelület megnyitása",
+    "frontend.mainmenu.updates": "Nézd meg ezeket a frissítéseket a fejlesztőinktől!",
+    "frontend.mainmenu.stats": "Itt van pár statisztikád!",
+    "frontend.mainmenu.plugins": "Itt kezelje a pluginokat.",
 
     "_LIST_OF_PLUGINS": "Following will be a list of all plugins that allow translation of their names.",
 
