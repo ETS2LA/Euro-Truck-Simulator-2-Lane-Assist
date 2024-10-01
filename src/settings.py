@@ -28,6 +28,7 @@ else:
 
 # Check that the current profile file exists
 if not os.path.exists(currentProfile):
+    os.makedirs(os.path.dirname(currentProfile), exist_ok=True)
     with open(currentProfile, "w") as f:
         f.write("profiles/settings.json")
     print("Profile file didn't exist, created a new one")

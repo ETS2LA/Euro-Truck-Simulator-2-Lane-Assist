@@ -1,3 +1,1 @@
-1.11.73: Using PyAutoGUI v0.9.51 by default now.
-1.11.74: Fixed BetterCam crashing when loading the settings.
-1.11.75: Fixed padding in the Plugin Manager
+Fix crash when profile folder does not exist yet.
