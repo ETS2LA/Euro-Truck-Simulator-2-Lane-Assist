@@ -53,6 +53,7 @@
     "leaflet-rotate": "^0.2.8",
     "lucide-react": "^0.363.0",
     "maplibre-gl": "^4.6.0",
+    "maptalks": "^1.0.0-rc.37",
     "mini-css-extract-plugin": "^2.8.1",
     "next": "^14.2.2",
     "next-themes": "^0.3.0",

@@ -14,6 +14,7 @@ import { ETS2LAMenubar } from "@/components/ets2la_menubar"
 import ETS2LAMap from "@/components/map"
 import { useEffect } from "react";
 import { useRef } from "react"
+import * as React from "react"
 
 export default function Basic({ip} : {ip: string}) {
     const [collapsed, setCollapsed] = useState(false);
@@ -56,8 +57,10 @@ export default function Basic({ip} : {ip: string}) {
                     onExpand={() => setCollapsed(false)}
                 >
                     <div className="bg-[#1b1b1b] h-full">
-                        <div className="h-full z-[-9999] bg-[#1b1b1b]" style={{perspective: "1200px"}}>
-                            <ETS2LAMap ip={ip} />
+                        <div className="h-full z-[-9999] bg-[#1b1b1b]">
+                            <React.StrictMode>
+                                <ETS2LAMap ip={ip} />
+                            </React.StrictMode>
                         </div>
                     </div>
                     {!collapsed && <div className="absolute bottom-0 left-0 h-[100vh] w-16 bg-gradient-to-l from-transparent to-[#1b1b1b] pointer-events-none" />}

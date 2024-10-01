@@ -1,3 +1,10 @@
+import { 
+    MapContainer, 
+    TileLayer, 
+    useMap,
+    Marker,
+    Popup,
+} from 'react-leaflet'
 import { LatLngTuple, CRS, latLng, latLngBounds, Icon } from 'leaflet'
 import {
     ResizableHandle,
@@ -17,10 +24,24 @@ import pako from 'pako';
 import { MdForkRight, MdStraight  } from "react-icons/md";
 import { json } from 'stream/consumers'
 import { Card, CardContent } from './ui/card'
-import * as maptalks from "maptalks";
+import "leaflet-rotate"
 
-// Import maptalks styles
-import "maptalks/dist/maptalks.css";
+// Import leaflet css
+import 'leaflet/dist/leaflet.css'
+
+// Component to update the map's view
+const UpdateMapView = ({ position, speed, rx }: { position: LatLngTuple, speed: number, rx: number }) => {
+    const map = useMap(); // Access the map instance
+    useEffect(() => {
+        let zoom = 2;
+        map.flyTo(position, zoom, {
+            animate: false,
+            duration: 0
+        });
+    }, [position, map]);
+  
+    return null; // This component does not render anything
+};
 
 function game_coord_to_image(xx:number, yy:number) {
     var MAX_X = 512; //padding in ts-map 384px
@@ -44,86 +65,17 @@ function game_coord_to_image(xx:number, yy:number) {
     ];
 }
 
-const baseOptions = {
-    attribution: false,
-    zoom: 8,
-    minZoom: 0,
-    maxZoom: 8,
-    control: false,
-    center: [0,0],
-    spatialReference: {
-        projection: "identity",
-        resolutions: [1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64, 1/128, 1/256, 1/512],
-    }
-};
-
-const layers = {
-    base: {
-        urlTemplate: "https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png",
-        tileSize: 512,
-        debug: false,
-        renderer: "gl",
-        spacialReference: {
-            projection: "identity",
-            resolutions: [1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64, 1/128, 1/256, 1/512],
-        },
-    },
-};
-
 let socket: WebSocket | null = null;
 export default function ETS2LAMap({ip} : {ip: string}) {
     const {theme, setTheme} = useTheme()
     const [connected, setConnected] = useState(false)
-    const [position, setPosition] = useState([0, 0])
+    const [position, setPosition] = useState<LatLngTuple>([0, 0])
     const [speed, setSpeed] = useState(0)
     const [rotation, setRotation] = useState(0)
     const [instructions, setInstructions] = useState<string[]>([])
     const markerRef = useRef<L.Marker>(null);
     const [tilt, setTilt] = useState(0)
     const [yOffset, setyOffset] = useState(-90)
-    const [map, setMap] = useState<maptalks.Map | null>(null);
-    const [mapLayer, setMapLayer] = useState<maptalks.TileLayer | null>(null);
-    const [overlayLayer, setOverlayLayer] = useState<maptalks.VectorLayer | null>(null);
-    const [marker, setMarker] = useState<maptalks.Marker | null>(null);
-
-    useEffect(() => {
-        if(map) return;
-        try {
-            console.log("Creating map");
-            const newMap = new maptalks.Map('map', {
-                ...baseOptions
-            });
-            setMap(newMap);
-            let tileLayer = new maptalks.TileLayer('base', layers.base);
-            setMapLayer(tileLayer);
-            newMap.addLayer(tileLayer);
-        }
-        catch (e) {
-            console.error("Error creating map", e);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (!map) return;
-        if (marker) {
-            marker.setCoordinates(position);
-        } else {
-            const newMarker = new maptalks.Marker(position, {
-                symbol: {
-                    markerType: 'ellipse',
-                    markerWidth: 10,
-                    markerHeight: 10,
-                    markerFill: '#f70',
-                    markerLineColor: '#fff',
-                    markerLineWidth: 2
-                }
-            });
-            setMarker(newMarker);
-            let overlay = new maptalks.VectorLayer('overlay', newMarker);
-            overlay.addTo(map);
-            setOverlayLayer(overlay);
-        }
-    }, [position, rotation, map]);
 
     useEffect(() => {
 
@@ -176,7 +128,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                         });
                         if (!isNaN(X) && !isNaN(Z)) {
                             [X, Z] = game_coord_to_image(X, Z);
-                            setPosition([X, -Z]);
+                            setPosition([-Z, X]);
                         }
                     });
                 }
@@ -207,7 +159,7 @@ export default function ETS2LAMap({ip} : {ip: string}) {
                     });
                     if (!isNaN(X) && !isNaN(Z)) {
                         [X, Z] = game_coord_to_image(X, Z);
-                        setPosition([X, -Z]);
+                        setPosition([-Z, X]);
                     }
                 }
 
@@ -246,24 +198,15 @@ export default function ETS2LAMap({ip} : {ip: string}) {
     }, []); // Empty dependency array to run the effect only once on mount
 
     useEffect(() => {
-        //console.log(rotation)
-        let newRotation = -rotation;
-        if (newRotation < -180) {
-            newRotation += 360;
+        // Check if the marker exists
+        if (markerRef.current) {
+            const markerElement = markerRef.current.getElement(); // Get the DOM element of the marker
+            if (markerElement && rotation && rotation !== 0) {
+                markerElement.style.transformOrigin = 'center'; // Ensure rotation is around the center
+                markerElement.style.transform += ` rotate(${-rotation}deg)`; // Apply rotation
+            }
         }
-        if (newRotation > 180) {
-            newRotation -= 360;
-        }
-        map?.setBearing(newRotation);
     }, [rotation]); // This effect depends on the rotation state 
-    
-    useEffect(() => {
-        if (map) {
-            //map.setZoom(8, { animation: false });
-            map.setCenter(position);
-            map.setPitch(tilt);
-        }
-    }, [position]);
     
     useEffect(() => {
         if (speed*3.6 > 5) {
@@ -277,9 +220,50 @@ export default function ETS2LAMap({ip} : {ip: string}) {
             setTilt(0);
         }
     })
+
+    let corner1 = latLng(0, 165168)
+    let corner2 = latLng(148512, 0)
+    let bounds = latLngBounds(corner1, corner2)
+    // <CustomMarker position={position} rotation={rotation} />
     return (
-        <div style={{height: "100%", width: "100%", position: "relative"}}>
-            <div id="map" style={{height: "100%", width: "100%"}}></div>
+        <div style={{height: "100%", width: "100%", position: "relative", perspective: "800px"}}>
+            {instructions[0] && Number.isFinite(instructions[instructions.length - 1].totalDistance) &&
+                <Card style={{position: "absolute", top: "58px", right: "12px", zIndex: 1000}} className="bg-transparent border-none backdrop-blur-xl backdrop-brightness-50 h-24 w-48">
+                    <CardContent className='p-0 h-full pb-1'>
+                        <div className='flex flex-col h-full gap-0 p-0 font-customSans justify-center'>
+                            <div className='flex items-center h-full pr-6 gap-0'>
+                                {instructions[0].distance < 10 &&
+                                    <MdForkRight className='w-16 h-16 justify-center' />
+                                    ||
+                                    <MdStraight className='w-16 h-16 justify-center' />
+                                }
+                                <div className="flex flex-col gap-0 text-left pl-0 overflow-hidden">
+                                    {instructions[0].distance > 10 &&
+                                        <p className='font-bold'>In {Math.round(instructions[0].distance/100)/10} km</p>
+                                    }
+                                    <h3>{instructions[0].direction && "Prefab"}</h3>
+                                    <p className='text-[10px] pt-1'>{Math.round(instructions[instructions.length - 1].totalDistance/100)/10} km left</p>
+                                </div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            }
+            <div style={{height: "100%", width: "100%", backgroundColor: "#1b1b1b", position: "absolute", transformStyle: "preserve-3d", transform: `rotateX(${tilt}deg) translate(-33vw, ${yOffset}vh)`}}>
+                <div className="absolute -top-1 left-0 h-32 w-[200%] bg-gradient-to-t from-transparent to-[#1b1b1b] pointer-events-none z-50" />
+                <MapContainer center={position} zoom={7} style={{height: "300%", width: "200%", backgroundColor: "#1b1b1b", transformStyle: "preserve-3d", WebkitTransformStyle: "preserve-3d"}} zoomControl={false} bounds={bounds} crs={CRS.Simple} rotate={true} zoomSnap={0}>
+                    <TileLayer
+                        attribution='&copy; ETS2LA Team'
+                        url="https://raw.githubusercontent.com/ETS2LA/tilemap/master/tilemap/Tiles/{z}/{x}/{y}.png"
+                        minNativeZoom={2}
+                        maxNativeZoom={8}
+                        zIndex={-999}
+                        tileSize={512}
+                    />
+                    <CustomMarker position={position} rotation={rotation} />
+                    <UpdateMapView position={position} speed={speed} rx={rotation} />
+                </MapContainer>
+            </div>
         </div>
     )
 }
