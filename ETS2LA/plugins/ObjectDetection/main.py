@@ -594,7 +594,6 @@ def plugin():
                 continue
     
     frameCounter += 1
-
     # Return data to the main thread
     return None, {
         "vehicles": [vehicle.json() for vehicle in vehicles],

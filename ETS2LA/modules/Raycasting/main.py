@@ -39,23 +39,18 @@ class RaycastResponse:
     def json(self):
         return {"point": self.point, "distance": self.distance, "relativePoint": self.relativePoint}
 
-    @staticmethod
     def fromJson(json):
         return RaycastResponse(json["point"], json["distance"], json["relativePoint"])
-
 
 def Initialize():
     global API
     API = runner.modules.TruckSimAPI
 
-
 def LoadSettings(jsonData):
     global FOV
     FOV = jsonData["FOV"]
 
-
 settings.Listen("global", LoadSettings)
-
 
 def UpdateGamePosition():
     global window_x
@@ -195,7 +190,7 @@ def GetValuesFromAPI():
         cabin_offset_rotation_z = data["api"]["headPlacement"]["cabinOffsetrotationZ"]
 
         head_offset_x = data["api"]["headPlacement"]["headOffsetX"] + data["api"]["configVector"]["headPositionX"] + cabin_offset_x
-        head_offset_y = data["api"]["headPlacement"]["headPositionY"] + data["api"]["configVector"]["headPositionY"] + cabin_offset_y
+        head_offset_y = data["api"]["headPlacement"]["headOffsetY"] + data["api"]["configVector"]["headPositionY"] + cabin_offset_y
         head_offset_z = data["api"]["headPlacement"]["headOffsetZ"] + data["api"]["configVector"]["headPositionZ"] + cabin_offset_z
         head_offset_rotation_x = data["api"]["headPlacement"]["headOffsetrotationX"]
         head_offset_rotation_y = data["api"]["headPlacement"]["headOffsetrotationY"]
