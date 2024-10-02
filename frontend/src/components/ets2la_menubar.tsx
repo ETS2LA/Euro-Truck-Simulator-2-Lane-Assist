@@ -206,31 +206,33 @@ export function ETS2LAMenubar({ ip, onLogout, isCollapsed }: { ip: string, onLog
                     </MenubarMenu>
                 )
             }
-            <MenubarMenu>
-                <MenubarTrigger>
-                    <div className="flex flex-row gap-1 items-center">
-                        {theme === "light" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}{translate("frontend.menubar.theme")}    
-                    </div>
-                </MenubarTrigger>
-                <MenubarContent>
-                    <MenubarItem onClick={() => {
-                        SetThemeColor("light")
-                        SetSettingByKey("global", "theme", "light", ip=ip)
-                    }}>
-                        <div className="flex flex-row gap-2 items-center">
-                            <Sun className="w-4 h-4"/>{translate("frontend.theme.light")}    
+            {!isBasic && (
+                <MenubarMenu>
+                    <MenubarTrigger>
+                        <div className="flex flex-row gap-1 items-center">
+                            {theme === "light" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}{translate("frontend.menubar.theme")}    
                         </div>
-                    </MenubarItem>
-                    <MenubarItem onClick={() => {
-                        SetThemeColor("dark")
-                        SetSettingByKey("global", "theme", "dark", ip=ip)
-                    }}>
-                        <div className="flex flex-row gap-2 items-center">
-                            <Moon className="w-4 h-4"/>{translate("frontend.theme.dark")}    
-                        </div>
-                    </MenubarItem>
-                </MenubarContent>
-            </MenubarMenu>
+                    </MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem onClick={() => {
+                            SetThemeColor("light")
+                            SetSettingByKey("global", "theme", "light", ip=ip)
+                        }}>
+                            <div className="flex flex-row gap-2 items-center">
+                                <Sun className="w-4 h-4"/>{translate("frontend.theme.light")}    
+                            </div>
+                        </MenubarItem>
+                        <MenubarItem onClick={() => {
+                            SetThemeColor("dark")
+                            SetSettingByKey("global", "theme", "dark", ip=ip)
+                        }}>
+                            <div className="flex flex-row gap-2 items-center">
+                                <Moon className="w-4 h-4"/>{translate("frontend.theme.dark")}    
+                            </div>
+                        </MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+            )}
             <MenubarMenu>
                 <MenubarTrigger>
                     <div className="flex flex-row gap-1 items-center">

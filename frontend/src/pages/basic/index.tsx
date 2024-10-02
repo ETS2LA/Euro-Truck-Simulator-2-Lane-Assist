@@ -51,8 +51,8 @@ export default function Basic({ip} : {ip: string}) {
                 <ResizablePanel defaultSize={65} className={collapsed ? "content-center gap-1.5 flex flex-col rounded-none" : "content-center gap-1.5 flex flex-col relative rounded-none"}
                     collapsedSize={0}
                     collapsible
-                    maxSize={65}
-                    minSize={65}
+                    maxSize={100}
+                    minSize={50}
                     onCollapse={() => setCollapsed(true)}
                     onExpand={() => setCollapsed(false)}
                 >
