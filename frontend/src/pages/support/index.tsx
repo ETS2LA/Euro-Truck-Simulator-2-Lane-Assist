@@ -23,6 +23,10 @@ const convertMarkdownToHTML = (text: string) => {
     .replace(/\n/g, '<br/>');
 };
 
+const escapeRegExp = (string: string) => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
 const highlightText = (
   text = '',
   searchText = '',
@@ -31,7 +35,7 @@ const highlightText = (
 ) => {
   if (!searchText || !text) return text;
 
-  const regex = new RegExp(`${searchText}`, 'gi');
+  const regex = new RegExp(escapeRegExp(searchText), 'gi');
   let matchCount = 0;
 
   return text.replace(regex, (match) => {
@@ -118,7 +122,6 @@ class ConversationEvent {
   }
 }
 
-
 class Conversation {
   name: string;
   id: number;
@@ -178,7 +181,9 @@ const ChatEvent = ({ event }: { event: ConversationEvent }) => {
   return (
     <div className="flex items-center w-full justify-center pb-4">
       <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
-      <span className="text-xs whitespace-nowrap text-muted-foreground">{event.text}</span>
+      <span className="text-xs whitespace-nowrap text-muted-foreground">
+        {event.text}
+      </span>
       <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
     </div>
   );
@@ -213,7 +218,9 @@ const ChatMessage = ({
 
   return (
     <div className={messageContainerClass} id={`message-${message_index}`}>
-      <div className={`flex-col gap-1 flex ${isRight ? 'items-end' : 'items-start'}`}>
+      <div
+        className={`flex-col gap-1 flex ${isRight ? 'items-end' : 'items-start'}`}
+      >
         <div className="flex gap-1">
           {isRight && (
             <Button
@@ -254,7 +261,11 @@ const ChatMessage = ({
           )}
         </div>
         {!isSameSideNext && (
-          <p className={`text-xs text-muted-foreground ${isRight ? 'text-end' : ''}`}>
+          <p
+            className={`text-xs text-muted-foreground ${
+              isRight ? 'text-end' : ''
+            }`}
+          >
             {message.username} {message.reference && 'replied'}
           </p>
         )}
@@ -297,7 +308,7 @@ function SearchBox({
       }}
       className={`p-1 rounded-lg shadow-md border border-${
         theme === 'dark' ? 'white' : 'gray-400'
-      }`} 
+      }`}
     >
       <div className="flex items-center h-6">
         <input
@@ -305,14 +316,14 @@ function SearchBox({
           ref={inputRef}
           className={`bg-transparent border-none pl-1 ${
             theme === 'dark' ? 'text-white' : 'text-black'
-          } w-full focus:outline-none h-full text-xs`} 
+          } w-full focus:outline-none h-full text-xs`}
           placeholder="Search messages..."
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={handleSearchKeyDown}
           autoComplete="off"
         />
-        
+
         <div
           style={{
             width: '1px',
@@ -323,9 +334,9 @@ function SearchBox({
         ></div>
         <div className="flex items-center gap-1">
           {searchText && totalMatches > 0 ? (
-            <span className="text-xs">{`${currentMatch + 1}/${totalMatches}`}</span> 
+            <span className="text-xs">{`${currentMatch + 1}/${totalMatches}`}</span>
           ) : searchText ? (
-            <span className="text-xs">0/0</span> 
+            <span className="text-xs">0/0</span>
           ) : (
             ''
           )}
@@ -337,7 +348,7 @@ function SearchBox({
               onClick={handlePreviousMatch}
             >
               <ChevronUp
-                className="w-3 h-3" 
+                className="w-3 h-3"
                 style={{ color: theme === 'dark' ? 'white' : 'black' }}
               />
             </Button>
@@ -348,7 +359,7 @@ function SearchBox({
               onClick={handleNextMatch}
             >
               <ChevronDown
-                className="w-3 h-3" 
+                className="w-3 h-3"
                 style={{ color: theme === 'dark' ? 'white' : 'black' }}
               />
             </Button>
@@ -381,9 +392,9 @@ export default function Home() {
   const [searchText, setSearchText] = useState('');
   const [currentMatch, setCurrentMatch] = useState(0);
   const [totalMatches, setTotalMatches] = useState(0);
-  const [messageMatchStarts, setMessageMatchStarts] = useState<Record<number, number>>(
-    {}
-  );
+  const [messageMatchStarts, setMessageMatchStarts] = useState<
+    Record<number, number>
+  >({});
   const conversationData = conversations[conversationIndex];
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -409,7 +420,8 @@ export default function Home() {
       newMessageMatchStarts[messageIndex] = globalMatchIndex;
 
       if (message instanceof Message && searchText) {
-        const matchArray = message.text.match(new RegExp(`${searchText}`, 'gi')) || [];
+        const matchArray =
+          message.text.match(new RegExp(escapeRegExp(searchText), 'gi')) || [];
 
         matchArray.forEach(() => {
           matches.push({ messageIndex, globalMatchIndex });
@@ -678,11 +690,11 @@ export default function Home() {
                     height: '60%',
                   }}
                 >
-                  <span className='text-xs'>
+                  <span className="text-xs">
                     Replying to {replyingTo.username}: "{replyingTo.text}"
                   </span>
                   <Button
-                    className='-mx-2'
+                    className="-mx-2"
                     variant="ghost"
                     onClick={() => setReplyingTo(null)}
                   >
