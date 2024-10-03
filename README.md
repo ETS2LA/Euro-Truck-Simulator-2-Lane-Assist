@@ -42,7 +42,7 @@ What is this app?
 
 ### What does it look like in action?
 
-Check the demonstration [video](https://www.youtube.com/watch?v=4F5u0B70pAw).
+Check the demonstration [video](https://www.youtube.com/watch?v=xfMWKfXf-GY).
 
 
 ### How do I install it?
