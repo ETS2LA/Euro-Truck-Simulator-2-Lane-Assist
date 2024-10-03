@@ -27,12 +27,7 @@ const escapeRegExp = (string: string) => {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
-const highlightText = (
-  text = '',
-  searchText = '',
-  globalMatchIndex = 0,
-  currentMatch = 0
-) => {
+const highlightText = (text = '', searchText = '', globalMatchIndex = 0, currentMatch = 0) => {
   if (!searchText || !text) return text;
 
   const regex = new RegExp(escapeRegExp(searchText), 'gi');
@@ -42,8 +37,7 @@ const highlightText = (
     const isCurrentMatch = globalMatchIndex + matchCount === currentMatch;
     matchCount++;
 
-    return `<span style="background-color: ${
-      isCurrentMatch ? 'orange' : 'yellow'
+    return `<span style="background-color: ${isCurrentMatch ? 'orange' : 'yellow'
     }; color: black;">${match}</span>`;
   });
 };
@@ -72,16 +66,7 @@ class Message {
 
 class ConversationEvent {
   id: number;
-  event:
-    | 'create'
-    | 'join'
-    | 'tag_add'
-    | 'tag_remove'
-    | 'change_name'
-    | 'leave'
-    | 'fixing'
-    | 'closed'
-    | 'reopened';
+  event: 'create' | 'join' | 'tag_add' | 'tag_remove' | 'change_name' | 'fixing' | 'leave' | 'closed' | 'reopened';
   data: any;
   text: string | null;
 
@@ -89,36 +74,20 @@ class ConversationEvent {
     create: () => `${this.data[0]} started a new conversation`,
     join: () => `${this.data[0]} joined the conversation`,
     tag_add: () => `${this.data[0]} added the following tag(s): ${this.data[1]}`,
-    tag_remove: () =>
-      `${this.data[0]} removed the following tag(s): ${this.data[1]}`,
-    change_name: () =>
-      `${this.data[0]} changed the conversation name to ${this.data[1]}`,
+    tag_remove: () => `${this.data[0]} removed the following tag(s): ${this.data[1]}`,
+    change_name: () => `${this.data[0]} changed the conversation name to ${this.data[1]}`,
     fixing: () => `${this.data[0]} is fixing the issue`,
     leave: () => `${this.data[0]} left the conversation`,
     closed: () => `${this.data[0]} closed the conversation`,
     reopened: () => `${this.data[0]} reopened the conversation`,
   };
 
-  constructor(
-    id: number,
-    event:
-      | 'create'
-      | 'join'
-      | 'tag_add'
-      | 'tag_remove'
-      | 'change_name'
-      | 'fixing'
-      | 'leave'
-      | 'closed'
-      | 'reopened',
-    data: any
-  ) {
+  constructor(id: number, event: 'create' | 'join' | 'tag_add' | 'tag_remove' | 'change_name' | 'fixing' | 'leave' | 'closed' | 'reopened', data: any) {
     this.id = id;
     this.event = event;
     this.data = data;
     this.text =
-      this.eventTextGenerators[event]?.() ??
-      `Unknown event was triggered with: ${JSON.stringify(data)}`;
+      this.eventTextGenerators[event]?.() ?? `Unknown event was triggered with: ${JSON.stringify(data)}`;
   }
 }
 
@@ -162,12 +131,7 @@ const conv1_messages = [
 
 const conv2_messages = [
   new ConversationEvent(1, 'create', ['You', ['Feature']]),
-  new Message(
-    2,
-    'You',
-    'Hello! I would like to suggest you a feature. Would it be possible to make a button that would allow us to upload images to this support chat?',
-    'right'
-  ),
+  new Message(2, 'You', 'Hello! I would like to suggest you a feature. Would it be possible to make a button that would allow us to upload images to this support chat?', 'right'),
   new Message(3, 'Developer', 'Great suggestion!', 'left'),
   new Message(4, 'Developer', "I'll get to work on adding this.", 'left'),
   new ConversationEvent(5, 'fixing', ['Developer']),
@@ -189,15 +153,7 @@ const ChatEvent = ({ event }: { event: ConversationEvent }) => {
   );
 };
 
-const ChatMessage = ({
-  message,
-  message_index,
-  messages,
-  reply_func,
-  searchText,
-  globalMatchStartIndex,
-  currentMatch,
-}: any) => {
+const ChatMessage = ({message, message_index, messages, reply_func, searchText, globalMatchStartIndex, currentMatch,}: any) => {
   const isRight = message.side === 'right';
   const nextMessage = messages[message_index + 1];
   const isSameSideNext = nextMessage?.side === message.side;
@@ -207,27 +163,15 @@ const ChatMessage = ({
   } text-sm ${isSameSideNext ? 'pb-2' : 'pb-4'} group`;
 
   const messageContentClass = `p-3 rounded-lg relative group ${
-    isRight
-      ? isSameSideNext
-        ? ''
-        : 'rounded-br-none'
-      : isSameSideNext
-      ? ''
-      : 'rounded-bl-none'
+    isRight ? isSameSideNext ? '' : 'rounded-br-none' : isSameSideNext ? '' : 'rounded-bl-none'
   } bg-gray-200 text-black dark:bg-[#303030] dark:text-foreground`;
 
   return (
     <div className={messageContainerClass} id={`message-${message_index}`}>
-      <div
-        className={`flex-col gap-1 flex ${isRight ? 'items-end' : 'items-start'}`}
-      >
+      <div className={`flex-col gap-1 flex ${isRight ? 'items-end' : 'items-start'}`}>
         <div className="flex gap-1">
           {isRight && (
-            <Button
-              className="hidden group-hover:block text-xs p-1 bg-transparent border-none"
-              variant="secondary"
-              onClick={() => reply_func(message.text, message.username)}
-            >
+            <Button className="hidden group-hover:block text-xs p-1 bg-transparent border-none" variant="secondary" onClick={() => reply_func(message.text, message.username)}>
               <Reply className="w-4 h-4" />
             </Button>
           )}
@@ -239,50 +183,21 @@ const ChatMessage = ({
                 </p>
               </div>
             )}
-            <div
-              dangerouslySetInnerHTML={{
-                __html: highlightText(
-                  convertMarkdownToHTML(message.text),
-                  searchText,
-                  globalMatchStartIndex,
-                  currentMatch
-                ),
-              }}
-            />
+            <div dangerouslySetInnerHTML={{__html: highlightText(convertMarkdownToHTML(message.text), searchText, globalMatchStartIndex, currentMatch),}} />
           </div>
           {!isRight && (
-            <Button
-              className="hidden group-hover:block text-xs p-1 bg-transparent border-none"
-              variant="outline"
-              onClick={() => reply_func(message.text, message.username)}
-            >
+            <Button className="hidden group-hover:block text-xs p-1 bg-transparent border-none" variant="outline" onClick={() => reply_func(message.text, message.username)}>
               <Reply className="w-4 h-4" />
             </Button>
           )}
-        </div>
-        {!isSameSideNext && (
-          <p
-            className={`text-xs text-muted-foreground ${
-              isRight ? 'text-end' : ''
-            }`}
-          >
-            {message.username} {message.reference && 'replied'}
-          </p>
-        )}
+        </div> {!isSameSideNext && ( <p className={`text-xs text-muted-foreground ${isRight ? 'text-end' : ''}`}> {message.username} {message.reference && 'replied'}</p>)}
       </div>
     </div>
   );
 };
 
-function SearchBox({
-  searchText,
-  setSearchText,
-  currentMatch,
-  totalMatches,
-  handleNextMatch,
-  handlePreviousMatch,
-  setShowSearchBox,
-}: any) {
+
+function SearchBox({searchText, setSearchText, currentMatch, totalMatches, handleNextMatch, handlePreviousMatch, setShowSearchBox,}: any) {
   const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -297,71 +212,18 @@ function SearchBox({
   };
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        top: '70px',
-        left: 'calc(57.5% - 100px)',
-        width: '250px',
-        zIndex: 1000,
-        backgroundColor: theme === 'dark' ? '#000' : '#fff',
-      }}
-      className={`p-1 rounded-lg shadow-md border border-${
-        theme === 'dark' ? 'white' : 'gray-400'
-      }`}
-    >
+    <div style={{position: 'absolute', top: '70px', left: 'calc(57.5% - 100px)', width: '250px', zIndex: 1000, backgroundColor: theme === 'dark' ? '#000' : '#fff',}} className={`p-1 rounded-lg shadow-md border border-${theme === 'dark' ? 'white' : 'gray-400'}`}>
       <div className="flex items-center h-6">
-        <input
-          id="searchInput"
-          ref={inputRef}
-          className={`bg-transparent border-none pl-1 ${
-            theme === 'dark' ? 'text-white' : 'text-black'
-          } w-full focus:outline-none h-full text-xs`}
-          placeholder="Search messages..."
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          onKeyDown={handleSearchKeyDown}
-          autoComplete="off"
-        />
-
-        <div
-          style={{
-            width: '1px',
-            height: '20px',
-            backgroundColor: 'transparent',
-            margin: '0 8px',
-          }}
-        ></div>
-        <div className="flex items-center gap-1">
-          {searchText && totalMatches > 0 ? (
-            <span className="text-xs">{`${currentMatch + 1}/${totalMatches}`}</span>
-          ) : searchText ? (
-            <span className="text-xs">0/0</span>
-          ) : (
-            ''
-          )}
+        <input id="searchInput" ref={inputRef} className={`bg-transparent border-none pl-1 ${theme === 'dark' ? 'text-white' : 'text-black'} w-full focus:outline-none h-full text-xs`}
+          placeholder="Search messages..." value={searchText} onChange={(e) => setSearchText(e.target.value)} onKeyDown={handleSearchKeyDown} autoComplete="off"/>
+        <div style={{width: '1px', height: '20px', backgroundColor: 'transparent', margin: '0 8px',}}></div>
+        <div className="flex items-center gap-1"> {searchText && totalMatches > 0 ? ( <span className="text-xs">{`${currentMatch + 1}/${totalMatches}`}</span> ) : searchText ? ( <span className="text-xs">0/0</span> ) : ( '' )}
           <div className="flex flex-col">
-            <Button
-              variant="ghost"
-              className="p-0 h-3 min-h-0"
-              style={{ width: '24px' }}
-              onClick={handlePreviousMatch}
-            >
-              <ChevronUp
-                className="w-3 h-3"
-                style={{ color: theme === 'dark' ? 'white' : 'black' }}
-              />
+            <Button variant="ghost" className="p-0 h-3 min-h-0" style={{ width: '24px' }} onClick={handlePreviousMatch}>
+              <ChevronUp className="w-3 h-3" style={{ color: theme === 'dark' ? 'white' : 'black' }}/>
             </Button>
-            <Button
-              variant="ghost"
-              className="p-0 h-3 min-h-0"
-              style={{ width: '24px' }}
-              onClick={handleNextMatch}
-            >
-              <ChevronDown
-                className="w-3 h-3"
-                style={{ color: theme === 'dark' ? 'white' : 'black' }}
-              />
+            <Button variant="ghost"className="p-0 h-3 min-h-0" style={{ width: '24px' }} onClick={handleNextMatch}>
+              <ChevronDown className="w-3 h-3" style={{ color: theme === 'dark' ? 'white' : 'black' }}/>
             </Button>
           </div>
         </div>
@@ -373,28 +235,17 @@ function SearchBox({
 export default function Home() {
   const { theme } = useTheme();
   const [conversations, setConversations] = useState<Conversation[]>([
-    new Conversation('Broken Steering', 1, ['You', 'Developer'], conv1_messages, [
-      'Bugs',
-      'Closed',
-    ]),
-    new Conversation('Uploading Images', 2, ['You', 'Developer'], conv2_messages, [
-      'Feedback',
-      'Open',
-    ]),
+    new Conversation('Broken Steering', 1, ['You', 'Developer'], conv1_messages, ['Bugs','Closed']),
+    new Conversation('Uploading Images', 2, ['You', 'Developer'], conv2_messages, ['Feedback', 'Open',])
   ]);
   const [conversationIndex, setConversationIndex] = useState(0);
   const [textboxText, setTextboxText] = useState('');
-  const [replyingTo, setReplyingTo] = useState<{
-    username: string;
-    text: string;
-  } | null>(null);
+  const [replyingTo, setReplyingTo] = useState<{username: string, text: string} | null>(null);
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [currentMatch, setCurrentMatch] = useState(0);
   const [totalMatches, setTotalMatches] = useState(0);
-  const [messageMatchStarts, setMessageMatchStarts] = useState<
-    Record<number, number>
-  >({});
+  const [messageMatchStarts, setMessageMatchStarts] = useState<Record<number, number>>({});
   const conversationData = conversations[conversationIndex];
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -512,13 +363,7 @@ export default function Home() {
 
     const updatedMessages = [
       ...conversations[conversationIndex].messages,
-      new Message(
-        conversations[conversationIndex].messages.length + 1,
-        'You',
-        cleanedText,
-        'right',
-        replyingTo ? replyingTo.text : undefined
-      ),
+      new Message(conversations[conversationIndex].messages.length + 1, 'You', cleanedText, 'right', replyingTo ? replyingTo.text : undefined),
     ];
 
     const updatedConversation = {
@@ -553,13 +398,7 @@ export default function Home() {
   };
 
   const handleNewConversation = () => {
-    const newConversation = new Conversation(
-      'New Conversation',
-      conversations.length + 1,
-      ['You', 'Developer'],
-      [],
-      ['New']
-    );
+    const newConversation = new Conversation('New Conversation', conversations.length + 1, ['You', 'Developer'], [],['Tag']);
     setConversations([...conversations, newConversation]);
     setConversationIndex(conversations.length);
 
@@ -591,15 +430,7 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full h-full overflow-auto rounded-t-md items-center">
       {showSearchBox && (
-        <SearchBox
-          searchText={searchText}
-          setSearchText={setSearchText}
-          currentMatch={currentMatch}
-          totalMatches={totalMatches}
-          handleNextMatch={handleNextMatch}
-          handlePreviousMatch={handlePreviousMatch}
-          setShowSearchBox={setShowSearchBox}
-        />
+        <SearchBox searchText={searchText} setSearchText={setSearchText} currentMatch={currentMatch} totalMatches={totalMatches} handleNextMatch={handleNextMatch} handlePreviousMatch={handlePreviousMatch} setShowSearchBox={setShowSearchBox} />
       )}
 
       <ResizablePanelGroup direction="horizontal">
@@ -608,41 +439,25 @@ export default function Home() {
             <div className="absolute bottom-0 right-0 top-0 w-12 bg-gradient-to-l from-background pointer-events-none" />
             <div className="flex flex-col gap-2">
               <TooltipProvider>
-                <Button
-                  variant="secondary"
-                  className="items-center justify-start text-sm w-full rounded-r-none"
-                  onClick={handleNewConversation}
-                >
-                  Create a new conversation
-                </Button>
+                <Button variant="secondary" className="items-center justify-start text-sm w-full rounded-r-none" onClick={handleNewConversation}>Create a new conversation</Button>
                 <br />
                 {conversations.map((conversation, index) => (
                   <div className="items-center justify-start text-sm" key={index}>
                     <Tooltip delayDuration={0} disableHoverableContent>
                       <TooltipTrigger className="items-center justify-start text-sm w-full">
-                        <Button
-                          variant={conversationIndex === index ? 'secondary' : 'ghost'}
-                          className="items-center justify-start text-sm w-full rounded-r-none"
-                          onClick={() => changeConversation(index)}
-                        >
-                          {conversation.name}
-                        </Button>
+                        <Button variant={conversationIndex === index ? 'secondary' : 'ghost'} className="items-center justify-start text-sm w-full rounded-r-none"onClick={() => changeConversation(index)}>{conversation.name}</Button>
                       </TooltipTrigger>
                       <TooltipContent className="bg-transparent">
                         <div className="flex gap-2 text-start p-2 rounded-lg backdrop-blur-md backdrop-brightness-75">
                           {conversation.tags.map((tag, idx) => (
-                            <Badge key={idx} variant="default" className="text-xs">
-                              {tag}
-                            </Badge>
+                            <Badge key={idx} variant="default" className="text-xs">{tag}</Badge>
                           ))}
                         </div>
                       </TooltipContent>
                     </Tooltip>
                   </div>
                 ))}
-                <p className="p-4 text-muted-foreground text-xs">
-                  Please note that nothing on this page is real, and you cannot yet use it.
-                </p>
+                <p className="p-4 text-muted-foreground text-xs"> Please note that nothing on this page is real, and you cannot yet use it.</p>
               </TooltipProvider>
             </div>
           </div>
@@ -650,25 +465,13 @@ export default function Home() {
         <ResizablePanel defaultSize={80}>
           <div className="w-full pb-2 h-full flex flex-col justify-between relative">
             <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-background to-transparent pointer-events-none z-50"></div>
-            <div
-              ref={scrollAreaRef}
-              className="flex flex-col gap-1 relative z-0 overflow-y-auto custom-scrollbar"
-            >
+            <div ref={scrollAreaRef} className="flex flex-col gap-1 relative z-0 overflow-y-auto custom-scrollbar">
               <div className="flex flex-col gap-1 p-2 relative">
                 <p className="h-4"></p>
                 {conversationData.messages.map((message, index) => {
                   if (message instanceof Message) {
                     return (
-                      <ChatMessage
-                        key={message.id}
-                        message={message}
-                        message_index={index}
-                        messages={conversationData.messages}
-                        reply_func={reply}
-                        searchText={searchText}
-                        globalMatchStartIndex={messageMatchStarts[index] || 0}
-                        currentMatch={currentMatch}
-                      />
+                      <ChatMessage key={message.id} message={message} message_index={index} messages={conversationData.messages} reply_func={reply} searchText={searchText} globalMatchStartIndex={messageMatchStarts[index] || 0} currentMatch={currentMatch}/>
                     );
                   } else if (message instanceof ConversationEvent) {
                     return <ChatEvent key={message.id} event={message} />;
@@ -681,43 +484,14 @@ export default function Home() {
 
             <div className="relative w-full">
               {replyingTo && (
-                <div
-                  className={`absolute p-2 rounded-md flex justify-between items-center border bg-background`}
-                  style={{
-                    width: 'calc(100% - 101px)',
-                    top: '-80%',
-                    left: '0%',
-                    height: '60%',
-                  }}
-                >
-                  <span className="text-xs">
-                    Replying to {replyingTo.username}: "{replyingTo.text}"
-                  </span>
-                  <Button
-                    className="-mx-2"
-                    variant="ghost"
-                    onClick={() => setReplyingTo(null)}
-                  >
-                    X
-                  </Button>
+                <div className={`absolute p-2 rounded-md flex justify-between items-center border bg-background`} style={{width: 'calc(100% - 101px)', top: '-80%', left: '0%', height: '60%'}}>
+                  <span className="text-xs">Replying to {replyingTo.username}: "{replyingTo.text}"</span>
+                  <Button className="-mx-2" variant="ghost" onClick={() => setReplyingTo(null)}>X</Button>
                 </div>
               )}
-
               <div className="relative z-10 flex flex-row">
-                <Textarea
-                  ref={inputRef}
-                  className={`p-2 border rounded-lg w-full resize-none h-14 ${
-                    theme === 'dark' ? 'bg-[#000000] text-white' : 'bg-gray-50 text-black'
-                  }`}
-                  placeholder="Type a message"
-                  value={textboxText}
-                  onChange={(e) => setTextboxText(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                />
-                <Button
-                  className="w-1/12 h-15 mr-4 ml-2"
-                  onClick={() => sendMessage(textboxText)}
-                >
+                <Textarea ref={inputRef} className={`p-2 border rounded-lg w-full resize-none h-14 ${theme === 'dark' ? 'bg-[#000000] text-white' : 'bg-gray-50 text-black'}`} placeholder="Type a message" value={textboxText} onChange={(e) => setTextboxText(e.target.value)} onKeyDown={handleKeyDown}/>
+                <Button className="w-1/12 h-15 mr-4 ml-2" onClick={() => sendMessage(textboxText)}>
                   <Forward className="w-6 h-6" />
                 </Button>
               </div>
