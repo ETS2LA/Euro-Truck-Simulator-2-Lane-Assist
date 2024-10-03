@@ -1,7 +1,7 @@
 > [!IMPORTANT]  
 > This page is for **ETS2LA V1.0**, we are currently developing **ETS2LA 2.0**. For access to beta versions please join the [discord](https://discord.gg/ETS2LA). You can also manually clone the rewrite branch with [these](https://ets2la.github.io/documentation/installation/beta-1/) instructions.
 >
-> Check [this video](https://www.youtube.com/watch?v=xfMWKfXf-GY) for a demo of 2.0!
+> Check [this video](https://www.youtube.com/watch?v=RAe3EcKyyBw) for a demo of 2.0!
 
 ![](assets/markdownLogo.png)
 
@@ -42,7 +42,7 @@ What is this app?
 
 ### What does it look like in action?
 
-Check the demonstration [video](https://www.youtube.com/watch?v=xfMWKfXf-GY).
+Check the demonstration [video](https://www.youtube.com/watch?v=RAe3EcKyyBw).
 
 
 ### How do I install it?
