@@ -409,6 +409,24 @@ def ReadPOIs() -> list[c.POI]:
                     
     return pois
 
+def ReadCountries() -> list[c.Country]:
+    path = FindCategoryFilePath("countries")
+    if path is None: return []
+    countries: list[c.Country] = []
+    for country in data_extractor.ReadData(path):
+        countries.append(c.Country(
+            country["token"],
+            country["name"],
+            None, # name_localized
+            country["id"],
+            country["x"],
+            country["y"],
+            country["z"],
+            country["code"],
+        ))
+        
+    return countries
+
 def ReadCities() -> list[c.City]:
     path = FindCategoryFilePath("cities")
     if path is None: return []
@@ -445,20 +463,21 @@ def ReadData() -> c.MapData:
     start_time = time.time()
     logging.warning("Reading data...")
     
-    data = c.MapData(); logging.warning("-> Nodes")
-    data.nodes = ReadNodes(); logging.warning("-> Elevations")
-    data.elevations = ReadElevations(); logging.warning("-> Roads")
-    data.roads = ReadRoads(); logging.warning("-> RoadLooks")
-    data.road_looks = ReadRoadLooks(); logging.warning("-> Ferries")
-    data.ferries = ReadFerries(); logging.warning("-> Prefabs")
-    data.prefabs = ReadPrefabs(); logging.warning("-> Prefab Descriptions")
-    data.prefab_descriptions = ReadPrefabDescriptions(); logging.warning("-> Company Defintions")
-    data.companies = ReadCompanyItems(); logging.warning("-> Companies")
-    data.company_defs = ReadCompanies(); logging.warning("-> Models")
-    data.models = ReadModels(); logging.warning("-> Model Descriptions")
-    data.model_descriptions = ReadModelDescriptions(); logging.warning("-> Map Areas")
-    data.map_areas = ReadMapAreas(); logging.warning("-> POIs")
-    data.POIs = ReadPOIs(); logging.warning("-> Cities")
+    data = c.MapData(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Nodes")
+    data.nodes = ReadNodes(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Elevations")
+    data.elevations = ReadElevations(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Roads")
+    data.roads = ReadRoads(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> RoadLooks")
+    data.road_looks = ReadRoadLooks(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Ferries")
+    data.ferries = ReadFerries(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Prefabs")
+    data.prefabs = ReadPrefabs(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Prefab Descriptions")
+    data.prefab_descriptions = ReadPrefabDescriptions(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Company Defintions")
+    data.companies = ReadCompanyItems(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Companies")
+    data.company_defs = ReadCompanies(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Models")
+    data.models = ReadModels(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Model Descriptions")
+    data.model_descriptions = ReadModelDescriptions(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Map Areas")
+    data.map_areas = ReadMapAreas(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> POIs")
+    data.POIs = ReadPOIs(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Countries")
+    data.countries = ReadCountries(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Cities")
     data.cities = ReadCities()
     
     logging.warning(f"Data read in {time.time() - start_time:.2f} seconds.")

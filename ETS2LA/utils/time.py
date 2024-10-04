@@ -2,7 +2,10 @@ import time
 
 # https://stackoverflow.com/a/60185893
 def AccurateSleep(duration, get_now=time.perf_counter):
-    """Will sleep for the given duration. This function is more accurate than the standard time.sleep function.
+    """
+    NOTE: USE THIS SPARINGLY, AS THIS CAN BE RESOURCE INTENSIVE.
+    
+    Will sleep for the given duration. This function is more accurate than the standard time.sleep function.
 
     Args:
         duration (float): Seconds to sleep.

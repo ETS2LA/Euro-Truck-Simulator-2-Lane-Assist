@@ -7,7 +7,6 @@ import data
 runner: PluginRunner = None
 
 def Initialize():
-    ...
     data.Init()
     
 def plugin():
