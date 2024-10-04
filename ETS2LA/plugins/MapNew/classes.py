@@ -6,6 +6,8 @@ def parse_string_to_int(string: str) -> int:
     if type(string) == int: return string
     return int(string, 16)
 
+# MARK: Constants
+
 class FacilityIcon(Enum):
     PARKING = "parking_ico"
     GAS = "gas_ico"
@@ -23,16 +25,16 @@ class NonFacilityPOI(Enum):
     TRAIN = "train"
 
 class DarkColors(Enum):
-    0 = (233, 235, 236)
-    1 = (230, 203, 158)
-    2 = (216, 166, 79)
-    3 = (177, 202, 155)
+    0 == (233, 235, 236)
+    1 == (230, 203, 158)
+    2 == (216, 166, 79)
+    3 == (177, 202, 155)
     
 class LightColors(Enum):
-    0 = (90, 92, 94)
-    1 = (112, 95, 67)
-    2 = (80, 68, 48)
-    3 = (51, 77, 61)
+    0 == (90, 92, 94)
+    1 == (112, 95, 67)
+    2 == (80, 68, 48)
+    3 == (51, 77, 61)
 
 class MapColor(Enum):
     ROAD = 0
@@ -76,7 +78,7 @@ class ItemType(Enum):
     Gate = 49
 
 class SpawnPointType(Enum):
-    None = 0,
+    NONE = 0,
     TrailerPos = 1,
     UnloadEasyPos = 2,
     GasPos = 3,
@@ -105,7 +107,7 @@ class SpawnPointType(Enum):
 
 # MARK: Base Classes
 
-@dataclass
+
 class Node:
     uid: int | str
     x: float
@@ -126,20 +128,44 @@ class Node:
         self.forward_country_id = parse_string_to_int(self.forward_country_id)
         self.backward_country_id = parse_string_to_int(self.backward_country_id)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, rotation: float, forward_item_uid: int | str, backward_item_uid: int | str, sector_x: int, sector_y: int, forward_country_id: int | str, backward_country_id: int | str):
+        self.uid = uid
+        self.x = x
+        self.y = y
+        self.z = z
+        self.rotation = rotation
+        self.forward_item_uid = forward_item_uid
+        self.backward_item_uid = backward_item_uid
+        self.sector_x = sector_x
+        self.sector_y = sector_y
+        self.forward_country_id = forward_country_id
+        self.backward_country_id = backward_country_id
+        
+
 class Transform:
     x: float
     y: float
     z: float
     rotation: float
     
-@dataclass
+    def __init__(self, x: float, y: float, z: float, rotation: float):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.rotation = rotation
+    
+
 class Position:
     x: float
     y: float
     z: float
+    
+    def __init__(self, x: float, y: float, z: float):
+        self.x = x
+        self.y = y
+        self.z = z
         
-@dataclass
+
 class BaseItem:
     uid: int | str
     type: ItemType
@@ -151,20 +177,32 @@ class BaseItem:
     
     def parse_strings(self):
         self.uid = parse_string_to_int(self.uid)
-        self.country_id = parse_string_to_int(self.country_id)
+        
+    def __init__(self, uid: int | str, type: ItemType, x: float, y: float, z: float, sector_x: int, sector_y: int):
+        self.uid = uid
+        self.type = type
+        self.x = x
+        self.y = y
+        self.z = z
+        self.sector_x = sector_x
+        self.sector_y = sector_y
     
-@dataclass    
+    
 class CityArea(BaseItem):
     token: str
     hidden: bool
     width: float
     height: float
     
-    def __init__(self):
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str, hidden: bool, width: float, height: float):
+        super().__init__(uid, ItemType.City, x, y, z, sector_x, sector_y)
         super().parse_strings()
-        self.type = ItemType.City
+        self.token = token
+        self.hidden = hidden
+        self.width = width
+        self.height = height
      
-@dataclass   
+   
 class City:
     token: str
     name: str
@@ -175,8 +213,19 @@ class City:
     y: float
     z: float
     areas: list[CityArea]
+    
+    def __init__(self, token: str, name: str, name_localized: str | None, country_token: str, population: int, x: float, y: float, z: float, areas: list[CityArea]):
+        self.token = token
+        self.name = name
+        self.name_localized = name_localized
+        self.country_token = country_token
+        self.population = population
+        self.x = x
+        self.y = y
+        self.z = z
+        self.areas = areas
 
-@dataclass
+
 class Country:
     token: str
     name: str
@@ -187,7 +236,17 @@ class Country:
     z: float
     code: str
     
-@dataclass
+    def __init__(self, token: str, name: str, name_localized: str | None, id: int, x: float, y: float, z: float, code: str):
+        self.token = token
+        self.name = name
+        self.name_localized = name_localized
+        self.id = id
+        self.x = x
+        self.y = y
+        self.z = z
+        self.code = code
+    
+
 class Company:
     token: str
     name: str
@@ -195,7 +254,14 @@ class Company:
     cargo_in_tokens: list[str]
     cargo_out_tokens: list[str]
     
-@dataclass
+    def __init__(self, token: str, name: str, city_tokens: list[str], cargo_in_tokens: list[str], cargo_out_tokens: list[str]):
+        self.token = token
+        self.name = name
+        self.city_tokens = city_tokens
+        self.cargo_in_tokens = cargo_in_tokens
+        self.cargo_out_tokens = cargo_out_tokens
+    
+
 class FerryConnection:
     token: str
     name: str
@@ -208,7 +274,19 @@ class FerryConnection:
     distance: float
     intermediate_points: list[Transform]
     
-@dataclass
+    def __init__(self, token: str, name: str, name_localized: str | None, x: float, y: float, z: float, price: float, time: float, distance: float, intermediate_points: list[Transform]):
+        self.token = token
+        self.name = name
+        self.name_localized = name_localized
+        self.x = x
+        self.y = y
+        self.z = z
+        self.price = price
+        self.time = time
+        self.distance = distance
+        self.intermediate_points = intermediate_points
+    
+
 class Ferry:
     token: str
     train: bool
@@ -218,8 +296,18 @@ class Ferry:
     y: float
     z: float
     connections: list[FerryConnection]
+    
+    def __init__(self, token: str, train: bool, name: str, name_localized: str | None, x: float, y: float, z: float, connections: list[FerryConnection]):
+        self.token = token
+        self.train = train
+        self.name = name
+        self.name_localized = name_localized
+        self.x = x
+        self.y = y
+        self.z = z
+        self.connections = connections
    
-@dataclass
+
 class RoadLook:
     lanes_left: list[str]
     lanes_right: list[str]
@@ -227,17 +315,31 @@ class RoadLook:
     lane_offset: float | None
     shoulder_space_left: float | None
     shoulder_space_right: float | None
+    
+    def __init__(self, lanes_left: list[str], lanes_right: list[str], offset: float | None, lane_offset: float | None, shoulder_space_left: float | None, shoulder_space_right: float | None):
+        self.lanes_left = lanes_left
+        self.lanes_right = lanes_right
+        self.offset = offset
+        self.lane_offset = lane_offset
+        self.shoulder_space_left = shoulder_space_left
+        self.shoulder_space_right = shoulder_space_right
    
-@dataclass
+
 class ModelDescription:
     center: Position
     start: Position
     end: Position
     height: float
+    
+    def __init__(self, center: Position, start: Position, end: Position, height: float):
+        self.center = center
+        self.start = start
+        self.end = end
+        self.height = height
    
 # MARK: POIs
    
-@dataclass 
+ 
 class BasePOI:
     x: float
     y: float
@@ -246,54 +348,89 @@ class BasePOI:
     sector_y: int
     icon: str
     
-@dataclass
+    def parse_strings(self):
+        self.uid = parse_string_to_int(self.uid)
+        self.sector_x = parse_string_to_int(self.sector_x)
+        self.sector_y = parse_string_to_int(self.sector_y)
+    
+
 class GeneralPOI(BasePOI):
     type: NonFacilityPOI
     label: str
     
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str, label: str):
+        super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.label = label
+        self.parse_strings()
+    
+
 class LandmarkPOI(BasePOI):
-    type: NonFacilityPOI = NonFacilityPOI.LANDMARK
     label: str
     dlc_guard: int
     node_uid: int | str
+    type: NonFacilityPOI = NonFacilityPOI.LANDMARK
     
     def parse_strings(self):
         self.node_uid = parse_string_to_int(self.nodeUid)
+        
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str, label: str, dlc_guard: int, node_uid: int | str):
+        super().__init__(uid, x, y, z, sector_x, sector_y, icon, label)
+        self.dlc_guard = dlc_guard
+        self.node_uid = node_uid
+        self.parse_strings()
       
 # This is not elegant but it is the only way to make it work in python  
 LabeledPOI = Union[GeneralPOI, LandmarkPOI]
 """NOTE: You shouldn't use this type directly, use the children types instead as they provide intellisense!"""
     
-@dataclass
+
 class RoadPOI(BasePOI):
-    type: str = "road"
     dlc_guard: int
     node_uid: int | str
+    type: str = "road"
     
     def parse_strings(self):
         self.node_uid = parse_string_to_int(self.nodeUid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str, dlc_guard: int, node_uid: int | str):
+        super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.dlc_guard = dlc_guard
+        self.node_uid = node_uid
+        self.parse_strings()
+        
+
 class FacilityPOI(BasePOI):
-    type: str = "facility"
     icon: FacilityIcon
     prefab_uid: int | str
     prefab_path: str
+    type: str = "facility"
     
     def parse_strings(self):
         self.prefab_uid = parse_string_to_int(self.prefab_uid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str, prefab_uid: int | str, prefab_path: str):
+        super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.prefab_uid = prefab_uid
+        self.prefab_path = prefab_path
+        self.parse_strings()
+        
+
 class ParkingPOI(BasePOI):
-    type: str = "facility"
-    icon: FacilityIcon = FacilityIcon.PARKING
+    dlc_guard: int
     from_item_type: Literal["trigger", "mapOverlay", "prefab"]
     item_node_uids: list[int | str]
-    dlc_guard: int
-    
+    type: str = "facility"
+    icon: FacilityIcon = FacilityIcon.PARKING
+
     def parse_strings(self):
         self.item_node_uids = [parse_string_to_int(node) for node in self.item_node_uids]
+        
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str, dlc_guard: int, from_item_type: Literal["trigger", "mapOverlay", "prefab"], item_node_uids: list[int | str]):
+        super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.dlc_guard = dlc_guard
+        self.from_item_type = from_item_type
+        self.item_node_uids = item_node_uids
+        self.parse_strings()
         
 UnlabeledPOI = Union[RoadPOI, FacilityPOI, ParkingPOI]
 """NOTE: You shouldn't use this type directly, use the children types instead as they provide intellisense!"""
@@ -302,9 +439,8 @@ POI = Union[LabeledPOI, UnlabeledPOI]
 
 # MARK: Map Items
 
-@dataclass 
+
 class Road(BaseItem):
-    type: ItemType = ItemType.Road
     dlc_guard: int
     hidden: bool | None
     road_look_token: str
@@ -312,152 +448,234 @@ class Road(BaseItem):
     end_node_uid: int | str
     length: float
     maybe_divided: bool | None
+    type: ItemType = ItemType.Road
     
     def parse_strings(self):
         super().parse_strings()
         self.start_node_uid = parse_string_to_int(self.start_node_uid)
         self.end_node_uid = parse_string_to_int(self.end_node_uid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, hidden: bool | None, road_look_token: str, start_node_uid: int | str, end_node_uid: int | str, length: float, maybe_divided: bool | None):
+        super().__init__(uid, ItemType.Road, x, y, z, sector_x, sector_y)
+        self.dlc_guard = dlc_guard
+        self.hidden = hidden
+        self.road_look_token = road_look_token
+        self.start_node_uid = start_node_uid
+        self.end_node_uid = end_node_uid
+        self.length = length
+        self.maybe_divided = maybe_divided
+        
+
 class Prefab(BaseItem):
-    type: ItemType = ItemType.Prefab
     dlc_guard: int
     hidden: bool | None
     token: str
     node_uids: list[int | str]
     origin_node_index: int
+    type: ItemType = ItemType.Prefab
     
     def parse_strings(self):
         super().parse_strings()
         self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
+    
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, hidden: bool | None, token: str, node_uids: list[int | str], origin_node_index: int):
+        super().__init__(uid, ItemType.Prefab, x, y, z, sector_x, sector_y)
+        self.dlc_guard = dlc_guard
+        self.hidden = hidden
+        self.token = token
+        self.node_uids = node_uids
+        self.origin_node_index = origin_node_index
 
-@dataclass
+
 class MapArea(BaseItem):
-    type: ItemType = ItemType.MapArea
     dlc_guard: int
     draw_over: bool | None
     node_uids: list[int | str]
     color: MapColor
+    type: ItemType = ItemType.MapArea
+    
+    def parse_strings(self):
+        super().parse_strings()
+        self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
     
 class MapOverlayType(Enum):
     ROAD = 0
     PARKING = 1
     LANDMARK = 4
     
-@dataclass
+
 class MapOverlay(BaseItem):
-    type: ItemType = ItemType.MapOverlay
     dlc_guard: int
     overlay_type: MapOverlayType
     token: str
     node_uid: int | str
+    type: ItemType = ItemType.MapOverlay
     
     def parse_strings(self):
         self.node_uid = parse_string_to_int(self.node_uid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, overlay_type: MapOverlayType, token: str, node_uid: int | str):
+        super().__init__(uid, ItemType.MapOverlay, x, y, z, sector_x, sector_y)
+        self.dlc_guard = dlc_guard
+        self.overlay_type = overlay_type
+        self.token = token
+        self.node_uid = node_uid
+        
+
 class Building(BaseItem):
-    type: ItemType = ItemType.Building
     scheme: str
     start_node_uid: int | str
     end_node_uid: int | str
+    type: ItemType = ItemType.Building
     
     def parse_strings(self):
         super().parse_strings()
         self.start_node_uid = parse_string_to_int(self.start_node_uid)
         self.end_node_uid = parse_string_to_int(self.end_node_uid)
+        
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, scheme: str, start_node_uid: int | str, end_node_uid: int | str):
+        super().__init__(uid, ItemType.Building, x, y, z, sector_x, sector_y)
+        self.scheme = scheme
+        self.start_node_uid = start_node_uid
+        self.end_node_uid = end_node_uid
     
-@dataclass
+
 class Curve(BaseItem):
-    type: ItemType = ItemType.Curve
     model: str
     look: str
     num_buildings: int
     start_node_uid: int | str
     end_node_uid: int | str
+    type: ItemType = ItemType.Curve
     
     def parse_strings(self):
         super().parse_strings()
         self.start_node_uid = parse_string_to_int(self.start_node_uid)
         self.end_node_uid = parse_string_to_int(self.end_node_uid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, model: str, look: str, num_buildings: int, start_node_uid: int | str, end_node_uid: int | str):
+        super().__init__(uid, ItemType.Curve, x, y, z, sector_x, sector_y)
+        self.model = model
+        self.look = look
+        self.num_buildings = num_buildings
+        self.start_node_uid = start_node_uid
+        self.end_node_uid = end_node_uid
+        
+
 class FerryItem(BaseItem):
-    type: ItemType = ItemType.Ferry
     token: str
     train: bool
     prefab_uid: int | str
     node_uid: int | str
+    type: ItemType = ItemType.Ferry
     
     def parse_strings(self):
         super().parse_strings()
         self.prefab_uid = parse_string_to_int(self.prefab_uid)
         self.node_uid = parse_string_to_int(self.node_uid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str, train: bool, prefab_uid: int | str, node_uid: int | str):
+        super().__init__(uid, ItemType.Ferry, x, y, z, sector_x, sector_y)
+        self.token = token
+        self.train = train
+        self.prefab_uid = prefab_uid
+        self.node_uid = node_uid
+        
+
 class CompanyItem(BaseItem):
-    type: ItemType = ItemType.Company
     token: str
     city_token: str
     prefab_uid: int | str
     node_uid: int | str
+    type: ItemType = ItemType.Company
     
     def parse_strings(self):
         super().parse_strings()
         self.prefab_uid = parse_string_to_int(self.prefab_uid)
         self.node_uid = parse_string_to_int(self.node_uid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str, city_token: str, prefab_uid: int | str, node_uid: int | str):
+        super().__init__(uid, ItemType.Company, x, y, z, sector_x, sector_y)
+        self.token = token
+        self.city_token = city_token
+        self.prefab_uid = prefab_uid
+        self.node_uid = node_uid
+        
+
 class Cutscene(BaseItem):
-    type: ItemType = ItemType.Cutscene
     flags: int
     tags: list[str]
     node_uid: int | str
+    type: ItemType = ItemType.Cutscene
     
     def parse_strings(self):
         super().parse_strings()
         self.node_uid = parse_string_to_int(self.node_uid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, flags: int, tags: list[str], node_uid: int | str):
+        super().__init__(uid, ItemType.Cutscene, x, y, z, sector_x, sector_y)
+        self.flags = flags
+        self.tags = tags
+        self.node_uid = node_uid
+        
+
 class Trigger(BaseItem):
-    type: ItemType = ItemType.Trigger
     dlc_guard: int
     action_tokens: list[str]
     node_uids: list[int | str]
+    type: ItemType = ItemType.Trigger
     
     def parse_strings(self):
         super().parse_strings()
         self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
+        
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, action_tokens: list[str], node_uids: list[int | str]):
+        super().__init__(uid, ItemType.Trigger, x, y, z, sector_x, sector_y)
+        self.dlc_guard = dlc_guard
+        self.action_tokens = action_tokens
+        self.node_uids = node_uids
     
-@dataclass
+
 class Model(BaseItem):
-    type: ItemType = ItemType.Model
     token: str
     node_uid: int | str
     scale: tuple[float, float, float]
+    type: ItemType = ItemType.Model
     
     def parse_strings(self):
         super().parse_strings()
         self.node_uid = parse_string_to_int(self.node_uid)
         
-@dataclass
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str, node_uid: int | str, scale: tuple[float, float, float]):
+        super().__init__(uid, ItemType.Model, x, y, z, sector_x, sector_y)
+        self.token = token
+        self.node_uid = node_uid
+        self.scale = scale
+        
+
 class Terrain(BaseItem):
-    type: ItemType = ItemType.Terrain
     start_node_uid: int | str
     end_node_uid: int | str
     length: float
+    type: ItemType = ItemType.Terrain
     
     def parse_strings(self):
         super().parse_strings()
         self.start_node_uid = parse_string_to_int(self.start_node_uid)
         self.end_node_uid = parse_string_to_int(self.end_node_uid)
+        
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, start_node_uid: int | str, end_node_uid: int | str, length: float):
+        super().__init__(uid, ItemType.Terrain, x, y, z, sector_x, sector_y)
+        self.start_node_uid = start_node_uid
+        self.end_node_uid = end_node_uid
+        self.length = length
         
 Item = Union[City, Country, Company, Ferry, POI, Road, Prefab, MapArea, MapOverlay, Building, Curve, FerryItem, CompanyItem, Cutscene, Trigger, Model, Terrain]
 """NOTE: You shouldn't use this type directly, use the children types instead as they provide intellisense!"""
     
 # MARK: Map Points
     
-@dataclass
+
 class BaseMapPoint:
     x: float
     y: float
@@ -467,7 +685,13 @@ class BaseMapPoint:
     def parse_strings(self):
         self.neighbors = [parse_string_to_int(node) for node in self.neighbors]
         
-@dataclass
+    def __init__(self, x: float, y: float, z: float, neighbors: list[int | str]):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.neighbors = neighbors
+        
+
 class NavNode:
     node0: bool
     node1: bool
@@ -478,32 +702,58 @@ class NavNode:
     node6: bool
     node_custom: bool
     
-@dataclass
+    def __init__(self, node0: bool, node1: bool, node2: bool, node3: bool, node4: bool, node5: bool, node6: bool, node_custom: bool):
+        self.node0 = node0
+        self.node1 = node1
+        self.node2 = node2
+        self.node3 = node3
+        self.node4 = node4
+        self.node5 = node5
+        self.node6 = node6
+        self.node_custom = node_custom
+
 class NavFlags:
     is_start: bool
     is_base: bool
     is_end: bool
         
-@dataclass
+    def __init__(self, is_start: bool, is_base: bool, is_end: bool):
+        self.is_start = is_start
+        self.is_base = is_base
+        self.is_end = is_end
+
 class RoadMapPoint(BaseMapPoint):
-    type: str = "road"
     lanes_left: int | Literal["auto"]
     lanes_right: int | Literal["auto"]
     offset: float
     nav_node: NavNode
     nav_flags: NavFlags
+    type: str = "road"
     
-@dataclass
+    def __init__(self, x: float, y: float, z: float, neighbors: list[int | str], lanes_left: int | Literal["auto"], lanes_right: int | Literal["auto"], offset: float, nav_node: NavNode, nav_flags: NavFlags):
+        super().__init__(x, y, z, neighbors)
+        self.lanes_left = lanes_left
+        self.lanes_right = lanes_right
+        self.offset = offset
+        self.nav_node = nav_node
+        self.nav_flags = nav_flags
+    
+
 class PolygonMapPoint(BaseMapPoint):
-    type: str = "polygon"
     color: MapColor
     road_over: bool
+    type: str = "polygon"
+    
+    def __init__(self, x: float, y: float, z: float, neighbors: list[int | str], color: MapColor, road_over: bool):
+        super().__init__(x, y, z, neighbors)
+        self.color = color
+        self.road_over = road_over
     
 MapPoint = Union[RoadMapPoint, PolygonMapPoint]
 
 # MARK: Prefab Description
 
-@dataclass
+
 class PrefabNode:
     x: float
     y: float
@@ -513,35 +763,66 @@ class PrefabNode:
     """indices into nav_curves"""
     output_lanes: list[int]
     """indices into nav_curves"""
+    
+    def __init__(self, x: float, y: float, z: float, rotation: float, input_lanes: list[int], output_lanes: list[int]):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.rotation = rotation
+        self.input_lanes = input_lanes
+        self.output_lanes = output_lanes
 
-@dataclass
+
 class PrefabSpawnPoints:
     x: float
     y: float
     z: float
     type: SpawnPointType
+    
+    def __init__(self, x: float, y: float, z: float, type: SpawnPointType):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.type = type
 
-@dataclass
+
 class PrefabTriggerPoint:
     x: float
     y: float
     z: float
     action: str
+    
+    def __init__(self, x: float, y: float, z: float, action: str):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.action = action
 
-@dataclass
+
 class PrefabNavCurve:
     nav_node_index: int
     start: Transform
     end: Transform
     next_lines: list[int]
     prev_lines: list[int]
+    
+    def __init__(self, nav_node_index: int, start: Transform, end: Transform, next_lines: list[int], prev_lines: list[int]):
+        self.nav_node_index = nav_node_index
+        self.start = start
+        self.end = end
+        self.next_lines = next_lines
+        self.prev_lines = prev_lines
 
-@dataclass
+
 class NavNodeConnection:
     target_nav_node_index: int
     curve_indeces: list[int]
+    
+    def __init__(self, target_nav_node_index: int, curve_indeces: list[int]):
+        self.target_nav_node_index = target_nav_node_index
+        self.curve_indeces = curve_indeces
 
-@dataclass
+
 class NavNode:
     type: Literal["physical", "ai"]
     """
@@ -550,8 +831,13 @@ class NavNode:
     """
     end_index: int
     connections: list[NavNodeConnection]
+    
+    def __init__(self, type: Literal["physical", "ai"], end_index: int, connections: list[NavNodeConnection]):
+        self.type = type
+        self.end_index = end_index
+        self.connections = connections
 
-@dataclass
+
 class PrefabDescription:
     nodes: list[PrefabNode]
     map_points: RoadMapPoint | PolygonMapPoint
@@ -560,10 +846,18 @@ class PrefabDescription:
     nav_curves: list[PrefabNavCurve]
     nav_nodes: list[NavNode]
     
+    def __init__(self, nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint, spawn_points: list[PrefabSpawnPoints], trigger_points: list[PrefabTriggerPoint], nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode]):
+        self.nodes = nodes
+        self.map_points = map_points
+        self.spawn_points = spawn_points
+        self.trigger_points = trigger_points
+        self.nav_curves = nav_curves
+        self.nav_nodes = nav_nodes
+    
 # MARK: MapData
 
 T = TypeVar('T')
-@dataclass
+
 class WithToken(Generic[T]):
     data: T
     token: str

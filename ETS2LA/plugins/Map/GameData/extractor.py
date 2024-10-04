@@ -10,7 +10,7 @@ FILENAME = "ETS2LA/plugins/Map/GameData/GameData.zip"
 DATA_DIR = "ETS2LA/plugins/Map/GameData/data"
 HASH = settings.Get("Map", "data_hash", None)
 
-def ExtractData():
+def ExtractData() -> None:
     if os.path.exists(DATA_DIR):
         shutil.rmtree(DATA_DIR)
         
@@ -20,7 +20,7 @@ def ExtractData():
     with zipfile.ZipFile(FILENAME, 'r') as zip_ref:
         zip_ref.extractall(DATA_DIR)
     
-def UpdateData():
+def UpdateData() -> bool:
     global HASH
     newHASH = hashlib.md5(open(FILENAME, 'rb').read()).hexdigest()
     if HASH is None:

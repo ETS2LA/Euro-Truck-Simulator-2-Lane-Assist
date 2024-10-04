@@ -1,8 +1,14 @@
 # ETS2LA Imports
 from ETS2LA.plugins.runner import PluginRunner
 from ETS2LA.utils.translator import Translate
-import ETS2LA.backend.settings as settings
-import ETS2LA.backend.sounds as sounds
-import ETS2LA.variables as variables
+import time
+import data
 
 runner: PluginRunner = None
+
+def Initialize():
+    ...
+    data.Init()
+    
+def plugin():
+    ...
