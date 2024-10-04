@@ -463,21 +463,59 @@ def ReadData() -> c.MapData:
     start_time = time.time()
     logging.warning("Reading data...")
     
-    data = c.MapData(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Nodes")
-    data.nodes = ReadNodes(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Elevations")
-    data.elevations = ReadElevations(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Roads")
-    data.roads = ReadRoads(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> RoadLooks")
-    data.road_looks = ReadRoadLooks(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Ferries")
-    data.ferries = ReadFerries(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Prefabs")
-    data.prefabs = ReadPrefabs(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Prefab Descriptions")
-    data.prefab_descriptions = ReadPrefabDescriptions(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Company Defintions")
-    data.companies = ReadCompanyItems(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Companies")
-    data.company_defs = ReadCompanies(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Models")
-    data.models = ReadModels(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Model Descriptions")
-    data.model_descriptions = ReadModelDescriptions(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Map Areas")
-    data.map_areas = ReadMapAreas(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> POIs")
-    data.POIs = ReadPOIs(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Countries")
-    data.countries = ReadCountries(); logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Cities")
+    data = c.MapData()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Nodes")
+    data.nodes = ReadNodes()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Elevations")
+    data.elevations = ReadElevations()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Roads")
+    data.roads = ReadRoads()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> RoadLooks")
+    data.road_looks = ReadRoadLooks()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Ferries")
+    data.ferries = ReadFerries()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Prefabs")
+    data.prefabs = ReadPrefabs()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Prefab Descriptions")
+    data.prefab_descriptions = ReadPrefabDescriptions()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Company Defintions")
+    data.companies = ReadCompanyItems()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Companies")
+    data.company_defs = ReadCompanies()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Models")
+    data.models = ReadModels()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Model Descriptions")
+    data.model_descriptions = ReadModelDescriptions()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Map Areas")
+    data.map_areas = ReadMapAreas()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> POIs")
+    data.POIs = ReadPOIs()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Countries")
+    data.countries = ReadCountries()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Cities")
     data.cities = ReadCities()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Linking objects (roads)")
+    data.match_prefabs_to_descriptions()
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Linking objects (prefabs)")
+    data.match_roads_to_looks()
+    
+    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Optimizing data")
+    data.sort_to_sectors()
     
     logging.warning(f"Data read in {time.time() - start_time:.2f} seconds.")

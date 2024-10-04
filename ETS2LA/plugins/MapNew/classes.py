@@ -457,6 +457,7 @@ class Road(BaseItem):
     length: float
     maybe_divided: bool | None
     type: ItemType = ItemType.Road
+    road_look: RoadLook = None
     
     def parse_strings(self):
         super().parse_strings()
@@ -472,27 +473,6 @@ class Road(BaseItem):
         self.end_node_uid = end_node_uid
         self.length = length
         self.maybe_divided = maybe_divided
-        
-
-class Prefab(BaseItem):
-    dlc_guard: int
-    hidden: bool | None
-    token: str
-    node_uids: list[int | str]
-    origin_node_index: int
-    type: ItemType = ItemType.Prefab
-    
-    def parse_strings(self):
-        super().parse_strings()
-        self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
-    
-    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, hidden: bool | None, token: str, node_uids: list[int | str], origin_node_index: int):
-        super().__init__(uid, ItemType.Prefab, x, y, z, sector_x, sector_y)
-        self.dlc_guard = dlc_guard
-        self.hidden = hidden
-        self.token = token
-        self.node_uids = node_uids
-        self.origin_node_index = origin_node_index
 
 
 class MapArea(BaseItem):
@@ -677,13 +657,9 @@ class Terrain(BaseItem):
         self.start_node_uid = start_node_uid
         self.end_node_uid = end_node_uid
         self.length = length
-        
-Item = Union[City, Country, Company, Ferry, POI, Road, Prefab, MapArea, MapOverlay, Building, Curve, FerryItem, CompanyItem, Cutscene, Trigger, Model, Terrain]
-"""NOTE: You shouldn't use this type directly, use the children types instead as they provide intellisense!"""
     
 # MARK: Map Points
     
-
 class BaseMapPoint:
     x: float
     y: float
@@ -864,6 +840,30 @@ class PrefabDescription:
         self.nav_curves = nav_curves
         self.nav_nodes = nav_nodes
     
+class Prefab(BaseItem):
+    dlc_guard: int
+    hidden: bool | None
+    token: str
+    node_uids: list[int | str]
+    origin_node_index: int
+    type: ItemType = ItemType.Prefab
+    prefab_description: PrefabDescription = None
+    
+    def parse_strings(self):
+        super().parse_strings()
+        self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
+    
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, hidden: bool | None, token: str, node_uids: list[int | str], origin_node_index: int):
+        super().__init__(uid, ItemType.Prefab, x, y, z, sector_x, sector_y)
+        self.dlc_guard = dlc_guard
+        self.hidden = hidden
+        self.token = token
+        self.node_uids = node_uids
+        self.origin_node_index = origin_node_index
+    
+Item = Union[City, Country, Company, Ferry, POI, Road, Prefab, MapArea, MapOverlay, Building, Curve, FerryItem, CompanyItem, Cutscene, Trigger, Model, Terrain]
+"""NOTE: You shouldn't use this type directly, use the children types instead as they provide intellisense!"""
+    
 # MARK: MapData
 class MapData:
     nodes: list[Node]
@@ -882,4 +882,54 @@ class MapData:
     road_looks: list[RoadLook]
     prefab_descriptions: list[PrefabDescription]
     model_descriptions: list[ModelDescription]
+    
+    _nodes_by_sector: dict[tuple[int, int], list[Node]]
+    _roads_by_sector: dict[tuple[int, int], list[Road]]
+    _prefabs_by_sector: dict[tuple[int, int], list[Prefab]]
+    
+    def sort_to_sectors(self) -> None:
+        self._nodes_by_sector = {}
+        self._roads_by_sector = {}
+        self._prefabs_by_sector = {}
+        
+        for node in self.nodes:
+            sector = (node.sector_x, node.sector_y)
+            if sector not in self._nodes_by_sector:
+                self._nodes_by_sector[sector] = []
+            self._nodes_by_sector[sector].append(node)
+        
+        for road in self.roads:
+            sector = (road.sector_x, road.sector_y)
+            if sector not in self._roads_by_sector:
+                self._roads_by_sector[sector] = []
+            self._roads_by_sector[sector].append(road)
+        
+        for prefab in self.prefabs:
+            sector = (prefab.sector_x, prefab.sector_y)
+            if sector not in self._prefabs_by_sector:
+                self._prefabs_by_sector[sector] = []
+            self._prefabs_by_sector[sector].append(prefab)
+            
+    def get_sector_nodes(self, sector: tuple[int, int]) -> list[Node]:
+        return self._nodes_by_sector.get(sector, [])
+    
+    def get_sector_roads(self, sector: tuple[int, int]) -> list[Road]:
+        return self._roads_by_sector.get(sector, [])
+    
+    def get_sector_prefabs(self, sector: tuple[int, int]) -> list[Prefab]:
+        return self._prefabs_by_sector.get(sector, [])
+            
+    def match_roads_to_looks(self) -> None:
+        for road in self.roads:
+            for look in self.road_looks:
+                if road.road_look_token == look.token:
+                    road.road_look = look
+                    break
+                
+    def match_prefabs_to_descriptions(self) -> None:
+        for prefab in self.prefabs:
+            for description in self.prefab_descriptions:
+                if prefab.token == description.token:
+                    prefab.prefab_description = description
+                    break
     
