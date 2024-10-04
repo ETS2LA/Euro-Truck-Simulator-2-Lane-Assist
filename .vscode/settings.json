@@ -10,8 +10,10 @@
     "cSpell.words": [
         "autoload",
         "autopark",
+        "Bezier",
         "canvast",
         "columnspan",
+        "Cutscene",
         "gameplay",
         "highlightthickness",
         "imgtype",
@@ -28,6 +30,7 @@
         "sonner",
         "SOUNDPACK",
         "SOUNDPACKS",
+        "uids",
         "ultralytics",
         "visualisation",
         "webserver",
