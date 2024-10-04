@@ -279,9 +279,9 @@ def ReadData() -> c.MapData:
     data.elevations = ReadElevations(); logging.warning("-> Roads")
     data.roads = ReadRoads(); logging.warning("-> RoadLooks")
     data.road_looks = ReadRoadLooks(); logging.warning("-> Ferries")
-    data.ferries = ReadFerries(); logging.warning("-> Cities")
-    data.cities = ReadCities(); logging.warning("-> Prefabs")
+    data.ferries = ReadFerries(); logging.warning("-> Prefabs")
     data.prefabs = ReadPrefabs(); logging.warning("-> PrefabDescriptions")
-    data.prefab_descriptions = ReadPrefabDescriptions()
+    data.prefab_descriptions = ReadPrefabDescriptions(); logging.warning("-> Cities")
+    data.cities = ReadCities()
     
     logging.warning(f"Data read in {time.time() - start_time:.2f} seconds.")
