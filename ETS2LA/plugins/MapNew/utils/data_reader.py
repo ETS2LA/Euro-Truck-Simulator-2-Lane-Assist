@@ -95,6 +95,115 @@ def ReadRoadLooks() -> list[c.RoadLook]:
     
     return road_looks
 
+def ReadPrefabs() -> list[c.Prefab]:
+    path = FindCategoryFilePath("prefabs")
+    if path is None: return []
+    prefabs: list[c.Prefab] = []
+    for prefab in data_extractor.ReadData(path):
+        prefabs.append(c.Prefab(
+            prefab["uid"],
+            prefab["x"],
+            prefab["y"],
+            prefab["z"],
+            prefab["sectorX"],
+            prefab["sectorY"],
+            prefab["dlcGuard"],
+            False, # hidden
+            prefab["token"],
+            [uid for uid in prefab["nodeUids"]],
+            prefab["originNodeIndex"]
+        ))
+        
+    return prefabs
+
+def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
+    path = FindCategoryFilePath("prefabDescriptions")
+    if path is None: return []
+    prefab_descriptions: list[c.PrefabDescription] = []
+    for prefab_description in data_extractor.ReadData(path):
+        # TODO: Read signs!
+        prefab_descriptions.append(c.PrefabDescription(
+            prefab_description["token"],
+            [c.PrefabNode(
+                node["x"],
+                node["y"],
+                node["z"],
+                node["rotation"],
+                TryReadExcept(node, "input_lanes", []),
+                TryReadExcept(node, "output_lanes", []),
+            ) for node in prefab_description["nodes"]],
+            [c.RoadMapPoint(
+                point["x"],
+                point["y"],
+                point["z"],
+                point["neighbors"],
+                point["lanesLeft"],
+                point["lanesRight"],
+                point["offset"],
+                c.NavNode(
+                    point["navNode"]["node0"],
+                    point["navNode"]["node1"],
+                    point["navNode"]["node2"],
+                    point["navNode"]["node3"],
+                    point["navNode"]["node4"],
+                    point["navNode"]["node5"],
+                    point["navNode"]["node6"],
+                    point["navNode"]["nodeCustom"]
+                ),
+                c.NavFlags(
+                    point["navFlags"]["isStart"],
+                    point["navFlags"]["isExit"],
+                    point["navFlags"]["isBase"],
+                )
+            ) if point["type"] == "road" else c.PolygonMapPoint(
+                point["x"],
+                point["y"],
+                point["z"],
+                point["neighbors"],
+                point["color"],
+                point["roadOver"]
+            ) if point["type"] == "polygon" else None for point in prefab_description["mapPoints"]],
+            [c.PrefabSpawnPoints(
+                spawn_point["x"],
+                spawn_point["y"],
+                spawn_point["z"],
+                spawn_point["type"],
+            ) for spawn_point in prefab_description["spawnPoints"]],
+            [c.PrefabTriggerPoint(
+                trigger_point["x"],
+                trigger_point["y"],
+                trigger_point["z"],
+                trigger_point["action"],
+            ) for trigger_point in prefab_description["triggerPoints"]],
+            [c.PrefabNavCurve(
+                curve["navNodeIndex"],
+                c.Transform(
+                    curve["start"]["x"],
+                    curve["start"]["y"],
+                    curve["start"]["z"],
+                    curve["start"]["rotation"],
+                ),
+                c.Transform(
+                    curve["end"]["x"],
+                    curve["end"]["y"],
+                    curve["end"]["z"],
+                    curve["end"]["rotation"],
+                ),
+                curve["nextLines"],
+                curve["prevLines"],
+            ) for curve in prefab_description["navCurves"]],
+            [c.PrefabNavNode(
+                node["type"],
+                node["endIndex"],
+                [c.NavNodeConnection(
+                    connection["targetNavNodeIndex"],
+                    connection["curveIndices"],
+                ) for connection in node["connections"]],
+            ) for node in prefab_description["navNodes"]],
+        ))
+    
+    return prefab_descriptions
+
 def ReadFerries() -> list[c.Ferry]:
     path = FindCategoryFilePath("ferries")
     if path is None: return []
@@ -171,6 +280,8 @@ def ReadData() -> c.MapData:
     data.roads = ReadRoads(); logging.warning("-> RoadLooks")
     data.road_looks = ReadRoadLooks(); logging.warning("-> Ferries")
     data.ferries = ReadFerries(); logging.warning("-> Cities")
-    data.cities = ReadCities(); logging.warning("Done!")
+    data.cities = ReadCities(); logging.warning("-> Prefabs")
+    data.prefabs = ReadPrefabs(); logging.warning("-> PrefabDescriptions")
+    data.prefab_descriptions = ReadPrefabDescriptions()
     
     logging.warning(f"Data read in {time.time() - start_time:.2f} seconds.")

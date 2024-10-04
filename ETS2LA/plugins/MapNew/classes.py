@@ -825,7 +825,7 @@ class NavNodeConnection:
         self.curve_indeces = curve_indeces
 
 
-class NavNode:
+class PrefabNavNode:
     type: Literal["physical", "ai"]
     """
     **physical**: the index of the normal node (see nodes array) this navNode ends at.\n
@@ -841,14 +841,16 @@ class NavNode:
 
 
 class PrefabDescription:
+    token: str
     nodes: list[PrefabNode]
     map_points: RoadMapPoint | PolygonMapPoint
     spawn_points: list[PrefabSpawnPoints]
     trigger_points: list[PrefabTriggerPoint]
     nav_curves: list[PrefabNavCurve]
-    nav_nodes: list[NavNode]
+    nav_nodes: list[PrefabNavNode]
     
-    def __init__(self, nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint, spawn_points: list[PrefabSpawnPoints], trigger_points: list[PrefabTriggerPoint], nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode]):
+    def __init__(self, token: str,nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint, spawn_points: list[PrefabSpawnPoints], trigger_points: list[PrefabTriggerPoint], nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode]):
+        self.token = token
         self.nodes = nodes
         self.map_points = map_points
         self.spawn_points = spawn_points
