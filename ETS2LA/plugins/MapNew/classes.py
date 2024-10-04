@@ -309,6 +309,7 @@ class Ferry:
    
 
 class RoadLook:
+    token: str
     lanes_left: list[str]
     lanes_right: list[str]
     offset: float | None
@@ -316,7 +317,8 @@ class RoadLook:
     shoulder_space_left: float | None
     shoulder_space_right: float | None
     
-    def __init__(self, lanes_left: list[str], lanes_right: list[str], offset: float | None, lane_offset: float | None, shoulder_space_left: float | None, shoulder_space_right: float | None):
+    def __init__(self, token: str, lanes_left: list[str], lanes_right: list[str], offset: float | None, lane_offset: float | None, shoulder_space_left: float | None, shoulder_space_right: float | None):
+        self.token = token
         self.lanes_left = lanes_left
         self.lanes_right = lanes_right
         self.offset = offset
@@ -855,13 +857,6 @@ class PrefabDescription:
         self.nav_nodes = nav_nodes
     
 # MARK: MapData
-
-T = TypeVar('T')
-
-class WithToken(Generic[T]):
-    data: T
-    token: str
-
 class MapData:
     nodes: list[Node]
     elevations: list[tuple[int, int, int]]
@@ -875,7 +870,7 @@ class MapData:
     dividers: list[Building | Curve]
     countries: list[Country]
     cities: list[City]
-    road_looks: list[WithToken[RoadLook]]
-    prefab_descriptions: list[WithToken[PrefabDescription]]
-    model_description: list[WithToken[ModelDescription]]
+    road_looks: list[RoadLook]
+    prefab_descriptions: list[PrefabDescription]
+    model_description: list[ModelDescription]
     
