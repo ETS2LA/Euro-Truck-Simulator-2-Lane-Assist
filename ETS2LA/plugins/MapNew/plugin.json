@@ -7,7 +7,7 @@
     }],
     "description": "THIS IS A BETA VERSION OF THE MAP PLUGIN, PLEASE DON'T USE!",
     "version": "1.0",
-    "modules": ["TruckSimAPI", "ShowImage", "Steering", "SDKController", "Raycasting", "MapUtils"],
+    "modules": [],
     "max_fps": 20,
     "settings": [
         {

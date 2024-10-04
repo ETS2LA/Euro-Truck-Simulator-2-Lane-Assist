@@ -312,7 +312,7 @@ class PluginRunner():
                 timeTaken = time.time() - startTime
                 if timeTaken < 1 / self.plugin_fps_cap:
                     timeToSleepFor = 1 / self.plugin_fps_cap - timeTaken
-                    AccurateSleep(timeToSleepFor)
+                    time.sleep(timeToSleepFor)
             
             endTime = time.time()
             

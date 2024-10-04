@@ -328,12 +328,14 @@ class RoadLook:
    
 
 class ModelDescription:
+    token: str
     center: Position
     start: Position
     end: Position
     height: float
     
-    def __init__(self, center: Position, start: Position, end: Position, height: float):
+    def __init__(self, token: str, center: Position, start: Position, end: Position, height: float):
+        self.token = token
         self.center = center
         self.start = start
         self.end = end
@@ -343,17 +345,22 @@ class ModelDescription:
    
  
 class BasePOI:
+    uid: int | str
     x: float
     y: float
     z: float
     sector_x: int
     sector_y: int
     icon: str
-    
-    def parse_strings(self):
-        self.uid = parse_string_to_int(self.uid)
-        self.sector_x = parse_string_to_int(self.sector_x)
-        self.sector_y = parse_string_to_int(self.sector_y)
+        
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str):
+        self.uid = uid
+        self.x = x
+        self.y = y
+        self.z = z
+        self.sector_x = sector_x
+        self.sector_y = sector_y
+        self.icon = icon
     
 
 class GeneralPOI(BasePOI):
@@ -363,7 +370,6 @@ class GeneralPOI(BasePOI):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str, label: str):
         super().__init__(uid, x, y, z, sector_x, sector_y, icon)
         self.label = label
-        self.parse_strings()
     
 
 class LandmarkPOI(BasePOI):
@@ -392,7 +398,7 @@ class RoadPOI(BasePOI):
     type: str = "road"
     
     def parse_strings(self):
-        self.node_uid = parse_string_to_int(self.nodeUid)
+        self.node_uid = parse_string_to_int(self.node_uid)
         
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str, dlc_guard: int, node_uid: int | str):
         super().__init__(uid, x, y, z, sector_x, sector_y, icon)
@@ -872,7 +878,8 @@ class MapData:
     dividers: list[Building | Curve]
     countries: list[Country]
     cities: list[City]
+    company_defs: list[Company]
     road_looks: list[RoadLook]
     prefab_descriptions: list[PrefabDescription]
-    model_description: list[ModelDescription]
+    model_descriptions: list[ModelDescription]
     

@@ -238,6 +238,177 @@ def ReadFerries() -> list[c.Ferry]:
         
     return ferries
 
+def ReadCompanyItems() -> list[c.CompanyItem]:
+    path = FindCategoryFilePath("companies")
+    if path is None: return []
+    companies: list[c.CompanyItem] = []
+    for company in data_extractor.ReadData(path):
+        companies.append(c.CompanyItem(
+            company["uid"],
+            company["x"],
+            company["y"],
+            company["z"],
+            company["sectorX"],
+            company["sectorY"],
+            company["token"],
+            company["cityToken"],
+            TryReadExcept(company, "prefabUid", None),
+            TryReadExcept(company, "nodeUid", None),
+        ))
+        
+    return companies
+
+def ReadCompanies() -> list[c.Company]:
+    path = FindCategoryFilePath("companyDefs")
+    if path is None: return []
+    companies: list[c.Company] = []
+    for company in data_extractor.ReadData(path):
+        companies.append(c.Company(
+            company["token"],
+            company["name"],
+            company["cityTokens"],
+            company["cargoInTokens"],
+            company["cargoOutTokens"]
+        ))
+        
+    return companies
+
+def ReadModels() -> list[c.Model]:
+    path = FindCategoryFilePath("models")
+    if path is None: return []
+    models: list[c.Model] = []
+    for model in data_extractor.ReadData(path):
+        models.append(c.Model(
+            model["uid"],
+            model["x"],
+            model["y"],
+            model["z"],
+            model["sectorX"],
+            model["sectorY"],
+            model["token"],
+            model["nodeUid"],
+            model["scale"]
+        ))
+    
+    return models       
+
+def ReadModelDescriptions() -> list[c.ModelDescription]:
+    path = FindCategoryFilePath("modelDescriptions")
+    if path is None: return []
+    model_descriptions: list[c.ModelDescription] = []
+    for model_description in data_extractor.ReadData(path):
+        model_descriptions.append(c.ModelDescription(
+            model_description["token"],
+            c.Position(
+                model_description["center"]["x"],
+                model_description["center"]["y"],
+                model_description["center"]["z"],
+            ),
+            c.Position(
+                model_description["start"]["x"],
+                model_description["start"]["y"],
+                model_description["start"]["z"],
+            ),
+            c.Position(
+                model_description["end"]["x"],
+                model_description["end"]["y"],
+                model_description["end"]["z"],
+            ),
+            model_description["height"],
+        ))
+        
+    return model_descriptions
+
+def ReadMapAreas() -> list[c.MapArea]:
+    path = FindCategoryFilePath("mapAreas")
+    if path is None: return []
+    map_areas: list[c.MapArea] = []
+    for map_area in data_extractor.ReadData(path):
+        map_areas.append(c.MapArea(
+            map_area["uid"],
+            map_area["type"],
+            map_area["x"],
+            map_area["y"],
+            map_area["z"],
+            map_area["sectorX"],
+            map_area["sectorY"],
+        ))
+        
+    return map_areas
+
+def ReadPOIs() -> list[c.POI]:
+    path = FindCategoryFilePath("pois")
+    if path is None: return []
+    pois: list[c.POI] = []
+    for poi in data_extractor.ReadData(path):
+        if "label" in poi:
+            if poi["type"] == c.NonFacilityPOI.LANDMARK:
+                pois.append(c.LandmarkPOI(
+                    poi["uid"],
+                    poi["x"],
+                    poi["y"],
+                    poi["z"],
+                    poi["sectorX"],
+                    poi["sectorY"],
+                    poi["icon"],
+                    poi["label"],
+                    poi["dlcGuard"],
+                    poi["nodeUid"],
+                ))
+            else:
+                pois.append(c.GeneralPOI(
+                    TryReadExcept(poi, "uid", None),
+                    poi["x"],
+                    poi["y"],
+                    TryReadExcept(poi, "z", 0), # don't have z, but will have in the future
+                    poi["sectorX"],
+                    poi["sectorY"],
+                    poi["icon"],
+                    poi["label"]
+                ))
+        else:
+            if poi["type"] == "road":
+                pois.append(c.RoadPOI(
+                    TryReadExcept(poi, "uid", None),
+                    poi["x"],
+                    poi["y"],
+                    TryReadExcept(poi, "z", 0), # roads don't have z, but will have in the future
+                    poi["sectorX"],
+                    poi["sectorY"],
+                    poi["icon"],
+                    poi["dlcGuard"],
+                    TryReadExcept(poi, "nodeUid", None),
+                ))
+            elif poi["icon"] == c.FacilityIcon.PARKING:
+                pois.append(c.ParkingPOI(
+                    poi["uid"],
+                    poi["x"],
+                    poi["y"],
+                    poi["z"],
+                    poi["sectorX"],
+                    poi["sectorY"],
+                    poi["icon"],
+                    poi["dlcGuard"],
+                    poi["fromItemType"],
+                    poi["itemNodeUids"],
+                ))
+            elif "uid" in poi:
+                pois.append(c.FacilityPOI(
+                    poi["uid"],
+                    poi["x"],
+                    poi["y"],
+                    poi["z"],
+                    poi["sectorX"],
+                    poi["sectorY"],
+                    poi["icon"],
+                    poi["prefabUid"],
+                    poi["prefabPath"],
+                ))
+            else:
+                ... # NOT IMPLEMENTED
+                    
+    return pois
+
 def ReadCities() -> list[c.City]:
     path = FindCategoryFilePath("cities")
     if path is None: return []
@@ -280,8 +451,14 @@ def ReadData() -> c.MapData:
     data.roads = ReadRoads(); logging.warning("-> RoadLooks")
     data.road_looks = ReadRoadLooks(); logging.warning("-> Ferries")
     data.ferries = ReadFerries(); logging.warning("-> Prefabs")
-    data.prefabs = ReadPrefabs(); logging.warning("-> PrefabDescriptions")
-    data.prefab_descriptions = ReadPrefabDescriptions(); logging.warning("-> Cities")
+    data.prefabs = ReadPrefabs(); logging.warning("-> Prefab Descriptions")
+    data.prefab_descriptions = ReadPrefabDescriptions(); logging.warning("-> Company Defintions")
+    data.companies = ReadCompanyItems(); logging.warning("-> Companies")
+    data.company_defs = ReadCompanies(); logging.warning("-> Models")
+    data.models = ReadModels(); logging.warning("-> Model Descriptions")
+    data.model_descriptions = ReadModelDescriptions(); logging.warning("-> Map Areas")
+    data.map_areas = ReadMapAreas(); logging.warning("-> POIs")
+    data.POIs = ReadPOIs(); logging.warning("-> Cities")
     data.cities = ReadCities()
     
     logging.warning(f"Data read in {time.time() - start_time:.2f} seconds.")
