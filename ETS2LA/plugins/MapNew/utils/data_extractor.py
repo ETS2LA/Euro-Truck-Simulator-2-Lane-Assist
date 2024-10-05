@@ -1,6 +1,5 @@
 from ETS2LA.utils.translator import Translate
 import ETS2LA.backend.settings as settings
-import classes
 import logging
 import zipfile
 import hashlib

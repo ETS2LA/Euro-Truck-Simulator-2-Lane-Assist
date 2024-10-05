@@ -1,14 +1,23 @@
+# General imports
 from typing import Union, Literal, TypeVar, Generic
+from enum import Enum, StrEnum, IntEnum
 from dataclasses import dataclass
-from enum import Enum
+import math
+
+# ETS2LA imports
+from ETS2LA.utils.dictionaries import get_nested_item, set_nested_item
+import utils.math_helpers as math_helpers
+
+# MARK: Constants
+
+data = None
+"""The data object that is used by classes here. Will be set once the MapData object is created and loaded."""
 
 def parse_string_to_int(string: str) -> int:
     if type(string) == int: return string
     return int(string, 16)
 
-# MARK: Constants
-
-class FacilityIcon(Enum):
+class FacilityIcon(StrEnum):
     PARKING = "parking_ico"
     GAS = "gas_ico"
     SERVICE = "service_ico"
@@ -17,7 +26,7 @@ class FacilityIcon(Enum):
     GARAGE = "garage_ico"
     RECRUITMENT = "recruitment_ico"
 
-class NonFacilityPOI(Enum):
+class NonFacilityPOI(StrEnum):
     COMPANY = "company"
     LANDMARK = "landmark"
     VIEWPOINT = "viewpoint"
@@ -36,13 +45,13 @@ class LightColors(Enum):
     2 == (80, 68, 48)
     3 == (51, 77, 61)
 
-class MapColor(Enum):
+class MapColor(IntEnum):
     ROAD = 0
     LIGHT = 1
     DARK = 2
     GREEN = 3
 
-class ItemType(Enum):
+class ItemType(IntEnum):
     Terrain = 1
     Building = 2
     Road = 3
@@ -77,7 +86,7 @@ class ItemType(Enum):
     VisibilityArea = 48
     Gate = 49
 
-class SpawnPointType(Enum):
+class SpawnPointType(IntEnum):
     NONE = 0,
     TrailerPos = 1,
     UnloadEasyPos = 2,
@@ -140,6 +149,7 @@ class Node:
         self.sector_y = sector_y
         self.forward_country_id = forward_country_id
         self.backward_country_id = backward_country_id
+        self.parse_strings()
         
 
 class Transform:
@@ -164,6 +174,18 @@ class Position:
         self.x = x
         self.y = y
         self.z = z
+        
+    def to_tuple(self) -> tuple[float, float, float]:
+        return (self.x, self.y, self.z)
+    
+    def __eq__(self, other) -> bool:
+        return self.x == other.x and self.y == other.y and self.z == other.z
+    
+    def __str__(self) -> str:
+        return f"Position({self.x}, {self.y}, {self.z})"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
         
 
 class BaseItem:
@@ -379,10 +401,11 @@ class LandmarkPOI(BasePOI):
     type: NonFacilityPOI = NonFacilityPOI.LANDMARK
     
     def parse_strings(self):
-        self.node_uid = parse_string_to_int(self.nodeUid)
+        self.node_uid = parse_string_to_int(self.node_uid)
         
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str, label: str, dlc_guard: int, node_uid: int | str):
-        super().__init__(uid, x, y, z, sector_x, sector_y, icon, label)
+        super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.label = label
         self.dlc_guard = dlc_guard
         self.node_uid = node_uid
         self.parse_strings()
@@ -447,7 +470,6 @@ POI = Union[LabeledPOI, UnlabeledPOI]
 
 # MARK: Map Items
 
-
 class Road(BaseItem):
     dlc_guard: int
     hidden: bool | None
@@ -459,6 +481,8 @@ class Road(BaseItem):
     type: ItemType = ItemType.Road
     road_look: RoadLook = None
     
+    _points: list[Position] = None
+    
     def parse_strings(self):
         super().parse_strings()
         self.start_node_uid = parse_string_to_int(self.start_node_uid)
@@ -466,6 +490,7 @@ class Road(BaseItem):
         
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, hidden: bool | None, road_look_token: str, start_node_uid: int | str, end_node_uid: int | str, length: float, maybe_divided: bool | None):
         super().__init__(uid, ItemType.Road, x, y, z, sector_x, sector_y)
+        super().parse_strings()
         self.dlc_guard = dlc_guard
         self.hidden = hidden
         self.road_look_token = road_look_token
@@ -473,6 +498,56 @@ class Road(BaseItem):
         self.end_node_uid = end_node_uid
         self.length = length
         self.maybe_divided = maybe_divided
+        self.parse_strings()
+        
+    def generate_points(self, road_quality: float = 0.5, min_quality: int = 4) -> list[Position]:
+        # All this code is copied from the original C# implementation of point calculations
+        # ts-map-lane-assist/TsMap/TsMapRenderer.cs -> 473 (after foreach(var road in _mapper.Roads))
+        
+        start_node = data.get_node_by_uid(self.start_node_uid)
+        end_node = data.get_node_by_uid(self.end_node_uid)
+        new_points = []
+
+        # Data has Z as the height value, but we need Y
+        sx = start_node.x
+        sy = start_node.z
+        sz = start_node.y
+        ex = end_node.x
+        ey = end_node.z
+        ez = end_node.y
+        
+        # Get the length of the road
+        length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
+        radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+
+        tan_sx = math.cos(-(math.pi * 0.5 - start_node.rotation)) * radius
+        tan_ex = math.cos(-(math.pi * 0.5 - end_node.rotation)) * radius
+        tan_sz = math.sin(-(math.pi * 0.5 - start_node.rotation)) * radius
+        tan_ez = math.sin(-(math.pi * 0.5 - end_node.rotation)) * radius
+
+        needed_points = int(length * road_quality)
+        if needed_points < min_quality:
+            needed_points = min_quality
+
+        for i in range(needed_points):
+            s = i / (needed_points - 1)
+            x = math_helpers.Hermite(s, sx, ex, tan_sx, tan_ex)
+            y = sy + (ey - sy) * s
+            z = math_helpers.Hermite(s, sz, ez, tan_sz, tan_ez)
+            new_points.append(Position(x, y, z))
+
+        return new_points
+        
+    @property
+    def points(self) -> list[Position]:
+        if self._points is None:
+            self._points = self.generate_points()
+            
+        return self._points
+    
+    @points.setter
+    def points(self, value: list[Position]):
+        self._points = value
 
 
 class MapArea(BaseItem):
@@ -887,6 +962,12 @@ class MapData:
     _roads_by_sector: dict[tuple[int, int], list[Road]]
     _prefabs_by_sector: dict[tuple[int, int], list[Prefab]]
     
+    _nodes_by_uid = {}
+    """
+    Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
+    Please use the get_node_by_uid method to access nodes by UID.
+    """
+    
     def sort_to_sectors(self) -> None:
         self._nodes_by_sector = {}
         self._roads_by_sector = {}
@@ -909,6 +990,14 @@ class MapData:
             if sector not in self._prefabs_by_sector:
                 self._prefabs_by_sector[sector] = []
             self._prefabs_by_sector[sector].append(prefab)
+          
+    def build_node_dictionary(self) -> None:
+        self._nodes_by_uid = {}
+        for node in self.nodes:
+            uid = node.uid
+            uid_str = str(uid)
+            parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
+            set_nested_item(self._nodes_by_uid, parts, node)
             
     def get_sector_nodes(self, sector: tuple[int, int]) -> list[Node]:
         return self._nodes_by_sector.get(sector, [])
@@ -918,6 +1007,11 @@ class MapData:
     
     def get_sector_prefabs(self, sector: tuple[int, int]) -> list[Prefab]:
         return self._prefabs_by_sector.get(sector, [])
+            
+    def get_node_by_uid(self, uid: int | str) -> Node:  
+        uid_str = str(uid)
+        parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
+        return get_nested_item(self._nodes_by_uid, parts)
             
     def match_roads_to_looks(self) -> None:
         for road in self.roads:
@@ -932,4 +1026,3 @@ class MapData:
                 if prefab.token == description.token:
                     prefab.prefab_description = description
                     break
-    

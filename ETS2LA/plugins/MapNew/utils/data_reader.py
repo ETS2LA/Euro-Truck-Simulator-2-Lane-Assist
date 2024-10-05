@@ -2,10 +2,11 @@ import utils.data_extractor as data_extractor
 import ETS2LA.backend.settings as settings
 import ETS2LA.plugins.MapNew.classes as c
 import logging
+import random
 import time
 import os
 
-DATA_PATH = "ETS2LA/plugins/MapNew/data/data/"
+DATA_PATH = "ETS2LA/plugins/MapNew/data/"
 
 data_extractor.UpdateData(DATA_PATH)
 
@@ -344,10 +345,10 @@ def ReadPOIs() -> list[c.POI]:
         if "label" in poi:
             if poi["type"] == c.NonFacilityPOI.LANDMARK:
                 pois.append(c.LandmarkPOI(
-                    poi["uid"],
+                    TryReadExcept(poi, "uid", None),
                     poi["x"],
                     poi["y"],
-                    poi["z"],
+                    TryReadExcept(poi, "z", 0),
                     poi["sectorX"],
                     poi["sectorY"],
                     poi["icon"],
@@ -381,10 +382,10 @@ def ReadPOIs() -> list[c.POI]:
                 ))
             elif poi["icon"] == c.FacilityIcon.PARKING:
                 pois.append(c.ParkingPOI(
-                    poi["uid"],
+                    TryReadExcept(poi, "uid", None),
                     poi["x"],
                     poi["y"],
-                    poi["z"],
+                    TryReadExcept(poi, "z", 0),
                     poi["sectorX"],
                     poi["sectorY"],
                     poi["icon"],
@@ -394,10 +395,10 @@ def ReadPOIs() -> list[c.POI]:
                 ))
             elif "uid" in poi:
                 pois.append(c.FacilityPOI(
-                    poi["uid"],
+                    TryReadExcept(poi, "uid", None),
                     poi["x"],
                     poi["y"],
-                    poi["z"],
+                    TryReadExcept(poi, "z", 0),
                     poi["sectorX"],
                     poi["sectorY"],
                     poi["icon"],
@@ -517,5 +518,24 @@ def ReadData() -> c.MapData:
     
     logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Optimizing data")
     data.sort_to_sectors()
+    data.build_node_dictionary()
     
     logging.warning(f"Data read in {time.time() - start_time:.2f} seconds.")
+    logging.warning(f"Total counts: ")
+    logging.warning(f"{len(data.nodes)} nodes (with {len(data._nodes_by_uid)} UIDs in the dictionary root)")
+    logging.warning(f"{len(data.elevations)} elevations")
+    logging.warning(f"{len(data.roads)} roads")
+    logging.warning(f"{len(data.road_looks)} road looks")
+    logging.warning(f"{len(data.prefabs)} prefabs")
+    logging.warning(f"{len(data.prefab_descriptions)} prefab descriptions")
+    logging.warning(f"{len(data.ferries)} ferries")
+    logging.warning(f"{len(data.companies)} company items")
+    logging.warning(f"{len(data.company_defs)} company definitions")
+    logging.warning(f"{len(data.models)} models")
+    logging.warning(f"{len(data.model_descriptions)} model descriptions")
+    logging.warning(f"{len(data.map_areas)} map areas")
+    logging.warning(f"{len(data.POIs)} POIs")
+    logging.warning(f"{len(data.countries)} countries")
+    logging.warning(f"{len(data.cities)} cities")
+    
+    return data
