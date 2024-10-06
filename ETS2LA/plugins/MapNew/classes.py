@@ -6,6 +6,7 @@ import math
 
 # ETS2LA imports
 from ETS2LA.utils.dictionaries import get_nested_item, set_nested_item
+import utils.prefab_helpers as prefab_helpers
 import utils.math_helpers as math_helpers
 
 # MARK: Constants
@@ -116,7 +117,6 @@ class SpawnPointType(IntEnum):
 
 # MARK: Base Classes
 
-
 class Node:
     uid: int | str
     x: float
@@ -163,6 +163,12 @@ class Transform:
         self.y = y
         self.z = z
         self.rotation = rotation
+        
+    def __str__(self) -> str:
+        return f"Transform({self.x}, {self.y}, {self.z}, {self.rotation})"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
     
 
 class Position:
@@ -175,7 +181,7 @@ class Position:
         self.y = y
         self.z = z
         
-    def to_tuple(self) -> tuple[float, float, float]:
+    def tuple(self) -> tuple[float, float, float]:
         return (self.x, self.y, self.z)
     
     def __eq__(self, other) -> bool:
@@ -364,7 +370,6 @@ class ModelDescription:
         self.height = height
    
 # MARK: POIs
-   
  
 class BasePOI:
     uid: int | str
@@ -484,7 +489,6 @@ class Road(BaseItem):
     _points: list[Position] = None
     
     def parse_strings(self):
-        super().parse_strings()
         self.start_node_uid = parse_string_to_int(self.start_node_uid)
         self.end_node_uid = parse_string_to_int(self.end_node_uid)
         
@@ -520,10 +524,10 @@ class Road(BaseItem):
         length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
         radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
 
-        tan_sx = math.cos(-(math.pi * 0.5 - start_node.rotation)) * radius
-        tan_ex = math.cos(-(math.pi * 0.5 - end_node.rotation)) * radius
-        tan_sz = math.sin(-(math.pi * 0.5 - start_node.rotation)) * radius
-        tan_ez = math.sin(-(math.pi * 0.5 - end_node.rotation)) * radius
+        tan_sx = math.cos(start_node.rotation) * radius
+        tan_ex = math.cos(end_node.rotation) * radius
+        tan_sz = math.sin(start_node.rotation) * radius
+        tan_ez = math.sin(end_node.rotation) * radius
 
         needed_points = int(length * road_quality)
         if needed_points < min_quality:
@@ -810,8 +814,7 @@ class PolygonMapPoint(BaseMapPoint):
     
 MapPoint = Union[RoadMapPoint, PolygonMapPoint]
 
-# MARK: Prefab Description
-
+# MARK: Prefabs
 
 class PrefabNode:
     x: float
@@ -864,6 +867,7 @@ class PrefabNavCurve:
     end: Transform
     next_lines: list[int]
     prev_lines: list[int]
+    points: list[Position] = []
     
     def __init__(self, nav_node_index: int, start: Transform, end: Transform, next_lines: list[int], prev_lines: list[int]):
         self.nav_node_index = nav_node_index
@@ -871,6 +875,38 @@ class PrefabNavCurve:
         self.end = end
         self.next_lines = next_lines
         self.prev_lines = prev_lines
+        self.points = self.generate_points()
+        
+    def generate_points(self, road_quality: float = 1, min_quality: int = 4) -> list[Position]:
+        new_points = []
+
+        # Data has Z as the height value, but we need Y
+        sx = self.start.x
+        sy = self.start.z
+        sz = self.start.y
+        ex = self.end.x
+        ey = self.end.z
+        ez = self.end.y
+                
+        length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
+        radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+        
+        tan_sx = math.cos((self.start.rotation)) * radius
+        tan_ex = math.cos((self.end.rotation)) * radius
+        tan_sz = math.sin((self.start.rotation)) * radius
+        tan_ez = math.sin((self.end.rotation)) * radius
+        
+        needed_points = int(length * road_quality)
+        if needed_points < min_quality:
+            needed_points = min_quality
+        for i in range(needed_points):
+            s = i / (needed_points - 1)
+            x = math_helpers.Hermite(s, sx, ex, tan_sx, tan_ex)
+            y = sy + (ey - sy) * s
+            z = math_helpers.Hermite(s, sz, ez, tan_sz, tan_ez)
+            new_points.append(Position(x, y, z))
+        
+        return new_points
 
 
 class NavNodeConnection:
@@ -897,6 +933,20 @@ class PrefabNavNode:
         self.connections = connections
 
 
+class PrefabNavRoute:
+    curves: list[PrefabNavCurve]
+    points: list[Position] = []
+    
+    def __init__(self, curves: list[PrefabNavCurve]):
+        self.curves = curves
+        self.points = self.generate_points()
+        
+    def generate_points(self) -> list[Position]:
+        new_points = []
+        for curve in self.curves:
+            new_points += curve.points
+        return new_points
+
 class PrefabDescription:
     token: str
     nodes: list[PrefabNode]
@@ -905,6 +955,7 @@ class PrefabDescription:
     trigger_points: list[PrefabTriggerPoint]
     nav_curves: list[PrefabNavCurve]
     nav_nodes: list[PrefabNavNode]
+    _nav_routes: list[PrefabNavRoute] = []
     
     def __init__(self, token: str,nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint, spawn_points: list[PrefabSpawnPoints], trigger_points: list[PrefabTriggerPoint], nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode]):
         self.token = token
@@ -914,6 +965,27 @@ class PrefabDescription:
         self.trigger_points = trigger_points
         self.nav_curves = nav_curves
         self.nav_nodes = nav_nodes
+        
+    @property
+    def nav_routes(self) -> list[PrefabNavRoute]:
+        if self._nav_routes == []:
+            self.build_nav_routes()
+            
+        return self._nav_routes
+    
+    @nav_routes.setter
+    def nav_routes(self, value: list[PrefabNavRoute]):
+        self._nav_routes = value
+        
+    def build_nav_routes(self):
+        starting_curves = prefab_helpers.find_starting_curves(self)
+        self._nav_routes = []
+        for curve in starting_curves:
+            curve_routes = prefab_helpers.traverse_curve_till_end(curve, self)
+            for route in curve_routes:
+                nav_route = PrefabNavRoute(route)
+                self._nav_routes.append(nav_route)
+        
     
 class Prefab(BaseItem):
     dlc_guard: int
