@@ -958,9 +958,16 @@ class MapData:
     prefab_descriptions: list[PrefabDescription]
     model_descriptions: list[ModelDescription]
     
-    _nodes_by_sector: dict[tuple[int, int], list[Node]]
-    _roads_by_sector: dict[tuple[int, int], list[Road]]
-    _prefabs_by_sector: dict[tuple[int, int], list[Prefab]]
+    _nodes_by_sector: dict[dict[Node]]
+    _roads_by_sector: dict[dict[Road]]
+    _prefabs_by_sector: dict[dict[Prefab]]
+    
+    _min_sector_x:  int = math.inf
+    _max_sector_x:  int = -math.inf
+    _min_sector_y:  int = math.inf
+    _max_sector_y:  int = -math.inf
+    _sector_width:  int = 4000
+    _sector_height: int = 4000
     
     _nodes_by_uid = {}
     """
@@ -975,21 +982,56 @@ class MapData:
         
         for node in self.nodes:
             sector = (node.sector_x, node.sector_y)
-            if sector not in self._nodes_by_sector:
-                self._nodes_by_sector[sector] = []
-            self._nodes_by_sector[sector].append(node)
+            
+            if sector[0] < self._min_sector_x:
+                self._min_sector_x = sector[0]
+            if sector[0] > self._max_sector_x:
+                self._max_sector_x = sector[0]
+            if sector[1] < self._min_sector_y:
+                self._min_sector_y = sector[1]
+            if sector[1] > self._max_sector_y:
+                self._max_sector_y = sector[1]
+                
+            if sector[0] not in self._nodes_by_sector:
+                self._nodes_by_sector[sector[0]] = {}
+            if sector[1] not in self._nodes_by_sector[sector[0]]:
+                self._nodes_by_sector[sector[0]][sector[1]] = []
+                
+            self._nodes_by_sector[sector[0]][sector[1]].append(node)
         
         for road in self.roads:
             sector = (road.sector_x, road.sector_y)
-            if sector not in self._roads_by_sector:
-                self._roads_by_sector[sector] = []
-            self._roads_by_sector[sector].append(road)
+            if sector[0] not in self._roads_by_sector:
+                self._roads_by_sector[sector[0]] = {}
+            if sector[1] not in self._roads_by_sector[sector[0]]:
+                self._roads_by_sector[sector[0]][sector[1]] = []
+            self._roads_by_sector[sector[0]][sector[1]].append(road)
         
         for prefab in self.prefabs:
             sector = (prefab.sector_x, prefab.sector_y)
-            if sector not in self._prefabs_by_sector:
-                self._prefabs_by_sector[sector] = []
-            self._prefabs_by_sector[sector].append(prefab)
+            if sector[0] not in self._prefabs_by_sector:
+                self._prefabs_by_sector[sector[0]] = {}
+            if sector[1] not in self._prefabs_by_sector[sector[0]]:
+                self._prefabs_by_sector[sector[0]][sector[1]] = []
+            self._prefabs_by_sector[sector[0]][sector[1]].append(prefab)
+            
+    def calculate_sector_dimensions(self) -> None:
+        min_sector_x = self._min_sector_x
+        min_sector_x_y = min([key for key in self._nodes_by_sector[min_sector_x].keys()])
+        min_sector_y = self._min_sector_y
+        min_sector_y_x = min([key if min_sector_y in self._nodes_by_sector[key].keys() else math.inf for key in self._nodes_by_sector.keys()])
+        min_x = min([node.x for node in self._nodes_by_sector[min_sector_x][min_sector_x_y]])
+        min_y = min([node.y for node in self._nodes_by_sector[min_sector_y_x][min_sector_y]])
+        
+        max_sector_x = self._max_sector_x
+        max_sector_x_y = max([key for key in self._nodes_by_sector[max_sector_x].keys()])
+        max_sector_y = self._max_sector_y
+        max_sector_y_x = max([key if max_sector_y in self._nodes_by_sector[key].keys() else -math.inf for key in self._nodes_by_sector.keys()])
+        max_x = max([node.x for node in self._nodes_by_sector[max_sector_x][max_sector_x_y]])
+        max_y = max([node.y for node in self._nodes_by_sector[max_sector_y_x][max_sector_y]])
+        
+        self._sector_width = (max_x - min_x) / (max_sector_x - min_sector_x)
+        self._sector_height = (max_y - min_y) / (max_sector_y - min_sector_y)
           
     def build_node_dictionary(self) -> None:
         self._nodes_by_uid = {}
@@ -999,14 +1041,31 @@ class MapData:
             parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
             set_nested_item(self._nodes_by_uid, parts, node)
             
-    def get_sector_nodes(self, sector: tuple[int, int]) -> list[Node]:
-        return self._nodes_by_sector.get(sector, [])
+    def get_sector_from_coordinates(self, x: float, z: float) -> tuple[int, int]:
+        return (int(x // self._sector_width), int(z // self._sector_height))
+                
+    def get_sector_nodes_by_coordinates(self, x: float, z: float) -> list[Node]:
+        sector = self.get_sector_from_coordinates(x, z)
+        return self.get_sector_nodes_by_sector(sector)
+                
+    def get_sector_nodes_by_sector(self, sector: tuple[int, int]) -> list[Node]:
+        return self._nodes_by_sector.get(sector[0], {}).get(sector[1], [])
     
-    def get_sector_roads(self, sector: tuple[int, int]) -> list[Road]:
-        return self._roads_by_sector.get(sector, [])
+    def get_sector_roads_by_coordinates(self, x: float, z: float) -> list[Road]:
+        print(x, z)
+        sector = self.get_sector_from_coordinates(x, z)
+        print(sector)
+        return self.get_sector_roads_by_sector(sector)
     
-    def get_sector_prefabs(self, sector: tuple[int, int]) -> list[Prefab]:
-        return self._prefabs_by_sector.get(sector, [])
+    def get_sector_roads_by_sector(self, sector: tuple[int, int]) -> list[Road]:
+        return self._roads_by_sector.get(sector[0], {}).get(sector[1], [])
+    
+    def get_sector_prefabs_by_coordinates(self, x: float, z: float) -> list[Prefab]:
+        sector = self.get_sector_from_coordinates(x, z)
+        return self.get_sector_prefabs_by_sector(sector)
+    
+    def get_sector_prefabs_by_sector(self, sector: tuple[int, int]) -> list[Prefab]:
+        return self._prefabs_by_sector.get(sector[0], {}).get(sector[1], [])
             
     def get_node_by_uid(self, uid: int | str) -> Node:  
         uid_str = str(uid)
