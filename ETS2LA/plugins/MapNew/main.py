@@ -10,8 +10,7 @@ runner: PluginRunner = None
 
 def Initialize():
     data.data = ReadData()
-    c.data = data.data
-    print(data.data.roads[0].points)
+    c.data = data.data # set the classes data variable
     
 def plugin():
     ...

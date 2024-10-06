@@ -1,6 +1,7 @@
 import utils.data_extractor as data_extractor
 import ETS2LA.backend.settings as settings
 import ETS2LA.plugins.MapNew.classes as c
+from rich import print
 import logging
 import random
 import time
@@ -125,6 +126,8 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
         # TODO: Read signs!
         prefab_descriptions.append(c.PrefabDescription(
             prefab_description["token"],
+            
+            # nodes
             [c.PrefabNode(
                 node["x"],
                 node["y"],
@@ -133,6 +136,8 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                 TryReadExcept(node, "input_lanes", []),
                 TryReadExcept(node, "output_lanes", []),
             ) for node in prefab_description["nodes"]],
+            
+            # map points
             [c.RoadMapPoint(
                 point["x"],
                 point["y"],
@@ -164,18 +169,24 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                 point["color"],
                 point["roadOver"]
             ) if point["type"] == "polygon" else None for point in prefab_description["mapPoints"]],
+            
+            # spawn points
             [c.PrefabSpawnPoints(
                 spawn_point["x"],
                 spawn_point["y"],
                 spawn_point["z"],
                 spawn_point["type"],
             ) for spawn_point in prefab_description["spawnPoints"]],
+            
+            # trigger points
             [c.PrefabTriggerPoint(
                 trigger_point["x"],
                 trigger_point["y"],
                 trigger_point["z"],
                 trigger_point["action"],
             ) for trigger_point in prefab_description["triggerPoints"]],
+            
+            # nav curves
             [c.PrefabNavCurve(
                 curve["navNodeIndex"],
                 c.Transform(
@@ -193,6 +204,8 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                 curve["nextLines"],
                 curve["prevLines"],
             ) for curve in prefab_description["navCurves"]],
+            
+            # nav nodes
             [c.PrefabNavNode(
                 node["type"],
                 node["endIndex"],
@@ -201,6 +214,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                     connection["curveIndices"],
                 ) for connection in node["connections"]],
             ) for node in prefab_description["navNodes"]],
+            
         ))
     
     return prefab_descriptions
@@ -458,84 +472,97 @@ def ReadCities() -> list[c.City]:
         
     return cities
 
+def PrintState(start_time: float, message: str):
+    print(f" → {message}", end="\r")
+    
+def UpdateState(start_time: float, message: str):
+    milliseconds = (time.time() - start_time) * 100
+    if milliseconds < 1000:
+        time_string = f"{milliseconds:.0f}ms  |"
+    else:
+        time_string = f"{milliseconds:.0f}ms |"
+    print(f"[dim]{time_string}[/dim] {message}", end="\n")
 
 # MARK : ReadData()
 def ReadData() -> c.MapData:
     start_time = time.time()
-    logging.warning("Reading data...")
+    print("[yellow]Please wait for map to load the necessary data.[/yellow]")
     
     data = c.MapData()
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Nodes")
+    PrintState(start_time, "Nodes")
     data.nodes = ReadNodes()
+    UpdateState(start_time, f"Loaded {len(data.nodes)} nodes")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Elevations")
+    PrintState(start_time, "Elevations")
     data.elevations = ReadElevations()
+    UpdateState(start_time, f"Loaded {len(data.elevations)} elevations")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Roads")
+    PrintState(start_time, "Roads")
     data.roads = ReadRoads()
+    UpdateState(start_time, f"Loaded {len(data.roads)} roads")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> RoadLooks")
+    PrintState(start_time, "RoadLooks")
     data.road_looks = ReadRoadLooks()
+    UpdateState(start_time, f"Loaded {len(data.road_looks)} road looks")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Ferries")
+    PrintState(start_time, "Ferries")
     data.ferries = ReadFerries()
+    UpdateState(start_time, f"Loaded {len(data.ferries)} ferries")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Prefabs")
+    PrintState(start_time, "Prefabs")
     data.prefabs = ReadPrefabs()
+    UpdateState(start_time, f"Loaded {len(data.prefabs)} prefabs")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Prefab Descriptions")
+    PrintState(start_time, "Prefab Descriptions")
     data.prefab_descriptions = ReadPrefabDescriptions()
+    UpdateState(start_time, f"Loaded {len(data.prefab_descriptions)} prefab descriptions")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Company Defintions")
+    PrintState(start_time, "Company Definitions")
     data.companies = ReadCompanyItems()
+    UpdateState(start_time, f"Loaded {len(data.companies)} company items")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Companies")
+    PrintState(start_time, "Companies")
     data.company_defs = ReadCompanies()
+    UpdateState(start_time, f"Loaded {len(data.company_defs)} company definitions")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Models")
+    PrintState(start_time, "Models")
     data.models = ReadModels()
+    UpdateState(start_time, f"Loaded {len(data.models)} models")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Model Descriptions")
+    PrintState(start_time, "Model Descriptions")
     data.model_descriptions = ReadModelDescriptions()
+    UpdateState(start_time, f"Loaded {len(data.model_descriptions)} model descriptions")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Map Areas")
+    PrintState(start_time, "Map Areas")
     data.map_areas = ReadMapAreas()
+    UpdateState(start_time, f"Loaded {len(data.map_areas)} map areas")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> POIs")
+    PrintState(start_time, "POIs")
     data.POIs = ReadPOIs()
+    UpdateState(start_time, f"Loaded {len(data.POIs)} POIs")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Countries")
+    PrintState(start_time, "Countries")
     data.countries = ReadCountries()
+    UpdateState(start_time, f"Loaded {len(data.countries)} countries")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Cities")
+    PrintState(start_time, "Cities")
     data.cities = ReadCities()
+    UpdateState(start_time, f"Loaded {len(data.cities)} cities")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Linking objects (roads)")
+    PrintState(start_time, "Linking objects (roads)")
     data.match_prefabs_to_descriptions()
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Linking objects (prefabs)")
-    data.match_roads_to_looks()
+    UpdateState(start_time, f"Linked prefabs to descriptions")
     
-    logging.warning(f"[dim]{(time.time() - start_time)*100:.0f}ms[/dim] -> Optimizing data")
+    PrintState(start_time, "Linking objects (prefabs)")
+    data.match_roads_to_looks()
+    UpdateState(start_time, f"Linked roads to looks")
+    
+    PrintState(start_time, "Optimizing data")
     data.sort_to_sectors()
     data.build_node_dictionary()
+    UpdateState(start_time, f"Data optimization complete")
     
-    logging.warning(f"Data read in {time.time() - start_time:.2f} seconds.")
-    logging.warning(f"Total counts: ")
-    logging.warning(f"{len(data.nodes)} nodes (with {len(data._nodes_by_uid)} UIDs in the dictionary root)")
-    logging.warning(f"{len(data.elevations)} elevations")
-    logging.warning(f"{len(data.roads)} roads")
-    logging.warning(f"{len(data.road_looks)} road looks")
-    logging.warning(f"{len(data.prefabs)} prefabs")
-    logging.warning(f"{len(data.prefab_descriptions)} prefab descriptions")
-    logging.warning(f"{len(data.ferries)} ferries")
-    logging.warning(f"{len(data.companies)} company items")
-    logging.warning(f"{len(data.company_defs)} company definitions")
-    logging.warning(f"{len(data.models)} models")
-    logging.warning(f"{len(data.model_descriptions)} model descriptions")
-    logging.warning(f"{len(data.map_areas)} map areas")
-    logging.warning(f"{len(data.POIs)} POIs")
-    logging.warning(f"{len(data.countries)} countries")
-    logging.warning(f"{len(data.cities)} cities")
+    print(f"[green]Data read in {time.time() - start_time:.2f} seconds.[/green]")
     
     return data
