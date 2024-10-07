@@ -81,8 +81,9 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
             middle_offset = perp_vector * lane_width * num_left_lanes / 2
             if num_right_lanes % 2 == 0:
                 middle_offset += perp_vector * lane_width / 2
-            point1 += middle_offset
-            point2 += middle_offset
+            # NOTE: I changed these to - since Map V1, if it doesn't work this is probably why.
+            point1 -= middle_offset
+            point2 -= middle_offset
         
         # Offset to keep the lanes centered
         elif num_left_lanes > num_right_lanes:
@@ -133,7 +134,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
 
 def GetOffset(road):
     # Fix 999 and 0.0 offsets
-    name = road.road_look.token
+    name = road.road_look.name
     
     # Check the rules
     rule_offset = 999

@@ -1176,7 +1176,7 @@ class MapData:
     _sector_width:  int = 4000
     _sector_height: int = 4000
     
-    _nodes_by_uid = {}
+    _by_uid = {}
     """
     Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
     Please use the get_node_by_uid method to access nodes by UID.
@@ -1241,12 +1241,24 @@ class MapData:
         self._sector_height = (max_y - min_y) / (max_sector_y - min_sector_y)
           
     def build_node_dictionary(self) -> None:
-        self._nodes_by_uid = {}
+        self._by_uid = {}
         for node in self.nodes:
             uid = node.uid
             uid_str = str(uid)
             parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
-            set_nested_item(self._nodes_by_uid, parts, node)
+            set_nested_item(self._by_uid, parts, node)
+            
+        for road in self.roads:
+            uid = road.uid
+            uid_str = str(uid)
+            parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
+            set_nested_item(self._by_uid, parts, road)
+            
+        for prefab in self.prefabs:
+            uid = prefab.uid
+            uid_str = str(uid)
+            parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
+            set_nested_item(self._by_uid, parts, prefab)
             
     def get_sector_from_coordinates(self, x: float, z: float) -> tuple[int, int]:
         return (int(x // self._sector_width), int(z // self._sector_height))
@@ -1281,15 +1293,20 @@ class MapData:
                 
             uid_str = str(uid)
             parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
-            return get_nested_item(self._nodes_by_uid, parts)
+            return get_nested_item(self._by_uid, parts)
         except:
             return None
     
     def get_item_by_uid(self, uid: int | str) -> Prefab | Road:
-        for item in self.prefabs + self.roads:
-            if item.uid == uid:
-                return item
-        return None
+        try:
+            if type(uid) == str:
+                uid = parse_string_to_int(uid)
+                
+            uid_str = str(uid)
+            parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
+            return get_nested_item(self._by_uid, parts)
+        except:
+            return None
             
     def match_roads_to_looks(self) -> None:
         for road in self.roads:

@@ -8,7 +8,7 @@
     "description": "THIS IS A BETA VERSION OF THE MAP PLUGIN, PLEASE DON'T USE!",
     "version": "1.0",
     "modules": ["TruckSimAPI"],
-    "max_fps": -1,
+    "max_fps": 30,
     "settings": [
         {
             "specials": [
