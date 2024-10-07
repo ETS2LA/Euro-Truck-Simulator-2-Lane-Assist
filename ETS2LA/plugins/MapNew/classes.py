@@ -199,19 +199,17 @@ class BaseItem:
     type: ItemType
     x: float
     y: float
-    z: float
     sector_x: int
     sector_y: int
     
     def parse_strings(self):
         self.uid = parse_string_to_int(self.uid)
         
-    def __init__(self, uid: int | str, type: ItemType, x: float, y: float, z: float, sector_x: int, sector_y: int):
+    def __init__(self, uid: int | str, type: ItemType, x: float, y: float, sector_x: int, sector_y: int):
         self.uid = uid
         self.type = type
         self.x = x
         self.y = y
-        self.z = z
         self.sector_x = sector_x
         self.sector_y = sector_y
     
@@ -222,8 +220,8 @@ class CityArea(BaseItem):
     width: float
     height: float
     
-    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str, hidden: bool, width: float, height: float):
-        super().__init__(uid, ItemType.City, x, y, z, sector_x, sector_y)
+    def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, token: str, hidden: bool, width: float, height: float):
+        super().__init__(uid, ItemType.City, x, y, sector_x, sector_y)
         super().parse_strings()
         self.token = token
         self.hidden = hidden
@@ -239,10 +237,9 @@ class City:
     population: int
     x: float
     y: float
-    z: float
     areas: list[CityArea]
     
-    def __init__(self, token: str, name: str, name_localized: str | None, country_token: str, population: int, x: float, y: float, z: float, areas: list[CityArea]):
+    def __init__(self, token: str, name: str, name_localized: str | None, country_token: str, population: int, x: float, y: float, areas: list[CityArea]):
         self.token = token
         self.name = name
         self.name_localized = name_localized
@@ -250,7 +247,6 @@ class City:
         self.population = population
         self.x = x
         self.y = y
-        self.z = z
         self.areas = areas
 
 
@@ -261,17 +257,15 @@ class Country:
     id: int
     x: float
     y: float
-    z: float
     code: str
     
-    def __init__(self, token: str, name: str, name_localized: str | None, id: int, x: float, y: float, z: float, code: str):
+    def __init__(self, token: str, name: str, name_localized: str | None, id: int, x: float, y: float, code: str):
         self.token = token
         self.name = name
         self.name_localized = name_localized
         self.id = id
         self.x = x
         self.y = y
-        self.z = z
         self.code = code
     
 
@@ -338,6 +332,7 @@ class Ferry:
 
 class RoadLook:
     token: str
+    name: str
     lanes_left: list[str]
     lanes_right: list[str]
     offset: float | None
@@ -345,8 +340,9 @@ class RoadLook:
     shoulder_space_left: float | None
     shoulder_space_right: float | None
     
-    def __init__(self, token: str, lanes_left: list[str], lanes_right: list[str], offset: float | None, lane_offset: float | None, shoulder_space_left: float | None, shoulder_space_right: float | None):
+    def __init__(self, token: str, name:str, lanes_left: list[str], lanes_right: list[str], offset: float | None, lane_offset: float | None, shoulder_space_left: float | None, shoulder_space_right: float | None):
         self.token = token
+        self.name = name
         self.lanes_left = lanes_left
         self.lanes_right = lanes_right
         self.offset = offset
@@ -492,8 +488,8 @@ class Road(BaseItem):
         self.start_node_uid = parse_string_to_int(self.start_node_uid)
         self.end_node_uid = parse_string_to_int(self.end_node_uid)
         
-    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, hidden: bool | None, road_look_token: str, start_node_uid: int | str, end_node_uid: int | str, length: float, maybe_divided: bool | None):
-        super().__init__(uid, ItemType.Road, x, y, z, sector_x, sector_y)
+    def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, dlc_guard: int, hidden: bool | None, road_look_token: str, start_node_uid: int | str, end_node_uid: int | str, length: float, maybe_divided: bool | None):
+        super().__init__(uid, ItemType.Road, x, y, sector_x, sector_y)
         super().parse_strings()
         self.dlc_guard = dlc_guard
         self.hidden = hidden
@@ -564,6 +560,14 @@ class MapArea(BaseItem):
     def parse_strings(self):
         super().parse_strings()
         self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
+        
+    def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, dlc_guard: int, draw_over: bool | None, node_uids: list[int | str], color: MapColor):
+        super().__init__(uid, ItemType.MapArea, x, y, sector_x, sector_y)
+        self.dlc_guard = dlc_guard
+        self.draw_over = draw_over
+        self.node_uids = node_uids
+        self.color = color
+        self.parse_strings()
     
 class MapOverlayType(Enum):
     ROAD = 0
@@ -661,8 +665,8 @@ class CompanyItem(BaseItem):
         self.prefab_uid = parse_string_to_int(self.prefab_uid)
         self.node_uid = parse_string_to_int(self.node_uid)
         
-    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str, city_token: str, prefab_uid: int | str, node_uid: int | str):
-        super().__init__(uid, ItemType.Company, x, y, z, sector_x, sector_y)
+    def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, token: str, city_token: str, prefab_uid: int | str, node_uid: int | str):
+        super().__init__(uid, ItemType.Company, x, y, sector_x, sector_y)
         self.token = token
         self.city_token = city_token
         self.prefab_uid = prefab_uid
@@ -708,16 +712,18 @@ class Model(BaseItem):
     node_uid: int | str
     scale: tuple[float, float, float]
     type: ItemType = ItemType.Model
+    z: float = 0
     
     def parse_strings(self):
         super().parse_strings()
         self.node_uid = parse_string_to_int(self.node_uid)
         
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str, node_uid: int | str, scale: tuple[float, float, float]):
-        super().__init__(uid, ItemType.Model, x, y, z, sector_x, sector_y)
+        super().__init__(uid, ItemType.Model, x, y, sector_x, sector_y)
         self.token = token
         self.node_uid = node_uid
         self.scale = scale
+        self.z = z
         
 
 class Terrain(BaseItem):
@@ -995,13 +1001,15 @@ class Prefab(BaseItem):
     origin_node_index: int
     type: ItemType = ItemType.Prefab
     prefab_description: PrefabDescription = None
+    z: float = 0
     
     def parse_strings(self):
         super().parse_strings()
         self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
     
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int, hidden: bool | None, token: str, node_uids: list[int | str], origin_node_index: int):
-        super().__init__(uid, ItemType.Prefab, x, y, z, sector_x, sector_y)
+        super().__init__(uid, ItemType.Prefab, x, y, sector_x, sector_y)
+        self.z = z
         self.dlc_guard = dlc_guard
         self.hidden = hidden
         self.token = token

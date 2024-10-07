@@ -66,7 +66,6 @@ def ReadRoads() -> list[c.Road]:
             road["uid"],
             road["x"],
             road["y"],
-            road["z"],
             road["sectorX"],
             road["sectorY"],
             road["dlcGuard"],
@@ -87,6 +86,7 @@ def ReadRoadLooks() -> list[c.RoadLook]:
     for road_look in data_extractor.ReadData(path):
         road_looks.append(c.RoadLook(
             road_look["token"],
+            road_look["name"],
             TryReadExcept(road_look, "lanesLeft", []),
             TryReadExcept(road_look, "lanesRight", []),
             TryReadExcept(road_look, "offset", 0),
@@ -106,7 +106,7 @@ def ReadPrefabs() -> list[c.Prefab]:
             prefab["uid"],
             prefab["x"],
             prefab["y"],
-            prefab["z"],
+            TryReadExcept(prefab, "z", 0),
             prefab["sectorX"],
             prefab["sectorY"],
             prefab["dlcGuard"],
@@ -174,7 +174,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
             [c.PrefabSpawnPoints(
                 spawn_point["x"],
                 spawn_point["y"],
-                spawn_point["z"],
+                TryReadExcept(spawn_point, "z", 0),
                 spawn_point["type"],
             ) for spawn_point in prefab_description["spawnPoints"]],
             
@@ -182,7 +182,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
             [c.PrefabTriggerPoint(
                 trigger_point["x"],
                 trigger_point["y"],
-                trigger_point["z"],
+                TryReadExcept(trigger_point, "z", 0),
                 trigger_point["action"],
             ) for trigger_point in prefab_description["triggerPoints"]],
             
@@ -231,21 +231,21 @@ def ReadFerries() -> list[c.Ferry]:
             None, # name_localized
             ferry["x"],
             ferry["y"],
-            ferry["z"],
+            TryReadExcept(ferry, "z", 0),
             [c.FerryConnection(
                 connection["token"],
                 connection["name"],
                 None, # name_localized
                 connection["x"],
                 connection["y"],
-                connection["z"],
+                TryReadExcept(connection, "z", 0),
                 connection["price"],
                 connection["time"],
                 connection["distance"],
                 intermediate_points=[c.Transform(
                     point["x"],
                     point["y"],
-                    point["z"],
+                    TryReadExcept(point, "z", 0),
                     point["rotation"],
                 ) for point in connection["intermediatePoints"]],
             ) for connection in ferry["connections"]],
@@ -262,7 +262,6 @@ def ReadCompanyItems() -> list[c.CompanyItem]:
             company["uid"],
             company["x"],
             company["y"],
-            company["z"],
             company["sectorX"],
             company["sectorY"],
             company["token"],
@@ -297,7 +296,7 @@ def ReadModels() -> list[c.Model]:
             model["uid"],
             model["x"],
             model["y"],
-            model["z"],
+            TryReadExcept(model, "z", 0),
             model["sectorX"],
             model["sectorY"],
             model["token"],
@@ -317,17 +316,17 @@ def ReadModelDescriptions() -> list[c.ModelDescription]:
             c.Position(
                 model_description["center"]["x"],
                 model_description["center"]["y"],
-                model_description["center"]["z"],
+                TryReadExcept(model_description["center"], "z", 0)
             ),
             c.Position(
                 model_description["start"]["x"],
                 model_description["start"]["y"],
-                model_description["start"]["z"],
+                TryReadExcept(model_description["start"], "z", 0),
             ),
             c.Position(
                 model_description["end"]["x"],
                 model_description["end"]["y"],
-                model_description["end"]["z"],
+                TryReadExcept(model_description["end"], "z", 0),
             ),
             model_description["height"],
         ))
@@ -341,12 +340,14 @@ def ReadMapAreas() -> list[c.MapArea]:
     for map_area in data_extractor.ReadData(path):
         map_areas.append(c.MapArea(
             map_area["uid"],
-            map_area["type"],
             map_area["x"],
             map_area["y"],
-            map_area["z"],
             map_area["sectorX"],
             map_area["sectorY"],
+            map_area["dlcGuard"],
+            False, # draw_over
+            map_area["nodeUids"],
+            map_area["color"]
         ))
         
     return map_areas
@@ -436,7 +437,6 @@ def ReadCountries() -> list[c.Country]:
             country["id"],
             country["x"],
             country["y"],
-            country["z"],
             country["code"],
         ))
         
@@ -455,12 +455,10 @@ def ReadCities() -> list[c.City]:
             city["population"],
             city["x"],
             city["y"],
-            city["z"],
             [c.CityArea(
                 area["uid"],
                 area["x"],
                 area["y"],
-                area["z"],
                 area["sectorX"],
                 area["sectorY"],
                 area["token"],
