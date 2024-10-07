@@ -1,13 +1,20 @@
-# TODO:
-# Make this work with the new road system once roadlook names have been added!
+# WARNING:
+# This uses old code from the old Map plugin. This means that it isn't typed.
+# You should not edit this code unless you know what you are doing.
 
+# TODO: Clean the code and optimize road generation
+
+import ETS2LA.variables as variables
 import classes as c
+import numpy as np
+import math
+import cv2
 import json
 
 offsets = {}
 per_name = {}
 rules = {}
-rules_filename = "utils/lanes.json"
+rules_filename = "ETS2LA/plugins/MapNew/utils/lane_offsets.json"
 
 def get_rules():
     global offsets, per_name, rules
@@ -16,20 +23,34 @@ def get_rules():
         offsets = data["offset_data"]
         per_name = data["per_name"]
         rules = data["rules"]
-        
-get_rules()
+
+def perpendicular_vector(v):
+    return np.array([-v[1], v[0]])
+
+def normalize(v):
+    norm = np.linalg.norm(v)
+    if norm == 0: 
+       return v
+    return v / norm
+
+def lerp(a, b, t):
+    return a + t * (b - a)
 
 def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, custom_offset=999, next_offset=999, side=0):
     lanes = {'left': [[] for _ in range(num_left_lanes)], 
              'right': [[] for _ in range(num_right_lanes)]}
     
-    #print(custom_offset)
     base_custom_offset = custom_offset
-    # points = points[::-1] # This will fix some roads being the other way around (mainly 2 left 1 right with a wide gap)
+    
+    if num_left_lanes == 2 and num_right_lanes == 1:
+        points = points[::-1] # This will fix some roads being the other way around (mainly 2 left 1 right with a wide gap)
+
     pointCount = len(points)
     for i in range(pointCount - 1):
-        point1 = np.array(points[i])
-        point2 = np.array(points[i + 1])
+        point1 = points[i].list()
+        point1 = np.array([point1[0], point1[2]])
+        point2 = points[i + 1].list()
+        point2 = np.array([point2[0], point2[2]])
         if next_offset != base_custom_offset and next_offset != 999 and base_custom_offset != 999:
             if side == 0:
                 custom_offset = lerp(base_custom_offset, next_offset, i / (pointCount - 1))
@@ -102,15 +123,15 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
     # Add the Y values from the road. This will help with visualizing the lanes later on
     for lane in range(num_left_lanes):
         for i in range(len(lanes['left'][lane])):
-            lanes['left'][lane][i].append(road.YValues[i])
+            lanes['left'][lane][i].append(road.points[i].list()[1])
     for lane in range(num_right_lanes):
         for i in range(len(lanes['right'][lane])):
-            lanes['right'][lane][i].append(road.YValues[i])
+            lanes['right'][lane][i].append(road.points[i].list()[1])
 
     return lanes
 
 
-def GetOffset(road: c.Road):
+def GetOffset(road):
     # Fix 999 and 0.0 offsets
     name = road.road_look.token
     
@@ -120,37 +141,37 @@ def GetOffset(road: c.Road):
         rule = rule.replace("**", "")
         if rule in name:
             rule_offset = rules["**" + rule]
-    
-    if name in per_name:
+        
+    # Highways use m offset * 2 + 4.5 as the offset
+    if "m offset" in road.road_look.name:
+        custom_offset = road.road_look.name.split("m offset")[0]
+        custom_offset = float(custom_offset.split(" ")[-1]) * 2
+        custom_offset = 4.5 + custom_offset
+    elif name in per_name:
         custom_offset = per_name[name]
     elif rule_offset != 999:
         custom_offset = rule_offset
-    elif str(road.RoadLook.offset) in offsets: 
-        custom_offset = offsets[str(road.RoadLook.offset)]
+    elif str(road.road_look.offset) in offsets: 
+        custom_offset = offsets[str(road.road_look.offset)]
     else: 
-        # Check if the road name has the offset in it
-        if "m offset" in road.RoadLook.name:
-            roadOffset = road.RoadLook.name.split("m offset")[0]
-            roadOffset = float(roadOffset.split(" ")[-1])
-        else:
-            roadOffset = road.RoadLook.offset
+        roadOffset = road.road_look.offset
         
         # If the name has "narrow" in it, then the offset is not added to 4.5
         # These roads also need to include the shoulder space... for whatever reason
-        if "narrow" in road.RoadLook.name:
+        if "narrow" in road.road_look.name:
             custom_offset = roadOffset
-            if road.RoadLook.shoulderSpaceLeft > 0: 
-                custom_offset += road.RoadLook.shoulderSpaceLeft / 2
-            if road.RoadLook.shoulderSpaceRight > 0:
-                custom_offset += road.RoadLook.shoulderSpaceRight / 2
+            if road.road_look.shoulder_space_left > 0: 
+                custom_offset += road.road_look.shoulder_space_left / 2
+            if road.road_look.shoulder_space_right > 0:
+                custom_offset += road.road_look.shoulder_space_right / 2
         
         # No offset means that the road only wants it's custom offset
         # IBE > -36910 , 47585
-        elif "no offset" in road.RoadLook.name:
+        elif "no offset" in road.road_look.name:
             custom_offset = 4.5
         
         # If the name has "tmpl" in it, then the offset is doubled
-        elif "tmpl" in road.RoadLook.name:
+        elif "tmpl" in road.road_look.name:
             custom_offset = 4.5 + roadOffset * 2
         
         # Assume that the offset is actually correct
@@ -160,22 +181,27 @@ def GetOffset(road: c.Road):
     return custom_offset
 
 # MARK: Parallel Curves
-def CalculateParallelCurves(road):
+def GetRoadLanes(road, data):
+    if offsets == {} and per_name == {} and rules == {}:
+        get_rules()
     try:
         
         custom_offset = GetOffset(road)
 
+        end_node = data.data.get_node_by_uid(road.end_node_uid)
+        start_node = data.data.get_node_by_uid(road.start_node_uid)
+
         # Get the offset of the next road
         try:
-            roadNext = road.EndNode.ForwardItem
-            custom_offset_next = GetOffset(roadNext)
+            next_road = data.data.get_item_by_uid(end_node.forward_item_uid)
+            custom_offset_next = GetOffset(next_road)
         except:
             custom_offset_next = custom_offset
             
         # Get the offset of the last road
         try:
-            roadPrev = road.StartNode.BackwardItem
-            custom_offset_prev = GetOffset(roadPrev)
+            prev_road = data.data.get_item_by_uid(start_node.backward_item_uid)
+            custom_offset_prev = GetOffset(prev_road)
         except:
             custom_offset_prev = custom_offset
             
@@ -189,31 +215,70 @@ def CalculateParallelCurves(road):
             next_offset = custom_offset_prev
             side = 1
 
-        lanes = calc.calculate_lanes(road.Points, 4.5, len(road.RoadLook.lanesLeft), len(road.RoadLook.lanesRight), road, custom_offset=custom_offset, next_offset=next_offset, side=side)
+        lanes = calculate_lanes(road.points, 4.5, len(road.road_look.lanes_left), len(road.road_look.lanes_right), road, custom_offset=custom_offset, next_offset=next_offset, side=side)
         # Invert the left lane array
         lanes['left'] = lanes['left'][::-1]
-        newPoints = lanes['left'] + lanes['right']
+        points = lanes['left'] + lanes['right']
         
-        boundingBox = [[999999, 999999], [-999999, -999999]]
-        for lane in newPoints:
+        bounding_box = [[999999, 999999], [-999999, -999999]]
+        for lane in points:
             for point in lane:
-                if point[0] < boundingBox[0][0]:
-                    boundingBox[0][0] = point[0]
-                if point[0] > boundingBox[1][0]:
-                    boundingBox[1][0] = point[0]
-                if point[1] < boundingBox[0][1]:
-                    boundingBox[0][1] = point[1]
-                if point[1] > boundingBox[1][1]:
-                    boundingBox[1][1] = point[1]
+                if point[0] < bounding_box[0][0]:
+                    bounding_box[0][0] = point[0]
+                if point[0] > bounding_box[1][0]:
+                    bounding_box[1][0] = point[0]
+                if point[1] < bounding_box[0][1]:
+                    bounding_box[0][1] = point[1]
+                if point[1] > bounding_box[1][1]:
+                    bounding_box[1][1] = point[1]
         # Add 5m of padding
-        boundingBox[0][0] -= 5
-        boundingBox[0][1] -= 5
-        boundingBox[1][0] += 5
-        boundingBox[1][1] += 5            
+        bounding_box[0][0] -= 5
+        bounding_box[0][1] -= 5
+        bounding_box[1][0] += 5
+        bounding_box[1][1] += 5   
         
-        return boundingBox, newPoints, 4.5
+        bounding_box = c.BoundingBox(
+            bounding_box[0][0], bounding_box[0][1], # min_x, min_y
+            bounding_box[1][0], bounding_box[1][1]  # max_x, max_y
+        )       
+        
+        lane_objects = []
+        
+        for lane in lanes['left']:
+            lane_objects.append(c.Lane(
+                [c.Position(point[0], point[2], point[1]) for point in lane],
+                "left"
+            ))
+        for lane in lanes['right']:
+            lane_objects.append(c.Lane(
+                [c.Position(point[0], point[2], point[1]) for point in lane],
+                "right"
+            ))
+        
+        return lane_objects, bounding_box
     
     except:
         import traceback
         traceback.print_exc()
-        return [], [], 0
+        return [], c.BoundingBox(0, 0, 0, 0)
+    
+def display_road_lanes(road) -> None:
+    cv2.namedWindow("Road Lanes", cv2.WINDOW_NORMAL)
+    cv2.resizeWindow("Road Lanes", 1000, 1000)
+    img = np.zeros((1000, 1000, 3), np.uint8)
+    min_x = road.bounding_box.min_x - road.x - 10
+    max_x = road.bounding_box.max_x - road.x + 10
+    min_y = road.bounding_box.min_y - road.y - 10
+    max_y = road.bounding_box.max_y - road.y + 10
+    
+    scaling_factor = 2
+    offset_x = 500
+    offset_y = 500
+    
+    for lane in road.lanes:
+        poly_points = np.array([[int(((point.x - road.x)*scaling_factor + offset_x)), int(((point.z - road.y)*scaling_factor + offset_y))] for point in lane.points], np.int32)
+        cv2.polylines(img, [poly_points], isClosed=False, color=(255, 255, 255), thickness=1)
+                
+    cv2.imshow("Road Lanes", img)
+    cv2.resizeWindow("Road Lanes", 1000, 1000)
+    cv2.waitKey(0)

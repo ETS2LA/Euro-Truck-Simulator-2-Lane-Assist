@@ -8,6 +8,7 @@ import math
 from ETS2LA.utils.dictionaries import get_nested_item, set_nested_item
 import utils.prefab_helpers as prefab_helpers
 import utils.math_helpers as math_helpers
+import utils.road_helpers as road_helpers
 
 # MARK: Constants
 
@@ -184,6 +185,9 @@ class Position:
     def tuple(self) -> tuple[float, float, float]:
         return (self.x, self.y, self.z)
     
+    def list(self) -> list[float]:
+        return [self.x, self.y, self.z]
+    
     def __eq__(self, other) -> bool:
         return self.x == other.x and self.y == other.y and self.z == other.z
     
@@ -193,6 +197,29 @@ class Position:
     def __repr__(self) -> str:
         return self.__str__()
         
+class BoundingBox:
+    min_x: float
+    min_y: float
+    max_x: float
+    max_y: float
+    
+    def __init__(self, min_x: float, min_y: float, max_x: float, max_y: float):
+        self.min_x = min_x
+        self.min_y = min_y
+        self.max_x = max_x
+        self.max_y = max_y
+        
+    def __str__(self) -> str:
+        return f"BoundingBox({self.min_x}, {self.min_y}, {self.max_x}, {self.max_y})"
+    
+    def to_start_end(self) -> tuple[Position, Position]:
+        return Position(self.min_x, self.min_y, 0), Position(self.max_x, self.max_y, 0)
+    
+    def to_start_width_height(self) -> tuple[Position, float, float]:
+        return Position(self.min_x, self.min_y, 0), self.max_x - self.min_x, self.max_y - self.min_y
+    
+    def __repr__(self) -> str:
+        return self.__str__()
 
 class BaseItem:
     uid: int | str
@@ -471,6 +498,22 @@ POI = Union[LabeledPOI, UnlabeledPOI]
 
 # MARK: Map Items
 
+class Lane:
+    points: list[Position]
+    side: Literal["left", "right"]
+    length: float = 0
+    
+    def __init__(self, points: list[Position], side: Literal["left", "right"]):
+        self.points = points
+        self.side = side
+        self.length = self.calculate_length()
+        
+    def calculate_length(self) -> float:
+        length = 0
+        for i in range(len(self.points) - 1):
+            length += math.sqrt(math.pow(self.points[i].x - self.points[i + 1].x, 2) + math.pow(self.points[i].z - self.points[i + 1].z, 2))
+        return length
+
 class Road(BaseItem):
     dlc_guard: int
     hidden: bool | None
@@ -482,6 +525,8 @@ class Road(BaseItem):
     type: ItemType = ItemType.Road
     road_look: RoadLook = None
     
+    _bounding_box: BoundingBox = None
+    _lanes: list[Lane] = []
     _points: list[Position] = None
     
     def parse_strings(self):
@@ -504,8 +549,8 @@ class Road(BaseItem):
         # All this code is copied from the original C# implementation of point calculations
         # ts-map-lane-assist/TsMap/TsMapRenderer.cs -> 473 (after foreach(var road in _mapper.Roads))
         
-        start_node = data.get_node_by_uid(self.start_node_uid)
-        end_node = data.get_node_by_uid(self.end_node_uid)
+        start_node = data.data.get_node_by_uid(self.start_node_uid)
+        end_node = data.data.get_node_by_uid(self.end_node_uid)
         new_points = []
 
         # Data has Z as the height value, but we need Y
@@ -541,14 +586,44 @@ class Road(BaseItem):
     @property
     def points(self) -> list[Position]:
         if self._points is None:
+            if data.heavy_calculations_this_frame >= data.allowed_heavy_calculations:
+                return []
             self._points = self.generate_points()
+            data.heavy_calculations_this_frame += 1
             
         return self._points
     
     @points.setter
     def points(self, value: list[Position]):
         self._points = value
+        
+    @property
+    def lanes(self) -> list[Lane]:
+        if self._lanes == []:
+            if data.heavy_calculations_this_frame >= data.allowed_heavy_calculations:
+                return []
+            self._lanes, self._bounding_box = road_helpers.GetRoadLanes(self, data)
+            data.heavy_calculations_this_frame += 1
 
+        return self._lanes
+
+    @lanes.setter
+    def lanes(self, value: list[Lane]):
+        self._lanes = value
+        
+    @property
+    def bounding_box(self) -> BoundingBox:
+        if self._bounding_box is None:
+            if data.heavy_calculations_this_frame >= data.allowed_heavy_calculations:
+                return BoundingBox(0, 0, 0, 0)
+            self._lanes, self._bounding_box = road_helpers.GetRoadLanes(self, data)
+            data.heavy_calculations_this_frame += 1
+
+        return self._bounding_box
+    
+    @bounding_box.setter
+    def bounding_box(self, value: BoundingBox):
+        self._bounding_box = value
 
 class MapArea(BaseItem):
     dlc_guard: int
@@ -875,13 +950,16 @@ class PrefabNavCurve:
     prev_lines: list[int]
     points: list[Position] = []
     
-    def __init__(self, nav_node_index: int, start: Transform, end: Transform, next_lines: list[int], prev_lines: list[int]):
+    def __init__(self, nav_node_index: int, start: Transform, end: Transform, next_lines: list[int], prev_lines: list[int], points: list[Position] = []):
         self.nav_node_index = nav_node_index
         self.start = start
         self.end = end
         self.next_lines = next_lines
         self.prev_lines = prev_lines
-        self.points = self.generate_points()
+        if points != []:
+            self.points = points
+        else:
+            self.points = self.generate_points()
         
     def generate_points(self, road_quality: float = 1, min_quality: int = 4) -> list[Position]:
         new_points = []
@@ -913,6 +991,27 @@ class PrefabNavCurve:
             new_points.append(Position(x, y, z))
         
         return new_points
+    
+    def convert_to_relative(self, origin_node: Node, map_point_origin: PrefabNode):
+        prefab_start_x = origin_node.x - map_point_origin.x
+        prefab_start_y = origin_node.z - map_point_origin.z
+        prefab_start_z = origin_node.y - map_point_origin.y
+                
+        rot = float(origin_node.rotation - map_point_origin.rotation)
+        
+        new_start_pos = math_helpers.RotateAroundPoint(self.start.x+prefab_start_x, self.start.z+prefab_start_z, rot, origin_node.x, origin_node.y)
+        new_start = Transform(new_start_pos[0], self.start.y+prefab_start_y, new_start_pos[1], self.start.rotation+rot)
+        
+        new_end_pos = math_helpers.RotateAroundPoint(self.end.x+prefab_start_x, self.end.z+prefab_start_z, rot, origin_node.x, origin_node.y)
+        new_end = Transform(new_end_pos[0], self.end.y+prefab_start_y, new_end_pos[1], self.end.rotation+rot)
+        
+        new_points = []
+        for point in self.points:
+            new_point_pos = math_helpers.RotateAroundPoint(point.x+prefab_start_x, point.z+prefab_start_z, rot, origin_node.x, origin_node.y)
+            new_points.append(Position(new_point_pos[0], point.y+prefab_start_y, new_point_pos[1]))
+            
+        return PrefabNavCurve(self.nav_node_index, new_start, new_end, self.next_lines, self.prev_lines, points=new_points)
+        
 
 
 class NavNodeConnection:
@@ -952,6 +1051,12 @@ class PrefabNavRoute:
         for curve in self.curves:
             new_points += curve.points
         return new_points
+    
+    def generate_relative_curves(self, origin_node: Node, map_point_origin: PrefabNode) -> list[PrefabNavCurve]:
+        new_curves = []
+        for curve in self.curves:
+            new_curves.append(curve.convert_to_relative(origin_node, map_point_origin))
+        return new_curves
 
 class PrefabDescription:
     token: str
@@ -1002,6 +1107,7 @@ class Prefab(BaseItem):
     type: ItemType = ItemType.Prefab
     prefab_description: PrefabDescription = None
     z: float = 0
+    _nav_routes: list[PrefabNavRoute] = []
     
     def parse_strings(self):
         super().parse_strings()
@@ -1015,6 +1121,27 @@ class Prefab(BaseItem):
         self.token = token
         self.node_uids = node_uids
         self.origin_node_index = origin_node_index
+        
+    def build_nav_routes(self):
+        self._nav_routes = []
+        for route in self.prefab_description.nav_routes:
+            self._nav_routes.append(PrefabNavRoute(
+                route.generate_relative_curves(data.data.get_node_by_uid(self.node_uids[0]), self.prefab_description.nodes[self.origin_node_index])
+            ))
+            self._nav_routes[-1].generate_points()
+        
+    @property
+    def nav_routes(self) -> list[PrefabNavRoute]:
+        """The prefab description also has nav routes, but this nav route list has the correct world space positions."""
+        if self._nav_routes == []:
+            self.build_nav_routes()
+            
+        return self._nav_routes
+    
+    @nav_routes.setter
+    def nav_routes(self, value: list[PrefabNavRoute]):
+        self._nav_routes = value
+        
     
 Item = Union[City, Country, Company, Ferry, POI, Road, Prefab, MapArea, MapOverlay, Building, Curve, FerryItem, CompanyItem, Cutscene, Trigger, Model, Terrain]
 """NOTE: You shouldn't use this type directly, use the children types instead as they provide intellisense!"""
@@ -1147,10 +1274,22 @@ class MapData:
     def get_sector_prefabs_by_sector(self, sector: tuple[int, int]) -> list[Prefab]:
         return self._prefabs_by_sector.get(sector[0], {}).get(sector[1], [])
             
-    def get_node_by_uid(self, uid: int | str) -> Node:  
-        uid_str = str(uid)
-        parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
-        return get_nested_item(self._nodes_by_uid, parts)
+    def get_node_by_uid(self, uid: int | str) -> Node | None:  
+        try:
+            if type(uid) == str:
+                uid = parse_string_to_int(uid)
+                
+            uid_str = str(uid)
+            parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
+            return get_nested_item(self._nodes_by_uid, parts)
+        except:
+            return None
+    
+    def get_item_by_uid(self, uid: int | str) -> Prefab | Road:
+        for item in self.prefabs + self.roads:
+            if item.uid == uid:
+                return item
+        return None
             
     def match_roads_to_looks(self) -> None:
         for road in self.roads:

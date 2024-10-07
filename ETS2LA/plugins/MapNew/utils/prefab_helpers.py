@@ -55,9 +55,6 @@ def display_prefab_routes(prefab_description: c.PrefabDescription) -> None:
     min_y -= 10
     max_y += 10
     
-    print(min_x, max_x, min_y, max_y)
-    print(len(prefab_description.nav_routes))
-    
     scaling_factor = 6
     offset_x = 500
     offset_y = 500
@@ -67,7 +64,6 @@ def display_prefab_routes(prefab_description: c.PrefabDescription) -> None:
             poly_points = np.array([[int((point.x*scaling_factor + offset_x)), int((point.z*scaling_factor + offset_y))] for point in curve.points], np.int32)
             cv2.polylines(img, [poly_points], isClosed=False, color=(255, 255, 255), thickness=1)
                 
-    print(img.shape)
     cv2.imshow("Nav Routes", img)
     cv2.resizeWindow("Nav Routes", 1000, 1000)
     cv2.waitKey(0)
