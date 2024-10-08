@@ -220,6 +220,9 @@ class BoundingBox:
     
     def __repr__(self) -> str:
         return self.__str__()
+    
+    def is_in(self, point: Position) -> bool:
+        return self.min_x <= point.x <= self.max_x and self.min_y <= point.z <= self.max_y
 
 class BaseItem:
     uid: int | str
@@ -1108,6 +1111,7 @@ class Prefab(BaseItem):
     prefab_description: PrefabDescription = None
     z: float = 0
     _nav_routes: list[PrefabNavRoute] = []
+    _bounding_box: BoundingBox = None
     
     def parse_strings(self):
         super().parse_strings()
@@ -1128,7 +1132,9 @@ class Prefab(BaseItem):
             self._nav_routes.append(PrefabNavRoute(
                 route.generate_relative_curves(data.data.get_node_by_uid(self.node_uids[0]), self.prefab_description.nodes[self.origin_node_index])
             ))
-            self._nav_routes[-1].generate_points()
+        
+        for route in self._nav_routes:
+            route.generate_points()
         
     @property
     def nav_routes(self) -> list[PrefabNavRoute]:
@@ -1141,6 +1147,41 @@ class Prefab(BaseItem):
     @nav_routes.setter
     def nav_routes(self, value: list[PrefabNavRoute]):
         self._nav_routes = value
+        
+    @property
+    def bounding_box(self) -> BoundingBox:
+        if self._bounding_box is None:
+            min_x = math.inf
+            max_x = -math.inf
+            min_y = math.inf
+            max_y = -math.inf
+            for route in self.nav_routes:
+                for point in route.points:
+                    if point.x < min_x:
+                        min_x = point.x
+                    if point.x > max_x:
+                        max_x = point.x
+                    if point.z < min_y:
+                        min_y = point.z
+                    if point.z > max_y:
+                        max_y = point.z
+                        
+            if min_x == math.inf:
+                min_x = 0
+            if max_x == -math.inf:
+                max_x = 0
+            if min_y == math.inf:
+                min_y = 0
+            if max_y == -math.inf:
+                max_y = 0
+            
+            self._bounding_box = BoundingBox(min_x-5, min_y-5, max_x+5, max_y+5)
+
+        return self._bounding_box
+    
+    @bounding_box.setter
+    def bounding_box(self, value: BoundingBox):
+        self._bounding_box = value
         
     
 Item = Union[City, Country, Company, Ferry, POI, Road, Prefab, MapArea, MapOverlay, Building, Curve, FerryItem, CompanyItem, Cutscene, Trigger, Model, Terrain]
@@ -1240,7 +1281,7 @@ class MapData:
         self._sector_width = (max_x - min_x) / (max_sector_x - min_sector_x)
         self._sector_height = (max_y - min_y) / (max_sector_y - min_sector_y)
           
-    def build_node_dictionary(self) -> None:
+    def build_dictionary(self) -> None:
         self._by_uid = {}
         for node in self.nodes:
             uid = node.uid

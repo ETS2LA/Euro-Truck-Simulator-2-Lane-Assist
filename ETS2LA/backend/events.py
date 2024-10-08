@@ -5,6 +5,7 @@ import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.networking.cloud as cloud
+import ETS2LA.backend.sounds as sounds
 import threading
 import logging
 import time
@@ -15,9 +16,10 @@ callbacks = []
     
 # Events
 class ToggleSteering():
-    steering = True
+    steering = False
     def ToggleSteering(self):
         self.steering = not self.steering
+        sounds.Play('start' if self.steering else 'end')
         backend.CallEvent('ToggleSteering', self.steering, {})
     def __init__(self):
         controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n")

@@ -81,6 +81,12 @@ def DrawStats(image: np.ndarray):
     cv2.putText(image, f"Roads: {len(data.current_sector_roads)}", (10*4, 100*4), cv2.FONT_HERSHEY_DUPLEX, 0.5*4, (255, 255, 255), 1*4, cv2.LINE_AA)
     cv2.putText(image, f"Prefabs: {len(data.current_sector_prefabs)}", (10*4, 120*4), cv2.FONT_HERSHEY_DUPLEX, 0.5*4, (255, 255, 255), 1*4, cv2.LINE_AA)
 
+def DrawBoundingBox(item, image: np.ndarray):
+    scaling_factor = 4000 / 4000 # sector size
+    min_x, min_z = ToLocalSectorCoordinates(item.bounding_box.min_x, item.bounding_box.min_y, scaling_factor)
+    max_x, max_z = ToLocalSectorCoordinates(item.bounding_box.max_x, item.bounding_box.max_y, scaling_factor)
+    cv2.rectangle(image, (int(min_x), int(min_z)), (int(max_x), int(max_z)), (30, 30, 30), 1)
+
 road_image = np.zeros((4000, 4000, 3), np.uint8)
 roads_done = False
 def DrawRoads(sector_change: bool) -> None:
@@ -122,8 +128,9 @@ def DrawRoads(sector_change: bool) -> None:
                 poly_points = np.array([ToLocalSectorCoordinates(int((point.x)), int((point.z)), scaling_factor) for point in lane.points], np.int32)
                 cv2.polylines(road_image, [poly_points], isClosed=False, color=color, thickness=1, lineType=cv2.LINE_AA)
         
-        road_position = ToLocalSectorCoordinates(road.x, road.y, scaling_factor)
-        cv2.putText(road_image, f"{road.road_look.name}", (int(road_position[0])+5, int(road_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, (50,50,50), 1, cv2.LINE_AA)
+        DrawBoundingBox(road, road_image)
+        #road_position = ToLocalSectorCoordinates(road.x, road.y, scaling_factor)
+        #cv2.putText(road_image, f"{road.road_look.name}", (int(road_position[0])+5, int(road_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, (50,50,50), 1, cv2.LINE_AA)
                 
     return road_image
 
@@ -146,10 +153,20 @@ def DrawPrefabs(sector_change: bool) -> np.ndarray:
                 poly_points = np.array(points, np.int32)
                 cv2.polylines(prefab_image, [poly_points], isClosed=False, color=(150, 150, 150), thickness=1, lineType=cv2.LINE_AA)
         
-        prefab_position = ToLocalSectorCoordinates(prefab.x, prefab.y, scaling_factor)
-        cv2.putText(prefab_image, f"{prefab.prefab_description.token}", (int(prefab_position[0])+5, int(prefab_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, (50,50,50), 1, cv2.LINE_AA)
+        #prefab_position = ToLocalSectorCoordinates(prefab.x, prefab.y, scaling_factor)
+        #cv2.putText(prefab_image, f"{prefab.prefab_description.token}", (int(prefab_position[0])+5, int(prefab_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, (50,50,50), 1, cv2.LINE_AA)
+        DrawBoundingBox(prefab, prefab_image)
                 
     return prefab_image
+
+def DrawRoutePlan(image: np.ndarray) -> None:
+    plan = data.route_plan
+    for section in plan:
+        if section is None:
+            continue    
+        for point in section.get_points():
+            x, z = ToLocalSectorCoordinates(point.x, point.z)
+            cv2.circle(image, (int(x), int(z)), 2, (255, 0, 0), -1)
 
 def DrawPlayerDot(image: np.ndarray) -> None:
     scaling_factor = 4000 / 4000 # sector size
@@ -180,6 +197,7 @@ def DrawMap() -> None:
     p_image = DrawPrefabs(sector_change)
     image = AddOverlayToImage(image, r_image)
     image = AddOverlayToImage(image, p_image)
+    DrawRoutePlan(image)
     DrawStats(image)
     DrawPlayerDot(image)
     

@@ -559,7 +559,7 @@ def ReadData() -> c.MapData:
     PrintState(start_time, "Optimizing data")
     data.sort_to_sectors()
     #data.calculate_sector_dimensions() # Not necessary for ETS2 data at least
-    data.build_node_dictionary()
+    data.build_dictionary()
     UpdateState(start_time, f"Sorted data to {data._max_sector_x - data._min_sector_x} x {data._max_sector_y - data._min_sector_y} ({data._sector_width}m x {data._sector_height}m) sectors")
     
     print(f"[green]Data read in {time.time() - start_time:.2f} seconds.[/green]")

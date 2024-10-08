@@ -13,7 +13,6 @@ import os
 from ETS2LA.plugins.runner import PluginRunner
 from ETS2LA.utils.translator import Translate
 import ETS2LA.backend.settings as settings
-import ETS2LA.backend.sounds as sounds
 import ETS2LA.variables as variables
 
 # Plugin imports
@@ -258,8 +257,6 @@ def LoadGameData():
 def ToggleSteering(state:bool, *args, **kwargs):
     global STEERING_ENABLED
     STEERING_ENABLED = state
-    if COMPUTE_STEERING_DATA:
-        sounds.Play('start' if state else 'end')
 
 def DrawInternalVisualisation(data, closeRoads, closePrefabs):
     img = visualize.VisualizeRoads(data, closeRoads, zoom=ZOOM)
