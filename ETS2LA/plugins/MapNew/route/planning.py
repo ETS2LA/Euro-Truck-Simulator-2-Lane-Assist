@@ -1,6 +1,7 @@
 import utils.math_helpers as math_helpers
 import ETS2LA.plugins.MapNew.classes as c
 import route.classes as rc
+import logging
 import data
 import math
 
@@ -258,7 +259,11 @@ def UpdateRoutePlan():
         data.route_plan.pop(0)
     
     if len(data.route_plan) < data.route_plan_length:
-        next_route_section = GetNextRouteSection()
+        try:
+            next_route_section = GetNextRouteSection()
+        except:
+            logging.exception("Failed to get next route section")
+            next_route_section = None
         if next_route_section is not None:
             data.route_plan.append(next_route_section)
             
