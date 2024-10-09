@@ -256,7 +256,12 @@ def UpdateRoutePlan():
         
     if data.route_plan[0].is_ended:
         data.route_plan.pop(0)
-        
+    
+    if len(data.route_plan) < data.route_plan_length:
+        next_route_section = GetNextRouteSection()
+        if next_route_section is not None:
+            data.route_plan.append(next_route_section)
+            
     if (data.truck_indicating_left or data.truck_indicating_right) and not was_indicating:
         if len(data.route_plan) > 1:
             data.route_plan = [data.route_plan[0]]
@@ -265,8 +270,3 @@ def UpdateRoutePlan():
         if len(data.route_plan) > 1:
             data.route_plan = [data.route_plan[0]]
         was_indicating = False
-    
-    if len(data.route_plan) < data.route_plan_length:
-        next_route_section = GetNextRouteSection()
-        if next_route_section is not None:
-            data.route_plan.append(next_route_section)

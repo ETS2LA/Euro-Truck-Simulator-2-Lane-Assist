@@ -161,7 +161,11 @@ def DrawPrefabs(sector_change: bool) -> np.ndarray:
 
 def DrawRoutePlan(image: np.ndarray) -> None:
     plan = data.route_plan
+    count = 0
     for section in plan:
+        if count > 100:
+            break
+        
         if section is None:
             continue    
         
@@ -177,10 +181,14 @@ def DrawRoutePlan(image: np.ndarray) -> None:
             section.get_points()
             
         for i, point in enumerate(section.last_actual_points):
+            if count > 100:
+                break
             if i % 2 != 0:
                 continue
             x, z = ToLocalSectorCoordinates(point.x, point.z)
             cv2.circle(image, (int(x), int(z)), 2, (255, 0, 0), -1)
+            count += 1
+
 
 def DrawPlayerDot(image: np.ndarray) -> None:
     scaling_factor = 4000 / 4000 # sector size

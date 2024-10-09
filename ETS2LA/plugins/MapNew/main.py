@@ -31,6 +31,8 @@ def Initialize():
     global api
     global steering
     
+    data.runner = runner
+    data.controller = runner.modules.SDKController.SCSController()
     data.map = ReadData()
     c.data = data # set the classes data variable
     api = runner.modules.TruckSimAPI
@@ -47,9 +49,12 @@ def plugin():
     
     api_data = api.run()
     data.UpdateData(api_data)
+    runner.Profile("Main - API")
     planning.UpdateRoutePlan()
+    runner.Profile("Main - Route Plan")
     steering_value = driving.GetSteering()
     steering.run(value=steering_value/180, sendToGame=data.enabled, drawLine=False)
+    runner.Profile("Steering - Send to game")
     
     if not MAP_INITIALIZED and INTERNAL_MAP:
         im.InitializeMapWindow()
@@ -61,3 +66,5 @@ def plugin():
     
     if INTERNAL_MAP:
         im.DrawMap(runner)
+        
+    runner.Profile("Map")

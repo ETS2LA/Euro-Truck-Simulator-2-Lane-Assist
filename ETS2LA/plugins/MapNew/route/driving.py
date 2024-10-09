@@ -69,6 +69,7 @@ def GetSteering():
         return 0
     
     CheckForLaneChange()
+    data.runner.Profile("Steering - Check for lane change")
     
     points = []
     for section in data.route_plan:
@@ -78,10 +79,13 @@ def GetSteering():
         if section is None:
             continue
         
-        for point in section.get_points():
+        section_points = section.get_points()
+        for point in section_points:
             if len(points) > 5:
                 break
             points.append(point)
+            
+    data.runner.Profile("Steering - Get points")
             
     forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
     try:
@@ -141,6 +145,8 @@ def GetSteering():
 
             if np.cross(forward_vector, vector) < 0:
                 angle = -angle
+                
+            data.runner.Profile("Steering - Calculate amount")
                 
             return angle * 2
         else:

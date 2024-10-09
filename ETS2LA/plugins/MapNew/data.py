@@ -1,8 +1,13 @@
+from ETS2LA.modules.SDKController.main import SCSController
 from classes import MapData, Road, Prefab
 from route.classes import RouteSection
 import math
 
 # MARK: Variables
+runner = None
+"""The plugin runner object."""
+controller: SCSController = None
+"""The controller that can be used to control the game."""
 truck_indicating_right: bool = False
 """Whether the truck is indicating right or not."""
 truck_indicating_left: bool = False
@@ -39,7 +44,7 @@ heavy_calculations_this_frame: int = 0
 allowed_heavy_calculations: int = 50
 """How many heavy calculations map is allowed to do per frame."""
 lane_change_distance_per_kph: float = 1
-"""Over how much distance will the truck change lanes written per kph. Basically at 50kph, the truck will change lanes over 25m, assuming a value of 0.5."""
+"""Over how many meters distance will the truck change lanes per kph of speed. Basically at 50kph, the truck will change lanes over 25m, assuming a value of 0.5."""
 minimum_lane_change_distance: float = 10
 """The minimum distance the truck will change lanes over."""
 route_plan_length: int = 3
