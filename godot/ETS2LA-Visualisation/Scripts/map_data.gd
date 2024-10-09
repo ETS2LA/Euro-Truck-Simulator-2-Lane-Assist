@@ -2,12 +2,14 @@ extends Node
 
 @export var url = "http://127.0.0.1:37520/api/tags/data"
 @export var tag = "map"
-@export var updateRate = 10 # Seconds
+@export var time_tag = "map_update_time"
+@export var updateRate = 4 # Seconds
 @onready var HTTPRequestObject = $/root/Node3D/HTTPRequest
 @onready var Notifications = $/root/Node3D/UI/Notifications
 
 var MapData = null
 var lastUpdateTime = null
+var lastSourceUpdateTime = 0
 
 var loadedPrefabs = 0
 var loadedRoads = 0
@@ -19,14 +21,32 @@ func _ready() -> void:
 func send_request() -> void:
 	var headers = ["Content-Type: application/json"]
 	var json = JSON.stringify({
-		"tag": tag
+		"tag": time_tag
 	})
-	Notifications.SendNotification("Getting new map data...", 2000)
-	HTTPRequestObject.request_completed.connect(parse_request)
+	HTTPRequestObject.request_completed.connect(parse_check_request)
 	HTTPRequestObject.request(url, headers, HTTPClient.METHOD_POST, json)
+	
+func parse_check_request(result, response_code, headers, body):
+	var time = float(body.get_string_from_utf8())
+	if time == 0:
+		return
+	print(time)
+	print(typeof(time))
+	print(lastSourceUpdateTime)
+	if time != lastSourceUpdateTime:
+		lastSourceUpdateTime = time
+		var new_headers = ["Content-Type: application/json"]
+		var json = JSON.stringify({
+			"tag": tag
+		})
+		Notifications.SendNotification("Getting new map data...", 2000)
+		HTTPRequestObject.request_completed.connect(parse_request)
+		HTTPRequestObject.request(url, new_headers, HTTPClient.METHOD_POST, json)
 
 func parse_request(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
+	if typeof(json) == TYPE_FLOAT:
+		return
 	MapData = json
 	
 	if MapData != null and "prefabs" in MapData and "roads" in MapData:

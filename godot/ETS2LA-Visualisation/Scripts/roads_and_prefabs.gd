@@ -168,52 +168,45 @@ func _process(delta: float) -> void:
 			var roadsInData = []
 			
 			for road in roadData:
-				var uid = str(road["Uid"])
+				var uid = str(road["uid"])
 				
-				var yValues = road["YValues"]
-				
-				var roadX = road["X"]
+				var roadX = road["x"]
 				var roadY = 0
-				var roadZ = road["Z"]
+				var roadZ = road["y"]
 				var roadPosition = Vector3(roadX, roadY, roadZ)
 				var overtake = []
-				var shoulderLeft = road["RoadLook"]["ShoulderSpaceLeft"]
-				var shoulderRight = road["RoadLook"]["ShoulderSpaceRight"]
-				var lanesLeft = len(road["RoadLook"]["LanesLeft"])
-				var lanesRight = len(road["RoadLook"]["LanesRight"])
+				var shoulderLeft = road["road_look"]["shoulder_space_left"]
+				var shoulderRight = road["road_look"]["shoulder_space_right"]
+				var lanesLeft = len(road["road_look"]["lanes_left"])
+				var lanesRight = len(road["road_look"]["lanes_right"])
 				
-				for lane in road["RoadLook"]["LanesLeft"]:
+				for lane in road["road_look"]["lanes_left"]:
 					if "no_overtake" in lane:
 						overtake.append(false)
 					else:
 						overtake.append(true)
 						
-				for lane in road["RoadLook"]["LanesRight"]:
+				for lane in road["road_look"]["lanes_right"]:
 					if "no_overtake" in lane:
 						overtake.append(false)
 					else:
 						overtake.append(true)
 				
-				if roadPosition.distance_to(position) > maxDistance:
-					skippedLines += 1
-					continue
+				#if roadPosition.distance_to(position) > maxDistance:
+				#	skippedLines += 1
+				#	continue
 				
 				roadsInData.append(uid)
 				if curRoadUids.has(uid):
 					continue
-					
-				if len(yValues) == 0:
-					continue
 				
 				var index = 0
-				for lane in road["ParallelPoints"]:
+				for lane in road["lanes"]:
 					var points = []
 					var counter = 0
 					var tooFar = false
-					for point in lane:
-						# Convert the JSON points to godot Vector3s
-						#points.append(JsonPointToLocalCoords(point, x, yValues[counter], z))
-						points.append(Vector3(point[0], yValues[counter], point[1]))
+					for point in lane["points"]:
+						points.append(Vector3(point["x"], point["y"], point["z"]))
 						counter += 1
 					
 					var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
@@ -326,11 +319,11 @@ func _process(delta: float) -> void:
 			var prefabsInData = []
 			
 			for prefab in prefabData:
-				var uid = str(prefab["Uid"])
+				var uid = str(prefab["uid"])
 				
-				var x = prefab["X"]
-				var y = prefab["Y"] # + prefab["Nodes"][0]["Y"]
-				var z = prefab["Z"]
+				var x = prefab["x"]
+				var y = 0 # + prefab["Nodes"][0]["Y"]
+				var z = prefab["y"]
 				var prefabPosition = Vector3(x, y, z)
 				if prefabPosition.distance_to(position) > maxDistance:
 					skippedLines += 1
@@ -341,18 +334,14 @@ func _process(delta: float) -> void:
 					continue
 				
 				var lines = []
-				for lane in prefab["CurvePoints"]:
+				for lane in prefab["nav_routes"]:
 					var vertices = []
 					var rightMarkingVertices = []
 					var leftMarkingVertices = []
 					var points = []
 					var counter = 0
-					for point in lane:
-						point = Vector3(point[0], point[2], point[1])
-						#point.x -= x
-						#point.z -= z
-						#point.y += y
-						#points.append(JsonPointToLocalCoords(point, x, pointY, z))
+					for point in lane["points"]:
+						point = Vector3(point["x"], point["y"], point["z"])
 						points.append(point)
 						counter += 1
 					
@@ -427,13 +416,13 @@ func _process(delta: float) -> void:
 		for point in SteeringData:
 			if typeof(point) == typeof([]):
 				if len(point) > 1:
-					points.append(Vector3(point[0], point[2] + 0.05, point[1]))
+					points.append(Vector3(point[0], point[1] + 0.05, point[2]))
 					counter += 1
 		
 		if len(points) == 0:
 			return
 		
-		points.push_front(Vector3(truckX, max(points[0].y, truckY), truckZ))
+		points.push_front(Vector3(truckX, max(truckY, points[0].y), truckZ))
 		
 		# These point towards the next point
 		var forwardVectors = CreateForwardVectors(points)

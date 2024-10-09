@@ -1,8 +1,8 @@
-from ETS2LA.plugins.Map.GameData.prefabItems import PrefabItem
-import ETS2LA.plugins.Map.GameData.prefabItems as prefabItems
-from ETS2LA.plugins.Map.GameData.roads import Road
-import ETS2LA.plugins.Map.GameData.roads as roads
-import ETS2LA.plugins.Map.GameData.nodes as nodes
+from ETS2LA.plugins.OldMap.GameData.prefabItems import PrefabItem
+import ETS2LA.plugins.OldMap.GameData.prefabItems as prefabItems
+from ETS2LA.plugins.OldMap.GameData.roads import Road
+import ETS2LA.plugins.OldMap.GameData.roads as roads
+import ETS2LA.plugins.OldMap.GameData.nodes as nodes
 
 from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.backend.settings as settings

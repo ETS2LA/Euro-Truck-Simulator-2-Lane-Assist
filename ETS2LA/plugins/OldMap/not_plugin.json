@@ -1,0 +1,137 @@
+{
+    "name": "plugins.map",
+    "authors": [{
+        "name": "Tumppi066",
+        "url": "https://github.com/Tumppi066",
+        "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
+    }],
+    "description": "plugins.map.description",
+    "version": "1.0",
+    "modules": ["TruckSimAPI", "ShowImage", "Steering", "SDKController", "Raycasting", "MapUtils"],
+    "max_fps": 20,
+    "settings": [
+        {
+            "specials": [
+                {
+                    "special": "Title",
+                    "special_data": "map.settings.1.title"
+                },
+                {
+                    "special": "Description",
+                    "special_data": "map.settings.1.description"
+                },
+                {
+                    "special": "Separator"
+                }
+            ]
+        },
+        {
+            "name": "map.settings.3.name",
+            "key": "SendExternalData",
+            "description": "map.settings.3.description",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "specials": [{
+                "special": "Space",
+                "special_data": 12
+            },
+            {
+                "special": "Title",
+                "special_data": "map.settings.10.title"
+            }]
+        },
+        {
+            "name": "map.settings.12.name",
+            "key": "Navigation",
+            "description": "map.settings.12.description",
+            "requires_restart": true,
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "name": "map.settings.2.name",
+            "key": "ComputeSteeringData",
+            "description": "map.settings.2.description",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "name": "map.settings.11.name",
+            "key": "SteeringSmoothTime",
+            "description": "map.settings.11.description",
+            "type": {
+                "type": "number",
+                "min": 0,
+                "max": 2,
+                "step": 0.1
+            }
+        },
+        {
+            "specials": [
+                {
+                    "special": "Space",
+                    "special_data": 12
+                },
+                {
+                    "special": "Title",
+                    "special_data": "map.settings.4.title"
+                }
+            ]
+        },
+        {
+            "name": "map.settings.5.name",
+            "key": "Zoom",
+            "description": "map.settings.5.description",
+            "type": {
+                "type": "number",
+                "min": 1,
+                "max": 10,
+                "step": 1
+            }
+        },
+        {
+            "name": "map.settings.6.name",
+            "key": "InternalVisualisation",
+            "description": "map.settings.6.description",
+            "type": {
+                "type": "boolean"
+            }
+        },
+        {
+            "specials": [
+                {
+                    "special": "Space",
+                    "special_data": 12
+                },
+                {
+                    "special": "Title",
+                    "special_data": "map.settings.7.title"
+                }
+            ]
+        },
+        {
+            "name": "map.settings.8.name",
+            "key": "ExternalDataRenderDistance",
+            "description": "map.settings.8.description",
+            "type": {
+                "type": "number",
+                "min": 0,
+                "max": 1000,
+                "step": 50
+            }
+        },
+        {
+            "name": "map.settings.9.name",
+            "key": "SendARData",
+            "description": "map.settings.9.description",
+            "type": {
+                "type": "boolean"
+            }
+        }
+    ]
+}

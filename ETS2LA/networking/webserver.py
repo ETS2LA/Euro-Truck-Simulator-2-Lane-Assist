@@ -273,6 +273,26 @@ def get_tag_data(data: TagFetchData):
                 
     return returnData
 
+@app.get("/api/tags/{tag}")
+def get_tag(tag: str):
+    count = 0
+    for plugin in backend.globalData:
+        if tag in backend.globalData[plugin]:
+            count += 1
+            
+    returnData = {}
+    for plugin in backend.globalData:
+        if tag in backend.globalData[plugin]:
+            if type(backend.globalData[plugin][tag]) == dict:
+                if count > 1:
+                    returnData = backend.merge(returnData, backend.globalData[plugin][tag])
+                else:
+                    returnData = backend.globalData[plugin][tag]
+            else: 
+                returnData = backend.globalData[plugin][tag]
+                
+    return returnData
+
 @app.get("/api/tags/list")
 def get_tags_list():
     data = backend.globalData

@@ -135,14 +135,14 @@ script = ExtResource("10_n46bk")
 [node name="RoadsAndPrefabs" type="Node" parent="Map"]
 script = ExtResource("9_115pj")
 markingWidth = 0.15
-maxDistance = 1500.0
+maxDistance = 4000.0
 
 [node name="Roads" type="Node" parent="Map"]
 
 [node name="Prefabs" type="Node" parent="Map"]
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
-timeout = 2.0
+timeout = 5.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.53676, 0, 0)
