@@ -69,25 +69,36 @@ class RouteSection:
         if value > len(self.items[0].item.lanes) - 1 or value < 0:
             logging.warning(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteSection[/dim] only has {len(self.items[0].item.lanes)} lanes.")
         
-        self._lane_index = value
-        self.last_lane_points = self.lane_points
-        
-        if self.last_lane_points != []:
+        if self.lane_points != []:
             speed_kph = data.truck_speed * 3.6
             lane_change_distance = speed_kph * data.lane_change_distance_per_kph
             if lane_change_distance < data.minimum_lane_change_distance: 
                 lane_change_distance = data.minimum_lane_change_distance
             
+            if self.distance_left() < lane_change_distance:
+                logging.warning(f"Something tried to do a lane change requiring [dim]{lane_change_distance:.0f}m[/dim], but only [dim]{self.distance_left():.0f}m[/dim] is left.")
+                return
+            
             self.is_lane_changing = True
             self.lane_change_distance = lane_change_distance
             self.lane_change_start = c.Position(data.truck_x, data.truck_y, data.truck_z)
         
+        self.last_lane_points = self.lane_points
         self.lane_points = []
         for item in self.items:
             item.lane_index = value
             self.lane_points += item.lane_points
 
-            
+        self._lane_index = value
+
+    def distance_left(self) -> float:
+        if self.last_actual_points == []:
+            self.last_actual_points = self.get_points()
+        distance = 0
+        for i in range(len(self.last_actual_points) - 1):
+            distance += math_helpers.DistanceBetweenPoints(self.last_actual_points[i].tuple(), self.last_actual_points[i + 1].tuple())
+        return distance
+
     def discard_points_behind(self, points: list[c.Position]) -> list[c.Position]:
         forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
         new_points = []
