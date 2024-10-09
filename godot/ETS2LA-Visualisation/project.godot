@@ -17,6 +17,11 @@ boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 boot_splash/image="ignore_this_warning_it_is_required_for_the_splash_screen_because_of_godot"
 config/icon="res://icon.svg"
 
+[debug]
+
+settings/profiler/max_functions=32768
+settings/gdscript/max_call_stack=2047
+
 [display]
 
 window/size/always_on_top=true
@@ -39,13 +44,19 @@ MouseHold={
 ]
 }
 
+[physics]
+
+common/physics_ticks_per_second=1
+
 [rendering]
 
+rendering_device/d3d12/max_sampler_descriptors_per_frame=2048
+rendering_device/d3d12/max_misc_descriptors_per_frame=1024
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-gl_compatibility/item_buffer_size=32768
+gl_compatibility/item_buffer_size=65536
 limits/global_shader_variables/buffer_size=4096
-limits/spatial_indexer/threaded_cull_minimum_instances=4096
+limits/spatial_indexer/threaded_cull_minimum_instances=8192
 environment/defaults/default_clear_color=Color(0.0352941, 0.0352941, 0.0431373, 1)
 anti_aliasing/quality/msaa_2d=1
 anti_aliasing/quality/msaa_3d=1
