@@ -2,6 +2,7 @@
 from typing import Union, Literal, TypeVar, Generic
 from enum import Enum, StrEnum, IntEnum
 from dataclasses import dataclass
+import logging
 import math
 
 # ETS2LA imports
@@ -1044,6 +1045,7 @@ class PrefabNavNode:
 class PrefabNavRoute:
     curves: list[PrefabNavCurve]
     points: list[Position] = []
+    distance: float = 0
     
     def __init__(self, curves: list[PrefabNavCurve]):
         self.curves = curves
@@ -1053,6 +1055,12 @@ class PrefabNavRoute:
         new_points = []
         for curve in self.curves:
             new_points += curve.points
+            
+        distance = 0
+        for i in range(len(new_points) - 1):
+            distance += math.sqrt(math.pow(new_points[i].x - new_points[i + 1].x, 2) + math.pow(new_points[i].z - new_points[i + 1].z, 2))
+        self.distance = distance
+            
         return new_points
     
     def generate_relative_curves(self, origin_node: Node, map_point_origin: PrefabNode) -> list[PrefabNavCurve]:
@@ -1125,6 +1133,7 @@ class Prefab(BaseItem):
         self.token = token
         self.node_uids = node_uids
         self.origin_node_index = origin_node_index
+        self.parse_strings()
         
     def build_nav_routes(self):
         self._nav_routes = []
@@ -1342,11 +1351,15 @@ class MapData:
         try:
             if type(uid) == str:
                 uid = parse_string_to_int(uid)
+            if uid == 0:
+                return None
                 
             uid_str = str(uid)
             parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
             return get_nested_item(self._by_uid, parts)
         except:
+            logging.warning(f"Error getting item by UID: {uid}")
+            #logging.exception(f"Error getting item by UID: {uid}")
             return None
             
     def match_roads_to_looks(self) -> None:

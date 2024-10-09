@@ -164,6 +164,18 @@ def DrawRoutePlan(image: np.ndarray) -> None:
     for section in plan:
         if section is None:
             continue    
+        
+        start_node = section.start_node
+        x, z = ToLocalSectorCoordinates(start_node.x, start_node.y)
+        cv2.circle(image, (int(x), int(z)), 2, (0, 255, 0), -1)
+        
+        end_node = section.end_node
+        x, z = ToLocalSectorCoordinates(end_node.x, end_node.y)
+        cv2.circle(image, (int(x), int(z)), 2, (0, 0, 255), -1)
+        
+        if section.last_actual_points == []:
+            section.get_points()
+            
         for i, point in enumerate(section.last_actual_points):
             if i % 2 != 0:
                 continue

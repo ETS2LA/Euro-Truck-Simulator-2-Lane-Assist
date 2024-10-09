@@ -32,13 +32,23 @@ class RouteSection:
     lane_change_distance: float = 0 
     is_ended: bool = False
     last_actual_points: list[c.Position] = []
+    _start_node: c.Node = None
+    _end_node: c.Node = None
     
     @property
     def start_node(self) -> c.Node:
+        if self._start_node is not None:
+            return self._start_node
+        if type(self.items[0].item) == c.Prefab:
+            return data.map.get_node_by_uid(self.items[0].item.node_uids[0])
         return data.map.get_node_by_uid(self.items[0].item.start_node_uid)
     
     @property
     def end_node(self) -> c.Node:
+        if self._end_node is not None:
+            return self._end_node
+        if type(self.items[0].item) == c.Prefab:
+            return data.map.get_node_by_uid(self.items[0].item.node_uids[-1])
         return data.map.get_node_by_uid(self.items[-1].item.end_node_uid)
     
     @property

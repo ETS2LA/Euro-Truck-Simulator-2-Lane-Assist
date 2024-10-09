@@ -1,3 +1,4 @@
+from typing import Literal
 import numpy as np
 import math
 
@@ -63,6 +64,30 @@ def IsInFront(point: tuple[float, float] | tuple[float, float, float], truck_rot
     angle = math.acos(np.dot(forward_vector, point_forward_vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector)))
     angle = math.degrees(angle)
     return -90 < angle < 90
+
+def GetMostInDirection(points: list[tuple[float, float]] | list[tuple[float, float, float]], truck_rotation: float, truck_position: tuple[float, float] | tuple[float, float, float], direction: Literal["left", "straight", "right"] = "straight") -> int:
+    """Find the index of the point that is most to the direction specified.
+
+    :param list[tuple[float, float]] | list[tuple[float, float, float]] points: List of points to check.
+    :param float truck_rotation: Truck rotation, should be gotten from the data.truck_rotation variable.
+    :param tuple[float, float] | tuple[float, float, float] truck_position: Must be the same format as the points.
+    :param Literal["left", "straight", "right"] direction: The direction to check for. Defaults to "straight".
+    :return int: Index of the point that is most straight ahead of the truck.
+    """
+    forward_vector = [-math.sin(truck_rotation), -math.cos(truck_rotation)]
+    target_angle = 0 if direction == "straight" else 90 if direction == "right" else -90
+    forward_vector = RotateAroundPoint(forward_vector[0], forward_vector[1], math.radians(target_angle), 0, 0)
+    best_index = 0
+    best_angle = 180
+    for i, point in enumerate(points):
+        point_forward_vector = [point[0] - truck_position[0], point[len(point)-1] - truck_position[len(truck_position)-1]]
+        angle = math.acos(np.dot(forward_vector, point_forward_vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector)))
+        angle = math.degrees(angle)
+        if angle < best_angle:
+            best_angle = angle
+            best_index = i
+    
+    return best_index
 
 def InOut(s: float) -> float:
     """InOut interpolation function.
