@@ -1,6 +1,7 @@
 # TODO: Fix this file, it's still using the old steering system!
+import ETS2LA.plugins.MapNew.classes as c
+import utils.math_helpers as math_helpers
 import route.classes as rc
-import classes as c
 import numpy as np
 import logging
 import data
@@ -9,7 +10,61 @@ import math
 OFFSET_MULTIPLIER = 1.5
 ANGLE_MULTIPLIER = 1
 
+was_indicating = False
+def CheckForLaneChange():
+    global was_indicating
+    if type(data.route_plan[0].items[0]) == c.Prefab:
+        was_indicating = False
+        return
+    
+    if data.truck_indicating_right and not was_indicating:
+        was_indicating = True
+        current_index = data.route_plan[0].lane_index
+        start_node = data.route_plan[0].start_node
+        if math_helpers.IsInFront((data.truck_x, data.truck_z), data.truck_rotation, (start_node.x, start_node.z)):
+            if data.route_plan[0].items[0].item.lanes[current_index].side == "left":
+                if current_index > 0:
+                    data.route_plan[0].lane_index -= 1
+            else:
+                if current_index < len(data.route_plan[0].items[0].item.lanes) - 1:
+                    data.route_plan[0].lane_index += 1
+        else:
+            if data.route_plan[0].items[0].item.lanes[current_index].side == "left":    
+                if current_index < len(data.route_plan[0].items[0].item.lanes) - 1:
+                    data.route_plan[0].lane_index += 1
+            else:
+                if current_index > 0:
+                    data.route_plan[0].lane_index -= 1
+                
+    elif data.truck_indicating_left and not was_indicating:
+        was_indicating = True
+        current_index = data.route_plan[0].lane_index
+        start_node = data.route_plan[0].start_node
+        if math_helpers.IsInFront((data.truck_x, data.truck_z), data.truck_rotation, (start_node.x, start_node.z)):
+            if data.route_plan[0].items[0].item.lanes[current_index].side == "left":
+                if current_index < len(data.route_plan[0].items[0].item.lanes) - 1:
+                    data.route_plan[0].lane_index += 1
+            else:
+                if current_index > 0:
+                    data.route_plan[0].lane_index -= 1
+        else:
+            if data.route_plan[0].items[0].item.lanes[current_index].side == "left":
+                if current_index > 0:
+                    data.route_plan[0].lane_index -= 1
+            else:
+                if current_index < len(data.route_plan[0].items[0].item.lanes) - 1:
+                    data.route_plan[0].lane_index += 1
+                
+    elif not data.truck_indicating_left and not data.truck_indicating_right:
+        was_indicating = False  
+        
+
 def GetSteering():
+    if len(data.route_plan) == 0:
+        return 0
+    
+    CheckForLaneChange()
+    
     points = []
     for section in data.route_plan:
         if len(points) > 5:

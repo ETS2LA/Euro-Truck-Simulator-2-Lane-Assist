@@ -7,38 +7,26 @@ import math
 def GetRoadsBehindRoad(road: c.Road, include_self:bool = True) -> list[c.Road]:
     if include_self: roads = [road]
     else: roads = []
-    node = data.data.get_node_by_uid(road.start_node_uid)
+    node = data.map.get_node_by_uid(road.start_node_uid)
     if node is not None:
         if node.backward_item_uid != road.uid:
-            item = data.data.get_item_by_uid(node.backward_item_uid)
+            item = data.map.get_item_by_uid(node.backward_item_uid)
             if type(item) == c.Road:
                 if len(item.lanes) == len(road.lanes):
                     roads += GetRoadsBehindRoad(item)
-        
-        # if node.forward_item_uid != road.uid:
-        #     item = data.data.get_item_by_uid(node.forward_item_uid)
-        #     if type(item) == c.Road:
-        #         if len(item.lanes) == len(road.lanes):
-        #             roads += GetRoadsBehindRoad(item)
                     
     return roads
 
 def GetRoadsInFrontOfRoad(road: c.Road, include_self:bool = True) -> list[c.Road]:
     if include_self: roads = [road]
     else: roads = []
-    node = data.data.get_node_by_uid(road.end_node_uid)
+    node = data.map.get_node_by_uid(road.end_node_uid)
     if node is not None:
         if node.forward_item_uid != road.uid:
-            item = data.data.get_item_by_uid(node.forward_item_uid)
+            item = data.map.get_item_by_uid(node.forward_item_uid)
             if type(item) == c.Road:
                 if len(item.lanes) == len(road.lanes):
                     roads += GetRoadsInFrontOfRoad(item)
-        
-        # if node.backward_item_uid != road.uid:
-        #     item = data.data.get_item_by_uid(node.backward_item_uid)
-        #     if type(item) == c.Road:
-        #         if len(item.lanes) == len(road.lanes):
-        #             roads += GetRoadsInFrontOfRoad(item)
                     
     return roads
                 
@@ -99,7 +87,19 @@ def GetClosestRouteSection() -> rc.RouteSection:
         route_section.lane_index = closest_lane_id
         return route_section
         
-        
-
 def UpdateRoutePlan():
-    data.route_plan = [GetClosestRouteSection()]
+    if not data.enabled:
+        data.route_plan = []
+    
+    if len(data.route_plan) == 0:
+        data.route_plan.append(GetClosestRouteSection())
+        
+    if data.route_plan[0] is None:
+        data.route_plan = []
+        return # No route sections found
+        
+    if data.route_plan[0].is_ended:
+        data.route_plan.pop(0)
+    
+    if len(data.route_plan) < data.route_plan_length:
+        ... # Plan more route sections

@@ -189,19 +189,19 @@ def GetRoadLanes(road, data):
         
         custom_offset = GetOffset(road)
 
-        end_node = data.data.get_node_by_uid(road.end_node_uid)
-        start_node = data.data.get_node_by_uid(road.start_node_uid)
+        end_node = data.map.get_node_by_uid(road.end_node_uid)
+        start_node = data.map.get_node_by_uid(road.start_node_uid)
 
         # Get the offset of the next road
         try:
-            next_road = data.data.get_item_by_uid(end_node.forward_item_uid)
+            next_road = data.map.get_item_by_uid(end_node.forward_item_uid)
             custom_offset_next = GetOffset(next_road)
         except:
             custom_offset_next = custom_offset
             
         # Get the offset of the last road
         try:
-            prev_road = data.data.get_item_by_uid(start_node.backward_item_uid)
+            prev_road = data.map.get_item_by_uid(start_node.backward_item_uid)
             custom_offset_prev = GetOffset(prev_road)
         except:
             custom_offset_prev = custom_offset

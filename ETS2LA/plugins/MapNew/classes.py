@@ -552,8 +552,8 @@ class Road(BaseItem):
         # All this code is copied from the original C# implementation of point calculations
         # ts-map-lane-assist/TsMap/TsMapRenderer.cs -> 473 (after foreach(var road in _mapper.Roads))
         
-        start_node = data.data.get_node_by_uid(self.start_node_uid)
-        end_node = data.data.get_node_by_uid(self.end_node_uid)
+        start_node = data.map.get_node_by_uid(self.start_node_uid)
+        end_node = data.map.get_node_by_uid(self.end_node_uid)
         new_points = []
 
         # Data has Z as the height value, but we need Y
@@ -1130,7 +1130,7 @@ class Prefab(BaseItem):
         self._nav_routes = []
         for route in self.prefab_description.nav_routes:
             self._nav_routes.append(PrefabNavRoute(
-                route.generate_relative_curves(data.data.get_node_by_uid(self.node_uids[0]), self.prefab_description.nodes[self.origin_node_index])
+                route.generate_relative_curves(data.map.get_node_by_uid(self.node_uids[0]), self.prefab_description.nodes[self.origin_node_index])
             ))
         
         for route in self._nav_routes:

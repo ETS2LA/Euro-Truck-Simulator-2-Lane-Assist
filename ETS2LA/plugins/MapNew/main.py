@@ -31,13 +31,13 @@ def Initialize():
     global api
     global steering
     
-    data.data = ReadData()
+    data.map = ReadData()
     c.data = data # set the classes data variable
     api = runner.modules.TruckSimAPI
     
     steering = runner.modules.Steering
     steering.OFFSET = 0
-    steering.SMOOTH_TIME = 0.5
+    steering.SMOOTH_TIME = 0.2
     steering.IGNORE_SMOOTH = False
     steering.SENSITIVITY = 1
     
@@ -49,7 +49,6 @@ def plugin():
     data.UpdateData(api_data)
     planning.UpdateRoutePlan()
     steering_value = driving.GetSteering()
-    print(steering_value, end="\r")
     steering.run(value=steering_value/180, sendToGame=data.enabled, drawLine=False)
     
     if not MAP_INITIALIZED and INTERNAL_MAP:
@@ -61,4 +60,4 @@ def plugin():
         MAP_INITIALIZED = False
     
     if INTERNAL_MAP:
-        im.DrawMap()
+        im.DrawMap(runner)

@@ -183,9 +183,9 @@ def get_states():
 def relieve_plugin(plugin: str, data: RelieveData = None):
     if data is None:
         data = RelieveData()
-        data.data = {}
+        data.map = {}
         
-    return backend.RelieveWaitForFrontend(plugin, data.data)
+    return backend.RelieveWaitForFrontend(plugin, data.map)
 
 @app.post("/api/plugins/{plugin}/call/{function}")
 def call_plugin_function(plugin: str, function: str, data: PluginCallData = None):

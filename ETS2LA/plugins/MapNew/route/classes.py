@@ -29,7 +29,17 @@ class RouteSection:
     last_lane_points: list[c.Position] = []
     lane_change_start: c.Position
     is_lane_changing: bool = False
-    lane_change_distance: float = 0
+    lane_change_distance: float = 0 
+    is_ended: bool = False
+    last_actual_points: list[c.Position] = []
+    
+    @property
+    def start_node(self) -> c.Node:
+        return data.map.get_node_by_uid(self.items[0].item.start_node_uid)
+    
+    @property
+    def end_node(self) -> c.Node:
+        return data.map.get_node_by_uid(self.items[-1].item.end_node_uid)
     
     @property
     def lane_index(self) -> int:
@@ -65,9 +75,7 @@ class RouteSection:
 
             
     def discard_points_behind(self, points: list[c.Position]) -> list[c.Position]:
-        truck_rotation = data.truck_rotation
-        forward_vector = [-math.sin(truck_rotation), -math.cos(truck_rotation)]
-
+        forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
         new_points = []
         for point in points:
             point_forward_vector = [point.x - data.truck_x, point.z - data.truck_z]
@@ -83,10 +91,15 @@ class RouteSection:
             
     def get_points(self):
         current_lane_points = self.discard_points_behind(self.lane_points)
+        if current_lane_points == []:
+            self.is_ended = True
+        
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
+            self.last_actual_points = current_lane_points
             return current_lane_points
         
         lane_change_factor = math_helpers.DistanceBetweenPoints(self.lane_change_start.tuple(), (data.truck_x, data.truck_y, data.truck_z)) / self.lane_change_distance
+        lane_change_factor = math_helpers.InOut(lane_change_factor)
         if lane_change_factor > 1:
             self.is_lane_changing = False
             return current_lane_points
@@ -96,14 +109,16 @@ class RouteSection:
         end_index = 0
         factors = []
         for i in range(len(current_lane_points)):
-            current_point = current_lane_points[i]
-            last_lane_point = last_lane_points[i]
-            middle_point = math_helpers.TupleMiddle(last_lane_point.tuple(), current_point.tuple())
-            distance = math_helpers.DistanceBetweenPoints(middle_point, self.lane_change_start.tuple())
-            if math_helpers.DistanceBetweenPoints(middle_point, self.lane_change_start.tuple()) > self.lane_change_distance:
-                end_index = i
-                break
-            factors.append(distance / self.lane_change_distance)
+            try:
+                current_point = current_lane_points[i]
+                last_lane_point = last_lane_points[i]
+                middle_point = math_helpers.TupleMiddle(last_lane_point.tuple(), current_point.tuple())
+                distance = math_helpers.DistanceBetweenPoints(middle_point, self.lane_change_start.tuple())
+                if math_helpers.DistanceBetweenPoints(middle_point, self.lane_change_start.tuple()) > self.lane_change_distance:
+                    end_index = i
+                    break
+                factors.append(math_helpers.InOut(distance / self.lane_change_distance))
+            except: continue
            
         new_points = []
             
@@ -114,4 +129,5 @@ class RouteSection:
             else:
                 new_points.append(current_lane_points[i])
                 
+        self.last_actual_points = new_points
         return new_points

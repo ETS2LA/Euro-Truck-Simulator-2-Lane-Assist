@@ -164,7 +164,9 @@ def DrawRoutePlan(image: np.ndarray) -> None:
     for section in plan:
         if section is None:
             continue    
-        for point in section.get_points():
+        for i, point in enumerate(section.last_actual_points):
+            if i % 2 != 0:
+                continue
             x, z = ToLocalSectorCoordinates(point.x, point.z)
             cv2.circle(image, (int(x), int(z)), 2, (255, 0, 0), -1)
 
@@ -189,16 +191,15 @@ def ZoomImage(image: np.ndarray) -> np.ndarray:
     cropped_image = image[y_offset:y_offset + WINDOW_HEIGHT, x_offset:x_offset + WINDOW_WIDTH]
     return cropped_image
 
-def DrawMap() -> None:
+def DrawMap(runner) -> None:
     sector_change = SectorChanged()
-    
     image = np.zeros((4000, 4000, 3), np.uint8)
     r_image = DrawRoads(sector_change)
     p_image = DrawPrefabs(sector_change)
     image = AddOverlayToImage(image, r_image)
     image = AddOverlayToImage(image, p_image)
     DrawRoutePlan(image)
-    DrawStats(image)
+    #DrawStats(image)
     DrawPlayerDot(image)
     
     try:
