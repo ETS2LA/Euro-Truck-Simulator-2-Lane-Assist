@@ -1,9 +1,16 @@
 from ETS2LA.modules.SDKController.main import SCSController
+import ETS2LA.backend.settings as settings
 from classes import MapData, Road, Prefab
 from route.classes import RouteSection
 import math
 
 # MARK: Variables
+internal_map = settings.Get("MapNew", "InternalVisualisation", False)
+"""Whether the internal map is enabled or not."""
+map_initialized = False
+"""Whether the map window has been initialized or not."""
+calculate_steering = settings.Get("MapNew", "ComputeSteeringData", True)
+"""Whether the map should calculate steering data or not."""
 runner = None
 """The plugin runner object."""
 controller: SCSController = None
@@ -72,3 +79,10 @@ def UpdateData(api_data):
     angle = rotationX * 360
     if angle < 0: angle = 360 + angle
     truck_rotation = math.radians(angle)
+    
+def UpdateSettings(settings: dict):
+    global internal_map, calculate_steering
+    internal_map = settings["InternalVisualisation"]
+    calculate_steering = settings["ComputeSteeringData"]
+    
+settings.Listen("MapNew", UpdateSettings)
