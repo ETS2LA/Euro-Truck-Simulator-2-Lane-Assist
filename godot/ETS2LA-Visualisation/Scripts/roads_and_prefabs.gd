@@ -167,6 +167,7 @@ func _process(delta: float) -> void:
 			
 			var roadsInData = []
 			
+			var road_count = 0
 			for road in roadData:
 				var uid = str(road["uid"])
 				
@@ -192,9 +193,9 @@ func _process(delta: float) -> void:
 					else:
 						overtake.append(true)
 				
-				#if roadPosition.distance_to(position) > maxDistance:
-				#	skippedLines += 1
-				#	continue
+				if roadPosition.distance_to(position) > maxDistance:
+					skippedLines += 1
+					continue
 				
 				roadsInData.append(uid)
 				if curRoadUids.has(uid):
@@ -204,7 +205,6 @@ func _process(delta: float) -> void:
 				for lane in road["lanes"]:
 					var points = []
 					var counter = 0
-					var tooFar = false
 					for point in lane["points"]:
 						points.append(Vector3(point["x"], point["y"], point["z"]))
 						counter += 1
@@ -364,7 +364,7 @@ func _process(delta: float) -> void:
 					
 					roadObj.add_child(pathObj)
 					
-					RoadParent.add_child(roadObj)
+					PrefabParent.add_child(roadObj)
 					
 					right.set_path_node(roadObj.get_node("Path3D").get_path())
 					left.set_path_node(roadObj.get_node("Path3D").get_path())

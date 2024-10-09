@@ -10,6 +10,7 @@ extends Node
 var MapData = null
 var lastUpdateTime = null
 var lastSourceUpdateTime = 0
+var didUpdate = false
 
 var loadedPrefabs = 0
 var loadedRoads = 0
@@ -33,7 +34,8 @@ func parse_check_request(result, response_code, headers, body):
 	print(time)
 	print(typeof(time))
 	print(lastSourceUpdateTime)
-	if time != lastSourceUpdateTime:
+	if time != lastSourceUpdateTime or didUpdate == false:
+		didUpdate = false
 		lastSourceUpdateTime = time
 		var new_headers = ["Content-Type: application/json"]
 		var json = JSON.stringify({
@@ -48,11 +50,11 @@ func parse_request(result, response_code, headers, body):
 	if typeof(json) == TYPE_FLOAT:
 		return
 	MapData = json
-	
 	if MapData != null and "prefabs" in MapData and "roads" in MapData:
 		loadedPrefabs = len(MapData["prefabs"])
 		loadedRoads = len(MapData["roads"])
 		Notifications.SendNotification("Map data updated!", 2000)
+		didUpdate = true
 	else:
 		Notifications.SendNotification("No map data retrieved!", 2000, Color.ORANGE)
 
