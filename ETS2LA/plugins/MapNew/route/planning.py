@@ -192,6 +192,53 @@ def GetNextRouteSection() -> rc.RouteSection:
                         shortest_distance = distance
                     
             return PrefabToRouteSection(next_item, best_lane)
+     
+    if type(current_section.items[0].item) == c.Prefab:
+        end_node = current_section.end_node
+        start_node = current_section.start_node
+        
+        end_node_is_in_front = math_helpers.IsInFront((end_node.x, end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
+        start_node_is_in_front = math_helpers.IsInFront((start_node.x, start_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
+        
+        if end_node_is_in_front and start_node_is_in_front:
+            distance_to_start = math_helpers.DistanceBetweenPoints((start_node.x, start_node.y), (data.truck_x, data.truck_z))
+            distance_to_end = math_helpers.DistanceBetweenPoints((end_node.x, end_node.y), (data.truck_x, data.truck_z))
+            if distance_to_start < distance_to_end:
+                start_node_is_in_front = False
+            else:
+                end_node_is_in_front = False
+
+        node = end_node if end_node_is_in_front else start_node
+        next_item = None
+        
+        forward_item = data.map.get_item_by_uid(node.forward_item_uid)
+        backward_item = data.map.get_item_by_uid(node.backward_item_uid)
+        if forward_item.uid != current_section.items[-1].item.uid:
+            next_item = forward_item
+        elif backward_item.uid != current_section.items[0].item.uid:
+            next_item = backward_item
+        else:
+            return None
+            
+        if next_item is None:
+            return None
+        
+        if current_section.last_actual_points == []:
+            return None # should not happen
+        
+        end_point = current_section.last_actual_points[-1]
+        if type(next_item) == c.Road:
+            closest_lane_id = 0
+            closest_point_distance = math.inf
+            for lane_id, lane in enumerate(next_item.lanes):
+                distance = math_helpers.DistanceBetweenPoints((end_point.x, end_point.y, end_point.z), lane.points[0].tuple())
+                end_distance = math_helpers.DistanceBetweenPoints((end_point.x, end_point.y, end_point.z), lane.points[-1].tuple())
+                distance = min(distance, end_distance)
+                if distance < closest_point_distance:
+                    closest_lane_id = lane_id
+                    closest_point_distance = distance
+                    
+            return RoadToRouteSection(next_item, closest_lane_id)
         
 was_indicating = False
 def UpdateRoutePlan():

@@ -16,11 +16,15 @@ class RouteItem:
     
     @lane_index.setter
     def lane_index(self, value: int):
-        self._lane_index = value
-        if type(self.item) == c.Road:
-            self.lane_points = self.item.lanes[self.lane_index].points
-        elif type(self.item) == c.Prefab:
-            self.lane_points = self.item.nav_routes[self.lane_index].points
+        try:
+            if type(self.item) == c.Road:
+                self.lane_points = self.item.lanes[value].points
+            elif type(self.item) == c.Prefab:
+                self.lane_points = self.item.nav_routes[value].points
+            self._lane_index = value
+        except:
+            logging.warning(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteItem[/dim] only has {len(self.item.lanes)} lanes.")
+            pass
             
 class RouteSection:
     items: list[RouteItem]
