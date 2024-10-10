@@ -296,7 +296,6 @@ def ReadModels() -> list[c.Model]:
             model["uid"],
             model["x"],
             model["y"],
-            TryReadExcept(model, "z", 0),
             model["sectorX"],
             model["sectorY"],
             model["token"],

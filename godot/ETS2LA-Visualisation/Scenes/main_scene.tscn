@@ -142,6 +142,8 @@ maxDistance = 4000.0
 
 [node name="Prefabs" type="Node" parent="Map"]
 
+[node name="Models" type="Node" parent="Map"]
+
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 timeout = 10.0
 

@@ -284,6 +284,7 @@ def Initialize():
     socket.start()
     
     print("Visualization sockets waiting for client...")
+    
 def compress_data(data):
     compressor = zlib.compressobj(wbits=28)
     compressed_data = compressor.compress(data)

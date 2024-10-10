@@ -6,6 +6,7 @@ class PluginCallData(BaseModel):
     
 class TagFetchData(BaseModel):
     tag: str
+    zlib: bool = False
 
 class RelieveData(BaseModel):
     data: dict

@@ -1,5 +1,6 @@
 extends Node
 
+@export var modelMat = preload("res://Materials/model.tres")
 @export var roadMat = preload("res://Materials/road.tres")
 @export var roadDarkMat = preload("res://Materials/roadDark.tres")
 @export var markingMat = preload("res://Materials/markings.tres")
@@ -22,6 +23,7 @@ extends Node
 @onready var Socket = $/root/Node3D/Sockets
 @onready var RoadParent = $/root/Node3D/Map/Roads
 @onready var PrefabParent = $/root/Node3D/Map/Prefabs
+@onready var ModelParent = $/root/Node3D/Map/Models
 @onready var Notifications = $/root/Node3D/UI/Notifications
 
 var sphere = preload("res://Objects/sphere.tscn")
@@ -38,6 +40,13 @@ func _ready() -> void:
 func Reload():
 	MapData.send_request()
 	reload = true
+
+func RotateVector3AroundPoint(vector: Vector3, point: Vector3, rotation):
+	var x = vector.x - point.x
+	var z = vector.z - point.z
+	var xnew = x * cos(rotation) - z * sin(rotation)
+	var znew = x * sin(rotation) + z * cos(rotation)
+	return Vector3(xnew + point.x, vector.y, znew + point.z)
 
 func JsonPointToLocalCoords(jsonPoint, x, y, z):
 	if x > jsonPoint[0]: jsonPoint[0] += x
@@ -156,6 +165,12 @@ func _process(delta: float) -> void:
 			for n in PrefabParent.get_children():
 				curPrefabUids.append(n.name.split("-")[0])
 				curPrefabs.append(n)
+				
+			var curModels = []
+			var curModelUids = []
+			for n in ModelParent.get_children():
+				curModelUids.append(n.name.split("-")[0])
+				curModels.append(n)
 				
 			#for n in PrefabParent.get_children():
 			#	PrefabParent.remove_child(n)
@@ -384,6 +399,47 @@ func _process(delta: float) -> void:
 				name = name.split("-")[0]
 				if not prefabsInData.has(name):
 					PrefabParent.remove_child(n)
+					n.queue_free()
+			
+			var model_data = data["models"]
+			var modelsInData = []
+			for model in model_data:
+				var uid = str(model["uid"])
+				
+				var center = Vector3(model["description"]["center"]["x"], model["description"]["center"]["z"], model["description"]["center"]["y"])
+				var rotation = model["rotation"]
+				var x = model["x"] - center.x
+				var y = model["y"] - center.y
+				var z = model["z"] - center.z
+				var modelPosition = Vector3(x, y, z)
+				if modelPosition.distance_to(position) > maxDistance:
+					skippedLines += 1
+					continue
+				
+				modelsInData.append(uid)
+				if curModelUids.has(uid):
+					continue
+				
+				var width = model["description"]["width"]
+				var length = model["description"]["length"]
+				var height = model["description"]["height"]
+				
+				var box: CSGBox3D = CSGBox3D.new()
+				box.name = uid + "-" + str(totalLines)
+				box.position = modelPosition + Vector3(0,height/2,0)
+				box.scale = Vector3(model["scale"]["x"], model["scale"]["z"], model["scale"]["y"])
+				box.size = Vector3(width, height, length)
+				box.rotation_degrees = Vector3(0, rad_to_deg(rotation*2), 0)
+				
+				ModelParent.add_child(box)
+				
+				totalLines += 1
+			
+			for n in ModelParent.get_children():
+				var name = n.name
+				name = name.split("-")[0]
+				if not modelsInData.has(name):
+					ModelParent.remove_child(n)
 					n.queue_free()
 			
 			lastData = data

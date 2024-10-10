@@ -18,7 +18,7 @@ callbacks = []
 controller = SCSController()
 
 steering_threshold = settings.Get("global", "steering_threshold", 0.1)
-braking_threshold = settings.Get("global", "braking_threshold", 0.1)
+braking_threshold = settings.Get("global", "braking_threshold", 0.2)
     
 # Events
 class ToggleSteering():

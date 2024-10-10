@@ -20,6 +20,8 @@ func _process(delta: float) -> void:
 		var newObjectIDs = []
 		var newObjects = []
 		if typeof(Sockets.data) == typeof({}):
+			if not "JSONobjects" in Sockets.data:
+				return
 			var objectData = Sockets.data["JSONobjects"].data
 			if objectData != null:
 				for object in objectData:

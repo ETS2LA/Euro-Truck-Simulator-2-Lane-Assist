@@ -46,7 +46,7 @@ MouseHold={
 
 [physics]
 
-common/physics_ticks_per_second=1
+common/physics_ticks_per_second=120
 
 [rendering]
 

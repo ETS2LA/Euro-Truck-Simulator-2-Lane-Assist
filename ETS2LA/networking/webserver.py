@@ -24,6 +24,7 @@ import requests
 import uvicorn
 import socket
 import json
+import zlib
 import sys
 import os
 
@@ -271,6 +272,10 @@ def get_tag_data(data: TagFetchData):
             else: 
                 returnData = backend.globalData[plugin][data.tag]
                 
+                
+    if data.zlib:
+        returnData = zlib.compress(json.dumps(returnData).encode("utf-8"), wbits=28)
+        
     return returnData
 
 @app.get("/api/tags/{tag}")
@@ -290,7 +295,7 @@ def get_tag(tag: str):
                     returnData = backend.globalData[plugin][tag]
             else: 
                 returnData = backend.globalData[plugin][tag]
-                
+             
     return returnData
 
 @app.get("/api/tags/list")

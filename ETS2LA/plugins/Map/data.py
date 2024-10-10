@@ -1,5 +1,5 @@
 from ETS2LA.modules.SDKController.main import SCSController
-from classes import MapData, Road, Prefab, Position
+from classes import MapData, Road, Prefab, Position, Model
 import ETS2LA.backend.settings as settings
 from route.classes import RouteSection
 import math
@@ -30,6 +30,8 @@ current_sector_y: int = 0
 """The sector Y coordinate corresponding to the truck's position."""
 enabled: bool = False
 """Whether the map steering is enabled or not."""
+last_sector: tuple[int, int] = None
+"""The last sector the truck was in."""
 
 # MARK: Data variables
 map: MapData = None
@@ -38,6 +40,8 @@ current_sector_roads: list[Road] = []
 """The roads in the current sector."""
 current_sector_prefabs: list[Prefab] = []
 """The prefabs in the current sector."""
+current_sector_models: list[Model] = []
+"""The models in the current sector."""
 route_plan: list[RouteSection] = []
 """The current route plan."""
 route_points: list[Position] = []
@@ -62,14 +66,18 @@ calculate_steering = settings.Get("Map", "ComputeSteeringData", True)
 
 # MARK: Return values
 external_data = {}
+"""Data that will be sent to other plugins and the frontend."""
 data_needs_update = False
+"""Does the external data need to be updated?"""
 external_data_changed = False
+"""Flag for the main file to update the external data in the main process."""
 external_data_time = 0
+"""Time the external data was last updated."""
 
 def UpdateData(api_data):
     global heavy_calculations_this_frame
     global truck_speed, truck_x, truck_y, truck_z, truck_rotation
-    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads
+    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads, last_sector, current_sector_models
     global truck_indicating_left, truck_indicating_right
     global external_data, data_needs_update, external_data_changed, external_data_time
     
@@ -87,13 +95,17 @@ def UpdateData(api_data):
     
     current_sector_x, current_sector_y = map.get_sector_from_coordinates(truck_x, truck_z)
     
-    current_sector_prefabs = map.get_sector_prefabs_by_sector([current_sector_x, current_sector_y])
-    current_sector_roads = map.get_sector_roads_by_sector([current_sector_x, current_sector_y])
+    if (current_sector_x, current_sector_y) != last_sector:
+        last_sector = (current_sector_x, current_sector_y)
+        current_sector_prefabs = map.get_sector_prefabs_by_sector([current_sector_x, current_sector_y])
+        current_sector_roads = map.get_sector_roads_by_sector([current_sector_x, current_sector_y])
+        current_sector_models = map.get_sector_models_by_sector([current_sector_x, current_sector_y])
     
     if data_needs_update:
         external_data = {
             "prefabs": [prefab.json() for prefab in current_sector_prefabs],
-            "roads": [road.json() for road in current_sector_roads]
+            "roads": [road.json() for road in current_sector_roads],
+            "models": [model.json() for model in current_sector_models],
         }
         external_data_changed = True
         external_data_time = time.time()

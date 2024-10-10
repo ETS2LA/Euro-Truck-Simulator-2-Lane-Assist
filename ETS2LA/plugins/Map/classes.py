@@ -221,6 +221,9 @@ class Position:
     def __repr__(self) -> str:
         return self.__str__()
     
+    def __add__(self, other):
+        return Position(self.x + other.x, self.y + other.y, self.z + other.z)
+    
     def json(self) -> dict:
         return {
             "x": self.x,
@@ -508,13 +511,17 @@ class ModelDescription:
     start: Position
     end: Position
     height: float
+    width: float
+    length: float
     
     def __init__(self, token: str, center: Position, start: Position, end: Position, height: float):
         self.token = token
         self.center = center
         self.start = start
         self.end = end
-        self.height = height
+        self.height = height # z axis
+        self.width = math.sqrt(math.pow(start.x - end.x, 2)) # x axis
+        self.length = math.sqrt(math.pow(start.y - end.y, 2)) # y axis
         
     def json(self) -> dict:
         return {
@@ -522,7 +529,9 @@ class ModelDescription:
             "center": self.center.json(),
             "start": self.start.json(),
             "end": self.end.json(),
-            "height": self.height
+            "height": self.height,
+            "width": self.width,
+            "length": self.length
         }
    
 # MARK: POIs
@@ -1053,25 +1062,36 @@ class Model(BaseItem):
     node_uid: int | str
     scale: tuple[float, float, float]
     type: ItemType = ItemType.Model
-    z: float = 0
+    vertices: list[Position] = []
+    description: ModelDescription = None
+    z: float = math.inf
+    rotation: float = 0
     
     def parse_strings(self):
         super().parse_strings()
         self.node_uid = parse_string_to_int(self.node_uid)
         
-    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str, node_uid: int | str, scale: tuple[float, float, float]):
+    def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, token: str, node_uid: int | str, scale: tuple[float, float, float]):
         super().__init__(uid, ItemType.Model, x, y, sector_x, sector_y)
         self.token = token
         self.node_uid = node_uid
         self.scale = scale
-        self.z = z
     
     def json(self) -> dict:
+        node = data.map.get_node_by_uid(self.node_uid)
+        if self.z == math.inf:
+            self.z = self.y
+            self.y = node.z
+        self.rotation = node.rotation
+        self.description = data.map.get_model_description_by_token(self.token)
         return {
             **super().json(),
+            "z": self.z,
+            "rotation": self.rotation,
             "token": self.token,
             "node_uid": self.node_uid,
-            "scale": self.scale
+            "scale": self.scale,
+            "description": self.description.json(),
         }
 
 class Terrain(BaseItem):
@@ -1608,6 +1628,7 @@ class MapData:
     _nodes_by_sector: dict[dict[Node]]
     _roads_by_sector: dict[dict[Road]]
     _prefabs_by_sector: dict[dict[Prefab]]
+    _models_by_sector: dict[dict[Model]]
     
     _min_sector_x:  int = math.inf
     _max_sector_x:  int = -math.inf
@@ -1617,6 +1638,7 @@ class MapData:
     _sector_height: int = 4000
     
     _by_uid = {}
+    _model_descriptions_by_token = {}
     """
     Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
     Please use the get_node_by_uid method to access nodes by UID.
@@ -1626,6 +1648,7 @@ class MapData:
         self._nodes_by_sector = {}
         self._roads_by_sector = {}
         self._prefabs_by_sector = {}
+        self._models_by_sector = {}
         
         for node in self.nodes:
             sector = (node.sector_x, node.sector_y)
@@ -1661,6 +1684,14 @@ class MapData:
             if sector[1] not in self._prefabs_by_sector[sector[0]]:
                 self._prefabs_by_sector[sector[0]][sector[1]] = []
             self._prefabs_by_sector[sector[0]][sector[1]].append(prefab)
+            
+        for model in self.models:
+            sector = (model.sector_x, model.sector_y)
+            if sector[0] not in self._models_by_sector:
+                self._models_by_sector[sector[0]] = {}
+            if sector[1] not in self._models_by_sector[sector[0]]:
+                self._models_by_sector[sector[0]][sector[1]] = []
+            self._models_by_sector[sector[0]][sector[1]].append(model)
             
     def calculate_sector_dimensions(self) -> None:
         min_sector_x = self._min_sector_x
@@ -1700,6 +1731,16 @@ class MapData:
             parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
             set_nested_item(self._by_uid, parts, prefab)
             
+        for model in self.models:
+            uid = model.uid
+            uid_str = str(uid)
+            parts = [uid_str[i:i+4] for i in range(0, len(uid_str), 4)]
+            set_nested_item(self._by_uid, parts, model)
+            
+        self._model_descriptions_by_token = {}
+        for model_description in self.model_descriptions:
+            self._model_descriptions_by_token[model_description.token] = model_description
+            
     def get_sector_from_coordinates(self, x: float, z: float) -> tuple[int, int]:
         return (int(x // self._sector_width), int(z // self._sector_height))
                 
@@ -1725,6 +1766,13 @@ class MapData:
     
     def get_sector_prefabs_by_sector(self, sector: tuple[int, int]) -> list[Prefab]:
         return self._prefabs_by_sector.get(sector[0], {}).get(sector[1], [])
+    
+    def get_sector_models_by_coordinates(self, x: float, z: float) -> list[Model]:
+        sector = self.get_sector_from_coordinates(x, z)
+        return self.get_sector_models_by_sector(sector)
+    
+    def get_sector_models_by_sector(self, sector: tuple[int, int]) -> list[Model]:
+        return self._models_by_sector.get(sector[0], {}).get(sector[1], [])
             
     def get_node_by_uid(self, uid: int | str) -> Node | None:  
         try:
@@ -1751,6 +1799,9 @@ class MapData:
             logging.warning(f"Error getting item by UID: {uid}")
             #logging.exception(f"Error getting item by UID: {uid}")
             return None
+            
+    def get_model_description_by_token(self, token: str) -> ModelDescription:
+        return self._model_descriptions_by_token.get(token, None)
             
     def match_roads_to_looks(self) -> None:
         for road in self.roads:
