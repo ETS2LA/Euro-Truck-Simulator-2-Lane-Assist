@@ -18,6 +18,8 @@ import * as React from "react"
 
 export default function Basic({ip} : {ip: string}) {
     const [collapsed, setCollapsed] = useState(false);
+    const [cursorPosition, setCursorPosition] = useState({x: 0, y: 0});
+    const [isInTop20Percent, setIsInTop20Percent] = useState(false);
     const push = useRouter().push;
     const isMounted = useRef(true); // Track if the component is mounted
 
@@ -36,8 +38,27 @@ export default function Basic({ip} : {ip: string}) {
         }
     }, []);
 
+    function handleMouseMove(e: React.MouseEvent) {
+        setCursorPosition({x: e.clientX, y: e.clientY});
+        console.log(e.clientY / window.innerHeight);
+        if (e.clientY / window.innerHeight < 0.2) {
+            setIsInTop20Percent(true);
+        } else {
+            setIsInTop20Percent(false);
+        }
+    }
+
+    function getMenubarClassname() {
+        if (isInTop20Percent) {
+            return "absolute top-0 left-0 right-0 h-screen transition-all";
+        }
+        else {
+            return "absolute top-0 left-0 right-0 h-screen transition-all opacity-0";
+        }
+    }
+
     return (
-        <div className="w-full h-screen">
+        <div className="w-full h-screen" onMouseMove={handleMouseMove}>
             <ResizablePanelGroup direction="horizontal" className="overflow-auto text-center gap-0">
                 <ResizablePanel defaultSize={35}>
                     <iframe 
@@ -64,7 +85,7 @@ export default function Basic({ip} : {ip: string}) {
                         </div>
                     </div>
                     {!collapsed && <div className="absolute bottom-0 left-0 h-[100vh] w-16 bg-gradient-to-l from-transparent to-[#1b1b1b] pointer-events-none" />}
-                    <div className="absolute top-0 left-0 right-0 h-screen">
+                    <div className={getMenubarClassname()}>
                         <ETS2LAMenubar ip={ip} onLogout={() =>{}} isCollapsed={collapsed} />
                     </div>
                 </ResizablePanel>
