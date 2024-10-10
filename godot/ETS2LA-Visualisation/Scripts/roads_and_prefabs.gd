@@ -406,12 +406,11 @@ func _process(delta: float) -> void:
 			for model in model_data:
 				var uid = str(model["uid"])
 				
-				var center = Vector3(model["description"]["center"]["x"], model["description"]["center"]["z"], model["description"]["center"]["y"])
 				var rotation = model["rotation"]
-				var x = model["x"] - center.x
-				var y = model["y"] - center.y
-				var z = model["z"] - center.z
-				var modelPosition = Vector3(x, y, z)
+				var x = model["x"]
+				var y = model["y"]
+				var z = model["z"]
+				var modelPosition = Vector3(x,y,z)
 				if modelPosition.distance_to(position) > maxDistance:
 					skippedLines += 1
 					continue
@@ -424,8 +423,14 @@ func _process(delta: float) -> void:
 				var length = model["description"]["length"]
 				var height = model["description"]["height"]
 				
+				var sx = model["description"]["start"]["x"]
+				var sz = model["description"]["start"]["z"]
+				var ex = model["description"]["end"]["x"]
+				var ez = model["description"]["end"]["z"]
+				
 				var box: CSGBox3D = CSGBox3D.new()
 				box.name = uid + "-" + str(totalLines)
+				box.material = modelMat
 				box.position = modelPosition + Vector3(0,height/2,0)
 				box.scale = Vector3(model["scale"]["x"], model["scale"]["z"], model["scale"]["y"])
 				box.size = Vector3(width, height, length)

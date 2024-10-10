@@ -1080,8 +1080,9 @@ class Model(BaseItem):
     def json(self) -> dict:
         node = data.map.get_node_by_uid(self.node_uid)
         if self.z == math.inf:
-            self.z = self.y
+            self.x = node.x
             self.y = node.z
+            self.z = node.y
         self.rotation = node.rotation
         self.description = data.map.get_model_description_by_token(self.token)
         return {
