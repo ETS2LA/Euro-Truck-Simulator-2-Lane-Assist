@@ -791,6 +791,7 @@ class Road(BaseItem):
                 return []
             self._lanes, self._bounding_box = road_helpers.GetRoadLanes(self, data)
             data.heavy_calculations_this_frame += 1
+            data.data_needs_update = True
 
         return self._lanes
 
@@ -805,6 +806,7 @@ class Road(BaseItem):
                 return BoundingBox(0, 0, 0, 0)
             self._lanes, self._bounding_box = road_helpers.GetRoadLanes(self, data)
             data.heavy_calculations_this_frame += 1
+            data.data_needs_update = True
 
         return self._bounding_box
     

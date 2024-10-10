@@ -12,6 +12,7 @@ import ETS2LA.plugins.Map.classes as c
 from utils.data_reader import ReadData
 import route.planning as planning
 import route.driving as driving
+import utils.speed as speed
 
 # General imports
 import json
@@ -57,11 +58,18 @@ def plugin():
     data.UpdateData(api_data)
     runner.Profile("Main - API")
     
+    max_speed = api_data["truckFloat"]["speedLimit"]
     if data.calculate_steering:
         planning.UpdateRoutePlan()
         runner.Profile("Main - Route Plan")
+        
         steering_value = driving.GetSteering()
         steering.run(value=steering_value/180, sendToGame=data.enabled, drawLine=False)
+        
+        route_max_speed = speed.GetMaximumSpeed()
+        if route_max_speed < max_speed:
+            max_speed = route_max_speed
+            
         runner.Profile("Steering - Send to game")
     else:
         data.route_points = []
@@ -86,7 +94,8 @@ def plugin():
         return_dict["map"] = json.loads(external_data)
         return_dict["map_update_time"] = data.external_data_time
         data.external_data_changed = False
-    return_dict["target_speed"] = api_data["truckFloat"]["speedLimit"]
+        
+    return_dict["target_speed"] = max_speed
     return_dict["next_intersection_distance"] = 0
     
     return [point.tuple() for point in data.route_points], return_dict

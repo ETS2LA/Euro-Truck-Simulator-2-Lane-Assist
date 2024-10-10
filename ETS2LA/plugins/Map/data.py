@@ -62,8 +62,8 @@ calculate_steering = settings.Get("Map", "ComputeSteeringData", True)
 
 # MARK: Return values
 external_data = {}
+data_needs_update = False
 external_data_changed = False
-last_external_data_sector = (0, 0)
 external_data_time = 0
 
 def UpdateData(api_data):
@@ -71,7 +71,7 @@ def UpdateData(api_data):
     global truck_speed, truck_x, truck_y, truck_z, truck_rotation
     global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads
     global truck_indicating_left, truck_indicating_right
-    global external_data, last_external_data_sector, external_data_changed, external_data_time
+    global external_data, data_needs_update, external_data_changed, external_data_time
     
     was_calculating = heavy_calculations_this_frame == allowed_heavy_calculations or heavy_calculations_this_frame == -1
     heavy_calculations_this_frame = 0
@@ -90,14 +90,14 @@ def UpdateData(api_data):
     current_sector_prefabs = map.get_sector_prefabs_by_sector([current_sector_x, current_sector_y])
     current_sector_roads = map.get_sector_roads_by_sector([current_sector_x, current_sector_y])
     
-    if (current_sector_x, current_sector_y) != last_external_data_sector and not was_calculating:
+    if data_needs_update:
         external_data = {
             "prefabs": [prefab.json() for prefab in current_sector_prefabs],
             "roads": [road.json() for road in current_sector_roads]
         }
         external_data_changed = True
-        last_external_data_sector = (current_sector_x, current_sector_y)
         external_data_time = time.time()
+        data_needs_update = False
     
     rotationX = api_data["truckPlacement"]["rotationX"]
     angle = rotationX * 360

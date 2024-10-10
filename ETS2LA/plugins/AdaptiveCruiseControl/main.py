@@ -162,13 +162,13 @@ def GetTimeToVehicleAhead(apiData: dict) -> float:
         closestPointDistance = math.inf
         index = 0
         for point in points:
-            distance = GetDistanceToPoint([averageX, averageY], point)
+            distance = GetDistanceToPoint([averageX, averageY], [point[0], point[2]])
             if distance < closestPointDistance:
                 closestPointDistance = distance
             else:
                 # Make an intermediate point
                 lastPoint = points[index - 1]
-                intermediatePoint = [(lastPoint[0] + point[0]) / 2, (lastPoint[1] + point[1]) / 2]
+                intermediatePoint = [(lastPoint[2] + point[2]) / 2, (lastPoint[2] + point[2]) / 2]
                 distance = GetDistanceToPoint([averageX, averageY], intermediatePoint)
                 if distance < closestPointDistance:
                     closestPointDistance = distance
@@ -208,7 +208,7 @@ lastTargetSpeed = 0
 targetSpeed = 0
 def GetTargetSpeed(apiData: dict) -> float:
     global lastTargetSpeed, lastTargetSpeedTime, targetSpeed
-    targetSpeed = runner.GetData(['tags.targetSpeed'])[0]
+    targetSpeed = runner.GetData(['tags.target_speed'])[0]
     
     if targetSpeed is None or not isinstance(targetSpeed, float):
         if time.time() - lastTargetSpeedTime > 1:
@@ -265,7 +265,7 @@ def GetIntersectionDistance() -> float:
             return lastIntersectionDistance
         return math.inf
     
-    if type(data) != str and type(data) != float:
+    if type(data) != str and type(data) not in [int, float]:
         if time.time() - lastIntersectionDistanceTime < 0.5:
             return lastIntersectionDistance
         return math.inf
@@ -301,6 +301,7 @@ def GetStatus(type) -> str:
 
 def plugin():
     global lastVehicleDistance
+    global statusData
     
     if not ACC_ENABLED:
         Reset(); return
@@ -322,6 +323,7 @@ def plugin():
         if intersectionDistance < lastVehicleDistance:
             lastVehicleDistance = intersectionDistance
             acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, 0, falloffDistance=BRAKING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, stoppingDistance=STOPPING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER)
+            statusData = (intersectionDistance, BRAKING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER)
             type = "traffic light"
         else:
             acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, vehicleSpeed)
