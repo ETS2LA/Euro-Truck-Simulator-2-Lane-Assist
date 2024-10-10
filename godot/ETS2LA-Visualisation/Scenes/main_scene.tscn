@@ -136,7 +136,7 @@ script = ExtResource("10_n46bk")
 [node name="RoadsAndPrefabs" type="Node" parent="Map"]
 script = ExtResource("9_115pj")
 markingWidth = 0.15
-maxDistance = 200.0
+maxDistance = 4000.0
 
 [node name="Roads" type="Node" parent="Map"]
 
