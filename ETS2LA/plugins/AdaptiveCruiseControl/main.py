@@ -203,6 +203,7 @@ def Reset() -> None:
     SDKController.aforward = float(0)
     SDKController.abackward = float(0)
 
+lastTargetSpeedTime = 0
 lastTargetSpeed = 0
 targetSpeed = 0
 def GetTargetSpeed(apiData: dict) -> float:
