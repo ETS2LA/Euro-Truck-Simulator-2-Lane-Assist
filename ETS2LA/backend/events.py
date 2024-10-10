@@ -1,5 +1,7 @@
 from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
+from ETS2LA.modules.SDKController.main import SCSController
 import ETS2LA.modules.TruckSimAPI.main as API
+from ETS2LA.utils.translator import Translate
 from ETS2LA.frontend.immediate import value
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
@@ -13,6 +15,10 @@ import time
 API.Initialize()
 API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
 callbacks = []
+controller = SCSController()
+
+steering_threshold = settings.Get("global", "steering_threshold", 0.1)
+braking_threshold = settings.Get("global", "braking_threshold", 0.1)
     
 # Events
 class ToggleSteering():
@@ -21,9 +27,20 @@ class ToggleSteering():
         self.steering = not self.steering
         sounds.Play('start' if self.steering else 'end')
         backend.CallEvent('ToggleSteering', self.steering, {})
+        logging.info("Triggered event: ToggleSteering")
+        
+    def CheckForUserInput(self, data):
+        if self.steering:
+            app_braking = controller.abackward
+            game_braking = data["truckFloat"]["userBrake"]
+            need_to_disable_via_braking = abs(app_braking - game_braking) > braking_threshold
+            if braking_threshold >= 0 and braking_threshold <= 1:
+                if need_to_disable_via_braking:
+                    self.ToggleSteering()
+                
     def __init__(self):
         controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n")
-        
+        callbacks.append(self.CheckForUserInput)
         
 last_started_job = None # This is used to fill out the data for the Job events
 class JobStarted():
