@@ -46,6 +46,8 @@ substanceSize = 25
 # Working Set (not a specific location)
 virtualX = 23475
 virtualZ = -46450
+virtualY = 1.111
+virtualRot = 0
 
 class scsTelemetry:
     
@@ -261,7 +263,7 @@ class scsTelemetry:
         return strings, offset+count*stringSize
     
     def update(self, trailerData=False):
-        global virtualX, virtualZ
+        global virtualX, virtualZ, virtualY, virtualRot
         data = {}
         offset = 0
         
@@ -270,13 +272,24 @@ class scsTelemetry:
             speed = 15
         
         # Use the arrowkeys to move the virtual truck
-        if keyboard.is_pressed("up"):
+        if keyboard.is_pressed("ctrl+up"):
+            virtualY += speed
+        elif keyboard.is_pressed("up"):
             virtualZ -= speed
-        if keyboard.is_pressed("down"):
+            
+        if keyboard.is_pressed("ctrl+down"):
+            virtualY -= speed
+        elif keyboard.is_pressed("down"):
             virtualZ += speed
-        if keyboard.is_pressed("left"):
+            
+        if keyboard.is_pressed("ctrl+left"):
+            virtualRot -= speed / 10
+        elif keyboard.is_pressed("left"):
             virtualX -= speed
-        if keyboard.is_pressed("right"):
+            
+        if keyboard.is_pressed("ctrl+right"):
+            virtualRot += speed / 10
+        elif keyboard.is_pressed("right"):
             virtualX += speed
         
         # ALL COMMENTS EXTRACTED FROM https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
@@ -548,10 +561,12 @@ class scsTelemetry:
             data["truckPlacement"] = {}
             data["truckPlacement"]["coordinateX"] = virtualX    # Duisburg
             offset = offset + 8
-            data["truckPlacement"]["coordinateY"], offset = self.readDouble(offset)
+            data["truckPlacement"]["coordinateY"] = virtualY
+            offset = offset + 8
             data["truckPlacement"]["coordinateZ"] = virtualZ    # Duisburg
             offset = offset + 8
-            data["truckPlacement"]["rotationX"], offset = self.readDouble(offset)
+            data["truckPlacement"]["rotationX"] = virtualRot
+            offset = offset + 8
             data["truckPlacement"]["rotationY"], offset = self.readDouble(offset)
             data["truckPlacement"]["rotationZ"], offset = self.readDouble(offset)
 
