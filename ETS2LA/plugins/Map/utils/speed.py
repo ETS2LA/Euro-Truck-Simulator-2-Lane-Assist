@@ -6,15 +6,15 @@ import data
 # Curvature in degrees
 curvature_to_max_speed = {
     0: 100, # Max speed that ETS2LA is allowed to drive
-    10: 90,
-    20: 80,
-    30: 70,
-    40: 60,
-    50: 50,
-    60: 40,
-    70: 30,
-    80: 25,
-    90: 20,
+    20: 90,
+    40: 80,
+    60: 70,
+    80: 60,
+    100: 50,
+    120: 40,
+    140: 30,
+    160: 25,
+    180: 20,
 }
 def MapCurvatureToSpeed(curvature):
     # Map the curvature to a max speed

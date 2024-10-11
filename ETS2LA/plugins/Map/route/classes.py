@@ -88,7 +88,16 @@ class RouteSection:
         for item in self.items:
             item.lane_index = value
             self.lane_points += item.lane_points
-
+            
+        min_distance = 0.1
+        last_point = self.lane_points[0]
+        accepted_points = []
+        for point in self.lane_points:
+            if math_helpers.DistanceBetweenPoints(point.tuple(), last_point.tuple()) > min_distance:
+                accepted_points.append(point)
+                last_point = point
+        
+        self.lane_points = accepted_points
         self._lane_index = value
 
     def distance_left(self) -> float:
