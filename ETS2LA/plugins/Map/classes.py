@@ -1438,6 +1438,16 @@ class PrefabNavRoute:
         for curve in self.curves:
             new_points += curve.points
             
+        min_distance = 0.25
+        last_point = new_points[0]
+        accepted_points = []
+        for point in new_points:
+            if math_helpers.DistanceBetweenPoints(point.tuple(), last_point.tuple()) > min_distance:
+                accepted_points.append(point)
+                last_point = point
+                
+        new_points = accepted_points
+        
         distance = 0
         for i in range(len(new_points) - 1):
             distance += math.sqrt(math.pow(new_points[i].x - new_points[i + 1].x, 2) + math.pow(new_points[i].z - new_points[i + 1].z, 2))
