@@ -197,6 +197,8 @@
     "frontend.immediate.socket_disconnected": "未連接，請重新整理。",
     "frontend.immediate.enable_stay_on_top": "啟用置頂",
     "frontend.immediate.disable_stay_on_top": "停用置頂",
+    "frontend.immediate.enable_transparent": "啟用透明效果",
+    "frontend.immediate.disable_transparent": "停用透明效果",
     "frontend.immediate.minimize": "最小化",
     "frontend.immediate.close": "關閉",
     "frontend.version_history": "版本歷史",
@@ -315,6 +317,8 @@
     "global.settings.10.description": "視窗的寬度。",
     "global.settings.11.name": "視窗高度",
     "global.settings.11.description": "視窗的高度。",
+    "global.settings.12.name": "透明模式 Alpha",
+    "global.settings.12.description": "設定透明模式下視窗的透明度。1 表示完全不透明，0 表示完全透明，可以調整數值來控制透明度。",
 
     "map.settings.1.title": "地圖設定",
     "map.settings.1.description": "這些是地圖插件的設定。",
