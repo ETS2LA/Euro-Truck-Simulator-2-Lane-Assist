@@ -154,6 +154,8 @@
     "frontend.immediate.socket_disconnected": "已断开，请重新加载。",
     "frontend.immediate.enable_stay_on_top": "启用置顶",
     "frontend.immediate.disable_stay_on_top": "停用置顶",
+    "frontend.immediate.enable_transparent": "启用半透明",
+    "frontend.immediate.disable_transparent": "禁用半透明",
     "frontend.immediate.minimize": "最小化",
     "frontend.immediate.close": "关闭",
     "frontend.version_history": "版本历史",
@@ -217,11 +219,11 @@
 
     "_LIST_OF_PLUGINS": "以下将列出所有允许名称翻译的插件。",
 
-    "plugins.adaptivecruisecontrol": "主动巡航控制",
+    "plugins.adaptivecruisecontrol": "主动巡航控制 (ACC)",
     "plugins.adaptivecruisecontrol.description": "开发中 - 使用车辆位置数据和速度限制的巡航控制。",
     "plugins.ar": "AR (增强现实)",
     "plugins.ar.description": "开发中... 插件会在游戏画面上绘制形状，使它们看起来像是在游戏里一样。",
-    "plugins.cruisecontrol": "巡航控制",
+    "plugins.cruisecontrol": "巡航控制 (CC)",
     "plugins.cruisecontrol.description": "将游戏内的巡航控制设置为正确的速度。",
     "plugins.datacollection": "数据收集",
     "plugins.datacollection.description": "用于车辆检测插件的数据收集。",
@@ -270,6 +272,8 @@
     "global.settings.10.description": "窗口的宽度。",
     "global.settings.11.name": "窗口高度",
     "global.settings.11.description": "窗口的高度。",
+    "global.settings.12.name": "半透明模式 Alpha值 (透明度)",
+    "global.settings.12.description": "半透明模式下窗口的透明度。1 = 完全不透明，0 = 完全透明。",
 
     "map.settings.1.title": "地图设置",
     "map.settings.1.description": "这些是地图插件的设置。",
