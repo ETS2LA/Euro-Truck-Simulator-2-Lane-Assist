@@ -11,8 +11,8 @@ import ETS2LA.backend.sounds as sounds
 import ETS2LA.variables as variables
 import ETS2LA.utils.git as git
 
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, Body
 from typing import Union
 from typing import Any
@@ -272,27 +272,35 @@ def get_tags_data():
 
 @app.post("/api/tags/data")
 def get_tag_data(data: TagFetchData):
-    count = 0
-    for plugin in backend.globalData:
-        if data.tag in backend.globalData[plugin]:
-            count += 1
-    
-    returnData = {}
-    for plugin in backend.globalData:
-        if data.tag in backend.globalData[plugin]:
-            if type(backend.globalData[plugin][data.tag]) == dict:
-                if count > 1:
-                    returnData = backend.merge(returnData, backend.globalData[plugin][data.tag])
+    try:
+        count = 0
+        for plugin in backend.globalData:
+            if data.tag in backend.globalData[plugin]:
+                count += 1
+
+        return_data = {}
+        for plugin in backend.globalData:
+            if data.tag in backend.globalData[plugin]:
+                if type(backend.globalData[plugin][data.tag]) == dict:
+                    if count > 1:
+                        return_data = backend.merge(return_data, backend.globalData[plugin][data.tag])
+                    else:
+                        return_data = backend.globalData[plugin][data.tag]
                 else:
-                    returnData = backend.globalData[plugin][data.tag]
-            else: 
-                returnData = backend.globalData[plugin][data.tag]
-                
-                
-    if data.zlib:
-        returnData = zlib.compress(json.dumps(returnData).encode("utf-8"), wbits=28)
-        
-    return returnData
+                    return_data = backend.globalData[plugin][data.tag]
+
+        headers = {}
+        if data.zlib:
+            return_data = zlib.compress(json.dumps(return_data).encode("utf-8"), wbits=28)
+            headers["Content-Encoding"] = "gzip"
+
+        if type(return_data) != bytes:
+            return return_data
+
+        return HTMLResponse(content=return_data, status_code=200, headers=headers)
+    except:
+        logging.exception("Failed to get tag data")
+        return False
 
 @app.get("/api/tags/{tag}")
 def get_tag(tag: str):

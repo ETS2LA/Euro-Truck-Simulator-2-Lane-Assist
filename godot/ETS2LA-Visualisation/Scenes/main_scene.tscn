@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=42 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
@@ -23,6 +23,8 @@
 [ext_resource type="FontFile" uid="uid://r5tbj1eoqxtc" path="res://Assets/Poppins-Regular.ttf" id="16_4yfey"]
 [ext_resource type="Script" path="res://Scripts/UI/data_label.gd" id="16_rn4g8"]
 [ext_resource type="Texture2D" uid="uid://bj6bcwvosqap6" path="res://Assets/speedlimit.png" id="17_6k1i8"]
+[ext_resource type="Script" path="res://Scenes/elevation_data_label.gd" id="23_unmpq"]
+[ext_resource type="Script" path="res://Scripts/elevation.gd" id="24_onrb8"]
 
 [sub_resource type="FontVariation" id="FontVariation_kk0ys"]
 base_font = ExtResource("16_4yfey")
@@ -93,6 +95,9 @@ script = ExtResource("1_xlmr0")
 [node name="Sockets" type="Node" parent="."]
 script = ExtResource("1_wt6xa")
 
+[node name="Elevation" type="Node" parent="."]
+script = ExtResource("24_onrb8")
+
 [node name="MapData" type="Node" parent="."]
 script = ExtResource("2_et5o6")
 updateRate = 10
@@ -143,6 +148,9 @@ maxDistance = 4000.0
 [node name="Prefabs" type="Node" parent="Map"]
 
 [node name="Models" type="Node" parent="Map"]
+
+[node name="ElevationHTTPRequest" type="HTTPRequest" parent="."]
+timeout = 10.0
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 timeout = 10.0
@@ -348,6 +356,14 @@ offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
+
+[node name="ElevationData" type="Label" parent="UI/BottomRightContainer"]
+layout_mode = 2
+text = "Map data loaded
+Updating in 10 seconds"
+label_settings = SubResource("LabelSettings_j8g1s")
+horizontal_alignment = 2
+script = ExtResource("23_unmpq")
 
 [node name="MapData" type="Label" parent="UI/BottomRightContainer"]
 layout_mode = 2

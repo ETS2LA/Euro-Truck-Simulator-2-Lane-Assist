@@ -82,8 +82,7 @@ def UpdateData(api_data):
     global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads, last_sector, current_sector_models
     global truck_indicating_left, truck_indicating_right
     global external_data, data_needs_update, external_data_changed, external_data_time
-    
-    was_calculating = heavy_calculations_this_frame == allowed_heavy_calculations or heavy_calculations_this_frame == -1
+
     heavy_calculations_this_frame = 0
     
     truck_indicating_left = api_data["truckBool"]["blinkerLeftActive"]
@@ -99,9 +98,9 @@ def UpdateData(api_data):
     
     if (current_sector_x, current_sector_y) != last_sector:
         last_sector = (current_sector_x, current_sector_y)
-        current_sector_prefabs = map.get_sector_prefabs_by_sector([current_sector_x, current_sector_y])
-        current_sector_roads = map.get_sector_roads_by_sector([current_sector_x, current_sector_y])
-        current_sector_models = map.get_sector_models_by_sector([current_sector_x, current_sector_y])
+        current_sector_prefabs = map.get_sector_prefabs_by_sector((current_sector_x, current_sector_y))
+        current_sector_roads = map.get_sector_roads_by_sector((current_sector_x, current_sector_y))
+        current_sector_models = map.get_sector_models_by_sector((current_sector_x, current_sector_y))
     
     if data_needs_update:
         external_data = {
@@ -109,10 +108,6 @@ def UpdateData(api_data):
             "roads": [road.json() for road in current_sector_roads],
             "models": [model.json() for model in current_sector_models],
         }
-        
-        if not elevation_data_sent:
-            external_data["elevation"] = map.elevations
-            elevation_data_sent = True
         
         external_data_changed = True
         external_data_time = time.time()

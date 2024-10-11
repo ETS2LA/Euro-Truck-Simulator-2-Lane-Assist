@@ -37,9 +37,10 @@ func parse_check_request(result, response_code, headers, body):
 	if time != lastSourceUpdateTime or didUpdate == false:
 		didUpdate = false
 		lastSourceUpdateTime = time
-		var new_headers = ["Content-Type: application/json"]
+		var new_headers = ["Content-Type: application/json", "Content-Encoding: gzip"]
 		var json = JSON.stringify({
-			"tag": tag
+			"tag": tag,
+			"zlib": true
 		})
 		Notifications.SendNotification("Getting new map data...", 2000)
 		HTTPRequestObject.request_completed.connect(parse_request)

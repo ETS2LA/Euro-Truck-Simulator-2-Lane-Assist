@@ -94,6 +94,10 @@ def plugin():
         return_dict["map"] = json.loads(external_data)
         return_dict["map_update_time"] = data.external_data_time
         data.external_data_changed = False
+
+    if not data.elevation_data_sent:
+        return_dict["elevation_data"] = data.map.elevations
+        data.elevation_data_sent = True
         
     return_dict["target_speed"] = max_speed
     return_dict["next_intersection_distance"] = 0
