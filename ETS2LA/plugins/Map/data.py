@@ -49,7 +49,7 @@ route_points: list[Position] = []
 # MARK: Options
 heavy_calculations_this_frame: int = -1
 """How many heavy calculations map has done this frame."""
-allowed_heavy_calculations: int = 50
+allowed_heavy_calculations: int = 500
 """How many heavy calculations map is allowed to do per frame."""
 lane_change_distance_per_kph: float = 1
 """Over how many meters distance will the truck change lanes per kph of speed. Basically at 50kph, the truck will change lanes over 25m, assuming a value of 0.5."""
@@ -101,7 +101,8 @@ def UpdateData(api_data):
         current_sector_prefabs = map.get_sector_prefabs_by_sector((current_sector_x, current_sector_y))
         current_sector_roads = map.get_sector_roads_by_sector((current_sector_x, current_sector_y))
         current_sector_models = map.get_sector_models_by_sector((current_sector_x, current_sector_y))
-    
+        data_needs_update = True
+
     if data_needs_update:
         external_data = {
             "prefabs": [prefab.json() for prefab in current_sector_prefabs],

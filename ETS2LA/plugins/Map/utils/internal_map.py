@@ -129,8 +129,8 @@ def DrawRoads(sector_change: bool) -> None:
                 cv2.polylines(road_image, [poly_points], isClosed=False, color=color, thickness=1, lineType=cv2.LINE_AA)
         
         DrawBoundingBox(road, road_image)
-        #road_position = ToLocalSectorCoordinates(road.x, road.y, scaling_factor)
-        #cv2.putText(road_image, f"{road.road_look.name}", (int(road_position[0])+5, int(road_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, (50,50,50), 1, cv2.LINE_AA)
+        road_position = ToLocalSectorCoordinates(road.x, road.y, scaling_factor)
+        cv2.putText(road_image, f"{road.road_look.name}", (int(road_position[0])+5, int(road_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, (50,50,50), 1, cv2.LINE_AA)
                 
     return road_image
 

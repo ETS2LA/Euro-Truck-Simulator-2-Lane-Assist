@@ -27,7 +27,9 @@ extends Node
 @onready var Notifications = $/root/Node3D/UI/Notifications
 
 var sphere = preload("res://Objects/sphere.tscn")
-var lastData = null
+var lastModels = 0
+var lastRoads = 0
+var lastPrefabs = 0
 
 var reload = false
 
@@ -147,7 +149,20 @@ func _process(delta: float) -> void:
 			position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
 		else:
 			return
-		if (data != lastData and data != {} or reload) and "roads" in data and "prefabs" in data:
+		
+		var roadCount = 0
+		var prefabCount = 0
+		var modelCount = 0
+		if "roads" in data and "prefabs" in data:
+			roadCount = len(data["roads"])
+			prefabCount = len(data["prefabs"])
+			modelCount = len(data["models"])
+		
+		if roadCount != lastRoads or prefabCount != lastPrefabs or modelCount != lastModels:
+			lastRoads = roadCount
+			lastPrefabs = prefabCount
+			lastModels = modelCount
+			
 			var roadData = data["roads"]
 				
 			var curRoads = []
@@ -434,11 +449,11 @@ func _process(delta: float) -> void:
 					ModelParent.remove_child(n)
 					n.queue_free()
 			
-			lastData = data
 			reload = false
 			print("Total of " + str(totalLines) + " lines")
 			print("Skipped " + str(skippedLines) + " lines")
 			Notifications.SendNotification("Drew " + str(totalLines) + " new lines. Skipped " + str(skippedLines) + " objects", 2000)
+	
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
@@ -499,4 +514,3 @@ func _process(delta: float) -> void:
 		#CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering-1", "self", 0.05)
 		#CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering-2", "self", 0.05)
 		CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
-		
