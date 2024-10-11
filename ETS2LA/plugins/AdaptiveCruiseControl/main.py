@@ -247,7 +247,8 @@ def RedLightExists() -> bool:
                 if light["state"] == "red":
                     lastRedLightTime = time.time()
                     return True
-            except: continue
+            except:
+                continue
             
     if time.time() - lastRedLightTime < .5:
         return True
@@ -269,7 +270,8 @@ def GetIntersectionDistance() -> float:
         if time.time() - lastIntersectionDistanceTime < 0.5:
             return lastIntersectionDistance
         return math.inf
-    
+
+    lastIntersectionDistanceTime = time.time()
     lastIntersectionDistance = float(data)
     return float(data)
 
@@ -318,7 +320,7 @@ def plugin():
     try: timeToVehicle = GetTimeToVehicleAhead(apiData)
     except: timeToVehicle = math.inf; logging.exception("Failed to get time to vehicle ahead")
         
-    if RedLightExists(): 
+    if RedLightExists():
         intersectionDistance = GetIntersectionDistance()
         if intersectionDistance < lastVehicleDistance:
             lastVehicleDistance = intersectionDistance
@@ -334,9 +336,14 @@ def plugin():
         if targetSpeed == 0:
             acceleration = -1
         SetAccelBrake(acceleration)
-        
-    return None, {
+
+    returnDict = {
         "status": GetStatus(type),
         "acc": targetSpeed,
         "highlights": [vehicleId if time.time() - lastVehicleTime < 1 else None]
-    } 
+    }
+
+    if type == "traffic light":
+        returnDict["stopping_distance"] = intersectionDistance
+
+    return None, returnDict

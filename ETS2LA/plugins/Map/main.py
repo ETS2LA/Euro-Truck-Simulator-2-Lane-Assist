@@ -98,8 +98,15 @@ def plugin():
     if not data.elevation_data_sent:
         return_dict["elevation_data"] = data.map.elevations
         data.elevation_data_sent = True
-        
+
+    if data.calculate_steering and data.route_plan is not None and len(data.route_plan) > 0:
+        if type(data.route_plan[0].items[0].item) == c.Road:
+            return_dict["next_intersection_distance"] = data.route_plan[0].distance_left()
+        else:
+            return_dict["next_intersection_distance"] = 1
+    else:
+        return_dict["next_intersection_distance"] = 1
+
     return_dict["target_speed"] = max_speed
-    return_dict["next_intersection_distance"] = 0
     
     return [point.tuple() for point in data.route_points], return_dict

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=44 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/map_data.gd" id="2_et5o6"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/dark_mode_button.gd" id="2_fkubr"]
 [ext_resource type="Script" path="res://Scripts/UI/sockets_label.gd" id="4_ckaqj"]
+[ext_resource type="Script" path="res://Scripts/stopping_distance.gd" id="4_rope5"]
 [ext_resource type="Script" path="res://Scripts/UI/map_data_label.gd" id="4_x630f"]
 [ext_resource type="Script" path="res://Scripts/camera_zoom.gd" id="5_57w1g"]
 [ext_resource type="Script" path="res://Scripts/truck.gd" id="5_k5niq"]
@@ -25,6 +26,10 @@
 [ext_resource type="Texture2D" uid="uid://bj6bcwvosqap6" path="res://Assets/speedlimit.png" id="17_6k1i8"]
 [ext_resource type="Script" path="res://Scenes/elevation_data_label.gd" id="23_unmpq"]
 [ext_resource type="Script" path="res://Scripts/elevation.gd" id="24_onrb8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i3vjd"]
+transparency = 1
+albedo_color = Color(0.541176, 0, 0, 0.662745)
 
 [sub_resource type="FontVariation" id="FontVariation_kk0ys"]
 base_font = ExtResource("16_4yfey")
@@ -98,9 +103,18 @@ script = ExtResource("1_wt6xa")
 [node name="Elevation" type="Node" parent="."]
 script = ExtResource("24_onrb8")
 
+[node name="StoppingDistance" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("4_rope5")
+target = NodePath("../Truck")
+
+[node name="Stop" type="CSGBox3D" parent="StoppingDistance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20201, -0.347412)
+size = Vector3(4.5, 2, 0.305)
+material = SubResource("StandardMaterial3D_i3vjd")
+
 [node name="MapData" type="Node" parent="."]
 script = ExtResource("2_et5o6")
-updateRate = 20
+updateRate = 5
 
 [node name="Truck" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.012, 1, 2.774)

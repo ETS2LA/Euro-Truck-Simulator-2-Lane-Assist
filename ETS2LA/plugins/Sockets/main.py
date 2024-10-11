@@ -262,6 +262,27 @@ def instruct(data):
     except:
         return ""
 
+last_stopping_distance = 0
+last_stopping_distance_time = time.time()
+def stopping_distance(data):
+    try:
+        global last_stopping_distance, last_stopping_distance_time
+        data["stopping_distance"] = runner.GetData(["tags.stopping_distance"])[0]
+        #print(data["stopping_distance"])
+        if data["stopping_distance"] is None or type(data["stopping_distance"]) not in [int, float]:
+            if time.time() - last_stopping_distance_time < 1:
+                data["stopping_distance"] = last_stopping_distance
+            else:
+                data["stopping_distance"] = -1
+        else:
+            last_stopping_distance = data["distance_to_lights"]
+            last_stopping_distance_time = time.time()
+
+        send = "stopping_distance:" + str(data["stopping_distance"]) + ";"
+        return send
+    except:
+        return ""
+
 async def start_server(func):
     async with websockets.serve(func, "localhost", 37522):
         await asyncio.Future() # run forever
@@ -317,6 +338,8 @@ def plugin():
     runner.Profile("Highlights")
     tempSend += instruct(data)
     runner.Profile("Instruct")
+    tempSend += stopping_distance(data)
+    runner.Profile("StoppingDistance")
 
     #Switch to zlib when on windows
     if os.name == "nt":

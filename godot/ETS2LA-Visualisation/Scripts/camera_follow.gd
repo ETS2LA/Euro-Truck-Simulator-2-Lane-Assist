@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 	# Yaw
 	var currentRotation = Quaternion(self.basis)
 	var targetRotationY = Quaternion(Vector3(0, 1, 0), target.rotation.y + rotationOffset.y + mouseOffsetRotation.y)
-	var targetRotationX = Quaternion(Vector3(1, 0, 0), target.rotation.x + rotationOffset.x + mouseOffsetRotation.x)
-	var targetRotationZ = Quaternion(Vector3(0, 0, 1), target.rotation.z + rotationOffset.z + mouseOffsetRotation.z)
+	var targetRotationX = Quaternion(Vector3(1, 0, 0), rotationOffset.x + mouseOffsetRotation.x)
+	var targetRotationZ = Quaternion(Vector3(0, 0, 1), rotationOffset.z + mouseOffsetRotation.z)
 	var smoothrot = currentRotation.slerp(targetRotationY * targetRotationX * targetRotationZ, delta * 5)
 	self.basis = Basis(smoothrot)
