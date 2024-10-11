@@ -154,6 +154,8 @@
     "frontend.immediate.socket_disconnected": "Disconnected, please refresh.",
     "frontend.immediate.enable_stay_on_top": "Enable stay on top",
     "frontend.immediate.disable_stay_on_top": "Disable stay on top",
+    "frontend.immediate.enable_transparent": "Enable transparency",
+    "frontend.immediate.disable_transparent": "Disable transparency",
     "frontend.immediate.minimize": "Minimize",
     "frontend.immediate.close": "Close",
     "frontend.version_history": "Version History",
@@ -270,6 +272,8 @@
     "global.settings.10.description": "Width of the window.",
     "global.settings.11.name": "Window Height",
     "global.settings.11.description": "Height of the window.",
+    "global.settings.12.name": "Transparency Mode Alpha",
+    "global.settings.12.description": "The transparency of the window in transparent mode. 1 = fully opaque, 0 = fully transparent.",
 
     "map.settings.1.title": "Map Settings",
     "map.settings.1.description": "These settings are for the map plugin.",

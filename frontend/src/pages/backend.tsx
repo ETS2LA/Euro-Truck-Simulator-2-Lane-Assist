@@ -186,6 +186,28 @@ export async function SetStayOnTop(ip="localhost", top=true) {
     return data
 }
 
+export async function SetTransparent(ip="localhost", transparent=true) {
+    const response = await fetch(`http://${ip}:37520/api/window/transparency/${transparent}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+export async function GetTransparent(ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/window/transparency`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
 export async function GetCurrentLanguage(ip="localhost") {
     const response = await fetch(`http://${ip}:37520/api/language`, {
         method: "GET",

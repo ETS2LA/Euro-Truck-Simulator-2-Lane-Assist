@@ -40,7 +40,6 @@ export default function Basic({ip} : {ip: string}) {
 
     function handleMouseMove(e: React.MouseEvent) {
         setCursorPosition({x: e.clientX, y: e.clientY});
-        console.log(e.clientY / window.innerHeight);
         if (e.clientY / window.innerHeight < 0.2) {
             setIsInTop20Percent(true);
         } else {

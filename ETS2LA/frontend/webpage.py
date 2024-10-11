@@ -12,12 +12,16 @@ import os
 
 if os.name == 'nt':
     import win32gui
+    import win32con
+    import winxpgui
+    import win32api
 
 DEBUG_MODE = settings.Get("global", "debug_mode", False)
 FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
 FRAMELESS = settings.Get("global", "frameless", True)
 WIDTH = settings.Get("global", "width", 1280)
 HEIGHT = settings.Get("global", "height", 720)
+IS_TRANSPARENT = False
 
 queue:JoinableQueue = JoinableQueue()
 
@@ -43,7 +47,6 @@ def get_on_top():
     return value
 
 def resize_window(width:int, height:int):
-    global webview_window
     queue.put({"type": "resize", "width": width, "height": height})
     queue.join() # Wait for the queue to be processed
     value = queue.get()
@@ -56,6 +59,27 @@ def minimize_window():
     value = queue.get()
     queue.task_done()
     return value
+
+def get_transparency():
+    return IS_TRANSPARENT
+
+def set_transparency(value: bool):
+    global IS_TRANSPARENT
+    if os.name == 'nt':
+        if value:
+            HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+            win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
+            transparency = settings.Get("global", "transparency_alpha", 0.8)
+            transparency = int(transparency * 255)
+            winxpgui.SetLayeredWindowAttributes(HWND, win32api.RGB(0,0,0), transparency, win32con.LWA_ALPHA)
+        else:
+            HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+            win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) & ~win32con.WS_EX_LAYERED)
+        
+        IS_TRANSPARENT = value
+    else:
+        logging.warning(f"Transparency is not supported on this platform. ({os.name})")
+    return IS_TRANSPARENT
 
 def start_webpage(queue: JoinableQueue):
     global webview_window

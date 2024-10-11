@@ -27,6 +27,7 @@ import { Slider } from "./ui/slider"
 import { useState } from "react"
 import { translate } from "@/pages/translation"
 import React, { Component } from 'react';
+import { SkeletonItem } from "./skeleton_item"
 
 interface SliderComponentProps {
     pluginSettings: Record<string, any>;
@@ -197,7 +198,15 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 		}
 
 		if (data.type.type == "number") {
-			const value = pluginSettings[data.key] && parseFloat(pluginSettings[data.key]) || 0
+			if(!parseFloat(pluginSettings[data.key])){
+				return (
+					<div className="flex flex-col gap-2">
+						<h4>...</h4>
+						<Slider />
+						<p className="text-xs text-muted-foreground">...</p>
+					</div>
+				)
+			}
 			if (data.type.min !== undefined && data.type.max !== undefined) { // Ensure min and max are not undefined
 				return ( // Add return statement here
 					<SliderComponent

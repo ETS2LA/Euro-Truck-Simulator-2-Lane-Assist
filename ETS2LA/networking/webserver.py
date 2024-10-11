@@ -1,5 +1,5 @@
+from ETS2LA.frontend.webpage import set_on_top, get_on_top, set_transparency, get_transparency
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
-from ETS2LA.frontend.webpage import set_on_top, get_on_top
 from ETS2LA.utils.window import CheckIfWindowOpen
 from ETS2LA.utils.translator import Translate
 import ETS2LA.utils.translator as translator
@@ -51,10 +51,6 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"ETS2LA": "1.0.0"}
-
-@app.get("/api/window/exists/{name}")
-def check_window(name: str):
-    return CheckIfWindowOpen(name)
 
 @app.get("/auth/discord/login", response_class=HTMLResponse)
 def login(code):
@@ -117,6 +113,13 @@ def set_theme(theme: str):
 def get_IP():
     return IP
 
+#endregion
+# region Window
+
+@app.get("/api/window/exists/{name}")
+def check_window(name: str):
+    return CheckIfWindowOpen(name)
+
 @app.get("/api/window/stay_on_top")
 def get_stay_on_top():
     return get_on_top()
@@ -125,6 +128,19 @@ def get_stay_on_top():
 def stay_on_top(state: bool):
     newState = set_on_top(state)
     return newState
+
+@app.get("/api/window/transparency/{state}")
+def set_transparency_to(state: bool):
+    try:
+        newState = set_transparency(state)
+        return newState
+    except:
+        logging.exception("Failed to set transparency")
+        return False
+
+@app.get("/api/window/transparency")
+def get_transparency_state():
+    return get_transparency()
 
 # endregion
 # region Plugins

@@ -139,6 +139,8 @@
     "frontend.immediate.socket_disconnected",
     "frontend.immediate.enable_stay_on_top",
     "frontend.immediate.disable_stay_on_top",
+    "frontend.immediate.enable_transparent",
+    "frontend.immediate.disable_transparent",
     "frontend.immediate.minimize",
     "frontend.immediate.close",
     "frontend.version_history",
@@ -252,6 +254,8 @@
     "global.settings.10.description",
     "global.settings.11.name",
     "global.settings.11.description",
+    "global.settings.12.name",
+    "global.settings.12.description",
     
     "map.settings.1.title",
     "map.settings.1.description",

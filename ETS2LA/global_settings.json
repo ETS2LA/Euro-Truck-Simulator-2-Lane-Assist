@@ -89,6 +89,17 @@
             }
         },
         {
+            "name": "global.settings.12.name",
+            "key": "transparency_alpha",
+            "description": "global.settings.12.description",
+            "type": {
+                "type": "number",
+                "min": 0.4,
+                "max": 1,
+                "step": 0.05
+            }
+        },
+        {
             "name": "global.settings.9.name",
             "description": "global.settings.9.description",
             "key": "frameless",

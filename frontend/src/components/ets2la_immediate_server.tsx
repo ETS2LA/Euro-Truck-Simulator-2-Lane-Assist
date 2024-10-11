@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useState, useRef } from "react";
 import {toast} from "sonner"
 import { Badge } from "./ui/badge"
-import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff, X, Minimize2, Pin, PinOff} from "lucide-react";
-import { CheckForUpdate, Update, GetStayOnTop, SetStayOnTop, CloseBackend, MinimizeBackend } from "@/pages/backend";
+import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff, X, Minimize2, Pin, PinOff, Eye, EyeOff} from "lucide-react";
+import { CheckForUpdate, Update, GetStayOnTop, SetStayOnTop, CloseBackend, MinimizeBackend, SetTransparent, GetTransparent } from "@/pages/backend";
 import useSWR, { mutate } from "swr";
 import {
     Dialog,
@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "./ui/button";
 import { useRouter } from "next/router";
-import { after } from "node:test";
 import {
     Tooltip,
     TooltipContent,
@@ -31,6 +30,7 @@ let socket: WebSocket | null = null;
 export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: boolean}) {
     const { data, error, isLoading } = useSWR("updates", () => CheckForUpdate(ip), { refreshInterval: 60000 }) // Check for updates every minute
     const { data: onTopData, error: onTopError, isLoading: onTopLoading } = useSWR("onTop", () => GetStayOnTop(ip), { refreshInterval: 10000 })
+    const { data: transparentData, error: transparentError, isLoading: transparentLoading } = useSWR("transparent", () => GetTransparent(ip), { refreshInterval: 10000 })
     const [connected, setConnected] = useState(false);
     const [promiseMessages, setPromiseMessages] = useState<string[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -281,45 +281,71 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
         <Badge variant={connected ? "default" : "destructive"} className="gap-1 pl-1 rounded-sm h-[26px]">{connected ? <Plug className="w-5 h-5" /> : <Unplug className="w-5 h-5" />}{connected ? translate("frontend.immediate.socket_connected") : translate("frontend.immediate.socket_disconnected")}</Badge>
         <div>
             <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger>
-                        <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => {
-                            toast.promise(SetStayOnTop(ip, !onTopData), { 
-                                loading: translate("setting"), 
-                                success: translate("set"), 
-                                error: translate("error"), 
-                                onAutoClose: () => mutate("onTop"),
-                                onDismiss: () => mutate("onTop"),
-                                duration: 1000
-                            });
-                        }}>
-                            {onTopData ? <Pin className="w-4 h-4 overflow-visible" /> : <PinOff className="w-4 h-4 overflow-visible" />}
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        {onTopData ? translate("frontend.immediate.disable_stay_on_top") : translate("frontend.immediate.enable_stay_on_top")}
-                    </TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                    <TooltipTrigger>
-                        <Button variant={"secondary"} className="h-[26px] w-5 rounded-none group" onClick={() => MinimizeBackend()}>
-                            <Minimize2 className="w-4 h-4 overflow-visible" />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        {translate("frontend.immediate.minimize")}
-                    </TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                    <TooltipTrigger>
-                        <Button variant={"secondary"} className="h-[26px] w-5 rounded-l-none group" onClick={() => CloseBackend()}>
-                            <X className="w-4 h-4 overflow-visible" />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        {translate("frontend.immediate.close")}
-                    </TooltipContent>
-                </Tooltip>
+                <div className="flex gap-1">
+                    <div>
+                    <Tooltip>
+                            <TooltipTrigger>
+                                <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => {
+                                    console.log(transparentData)
+                                    toast.promise(SetTransparent(ip, !transparentData), { 
+                                        loading: translate("setting"), 
+                                        success: translate("set"), 
+                                        error: translate("error"), 
+                                        onAutoClose: () => mutate("transparent"),
+                                        onDismiss: () => mutate("transparent"),
+                                        duration: 1000
+                                    });
+                                }}>
+                                    {transparentData ? <EyeOff className="w-4 h-4 overflow-visible" /> : <Eye className="w-4 h-4 overflow-visible" />}
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                {transparentData ? translate("frontend.immediate.disable_transparent") : translate("frontend.immediate.enable_transparent")}
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button variant={"secondary"} className="h-[26px] w-5 rounded-l-none group" onClick={() => {
+                                    toast.promise(SetStayOnTop(ip, !onTopData), { 
+                                        loading: translate("setting"), 
+                                        success: translate("set"), 
+                                        error: translate("error"), 
+                                        onAutoClose: () => mutate("onTop"),
+                                        onDismiss: () => mutate("onTop"),
+                                        duration: 1000
+                                    });
+                                }}>
+                                    {onTopData ? <Pin className="w-4 h-4 overflow-visible" /> : <PinOff className="w-4 h-4 overflow-visible" />}
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                {onTopData ? translate("frontend.immediate.disable_stay_on_top") : translate("frontend.immediate.enable_stay_on_top")}
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                    <div>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button variant={"secondary"} className="h-[26px] w-5 rounded-r-none group" onClick={() => MinimizeBackend()}>
+                                    <Minimize2 className="w-4 h-4 overflow-visible" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                {translate("frontend.immediate.minimize")}
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button variant={"secondary"} className="h-[26px] w-5 rounded-l-none group" onClick={() => CloseBackend()}>
+                                    <X className="w-4 h-4 overflow-visible" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                {translate("frontend.immediate.close")}
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                </div>
             </TooltipProvider>
         </div>
     </div>
