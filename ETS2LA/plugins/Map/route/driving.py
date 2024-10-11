@@ -84,6 +84,9 @@ def GetSteering():
                 break
             points.append(point)
 
+    if len(points) == 0:
+        return 0
+
     min_distance = 0.5
     last_point_position = points[0].tuple()
     accepted_points = [points[0]]

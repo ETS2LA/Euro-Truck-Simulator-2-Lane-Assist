@@ -100,7 +100,7 @@ script = ExtResource("24_onrb8")
 
 [node name="MapData" type="Node" parent="."]
 script = ExtResource("2_et5o6")
-updateRate = 10
+updateRate = 20
 
 [node name="Truck" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.012, 1, 2.774)
