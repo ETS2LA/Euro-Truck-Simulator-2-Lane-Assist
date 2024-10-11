@@ -44,10 +44,6 @@ MouseHold={
 ]
 }
 
-[physics]
-
-common/physics_ticks_per_second=120
-
 [rendering]
 
 rendering_device/d3d12/max_sampler_descriptors_per_frame=2048
@@ -56,7 +52,7 @@ renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 gl_compatibility/item_buffer_size=65536
 limits/global_shader_variables/buffer_size=4096
-limits/spatial_indexer/threaded_cull_minimum_instances=8192
+limits/spatial_indexer/threaded_cull_minimum_instances=16384
 environment/defaults/default_clear_color=Color(0.0352941, 0.0352941, 0.0431373, 1)
 anti_aliasing/quality/msaa_2d=1
 anti_aliasing/quality/msaa_3d=1
