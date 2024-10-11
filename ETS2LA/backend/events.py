@@ -2,6 +2,7 @@ from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
 from ETS2LA.modules.SDKController.main import SCSController
 import ETS2LA.modules.TruckSimAPI.main as API
 from ETS2LA.utils.translator import Translate
+from ETS2LA.utils.values import SmoothedValue
 from ETS2LA.frontend.immediate import value
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
@@ -23,6 +24,8 @@ braking_threshold = settings.Get("global", "braking_threshold", 0.2)
 # Events
 class ToggleSteering():
     steering = False
+    app_braking = SmoothedValue("time", 0.5)
+    game_braking = SmoothedValue("time", 0.5)
     def ToggleSteering(self):
         self.steering = not self.steering
         sounds.Play('start' if self.steering else 'end')
@@ -31,11 +34,12 @@ class ToggleSteering():
         
     def CheckForUserInput(self, data):
         if self.steering:
-            app_braking = controller.abackward
-            game_braking = data["truckFloat"]["userBrake"]
+            app_braking = self.app_braking(controller.abackward)
+            game_braking = self.game_braking(data["truckFloat"]["userBrake"])
             need_to_disable_via_braking = abs(app_braking - game_braking) > braking_threshold
             if braking_threshold >= 0 and braking_threshold <= 1:
                 if need_to_disable_via_braking:
+                    print("Braking: " + str(app_braking) + " - " + str(game_braking) + " = " + str(abs(app_braking - game_braking)))
                     self.ToggleSteering()
                 
     def __init__(self):
