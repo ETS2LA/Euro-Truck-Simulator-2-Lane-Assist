@@ -73,6 +73,8 @@ external_data_changed = False
 """Flag for the main file to update the external data in the main process."""
 external_data_time = 0
 """Time the external data was last updated."""
+elevation_data_sent = False
+"""Whether the elevation data has been sent to the main process or not."""
 
 def UpdateData(api_data):
     global heavy_calculations_this_frame
@@ -107,6 +109,11 @@ def UpdateData(api_data):
             "roads": [road.json() for road in current_sector_roads],
             "models": [model.json() for model in current_sector_models],
         }
+        
+        if not elevation_data_sent:
+            external_data["elevation"] = map.elevations
+            elevation_data_sent = True
+        
         external_data_changed = True
         external_data_time = time.time()
         data_needs_update = False

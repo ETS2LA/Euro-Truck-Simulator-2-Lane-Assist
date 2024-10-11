@@ -1,5 +1,5 @@
-Download godot 4.3 beta 1 from here: 
-https://godotengine.org/download/preview/
+Download godot 4.3 from here:
+https://godotengine.org/download
 (or later)
 
 And then open one of the projects in this folder (there's a file in the project folder)

@@ -132,4 +132,4 @@ def RotateAroundPoint(x: float, y: float, angle: float, origin_x: float, origin_
     new_x = x * c - y * s
     new_y = x * s + y * c
     
-    return (new_x + origin_x, new_y + origin_y)
+    return new_x + origin_x, new_y + origin_y

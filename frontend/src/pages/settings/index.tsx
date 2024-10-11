@@ -23,7 +23,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 export default function Home({ ip }: { ip: string }) {
     const { push } = useRouter()
     const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
-    const { data: global, error: globalsError, isLoading: globalsLoading } = useSWR("globals", () => GetSettingsJSON("global_json", ip));
+    const { data: global} = useSWR("globals", () => GetSettingsJSON("global_json", ip));
     const [selectedPlugin, setSelectedPlugin] = useState("Global")
     const [scrolledDown, setScrolledDown] = useState(false)
 
@@ -42,6 +42,7 @@ export default function Home({ ip }: { ip: string }) {
             return <ETS2LASettingsPage ip={ip} plugin={"Global"} />;
         } else if (selectedPlugin === "Controls") {
             return <ControlsPage ip={ip} />;
+            // @ts-ignore
         } else if (data && data[selectedPlugin] && data[selectedPlugin].file && data[selectedPlugin].file.settings) {
             // Ensure data is correctly passed to ETS2LASettingsPage
             return <ETS2LASettingsPage ip={ip} plugin={selectedPlugin} />;
@@ -72,19 +73,23 @@ export default function Home({ ip }: { ip: string }) {
                                     <br />
                                     {plugins.map((plugin:any, index) => (
                                         plugin == "Separator" ? <br key={index} /> : 
-                                        plugin == "Global" ? null :
+                                        plugin == "Global" ? null : // @ts-ignore
                                         data && data[plugin] && data[plugin].file && data[plugin].file.settings ?
                                         <div className="items-center justify-start text-sm">
                                             <Tooltip>
                                                 <TooltipTrigger className="items-center justify-start text-sm w-full">
                                                     <Button key={index} className="items-center justify-start text-sm w-full rounded-r-none" variant={selectedPlugin == plugin && "secondary" || "ghost"} onClick={() => setSelectedPlugin(plugin)}>
-                                                        {translate(data[plugin].file.name)}
+                                                        {// @ts-ignore
+                                                            translate(data[plugin].file.name)
+                                                        }
                                                     </Button>
                                                 </TooltipTrigger>
                                                 <TooltipContent>
                                                     <div className="flex flex-col gap-2 text-start">
                                                         <p className="text-xs text-start">
-                                                            {translate(data[plugin].file.name)}
+                                                            {// @ts-ignore
+                                                                translate(data[plugin].file.name)
+                                                            }
                                                         </p>
                                                     </div>
                                                 </TooltipContent>

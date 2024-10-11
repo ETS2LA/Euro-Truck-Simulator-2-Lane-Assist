@@ -16,3 +16,6 @@ cache
 
 # Ignore Object Detection models
 /ETS2LA/plugins/ObjectDetection/models
+
+# Pycharm
+.idea
