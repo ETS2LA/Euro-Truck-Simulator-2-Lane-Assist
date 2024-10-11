@@ -154,6 +154,8 @@
     "frontend.immediate.socket_disconnected": "Yhteys katkaistu, päivitä sivu",
     "frontend.immediate.enable_stay_on_top": "Pidä päällimmäisenä",
     "frontend.immediate.disable_stay_on_top": "Älä pidä päällimmäisenä",
+    "frontend.immediate.enable_transparent": "Läpinäkyvyystila",
+    "frontend.immediate.disable_transparent": "Poistu läpinäkyvyystilasta",
     "frontend.immediate.minimize": "Pienennä",
     "frontend.immediate.close": "Sulje",
     "frontend.version_history": "Päivityshistoria",
@@ -270,6 +272,8 @@
     "global.settings.10.description": "ETS2LA:n ikkunan leveys.",
     "global.settings.11.name": "Ikkunan korkeus",
     "global.settings.11.description": "ETS2LA:n ikkunan korkeus.",
+    "global.settings.12.name": "Läpinäkyvyys tilan arvo",
+    "global.settings.12.description": "Kuinka läpinäkyvä ikkuna on läpinäkyvyys tilassa. 1 on normaali, 0.7 tarkoittaa 30% läpinäkyvyyttä.",
 
     "map.settings.1.title": "Kartan asetukset",
     "map.settings.1.description": "Nämä asetukset vaikuttavat karttaan ja sen karttatietoihin.",
