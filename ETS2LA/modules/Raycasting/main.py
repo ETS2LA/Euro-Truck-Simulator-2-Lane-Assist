@@ -15,6 +15,8 @@ else:
     import Xlib.ext
     import Xlib.XK
 
+import time
+
 FOV = settings.Get("global", "FOV", 77)  # Vertical fov in degrees
 
 runner: PluginRunner = None

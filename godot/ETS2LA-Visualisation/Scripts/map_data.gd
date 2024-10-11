@@ -31,9 +31,6 @@ func parse_check_request(result, response_code, headers, body):
 	var time = float(body.get_string_from_utf8())
 	if time == 0:
 		return
-	print(time)
-	print(typeof(time))
-	print(lastSourceUpdateTime)
 	if time != lastSourceUpdateTime or didUpdate == false:
 		didUpdate = false
 		lastSourceUpdateTime = time

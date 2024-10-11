@@ -37,23 +37,20 @@ func _process(delta: float) -> void:
 	elif Time.get_ticks_msec() - mouseRotationTime > mouseRotationResetTime and speed * 3.6 > 20: # Reset back after time and if speed is over 20kph
 		mouseOffsetRotation = Vector3(0, 0, 0)
 		
+	if speed < 0.1 and speed > -0.1:
+		offset = Vector3(0,10,10)
+		offsetRotation = Vector3(-PI/32,0,0)
+	else:
+		offset = Vector3(0,0,0)
+		offsetRotation = Vector3(0,0,0)
+		
 	# Lerp the position to the target position
-	self.position = self.position.lerp(target.position + offset, delta * followSpeed)
+	self.position = self.position.lerp(target.position + offset.rotated(Vector3(0, 1, 0), target.rotation.y + rotationOffset.y + mouseOffsetRotation.y), delta * followSpeed)
 	
 	# Yaw
 	var currentRotation = Quaternion(self.basis)
-	var targetRotation = Quaternion(Vector3(0,1,0), target.rotation.y + rotationOffset.y + mouseOffsetRotation.y)
-	var smoothrot = currentRotation.slerp(targetRotation, delta * 5)
-	
+	var targetRotationY = Quaternion(Vector3(0, 1, 0), target.rotation.y + rotationOffset.y + mouseOffsetRotation.y)
+	var targetRotationX = Quaternion(Vector3(1, 0, 0), target.rotation.x + rotationOffset.x + mouseOffsetRotation.x)
+	var targetRotationZ = Quaternion(Vector3(0, 0, 1), target.rotation.z + rotationOffset.z + mouseOffsetRotation.z)
+	var smoothrot = currentRotation.slerp(targetRotationY * targetRotationX * targetRotationZ, delta * 5)
 	self.basis = Basis(smoothrot)
-	
-	# Tilt
-	#currentRotation = Quaternion(self.basis)
-	#targetRotation = Quaternion(Vector3(1,0,0), target.rotation.x + rotationOffset.x + mouseOffsetRotation.x)
-	#smoothrot = currentRotation.slerp(targetRotation, delta * 5)
-	
-	#self.basis = Basis(smoothrot)
-	
-	
-	
-	pass

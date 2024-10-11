@@ -147,12 +147,8 @@ func _process(delta: float) -> void:
 			position = Vector3(float(Socket.data["x"]), float(Socket.data["y"]), float(Socket.data["z"]))
 		else:
 			return
-		if data != lastData and data != {} or reload and "roads" in data and "prefabs" in data:
+		if (data != lastData and data != {} or reload) and "roads" in data and "prefabs" in data:
 			var roadData = data["roads"]
-
-			#for n in self.get_children():
-			#	self.remove_child(n)
-			#	n.queue_free() 
 				
 			var curRoads = []
 			var curRoadUids = []
@@ -171,14 +167,6 @@ func _process(delta: float) -> void:
 			for n in ModelParent.get_children():
 				curModelUids.append(n.name.split("-")[0])
 				curModels.append(n)
-				
-			#for n in PrefabParent.get_children():
-			#	PrefabParent.remove_child(n)
-			#	n.queue_free()
-			#	
-			#for n in RoadParent.get_children():
-			#	RoadParent.remove_child(n)
-			#	n.queue_free()
 			
 			var roadsInData = []
 			
@@ -329,10 +317,9 @@ func _process(delta: float) -> void:
 					RoadParent.remove_child(n)
 					n.queue_free()
 			
-			var prefabData = data["prefabs"]
 			
 			var prefabsInData = []
-			
+			var prefabData = data["prefabs"]
 			for prefab in prefabData:
 				var uid = str(prefab["uid"])
 				
@@ -434,7 +421,7 @@ func _process(delta: float) -> void:
 				box.position = modelPosition + Vector3(0,height/2,0)
 				box.scale = Vector3(model["scale"]["x"], model["scale"]["z"], model["scale"]["y"])
 				box.size = Vector3(width, height, length)
-				box.rotation_degrees = Vector3(0, rad_to_deg(rotation - PI / 2), 0)
+				box.rotation = Vector3(0, rotation - PI / 2 + PI / 8, 0)
 				
 				ModelParent.add_child(box)
 				
@@ -509,7 +496,7 @@ func _process(delta: float) -> void:
 				self.remove_child(n)
 				n.queue_free()
 		
-		CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering-1", "self", 0.05)
-		CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering-2", "self", 0.05)
-		#CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
+		#CreateAndRenderMesh(leftMarkingVertices, 0, 0, mat, "steering-1", "self", 0.05)
+		#CreateAndRenderMesh(rightMarkingVertices, 0, 0, mat, "steering-2", "self", 0.05)
+		CreateAndRenderMesh(vertices, 0, 0, mat, "steering", "self")
 		

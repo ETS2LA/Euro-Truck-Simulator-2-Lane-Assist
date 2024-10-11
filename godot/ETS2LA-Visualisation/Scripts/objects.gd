@@ -62,6 +62,5 @@ func _process(delta: float) -> void:
 		
 			for n in self.get_children():
 				if not newObjectIDs.has(n.name):
-					print("remove")
 					self.remove_child(n)
 					n.queue_free()
