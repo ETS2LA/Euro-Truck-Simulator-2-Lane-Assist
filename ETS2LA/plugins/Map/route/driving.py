@@ -83,7 +83,21 @@ def GetSteering():
             if len(points) > 50:
                 break
             points.append(point)
-            
+
+    min_distance = 0.5
+    last_point_position = points[0].tuple()
+    accepted_points = [points[0]]
+    for i in range(1, len(points)):
+        point_position = points[i].tuple()
+        distance = math_helpers.DistanceBetweenPoints(last_point_position, point_position)
+        if distance < min_distance:
+            continue
+
+        accepted_points.append(points[i])
+        last_point_position = point_position
+
+    points = accepted_points
+
     data.route_points = points
     data.runner.Profile("Steering - Get points")
             

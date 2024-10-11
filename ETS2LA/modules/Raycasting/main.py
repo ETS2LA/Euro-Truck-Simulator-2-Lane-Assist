@@ -258,9 +258,6 @@ def GetValuesFromAPI():
         head_z = 0
 
 
-import time
-
-
 def run(x=None, y=None):
     GetValuesFromAPI()
     UpdateGamePosition()
