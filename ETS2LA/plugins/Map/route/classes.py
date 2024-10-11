@@ -89,7 +89,7 @@ class RouteSection:
             item.lane_index = value
             self.lane_points += item.lane_points
             
-        min_distance = 0.1
+        min_distance = 0.5
         last_point = self.lane_points[0]
         accepted_points = []
         for point in self.lane_points:
