@@ -434,7 +434,7 @@ func _process(delta: float) -> void:
 				box.position = modelPosition + Vector3(0,height/2,0)
 				box.scale = Vector3(model["scale"]["x"], model["scale"]["z"], model["scale"]["y"])
 				box.size = Vector3(width, height, length)
-				box.rotation_degrees = Vector3(0, rad_to_deg(rotation*2), 0)
+				box.rotation_degrees = Vector3(0, rad_to_deg(rotation - PI / 2), 0)
 				
 				ModelParent.add_child(box)
 				
