@@ -87,7 +87,7 @@ def GetSteering():
     if len(points) == 0:
         return 0
 
-    min_distance = 0.5
+    min_distance = 0.25
     last_point_position = points[0].tuple()
     accepted_points = [points[0]]
     for i in range(1, len(points)):
@@ -100,6 +100,10 @@ def GetSteering():
         last_point_position = point_position
 
     points = accepted_points
+    speed = max(data.truck_speed * 3.6, 10)  # Convert to kph
+    speed = min(speed, 80)
+    # Multiplier is 8 at 10kph and 2 at 80kph
+    multiplier = max(8 - (speed - 10) / 10, 2)
 
     data.route_points = points
     data.runner.Profile("Steering - Get points")
@@ -142,13 +146,11 @@ def GetSteering():
             angle = angle * ANGLE_MULTIPLIER
             
             offset_correction = lateral_offset * 5
-            offset_correction = max(-20, min(20, offset_correction))
+            offset_correction = offset_correction
             if isLeft:
                 angle += offset_correction * OFFSET_MULTIPLIER
             else:
                 angle += offset_correction * OFFSET_MULTIPLIER
-            
-            multiplier = 2
             
             return angle * multiplier
         elif len(points) == 2:
@@ -165,7 +167,7 @@ def GetSteering():
                 
             data.runner.Profile("Steering - Calculate amount")
                 
-            return angle * 2
+            return angle * 2 * multiplier
         else:
             return 0
     except:

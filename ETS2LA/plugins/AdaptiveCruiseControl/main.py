@@ -324,7 +324,7 @@ def plugin():
         intersectionDistance = GetIntersectionDistance()
         if intersectionDistance < lastVehicleDistance:
             lastVehicleDistance = intersectionDistance
-            acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, 0, falloffDistance=BRAKING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, stoppingDistance=STOPPING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER)
+            acceleration, targetSpeed, type = CalculateAcceleration(targetSpeed, currentSpeed, lastVehicleDistance, timeToVehicle, 0, falloffDistance=BRAKING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER / 2, stoppingDistance=STOPPING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER)
             statusData = (intersectionDistance, BRAKING_DISTANCE * TRAFFIC_LIGHT_DISTANCE_MULTIPLIER)
             type = "traffic light"
         else:

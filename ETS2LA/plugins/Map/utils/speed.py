@@ -1,22 +1,28 @@
+from ETS2LA.utils.values import SmoothedValue
+import utils.math_helpers as math_helpers
 import numpy as np
 import logging
 import math
 import data
 
+curvature = SmoothedValue("time", 3)
+
 # Curvature in degrees
 curvature_to_max_speed = {
     0: 100, # Max speed that ETS2LA is allowed to drive
-    25: 90,
-    30: 80,
-    45: 70,
-    60: 60,
-    75: 50,
-    90: 40,
-    105: 30,
-    120: 25,
-    135: 20,
+    0.1: 90,
+    0.2: 80,
+    0.3: 70,
+    0.4: 60,
+    0.5: 50,
+    0.6: 40,
+    0.7: 35,
+    0.8: 30,
+    0.9: 25,
+    1: 20,
 }
 def MapCurvatureToSpeed(curvature):
+    curvature = min(curvature/15, 1)
     # Map the curvature to a max speed
     index_below = 0
     index_above = 0
@@ -61,11 +67,15 @@ def GetMaximumSpeed():
                     angle = math.pi - angle
 
             if not np.isnan(angle) and angle != 0:
-                curvatures.append(angle)
+                percentage = min(math_helpers.EaseOutInverted(
+                    (i+1) / (len(curvatures)+1)),
+                    1
+                )
+                curvatures.append(angle * percentage)
 
-        total_curvature = sum(curvatures)
-        total_curvature = math.degrees(total_curvature)
-        return MapCurvatureToSpeed(total_curvature)
+        curvature = sum(curvatures)
+        curvature = abs(math.degrees(curvature))
+        return MapCurvatureToSpeed(curvature)
     except Exception as e:
         logging.exception("Failed to calculate curvature")
         return MapCurvatureToSpeed(0)

@@ -31,8 +31,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("MouseHold"):
 		var mouseVelocity = Input.get_last_mouse_velocity()
 		if mouseVelocity.abs().x > 25 or mouseVelocity.abs().y > 25:
-			mouseOffsetRotation.y -= mouseVelocity.x / DisplayServer.screen_get_size().x / 1.5 # Yaw
-			mouseOffsetRotation.x += mouseVelocity.y / DisplayServer.screen_get_size().y / 1.5 # Tilt
+			mouseOffsetRotation.y -= mouseVelocity.x / DisplayServer.screen_get_size().x / 2 # Yaw
+			mouseOffsetRotation.x -= mouseVelocity.y / DisplayServer.screen_get_size().y / 4 # Tilt
 			mouseRotationTime = Time.get_ticks_msec()
 	elif Time.get_ticks_msec() - mouseRotationTime > mouseRotationResetTime and speed * 3.6 > 20: # Reset back after time and if speed is over 20kph
 		mouseOffsetRotation = Vector3(0, 0, 0)

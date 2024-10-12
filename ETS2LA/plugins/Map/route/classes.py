@@ -89,7 +89,7 @@ class RouteSection:
             item.lane_index = value
             self.lane_points += item.lane_points
             
-        min_distance = 0.5
+        min_distance = 0.25
         last_point = self.lane_points[0]
         accepted_points = []
         for point in self.lane_points:
@@ -104,8 +104,10 @@ class RouteSection:
         if self.last_actual_points == []:
             self.last_actual_points = self.get_points()
         distance = 0
-        for i in range(len(self.last_actual_points) - 1):
-            distance += math_helpers.DistanceBetweenPoints(self.last_actual_points[i].tuple(), self.last_actual_points[i + 1].tuple())
+        last_point = c.Position(data.truck_x, data.truck_y, data.truck_z)
+        for point in self.last_actual_points:
+            distance += math_helpers.DistanceBetweenPoints(last_point.tuple(), point.tuple())
+            last_point = point
         return distance
 
     def discard_points_behind(self, points: list[c.Position]) -> list[c.Position]:

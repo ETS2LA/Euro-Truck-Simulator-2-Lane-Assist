@@ -97,6 +97,14 @@ def InOut(s: float) -> float:
     """
     return 3 * math.pow(s, 2) - 2 * math.pow(s, 3)
 
+def EaseOutInverted(s: float) -> float:
+    """EaseOutInverted interpolation function.
+
+    :param float s: Interpolation value.
+    :return float: EaseOutInverted interpolated value.
+    """
+    return 1 - s * s
+
 def Hermite(s, x, z, tanX, tanZ):
     """Hermite interpolation function.
 

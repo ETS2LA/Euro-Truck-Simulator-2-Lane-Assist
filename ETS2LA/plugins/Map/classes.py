@@ -1528,7 +1528,7 @@ class PrefabNavRoute:
 
         min_distance = 0.25
         last_point = new_points[0]
-        accepted_points = []
+        accepted_points = [new_points[0]]
         for point in new_points:
             if math_helpers.DistanceBetweenPoints(point.tuple(), last_point.tuple()) > min_distance:
                 accepted_points.append(point)

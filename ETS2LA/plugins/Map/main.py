@@ -102,6 +102,8 @@ def plugin():
     if data.calculate_steering and data.route_plan is not None and len(data.route_plan) > 0:
         if type(data.route_plan[0].items[0].item) == c.Road:
             return_dict["next_intersection_distance"] = data.route_plan[0].distance_left()
+        elif len(data.route_plan) > 1 and type(data.route_plan[1].items[0].item) == c.Road:
+            return_dict["next_intersection_distance"] = data.route_plan[1].distance_left()
         else:
             return_dict["next_intersection_distance"] = 1
     else:
