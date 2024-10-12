@@ -272,4 +272,6 @@ def UpdateRoutePlan():
             data.route_plan = [data.route_plan[0]]
         was_indicating = True
     elif not (data.truck_indicating_left or data.truck_indicating_right) and was_indicating:
+        if len(data.route_plan) > 1:
+            data.route_plan = [data.route_plan[0]]
         was_indicating = False

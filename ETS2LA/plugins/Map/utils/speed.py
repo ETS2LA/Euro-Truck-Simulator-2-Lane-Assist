@@ -22,7 +22,7 @@ curvature_to_max_speed = {
     1: 20,
 }
 def MapCurvatureToSpeed(curvature):
-    curvature = min(curvature/15, 1)
+    curvature = min(curvature/5, 1)
     # Map the curvature to a max speed
     index_below = 0
     index_above = 0
@@ -67,13 +67,13 @@ def GetMaximumSpeed():
                     angle = math.pi - angle
 
             if not np.isnan(angle) and angle != 0:
-                percentage = min(math_helpers.EaseOutInverted(
-                    (i+1) / (len(curvatures)+1)),
+                percentage = min(
+                    (1-(i+1)/(len(points)+1)),
                     1
                 )
                 curvatures.append(angle * percentage)
 
-        curvature = sum(curvatures)
+        curvature = max(curvatures)
         curvature = abs(math.degrees(curvature))
         return MapCurvatureToSpeed(curvature)
     except Exception as e:

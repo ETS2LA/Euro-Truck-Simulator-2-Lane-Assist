@@ -30,7 +30,7 @@ func UpdatePositionScale(newPosition: Vector3, newScale: Vector3):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if type == "dynamic":
-		position = position.lerp(_target, delta * _distance)
+		position = position.lerp(_target, delta * (_cur_target_time - _last_target_time))
 		scale = scale.lerp(_target_scale, delta)
 	else:
 		return
