@@ -72,7 +72,7 @@
             "description": "global.settings.10.description",
             "type": {
                 "type": "number",
-                "min": 0,
+                "min": 480,
                 "max": 2560,
                 "step": 10
             }
@@ -83,7 +83,7 @@
             "description": "global.settings.11.description",
             "type": {
                 "type": "number",
-                "min": 0,
+                "min": 240,
                 "max": 1440,
                 "step": 10
             }
