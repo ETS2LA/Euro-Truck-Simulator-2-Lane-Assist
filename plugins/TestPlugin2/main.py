@@ -36,9 +36,10 @@ class Plugin(ETS2LAPlugin):
         NOTE: Some IDEs might not recognize imports here... so use vscode :)
         (looking at you PyCharm)
         """
+        print("Imports")
         global time
         import time
     
     def run(self):
         #print("Hello, World!")
-        return time.time()
+        print(self.plugins.TestPlugin)
