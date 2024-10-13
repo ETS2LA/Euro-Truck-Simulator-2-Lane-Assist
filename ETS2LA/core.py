@@ -25,6 +25,7 @@ translator.UpdateSettingsUITranslations()   # Update the translation options in 
 backend.run()     # Run the backend
 backend.enable_plugin("TestPlugin")
 backend.enable_plugin("TestPlugin2")
+backend.enable_plugin("TestPlugin3")
 #immediate.run()  # Websockets server for immediate data
 #webserver.run()  # External webserver for the UI
 #godot.run()      # Godot server for the visualisation

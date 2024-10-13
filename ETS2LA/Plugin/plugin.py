@@ -1,9 +1,9 @@
+from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription
 from ETS2LA.Plugin.settings import Settings
 from ETS2LA.Plugin.author import Author
 
 from ETS2LA.utils.logging import SetupProcessLogging
 from multiprocessing import JoinableQueue
-from typing import Literal
 import importlib
 import logging
 import json
@@ -11,38 +11,17 @@ import time
 import sys
 import os
 
-class PluginDescription:
-    name: str
-    version: str
-    description: str
-    dependencies: list[str]
-    compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"]
-    compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"]
-    update_log: dict[str, str] = {}
-    
-    def __init__(self, name: str = "", version: str = "", description: str = "", dependencies: list[str] = [], compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], update_log: dict[str, str] ={}) -> None:
-        self.name = name
-        self.version = version
-        self.description = description
-        self.dependencies = dependencies
-        self.compatible_os = compatible_os
-        self.compatible_game = compatible_game
-        self.update_log = update_log
-
-class Plugins:
-    def __init__(self, plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue):
-        self.plugins_queue = plugins_queue
-        self.plugins_return_queue = plugins_return_queue
-
-    def __getattr__(self, name):
-        self.plugins_queue.put(name, block=True)
-        while self.plugins_return_queue.empty():
-            time.sleep(0.0001)
-        response = self.plugins_return_queue.get()
-        return response
-
 class ETS2LAPlugin(object):
-    settings: Settings
+    """
+    This is the main plugin object, you will see a list of attributes below.
+    
+    :param int fps_cap: The maximum frames per second the plugin will run at.
+    :param Description description: The description of the plugin.
+    :param Author author: The author of the plugin.
+    :param Global globals: The global settings and tags.
+    :param Settings settings: The settings of the plugin.
+    :param Plugins plugins: Interactions with other plugins.
+    """
     path: str
 
     fps_cap: int = 30
@@ -54,6 +33,14 @@ class ETS2LAPlugin(object):
     plugins_queue: JoinableQueue
     plugins_return_queue: JoinableQueue
     
+    globals: Global
+    """
+    Global class for the plugin to access global settings and
+    
+    :param GlobalSettings settings: Access to the global settings.
+    :param Tags tags: Access to the global tags.
+    """
+    settings: Settings
     plugins: Plugins
     
     def ensure_settings_file(self) -> None:
@@ -77,13 +64,17 @@ class ETS2LAPlugin(object):
         if type(self).__name__ != "Plugin":
             raise TypeError("Please make sure the class is named 'Plugin'")
     
-    def __new__(cls, path: str, return_queue: JoinableQueue, plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue):
+    def __new__(cls, path: str, return_queue: JoinableQueue, 
+                                plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue, 
+                                tags_queue: JoinableQueue, tags_return_queue: JoinableQueue
+                                ) -> object:
         instance = super().__new__(cls)
         instance.path = path
         instance.return_queue = return_queue
         instance.plugins_queue = plugins_queue
         instance.plugins_return_queue = plugins_return_queue
         instance.plugins = Plugins(plugins_queue, plugins_return_queue)
+        instance.globals = Global(tags_queue, tags_return_queue)
         instance.ensure_settings_file()
         instance.settings = Settings(path)
         return instance
@@ -113,17 +104,26 @@ class ETS2LAPlugin(object):
             time.sleep(time_to_sleep)
 
 class PluginRunner:
-    def __init__(self, plugin_name: str, plugin_description: PluginDescription, return_queue: JoinableQueue, plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue):
+    def __init__(self, plugin_name: str, plugin_description: PluginDescription, 
+                    return_queue: JoinableQueue, 
+                    plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue,
+                    tags_queue: JoinableQueue, tags_return_queue: JoinableQueue
+                    ):
+        
         SetupProcessLogging(
             plugin_name,
             filepath=os.path.join(os.getcwd(), "logs", f"{plugin_name}.log"),
             console_level=logging.WARNING
         )
+        
         self.plugin_name = plugin_name
         self.plugin_description = plugin_description
+        
         self.return_queue = return_queue
         self.plugins_queue = plugins_queue
         self.plugins_return_queue = plugins_return_queue
+        self.tags_queue = tags_queue
+        self.tags_return_queue = tags_return_queue
 
         sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
 
@@ -132,6 +132,8 @@ class PluginRunner:
 
         # Instantiate the Plugin class
         if hasattr(plugin_module, 'Plugin'):
-            self.plugin_instance = plugin_module.Plugin(f"plugins/{plugin_name}", return_queue, plugins_queue, plugins_return_queue)
+            self.plugin_instance = plugin_module.Plugin(f"plugins/{plugin_name}", return_queue, 
+                                                            plugins_queue, plugins_return_queue, 
+                                                            tags_queue, tags_return_queue)
         else:
             raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")

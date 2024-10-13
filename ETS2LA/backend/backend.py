@@ -22,29 +22,56 @@ class PluginHandler:
     plugins_queue: multiprocessing.JoinableQueue
     plugins_return_queue: multiprocessing.JoinableQueue
     
+    tags_queue: multiprocessing.JoinableQueue
+    tags_return_queue: multiprocessing.JoinableQueue
+    
+    tags: dict[str, any]
+    
     def __init__(self, plugin_name: str, plugin_description: PluginDescription):
+        self.tags = {}
         self.plugin_name = plugin_name
         self.plugin_description = plugin_description
         self.return_queue = multiprocessing.JoinableQueue()
         self.plugins_queue = multiprocessing.JoinableQueue()
         self.plugins_return_queue = multiprocessing.JoinableQueue()
-        self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description, self.return_queue, self.plugins_queue, self.plugins_return_queue), daemon=True)
+        self.tags_queue = multiprocessing.JoinableQueue()
+        self.tags_return_queue = multiprocessing.JoinableQueue()
+        self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
+                                                                          self.return_queue,
+                                                                          self.plugins_queue, self.plugins_return_queue,
+                                                                          self.tags_queue, self.tags_return_queue), daemon=True
+                                               )
         self.process.start()
         RUNNING_PLUGINS.append(self)
         threading.Thread(target=self.data_handler, daemon=True).start()
         threading.Thread(target=self.plugins_handler, daemon=True).start()
+        threading.Thread(target=self.tags_handler, daemon=True).start()
+        
+    def tags_handler(self):
+        while True:
+            tag_dict = self.tags_queue.get()
+            if tag_dict["operation"] == "read":
+                tag = tag_dict["tag"]
+                return_data = {}
+                for plugin in RUNNING_PLUGINS:
+                    if tag in plugin.tags:
+                        return_data[plugin.plugin_name] = plugin.tags[tag]
+                self.tags_return_queue.put(return_data)
+            elif tag_dict["operation"] == "write":
+                self.tags[tag_dict["tag"]] = tag_dict["value"]
+                self.tags_return_queue.put(True)
+            else:
+                self.tags_return_queue.put(False)
 
     def plugins_handler(self):
         while True:
-            if not self.plugins_queue.empty():
-                plugin_name = self.plugins_queue.get()
-                if plugin_name in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
-                    index = [plugin.plugin_name for plugin in RUNNING_PLUGINS].index(plugin_name)
-                    self.plugins_return_queue.put(RUNNING_PLUGINS[index].data)
-                else:
-                    self.plugins_return_queue.put(None)
+            plugin_name = self.plugins_queue.get()
+            plugins = [plugin.plugin_name for plugin in RUNNING_PLUGINS]
+            if plugin_name in plugins:
+                index = plugins.index(plugin_name)
+                self.plugins_return_queue.put(RUNNING_PLUGINS[index].data)
             else:
-                time.sleep(0.01)
+                self.plugins_return_queue.put(None)
 
     def data_handler(self):
         while True:

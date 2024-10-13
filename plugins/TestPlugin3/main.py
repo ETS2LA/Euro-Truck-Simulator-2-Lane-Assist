@@ -40,4 +40,4 @@ class Plugin(ETS2LAPlugin):
         import time
     
     def run(self):
-        self.globals.tags.test = "x"
+        self.globals.tags.test = "dd"
