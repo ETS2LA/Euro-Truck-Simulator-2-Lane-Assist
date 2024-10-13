@@ -1,9 +1,17 @@
 from ETS2LA.Plugin import *
+from ETS2LA.UI import *
 
 """
 This is an example plugin file for the new ETS2LA plugin system.
 You can use this as a template for your own plugins.
 """
+
+class Settings(ETS2LASettingsMenu):
+    def render(self):
+        Title("Plugin Settings")
+        Description("This is a demo settings page for you to edit.")
+        Button("This will call a function", Plugin.imports)
+        return RenderUI()
 
 class Plugin(ETS2LAPlugin):
     
@@ -26,6 +34,8 @@ class Plugin(ETS2LAPlugin):
         url="https://github.com/Tumppi066"
     )
     
+    settings_menu = Settings()
+    
     def imports(self):
         """
         You should place all your (non ETS2LA) imports in this function. This is because during startup, 
@@ -40,5 +50,4 @@ class Plugin(ETS2LAPlugin):
         import time
     
     def run(self):
-        data = self.globals.tags.test
-        print(data)
+        print(self.settings_menu.build())

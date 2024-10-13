@@ -41,7 +41,21 @@ class ETS2LAPlugin(object):
     :param Tags tags: Access to the global tags.
     """
     settings: Settings
+    """
+    Access the local plugins settings file.
+    
+    Example:
+    ```python
+    # Get a setting (doesn't read / write)
+    value = self.settings.setting_name
+    # Set a setting (does write, don't use each frame)
+    self.settings.setting_name = value
+    ```
+    """
     plugins: Plugins
+    """
+    Access all the other running plugins' information.
+    """
     
     def ensure_settings_file(self) -> None:
         path = self.path
