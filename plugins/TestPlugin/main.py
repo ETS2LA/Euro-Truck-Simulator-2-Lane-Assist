@@ -1,5 +1,10 @@
 from ETS2LA.Plugin import *
 
+"""
+This is an example plugin file for the new ETS2LA plugin system.
+You can use this as a template for your own plugins.
+"""
+
 class Plugin(ETS2LAPlugin):
     information = PluginDescription(
         name="TestPlugin",
@@ -14,6 +19,21 @@ class Plugin(ETS2LAPlugin):
             "1.0": "Added some features"
         }
     )
+
+    author = Author(
+        name="Tumppi066",
+        url="https://github.com/Tumppi066"
+    )
+    
+    def imports(self):
+        """
+        You should place all your (non ETS2LA) imports in this function. This is because during startup, 
+        python has to read this file to get the information about the plugin.
+        If you place large imports like torch outside of this function, it will drastically slow down 
+        the entire startup process.
+        """
+        global np
+        import numpy as np
     
     def run(self):
         print("Hello, World!")

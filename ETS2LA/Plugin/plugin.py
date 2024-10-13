@@ -1,6 +1,7 @@
-from settings import Settings
-from author import Author
+from ETS2LA.Plugin.settings import Settings
+from ETS2LA.Plugin.author import Author
 
+from multiprocessing import JoinableQueue
 from typing import Literal
 import json
 import os
@@ -28,8 +29,8 @@ class ETS2LAPlugin(object):
     settings: Settings
     path: str
     
-    author: Author
     information: PluginDescription = PluginDescription()
+    author: Author
     
     def ensure_settings_file(self) -> None:
         path = self.path
@@ -43,34 +44,34 @@ class ETS2LAPlugin(object):
             raise TypeError("'before' is a reserved function name")
         if type(self).after != ETS2LAPlugin.after:
             raise TypeError("'after' is a reserved function name")
+        if type(self).plugin != ETS2LAPlugin.plugin:
+            raise TypeError("'plugin' is a reserved function name")
         if "run" not in dir(type(self)):
             raise TypeError("Your plugin has to have a 'run' function.")
+        if type(self).__name__ != "Plugin":
+            raise TypeError("Please make sure the class is named 'Plugin'")
     
-    def __new__(cls, path: str) -> None:
+    def __new__(cls, path: str, return_queue: JoinableQueue) -> None:
         instance = super().__new__(cls)
         instance.path = path
-        instance.settings = Settings(path)
+        instance.return_queue = return_queue
         instance.ensure_settings_file()
+        instance.settings = Settings(path)
         return instance
     
     def __init__(self, *args) -> None:
         self.ensure_functions()
-        while True:
-            try:
-                self.before()
-            except Exception as e:
-                print(e)
+        try:
+            self.imports()
+        except: pass
     
-    def before(self) -> None:
+    def plugin(self) -> None:
+        self.before()
         data = self.run()
         self.after(data)
+            
+    def before(self) -> None:
+        ...
         
     def after(self, data) -> None:
         ...
-            
-class TestClass(ETS2LAPlugin):
-    def run(self) -> any:
-        print("Hello")
-        
-test = TestClass("cache")
-test.before()

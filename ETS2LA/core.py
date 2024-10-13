@@ -1,18 +1,19 @@
 from ETS2LA.utils.logging import *
 logger = SetupGlobalLogging()
 
-from ETS2LA.frontend.webpageExtras.utils import CheckIfWindowStillOpen
-import ETS2LA.networking.webserver as webserver
-import ETS2LA.frontend.immediate as immediate
+#from ETS2LA.frontend.webpageExtras.utils import CheckIfWindowStillOpen
+#import ETS2LA.networking.webserver as webserver
+#import ETS2LA.frontend.immediate as immediate
 from ETS2LA.utils.translator import Translate
 import ETS2LA.utils.translator as translator
-import ETS2LA.backend.controls as controls
-import ETS2LA.frontend.webpage as webpage
-import ETS2LA.networking.godot as godot
-import ETS2LA.networking.cloud as cloud
-import ETS2LA.backend.events as events
-import ETS2LA.backend.sounds as sounds
-import ETS2LA.variables as variables
+import ETS2LA.backend.backend as backend
+#import ETS2LA.backend.controls as controls
+#import ETS2LA.frontend.webpage as webpage
+#import ETS2LA.networking.godot as godot
+#import ETS2LA.networking.cloud as cloud
+#import ETS2LA.backend.events as events
+#import ETS2LA.backend.sounds as sounds
+#import ETS2LA.variables as variables
 import rich
 import time
 import os
@@ -21,13 +22,13 @@ import os
 translator.CheckLanguageDatabase()          # Check if all languages have all keys
 translator.UpdateFrontendTranslations()     # Update the frontend translations
 translator.UpdateSettingsUITranslations()   # Update the translation options in the global_settings.json file
-immediate.run()  # Websockets server for immediate data
-webserver.run()  # External webserver for the UI
-godot.run()      # Godot server for the visualisation
-webpage.run()    # Webview to the website.
-events.run()     # Event handlers
-controls.run()   # Control handlers
-sounds.UpdateGlobalSoundpackJson()  # Update the soundpacks in the global settings definition file for the UI
+#immediate.run()  # Websockets server for immediate data
+#webserver.run()  # External webserver for the UI
+#godot.run()      # Godot server for the visualisation
+#webpage.run()    # Webview to the website.
+#events.run()     # Event handlers
+#controls.run()   # Control handlers
+#sounds.UpdateGlobalSoundpackJson()  # Update the soundpacks in the global settings definition file for the UI
 
 logging.info(Translate("core.backend_started"))
 
@@ -38,23 +39,23 @@ def run():
     while True:
         time.sleep(0.01) # Relieve CPU time (100fps)
         
-        for func in webserver.mainThreadQueue:
-            func[0](*func[1], **func[2])
-            webserver.mainThreadQueue.remove(func)
-            logging.debug(f"Executed queue item: {func[0].__name__}")
-        
-        if not CheckIfWindowStillOpen():
-            raise Exception("exit")
-        
-        if variables.CLOSE:
-            raise Exception("exit")
-        
-        if variables.RESTART:
-            raise Exception("restart")
-        
-        if variables.MINIMIZE:
-            webpage.minimize_window()
-            variables.MINIMIZE = False
+        #for func in webserver.mainThreadQueue:
+        #    func[0](*func[1], **func[2])
+        #    webserver.mainThreadQueue.remove(func)
+        #    logging.debug(f"Executed queue item: {func[0].__name__}")
+        #
+        #if not CheckIfWindowStillOpen():
+        #    raise Exception("exit")
+        #
+        #if variables.CLOSE:
+        #    raise Exception("exit")
+        #
+        #if variables.RESTART:
+        #    raise Exception("restart")
+        #
+        #if variables.MINIMIZE:
+        #    webpage.minimize_window()
+        #    variables.MINIMIZE = False
         
         if frameCounter % 100 == 0: # 1 second 
             translator.CheckForLanguageUpdates()
