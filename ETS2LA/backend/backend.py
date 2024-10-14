@@ -112,6 +112,14 @@ def enable_plugin(plugin_name: str):
     runner = threading.Thread(target=PluginHandler, args=(plugin_name, PluginDescription()), daemon=True)
     runner.start()
     
+def disable_plugin(plugin_name: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin_name:
+            plugin.process.terminate()
+            RUNNING_PLUGINS.remove(plugin)
+            return True
+    return False
+    
 def get_plugin_data(plugin_name: str):
     for plugin in RUNNING_PLUGINS:
         if plugin.plugin_name == plugin_name:

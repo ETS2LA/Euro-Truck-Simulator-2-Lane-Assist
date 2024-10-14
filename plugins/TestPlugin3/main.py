@@ -8,7 +8,7 @@ You can use this as a template for your own plugins.
 class Plugin(ETS2LAPlugin):
     
     description = PluginDescription(
-        name="TestPlugin",
+        name="TestPlugin3",
         version="1.0",
         description="A test plugin",
         dependencies=[],

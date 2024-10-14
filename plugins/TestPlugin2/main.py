@@ -25,7 +25,7 @@ class Settings(ETS2LASettingsMenu):
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="TestPlugin",
+        name="TestPlugin2",
         version="1.0",
         description="A test plugin",
         dependencies=[],

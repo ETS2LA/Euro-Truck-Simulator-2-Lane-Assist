@@ -55,15 +55,15 @@ export default function PluginList({ ip }: { ip: string }) {
                         <AccordionTrigger className="pl-3 pr-2 decoration-transparent">
                             <p className="flex gap-3 font-semibold">
                                 <p className="text-stone-600 text-xs content-center">{data ? (data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1] ? Math.round(1/(data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1]["frametime"]) : translate("unknown") : translate("unknown")} fps</p> 
-                                {data ? translate((data as any)[plugin]["file"]["name"]) : plugin}
+                                {data ? translate((data as any)[plugin]["description"]["name"]) : plugin}
                             </p>
                         </AccordionTrigger>
                         <AccordionContent className="pl-2 flex gap-2 w-full pr-2">
                             <div className="w-full justify-between flex gap-2">
                                 {(data as any)[plugin]["enabled"] ? (
-                                    <Button className="w-full" onClick={() => toast.promise(DisablePlugin(plugin, ip), { loading: translate("frontend.command.disabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin), success: translate("frontend.command.disabled_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin), error: translate("frontend.command.error_disabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin) })} variant={"outline"}>{translate("frontend.pluginlist.plugin.disable", plugin)}</Button>
+                                    <Button className="w-full" onClick={() => toast.promise(DisablePlugin(plugin, ip), { loading: translate("frontend.command.disabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin), success: translate("frontend.command.disabled_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin), error: translate("frontend.command.error_disabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin) })} variant={"outline"}>{translate("frontend.pluginlist.plugin.disable", plugin)}</Button>
                                 ) : (
-                                    <Button className="w-full" onClick={() => toast.promise(EnablePlugin(plugin, ip), { loading: translate("frontend.command.enabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin), success: translate("frontend.command.enabled_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin), error: translate("frontend.command.error_enabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin) })} variant={"outline"}>{translate("frontend.pluginlist.plugin.enable")}</Button>
+                                    <Button className="w-full" onClick={() => toast.promise(EnablePlugin(plugin, ip), { loading: translate("frontend.command.enabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin), success: translate("frontend.command.enabled_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin), error: translate("frontend.command.error_enabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin) })} variant={"outline"}>{translate("frontend.pluginlist.plugin.enable")}</Button>
                                 )}
                                 <Button onClick={() => push(`/plugins/${plugin}`)} variant={"outline"}>{translate("frontend.pluginlist.plugin.view")}</Button>
                             </div>
@@ -73,14 +73,14 @@ export default function PluginList({ ip }: { ip: string }) {
                 {disabledPlugins.map((plugin, index) => (
                     <AccordionItem value={plugin} className="group">
                         <AccordionTrigger className="pl-3 pr-2 decoration-transparent group">
-                            <p className="flex gap-3 opacity-50 group-hover:opacity-100 transition-all"><p className="text-stone-600">{index+1}. </p> {data ? translate((data as any)[plugin]["file"]["name"]) : plugin}</p>
+                            <p className="flex gap-3 opacity-50 group-hover:opacity-100 transition-all"><p className="text-stone-600">{index+1}. </p> {data ? translate((data as any)[plugin]["description"]["name"]) : plugin}</p>
                         </AccordionTrigger>
                         <AccordionContent className="pl-2 flex gap-2 w-full pr-2">
                             <div className="w-full justify-between flex gap-2">
                                 {(data as any)[plugin]["enabled"] ? (
-                                    <Button className="w-full" onClick={() => toast.promise(DisablePlugin(plugin, ip), { loading: translate("frontend.command.disabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin), success: translate("frontend.command.disabled_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin), error: translate("frontend.command.error_disabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin) })} variant={"outline"}>{translate("frontend.pluginlist.plugin.disable")}</Button>
+                                    <Button className="w-full" onClick={() => toast.promise(DisablePlugin(plugin, ip), { loading: translate("frontend.command.disabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin), success: translate("frontend.command.disabled_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin), error: translate("frontend.command.error_disabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin) })} variant={"outline"}>{translate("frontend.pluginlist.plugin.disable")}</Button>
                                 ) : (
-                                    <Button className="w-full" onClick={() => toast.promise(EnablePlugin(plugin, ip), { loading: translate("frontend.command.enabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin), success: translate("frontend.command.enabled_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin), error: translate("frontend.command.error_enabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin) })} variant={"outline"}>{translate("frontend.pluginlist.plugin.enable")}</Button>
+                                    <Button className="w-full" onClick={() => toast.promise(EnablePlugin(plugin, ip), { loading: translate("frontend.command.enabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin), success: translate("frontend.command.enabled_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin), error: translate("frontend.command.error_enabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin) })} variant={"outline"}>{translate("frontend.pluginlist.plugin.enable")}</Button>
                                 )}
                                 <Button onClick={() => push(`/plugins/${plugin}`)} variant={"outline"}>{translate("frontend.pluginlist.plugin.view")}</Button>
                             </div>

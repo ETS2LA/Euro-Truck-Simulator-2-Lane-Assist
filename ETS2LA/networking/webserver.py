@@ -152,41 +152,33 @@ def get_frametimes():
 @app.get("/api/plugins")
 def get_plugins():
     # Get data
-    plugins = backend.GetAvailablePlugins()
-    try:
-        enabledPlugins = backend.GetEnabledPlugins()
-    except:
-        traceback.print_exc()
-        enabledPlugins = []
-        
-    try:
-        frametimes = backend.frameTimes
-    except:
-        traceback.print_exc()
-        frametimes = {}
+    plugins = backend.AVAILABLE_PLUGINS
+    enabled_plugins = backend.RUNNING_PLUGINS
         
     # Create the json
-    returnData = plugins.copy()
+    return_data = {}
     for plugin in plugins:
-        returnData[plugin]["enabled"] = False
-        if plugin in enabledPlugins:
-            returnData[plugin]["enabled"] = True
+        name, description, author, settings = plugin
+        return_data[name] = {
+            "description": description.__dict__
+        }
+        return_data[name]["enabled"] = False
+        if name in [plugin.plugin_name for plugin in enabled_plugins]:
+            return_data[name]["enabled"] = True
         
-        returnData[plugin]["frametimes"] = 0
-        if plugin in frametimes:
-            returnData[plugin]["frametimes"] = frametimes[plugin]
+        return_data[name]["frametimes"] = 0
     
-    return returnData
+    return return_data
 
 @app.get("/api/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
     logging.info(Translate(f"webserver.enabling_plugin", values=[plugin]))
-    return backend.AddPluginRunner(plugin)
+    return backend.enable_plugin(plugin)
 
 @app.get("/api/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
     logging.info(Translate(f"webserver.disabling_plugin", values=[plugin]))
-    return backend.RemovePluginRunner(plugin)
+    return backend.disable_plugin(plugin)
 
 @app.get("/api/plugins/performance")
 def get_performance():
