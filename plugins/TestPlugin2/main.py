@@ -24,7 +24,6 @@ class Settings(ETS2LASettingsMenu):
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
-    
     description = PluginDescription(
         name="TestPlugin",
         version="1.0",
@@ -60,4 +59,5 @@ class Plugin(ETS2LAPlugin):
         import json
     
     def run(self):
-        print(json.dumps(self.settings_menu.build(), indent=4))
+        #print(json.dumps(self.settings_menu.build(), indent=4))
+        ...

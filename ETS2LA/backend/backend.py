@@ -1,7 +1,8 @@
 from ETS2LA.Plugin import *
+from ETS2LA.UI import *
 import multiprocessing
-import importlib
 import threading
+import logging
 import inspect
 import time
 import os
@@ -9,7 +10,7 @@ import os
 plugin_path = "plugins"
 plugin_target_class = "Plugin"
 
-AVAILABLE_PLUGINS: list[tuple[str, PluginDescription, Author]] = []
+AVAILABLE_PLUGINS: list[tuple[str, PluginDescription, Author, ETS2LASettingsMenu]] = []
 
 class PluginHandler:
     
@@ -99,7 +100,10 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
             if plugin_class is not None:
                 information = getattr(plugin_class, "description", None)
                 author = getattr(plugin_class, "author", None)
-                plugins.append((folder, information, author))
+                settings = getattr(plugin_class, "settings_menu", None)
+                if settings is not None:
+                    settings = settings.build()
+                plugins.append((folder, information, author, settings))
             del plugin_class
             
     return plugins
@@ -117,4 +121,4 @@ def get_plugin_data(plugin_name: str):
 def run():
     global AVAILABLE_PLUGINS
     AVAILABLE_PLUGINS = find_plugins()
-    print(AVAILABLE_PLUGINS)
+    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin[3] is not None])} have settings menus.")
