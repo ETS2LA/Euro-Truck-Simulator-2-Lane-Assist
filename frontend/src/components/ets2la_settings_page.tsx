@@ -100,8 +100,7 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
     }
 }
 
-export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string }) {
-	const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
+export function ETS2LASettingsPage({ ip, data, plugin }: { ip: string, data: any, plugin: string }) {
 	const { data: pluginSettings, error: pluginSettingsError, isLoading: pluginSettingsLoading } = useSWR("settings", () => GetSettingsJSON(plugin, ip))
 	const [needsRestart, setNeedsRestart] = useState(false)
 
@@ -111,25 +110,19 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 		mutate("settings")
 	}, [plugin])
 
-	if (isLoading || pluginSettingsLoading) {
+	if (pluginSettingsLoading) {
 		return <Skeleton />
 	}
 
-	if (error || pluginSettingsError) {
-		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.error", error)}</p>
+	if (pluginSettingsError) {
+		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.error", pluginSettingsError)}</p>
 	}
 
 	if (!data || !pluginSettings) {
 		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.backend_no_data")}</p>
 	}
 
-	const pluginData = data[plugin]
-
-	if (!pluginData) {
-		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.data_missing")}</p>
-	}
-
-	const settings = pluginData.file.settings
+	const settings = data
 
 	const TitleRenderer = (data:string) => {
 		return <h3 className="font-medium">{translate(data)}</h3>
@@ -395,7 +388,6 @@ export function ETS2LASettingsPage({ ip, plugin }: { ip: string, plugin: string 
 			<div className="text-left flex flex-col w-full max-w-[calc(60vw-64px)] gap-6 relative">
 				{settings.map((setting:any, index:number) => (
 					<div key={index}>
-						{setting.specials && SpecialsRenderer(setting.specials)}
 						{!setting.specials && SettingsRenderer(setting)}
 					</div>
 				))}

@@ -160,7 +160,8 @@ def get_plugins():
     for plugin in plugins:
         name, description, author, settings = plugin
         return_data[name] = {
-            "description": description.__dict__
+            "description": description.__dict__,
+            "settings": settings,
         }
         return_data[name]["enabled"] = False
         if name in [plugin.plugin_name for plugin in enabled_plugins]:

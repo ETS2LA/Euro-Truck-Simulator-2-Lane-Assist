@@ -27,11 +27,12 @@ export default function Home({ ip }: { ip: string }) {
     const [selectedPlugin, setSelectedPlugin] = useState("Global")
     const [scrolledDown, setScrolledDown] = useState(false)
 
+    console.log(data)
+
     const plugins:string[] = [];
     for (const key in data) {
         // Check if the key is a number
         if (isNaN(parseInt(key))){
-            console.log(key)
             plugins.push(key)
         }
     }
@@ -43,7 +44,7 @@ export default function Home({ ip }: { ip: string }) {
         } else if (selectedPlugin === "Controls") {
             return <ControlsPage ip={ip} />;
             // @ts-ignore
-        } else if (data && data[selectedPlugin] && data[selectedPlugin].file && data[selectedPlugin].file.settings) {
+        } else if (data && data[selectedPlugin] && data[selectedPlugin].settings) {
             // Ensure data is correctly passed to ETS2LASettingsPage
             return <ETS2LASettingsPage ip={ip} plugin={selectedPlugin} />;
         } else {
@@ -74,13 +75,13 @@ export default function Home({ ip }: { ip: string }) {
                                     {plugins.map((plugin:any, index) => (
                                         plugin == "Separator" ? <br key={index} /> : 
                                         plugin == "Global" ? null : // @ts-ignore
-                                        data && data[plugin] && data[plugin].file && data[plugin].file.settings ?
+                                        data && data[plugin] && data[plugin].settings ?
                                         <div className="items-center justify-start text-sm">
                                             <Tooltip>
                                                 <TooltipTrigger className="items-center justify-start text-sm w-full">
                                                     <Button key={index} className="items-center justify-start text-sm w-full rounded-r-none" variant={selectedPlugin == plugin && "secondary" || "ghost"} onClick={() => setSelectedPlugin(plugin)}>
                                                         {// @ts-ignore
-                                                            translate(data[plugin].file.name)
+                                                            translate(data[plugin].description.name)
                                                         }
                                                     </Button>
                                                 </TooltipTrigger>
@@ -88,7 +89,7 @@ export default function Home({ ip }: { ip: string }) {
                                                     <div className="flex flex-col gap-2 text-start">
                                                         <p className="text-xs text-start">
                                                             {// @ts-ignore
-                                                                translate(data[plugin].file.name)
+                                                                translate(data[plugin].description.name)
                                                             }
                                                         </p>
                                                     </div>
