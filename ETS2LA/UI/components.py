@@ -10,6 +10,15 @@ class Title():
                 "text": text
             }
         })
+        
+class Label():
+    def __init__(self, text: str):
+        global ui
+        ui.append({
+            "label": {
+                "text": text
+            }
+        })
 
 class Description():
     def __init__(self, text: str):
@@ -31,7 +40,7 @@ class Button():
         })
         
 class Input():
-    def __init__(self, name: str, key: str, type: Literal["string", "number", "boolean", "array", "object", "enum"], default: any = None, min: float = None, max: float = None, step: float = None, suffix: str = None, values: list = None, description: str = "", requires_restart: bool = False):
+    def __init__(self, name: str, key: str, type: Literal["string", "number"], default: any = None, suffix: str = None, description: str = "", requires_restart: bool = False):
         global ui
         ui.append({
             "input": {
@@ -42,12 +51,56 @@ class Input():
                 "options": {
                     "type": type,
                     "default": default,
+                    "suffix": suffix,
+                },
+            }
+        })
+
+class Switch():
+    def __init__(self, name: str, key: str, default: bool, description: str = "", requires_restart: bool = False):
+        global ui
+        ui.append({
+            "switch": {
+                "name": name,
+                "key": key,
+                "description": description,
+                "requires_restart": requires_restart,
+                "options": {
+                    "default": default
+                }
+            }
+        })
+        
+class Toggle():
+    def __init__(self, name: str, key: str, default: bool, description: str = "", requires_restart: bool = False):
+        global ui
+        ui.append({
+            "toggle": {
+                "name": name,
+                "key": key,
+                "description": description,
+                "requires_restart": requires_restart,
+                "options": {
+                    "default": default
+                }
+            }
+        })
+        
+class Slider():
+    def __init__(self, name: str, key: str, default: float, min: float, max: float, step: float, description: str = "", requires_restart: bool = False):
+        global ui
+        ui.append({
+            "slider": {
+                "name": name,
+                "key": key,
+                "description": description,
+                "requires_restart": requires_restart,
+                "options": {
+                    "default": default,
                     "min": min,
                     "max": max,
-                    "step": step,
-                    "suffix": suffix,
-                    "values": values,
-                },
+                    "step": step
+                }
             }
         })
 

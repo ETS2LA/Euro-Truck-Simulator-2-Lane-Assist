@@ -6,12 +6,16 @@ Classes:
     
 Components:
     **Title** - A title component.
+    **Label** - A label component.
     **Description** - A description component.
     **Button** - A button component.
-    **Input** - An input component.
-    **TabView** - A tab view, contains multiple tabs. Check below for example on usage.
-    **Tab** - A tab component, contains multiple components. Check below for example on usage.
-    **Group** - A group component, contains multiple components. Check below for example on usage.
+    **Input** - An input component. This is for either *string* or *number* inputs.
+    **Switch** - A switch component.
+    **Toggle** - A toggle component.
+    **Slider** - A slider component.
+    **TabView** - Container to hold tabs, check example below.
+    **Tab** - A tab component.
+    **Group** - A group component.
     
 Example:
 ```python
