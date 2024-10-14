@@ -7,10 +7,20 @@ You can use this as a template for your own plugins.
 """
 
 class Settings(ETS2LASettingsMenu):
+    dynamic = False # False means that the page is built once and then cached. True means that the page is rebuilt every time the frontend asks for an update.
+    # NOTE: True is not yet implemented!
     def render(self):
         Title("Plugin Settings")
         Description("This is a demo settings page for you to edit.")
         Button("This will call a function", Plugin.imports)
+        
+        with TabView():
+            for i in range(3):
+                with Tab(name=f"Tab {i+1}"):
+                    with Group():
+                        Input("Input", f"input_{i}", "string", default=f"default {i}", description=f"This is an input field {i}")
+                        Button(f"Button {i}", Plugin.imports)
+        
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
@@ -46,8 +56,8 @@ class Plugin(ETS2LAPlugin):
         NOTE: Some IDEs might not recognize imports here... so use vscode :)
         (looking at you PyCharm)
         """
-        global time
-        import time
+        global json
+        import json
     
     def run(self):
-        print(self.settings_menu.build())
+        print(json.dumps(self.settings_menu.build(), indent=4))
