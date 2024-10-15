@@ -30,17 +30,38 @@ class Description():
         })
 
 class Button():
-    def __init__(self, text: str, target: object):
+    def __init__(self, text: str, title: str, target: object, description: str = "", border: bool = True):
         global ui
         ui.append({
             "button": {
                 "text": text,
-                "target": target.__name__
+                "title": title,
+                "description": description,
+                "options": {
+                    "target": target.__name__,
+                    "border": border
+                }
+            }
+        })
+        
+class Separator():
+    def __init__(self):
+        global ui
+        ui.append({
+            "separator": {}
+        })
+        
+class Space():
+    def __init__(self, height: int):
+        global ui
+        ui.append({
+            "space": {
+                "height": height
             }
         })
         
 class Input():
-    def __init__(self, name: str, key: str, type: Literal["string", "number"], default: any = None, suffix: str = None, description: str = "", requires_restart: bool = False):
+    def __init__(self, name: str, key: str, type: Literal["string", "number"], default: any = None, description: str = "", requires_restart: bool = False):
         global ui
         ui.append({
             "input": {
@@ -50,14 +71,13 @@ class Input():
                 "requires_restart": requires_restart,
                 "options": {
                     "type": type,
-                    "default": default,
-                    "suffix": suffix,
+                    "default": default
                 },
             }
         })
 
 class Switch():
-    def __init__(self, name: str, key: str, default: bool, description: str = "", requires_restart: bool = False):
+    def __init__(self, name: str, key: str, default: bool, description: str = "", requires_restart: bool = False, border: bool = True):
         global ui
         ui.append({
             "switch": {
@@ -66,13 +86,14 @@ class Switch():
                 "description": description,
                 "requires_restart": requires_restart,
                 "options": {
-                    "default": default
+                    "default": default,
+                    "border": border
                 }
             }
         })
         
 class Toggle():
-    def __init__(self, name: str, key: str, default: bool, description: str = "", requires_restart: bool = False):
+    def __init__(self, name: str, key: str, default: bool, description: str = "", requires_restart: bool = False, separator: bool = True, border: bool = True):
         global ui
         ui.append({
             "toggle": {
@@ -81,13 +102,15 @@ class Toggle():
                 "description": description,
                 "requires_restart": requires_restart,
                 "options": {
-                    "default": default
+                    "separator": separator,
+                    "default": default,
+                    "border": border
                 }
             }
         })
         
 class Slider():
-    def __init__(self, name: str, key: str, default: float, min: float, max: float, step: float, description: str = "", requires_restart: bool = False):
+    def __init__(self, name: str, key: str, default: float, min: float, max: float, step: float, description: str = "", requires_restart: bool = False, suffix: str = ""):
         global ui
         ui.append({
             "slider": {
@@ -99,7 +122,8 @@ class Slider():
                     "default": default,
                     "min": min,
                     "max": max,
-                    "step": step
+                    "step": step,
+                    "suffix": suffix
                 }
             }
         })
@@ -113,7 +137,9 @@ class TabView():
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         global ui
-        self.previous_ui.append({"tabview": ui})
+        self.previous_ui.append({"tabview": {
+            "components": ui
+        }})
         for element in ui:
             if "tab" not in element:
                 raise ValueError("TabView can only contain Tab elements")
@@ -138,6 +164,11 @@ class Tab():
         ui = self.previous_ui
         
 class Group():
+    def __init__(self, direction: Literal["horizontal", "vertical"] = "horizontal", gap: int = 2, border: bool = False):
+        self.direction = direction
+        self.gap = gap
+        self.border = border
+    
     def __enter__(self):
         global ui
         self.previous_ui = ui
@@ -146,7 +177,12 @@ class Group():
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         global ui
-        self.previous_ui.append({"group": ui})
+        self.previous_ui.append({"group": {
+            "direction": self.direction,
+            "gap": self.gap,
+            "border": self.border,
+            "components": ui
+        }})
         ui = self.previous_ui
 
 def RenderUI():

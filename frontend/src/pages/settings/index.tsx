@@ -16,7 +16,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ControlsPage from "./controls"
-import { ETS2LASettingsPage } from "@/components/ets2la_settings_page"
+import { ETS2LAPage } from "@/components/ets2la_page"
 import { translate } from "../translation"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
@@ -40,13 +40,13 @@ export default function Home({ ip }: { ip: string }) {
     const renderPluginPage = () => {
         if (selectedPlugin === "Global") {
             //return <GlobalPage ip={ip} />;
-            return <ETS2LASettingsPage ip={ip} plugin={"Global"} />;
+            //return <ETS2LASettingsPage ip={ip} plugin={"Global"} data={data[selectedPlugin]} />;
         } else if (selectedPlugin === "Controls") {
             return <ControlsPage ip={ip} />;
             // @ts-ignore
         } else if (data && data[selectedPlugin] && data[selectedPlugin].settings) {
             // Ensure data is correctly passed to ETS2LASettingsPage
-            return <ETS2LASettingsPage ip={ip} plugin={selectedPlugin} />;
+            return <ETS2LAPage ip={ip} plugin={selectedPlugin} data={data[selectedPlugin]["settings"]} />;
         } else {
             return <p className="text-xs text-muted-foreground text-start pl-4">{translate("frontend.settings.data_missing")}</p>;
         }

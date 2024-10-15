@@ -11,16 +11,38 @@ class Settings(ETS2LASettingsMenu):
     # NOTE: True is not yet implemented!
     def render(self):
         Title("Plugin Settings")
-        Description("This is a demo settings page for you to edit.")
-        Button("This will call a function", Plugin.imports)
+        Description("This is a description")
+        
+        Separator()
+        Space(10)
+        
+        Label("This is a label")
+        
+        with Group(direction="horizontal", gap=4):
+            Input("Test input", "test_input", "string", description="This is a test input")
+            Input("Another input", "another_input", "number", description="This is another test input")
+        
+        Slider("Test slider", "test_slider", 0, 0, 100, 1, description="This is a test slider")
+        Switch("Test switch", "test_switch", False, description="This is a test switch")
+        
+        with Group(direction="vertical", border=True):
+            with Group(border=True):
+                Toggle("Test toggle", "test_toggle", False, description="This is a test toggle")
+                Toggle("Test toggle", "test_toggle", False, description="This is a test toggle")
+                Toggle("Test toggle", "test_toggle", False, description="This is a test toggle")
+            with Group():
+                Toggle("Test toggle", "test_toggle", False, description="This is a test toggle", separator=False)
+                Toggle("Test toggle", "test_toggle", False, description="This is a test toggle", separator=False)
+                Toggle("Test toggle", "test_toggle", False, description="This is a test toggle", separator=False)
+        
+        Button("Wow!", "Do something cool!", Plugin.imports, description="Something is definitely bound to happen when you press this button")
         
         with TabView():
-            for i in range(3):
-                with Tab(name=f"Tab {i+1}"):
-                    with Group():
-                        Input("Input", f"input_{i}", "string", default=f"default {i}", description=f"This is an input field {i}")
-                        Button(f"Button {i}", Plugin.imports)
-        
+            with Tab(name="Tab 1"):
+                Button("Wow!", "Do something cool!", Plugin.imports, description="This is on tab 1!", border=False)
+            with Tab(name="Tab 2"):
+                Button("Wow!", "Do something cool!", Plugin.imports, description="This on the other hand is the second tab!", border=False)
+                
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):

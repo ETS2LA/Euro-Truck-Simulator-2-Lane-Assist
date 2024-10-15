@@ -19,6 +19,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Toggle } from "@/components/ui/toggle"
 import { Switch } from "./ui/switch"
 import { Button } from "./ui/button"
 import { toast } from "sonner"
@@ -28,6 +29,11 @@ import { useState } from "react"
 import { translate } from "@/pages/translation"
 import React, { Component } from 'react';
 import { SkeletonItem } from "./skeleton_item"
+import {
+	Check,
+	X
+} from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface SliderComponentProps {
     pluginSettings: Record<string, any>;
@@ -35,13 +41,13 @@ interface SliderComponentProps {
         key: string;
         name: string;
         description: string;
-        type: {
-            type: string;
+		requires_restart?: boolean;
+		type: string;
+        options: {
             min: number;
             max: number;
             step?: number;
             suffix?: string;
-            requires_restart?: boolean;
         };
     };
     plugin: string;
@@ -73,7 +79,7 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
     handleValueCommit = (value: number[]) => {
         const { plugin, data, ip, setNeedsRestart, mutate, translate } = this.props;
         SetSettingByKey(plugin, data.key, value[0], ip).then(() => {
-            if (data.type.requires_restart)
+            if (data.requires_restart)
                 setNeedsRestart(true);
             mutate("settings");
             toast.success(translate("frontend.settings.number.updated"), {
@@ -87,20 +93,20 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
         const { data, translate, pluginSettings } = this.props;
         const { curSliderValue, tempSliderValue } = this.state;
         const value = pluginSettings[data.key] ? parseFloat(pluginSettings[data.key]) : 0;
-        const step = data.type.step || 1;
-        const suffix = data.type.suffix || "";
+        const step = data.options.step || 1;
+        const suffix = data.options.suffix || "";
 
         return (
             <div className="flex flex-col gap-2">
                 <h4>{translate(data.name)}  —  {value}{suffix}{tempSliderValue !== null ? tempSliderValue != value ? ` → ${tempSliderValue}${suffix}` : `` : ``}</h4>
-                <Slider min={data.type.min} max={data.type.max} defaultValue={[value]} step={step} onValueChange={this.handleValueChange} onValueCommit={this.handleValueCommit} />
+                <Slider min={data.options.min} max={data.options.max} defaultValue={[value]} step={step} onValueChange={this.handleValueChange} onValueCommit={this.handleValueCommit} />
                 <p className="text-xs text-muted-foreground">{translate(data.description)}</p>
             </div>
         );
     }
 }
 
-export function ETS2LASettingsPage({ ip, data, plugin }: { ip: string, data: any, plugin: string }) {
+export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin: string }) {
 	const { data: pluginSettings, error: pluginSettingsError, isLoading: pluginSettingsLoading } = useSWR("settings", () => GetSettingsJSON(plugin, ip))
 	const [needsRestart, setNeedsRestart] = useState(false)
 
@@ -132,11 +138,13 @@ export function ETS2LASettingsPage({ ip, data, plugin }: { ip: string, data: any
 		return <p className="text-sm text-muted-foreground">{translate(data)}</p>
 	}
 
+	const LabelRenderer = (data:string) => {
+		return <p>{translate(data)}</p>
+	}
+
 	const SeparatorRenderer = () => {
 		return <>
-			<div className="h-5"></div>
 			<Separator />
-			<div className="h-1"></div>
 		</>
 	}
 
@@ -151,18 +159,209 @@ export function ETS2LASettingsPage({ ip, data, plugin }: { ip: string, data: any
 		return <div className="h-4"></div>
 	}
 
-	const SpecialsRenderer = (data:any) => {
-		return <div>
-			{data.map((special:any, index:number) => (
-				<div key={index}>
-					{special.special == "Title" && TitleRenderer(special.special_data)}
-					{special.special == "Description" && DescriptionRenderer(special.special_data)}
-					{special.special == "Separator" && SeparatorRenderer()}
-					{special.special == "Space" && SpaceRenderer(special.special_data)}
+	const InputRenderer = (data:any) => {
+		if(pluginSettings[data.key] == undefined){
+			if(data.options.default != undefined){
+				console.log("Setting default value for", data.key)
+				pluginSettings[data.key] = data.options.default
+			}
+			else{
+				pluginSettings[data.key] = data.options.type
+			}
+		}
+
+		if (data.options.type == "string") {
+			return <div className="flex flex-col gap-2 w-full">
+				<h4>{translate(data.name)}</h4>
+				<Input type="text" placeholder={pluginSettings[data.key]} onChange={(e) => {
+					SetSettingByKey(plugin, data.key, e.target.value, ip).then(() => {
+						if (data.requires_restart)
+							setNeedsRestart(true)
+						mutate("settings")
+						toast.success(translate("frontend.settings.string.updated"), {
+							duration: 500
+						})
+					})
+				}} />
+				<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
+			</div>
+		}
+
+		if (data.options.type == "number") {
+			return (
+				<div className="flex flex-col gap-2 w-full">
+					<h4>{translate(data.name)}</h4>	
+					<Input type="number" placeholder={pluginSettings[data.key]} className="font-customMono" onChange={(e) => {
+						SetSettingByKey(plugin, data.key, parseFloat(e.target.value), ip).then(() => {
+							if (data.requires_restart)
+								setNeedsRestart(true)
+							mutate("settings");
+							toast.success(translate("frontend.settings.number.updated"), {
+								duration: 500
+							});
+						});
+					}} />
+					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 				</div>
-			))}
-		</div>
+			)
+		}
 	}
+
+	const SliderRenderer = (data:any) => {
+		return ( // Add return statement here
+			<SliderComponent
+				pluginSettings={pluginSettings}
+				data={data}
+				plugin={plugin}
+				ip={ip}
+				setNeedsRestart={setNeedsRestart}
+				mutate={mutate}
+				toast={toast}
+				translate={translate}
+			/>
+		);
+	}
+
+	const SwitchRenderer = (data:any) => {
+		return <div className={"flex justify-between p-4 items-center" + GetBorderClassname(data.options.border)}>
+				<div className="flex flex-col gap-1 pr-12">
+					<h4 className="font-semibold">{translate(data.name)}</h4>
+					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
+				</div>
+				<Switch checked={pluginSettings[data.key] && pluginSettings[data.key] || false} onCheckedChange={(bool) => {
+					SetSettingByKey(plugin, data.key, bool, ip).then(() => {
+						if (data.requires_restart)
+							setNeedsRestart(true)
+						mutate("settings")
+						toast.success(translate("frontend.settings.boolean.updated"), {
+							duration: 500
+						})
+					})
+				}} />
+			</div>
+	}
+
+	const ToggleRenderer = (data:any) => {
+		return <div className="flex gap-4 w-full items-center">
+				<Toggle pressed={pluginSettings[data.key] && pluginSettings[data.key] || false} onPressedChange={(bool) => {
+					SetSettingByKey(plugin, data.key, bool, ip).then(() => {
+						if (data.requires_restart)
+							setNeedsRestart(true)
+						mutate("settings")
+						toast.success(translate("frontend.settings.boolean.updated"), {
+							duration: 500
+						})
+					})
+				}} className="w-8 h-8 p-[7px] data-[state=on]:bg-background data-[state=on]:hover:bg-white/10 " variant={"outline"}>
+					{pluginSettings[data.key] && pluginSettings[data.key] ? <Check /> : <X />}
+				</Toggle>
+				{data.options.separator && <Separator orientation="vertical" />}
+				<div>
+					<h4>{translate(data.name)}</h4>
+					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
+				</div>
+			</div>
+	}
+
+	const ButtonRenderer = (data:any) => {
+		return <div className={"flex justify-between p-4 items-center" + GetBorderClassname(data.options.border)}>
+				<div className="flex flex-col gap-1 pr-12">
+					<h4 className="font-semibold">{translate(data.title)}</h4>
+					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
+				</div>
+				<Button variant={"outline"} onClick={() => {
+					DisablePlugin(plugin, ip).then(() => {
+						toast.success(translate("frontend.settings.plugin.disabled"), {
+							duration: 500
+						})
+					})
+				}
+				} className="min-w-32">{translate(data.text)}</Button>
+			</div>
+	}
+
+	const GetBorderClassname = (border:boolean) => {
+		if(border){
+			return " p-4 border rounded-md"
+		}
+		return "p-4"
+	}
+
+	const PageRenderer = (data: any) => {
+		if (!Array.isArray(data)) {
+			data = [data]
+		}
+		return data.map((item: any) => {
+			const key = Object.keys(item)[0];
+			const key_data = item[key];
+
+			// Page looks
+			if(key == "title"){
+				return TitleRenderer(key_data.text)
+			}
+			if(key == "description"){
+				return DescriptionRenderer(key_data.text)
+			}
+			if (key == "label") {
+				return LabelRenderer(key_data.text)
+			}
+			if (key == "separator") {
+				return SeparatorRenderer()
+			}
+			if (key == "space") {
+				return SpaceRenderer(key_data.amount)
+			}
+			if (key == "group") {
+				const direction = key_data.direction
+				if(direction == "horizontal"){
+					return <div className={"flex gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
+						{PageRenderer(key_data.components)}
+					</div>
+				}
+				else{
+					return <div className={"flex flex-col gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
+						{PageRenderer(key_data.components)}
+					</div>
+				}
+			}
+			if (key == "tabview") {
+				return <Tabs className="w-full" defaultValue={key_data.components[0].tab.name}>
+					<TabsList className="w-full bg-transparent border">
+						{key_data.components.map((tab:any, index:number) => (
+							<TabsTrigger key={index} value={tab.tab.name}>{translate(tab.tab.name)}</TabsTrigger>
+						))}
+					</TabsList>
+					{key_data.components.map((tab:any, index:number) => (
+						<TabsContent key={index} value={tab.tab.name} className="w-full border rounded-md p-4">
+							{PageRenderer(tab)}
+						</TabsContent>
+					))}
+				</Tabs>
+			}
+			if (key == "tab"){
+				return PageRenderer(key_data.components)
+			}
+
+			// Functions
+			if (key == "button") {
+				return ButtonRenderer(key_data)
+			}
+
+			// Options
+			if (key == "input") {
+				return InputRenderer(key_data)
+			}
+			if (key == "slider") {
+				return SliderRenderer(key_data)
+			}
+			if (key == "switch") {
+				return SwitchRenderer(key_data)
+			}
+			if (key == "toggle") {
+				return ToggleRenderer(key_data)
+			}
+		});
+	};
 
 	const SettingsRenderer = (data:any) => {
 		if(!pluginSettings[data.key])
@@ -382,40 +581,14 @@ export function ETS2LASettingsPage({ ip, data, plugin }: { ip: string, data: any
 		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.unknown_data_type", data.type.type)}</p>
 	}
 
+	console.log(settings)
 
 	return (
 		<TooltipProvider delayDuration={0}>
 			<div className="text-left flex flex-col w-full max-w-[calc(60vw-64px)] gap-6 relative">
-				{settings.map((setting:any, index:number) => (
-					<div key={index}>
-						{!setting.specials && SettingsRenderer(setting)}
-					</div>
-				))}
+				{PageRenderer(settings)}
 				<div className="h-12"></div>
 			</div>
-			{needsRestart && plugin == "Global" && 
-				<div className="absolute top-4 left-0 right-0 max-w-[calc(60vw-64px)] h-12 bg-red-950 rounded-md text-sm font-customSans justify-center text-center flex">
-					<Button className="w-full h-full" variant="destructive" onClick={() => {
-						setNeedsRestart(false)
-						window.location.reload()
-					}
-					}>{translate("frontend.settings.needs_restart")}</Button>
-				</div>
-			|| data[plugin]["enabled"] && needsRestart &&
-				<div className="absolute top-4 left-0 right-0 max-w-[calc(60vw-64px)] h-12 bg-red-950 rounded-md text-sm font-customSans justify-center text-center flex">
-					<Button className="w-full h-full" variant="destructive" onClick={() => {
-						setNeedsRestart(false)
-						DisablePlugin(plugin, ip).then(() => {
-							EnablePlugin(plugin, ip).then(() => {
-								toast.success(translate("frontend.settings.restarted"), {
-									duration: 1000
-								})
-							})
-						})
-					}
-					}>{translate("frontend.settings.needs_restart")}</Button>
-				</div>
-			}
 		</TooltipProvider>
 	)
 }
