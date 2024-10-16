@@ -22,27 +22,27 @@ class SettingsMenu(ETS2LASettingsMenu):
         
         Separator()
         
-        with EnabledLock():
-            Slider("Refresh rate", "refresh_rate", 1, 1, 30, 1, 
-                   description="NOTE: This affects the UI only when the plugin is enabled!", 
-                   suffix=" fps"
-            )
-            Button("Test!", "Test Button", Plugin.function)
+        with TabView():
+            with Tab("Settings"):
+                Slider("Refresh rate", "refresh_rate", 1, 1, 30, 1, 
+                    description="NOTE: This affects the UI only when the plugin is enabled!", 
+                    suffix=" fps"
+                )
+                Slider("Stats value print count", "slider", 4, 0, 10, 1)
+                Button("Test!", "Test Button", Plugin.function)
+
+            with Tab("Live Data"):
+                with EnabledLock():
+                    ProgressBar(VALUE % 4, 0, 4, 
+                                description=f"Loading... ({round(VALUE % 4 / 4 * 100)}%)"
+                    )
+                    
+                    with Group("vertical"):
+                        if self.settings.slider is None:
+                            self.settings.slider = 3
+                        for i in range(self.settings.slider):
+                            Description(f"The value is {VALUE}")
         
-        Space(4)
-        Label("Live data from the plugin:")
-        
-        with EnabledLock():
-            ProgressBar(VALUE % 4, 0, 4, 
-                        description=f"Loading... ({round(VALUE % 4 / 4 * 100)}%)"
-            )
-            Slider("Print the value this many times", "slider", 4, 0, 10, 1)
-            
-            with Group("vertical"):
-                if self.settings.slider is None:
-                    self.settings.slider = 3
-                for i in range(self.settings.slider):
-                    Description(f"The value is {VALUE}")
                 
         return RenderUI()
 

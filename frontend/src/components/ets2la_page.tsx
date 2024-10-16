@@ -401,7 +401,7 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 						))}
 					</TabsList>
 					{key_data.components.map((tab:any, index:number) => (
-						<TabsContent key={index} value={tab.tab.name} className="w-full border rounded-md p-4">
+						<TabsContent key={index} value={tab.tab.name} className="w-full rounded-md p-2 flex gap-6 flex-col">
 							{PageRenderer(tab)}
 						</TabsContent>
 					))}
