@@ -31,6 +31,7 @@ class ToggleSteering():
         sounds.Play('start' if self.steering else 'end')
         backend.CallEvent('ToggleSteering', self.steering, {})
         logging.info("Triggered event: ToggleSteering")
+        time.sleep(0.1)
         
     def CheckForUserInput(self, data):
         if self.steering:
