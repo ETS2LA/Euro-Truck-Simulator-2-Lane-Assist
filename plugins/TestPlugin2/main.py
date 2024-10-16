@@ -15,29 +15,34 @@ class SettingsMenu(ETS2LASettingsMenu):
         if self.settings.refresh_rate is None:
             self.settings.refresh_rate = 1
             
-        Title("Plugin Settings")
-        Description("This is a description")
-        
-        EnabledLock() # This will disable the page if the plugin is disabled
-        # will also show a button to enable the plugin
-            
         RefreshRate(1/self.settings.refresh_rate)
         
+        Title("Test Plugin")
+        Description("Laborum sit enim laboris non et culpa. Quis ad sunt deserunt aute elit ut do tempor consequat Lorem laboris mollit commodo. Ad ullamco do in ex excepteur anim cillum non reprehenderit labore sunt aliquip. Sunt nisi ea ea voluptate ea commodo esse ullamco. Exercitation Lorem ea velit quis aliquip dolore. Laborum mollit qui minim commodo id magna minim esse ea nostrud dolor.")    
+        
         Separator()
-        Space(10)
         
-        Label("This is a label")
+        with EnabledLock():
+            Slider("Refresh rate", "refresh_rate", 1, 1, 30, 1, 
+                   description="NOTE: This affects the UI only when the plugin is enabled!", 
+                   suffix=" fps"
+            )
+            Button("Test!", "Test Button", Plugin.function)
         
-        Slider("Refresh rate", "refresh_rate", 1, 1, 30, 1, description="NOTE: This affects the UI only when the plugin is enabled!", suffix=" fps")
-        Slider("Print the value this many times", "slider", 4, 0, 10, 1)
+        Space(4)
+        Label("Live data from the plugin:")
         
-        ProgressBar(VALUE % 4, 0, 4, description=f"Loading... ({round(VALUE % 4 / 4 * 100)}%)")
-        
-        Button("Test!", "Test Button", Plugin.function)
-        
-        with Group("vertical"):
-            for i in range(self.settings.slider):
-                Label(f"The value is {VALUE}")
+        with EnabledLock():
+            ProgressBar(VALUE % 4, 0, 4, 
+                        description=f"Loading... ({round(VALUE % 4 / 4 * 100)}%)"
+            )
+            Slider("Print the value this many times", "slider", 4, 0, 10, 1)
+            
+            with Group("vertical"):
+                if self.settings.slider is None:
+                    self.settings.slider = 3
+                for i in range(self.settings.slider):
+                    Description(f"The value is {VALUE}")
                 
         return RenderUI()
 

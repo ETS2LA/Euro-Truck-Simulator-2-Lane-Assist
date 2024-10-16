@@ -220,11 +220,18 @@ class ProgressBar():
         id += 1
 
 class EnabledLock():
-    def __init__(self):
+    def __enter__(self):
         global ui
-        ui.append({
-            "enabled_lock": {}
-        })
+        self.previous_ui = ui
+        ui = []
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global ui
+        self.previous_ui.append({"enabled_lock": {
+            "components": ui
+        }})
+        ui = self.previous_ui
 
 def RenderUI():
     global ui

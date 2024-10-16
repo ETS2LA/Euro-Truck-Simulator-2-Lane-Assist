@@ -119,14 +119,22 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 
 	useEffect(() => {
 		try{
-			const item = data[0]
-			let interval = setInterval(() => {
-				mutate("plugin_ui_plugins")
-			}, item["refresh_rate"] * 1000)
+			let interval = null;
+			if(enabled){
+				const item = data[0]
+				interval = setInterval(() => {
+					mutate("plugin_ui_plugins")
+				}, item["refresh_rate"] * 1000)
+			}
+			else{
+				interval = setInterval(() => {
+					mutate("plugin_ui_plugins")
+				}, 2000)
+			}
 			return () => clearInterval(interval)
 		}
 		catch{}
-    }, [data, plugin]);
+    }, [data, plugin, enabled]);
 
 	if(enabled == undefined){
 		enabled = true
@@ -307,7 +315,7 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 	}
 
 	const EnabledLock = () => {
-		return <div className="flex justify-between p-4 items-center border rounded-md">
+		return <div className="flex justify-between p-4 items-center border rounded-md backdrop-blur-md gap-10">
 			<div>
 				<h4>Please enable the plugin.</h4>
 				<p className="text-xs text-muted-foreground">This plugin is disabled. Enable it to access the rest of this plugin's settings.</p>
@@ -318,7 +326,7 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 						duration: 500
 					})
 				})
-			}} className="min-w-32">Enable Plugin</Button>
+			}} className="min-w-32">Enable {plugin}</Button>
 		</div>
 	}
 
@@ -338,10 +346,21 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 			const key = Object.keys(item)[0];
 			const key_data = item[key];
 
-			if(key == "enabled_lock"){
-				if (!enabled) {
-					result.push(EnabledLock())
-					break
+			if (key == "enabled_lock") {
+				if(!enabled){
+					result.push(
+						<div className="w-full relative">
+							<div className="absolute inset-0 flex items-center justify-center z-10 w-full">
+								<EnabledLock />
+							</div>
+							<div className="p-3 opacity-50 blur-sm">
+								{PageRenderer(key_data.components)}
+							</div>
+						</div>
+					);
+				}
+				else{
+					result.push(PageRenderer(key_data.components))
 				}
 			}
 
