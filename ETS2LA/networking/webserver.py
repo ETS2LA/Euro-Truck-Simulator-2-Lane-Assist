@@ -213,7 +213,6 @@ def call_plugin_function(plugin: str, data: PluginCallData = None):
         plugin = backend.RUNNING_PLUGINS[index]
         return plugin.call_function(data.target, data.args, data.kwargs)
     except:
-        logging.exception("Failed to call plugin function")
         return {"status": "error", "message": "Plugin not found"}
 
 # endregion
