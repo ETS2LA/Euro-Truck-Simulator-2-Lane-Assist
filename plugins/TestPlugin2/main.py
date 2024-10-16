@@ -28,6 +28,8 @@ class SettingsMenu(ETS2LASettingsMenu):
         Slider("Refresh rate", "refresh_rate", 1, 1, 30, 1, description="NOTE: This affects the UI only when the plugin is enabled!", suffix=" fps")
         Slider("Print the value this many times", "slider", 4, 0, 10, 1)
         
+        ProgressBar(VALUE % 4, 0, 4, description=f"Loading... ({round(VALUE % 4 / 4 * 100)}%)")
+        
         with Group("vertical"):
             for i in range(self.settings.slider):
                 Label(f"The value is {VALUE}")

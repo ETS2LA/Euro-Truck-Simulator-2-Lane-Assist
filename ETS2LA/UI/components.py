@@ -1,6 +1,7 @@
 from typing import Literal
 
 ui = []
+id = 0
 
 class Title():
     def __init__(self, text: str):
@@ -203,6 +204,20 @@ class RefreshRate():
         ui.insert(0, {
             "refresh_rate": time
         })
+        
+class ProgressBar():
+    def __init__(self, value: float, min: float, max: float, description: str = ""):
+        global ui, id
+        ui.append({
+            "progress_bar": {
+                "value": value,
+                "min": min,
+                "max": max,
+                "description": description,
+                "id": id
+            }
+        })
+        id += 1
 
 def RenderUI():
     global ui

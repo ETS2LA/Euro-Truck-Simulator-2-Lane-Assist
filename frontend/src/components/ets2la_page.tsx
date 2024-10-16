@@ -34,6 +34,7 @@ import {
 	X
 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Progress } from "./ui/progress"
 
 interface SliderComponentProps {
     pluginSettings: Record<string, any>;
@@ -291,6 +292,17 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 			</div>
 	}
 
+	const ProgressBarRenderer = (data:any) => {
+		const value = data.value;
+		const min = data.min;
+		const max = data.max;
+		const progress = (value - min) / (max - min) * 100;
+		return <div className="flex flex-col gap-2 w-full">
+			<Progress value={progress} />
+			<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
+		</div>
+	}
+
 	const GetBorderClassname = (border:boolean) => {
 		if(border){
 			return " p-4 border rounded-md"
@@ -353,6 +365,11 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 				return PageRenderer(key_data.components)
 			}
 
+			// Live Data
+			if (key == "progress_bar") {
+				return ProgressBarRenderer(key_data)
+			}
+
 			// Functions
 			if (key == "button") {
 				return ButtonRenderer(key_data)
@@ -373,224 +390,6 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 			}
 		});
 	};
-
-	const SettingsRenderer = (data:any) => {
-		if(!pluginSettings[data.key])
-		{
-			if(data.type.default != undefined){
-				pluginSettings[data.key] = data.type.default
-			}	
-		}
-
-		// string, number, boolean, array, object, enum
-		if (data.type.type == "string") {
-			return <div className="flex flex-col gap-2">
-				<h4>{translate(data.name)}</h4>
-				<Input type="text" placeholder={pluginSettings[data.key]} onChange={(e) => {
-					SetSettingByKey(plugin, data.key, e.target.value, ip).then(() => {
-						if (data.requires_restart)
-							setNeedsRestart(true)
-						mutate("settings")
-						toast.success(translate("frontend.settings.string.updated"), {
-							duration: 500
-						})
-					})
-				}} />
-				<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
-			</div>
-		}
-
-		if (data.type.type == "number") {
-			if(!parseFloat(pluginSettings[data.key])){
-				return (
-					<div className="flex flex-col gap-2">
-						<h4>...</h4>
-						<Slider />
-						<p className="text-xs text-muted-foreground">...</p>
-					</div>
-				)
-			}
-			if (data.type.min !== undefined && data.type.max !== undefined) { // Ensure min and max are not undefined
-				return ( // Add return statement here
-					<SliderComponent
-						pluginSettings={pluginSettings}
-						data={data}
-						plugin={plugin}
-						ip={ip}
-						setNeedsRestart={setNeedsRestart}
-						mutate={mutate}
-						toast={toast}
-						translate={translate}
-					/>
-				);
-			}
-			else
-			{
-				return (
-					<div className="flex flex-col gap-2">
-						<h4>{translate(data.name)}</h4>	
-						<Input type="number" placeholder={pluginSettings[data.key]} className="font-customMono" onChange={(e) => {
-							SetSettingByKey(plugin, data.key, parseFloat(e.target.value), ip).then(() => {
-								if (data.requires_restart)
-									setNeedsRestart(true)
-								mutate("settings");
-								toast.success(translate("frontend.settings.number.updated"), {
-									duration: 500
-								});
-							});
-						}} />
-						<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
-					</div>
-				)
-			}
-		}
-
-		if (data.type.type == "boolean") {
-			return <div className="flex justify-between rounded-md border p-4 items-center">
-				<div className="flex flex-col gap-1 pr-12">
-					<h4 className="font-semibold">{translate(data.name)}</h4>
-					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
-				</div>
-				<Switch checked={pluginSettings[data.key] && pluginSettings[data.key] || false} onCheckedChange={(bool) => {
-					SetSettingByKey(plugin, data.key, bool, ip).then(() => {
-						if (data.requires_restart)
-							setNeedsRestart(true)
-						mutate("settings")
-						toast.success(translate("frontend.settings.boolean.updated"), {
-							duration: 500
-						})
-					})
-				}} />
-			</div>
-		}
-
-		if (data.type.type == "array") {
-			return <div>
-				<h4>{translate(data.name)}</h4>
-				<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
-				<div className="pt-2 flex flex-col gap-2">
-					{pluginSettings[data.key] && pluginSettings[data.key].map((value:any, index:number) => (
-						<div key={index} className="flex gap-2 items-center">
-							<Input type={data.type.value_type && data.type.value_type || "text"} className="font-customMono" placeholder={value} onChange={(e) => {
-								let newSettings = [...pluginSettings[data.key]]
-								if (data.type.value_type == "number") {
-									newSettings[index] = parseFloat(e.target.value)
-								}
-								if (data.type.value_type == "string") {
-									newSettings[index] = e.target.value
-								}
-								SetSettingByKeys(plugin, data.key, newSettings, ip).then(() => {
-									if (data.requires_restart)
-										setNeedsRestart(true)
-									mutate("settings")
-									toast.success(translate("frontend.settings.array.updated_element"), {
-										duration: 500
-									})
-								})
-							}} />
-							<Button variant={"destructive"} className="text-xs h-8 p-3" onClick={() => {
-								let newSettings = [...pluginSettings[data.key]]
-								newSettings.splice(index, 1)
-								SetSettingByKeys(plugin, data.key, newSettings, ip).then(() => {
-									if (data.requires_restart)
-										setNeedsRestart(true)
-									mutate("settings")
-									toast.success(translate("frontend.settings.array.removed_element"), {
-										duration: 500
-									})
-								})
-							}} >{translate("frontend.settings.array.remove")}</Button>
-						</div>
-					))}
-					<Button variant={"outline"} className="text-xs h-8 p-3" onClick={() =>
-						{
-							if (data.type.value_type == "number") {
-								if (!pluginSettings[data.key] || pluginSettings[data.key].length == 0) {
-									SetSettingByKey(plugin, data.key, [0], ip).then(() => {
-										if (data.requires_restart)
-											setNeedsRestart(true)
-										mutate("settings")
-										toast.success(translate("frontend.settings.array.added_element"), {
-											duration: 500
-										})
-									})
-								}
-								else {
-										SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], 0], ip).then(() => {
-										if (data.requires_restart)
-											setNeedsRestart(true)
-										mutate("settings")
-										toast.success(translate("frontend.settings.array.added_element"), {
-											duration: 500
-										})
-									})
-								}
-							} else {
-								if (!pluginSettings[data.key] || pluginSettings[data.key].length == 0) {
-									SetSettingByKey(plugin, data.key, [""], ip).then(() => {
-										if (data.requires_restart)
-											setNeedsRestart(true)
-										mutate("settings")
-										toast.success(translate("frontend.settings.array.added_element"), {
-											duration: 500
-										})
-									})
-								}
-								else
-								{
-									SetSettingByKey(plugin, data.key, [...pluginSettings[data.key], ""], ip).then(() => {
-										if (data.requires_restart)
-											setNeedsRestart(true)
-										mutate("settings")
-										toast.success(translate("frontend.settings.array.added_element"), {
-											duration: 500
-										})
-									})
-								}
-							}
-						}
-					}> 
-						{translate("frontend.settings.array.add")}
-					</Button>
-				</div>
-			</div>
-		}
-
-		if (data.type.type == "object") {
-			return <p className="text-xs text-muted-foreground">Tried to show object [ {translate(data.name)} ] but objects are not yet supported!</p>
-		}
-
-		if (data.type.type == "enum") {
-			if (!data.type.options) {
-				return <p className="text-xs text-muted-foreground">{translate("frontend.settings.enum.no_enum")}</p>
-			}
-			return <div className="flex flex-col gap-2">
-				<h4>{translate(data.name)}</h4>
-				<Select defaultValue={pluginSettings[data.key]} onValueChange={(value) => {
-					SetSettingByKey(plugin, data.key, value, ip).then(() => {
-						if (data.requires_restart)
-							setNeedsRestart(true)
-						mutate("settings")
-						toast.success(translate("frontend.settings.enum.updated"), {
-							duration: 500
-						})
-					})
-				}} >
-					<SelectTrigger>
-						<SelectValue placeholder={pluginSettings[data.key]}>{pluginSettings[data.key]}</SelectValue>
-					</SelectTrigger>
-					<SelectContent>
-						{data.type.options.map((value:any) => (
-							<SelectItem key={value} value={value}>{value}</SelectItem>
-						))}
-					</SelectContent>
-				</Select>
-				<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
-			</div>
-		}
-
-		return <p className="text-xs text-muted-foreground">{translate("frontend.settings.unknown_data_type", data.type.type)}</p>
-	}
 
 	console.log(settings)
 
