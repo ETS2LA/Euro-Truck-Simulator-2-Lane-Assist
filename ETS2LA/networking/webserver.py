@@ -151,25 +151,30 @@ def get_frametimes():
 
 @app.get("/api/plugins")
 def get_plugins():
-    # Get data
-    plugins = backend.AVAILABLE_PLUGINS
-    enabled_plugins = backend.RUNNING_PLUGINS
+    try:
+        # Get data
+        plugins = backend.AVAILABLE_PLUGINS
+        enabled_plugins = backend.RUNNING_PLUGINS
+        plugin_settings = backend.get_plugin_settings()
+            
+        # Create the json
+        return_data = {}
+        for plugin in plugins:
+            name, description, _, _ = plugin
+            return_data[name] = {
+                "description": description.__dict__,
+                "settings": plugin_settings[name],
+            }
+            return_data[name]["enabled"] = False
+            if name in [plugin.plugin_name for plugin in enabled_plugins]:
+                return_data[name]["enabled"] = True
+            
+            return_data[name]["frametimes"] = 0
         
-    # Create the json
-    return_data = {}
-    for plugin in plugins:
-        name, description, author, settings = plugin
-        return_data[name] = {
-            "description": description.__dict__,
-            "settings": settings,
-        }
-        return_data[name]["enabled"] = False
-        if name in [plugin.plugin_name for plugin in enabled_plugins]:
-            return_data[name]["enabled"] = True
-        
-        return_data[name]["frametimes"] = 0
-    
-    return return_data
+        return return_data
+    except:
+        logging.exception("Failed to get plugins")
+        return False
 
 @app.get("/api/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):

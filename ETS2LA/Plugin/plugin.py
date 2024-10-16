@@ -4,6 +4,7 @@ from ETS2LA.Plugin.author import Author
 
 from ETS2LA.utils.logging import SetupProcessLogging
 from multiprocessing import JoinableQueue
+import threading
 import importlib
 import logging
 import json
@@ -32,6 +33,8 @@ class ETS2LAPlugin(object):
     return_queue: JoinableQueue
     plugins_queue: JoinableQueue
     plugins_return_queue: JoinableQueue
+    settings_menu_queue: JoinableQueue
+    settings_menu_return_queue: JoinableQueue
     
     globals: Global
     """
@@ -80,13 +83,16 @@ class ETS2LAPlugin(object):
     
     def __new__(cls, path: str, return_queue: JoinableQueue, 
                                 plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue, 
-                                tags_queue: JoinableQueue, tags_return_queue: JoinableQueue
+                                tags_queue: JoinableQueue, tags_return_queue: JoinableQueue,
+                                settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue
                                 ) -> object:
         instance = super().__new__(cls)
         instance.path = path
         instance.return_queue = return_queue
         instance.plugins_queue = plugins_queue
         instance.plugins_return_queue = plugins_return_queue
+        instance.settings_menu_queue = settings_menu_queue
+        instance.settings_menu_return_queue = settings_menu_return_queue
         instance.plugins = Plugins(plugins_queue, plugins_return_queue)
         instance.globals = Global(tags_queue, tags_return_queue)
         instance.ensure_settings_file()
@@ -97,8 +103,17 @@ class ETS2LAPlugin(object):
         self.ensure_functions()
         self.imports()
 
+        threading.Thread(target=self.settings_menu_thread, daemon=True).start()
+
         while True:
             self.plugin()
+    
+    def settings_menu_thread(self):
+        if "settings_menu" in dir(type(self)) and self.settings_menu != None:
+            while True:
+                self.settings_menu_queue.get()
+                self.settings_menu_queue.task_done()
+                self.settings_menu_return_queue.put(self.settings_menu.render())
     
     def plugin(self) -> None:
         self.before()
@@ -121,7 +136,8 @@ class PluginRunner:
     def __init__(self, plugin_name: str, plugin_description: PluginDescription, 
                     return_queue: JoinableQueue, 
                     plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue,
-                    tags_queue: JoinableQueue, tags_return_queue: JoinableQueue
+                    tags_queue: JoinableQueue, tags_return_queue: JoinableQueue,
+                    settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue
                     ):
         
         SetupProcessLogging(
@@ -138,6 +154,8 @@ class PluginRunner:
         self.plugins_return_queue = plugins_return_queue
         self.tags_queue = tags_queue
         self.tags_return_queue = tags_return_queue
+        self.settings_menu_queue = settings_menu_queue
+        self.settings_menu_return_queue = settings_menu_return_queue
 
         sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
 
@@ -148,6 +166,8 @@ class PluginRunner:
         if hasattr(plugin_module, 'Plugin'):
             self.plugin_instance = plugin_module.Plugin(f"plugins/{plugin_name}", return_queue, 
                                                             plugins_queue, plugins_return_queue, 
-                                                            tags_queue, tags_return_queue)
+                                                            tags_queue, tags_return_queue,
+                                                            settings_menu_queue, settings_menu_return_queue
+                                                            )
         else:
             raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")

@@ -22,10 +22,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 export default function Home({ ip }: { ip: string }) {
     const { push } = useRouter()
-    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
+    const { data, error, isLoading } = useSWR("plugin_ui_plugins", () => GetPlugins(ip))
     const { data: global} = useSWR("globals", () => GetSettingsJSON("global_json", ip));
     const [selectedPlugin, setSelectedPlugin] = useState("Global")
     const [scrolledDown, setScrolledDown] = useState(false)
+
 
     console.log(data)
 

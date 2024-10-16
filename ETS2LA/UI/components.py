@@ -185,6 +185,25 @@ class Group():
         }})
         ui = self.previous_ui
 
+class RefreshRate():
+    """
+    Set the refresh rate of the UI in seconds.
+    ie. RefreshRate(0.5) will refresh the UI every 0.5 seconds (2fps).
+    
+    **WARNING**: This will affect ALL plugins' performance while the UI is open!
+    """
+    def __init__(self, time: int):
+        """
+        Set the refresh rate of the UI in seconds.
+        ie. RefreshRate(0.5) will refresh the UI every 0.5 seconds (2fps).
+        
+        **WARNING**: This will affect ALL plugins' performance while the UI is open!
+        """
+        global ui
+        ui.insert(0, {
+            "refresh_rate": time
+        })
+
 def RenderUI():
     global ui
     temp_ui = ui.copy()

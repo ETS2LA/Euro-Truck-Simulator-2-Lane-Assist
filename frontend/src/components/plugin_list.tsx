@@ -18,7 +18,7 @@ import { translate } from "@/pages/translation"
 
 export default function PluginList({ ip }: { ip: string }) {
     const { push } = useRouter()
-    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 })
+    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
     
     let plugins:string[] = [];
     let enabledPlugins:string[] = [];

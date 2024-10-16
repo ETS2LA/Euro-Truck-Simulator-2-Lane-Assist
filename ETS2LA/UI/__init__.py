@@ -18,6 +18,7 @@ Components:
     **Group** - A group component.
     **Separator** - A separator component.
     **Space** - A space component.
+    **RefreshRate** - Set the refresh rate of the plugin.
     
 Example:
 ```python
@@ -47,5 +48,5 @@ class Plugin(ETS2LAPlugin):
 ```
 """
 from ETS2LA.UI.settings import ETS2LASettingsMenu
-from ETS2LA.UI.components import Title, Description, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space
+from ETS2LA.UI.components import Title, Description, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate
 from ETS2LA.UI.components import RenderUI

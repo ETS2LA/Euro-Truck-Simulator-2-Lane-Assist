@@ -116,6 +116,17 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 		mutate("settings")
 	}, [plugin])
 
+	useEffect(() => {
+		try{
+			const item = data[0]
+			let interval = setInterval(() => {
+				mutate("plugin_ui_plugins")
+			}, item["refresh_rate"] * 1000)
+			return () => clearInterval(interval)
+		}
+		catch{}
+    }, [data, plugin]);
+
 	if (pluginSettingsLoading) {
 		return <Skeleton />
 	}

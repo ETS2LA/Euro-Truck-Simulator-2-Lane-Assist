@@ -37,11 +37,14 @@ class PluginHandler:
         self.plugins_return_queue = multiprocessing.JoinableQueue()
         self.tags_queue = multiprocessing.JoinableQueue()
         self.tags_return_queue = multiprocessing.JoinableQueue()
+        self.settings_menu_queue = multiprocessing.JoinableQueue()
+        self.settings_menu_return_queue = multiprocessing.JoinableQueue()
         self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                           self.return_queue,
                                                                           self.plugins_queue, self.plugins_return_queue,
-                                                                          self.tags_queue, self.tags_return_queue), daemon=True
-                                               )
+                                                                          self.tags_queue, self.tags_return_queue,
+                                                                          self.settings_menu_queue, self.settings_menu_return_queue
+                                                                          ), daemon=True)
         self.process.start()
         RUNNING_PLUGINS.append(self)
         threading.Thread(target=self.data_handler, daemon=True).start()
@@ -81,6 +84,10 @@ class PluginHandler:
                 self.data = data
             else:
                 time.sleep(0.01) # 100fps
+                
+    def get_settings(self):
+        self.settings_menu_queue.put(True)
+        return self.settings_menu_return_queue.get()
 
 RUNNING_PLUGINS: list[PluginHandler] = []
 
@@ -101,8 +108,6 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
                 information = getattr(plugin_class, "description", None)
                 author = getattr(plugin_class, "author", None)
                 settings = getattr(plugin_class, "settings_menu", None)
-                if settings is not None:
-                    settings = settings.build()
                 plugins.append((folder, information, author, settings))
             del plugin_class
             
@@ -125,6 +130,30 @@ def get_plugin_data(plugin_name: str):
         if plugin.plugin_name == plugin_name:
             return plugin.data
     return None
+
+def get_plugin_settings() -> dict[str, None | list]:
+    settings_dict = {}
+    for name, desc, author, settings in AVAILABLE_PLUGINS:
+        if settings is None:
+            settings_dict[name] = None
+            continue
+        
+        elif not settings.dynamic:
+            settings_dict[name] = settings.build()
+            
+        elif name in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
+            for plugin in RUNNING_PLUGINS:
+                if plugin.plugin_name == name:
+                    settings_dict[name] = plugin.get_settings()
+                    break
+                
+        elif name not in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
+            settings_dict[name] = settings.build()
+        
+        else:
+            settings_dict[name] = None
+            
+    return settings_dict
 
 def run():
     global AVAILABLE_PLUGINS
