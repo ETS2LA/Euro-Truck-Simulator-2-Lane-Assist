@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 class PluginCallData(BaseModel):
+    target: str
     args: list
     kwargs: dict
     

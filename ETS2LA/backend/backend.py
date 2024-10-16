@@ -39,11 +39,14 @@ class PluginHandler:
         self.tags_return_queue = multiprocessing.JoinableQueue()
         self.settings_menu_queue = multiprocessing.JoinableQueue()
         self.settings_menu_return_queue = multiprocessing.JoinableQueue()
+        self.frontend_queue = multiprocessing.JoinableQueue()
+        self.frontend_return_queue = multiprocessing.JoinableQueue()
         self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                           self.return_queue,
                                                                           self.plugins_queue, self.plugins_return_queue,
                                                                           self.tags_queue, self.tags_return_queue,
-                                                                          self.settings_menu_queue, self.settings_menu_return_queue
+                                                                          self.settings_menu_queue, self.settings_menu_return_queue,
+                                                                          self.frontend_queue, self.frontend_return_queue
                                                                           ), daemon=True)
         self.process.start()
         RUNNING_PLUGINS.append(self)
@@ -88,6 +91,17 @@ class PluginHandler:
     def get_settings(self):
         self.settings_menu_queue.put(True)
         return self.settings_menu_return_queue.get()
+    
+    def call_function(self, name: str, *args, **kwargs):
+        self.frontend_queue.put({
+            "operation": "function",
+            "target": name,
+            "args": args,
+            "kwargs": kwargs
+        })
+        return_data = self.frontend_return_queue.get()
+        self.frontend_return_queue.task_done()
+        return return_data
 
 RUNNING_PLUGINS: list[PluginHandler] = []
 

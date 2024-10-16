@@ -202,16 +202,19 @@ def relieve_plugin(plugin: str, data: RelieveData = None):
         
     return backend.RelieveWaitForFrontend(plugin, data.map)
 
-@app.post("/api/plugins/{plugin}/call/{function}")
-def call_plugin_function(plugin: str, function: str, data: PluginCallData = None):
-    if data is None:
-        data = PluginCallData()
-    
-    returnData = backend.CallPluginFunction(plugin, function, data.args, data.kwargs)
-    if returnData == False or returnData == None:
-        return False
-    else:
-        return returnData
+@app.post("/api/plugins/{plugin}/function/call")
+def call_plugin_function(plugin: str, data: PluginCallData = None):
+    try:
+        if data is None:
+            data = PluginCallData()
+        
+        index = [plugin.plugin_name for plugin in backend.RUNNING_PLUGINS].index(plugin)
+        
+        plugin = backend.RUNNING_PLUGINS[index]
+        return plugin.call_function(data.target, data.args, data.kwargs)
+    except:
+        logging.exception("Failed to call plugin function")
+        return {"status": "error", "message": "Plugin not found"}
 
 # endregion
 # region Language

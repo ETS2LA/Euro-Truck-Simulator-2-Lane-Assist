@@ -35,6 +35,8 @@ class ETS2LAPlugin(object):
     plugins_return_queue: JoinableQueue
     settings_menu_queue: JoinableQueue
     settings_menu_return_queue: JoinableQueue
+    frontend_queue: JoinableQueue
+    frontend_return_queue: JoinableQueue
     
     globals: Global
     """
@@ -84,7 +86,8 @@ class ETS2LAPlugin(object):
     def __new__(cls, path: str, return_queue: JoinableQueue, 
                                 plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue, 
                                 tags_queue: JoinableQueue, tags_return_queue: JoinableQueue,
-                                settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue
+                                settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue,
+                                frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue
                                 ) -> object:
         instance = super().__new__(cls)
         instance.path = path
@@ -93,6 +96,8 @@ class ETS2LAPlugin(object):
         instance.plugins_return_queue = plugins_return_queue
         instance.settings_menu_queue = settings_menu_queue
         instance.settings_menu_return_queue = settings_menu_return_queue
+        instance.frontend_queue = frontend_queue
+        instance.frontend_return_queue = frontend_return_queue
         instance.plugins = Plugins(plugins_queue, plugins_return_queue)
         instance.globals = Global(tags_queue, tags_return_queue)
         instance.ensure_settings_file()
@@ -104,6 +109,7 @@ class ETS2LAPlugin(object):
         self.imports()
 
         threading.Thread(target=self.settings_menu_thread, daemon=True).start()
+        threading.Thread(target=self.frontend_thread, daemon=True).start()
 
         while True:
             self.plugin()
@@ -114,6 +120,28 @@ class ETS2LAPlugin(object):
                 self.settings_menu_queue.get()
                 self.settings_menu_queue.task_done()
                 self.settings_menu_return_queue.put(self.settings_menu.render())
+    
+    def frontend_thread(self):
+        while True:
+            data = self.frontend_queue.get()
+            
+            
+            if data["operation"] == "function":
+                args = data["args"]
+                kwargs = data["kwargs"]
+                if args != ([], {}):
+                    if kwargs != {}:
+                        getattr(self, data["target"])(*args, **kwargs)
+                    else:
+                        getattr(self, data["target"])(*args)
+                elif kwargs != {}:
+                    getattr(self, data["target"])(**kwargs)
+                else:
+                    getattr(self, data["target"])()
+            
+            self.frontend_queue.task_done()
+            self.frontend_return_queue.put(None)
+            
     
     def plugin(self) -> None:
         self.before()
@@ -137,7 +165,8 @@ class PluginRunner:
                     return_queue: JoinableQueue, 
                     plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue,
                     tags_queue: JoinableQueue, tags_return_queue: JoinableQueue,
-                    settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue
+                    settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue,
+                    frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue
                     ):
         
         SetupProcessLogging(
@@ -156,6 +185,8 @@ class PluginRunner:
         self.tags_return_queue = tags_return_queue
         self.settings_menu_queue = settings_menu_queue
         self.settings_menu_return_queue = settings_menu_return_queue
+        self.frontend_queue = frontend_queue
+        self.frontend_return_queue = frontend_return_queue
 
         sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
 
@@ -167,7 +198,8 @@ class PluginRunner:
             self.plugin_instance = plugin_module.Plugin(f"plugins/{plugin_name}", return_queue, 
                                                             plugins_queue, plugins_return_queue, 
                                                             tags_queue, tags_return_queue,
-                                                            settings_menu_queue, settings_menu_return_queue
+                                                            settings_menu_queue, settings_menu_return_queue,
+                                                            frontend_queue, frontend_return_queue
                                                             )
         else:
             raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")

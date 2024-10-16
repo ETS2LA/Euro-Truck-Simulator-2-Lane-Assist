@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import useSWR, { mutate } from "swr"
-import { GetPlugins } from "@/pages/backend"
+import { GetPlugins, PluginFunctionCall } from "@/pages/backend"
 import { Separator } from "./ui/separator"
 import { set } from "date-fns"
 import { Input } from "./ui/input"
@@ -282,13 +282,12 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 				</div>
 				<Button variant={"outline"} onClick={() => {
-					DisablePlugin(plugin, ip).then(() => {
-						toast.success(translate("frontend.settings.plugin.disabled"), {
+					PluginFunctionCall(plugin, data.options.target, [], {}, ip).then(() => {
+						toast.success(translate(data.success), {
 							duration: 500
 						})
 					})
-				}
-				} className="min-w-32">{translate(data.text)}</Button>
+				}} className="min-w-32">{translate(data.text)}</Button>
 			</div>
 	}
 

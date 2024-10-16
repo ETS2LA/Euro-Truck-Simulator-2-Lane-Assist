@@ -30,6 +30,8 @@ class SettingsMenu(ETS2LASettingsMenu):
         
         ProgressBar(VALUE % 4, 0, 4, description=f"Loading... ({round(VALUE % 4 / 4 * 100)}%)")
         
+        Button("Test!", "Test Button", Plugin.function)
+        
         with Group("vertical"):
             for i in range(self.settings.slider):
                 Label(f"The value is {VALUE}")
@@ -57,6 +59,9 @@ class Plugin(ETS2LAPlugin):
     )
     
     settings_menu = SettingsMenu()
+    
+    def function(self):
+        print("Button clicked!")
     
     def imports(self):
         """
