@@ -47,7 +47,7 @@ export default function Home({ ip }: { ip: string }) {
             // @ts-ignore
         } else if (data && data[selectedPlugin] && data[selectedPlugin].settings) {
             // Ensure data is correctly passed to ETS2LASettingsPage
-            return <ETS2LAPage ip={ip} plugin={selectedPlugin} data={data[selectedPlugin]["settings"]} />;
+            return <ETS2LAPage ip={ip} plugin={selectedPlugin} data={data[selectedPlugin]["settings"]} enabled={data[selectedPlugin]["enabled"]} />;
         } else {
             return <p className="text-xs text-muted-foreground text-start pl-4">{translate("frontend.settings.data_missing")}</p>;
         }

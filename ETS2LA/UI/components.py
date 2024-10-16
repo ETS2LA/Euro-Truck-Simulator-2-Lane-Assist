@@ -219,6 +219,13 @@ class ProgressBar():
         })
         id += 1
 
+class EnabledLock():
+    def __init__(self):
+        global ui
+        ui.append({
+            "enabled_lock": {}
+        })
+
 def RenderUI():
     global ui
     temp_ui = ui.copy()

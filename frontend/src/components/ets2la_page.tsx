@@ -107,7 +107,7 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
     }
 }
 
-export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin: string }) {
+export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: any, plugin: string, enabled?: boolean }) {
 	const { data: pluginSettings, error: pluginSettingsError, isLoading: pluginSettingsLoading } = useSWR("settings", () => GetSettingsJSON(plugin, ip))
 	const [needsRestart, setNeedsRestart] = useState(false)
 
@@ -127,6 +127,10 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 		}
 		catch{}
     }, [data, plugin]);
+
+	if(enabled == undefined){
+		enabled = true
+	}
 
 	if (pluginSettingsLoading) {
 		return <Skeleton />
@@ -302,6 +306,22 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 		</div>
 	}
 
+	const EnabledLock = () => {
+		return <div className="flex justify-between p-4 items-center border rounded-md">
+			<div>
+				<h4>Please enable the plugin.</h4>
+				<p className="text-xs text-muted-foreground">This plugin is disabled. Enable it to access the rest of this plugin's settings.</p>
+			</div>
+			<Button variant={"outline"} onClick={() => {
+				EnablePlugin(plugin, ip).then(() => {
+					toast.success("Plugin enabled", {
+						duration: 500
+					})
+				})
+			}} className="min-w-32">Enable Plugin</Button>
+		</div>
+	}
+
 	const GetBorderClassname = (border:boolean) => {
 		if(border){
 			return " p-4 border rounded-md"
@@ -313,41 +333,49 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 		if (!Array.isArray(data)) {
 			data = [data]
 		}
-		return data.map((item: any) => {
+		const result = [];
+		for (const item of data) {
 			const key = Object.keys(item)[0];
 			const key_data = item[key];
 
+			if(key == "enabled_lock"){
+				if (!enabled) {
+					result.push(EnabledLock())
+					break
+				}
+			}
+
 			// Page looks
 			if(key == "title"){
-				return TitleRenderer(key_data.text)
+				result.push(TitleRenderer(key_data.text))
 			}
 			if(key == "description"){
-				return DescriptionRenderer(key_data.text)
+				result.push(DescriptionRenderer(key_data.text))
 			}
 			if (key == "label") {
-				return LabelRenderer(key_data.text)
+				result.push(LabelRenderer(key_data.text))
 			}
 			if (key == "separator") {
-				return SeparatorRenderer()
+				result.push(SeparatorRenderer())
 			}
 			if (key == "space") {
-				return SpaceRenderer(key_data.amount)
+				result.push(SpaceRenderer(key_data.amount))
 			}
 			if (key == "group") {
 				const direction = key_data.direction
 				if(direction == "horizontal"){
-					return <div className={"flex gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
+					result.push(<div className={"flex gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
 						{PageRenderer(key_data.components)}
-					</div>
+					</div>)
 				}
 				else{
-					return <div className={"flex flex-col gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
+					result.push(<div className={"flex flex-col gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
 						{PageRenderer(key_data.components)}
-					</div>
+					</div>)
 				}
 			}
 			if (key == "tabview") {
-				return <Tabs className="w-full" defaultValue={key_data.components[0].tab.name}>
+				result.push(<Tabs className="w-full" defaultValue={key_data.components[0].tab.name}>
 					<TabsList className="w-full bg-transparent border">
 						{key_data.components.map((tab:any, index:number) => (
 							<TabsTrigger key={index} value={tab.tab.name}>{translate(tab.tab.name)}</TabsTrigger>
@@ -358,36 +386,38 @@ export function ETS2LAPage({ ip, data, plugin }: { ip: string, data: any, plugin
 							{PageRenderer(tab)}
 						</TabsContent>
 					))}
-				</Tabs>
+				</Tabs>)
 			}
 			if (key == "tab"){
-				return PageRenderer(key_data.components)
+				result.push(PageRenderer(key_data.components))
 			}
 
 			// Live Data
 			if (key == "progress_bar") {
-				return ProgressBarRenderer(key_data)
+				result.push(ProgressBarRenderer(key_data))
 			}
 
 			// Functions
 			if (key == "button") {
-				return ButtonRenderer(key_data)
+				result.push(ButtonRenderer(key_data))
 			}
 
 			// Options
 			if (key == "input") {
-				return InputRenderer(key_data)
+				result.push(InputRenderer(key_data))
 			}
 			if (key == "slider") {
-				return SliderRenderer(key_data)
+				result.push(SliderRenderer(key_data))
 			}
 			if (key == "switch") {
-				return SwitchRenderer(key_data)
+				result.push(SwitchRenderer(key_data))
 			}
 			if (key == "toggle") {
-				return ToggleRenderer(key_data)
+				result.push(ToggleRenderer(key_data))
 			}
-		});
+		};
+
+		return result;
 	};
 
 	console.log(settings)

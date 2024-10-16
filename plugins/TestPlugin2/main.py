@@ -15,10 +15,13 @@ class SettingsMenu(ETS2LASettingsMenu):
         if self.settings.refresh_rate is None:
             self.settings.refresh_rate = 1
             
-        RefreshRate(1/self.settings.refresh_rate)
-        
         Title("Plugin Settings")
         Description("This is a description")
+        
+        EnabledLock() # This will disable the page if the plugin is disabled
+        # will also show a button to enable the plugin
+            
+        RefreshRate(1/self.settings.refresh_rate)
         
         Separator()
         Space(10)
