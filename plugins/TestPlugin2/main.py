@@ -87,3 +87,5 @@ class Plugin(ETS2LAPlugin):
     def run(self):
         global VALUE
         VALUE = time.time()
+        self.state.text = f"Loading {round(VALUE % 4 / 4 * 100)}%"
+        self.state.progress = VALUE % 4 / 4

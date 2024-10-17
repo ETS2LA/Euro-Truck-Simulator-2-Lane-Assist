@@ -29,6 +29,11 @@ class PluginHandler:
     
     tags: dict[str, any]
     
+    state: dict = {
+        "status": "",
+        "progress": -1
+    }
+    
     def __init__(self, plugin_name: str, plugin_description: PluginDescription):
         self.tags = {}
         self.plugin_name = plugin_name
@@ -45,6 +50,7 @@ class PluginHandler:
         self.frontend_return_queue = multiprocessing.JoinableQueue()
         self.immediate_queue = multiprocessing.JoinableQueue()
         self.immediate_return_queue = multiprocessing.JoinableQueue()
+        self.state_queue = multiprocessing.JoinableQueue()
         
         self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                           self.return_queue,
@@ -52,7 +58,8 @@ class PluginHandler:
                                                                           self.tags_queue, self.tags_return_queue,
                                                                           self.settings_menu_queue, self.settings_menu_return_queue,
                                                                           self.frontend_queue, self.frontend_return_queue,
-                                                                          self.immediate_queue, self.immediate_return_queue
+                                                                          self.immediate_queue, self.immediate_return_queue,
+                                                                          self.state_queue
                                                                           ), daemon=True)
         self.process.start()
         RUNNING_PLUGINS.append(self)
@@ -61,6 +68,7 @@ class PluginHandler:
         threading.Thread(target=self.plugins_handler, daemon=True).start()
         threading.Thread(target=self.tags_handler, daemon=True).start()
         threading.Thread(target=self.immediate_handler, daemon=True).start()
+        threading.Thread(target=self.state_handler, daemon=True).start()
         
     def tags_handler(self):
         while True:
@@ -103,6 +111,14 @@ class PluginHandler:
                 self.immediate_return_queue.put(immediate.ask(text, options, description=description))
             else:
                 self.immediate_return_queue.put(False)
+
+    def state_handler(self):
+        while True:
+            data = self.state_queue.get()
+            if "status" in data:
+                self.state["status"] = data["status"]
+            if "progress" in data:
+                self.state["progress"] = data["progress"]
 
     def data_handler(self):
         while True:
@@ -192,6 +208,18 @@ def get_plugin_settings() -> dict[str, None | list]:
             settings_dict[name] = None
             
     return settings_dict
+
+def get_state(plugin: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin:
+            return plugin.state
+    return None
+
+def get_states():
+    states = {}
+    for plugin in RUNNING_PLUGINS:
+        states[plugin.plugin_name] = plugin.state
+    return states
 
 def run():
     global AVAILABLE_PLUGINS

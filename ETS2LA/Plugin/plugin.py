@@ -1,4 +1,4 @@
-from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription
+from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription, State
 from ETS2LA.Plugin.settings import Settings
 from ETS2LA.Plugin.author import Author
 
@@ -40,6 +40,25 @@ class ETS2LAPlugin(object):
     frontend_return_queue: JoinableQueue
     immediate_queue: JoinableQueue
     immediate_return_queue: JoinableQueue
+    state_queue: JoinableQueue
+    
+    state: State
+    """
+    The state of the plugin shown in the frontend.
+    
+    Example:
+    ```python
+    while HeavyOperation():
+        percentage = 0.66
+        self.state.text = f"Loading... ({round(percentage * 100)}%)"
+        self.state.progress = percentage
+    
+    self.state.reset()
+    # or
+    self.state.text = ""
+    self.state.progress = -1
+    ```
+    """
     
     globals: Global
     """
@@ -91,7 +110,8 @@ class ETS2LAPlugin(object):
                                 tags_queue: JoinableQueue, tags_return_queue: JoinableQueue,
                                 settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue,
                                 frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue,
-                                immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue
+                                immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue,
+                                state_queue: JoinableQueue
                                 ) -> object:
         instance = super().__new__(cls)
         instance.path = path
@@ -105,9 +125,11 @@ class ETS2LAPlugin(object):
         instance.frontend_return_queue = frontend_return_queue
         instance.immediate_queue = immediate_queue
         instance.immediate_return_queue = immediate_return_queue
+        instance.state_queue = state_queue
         
         instance.plugins = Plugins(plugins_queue, plugins_return_queue)
         instance.globals = Global(tags_queue, tags_return_queue)
+        instance.state = State(state_queue)
         
         instance.ensure_settings_file()
         instance.settings = Settings(path)
@@ -198,7 +220,8 @@ class PluginRunner:
                     tags_queue: JoinableQueue, tags_return_queue: JoinableQueue,
                     settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue,
                     frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue,
-                    immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue
+                    immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue,
+                    state_queue: JoinableQueue
                     ):
         
         SetupProcessLogging(
@@ -221,6 +244,7 @@ class PluginRunner:
         self.frontend_return_queue = frontend_return_queue
         self.immediate_queue = immediate_queue
         self.immediate_return_queue = immediate_return_queue
+        self.state_queue = state_queue
 
         sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
 
@@ -234,7 +258,8 @@ class PluginRunner:
                                                             tags_queue, tags_return_queue,
                                                             settings_menu_queue, settings_menu_return_queue,
                                                             frontend_queue, frontend_return_queue,
-                                                            immediate_queue, immediate_return_queue
+                                                            immediate_queue, immediate_return_queue,
+                                                            state_queue
                                                             )
         else:
             raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")

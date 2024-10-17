@@ -192,7 +192,7 @@ def get_performance():
 
 @app.get("/api/plugins/states")
 def get_states():
-    return backend.GetPluginStates()
+    return backend.get_states()
 
 @app.post("/api/plugins/{plugin}/relieve")
 def relieve_plugin(plugin: str, data: RelieveData = None):

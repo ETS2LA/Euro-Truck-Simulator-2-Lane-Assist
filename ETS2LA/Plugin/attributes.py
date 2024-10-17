@@ -69,6 +69,39 @@ class GlobalSettings:  # read only instead of the plugin settings
         else:
             raise TypeError("Global settings are read-only")
     
+class State:
+    text: str
+    progress: float
+    
+    state_queue: JoinableQueue
+    
+    def __init__(self, state_queue: JoinableQueue):
+        self.state_queue = state_queue
+    
+    def __setattr__(self, name, value):
+        if name in ["text", "status", "state"]:
+            state_dict = {
+                "status": value
+            }
+            self.state_queue.put(state_dict, block=False)
+            return 
+        
+        if name in ["value", "progress"]:
+            state_dict = {
+                "progress": value
+            }
+            self.state_queue.put(state_dict, block=False)
+            return 
+        
+        super().__setattr__(name, value)
+            
+    def reset(self):
+        state_dict = {
+            "status": "",
+            "progress": -1
+        }
+        self.state_queue.put(state_dict, block=False)
+    
 class Global:
     settings: GlobalSettings
     """
