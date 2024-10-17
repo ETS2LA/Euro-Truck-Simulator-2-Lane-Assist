@@ -4,6 +4,7 @@ from ETS2LA.Plugin.author import Author
 
 from ETS2LA.utils.logging import SetupProcessLogging
 from multiprocessing import JoinableQueue
+from typing import Literal
 import threading
 import importlib
 import logging
@@ -37,6 +38,8 @@ class ETS2LAPlugin(object):
     settings_menu_return_queue: JoinableQueue
     frontend_queue: JoinableQueue
     frontend_return_queue: JoinableQueue
+    immediate_queue: JoinableQueue
+    immediate_return_queue: JoinableQueue
     
     globals: Global
     """
@@ -87,10 +90,12 @@ class ETS2LAPlugin(object):
                                 plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue, 
                                 tags_queue: JoinableQueue, tags_return_queue: JoinableQueue,
                                 settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue,
-                                frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue
+                                frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue,
+                                immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue
                                 ) -> object:
         instance = super().__new__(cls)
         instance.path = path
+        
         instance.return_queue = return_queue
         instance.plugins_queue = plugins_queue
         instance.plugins_return_queue = plugins_return_queue
@@ -98,10 +103,15 @@ class ETS2LAPlugin(object):
         instance.settings_menu_return_queue = settings_menu_return_queue
         instance.frontend_queue = frontend_queue
         instance.frontend_return_queue = frontend_return_queue
+        instance.immediate_queue = immediate_queue
+        instance.immediate_return_queue = immediate_return_queue
+        
         instance.plugins = Plugins(plugins_queue, plugins_return_queue)
         instance.globals = Global(tags_queue, tags_return_queue)
+        
         instance.ensure_settings_file()
         instance.settings = Settings(path)
+        
         return instance
     
     def __init__(self, *args) -> None:
@@ -125,7 +135,6 @@ class ETS2LAPlugin(object):
         while True:
             data = self.frontend_queue.get()
             
-            
             if data["operation"] == "function":
                 args = data["args"]
                 kwargs = data["kwargs"]
@@ -142,7 +151,28 @@ class ETS2LAPlugin(object):
             self.frontend_queue.task_done()
             self.frontend_return_queue.put(None)
             
+    def notify(self, text: str, type: Literal["info", "warning", "error", "success", "promise"] = "info"):
+        self.immediate_queue.put({
+            "operation": "notify", 
+            "options": {
+                "text": text,
+                "type": type
+            }    
+        })
+        data = self.immediate_return_queue.get()
+        self.immediate_return_queue.task_done()
+        return data    
     
+    def ask(self, text: str, options: list) -> str:
+        self.immediate_queue.put({
+            "operation": "ask", 
+            "options": {
+                "text": text,
+                "options": options
+            }
+        })
+        return self.immediate_return_queue.get()["response"]
+
     def plugin(self) -> None:
         self.before()
         data = self.run()
@@ -166,7 +196,8 @@ class PluginRunner:
                     plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue,
                     tags_queue: JoinableQueue, tags_return_queue: JoinableQueue,
                     settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue,
-                    frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue
+                    frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue,
+                    immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue
                     ):
         
         SetupProcessLogging(
@@ -187,6 +218,8 @@ class PluginRunner:
         self.settings_menu_return_queue = settings_menu_return_queue
         self.frontend_queue = frontend_queue
         self.frontend_return_queue = frontend_return_queue
+        self.immediate_queue = immediate_queue
+        self.immediate_return_queue = immediate_return_queue
 
         sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
 
@@ -199,7 +232,8 @@ class PluginRunner:
                                                             plugins_queue, plugins_return_queue, 
                                                             tags_queue, tags_return_queue,
                                                             settings_menu_queue, settings_menu_return_queue,
-                                                            frontend_queue, frontend_return_queue
+                                                            frontend_queue, frontend_return_queue,
+                                                            immediate_queue, immediate_return_queue
                                                             )
         else:
             raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")

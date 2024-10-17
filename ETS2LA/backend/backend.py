@@ -1,3 +1,4 @@
+import ETS2LA.frontend.immediate as immediate
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 import multiprocessing
@@ -32,6 +33,7 @@ class PluginHandler:
         self.tags = {}
         self.plugin_name = plugin_name
         self.plugin_description = plugin_description
+        
         self.return_queue = multiprocessing.JoinableQueue()
         self.plugins_queue = multiprocessing.JoinableQueue()
         self.plugins_return_queue = multiprocessing.JoinableQueue()
@@ -41,18 +43,24 @@ class PluginHandler:
         self.settings_menu_return_queue = multiprocessing.JoinableQueue()
         self.frontend_queue = multiprocessing.JoinableQueue()
         self.frontend_return_queue = multiprocessing.JoinableQueue()
+        self.immediate_queue = multiprocessing.JoinableQueue()
+        self.immediate_return_queue = multiprocessing.JoinableQueue()
+        
         self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                           self.return_queue,
                                                                           self.plugins_queue, self.plugins_return_queue,
                                                                           self.tags_queue, self.tags_return_queue,
                                                                           self.settings_menu_queue, self.settings_menu_return_queue,
-                                                                          self.frontend_queue, self.frontend_return_queue
+                                                                          self.frontend_queue, self.frontend_return_queue,
+                                                                          self.immediate_queue, self.immediate_return_queue
                                                                           ), daemon=True)
         self.process.start()
         RUNNING_PLUGINS.append(self)
+        
         threading.Thread(target=self.data_handler, daemon=True).start()
         threading.Thread(target=self.plugins_handler, daemon=True).start()
         threading.Thread(target=self.tags_handler, daemon=True).start()
+        threading.Thread(target=self.immediate_handler, daemon=True).start()
         
     def tags_handler(self):
         while True:
@@ -79,6 +87,21 @@ class PluginHandler:
                 self.plugins_return_queue.put(RUNNING_PLUGINS[index].data)
             else:
                 self.plugins_return_queue.put(None)
+                
+    def immediate_handler(self):
+        while True:
+            data = self.immediate_queue.get()
+            if data["operation"] == "notify":
+                type = data["options"]["type"]
+                text = data["options"]["text"]
+                immediate.sonner(text, type)
+                self.immediate_return_queue.put(True)
+            elif data["operation"] == "ask":
+                text = data["options"]["text"]
+                options = data["options"]["options"]
+                self.immediate_return_queue.put(immediate.ask(text, options))
+            else:
+                self.immediate_return_queue.put(False)
 
     def data_handler(self):
         while True:

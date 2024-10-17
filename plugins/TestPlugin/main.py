@@ -40,4 +40,5 @@ class Plugin(ETS2LAPlugin):
         import time
     
     def run(self):
-        self.globals.tags.test = "x"
+        print(self.ask("What is your name?", ["Tumppi", "Not Tumppi"]))
+        time.sleep(60)
