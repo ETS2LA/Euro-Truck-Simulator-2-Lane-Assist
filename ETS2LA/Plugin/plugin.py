@@ -41,6 +41,10 @@ class ETS2LAPlugin(object):
     immediate_queue: JoinableQueue
     immediate_return_queue: JoinableQueue
     state_queue: JoinableQueue
+    performance_queue: JoinableQueue
+    performance_return_queue: JoinableQueue
+    
+    performance: list[tuple[float, float]] = []
     
     state: State
     """
@@ -111,7 +115,8 @@ class ETS2LAPlugin(object):
                                 settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue,
                                 frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue,
                                 immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue,
-                                state_queue: JoinableQueue
+                                state_queue: JoinableQueue,
+                                performance_queue: JoinableQueue, performance_return_queue: JoinableQueue
                                 ) -> object:
         instance = super().__new__(cls)
         instance.path = path
@@ -126,6 +131,8 @@ class ETS2LAPlugin(object):
         instance.immediate_queue = immediate_queue
         instance.immediate_return_queue = immediate_return_queue
         instance.state_queue = state_queue
+        instance.performance_queue = performance_queue
+        instance.performance_return_queue = performance_return_queue
         
         instance.plugins = Plugins(plugins_queue, plugins_return_queue)
         instance.globals = Global(tags_queue, tags_return_queue)
@@ -142,6 +149,7 @@ class ETS2LAPlugin(object):
 
         threading.Thread(target=self.settings_menu_thread, daemon=True).start()
         threading.Thread(target=self.frontend_thread, daemon=True).start()
+        threading.Thread(target=self.performance_thread, daemon=True).start()
 
         while True:
             self.plugin()
@@ -172,6 +180,16 @@ class ETS2LAPlugin(object):
             
             self.frontend_queue.task_done()
             self.frontend_return_queue.put(None)
+            
+    def performance_thread(self):
+        while True:
+            self.performance_queue.get()
+            
+            last_30_seconds = time.time() - 30
+            self.performance = [x for x in self.performance if x[0] > last_30_seconds]
+            
+            self.performance_queue.task_done()
+            self.performance_return_queue.put(self.performance)
             
     def notify(self, text: str, type: Literal["info", "warning", "error", "success", "promise"] = "info"):
         self.immediate_queue.put({
@@ -212,6 +230,8 @@ class ETS2LAPlugin(object):
         time_to_sleep = max(1/self.fps_cap - (self.end_time - self.start_time), 0)
         if time_to_sleep > 0:
             time.sleep(time_to_sleep)
+        
+        self.performance.append((self.start_time, time.time() - self.start_time))
 
 class PluginRunner:
     def __init__(self, plugin_name: str, plugin_description: PluginDescription, 
@@ -221,7 +241,8 @@ class PluginRunner:
                     settings_menu_queue: JoinableQueue, settings_menu_return_queue: JoinableQueue,
                     frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue,
                     immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue,
-                    state_queue: JoinableQueue
+                    state_queue: JoinableQueue,
+                    performance_queue: JoinableQueue, performance_return_queue: JoinableQueue
                     ):
         
         SetupProcessLogging(
@@ -245,6 +266,8 @@ class PluginRunner:
         self.immediate_queue = immediate_queue
         self.immediate_return_queue = immediate_return_queue
         self.state_queue = state_queue
+        self.performance_queue = performance_queue
+        self.performance_return_queue = performance_return_queue
 
         sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
 
@@ -259,7 +282,8 @@ class PluginRunner:
                                                             settings_menu_queue, settings_menu_return_queue,
                                                             frontend_queue, frontend_return_queue,
                                                             immediate_queue, immediate_return_queue,
-                                                            state_queue
+                                                            state_queue,
+                                                            performance_queue, performance_return_queue
                                                             )
         else:
             raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")

@@ -147,7 +147,7 @@ def get_transparency_state():
 
 @app.get("/api/frametimes")
 def get_frametimes():
-    return backend.frameTimes
+    return backend.get_latest_frametimes()
 
 @app.get("/api/plugins")
 def get_plugins():
@@ -165,11 +165,12 @@ def get_plugins():
                 "description": description.__dict__,
                 "settings": plugin_settings[name],
             }
-            return_data[name]["enabled"] = False
-            if name in [plugin.plugin_name for plugin in enabled_plugins]:
+            if name in [enabled_plugin.plugin_name for enabled_plugin in enabled_plugins]:
                 return_data[name]["enabled"] = True
-            
-            return_data[name]["frametimes"] = 0
+                return_data[name]["frametimes"] = backend.get_latest_frametime(name)
+            else:
+                return_data[name]["enabled"] = False
+                return_data[name]["frametimes"] = 0
         
         return return_data
     except:
@@ -188,7 +189,7 @@ def disable_plugin(plugin: str):
 
 @app.get("/api/plugins/performance")
 def get_performance():
-    return backend.GetPerformance()
+    return backend.get_performances()
 
 @app.get("/api/plugins/states")
 def get_states():

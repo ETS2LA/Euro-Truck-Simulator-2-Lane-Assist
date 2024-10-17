@@ -34,6 +34,9 @@ class PluginHandler:
         "progress": -1
     }
     
+    last_performance: list[tuple[float, float]] = []
+    last_performance_time: float = 0
+    
     def __init__(self, plugin_name: str, plugin_description: PluginDescription):
         self.tags = {}
         self.plugin_name = plugin_name
@@ -51,6 +54,8 @@ class PluginHandler:
         self.immediate_queue = multiprocessing.JoinableQueue()
         self.immediate_return_queue = multiprocessing.JoinableQueue()
         self.state_queue = multiprocessing.JoinableQueue()
+        self.performance_queue = multiprocessing.JoinableQueue()
+        self.performance_return_queue = multiprocessing.JoinableQueue()
         
         self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                           self.return_queue,
@@ -59,7 +64,8 @@ class PluginHandler:
                                                                           self.settings_menu_queue, self.settings_menu_return_queue,
                                                                           self.frontend_queue, self.frontend_return_queue,
                                                                           self.immediate_queue, self.immediate_return_queue,
-                                                                          self.state_queue
+                                                                          self.state_queue,
+                                                                          self.performance_queue, self.performance_return_queue
                                                                           ), daemon=True)
         self.process.start()
         RUNNING_PLUGINS.append(self)
@@ -142,6 +148,18 @@ class PluginHandler:
         return_data = self.frontend_return_queue.get()
         self.frontend_return_queue.task_done()
         return return_data
+    
+    def get_performance(self):
+        if time.time() - self.last_performance_time > 1:
+            self.performance_queue.put(True)
+            data = self.performance_return_queue.get()
+            self.performance_return_queue.task_done()
+            self.last_performance = data
+            self.last_performance_time = time.time()
+            return data
+        else:
+            return self.last_performance
+    
 
 RUNNING_PLUGINS: list[PluginHandler] = []
 
@@ -220,6 +238,34 @@ def get_states():
     for plugin in RUNNING_PLUGINS:
         states[plugin.plugin_name] = plugin.state
     return states
+
+def get_performance(plugin: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin:
+            return plugin.get_performance()
+    return None
+
+def get_performances():
+    performances = {}
+    for plugin in RUNNING_PLUGINS:
+        performances[plugin.plugin_name] = plugin.get_performance()
+    return performances
+
+def get_latest_frametimes():
+    dict = {}
+    for plugin in RUNNING_PLUGINS:
+        dict[plugin.plugin_name] = plugin.get_performance()[-1]
+        
+    return dict
+
+def get_latest_frametime(plugin_name: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin_name:
+            performances = plugin.get_performance()
+            if len(performances) > 0:
+                return performances[-1]
+            return 0
+    return 0
 
 def run():
     global AVAILABLE_PLUGINS

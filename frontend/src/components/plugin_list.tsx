@@ -54,7 +54,11 @@ export default function PluginList({ ip }: { ip: string }) {
                     <AccordionItem value={plugin}>
                         <AccordionTrigger className="pl-3 pr-2 decoration-transparent">
                             <p className="flex gap-3 font-semibold">
-                                <p className="text-stone-600 text-xs content-center">{data ? (data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1] ? Math.round(1/(data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1]["frametime"]) : translate("unknown") : translate("unknown")} fps</p> 
+                                <p className="text-stone-600 text-xs content-center">{
+                                    data ? (data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1] ? 
+                                            Math.round(1/(data as any)[plugin]["frametimes"][1]) 
+                                        : translate("unknown") 
+                                    : translate("unknown")} fps</p> 
                                 {data ? translate((data as any)[plugin]["description"]["name"]) : plugin}
                             </p>
                         </AccordionTrigger>
