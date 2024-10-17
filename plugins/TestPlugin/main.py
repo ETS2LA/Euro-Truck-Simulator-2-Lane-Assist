@@ -40,5 +40,5 @@ class Plugin(ETS2LAPlugin):
         import time
     
     def run(self):
-        print(self.ask("What is your name?", ["Tumppi", "Not Tumppi"]))
+        print(self.ask("What is your name?", ["Tumppi", "Not Tumppi"], description="We truly need this information so be sure to answer honestly!"))
         time.sleep(60)

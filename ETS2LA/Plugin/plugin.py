@@ -163,11 +163,12 @@ class ETS2LAPlugin(object):
         self.immediate_return_queue.task_done()
         return data    
     
-    def ask(self, text: str, options: list) -> str:
+    def ask(self, text: str, options: list, description: str = "") -> str:
         self.immediate_queue.put({
             "operation": "ask", 
             "options": {
                 "text": text,
+                "description": description,
                 "options": options
             }
         })

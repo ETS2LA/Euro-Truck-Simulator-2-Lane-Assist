@@ -51,12 +51,13 @@ async def send_sonner(text, type, sonnerPromise):
 def sonner(text:str, type:Literal["info", "warning", "error", "success", "promise"]="info", sonnerPromise:str=None):
     asyncio.run(send_sonner(text, type, sonnerPromise))
 
-async def send_ask(text, options):
+async def send_ask(text, options, description):
     global connected
     message_dict = {
         "ask": {
             "text": text, 
-            "options": options
+            "options": options,
+            "description": description
         }
     }
     
@@ -77,8 +78,8 @@ async def send_ask(text, options):
         
     return response
     
-def ask(text:str, options:list):
-    response = asyncio.run(send_ask(text, options))
+def ask(text:str, options:list, description:str=""):
+    response = asyncio.run(send_ask(text, options, description))
     return response
 
 async def send_page(page):

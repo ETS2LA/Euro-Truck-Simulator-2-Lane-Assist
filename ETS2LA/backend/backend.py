@@ -99,7 +99,8 @@ class PluginHandler:
             elif data["operation"] == "ask":
                 text = data["options"]["text"]
                 options = data["options"]["options"]
-                self.immediate_return_queue.put(immediate.ask(text, options))
+                description = data["options"]["description"]
+                self.immediate_return_queue.put(immediate.ask(text, options, description=description))
             else:
                 self.immediate_return_queue.put(False)
 
