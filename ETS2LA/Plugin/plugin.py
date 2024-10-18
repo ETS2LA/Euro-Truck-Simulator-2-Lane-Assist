@@ -1,9 +1,11 @@
 from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription, State
 from ETS2LA.Plugin.settings import Settings
 from ETS2LA.Plugin.author import Author
+from ETS2LA.Module import ETS2LAModule
 
 from ETS2LA.utils.logging import SetupProcessLogging
 from multiprocessing import JoinableQueue
+from types import SimpleNamespace
 from typing import Literal
 import threading
 import importlib
@@ -87,6 +89,15 @@ class ETS2LAPlugin(object):
     """
     Access all the other running plugins' information.
     """
+    modules: SimpleNamespace
+    """
+    Access to all running modules that were defined in the description object.
+    
+    Example:
+    ```python
+    
+    ```
+    """
     
     def ensure_settings_file(self) -> None:
         path = self.path
@@ -142,14 +153,34 @@ class ETS2LAPlugin(object):
         instance.settings = Settings(path)
         
         return instance
+   
+    def load_modules(self) -> None:
+        self.modules = SimpleNamespace()
+        module_names = self.description.modules
+        for module_name in module_names:
+            module_path = f"modules/{module_name}/main.py"
+            if os.path.exists(module_path):
+                python_object = importlib.import_module(module_path.replace("/", ".").replace(".py", ""))
+                module = python_object.Module(self)
+                setattr(self.modules, module_name, module)
+            else:
+                logging.warning(f"Module '{module}' not found in '{module_path}'")
     
     def __init__(self, *args) -> None:
         self.ensure_functions()
+        self.load_modules()
         self.imports()
 
         threading.Thread(target=self.settings_menu_thread, daemon=True).start()
         threading.Thread(target=self.frontend_thread, daemon=True).start()
         threading.Thread(target=self.performance_thread, daemon=True).start()
+
+        try: self.init()
+        except: pass
+        try: self.initialize()
+        except: pass
+        try: self.Initialize()
+        except: pass
 
         while True:
             self.plugin()

@@ -49,6 +49,22 @@ func RotateVector3AroundPoint(vector: Vector3, point: Vector3, rotation):
 	var xnew = x * cos(rotation) - z * sin(rotation)
 	var znew = x * sin(rotation) + z * cos(rotation)
 	return Vector3(xnew + point.x, vector.y, znew + point.z)
+	
+func CreateForwardVectors(points):
+	var forwardVectors = []
+	for i in range(len(points)):
+		if i == len(points) - 1:
+			var curPoint = points[-1]
+			var lastPoint = points[len(points)-2]
+			var vector = lastPoint - curPoint
+			forwardVectors.append(vector)
+		else:
+			var curPoint = points[i]
+			var nextPoint = points[i+1]
+			var vector = curPoint - nextPoint
+			forwardVectors.append(vector)
+	
+	return forwardVectors
 
 func JsonPointToLocalCoords(jsonPoint, x, y, z):
 	if x > jsonPoint[0]: jsonPoint[0] += x
@@ -83,22 +99,6 @@ func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road",
 		PrefabParent.add_child(meshInstance)
 	else:
 		add_child(meshInstance)
-	
-func CreateForwardVectors(points):
-	var forwardVectors = []
-	for i in range(len(points)):
-		if i == len(points) - 1:
-			var curPoint = points[-1]
-			var lastPoint = points[len(points)-2]
-			var vector = lastPoint - curPoint
-			forwardVectors.append(vector)
-		else:
-			var curPoint = points[i]
-			var nextPoint = points[i+1]
-			var vector = curPoint - nextPoint
-			forwardVectors.append(vector)
-	
-	return forwardVectors
 	
 func CreateNormalVectors(forwardVectors):
 	var normalVectors = []

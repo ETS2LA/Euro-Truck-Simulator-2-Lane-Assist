@@ -18,7 +18,8 @@ class Plugin(ETS2LAPlugin):
             "0.1": "Initial release",
             "0.2": "Fixed some bugs",
             "1.0": "Added some features"
-        }
+        },
+        modules=["TruckSimAPI"]
     )
 
     author = Author(

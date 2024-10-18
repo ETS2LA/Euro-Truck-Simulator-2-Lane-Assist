@@ -1,0 +1,1 @@
+from ETS2LA.Module.module import ETS2LAModule
