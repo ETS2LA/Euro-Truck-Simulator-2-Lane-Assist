@@ -1,5 +1,5 @@
-from ETS2LA.modules.TruckSimAPI.virtualAPI import scsTelemetry as virtualTelemetry
-from ETS2LA.modules.TruckSimAPI.api import scsTelemetry
+from modules.TruckSimAPI.virtualAPI import scsTelemetry as virtualTelemetry
+from modules.TruckSimAPI.api import scsTelemetry
 from ETS2LA.Module import *
 
 class Module(ETS2LAModule):

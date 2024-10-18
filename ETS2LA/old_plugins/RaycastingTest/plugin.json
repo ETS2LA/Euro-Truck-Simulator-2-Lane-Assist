@@ -1,0 +1,11 @@
+{
+    "name": "plugins.raycastingtest",
+    "authors": [{
+        "name": "Tumppi066",
+        "url": "https://github.com/Tumppi066",
+        "avatar": "https://avatars.githubusercontent.com/u/83072683?v=4"
+    }],
+    "description": "plugins.raycastingtest.description",
+    "version": "1.0",
+    "modules": ["Raycasting", "TruckSimAPI"]
+}

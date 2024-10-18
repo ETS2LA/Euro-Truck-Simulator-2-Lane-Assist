@@ -1,0 +1,13 @@
+{
+    "name": "plugins.datacollection",
+    "authors": [{
+        "name": "DylDev",
+        "url": "https://github.com/DylDevs",
+        "avatar": "https://avatars.githubusercontent.com/u/110776467?v=4"
+    }],
+    "description": "plugins.datacollection.description",
+    "version": "1.0",
+    "dependencies": [],
+    "modules": ["ScreenCapture"],
+    "compatible": ["Windows", "Linux", "MacOS"]
+}

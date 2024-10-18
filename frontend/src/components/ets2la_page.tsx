@@ -247,7 +247,7 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 	}
 
 	const SwitchRenderer = (data:any) => {
-		return <div className={"flex justify-between p-4 items-center" + GetBorderClassname(data.options.border)}>
+		return <div className={"flex justify-between p-0 items-center" + GetBorderClassname(data.options.border)}>
 				<div className="flex flex-col gap-1 pr-12">
 					<h4 className="font-semibold">{translate(data.name)}</h4>
 					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>

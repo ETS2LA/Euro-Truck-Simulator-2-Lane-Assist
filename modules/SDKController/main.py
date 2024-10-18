@@ -1,4 +1,7 @@
 from ETS2LA.Module import *
+import platform
+import struct
+import mmap
 
 class SCSController:
     MEM_NAME = r"Local\SCSControls"
@@ -146,11 +149,8 @@ class SCSController:
 
 class Module(ETS2LAModule):
     def imports(self):
-        global np, platform, struct, mmap, sys, cv2, os, Dict
+        global np, sys, cv2, os, Dict
         import numpy as np
-        import platform
-        import struct
-        import mmap
         import sys
         import cv2
         import os
@@ -165,3 +165,6 @@ class Module(ETS2LAModule):
         
     def SCSController(self):
         return SCSController()
+    
+    def run():
+        pass

@@ -1,4 +1,4 @@
-from ETS2LA.modules.PositionEstimation.classes import HeadTranslation, Position
+from modules.PositionEstimation.classes import HeadTranslation, Position
 import math
 
 def GetHeadTranslation(data):

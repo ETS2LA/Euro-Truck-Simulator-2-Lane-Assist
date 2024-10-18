@@ -1,6 +1,5 @@
 from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
-from ETS2LA.modules.SDKController.main import SCSController
-import ETS2LA.modules.TruckSimAPI.main as API
+from modules.SDKController.main import SCSController
 from ETS2LA.utils.translator import Translate
 from ETS2LA.utils.values import SmoothedValue
 from ETS2LA.frontend.immediate import value
@@ -9,11 +8,12 @@ import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.networking.cloud as cloud
 import ETS2LA.backend.sounds as sounds
+import modules.TruckSimAPI.main as API
 import threading
 import logging
 import time
 
-API.Initialize()
+API = API.Module("global")
 API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
 callbacks = []
 controller = SCSController()

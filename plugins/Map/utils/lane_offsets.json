@@ -1,0 +1,23 @@
+{
+    "offset_data": {
+        "999": 4.5,
+        "0": 4.5
+    },
+    "per_name": {
+        "blkw road 2 city tmpl": 6.5
+    },
+    "rules": {
+        "***Road 2 city narrow": 6.5,
+        "***Road 2 plus 1 temp": -11,
+        "**road1 hw 1m offset tmpl": 8.5,
+        "**road 2 narrow tmpl": 6.5,
+        "**road 2 city narrow tmpl": 6.5,
+        "**road 1 minim tmpl": 2.25,
+        "**road 1 dirt minim tmpl": 2.25,
+        "**road 1 minim village 1 tmpl": 2.25,
+        "**road 1 plus 1 tmpl": 9.0,
+        "**2 lanes 1m offset": 6.5,
+        "**r2 tram": 2.25,
+        "**road 2 tram": 2.25
+    }
+}

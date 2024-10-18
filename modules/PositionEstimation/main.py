@@ -1,5 +1,5 @@
 from ETS2LA.Module import *
-from ETS2LA.modules.PositionEstimation.classes import (
+from modules.PositionEstimation.classes import (
     UpdateGamePosition,
     HeadTranslation,
     Position,
@@ -7,7 +7,7 @@ from ETS2LA.modules.PositionEstimation.classes import (
     ObjectTrack,
     ConvertToAngle
 )
-from ETS2LA.modules.PositionEstimation.api import GetHeadTranslation, GetPosition
+from modules.PositionEstimation.api import GetHeadTranslation, GetPosition
 
 
 class Module(ETS2LAModule):

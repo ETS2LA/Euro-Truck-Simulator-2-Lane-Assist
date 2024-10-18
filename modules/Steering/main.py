@@ -9,20 +9,20 @@ class SteeringValue:
         return self.timestamp < timestamp
 
 class Module(ETS2LAModule):
-    SMOOTH_TIME: float
+    SMOOTH_TIME: float = 0.1
     """How many seconds to smooth the steering over."""
-    OFFSET: float
+    OFFSET: float = 0
     """Offset to add to the steering angle."""
-    SENSITIVITY: float
+    SENSITIVITY: float = 1
     """Overall sensitivity"""
-    MAX_ANGLE: float
+    MAX_ANGLE: float = 1
     """Maximum absolute angle"""
-    IGNORE_SMOOTH: bool
+    IGNORE_SMOOTH: bool = True
     """USE THIS WHEN USING GAMEPAD MODE"""
-    IGNORE_GAME: bool
+    IGNORE_GAME: bool = True
     """Use this to ignore the game steering."""
-    steeringValues: list[SteeringValue]
-    gameDifference: float
+    steeringValues: list[SteeringValue] = []
+    gameDifference: float = 0
     
     def imports(self):
         global np, settings, cv2, time, logging

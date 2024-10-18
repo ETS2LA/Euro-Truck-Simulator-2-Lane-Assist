@@ -57,24 +57,27 @@ class PluginHandler:
         self.performance_queue = multiprocessing.JoinableQueue()
         self.performance_return_queue = multiprocessing.JoinableQueue()
         
-        self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
-                                                                          self.return_queue,
-                                                                          self.plugins_queue, self.plugins_return_queue,
-                                                                          self.tags_queue, self.tags_return_queue,
-                                                                          self.settings_menu_queue, self.settings_menu_return_queue,
-                                                                          self.frontend_queue, self.frontend_return_queue,
-                                                                          self.immediate_queue, self.immediate_return_queue,
-                                                                          self.state_queue,
-                                                                          self.performance_queue, self.performance_return_queue
-                                                                          ), daemon=True)
-        self.process.start()
-        RUNNING_PLUGINS.append(self)
-        
-        threading.Thread(target=self.data_handler, daemon=True).start()
-        threading.Thread(target=self.plugins_handler, daemon=True).start()
-        threading.Thread(target=self.tags_handler, daemon=True).start()
-        threading.Thread(target=self.immediate_handler, daemon=True).start()
-        threading.Thread(target=self.state_handler, daemon=True).start()
+        try:
+            RUNNING_PLUGINS.append(self)
+            threading.Thread(target=self.data_handler, daemon=True).start()
+            threading.Thread(target=self.plugins_handler, daemon=True).start()
+            threading.Thread(target=self.tags_handler, daemon=True).start()
+            threading.Thread(target=self.immediate_handler, daemon=True).start()
+            threading.Thread(target=self.state_handler, daemon=True).start()
+            
+            self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
+                                                                            self.return_queue,
+                                                                            self.plugins_queue, self.plugins_return_queue,
+                                                                            self.tags_queue, self.tags_return_queue,
+                                                                            self.settings_menu_queue, self.settings_menu_return_queue,
+                                                                            self.frontend_queue, self.frontend_return_queue,
+                                                                            self.immediate_queue, self.immediate_return_queue,
+                                                                            self.state_queue,
+                                                                            self.performance_queue, self.performance_return_queue
+                                                                            ), daemon=True)
+            self.process.start()
+        except:
+            logging.exception(f"Failed to start plugin {plugin_name}.")
         
     def tags_handler(self):
         while True:
@@ -192,7 +195,10 @@ def enable_plugin(plugin_name: str):
 def disable_plugin(plugin_name: str):
     for plugin in RUNNING_PLUGINS:
         if plugin.plugin_name == plugin_name:
-            plugin.process.terminate()
+            try:
+                plugin.process.terminate()
+            except:
+                logging.warning(f"Failed to terminate plugin {plugin_name}, this could be because the plugin has already been terminated.")
             RUNNING_PLUGINS.remove(plugin)
             return True
     return False

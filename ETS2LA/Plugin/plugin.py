@@ -112,7 +112,7 @@ class ETS2LAPlugin(object):
         if type(self).after != ETS2LAPlugin.after:
             raise TypeError("'after' is a reserved function name")
         if type(self).plugin != ETS2LAPlugin.plugin:
-            raise TypeError("'plugin' is a reserved function name")
+            raise TypeError("'plugin' is a reserved function name, please use 'run' instead")
         if "run" not in dir(type(self)):
             raise TypeError("Your plugin has to have a 'run' function.")
         if "imports" not in dir(type(self)):
@@ -302,19 +302,22 @@ class PluginRunner:
 
         sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
 
-        # Import the plugin module
-        plugin_module = importlib.import_module(f"plugins.{plugin_name}.main")
+        try:
+            # Import the plugin module
+            plugin_module = importlib.import_module(f"plugins.{plugin_name}.main")
 
-        # Instantiate the Plugin class
-        if hasattr(plugin_module, 'Plugin'):
-            self.plugin_instance = plugin_module.Plugin(f"plugins/{plugin_name}", return_queue, 
-                                                            plugins_queue, plugins_return_queue, 
-                                                            tags_queue, tags_return_queue,
-                                                            settings_menu_queue, settings_menu_return_queue,
-                                                            frontend_queue, frontend_return_queue,
-                                                            immediate_queue, immediate_return_queue,
-                                                            state_queue,
-                                                            performance_queue, performance_return_queue
-                                                            )
-        else:
-            raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")
+            # Instantiate the Plugin class
+            if hasattr(plugin_module, 'Plugin'):
+                self.plugin_instance = plugin_module.Plugin(f"plugins/{plugin_name}", return_queue, 
+                                                                plugins_queue, plugins_return_queue, 
+                                                                tags_queue, tags_return_queue,
+                                                                settings_menu_queue, settings_menu_return_queue,
+                                                                frontend_queue, frontend_return_queue,
+                                                                immediate_queue, immediate_return_queue,
+                                                                state_queue,
+                                                                performance_queue, performance_return_queue
+                                                                )
+            else:
+                raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")
+        except:
+            logging.exception(f"Error loading plugin '{plugin_name}'")
