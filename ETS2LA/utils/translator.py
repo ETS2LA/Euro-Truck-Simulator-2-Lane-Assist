@@ -7,7 +7,7 @@ import ftfy
 import sys
 import os
 
-DATA_FOLDER = "Translations"
+DATA_FOLDER = "translations"
 FRONTEND_DATA_FOLDER = "frontend/src/translations"
 
 FILES = os.listdir(DATA_FOLDER)

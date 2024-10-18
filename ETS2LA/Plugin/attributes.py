@@ -77,6 +77,8 @@ class State:
     
     def __init__(self, state_queue: JoinableQueue):
         self.state_queue = state_queue
+        self.text = ""
+        self.progress = -1
     
     def __setattr__(self, name, value):
         if name in ["text", "status", "state"]:
@@ -84,6 +86,7 @@ class State:
                 "status": value
             }
             self.state_queue.put(state_dict, block=False)
+            super().__setattr__("text", value)
             return 
         
         if name in ["value", "progress"]:
@@ -91,16 +94,14 @@ class State:
                 "progress": value
             }
             self.state_queue.put(state_dict, block=False)
+            super().__setattr__("progress", value)
             return 
         
         super().__setattr__(name, value)
             
     def reset(self):
-        state_dict = {
-            "status": "",
-            "progress": -1
-        }
-        self.state_queue.put(state_dict, block=False)
+        self.text = ""
+        self.progress = -1
     
 class Global:
     settings: GlobalSettings

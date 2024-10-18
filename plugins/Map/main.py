@@ -43,20 +43,33 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Switch("map.settings.6.name", "InternalVisualisation", True, description="map.settings.6.description")
             with Tab("Debug Data"):
                 with EnabledLock():
-                    Label("Map data:")
-                    with Group("vertical", gap=1):
-                        Description(f"Current sector: ({self.get_value_from_data('current_sector_x')}, {self.get_value_from_data('current_sector_y')})")
-                        Description(f"Roads in sector: {len(self.get_value_from_data('current_sector_roads'))}")
-                        Description(f"Prefabs in sector: {len(self.get_value_from_data('current_sector_prefabs'))}")
-                        Description(f"Models in sector: {len(self.get_value_from_data('current_sector_models'))}")
-                        Description(f"Last data update: {time.strftime('%H:%M:%S', time.localtime(self.get_value_from_data('external_data_time')))}")
-                    Label("Route data:")
-                    with Group("vertical", gap=1):
-                        Description(f"Is steering: {self.get_value_from_data('calculate_steering')}")
-                        Description(f"Route points: {len(self.get_value_from_data('route_points'))}")
-                        Description(f"Route plan elements: {len(self.get_value_from_data('route_plan'))}")
+                    with Group("horizontal", gap=4):
+                        with Group("vertical", gap=1):
+                            Label("Map data:")
+                            Space(0)
+                            Description(f"Current sector: ({self.get_value_from_data('current_sector_x')}, {self.get_value_from_data('current_sector_y')})")
+                            Description(f"Roads in sector: {len(self.get_value_from_data('current_sector_roads'))}")
+                            Description(f"Prefabs in sector: {len(self.get_value_from_data('current_sector_prefabs'))}")
+                            Description(f"Models in sector: {len(self.get_value_from_data('current_sector_models'))}")
+                            try: Description(f"Last data update: {time.strftime('%H:%M:%S', time.localtime(self.get_value_from_data('external_data_time')))}")
+                            except: Description(f"Last data update: N/A")
+                            
+                        with Group("vertical", gap=1):
+                            Label("Route data:")
+                            Space(0)
+                            Description(f"Is steering: {self.get_value_from_data('calculate_steering')}")
+                            Description(f"Route points: {len(self.get_value_from_data('route_points'))}")
+                            Description(f"Route plan elements: {len(self.get_value_from_data('route_plan'))}")
+                            
+                        with Group("vertical", gap=1):
+                            Label("Backend data:")
+                            Space(0)
+                            try: Description(f"State: {self.plugin.state.text}, {self.plugin.state.progress:.0f}")
+                            except: Description("State: N/A")
+                            try: Description(f"FPS: {1/self.plugin.performance[-1][1]:.0f}")
+                            except: Description("FPS: Still loading...")
+
                     
-        
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
@@ -108,9 +121,10 @@ class Plugin(ETS2LAPlugin):
         
         settings.Listen("Map", self.UpdateSteeringSettings)
         
-        self.state.text = "Map is loading data, please wait..."
+        self.state.text = "Loading data, please wait..."
+        self.state.progress = 0
         time.sleep(0.1)
-        data.map = ReadData()
+        data.map = ReadData(state=self.state)
         c.data = data # set the classes data variable
         self.state.reset()
     

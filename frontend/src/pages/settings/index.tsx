@@ -28,8 +28,6 @@ export default function Home({ ip }: { ip: string }) {
     const [scrolledDown, setScrolledDown] = useState(false)
 
 
-    console.log(data)
-
     const plugins:string[] = [];
     for (const key in data) {
         // Check if the key is a number

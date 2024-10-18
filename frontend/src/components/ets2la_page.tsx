@@ -439,8 +439,6 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 		return result;
 	};
 
-	console.log(settings)
-
 	return (
 		<TooltipProvider delayDuration={0}>
 			<div className="text-left flex flex-col w-full max-w-[calc(60vw-64px)] gap-6 relative">

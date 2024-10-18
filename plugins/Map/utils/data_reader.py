@@ -469,8 +469,16 @@ def ReadCities() -> list[c.City]:
         
     return cities
 
+state_object = None
+total_steps = 18
+progress = 0
 def PrintState(start_time: float, message: str):
+    global progress
     print(f" → {message}", end="\r")
+    if state_object != None:
+        progress += 1
+        state_object.text = " > " + message
+        state_object.progress = progress / total_steps
     
 def UpdateState(start_time: float, message: str):
     milliseconds = (time.time() - start_time) * 100
@@ -481,7 +489,10 @@ def UpdateState(start_time: float, message: str):
     print(f"[dim]{time_string}[/dim] {message}", end="\n")
 
 # MARK : ReadData()
-def ReadData() -> c.MapData:
+def ReadData(state = None) -> c.MapData:
+    global progress, state_object
+    progress = 0
+    state_object = state
     start_time = time.time()
     print("[yellow]Please wait for map to load the necessary data.[/yellow]")
     
