@@ -19,12 +19,21 @@ import plugins.Map.classes as c
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
     plugin_name = "Map"
+    
+    def get_value_from_data(self, key: str):
+        if "data" not in globals():
+            return "N/A"
+        if key in data.__dict__:
+            return data.__dict__[key]
+        return "Not Found"
+    
     def render(self):
+        RefreshRate(0.25)
+        Title("map.settings.1.title")
+        Description("map.settings.1.description")
+        Separator()
         with TabView():
             with Tab("Settings"):
-                Title("map.settings.1.title")
-                Description("map.settings.1.description")
-                Separator()
                 Space(1)
                 Title("map.settings.10.title")
                 Switch("map.settings.2.name", "ComputeSteeringData", True, description="map.settings.2.description")
@@ -34,7 +43,19 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Switch("map.settings.6.name", "InternalVisualisation", True, description="map.settings.6.description")
             with Tab("Debug Data"):
                 with EnabledLock():
-                    ...
+                    Label("Map data:")
+                    with Group("vertical", gap=1):
+                        Description(f"Current sector: ({self.get_value_from_data('current_sector_x')}, {self.get_value_from_data('current_sector_y')})")
+                        Description(f"Roads in sector: {len(self.get_value_from_data('current_sector_roads'))}")
+                        Description(f"Prefabs in sector: {len(self.get_value_from_data('current_sector_prefabs'))}")
+                        Description(f"Models in sector: {len(self.get_value_from_data('current_sector_models'))}")
+                        Description(f"Last data update: {time.strftime('%H:%M:%S', time.localtime(self.get_value_from_data('external_data_time')))}")
+                    Label("Route data:")
+                    with Group("vertical", gap=1):
+                        Description(f"Is steering: {self.get_value_from_data('calculate_steering')}")
+                        Description(f"Route points: {len(self.get_value_from_data('route_points'))}")
+                        Description(f"Route plan elements: {len(self.get_value_from_data('route_plan'))}")
+                    
         
         return RenderUI()
 

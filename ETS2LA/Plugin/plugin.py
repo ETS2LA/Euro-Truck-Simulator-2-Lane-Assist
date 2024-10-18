@@ -170,6 +170,9 @@ class ETS2LAPlugin(object):
         self.ensure_functions()
         self.load_modules()
         self.imports()
+        
+        if "settings_menu" in dir(type(self)) and self.settings_menu != None:
+            self.settings_menu.plugin = self
 
         threading.Thread(target=self.settings_menu_thread, daemon=True).start()
         threading.Thread(target=self.frontend_thread, daemon=True).start()

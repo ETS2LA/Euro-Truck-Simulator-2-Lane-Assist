@@ -11,6 +11,7 @@ class ETS2LASettingsMenu:
     dynamic: bool = False
     settings: Settings = None
     plugin_name: str = ""
+    plugin: object = None
     
     def __init__(self):
         if "render" not in dir(type(self)):
