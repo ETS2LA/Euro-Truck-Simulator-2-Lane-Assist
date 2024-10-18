@@ -269,7 +269,7 @@ def unbind_control(control: str):
 
 @app.get("/api/tags/data")
 def get_tags_data():
-    return backend.globalData
+    return backend.get_all_tag_data()
 
 @app.post("/api/tags/data")
 def get_tag_data(data: TagFetchData):
@@ -325,9 +325,7 @@ def get_tag(tag: str):
 
 @app.get("/api/tags/list")
 def get_tags_list():
-    data = backend.globalData
-    keys = list(data.keys())
-    return keys
+    return backend.get_tag_list()
 
 # endregion
 # region Session

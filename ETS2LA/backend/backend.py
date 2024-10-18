@@ -273,6 +273,28 @@ def get_latest_frametime(plugin_name: str):
             return 0
     return 0
 
+def get_tag_list():
+    tags = []
+    for plugin in RUNNING_PLUGINS:
+        try:
+            tags += plugin.tags.keys()
+        except:
+            pass
+    return tags
+
+def get_all_tag_data():
+    tag_dict = {}
+    for plugin in RUNNING_PLUGINS:
+        tag_dict[plugin.plugin_name] = plugin.tags
+    return tag_dict
+
+def get_tag_data(tag: str):
+    tag_dict = {}
+    for plugin in RUNNING_PLUGINS:
+        if tag in plugin.tags:
+            tag_dict[plugin.plugin_name] = plugin.tags[tag]
+    return tag_dict
+
 def run():
     global AVAILABLE_PLUGINS
     AVAILABLE_PLUGINS = find_plugins()
