@@ -131,11 +131,14 @@ class PluginHandler:
 
     def data_handler(self):
         while True:
-            if not self.return_queue.empty():
-                data = self.return_queue.get()
-                self.data = data
+            data = self.return_queue.get()
+            if type(data) == tuple:
+                self.data = data[0]
+                for tag in data[1]:
+                    print(tag)
+                    self.tags[tag] = data[1][tag]
             else:
-                time.sleep(0.01) # 100fps
+                self.data = data
                 
     def get_settings(self):
         self.settings_menu_queue.put(True)

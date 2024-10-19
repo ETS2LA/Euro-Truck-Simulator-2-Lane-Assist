@@ -162,28 +162,27 @@ class Plugin(ETS2LAPlugin):
         if data.internal_map:
             im.DrawMap()
         
-        return_dict = {}
         if data.external_data_changed:
             external_data = json.dumps(data.external_data)
             print(f"External data changed, file size: {sys.getsizeof(external_data)/1000:.0f} KB")
-            return_dict["map"] = json.loads(external_data)
-            return_dict["map_update_time"] = data.external_data_time
+            self.globals.tags.map = json.loads(external_data)
+            self.globals.tags.map_update_time = data.external_data_time
             data.external_data_changed = False
 
         if not data.elevation_data_sent:
-            return_dict["elevation_data"] = data.map.elevations
+            self.globals.tags.elevation_data = data.map.elevations
             data.elevation_data_sent = True
 
         if data.calculate_steering and data.route_plan is not None and len(data.route_plan) > 0:
             if type(data.route_plan[0].items[0].item) == c.Road:
-                return_dict["next_intersection_distance"] = data.route_plan[0].distance_left()
+                self.globals.tags.next_intersection_distance = data.route_plan[0].distance_left()
             elif len(data.route_plan) > 1 and type(data.route_plan[1].items[0].item) == c.Road:
-                return_dict["next_intersection_distance"] = data.route_plan[1].distance_left()
+                self.globals.tags.next_intersection_distance = data.route_plan[1].distance_left()
             else:
-                return_dict["next_intersection_distance"] = 1
+                self.globals.tags.next_intersection_distance = 1
         else:
-            return_dict["next_intersection_distance"] = 1
+            self.globals.tags.next_intersection_distance = 1
 
-        return_dict["target_speed"] = max_speed
+        self.globals.tags.target_speed = max_speed
         
-        return [point.tuple() for point in data.route_points], return_dict
+        return [point.tuple() for point in data.route_points]
