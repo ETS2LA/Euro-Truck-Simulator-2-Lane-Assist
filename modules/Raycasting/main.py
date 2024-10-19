@@ -59,11 +59,11 @@ class Module(ETS2LAModule):
         global screen
         screen = screeninfo.get_monitors()[0]
 
-    def LoadSettings(jsonData):
+    def LoadSettings(self, jsonData):
         global FOV
         FOV = jsonData["FOV"]
 
-    def UpdateGamePosition():
+    def UpdateGamePosition(self):
         global window_x
         global window_y
         global window_width
@@ -110,7 +110,7 @@ class Module(ETS2LAModule):
                         continue
 
 
-    def RaycastToPlane(screen_x: float, screen_y: float, plane_height: float):
+    def RaycastToPlane(self, screen_x: float, screen_y: float, plane_height: float):
         # Assuming head_rotation_degrees_x/y/z, screen, FOV, window_width, window_height are defined elsewhere
         truck_yaw = truck_rotation_degrees_x
         truck_pitch = truck_rotation_degrees_y
@@ -148,7 +148,7 @@ class Module(ETS2LAModule):
         return x, y, z
 
 
-    def GetValuesFromAPI():
+    def GetValuesFromAPI(self):
         global truck_x
         global truck_y
         global truck_z

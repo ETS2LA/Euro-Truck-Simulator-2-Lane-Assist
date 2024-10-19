@@ -13,6 +13,7 @@ Components:
     **Switch** - A switch component.
     **Toggle** - A toggle component.
     **Slider** - A slider component.
+    **Selector** - A selector component.
     **TabView** - Container to hold tabs, check example below.
     **Tab** - A tab component.
     **Group** - A group component.
@@ -50,5 +51,5 @@ class Plugin(ETS2LAPlugin):
 ```
 """
 from ETS2LA.UI.settings import ETS2LASettingsMenu
-from ETS2LA.UI.components import Title, Description, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate, ProgressBar, EnabledLock
+from ETS2LA.UI.components import Title, Description, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate, ProgressBar, EnabledLock, Selector
 from ETS2LA.UI.components import RenderUI

@@ -1,31 +1,39 @@
 from ETS2LA.Module import *
+import os
+
+import ETS2LA.backend.settings as settings
+display = settings.Get("Global", "display", 0)
 
 class Module(ETS2LAModule):
+    has_initialized = False
+    
+    monitor_x1 = 0
+    monitor_y1 = 0
+    monitor_x2 = 0
+    monitor_y2 = 0
+    
     def imports(self):
-        global settings, variables, Literal, np, logging, cv2, mss, os
-        import ETS2LA.backend.settings as settings
+        global variables, Literal, np, logging, cv2, mss, os
         import ETS2LA.variables as variables
         from typing import Literal
         import numpy as np
         import logging
         import cv2
         import mss
-        import os
         
         if os.name == "nt":
             global WindowsCapture, Frame, InternalCaptureControl
             from windows_capture import WindowsCapture, Frame, InternalCaptureControl
 
-    def init():
-        global sct, display, mode, monitor, monitor_x1, monitor_y1, monitor_x2, monitor_y2, cam, cam_process, latest_windows_frame
+    def init(self):
+        global sct, mode, monitor, cam, cam_process, latest_windows_frame
         sct = mss.mss()
-        display = settings.Get("Global", "display", 0)
-        mode: Literal["continuous", "grab"] = "grab"
+        mode = "grab"
         monitor = sct.monitors[(display + 1)]
-        monitor_x1 = monitor["left"]
-        monitor_y1 = monitor["top"]
-        monitor_x2 = monitor["width"]
-        monitor_y2 = monitor["height"]
+        self.monitor_x1 = monitor["left"]
+        self.monitor_y1 = monitor["top"]
+        self.monitor_x2 = monitor["width"]
+        self.monitor_y2 = monitor["height"]
         cam = None
         cam_process = None
         latest_windows_frame = None
@@ -34,7 +42,9 @@ class Module(ETS2LAModule):
         #Check if on linux
         LINUX = os.path.exists("/etc/os-release")
 
-    def CreateCam(self, CamSetupDisplay:int = display):
+        self.has_initialized = True
+
+    def CreateCam(self, CamSetupDisplay:int = display):        
         if variables.OS == "nt":
             global cam
             global cam_process
@@ -98,10 +108,12 @@ class Module(ETS2LAModule):
             print("Screen Capture using mss")
             logging.debug("Screen Capture using mss")
 
-    if variables.OS == "nt": # Windows
+    if os.name == "nt": # Windows
         def run(self, imgtype:str = "both"):
             """imgtype: "both", "cropped", "full" """
             global cam
+            if not self.has_initialized:
+                return
             try:
                 if cam == None and cam_process == None:
                     self.CreateCam()
@@ -113,14 +125,14 @@ class Module(ETS2LAModule):
                             img = cam.get_latest_frame()
                         else:
                             img = cam.grab()
-                        croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                        croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                         return croppedImg, img
                     elif imgtype == "cropped":
                         if mode == "continuous":
                             img = cam.get_latest_frame()
-                            croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                            croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                         else:
-                            croppedImg = cam.grab(region=(monitor_x1, monitor_y1, monitor_x2, monitor_y2))
+                            croppedImg = cam.grab(region=(self.monitor_x1, self.monitor_y1, self.monitor_x2, self.monitor_y2))
                         return croppedImg
                     elif imgtype == "full":
                         if mode == "continuous":
@@ -133,7 +145,7 @@ class Module(ETS2LAModule):
                             img = cam.get_latest_frame()
                         else:
                             img = cam.grab()
-                        croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                        croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                         return croppedImg, img
                     
                 elif cam_process != None:
@@ -143,12 +155,12 @@ class Module(ETS2LAModule):
                     if imgtype == "both":
                         img = latest_windows_frame
                         img = img[:, :, ::-1]
-                        croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                        croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                         return croppedImg, img
                     elif imgtype == "cropped":
                         img = latest_windows_frame
                         img = img[:, :, ::-1]
-                        croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                        croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                         return croppedImg
                     elif imgtype == "full":
                         img = latest_windows_frame
@@ -157,7 +169,7 @@ class Module(ETS2LAModule):
                     else:
                         img = latest_windows_frame
                         img = img[:, :, ::-1]
-                        croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                        croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                         return croppedImg, img
                     
             except:
@@ -180,15 +192,15 @@ class Module(ETS2LAModule):
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 # return the requestet image, only crop when needed
                 if imgtype == "both":
-                    croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                    croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                     return croppedImg, img
                 elif imgtype == "cropped":
-                    croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                    croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                     return croppedImg
                 elif imgtype == "full":
                     return img
                 else:
-                    croppedImg = img[monitor_y1:monitor_y2, monitor_x1:monitor_x2]
+                    croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                     return croppedImg, img
             except:
                 import traceback

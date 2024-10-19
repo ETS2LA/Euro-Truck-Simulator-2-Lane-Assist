@@ -2,12 +2,11 @@ from ETS2LA.Module import *
 
 class Module(ETS2LAModule):
     def imports(self):
-        global np, cv2, PluginRunner, variables, settings, logging
+        global np, cv2, variables, settings, logging
         import numpy as np
         import cv2
         import ETS2LA.variables as variables
         import ETS2LA.backend.settings as settings
-        from ETS2LA.plugins.runner import PluginRunner
         import logging
 
     def init(self):
@@ -49,10 +48,10 @@ class Module(ETS2LAModule):
         except:
             pass
 
-    def Initialize():
+    def Initialize(self):
         pass # Do nothing
 
-    def run(self, img: np.ndarray = None, windowName:str = "Lane Assist"):
+    def run(self, img = None, windowName:str = "Lane Assist"):
         global LAST_WIDTH, LAST_HEIGHT
         try:
             if type(img) != np.ndarray:

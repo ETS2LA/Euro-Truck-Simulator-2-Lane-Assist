@@ -265,6 +265,41 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 			</div>
 	}
 
+	const SelectorRenderer = (data:any) => {
+		if (pluginSettings[data.key] == undefined) {
+			if (data.options.default != undefined) {
+				console.log("Setting default value for", data.key)
+				pluginSettings[data.key] = data.options.default
+			}
+			else {
+				pluginSettings[data.key] = data.options.options[0]
+			}
+		}
+		return <div className="flex flex-col gap-2">
+					<h4>{translate(data.name)}</h4>
+					<Select defaultValue={pluginSettings[data.key]} onValueChange={(value) => {
+						SetSettingByKey(plugin, data.key, value, ip).then(() => {
+							if (data.requires_restart)
+								setNeedsRestart(true)
+							mutate("settings")
+							toast.success(translate("frontend.settings.enum.updated"), {
+								duration: 500
+							})
+						})
+					}} >
+						<SelectTrigger>
+							<SelectValue placeholder={pluginSettings[data.key]}>{pluginSettings[data.key]}</SelectValue>
+						</SelectTrigger>
+						<SelectContent>
+							{data.options.options.map((value:any) => (
+								<SelectItem key={value} value={value}>{value}</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
+				</div>
+	}
+
 	const ToggleRenderer = (data:any) => {
 		return <div className="flex gap-4 w-full items-center">
 				<Toggle pressed={pluginSettings[data.key] && pluginSettings[data.key] || false} onPressedChange={(bool) => {
@@ -433,6 +468,9 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 			}
 			if (key == "toggle") {
 				result.push(ToggleRenderer(key_data))
+			}
+			if (key == "selector") {
+				result.push(SelectorRenderer(key_data))
 			}
 		};
 

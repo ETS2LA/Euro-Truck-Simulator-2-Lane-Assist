@@ -1,3 +1,5 @@
+import logging
+
 class ETS2LAModule:
     plugin: object
     """
@@ -24,8 +26,14 @@ class ETS2LAModule:
         self.imports()
         
         try: self.init()
-        except: pass
+        except Exception as ex:
+            if type(ex) != AttributeError: 
+                logging.exception("Error in 'init' function")
         try: self.initialize()
-        except: pass
+        except Exception as ex:
+            if type(ex) != AttributeError: 
+                logging.exception("Error in 'initialize' function")
         try: self.Initialize()
-        except: pass
+        except Exception as ex:
+            if type(ex) != AttributeError: 
+                logging.exception("Error in 'Initialize' function")

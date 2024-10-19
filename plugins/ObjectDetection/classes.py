@@ -1,4 +1,4 @@
-from ETS2LA.modules.Raycasting.main import RaycastResponse as Raycast
+from modules.Raycasting.main import RaycastResponse as Raycast
 from typing import Literal, List, Tuple
 
 class Object:

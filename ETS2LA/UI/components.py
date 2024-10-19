@@ -129,6 +129,22 @@ class Slider():
             }
         })
 
+class Selector():
+    def __init__(self, name: str, key: str, default: any, options: list, description: str = "", requires_restart: bool = False):
+        global ui
+        ui.append({
+            "selector": {
+                "name": name,
+                "key": key,
+                "description": description,
+                "requires_restart": requires_restart,
+                "options": {
+                    "default": default,
+                    "options": options
+                }
+            }
+        })
+
 class TabView():
     def __enter__(self):
         global ui
