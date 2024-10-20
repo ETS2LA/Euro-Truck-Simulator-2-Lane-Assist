@@ -37,7 +37,6 @@ def SendCrashReport(type:str, message:str, additional=None):
                 "custom": additional
             }
             
-            
             jsonData = {
                 "type": type,
                 "message": message,
@@ -74,7 +73,13 @@ def StartedJob(job: classes.Job):
             'Authorization': f"Bearer {token}"
         }
         data = job.json()
-        r = requests.post(url, headers=headers, json=data)
+
+        try:
+            r = requests.post(url, headers=headers, json=data)
+        except:
+            print("Could not connect to server to send job data.")
+            return False
+        
         if r.json()["status"] == 200:
             logging.info("Successfully sent job data to the cloud.")
         else:
@@ -91,7 +96,13 @@ def FinishedJob(job: classes.FinishedJob):
             'Authorization': f"Bearer {token}"
         }
         data = job.json()
-        r = requests.post(url, headers=headers, json=data)
+
+        try:
+            r = requests.post(url, headers=headers, json=data)
+        except:
+            print("Could not connect to server to send job data.")
+            return False
+        
         if r.json()["status"] == 200:
             logging.info("Successfully sent job data to the cloud.")
         else:
@@ -108,7 +119,13 @@ def CancelledJob(job: classes.CancelledJob):
             'Authorization': f"Bearer {token}"
         }
         data = job.json()
-        r = requests.post(url, headers=headers, json=data)
+
+        try:
+            r = requests.post(url, headers=headers, json=data)
+        except:
+            print("Could not connect to server to send job data.")
+            return False
+        
         if r.json()["status"] == 200:
             logging.info("Successfully sent job data to the cloud.")
         else:

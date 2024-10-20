@@ -13,90 +13,132 @@ async function GetCredentials() {
 
 export async function CheckConnection() {
     try {
-        let response = await fetch("https://api.tumppi066.fi/heartbeat", {
+        let response = await fetch("https://api.ets2la.com/heartbeat", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
             },
-        })
-        if(response.ok) {
-            return true
+        });
+        if (response.ok) {
+            return true;
         }
-        throw new Error(response.statusText)
-    } catch(error) {
-        toast.error(error, 
-            {
-                description: "The server is most likely down, please use a guest account for now. We will notify you when the login system is back up and running!",  
-                duration: 5000
-            } 
-        )
-        return false
+        throw new Error(response.statusText);
+    } catch (error) {
+        toast.error("The ETS2LA server is currently unavailable!");
+        return false;
     }
 }
 
 export async function DeleteUser() {
-    const credentials = await GetCredentials()
-    console.log(credentials)
-    let response = await fetch("https://api.ets2la.com/delete/" + credentials.user_id, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${credentials.token}`
-        },
-    })
-    if(response.ok) {
-        toast.success("Your account has been deleted!")
-        return true
+    const credentials = await GetCredentials();
+    const isConnected = await CheckConnection();
+
+    if (!isConnected) {
+        toast.error("Cannot delete user, the ETS2LA server is unavailable!");
+        return false;
     }
-    throw new Error(response.statusText)
+
+    try {
+        let response = await fetch("https://api.ets2la.com/delete/" + credentials.user_id, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${credentials.token}`
+            },
+        });
+        if (response.ok) {
+            toast.success("Your account has been deleted!");
+            return true;
+        }
+        throw new Error(response.statusText);
+    } catch (error) {
+        toast.error("Failed to delete account!");
+        return false;
+    }
 }
 
 export async function ValidateUser() {
-    const credentials = await GetCredentials()
-    let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${credentials.token}`
-        },
-    })
-    let data = await response.json()
-    if(data["status"] == 200) {
-        return true
-    } else {
-        toast.error("Your token is invalid, please log in again")
-        return false
+    const credentials = await GetCredentials();
+    const isConnected = await CheckConnection();
+
+    if (!isConnected) {
+        toast.error("Cannot validate user, the ETS2LA server is unavailable!");
+        return false;
+    }
+
+    try {
+        let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${credentials.token}`
+            },
+        });
+        let data = await response.json();
+        if (data["status"] == 200) {
+            return true;
+        } else {
+            toast.error("Your token is invalid, please log in again");
+            return false;
+        }
+    } catch (error) {
+        toast.error("Failed to validate user!");
+        return false;
     }
 }
 
 export async function GetUserData() {
-    const credentials = await GetCredentials()
-    let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${credentials.token}`
-        },
-    })
-    if (response.ok) {
-        const data = await response.json()
-        return data["data"]
+    const credentials = await GetCredentials();
+    const isConnected = await CheckConnection();
+
+    if (!isConnected) {
+        toast.error("Cannot fetch user data, the ETS2LA server is unavailable!");
+        return null;
     }
-    throw new Error(response.statusText)
+
+    try {
+        let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${credentials.token}`
+            },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data["data"];
+        }
+        throw new Error(response.statusText);
+    } catch (error) {
+        toast.error("Failed to fetch user data!");
+        return null;
+    }
 }
 
 export async function GetJobs() {
-    const credentials = await GetCredentials()
-    let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id + "/jobs", {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${credentials.token}`
-        },
-    })
-    if (response.ok) {
-        const data = await response.json()
-        return data["data"]
+    const credentials = await GetCredentials();
+    const isConnected = await CheckConnection();
+
+    if (!isConnected) {
+        toast.error("Cannot fetch jobs, the ETS2LA server is unavailable!");
+        return [];
     }
-    throw new Error(response.statusText)
+
+    try {
+        let response = await fetch("https://api.ets2la.com/user/" + credentials.user_id + "/jobs", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${credentials.token}`
+            },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data["data"];
+        }
+        throw new Error(response.statusText);
+    } catch (error) {
+        toast.error("Failed to fetch jobs!");
+        return [];
+    }
 }

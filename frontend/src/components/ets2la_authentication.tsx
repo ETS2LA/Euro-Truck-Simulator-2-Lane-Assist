@@ -42,7 +42,26 @@ export function Authentication({ onLogin, ip } : { onLogin: (token:string) => vo
 		onLogin("guest")
 	}
 
+	const CheckServerConnection = async () => {
+		const isConnected = await fetch("https://api.ets2la.com/heartbeat", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((response) => response.ok)
+			.catch((error) => {
+				return false;
+			});
+		return isConnected;
+	}
+
 	const handleDiscordLogin = async function() {
+		const isConnected = await CheckServerConnection();
+		if (!isConnected) {
+			toast.error("The ETS2LA server is currently unavailable! Please log in as a guest for now.");
+			return;
+		}
 		let loginURL = await fetch("https://api.ets2la.com/auth/discord", {
 			method: "GET",
 			headers: {
