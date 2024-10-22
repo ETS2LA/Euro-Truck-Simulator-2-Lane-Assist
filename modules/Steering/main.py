@@ -56,13 +56,13 @@ class Module(ETS2LAModule):
             SDK = self.plugin.modules.SDKController.SCSController()
         except:
             SDK = None
-            logging.warning("SDK module not available, please add it to the plugin.json file.")
+            logging.warning("SDK module not available, please add it to the plugin description.")
         # Check if the API module is available
         try:
             API = self.plugin.modules.TruckSimAPI
         except:
             API = None
-            logging.warning("TruckSimAPI module not available, please add it to the plugin.json file.")
+            logging.warning("TruckSimAPI module not available, please add it to the plugin description.")
 
     def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_height=100):
         fontscale = 1
@@ -163,8 +163,8 @@ class Module(ETS2LAModule):
             try: 
                 SI = self.plugin.modules.ShowImage
             except:
-                logging.warning("DefaultSteering: ShowImage module not available, please add it to the plugin.json file or disable the drawLine parameter.")
-                return "ShowImage module not available, please add it to the plugin.json file or disable the drawLine parameter."
+                logging.warning("DefaultSteering: ShowImage module not available, please add it to the plugin description or disable the drawLine parameter.")
+                return "ShowImage module not available, please add it to the plugin description or disable the drawLine parameter."
             self.DrawSteeringLine(SI, value, angle, drawText)
         
         return angle

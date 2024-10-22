@@ -212,18 +212,21 @@ class ETS2LAPlugin(object):
         while True:
             data = self.frontend_queue.get()
             
-            if data["operation"] == "function":
-                args = data["args"]
-                kwargs = data["kwargs"]
-                if args != ([], {}):
-                    if kwargs != {}:
-                        getattr(self, data["target"])(*args, **kwargs)
+            try:
+                if data["operation"] == "function":
+                    args = data["args"]
+                    kwargs = data["kwargs"]
+                    if args != ([], {}):
+                        if kwargs != {}:
+                            getattr(self, data["target"])(*args, **kwargs)
+                        else:
+                            getattr(self, data["target"])(*args)
+                    elif kwargs != {}:
+                        getattr(self, data["target"])(**kwargs)
                     else:
-                        getattr(self, data["target"])(*args)
-                elif kwargs != {}:
-                    getattr(self, data["target"])(**kwargs)
-                else:
-                    getattr(self, data["target"])()
+                        getattr(self, data["target"])()
+            except:
+                pass
             
             self.frontend_queue.task_done()
             self.frontend_return_queue.put(None)

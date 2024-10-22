@@ -45,6 +45,9 @@ class Tags:
         return response
     
     def merge(self, tag_dict: dict):
+        if tag_dict is None:
+            return None
+        
         plugins = tag_dict.keys()
         count = len(plugins)
                 

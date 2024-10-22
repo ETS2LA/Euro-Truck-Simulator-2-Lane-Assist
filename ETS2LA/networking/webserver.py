@@ -4,6 +4,7 @@ from ETS2LA.utils.window import CheckIfWindowOpen
 from ETS2LA.utils.translator import Translate
 import ETS2LA.utils.translator as translator
 from ETS2LA.networking.data_models import *
+from ETS2LA.utils.dictionaries import merge
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
@@ -274,21 +275,21 @@ def get_tags_data():
 @app.post("/api/tags/data")
 def get_tag_data(data: TagFetchData):
     try:
+        backend_data = backend.get_tag_data(data.tag)
         count = 0
-        for plugin in backend.globalData:
-            if data.tag in backend.globalData[plugin]:
+        for plugin in backend_data:
+            if data.tag in backend_data:
                 count += 1
 
         return_data = {}
-        for plugin in backend.globalData:
-            if data.tag in backend.globalData[plugin]:
-                if type(backend.globalData[plugin][data.tag]) == dict:
-                    if count > 1:
-                        return_data = backend.merge(return_data, backend.globalData[plugin][data.tag])
-                    else:
-                        return_data = backend.globalData[plugin][data.tag]
+        for plugin in backend_data:
+            if type(backend_data[plugin]) == dict:
+                if count > 1:
+                    return_data = merge(return_data, backend_data[plugin])
                 else:
-                    return_data = backend.globalData[plugin][data.tag]
+                    return_data = backend_data[plugin]
+            else:
+                return_data = backend_data[plugin]
 
         headers = {}
         if data.zlib:
@@ -305,21 +306,21 @@ def get_tag_data(data: TagFetchData):
 
 @app.get("/api/tags/{tag}")
 def get_tag(tag: str):
+    backend_data = backend.get_tag_data(tag)
     count = 0
-    for plugin in backend.globalData:
-        if tag in backend.globalData[plugin]:
+    for plugin in backend_data:
+        if tag in backend_data[plugin]:
             count += 1
             
     returnData = {}
-    for plugin in backend.globalData:
-        if tag in backend.globalData[plugin]:
-            if type(backend.globalData[plugin][tag]) == dict:
-                if count > 1:
-                    returnData = backend.merge(returnData, backend.globalData[plugin][tag])
-                else:
-                    returnData = backend.globalData[plugin][tag]
-            else: 
-                returnData = backend.globalData[plugin][tag]
+    for plugin in backend_data:
+        if type(backend_data[plugin]) == dict:
+            if count > 1:
+                returnData = merge(returnData, backend_data[plugin])
+            else:
+                returnData = backend_data[plugin]
+        else: 
+            returnData = backend_data[plugin]
              
     return returnData
 
