@@ -32,6 +32,7 @@ class ETS2LAPlugin(object):
     
     description: PluginDescription = PluginDescription()
     author: Author
+    settings_menu: None
     
     return_queue: JoinableQueue
     plugins_queue: JoinableQueue
@@ -88,6 +89,12 @@ class ETS2LAPlugin(object):
     plugins: Plugins
     """
     Access all the other running plugins' information.
+    
+    Example:
+    ```python
+    # Get the plugin return data
+    data = self.plugins.plugin_name
+    ```
     """
     modules: SimpleNamespace
     """

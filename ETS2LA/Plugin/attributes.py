@@ -1,3 +1,4 @@
+from ETS2LA.utils.dictionaries import merge
 from multiprocessing import JoinableQueue
 from typing import Literal
 import logging
@@ -42,6 +43,22 @@ class Tags:
         self.tags_queue.put(tag_dict, block=True)
         response = self.tags_return_queue.get()
         return response
+    
+    def merge(self, tag_dict: dict):
+        plugins = tag_dict.keys()
+        count = len(plugins)
+                
+        data = {}
+        for plugin in tag_dict:
+            if type(tag_dict[plugin]) == dict:
+                if count > 1:
+                    data = merge(data, tag_dict[plugin])
+                else:
+                    data = tag_dict[plugin]
+                    break
+            else: 
+                data = tag_dict[plugin]
+        return data
     
 class GlobalSettings:  # read only instead of the plugin settings
     def __init__(self) -> None:

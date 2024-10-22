@@ -27,8 +27,8 @@ immediate.run()  # Websockets server for immediate data
 webserver.run()  # External webserver for the UI
 #godot.run()      # Godot server for the visualisation
 webpage.run()    # Webview to the website.
-#events.run()     # Event handlers
-#controls.run()   # Control handlers
+events.run()     # Event handlers
+controls.run()   # Control handlers
 sounds.UpdateGlobalSoundpackJson()  # Update the soundpacks in the global settings definition file for the UI
 
 logging.info(Translate("core.backend_started"))

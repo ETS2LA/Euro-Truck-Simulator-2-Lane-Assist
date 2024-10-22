@@ -19,14 +19,6 @@ class PluginHandler:
     plugin_description: PluginDescription
     data = None
     
-    return_queue: multiprocessing.JoinableQueue
-    
-    plugins_queue: multiprocessing.JoinableQueue
-    plugins_return_queue: multiprocessing.JoinableQueue
-    
-    tags_queue: multiprocessing.JoinableQueue
-    tags_return_queue: multiprocessing.JoinableQueue
-    
     tags: dict[str, any]
     
     state: dict = {
@@ -41,6 +33,14 @@ class PluginHandler:
         self.tags = {}
         self.plugin_name = plugin_name
         self.plugin_description = plugin_description
+        self.data = None
+        self.state = {
+            "status": "",
+            "progress": -1
+        }
+        
+        self.last_performance = []
+        self.last_performance_time = 0
         
         self.return_queue = multiprocessing.JoinableQueue()
         self.plugins_queue = multiprocessing.JoinableQueue()
@@ -85,9 +85,14 @@ class PluginHandler:
             if tag_dict["operation"] == "read":
                 tag = tag_dict["tag"]
                 return_data = {}
+                
                 for plugin in RUNNING_PLUGINS:
                     if tag in plugin.tags:
                         return_data[plugin.plugin_name] = plugin.tags[tag]
+                
+                if return_data == {}:
+                    return_data = None
+                    
                 self.tags_return_queue.put(return_data)
             elif tag_dict["operation"] == "write":
                 self.tags[tag_dict["tag"]] = tag_dict["value"]
@@ -297,6 +302,14 @@ def get_tag_data(tag: str):
         if tag in plugin.tags:
             tag_dict[plugin.plugin_name] = plugin.tags[tag]
     return tag_dict
+
+def call_event(event: str, args: list, kwargs: dict):
+    if type(args) != list:
+        args = [args]
+    if type(kwargs) != dict:
+        kwargs = {}
+    for plugin in RUNNING_PLUGINS:
+        plugin.call_function(event, *args, **kwargs)
 
 def run():
     global AVAILABLE_PLUGINS

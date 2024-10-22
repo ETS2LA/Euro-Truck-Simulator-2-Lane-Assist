@@ -31,8 +31,8 @@ export function ETS2LAStates({ip}: {ip: string}) {
         
         data = {
             "pluginName": {
-                "state": "enabled",
-                "state_progress": 0.5,
+                "status": "enabled",
+                "progress": 0.5,
             }
         }
 
@@ -40,14 +40,15 @@ export function ETS2LAStates({ip}: {ip: string}) {
         if (data) {
             let indexesToNotRemove: number[] = [];
             // Loop through the plugins
+            console.log(data);
             for (const plugin in data) {
                 const plugin_name = plugin;
                 const state = data[plugin].status;
                 const state_progress = data[plugin].progress;
                 const state_progress_percent = Math.floor(state_progress * 100);  
-                if(toastNames.includes(plugin) && state_progress != -1)
+                if(toastNames.includes(plugin_name) && state_progress != -1)
                 {
-                    let index = toastNames.indexOf(plugin);
+                    let index = toastNames.indexOf(plugin_name);
                     indexesToNotRemove.push(index);
 
                     // Update the toast
@@ -80,12 +81,13 @@ export function ETS2LAStates({ip}: {ip: string}) {
                         duration: Infinity,
                     })
                     setToasts([...toasts, toastID]);
-                    setToastNames([...toastNames, plugin]);
+                    setToastNames([...toastNames, plugin_name]);
                     indexesToNotRemove.push(toastNames.length);
                 }
             }
             for (let i = 0; i < toasts.length; i++)
             {
+                console.log(i);
                 if (!indexesToNotRemove.includes(i))
                 {
                     toast.dismiss(toasts[i]);

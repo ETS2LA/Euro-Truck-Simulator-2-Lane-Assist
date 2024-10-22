@@ -29,4 +29,5 @@ class ETS2LASettingsMenu:
         
         if self._json == {}:
             self._json = self.render()
+        
         return self._json

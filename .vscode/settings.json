@@ -60,5 +60,6 @@
         "cache": true,
         "logs": true,
         "venv": true
-    }
+    },
+    "hide-files.files": []
 }
