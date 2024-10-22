@@ -9,6 +9,7 @@ import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.backend.sounds as sounds
+import ETS2LA.frontend.pages as pages
 import ETS2LA.variables as variables
 import ETS2LA.utils.git as git
 
@@ -327,6 +328,17 @@ def get_tag(tag: str):
 @app.get("/api/tags/list")
 def get_tags_list():
     return backend.get_tag_list()
+
+# endregion
+# region Pages
+
+@app.get("/api/pages")
+def get_list_of_pages():
+    try:
+        return pages.get_pages()
+    except:
+        logging.exception("Failed to get pages")
+        return {}
 
 # endregion
 # region Session

@@ -38,12 +38,15 @@ VOLUME = settings.Get("global", "volume", 50)
         
 pygame.init()
 
+def UpdateSettings(settings: dict):
+    global SELECTED_SOUNDPACK, VOLUME
+    SELECTED_SOUNDPACK = settings["soundpack"]
+    VOLUME = settings["volume"] / 100
+    
+settings.Listen("global", UpdateSettings)
+
 def UpdateGlobalSoundpackJson():
     ... # settings.Set("ETS2LA/global_settings.json", ["settings", 1, "type", "options"], SOUNDPACKS)
-
-def UpdateVolume():
-    global VOLUME
-    VOLUME = settings.Get("global", "volume", 50) / 100
 
 def GetFilenameForSound(sound: str):
     sounds = os.listdir(SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK)
@@ -56,8 +59,6 @@ def GetFilenameForSound(sound: str):
 def Play(sound: str):
     filename = GetFilenameForSound(sound)
     if filename is None: return False
-    
-    UpdateVolume()
     
     pygame.mixer.music.set_volume(VOLUME)
     pygame.mixer.music.load(filename)

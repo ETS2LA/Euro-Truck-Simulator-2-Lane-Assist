@@ -223,3 +223,14 @@ export async function GetCurrentLanguage(ip="localhost") {
     const data = await response.json()
     return data
 }
+
+export async function GetPages(ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/pages`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}

@@ -20,7 +20,7 @@ LANGUAGES = []
 LANGUAGE_CODES = []
 
 def LoadLanguageData():
-    global LANGUAGE_DATA, PRINT_LANGUAGES
+    global LANGUAGE_DATA
     global LANGUAGES, LANGUAGE_CODES
     
     LANGUAGE_DATA = {}
