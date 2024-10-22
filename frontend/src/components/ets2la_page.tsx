@@ -233,7 +233,10 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 
 	const SliderRenderer = (data:any) => {
 		if(pluginSettings[data.key] == undefined){
-			return <SkeletonItem />
+			return <div className="flex flex-col gap-2">
+				<SkeletonItem />
+				<p className="text-muted-foreground/50 text-xs">Stuck? Try and enable the plugin and see if opening the page again fixes this.</p>
+			</div>
 		}
 		return ( // Add return statement here
 			<SliderComponent

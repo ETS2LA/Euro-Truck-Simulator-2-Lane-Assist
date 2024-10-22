@@ -34,7 +34,6 @@ class SettingsMenu(ETS2LASettingsMenu):
         Separator()
         with TabView():
             with Tab("Settings"):
-                Space(1)
                 Title("map.settings.10.title")
                 Switch("map.settings.2.name", "ComputeSteeringData", True, description="map.settings.2.description")
                 Slider("map.settings.11.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.11.description")

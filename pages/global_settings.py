@@ -26,7 +26,8 @@ class Page(ETS2LAPage):
                0, # min
                100, # max
                5, # step
-               description="global.settings.3.description"
+               description="global.settings.3.description",
+               suffix="%"
         )
         
         Selector("global.settings.8.name",
