@@ -232,6 +232,9 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 	}
 
 	const SliderRenderer = (data:any) => {
+		if(pluginSettings[data.key] == undefined){
+			return <SkeletonItem />
+		}
 		return ( // Add return statement here
 			<SliderComponent
 				pluginSettings={pluginSettings}
