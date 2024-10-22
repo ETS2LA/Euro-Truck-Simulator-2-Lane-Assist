@@ -45,9 +45,6 @@ def UpdateSettings(settings: dict):
     
 settings.Listen("global", UpdateSettings)
 
-def UpdateGlobalSoundpackJson():
-    ... # settings.Set("ETS2LA/global_settings.json", ["settings", 1, "type", "options"], SOUNDPACKS)
-
 def GetFilenameForSound(sound: str):
     sounds = os.listdir(SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK)
     for pack_sound in sounds:
