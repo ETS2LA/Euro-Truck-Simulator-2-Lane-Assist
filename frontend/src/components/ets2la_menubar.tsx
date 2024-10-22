@@ -35,6 +35,7 @@ export function ETS2LAMenubar({ ip, onLogout, isCollapsed }: { ip: string, onLog
 
     const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 });
     const plugins = data ? Object.keys(data).filter(key => key !== "Global" && key !== "global_json") : [];
+    // @ts-ignore
     const pluginChars = plugins.map(plugin => data[plugin]?.file ? translate(data[plugin].file.name).charAt(0) : plugin.charAt(0));
     const uniqueChars = Array.from(new Set(pluginChars)).sort();
 
@@ -58,6 +59,7 @@ export function ETS2LAMenubar({ ip, onLogout, isCollapsed }: { ip: string, onLog
                 const newX = windowPosition.x + (e.screenX - lastMousePosition.x);
                 const newY = windowPosition.y + (e.screenY - lastMousePosition.y);
                 setWindowPosition({ x: newX, y: newY });
+                // @ts-ignore
                 window.pywebview._bridge.call('pywebviewMoveWindow', [newX, newY], "move");
                 setLastMousePosition({ x: e.screenX, y: e.screenY });
             }

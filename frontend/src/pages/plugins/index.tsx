@@ -52,7 +52,7 @@ export default function Home({ ip }: { ip: string }) {
                                                 <Avatar className="w-5 h-5">
                                                     <AvatarImage src={author["avatar"] || ""} />
                                                 </Avatar>
-                                                <a className="text-muted-foreground text-xs" href={author["url" || "https://wiki.tumppi066.fi"]} target="_blank">{author["name"] || "Unknown"}</a>
+                                                <a className="text-muted-foreground text-xs" href={author["url"] || "https://wiki.tumppi066.fi"} target="_blank">{author["name"] || "Unknown"}</a>
                                             </div>
                                         ))
                                     ) : null}
