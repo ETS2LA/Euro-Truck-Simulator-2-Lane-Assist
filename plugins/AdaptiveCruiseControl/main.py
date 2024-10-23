@@ -235,7 +235,7 @@ class Plugin(ETS2LAPlugin):
             if distance < closestDistance:
                 closestDistance = vehicle.distance
                 self.vehicle_speed = vehicle.speed
-                vehicleId = vehicle.id
+                self.vehicle_id = vehicle.id
                 
         self.last_vehicle_distance = closestDistance
         timeToVehicle = closestDistance / truckSpeed
