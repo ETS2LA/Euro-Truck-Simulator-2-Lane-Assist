@@ -77,7 +77,7 @@ def GetSteering():
         if section is None:
             continue
         
-        section_points = section.get_points()
+        section_points = section.get_points()[:-1]
         for point in section_points:
             if len(points) > 50:
                 break
