@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=45 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://Scripts/UI/data_label.gd" id="16_rn4g8"]
 [ext_resource type="Texture2D" uid="uid://bj6bcwvosqap6" path="res://Assets/speedlimit.png" id="17_6k1i8"]
 [ext_resource type="Script" path="res://Scenes/elevation_data_label.gd" id="23_unmpq"]
+[ext_resource type="Script" path="res://Scripts/UI/auto_label.gd" id="23_wnp3n"]
 [ext_resource type="Script" path="res://Scripts/elevation.gd" id="24_onrb8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i3vjd"]
@@ -79,10 +80,12 @@ font_size = 30
 
 [sub_resource type="FontVariation" id="FontVariation_3k4pa"]
 base_font = ExtResource("16_4yfey")
+variation_embolden = 0.5
 spacing_top = -12
 
 [sub_resource type="LabelSettings" id="LabelSettings_0cifn"]
 font = SubResource("FontVariation_3k4pa")
+outline_color = Color(0, 0.572549, 0.45098, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrby"]
 font_size = 12
@@ -187,7 +190,7 @@ offset_bottom = 35.0
 text = "status"
 label_settings = SubResource("LabelSettings_xv7ty")
 script = ExtResource("16_rn4g8")
-ValueToDisplay = "status"
+ValueToDisplay = "acc_status"
 
 [node name="Information" type="HBoxContainer" parent="UI/TopLeftContainer2"]
 layout_mode = 2
@@ -324,16 +327,18 @@ DarkModeColor = Color(0.358197, 0.366457, 0.389254, 1)
 LightModeColor = Color(0, 0.223529, 0.490196, 1)
 ValueToDisplay = "cc"
 Multiplier = 3.6
+EnableDisable = true
+EnabledColor = Color(0, 0.568627, 0.45098, 1)
 
 [node name="Label2" type="Label" parent="UI/TopRightContainer"]
 layout_mode = 2
 text = "set"
 label_settings = SubResource("LabelSettings_0cifn")
 horizontal_alignment = 1
-script = ExtResource("16_rn4g8")
+script = ExtResource("23_wnp3n")
 DarkModeColor = Color(0.356863, 0.364706, 0.388235, 1)
 LightModeColor = Color(0, 0.223529, 0.490196, 1)
-ValueToDisplay = "auto"
+EnabledColor = Color(5.67943e-06, 0.570486, 0.449249, 1)
 
 [node name="BottomLeftContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 2

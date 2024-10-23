@@ -101,6 +101,7 @@ class Plugin(ETS2LAPlugin):
         
     def ToggleSteering(self, state:bool, *args, **kwargs):
         data.enabled = state
+        self.globals.tags.status = {"Map": state}
         
     def init(self):
         self.steering_smoothness = self.settings.SteeringSmoothTime
@@ -126,6 +127,8 @@ class Plugin(ETS2LAPlugin):
         data.map = ReadData(state=self.state)
         c.data = data # set the classes data variable
         self.state.reset()
+        
+        self.globals.tags.status = {"Map": data.enabled}
     
     
     def UpdateSteeringSettings(self, settings: dict):

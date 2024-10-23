@@ -121,9 +121,6 @@ def SaveKeybind(name, description="", deviceGUID=-1, buttonIndex=-1, axisIndex=-
     """
     settings.Set(SETTINGS_FILENAME, name, {"description": description, "deviceGUID": deviceGUID, "buttonIndex": buttonIndex, "axisIndex": axisIndex, "shouldBeAxis": shouldBeAxis, "notBoundInfo": notBoundInfo})    
 
-pygame.init()
-pygame.joystick.init()
-joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 wasPressing = []
 def plugin():
     """Handles calling back the keybinds. Should not be called directly.
@@ -135,6 +132,9 @@ def plugin():
         dict: Data dictionary to main.py
     """
     global wasPressing
+    pygame.init()
+    pygame.joystick.init()
+    joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     while True:
         time.sleep(0.001)
         pygame.event.pump()
@@ -238,8 +238,9 @@ def ChangeKeybind(name:str, callback=None):
         window_y = None
 
     window = tk.Tk()
-    import sv_ttk
-    sv_ttk.set_theme(theme, window)
+    # TODO: This will freeze the UI on the second time the window is opened. Fix this.
+    #import sv_ttk
+    #sv_ttk.set_theme(theme, window)
     window.title("Change keybind")
     window.geometry("300x188" if keybindToChange["shouldBeAxis"] else "300x150")
     if window_x != None and window_y != None:

@@ -218,20 +218,29 @@ class Plugin(ETS2LAPlugin):
         except:
             return "JSONsteeringPoints:[];"
         
-    lastStatus = ""
     def status(self, data):
         try:
             data["status"] = self.globals.tags.status
             data["status"] = self.globals.tags.merge(data["status"])
-            if data["status"] is None or type(data["status"]) != str:
-                data["status"] = self.lastStatus
-            else:
-                self.lastStatus = data["status"]
-            send = "status:" + data["status"] + ";"
+            if data["status"] is None or type(data["status"]) != dict:
+                return 'JSONstatus:{};'
+            send = "JSONstatus:" + json.dumps(data["status"]) + ";"
             return send
         except:
             logging.exception("Error in status")
-            return 'status:ACC status error;'
+            return 'JSONstatus:{};'
+        
+    def acc_status(self, data):
+        try:
+            data["acc_status"] = self.globals.tags.acc_status
+            data["acc_status"] = self.globals.tags.merge(data["acc_status"])
+            if data["acc_status"] is None or type(data["acc_status"]) != str:
+                return 'acc_status:ACC status error;'
+            send = "acc_status:" + data["acc_status"] + ";"
+            return send
+        except:
+            logging.exception("Error in acc_status")
+            return 'acc_status:ACC status error;'
         
     lastHiglights = ""
     def highlights(self, data):
@@ -322,6 +331,7 @@ class Plugin(ETS2LAPlugin):
         tempSend += self.objects(data)
         tempSend += self.traffic_lights(data)
         tempSend += self.steering(data)
+        tempSend += self.acc_status(data)
         tempSend += self.status(data)
         tempSend += self.highlights(data)
         tempSend += self.instruct(data)

@@ -98,10 +98,12 @@ class Plugin(ETS2LAPlugin):
         SDKController = self.modules.SDKController.SCSController()
         SDKController = cast(Controller, SDKController)
         logging.warning("AdaptiveCruiseControl plugin initialized")
+        self.globals.tags.status = {"AdaptiveCruiseControl": ACC_ENABLED}
     
     def ToggleSteering(self, state:bool, *args, **kwargs):
         global ACC_ENABLED
         ACC_ENABLED = state
+        self.globals.tags.status = {"AdaptiveCruiseControl": state}
         
     def DistanceFunction(self, x):
         if x < 0:
@@ -373,11 +375,11 @@ class Plugin(ETS2LAPlugin):
                 acceleration = -1
             self.SetAccelBrake(acceleration)
         
-        self.globals.tags.status = self.GetStatus(type)
+        self.globals.tags.acc_status = self.GetStatus(type)
         self.globals.tags.acc = self.target_speed
         self.globals.tags.highlights = [self.vehicle_id if time.time() - self.last_vehicle_time < 1 else None]
 
         if type == "traffic light":
-            self.tags.stopping_distance = intersectionDistance
+            self.globals.tags.stopping_distance = intersectionDistance
 
         return None
