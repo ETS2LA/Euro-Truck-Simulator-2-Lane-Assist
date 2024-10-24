@@ -286,6 +286,19 @@ class Plugin(ETS2LAPlugin):
         except:
             return ""
 
+    def lateral_offset(self, data):
+        try:
+            data["lateral_offset"] = self.globals.tags.lateral_offset
+            data["lateral_offset"] = self.globals.tags.merge(data["lateral_offset"])
+            
+            if data["lateral_offset"] is None:
+                data["lateral_offset"] = 0
+
+            send = "lateral_offset:" + str(data["lateral_offset"]) + ";"
+            return send
+        except:
+            return ""
+
     async def start_server(self, func):
         async with websockets.serve(func, "localhost", 37522):
             await asyncio.Future() # run forever
@@ -336,6 +349,7 @@ class Plugin(ETS2LAPlugin):
         tempSend += self.highlights(data)
         tempSend += self.instruct(data)
         tempSend += self.stopping_distance(data)
+        tempSend += self.lateral_offset(data)
 
         #Switch to zlib when on windows
         if os.name == "nt":

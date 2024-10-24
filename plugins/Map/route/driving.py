@@ -129,6 +129,7 @@ def GetSteering():
             truck_position_vector = [data.truck_x - points[0].x, data.truck_z - points[0].z]
             
             lateral_offset = np.cross(truck_position_vector, centerline) / np.linalg.norm(centerline)
+            data.plugin.globals.tags.lateral_offset = lateral_offset
             
             angle = np.arccos(np.dot(forward_vector, centerline) / (np.linalg.norm(forward_vector) * np.linalg.norm(centerline)))
             angle = math.degrees(angle)

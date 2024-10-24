@@ -110,6 +110,7 @@ class Plugin(ETS2LAPlugin):
             self.settings.SteeringSmoothTime = 0.2
             
         data.controller = self.modules.SDKController.SCSController()
+        data.plugin = self
         
         global api, steering
         api = self.modules.TruckSimAPI

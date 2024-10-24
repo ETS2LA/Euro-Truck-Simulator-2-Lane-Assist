@@ -6,8 +6,8 @@ import math
 import time
 
 # MARK: Variables
-runner = None
-"""The plugin runner object."""
+plugin = None
+"""The plugin object."""
 controller: SCSController = None
 """The controller that can be used to control the game."""
 truck_indicating_right: bool = False
