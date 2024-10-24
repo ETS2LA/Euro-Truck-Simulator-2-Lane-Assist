@@ -470,7 +470,7 @@ def ReadCities() -> list[c.City]:
     return cities
 
 state_object = None
-total_steps = 18
+total_steps = 19
 progress = 0
 def PrintState(start_time: float, message: str):
     global progress
@@ -558,6 +558,10 @@ def ReadData(state = None) -> c.MapData:
     data.cities = ReadCities()
     UpdateState(start_time, f"Loaded {len(data.cities)} cities")
     
+    PrintState(start_time, "Calculating sectors")
+    data.calculate_sectors()
+    UpdateState(start_time, f"Calculated sectors")
+    
     PrintState(start_time, "Linking objects (roads)")
     data.match_prefabs_to_descriptions()
     UpdateState(start_time, f"Linked prefabs to descriptions")
@@ -568,7 +572,6 @@ def ReadData(state = None) -> c.MapData:
     
     PrintState(start_time, "Optimizing data")
     data.sort_to_sectors()
-    #data.calculate_sector_dimensions() # Not necessary for ETS2 data at least
     data.build_dictionary()
     UpdateState(start_time, f"Sorted data to {data._max_sector_x - data._min_sector_x} x {data._max_sector_y - data._min_sector_y} ({data._sector_width}m x {data._sector_height}m) sectors")
     

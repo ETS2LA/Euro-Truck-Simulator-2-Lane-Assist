@@ -63,6 +63,10 @@ map_initialized = False
 """Whether the map window has been initialized or not."""
 calculate_steering = settings.Get("Map", "ComputeSteeringData", True)
 """Whether the map should calculate steering data or not."""
+sector_size = settings.Get("Map", "SectorSize", 200)
+"""The size of each sector in meters."""
+load_distance = settings.Get("Map", "LoadDistance", 500)
+"""The radius around the truck in meters that should be loaded."""
 
 # MARK: Return values
 external_data = {}
@@ -98,9 +102,16 @@ def UpdateData(api_data):
     
     if (current_sector_x, current_sector_y) != last_sector:
         last_sector = (current_sector_x, current_sector_y)
-        current_sector_prefabs = map.get_sector_prefabs_by_sector((current_sector_x, current_sector_y))
-        current_sector_roads = map.get_sector_roads_by_sector((current_sector_x, current_sector_y))
-        current_sector_models = map.get_sector_models_by_sector((current_sector_x, current_sector_y))
+        sectors_to_load = map.get_sectors_for_coordinate_and_distance(truck_x, truck_z, load_distance)
+        
+        current_sector_prefabs = []
+        current_sector_roads = []
+        current_sector_models = []
+        for sector in sectors_to_load:
+            current_sector_prefabs += map.get_sector_prefabs_by_sector(sector)
+            current_sector_roads += map.get_sector_roads_by_sector(sector)
+            current_sector_models += map.get_sector_models_by_sector(sector)
+        
         data_needs_update = True
 
     if data_needs_update:
@@ -120,8 +131,10 @@ def UpdateData(api_data):
     truck_rotation = math.radians(angle)
     
 def UpdateSettings(settings: dict):
-    global internal_map, calculate_steering
+    global internal_map, calculate_steering, sector_size
     internal_map = settings["InternalVisualisation"]
     calculate_steering = settings["ComputeSteeringData"]
+    sector_size = settings["SectorSize"]
+    load_distance = settings["LoadDistance"]
     
 settings.Listen("Map", UpdateSettings)

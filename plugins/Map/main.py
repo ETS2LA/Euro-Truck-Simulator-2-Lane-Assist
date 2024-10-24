@@ -46,6 +46,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                         with Group("vertical", gap=1):
                             Label("Map data:")
                             Space(0)
+                            Description(f"Current coordinates: ({self.get_value_from_data('truck_x')}, {self.get_value_from_data('truck_z')})")
                             Description(f"Current sector: ({self.get_value_from_data('current_sector_x')}, {self.get_value_from_data('current_sector_y')})")
                             Description(f"Roads in sector: {len(self.get_value_from_data('current_sector_roads'))}")
                             Description(f"Prefabs in sector: {len(self.get_value_from_data('current_sector_prefabs'))}")
@@ -91,9 +92,10 @@ class Plugin(ETS2LAPlugin):
     MAP_INITIALIZED = False
     
     def imports(self):
-        global json, data, time, math, sys
+        global json, data, time, math, sys, logging
         # General imports
         import plugins.Map.data as data
+        import logging
         import json
         import time
         import math
@@ -125,7 +127,10 @@ class Plugin(ETS2LAPlugin):
         self.state.text = "Loading data, please wait..."
         self.state.progress = 0
         time.sleep(0.1)
-        data.map = ReadData(state=self.state)
+        try:
+            data.map = ReadData(state=self.state)
+        except:
+            logging.exception("Failed to read data")
         c.data = data # set the classes data variable
         self.state.reset()
         

@@ -1744,8 +1744,8 @@ class MapData:
     _max_sector_x: int = -math.inf
     _min_sector_y: int = math.inf
     _max_sector_y: int = -math.inf
-    _sector_width: int = 4000
-    _sector_height: int = 4000
+    _sector_width: int = 200
+    _sector_height: int = 200
 
     _by_uid = {}
     _model_descriptions_by_token = {}
@@ -1753,6 +1753,31 @@ class MapData:
     Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
     Please use the get_node_by_uid method to access nodes by UID.
     """
+    
+    def calculate_sectors(self) -> None:
+        for node in self.nodes:
+            node.sector_x, node.sector_y = self.get_sector_from_coordinates(node.x, node.y)
+        # elevevations don't have sectors
+        for road in self.roads:
+            road.sector_x, road.sector_y = self.get_sector_from_coordinates(road.x, road.y)
+        # ferries don't have sectors
+        for prefab in self.prefabs:
+            prefab.sector_x, prefab.sector_y = self.get_sector_from_coordinates(prefab.x, prefab.y)
+        for company in self.companies:
+            company.sector_x, company.sector_y = self.get_sector_from_coordinates(company.x, company.y)
+        for model in self.models:
+            model.sector_x, model.sector_y = self.get_sector_from_coordinates(model.x, model.y)
+        for area in self.map_areas:
+            area.sector_x, area.sector_y = self.get_sector_from_coordinates(area.x, area.y)
+        for poi in self.POIs:
+            poi.sector_x, poi.sector_y = self.get_sector_from_coordinates(poi.x, poi.y)
+        # dividers are not yet being loaded
+        # countries don't have sectors
+        # cities don't have sectors
+        # company_defs don't have sectors
+        # road_looks don't have sectors
+        # prefab_descriptions don't have sectors
+        # model_descriptions don't have sectors
 
     def sort_to_sectors(self) -> None:
         self._nodes_by_sector = {}
@@ -1928,3 +1953,16 @@ class MapData:
                 if prefab.token == description.token:
                     prefab.prefab_description = description
                     break
+                
+    def get_sectors_for_coordinate_and_distance(self, x: float, z: float, distance: float) -> list[tuple[int, int]]:
+        sectors = []
+        range_x = int(distance // self._sector_width)
+        range_z = int(distance // self._sector_height)
+        
+        for i in range(-range_x, range_x + 1):
+            for j in range(-range_z, range_z + 1):
+                sector_x = int(x // self._sector_width) + i
+                sector_z = int(z // self._sector_height) + j
+                sectors.append((sector_x, sector_z))
+        
+        return sectors
