@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Add NVM's npm path to PATH
-export PATH=$PATH:/home/zia/.nvm/versions/node/v18.20.4/bin
-
 python3.11 --version 2>&1 | grep -q -E "Python 3\.(10|11)\."
 if [ $? -ne 0 ]; then
     echo "- Error: Incompatible Python version found"
