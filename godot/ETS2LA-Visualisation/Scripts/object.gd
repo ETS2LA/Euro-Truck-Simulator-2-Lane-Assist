@@ -24,7 +24,7 @@ func _ready() -> void:
 
 func UpdatePositionScale(newPosition: Vector3, newScale: Vector3):
 	_distance = position.distance_to(newPosition)
-	_last_target = _target
+	_last_target = position
 	_target = newPosition
 	_target_scale = newScale
 	_last_target_time = _cur_target_time
@@ -35,7 +35,8 @@ func _process(delta: float) -> void:
 	if type == "dynamic":
 		position = position.lerp(_target, delta * (_cur_target_time - _last_target_time))
 		scale = scale.lerp(_target_scale, delta)
-		self.look_at_from_position(_target, _last_target)
+		rotation.y=lerp(rotation.y,atan2(-(_target.x - _last_target.x),-(_target.z - _last_target.z)),delta*10)
+		#self.look_at_from_position(_last_target, _target)
 	else:
 		return
 		

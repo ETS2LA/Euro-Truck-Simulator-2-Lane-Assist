@@ -26,18 +26,21 @@ func _process(delta: float) -> void:
 		lateral_offset = 2.25-lateral_offset
 		
 		
-		
-	var SteeringData = Sockets.data["JSONsteeringPoints"].data
-	var points = []
-	var counter = 0
-	for point in SteeringData:
-		if typeof(point) == typeof([]):
-			if len(point) > 1:
-				points.append(Vector3(point[0], point[1] + 0.05, point[2]))
-				counter += 1
-				
-	if counter > 2:
-		Line.look_at_from_position(points[0], points[1])
+	
+	if "JSONsteeringPoints" in Sockets.data:
+		var SteeringData = Sockets.data["JSONsteeringPoints"].data
+		var points = []
+		var counter = 0
+		for point in SteeringData:
+			if typeof(point) == typeof([]):
+				if len(point) > 1:
+					points.append(Vector3(point[0], point[1] + 0.05, point[2]))
+					counter += 1
+					
+		if counter > 2:
+			Line.look_at_from_position(points[0], points[1])
+		else:
+			Line.global_rotation = target.global_rotation
 	else:
 		Line.global_rotation = target.global_rotation
 	
