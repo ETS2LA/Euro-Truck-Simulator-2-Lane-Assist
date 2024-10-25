@@ -7,7 +7,7 @@ import ftfy
 import sys
 import os
 
-DATA_FOLDER = "Translations"
+DATA_FOLDER = "translations"
 FRONTEND_DATA_FOLDER = "frontend/src/translations"
 
 FILES = os.listdir(DATA_FOLDER)
@@ -20,7 +20,7 @@ LANGUAGES = []
 LANGUAGE_CODES = []
 
 def LoadLanguageData():
-    global LANGUAGE_DATA, PRINT_LANGUAGES
+    global LANGUAGE_DATA
     global LANGUAGES, LANGUAGE_CODES
     
     LANGUAGE_DATA = {}
@@ -52,13 +52,7 @@ def UpdateFrontendTranslations():
     for language in LANGUAGE_DATA:
         with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.json"), "w", encoding="utf-8") as f:
             json.dump(LANGUAGE_DATA[language], f, indent=4)
-            
-def UpdateSettingsUITranslations():
-    # Edit the global_settings.json file
-    global_settings = json.load(open("ETS2LA/global_settings.json", "r", encoding="utf-8"))
-    global_settings["settings"][3]["type"]["options"] = LANGUAGES
-    open("ETS2LA/global_settings.json", "w", encoding="utf-8").write(json.dumps(global_settings, indent=4))
-            
+                
 def CheckLanguageDatabase():
     for language in LANGUAGE_CODES:
         not_found = []
@@ -128,4 +122,3 @@ def CheckForLanguageUpdates():
             settings.Set("global", "language", "English")
         LoadLanguageData()
         UpdateFrontendTranslations()
-        UpdateSettingsUITranslations()

@@ -6,7 +6,7 @@ except:
     sys.path.append(os.path.dirname(__file__))
     from ETS2LA.utils.translator import Translate
     
-from ETS2LA.modules.SDKController.main import SCSController
+from modules.SDKController.main import SCSController
 import ETS2LA.networking.cloud as cloud
 from multiprocessing import Queue
 from rich.console import Console

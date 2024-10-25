@@ -42,17 +42,17 @@ export default function Home({ ip }: { ip: string }) {
                     <Card key={plugin} id={plugin} className="flex flex-col justify-between">
                         <CardHeader className="gap-1">
                             <CardTitle>
-                                {data ? translate((data as any)[plugin]["file"]["name"]) : plugin}
+                                {data ? translate((data as any)[plugin]["description"]["name"]) : plugin}
                             </CardTitle>
 
                                 <div className="flex gap-2">
-                                    {data && (data as any)[plugin]["file"]["authors"] && typeof (data as any)[plugin]["file"]["authors"] == typeof [{}] ? (
-                                        (data as any)[plugin]["file"]["authors"].map((author: any, index: number) => (
+                                    {data && (data as any)[plugin]["description"]["authors"] && typeof (data as any)[plugin]["description"]["authors"] == typeof [{}] ? (
+                                        (data as any)[plugin]["description"]["authors"].map((author: any, index: number) => (
                                             <div className="flex items-center gap-1">
                                                 <Avatar className="w-5 h-5">
                                                     <AvatarImage src={author["avatar"] || ""} />
                                                 </Avatar>
-                                                <a className="text-muted-foreground text-xs" href={author["url" || "https://wiki.tumppi066.fi"]} target="_blank">{author["name"] || "Unknown"}</a>
+                                                <a className="text-muted-foreground text-xs" href={author["url"] || "https://wiki.tumppi066.fi"} target="_blank">{author["name"] || "Unknown"}</a>
                                             </div>
                                         ))
                                     ) : null}
@@ -61,13 +61,13 @@ export default function Home({ ip }: { ip: string }) {
                                 {data ? (data as any)[plugin]["enabled"] ? (
                                     <div className="flex flex-row gap-1 items-center">
                                         <Gauge color="#888888" className="w-5 h-5"/>
-                                        <p className="text-muted-foreground text-xs">{translate("frontend.plugins.plugin_running", data ? (data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1] ? Math.round(1/(data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1]["frametime"]) : "Unknown" : "Unknown")}</p>
+                                        <p className="text-muted-foreground text-xs">{translate("frontend.plugins.plugin_running", data ? (data as any)[plugin]["frametimes"][(data as any)[plugin]["frametimes"].length - 1] ? Math.round(1/(data as any)[plugin]["frametimes"][1]) : "Unknown" : "Unknown")}</p>
                                     </div>
                                 ) : null : null}
                         </CardHeader>
                         <CardContent>
                             <CardDescription>
-                                <p>{data ? translate((data as any)[plugin]["file"]["description"]) : translate("frontend.plugins.no_description")}</p>
+                                <p>{data ? translate((data as any)[plugin]["description"]["description"]) : translate("frontend.plugins.no_description")}</p>
                             </CardDescription>
                         </CardContent>
                         <CardFooter className="gap-3 flex flex-col">
@@ -75,17 +75,17 @@ export default function Home({ ip }: { ip: string }) {
                                 {data ? (data as any)[plugin]["enabled"] ? (
                                     <Button variant={"outline"} onClick={() => {
                                         toast.promise(DisablePlugin(plugin, ip), {
-                                            loading: translate("frontend.command.disabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
-                                            success: translate("frontend.command.disabled_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
-                                            error: translate("frontend.command.error_disabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
+                                            loading: translate("frontend.command.disabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin),
+                                            success: translate("frontend.command.disabled_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin),
+                                            error: translate("frontend.command.error_disabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin),
                                             description: translate("frontend.plugins.button_may_take_second_to_update")
                                         })
                                     }}>{translate("frontend.menubar.plugins.plugin.disable")}</Button>) : (
                                     <Button onClick={() => {
                                         toast.promise(EnablePlugin(plugin, ip), {
-                                            loading: translate("frontend.command.enabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
-                                            success: translate("frontend.command.enabled_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
-                                            error: translate("frontend.command.error_enabling_plugin", data ? translate((data as any)[plugin]["file"]["name"]) : plugin),
+                                            loading: translate("frontend.command.enabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin),
+                                            success: translate("frontend.command.enabled_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin),
+                                            error: translate("frontend.command.error_enabling_plugin", data ? translate((data as any)[plugin]["description"]["name"]) : plugin),
                                             description: translate("frontend.plugins.button_may_take_second_to_update")
                                         })
                                 }}>{translate("frontend.menubar.plugins.plugin.enable")}</Button>): null} 

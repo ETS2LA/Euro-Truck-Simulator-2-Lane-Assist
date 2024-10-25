@@ -1,11 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://dr8t84av2gfh"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v2u3q"]
-albedo_color = Color(0, 1, 1, 1)
-emission = Color(0.822468, 0.399055, 0, 1)
-emission_energy_multiplier = 16.0
+[ext_resource type="PackedScene" uid="uid://ckihy4t716rl" path="res://Models/SedanEdited.tscn" id="1_k3psm"]
 
 [node name="Truck" type="Node3D"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-material = SubResource("StandardMaterial3D_v2u3q")
+[node name="Sedan" parent="." instance=ExtResource("1_k3psm")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)

@@ -12,7 +12,7 @@ def GetFilename(plugin):
     elif plugin == "global_settings":
         filename = "ETS2LA/global_settings.json"
     else: 
-        filename = "ETS2LA/plugins/" + plugin + "/settings.json"
+        filename = "plugins/" + plugin + "/settings.json"
     
     return filename
 

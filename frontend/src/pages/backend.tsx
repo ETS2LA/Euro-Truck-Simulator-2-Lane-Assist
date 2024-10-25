@@ -93,12 +93,17 @@ export async function GetIP(ip="localhost"): Promise<string> {
 }
 
 export async function PluginFunctionCall(plugin:string, method:string, args:any, kwargs:any, ip="localhost") {
-    const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/call/${method}`, {
+    console.log(method)
+    const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/function/call`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({args: args, kwargs: kwargs})
+        body: JSON.stringify({
+            target: method,
+            args: args, 
+            kwargs: kwargs
+        })
     })
     const data = await response.json()
     return data
@@ -210,6 +215,17 @@ export async function GetTransparent(ip="localhost") {
 
 export async function GetCurrentLanguage(ip="localhost") {
     const response = await fetch(`http://${ip}:37520/api/language`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+export async function GetPages(ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/pages`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'

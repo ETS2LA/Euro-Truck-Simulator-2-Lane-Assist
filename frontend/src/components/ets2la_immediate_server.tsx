@@ -36,6 +36,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogObject, setDialogObject] = useState({__html: ""});
     const [dialogOptions, setDialogOptions] = useState<string[]>([]);
+    const [dialogDescription, setDialogDescription] = useState("");
     const [valueDialogOpen, setValueDialogOpen] = useState(true);
     const [valueDialogTitle, setValueDialogTitle] = useState("Test");
     const [valueDialogJson, setValueDialogJson] = useState("");
@@ -68,8 +69,10 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
             if ("ask" in message) {
                 let text = message["ask"]["text"]
                 let options = message["ask"]["options"]
+                let description = message["ask"]["description"]
                 setDialogObject({__html: "<div>" + text + "</div>"})
                 setDialogOptions(options)
+                setDialogDescription(description)
                 setDialogOpen(true)
                 // Wait for the user to select an option
                 const listener = function (event:any) {
@@ -220,6 +223,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                     </DialogTitle>
                 </DialogHeader>
                 <DialogDescription>
+                    {dialogDescription}
                 </DialogDescription>
                 <div className="flex gap-2">
                     {dialogOptions.map((option, index) => (

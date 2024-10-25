@@ -4,10 +4,12 @@ from ETS2LA.utils.window import CheckIfWindowOpen
 from ETS2LA.utils.translator import Translate
 import ETS2LA.utils.translator as translator
 from ETS2LA.networking.data_models import *
+from ETS2LA.utils.dictionaries import merge
 import ETS2LA.backend.settings as settings
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.backend.sounds as sounds
+import ETS2LA.frontend.pages as pages
 import ETS2LA.variables as variables
 import ETS2LA.utils.git as git
 
@@ -147,54 +149,53 @@ def get_transparency_state():
 
 @app.get("/api/frametimes")
 def get_frametimes():
-    return backend.frameTimes
+    return backend.get_latest_frametimes()
 
 @app.get("/api/plugins")
 def get_plugins():
-    # Get data
-    plugins = backend.GetAvailablePlugins()
     try:
-        enabledPlugins = backend.GetEnabledPlugins()
+        # Get data
+        plugins = backend.AVAILABLE_PLUGINS
+        enabled_plugins = backend.RUNNING_PLUGINS
+        plugin_settings = backend.get_plugin_settings()
+            
+        # Create the json
+        return_data = {}
+        for plugin in plugins:
+            name, description, _, _ = plugin
+            return_data[name] = {
+                "description": description.__dict__,
+                "settings": plugin_settings[name],
+            }
+            if name in [enabled_plugin.plugin_name for enabled_plugin in enabled_plugins]:
+                return_data[name]["enabled"] = True
+                return_data[name]["frametimes"] = backend.get_latest_frametime(name)
+            else:
+                return_data[name]["enabled"] = False
+                return_data[name]["frametimes"] = 0
+        
+        return return_data
     except:
-        traceback.print_exc()
-        enabledPlugins = []
-        
-    try:
-        frametimes = backend.frameTimes
-    except:
-        traceback.print_exc()
-        frametimes = {}
-        
-    # Create the json
-    returnData = plugins.copy()
-    for plugin in plugins:
-        returnData[plugin]["enabled"] = False
-        if plugin in enabledPlugins:
-            returnData[plugin]["enabled"] = True
-        
-        returnData[plugin]["frametimes"] = 0
-        if plugin in frametimes:
-            returnData[plugin]["frametimes"] = frametimes[plugin]
-    
-    return returnData
+        logging.exception("Failed to get plugins")
+        return False
 
 @app.get("/api/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
     logging.info(Translate(f"webserver.enabling_plugin", values=[plugin]))
-    return backend.AddPluginRunner(plugin)
+    return backend.enable_plugin(plugin)
 
 @app.get("/api/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
     logging.info(Translate(f"webserver.disabling_plugin", values=[plugin]))
-    return backend.RemovePluginRunner(plugin)
+    return backend.disable_plugin(plugin)
 
 @app.get("/api/plugins/performance")
 def get_performance():
-    return backend.GetPerformance()
+    return backend.get_performances()
 
 @app.get("/api/plugins/states")
 def get_states():
-    return backend.GetPluginStates()
+    return backend.get_states()
 
 @app.post("/api/plugins/{plugin}/relieve")
 def relieve_plugin(plugin: str, data: RelieveData = None):
@@ -204,16 +205,18 @@ def relieve_plugin(plugin: str, data: RelieveData = None):
         
     return backend.RelieveWaitForFrontend(plugin, data.map)
 
-@app.post("/api/plugins/{plugin}/call/{function}")
-def call_plugin_function(plugin: str, function: str, data: PluginCallData = None):
-    if data is None:
-        data = PluginCallData()
-    
-    returnData = backend.CallPluginFunction(plugin, function, data.args, data.kwargs)
-    if returnData == False or returnData == None:
-        return False
-    else:
-        return returnData
+@app.post("/api/plugins/{plugin}/function/call")
+def call_plugin_function(plugin: str, data: PluginCallData = None):
+    try:
+        if data is None:
+            data = PluginCallData()
+        
+        index = [plugin.plugin_name for plugin in backend.RUNNING_PLUGINS].index(plugin)
+        
+        plugin = backend.RUNNING_PLUGINS[index]
+        return plugin.call_function(data.target, data.args, data.kwargs)
+    except:
+        return {"status": "error", "message": "Plugin not found"}
 
 # endregion
 # region Language
@@ -268,26 +271,26 @@ def unbind_control(control: str):
 
 @app.get("/api/tags/data")
 def get_tags_data():
-    return backend.globalData
+    return backend.get_all_tag_data()
 
 @app.post("/api/tags/data")
 def get_tag_data(data: TagFetchData):
     try:
+        backend_data = backend.get_tag_data(data.tag)
         count = 0
-        for plugin in backend.globalData:
-            if data.tag in backend.globalData[plugin]:
+        for plugin in backend_data:
+            if data.tag in backend_data:
                 count += 1
 
         return_data = {}
-        for plugin in backend.globalData:
-            if data.tag in backend.globalData[plugin]:
-                if type(backend.globalData[plugin][data.tag]) == dict:
-                    if count > 1:
-                        return_data = backend.merge(return_data, backend.globalData[plugin][data.tag])
-                    else:
-                        return_data = backend.globalData[plugin][data.tag]
+        for plugin in backend_data:
+            if type(backend_data[plugin]) == dict:
+                if count > 1:
+                    return_data = merge(return_data, backend_data[plugin])
                 else:
-                    return_data = backend.globalData[plugin][data.tag]
+                    return_data = backend_data[plugin]
+            else:
+                return_data = backend_data[plugin]
 
         headers = {}
         if data.zlib:
@@ -304,29 +307,38 @@ def get_tag_data(data: TagFetchData):
 
 @app.get("/api/tags/{tag}")
 def get_tag(tag: str):
+    backend_data = backend.get_tag_data(tag)
     count = 0
-    for plugin in backend.globalData:
-        if tag in backend.globalData[plugin]:
+    for plugin in backend_data:
+        if tag in backend_data[plugin]:
             count += 1
             
     returnData = {}
-    for plugin in backend.globalData:
-        if tag in backend.globalData[plugin]:
-            if type(backend.globalData[plugin][tag]) == dict:
-                if count > 1:
-                    returnData = backend.merge(returnData, backend.globalData[plugin][tag])
-                else:
-                    returnData = backend.globalData[plugin][tag]
-            else: 
-                returnData = backend.globalData[plugin][tag]
+    for plugin in backend_data:
+        if type(backend_data[plugin]) == dict:
+            if count > 1:
+                returnData = merge(returnData, backend_data[plugin])
+            else:
+                returnData = backend_data[plugin]
+        else: 
+            returnData = backend_data[plugin]
              
     return returnData
 
 @app.get("/api/tags/list")
 def get_tags_list():
-    data = backend.globalData
-    keys = list(data.keys())
-    return keys
+    return backend.get_tag_list()
+
+# endregion
+# region Pages
+
+@app.get("/api/pages")
+def get_list_of_pages():
+    try:
+        return pages.get_pages()
+    except:
+        logging.exception("Failed to get pages")
+        return {}
 
 # endregion
 # region Session

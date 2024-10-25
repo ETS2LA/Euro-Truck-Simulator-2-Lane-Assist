@@ -10,6 +10,7 @@ extends Node
 @export var markingsDarkDashedNoOvertake = preload("res://Materials/markingsDarkDashedNoOvertake.tres")
 @export var steeringMat = preload("res://Materials/steering.tres")
 @export var steeringDarkMat = preload("res://Materials/steeringDark.tres")
+@export var steeringDisabled = preload("res://Materials/steeringDisabled.tres")
 
 @export var roadObject = preload("res://Objects/road.tscn")
 @export var roadScript = preload("res://Scripts/road.gd")
@@ -49,6 +50,22 @@ func RotateVector3AroundPoint(vector: Vector3, point: Vector3, rotation):
 	var xnew = x * cos(rotation) - z * sin(rotation)
 	var znew = x * sin(rotation) + z * cos(rotation)
 	return Vector3(xnew + point.x, vector.y, znew + point.z)
+	
+func CreateForwardVectors(points):
+	var forwardVectors = []
+	for i in range(len(points)):
+		if i == len(points) - 1:
+			var curPoint = points[-1]
+			var lastPoint = points[len(points)-2]
+			var vector = lastPoint - curPoint
+			forwardVectors.append(vector)
+		else:
+			var curPoint = points[i]
+			var nextPoint = points[i+1]
+			var vector = curPoint - nextPoint
+			forwardVectors.append(vector)
+	
+	return forwardVectors
 
 func JsonPointToLocalCoords(jsonPoint, x, y, z):
 	if x > jsonPoint[0]: jsonPoint[0] += x
@@ -83,22 +100,6 @@ func CreateAndRenderMesh(vertices, x, z, mat, meshName="default", parent="road",
 		PrefabParent.add_child(meshInstance)
 	else:
 		add_child(meshInstance)
-	
-func CreateForwardVectors(points):
-	var forwardVectors = []
-	for i in range(len(points)):
-		if i == len(points) - 1:
-			var curPoint = points[-1]
-			var lastPoint = points[len(points)-2]
-			var vector = lastPoint - curPoint
-			forwardVectors.append(vector)
-		else:
-			var curPoint = points[i]
-			var nextPoint = points[i+1]
-			var vector = curPoint - nextPoint
-			forwardVectors.append(vector)
-	
-	return forwardVectors
 	
 func CreateNormalVectors(forwardVectors):
 	var normalVectors = []
@@ -153,313 +154,320 @@ func _process(delta: float) -> void:
 		var roadCount = 0
 		var prefabCount = 0
 		var modelCount = 0
+		
 		if "roads" in data and "prefabs" in data:
 			roadCount = len(data["roads"])
 			prefabCount = len(data["prefabs"])
 			modelCount = len(data["models"])
 		
-		if roadCount != lastRoads or prefabCount != lastPrefabs or modelCount != lastModels:
-			lastRoads = roadCount
-			lastPrefabs = prefabCount
-			lastModels = modelCount
-			
-			var roadData = data["roads"]
+			if roadCount != lastRoads or prefabCount != lastPrefabs or modelCount != lastModels:
+				lastRoads = roadCount
+				lastPrefabs = prefabCount
+				lastModels = modelCount
 				
-			var curRoads = []
-			var curRoadUids = []
-			for n in RoadParent.get_children():
-				curRoadUids.append(n.name.split("-")[0])
-				curRoads.append(n)
+				var roadData = data["roads"]
+					
+				var curRoads = []
+				var curRoadUids = []
+				for n in RoadParent.get_children():
+					curRoadUids.append(n.name.split("-")[0])
+					curRoads.append(n)
+					
+				var curPrefabs = []
+				var curPrefabUids = []
+				for n in PrefabParent.get_children():
+					curPrefabUids.append(n.name.split("-")[0])
+					curPrefabs.append(n)
+					
+				var curModels = []
+				var curModelUids = []
+				for n in ModelParent.get_children():
+					curModelUids.append(n.name.split("-")[0])
+					curModels.append(n)
 				
-			var curPrefabs = []
-			var curPrefabUids = []
-			for n in PrefabParent.get_children():
-				curPrefabUids.append(n.name.split("-")[0])
-				curPrefabs.append(n)
+				var roadsInData = []
 				
-			var curModels = []
-			var curModelUids = []
-			for n in ModelParent.get_children():
-				curModelUids.append(n.name.split("-")[0])
-				curModels.append(n)
-			
-			var roadsInData = []
-			
-			var road_count = 0
-			for road in roadData:
-				var uid = str(road["uid"])
-				
-				var roadX = road["x"]
-				var roadY = 0
-				var roadZ = road["y"]
-				var roadPosition = Vector3(roadX, roadY, roadZ)
-				var overtake = []
-				var shoulderLeft = road["road_look"]["shoulder_space_left"]
-				var shoulderRight = road["road_look"]["shoulder_space_right"]
-				var lanesLeft = len(road["road_look"]["lanes_left"])
-				var lanesRight = len(road["road_look"]["lanes_right"])
-				
-				for lane in road["road_look"]["lanes_left"]:
-					if "no_overtake" in lane:
-						overtake.append(false)
-					else:
-						overtake.append(true)
+				var road_count = 0
+				for road in roadData:
+					var uid = str(road["uid"])
+					
+					var roadX = road["x"]
+					var roadY = 0
+					var roadZ = road["y"]
+					var roadPosition = Vector3(roadX, roadY, roadZ)
+					var overtake = []
+					var shoulderLeft = road["road_look"]["shoulder_space_left"]
+					var shoulderRight = road["road_look"]["shoulder_space_right"]
+					var lanesLeft = len(road["road_look"]["lanes_left"])
+					var lanesRight = len(road["road_look"]["lanes_right"])
+					
+					for lane in road["road_look"]["lanes_left"]:
+						if "no_overtake" in lane:
+							overtake.append(false)
+						else:
+							overtake.append(true)
+							
+					for lane in road["road_look"]["lanes_right"]:
+						if "no_overtake" in lane:
+							overtake.append(false)
+						else:
+							overtake.append(true)
+					
+					if roadPosition.distance_to(position) > maxDistance:
+						skippedLines += 1
+						continue
+					
+					roadsInData.append(uid)
+					if curRoadUids.has(uid):
+						continue
+					
+					var index = 0
+					for lane in road["lanes"]:
+						var points = []
+						var counter = 0
+						for point in lane["points"]:
+							points.append(Vector3(point["x"], point["y"], point["z"]))
+							counter += 1
 						
-				for lane in road["road_look"]["lanes_right"]:
-					if "no_overtake" in lane:
-						overtake.append(false)
-					else:
-						overtake.append(true)
-				
-				if roadPosition.distance_to(position) > maxDistance:
-					skippedLines += 1
-					continue
-				
-				roadsInData.append(uid)
-				if curRoadUids.has(uid):
-					continue
-				
-				var index = 0
-				for lane in road["lanes"]:
-					var points = []
-					var counter = 0
-					for point in lane["points"]:
-						points.append(Vector3(point["x"], point["y"], point["z"]))
-						counter += 1
-					
-					var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-					roadObj.name = uid + "-" + str(totalLines)
+						var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+						roadObj.name = uid + "-" + str(totalLines)
 
-					var right:CSGPolygon3D = roadObj.get_node("Right")
-					
-					if shoulderRight != null and shoulderRight != 0:
-						right.polygon[2].x += shoulderRight
-					
-					var left:CSGPolygon3D = roadObj.get_node("Left")
-					
-					if shoulderLeft != null and shoulderLeft != 0:
-						left.polygon[2].x -= shoulderLeft
-					
-					var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
-					var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
-					var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
-					var rightDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingLeft")
-					
-					var pathObj = Path3D.new()
-					pathObj.name = "Path3D"
-					pathObj.curve = Curve3D.new()
-					
-					#path.curve.clear_points()
-					for point in points:
-						pathObj.curve.add_point(point)
-					
-					roadObj.add_child(pathObj)
-					
-					RoadParent.add_child(roadObj)
-					
-					right.set_path_node(roadObj.get_node("Path3D").get_path())
-					left.set_path_node(roadObj.get_node("Path3D").get_path())
+						var right:CSGPolygon3D = roadObj.get_node("Right")
+						
+						if shoulderRight != null and shoulderRight != 0:
+							right.polygon[2].x += shoulderRight
+						
+						var left:CSGPolygon3D = roadObj.get_node("Left")
+						
+						if shoulderLeft != null and shoulderLeft != 0:
+							left.polygon[2].x -= shoulderLeft
+						
+						var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
+						var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
+						var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
+						var rightDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingLeft")
+						
+						var pathObj = Path3D.new()
+						pathObj.name = "Path3D"
+						pathObj.curve = Curve3D.new()
+						
+						#path.curve.clear_points()
+						for point in points:
+							pathObj.curve.add_point(point)
+						
+						roadObj.add_child(pathObj)
+						
+						RoadParent.add_child(roadObj)
+						
+						right.set_path_node(roadObj.get_node("Path3D").get_path())
+						left.set_path_node(roadObj.get_node("Path3D").get_path())
 
-					var drewLanes = false
+						var drewLanes = false
 
-					# Handle the solid lines
-					if lanesLeft > 0:
-						if index == 0:
-							if lanesLeft != 1 or lanesRight != 1:
-								leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								leftSolidLine.material = markingMat if not dark else markingsDarkMat
-								drewLanes = true
-							
-							if lanesLeft == 1:
-								leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								leftSolidLine.material = markingMat if not dark else markingsDarkMat
-							
-						elif index == lanesLeft - 1:
-							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-							rightSolidLine.material = markingMat if not dark else markingsDarkMat
-							drewLanes = true
-					
-					if lanesRight > 0 and not drewLanes:
-						if index == lanesLeft:
-							if lanesLeft != 1 or lanesRight != 1:
-								leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								leftSolidLine.material = markingMat if not dark else markingsDarkMat
-							
-							if lanesRight == 1:
+						# Handle the solid lines
+						if lanesLeft > 0:
+							if index == 0:
+								if lanesLeft != 1 or lanesRight != 1:
+									leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									leftSolidLine.material = markingMat if not dark else markingsDarkMat
+									drewLanes = true
+								
+								if lanesLeft == 1:
+									leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									leftSolidLine.material = markingMat if not dark else markingsDarkMat
+								
+							elif index == lanesLeft - 1:
 								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
 								rightSolidLine.material = markingMat if not dark else markingsDarkMat
-
-						elif index == lanesLeft + lanesRight - 1:
-							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-							rightSolidLine.material = markingMat if not dark else markingsDarkMat
-							
-					# Handle the dashed lines
-					drewLanes = false
-					if lanesLeft == 1 and lanesRight == 1:
-						if index == 0:
-							if overtake[0]:
-								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
-								drewLanes = true
-							else:
-								if not overtake[0]:
-									rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-									rightSolidLine.material = markingMat if not dark else markingsDarkMat
-					
-					elif (lanesLeft + lanesRight) > 1:
-						if lanesLeft > 0:
-							if index < lanesLeft - 1:
-								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
 								drewLanes = true
 						
 						if lanesRight > 0 and not drewLanes:
-							if index < lanesLeft + lanesRight - 1 and index > lanesLeft - 1:
-								rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+							if index == lanesLeft:
+								if lanesLeft != 1 or lanesRight != 1:
+									leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									leftSolidLine.material = markingMat if not dark else markingsDarkMat
+								
+								if lanesRight == 1:
+									rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									rightSolidLine.material = markingMat if not dark else markingsDarkMat
 
+							elif index == lanesLeft + lanesRight - 1:
+								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+								rightSolidLine.material = markingMat if not dark else markingsDarkMat
+								
+						# Handle the dashed lines
+						drewLanes = false
+						if lanesLeft == 1 and lanesRight == 1:
+							if index == 0:
+								if overtake[0]:
+									rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+									drewLanes = true
+								else:
+									if not overtake[0]:
+										rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+										rightSolidLine.material = markingMat if not dark else markingsDarkMat
+						
+						elif (lanesLeft + lanesRight) > 1:
+							if lanesLeft > 0:
+								if index < lanesLeft - 1:
+									rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+									drewLanes = true
+							
+							if lanesRight > 0 and not drewLanes:
+								if index < lanesLeft + lanesRight - 1 and index > lanesLeft - 1:
+									rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+
+						
+						right.material = roadMat if not dark else roadDarkMat
+						left.material = roadMat if not dark else roadDarkMat
+						
+						totalLines += 1
+						index += 1
+				
+				for n in RoadParent.get_children():
+					var name = n.name
+					name = name.split("-")[0]
+					if not roadsInData.has(name):
+						RoadParent.remove_child(n)
+						n.queue_free()
+				
+				
+				var prefabsInData = []
+				var prefabData = data["prefabs"]
+				for prefab in prefabData:
+					var uid = str(prefab["uid"])
 					
-					right.material = roadMat if not dark else roadDarkMat
-					left.material = roadMat if not dark else roadDarkMat
+					var x = prefab["x"]
+					var y = 0 # + prefab["Nodes"][0]["Y"]
+					var z = prefab["y"]
+					var prefabPosition = Vector3(x, y, z)
+					if prefabPosition.distance_to(position) > maxDistance:
+						skippedLines += 1
+						continue
+					
+					prefabsInData.append(uid)
+					if curPrefabUids.has(uid):
+						continue
+					
+					var lines = []
+					for lane in prefab["nav_routes"]:
+						var vertices = []
+						var rightMarkingVertices = []
+						var leftMarkingVertices = []
+						var points = []
+						var counter = 0
+						for point in lane["points"]:
+							point = Vector3(point["x"], point["y"], point["z"])
+							points.append(point)
+							counter += 1
+						
+						var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+						roadObj.name = uid + "-" + str(totalLines)
+						var right:CSGPolygon3D = roadObj.get_node("Right")
+						var left:CSGPolygon3D = roadObj.get_node("Left")
+						var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
+						var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
+						var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
+						var rightDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingLeft")
+						
+						var pathObj = Path3D.new()
+						pathObj.name = "Path3D"
+						pathObj.curve = Curve3D.new()
+						
+						#path.curve.clear_points()
+						for point in points:
+							pathObj.curve.add_point(point)
+						
+						roadObj.add_child(pathObj)
+						
+						PrefabParent.add_child(roadObj)
+						
+						right.set_path_node(roadObj.get_node("Path3D").get_path())
+						left.set_path_node(roadObj.get_node("Path3D").get_path())
+
+						#leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+						#leftSolidLine.material = markingMat if not dark else markingsDarkMat
+						#rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+						#rightSolidLine.material = markingMat if not dark else markingsDarkMat
+						
+						right.material = roadMat if not dark else roadDarkMat
+						left.material = roadMat if not dark else roadDarkMat
+						
+						totalLines += 1
+				
+				for n in PrefabParent.get_children():
+					var name = n.name
+					name = name.split("-")[0]
+					if not prefabsInData.has(name):
+						PrefabParent.remove_child(n)
+						n.queue_free()
+				
+				var model_data = data["models"]
+				var modelsInData = []
+				for model in model_data:
+					var uid = str(model["uid"])
+					
+					var rotation = model["rotation"]
+					var x = model["x"]
+					var y = model["y"]
+					var z = model["z"]
+					var modelPosition = Vector3(x,y,z)
+					if modelPosition.distance_to(position) > maxDistance:
+						skippedLines += 1
+						continue
+					
+					modelsInData.append(uid)
+					if curModelUids.has(uid):
+						continue
+					
+					var width = model["description"]["width"]
+					var length = model["description"]["length"]
+					var height = model["description"]["height"]
+					
+					var sx = model["description"]["start"]["x"]
+					var sz = model["description"]["start"]["z"]
+					var ex = model["description"]["end"]["x"]
+					var ez = model["description"]["end"]["z"]
+					
+					var box: CSGBox3D = CSGBox3D.new()
+					box.name = uid + "-" + str(totalLines)
+					box.material = modelMat
+					box.position = modelPosition + Vector3(0,height/2,0)
+					box.scale = Vector3(model["scale"]["x"], model["scale"]["z"], model["scale"]["y"])
+					box.size = Vector3(width, height, length)
+					box.rotation = Vector3(0, rotation - PI / 2, 0)
+					
+					ModelParent.add_child(box)
 					
 					totalLines += 1
-					index += 1
-			
-			for n in RoadParent.get_children():
-				var name = n.name
-				name = name.split("-")[0]
-				if not roadsInData.has(name):
-					RoadParent.remove_child(n)
-					n.queue_free()
-			
-			
-			var prefabsInData = []
-			var prefabData = data["prefabs"]
-			for prefab in prefabData:
-				var uid = str(prefab["uid"])
 				
-				var x = prefab["x"]
-				var y = 0 # + prefab["Nodes"][0]["Y"]
-				var z = prefab["y"]
-				var prefabPosition = Vector3(x, y, z)
-				if prefabPosition.distance_to(position) > maxDistance:
-					skippedLines += 1
-					continue
+				for n in ModelParent.get_children():
+					var name = n.name
+					name = name.split("-")[0]
+					if not modelsInData.has(name):
+						ModelParent.remove_child(n)
+						n.queue_free()
 				
-				prefabsInData.append(uid)
-				if curPrefabUids.has(uid):
-					continue
-				
-				var lines = []
-				for lane in prefab["nav_routes"]:
-					var vertices = []
-					var rightMarkingVertices = []
-					var leftMarkingVertices = []
-					var points = []
-					var counter = 0
-					for point in lane["points"]:
-						point = Vector3(point["x"], point["y"], point["z"])
-						points.append(point)
-						counter += 1
-					
-					var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-					roadObj.name = uid + "-" + str(totalLines)
-					var right:CSGPolygon3D = roadObj.get_node("Right")
-					var left:CSGPolygon3D = roadObj.get_node("Left")
-					var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
-					var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
-					var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
-					var rightDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingLeft")
-					
-					var pathObj = Path3D.new()
-					pathObj.name = "Path3D"
-					pathObj.curve = Curve3D.new()
-					
-					#path.curve.clear_points()
-					for point in points:
-						pathObj.curve.add_point(point)
-					
-					roadObj.add_child(pathObj)
-					
-					PrefabParent.add_child(roadObj)
-					
-					right.set_path_node(roadObj.get_node("Path3D").get_path())
-					left.set_path_node(roadObj.get_node("Path3D").get_path())
-
-					#leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-					#leftSolidLine.material = markingMat if not dark else markingsDarkMat
-					#rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-					#rightSolidLine.material = markingMat if not dark else markingsDarkMat
-					
-					right.material = roadMat if not dark else roadDarkMat
-					left.material = roadMat if not dark else roadDarkMat
-					
-					totalLines += 1
-			
-			for n in PrefabParent.get_children():
-				var name = n.name
-				name = name.split("-")[0]
-				if not prefabsInData.has(name):
-					PrefabParent.remove_child(n)
-					n.queue_free()
-			
-			var model_data = data["models"]
-			var modelsInData = []
-			for model in model_data:
-				var uid = str(model["uid"])
-				
-				var rotation = model["rotation"]
-				var x = model["x"]
-				var y = model["y"]
-				var z = model["z"]
-				var modelPosition = Vector3(x,y,z)
-				if modelPosition.distance_to(position) > maxDistance:
-					skippedLines += 1
-					continue
-				
-				modelsInData.append(uid)
-				if curModelUids.has(uid):
-					continue
-				
-				var width = model["description"]["width"]
-				var length = model["description"]["length"]
-				var height = model["description"]["height"]
-				
-				var sx = model["description"]["start"]["x"]
-				var sz = model["description"]["start"]["z"]
-				var ex = model["description"]["end"]["x"]
-				var ez = model["description"]["end"]["z"]
-				
-				var box: CSGBox3D = CSGBox3D.new()
-				box.name = uid + "-" + str(totalLines)
-				box.material = modelMat
-				box.position = modelPosition + Vector3(0,height/2,0)
-				box.scale = Vector3(model["scale"]["x"], model["scale"]["z"], model["scale"]["y"])
-				box.size = Vector3(width, height, length)
-				box.rotation = Vector3(0, rotation - PI / 2, 0)
-				
-				ModelParent.add_child(box)
-				
-				totalLines += 1
-			
-			for n in ModelParent.get_children():
-				var name = n.name
-				name = name.split("-")[0]
-				if not modelsInData.has(name):
-					ModelParent.remove_child(n)
-					n.queue_free()
-			
-			reload = false
-			print("Total of " + str(totalLines) + " lines")
-			print("Skipped " + str(skippedLines) + " lines")
-			Notifications.SendNotification("Drew " + str(totalLines) + " new lines. Skipped " + str(skippedLines) + " objects", 2000)
+				reload = false
+				print("Total of " + str(totalLines) + " lines")
+				print("Skipped " + str(skippedLines) + " lines")
+				Notifications.SendNotification("Drew " + str(totalLines) + " new lines. Skipped " + str(skippedLines) + " objects", 2000)
 	
 	
 	if Socket.data != {}:
 		var SteeringData = Socket.data["JSONsteeringPoints"].data
+		var status = Socket.data["JSONstatus"].data
 		var truckX = Truck.position.x
 		var truckY = Truck.position.y - 0.8
 		var truckZ = Truck.position.z
+		
+		if "Map" in status:
+			status = status["Map"]
+		else: 
+			status = false
 		
 		if typeof(truckX) != 3 and typeof(truckY) != 3 and typeof(truckZ) != 3:
 			#print(typeof(truckX))
@@ -503,7 +511,11 @@ func _process(delta: float) -> void:
 	
 		# Render the meshes
 		var dark = Variables.darkMode
-		var mat = steeringMat if not dark else steeringDarkMat
+		var mat = null
+		if not status:
+			mat = steeringDisabled
+		else:
+			mat = steeringMat if not dark else steeringDarkMat
 		
 		var curTime = Time.get_ticks_msec()
 		for n in self.get_children():

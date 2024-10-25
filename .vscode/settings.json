@@ -46,4 +46,20 @@
         "reportMissingModuleSource": "none",
         "reportShadowedImports": "none"
     },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true,
+        ".idea": true,
+        ".vscode": true,
+        ".github": true,
+        "cache": true,
+        "logs": true,
+        "venv": true
+    },
+    "hide-files.files": []
 }

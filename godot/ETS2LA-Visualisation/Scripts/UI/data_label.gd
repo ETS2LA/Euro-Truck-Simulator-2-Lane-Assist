@@ -6,6 +6,9 @@ extends Label
 @export var LightModeColor: Color = Color("black")
 @export var ValueToDisplay = "speed"
 @export var Multiplier: float = -1
+@export var EnableDisable: bool = false
+@export var EnabledColor: Color = Color()
+@export var TargetPlugin: String = "AdaptiveCruiseControl"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -35,3 +38,12 @@ func _process(delta: float) -> void:
 			self.text = ValueToDisplay
 	else:
 		self.text = ValueToDisplay
+		
+	if Sockets != null and EnableDisable:
+		if Sockets.status == "Connected":
+			var socketData = Sockets.GetData()
+			var found = false
+			if "JSONstatus" in socketData:
+				if TargetPlugin in socketData["JSONstatus"].data:
+					if socketData["JSONstatus"].data[TargetPlugin] == true:
+						self.label_settings.font_color = EnabledColor

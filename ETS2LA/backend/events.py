@@ -1,6 +1,5 @@
 from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
-from ETS2LA.modules.SDKController.main import SCSController
-import ETS2LA.modules.TruckSimAPI.main as API
+from modules.SDKController.main import SCSController
 from ETS2LA.utils.translator import Translate
 from ETS2LA.utils.values import SmoothedValue
 from ETS2LA.frontend.immediate import value
@@ -9,11 +8,12 @@ import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.networking.cloud as cloud
 import ETS2LA.backend.sounds as sounds
+import modules.TruckSimAPI.main as API
 import threading
 import logging
 import time
 
-API.Initialize()
+API = API.Module("global")
 API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
 callbacks = []
 controller = SCSController()
@@ -29,7 +29,7 @@ class ToggleSteering():
     def ToggleSteering(self):
         self.steering = not self.steering
         sounds.Play('start' if self.steering else 'end')
-        backend.CallEvent('ToggleSteering', self.steering, {})
+        backend.call_event('ToggleSteering', self.steering, {})
         logging.info("Triggered event: ToggleSteering")
         time.sleep(1)
         
@@ -37,6 +37,7 @@ class ToggleSteering():
         if self.steering:
             app_braking = self.app_braking(controller.abackward)
             game_braking = self.game_braking(data["truckFloat"]["userBrake"])
+            if game_braking == 1.111: game_braking = 0 # Virtual API in use
             need_to_disable_via_braking = abs(app_braking - game_braking) > braking_threshold
             if braking_threshold >= 0 and braking_threshold <= 1:
                 if need_to_disable_via_braking:
@@ -53,7 +54,7 @@ class JobStarted():
         global last_started_job
         job = Job()
         job.fromAPIData(data)
-        backend.CallEvent('JobStarted', job, {})
+        backend.call_event('JobStarted', job, {})
         logging.info("Triggered event: JobStarted")
         cloud.StartedJob(job)
         last_started_job = job
@@ -69,7 +70,7 @@ class JobFinished():
             job.cargo = last_started_job.cargo
             job.unit_count = last_started_job.unit_count
             job.unit_mass = last_started_job.unit_mass
-        backend.CallEvent('JobFinished', job, {})
+        backend.call_event('JobFinished', job, {})
         logging.info("Triggered event: JobFinished")
         cloud.FinishedJob(job)
     def __init__(self):
@@ -79,7 +80,7 @@ class JobDelivered():
     def JobDelivered(self, data):
         job = FinishedJob()
         job.fromAPIData(data)
-        backend.CallEvent('JobDelivered', job, {})
+        backend.call_event('JobDelivered', job, {})
         logging.info("Triggered event: JobDelivered")
     def __init__(self):
         API.listen('jobDelivered', self.JobDelivered)
@@ -88,7 +89,7 @@ class JobCancelled():
     def JobCancelled(self, data):
         job = CancelledJob()
         job.fromAPIData(data)
-        backend.CallEvent('JobCancelled', job, {})
+        backend.call_event('JobCancelled', job, {})
         logging.info("Triggered event: JobCancelled")
         cloud.CancelledJob(job)
     def __init__(self):
@@ -98,7 +99,7 @@ class RefuelStarted():
     def RefuelStarted(self, data):
         refuel = Refuel()
         refuel.fromAPIData(data)
-        backend.CallEvent('RefuelStarted', refuel, {})
+        backend.call_event('RefuelStarted', refuel, {})
         logging.info("Triggered event: RefuelStarted")
     def __init__(self):
         API.listen('refuelStarted', self.RefuelStarted)
@@ -107,7 +108,7 @@ class RefuelPayed():
     def RefuelPayed(self, data):
         refuel = Refuel()
         refuel.fromAPIData(data)
-        backend.CallEvent('RefuelPayed', refuel, {})
+        backend.call_event('RefuelPayed', refuel, {})
         logging.info("Triggered event: RefuelPayed")
     def __init__(self):
         API.listen('refuelPayed', self.RefuelPayed)
@@ -116,7 +117,7 @@ class VehicleChange():
     lastLicensePlate = ""
     firstRun = True
     def VehicleChange(self, data):
-        backend.CallEvent('VehicleChange', data["configString"]["truckLicensePlate"], {})
+        backend.call_event('VehicleChange', data["configString"]["truckLicensePlate"], {})
         logging.info("Triggered event: VehicleChange")
         if self.firstRun: # Ignore the first run as the frontend has not yet started
             self.firstRun = False

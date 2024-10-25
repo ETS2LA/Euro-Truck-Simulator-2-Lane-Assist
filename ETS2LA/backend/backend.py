@@ -1,461 +1,317 @@
-from ETS2LA.plugins.runner import PluginRunner
 import ETS2LA.frontend.immediate as immediate
-import ETS2LA.utils.git as git
-import multiprocessing.connection
+from ETS2LA.Plugin import *
+from ETS2LA.UI import *
 import multiprocessing
 import threading
-import requests
 import logging
-import psutil
+import inspect
 import time
-import json
-import sys
 import os
 
-commits_save = []
+plugin_path = "plugins"
+plugin_target_class = "Plugin"
 
-# https://stackoverflow.com/a/7205107
-def merge(a: dict, b: dict, path=[]):
-    for key in b:
-        if key in a:
-            if isinstance(a[key], dict) and isinstance(b[key], dict):
-                merge(a[key], b[key], path + [str(key)])
-            elif a[key] != b[key]:
-                raise Exception('Conflict at ' + '.'.join(path + [str(key)]))
-        else:
-            a[key] = b[key]
-    return a
+AVAILABLE_PLUGINS: list[tuple[str, PluginDescription, Author, ETS2LASettingsMenu]] = []
 
-class PluginRunnerController():
-    def __init__(self, pluginName, temporary=False):
-        global runners
-        runners[pluginName] = self
-        self.pluginName = pluginName
-        
-        # Make the queue (comms) and start the process.
-        self.queue = multiprocessing.JoinableQueue()
-        self.dataQueue = multiprocessing.JoinableQueue()
-        self.stateQueue = multiprocessing.JoinableQueue()
-        self.functionQueue = multiprocessing.JoinableQueue()
-        self.eventQueue = multiprocessing.JoinableQueue()
-        self.immediateQueue = multiprocessing.JoinableQueue()
-        self.returnPipe, pluginReturnPipe = multiprocessing.Pipe()
-        
-        self.runner = multiprocessing.Process(target=PluginRunner, args=(pluginName, temporary, self.queue, self.dataQueue, self.stateQueue, self.functionQueue, pluginReturnPipe, self.eventQueue, self.immediateQueue, ), daemon=True)
-        self.runner.start()
-        
-        self.state = "running"
-        self.state_progress = -1 # no progress bar
-        
-        self.data = {}
-        
-        self.process = self.runner.pid
-        self.process_info = []
-        
-        self.lastData = "Plugin has not returned any data yet."
-        
-        self.run()
+class PluginHandler:
     
-    def immediateQueueThread(self):
-        while True:
-            try: 
-                data = self.immediateQueue.get(timeout=0.5)
-            except Exception as e: 
-                time.sleep(0.00001)
-                continue
-            
-            if type(data) == type(None):
-                time.sleep(0.00001)
-                continue
-        
-            if "data" in data: # We caught a relieve message from the frontend.
-                self.immediateQueue.put(data)
-                time.sleep(0.2)
-        
-            if "disable" in data:
-                RemovePluginRunner(self.pluginName)
-        
-            if "sonner" in data:
-                sonnerType = data["sonner"]["type"]
-                sonnerText = data["sonner"]["text"]
-                sonnerPromise = data["sonner"]["promise"]
-                immediate.sonner(sonnerText, sonnerType, sonnerPromise)
-                
-            if "page" in data:  
-                page = data["page"]
-                immediate.page(page)
-                
-            if "ask" in data:
-                askText = data["ask"]["text"]
-                askOptions = data["ask"]["options"]
-                response = immediate.ask(askText, askOptions)
-                self.immediateQueue.put(response)
-                
-            if "value" in data:
-                title = data["value"]["title"]
-                jsonData = data["value"]["json"]
-                response = immediate.value(title, jsonData)
-                self.immediateQueue.put(response)
-                
-        
-    def monitor(self):
-        process = psutil.Process(self.process)
-        # Get the plugin folder size
-        try:
-            size = 0
-            for root, dirs, files in os.walk(f"ETS2LA/plugins/{self.pluginName}"):
-                try:
-                    size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
-                    size += sum([os.path.getsize(os.path.join(root, name)) for name in dirs])
-                except:
-                    pass 
-            logging.debug(f"Plugin {self.pluginName} has a disk usage of {size} bytes.")
-        except:
-            size = 0
-            
-        while True:
-            try:
-                data = {
-                    "cpu": 0,
-                    "mem": 0,
-                    "disk": size
-                }
-                data["cpu"] = process.cpu_percent(interval=0.5) / psutil.cpu_count()
-                data["mem"] = process.memory_percent()
-                self.process_info.append(data)
-                if len(self.process_info) > 240: # 2 minutes of 0.5s intervals
-                    self.process_info.pop(0)
-            except:
-                time.sleep(0.5)
-                continue
-        
-    def stateQueueThread(self):
-        while True:
-            try: 
-                data = self.stateQueue.get(timeout=0.5)
-            except Exception as e: 
-                time.sleep(0.00001)
-                continue
-            
-            if type(data) == type(None):
-                time.sleep(0.00001)
-                continue
-        
-            try:
-                if "frametimes" in data:
-                    frametime = data["frametimes"]
-                    if self.pluginName not in frameTimes:
-                        frameTimes[self.pluginName] = []
-                    frameTimes[self.pluginName].append(frametime[self.pluginName])
-                    if len(frameTimes[self.pluginName]) > 240: # 120 seconds of 0.5 intervals
-                        frameTimes[self.pluginName].pop(0)
-            except: pass
-            
-            try:
-                if "state" in data:
-                    state = data["state"]
-                    self.state = state["state"]
-                    self.state_progress = state["progress"]
-            except: pass
-            
-            try:
-                if "data" in data:
-                    self.data = data["data"]
-            except: pass
-            
-    def dataQueueThread(self):
-        lastAnswer = ""
-        while True:
-            try: 
-                data = self.dataQueue.get(timeout=0.5)
-            except Exception as e: 
-                time.sleep(0.00001)
-                continue
-            
-            if type(data) == type(None):
-                time.sleep(0.00001)
-                continue
-            
-            if data == lastAnswer:
-                time.sleep(0.00001)
-                continue
-            
-            if type(data) != dict:
-                time.sleep(0.00001)
-                continue
-            
-            if "get" in data: # If the data is a get command, then we need to get the data from another plugin.
-                plugins = data["get"]
-                for plugin in plugins:
-                    if "tags." in plugin:
-                        tag = plugin.split("tags.")[1]
-                        try:
-                            count = 0
-                            for plugin in globalData:
-                                if tag in globalData[plugin]:
-                                    count += 1
-                                    
-                            data = {}
-                            for plugin in globalData:
-                                if tag in globalData[plugin]:
-                                    if type(globalData[plugin][tag]) == dict:
-                                        if count > 1:
-                                            data = merge(data, globalData[plugin][tag])
-                                        else:
-                                            data = globalData[plugin][tag]
-                                            break
-                                    else: 
-                                        data = globalData[plugin][tag]
-                            self.dataQueue.put(data)
-                        except:
-                            logging.exception(f"Failed to get data from tag {tag}.")
-                            self.dataQueue.put(None)
-                    
-                    if plugin in runners:
-                        try:
-                            self.dataQueue.put(runners[plugin].lastData)
-                        except:
-                            logging.debug(f"Plugin ({self.pluginName}) is trying to get data from another plugin ({plugin}) that has not been initialized yet.")
-                            self.dataQueue.put(None)
-                    else:
-                        self.dataQueue.put(None)
-                        
-                self.dataQueue.task_done()
-                
-        
-    def start_other_threads(self):
-        threading.Thread(target=self.immediateQueueThread, daemon=True).start()
-        threading.Thread(target=self.monitor, daemon=True).start()
-        threading.Thread(target=self.stateQueueThread, daemon=True).start()
-        threading.Thread(target=self.dataQueueThread, daemon=True).start()
-        
-    def run(self):
-        global frameTimes
-        global globalData
-        
-        self.start_other_threads()
-        
-        while True:
-            try: 
-                data = self.queue.get() # Get the data returned from the plugin runner.
-            except Exception as e: 
-                time.sleep(0.00001)
-                continue
-            
-            if type(data) == type(None): # If the data is None, then we just skip this iteration.
-                time.sleep(0.00001)
-                continue
-            
-            if type(data) == dict:
-                if "function" in data:
-                    # Send the data back to wait for the answer.
-                    self.queue.put(self.lastData)
-                    time.sleep(0.01)
-                    continue
-            else: # If the data is not a dictionary, we can assume it's return data instead of a command.
-                if type(data) == tuple:
-                    normData = data[0]
-                    tags = data[1]
-                    self.lastData = normData
-                    if self.pluginName not in globalData:
-                        globalData[self.pluginName] = {}
-                    
-                    for tag in tags:
-                        globalData[self.pluginName][tag] = tags[tag]
-                else:
-                    self.lastData = data        
-        
-runners = {}
-frameTimes = {}
-globalData = {}
-
-AVAILABLE_PLUGINS = {}
-def GetAvailablePlugins():
-    global AVAILABLE_PLUGINS
+    plugin_name: str
+    plugin_description: PluginDescription
+    data = None
     
-    plugins = os.listdir("ETS2LA/plugins")
-    for plugin in plugins:
-        if os.path.isdir(f"ETS2LA/plugins/{plugin}"):
-            AVAILABLE_PLUGINS[plugin] = {}
-
-    AVAILABLE_PLUGINS.pop("__pycache__")
-
-    for plugin in AVAILABLE_PLUGINS:
-        try:
-            with open(f"ETS2LA/plugins/{plugin}/plugin.json", "r") as f:
-                AVAILABLE_PLUGINS[plugin]["file"] = json.loads(f.read())
-        except:
-            AVAILABLE_PLUGINS[plugin]["file"] = {
-                "name": plugin,
-                "authors": "Unknown",
-                "version": "Unknown",
-                "description": "No description provided.",
-                "image": "None",
-                "dependencies": "None"
-            }
-
-    AVAILABLE_PLUGINS["Global"] = {
-        "file": json.loads(open("ETS2LA/global_settings.json", "r").read())
+    tags: dict[str, any]
+    
+    state: dict = {
+        "status": "",
+        "progress": -1
     }
-
-    return AVAILABLE_PLUGINS
-
-ENABLED_PLUGINS = []
-def GetEnabledPlugins():
-    global ENABLED_PLUGINS
-    ENABLED_PLUGINS = []
-    for runner in runners:
-        ENABLED_PLUGINS.append(runner)
+    
+    last_performance: list[tuple[float, float]] = []
+    last_performance_time: float = 0
+    
+    def __init__(self, plugin_name: str, plugin_description: PluginDescription):
+        self.tags = {}
+        self.plugin_name = plugin_name
+        self.plugin_description = plugin_description
+        self.data = None
+        self.state = {
+            "status": "",
+            "progress": -1
+        }
         
-    return ENABLED_PLUGINS
-
-def GetPluginStates():
-    states = {}
-    for runner in runners:
+        self.last_performance = []
+        self.last_performance_time = 0
+        
+        self.return_queue = multiprocessing.JoinableQueue()
+        self.plugins_queue = multiprocessing.JoinableQueue()
+        self.plugins_return_queue = multiprocessing.JoinableQueue()
+        self.tags_queue = multiprocessing.JoinableQueue()
+        self.tags_return_queue = multiprocessing.JoinableQueue()
+        self.settings_menu_queue = multiprocessing.JoinableQueue()
+        self.settings_menu_return_queue = multiprocessing.JoinableQueue()
+        self.frontend_queue = multiprocessing.JoinableQueue()
+        self.frontend_return_queue = multiprocessing.JoinableQueue()
+        self.immediate_queue = multiprocessing.JoinableQueue()
+        self.immediate_return_queue = multiprocessing.JoinableQueue()
+        self.state_queue = multiprocessing.JoinableQueue()
+        self.performance_queue = multiprocessing.JoinableQueue()
+        self.performance_return_queue = multiprocessing.JoinableQueue()
+        
         try:
-            states[runner] = {}
-            states[runner]["state"] = runners[runner].state
-            states[runner]["progress"] = runners[runner].state_progress
-            states[runner]["data"] = runners[runner].data
+            RUNNING_PLUGINS.append(self)
+            threading.Thread(target=self.data_handler, daemon=True).start()
+            threading.Thread(target=self.plugins_handler, daemon=True).start()
+            threading.Thread(target=self.tags_handler, daemon=True).start()
+            threading.Thread(target=self.immediate_handler, daemon=True).start()
+            threading.Thread(target=self.state_handler, daemon=True).start()
+            
+            self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
+                                                                            self.return_queue,
+                                                                            self.plugins_queue, self.plugins_return_queue,
+                                                                            self.tags_queue, self.tags_return_queue,
+                                                                            self.settings_menu_queue, self.settings_menu_return_queue,
+                                                                            self.frontend_queue, self.frontend_return_queue,
+                                                                            self.immediate_queue, self.immediate_return_queue,
+                                                                            self.state_queue,
+                                                                            self.performance_queue, self.performance_return_queue
+                                                                            ), daemon=True)
+            self.process.start()
         except:
+            logging.exception(f"Failed to start plugin {plugin_name}.")
+        
+    def tags_handler(self):
+        while True:
+            tag_dict = self.tags_queue.get()
+            if tag_dict["operation"] == "read":
+                tag = tag_dict["tag"]
+                return_data = {}
+                
+                for plugin in RUNNING_PLUGINS:
+                    if tag in plugin.tags:
+                        return_data[plugin.plugin_name] = plugin.tags[tag]
+                
+                if return_data == {}:
+                    return_data = None
+                    
+                self.tags_return_queue.put(return_data)
+            elif tag_dict["operation"] == "write":
+                self.tags[tag_dict["tag"]] = tag_dict["value"]
+                self.tags_return_queue.put(True)
+            else:
+                self.tags_return_queue.put(False)
+
+    def plugins_handler(self):
+        while True:
+            plugin_name = self.plugins_queue.get()
+            plugins = [plugin.plugin_name for plugin in RUNNING_PLUGINS]
+            if plugin_name in plugins:
+                index = plugins.index(plugin_name)
+                self.plugins_return_queue.put(RUNNING_PLUGINS[index].data)
+            else:
+                self.plugins_return_queue.put(None)
+                
+    def immediate_handler(self):
+        while True:
+            data = self.immediate_queue.get()
+            if data["operation"] == "notify":
+                type = data["options"]["type"]
+                text = data["options"]["text"]
+                immediate.sonner(text, type)
+                self.immediate_return_queue.put(True)
+            elif data["operation"] == "ask":
+                text = data["options"]["text"]
+                options = data["options"]["options"]
+                description = data["options"]["description"]
+                self.immediate_return_queue.put(immediate.ask(text, options, description=description))
+            else:
+                self.immediate_return_queue.put(False)
+
+    def state_handler(self):
+        while True:
+            data = self.state_queue.get()
+            if "status" in data:
+                self.state["status"] = data["status"]
+            if "progress" in data:
+                self.state["progress"] = data["progress"]
+
+    def data_handler(self):
+        while True:
+            data = self.return_queue.get()
+            if type(data) == tuple:
+                self.data = data[0]
+                for tag in data[1]:
+                    print(tag)
+                    self.tags[tag] = data[1][tag]
+            else:
+                self.data = data
+                
+    def get_settings(self):
+        self.settings_menu_queue.put(True)
+        return self.settings_menu_return_queue.get()
+    
+    def call_function(self, name: str, *args, **kwargs):
+        self.frontend_queue.put({
+            "operation": "function",
+            "target": name,
+            "args": args,
+            "kwargs": kwargs
+        })
+        return_data = self.frontend_return_queue.get()
+        self.frontend_return_queue.task_done()
+        return return_data
+    
+    def get_performance(self):
+        if time.time() - self.last_performance_time > 1:
+            self.performance_queue.put(True)
+            data = self.performance_return_queue.get()
+            self.performance_return_queue.task_done()
+            self.last_performance = data
+            self.last_performance_time = time.time()
+            return data
+        else:
+            return self.last_performance
+    
+
+RUNNING_PLUGINS: list[PluginHandler] = []
+
+def get_plugin_class(module_name):
+    module = __import__(module_name, fromlist=['*'])
+    for name, cls in inspect.getmembers(module):
+        if inspect.isclass(cls) and issubclass(cls, ETS2LAPlugin) and cls != ETS2LAPlugin:
+            return cls
+    return None
+
+def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
+    folders = os.listdir(plugin_path)
+    plugins = []
+    for folder in folders:
+        if "main.py" in os.listdir(f"{plugin_path}/{folder}"):
+            plugin_class = get_plugin_class(f"{plugin_path}.{folder}.main")
+            if plugin_class is not None:
+                information = getattr(plugin_class, "description", None)
+                author = getattr(plugin_class, "author", None)
+                settings = getattr(plugin_class, "settings_menu", None)
+                plugins.append((folder, information, author, settings))
+            del plugin_class
+            
+    return plugins
+
+def enable_plugin(plugin_name: str):
+    runner = threading.Thread(target=PluginHandler, args=(plugin_name, PluginDescription()), daemon=True)
+    runner.start()
+    
+def disable_plugin(plugin_name: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin_name:
+            try:
+                plugin.process.terminate()
+            except:
+                logging.warning(f"Failed to terminate plugin {plugin_name}, this could be because the plugin has already been terminated.")
+            RUNNING_PLUGINS.remove(plugin)
+            return True
+    return False
+    
+def get_plugin_data(plugin_name: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin_name:
+            return plugin.data
+    return None
+
+def get_plugin_settings() -> dict[str, None | list]:
+    settings_dict = {}
+    for name, desc, author, settings in AVAILABLE_PLUGINS:
+        if settings is None:
+            settings_dict[name] = None
             continue
         
-    return states
-    
-def RelieveWaitForFrontend(plugin, data):
-    runners[plugin].immediateQueue.put({"data": data})
-    return True
-    
-# TODO: Fix this code, it's not working most of the time!
-def CallPluginFunction(plugin, function, args, kwargs):
-    if "timeout" in kwargs:
-        timeout = kwargs["timeout"]
-        kwargs.pop("timeout")
-    else:
-        timeout = 5
-        
-    def WaitQueue():
-        runners[plugin].functionQueue.join()
-        
-    try:
-        if plugin in runners:
-            try:
-                runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
-            except:
-                logging.error(f"Failed to call function {function} on plugin {plugin}. Most likely you are calling the function too fast, and the previous plugin instance has not been removed yet.")
-                return False
+        elif not settings.dynamic:
+            settings_dict[name] = settings.build()
             
-            # Create a separate thread to call join()
-            t = threading.Thread(target=WaitQueue, daemon=True)
-            t.start()
-            t.join(timeout=timeout)  
-            
-            # Check if the thread is still alive (i.e., if the join() method timed out)
-            if t.is_alive():
-                logging.info(f"Plugin {plugin} function call took too long to respond.")
-                del t # Delete the thread
-                return False
-            
-            try:
-                if runners[plugin].returnPipe.poll(timeout=5):
-                        data = runners[plugin].returnPipe.recv()
-                else:
-                    logging.info(f"Plugin {plugin} function call completed with no data.")
-                    data = True
-                return data
-            except:
-                logging.error(f"Failed to receive data from plugin {plugin}. Most likely you are calling the function too fast, and the previous plugin instance has not been removed yet.")
-                return False
-        else:
-            logging.info(f"Plugin {plugin} is not enabled. Enabling temporarily to run the function.")
-            AddPluginRunner(plugin, temporary=True) # Add a temp runner to load the code
-            startTime = time.time()
-            while True:
-                try:
-                    runners[plugin].functionQueue.put({"function": function, "args": args, "kwargs": kwargs})
+        elif name in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
+            for plugin in RUNNING_PLUGINS:
+                if plugin.plugin_name == name:
+                    settings_dict[name] = plugin.get_settings()
                     break
-                except:
-                    if startTime - time.time() > timeout:
-                        RemovePluginRunner(plugin)
-                        logging.info(f"> Failed to start")
-                        return False
-                    
-            # Create a separate thread to call join()
-            t = threading.Thread(target=WaitQueue, daemon=True)
-            t.start()
-            t.join(timeout=timeout)  
+                
+        elif name not in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
+            settings_dict[name] = settings.build()
+        
+        else:
+            settings_dict[name] = None
             
-            # Check if the thread is still alive (i.e., if the join() method timed out)
-            if t.is_alive():
-                RemovePluginRunner(plugin)
-                logging.info(f"> Timeout")
-                del t # Delete the thread
-                return False
-            
-            if runners[plugin].returnPipe.poll(timeout=5):
-                data = runners[plugin].returnPipe.recv()
-            else:
-                logging.info(f"> Success, but no data")
-                data = True
-            try:
-                RemovePluginRunner(plugin)
-            except:
-                logging.warning(f"Failed to remove temporary plugin {plugin}. This might not be an issue.")
-            logging.info(f"> Success")
-            return data
-    except:
-        import traceback
-        traceback.print_exc()
-        RemovePluginRunner(plugin)
-        return False
-    
-def CallEvent(event, args, kwargs):
-    for runner in runners:
+    return settings_dict
+
+def get_state(plugin: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin:
+            return plugin.state
+    return None
+
+def get_states():
+    states = {}
+    for plugin in RUNNING_PLUGINS:
+        states[plugin.plugin_name] = plugin.state
+    return states
+
+def get_performance(plugin: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin:
+            return plugin.get_performance()
+    return None
+
+def get_performances():
+    performances = {}
+    for plugin in RUNNING_PLUGINS:
+        performances[plugin.plugin_name] = plugin.get_performance()
+    return performances
+
+def get_latest_frametimes():
+    dict = {}
+    for plugin in RUNNING_PLUGINS:
+        dict[plugin.plugin_name] = plugin.get_performance()[-1]
+        
+    return dict
+
+def get_latest_frametime(plugin_name: str):
+    for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == plugin_name:
+            performances = plugin.get_performance()
+            if len(performances) > 0:
+                return performances[-1]
+            return 0
+    return 0
+
+def get_tag_list():
+    tags = []
+    for plugin in RUNNING_PLUGINS:
         try:
-            runners[runner].eventQueue.put({"event": event, "args": args, "kwargs": kwargs})
+            tags += plugin.tags.keys()
         except:
-            logging.exception(f"Failed to call event {event} on plugin {runner}.")
             pass
+    return tags
 
-def AddPluginRunner(pluginName, temporary=False):
-    if pluginName in runners: return
-    # Run the plugin runner in a separate thread. This is done to avoid blocking the main thread.
-    runner = threading.Thread(target=PluginRunnerController, args=(pluginName, temporary, ), daemon=True)
-    runner.start()
+def get_all_tag_data():
+    tag_dict = {}
+    for plugin in RUNNING_PLUGINS:
+        tag_dict[plugin.plugin_name] = plugin.tags
+    return tag_dict
 
-def RemovePluginRunner(pluginName):
-    if not pluginName in runners: return
-    runners[pluginName].runner.terminate()
-    runners.pop(pluginName)
+def get_tag_data(tag: str):
+    tag_dict = {}
+    for plugin in RUNNING_PLUGINS:
+        if tag in plugin.tags:
+            tag_dict[plugin.plugin_name] = plugin.tags[tag]
+    return tag_dict
 
-def GetPerformance():
-    try:
-        array = []
-        for runner in runners:
-            try:
-                runnerData = {
-                    "name": runner,
-                    "data": []
-                }
-                count = 0
-                for data in runners[runner].process_info:
-                    try:
-                        currentProcessData = {
-                            "name": runners[runner].pluginName,
-                            "data": data
-                        }
-                        currentProcessData["data"]["frametime"] = frameTimes[runners[runner].pluginName][count]["frametime"] # + frameTimes[runners[runner].pluginName][count]["executiontime"]
-                        runnerData["data"].append(currentProcessData)
-                        count += 1
-                    except:
-                        count += 1
-                        pass
-                array.append(runnerData)
-            except:
-                pass
-        return array
-    except:
-        return []
+def call_event(event: str, args: list, kwargs: dict):
+    if type(args) != list:
+        args = [args]
+    if type(kwargs) != dict:
+        kwargs = {}
+    for plugin in RUNNING_PLUGINS:
+        plugin.call_function(event, *args, **kwargs)
 
-# These are run on startup.
-GetAvailablePlugins()
+def run():
+    global AVAILABLE_PLUGINS
+    AVAILABLE_PLUGINS = find_plugins()
+    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin[3] is not None])} have settings menus.")

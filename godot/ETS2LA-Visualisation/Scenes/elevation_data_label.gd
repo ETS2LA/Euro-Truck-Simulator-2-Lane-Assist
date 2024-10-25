@@ -10,7 +10,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
 	if ElevationData.ElevationData == null:
 		text = "Updating in " + str(round((ElevationData.updateRate * 1000 - (Time.get_ticks_msec() - ElevationData.lastUpdateTime))/1000)) + " seconds"
 		text += "\nPlease enable the Map plugin for elevation data"

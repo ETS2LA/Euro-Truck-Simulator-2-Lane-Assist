@@ -52,6 +52,8 @@ import { toast } from 'sonner';
 import { SetSettingByKey } from './settingsServer';
 import { ValidateUser } from './account';
 import DisclaimerDialog from '@/components/ets2la_disclaimer_dialog';
+import { GetPages } from './backend';
+import { ETS2LAPage } from '@/components/ets2la_page';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [inputValue, setInputValue] = useState("localhost");
@@ -129,6 +131,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       setStatus("success");
     }
   }, [isLoading, error]);
+
+  const {data: pages, error: pagesError, isLoading: pagesIsLoading} = useSWR("pages", () => GetPages(ipRef.current as string), {refreshInterval: 10000});
 
   const router = useRouter();
 
@@ -223,8 +227,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </div>
   }
 
-  const isInBasicMode = routerUseRouter().pathname.includes("basic");
-
+  console.log(pages)
+  const page = routerUseRouter().pathname;
+  console.log(page)
+  const isInBasicMode = page.includes("basic");
+  const isCustomPage = pages && page in pages;
   return (
     <main className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <div className={isInBasicMode ? "overflow-hidden" : "overflow-hidden p-3 h-[calc(100vh)]"}>
@@ -252,7 +259,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <div className={isInBasicMode ? "" : "pt-3 pb-9 h-full"}>
             <ContextMenu>
               <ContextMenuTrigger className="h-full">
-                  <Component {...newPageProps} ip={ip} />
+                  {isCustomPage ? <ETS2LAPage ip={ip} data={pages[page]} plugin={pages[page][0]["settings"]} /> : <Component {...newPageProps} />}
               </ContextMenuTrigger>
               <ContextMenuContent className="w-64">
                 <ContextMenuItem onClick={router.back}>

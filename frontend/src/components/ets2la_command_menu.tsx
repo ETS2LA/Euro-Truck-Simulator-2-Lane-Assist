@@ -23,7 +23,7 @@ import { translate } from "@/pages/translation";
 export function ETS2LACommandMenu({ip}: {ip: string}) {
     const [open, setOpen] = React.useState(false)
     const { push } = useRouter()
-    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 })
+    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
     
     let path = usePathname();
     let plugins:string[] = [];

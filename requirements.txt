@@ -1,6 +1,7 @@
 git+https://github.com/rodjjo/filterpy.git
 opencv-contrib-python
 tkinter-tooltip
+windows-capture; platform_system == "Windows"
 beautifulsoup4
 pywebview==5.1
 opencv-python

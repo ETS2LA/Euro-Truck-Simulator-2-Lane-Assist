@@ -13,8 +13,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var data = Sockets.data
 	var stopping_distance = 0
-	if data != {} and "status" in data:
-		stopping_distance = float(data["status"].split("m")[0].split(" ")[-1])
+	if data != {} and "acc_status" in data:
+		stopping_distance = float(data["acc_status"].split("m")[0].split(" ")[-1])
 		if stopping_distance == -1:
 			stopping_distance = 0
 	else:

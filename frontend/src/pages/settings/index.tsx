@@ -16,36 +16,36 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ControlsPage from "./controls"
-import { ETS2LASettingsPage } from "@/components/ets2la_settings_page"
+import { ETS2LAPage } from "@/components/ets2la_page"
 import { translate } from "../translation"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import RenderPage from "@/components/render_page"
 
 export default function Home({ ip }: { ip: string }) {
     const { push } = useRouter()
-    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 })
-    const { data: global} = useSWR("globals", () => GetSettingsJSON("global_json", ip));
+    const { data, error, isLoading } = useSWR("plugin_ui_plugins", () => GetPlugins(ip))
     const [selectedPlugin, setSelectedPlugin] = useState("Global")
     const [scrolledDown, setScrolledDown] = useState(false)
+
 
     const plugins:string[] = [];
     for (const key in data) {
         // Check if the key is a number
         if (isNaN(parseInt(key))){
-            console.log(key)
             plugins.push(key)
         }
     }
 
     const renderPluginPage = () => {
         if (selectedPlugin === "Global") {
-            //return <GlobalPage ip={ip} />;
-            return <ETS2LASettingsPage ip={ip} plugin={"Global"} />;
+            return <RenderPage ip={ip} url="/settings/global" />;
         } else if (selectedPlugin === "Controls") {
             return <ControlsPage ip={ip} />;
             // @ts-ignore
-        } else if (data && data[selectedPlugin] && data[selectedPlugin].file && data[selectedPlugin].file.settings) {
+        } else if (data && data[selectedPlugin] && data[selectedPlugin].settings) {
             // Ensure data is correctly passed to ETS2LASettingsPage
-            return <ETS2LASettingsPage ip={ip} plugin={selectedPlugin} />;
+            // @ts-ignore
+            return <ETS2LAPage ip={ip} plugin={selectedPlugin} data={data[selectedPlugin]["settings"]} enabled={data[selectedPlugin]["enabled"]} />;
         } else {
             return <p className="text-xs text-muted-foreground text-start pl-4">{translate("frontend.settings.data_missing")}</p>;
         }
@@ -74,13 +74,13 @@ export default function Home({ ip }: { ip: string }) {
                                     {plugins.map((plugin:any, index) => (
                                         plugin == "Separator" ? <br key={index} /> : 
                                         plugin == "Global" ? null : // @ts-ignore
-                                        data && data[plugin] && data[plugin].file && data[plugin].file.settings ?
+                                        data && data[plugin] && data[plugin].settings ?
                                         <div className="items-center justify-start text-sm">
                                             <Tooltip>
                                                 <TooltipTrigger className="items-center justify-start text-sm w-full">
                                                     <Button key={index} className="items-center justify-start text-sm w-full rounded-r-none" variant={selectedPlugin == plugin && "secondary" || "ghost"} onClick={() => setSelectedPlugin(plugin)}>
                                                         {// @ts-ignore
-                                                            translate(data[plugin].file.name)
+                                                            translate(data[plugin].description.name)
                                                         }
                                                     </Button>
                                                 </TooltipTrigger>
@@ -88,7 +88,7 @@ export default function Home({ ip }: { ip: string }) {
                                                     <div className="flex flex-col gap-2 text-start">
                                                         <p className="text-xs text-start">
                                                             {// @ts-ignore
-                                                                translate(data[plugin].file.name)
+                                                                translate(data[plugin].description.name)
                                                             }
                                                         </p>
                                                     </div>
