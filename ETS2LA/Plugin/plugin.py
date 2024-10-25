@@ -241,7 +241,7 @@ class ETS2LAPlugin(object):
             self.performance_queue.task_done()
             self.performance_return_queue.put(self.performance)
             
-    def notify(self, text: str, type: Literal["info", "warning", "error", "success", "promise"] = "info"):
+    def notify(self, text: str, type: Literal["info", "warning", "error", "success"] = "info"):
         self.immediate_queue.put({
             "operation": "notify", 
             "options": {
