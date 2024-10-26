@@ -60,7 +60,7 @@ def Initialize():
             try:
 
                 from windows_capture import WindowsCapture, Frame, InternalCaptureControl
-                capture = WindowsCapture(
+                Capture = WindowsCapture(
                     cursor_capture=False,
                     draw_border=False,
                     monitor_index=Display + 1,
@@ -69,7 +69,7 @@ def Initialize():
                 global WindowsCaptureFrame
                 global StopWindowsCapture
                 StopWindowsCapture = False
-                @capture.event
+                @Capture.event
                 def on_frame_arrived(frame: Frame, capture_control: InternalCaptureControl):
                     global WindowsCaptureFrame
                     global StopWindowsCapture
@@ -77,14 +77,14 @@ def Initialize():
                     if StopWindowsCapture:
                         StopWindowsCapture = False
                         capture_control.stop()
-                @capture.event
+                @Capture.event
                 def on_closed():
                     print("Capture Session Closed")
                 try:
-                    control.stop()
+                    Control.stop()
                 except:
                     pass
-                control = capture.start_free_threaded()
+                Control = Capture.start_free_threaded()
 
                 CaptureLibrary = "WindowsCapture"
 
