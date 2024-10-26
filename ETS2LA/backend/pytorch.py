@@ -44,6 +44,8 @@ def Popup(Text="", Progress=0):
 
 
 def InstallCUDA():
+    print("NOT IMPLEMENTED: InstallCUDA (no idea how v2 uses the venv)")
+    return
     def InstallCUDAFunction():
         Command = ["cmd", "/c", "cd", variables.PATH + "venv/Scripts", "&&", ".\\activate.bat", "&&", "cd", variables.PATH, "&&", "pip", "install", "torch", "torchvision", "torchaudio", "--index-url", "https://download.pytorch.org/whl/cu124", "--progress-bar", "raw", "--force-reinstall"]
         Process = subprocess.Popen(Command, cwd=variables.PATH, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -81,6 +83,8 @@ def InstallCUDA():
 
 
 def UninstallCUDA():
+    print("NOT IMPLEMENTED: UninstallCUDA (no idea how v2 uses the venv)")
+    return
     def UninstallCUDAFunction():
         Command = ["cmd", "/c", "cd", variables.PATH + "venv/Scripts", "&&", ".\\activate.bat", "&&", "cd", variables.PATH, "&&", "pip", "install", "torch", "torchvision", "torchaudio", "--progress-bar", "raw", "--force-reinstall"]
         Process = subprocess.Popen(Command, cwd=variables.PATH, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -118,6 +122,8 @@ def UninstallCUDA():
 
 
 def CheckCuda():
+    print("NOT IMPLEMENTED: CheckCuda (no idea how v2 uses the venv)")
+    return
     def CheckCudaFunction():
         result = subprocess.run("cd " + variables.PATH + "venv/Scripts & .\\activate.bat & cd " + variables.PATH + " & pip list", shell=True, capture_output=True, text=True)
         modules = result.stdout
