@@ -184,6 +184,8 @@ class ETS2LAPlugin(object):
         threading.Thread(target=self.frontend_thread, daemon=True).start()
         threading.Thread(target=self.performance_thread, daemon=True).start()
 
+        self.imports()
+        
         try: self.init()
         except Exception as ex:
             if type(ex) != AttributeError: 
@@ -197,7 +199,6 @@ class ETS2LAPlugin(object):
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'Initialize' function")
 
-        self.imports()
         while True:
             self.plugin()
     
