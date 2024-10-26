@@ -16,6 +16,11 @@ cache
 
 # Ignore Object Detection models
 /ETS2LA/plugins/ObjectDetection/models
+/plugins/ObjectDetection/models
+
+# Ignore Map data
+/ETS2LA/plugins/Map/data
+/ETS2LA/plugins/Map/GameData
 
 # Pycharm
 .idea
