@@ -176,7 +176,6 @@ class ETS2LAPlugin(object):
     def __init__(self, *args) -> None:
         self.ensure_functions()
         self.load_modules()
-        self.imports()
         
         if "settings_menu" in dir(type(self)) and self.settings_menu != None:
             self.settings_menu.plugin = self
@@ -198,6 +197,7 @@ class ETS2LAPlugin(object):
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'Initialize' function")
 
+        self.imports()
         while True:
             self.plugin()
     
