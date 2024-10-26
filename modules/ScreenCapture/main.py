@@ -54,7 +54,7 @@ class Module(ETS2LAModule):
                 capture = WindowsCapture(
                     cursor_capture=False,
                     draw_border=False,
-                    monitor_index=CamSetupDisplay + 1,
+                    monitor_index=CamSetupDisplay,
                     window_name=None,
                 )
                 
@@ -119,7 +119,7 @@ class Module(ETS2LAModule):
                     self.CreateCam()
                     
                 if cam != None:
-                    # return the requestet image, only crop when needed
+                    # return the requested image, only crop when needed
                     if imgtype == "both":
                         if mode == "continuous":
                             img = cam.get_latest_frame()
