@@ -112,9 +112,9 @@ if __name__ == "__main__":
                 continue
             
             if e.args[0] == "Update":
-                print(YELLOW + Translate("main.updating") + NORMAL)
                 # Check if running with the --dev flag to prevent accidentally overwriting changes
                 if variables.DEVELOPMENT_MODE == False:
+                    print(YELLOW + Translate("main.updating") + NORMAL)
                     if os.name == "nt":
                         try:
                             os.system("update.bat")
