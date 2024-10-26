@@ -51,6 +51,7 @@ class Module(ETS2LAModule):
             global latest_windows_frame
             
             try:
+                print("Starting windows capture on monitor:", CamSetupDisplay)
                 capture = WindowsCapture(
                     cursor_capture=False,
                     draw_border=False,
