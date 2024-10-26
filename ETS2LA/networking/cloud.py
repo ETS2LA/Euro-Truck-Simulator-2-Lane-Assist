@@ -23,6 +23,10 @@ def SendCrashReport(type:str, message:str, additional=None):
     if message.strip() == "":
         return False
 
+    # Check if running with the --dev flag to prevent spamming crash reports to the server
+    if variables.DEVELOPMENT_MODE:
+        return False
+
     try:
         send_crash_reports = settings.Get("global", "send_crash_reports", True)
     except:

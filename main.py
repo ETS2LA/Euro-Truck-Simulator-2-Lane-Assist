@@ -8,6 +8,7 @@ except:
     
 from modules.SDKController.main import SCSController
 import ETS2LA.networking.cloud as cloud
+import ETS2LA.variables as variables
 from multiprocessing import Queue
 from rich.console import Console
 import multiprocessing
@@ -112,13 +113,15 @@ if __name__ == "__main__":
             
             if e.args[0] == "Update":
                 print(YELLOW + Translate("main.updating") + NORMAL)
-                if os.name == "nt":
-                    try:
-                        os.system("update.bat")
-                    except: # Used Installer
-                        os.system("cd code && cd app && update.bat")
-                else:
-                    os.system("sh update.sh")
+                # Check if running with the --dev flag to prevent accidentally overwriting changes
+                if variables.DEVELOPMENT_MODE == False:
+                    if os.name == "nt":
+                        try:
+                            os.system("update.bat")
+                        except: # Used Installer
+                            os.system("cd code && cd app && update.bat")
+                    else:
+                        os.system("sh update.sh")
                 
                 CountErrorsAndWarnings()
                 controller.reset()
