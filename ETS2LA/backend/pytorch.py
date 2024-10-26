@@ -37,14 +37,30 @@ def Initialize(Owner="", Model="", Self=None, Threaded=True):
     MODELS[Model]["Path"] = f"{variables.PATH}cache/{Model}"
     MODELS[Model]["Threaded"] = Threaded
     MODELS[Model]["ModelOwner"] = str(Owner)
+
+    def PopupReset(Model=""):
+        StopTime = time.time() + 5
+        FirstPopupValues = MODELS[Model]["PopupValues"]
+        while time.time() < StopTime:
+            time.sleep(0.1)
+            if FirstPopupValues != MODELS[Model]["PopupValues"]:
+                FirstPopupValues = MODELS[Model]["PopupValues"]
+                StopTime = time.time() + 5
+        MODELS[Model]["PopupHandler"].state.text = ""
+        MODELS[Model]["PopupHandler"].state.progress = -1
+    MODELS[Model]["PopupResetThread"] = threading.Thread(target=PopupReset, args=(Model,), daemon=True)
     MODELS[Model]["PopupHandler"] = Self
+    MODELS[Model]["PopupValues"] = ""
 
 
 def Popup(Model="", Text="", Progress=0):
     try:
         if MODELS[Model]["PopupHandler"] != None:
+            MODELS[Model]["PopupValues"] = Text, Progress
             MODELS[Model]["PopupHandler"].state.text = Text
-            MODELS[Model]["PopupHandler"].state.progress = Progress
+            MODELS[Model]["PopupHandler"].state.progress = Progress / 100
+            if MODELS[Model]["PopupResetThread"].is_alive() == False:
+                MODELS[Model]["PopupResetThread"].start()
     except:
         pass
 
@@ -211,7 +227,7 @@ def Load(Model):
                     ModelFileBroken = True
 
                 if ModelFileBroken == False:
-                    Popup(Model=Model, Text="Successfully loaded the model!", Progress=0)
+                    Popup(Model=Model, Text="Successfully loaded the model!", Progress=100)
                     print(DARK_GREY + f"[{Model}] " + GREEN + "Successfully loaded the model!" + NORMAL)
                     MODELS[Model]["ModelLoaded"] = True
                 else:
@@ -287,10 +303,10 @@ def CheckForUpdates(Model):
                                 ModelFile.write(Data)
                                 Progress = (DownloadedSize / TotalSize) * 100
                                 Popup(Model=Model, Text=f"Downloading the model: {round(Progress)}%", Progress=Progress)
-                        Popup(Model=Model, Text="Successfully updated the model!", Progress=0)
+                        Popup(Model=Model, Text="Successfully updated the model!", Progress=100)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
-                        Popup(Model=Model, Text="No model updates available!", Progress=0)
+                        Popup(Model=Model, Text="No model updates available!", Progress=100)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "No model updates available!" + NORMAL)
                     settings.Set("PyTorch", f"{Model}-LastUpdateCheck", time.time())
 
