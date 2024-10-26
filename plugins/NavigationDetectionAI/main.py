@@ -27,6 +27,19 @@ def preprocess_image(image):
     return transform(image).unsqueeze(0).to(pytorch.MODELS["NavigationDetectionAI"]["Device"])
 
 class Plugin(ETS2LAPlugin):
+    description = PluginDescription(
+        name="NavigationDetectionAI",
+        version="1.0",
+        description="NavigationDetectionAI works by following the route on the route advisor using a ML model which generates a steering value from the image.",
+        modules=["TruckSimAPI", "SDKController"],
+    )
+
+    author = Author(
+        name="Glas42",
+        url="https://github.com/Glas42",
+        icon="https://avatars.githubusercontent.com/u/145870870?v=4"
+    )
+
     def imports(self):
         global SCSTelemetry, SCSController, ScreenCapture, ShowImage, variables, settings, pytorch, np, keyboard, time, cv2
 
@@ -73,7 +86,7 @@ class Plugin(ETS2LAPlugin):
         IndicatorLeftResponseTimer = 0
         IndicatorRightResponseTimer = 0
 
-        pytorch.Initialize(Owner="Glas42", Model="NavigationDetectionAI")
+        pytorch.Initialize(Owner="Glas42", Model="NavigationDetectionAI", Self=self)
         pytorch.Load("NavigationDetectionAI")
 
         SDKController = SCSController()
