@@ -55,7 +55,7 @@ class Module(ETS2LAModule):
                 capture = WindowsCapture(
                     cursor_capture=False,
                     draw_border=False,
-                    monitor_index=CamSetupDisplay,
+                    monitor_index=CamSetupDisplay + 1,
                     window_name=None,
                 )
                 
