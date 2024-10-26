@@ -31,16 +31,22 @@ except:
 
 MODELS = {}
 
-def Initialize(Owner="", Model="", Threaded=True):
+def Initialize(Owner="", Model="", Self=None, Threaded=True):
     MODELS[Model] = {}
     MODELS[Model]["Device"] = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     MODELS[Model]["Path"] = f"{variables.PATH}cache/{Model}"
     MODELS[Model]["Threaded"] = Threaded
     MODELS[Model]["ModelOwner"] = str(Owner)
+    MODELS[Model]["PopupHandler"] = Self
 
 
-def Popup(Text="", Progress=0):
-    print("NOT IMPLEMENTED: Popup: " + Text + " - " + str(Progress))
+def Popup(Model="", Text="", Progress=0):
+    try:
+        if MODELS[Model]["PopupHandler"] != None:
+            MODELS[Model]["PopupHandler"].state.text = Text
+            MODELS[Model]["PopupHandler"].state.progress = Progress
+    except:
+        pass
 
 
 def InstallCUDA():
@@ -171,7 +177,7 @@ def Load(Model):
                 if GetName(Model) == None:
                     return
 
-                Popup(Text="Loading the model...", Progress=0)
+                Popup(Model=Model, Text="Loading the model...", Progress=0)
                 print(DARK_GREY + f"[{Model}] " + GREEN + "Loading the model..." + NORMAL)
 
                 ModelFileBroken = False
@@ -205,17 +211,17 @@ def Load(Model):
                     ModelFileBroken = True
 
                 if ModelFileBroken == False:
-                    Popup(Text="Successfully loaded the model!", Progress=0)
+                    Popup(Model=Model, Text="Successfully loaded the model!", Progress=0)
                     print(DARK_GREY + f"[{Model}] " + GREEN + "Successfully loaded the model!" + NORMAL)
                     MODELS[Model]["ModelLoaded"] = True
                 else:
-                    Popup(Text="Failed to load the model because the model file is broken.", Progress=0)
+                    Popup(Model=Model, Text="Failed to load the model because the model file is broken.", Progress=0)
                     print(DARK_GREY + f"[{Model}] " + RED + "Failed to load the model because the model file is broken." + NORMAL)
                     MODELS[Model]["ModelLoaded"] = False
                     HandleBroken(Model)
             except:
                 SendCrashReport("PyTorch - Loading Error.", str(traceback.format_exc()))
-                Popup(Text="Failed to load the model!", Progress=0)
+                Popup(Model=Model, Text="Failed to load the model!", Progress=0)
                 print(DARK_GREY + f"[{Model}] " + RED + "Failed to load the model!" + NORMAL)
                 MODELS[Model]["ModelLoaded"] = False
 
@@ -228,7 +234,7 @@ def Load(Model):
 
     except:
         SendCrashReport("PyTorch - Error in function Load.", str(traceback.format_exc()))
-        Popup(Text="Failed to load the model.", Progress=0)
+        Popup(Model=Model, Text="Failed to load the model.", Progress=0)
         print(DARK_GREY + f"[{Model}] " + RED + "Failed to load the model." + NORMAL)
 
 
@@ -243,7 +249,7 @@ def CheckForUpdates(Model):
                     Response = None
 
                 if Response == 200:
-                    Popup(Text="Checking for model updates...", Progress=0)
+                    Popup(Model=Model, Text="Checking for model updates...", Progress=0)
                     print(DARK_GREY + f"[{Model}] " + GREEN + "Checking for model updates..." + NORMAL)
 
                     if settings.Get("PyTorch", f"{Model}-LastUpdateCheck", 0) + 600 > time.time():
@@ -268,7 +274,7 @@ def CheckForUpdates(Model):
                     CurrentModel = GetName(Model)
 
                     if str(LatestModel) != str(CurrentModel):
-                        Popup(Text="Updating the model...", Progress=0)
+                        Popup(Model=Model, Text="Updating the model...", Progress=0)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "Updating the model..." + NORMAL)
                         Delete(Model)
                         Response = requests.get(f'https://huggingface.co/{MODELS[Model]["ModelOwner"]}/{Model}/resolve/main/model/{LatestModel}?download=true', stream=True)
@@ -280,23 +286,23 @@ def CheckForUpdates(Model):
                                 DownloadedSize += len(Data)
                                 ModelFile.write(Data)
                                 Progress = (DownloadedSize / TotalSize) * 100
-                                Popup(Text=f"Downloading the model: {round(Progress)}%", Progress=Progress)
-                        Popup(Text="Successfully updated the model!", Progress=0)
+                                Popup(Model=Model, Text=f"Downloading the model: {round(Progress)}%", Progress=Progress)
+                        Popup(Model=Model, Text="Successfully updated the model!", Progress=0)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
-                        Popup(Text="No model updates available!", Progress=0)
+                        Popup(Model=Model, Text="No model updates available!", Progress=0)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "No model updates available!" + NORMAL)
                     settings.Set("PyTorch", f"{Model}-LastUpdateCheck", time.time())
 
                 else:
 
                     console.RestoreConsole()
-                    Popup(Text="Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for model updates.", Progress=0)
+                    Popup(Model=Model, Text="Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for model updates.", Progress=0)
                     print(DARK_GREY + f"[{Model}] " + RED + "Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for model updates." + NORMAL)
 
             except:
                 SendCrashReport("PyTorch - Error in function CheckForUpdatesFunction.", str(traceback.format_exc()))
-                Popup(Text="Failed to check for model updates or update the model.", Progress=0)
+                Popup(Model=Model, Text="Failed to check for model updates or update the model.", Progress=0)
                 print(DARK_GREY + f"[{Model}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
 
         if MODELS[Model]["Threaded"]:
@@ -307,7 +313,7 @@ def CheckForUpdates(Model):
 
     except:
         SendCrashReport("PyTorch - Error in function CheckForUpdates.", str(traceback.format_exc()))
-        Popup(Text="Failed to check for model updates or update the model.", Progress=0)
+        Popup(Model=Model, Text="Failed to check for model updates or update the model.", Progress=0)
         print(DARK_GREY + f"[{Model}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
 
 
