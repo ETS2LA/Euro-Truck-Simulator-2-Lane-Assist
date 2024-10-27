@@ -73,6 +73,11 @@ def CountErrorsAndWarnings():
 
 def ETS2LAProcess(exception_queue: Queue):
     try:
+        if "--dev" in sys.argv:
+            import ETS2LA.variables
+            ETS2LA.variables.DEVELOPMENT_MODE = True
+            print(f"{PURPLE}{Translate('main.development_mode')}{NORMAL}\n")
+        
         CloseNode()
         ClearLogFiles()
         ETS2LA = importlib.import_module("ETS2LA.core")
@@ -83,10 +88,6 @@ def ETS2LAProcess(exception_queue: Queue):
 if __name__ == "__main__":
     exception_queue = Queue()  # Create a queue for exceptions
     print(f"{BLUE}{Translate('main.overseer_started')}{NORMAL}\n")
-    if "--dev" in sys.argv:
-        import ETS2LA.variables
-        ETS2LA.variables.DEVELOPMENT_MODE = True
-        print(f"{PURPLE}{Translate('main.development_mode')}{NORMAL}\n")
     # Make sure NodeJS isn't already running and clear logs
     while True:
         process = multiprocessing.Process(target=ETS2LAProcess, args=(exception_queue,))

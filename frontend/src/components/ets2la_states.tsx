@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { translate } from "@/pages/translation";
+import Loader from "./ets2la_loader";
 
 export function ETS2LAStates({ip}: {ip: string}) {
     const { data, error } = useSWR("states", () => GetStates(ip))
@@ -76,6 +77,48 @@ export function ETS2LAStates({ip}: {ip: string}) {
                                 <p className="text-[10px] text-muted-foreground p-0">{plugin_name}</p>
                             </div>
                             <Progress value={state_progress_percent} className="pb-0" />
+                        </div>
+                    ), {
+                        duration: Infinity,
+                    })
+                    setToasts([...toasts, toastID]);
+                    setToastNames([...toastNames, plugin_name]);
+                    indexesToNotRemove.push(toastNames.length);
+                }
+                else if(toastNames.includes(plugin_name) && state != "")
+                {
+                    let index = toastNames.indexOf(plugin_name);
+                    indexesToNotRemove.push(index);
+
+                    // Update the toast
+                    const toastID = toasts[index];
+                    toast.custom((t) => (
+                        <div className="h-min w-[354px] border border-zinc-800 rounded-lg p-4 text-sm flex flex-col gap-2 font-semibold">
+                            <div className="flex justify-between text-start items-center">
+                                <div className="flex text-center content-center items-center gap-2">
+                                    <Loader className={""} /> 
+                                    <p>{state}</p>
+                                </div>
+                                <p className="text-[10px] text-muted-foreground p-0">{plugin_name}</p>
+                            </div>
+                        </div>
+                    ), {
+                        duration: Infinity,
+                        id: toastID
+                    })
+
+                }
+                else if (state != "") 
+                { // Indeterminate
+                    const toastID = toast.custom((t) => (
+                        <div className="h-min w-[354px] border border-zinc-800 rounded-lg p-4 text-sm flex flex-col gap-2 font-semibold">
+                            <div className="flex justify-between text-start items-center">
+                                <div className="flex text-center content-center items-center gap-2">
+                                    <Loader className={""} /> 
+                                    <p>{state}</p>
+                                </div>
+                                <p className="text-[10px] text-muted-foreground p-0">{plugin_name}</p>
+                            </div>
                         </div>
                     ), {
                         duration: Infinity,

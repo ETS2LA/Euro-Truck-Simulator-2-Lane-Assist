@@ -2,6 +2,7 @@ from ETS2LA.frontend.webpage import set_on_top, get_on_top, set_transparency, ge
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
 from ETS2LA.utils.window import CheckIfWindowOpen
 from ETS2LA.utils.translator import Translate
+from ETS2LA.frontend.immediate import sonner
 import ETS2LA.utils.translator as translator
 from ETS2LA.networking.data_models import *
 from ETS2LA.utils.dictionaries import merge
@@ -115,6 +116,10 @@ def set_theme(theme: str):
 def get_IP():
     return IP
 
+@app.get("/api/devmode")
+def get_devmode():
+    return variables.DEVELOPMENT_MODE
+
 #endregion
 # region Window
 
@@ -225,6 +230,13 @@ def call_plugin_function(plugin: str, data: PluginCallData = None):
 def get_language():
     translator.CheckForLanguageUpdates()
     return translator.LANGUAGE
+
+# endregion
+# region Popups
+@app.post("/api/popup")
+def popup(data: PopupData):
+    mainThreadQueue.append([sonner, [data.text, data.type, None, ], {}])
+    return {"status": "ok"}
 
 # endregion
 # region Settings

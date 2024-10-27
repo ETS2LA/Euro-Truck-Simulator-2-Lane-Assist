@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Literal
 
 class PluginCallData(BaseModel):
     target: str
@@ -11,3 +12,7 @@ class TagFetchData(BaseModel):
 
 class RelieveData(BaseModel):
     data: dict
+    
+class PopupData(BaseModel):
+    text: str
+    type: Literal["info", "warning", "error", "success"] = "info"

@@ -1,8 +1,10 @@
 from ETS2LA.utils.dictionaries import merge
 from multiprocessing import JoinableQueue
 from typing import Literal
+import threading
 import logging
 import json
+import time
 
 class Plugins:
     def __init__(self, plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue):
@@ -93,7 +95,16 @@ class State:
     text: str
     progress: float
     
+    timeout: int = -1
+    timeout_thread: threading.Thread = None
+    last_update: int = 0
+    
     state_queue: JoinableQueue
+    
+    def timeout_thread_func(self):
+        while time.time() - self.last_update < self.timeout:
+            time.sleep(0.1)
+        self.reset()
     
     def __init__(self, state_queue: JoinableQueue):
         self.state_queue = state_queue
@@ -102,6 +113,7 @@ class State:
     
     def __setattr__(self, name, value):
         if name in ["text", "status", "state"]:
+            self.last_update = time.time()
             state_dict = {
                 "status": value
             }
@@ -110,12 +122,22 @@ class State:
             return 
         
         if name in ["value", "progress"]:
+            self.last_update = time.time()
             state_dict = {
                 "progress": value
             }
             self.state_queue.put(state_dict, block=False)
             super().__setattr__("progress", value)
             return 
+        
+        if name in ["timeout"]:
+            self.last_update = time.time()
+            super().__setattr__("timeout", value)
+            if self.timeout_thread is None:
+                print("Starting timeout thread")
+                self.timeout_thread = threading.Thread(target=self.timeout_thread_func, daemon=True)
+                self.timeout_thread.start()
+            return
         
         super().__setattr__(name, value)
             
