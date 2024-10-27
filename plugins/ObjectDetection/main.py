@@ -346,7 +346,7 @@ class Plugin(ETS2LAPlugin):
         count = 0
         for tracker, box in zip(self.trackers, boxes.iterrows()):
             try:
-                success, pos = self.tracker.update(frame)
+                success, pos = tracker.update(frame)
                 if not success:
                     print(Translate("object_detection.tracking_failed", [box[0]['name'], box[0]['confidence']]))
                     continue
