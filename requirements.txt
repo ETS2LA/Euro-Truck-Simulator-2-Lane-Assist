@@ -25,6 +25,7 @@ pywin32
 fastapi
 uvicorn
 pillow
+gputil
 psutil
 pygame
 sv_ttk
