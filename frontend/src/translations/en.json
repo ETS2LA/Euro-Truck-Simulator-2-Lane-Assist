@@ -2,6 +2,7 @@
     "name": "English",
     "name_en": "English",
     "iso_code": "en",
+    "language_credits": "You are using the official english translations.",
     "_GLOBALS": "Please leave a space here to seperate the different sections of the translations.",
     "confirm": "Confirm",
     "cancel": "Cancel",
