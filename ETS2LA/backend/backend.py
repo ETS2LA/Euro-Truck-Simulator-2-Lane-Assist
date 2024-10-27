@@ -64,6 +64,7 @@ class PluginHandler:
             threading.Thread(target=self.tags_handler, daemon=True).start()
             threading.Thread(target=self.immediate_handler, daemon=True).start()
             threading.Thread(target=self.state_handler, daemon=True).start()
+            threading.Thread(target=self.change_listener, daemon=True).start()
             
             self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                             self.return_queue,
@@ -78,6 +79,29 @@ class PluginHandler:
             self.process.start()
         except:
             logging.exception(f"Failed to start plugin {plugin_name}.")
+        
+    def change_listener(self):
+        plugin_file_path = f"{plugin_path}/{self.plugin_name}/main.py"
+        file_hash = hash(open(plugin_file_path, "rb").read())
+        while True:
+            new_hash = hash(open(plugin_file_path, "rb").read())
+            if new_hash != file_hash:
+                logging.info(f"Plugin {self.plugin_name} has been updated, restarting.")
+                file_hash = new_hash
+                self.process.terminate()
+                self.process.join()
+                self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
+                                                                            self.return_queue,
+                                                                            self.plugins_queue, self.plugins_return_queue,
+                                                                            self.tags_queue, self.tags_return_queue,
+                                                                            self.settings_menu_queue, self.settings_menu_return_queue,
+                                                                            self.frontend_queue, self.frontend_return_queue,
+                                                                            self.immediate_queue, self.immediate_return_queue,
+                                                                            self.state_queue,
+                                                                            self.performance_queue, self.performance_return_queue
+                                                                            ), daemon=True)
+                self.process.start()
+            time.sleep(1)
         
     def tags_handler(self):
         while True:

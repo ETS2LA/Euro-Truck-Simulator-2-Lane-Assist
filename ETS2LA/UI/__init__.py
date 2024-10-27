@@ -54,3 +54,4 @@ from ETS2LA.UI.settings import ETS2LASettingsMenu
 from ETS2LA.UI.pages import ETS2LAPage
 from ETS2LA.UI.components import Title, Description, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate, ProgressBar, EnabledLock, Selector
 from ETS2LA.UI.components import RenderUI
+from ETS2LA.UI.utils import SendPopup

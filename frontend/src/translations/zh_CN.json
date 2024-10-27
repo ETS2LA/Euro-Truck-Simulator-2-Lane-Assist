@@ -2,6 +2,7 @@
     "name": "\u7b80\u4f53\u4e2d\u6587",
     "name_en": "Simplified Chinese",
     "iso_code": "zh-CN",
+    "language_credits": "\u60a8\u6b63\u5728\u4f7f\u7528\u5b98\u65b9\u4e2d\u6587\u3002\u7ffb\u8bd1\uff1aMRUIAW\uff0c\u665a\u5b89\uff0cLun\uff0cDennisL",
     "_GLOBALS": "\u8bf7\u5728\u6b64\u5904\u4fdd\u7559\u4e00\u4e2a\u7a7a\u683c\u4ee5\u533a\u5206\u4e0d\u540c\u7684\u7ffb\u8bd1\u90e8\u5206\u3002",
     "confirm": "\u786e\u5b9a",
     "cancel": "\u53d6\u6d88",

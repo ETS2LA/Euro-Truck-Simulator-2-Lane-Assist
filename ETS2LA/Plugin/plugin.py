@@ -159,6 +159,9 @@ class ETS2LAPlugin(object):
         instance.ensure_settings_file()
         instance.settings = Settings(path)
         
+        if type(instance.author) != list:
+            instance.author = [instance.author]
+        
         return instance
    
     def load_modules(self) -> None:

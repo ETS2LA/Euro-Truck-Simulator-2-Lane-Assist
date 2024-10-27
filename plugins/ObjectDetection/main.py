@@ -34,11 +34,15 @@ class Plugin(ETS2LAPlugin):
         modules=["TruckSimAPI", "ScreenCapture", "ShowImage", "Raycasting", "PositionEstimation"],
     )
     
-    author = Author(
+    author = [Author(
         name="DylDev",
         url="https://github.com/DylDevs",
         icon="https://avatars.githubusercontent.com/u/110776467?v=4"
-    )
+    ), Author(
+        name="Tumppi066",
+        url="https://github.com/Tumppi066",
+        icon="https://avatars.githubusercontent.com/u/83072683?v=4"
+    )]
     
     settings_menu = SettingsMenu()
     

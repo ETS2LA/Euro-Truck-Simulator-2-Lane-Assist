@@ -14,6 +14,7 @@ import { Progress } from './ui/progress'
 import { translate } from '@/pages/translation'
 import { set } from 'date-fns'
 import { toast } from 'sonner';
+import { GetDevmode } from '@/pages/backend'
 
 export default function DisclaimerDialog({onClose, open}: {onClose: any, open: boolean}) {
     const [startTime, setStartTime] = useState(Date.now())
@@ -33,11 +34,17 @@ export default function DisclaimerDialog({onClose, open}: {onClose: any, open: b
         setProgress(0);
     }, [])
 
+    GetDevmode().then((data) => {
+        console.log(data)
+        if (data) {
+            onClose();
+        }
+    })
+
     useEffect(() => {
         let interval = setInterval(() => {
             if (progress < 100) {
                 setProgress(Date.now() - startTime > waitTime ? 100 : progress + 100 / (waitTime / 500));
-                console.log(progress)
             } else {
                 setProgress(100);
                 clearInterval(interval);
@@ -53,7 +60,6 @@ export default function DisclaimerDialog({onClose, open}: {onClose: any, open: b
         let interval = setInterval(() => {
             if (dontShowAgainProgress < 100) {
                 setDontShowAgainProgress(Date.now() - startTime > dontShowAgainWaitTime ? 100 : dontShowAgainProgress + 100 / (dontShowAgainWaitTime / 500));
-                console.log(dontShowAgainProgress)
             } else {
                 setDontShowAgainProgress(100);
                 clearInterval(interval);

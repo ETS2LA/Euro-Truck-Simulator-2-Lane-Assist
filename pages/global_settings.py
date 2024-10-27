@@ -44,28 +44,28 @@ class Page(ETS2LAPage):
        Separator()
               
        Input("global.settings.4.name",
-       "frontend_port",
-       "number",
-       3005,
-       description="global.settings.4.description"
+              "frontend_port",
+              "number",
+              3005,
+              description="global.settings.4.description"
        )
        
        Slider("global.settings.10.name",
-       "width",
-       1280,
-       920,
-       2560,
-       10,
-       description="global.settings.10.description"
+              "width",
+              1280,
+              920,
+              2560,
+              10,
+              description="global.settings.10.description"
        )
        
        Slider("global.settings.11.name",
-       "height",
-       720,
-       480,
-       1440,
-       10,
-       description="global.settings.11.description"
+              "height",
+              720,
+              480,
+              1440,
+              10,
+              description="global.settings.11.description"
        )
        
        Slider("global.settings.12.name",

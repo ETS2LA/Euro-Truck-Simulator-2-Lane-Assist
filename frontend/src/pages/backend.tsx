@@ -234,3 +234,14 @@ export async function GetPages(ip="localhost") {
     const data = await response.json()
     return data
 }
+
+export async function GetDevmode(ip="localhost") {
+    const response = await fetch(`http://${ip}:37520/api/devmode`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const data = await response.json()
+    return data
+}
