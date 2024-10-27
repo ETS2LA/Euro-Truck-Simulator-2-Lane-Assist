@@ -2,7 +2,7 @@
     "name": "Suomi",
     "name_en": "Finnish",
     "iso_code": "fi",
-    "language_credits": "Kääntäjänä toimi Tumppi066.",
+    "language_credits": "Kääntäjänä toimi Tumppi066, kiitos latauksesta ja toivottavasti pidät!",
 
     "_GLOBALS": "Please leave a space here to seperate the different sections of the translations.",
 
@@ -242,7 +242,7 @@
     "plugins.objectdetection.description": "Tunnistaa objekteja pelimaailmasta ja lähettää niistä tietoja muille laajennuksille.",
     "plugins.raycastingtest": "Säteensuuntaus testi",
     "plugins.raycastingtest.description": "Lähinnä kehittäjille - Säteensuuntaa nykyiseen hiiren paikkaan ja lähettää tiedon 'autona'.",
-    "plugins.sockets": "ETS2LA WS",
+    "plugins.sockets": "Socket-rajapinta",
     "plugins.sockets.description": "ETS2LA:n websocket laajennus. Lähettää reaaliaikaisia tietoja pelistä ja sovelluksesta esimerkiksi visualisaatiolle.",
     "plugins.trafficlightdetection": "Liikennevalojen tunnistus",
     "plugins.trafficlightdetection.description": "Tunnistaa konenäollä liikennevalot ja lähettää niistä tietoja muille laajennuksille. Esimerkiksi Vakionopeudensäädin laajennus jarruttaa liikennevalon ollessa punainen.",
