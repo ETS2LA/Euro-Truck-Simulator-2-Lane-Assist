@@ -263,6 +263,8 @@
     "global.settings.5.description": "当发生错误时是否使用高级追踪。",
     "global.settings.6.name": "发送崩溃报告",
     "global.settings.6.description": "是否将崩溃报告发送给开发者。",
+    "global.settings.13.name": "显示ID",
+    "global.settings.13.description": "用于视觉插件（物体检测等）的 ID 显示器。应将其设置为运行 ETS2 的显示器。需要重新启动才能应用更改！",
     "global.settings.7.name": "调试模式",
     "global.settings.7.description": "是否启用调试模式。",
     "global.settings.8.name": "语言",
