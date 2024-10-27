@@ -275,6 +275,8 @@
     "global.settings.11.description": "Height of the window.",
     "global.settings.12.name": "Transparency Mode Alpha",
     "global.settings.12.description": "The transparency of the window in transparent mode. 1 = fully opaque, 0 = fully transparent.",
+    "global.settings.13.name": "Display ID",
+    "global.settings.13.description": "The ID of the display to use for vision applications (Object Detection, etc.). This should be set to the monitor that ETS2 is running on. Needs a restart to apply changes!",
 
     "map.settings.1.title": "Map Settings",
     "map.settings.1.description": "These settings are for the map plugin.",

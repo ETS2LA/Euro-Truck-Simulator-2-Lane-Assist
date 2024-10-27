@@ -101,6 +101,7 @@ class Plugin(ETS2LAPlugin):
 
     def init(self):
         try:
+            monitor_index = settings.Get("Global", "display", 0)
             settings_yolo_fps = settings.Get("ObjectDetection", "yolo_fps", 2)
             self.MODE = settings.Get("ObjectDetection", "mode", "Performance")
             self.YOLO_FPS = settings_yolo_fps if settings_yolo_fps > 0 else 2
@@ -147,7 +148,7 @@ class Plugin(ETS2LAPlugin):
             self.ScreenCapture.mode = "grab"
             self.Raycast = self.modules.Raycasting
             
-            screen = self.screeninfo.get_monitors()[0]
+            screen = self.screeninfo.get_monitors()[monitor_index]
             dimensions = settings.Get("ObjectDetection", "dimensions", None)
             
             def SetScreenCaptureDimensions():
@@ -159,7 +160,6 @@ class Plugin(ETS2LAPlugin):
                 capture_width = 1020
                 capture_height = round(480 * height_scale)
 
-                print(f"Screen resolution: {screen.width}x{screen.height}")
                 self.notify(Translate("object_detection.screen_capture_profile", [f"{screen.width}x{screen.height}"]))
                 settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
                 self.time.sleep(0.5) # Let the profile text show for a bit
@@ -277,8 +277,6 @@ class Plugin(ETS2LAPlugin):
 
             if self.MODE == "Performance":
                 self.threading.Thread(target=self.detection_thread, daemon=True).start()
-                
-            if self.MODE == "Performance":
                 self.tracker = self.Tracker(
                     distance_function="euclidean",
                     distance_threshold=100,

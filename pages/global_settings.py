@@ -4,6 +4,8 @@ from ETS2LA.UI import *
 import ETS2LA.utils.translator as translator
 import ETS2LA.backend.sounds as sounds 
 
+import screeninfo
+
 class Page(ETS2LAPage):
     dynamic = True
     url = "/settings/global"
@@ -44,28 +46,28 @@ class Page(ETS2LAPage):
        Separator()
               
        Input("global.settings.4.name",
-       "frontend_port",
-       "number",
-       3005,
-       description="global.settings.4.description"
+              "frontend_port",
+              "number",
+              3005,
+              description="global.settings.4.description"
        )
        
        Slider("global.settings.10.name",
-       "width",
-       1280,
-       920,
-       2560,
-       10,
-       description="global.settings.10.description"
+              "width",
+              1280,
+              920,
+              2560,
+              10,
+              description="global.settings.10.description"
        )
        
        Slider("global.settings.11.name",
-       "height",
-       720,
-       480,
-       1440,
-       10,
-       description="global.settings.11.description"
+              "height",
+              720,
+              480,
+              1440,
+              10,
+              description="global.settings.11.description"
        )
        
        Slider("global.settings.12.name",
@@ -76,7 +78,21 @@ class Page(ETS2LAPage):
               0.05,
               description="global.settings.12.description"
        )
+
        
+       
+       monitors = len(screeninfo.get_monitors()) - 1
+       if monitors != 0:
+              Separator()
+              Slider("global.settings.13.name",
+                     "display",
+                     0,
+                     0,
+                     monitors,
+                     1,
+                     description="global.settings.13.description"
+              )
+
        Separator()
        
        Switch("global.settings.9.name",
