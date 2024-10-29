@@ -19,6 +19,8 @@ class PluginHandler:
     plugin_description: PluginDescription
     data = None
     
+    stop = False
+    
     tags: dict[str, any]
     
     state: dict = {
@@ -84,6 +86,8 @@ class PluginHandler:
         plugin_file_path = f"{plugin_path}/{self.plugin_name}/main.py"
         file_hash = hash(open(plugin_file_path, "rb").read())
         while True:
+            if self.stop:
+                break
             new_hash = hash(open(plugin_file_path, "rb").read())
             if new_hash != file_hash:
                 logging.info(f"Plugin {self.plugin_name} has been updated, restarting.")
@@ -105,7 +109,12 @@ class PluginHandler:
         
     def tags_handler(self):
         while True:
-            tag_dict = self.tags_queue.get()
+            if self.stop:
+                break
+            try:
+                tag_dict = self.tags_queue.get(timeout=1)
+            except:
+                continue
             if tag_dict["operation"] == "read":
                 tag = tag_dict["tag"]
                 return_data = {}
@@ -126,7 +135,12 @@ class PluginHandler:
 
     def plugins_handler(self):
         while True:
-            plugin_name = self.plugins_queue.get()
+            if self.stop:
+                break
+            try:
+                plugin_name = self.plugins_queue.get(timeout=1)
+            except:
+                continue
             plugins = [plugin.plugin_name for plugin in RUNNING_PLUGINS]
             if plugin_name in plugins:
                 index = plugins.index(plugin_name)
@@ -136,7 +150,12 @@ class PluginHandler:
                 
     def immediate_handler(self):
         while True:
-            data = self.immediate_queue.get()
+            if self.stop:
+                break
+            try:
+                data = self.immediate_queue.get(timeout=1)
+            except:
+                continue
             if data["operation"] == "notify":
                 type = data["options"]["type"]
                 text = data["options"]["text"]
@@ -152,7 +171,12 @@ class PluginHandler:
 
     def state_handler(self):
         while True:
-            data = self.state_queue.get()
+            if self.stop:
+                break
+            try:
+                data = self.state_queue.get(timeout=1)
+            except:
+                continue
             if "status" in data:
                 self.state["status"] = data["status"]
             if "progress" in data:
@@ -160,7 +184,12 @@ class PluginHandler:
 
     def data_handler(self):
         while True:
-            data = self.return_queue.get()
+            if self.stop:
+                break
+            try:
+                data = self.return_queue.get(timeout=1)
+            except:
+                continue
             if type(data) == tuple:
                 self.data = data[0]
                 for tag in data[1]:
@@ -231,6 +260,7 @@ def disable_plugin(plugin_name: str):
                 plugin.process.terminate()
             except:
                 logging.warning(f"Failed to terminate plugin {plugin_name}, this could be because the plugin has already been terminated.")
+            plugin.stop = True
             RUNNING_PLUGINS.remove(plugin)
             return True
     return False
@@ -333,7 +363,10 @@ def call_event(event: str, args: list, kwargs: dict):
     if type(kwargs) != dict:
         kwargs = {}
     for plugin in RUNNING_PLUGINS:
-        plugin.call_function(event, *args, **kwargs)
+        try:
+            plugin.call_function(event, *args, **kwargs)
+        except:
+            logging.exception("Error in event call.")
 
 def run():
     global AVAILABLE_PLUGINS

@@ -133,12 +133,20 @@ class RouteSection:
         except:
             average_distance = 1
         
-        start_distance = math_helpers.DistanceBetweenPoints(temp_points[0].tuple(), (data.truck_x, data.truck_y, data.truck_z))
-        if start_distance > 20:
+        closest_distance = 0
+        truck = c.Position(data.truck_x, data.truck_y, data.truck_z)
+        closest_id = 0
+        for i in range(len(temp_points) - 1):
+            distance = math_helpers.DistanceBetweenPoints(truck.tuple(), temp_points[i].tuple())
+            if distance < closest_distance:
+                closest_distance = distance
+                closest_id = i
+                
+        if closest_distance > 20:
             return []
         
         new_points = []
-        last_point = temp_points[0]
+        last_point = temp_points[closest_id]
         for point in temp_points:
             if math_helpers.DistanceBetweenPoints(last_point.tuple(), point.tuple()) < average_distance * 2:
                 new_points.append(point)

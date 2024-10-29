@@ -218,9 +218,9 @@ def GetNextRouteSection() -> rc.RouteSection:
         
         forward_item = data.map.get_item_by_uid(node.forward_item_uid)
         backward_item = data.map.get_item_by_uid(node.backward_item_uid)
-        if forward_item.uid != current_section.items[-1].item.uid:
+        if forward_item.uid != current_section.items[-1].item.uid and forward_item.uid != current_section.items[0].item.uid:
             next_item = forward_item
-        elif backward_item.uid != current_section.items[0].item.uid:
+        elif backward_item.uid != current_section.items[0].item.uid and backward_item.uid != current_section.items[-1].item.uid:
             next_item = backward_item
         else:
             return None
