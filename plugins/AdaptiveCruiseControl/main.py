@@ -332,7 +332,10 @@ class Plugin(ETS2LAPlugin):
         else:
             if accel < -1:
                 accel = -1
-            SDKController.abackward = float(-accel * 1)
+            if self.vehicle_speed > 30/3.6:
+                SDKController.abackward = float(-accel * 0.25)
+            else:
+                SDKController.abackward = float(-accel * 1)
             SDKController.aforward = float(0)
 
     def GetStatus(self, type) -> str:
