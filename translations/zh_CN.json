@@ -319,7 +319,7 @@
     "acc.settings.2.description": "与前方车辆之间的距离应保持的秒数。(到达前方车辆当前所处位置所需要的秒数)",
     "acc.settings.3.name": "速度偏移",
     "acc.settings.3.description": "以超过限速的指定百分比驾驶。",
-    "acc.settings.4.name": "跟车距离",
+    "acc.settings.4.name": "距离保持",
     "acc.settings.4.description": "与前方的物体保持多远的距离。",
     
     "_PLUGIN_KEYS": "这些是特定插件所需的键值",
