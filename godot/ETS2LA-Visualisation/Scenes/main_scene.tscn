@@ -169,6 +169,7 @@ script = ExtResource("10_n46bk")
 script = ExtResource("9_115pj")
 markingWidth = 0.15
 maxDistance = 1e+07
+steeringAnimationSpeed = 0.01
 
 [node name="Roads" type="Node" parent="Map"]
 

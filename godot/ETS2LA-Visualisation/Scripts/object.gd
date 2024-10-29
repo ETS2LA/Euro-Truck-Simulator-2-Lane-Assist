@@ -24,7 +24,8 @@ func _ready() -> void:
 
 func UpdatePositionScale(newPosition: Vector3, newScale: Vector3):
 	_distance = position.distance_to(newPosition)
-	_last_target = position
+	if position.distance_to(_last_target) > 8: # limit the distance so that they don't spin at traffic lights
+		_last_target = position
 	_target = newPosition
 	_target_scale = newScale
 	_last_target_time = _cur_target_time
