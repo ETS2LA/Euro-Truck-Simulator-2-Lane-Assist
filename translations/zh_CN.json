@@ -167,7 +167,7 @@
     "frontend.version_history.only_100": "仅显示最近的 100 次提交",
     "frontend.mainmenu.visualisation": "启动可视化窗口",
     "frontend.mainmenu.open_in_browser": "在浏览器中打开",
-    "frontend.mainmenu.basic_mode": "进入基础模式（推荐）",
+    "frontend.mainmenu.basic_mode": "进入基础模式",
     "frontend.pluginlist.failed_to_fetch": "获取插件失败",
     "frontend.pluginlist.name": "插件快速存取™",
     "frontend.pluginlist.small_text": "（实际上并非如此）",
@@ -319,6 +319,8 @@
     "acc.settings.2.description": "与前方车辆之间的距离应保持的秒数。",
     "acc.settings.3.name": "速度偏移",
     "acc.settings.3.description": "以超过限速的指定百分比驾驶。",
+    "acc.settings.4.name": "距离",
+    "acc.settings.4.description": "与前方物体之间应保持的距离。",
     
     "_PLUGIN_KEYS": "这些是特定插件所需的键值",
 
