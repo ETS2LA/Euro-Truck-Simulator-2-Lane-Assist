@@ -196,8 +196,11 @@ func _process(delta: float) -> void:
 					var roadZ = road["y"]
 					var roadPosition = Vector3(roadX, roadY, roadZ)
 					var overtake = []
-					var shoulderLeft = road["road_look"]["shoulder_space_left"]
-					var shoulderRight = road["road_look"]["shoulder_space_right"]
+					
+					# For some reason these need to be inverted
+					var shoulderRight = road["road_look"]["shoulder_space_left"]
+					var shoulderLeft = road["road_look"]["shoulder_space_right"]
+					
 					var lanesLeft = len(road["road_look"]["lanes_left"])
 					var lanesRight = len(road["road_look"]["lanes_right"])
 					

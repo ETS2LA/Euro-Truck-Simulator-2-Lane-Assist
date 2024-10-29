@@ -33,7 +33,7 @@ export function ETS2LAMenubar({ ip, onLogout, isCollapsed }: { ip: string, onLog
     const { pathname } = routerUseRouter();
     const isBasic = pathname.includes("basic");
 
-    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 500 });
+    const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(ip), { refreshInterval: 1000 });
     const plugins = data ? Object.keys(data).filter(key => key !== "Global" && key !== "global_json") : [];
     // @ts-ignore
     const pluginChars = plugins.map(plugin => data[plugin]?.file ? translate(data[plugin].file.name).charAt(0) : plugin.charAt(0));
