@@ -317,6 +317,8 @@
     "acc.settings.2.description": "Kuinka monta sekunttia perässä ETS2LA yrittää seurata edellä menevää autoa.",
     "acc.settings.3.name": "Nopeuden säätö",
     "acc.settings.3.description": "Aja tätä prosenttia nopeusrajoitusta nopeammin.",
+    "acc.settings.4.name": "Etäisyys",
+    "acc.settings.4.description": "Kuinka kaukana edellä menevästä autosta ETS2LA yrittää pysyä.",
 
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 

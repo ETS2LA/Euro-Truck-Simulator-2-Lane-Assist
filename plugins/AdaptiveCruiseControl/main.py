@@ -42,7 +42,7 @@ class SettingsMenu(ETS2LASettingsMenu):
         Separator()
         Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, suffix="s", description="acc.settings.2.description")
         Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="%", description="acc.settings.3.description")
-        Slider("Distance", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="How far the app should keep from the object in front.")
+        Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="acc.settings.4.description")
         return RenderUI()
         
 
