@@ -123,6 +123,35 @@ class RouteSection:
             new_points.append(point)
             
         new_points = sorted(new_points, key=lambda x: math_helpers.DistanceBetweenPoints(x.tuple(), (data.truck_x, data.truck_y, data.truck_z)))
+        temp_points = new_points
+
+        if temp_points == []:
+            return []
+        
+        try:
+            average_distance = sum([math_helpers.DistanceBetweenPoints(temp_points[i].tuple(), temp_points[i + 1].tuple()) for i in range(len(temp_points) - 1)]) / len(temp_points)
+        except:
+            average_distance = 1
+        
+        closest_distance = 0
+        truck = c.Position(data.truck_x, data.truck_y, data.truck_z)
+        closest_id = 0
+        for i in range(len(temp_points) - 1):
+            distance = math_helpers.DistanceBetweenPoints(truck.tuple(), temp_points[i].tuple())
+            if distance < closest_distance:
+                closest_distance = distance
+                closest_id = i
+                
+        if closest_distance > 20:
+            return []
+        
+        new_points = []
+        last_point = temp_points[closest_id]
+        for point in temp_points:
+            if math_helpers.DistanceBetweenPoints(last_point.tuple(), point.tuple()) < average_distance * 2:
+                new_points.append(point)
+                last_point = point
+        
         return new_points
             
     def get_points(self):

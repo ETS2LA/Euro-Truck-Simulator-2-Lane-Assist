@@ -42,6 +42,7 @@ class SettingsMenu(ETS2LASettingsMenu):
         Separator()
         Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, suffix="s", description="acc.settings.2.description")
         Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="%", description="acc.settings.3.description")
+        Slider("Distance", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="How far the app should keep from the object in front.")
         return RenderUI()
         
 
@@ -123,7 +124,10 @@ class Plugin(ETS2LAPlugin):
             timeTargetSpeed = timePercent * targetSpeed
             
             distancePercent = self.DistanceFunction(distance / (falloffDistance * 2/3) - (stoppingDistance / (falloffDistance * 2/3)))
-            distanceTargetSpeed = distancePercent * targetSpeed
+            if vehicleSpeed < targetSpeed and vehicleSpeed > 30/3.6:
+                distanceTargetSpeed = targetSpeed - (targetSpeed - vehicleSpeed) * (1-distancePercent) / 1.5
+            else:
+                distanceTargetSpeed = distancePercent * targetSpeed
             
             if timeTargetSpeed < distanceTargetSpeed:
                 type = "time"
@@ -153,6 +157,7 @@ class Plugin(ETS2LAPlugin):
         if vehicles is None:
             if time.time() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
+            self.vehicle_speed = math.inf
             self.last_vehicle_distance = math.inf
             return math.inf
         
@@ -170,6 +175,7 @@ class Plugin(ETS2LAPlugin):
         if type(points) != list or len(points) == 0 or (type(points[0]) != list and type(points[0]) != tuple):
             if time.time() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
+            self.vehicle_speed = math.inf
             self.last_vehicle_distance = math.inf
             return math.inf
         
@@ -188,6 +194,7 @@ class Plugin(ETS2LAPlugin):
         if type(vehicles) != list:
             if time.time() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
+            self.vehicle_speed = math.ifn
             self.last_vehicle_distance = math.inf
             return math.inf
         
@@ -229,6 +236,7 @@ class Plugin(ETS2LAPlugin):
         if len(vehiclesInFront) == 0:
             if time.time() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
+            self.vehicle_speed = math.inf
             self.last_vehicle_distance = math.inf
             return math.inf
         
@@ -322,7 +330,12 @@ class Plugin(ETS2LAPlugin):
             SDKController.aforward = float(accel * 10)
             SDKController.abackward = float(0)
         else:
-            SDKController.abackward = float(-accel * 0.25)
+            if accel < -1:
+                accel = -1
+            if self.vehicle_speed > 30/3.6:
+                SDKController.abackward = float(-accel * 0.25)
+            else:
+                SDKController.abackward = float(-accel * 1)
             SDKController.aforward = float(0)
 
     def GetStatus(self, type) -> str:

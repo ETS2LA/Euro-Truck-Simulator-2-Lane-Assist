@@ -136,37 +136,40 @@ def plugin():
     pygame.joystick.init()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     while True:
-        time.sleep(0.001)
-        pygame.event.pump()
-        for keybind in KEYBINDS:
-            if keybind["callback"] != None:
-                if keybind["deviceGUID"] == KEYBOARD_GUID:
-                    try:
-                        if keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] not in wasPressing:
-                            try:
-                                keybind["callback"]()
-                            except:
-                                import traceback
-                                traceback.print_exc()
-                            wasPressing.append(keybind["name"])
-                        elif not keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] in wasPressing:
-                            wasPressing.remove(keybind["name"])
-                    except:
-                        pass
-                else:
-                    for joystick in joysticks:
+        time.sleep(0.01)
+        try:
+            pygame.event.pump()
+            for keybind in KEYBINDS:
+                if keybind["callback"] != None:
+                    if keybind["deviceGUID"] == KEYBOARD_GUID:
                         try:
-                            if joystick.get_guid() == keybind["deviceGUID"]:
-                                if keybind["buttonIndex"] != -1:
-                                    if joystick.get_button(keybind["buttonIndex"]):
-                                        keybind["callback"]()
-                                elif keybind["axisIndex"] != -1:
-                                    if abs(joystick.get_axis(keybind["axisIndex"])) > 0.4:
-                                        keybind["callback"]()
+                            if keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] not in wasPressing:
+                                try:
+                                    keybind["callback"]()
+                                except:
+                                    import traceback
+                                    traceback.print_exc()
+                                wasPressing.append(keybind["name"])
+                            elif not keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] in wasPressing:
+                                wasPressing.remove(keybind["name"])
                         except:
                             pass
-                pass
-
+                    else:
+                        for joystick in joysticks:
+                            try:
+                                if joystick.get_guid() == keybind["deviceGUID"]:
+                                    if keybind["buttonIndex"] != -1:
+                                        if joystick.get_button(keybind["buttonIndex"]):
+                                            keybind["callback"]()
+                                    elif keybind["axisIndex"] != -1:
+                                        if abs(joystick.get_axis(keybind["axisIndex"])) > 0.4:
+                                            keybind["callback"]()
+                            except:
+                                pass
+                    pass
+        except:
+            logging.exception("Error in keybinds")
+            pass
 
 def ChangeKeybind(name:str, callback=None):
     """Will run the keybind change window code.

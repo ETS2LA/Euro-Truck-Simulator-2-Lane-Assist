@@ -24,25 +24,32 @@ braking_threshold = settings.Get("global", "braking_threshold", 0.2)
 # Events
 class ToggleSteering():
     steering = False
+    last_toggle = 0
     app_braking = SmoothedValue("time", 0.5)
     game_braking = SmoothedValue("time", 0.5)
     def ToggleSteering(self):
-        self.steering = not self.steering
-        sounds.Play('start' if self.steering else 'end')
-        backend.call_event('ToggleSteering', self.steering, {})
-        logging.info("Triggered event: ToggleSteering")
-        time.sleep(1)
+        try:
+            print("Toggling steering")
+            if time.time() - self.last_toggle < 1: return
+            self.last_toggle = time.time()
+            self.steering = not self.steering
+            sounds.Play('start' if self.steering else 'end')
+            backend.call_event('ToggleSteering', self.steering, {})
+            logging.info("Triggered event: ToggleSteering")
+        except:
+            logging.exception("Error in ToggleSteering")
         
     def CheckForUserInput(self, data):
-        if self.steering:
-            app_braking = self.app_braking(controller.abackward)
-            game_braking = self.game_braking(data["truckFloat"]["userBrake"])
-            if game_braking == 1.111: game_braking = 0 # Virtual API in use
-            need_to_disable_via_braking = abs(app_braking - game_braking) > braking_threshold
-            if braking_threshold >= 0 and braking_threshold <= 1:
-                if need_to_disable_via_braking:
-                    print("Braking: " + str(app_braking) + " - " + str(game_braking) + " = " + str(abs(app_braking - game_braking)))
-                    self.ToggleSteering()
+        ...
+        #if self.steering:
+        #    app_braking = self.app_braking(controller.abackward)
+        #    game_braking = self.game_braking(data["truckFloat"]["userBrake"])
+        #    if game_braking == 1.111: game_braking = 0 # Virtual API in use
+        #    need_to_disable_via_braking = abs(app_braking - game_braking) > braking_threshold
+        #    if braking_threshold >= 0 and braking_threshold <= 1:
+        #        if need_to_disable_via_braking:
+        #            print("Braking: " + str(app_braking) + " - " + str(game_braking) + " = " + str(abs(app_braking - game_braking)))
+        #            self.ToggleSteering()
                 
     def __init__(self):
         controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n")

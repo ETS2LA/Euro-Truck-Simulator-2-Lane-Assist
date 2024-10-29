@@ -17,6 +17,7 @@ extends Node
 
 @export var markingWidth : float
 @export var maxDistance : float = 750 # meters
+@export var steeringAnimationSpeed : float = 0.05 # 1 point every 0.1s
 
 @onready var MapData = $/root/Node3D/MapData
 @onready var Truck: Node3D = $/root/Node3D/Truck
@@ -31,6 +32,10 @@ var sphere = preload("res://Objects/sphere.tscn")
 var lastModels = 0
 var lastRoads = 0
 var lastPrefabs = 0
+
+var steering_points_to_render = 0
+var last_point_rise = 0
+
 
 var reload = false
 
@@ -196,8 +201,11 @@ func _process(delta: float) -> void:
 					var roadZ = road["y"]
 					var roadPosition = Vector3(roadX, roadY, roadZ)
 					var overtake = []
-					var shoulderLeft = road["road_look"]["shoulder_space_left"]
-					var shoulderRight = road["road_look"]["shoulder_space_right"]
+					
+					# For some reason these need to be inverted
+					var shoulderRight = road["road_look"]["shoulder_space_left"]
+					var shoulderLeft = road["road_look"]["shoulder_space_right"]
+					
 					var lanesLeft = len(road["road_look"]["lanes_left"])
 					var lanesRight = len(road["road_look"]["lanes_right"])
 					
@@ -479,6 +487,17 @@ func _process(delta: float) -> void:
 		if typeof(SteeringData[0]) == typeof("Not loaded yet"):
 			return
 		
+		var point_count = len(SteeringData)
+		if point_count > steering_points_to_render:
+			if Time.get_ticks_msec() - last_point_rise > steeringAnimationSpeed * 1000:
+				steering_points_to_render += 1
+				last_point_rise = Time.get_ticks_msec()
+		if point_count < steering_points_to_render:
+			steering_points_to_render = point_count
+		
+		if not status:
+			steering_points_to_render = 0
+		
 		var vertices = []
 		var rightMarkingVertices = []
 		var leftMarkingVertices = []
@@ -486,7 +505,7 @@ func _process(delta: float) -> void:
 		var counter = 0
 		for point in SteeringData:
 			if typeof(point) == typeof([]):
-				if len(point) > 1:
+				if len(point) > 1 and (counter < steering_points_to_render or not status):
 					points.append(Vector3(point[0], point[1] + 0.05, point[2]))
 					counter += 1
 		
