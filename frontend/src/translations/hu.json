@@ -1,7 +1,8 @@
 {
-    "name": "Magyar",
-    "name_en": "Hungarian",
     "iso_code": "hu",
+    "language_credits": " A magyar ford\u00edt\u00e1st k\u00e9sz\u00edtette: h4ck3r_pr0_g4m3r \u00e9s Deli Levente",
+    "name_en": "Hungarian",
+    "name": "Magyar",
     "_GLOBALS": "Please leave a space here to seperate the different sections of the translations.",
     "cancel": "M\u00e9gsem",
     "confirm": "Meger\u0151s\u00edt",
