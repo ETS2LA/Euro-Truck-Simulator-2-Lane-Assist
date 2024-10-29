@@ -21,6 +21,7 @@ keyboard
 requests
 norfair
 ipython
+pywin32
 fastapi
 uvicorn
 pillow
