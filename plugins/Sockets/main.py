@@ -1,6 +1,7 @@
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
+
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = False
     plugin_name = "Sockets"
@@ -322,6 +323,7 @@ class Plugin(ETS2LAPlugin):
         print("Visualization sockets waiting for client...")
         
     def compress_data(self, data):
+       #Check if on linux
         compressor = zlib.compressobj(wbits=28)
         compressed_data = compressor.compress(data)
         compressed_data += compressor.flush()
@@ -355,4 +357,4 @@ class Plugin(ETS2LAPlugin):
         if os.name == "nt":
             self.send = zlib.compress(tempSend.encode("utf-8"), wbits=28)
         else:
-            self.send = compress_data(tempSend.encode("utf-8"))
+            self.send = self.compress_data(tempSend.encode("utf-8"))
