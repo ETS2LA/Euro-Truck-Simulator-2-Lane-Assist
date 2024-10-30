@@ -277,6 +277,8 @@
     "global.settings.12.description": "Kuinka läpinäkyvä ikkuna on läpinäkyvyys tilassa. 1 on normaali, 0.7 tarkoittaa 30% läpinäkyvyyttä.",
     "global.settings.13.name": "Näytön indeksi",
     "global.settings.13.description": "Havaitsimme monta näyttöä, valitse millä näytöllä ETS2/ATS avataan/on. (Windows asetuksista näkee näytön numeron) Vaatii uudelleenkäynnistyksen!",
+    "global.settings.14.name": "FOV",
+    "global.settings.14.description": "Jäikö ilmoitus huomaamatta? Aseta FOV manuaalisesti tässä.",
 
 
     "map.settings.1.title": "Kartan asetukset",
