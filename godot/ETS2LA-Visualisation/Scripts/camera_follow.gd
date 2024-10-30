@@ -2,8 +2,8 @@ extends Node3D
 
 @onready var Sockets = $/root/Node3D/Sockets
 @export var target : Node3D
-@export var offset : Vector3
-@export var offsetRotation : Vector3
+@export var custom_offset : Vector3
+@export var custom_offset_rotation : Vector3
 @export var reverseOffsetRotation : Vector3
 @export var mouseRotationResetTime : int = 5000
 var mouseOffsetRotation = Vector3(0,0,0)
@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 	var data = Sockets.data
 	var speed = 0
 	var followSpeed = 10
-	var rotationOffset = offsetRotation
+	var rotationOffset = custom_offset_rotation
 	if data != {}:
 		speed = float(data["speed"])
 		followSpeed = (speed + 1) * 2
@@ -37,12 +37,10 @@ func _process(delta: float) -> void:
 	elif Time.get_ticks_msec() - mouseRotationTime > mouseRotationResetTime and speed * 3.6 > 20: # Reset back after time and if speed is over 20kph
 		mouseOffsetRotation = Vector3(0, 0, 0)
 		
+	var offset = custom_offset
 	if speed < 0.1 and speed > -0.1:
 		offset = Vector3(0,10,10)
-		offsetRotation = Vector3(-PI/32,0,0)
-	else:
-		offset = Vector3(0,0,0)
-		offsetRotation = Vector3(0,0,0)
+		rotationOffset = Vector3(-PI/32,0,0)
 		
 	# Lerp the position to the target position
 	self.position = self.position.lerp(target.position + offset.rotated(Vector3(0, 1, 0), target.rotation.y + rotationOffset.y + mouseOffsetRotation.y), delta * followSpeed)

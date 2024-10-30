@@ -1,6 +1,8 @@
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
+import math
+
 
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = False
@@ -76,6 +78,57 @@ class Plugin(ETS2LAPlugin):
         rotationZ = data["truckPlacement"]["rotationZ"] * 360
         if rotationZ < 0: rotationZ += 360
         send += "rz:" + str(rotationZ) + ";"
+        return send
+
+    def trailer(self, data):
+        send = "JSONtrailers:[];"
+        trailer_data = []
+        for trailer in data["trailers"]:
+            if trailer["comBool"]["attached"]:
+                rotationX = trailer["comDouble"]["rotationX"] * 360
+                if rotationX < 0: rotationX += 360
+                rotationY = trailer["comDouble"]["rotationY"] * 360
+                if rotationY < 0: rotationY += 360
+                rotationZ = trailer["comDouble"]["rotationZ"] * 360
+                if rotationZ < 0: rotationZ += 360
+                
+                hook_position = (trailer["conVector"]["hookPositionX"], trailer["conVector"]["hookPositionY"], trailer["conVector"]["hookPositionZ"])
+                furthest_left_distance = 0
+                furthest_left_position = 0
+                furthest_right_distance = 0
+                furthest_right_position = 0
+                for i in range(len(trailer["conVector"]["wheelPositionX"])):
+                    position = (trailer["conVector"]["wheelPositionX"][i], trailer["conVector"]["wheelPositionY"][i], trailer["conVector"]["wheelPositionZ"][i])
+                    distance = math.sqrt((hook_position[0] - position[0])**2 + (hook_position[1] - position[1])**2 + (hook_position[2] - position[2])**2)
+                    if position[0] < hook_position[0]:
+                        if distance > furthest_left_distance:
+                            furthest_left_distance = distance
+                            furthest_left_position = i
+                    else:
+                        if distance > furthest_right_distance:
+                            furthest_right_distance = distance
+                            furthest_right_position = i
+                
+                trailer_data.append({
+                    "x": trailer["comDouble"]["worldX"],
+                    "y": trailer["comDouble"]["worldY"],
+                    "z": trailer["comDouble"]["worldZ"],
+                    "rx": rotationX,
+                    "ry": rotationY,
+                    "rz": rotationZ,
+                    "hookX": hook_position[0],
+                    "hookY": hook_position[1],
+                    "hookZ": hook_position[2],
+                    "leftX": trailer["conVector"]["wheelPositionX"][furthest_left_position],
+                    "leftY": trailer["conVector"]["wheelPositionY"][furthest_left_position],
+                    "leftZ": trailer["conVector"]["wheelPositionZ"][furthest_left_position],
+                    "rightX": trailer["conVector"]["wheelPositionX"][furthest_right_position],
+                    "rightY": trailer["conVector"]["wheelPositionY"][furthest_right_position],
+                    "rightZ": trailer["conVector"]["wheelPositionZ"][furthest_right_position],
+                })
+            
+        if trailer_data != []: send = "JSONtrailers:" + json.dumps(trailer_data) + ";"
+            
         return send
 
     def traffic_lights(self, data):
@@ -340,6 +393,7 @@ class Plugin(ETS2LAPlugin):
 
         tempSend = ""
         tempSend += self.position(data)
+        tempSend += self.trailer(data)
         tempSend += self.speed(data)
         tempSend += self.accelBrake(data)
         tempSend += self.vehicles(data)

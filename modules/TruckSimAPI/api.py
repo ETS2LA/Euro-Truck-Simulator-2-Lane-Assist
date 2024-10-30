@@ -144,7 +144,7 @@ class scsTelemetry:
             
             data["conString"] = {}
             data["conString"]["id"], offset = self.readChar(offset, count=stringSize)
-            data["conString"]["cargoAcessoryId"], offset = self.readChar(offset, count=stringSize)
+            data["conString"]["cargoAccessoryId"], offset = self.readChar(offset, count=stringSize)
             data["conString"]["bodyType"], offset = self.readChar(offset, count=stringSize)
             data["conString"]["brandId"], offset = self.readChar(offset, count=stringSize)
             data["conString"]["brand"], offset = self.readChar(offset, count=stringSize)

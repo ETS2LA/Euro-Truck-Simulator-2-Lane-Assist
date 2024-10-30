@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://d36vvb6ivwdds"]
+[gd_scene load_steps=48 format=3 uid="uid://d36vvb6ivwdds"]
 
 [ext_resource type="Script" path="res://Scripts/UI/label_fps.gd" id="1_583x4"]
 [ext_resource type="Script" path="res://Scripts/sockets.gd" id="1_wt6xa"]
@@ -13,7 +13,9 @@
 [ext_resource type="Script" path="res://Scripts/camera_zoom.gd" id="5_57w1g"]
 [ext_resource type="Script" path="res://Scripts/truck.gd" id="5_k5niq"]
 [ext_resource type="Environment" uid="uid://uher5ame32lt" path="res://Environments/default.tres" id="6_dvxwu"]
+[ext_resource type="Script" path="res://Scripts/trailers.gd" id="7_2yhuw"]
 [ext_resource type="Script" path="res://Scripts/vehicles.gd" id="7_jhmr7"]
+[ext_resource type="PackedScene" uid="uid://xmo0xdfiimcj" path="res://Objects/user_truck.tscn" id="7_rsq3h"]
 [ext_resource type="Script" path="res://Scripts/roads_and_prefabs.gd" id="9_115pj"]
 [ext_resource type="Script" path="res://Scripts/traffic_lights.gd" id="9_b12iv"]
 [ext_resource type="Script" path="res://Scripts/objects.gd" id="10_n46bk"]
@@ -109,7 +111,7 @@ script = ExtResource("24_onrb8")
 
 [node name="LaneDeparture" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("4_35erc")
-target = NodePath("../Truck")
+target = NodePath("../UserTruck")
 
 [node name="Line" type="CSGBox3D" parent="LaneDeparture"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -0.107178, 0.228028, 2.88337)
@@ -118,7 +120,7 @@ material = SubResource("StandardMaterial3D_i3vjd")
 
 [node name="StoppingDistance" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("4_rope5")
-target = NodePath("../Truck")
+target = NodePath("../UserTruck")
 
 [node name="Stop" type="CSGBox3D" parent="StoppingDistance"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20201, -0.347412)
@@ -129,16 +131,17 @@ material = SubResource("StandardMaterial3D_i3vjd")
 script = ExtResource("2_et5o6")
 updateRate = 5
 
-[node name="Truck" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.012, 1, 2.774)
-size = Vector3(1.43958, 1.61023, 6.54785)
+[node name="Trailers" type="Node" parent="."]
+script = ExtResource("7_2yhuw")
+
+[node name="UserTruck" parent="." instance=ExtResource("7_rsq3h")]
 script = ExtResource("5_k5niq")
-offset = Vector3(0, 0.8, 0)
 
 [node name="TruckTracker" type="Node3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.799465, 0)
 script = ExtResource("2_6bj65")
-target = NodePath("../Truck")
+target = NodePath("../UserTruck")
+custom_offset = Vector3(0, 2.665, 1.93)
 reverseOffsetRotation = Vector3(0, 3.14, 0)
 
 [node name="Camera3D" type="Camera3D" parent="TruckTracker"]

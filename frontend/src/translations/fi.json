@@ -302,6 +302,8 @@
     "acc.settings.2.description": "Kuinka monta sekunttia per\u00e4ss\u00e4 ETS2LA yritt\u00e4\u00e4 seurata edell\u00e4 menev\u00e4\u00e4 autoa.",
     "acc.settings.3.name": "Nopeuden s\u00e4\u00e4t\u00f6",
     "acc.settings.3.description": "Aja t\u00e4t\u00e4 prosenttia nopeusrajoitusta nopeammin.",
+    "acc.settings.4.name": "Et\u00e4isyys",
+    "acc.settings.4.description": "Kuinka kaukana edell\u00e4 menev\u00e4st\u00e4 autosta ETS2LA yritt\u00e4\u00e4 pysy\u00e4.",
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
     "map.json_not_found": "JSON tietoja ei l\u00f6ytynyt. Pura .zip tiedosto ja yrit\u00e4 uudelleen.",
     "map.loading.preparing": "Kartta valmistautuu lataamaan tiedot...",

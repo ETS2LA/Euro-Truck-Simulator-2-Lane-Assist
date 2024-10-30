@@ -20,7 +20,7 @@ extends Node
 @export var steeringAnimationSpeed : float = 0.05 # 1 point every 0.1s
 
 @onready var MapData = $/root/Node3D/MapData
-@onready var Truck: Node3D = $/root/Node3D/Truck
+@onready var Truck: Node3D = $/root/Node3D/UserTruck
 @onready var Variables = $/root/Node3D/Variables
 @onready var Socket = $/root/Node3D/Sockets
 @onready var RoadParent = $/root/Node3D/Map/Roads
