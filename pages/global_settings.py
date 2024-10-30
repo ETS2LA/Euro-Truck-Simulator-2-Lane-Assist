@@ -83,7 +83,6 @@ class Page(ETS2LAPage):
        
        monitors = len(screeninfo.get_monitors()) - 1
        if monitors != 0:
-              Separator()
               Slider("global.settings.13.name",
                      "display",
                      0,
@@ -93,6 +92,10 @@ class Page(ETS2LAPage):
                      description="global.settings.13.description"
               )
 
+       Separator()
+       
+       Input("global.settings.14.name", "FOV", "number", 77, description="global.settings.14.description")
+       
        Separator()
        
        Switch("global.settings.9.name",
