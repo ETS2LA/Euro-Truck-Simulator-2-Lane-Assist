@@ -360,9 +360,11 @@
     "acc.settings.2.name": "跟車時間",
     "acc.settings.2.description": "與前車保持的秒數。",
     "acc.settings.3.name": "速度偏移",
-    "acc.settings.3.description": "超過限速的百分比。",
+    "acc.settings.3.description": "超過限速的幅度。",
     "acc.settings.4.name": "距離",
     "acc.settings.4.description": "與前方物體保持的距離。",
+    "acc.settings.5.name": "速度偏移類型",
+    "acc.settings.5.description": "選擇超過限速的百分比，或者直接加上固定速度。",
     
     "_PLUGIN_KEYS": "這些是特定插件所需的鍵值",
 
