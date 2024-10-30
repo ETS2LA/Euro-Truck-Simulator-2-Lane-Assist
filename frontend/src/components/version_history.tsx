@@ -62,6 +62,7 @@ export default function VersionHistory({ip}: {ip: string}) {
                             </AccordionTrigger>
                             <AccordionContent className="gap-y-2 flex flex-col">
                                 <div className="text-sm text-stone-500 text-start pl-3 pr-2">{commit.message}</div>
+                                <div className="text-sm text-stone-500 text-start pl-3 pr-2" style={{whiteSpace: "pre-wrap"}}>{commit.description}</div>
                                 <div className="text-xs text-stone-500 text-start pl-3 pr-2">{new Date(commit.time * 1000).toLocaleDateString()} - {new Date(commit.time * 1000).toTimeString().split(" ")[0]}</div>
                             </AccordionContent>
                         </AccordionItem>

@@ -44,7 +44,8 @@ def GetHistory():
                 # Add the commit to the list
                 commits.append({
                     "author": commit.author.name,
-                    "message": commit.message,
+                    "message": commit.summary,
+                    "description": commit.message.replace(commit.summary, "").strip(),
                     "time": commit.committed_date
                 })
             
