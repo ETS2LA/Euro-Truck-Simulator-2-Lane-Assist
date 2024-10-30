@@ -275,6 +275,9 @@
     "global.settings.11.description": "ETS2LA:n ikkunan korkeus.",
     "global.settings.12.name": "Läpinäkyvyys tilan arvo",
     "global.settings.12.description": "Kuinka läpinäkyvä ikkuna on läpinäkyvyys tilassa. 1 on normaali, 0.7 tarkoittaa 30% läpinäkyvyyttä.",
+    "global.settings.13.name": "Näytön indeksi",
+    "global.settings.13.description": "Havaitsimme monta näyttöä, valitse millä näytöllä ETS2/ATS avataan/on. (Windows asetuksista näkee näytön numeron) Vaatii uudelleenkäynnistyksen!",
+
 
     "map.settings.1.title": "Kartan asetukset",
     "map.settings.1.description": "Nämä asetukset vaikuttavat karttaan ja sen karttatietoihin.",
@@ -316,9 +319,11 @@
     "acc.settings.2.name": "Seuraamis etäisyys (aikana)",
     "acc.settings.2.description": "Kuinka monta sekunttia perässä ETS2LA yrittää seurata edellä menevää autoa.",
     "acc.settings.3.name": "Nopeuden säätö",
-    "acc.settings.3.description": "Aja tätä prosenttia nopeusrajoitusta nopeammin.",
+    "acc.settings.3.description": "Aja tämän verran kovempaa kuin nopeusrajoitus.",
     "acc.settings.4.name": "Etäisyys",
     "acc.settings.4.description": "Kuinka kaukana edellä menevästä autosta ETS2LA yrittää pysyä.",
+    "acc.settings.5.name": "Säädön tyyppi",
+    "acc.settings.5.description": "'Percentage' tilassa ajetaan tiettyä prosenttia kovempaa, 'Absolute' tilassa ajetaan annettua arvoa kovempaa.",
 
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 
