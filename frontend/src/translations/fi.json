@@ -265,6 +265,8 @@
     "global.settings.12.description": "Kuinka l\u00e4pin\u00e4kyv\u00e4 ikkuna on l\u00e4pin\u00e4kyvyys tilassa. 1 on normaali, 0.7 tarkoittaa 30% l\u00e4pin\u00e4kyvyytt\u00e4.",
     "global.settings.13.name": "N\u00e4yt\u00f6n indeksi",
     "global.settings.13.description": "Havaitsimme monta n\u00e4ytt\u00f6\u00e4, valitse mill\u00e4 n\u00e4yt\u00f6ll\u00e4 ETS2/ATS avataan/on. (Windows asetuksista n\u00e4kee n\u00e4yt\u00f6n numeron) Vaatii uudelleenk\u00e4ynnistyksen!",
+    "global.settings.14.name": "FOV",
+    "global.settings.14.description": "J\u00e4ik\u00f6 ilmoitus huomaamatta? Aseta FOV manuaalisesti t\u00e4ss\u00e4.",
     "map.settings.1.title": "Kartan asetukset",
     "map.settings.1.description": "N\u00e4m\u00e4 asetukset vaikuttavat karttaan ja sen karttatietoihin.",
     "map.settings.2.name": "Laske ohjaus",

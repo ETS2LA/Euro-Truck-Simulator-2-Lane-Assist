@@ -4,6 +4,7 @@ import plugins.Map.data as data
 import numpy as np
 import logging
 import math
+import time
 
 class RouteItem:
     item: list[c.Prefab | c.Road]
@@ -61,6 +62,9 @@ class RouteSection:
     
     @lane_index.setter
     def lane_index(self, value: int):
+        if value == self._lane_index:
+            return
+        
         if type(self.items[0].item) == c.Prefab:
             self._lane_index = value
             self.lane_points = self.items[0].item.nav_routes[self.lane_index].points
@@ -165,8 +169,18 @@ class RouteSection:
         
         lane_change_factor = math_helpers.DistanceBetweenPoints(self.lane_change_start.tuple(), (data.truck_x, data.truck_y, data.truck_z)) / self.lane_change_distance
         lane_change_factor = math_helpers.InOut(lane_change_factor)
-        if lane_change_factor > 1:
+        if lane_change_factor > 0.98:
             self.is_lane_changing = False
+            if data.truck_indicating_left:
+                data.controller.lblinker = True
+                time.sleep(1/20)
+                data.controller.lblinker = False
+                time.sleep(1/20)
+            elif data.truck_indicating_right:
+                data.controller.rblinker = True
+                time.sleep(1/20)
+                data.controller.rblinker = False
+                time.sleep(1/20)
             return current_lane_points
         
         last_lane_points = self.discard_points_behind(self.last_lane_points)
