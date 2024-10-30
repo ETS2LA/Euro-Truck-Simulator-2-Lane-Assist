@@ -318,9 +318,11 @@
     "acc.settings.2.name": "Follow Time",
     "acc.settings.2.description": "How many seconds behind the vehicle in front we should be.",
     "acc.settings.3.name": "Speed Offset",
-    "acc.settings.3.description": "Drive this percentage over the speed limit.",
+    "acc.settings.3.description": "Drive this amount over the speed limit.",
     "acc.settings.4.name": "Distance",
     "acc.settings.4.description": "How far the app should keep from the object in front.",
+    "acc.settings.5.name": "Speed Offset type",
+    "acc.settings.5.description": "Do we drive a percentage faster than the speed limit, or do we add a set amount?",
 
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 

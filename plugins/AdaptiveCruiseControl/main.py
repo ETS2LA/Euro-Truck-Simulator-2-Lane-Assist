@@ -16,33 +16,41 @@ import math
 import time
 
 FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3) # seconds
-OVERSPEED_PERCENTAGE = settings.Get("AdaptiveCruiseControl", "overspeed", 0) # 0-100
+OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0) # 0-100
 BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60) # meters
 STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15) # meters
 TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5) # times
 ACC_ENABLED = False
+TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
 
 def LoadSettings():
-    global FOLLOW_TIME, OVERSPEED_PERCENTAGE, BRAKING_DISTANCE, STOPPING_DISTANCE, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER
+    global FOLLOW_TIME, OVERSPEED, BRAKING_DISTANCE, STOPPING_DISTANCE, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, TYPE
     FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3)
-    OVERSPEED_PERCENTAGE = settings.Get("AdaptiveCruiseControl", "overspeed", 0)
+    OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0)
     BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60)
     STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15)
     TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5)
+    TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
     
 # Update settings on change
 settings.Listen("AdaptiveCruiseControl", LoadSettings)
 
 class SettingsMenu(ETS2LASettingsMenu):
-    dynamic = False
+    dynamic = True
     plugin_name = "AdaptiveCruiseControl"
     def render(self):
         Title("acc.settings.1.title")
         Description("acc.settings.1.description")
         Separator()
         Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, suffix="s", description="acc.settings.2.description")
-        Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="%", description="acc.settings.3.description")
         Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="acc.settings.4.description")
+        Separator()
+        with EnabledLock():
+            Selector("acc.settings.5.name", "type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.5.description")
+            if self.settings.type is not None and self.settings.type == "Percentage":
+                Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="%", description="acc.settings.3.description")
+            else:
+                Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="km/h", description="acc.settings.3.description")
         return RenderUI()
         
 
@@ -270,7 +278,10 @@ class Plugin(ETS2LAPlugin):
             else: 
                 targetSpeed = self.last_target_speed
         else:
-            targetSpeed = targetSpeed * (1 + OVERSPEED_PERCENTAGE / 100)
+            if TYPE == "Percentage":
+                targetSpeed = targetSpeed * (1 + OVERSPEED / 100)
+            else:
+                targetSpeed = targetSpeed + OVERSPEED / 3.6
             self.last_target_speed = targetSpeed
             self.last_target_speed_time = time.time() 
             
