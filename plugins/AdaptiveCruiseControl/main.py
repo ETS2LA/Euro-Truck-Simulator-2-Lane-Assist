@@ -133,7 +133,7 @@ class Plugin(ETS2LAPlugin):
             
             distancePercent = self.DistanceFunction(distance / (falloffDistance * 2/3) - (stoppingDistance / (falloffDistance * 2/3)))
             if vehicleSpeed < targetSpeed and vehicleSpeed > 30/3.6:
-                distanceTargetSpeed = targetSpeed - (targetSpeed - vehicleSpeed) * (1-distancePercent) / 1.5
+                distanceTargetSpeed = targetSpeed - (targetSpeed - vehicleSpeed) * (1-distancePercent)
             else:
                 distanceTargetSpeed = distancePercent * targetSpeed
             
