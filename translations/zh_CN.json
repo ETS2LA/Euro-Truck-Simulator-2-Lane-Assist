@@ -263,8 +263,6 @@
     "global.settings.5.description": "当报错时是否使用高级Traceback。",
     "global.settings.6.name": "发送崩溃报告",
     "global.settings.6.description": "是否将崩溃报告发送给开发者。",
-    "global.settings.13.name": "显示ID",
-    "global.settings.13.description": "用于视觉插件（物体检测等）的 ID 显示器。应将其设置为运行 ETS2 的显示器。需要重新启动才能应用更改！",
     "global.settings.7.name": "调试模式",
     "global.settings.7.description": "是否启用调试模式。",
     "global.settings.8.name": "语言",
@@ -277,6 +275,10 @@
     "global.settings.11.description": "窗口的高度。",
     "global.settings.12.name": "半透明模式 Alpha值 (透明度)",
     "global.settings.12.description": "半透明模式下窗口的透明度。1 = 完全不透明，0 = 完全透明。",
+    "global.settings.13.name": "显示器ID",
+    "global.settings.13.description": "用于视觉性功能（物体识别等）的显示器ID。你需要将其设置为正在运行ETS2的显示器。需要完全重启才能应用更改！",
+    "global.settings.14.name": "FOV",
+    "global.settings.14.description": "错过了FOV修改弹窗？在此更改您的 FOV。",
 
     "map.settings.1.title": "地图设置",
     "map.settings.1.description": "这些是地图插件的设置。",
@@ -318,9 +320,11 @@
     "acc.settings.2.name": "跟车时间",
     "acc.settings.2.description": "与前方车辆之间的距离应保持的秒数。(到达前方车辆当前所处位置所需要的秒数)",
     "acc.settings.3.name": "速度偏移",
-    "acc.settings.3.description": "以超过限速的指定百分比驾驶。",
+    "acc.settings.3.description": "以超过限速多少去行驶。",
     "acc.settings.4.name": "距离保持",
     "acc.settings.4.description": "与前方的物体保持多远的距离。",
+    "acc.settings.5.name": "速度偏移类型",
+    "acc.settings.5.description": "行驶的速度是否要比限速快一定百分比，还是要快一定量？",
     
     "_PLUGIN_KEYS": "这些是特定插件所需的键值",
 
