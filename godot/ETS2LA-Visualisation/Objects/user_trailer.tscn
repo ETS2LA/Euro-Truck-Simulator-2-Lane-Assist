@@ -1,12 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dv2wogrxur0wx"]
+[gd_scene load_steps=3 format=3 uid="uid://dv2wogrxur0wx"]
 
 [ext_resource type="ArrayMesh" uid="uid://urhmsyfsc5x0" path="res://Models/user_trailer.obj" id="1_35rid"]
+[ext_resource type="Material" uid="uid://ceuu02a4fo4j8" path="res://Materials/truck_material.tres" id="2_qrvab"]
 
 [node name="UserTrailer" type="Node3D"]
 
 [node name="UserTrailer" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0.6, 0)
 mesh = ExtResource("1_35rid")
+surface_material_override/0 = ExtResource("2_qrvab")
 
 [node name="Hook" type="Node3D" parent="UserTrailer"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.2, 0.2, 0)
